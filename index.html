@@ -37,15 +37,27 @@
   .cw-sub { height: 140px; cursor: crosshair; }
   .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 12px; pointer-events: none; }
   .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
+  .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
+  .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
+  .ma-legend .dot { width: 10px; height: 2px; border-radius: 1px; display: inline-block; }
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
   .scrollbar { width: 100%; height: 14px; background: #1c2128; border: 1px solid #21262d; border-top: none; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; }
   .sb-thumb { position: absolute; height: 8px; top: 2px; background: #30363d; border-radius: 4px; cursor: grab; min-width: 24px; }
   .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
-  .events { max-width: 1600px; margin: 0 auto 20px; padding: 0 10px; }
-  .events-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; max-width: calc(50% - 5px); }
+  .events { max-width: 1600px; margin: 0 auto 20px; padding: 0 10px; display: flex; gap: 10px; }
+  .events-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; }
   .events-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #21262d; background: #1c2128; }
+  .links-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; align-self: flex-start; }
+  .links-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #21262d; background: #1c2128; }
+  .links-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .links-grid a { display: flex; align-items: center; gap: 8px; padding: 20px 16px; color: #c9d1d9; text-decoration: none; font-size: 13px; border-bottom: 1px solid #1e2229; transition: background 0.15s; }
+  .links-grid a:nth-child(odd) { border-right: 1px solid #1e2229; }
+  .links-grid a:nth-last-child(-n+2) { border-bottom: none; }
+  .links-grid a:hover { background: #1c2128; color: #58a6ff; }
+  .links-card .link-icon { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; }
+  .links-card .link-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ev-table { border-collapse: collapse; font-size: 13px; }
   .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #21262d; font-weight: 500; }
   .ev-table td { padding: 5px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; }
@@ -80,6 +92,7 @@
         <div class="range-btns" data-col="kr"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
         <div class="interval-btns" data-col="kr"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
+      <div class="ma-legend" id="ma-legend-kospi"></div>
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -105,6 +118,7 @@
         <div class="range-btns" data-col="us"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
         <div class="interval-btns" data-col="us"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
+      <div class="ma-legend" id="ma-legend-ndx"></div>
       <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -130,6 +144,17 @@
       <thead><tr><th>날짜</th><th>카테고리</th><th>이벤트</th><th>비고</th></tr></thead>
       <tbody id="ev-body"></tbody>
     </table>
+  </div>
+  <div class="links-card">
+    <h2>바로가기</h2>
+    <div class="links-grid">
+      <a href="https://markets.hankyung.com/marketmap/kospi#wrap" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=hankyung.com&sz=32" alt=""><span class="link-label">한국장 마켓맵</span></a>
+      <a href="https://finviz.com/map.ashx" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=finviz.com&sz=32" alt=""><span class="link-label">미국장 마켓맵</span></a>
+      <a href="https://yellow.kr/finance.jsp" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=yellow.kr&sz=32" alt=""><span class="link-label">옐로우의 세계</span></a>
+      <a href="https://tradingeconomics.com/commodities" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=tradingeconomics.com&sz=32" alt=""><span class="link-label">트레이딩 이코노믹스</span></a>
+      <a href="https://esignal.co.kr/kospi200-futures-day-night/" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=esignal.co.kr&sz=32" alt=""><span class="link-label">야간선물</span></a>
+      <a href="https://www.ig.com/en/indices/markets-indices/weekend-oil---us-crude" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=ig.com&sz=32" alt=""><span class="link-label">위켄드 오일</span></a>
+    </div>
   </div>
 </div>
 
@@ -182,7 +207,7 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  rightPriceScale:{borderColor:'#21262d'},
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:130},
   handleScale:false,handleScroll:false
 });
 
@@ -216,29 +241,50 @@ function createChart(id, col, opts = {}) {
     chart.applyOptions({ width: r.width, height: r.height });
   }).observe(el);
 
-  // Sync time scale across column — use TIME-based range (not logical index)
+  // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
   chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
     if (syncing) return;
-    const timeRange = chart.timeScale().getVisibleRange();
-    if (!timeRange) return;
+    const logicalRange = chart.timeScale().getVisibleLogicalRange();
+    if (!logicalRange) return;
     syncing = true;
     colGroups[col].forEach(otherId => {
       if (otherId !== id && allCharts[otherId]) {
-        try { allCharts[otherId].chart.timeScale().setVisibleRange(timeRange); } catch(_){}
+        try { allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange); } catch(_){}
       }
     });
     requestAnimationFrame(() => { syncing = false; });
   });
 
-  // Crosshair sync + header value update
+  // Crosshair sync + header value update + marker dots on sub-charts
   chart.subscribeCrosshairMove(param => {
     if (param.time) {
-      colGroups[col].forEach(cid => updateHeaderForChart(cid, param.time));
+      colGroups[col].forEach(cid => {
+        updateHeaderForChart(cid, param.time);
+        // Show marker dot on sub-charts (not on main index)
+        const mainId = col === 'kr' ? 'kospi' : 'ndx';
+        if (cid !== mainId && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
+          const d = chartDataMap[cid][param.time];
+          if (d && d.value != null) {
+            allCharts[cid].series.setMarkers([{
+              time: param.time,
+              position: 'inBar',
+              color: 'rgb(210,175,100)',
+              shape: 'circle',
+              size: 0.5
+            }]);
+          }
+        }
+      });
     } else {
       restoreHeaders(col);
+      // Clear markers on all sub-charts
+      const mainId = col === 'kr' ? 'kospi' : 'ndx';
+      colGroups[col].forEach(cid => {
+        if (cid !== mainId && allCharts[cid] && allCharts[cid].series) {
+          allCharts[cid].series.setMarkers([]);
+        }
+      });
     }
-    // No setCrosshairPosition — custom overlay xline handles vertical alignment
-    // Header values already updated above via updateHeaderForChart
   });
 
   // Column crosshair overlay line — position from this chart's mousemove
@@ -251,13 +297,17 @@ function createChart(id, col, opts = {}) {
   });
   el.addEventListener('mouseleave', () => { xline.style.display = 'none'; });
 
-  // Wheel → scroll 1 bar (ALL charts, synced via timeScale listener)
+  // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
   el.addEventListener('wheel', (e) => {
     e.preventDefault();
     const lr = chart.timeScale().getVisibleLogicalRange();
     if (!lr) return;
+    const mainId = col === 'kr' ? 'kospi' : 'ndx';
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     const shift = e.deltaY > 0 ? -1 : 1;
-    chart.timeScale().setVisibleLogicalRange({ from: lr.from + shift, to: lr.to + shift });
+    const newTo = lr.to + shift;
+    if (shift > 0 && newTo > dataLen) return; // block scrolling past last bar
+    chart.timeScale().setVisibleLogicalRange({ from: lr.from + shift, to: newTo });
   }, { passive: false });
 
   // Drag-to-zoom (ALL charts) — document-level handlers for drag-outside support
@@ -433,6 +483,14 @@ async function loadIndex(id, col) {
           allCharts[id].maLines.push(line);
         }
       });
+      // Update MA legend
+      const legendEl = document.getElementById('ma-legend-' + id);
+      if (legendEl) {
+        const unit = intv === '1wk' ? 'W' : 'D';
+        legendEl.innerHTML = periods.map((p, i) =>
+          `<span><span class="dot" style="background:${MA_COLORS[i]}"></span>${p}${unit}</span>`
+        ).join('');
+      }
     }
     allCharts[id].chart.timeScale().fitContent();
     showPrice(id, price, prev);
@@ -591,16 +649,16 @@ async function loadNYSE50(){
   }catch(e){console.error('NYSE50',e);msgEl.textContent='⚠ 실패';}
 }
 
-// Sync all sub-charts to main chart's visible range
+// Sync all sub-charts to main chart's logical range
 function syncColumnToMain(mainId) {
   const main = allCharts[mainId];
   if (!main) return;
-  const timeRange = main.chart.timeScale().getVisibleRange();
-  if (!timeRange) return;
+  const logicalRange = main.chart.timeScale().getVisibleLogicalRange();
+  if (!logicalRange) return;
   const col = main.col;
   colGroups[col].forEach(otherId => {
     if (otherId !== mainId && allCharts[otherId]) {
-      try { allCharts[otherId].chart.timeScale().setVisibleRange(timeRange); } catch(_){}
+      try { allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange); } catch(_){}
     }
   });
 }
