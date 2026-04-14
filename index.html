@@ -427,7 +427,7 @@ function alignToTimeIndex(data, col) {
   data.forEach(d => { map[d.time] = d.value != null ? d.value : d.close; });
   const firstVal = data[0].value != null ? data[0].value : data[0].close;
   const result = [];
-  let lastVal = firstVal; // use first value for dates before data starts
+  let lastVal = firstVal;
   for (const t of idx) {
     if (map[t] !== undefined) lastVal = map[t];
     result.push({ time: t, value: lastVal });
@@ -569,26 +569,69 @@ async function loadADR(){
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
 
-// US Fear/Greed (CNN)
-async function loadUSFG(){
-  const msgEl=document.getElementById('msg-us-fg');
-  try{
-    const data=await fetchJSON('https://production.dataviz.cnn.io/index/fearandgreed/graphdata');
-    const score=Math.round(data.fear_and_greed.score),lbl=getLabel(score);
-    document.getElementById('us-fg-val').textContent=score;
-    const le=document.getElementById('us-fg-lbl');le.textContent=lbl.t;le.style.color=lbl.c;
-    origValues['us-fg']=()=>{document.getElementById('us-fg-val').textContent=score;le.textContent=lbl.t;le.style.color=lbl.c};
-    const hist=data.fear_and_greed_historical&&data.fear_and_greed_historical.data?data.fear_and_greed_historical.data:[];
-    const pts=[];hist.forEach(p=>{const d=new Date(p.x);pts.push({time:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,value:p.y})});
-    pts.sort((a,b)=>a.time.localeCompare(b.time));const uniq=[];let lt='';for(const p of pts){if(p.time!==lt){uniq.push(p);lt=p.time}}
-    if(!allCharts['us-fg']){createChart('us-fg','us',{showTimeAxis:false});addAreaSeries('us-fg','rgb(210,175,100)');}
-    let fgData=uniq.length?uniq:[{time:new Date().toISOString().slice(0,10),value:score}];
-    if(colInterval.us==='1wk')fgData=resampleWeekly(fgData);
-    const usfgPadded=alignToTimeIndex(fgData,'us');allCharts['us-fg'].series.setData(usfgPadded);buildDataMap('us-fg',usfgPadded);
-    addZoneLines(allCharts['us-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
+// US Fear/Greed (DIY 5-factor: momentum/RSI/breadth/volatility/safe-haven)
+// Mirrors KR F&G structure but uses SPY+TLT for safe-haven instead of USD/KRW
+function calcUsFG(ndxCandles, tltCandles) {
+  const c = ndxCandles.map(x => x.close), t = ndxCandles.map(x => x.time);
+  const sma125 = calcSMA(c, 125), rsi = calcRSI(c);
+  // Log returns for volatility
+  const ret = []; for (let i = 1; i < c.length; i++) ret.push(Math.log(c[i] / c[i - 1]));
+  const v20 = [], v50 = [];
+  for (let i = 0; i < ret.length; i++) {
+    if (i >= 19) { let s = 0; for (let j = i - 19; j <= i; j++) s += ret[j] * ret[j]; v20.push(Math.sqrt(s / 20) * Math.sqrt(252) * 100); } else v20.push(null);
+    if (i >= 49) { let s = 0; for (let j = i - 49; j <= i; j++) s += ret[j] * ret[j]; v50.push(Math.sqrt(s / 50) * Math.sqrt(252) * 100); } else v50.push(null);
+  }
+  // TLT (bond) price map for safe-haven
+  const tltMap = {}; if (tltCandles) tltCandles.forEach(x => { tltMap[x.time] = x.close; });
+  const tltA = []; let lt = null; for (const tt of t) { if (tltMap[tt]) lt = tltMap[tt]; tltA.push(lt); }
+  const out = [];
+  for (let i = 125; i < c.length; i++) {
+    const ma = sma125[i]; if (!ma) continue;
+    const r = rsi[i - 1]; if (r == null) continue;
+    const v2 = v20[i - 1], v5 = v50[i - 1]; if (v2 == null || v5 == null) continue;
+    // 1. Momentum (25%): price vs SMA(125)
+    const mom = Math.max(0, Math.min(100, 50 + ((c[i] - ma) / ma) * 300));
+    // 2. Strength (20%): RSI normalized
+    const str = Math.max(0, Math.min(100, (r - 25) * 2));
+    // 3. Breadth (15%): % of up candles in last 20 days
+    let ups = 0; for (let j = i - 19; j <= i; j++) if (ndxCandles[j].close > ndxCandles[j].open) ups++;
+    const brd = (ups / 20) * 100;
+    // 4. Volatility (25%): low short-term vol vs long-term = greed
+    const vol = Math.max(0, Math.min(100, 100 - (v2 / v5 - 0.5) * 100));
+    // 5. Safe Haven (15%): stock return vs bond(TLT) return over 20 days
+    // Stocks outperforming bonds = greed, bonds outperforming = fear
+    let sh = 50;
+    if (i >= 20 && tltA[i] && tltA[i - 20]) {
+      const stockRet = (c[i] - c[i - 20]) / c[i - 20] * 100;
+      const bondRet = (tltA[i] - tltA[i - 20]) / tltA[i - 20] * 100;
+      sh = Math.max(0, Math.min(100, 50 + (stockRet - bondRet) * 3));
+    }
+    out.push({ time: t[i], value: Math.max(0, Math.min(100, Math.round(mom * .25 + str * .2 + brd * .15 + vol * .25 + sh * .15))) });
+  }
+  return out;
+}
+
+async function loadUSFG() {
+  const range = colRange.us, intv = colInterval.us;
+  const msgEl = document.getElementById('msg-us-fg');
+  try {
+    const [ndx, tlt] = await Promise.all([
+      getCachedData('^IXIC', range).catch(() => null),
+      getCachedData('TLT', range).catch(() => null)
+    ]);
+    if (!ndx || ndx.candles.length < 150) throw 0;
+    let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null);
+    if (intv === '1wk') data = resampleWeekly(data);
+    const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
+    document.getElementById('us-fg-val').textContent = score;
+    const le = document.getElementById('us-fg-lbl'); le.textContent = lbl.t; le.style.color = lbl.c;
+    origValues['us-fg'] = () => { document.getElementById('us-fg-val').textContent = score; le.textContent = lbl.t; le.style.color = lbl.c; };
+    if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); addAreaSeries('us-fg', 'rgb(210,175,100)'); }
+    const usfgPadded = alignToTimeIndex(data, 'us'); allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
+    addZoneLines(allCharts['us-fg'].series, [{ price: 75, color: '#27ae60' }, { price: 50, color: '#f1c40f' }, { price: 25, color: '#e74c3c' }]);
     allCharts['us-fg'].chart.timeScale().fitContent();
-    msgEl.style.display='none';
-  }catch(e){console.error('US FG',e);msgEl.textContent='⚠ 실패';}
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('US FG', e); msgEl.textContent = '⚠ 실패'; }
 }
 
 // USD/KRW — with fallback tickers
