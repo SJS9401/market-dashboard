@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마켓 대시보드</title>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, 'Pretendard', 'Segoe UI', sans-serif; overflow-x: hidden; }
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; border-bottom: 1px solid #21262d; background: #0d1117; }
+  .header h1 { font-size: 17px; color: #f0f6fc; } .header .time { font-size: 12px; color: #8b949e; }
+  .main { display: flex; gap: 10px; padding: 10px; max-width: 1600px; margin: 0 auto; }
+  .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .col-xline { position: absolute; top: 0; bottom: 14px; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
+  .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
+  .col .card { border-radius: 0; border-bottom: none; }
+  .col .card:first-child { border-radius: 10px 10px 0 0; }
+  .col .card:last-child { border-radius: 0; border-bottom: 1px solid #21262d; }
+  .card { background: #161b22; border: 1px solid #21262d; overflow: hidden; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid #21262d; background: #1c2128; flex-wrap: wrap; gap: 4px; }
+  .card-top .left { display: flex; align-items: baseline; gap: 8px; }
+  .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; }
+  .card-top .price { font-size: 13px; font-weight: 700; color: #f0f6fc; }
+  .card-top .chg { font-size: 10px; font-weight: 600; }
+  .chg.up { color: #f04452; } .chg.down { color: #3182f6; } .chg.flat { color: #8b949e; }
+  .range-btns { display: flex; gap: 2px; }
+  .range-btns button { background: none; border: 1px solid #30363d; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .range-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
+  .range-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+  .interval-btns { display: flex; gap: 2px; margin-left: 6px; }
+  .interval-btns button { background: none; border: 1px solid #30363d; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
+  .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+  .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
+  .cw-main { height: 340px; }
+  .cw-sub { height: 140px; cursor: crosshair; }
+  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 12px; pointer-events: none; }
+  .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
+  .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
+  .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
+  .fg-label { font-size: 11px; font-weight: 600; }
+  .scrollbar { width: 100%; height: 14px; background: #1c2128; border: 1px solid #21262d; border-top: none; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; }
+  .sb-thumb { position: absolute; height: 8px; top: 2px; background: #30363d; border-radius: 4px; cursor: grab; min-width: 24px; }
+  .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
+  .events { max-width: 1600px; margin: 0 auto 20px; padding: 0 10px; }
+  .events-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; max-width: calc(50% - 5px); }
+  .events-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #21262d; background: #1c2128; }
+  .ev-table { border-collapse: collapse; font-size: 13px; }
+  .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #21262d; font-weight: 500; }
+  .ev-table td { padding: 5px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; }
+  .ev-table tr:last-child td { border-bottom: none; }
+  .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
+  .ev-table tr.today td { color: #f0f6fc; font-weight: 600; }
+  .ev-table tr.soon td { color: #e2c571; }
+  .ev-cat { display: inline-block; padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .ev-cat.실적 { background: #1f3a24; color: #56d364; }
+  .ev-cat.정책 { background: #3a2a1f; color: #e2a44e; }
+  .ev-cat.산업 { background: #1f2d3a; color: #58a6ff; }
+  .ev-cat.경제지표 { background: #2d1f3a; color: #bc8cff; }
+  .ev-cat.지정학 { background: #3a1f1f; color: #f85149; }
+  .ev-cat.IPO { background: #1f3a3a; color: #56d3c4; }
+  .ev-cat.시장구조 { background: #2a2a1f; color: #c9b45c; }
+  .ev-cat.학회 { background: #1f2a3a; color: #79c0ff; }
+  .ev-cat.정치 { background: #3a1f2a; color: #f778ba; }
+  .ev-cat.기타 { background: #2a2a2a; color: #8b949e; }
+  .ev-cat.방산 { background: #3a2a1f; color: #e2a44e; }
+  @media (max-width: 860px) { .main { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="header"><h1>마켓 대시보드</h1><div class="time" id="clock"></div></div>
+<div class="main">
+  <!-- LEFT: 한국 -->
+  <div class="col" id="col-kr">
+    <div class="col-xline" id="xline-kr"></div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>코스피</h3><span class="price" id="p-kospi">—</span><span class="chg flat" id="c-kospi"></span></div>
+        <div class="range-btns" data-col="kr"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
+        <div class="interval-btns" data-col="kr"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
+      </div>
+      <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="kr-fg-val">—</span><span class="fg-label" id="kr-fg-lbl"></span><span class="xdate" id="d-kr-fg"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
+      <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>달러/원</h3><span class="price" id="p-usdkrw">—</span><span class="chg flat" id="c-usdkrw"></span><span class="xdate" id="d-usdkrw"></span></div></div>
+      <div class="cw cw-sub" id="cw-usdkrw"><div class="msg" id="msg-usdkrw">로딩 중...</div></div>
+    </div>
+    <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
+  </div>
+  <!-- RIGHT: 미국 -->
+  <div class="col" id="col-us">
+    <div class="col-xline" id="xline-us"></div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>나스닥 종합</h3><span class="price" id="p-ndx">—</span><span class="chg flat" id="c-ndx"></span></div>
+        <div class="range-btns" data-col="us"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
+        <div class="interval-btns" data-col="us"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
+      </div>
+      <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>200일선 위 비율</h3><span class="price" id="p-nyse200">—</span><span class="xdate" id="d-nyse200"></span></div></div>
+      <div class="cw cw-sub" id="cw-nyse200"><div class="msg" id="msg-nyse200">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>50일선 위 비율</h3><span class="price" id="p-nyse50">—</span><span class="xdate" id="d-nyse50"></span></div></div>
+      <div class="cw cw-sub" id="cw-nyse50"><div class="msg" id="msg-nyse50">로딩 중...</div></div>
+    </div>
+    <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
+  </div>
+</div>
+
+<div class="events">
+  <div class="events-card">
+    <h2>이벤트 캘린더</h2>
+    <table class="ev-table">
+      <thead><tr><th>날짜</th><th>카테고리</th><th>이벤트</th><th>비고</th></tr></thead>
+      <tbody id="ev-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Clock ──
+(function tick(){const d=new Date(),f=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=`${d.getFullYear()}.${f(d.getMonth()+1)}.${f(d.getDate())} ${f(d.getHours())}:${f(d.getMinutes())}:${f(d.getSeconds())}`;setTimeout(tick,1000)})();
+
+// ── CORS fetch — parallel race with timeout ──
+async function fetchJSON(url){
+  const urls=[url,'https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
+  const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),15000);
+  try{
+    const result=await Promise.any(urls.map(async u=>{const r=await fetch(u,{signal:ctrl.signal});if(!r.ok)throw 0;return r.json()}));
+    clearTimeout(tid);return result;
+  }catch(e){clearTimeout(tid);throw new Error('fetch failed')}
+}
+
+// ── Yahoo Finance ──
+async function getData(sym,range){
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=1d&includePrePost=false`;
+  const json=await fetchJSON(url);const res=json.chart.result[0];
+  const ts=res.timestamp,q=res.indicators.quote[0],m=res.meta;const candles=[];
+  for(let i=0;i<ts.length;i++){if(q.open[i]==null||q.close[i]==null)continue;const dt=new Date(ts[i]*1000);
+    candles.push({time:`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`,open:q.open[i],high:q.high[i],low:q.low[i],close:q.close[i]});}
+  return{candles,price:m.regularMarketPrice,prev:m.chartPreviousClose};
+}
+
+// ── Math helpers ──
+function calcRSI(closes,period=14){const rsi=[];let ag=0,al=0;for(let i=1;i<closes.length;i++){const d=closes[i]-closes[i-1],g=d>0?d:0,l=d<0?-d:0;if(i<=period){ag+=g;al+=l;if(i===period){ag/=period;al/=period;rsi.push(100-100/(1+(al===0?100:ag/al)))}else rsi.push(null)}else{ag=(ag*(period-1)+g)/period;al=(al*(period-1)+l)/period;rsi.push(100-100/(1+(al===0?100:ag/al)))}}return rsi}
+function calcSMA(arr,p){const r=[];for(let i=0;i<arr.length;i++){if(i<p-1){r.push(null);continue}let s=0;for(let j=i-p+1;j<=i;j++)s+=arr[j];r.push(s/p)}return r}
+
+// ═══════════════════════════════════
+// CHART SYSTEM — synced columns
+// ═══════════════════════════════════
+const allCharts = {}; // id → { chart, series, el }
+const colGroups = { kr: [], us: [] }; // chart ids per column
+const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
+const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+const colRange = { kr: '1y', us: '1y' };
+const colInterval = { kr: '1d', us: '1d' };
+let syncing = false;
+// crosshair sync handled by custom overlay xline
+
+// Weekly resample helpers
+function getWeekKey(t){const d=new Date(t+'T12:00:00'),day=d.getDay(),diff=day===0?-6:1-day;d.setDate(d.getDate()+diff);return d.toISOString().slice(0,10)}
+function resampleWeekly(data){if(!data.length)return data;const m=new Map();data.forEach(d=>{const wk=getWeekKey(d.time);m.set(wk,d)});return[...m.values()].sort((a,b)=>a.time.localeCompare(b.time))}
+function candlesToWeekly(candles){if(!candles.length)return candles;const weeks=[];let cur=null;candles.forEach(c=>{const wk=getWeekKey(c.time);if(!cur||cur._wk!==wk){if(cur){const{_wk,...rest}=cur;weeks.push(rest)}cur={time:c.time,open:c.open,high:c.high,low:c.low,close:c.close,_wk:wk}}else{cur.time=c.time;cur.high=Math.max(cur.high,c.high);cur.low=Math.min(cur.low,c.low);cur.close=c.close}});if(cur){const{_wk,...rest}=cur;weeks.push(rest)}return weeks}
+
+const CHART_OPTS = (bg='#161b22') => ({
+  layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
+  grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
+  crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
+  rightPriceScale:{borderColor:'#21262d'},
+  handleScale:false,handleScroll:false
+});
+
+// Data cache to avoid duplicate fetches
+const dataCache = {};
+async function getCachedData(sym, range) {
+  const key = sym + '|' + range;
+  if (!dataCache[key]) {
+    dataCache[key] = getData(sym, range).catch(e => { delete dataCache[key]; throw e; });
+  }
+  return dataCache[key];
+}
+
+function createChart(id, col, opts = {}) {
+  const el = document.getElementById('cw-' + id);
+  const chart = LightweightCharts.createChart(el, {
+    width: el.clientWidth, height: el.clientHeight,
+    ...CHART_OPTS(),
+    timeScale: {
+      borderColor: '#21262d', timeVisible: false,
+      visible: opts.showTimeAxis !== false
+    }
+  });
+
+  allCharts[id] = { chart, el, col };
+  colGroups[col].push(id);
+
+  // Resize
+  new ResizeObserver(entries => {
+    const r = entries[0].contentRect;
+    chart.applyOptions({ width: r.width, height: r.height });
+  }).observe(el);
+
+  // Sync time scale across column — use TIME-based range (not logical index)
+  chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
+    if (syncing) return;
+    const timeRange = chart.timeScale().getVisibleRange();
+    if (!timeRange) return;
+    syncing = true;
+    colGroups[col].forEach(otherId => {
+      if (otherId !== id && allCharts[otherId]) {
+        try { allCharts[otherId].chart.timeScale().setVisibleRange(timeRange); } catch(_){}
+      }
+    });
+    requestAnimationFrame(() => { syncing = false; });
+  });
+
+  // Crosshair sync + header value update
+  chart.subscribeCrosshairMove(param => {
+    if (param.time) {
+      colGroups[col].forEach(cid => updateHeaderForChart(cid, param.time));
+    } else {
+      restoreHeaders(col);
+    }
+    // No setCrosshairPosition — custom overlay xline handles vertical alignment
+    // Header values already updated above via updateHeaderForChart
+  });
+
+  // Column crosshair overlay line — position from this chart's mousemove
+  const colEl = document.getElementById('col-' + col);
+  const xline = document.getElementById('xline-' + col);
+  el.addEventListener('mousemove', e => {
+    const colRect = colEl.getBoundingClientRect();
+    xline.style.left = (e.clientX - colRect.left) + 'px';
+    xline.style.display = 'block';
+  });
+  el.addEventListener('mouseleave', () => { xline.style.display = 'none'; });
+
+  // Wheel → scroll 1 bar (ALL charts, synced via timeScale listener)
+  el.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const lr = chart.timeScale().getVisibleLogicalRange();
+    if (!lr) return;
+    const shift = e.deltaY > 0 ? -1 : 1;
+    chart.timeScale().setVisibleLogicalRange({ from: lr.from + shift, to: lr.to + shift });
+  }, { passive: false });
+
+  // Drag-to-zoom (ALL charts) — document-level handlers for drag-outside support
+  const overlay = document.createElement('div');
+  overlay.className = 'zoom-overlay'; el.appendChild(overlay);
+  let ds = null;
+  el.addEventListener('mousedown', e => { if(e.button===0){const r=el.getBoundingClientRect();ds={sx:e.clientX,rl:r.left,chart,el};overlay.style.display='none'} });
+  const onMove = e => { if(!ds||ds.el!==el)return;const dx=e.clientX-ds.sx;
+    if(dx>10){overlay.style.display='block';overlay.style.left=(ds.sx-ds.rl)+'px';overlay.style.width=Math.min(dx,el.clientWidth-(ds.sx-ds.rl))+'px';overlay.style.background='rgba(49,130,246,0.12)'}
+    else if(dx<-10){const l=Math.max(0,e.clientX-ds.rl);overlay.style.display='block';overlay.style.left=l+'px';overlay.style.width=(ds.sx-ds.rl-l)+'px';overlay.style.background='rgba(231,76,60,0.12)'}
+    else overlay.style.display='none';};
+  el.addEventListener('mousemove', onMove);
+  const finishDrag = e => { if(!ds||ds.el!==el)return;overlay.style.display='none';
+    const rect=el.getBoundingClientRect(),outside=e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom;
+    if(outside){
+      // Snap to rightmost candle at current zoom level
+      const lr=chart.timeScale().getVisibleLogicalRange();
+      if(lr){const span=lr.to-lr.from;chart.timeScale().setVisibleLogicalRange({from:lr.to-span*0.3,to:lr.to+2})}
+      ds=null;return;
+    }
+    const dx=e.clientX-ds.sx,ew=el.clientWidth;
+    if(dx>20){const lr=chart.timeScale().getVisibleLogicalRange();if(lr){const tb=lr.to-lr.from,sp=(ds.sx-ds.rl)/ew,ep=(e.clientX-ds.rl)/ew;chart.timeScale().setVisibleLogicalRange({from:lr.from+tb*sp,to:lr.from+tb*ep})}}
+    else if(dx<-20)chart.timeScale().fitContent();ds=null;};
+  document.addEventListener('mouseup', finishDrag);
+
+  return chart;
+}
+
+function addCandleSeries(id) {
+  const s = allCharts[id].chart.addCandlestickSeries({
+    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6'
+  });
+  allCharts[id].series = s; return s;
+}
+
+function addAreaSeries(id, color) {
+  const s = allCharts[id].chart.addAreaSeries({
+    lineColor:color,topColor:color.replace(')',',0.25)').replace('rgb','rgba'),
+    bottomColor:'rgba(0,0,0,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,
+    crosshairMarkerVisible: true
+  });
+  allCharts[id].series = s; return s;
+}
+
+function addZoneLines(series, lines) {
+  lines.forEach(l => series.createPriceLine({price:l.price,color:l.color,lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''}));
+}
+
+function showPrice(id,price,prev){
+  const pe=document.getElementById('p-'+id);if(!pe)return;
+  pe.textContent=price?price.toLocaleString('en-US',{maximumFractionDigits:2}):'—';
+  if(price&&prev){const d=price-prev,pct=d/prev*100,sign=d>=0?'+':'';
+    const ce=document.getElementById('c-'+id);if(ce){ce.textContent=`${sign}${d.toFixed(2)} (${sign}${pct.toFixed(2)}%)`;ce.className='chg '+(d>0?'up':d<0?'down':'flat')}}
+}
+
+function getLabel(s){if(s<=20)return{t:'Extreme Fear',c:'#e74c3c'};if(s<=40)return{t:'Fear',c:'#e67e22'};if(s<=60)return{t:'Neutral',c:'#f1c40f'};if(s<=80)return{t:'Greed',c:'#2ecc71'};return{t:'Extreme Greed',c:'#27ae60'}}
+
+// Store original header values for restore on crosshair leave
+const origValues = {};
+// Store chart data indexed by time for crosshair lookups
+const chartDataMap = {};
+function saveOrigValue(id, val) { origValues[id] = val; }
+
+// Format time for date label display
+function formatDate(t) {
+  if (typeof t === 'string') return t;
+  if (t.year) return `${t.year}-${String(t.month).padStart(2,'0')}-${String(t.day).padStart(2,'0')}`;
+  return '';
+}
+
+// Update header value from crosshair time for a specific chart
+function updateHeaderForChart(chartId, time) {
+  const map = chartDataMap[chartId];
+  if (!map) return;
+  const d = map[time];
+  if (!d) return;
+  // Update date label on sub-charts
+  const dateEl = document.getElementById('d-' + chartId);
+  if (dateEl) dateEl.textContent = formatDate(d.time || time);
+  if (chartId === 'kospi' || chartId === 'ndx') {
+    const pe = document.getElementById('p-' + chartId);
+    if (pe && d.close != null) pe.textContent = d.close.toLocaleString('en-US', {maximumFractionDigits:2});
+  } else if (chartId === 'kr-fg' || chartId === 'us-fg') {
+    const v = d.value != null ? Math.round(d.value) : null;
+    if (v != null) { const lbl = getLabel(v); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
+  } else {
+    const pe = document.getElementById('p-' + chartId);
+    if (pe && d.value != null) {
+      if (chartId === 'nyse200' || chartId === 'nyse50') pe.textContent = d.value.toFixed(1) + '%';
+      else if (chartId === 'usdkrw') pe.textContent = d.value.toLocaleString('en-US', {maximumFractionDigits:2});
+      else pe.textContent = d.value;
+    }
+  }
+}
+
+// Build time-indexed map from data array
+function buildDataMap(chartId, dataArr) {
+  const map = {};
+  dataArr.forEach(d => { map[d.time] = d; });
+  chartDataMap[chartId] = map;
+}
+
+function restoreHeaders(col) {
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','nyse200','nyse50'];
+  ids.forEach(cid => {
+    if (origValues[cid]) origValues[cid]();
+    const dateEl = document.getElementById('d-' + cid);
+    if (dateEl) dateEl.textContent = '';
+  });
+}
+
+// Align sub-chart data to main chart's exact time index (forward-fill, always full length)
+function alignToTimeIndex(data, col) {
+  const idx = colTimeIndex[col];
+  if (!idx || !idx.length || !data.length) return data;
+  const map = {};
+  data.forEach(d => { map[d.time] = d.value != null ? d.value : d.close; });
+  const firstVal = data[0].value != null ? data[0].value : data[0].close;
+  const result = [];
+  let lastVal = firstVal; // use first value for dates before data starts
+  for (const t of idx) {
+    if (map[t] !== undefined) lastVal = map[t];
+    result.push({ time: t, value: lastVal });
+  }
+  return result;
+}
+
+// ═══════════════════════════════════
+// DATA LOADERS
+// ═══════════════════════════════════
+const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['USDKRW=X','KRW=X'] };
+
+// MA config: periods and colors per chart
+const MA_CONFIG = {
+  kospi: { daily:[5,10,20,60,120], weekly:[5,10,20,60,120] },
+  ndx:   { daily:[5,10,20,50,200], weekly:[5,10,20,50,200] }
+};
+const MA_COLORS = ['#f04452','#f1c40f','#2ecc71','#3182f6','#bc8cff'];
+
+async function loadIndex(id, col) {
+  const range = colRange[col], intv = colInterval[col];
+  const msgEl = document.getElementById('msg-' + id);
+  msgEl.style.display = 'flex'; msgEl.textContent = '로딩 중...';
+  if (!allCharts[id]) { createChart(id, col, { showTimeAxis: false }); addCandleSeries(id); }
+  const syms = FALLBACKS[id] || [id];
+  const results = await Promise.allSettled(syms.map(s => getCachedData(s, range)));
+  const winner = results.find(r => r.status === 'fulfilled' && r.value.candles.length);
+  if (winner) {
+    const {candles,price,prev} = winner.value;
+    const display = intv === '1wk' ? candlesToWeekly(candles) : candles;
+    allCharts[id].series.setData(display);
+    buildDataMap(id, display);
+    // Remove old MA lines
+    if (allCharts[id].maLines) { allCharts[id].maLines.forEach(s => allCharts[id].chart.removeSeries(s)); }
+    allCharts[id].maLines = [];
+    // Add moving averages
+    const cfg = MA_CONFIG[id];
+    if (cfg) {
+      const periods = intv === '1wk' ? cfg.weekly : cfg.daily;
+      const closes = display.map(c => c.close);
+      periods.forEach((p, idx) => {
+        const sma = calcSMA(closes, p);
+        const pts = [];
+        for (let i = p - 1; i < display.length; i++) {
+          if (sma[i] != null) pts.push({ time: display[i].time, value: sma[i] });
+        }
+        if (pts.length) {
+          const line = allCharts[id].chart.addLineSeries({
+            color: MA_COLORS[idx % MA_COLORS.length], lineWidth: 1,
+            priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
+          });
+          line.setData(pts);
+          allCharts[id].maLines.push(line);
+        }
+      });
+    }
+    allCharts[id].chart.timeScale().fitContent();
+    showPrice(id, price, prev);
+    origValues[id] = () => showPrice(id, price, prev);
+    if (candles.length) colStartDate[col] = candles[0].time;
+    colTimeIndex[col] = display.map(c => c.time);
+    msgEl.style.display = 'none';
+  } else { msgEl.textContent = '⚠ 로딩 실패'; }
+}
+
+// KR Fear/Greed
+function calcKrFG(kospi, fx) {
+  const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
+  const sma125=calcSMA(c,125),rsi=calcRSI(c);
+  const ret=[];for(let i=1;i<c.length;i++)ret.push(Math.log(c[i]/c[i-1]));
+  const v20=[],v50=[];
+  for(let i=0;i<ret.length;i++){
+    if(i>=19){let s=0;for(let j=i-19;j<=i;j++)s+=ret[j]*ret[j];v20.push(Math.sqrt(s/20)*Math.sqrt(252)*100)}else v20.push(null);
+    if(i>=49){let s=0;for(let j=i-49;j<=i;j++)s+=ret[j]*ret[j];v50.push(Math.sqrt(s/50)*Math.sqrt(252)*100)}else v50.push(null);
+  }
+  const fxMap={};if(fx)fx.forEach(x=>{fxMap[x.time]=x.close});
+  const fxA=[];let lf=null;for(const tt of t){if(fxMap[tt])lf=fxMap[tt];fxA.push(lf)}
+  const out=[];
+  for(let i=125;i<c.length;i++){
+    const ma=sma125[i];if(!ma)continue;
+    const r=rsi[i-1];if(r==null)continue;
+    const v2=v20[i-1],v5=v50[i-1];if(v2==null||v5==null)continue;
+    const mom=Math.max(0,Math.min(100,50+((c[i]-ma)/ma)*300));
+    const str=Math.max(0,Math.min(100,(r-25)*2));
+    let ups=0;for(let j=i-19;j<=i;j++)if(kospi[j].close>kospi[j].open)ups++;
+    const brd=(ups/20)*100;
+    const vol=Math.max(0,Math.min(100,100-(v2/v5-0.5)*100));
+    let sh=50;if(i>=20&&fxA[i]&&fxA[i-20]){const sr=(c[i]-c[i-20])/c[i-20]*100,fr=(fxA[i]-fxA[i-20])/fxA[i-20]*100;sh=Math.max(0,Math.min(100,50+(sr-fr*3)*3))}
+    out.push({time:t[i],value:Math.max(0,Math.min(100,Math.round(mom*.25+str*.2+brd*.15+vol*.25+sh*.15)))});
+  }
+  return out;
+}
+
+async function loadKrFG() {
+  const range=colRange.kr, intv=colInterval.kr;
+  const msgEl=document.getElementById('msg-kr-fg');
+  try {
+    const fxResults=await Promise.allSettled(FALLBACKS.usdkrw.map(s=>getCachedData(s,range)));
+    const fxWinner=fxResults.find(r=>r.status==='fulfilled'&&r.value.candles.length);
+    const [k,fx]=await Promise.all([getCachedData('^KS11',range).catch(()=>null),Promise.resolve(fxWinner?fxWinner.value:null)]);
+    if(!k||k.candles.length<150)throw 0;
+    let data=calcKrFG(k.candles,fx?fx.candles:null);
+    if(intv==='1wk')data=resampleWeekly(data);
+    const last=data[data.length-1],score=last?last.value:50,lbl=getLabel(score);
+    document.getElementById('kr-fg-val').textContent=score;
+    const le=document.getElementById('kr-fg-lbl');le.textContent=lbl.t;le.style.color=lbl.c;
+    origValues['kr-fg']=()=>{document.getElementById('kr-fg-val').textContent=score;le.textContent=lbl.t;le.style.color=lbl.c};
+    if(!allCharts['kr-fg']){createChart('kr-fg','kr',{showTimeAxis:false});addAreaSeries('kr-fg','rgb(210,175,100)');}
+    const krfgData=alignToTimeIndex(data,'kr');allCharts['kr-fg'].series.setData(krfgData);buildDataMap('kr-fg',krfgData);
+    addZoneLines(allCharts['kr-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
+    allCharts['kr-fg'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  } catch(e){console.error('KR FG',e);msgEl.textContent='⚠ 실패';}
+}
+
+// KR ADR
+async function loadADR(){
+  const range=colRange.kr, intv=colInterval.kr;
+  const msgEl=document.getElementById('msg-adr');
+  try{
+    const{candles}=await getCachedData('^KS11',range);let out=[];
+    for(let i=20;i<candles.length;i++){let u=0;for(let j=i-19;j<=i;j++)if(candles[j].close>candles[j].open)u++;out.push({time:candles[i].time,value:Math.round(u/20*200)})}
+    if(intv==='1wk')out=resampleWeekly(out);
+    const last=out[out.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
+    origValues['adr']=()=>{document.getElementById('p-adr').textContent=last?last.value:'—'};
+    if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});addAreaSeries('adr','rgb(210,175,100)');}
+    const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
+    addZoneLines(allCharts['adr'].series,[{price:140,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:60,color:'#3182f6'}]);
+    allCharts['adr'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
+}
+
+// US Fear/Greed (CNN)
+async function loadUSFG(){
+  const msgEl=document.getElementById('msg-us-fg');
+  try{
+    const data=await fetchJSON('https://production.dataviz.cnn.io/index/fearandgreed/graphdata');
+    const score=Math.round(data.fear_and_greed.score),lbl=getLabel(score);
+    document.getElementById('us-fg-val').textContent=score;
+    const le=document.getElementById('us-fg-lbl');le.textContent=lbl.t;le.style.color=lbl.c;
+    origValues['us-fg']=()=>{document.getElementById('us-fg-val').textContent=score;le.textContent=lbl.t;le.style.color=lbl.c};
+    const hist=data.fear_and_greed_historical&&data.fear_and_greed_historical.data?data.fear_and_greed_historical.data:[];
+    const pts=[];hist.forEach(p=>{const d=new Date(p.x);pts.push({time:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,value:p.y})});
+    pts.sort((a,b)=>a.time.localeCompare(b.time));const uniq=[];let lt='';for(const p of pts){if(p.time!==lt){uniq.push(p);lt=p.time}}
+    if(!allCharts['us-fg']){createChart('us-fg','us',{showTimeAxis:false});addAreaSeries('us-fg','rgb(210,175,100)');}
+    let fgData=uniq.length?uniq:[{time:new Date().toISOString().slice(0,10),value:score}];
+    if(colInterval.us==='1wk')fgData=resampleWeekly(fgData);
+    const usfgPadded=alignToTimeIndex(fgData,'us');allCharts['us-fg'].series.setData(usfgPadded);buildDataMap('us-fg',usfgPadded);
+    addZoneLines(allCharts['us-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
+    allCharts['us-fg'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  }catch(e){console.error('US FG',e);msgEl.textContent='⚠ 실패';}
+}
+
+// USD/KRW — with fallback tickers
+async function loadUSDKRW(){
+  const range=colRange.kr, intv=colInterval.kr;
+  const msgEl=document.getElementById('msg-usdkrw');
+  const syms=FALLBACKS.usdkrw;
+  const results=await Promise.allSettled(syms.map(s=>getCachedData(s,range)));
+  const winner=results.find(r=>r.status==='fulfilled'&&r.value.candles.length);
+  if(winner){
+    const{candles,price,prev}=winner.value;
+    let pts=candles.map(x=>({time:x.time,value:x.close}));
+    if(intv==='1wk')pts=resampleWeekly(pts);
+    showPrice('usdkrw',price,prev);
+    origValues['usdkrw']=()=>showPrice('usdkrw',price,prev);
+    if(!allCharts['usdkrw']){createChart('usdkrw','kr',{showTimeAxis:true});
+      const s=allCharts['usdkrw'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts['usdkrw'].series=s;}
+    const krwPadded=alignToTimeIndex(pts,'kr');allCharts['usdkrw'].series.setData(krwPadded);buildDataMap('usdkrw',krwPadded);
+    allCharts['usdkrw'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  }else{console.error('USDKRW all failed');msgEl.textContent='⚠ 실패';}
+}
+
+// NYSE 200MA proxy
+async function loadNYSE200(){
+  const range=colRange.us, intv=colInterval.us;
+  const msgEl=document.getElementById('msg-nyse200');
+  try{
+    const{candles}=await getCachedData('SPY',range);const c=candles.map(x=>x.close),sma=calcSMA(c,200);let out=[];
+    for(let i=200;i<candles.length;i++){const pct=((c[i]-sma[i])/sma[i])*100;out.push({time:candles[i].time,value:Math.round(Math.max(0,Math.min(100,50+pct*2.5))*10)/10})}
+    if(intv==='1wk')out=resampleWeekly(out);
+    const last=out[out.length-1];document.getElementById('p-nyse200').textContent=last?last.value.toFixed(1)+'%':'—';
+    origValues['nyse200']=()=>{document.getElementById('p-nyse200').textContent=last?last.value.toFixed(1)+'%':'—'};
+    if(!allCharts['nyse200']){createChart('nyse200','us',{showTimeAxis:false});addAreaSeries('nyse200','rgb(210,175,100)');}
+    const n200Padded=alignToTimeIndex(out,'us');allCharts['nyse200'].series.setData(n200Padded);buildDataMap('nyse200',n200Padded);
+    addZoneLines(allCharts['nyse200'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
+    allCharts['nyse200'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  }catch(e){console.error('NYSE200',e);msgEl.textContent='⚠ 실패';}
+}
+
+// NYSE 50MA proxy
+async function loadNYSE50(){
+  const range=colRange.us, intv=colInterval.us;
+  const msgEl=document.getElementById('msg-nyse50');
+  try{
+    const{candles}=await getCachedData('SPY',range);const c=candles.map(x=>x.close),sma=calcSMA(c,50);let out=[];
+    for(let i=50;i<candles.length;i++){const pct=((c[i]-sma[i])/sma[i])*100;out.push({time:candles[i].time,value:Math.round(Math.max(0,Math.min(100,50+pct*5))*10)/10})}
+    if(intv==='1wk')out=resampleWeekly(out);
+    const last=out[out.length-1];document.getElementById('p-nyse50').textContent=last?last.value.toFixed(1)+'%':'—';
+    origValues['nyse50']=()=>{document.getElementById('p-nyse50').textContent=last?last.value.toFixed(1)+'%':'—'};
+    if(!allCharts['nyse50']){createChart('nyse50','us',{showTimeAxis:true});addAreaSeries('nyse50','rgb(210,175,100)');}
+    const n50Padded=alignToTimeIndex(out,'us');allCharts['nyse50'].series.setData(n50Padded);buildDataMap('nyse50',n50Padded);
+    addZoneLines(allCharts['nyse50'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
+    allCharts['nyse50'].chart.timeScale().fitContent();
+    msgEl.style.display='none';
+  }catch(e){console.error('NYSE50',e);msgEl.textContent='⚠ 실패';}
+}
+
+// Sync all sub-charts to main chart's visible range
+function syncColumnToMain(mainId) {
+  const main = allCharts[mainId];
+  if (!main) return;
+  const timeRange = main.chart.timeScale().getVisibleRange();
+  if (!timeRange) return;
+  const col = main.col;
+  colGroups[col].forEach(otherId => {
+    if (otherId !== mainId && allCharts[otherId]) {
+      try { allCharts[otherId].chart.timeScale().setVisibleRange(timeRange); } catch(_){}
+    }
+  });
+}
+
+// ── Full column reload ──
+async function loadColumn(col) {
+  const mainId = col === 'kr' ? 'kospi' : 'ndx';
+  // Load index first (sets colStartDate for padding)
+  if (col === 'kr') { await loadIndex('kospi', 'kr'); }
+  else { await loadIndex('ndx', 'us'); }
+  // Then load all sub-indicators in parallel
+  if (col === 'kr') {
+    await Promise.allSettled([loadKrFG(), loadADR(), loadUSDKRW()]);
+  } else {
+    await Promise.allSettled([loadUSFG(), loadNYSE200(), loadNYSE50()]);
+  }
+  if (allCharts[mainId]) {
+    allCharts[mainId].chart.timeScale().fitContent();
+    setTimeout(() => syncColumnToMain(mainId), 100);
+  }
+}
+
+// ── Range buttons ──
+document.querySelectorAll('.range-btns').forEach(g=>{
+  const col=g.dataset.col;
+  g.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      g.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+      colRange[col]=btn.dataset.r;
+      loadColumn(col);
+    });
+  });
+});
+
+// ── Interval toggle (D/W) ──
+document.querySelectorAll('.interval-btns').forEach(g=>{
+  const col=g.dataset.col;
+  g.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      g.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+      colInterval[col]=btn.dataset.i;
+      loadColumn(col);
+    });
+  });
+});
+
+// ── Scrollbar sync ──
+function setupScrollbar(col, mainId) {
+  const track = document.getElementById('sb-' + col);
+  const thumb = document.getElementById('sb-thumb-' + col);
+  if (!track || !thumb) return;
+  let dragging = false, startX = 0, startLeft = 0;
+
+  // Update thumb from chart visible range
+  function updateThumb() {
+    const ch = allCharts[mainId];
+    if (!ch) return;
+    const lr = ch.chart.timeScale().getVisibleLogicalRange();
+    if (!lr) return;
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 300;
+    const totalBars = Math.max(dataLen, lr.to);
+    const tw = track.clientWidth;
+    const thumbW = Math.max(24, (lr.to - lr.from) / totalBars * tw);
+    const thumbL = Math.max(0, Math.min(tw - thumbW, lr.from / totalBars * tw));
+    thumb.style.width = thumbW + 'px';
+    thumb.style.left = thumbL + 'px';
+  }
+
+  // Listen to main chart's visible range changes
+  const checkInterval = setInterval(() => {
+    if (allCharts[mainId]) {
+      allCharts[mainId].chart.timeScale().subscribeVisibleLogicalRangeChange(updateThumb);
+      clearInterval(checkInterval);
+    }
+  }, 300);
+
+  // Thumb drag → scroll chart
+  thumb.addEventListener('mousedown', e => {
+    e.preventDefault(); dragging = true; startX = e.clientX; startLeft = parseFloat(thumb.style.left) || 0;
+    thumb.classList.add('dragging');
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const ch = allCharts[mainId]; if (!ch) return;
+    const dx = e.clientX - startX;
+    const tw = track.clientWidth;
+    const newLeft = Math.max(0, Math.min(tw - thumb.clientWidth, startLeft + dx));
+    thumb.style.left = newLeft + 'px';
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 300;
+    const lr = ch.chart.timeScale().getVisibleLogicalRange();
+    if (!lr) return;
+    const span = lr.to - lr.from;
+    const newFrom = newLeft / tw * dataLen;
+    ch.chart.timeScale().setVisibleLogicalRange({ from: newFrom, to: newFrom + span });
+  });
+  document.addEventListener('mouseup', () => { if (dragging) { dragging = false; thumb.classList.remove('dragging'); } });
+
+  // Click track → jump to position
+  track.addEventListener('click', e => {
+    if (e.target === thumb) return;
+    const ch = allCharts[mainId]; if (!ch) return;
+    const rect = track.getBoundingClientRect();
+    const clickRatio = (e.clientX - rect.left) / rect.width;
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 300;
+    const lr = ch.chart.timeScale().getVisibleLogicalRange(); if (!lr) return;
+    const span = lr.to - lr.from;
+    const newFrom = clickRatio * dataLen - span / 2;
+    ch.chart.timeScale().setVisibleLogicalRange({ from: newFrom, to: newFrom + span });
+  });
+}
+
+// ── Event Calendar ──
+(function renderEvents(){
+  const events=[
+    {d:'04/14',cat:'경제지표',ev:'PPI 3월 (8:30 AM ET)',note:'전월 MoM -0.1%'},
+    {d:'04/15',cat:'정책',ev:'Section 301 서면의견 제출 마감',note:'한미통상'},
+    {d:'04/15',cat:'정책',ev:'미 재무부 환율보고서 발표',note:'한미통상'},
+    {d:'04/15',cat:'실적',ev:'미국 1분기 실적시즌 시작',note:'금융주 시작'},
+    {d:'04/17',cat:'IPO',ev:'코스모로보틱스 신규상장',note:'웨어러블 재활로봇'},
+    {d:'04/17',cat:'정책',ev:'위성통신 주파수 재배치 보고서 마감',note:'골든돔, 위성통신'},
+    {d:'04/17',cat:'학회',ev:'AACR 미국 암 학회 (~4/22)',note:'리가켐, 알지노믹스 등'},
+    {d:'04/20',cat:'IPO',ev:'채비 공모청약 (~4/21)',note:'전기차 충전 솔루션'},
+    {d:'04/21',cat:'정책',ev:'차기 한은 총재 임기시작',note:''},
+    {d:'04/21',cat:'경제지표',ev:'소매판매 3월 (8:30 AM ET)',note:'일정 변경됨'},
+    {d:'04/23',cat:'실적',ev:'SK하이닉스 1분기 실적발표',note:'반도체 HBM/DRAM 핵심'},
+    {d:'04/23',cat:'학회',ev:'ICLR 터보퀀트 학회 발표',note:'반도체 기술 검증'},
+    {d:'04/25',cat:'정책',ev:'미국 클래리티법안 상원 마크업',note:'4월 하순 목표'},
+    {d:'04/28',cat:'산업',ev:'테슬라 옵티머스 3세대 정식 공개',note:'로봇 — 4월내'},
+    {d:'04/30',cat:'경제지표',ev:'GDP Q1 속보치 + Core PCE 3월',note:'FOMC 당일 빅이벤트'},
+    {d:'04/30',cat:'정책',ev:'미 FOMC 금리결정 (한국시간 03시)',note:''},
+    {d:'05/01',cat:'시장구조',ev:'휴장 (근로자의날)',note:''},
+    {d:'05/01',cat:'경제지표',ev:'ISM 제조업 PMI 4월',note:'3월 52.7'},
+    {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:''},
+    {d:'05/05',cat:'산업',ev:'비트코인 컨센서스 2026 (~5/7)',note:'코인 연간 최대행사'},
+    {d:'05/05',cat:'정책',ev:'Section 301 공청회',note:'한미통상'},
+    {d:'05/08',cat:'경제지표',ev:'NFP 4월 고용보고서',note:'3월 +178K'},
+    {d:'05/12',cat:'경제지표',ev:'CPI 4월',note:''},
+    {d:'05/14',cat:'지정학',ev:'미중 정상회담 (베이징)',note:'트럼프·시진핑'},
+    {d:'05/14',cat:'정책',ev:'파월 연준의장 임기 종료',note:''},
+    {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'AI 에이전트 기술 공개'},
+    {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
+    {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
+    {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
+    {d:'05/31',cat:'방산',ev:'UAE 방산투자 후속 수주 확정',note:'한국 방산 $35B'},
+    {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 (~6/5)',note:'반도체·AI'},
+    {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'시장·도지사'},
+    {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스'},
+    {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
+    {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 수주 우선협상대상자',note:'조선·방산'},
+    {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
+    {d:'06/20',cat:'IPO',ev:'스페이스X 상장',note:'우주'},
+    {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 여부 발표',note:'한국 증시'},
+  ];
+  const today=new Date();today.setHours(0,0,0,0);
+  const limit=new Date(today);limit.setDate(limit.getDate()+30);
+  const year=today.getFullYear();
+  const tbody=document.getElementById('ev-body');
+  events.forEach(e=>{
+    const [mm,dd]=e.d.split('/').map(Number);
+    const evDate=new Date(year,mm-1,dd);
+    if(evDate<today||evDate>limit)return; // only show today ~ +30 days
+    const diff=Math.floor((evDate-today)/(86400000));
+    const cls=diff===0?'today':diff<=3?'soon':'';
+    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${e.d}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}</td><td style="color:#8b949e">${e.note}</td></tr>`;
+  });
+})();
+
+// ── INIT ──
+window.addEventListener('load',()=>{
+  setTimeout(async()=>{
+    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+    setupScrollbar('kr', 'kospi');
+    setupScrollbar('us', 'ndx');
+  },200);
+});
+</script>
+</body>
+</html>
