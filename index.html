@@ -30,6 +30,10 @@
   .range-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .interval-btns { display: flex; gap: 2px; margin-left: 6px; }
   .interval-btns button { background: none; border: 1px solid #30363d; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .bar-count { display: flex; align-items: center; gap: 2px; margin-left: 6px; }
+  .bar-count input { width: 38px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; padding: 1px 4px; border-radius: 4px; font-size: 10px; text-align: center; outline: none; }
+  .bar-count input:focus { border-color: #58a6ff; }
+  .bar-count span { font-size: 10px; color: #8b949e; }
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
@@ -90,6 +94,7 @@
       <div class="card-top">
         <div class="left"><h3>코스피</h3><span class="price" id="p-kospi">—</span><span class="chg flat" id="c-kospi"></span></div>
         <div class="range-btns" data-col="kr"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
+        <div class="bar-count" data-col="kr"><input type="text" id="bars-kr" value="" placeholder="봉"><span>봉</span></div>
         <div class="interval-btns" data-col="kr"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
       <div class="ma-legend" id="ma-legend-kospi"></div>
@@ -116,6 +121,7 @@
       <div class="card-top">
         <div class="left"><h3>나스닥 종합</h3><span class="price" id="p-ndx">—</span><span class="chg flat" id="c-ndx"></span></div>
         <div class="range-btns" data-col="us"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y" class="active">1Y</button><button data-r="3y">3Y</button><button data-r="10y">10Y</button></div>
+        <div class="bar-count" data-col="us"><input type="text" id="bars-us" value="" placeholder="봉"><span>봉</span></div>
         <div class="interval-btns" data-col="us"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
       <div class="ma-legend" id="ma-legend-ndx"></div>
@@ -734,6 +740,23 @@ document.querySelectorAll('.range-btns').forEach(g=>{
       loadColumn(col);
     });
   });
+});
+
+// ── Bar count input ──
+document.querySelectorAll('.bar-count input').forEach(input => {
+  const col = input.closest('.bar-count').dataset.col;
+  const apply = () => {
+    const n = parseInt(input.value);
+    if (!n || n < 10) return;
+    const mainId = col === 'kr' ? 'kospi' : 'ndx';
+    if (!allCharts[mainId]) return;
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
+    if (dataLen === 0) return;
+    const from = dataLen - n;
+    allCharts[mainId].chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, from), to: dataLen });
+  };
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); apply(); } });
+  input.addEventListener('blur', apply);
 });
 
 // ── Interval toggle (D/W) ──
