@@ -550,8 +550,8 @@ async function loadMDD(indexId, mddId, col) {
     const mddData = calcMDD(display);
     if (!allCharts[mddId]) {
       createChart(mddId, col, { showTimeAxis: false });
-      // Invert price scale: 0 at top
-      allCharts[mddId].chart.priceScale('right').applyOptions({ invertScale: true });
+      // 0 at top: invert so 0 is top, negative goes down
+      allCharts[mddId].chart.priceScale('right').applyOptions({ invertScale: false });
       const s = allCharts[mddId].chart.addAreaSeries({
         topColor: 'rgba(210,175,100,0.35)', bottomColor: 'rgba(210,175,100,0.02)',
         lineColor: 'rgb(210,175,100)', lineWidth: 1.5, priceLineVisible: false,
@@ -565,9 +565,9 @@ async function loadMDD(indexId, mddId, col) {
     // 0% solid line
     allCharts[mddId].series.createPriceLine({ price: 0, color: '#8b949e', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
     // Zone lines at -10%, -20%, -30% (more visible)
-    allCharts[mddId].series.createPriceLine({ price: -10, color: '#e2a44e', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -20, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -30, color: '#d32f2f', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -10, color: '#27ae60', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -20, color: '#e2a44e', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -30, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '' });
     // Show current MDD value
     const cur = mddData[mddData.length - 1];
     if (cur) {
