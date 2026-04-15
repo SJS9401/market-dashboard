@@ -68,7 +68,8 @@
   .ev-table td { padding: 5px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; }
   .ev-table tr:last-child td { border-bottom: none; }
   .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
-  .ev-table tr.today td { color: #f0f6fc; font-weight: 600; }
+  .ev-table tr.today td { color: #e2c571; font-weight: 600; }
+  .ev-table tr.today-last td { color: #e2c571; font-weight: 600; border-bottom: 1px solid #e2c571; }
   .ev-table tr.soon td { color: #e2c571; }
   .ev-cat { display: inline-block; padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 600; white-space: nowrap; }
   .ev-cat.실적 { background: #1f3a24; color: #56d364; }
@@ -912,12 +913,24 @@ function setupScrollbar(col, mainId) {
   const limit=new Date(today);limit.setDate(limit.getDate()+30);
   const year=today.getFullYear();
   const tbody=document.getElementById('ev-body');
-  events.forEach(e=>{
+  // find last today index
+  const dow=today.getDay(),monOff=dow===0?-6:1-dow;
+  const weekStart=new Date(today);weekStart.setDate(today.getDate()+monOff);
+  const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
+  const filtered=events.map(e=>{
     const [mm,dd]=e.d.split('/').map(Number);
     const evDate=new Date(year,mm-1,dd);
-    if(evDate<today||evDate>limit)return; // only show today ~ +30 days
+    if(evDate<today||evDate>limit)return null;
     const diff=Math.floor((evDate-today)/(86400000));
-    const cls=diff===0?'today':diff<=3?'soon':'';
+    const isThisWeek=evDate>=weekStart&&evDate<=weekEnd;
+    return {...e,evDate,diff,isThisWeek};
+  }).filter(Boolean);
+  let lastTodayIdx=-1;
+  filtered.forEach((e,i)=>{if(e.diff===0)lastTodayIdx=i;});
+  filtered.forEach((e,i)=>{
+    let cls='';
+    if(e.diff===0){cls=i===lastTodayIdx?'today-last':'today';}
+    else if(e.isThisWeek){cls='soon';}
     tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${e.d}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}</td><td style="color:#8b949e">${e.note}</td></tr>`;
   });
 })();
