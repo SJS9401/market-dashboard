@@ -34,6 +34,7 @@
   .bar-count input { width: 38px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; padding: 1px 4px; border-radius: 4px; font-size: 10px; text-align: center; outline: none; }
   .bar-count input:focus { border-color: #58a6ff; }
   .bar-count span { font-size: 10px; color: #8b949e; }
+  .refresh-timer { font-size: 11px; color: #8b949e; background: #21262d; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
@@ -85,7 +86,7 @@
 </style>
 </head>
 <body>
-<div class="header"><h1>마켓 대시보드</h1><div class="time" id="clock"></div></div>
+<div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer">갱신 15:00</span><div class="time" id="clock"></div></div></div>
 <div class="main">
   <!-- LEFT: 한국 -->
   <div class="col" id="col-kr">
@@ -365,8 +366,8 @@ function addZoneLines(series, lines) {
 function showPrice(id,price,prev){
   const pe=document.getElementById('p-'+id);if(!pe)return;
   pe.textContent=price?price.toLocaleString('en-US',{maximumFractionDigits:2}):'—';
-  if(price&&prev){const d=price-prev,pct=d/prev*100,sign=d>=0?'+':'';
-    const ce=document.getElementById('c-'+id);if(ce){ce.textContent=`${sign}${d.toFixed(2)} (${sign}${pct.toFixed(2)}%)`;ce.className='chg '+(d>0?'up':d<0?'down':'flat')}}
+  if(price&&prev){const pct=(price-prev)/prev*100,sign=pct>=0?'+':'';
+    const ce=document.getElementById('c-'+id);if(ce){ce.textContent=`${sign}${pct.toFixed(2)}%`;ce.className='chg '+(pct>0?'up':pct<0?'down':'flat')}}
 }
 
 function getLabel(s){if(s<=20)return{t:'Extreme Fear',c:'#e74c3c'};if(s<=40)return{t:'Fear',c:'#e67e22'};if(s<=60)return{t:'Neutral',c:'#f1c40f'};if(s<=80)return{t:'Greed',c:'#2ecc71'};return{t:'Extreme Greed',c:'#27ae60'}}
@@ -462,8 +463,10 @@ async function loadIndex(id, col) {
   const results = await Promise.allSettled(syms.map(s => getCachedData(s, range)));
   const winner = results.find(r => r.status === 'fulfilled' && r.value.candles.length);
   if (winner) {
-    const {candles,price,prev} = winner.value;
+    const {candles,price} = winner.value;
     const display = intv === '1wk' ? candlesToWeekly(candles) : candles;
+    // prev = second-to-last candle's close (daily: yesterday, weekly: last week)
+    const prev = display.length >= 2 ? display[display.length - 2].close : null;
     allCharts[id].series.setData(display);
     buildDataMap(id, display);
     // Remove old MA lines
@@ -902,8 +905,11 @@ function setupScrollbar(col, mainId) {
   });
 })();
 
-// ── Auto-refresh (15min interval) ──
+// ── Auto-refresh (15min interval) with countdown ──
+let refreshCountdown = 15 * 60; // seconds until next refresh
 async function refreshAllData() {
+  const timerEl = document.getElementById('refresh-timer');
+  if (timerEl) timerEl.textContent = '갱신 중...';
   // Save current visible ranges
   const savedRanges = {};
   for (const [id, obj] of Object.entries(allCharts)) {
@@ -922,7 +928,15 @@ async function refreshAllData() {
       try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {}
     }
   }
+  refreshCountdown = 15 * 60; // reset
 }
+// Countdown ticker (runs every second)
+setInterval(() => {
+  if (refreshCountdown > 0) refreshCountdown--;
+  const m = Math.floor(refreshCountdown / 60), s = refreshCountdown % 60;
+  const timerEl = document.getElementById('refresh-timer');
+  if (timerEl && refreshCountdown > 0) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}, 1000);
 
 // ── INIT ──
 window.addEventListener('load',()=>{
