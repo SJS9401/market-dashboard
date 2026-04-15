@@ -902,12 +902,36 @@ function setupScrollbar(col, mainId) {
   });
 })();
 
+// ── Auto-refresh (15min interval) ──
+async function refreshAllData() {
+  // Save current visible ranges
+  const savedRanges = {};
+  for (const [id, obj] of Object.entries(allCharts)) {
+    try {
+      const lr = obj.chart.timeScale().getVisibleLogicalRange();
+      if (lr) savedRanges[id] = lr;
+    } catch(_) {}
+  }
+  // Clear cache to force fresh fetch
+  for (const key of Object.keys(dataCache)) delete dataCache[key];
+  // Reload both columns
+  await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+  // Restore visible ranges (preserve zoom level)
+  for (const [id, lr] of Object.entries(savedRanges)) {
+    if (allCharts[id]) {
+      try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {}
+    }
+  }
+}
+
 // ── INIT ──
 window.addEventListener('load',()=>{
   setTimeout(async()=>{
     await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
     setupScrollbar('kr', 'kospi');
     setupScrollbar('us', 'ndx');
+    // Auto-refresh every 15 minutes
+    setInterval(refreshAllData, 15 * 60 * 1000);
   },200);
 });
 </script>
