@@ -550,10 +550,11 @@ async function loadMDD(indexId, mddId, col) {
     const mddData = calcMDD(display);
     if (!allCharts[mddId]) {
       createChart(mddId, col, { showTimeAxis: false });
-      const s = allCharts[mddId].chart.addAreaSeries({
-        invertFilledArea: true,
-        topColor: 'rgba(140,140,140,0.30)', bottomColor: 'rgba(140,140,140,0.05)',
-        lineColor: 'rgb(160,160,160)', lineWidth: 1.5, priceLineVisible: false,
+      const s = allCharts[mddId].chart.addBaselineSeries({
+        baseValue: { type: 'price', price: 0 },
+        topLineColor: 'transparent', topFillColor1: 'transparent', topFillColor2: 'transparent',
+        bottomLineColor: 'rgb(160,160,160)', bottomFillColor1: 'rgba(140,140,140,0.50)', bottomFillColor2: 'rgba(140,140,140,0.08)',
+        lineWidth: 1.5, priceLineVisible: false,
         lastValueVisible: true, crosshairMarkerVisible: true,
         autoscaleInfoProvider: (original) => {
           const res = original();
