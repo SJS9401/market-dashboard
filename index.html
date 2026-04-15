@@ -103,6 +103,10 @@
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="card">
+      <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kr-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kr-mdd"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
+    </div>
+    <div class="card">
       <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="kr-fg-val">—</span><span class="fg-label" id="kr-fg-lbl"></span><span class="xdate" id="d-kr-fg"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
     </div>
@@ -128,6 +132,10 @@
       </div>
       <div class="ma-legend" id="ma-legend-ndx"></div>
       <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
@@ -519,6 +527,53 @@ async function loadIndex(id, col) {
   } else { msgEl.textContent = '⚠ 로딩 실패'; }
 }
 
+// MDD (Max Drawdown) — calculates running drawdown from peak
+function calcMDD(candles) {
+  let peak = -Infinity;
+  return candles.map(c => {
+    if (c.close > peak) peak = c.close;
+    const dd = ((c.close - peak) / peak) * 100; // always <= 0
+    return { time: c.time, value: parseFloat(dd.toFixed(2)) };
+  });
+}
+
+async function loadMDD(indexId, mddId, col) {
+  const msgEl = document.getElementById('msg-' + mddId);
+  try {
+    const range = colRange[col], intv = colInterval[col];
+    const syms = FALLBACKS[indexId] || [indexId];
+    const results = await Promise.allSettled(syms.map(s => getCachedData(s, range)));
+    const winner = results.find(r => r.status === 'fulfilled' && r.value.candles.length);
+    if (!winner) { msgEl.textContent = '⚠ 실패'; return; }
+    const { candles } = winner.value;
+    const display = intv === '1wk' ? candlesToWeekly(candles) : candles;
+    const mddData = calcMDD(display);
+    if (!allCharts[mddId]) {
+      createChart(mddId, col, { showTimeAxis: false });
+      const s = allCharts[mddId].chart.addAreaSeries({
+        topColor: 'rgba(240,68,82,0.3)', bottomColor: 'rgba(240,68,82,0.02)',
+        lineColor: '#f04452', lineWidth: 1.5, priceLineVisible: false,
+        lastValueVisible: true, crosshairMarkerVisible: true
+      });
+      allCharts[mddId].series = s;
+    }
+    const padded = alignToTimeIndex(mddData, col);
+    allCharts[mddId].series.setData(padded);
+    buildDataMap(mddId, padded);
+    // Zone lines at -10%, -20%, -30%
+    addZoneLines(allCharts[mddId].series, [
+      { price: -10, color: '#e2a44e' }, { price: -20, color: '#f85149' }, { price: -30, color: '#8b1a1a' }
+    ]);
+    // Show current MDD value
+    const cur = mddData[mddData.length - 1];
+    if (cur) {
+      document.getElementById('p-' + mddId).textContent = cur.value.toFixed(1) + '%';
+      origValues[mddId] = () => { document.getElementById('p-' + mddId).textContent = cur.value.toFixed(1) + '%'; };
+    }
+    msgEl.style.display = 'none';
+  } catch(e) { console.error('MDD', e); msgEl.textContent = '⚠ 실패'; }
+}
+
 // KR Fear/Greed
 function calcKrFG(kospi, fx) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
@@ -732,9 +787,9 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadKrFG(), loadADR(), loadUSDKRW()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
   } else {
-    await Promise.allSettled([loadUSFG(), loadNYSE200(), loadNYSE50()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadNYSE200(), loadNYSE50()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
