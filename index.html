@@ -736,7 +736,16 @@ async function loadColumn(col) {
     await Promise.allSettled([loadUSFG(), loadNYSE200(), loadNYSE50()]);
   }
   if (allCharts[mainId]) {
-    allCharts[mainId].chart.timeScale().fitContent();
+    // Default view: last 120 bars
+    const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
+    if (dataLen > 0) {
+      const from = Math.max(0, dataLen - 120);
+      allCharts[mainId].chart.timeScale().setVisibleLogicalRange({ from, to: dataLen });
+      const barInput = document.getElementById('bars-' + col);
+      if (barInput) barInput.value = Math.min(120, dataLen);
+    } else {
+      allCharts[mainId].chart.timeScale().fitContent();
+    }
     setTimeout(() => syncColumnToMain(mainId), 100);
   }
 }
