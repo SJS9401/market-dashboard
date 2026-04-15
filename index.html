@@ -550,10 +550,12 @@ async function loadMDD(indexId, mddId, col) {
     const mddData = calcMDD(display);
     if (!allCharts[mddId]) {
       createChart(mddId, col, { showTimeAxis: false });
+      // Force price scale: no top margin, so 0 stays at top edge
+      allCharts[mddId].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0, bottom: 0.05 } });
       const s = allCharts[mddId].chart.addBaselineSeries({
         baseValue: { type: 'price', price: 0 },
         topLineColor: 'transparent', topFillColor1: 'transparent', topFillColor2: 'transparent',
-        bottomLineColor: 'rgb(160,160,160)', bottomFillColor1: 'rgba(140,140,140,0.50)', bottomFillColor2: 'rgba(140,140,140,0.08)',
+        bottomLineColor: 'rgb(160,160,160)', bottomFillColor1: 'rgba(140,140,140,0.65)', bottomFillColor2: 'rgba(140,140,140,0.15)',
         lineWidth: 1.5, priceLineVisible: false,
         lastValueVisible: true, crosshairMarkerVisible: true,
         autoscaleInfoProvider: (original) => {
