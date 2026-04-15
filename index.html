@@ -259,6 +259,14 @@ function createChart(id, col, opts = {}) {
         try { allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange); } catch(_){}
       }
     });
+    // Update bar count display for main charts
+    if (id === 'kospi' || id === 'ndx') {
+      const barInput = document.getElementById('bars-' + col);
+      if (barInput && !barInput.matches(':focus')) {
+        const visibleBars = Math.round(logicalRange.to - logicalRange.from);
+        barInput.value = visibleBars > 0 ? visibleBars : '';
+      }
+    }
     requestAnimationFrame(() => { syncing = false; });
   });
 
