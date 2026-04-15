@@ -905,37 +905,41 @@ function setupScrollbar(col, mainId) {
   });
 })();
 
-// ── Auto-refresh (15min interval) with countdown ──
-let refreshCountdown = 15 * 60; // seconds until next refresh
+// ── Auto-refresh at fixed :00 :15 :30 :45 ──
+let lastRefreshSlot = -1;
+function getNextSlot() {
+  const now = new Date(), m = now.getMinutes(), s = now.getSeconds();
+  const cur = m - (m % 15); // current slot start (0,15,30,45)
+  const next = cur + 15; // next slot
+  const secsLeft = (next - m) * 60 - s;
+  return { curSlot: now.getHours() * 60 + cur, secsLeft };
+}
 async function refreshAllData() {
   const timerEl = document.getElementById('refresh-timer');
   if (timerEl) timerEl.textContent = '갱신 중...';
-  // Save current visible ranges
   const savedRanges = {};
   for (const [id, obj] of Object.entries(allCharts)) {
-    try {
-      const lr = obj.chart.timeScale().getVisibleLogicalRange();
-      if (lr) savedRanges[id] = lr;
-    } catch(_) {}
+    try { const lr = obj.chart.timeScale().getVisibleLogicalRange(); if (lr) savedRanges[id] = lr; } catch(_) {}
   }
-  // Clear cache to force fresh fetch
   for (const key of Object.keys(dataCache)) delete dataCache[key];
-  // Reload both columns
   await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
-  // Restore visible ranges (preserve zoom level)
   for (const [id, lr] of Object.entries(savedRanges)) {
-    if (allCharts[id]) {
-      try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {}
-    }
+    if (allCharts[id]) { try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {} }
   }
-  refreshCountdown = 15 * 60; // reset
 }
-// Countdown ticker (runs every second)
+// Check every second: countdown + trigger at slot boundary
 setInterval(() => {
-  if (refreshCountdown > 0) refreshCountdown--;
-  const m = Math.floor(refreshCountdown / 60), s = refreshCountdown % 60;
+  const { curSlot, secsLeft } = getNextSlot();
   const timerEl = document.getElementById('refresh-timer');
-  if (timerEl && refreshCountdown > 0) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  // Trigger refresh when new slot arrived
+  if (lastRefreshSlot >= 0 && curSlot !== lastRefreshSlot) {
+    lastRefreshSlot = curSlot;
+    refreshAllData();
+    return;
+  }
+  lastRefreshSlot = curSlot;
+  const m = Math.floor(secsLeft / 60), s = secsLeft % 60;
+  if (timerEl) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }, 1000);
 
 // ── INIT ──
