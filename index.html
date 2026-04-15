@@ -509,7 +509,7 @@ async function loadIndex(id, col) {
         ).join('');
       }
     }
-    allCharts[id].chart.timeScale().fitContent();
+    // fitContent skipped — loadColumn sets 120-bar default view
     showPrice(id, price, prev);
     origValues[id] = () => showPrice(id, price, prev);
     if (candles.length) colStartDate[col] = candles[0].time;
@@ -563,7 +563,7 @@ async function loadKrFG() {
     if(!allCharts['kr-fg']){createChart('kr-fg','kr',{showTimeAxis:false});addAreaSeries('kr-fg','rgb(210,175,100)');}
     const krfgData=alignToTimeIndex(data,'kr');allCharts['kr-fg'].series.setData(krfgData);buildDataMap('kr-fg',krfgData);
     addZoneLines(allCharts['kr-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
-    allCharts['kr-fg'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   } catch(e){console.error('KR FG',e);msgEl.textContent='⚠ 실패';}
 }
@@ -581,7 +581,7 @@ async function loadADR(){
     if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});addAreaSeries('adr','rgb(210,175,100)');}
     const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
     addZoneLines(allCharts['adr'].series,[{price:140,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:60,color:'#3182f6'}]);
-    allCharts['adr'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
@@ -646,7 +646,7 @@ async function loadUSFG() {
     if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); addAreaSeries('us-fg', 'rgb(210,175,100)'); }
     const usfgPadded = alignToTimeIndex(data, 'us'); allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
     addZoneLines(allCharts['us-fg'].series, [{ price: 75, color: '#27ae60' }, { price: 50, color: '#f1c40f' }, { price: 25, color: '#e74c3c' }]);
-    allCharts['us-fg'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display = 'none';
   } catch (e) { console.error('US FG', e); msgEl.textContent = '⚠ 실패'; }
 }
@@ -668,7 +668,7 @@ async function loadUSDKRW(){
       const s=allCharts['usdkrw'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['usdkrw'].series=s;}
     const krwPadded=alignToTimeIndex(pts,'kr');allCharts['usdkrw'].series.setData(krwPadded);buildDataMap('usdkrw',krwPadded);
-    allCharts['usdkrw'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   }else{console.error('USDKRW all failed');msgEl.textContent='⚠ 실패';}
 }
@@ -686,7 +686,7 @@ async function loadNYSE200(){
     if(!allCharts['nyse200']){createChart('nyse200','us',{showTimeAxis:false});addAreaSeries('nyse200','rgb(210,175,100)');}
     const n200Padded=alignToTimeIndex(out,'us');allCharts['nyse200'].series.setData(n200Padded);buildDataMap('nyse200',n200Padded);
     addZoneLines(allCharts['nyse200'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
-    allCharts['nyse200'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   }catch(e){console.error('NYSE200',e);msgEl.textContent='⚠ 실패';}
 }
@@ -704,7 +704,7 @@ async function loadNYSE50(){
     if(!allCharts['nyse50']){createChart('nyse50','us',{showTimeAxis:true});addAreaSeries('nyse50','rgb(210,175,100)');}
     const n50Padded=alignToTimeIndex(out,'us');allCharts['nyse50'].series.setData(n50Padded);buildDataMap('nyse50',n50Padded);
     addZoneLines(allCharts['nyse50'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
-    allCharts['nyse50'].chart.timeScale().fitContent();
+    // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   }catch(e){console.error('NYSE50',e);msgEl.textContent='⚠ 실패';}
 }
