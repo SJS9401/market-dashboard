@@ -551,6 +551,7 @@ async function loadMDD(indexId, mddId, col) {
     if (!allCharts[mddId]) {
       createChart(mddId, col, { showTimeAxis: false });
       const s = allCharts[mddId].chart.addAreaSeries({
+        invertFilledArea: true,
         topColor: 'rgba(140,140,140,0.30)', bottomColor: 'rgba(140,140,140,0.05)',
         lineColor: 'rgb(160,160,160)', lineWidth: 1.5, priceLineVisible: false,
         lastValueVisible: true, crosshairMarkerVisible: true,
@@ -643,7 +644,7 @@ async function loadADR(){
     if(intv==='1wk')out=resampleWeekly(out);
     const last=out[out.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
     origValues['adr']=()=>{document.getElementById('p-adr').textContent=last?last.value:'—'};
-    if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});addAreaSeries('adr','rgb(76,175,80)');}
+    if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});addAreaSeries('adr','rgb(210,175,100)');}
     const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
     addZoneLines(allCharts['adr'].series,[{price:140,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:60,color:'#3182f6'}]);
     // fitContent skipped — synced from main chart
@@ -730,7 +731,7 @@ async function loadUSDKRW(){
     showPrice('usdkrw',price,prev);
     origValues['usdkrw']=()=>showPrice('usdkrw',price,prev);
     if(!allCharts['usdkrw']){createChart('usdkrw','kr',{showTimeAxis:true});
-      const s=allCharts['usdkrw'].chart.addLineSeries({color:'rgb(220,220,220)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const s=allCharts['usdkrw'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['usdkrw'].series=s;}
     const krwPadded=alignToTimeIndex(pts,'kr');allCharts['usdkrw'].series.setData(krwPadded);buildDataMap('usdkrw',krwPadded);
     // fitContent skipped — synced from main chart
@@ -748,7 +749,7 @@ async function loadNYSE200(){
     if(intv==='1wk')out=resampleWeekly(out);
     const last=out[out.length-1];document.getElementById('p-nyse200').textContent=last?last.value.toFixed(1)+'%':'—';
     origValues['nyse200']=()=>{document.getElementById('p-nyse200').textContent=last?last.value.toFixed(1)+'%':'—'};
-    if(!allCharts['nyse200']){createChart('nyse200','us',{showTimeAxis:false});addAreaSeries('nyse200','rgb(76,175,80)');}
+    if(!allCharts['nyse200']){createChart('nyse200','us',{showTimeAxis:false});addAreaSeries('nyse200','rgb(210,175,100)');}
     const n200Padded=alignToTimeIndex(out,'us');allCharts['nyse200'].series.setData(n200Padded);buildDataMap('nyse200',n200Padded);
     addZoneLines(allCharts['nyse200'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
     // fitContent skipped — synced from main chart
@@ -766,7 +767,7 @@ async function loadNYSE50(){
     if(intv==='1wk')out=resampleWeekly(out);
     const last=out[out.length-1];document.getElementById('p-nyse50').textContent=last?last.value.toFixed(1)+'%':'—';
     origValues['nyse50']=()=>{document.getElementById('p-nyse50').textContent=last?last.value.toFixed(1)+'%':'—'};
-    if(!allCharts['nyse50']){createChart('nyse50','us',{showTimeAxis:true});addAreaSeries('nyse50','rgb(76,175,80)');}
+    if(!allCharts['nyse50']){createChart('nyse50','us',{showTimeAxis:true});addAreaSeries('nyse50','rgb(210,175,100)');}
     const n50Padded=alignToTimeIndex(out,'us');allCharts['nyse50'].series.setData(n50Padded);buildDataMap('nyse50',n50Padded);
     addZoneLines(allCharts['nyse50'].series,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
     // fitContent skipped — synced from main chart
