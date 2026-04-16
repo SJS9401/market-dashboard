@@ -118,6 +118,10 @@
       <div class="card-top"><div class="left"><h3>달러/원</h3><span class="price" id="p-usdkrw">—</span><span class="chg flat" id="c-usdkrw"></span><span class="xdate" id="d-usdkrw"></span></div></div>
       <div class="cw cw-sub" id="cw-usdkrw"><div class="msg" id="msg-usdkrw">로딩 중...</div></div>
     </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>미국 기준금리</h3><span class="price" id="p-fedrate-kr">—</span><span class="xdate" id="d-fedrate-kr"></span></div></div>
+      <div class="cw cw-sub" id="cw-fedrate-kr"><div class="msg" id="msg-fedrate-kr">로딩 중...</div></div>
+    </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -425,6 +429,7 @@ function updateHeaderForChart(chartId, time) {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) {
       if (chartId === 'nyse200' || chartId === 'nyse50') pe.textContent = d.value.toFixed(1) + '%';
+      else if (chartId === 'fedrate' || chartId === 'fedrate-kr') pe.textContent = d.value.toFixed(2) + '%';
       else if (chartId === 'usdkrw') pe.textContent = d.value.toLocaleString('en-US', {maximumFractionDigits:2});
       else pe.textContent = d.value;
     }
@@ -439,7 +444,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','nyse200','nyse50'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw','fedrate-kr'] : ['ndx','us-fg','nyse200','nyse50','fedrate'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -782,41 +787,33 @@ async function loadNYSE50(){
   }catch(e){console.error('NYSE50',e);msgEl.textContent='⚠ 실패';}
 }
 
-// US Fed Funds Rate — FRED DFEDTARU (upper bound) via CSV endpoint
-async function fetchFRED(seriesId){
-  const url=`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
-  const proxies=[url,'https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
-  const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),15000);
-  try{
-    const txt=await Promise.any(proxies.map(async u=>{const r=await fetch(u,{signal:ctrl.signal});if(!r.ok)throw 0;return r.text()}));
-    clearTimeout(tid);
-    const lines=txt.trim().split('\n').slice(1); // skip header
-    const pts=[];
-    for(const line of lines){const[d,v]=line.split(',');if(d&&v&&v!=='.')pts.push({time:d,value:parseFloat(v)})}
-    return pts;
-  }catch(e){clearTimeout(tid);throw new Error('FRED fetch failed')}
+// US Fed Rate — ^IRX (13-week T-Bill, tracks Fed Funds Rate closely)
+// Shared data cache for both columns
+let fedRateCache=null;
+async function getFedRateData(){
+  if(fedRateCache)return fedRateCache;
+  const range='10y'; // always fetch full range
+  const{candles,price,prev}=await getCachedData('^IRX',range);
+  fedRateCache={candles,price,prev};return fedRateCache;
 }
 
-async function loadFedRate(){
-  const intv=colInterval.us;
-  const msgEl=document.getElementById('msg-fedrate');
+async function loadFedRate(chartId,col){
+  const intv=col==='kr'?colInterval.kr:colInterval.us;
+  const msgEl=document.getElementById('msg-'+chartId);
   try{
-    let pts=await fetchFRED('DFEDTARU');
+    const{candles,price,prev}=await getFedRateData();
+    let pts=candles.map(x=>({time:x.time,value:x.close}));
     if(intv==='1wk')pts=resampleWeekly(pts);
-    // show current value
-    const last=pts[pts.length-1],prev=pts.length>1?pts[pts.length-2]:null;
-    if(last){
-      const pe=document.getElementById('p-fedrate');pe.textContent=last.value.toFixed(2)+'%';
-      if(prev){const diff=last.value-prev.value;const ce=document.getElementById('c-fedrate');
-        if(ce){ce.textContent=(diff>=0?'+':'')+diff.toFixed(2)+'%p';ce.className='chg '+(diff>0?'up':diff<0?'down':'flat')}}
-      origValues['fedrate']=()=>{pe.textContent=last.value.toFixed(2)+'%';if(prev){const diff=last.value-prev.value;const ce=document.getElementById('c-fedrate');if(ce){ce.textContent=(diff>=0?'+':'')+diff.toFixed(2)+'%p';ce.className='chg '+(diff>0?'up':diff<0?'down':'flat')}}};
-    }
-    if(!allCharts['fedrate']){createChart('fedrate','us',{showTimeAxis:true});allCharts['fedrate'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      const s=allCharts['fedrate'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,lineType:LightweightCharts.LineType.WithSteps});
-      allCharts['fedrate'].series=s;}
-    const padded=alignToTimeIndex(pts,'us');allCharts['fedrate'].series.setData(padded);buildDataMap('fedrate',padded);
+    // header: show value as X.XX%
+    const pe=document.getElementById('p-'+chartId);
+    if(pe)pe.textContent=price?price.toFixed(2)+'%':'—';
+    origValues[chartId]=()=>{if(pe)pe.textContent=price?price.toFixed(2)+'%':'—'};
+    if(!allCharts[chartId]){createChart(chartId,col,{showTimeAxis:true});allCharts[chartId].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const s=allCharts[chartId].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts[chartId].series=s;}
+    const padded=alignToTimeIndex(pts,col);allCharts[chartId].series.setData(padded);buildDataMap(chartId,padded);
     msgEl.style.display='none';
-  }catch(e){console.error('FedRate',e);msgEl.textContent='⚠ 실패';}
+  }catch(e){console.error('FedRate-'+col,e);msgEl.textContent='⚠ 실패';}
 }
 
 // Sync all sub-charts to main chart's logical range
@@ -841,9 +838,9 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW(), loadFedRate('fedrate-kr','kr')]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadNYSE200(), loadNYSE50(), loadFedRate()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadNYSE200(), loadNYSE50(), loadFedRate('fedrate','us')]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
