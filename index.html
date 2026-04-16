@@ -149,6 +149,10 @@
       <div class="card-top"><div class="left"><h3>50일선 위 비율</h3><span class="price" id="p-nyse50">—</span><span class="xdate" id="d-nyse50"></span></div></div>
       <div class="cw cw-sub" id="cw-nyse50"><div class="msg" id="msg-nyse50">로딩 중...</div></div>
     </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>미국 기준금리</h3><span class="price" id="p-fedrate">—</span><span class="chg flat" id="c-fedrate"></span><span class="xdate" id="d-fedrate"></span></div></div>
+      <div class="cw cw-sub" id="cw-fedrate"><div class="msg" id="msg-fedrate">로딩 중...</div></div>
+    </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
   </div>
 </div>
@@ -778,6 +782,43 @@ async function loadNYSE50(){
   }catch(e){console.error('NYSE50',e);msgEl.textContent='⚠ 실패';}
 }
 
+// US Fed Funds Rate — FRED DFEDTARU (upper bound) via CSV endpoint
+async function fetchFRED(seriesId){
+  const url=`https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
+  const proxies=[url,'https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
+  const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),15000);
+  try{
+    const txt=await Promise.any(proxies.map(async u=>{const r=await fetch(u,{signal:ctrl.signal});if(!r.ok)throw 0;return r.text()}));
+    clearTimeout(tid);
+    const lines=txt.trim().split('\n').slice(1); // skip header
+    const pts=[];
+    for(const line of lines){const[d,v]=line.split(',');if(d&&v&&v!=='.')pts.push({time:d,value:parseFloat(v)})}
+    return pts;
+  }catch(e){clearTimeout(tid);throw new Error('FRED fetch failed')}
+}
+
+async function loadFedRate(){
+  const intv=colInterval.us;
+  const msgEl=document.getElementById('msg-fedrate');
+  try{
+    let pts=await fetchFRED('DFEDTARU');
+    if(intv==='1wk')pts=resampleWeekly(pts);
+    // show current value
+    const last=pts[pts.length-1],prev=pts.length>1?pts[pts.length-2]:null;
+    if(last){
+      const pe=document.getElementById('p-fedrate');pe.textContent=last.value.toFixed(2)+'%';
+      if(prev){const diff=last.value-prev.value;const ce=document.getElementById('c-fedrate');
+        if(ce){ce.textContent=(diff>=0?'+':'')+diff.toFixed(2)+'%p';ce.className='chg '+(diff>0?'up':diff<0?'down':'flat')}}
+      origValues['fedrate']=()=>{pe.textContent=last.value.toFixed(2)+'%';if(prev){const diff=last.value-prev.value;const ce=document.getElementById('c-fedrate');if(ce){ce.textContent=(diff>=0?'+':'')+diff.toFixed(2)+'%p';ce.className='chg '+(diff>0?'up':diff<0?'down':'flat')}}};
+    }
+    if(!allCharts['fedrate']){createChart('fedrate','us',{showTimeAxis:true});allCharts['fedrate'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const s=allCharts['fedrate'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,lineType:LightweightCharts.LineType.WithSteps});
+      allCharts['fedrate'].series=s;}
+    const padded=alignToTimeIndex(pts,'us');allCharts['fedrate'].series.setData(padded);buildDataMap('fedrate',padded);
+    msgEl.style.display='none';
+  }catch(e){console.error('FedRate',e);msgEl.textContent='⚠ 실패';}
+}
+
 // Sync all sub-charts to main chart's logical range
 function syncColumnToMain(mainId) {
   const main = allCharts[mainId];
@@ -802,7 +843,7 @@ async function loadColumn(col) {
   if (col === 'kr') {
     await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadNYSE200(), loadNYSE50()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadNYSE200(), loadNYSE50(), loadFedRate()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
@@ -928,24 +969,23 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'04/15',cat:'실적',ev:'ASML(ASML), 뱅크오브아메리카(BAC), 모건스탠리(MS)',note:'반도체 장비 수주·금융 실적 — ASML 삼성 P5 EUV 주문 여부 핵심'},
-    {d:'04/15',cat:'정책',ev:'Section 301 서면의견 제출 마감',note:'한미통상'},
-    {d:'04/16',cat:'실적',ev:'TSMC(TSM)',note:'파운드리 가동률·AI칩 수요 확인 — 반도체'},
+    {d:'04/16',cat:'실적',ev:'TSMC(TSM)',note:'파운드리 가동률·AI칩 수요 확인 — 반도체 방향성 핵심 (발표 완료)'},
     {d:'04/17',cat:'IPO',ev:'코스모로보틱스 신규상장 (코스닥)',note:'웨어러블 재활로봇, 공모가 5,300~6,000원'},
     {d:'04/17',cat:'정책',ev:'위성통신 주파수 재배치 보고서 마감',note:'골든돔·위성통신'},
     {d:'04/17',cat:'학회',ev:'AACR 미국 암 학회 (~4/22)',note:'리가켐바이오, 에이비엘바이오 등'},
     {d:'04/20',cat:'IPO',ev:'채비(구.대영채비) 공모청약 (~4/21)',note:'전기차 충전 솔루션'},
-    {d:'04/21',cat:'지정학',ev:'이란 휴전 만료',note:'2차 협상 성사 여부 최대 변수'},
-    {d:'04/21',cat:'정책',ev:'차기 한은 총재 임기시작',note:'금융 정책 방향'},
+    {d:'04/21',cat:'지정학',ev:'이란 휴전 만료',note:'2차 협상 성사 여부 최대 변수 — D-5'},
+    {d:'04/21',cat:'실적',ev:'RTX(RTX)',note:'방산 BMO 확정'},
+    {d:'04/21',cat:'정책',ev:'차기 한은 총재 임기시작',note:'신현송 교수 — 스테이블코인 부정적'},
     {d:'04/21',cat:'경제지표',ev:'미국 소매판매 3월 (8:30 AM ET)',note:'당초 4/16 → 4/21 변경'},
-    {d:'04/22',cat:'실적',ev:'GE버노바(GEV), 테슬라(TSLA)',note:'전력 수주·로보택시 업데이트'},
-    {d:'04/23',cat:'실적',ev:'SK하이닉스, 록히드마틴(LMT), 아마존(AMZN)',note:'HBM/DRAM 업황·방산 수주·AWS AI CAPEX'},
+    {d:'04/22',cat:'실적',ev:'GE버노바(GEV), 테슬라(TSLA)',note:'GEV BMO·전력 수주 / TSLA AMC·로보택시 업데이트'},
+    {d:'04/23',cat:'실적',ev:'SK하이닉스, 록히드마틴(LMT), 아마존닷컴(AMZN)',note:'SK하이닉스 HBM/DRAM 핵심 / LMT BMO 방산 / AMZN AMC AWS CAPEX'},
     {d:'04/25',cat:'실적',ev:'현대차',note:'글로벌 판매·EV/HEV 추이'},
-    {d:'04/28',cat:'실적',ev:'GM(GM), HD현대일렉트릭, 삼성전자',note:'자동차·변압기·메모리/파운드리'},
-    {d:'04/29',cat:'실적',ev:'알파벳(GOOGL), 마이크로소프트(MSFT), 포드(F), 메타(META), SK하이닉스, 삼성바이오',note:'빅테크 AI CAPEX 집중 발표일'},
+    {d:'04/28',cat:'실적',ev:'GM(GM), HD현대일렉트릭, 삼성전자',note:'GM BMO / HD현대일렉트릭 전력 / 삼성전자 확정실적'},
+    {d:'04/29',cat:'실적',ev:'알파벳(GOOGL), 마이크로소프트(MSFT), 포드(F), 메타(META), 삼성바이오로직스',note:'빅테크 AI CAPEX 집중 발표일'},
     {d:'04/30',cat:'실적',ev:'헌팅턴잉갈스(HII), 에코프로, 애플(AAPL), LG에너지솔루션, 두산에너빌리티',note:'조선·배터리·빅테크·원전'},
     {d:'04/30',cat:'경제지표',ev:'GDP Q1 속보치 + Core PCE 3월',note:'FOMC 당일 빅이벤트'},
-    {d:'04/30',cat:'정책',ev:'FOMC 금리결정 (한국시간 03시)',note:''},
+    {d:'04/30',cat:'정책',ev:'FOMC 금리결정 (한국시간 03시)',note:'동결 확률 ~85%'},
     {d:'05/01',cat:'시장구조',ev:'휴장 (근로자의날)',note:''},
     {d:'05/01',cat:'경제지표',ev:'ISM 제조업 PMI 4월',note:'3월 52.7'},
     {d:'05/01',cat:'실적',ev:'카메코(CCJ)',note:'원전 우라늄'},
@@ -953,18 +993,18 @@ function setupScrollbar(col, mainId) {
     {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:''},
     {d:'05/05',cat:'산업',ev:'비트코인 컨센서스 2026 (~5/7)',note:'코인 연간 최대행사'},
     {d:'05/05',cat:'정책',ev:'Section 301 공청회',note:'한미통상'},
-    {d:'05/05',cat:'실적',ev:'이턴(ETN)',note:'전력 인프라'},
+    {d:'05/05',cat:'실적',ev:'이턴(ETN)',note:'전력 인프라 BMO'},
     {d:'05/06',cat:'실적',ev:'블룸에너지(BE), 한화에어로스페이스, 에이피알',note:'전력·방산·화장품'},
-    {d:'05/07',cat:'실적',ev:'컨스텔레이션(CEG), 비스트라(VST), 뉴스케일(SMR), 라인메탈(RHM)',note:'원전·방산'},
+    {d:'05/07',cat:'실적',ev:'컨스텔레이션(CEG), 비스트라(VST), 뉴스케일(SMR), 라인메탈(RHM), 미래에셋증권',note:'원전·방산'},
     {d:'05/08',cat:'경제지표',ev:'NFP 4월 고용보고서',note:'3월 +178K'},
-    {d:'05/10',cat:'산업',ev:'스페이스X 스타십 Flight 12',note:'우주 — 5월초~중순'},
+    {d:'05/10',cat:'산업',ev:'스페이스X 스타십 Flight 12',note:'우주 V3 — 5월초~중순'},
     {d:'05/12',cat:'경제지표',ev:'CPI 4월',note:''},
-    {d:'05/13',cat:'실적',ev:'샌디스크(SNDK)',note:'NAND 업황'},
-    {d:'05/14',cat:'지정학',ev:'미중 정상회담 (베이징)',note:'트럼프·시진핑'},
-    {d:'05/14',cat:'정책',ev:'파월 연준의장 임기 종료',note:''},
-    {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'AI 에이전트 기술 공개'},
-    {d:'05/20',cat:'실적',ev:'엔비디아(NVDA)',note:'AI 반도체 핵심'},
+    {d:'05/13',cat:'실적',ev:'샌디스크(SNDK), 토요타(TM)',note:'NAND 업황 / 글로벌 자동차'},
+    {d:'05/14',cat:'지정학',ev:'미중 정상회담 (베이징)',note:'트럼프·시진핑 — 한미통상·반도체'},
+    {d:'05/14',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시 지명 완료'},
+    {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'차세대 제미나이·AI 에이전트'},
     {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
+    {d:'05/27',cat:'실적',ev:'엔비디아(NVDA)',note:'AI 반도체 핵심 — Q1 FY2027'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
     {d:'05/31',cat:'방산',ev:'UAE 방산투자 후속 수주 확정',note:'한국 방산 $35B'},
@@ -974,6 +1014,7 @@ function setupScrollbar(col, mainId) {
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
     {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 수주 우선협상대상자',note:'조선·방산'},
     {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
+    {d:'06/16',cat:'실적',ev:'오라클(ORCL)',note:'소프트웨어 클라우드 Q4 FY2026 AMC'},
     {d:'06/20',cat:'IPO',ev:'스페이스X 상장',note:'우주'},
     {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 여부 발표',note:'한국 증시'},
   ];
