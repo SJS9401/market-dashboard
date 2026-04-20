@@ -41,6 +41,14 @@
   .refresh-timer { font-size: 11px; color: #8b949e; background: #21262d; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+  .series-toggle { display: flex; gap: 2px; margin-left: auto; }
+  .series-toggle button { background: none; border: 1px solid #30363d; color: #6e7681; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .series-toggle button:hover { border-color: #58a6ff; }
+  .series-toggle button[data-s="m"].active,
+  .series-toggle button[data-s="200"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
+  .series-toggle button[data-s="20"].active,
+  .series-toggle button[data-s="50"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="10"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
@@ -120,7 +128,14 @@
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>한국 수출 YoY</h3><span class="price" id="p-kr-export">—</span><span class="xdate" id="d-kr-export"></span></div></div>
+      <div class="card-top">
+        <div class="left"><h3>한국 수출 YoY</h3><span class="price" id="p-kr-export">—</span><span class="xdate" id="d-kr-export"></span></div>
+        <div class="series-toggle" data-chart="kr-export">
+          <button data-s="m" class="active">월 확정</button>
+          <button data-s="20" class="active">1-20잠</button>
+          <button data-s="10" class="active">1-10잠</button>
+        </div>
+      </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
@@ -147,7 +162,13 @@
       <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>시장폭 (200MA·50MA 위 비율)</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div></div>
+      <div class="card-top">
+        <div class="left"><h3>시장폭 (200MA·50MA 위 비율)</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="series-toggle" data-chart="breadth">
+          <button data-s="200" class="active">200MA</button>
+          <button data-s="50" class="active">50MA</button>
+        </div>
+      </div>
       <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -756,23 +777,27 @@ async function loadKrExport(){
     if (!allCharts['kr-export']) {
       createChart('kr-export', 'kr', { showTimeAxis: true });
       allCharts['kr-export'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const gold = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      const cyan = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      const pink = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      allCharts['kr-export'].series  = gold;
+      // 월 확정치 = 히스토그램(바), 양수=골드 / 음수=레드
+      const bars = allCharts['kr-export'].chart.addHistogramSeries({ color: 'rgb(210,175,100)', priceLineVisible: false, lastValueVisible: true, base: 0 });
+      const cyan = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.6, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const pink = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts['kr-export'].series  = bars;
       allCharts['kr-export'].series2 = cyan;
       allCharts['kr-export'].series3 = pink;
-      // 0% 참고선
-      gold.createPriceLine({ price: 0, color: 'rgba(139,148,158,0.5)', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
+      allCharts['kr-export'].seriesByKey = { m: bars, '20': cyan, '10': pink };
+      // 0% 참고선 (잠정 선 위에 추가해 항상 표시)
+      cyan.createPriceLine({ price: 0, color: 'rgba(139,148,158,0.5)', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
     }
-    const pM  = alignToTimeIndex(sM,  'kr');
+    // 월 확정치: forward-fill 대신 실제 월별 데이터만 바로 렌더 (1개월 = 1개 바)
+    const barsData = sM.map(x => ({ time: x.time, value: x.value, color: x.value >= 0 ? 'rgb(210,175,100)' : 'rgb(231,76,60)' }));
+    const pM  = alignToTimeIndex(sM,  'kr'); // crosshair용 (렌더링에는 미사용)
     const p20 = alignToTimeIndex(s20, 'kr');
     const p10 = alignToTimeIndex(s10, 'kr');
-    allCharts['kr-export'].series.setData(pM);
+    allCharts['kr-export'].series.setData(barsData);
     allCharts['kr-export'].series2.setData(p20);
     allCharts['kr-export'].series3.setData(p10);
 
-    // Combined crosshair map — 3개 시리즈의 time별 값 조합
+    // Combined crosshair map — 3개 시리즈의 time별 값 조합 (forward-fill된 pM 기준)
     const cmap = {};
     const mMapM = {}; pM.forEach(x => mMapM[x.time] = x.value);
     const mMap2 = {}; p20.forEach(x => mMap2[x.time] = x.value);
@@ -889,6 +914,7 @@ async function loadUSBreadth(){
       const cyan=allCharts['breadth'].chart.addLineSeries({color:'rgb(57,197,207)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['breadth'].series=gold;
       allCharts['breadth'].series2=cyan;
+      allCharts['breadth'].seriesByKey = { '200': gold, '50': cyan };
       addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
     }
     const p200=alignToTimeIndex(s200,'us');
@@ -1081,6 +1107,22 @@ document.querySelectorAll('.interval-btns').forEach(g=>{
       g.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
       colInterval[col]=btn.dataset.i;
       loadColumn(col);
+    });
+  });
+});
+
+// ── Series toggle (시리즈별 ON/OFF) ──
+document.querySelectorAll('.series-toggle').forEach(g => {
+  const chartId = g.dataset.chart;
+  g.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const isActive = btn.classList.contains('active');
+      const sKey = btn.dataset.s;
+      const chart = allCharts[chartId];
+      if (!chart || !chart.seriesByKey) return;
+      const s = chart.seriesByKey[sKey];
+      if (s) s.applyOptions({ visible: isActive });
     });
   });
 });
