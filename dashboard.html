@@ -151,8 +151,12 @@
       <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>Goldman Breadth × PMI</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
+      <div class="card-top"><div class="left"><h3>골드만 시장폭 (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>ISM 제조업 PMI</h3><span class="price" id="p-pmi">—</span><span class="xdate" id="d-pmi"></span></div></div>
+      <div class="cw cw-sub" id="cw-pmi"><div class="msg" id="msg-pmi">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
   </div>
@@ -433,6 +437,9 @@ function updateHeaderForChart(chartId, time) {
   } else if (chartId === 'goldman') {
     const pe = document.getElementById('p-goldman');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
+  } else if (chartId === 'pmi') {
+    const pe = document.getElementById('p-pmi');
+    if (pe && d.value != null) pe.textContent = d.value.toFixed(1);
   } else {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) {
@@ -450,7 +457,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','breadth','goldman','pmi'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -823,7 +830,7 @@ async function loadUSBreadth(){
   }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
 
-// Goldman Breadth (SPX %52wH − median) × PMI<50 음영
+// Goldman Breadth (SPX %52wH − 구성종목 median)
 async function loadGoldmanBreadth(){
   const intv=colInterval.us;
   const msgEl=document.getElementById('msg-goldman');
@@ -836,33 +843,61 @@ async function loadGoldmanBreadth(){
     const hdrStr=lastG?lastG.value.toFixed(1)+'%p':'—';
     if(hdr)hdr.textContent=hdrStr;
     origValues['goldman']=()=>{if(hdr)hdr.textContent=hdrStr;};
-    // build PMI<50 shading (histogram on hidden overlay scale)
-    const pmiList=(D.ism_pmi_monthly||[]).map(([t,v])=>({t,v})).sort((a,b)=>a.t<b.t?-1:1);
-    const pmiShade=[];
-    let pi=0;
-    for(const pt of sG){
-      while(pi+1<pmiList.length&&pmiList[pi+1].t<=pt.time)pi++;
-      const pmi=pmiList[pi]&&pmiList[pi].t<=pt.time?pmiList[pi].v:null;
-      if(pmi!=null&&pmi<50)pmiShade.push({time:pt.time,value:100,color:'rgba(249,117,131,0.16)'});
-    }
     if(!allCharts['goldman']){
       createChart('goldman','us',{showTimeAxis:true});
       allCharts['goldman'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.1}});
-      // PMI shading (histogram, hidden overlay scale → drawn behind the area)
-      const pmiSeries=allCharts['goldman'].chart.addHistogramSeries({priceScaleId:'pmi-overlay',base:0,lastValueVisible:false,priceLineVisible:false});
-      allCharts['goldman'].chart.priceScale('pmi-overlay').applyOptions({scaleMargins:{top:0,bottom:0},visible:false});
-      // Goldman breadth area (on top)
       const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:'rgb(249,117,131)',topColor:'rgba(249,117,131,0.28)',bottomColor:'rgba(249,117,131,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['goldman'].series=areaS;
-      allCharts['goldman'].seriesPmi=pmiSeries;
       areaS.createPriceLine({price:0,color:'rgba(139,148,158,0.5)',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
     }
     const pG=alignToTimeIndex(sG,'us');
     allCharts['goldman'].series.setData(pG);
     buildDataMap('goldman',pG);
-    allCharts['goldman'].seriesPmi.setData(pmiShade);
     msgEl.style.display='none';
   }catch(e){console.error('loadGoldmanBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
+}
+
+// ISM 제조업 PMI (선 차트, raw monthly → 일별 forward-fill 후 메인 차트 시간축에 정렬)
+async function loadPMI(){
+  const intv=colInterval.us;
+  const msgEl=document.getElementById('msg-pmi');
+  try{
+    const D=await getUSBreadthData();
+    const pmiList=(D.ism_pmi_monthly||[]).map(([t,v])=>({t,v})).filter(x=>x.v!=null).sort((a,b)=>a.t<b.t?-1:1);
+    if(!pmiList.length){msgEl.textContent='⚠ PMI 데이터 없음';return;}
+    // forward-fill PMI monthly values onto the column's daily time index
+    const idx=colTimeIndex.us||[];
+    const rawPts=[];
+    if(idx.length){
+      let pi=0;
+      for(const t of idx){
+        while(pi+1<pmiList.length&&pmiList[pi+1].t<=t)pi++;
+        const v=pmiList[pi]&&pmiList[pi].t<=t?pmiList[pi].v:null;
+        if(v!=null)rawPts.push({time:t,value:v});
+      }
+    } else {
+      pmiList.forEach(p=>rawPts.push({time:p.t,value:p.v}));
+    }
+    let pts=rawPts;
+    if(intv==='1wk')pts=resampleWeekly(pts);
+    const last=pts[pts.length-1];
+    const hdr=document.getElementById('p-pmi');
+    const hdrStr=last?last.value.toFixed(1):'—';
+    if(hdr)hdr.textContent=hdrStr;
+    origValues['pmi']=()=>{if(hdr)hdr.textContent=hdrStr;};
+    if(!allCharts['pmi']){
+      createChart('pmi','us',{showTimeAxis:true});
+      allCharts['pmi'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.1,bottom:0.1}});
+      const s=allCharts['pmi'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts['pmi'].series=s;
+      // 50 참고선만 (경계 표시용, 해석은 사용자 몫)
+      s.createPriceLine({price:50,color:'rgba(139,148,158,0.4)',lineWidth:1,lineStyle:2,axisLabelVisible:true,title:'50'});
+    }
+    const padded=alignToTimeIndex(pts,'us');
+    allCharts['pmi'].series.setData(padded);
+    buildDataMap('pmi',padded);
+    msgEl.style.display='none';
+  }catch(e){console.error('loadPMI',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
 
 // US Fed Rate — ^IRX (13-week T-Bill, tracks Fed Funds Rate closely)
@@ -918,7 +953,7 @@ async function loadColumn(col) {
   if (col === 'kr') {
     await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadPMI()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
