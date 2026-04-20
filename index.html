@@ -16,11 +16,11 @@
   .header h1 { font-size: 17px; color: #f0f6fc; } .header .time { font-size: 12px; color: #8b949e; }
   .main { display: flex; gap: 10px; padding: 10px; max-width: 1600px; margin: 0 auto; }
   .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
-  .col-xline { position: absolute; top: 0; bottom: 14px; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
+  .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
   .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
   .col .card { border-radius: 0; border-bottom: none; }
   .col .card:first-child { border-radius: 10px 10px 0 0; }
-  .col .card:last-child { border-radius: 0; border-bottom: 1px solid #21262d; }
+  .col .card:last-child { border-radius: 0 0 10px 10px; border-bottom: 1px solid #21262d; }
   .card { background: #161b22; border: 1px solid #21262d; overflow: hidden; }
   .card-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid #21262d; background: #1c2128; flex-wrap: wrap; gap: 4px; }
   .card-top .left { display: flex; align-items: baseline; gap: 8px; }
@@ -60,7 +60,7 @@
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
-  .scrollbar { width: 100%; height: 14px; background: #1c2128; border: 1px solid #21262d; border-top: none; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; }
+  .scrollbar { width: 100%; height: 14px; background: #1c2128; border: 1px solid #21262d; border-top: none; border-bottom: 1px solid #21262d; position: relative; cursor: pointer; }
   .sb-thumb { position: absolute; height: 8px; top: 2px; background: #30363d; border-radius: 4px; cursor: grab; min-width: 24px; }
   .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
   .events { max-width: 1600px; margin: 0 auto 20px; padding: 0 10px; display: flex; gap: 10px; }
@@ -115,6 +115,7 @@
       <div class="ma-legend" id="ma-legend-kospi"></div>
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
+    <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kr-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kr-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
@@ -138,7 +139,6 @@
       </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
-    <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
   </div>
   <!-- RIGHT: 미국 -->
   <div class="col" id="col-us">
@@ -153,6 +153,7 @@
       <div class="ma-legend" id="ma-legend-ndx"></div>
       <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
     </div>
+    <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
@@ -179,7 +180,6 @@
       <div class="card-top"><div class="left"><h3>ISM 제조업 PMI</h3><span class="price" id="p-pmi">—</span><span class="xdate" id="d-pmi"></span></div></div>
       <div class="cw cw-sub" id="cw-pmi"><div class="msg" id="msg-pmi">로딩 중...</div></div>
     </div>
-    <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
   </div>
 </div>
 
@@ -313,16 +313,25 @@ function createChart(id, col, opts = {}) {
   const colEl = document.getElementById('col-' + col);
   const xline = document.getElementById('xline-' + col);
   chart.subscribeCrosshairMove(param => {
-    if (param.time) {
+    // Gate: tooltip/xline/header updates only fire when mouse is within barSpacing/2 of the nearest bar.
+    // This mirrors the HTS-style "tooltip only on candle/bar/line" behavior from the 주도주 차트.
+    let onBar = false;
+    let barX = null;
+    if (param.time && param.point) {
+      barX = chart.timeScale().timeToCoordinate(param.time);
+      if (barX != null) {
+        const bs = (chart.timeScale().options && chart.timeScale().options().barSpacing) || 6;
+        const dx = Math.abs(param.point.x - barX);
+        if (dx <= bs / 2) onBar = true;
+      }
+    }
+    if (onBar) {
       // Align xline to exact bar X (not raw mouse X) using timeToCoordinate from the hovered chart.
       // Since all charts in a column share the same timeScale (logical range synced), the bar X is identical.
-      const x = chart.timeScale().timeToCoordinate(param.time);
-      if (x != null) {
-        const elRect = el.getBoundingClientRect();
-        const colRect = colEl.getBoundingClientRect();
-        xline.style.left = (elRect.left - colRect.left + x) + 'px';
-        xline.style.display = 'block';
-      }
+      const elRect = el.getBoundingClientRect();
+      const colRect = colEl.getBoundingClientRect();
+      xline.style.left = (elRect.left - colRect.left + barX) + 'px';
+      xline.style.display = 'block';
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // Show marker dot on sub-charts (not on main index)
