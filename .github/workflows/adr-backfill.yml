@@ -1,0 +1,40 @@
+name: ADR Backfill (manual, one-time)
+
+on:
+  workflow_dispatch:
+    inputs:
+      years:
+        description: "Backfill years (default 10)"
+        required: false
+        default: "10"
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pykrx pandas
+
+      - name: Run backfill
+        run: python scripts/backfill_adr.py ${{ github.event.inputs.years }}
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_adr.json
+          git diff --cached --quiet || git commit -m "chore(adr): backfill ${{ github.event.inputs.years }}y ADR data"
+          git push
