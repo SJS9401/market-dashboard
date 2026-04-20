@@ -123,10 +123,6 @@
       <div class="card-top"><div class="left"><h3>달러/원</h3><span class="price" id="p-usdkrw">—</span><span class="chg flat" id="c-usdkrw"></span><span class="xdate" id="d-usdkrw"></span></div></div>
       <div class="cw cw-sub" id="cw-usdkrw"><div class="msg" id="msg-usdkrw">로딩 중...</div></div>
     </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>미국 기준금리</h3><span class="price" id="p-fedrate-kr">—</span><span class="xdate" id="d-fedrate-kr"></span></div></div>
-      <div class="cw cw-sub" id="cw-fedrate-kr"><div class="msg" id="msg-fedrate-kr">로딩 중...</div></div>
-    </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -157,10 +153,6 @@
     <div class="card">
       <div class="card-top"><div class="left"><h3>Goldman Breadth × PMI</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>미국 기준금리</h3><span class="price" id="p-fedrate">—</span><span class="chg flat" id="c-fedrate"></span><span class="xdate" id="d-fedrate"></span></div></div>
-      <div class="cw cw-sub" id="cw-fedrate"><div class="msg" id="msg-fedrate">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
   </div>
@@ -292,9 +284,20 @@ function createChart(id, col, opts = {}) {
     requestAnimationFrame(() => { syncing = false; });
   });
 
-  // Crosshair sync + header value update + marker dots on sub-charts
+  // Column crosshair overlay line + header value update + marker dots on sub-charts
+  const colEl = document.getElementById('col-' + col);
+  const xline = document.getElementById('xline-' + col);
   chart.subscribeCrosshairMove(param => {
     if (param.time) {
+      // Align xline to exact bar X (not raw mouse X) using timeToCoordinate from the hovered chart.
+      // Since all charts in a column share the same timeScale (logical range synced), the bar X is identical.
+      const x = chart.timeScale().timeToCoordinate(param.time);
+      if (x != null) {
+        const elRect = el.getBoundingClientRect();
+        const colRect = colEl.getBoundingClientRect();
+        xline.style.left = (elRect.left - colRect.left + x) + 'px';
+        xline.style.display = 'block';
+      }
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // Show marker dot on sub-charts (not on main index)
@@ -313,6 +316,7 @@ function createChart(id, col, opts = {}) {
         }
       });
     } else {
+      xline.style.display = 'none';
       restoreHeaders(col);
       // Clear markers on all sub-charts
       const mainId = col === 'kr' ? 'kospi' : 'ndx';
@@ -323,15 +327,7 @@ function createChart(id, col, opts = {}) {
       });
     }
   });
-
-  // Column crosshair overlay line — position from this chart's mousemove
-  const colEl = document.getElementById('col-' + col);
-  const xline = document.getElementById('xline-' + col);
-  el.addEventListener('mousemove', e => {
-    const colRect = colEl.getBoundingClientRect();
-    xline.style.left = (e.clientX - colRect.left) + 'px';
-    xline.style.display = 'block';
-  });
+  // Hide xline when mouse leaves the chart pane entirely
   el.addEventListener('mouseleave', () => { xline.style.display = 'none'; });
 
   // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
@@ -433,15 +429,14 @@ function updateHeaderForChart(chartId, time) {
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
-      pe.textContent = `200MA ${d.above200.toFixed(1)}% / 50MA ${d.above50.toFixed(1)}%`;
+      pe.innerHTML = `<span style="color:rgb(210,175,100)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(57,197,207)">50MA ${d.above50.toFixed(1)}%</span>`;
   } else if (chartId === 'goldman') {
     const pe = document.getElementById('p-goldman');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
   } else {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) {
-      if (chartId === 'fedrate' || chartId === 'fedrate-kr') pe.textContent = d.value.toFixed(2) + '%';
-      else if (chartId === 'usdkrw') pe.textContent = d.value.toLocaleString('en-US', {maximumFractionDigits:2});
+      if (chartId === 'usdkrw') pe.textContent = d.value.toLocaleString('en-US', {maximumFractionDigits:2});
       else pe.textContent = d.value;
     }
   }
@@ -455,7 +450,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw','fedrate-kr'] : ['ndx','us-fg','breadth','goldman','fedrate'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -803,9 +798,9 @@ async function loadUSBreadth(){
     if(intv==='1wk'){s200=resampleWeekly(s200);s50=resampleWeekly(s50);}
     const last200=s200[s200.length-1],last50=s50[s50.length-1];
     const hdr=document.getElementById('p-breadth');
-    const hdrStr=(last200&&last50)?`200MA ${last200.value.toFixed(1)}% / 50MA ${last50.value.toFixed(1)}%`:'—';
-    if(hdr)hdr.textContent=hdrStr;
-    origValues['breadth']=()=>{if(hdr)hdr.textContent=hdrStr;};
+    const hdrHtml=(last200&&last50)?`<span style="color:rgb(210,175,100)">200MA ${last200.value.toFixed(1)}%</span> / <span style="color:rgb(57,197,207)">50MA ${last50.value.toFixed(1)}%</span>`:'—';
+    if(hdr)hdr.innerHTML=hdrHtml;
+    origValues['breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
     if(!allCharts['breadth']){
       createChart('breadth','us',{showTimeAxis:false});
       allCharts['breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
@@ -921,9 +916,9 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW(), loadFedRate('fedrate-kr','kr')]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadFedRate('fedrate','us')]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
