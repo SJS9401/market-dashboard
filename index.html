@@ -120,8 +120,8 @@
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>달러/원</h3><span class="price" id="p-usdkrw">—</span><span class="chg flat" id="c-usdkrw"></span><span class="xdate" id="d-usdkrw"></span></div></div>
-      <div class="cw cw-sub" id="cw-usdkrw"><div class="msg" id="msg-usdkrw">로딩 중...</div></div>
+      <div class="card-top"><div class="left"><h3>한국 수출 YoY</h3><span class="price" id="p-kr-export">—</span><span class="xdate" id="d-kr-export"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
   </div>
@@ -440,11 +440,16 @@ function updateHeaderForChart(chartId, time) {
   } else if (chartId === 'pmi') {
     const pe = document.getElementById('p-pmi');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1);
+  } else if (chartId === 'kr-export') {
+    const pe = document.getElementById('p-kr-export');
+    if (pe) {
+      const fmt = v => v == null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+      pe.innerHTML = `<span style="color:rgb(210,175,100)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
+    }
   } else {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) {
-      if (chartId === 'usdkrw') pe.textContent = d.value.toLocaleString('en-US', {maximumFractionDigits:2});
-      else pe.textContent = d.value;
+      pe.textContent = d.value;
     }
   }
 }
@@ -457,7 +462,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','usdkrw'] : ['ndx','us-fg','breadth','goldman','pmi'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','kr-export'] : ['ndx','us-fg','breadth','goldman','pmi'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -697,6 +702,94 @@ async function loadADR(){
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
 
+// KR 수출 YoY — 3개 cutoff 병합 (월 확정 + 1~20잠정 + 1~10잠정)
+// 데이터 소스: ./data/kr_export.json (로컬 스크립트 kr_export_backfill_local.py로 생성)
+// 각 cutoff별로 YoY(%)를 계산해 forward-fill → 일별 시간축에 정렬
+let _krExportCache = null;
+async function fetchKrExportSeries() {
+  if (_krExportCache) return _krExportCache;
+  const r = await fetch('./data/kr_export.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_export.json fetch failed: ' + r.status);
+  _krExportCache = await r.json();
+  return _krExportCache;
+}
+async function loadKrExport(){
+  const intv = colInterval.kr;
+  const msgEl = document.getElementById('msg-kr-export');
+  try {
+    const D = await fetchKrExportSeries();
+    const idx = colTimeIndex.kr || [];
+    // Build forward-filled series on the column's time index (daily or weekly)
+    const buildSeries = (arr) => {
+      const list = (arr || [])
+        .filter(x => x && x.yoy != null && x.period)
+        .map(x => ({ t: x.period + '-01', v: x.yoy }))
+        .sort((a, b) => a.t < b.t ? -1 : 1);
+      if (!list.length) return [];
+      const rawPts = [];
+      if (idx.length) {
+        let pi = 0;
+        for (const t of idx) {
+          while (pi + 1 < list.length && list[pi + 1].t <= t) pi++;
+          const v = list[pi] && list[pi].t <= t ? list[pi].v : null;
+          if (v != null) rawPts.push({ time: t, value: v });
+        }
+      } else {
+        list.forEach(p => rawPts.push({ time: p.t, value: p.v }));
+      }
+      return rawPts;
+    };
+    let sM  = buildSeries(D.monthly_confirmed);
+    let s20 = buildSeries(D.partial_1_20);
+    let s10 = buildSeries(D.partial_1_10);
+    if (intv === '1wk') { sM = resampleWeekly(sM); s20 = resampleWeekly(s20); s10 = resampleWeekly(s10); }
+
+    const fmt = v => (v == null) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+    const lastM  = sM[sM.length - 1];
+    const last20 = s20[s20.length - 1];
+    const last10 = s10[s10.length - 1];
+    const hdr = document.getElementById('p-kr-export');
+    const hdrHtml = `<span style="color:rgb(210,175,100)">월 ${fmt(lastM && lastM.value)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(last20 && last20.value)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(last10 && last10.value)}</span>`;
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues['kr-export'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+
+    if (!allCharts['kr-export']) {
+      createChart('kr-export', 'kr', { showTimeAxis: true });
+      allCharts['kr-export'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const gold = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const cyan = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const pink = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts['kr-export'].series  = gold;
+      allCharts['kr-export'].series2 = cyan;
+      allCharts['kr-export'].series3 = pink;
+      // 0% 참고선
+      gold.createPriceLine({ price: 0, color: 'rgba(139,148,158,0.5)', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
+    }
+    const pM  = alignToTimeIndex(sM,  'kr');
+    const p20 = alignToTimeIndex(s20, 'kr');
+    const p10 = alignToTimeIndex(s10, 'kr');
+    allCharts['kr-export'].series.setData(pM);
+    allCharts['kr-export'].series2.setData(p20);
+    allCharts['kr-export'].series3.setData(p10);
+
+    // Combined crosshair map — 3개 시리즈의 time별 값 조합
+    const cmap = {};
+    const mMapM = {}; pM.forEach(x => mMapM[x.time] = x.value);
+    const mMap2 = {}; p20.forEach(x => mMap2[x.time] = x.value);
+    const mMap1 = {}; p10.forEach(x => mMap1[x.time] = x.value);
+    const allTimes = new Set([...Object.keys(mMapM), ...Object.keys(mMap2), ...Object.keys(mMap1)]);
+    for (const t of allTimes) {
+      cmap[t] = { time: t, mYoY: mMapM[t] != null ? mMapM[t] : null, y20: mMap2[t] != null ? mMap2[t] : null, y10: mMap1[t] != null ? mMap1[t] : null };
+    }
+    chartDataMap['kr-export'] = cmap;
+
+    msgEl.style.display = 'none';
+  } catch (e) {
+    console.error('loadKrExport', e);
+    msgEl.textContent = '⚠ kr_export.json 로드 실패';
+  }
+}
+
 // US Fear/Greed (DIY 5-factor: momentum/RSI/breadth/volatility/safe-haven)
 // Mirrors KR F&G structure but uses SPY+TLT for safe-haven instead of USD/KRW
 function calcUsFG(ndxCandles, tltCandles) {
@@ -762,27 +855,8 @@ async function loadUSFG() {
   } catch (e) { console.error('US FG', e); msgEl.textContent = '⚠ 실패'; }
 }
 
-// USD/KRW — with fallback tickers
-async function loadUSDKRW(){
-  const range=colRange.kr, intv=colInterval.kr;
-  const msgEl=document.getElementById('msg-usdkrw');
-  const syms=FALLBACKS.usdkrw;
-  const results=await Promise.allSettled(syms.map(s=>getCachedData(s,range)));
-  const winner=results.find(r=>r.status==='fulfilled'&&r.value.candles.length);
-  if(winner){
-    const{candles,price,prev}=winner.value;
-    let pts=candles.map(x=>({time:x.time,value:x.close}));
-    if(intv==='1wk')pts=resampleWeekly(pts);
-    showPrice('usdkrw',price,prev);
-    origValues['usdkrw']=()=>showPrice('usdkrw',price,prev);
-    if(!allCharts['usdkrw']){createChart('usdkrw','kr',{showTimeAxis:true});allCharts['usdkrw'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      const s=allCharts['usdkrw'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      allCharts['usdkrw'].series=s;}
-    const krwPadded=alignToTimeIndex(pts,'kr');allCharts['usdkrw'].series.setData(krwPadded);buildDataMap('usdkrw',krwPadded);
-    // fitContent skipped — synced from main chart
-    msgEl.style.display='none';
-  }else{console.error('USDKRW all failed');msgEl.textContent='⚠ 실패';}
-}
+// USD/KRW UI 패널 제거 (2026-04-20). FALLBACKS.usdkrw 및 getCachedData 경유 fetch는
+// loadKrFG의 Safe Haven factor에서 여전히 사용되므로 유지.
 
 // ── US breadth real data (Goldman pipeline — us_breadth.json) ──
 let usBreadthCache=null;
@@ -951,7 +1025,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadUSDKRW()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadPMI()]);
   }
