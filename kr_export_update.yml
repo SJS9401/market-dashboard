@@ -1,0 +1,72 @@
+# KR 수출 YoY 자동 갱신
+# ----------------------------------------------------------
+# tradedata.go.kr 내부 AJAX 엔드포인트에서 최신 데이터를 pull → kr_export.json 갱신 → 자동 커밋
+#
+# 스케줄 설명 (관세청 데이터 공개 창 08:30~11:00 KST 커버):
+#   - 매일 00:35 UTC = 09:35 KST  (아침 보도자료 직후 1차)
+#   - 매일 03:05 UTC = 12:05 KST  (내부 DB 지연분 회수 2차)
+#   - workflow_dispatch: Actions 탭에서 수동 실행 가능
+#
+# ※ GitHub Actions cron은 정각(0/30분)에 지연이 잦아 :35 / :05 의 off-peak minute 사용.
+# 갱신 없는 날(대부분의 날)에는 JSON 내용이 동일해 커밋이 skip 되어 로그만 남음.
+# tradedata.go.kr 공식 공개: 1-10 잠정 매월 11~12일 / 1-20 잠정 21~22일 / 월 확정 익월 15일경.
+# ----------------------------------------------------------
+
+name: KR Export YoY Update
+
+on:
+  schedule:
+    - cron: '35 0 * * *'   # 09:35 KST — 아침 발표 직후
+    - cron: '5 3 * * *'    # 12:05 KST — 지연분 회수
+  workflow_dispatch:        # 수동 실행
+
+permissions:
+  contents: write           # kr_export.json 커밋/푸시 권한
+
+concurrency:
+  group: kr-export-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 백필 스크립트 실행
+        run: python -u kr_export_backfill_local.py
+
+      - name: JSON 구조 검증
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open('kr_export.json'))
+          for k in ('monthly_confirmed', 'partial_1_20', 'partial_1_10'):
+              assert k in d, f'missing key: {k}'
+              assert isinstance(d[k], list) and len(d[k]) > 0, f'empty: {k}'
+          m = d['monthly_confirmed'][-1]
+          print(f"latest monthly: {m['period']} ({m['priod_dt']}) total_usd_k={m['total_usd_k']}")
+          print(f"confirmed={len(d['monthly_confirmed'])}  1-20={len(d['partial_1_20'])}  1-10={len(d['partial_1_10'])}")
+          PY
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add kr_export.json
+          if git diff --cached --quiet; then
+            echo "::notice::kr_export.json 변경 없음 — 커밋 생략"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): kr_export.json 자동 갱신 (${TS})"
+            git push
+            echo "::notice::kr_export.json 갱신 & 푸시 완료"
+          fi
