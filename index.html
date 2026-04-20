@@ -708,7 +708,7 @@ async function loadADR(){
 let _krExportCache = null;
 async function fetchKrExportSeries() {
   if (_krExportCache) return _krExportCache;
-  const r = await fetch('./data/kr_export.json?_t=' + Date.now());
+  const r = await fetch('./kr_export.json?_t=' + Date.now());
   if (!r.ok) throw new Error('kr_export.json fetch failed: ' + r.status);
   _krExportCache = await r.json();
   return _krExportCache;
