@@ -651,20 +651,40 @@ async function loadKrFG() {
   } catch(e){console.error('KR FG',e);msgEl.textContent='⚠ 실패';}
 }
 
-// KR ADR
+// KR ADR — 정통 breadth 기반 ADR(20): Σ(20일 상승종목수) / Σ(20일 하락종목수) × 100
+// 데이터 소스: ./data/kr_adr.json (GitHub Actions가 pykrx로 KRX 데이터 매일 집계)
+const ADR_JSON_URL = './data/kr_adr.json';
+let _adrCache = null;
+async function fetchAdrSeries() {
+  if (_adrCache) return _adrCache;
+  const r = await fetch(ADR_JSON_URL + '?_t=' + Date.now());
+  if (!r.ok) throw new Error('ADR JSON fetch failed: ' + r.status);
+  _adrCache = await r.json();
+  return _adrCache;
+}
+function filterAdrByRange(records, range) {
+  if (!records.length) return records;
+  const last = new Date(records[records.length - 1].date + 'T00:00:00');
+  const rMap = {'10y': 3650, '5y': 1825, '3y': 1095, '2y': 730, '1y': 365, '6m': 182, '3m': 91, '1m': 31};
+  const days = rMap[range] || 3650;
+  const cutoff = new Date(last); cutoff.setDate(cutoff.getDate() - days);
+  const cutoffStr = cutoff.toISOString().slice(0,10);
+  return records.filter(r => r.date >= cutoffStr);
+}
 async function loadADR(){
   const range=colRange.kr, intv=colInterval.kr;
   const msgEl=document.getElementById('msg-adr');
   try{
-    const{candles}=await getCachedData('^KS11',range);let out=[];
-    for(let i=20;i<candles.length;i++){let u=0;for(let j=i-19;j<=i;j++)if(candles[j].close>candles[j].open)u++;out.push({time:candles[i].time,value:Math.round(u/20*200)})}
-    if(intv==='1wk')out=resampleWeekly(out);
+    const all = await fetchAdrSeries();
+    const withAdr = all.filter(r => r.adr != null);
+    const filtered = filterAdrByRange(withAdr, range);
+    let out = filtered.map(r => ({time: r.date, value: r.adr}));
+    if(intv==='1wk') out=resampleWeekly(out);
     const last=out[out.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
     origValues['adr']=()=>{document.getElementById('p-adr').textContent=last?last.value:'—'};
     if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});allCharts['adr'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('adr','rgb(210,175,100)');}
     const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
-    addZoneLines(allCharts['adr'].series,[{price:140,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:60,color:'#3182f6'}]);
-    // fitContent skipped — synced from main chart
+    addZoneLines(allCharts['adr'].series,[{price:120,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:80,color:'#3182f6'}]);
     msgEl.style.display='none';
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
@@ -971,9 +991,9 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'04/17',cat:'IPO',ev:'코스모로보틱스 신규상장 (코스닥)',note:'웨어러블 재활로봇, 공모가 5,300~6,000원'},
-    {d:'04/17',cat:'정책',ev:'위성통신 주파수 재배치 보고서 마감',note:'골든돔·위성통신'},
-    {d:'04/17',cat:'학회',ev:'AACR 미국 암 학회 (~4/22)',note:'리가켐바이오, 에이비엘바이오 등'},
+    {d:'04/18',cat:'지정학',ev:'미-이란 2차 협상 (주말 4/18~19)',note:'호르무즈 개방 직후 즉각 논의, 4/22 휴전 만료 전 합의 시도'},
+    {d:'04/19',cat:'학회',ev:'AACR 미국 암 학회 마지막날',note:'리가켐바이오, 에이비엘바이오 등'},
+    {d:'04/20',cat:'시장구조',ev:'SNDK 나스닥100 편입',note:'아틀라시안(TEAM) 대체, 지수 편입 자금 유입'},
     {d:'04/20',cat:'IPO',ev:'채비(구.대영채비) 공모청약 (~4/21)',note:'전기차 충전 솔루션'},
     {d:'04/21',cat:'실적',ev:'RTX(RTX)',note:'방산 BMO 확정'},
     {d:'04/21',cat:'정책',ev:'차기 한은 총재 임기시작',note:'신현송 교수 — 스테이블코인 부정적'},
@@ -1045,7 +1065,9 @@ function setupScrollbar(col, mainId) {
       else if(i===lastTodayIdx){cls='today-last';}
       else{cls='today';}
     }else if(e.isThisWeek){cls='soon';}
-    const dateCell=e.diff===0?`<span class="ev-date-badge">${e.d}</span>`:e.d;
+    const dowNames=['일','월','화','수','목','금','토'];
+    const dLabel=`${e.d}(${dowNames[e.evDate.getDay()]})`;
+    const dateCell=e.diff===0?`<span class="ev-date-badge">${dLabel}</span>`:dLabel;
     tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}</td><td style="color:#8b949e">${e.note}</td></tr>`;
   });
 })();
