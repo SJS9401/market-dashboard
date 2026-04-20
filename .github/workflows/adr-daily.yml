@@ -1,0 +1,38 @@
+name: ADR Daily Update
+
+on:
+  schedule:
+    # 매일 KST 18:30 (UTC 09:30) — 장 마감(15:30) 2~3시간 후, 데이터 확정 시점
+    - cron: "30 9 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pykrx pandas
+
+      - name: Run daily update
+        run: python scripts/update_adr.py
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_adr.json
+          git diff --cached --quiet || git commit -m "chore(adr): daily update $(date -u +%Y-%m-%d)"
+          git push
