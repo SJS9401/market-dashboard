@@ -806,6 +806,22 @@ async function loadKrExport(){
     allCharts['kr-export'].series2.setData(p20);
     allCharts['kr-export'].series3.setData(p10);
 
+    // 잠정치 선에 월별 업데이트 지점 마커 (가시성 개선)
+    // forward-fill된 시리즈에서 값이 바뀌는 지점 = 신규 월별 데이터 반영 시점
+    const makeUpdateMarkers = (padded, color) => {
+      const out = [];
+      for (let i = 0; i < padded.length; i++) {
+        if (padded[i].value == null) continue;
+        const prev = i > 0 ? padded[i-1].value : null;
+        if (prev == null || Math.abs(padded[i].value - prev) > 1e-9) {
+          out.push({ time: padded[i].time, position: 'inBar', color, shape: 'circle', size: 1 });
+        }
+      }
+      return out;
+    };
+    allCharts['kr-export'].series2.setMarkers(makeUpdateMarkers(p20, 'rgb(57,197,207)'));
+    allCharts['kr-export'].series3.setMarkers(makeUpdateMarkers(p10, 'rgb(249,117,131)'));
+
     // Combined crosshair map — 3개 시리즈의 time별 값 조합 (forward-fill된 pM 기준)
     const cmap = {};
     const mMapM = {}; pM.forEach(x => mMapM[x.time] = x.value);
