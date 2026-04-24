@@ -645,7 +645,7 @@ async function loadMDD(indexId, mddId, col) {
 }
 
 // KR Fear/Greed
-function calcKrFG(kospi, fx) {
+function calcKrFG(kospi, fx, adrMap) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
   const sma125=calcSMA(c,125),rsi=calcRSI(c);
   const ret=[];for(let i=1;i<c.length;i++)ret.push(Math.log(c[i]/c[i-1]));
@@ -656,6 +656,8 @@ function calcKrFG(kospi, fx) {
   }
   const fxMap={};if(fx)fx.forEach(x=>{fxMap[x.time]=x.close});
   const fxA=[];let lf=null;for(const tt of t){if(fxMap[tt])lf=fxMap[tt];fxA.push(lf)}
+  // Phase 1: ADR forward-fill array (같은 날짜에 데이터 없으면 직전 ADR 유지)
+  const adrA=[];let la=null;for(const tt of t){if(adrMap&&adrMap[tt]!=null)la=adrMap[tt];adrA.push(la)}
   const out=[];
   for(let i=125;i<c.length;i++){
     const ma=sma125[i];if(!ma)continue;
@@ -663,8 +665,10 @@ function calcKrFG(kospi, fx) {
     const v2=v20[i-1],v5=v50[i-1];if(v2==null||v5==null)continue;
     const mom=Math.max(0,Math.min(100,50+((c[i]-ma)/ma)*300));
     const str=Math.max(0,Math.min(100,(r-25)*2));
-    let ups=0;for(let j=i-19;j<=i;j++)if(kospi[j].close>kospi[j].open)ups++;
-    const brd=(ups/20)*100;
+    // Phase 1: Breadth — ADR 우선, 없으면 양봉 비율 fallback
+    let brd;
+    if(adrA[i]!=null){brd=Math.max(0,Math.min(100,(adrA[i]-80)/(120-80)*100))}
+    else{let ups=0;for(let j=i-19;j<=i;j++)if(kospi[j].close>kospi[j].open)ups++;brd=(ups/20)*100}
     const vol=Math.max(0,Math.min(100,100-(v2/v5-0.5)*100));
     let sh=50;if(i>=20&&fxA[i]&&fxA[i-20]){const sr=(c[i]-c[i-20])/c[i-20]*100,fr=(fxA[i]-fxA[i-20])/fxA[i-20]*100;sh=Math.max(0,Math.min(100,50+(sr-fr*3)*3))}
     out.push({time:t[i],value:Math.max(0,Math.min(100,Math.round(mom*.25+str*.2+brd*.15+vol*.25+sh*.15)))});
@@ -680,7 +684,17 @@ async function loadKrFG() {
     const fxWinner=fxResults.find(r=>r.status==='fulfilled'&&r.value.candles.length);
     const [k,fx]=await Promise.all([getCachedData('^KS11',range).catch(()=>null),Promise.resolve(fxWinner?fxWinner.value:null)]);
     if(!k||k.candles.length<150)throw 0;
-    let data=calcKrFG(k.candles,fx?fx.candles:null);
+    // Phase 1: ADR 데이터를 Breadth factor로 사용 (데이터 없으면 양봉 비율 fallback)
+    let adrMap=null;
+    try{
+      const adrRecords=await fetchAdrSeries();
+      if(Array.isArray(adrRecords)&&adrRecords.length){
+        adrMap={};
+        adrRecords.forEach(rec=>{if(rec&&rec.adr!=null&&rec.date)adrMap[rec.date]=rec.adr});
+        if(Object.keys(adrMap).length===0)adrMap=null;
+      }
+    }catch(e){adrMap=null;/* ADR JSON 비어있거나 아직 배포 전 → 양봉 fallback 사용 */}
+    let data=calcKrFG(k.candles,fx?fx.candles:null,adrMap);
     if(intv==='1wk')data=resampleWeekly(data);
     const last=data[data.length-1],score=last?last.value:50,lbl=getLabel(score);
     document.getElementById('kr-fg-val').textContent=score;
@@ -695,14 +709,31 @@ async function loadKrFG() {
 }
 
 // KR ADR — 정통 breadth 기반 ADR(20): Σ(20일 상승종목수) / Σ(20일 하락종목수) × 100
-// 데이터 소스: ./data/kr_adr.json (GitHub Actions가 pykrx로 KRX 데이터 매일 집계)
+// 데이터 소스: ./data/kr_adr.json (KRX OpenAPI raw HTTP 스크립트로 생성 → 리포에 수동/자동 업로드)
+// 원본 스키마: {series: [{d: "YYYYMMDD", adr20: ratio, up, dn, un, ...}, ...]}
+// → 정규화: [{date: "YYYY-MM-DD", adr: percentage, ...raw}, ...] (대시보드 내부 표준)
 const ADR_JSON_URL = './data/kr_adr.json';
 let _adrCache = null;
 async function fetchAdrSeries() {
   if (_adrCache) return _adrCache;
   const r = await fetch(ADR_JSON_URL + '?_t=' + Date.now());
   if (!r.ok) throw new Error('ADR JSON fetch failed: ' + r.status);
-  _adrCache = await r.json();
+  const raw = await r.json();
+  // 원본 형태 2가지 허용: (1) {series:[...]} 구조체, (2) flat [...] 배열
+  const src = (raw && Array.isArray(raw.series)) ? raw.series : (Array.isArray(raw) ? raw : []);
+  // 정규화: d → date (YYYYMMDD → YYYY-MM-DD), adr20 → adr (ratio × 100)
+  _adrCache = src.map(rec => {
+    if (!rec) return null;
+    // date 필드: 기존 rec.date 있으면 그대로, 없으면 rec.d 변환
+    let date = rec.date;
+    if (!date && typeof rec.d === 'string' && rec.d.length === 8) {
+      date = rec.d.slice(0, 4) + '-' + rec.d.slice(4, 6) + '-' + rec.d.slice(6, 8);
+    }
+    // adr 필드: 기존 rec.adr 있으면 그대로, 없으면 rec.adr20 × 100
+    let adr = (rec.adr != null) ? rec.adr : (rec.adr20 != null ? rec.adr20 * 100 : null);
+    if (adr != null) adr = Math.round(adr * 100) / 100; // 소수 2자리
+    return { ...rec, date, adr };
+  }).filter(r => r && r.date);
   return _adrCache;
 }
 function filterAdrByRange(records, range) {
@@ -842,7 +873,7 @@ async function loadKrExport(){
 
 // US Fear/Greed (DIY 5-factor: momentum/RSI/breadth/volatility/safe-haven)
 // Mirrors KR F&G structure but uses SPY+TLT for safe-haven instead of USD/KRW
-function calcUsFG(ndxCandles, tltCandles) {
+function calcUsFG(ndxCandles, tltCandles, breadthMap) {
   const c = ndxCandles.map(x => x.close), t = ndxCandles.map(x => x.time);
   const sma125 = calcSMA(c, 125), rsi = calcRSI(c);
   // Log returns for volatility
@@ -855,6 +886,8 @@ function calcUsFG(ndxCandles, tltCandles) {
   // TLT (bond) price map for safe-haven
   const tltMap = {}; if (tltCandles) tltCandles.forEach(x => { tltMap[x.time] = x.close; });
   const tltA = []; let lt = null; for (const tt of t) { if (tltMap[tt]) lt = tltMap[tt]; tltA.push(lt); }
+  // Phase 1: above_200ma forward-fill (없으면 null 유지 → 양봉 fallback)
+  const brA = []; let lb = null; for (const tt of t) { if (breadthMap && breadthMap[tt] != null) lb = breadthMap[tt]; brA.push(lb); }
   const out = [];
   for (let i = 125; i < c.length; i++) {
     const ma = sma125[i]; if (!ma) continue;
@@ -864,9 +897,10 @@ function calcUsFG(ndxCandles, tltCandles) {
     const mom = Math.max(0, Math.min(100, 50 + ((c[i] - ma) / ma) * 300));
     // 2. Strength (20%): RSI normalized
     const str = Math.max(0, Math.min(100, (r - 25) * 2));
-    // 3. Breadth (15%): % of up candles in last 20 days
-    let ups = 0; for (let j = i - 19; j <= i; j++) if (ndxCandles[j].close > ndxCandles[j].open) ups++;
-    const brd = (ups / 20) * 100;
+    // 3. Breadth (15%): Phase 1 — above_200ma(S&P500) 직접 주입, 없으면 양봉 fallback
+    let brd;
+    if (brA[i] != null) { brd = Math.max(0, Math.min(100, brA[i])); }
+    else { let ups = 0; for (let j = i - 19; j <= i; j++) if (ndxCandles[j].close > ndxCandles[j].open) ups++; brd = (ups / 20) * 100; }
     // 4. Volatility (25%): low short-term vol vs long-term = greed
     const vol = Math.max(0, Math.min(100, 100 - (v2 / v5 - 0.5) * 100));
     // 5. Safe Haven (15%): stock return vs bond(TLT) return over 20 days
@@ -891,7 +925,19 @@ async function loadUSFG() {
       getCachedData('TLT', range).catch(() => null)
     ]);
     if (!ndx || ndx.candles.length < 150) throw 0;
-    let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null);
+    // Phase 1: above_200ma(S&P500) 를 Breadth factor로 직접 주입 (us_breadth.json 캐시 재사용)
+    let breadthMap = null;
+    try {
+      const D = await getUSBreadthData();
+      if (D && Array.isArray(D.dates) && Array.isArray(D.pct_above_200ma)) {
+        breadthMap = {};
+        for (let i = 0; i < D.dates.length; i++) {
+          if (D.pct_above_200ma[i] != null) breadthMap[D.dates[i]] = D.pct_above_200ma[i];
+        }
+        if (Object.keys(breadthMap).length === 0) breadthMap = null;
+      }
+    } catch (e) { breadthMap = null; /* us_breadth.json 미도착 시 양봉 fallback */ }
+    let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null, breadthMap);
     if (intv === '1wk') data = resampleWeekly(data);
     const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
     document.getElementById('us-fg-val').textContent = score;
