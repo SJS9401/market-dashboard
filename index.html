@@ -231,6 +231,8 @@ async function getData(sym,range){
 // ── Math helpers ──
 function calcRSI(closes,period=14){const rsi=[];let ag=0,al=0;for(let i=1;i<closes.length;i++){const d=closes[i]-closes[i-1],g=d>0?d:0,l=d<0?-d:0;if(i<=period){ag+=g;al+=l;if(i===period){ag/=period;al/=period;rsi.push(100-100/(1+(al===0?100:ag/al)))}else rsi.push(null)}else{ag=(ag*(period-1)+g)/period;al=(al*(period-1)+l)/period;rsi.push(100-100/(1+(al===0?100:ag/al)))}}return rsi}
 function calcSMA(arr,p){const r=[];for(let i=0;i<arr.length;i++){if(i<p-1){r.push(null);continue}let s=0;for(let j=i-p+1;j<=i;j++)s+=arr[j];r.push(s/p)}return r}
+// Phase 2: null-safe SMA for forward-filled series (VIX/VKOSPI 앞부분 null 허용)
+function safeSMA(arr,p){const r=[];for(let i=0;i<arr.length;i++){if(i<p-1){r.push(null);continue}let s=0,cnt=0;for(let j=i-p+1;j<=i;j++)if(arr[j]!=null){s+=arr[j];cnt++}r.push(cnt===p?s/p:null)}return r}
 
 // ═══════════════════════════════════
 // CHART SYSTEM — synced columns
@@ -644,8 +646,9 @@ async function loadMDD(indexId, mddId, col) {
   } catch(e) { console.error('MDD', e); msgEl.textContent = '⚠ 실패'; }
 }
 
-// KR Fear/Greed
-function calcKrFG(kospi, fx, adrMap) {
+// KR Fear/Greed — Phase 2: VKOSPI(Volatility) + KODEX KTB10Y(Safe Haven) 고도화
+// Phase 1 Breadth(ADR) 유지. VKOSPI/bond fetch 실패 시 각 factor 독립 fallback (realized σ / FX 프록시)
+function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
   const sma125=calcSMA(c,125),rsi=calcRSI(c);
   const ret=[];for(let i=1;i<c.length;i++)ret.push(Math.log(c[i]/c[i-1]));
@@ -656,21 +659,46 @@ function calcKrFG(kospi, fx, adrMap) {
   }
   const fxMap={};if(fx)fx.forEach(x=>{fxMap[x.time]=x.close});
   const fxA=[];let lf=null;for(const tt of t){if(fxMap[tt])lf=fxMap[tt];fxA.push(lf)}
-  // Phase 1: ADR forward-fill array (같은 날짜에 데이터 없으면 직전 ADR 유지)
+  // Phase 1: ADR forward-fill
   const adrA=[];let la=null;for(const tt of t){if(adrMap&&adrMap[tt]!=null)la=adrMap[tt];adrA.push(la)}
+  // Phase 2: KODEX KTB10Y(148070.KS) forward-fill for Safe Haven
+  const bondMap={};if(bondCandles)bondCandles.forEach(x=>{bondMap[x.time]=x.close});
+  const bondA=[];let lbd=null;for(const tt of t){if(bondMap[tt])lbd=bondMap[tt];bondA.push(lbd)}
+  // Phase 2: ^VKOSPI forward-fill for Volatility + 50MA
+  const vkMap={};if(vkospiCandles)vkospiCandles.forEach(x=>{vkMap[x.time]=x.close});
+  const vkA=[];let lvk=null;for(const tt of t){if(vkMap[tt])lvk=vkMap[tt];vkA.push(lvk)}
+  const vkSMA50=safeSMA(vkA,50);
   const out=[];
   for(let i=125;i<c.length;i++){
     const ma=sma125[i];if(!ma)continue;
     const r=rsi[i-1];if(r==null)continue;
     const v2=v20[i-1],v5=v50[i-1];if(v2==null||v5==null)continue;
+    // 1. Momentum (25%)
     const mom=Math.max(0,Math.min(100,50+((c[i]-ma)/ma)*300));
+    // 2. Strength (20%)
     const str=Math.max(0,Math.min(100,(r-25)*2));
-    // Phase 1: Breadth — ADR 우선, 없으면 양봉 비율 fallback
+    // 3. Breadth (15%) — ADR 우선, 없으면 양봉 비율 fallback
     let brd;
     if(adrA[i]!=null){brd=Math.max(0,Math.min(100,(adrA[i]-80)/(120-80)*100))}
     else{let ups=0;for(let j=i-19;j<=i;j++)if(kospi[j].close>kospi[j].open)ups++;brd=(ups/20)*100}
-    const vol=Math.max(0,Math.min(100,100-(v2/v5-0.5)*100));
-    let sh=50;if(i>=20&&fxA[i]&&fxA[i-20]){const sr=(c[i]-c[i-20])/c[i-20]*100,fr=(fxA[i]-fxA[i-20])/fxA[i-20]*100;sh=Math.max(0,Math.min(100,50+(sr-fr*3)*3))}
+    // 4. Volatility (25%) — VKOSPI vs 50MA 우선, 없으면 realized σ fallback
+    let vol;
+    if(vkA[i]!=null&&vkSMA50[i]!=null){
+      // VKOSPI가 50MA 대비 높을수록 공포 → vol score 낮아짐
+      vol=Math.max(0,Math.min(100,100-(vkA[i]/vkSMA50[i]-1)*100));
+    }else{
+      vol=Math.max(0,Math.min(100,100-(v2/v5-0.5)*100));
+    }
+    // 5. Safe Haven (15%) — KOSPI 20d vs KTB10Y 20d 우선, 없으면 FX 프록시 fallback
+    let sh=50;
+    if(i>=20&&bondA[i]&&bondA[i-20]){
+      const sr=(c[i]-c[i-20])/c[i-20]*100;
+      const br=(bondA[i]-bondA[i-20])/bondA[i-20]*100;
+      sh=Math.max(0,Math.min(100,50+(sr-br)*3));
+    }else if(i>=20&&fxA[i]&&fxA[i-20]){
+      const sr=(c[i]-c[i-20])/c[i-20]*100,fr=(fxA[i]-fxA[i-20])/fxA[i-20]*100;
+      sh=Math.max(0,Math.min(100,50+(sr-fr*3)*3));
+    }
     out.push({time:t[i],value:Math.max(0,Math.min(100,Math.round(mom*.25+str*.2+brd*.15+vol*.25+sh*.15)))});
   }
   return out;
@@ -682,7 +710,13 @@ async function loadKrFG() {
   try {
     const fxResults=await Promise.allSettled(FALLBACKS.usdkrw.map(s=>getCachedData(s,range)));
     const fxWinner=fxResults.find(r=>r.status==='fulfilled'&&r.value.candles.length);
-    const [k,fx]=await Promise.all([getCachedData('^KS11',range).catch(()=>null),Promise.resolve(fxWinner?fxWinner.value:null)]);
+    // Phase 2: bond(148070.KS) / vkospi(^VKOSPI) 병렬 fetch — 각 실패 시 독립 fallback
+    const [k,fx,bond,vkospi]=await Promise.all([
+      getCachedData('^KS11',range).catch(()=>null),
+      Promise.resolve(fxWinner?fxWinner.value:null),
+      getCachedData('148070.KS',range).catch(()=>null),
+      getCachedData('^VKOSPI',range).catch(()=>null)
+    ]);
     if(!k||k.candles.length<150)throw 0;
     // Phase 1: ADR 데이터를 Breadth factor로 사용 (데이터 없으면 양봉 비율 fallback)
     let adrMap=null;
@@ -694,7 +728,8 @@ async function loadKrFG() {
         if(Object.keys(adrMap).length===0)adrMap=null;
       }
     }catch(e){adrMap=null;/* ADR JSON 비어있거나 아직 배포 전 → 양봉 fallback 사용 */}
-    let data=calcKrFG(k.candles,fx?fx.candles:null,adrMap);
+    let data=calcKrFG(k.candles,fx?fx.candles:null,adrMap,
+                      bond?bond.candles:null, vkospi?vkospi.candles:null);
     if(intv==='1wk')data=resampleWeekly(data);
     const last=data[data.length-1],score=last?last.value:50,lbl=getLabel(score);
     document.getElementById('kr-fg-val').textContent=score;
@@ -871,12 +906,12 @@ async function loadKrExport(){
   }
 }
 
-// US Fear/Greed (DIY 5-factor: momentum/RSI/breadth/volatility/safe-haven)
-// Mirrors KR F&G structure but uses SPY+TLT for safe-haven instead of USD/KRW
-function calcUsFG(ndxCandles, tltCandles, breadthMap) {
+// US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
+// HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
+function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles) {
   const c = ndxCandles.map(x => x.close), t = ndxCandles.map(x => x.time);
   const sma125 = calcSMA(c, 125), rsi = calcRSI(c);
-  // Log returns for volatility
+  // Log returns for volatility fallback
   const ret = []; for (let i = 1; i < c.length; i++) ret.push(Math.log(c[i] / c[i - 1]));
   const v20 = [], v50 = [];
   for (let i = 0; i < ret.length; i++) {
@@ -888,30 +923,59 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap) {
   const tltA = []; let lt = null; for (const tt of t) { if (tltMap[tt]) lt = tltMap[tt]; tltA.push(lt); }
   // Phase 1: above_200ma forward-fill (없으면 null 유지 → 양봉 fallback)
   const brA = []; let lb = null; for (const tt of t) { if (breadthMap && breadthMap[tt] != null) lb = breadthMap[tt]; brA.push(lb); }
+  // Phase 2: ^VIX forward-fill + 50MA for Volatility factor
+  const vixMap = {}; if (vixCandles) vixCandles.forEach(x => { vixMap[x.time] = x.close; });
+  const vixA = []; let lvx = null; for (const tt of t) { if (vixMap[tt]) lvx = vixMap[tt]; vixA.push(lvx); }
+  const vixSMA50 = safeSMA(vixA, 50);
+  // Phase 2: HYG forward-fill for Junk Bond factor
+  const hygMap = {}; if (hygCandles) hygCandles.forEach(x => { hygMap[x.time] = x.close; });
+  const hygA = []; let lh = null; for (const tt of t) { if (hygMap[tt]) lh = hygMap[tt]; hygA.push(lh); }
+  const junkBondEnabled = !!(hygCandles && tltCandles);
   const out = [];
   for (let i = 125; i < c.length; i++) {
     const ma = sma125[i]; if (!ma) continue;
     const r = rsi[i - 1]; if (r == null) continue;
     const v2 = v20[i - 1], v5 = v50[i - 1]; if (v2 == null || v5 == null) continue;
-    // 1. Momentum (25%): price vs SMA(125)
+    // 1. Momentum: price vs SMA(125)
     const mom = Math.max(0, Math.min(100, 50 + ((c[i] - ma) / ma) * 300));
-    // 2. Strength (20%): RSI normalized
+    // 2. Strength: RSI normalized
     const str = Math.max(0, Math.min(100, (r - 25) * 2));
-    // 3. Breadth (15%): Phase 1 — above_200ma(S&P500) 직접 주입, 없으면 양봉 fallback
+    // 3. Breadth: above_200ma(S&P500) 직접 주입, 없으면 양봉 fallback
     let brd;
     if (brA[i] != null) { brd = Math.max(0, Math.min(100, brA[i])); }
     else { let ups = 0; for (let j = i - 19; j <= i; j++) if (ndxCandles[j].close > ndxCandles[j].open) ups++; brd = (ups / 20) * 100; }
-    // 4. Volatility (25%): low short-term vol vs long-term = greed
-    const vol = Math.max(0, Math.min(100, 100 - (v2 / v5 - 0.5) * 100));
-    // 5. Safe Haven (15%): stock return vs bond(TLT) return over 20 days
-    // Stocks outperforming bonds = greed, bonds outperforming = fear
+    // 4. Volatility: VIX vs 50MA 우선 (CNN 방식), 없으면 realized σ fallback
+    let vol;
+    if (vixA[i] != null && vixSMA50[i] != null) {
+      vol = Math.max(0, Math.min(100, 100 - (vixA[i] / vixSMA50[i] - 1) * 100));
+    } else {
+      vol = Math.max(0, Math.min(100, 100 - (v2 / v5 - 0.5) * 100));
+    }
+    // 5. Safe Haven: NDX 20일 수익률 − TLT 20일 수익률
     let sh = 50;
     if (i >= 20 && tltA[i] && tltA[i - 20]) {
       const stockRet = (c[i] - c[i - 20]) / c[i - 20] * 100;
       const bondRet = (tltA[i] - tltA[i - 20]) / tltA[i - 20] * 100;
       sh = Math.max(0, Math.min(100, 50 + (stockRet - bondRet) * 3));
     }
-    out.push({ time: t[i], value: Math.max(0, Math.min(100, Math.round(mom * .25 + str * .2 + brd * .15 + vol * .25 + sh * .15))) });
+    // 6. (Phase 2 신규) Junk Bond Demand: HYG vs TLT 20일 상대 수익률
+    let jb = null;
+    if (junkBondEnabled && i >= 20 && hygA[i] && hygA[i - 20] && tltA[i] && tltA[i - 20]) {
+      const hygRet = (hygA[i] - hygA[i - 20]) / hygA[i - 20] * 100;
+      const tltRet = (tltA[i] - tltA[i - 20]) / tltA[i - 20] * 100;
+      // HYG 우위(하이일드 선호) = risk-on = greed
+      jb = Math.max(0, Math.min(100, 50 + (hygRet - tltRet) * 10));
+    }
+    // Phase 2 dynamic weighting
+    // 6-factor(JB 사용 가능): 균등 16.67% → CNN/금프리미엄 원형 구조
+    // 5-factor(JB 실패): 기존 25/20/15/25/15 → 후방 호환
+    let score;
+    if (jb != null) {
+      score = (mom + str + brd + vol + sh + jb) / 6;
+    } else {
+      score = mom * .25 + str * .2 + brd * .15 + vol * .25 + sh * .15;
+    }
+    out.push({ time: t[i], value: Math.max(0, Math.min(100, Math.round(score))) });
   }
   return out;
 }
@@ -920,9 +984,12 @@ async function loadUSFG() {
   const range = colRange.us, intv = colInterval.us;
   const msgEl = document.getElementById('msg-us-fg');
   try {
-    const [ndx, tlt] = await Promise.all([
+    // Phase 2: VIX(Volatility) / HYG(Junk Bond) 병렬 fetch — 각 실패 시 독립 fallback
+    const [ndx, tlt, vix, hyg] = await Promise.all([
       getCachedData('^IXIC', range).catch(() => null),
-      getCachedData('TLT', range).catch(() => null)
+      getCachedData('TLT', range).catch(() => null),
+      getCachedData('^VIX', range).catch(() => null),
+      getCachedData('HYG', range).catch(() => null)
     ]);
     if (!ndx || ndx.candles.length < 150) throw 0;
     // Phase 1: above_200ma(S&P500) 를 Breadth factor로 직접 주입 (us_breadth.json 캐시 재사용)
@@ -937,7 +1004,8 @@ async function loadUSFG() {
         if (Object.keys(breadthMap).length === 0) breadthMap = null;
       }
     } catch (e) { breadthMap = null; /* us_breadth.json 미도착 시 양봉 fallback */ }
-    let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null, breadthMap);
+    let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null, breadthMap,
+                        vix ? vix.candles : null, hyg ? hyg.candles : null);
     if (intv === '1wk') data = resampleWeekly(data);
     const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
     document.getElementById('us-fg-val').textContent = score;
