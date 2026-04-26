@@ -139,6 +139,28 @@
       </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
+    <!-- 12MF 밸류에이션 차트 A: 시총 + ROE + P/B -->
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>코스피 시총·12MF ROE·P/B</h3><span class="price" id="p-kr-val-a">—</span><span class="xdate" id="d-kr-val-a"></span></div>
+        <div class="series-toggle" data-chart="kr-val-a">
+          <button data-s="roe" class="active">ROE</button>
+          <button data-s="pb" class="active">P/B</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-kr-val-a"><div class="msg" id="msg-kr-val-a">로딩 중...</div></div>
+    </div>
+    <!-- 12MF 밸류에이션 차트 B: 시총 + EPS + P/E -->
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>코스피 시총·12MF EPS·P/E</h3><span class="price" id="p-kr-val-b">—</span><span class="xdate" id="d-kr-val-b"></span></div>
+        <div class="series-toggle" data-chart="kr-val-b">
+          <button data-s="eps" class="active">EPS</button>
+          <button data-s="pe" class="active">P/E</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-kr-val-b"><div class="msg" id="msg-kr-val-b">로딩 중...</div></div>
+    </div>
   </div>
   <!-- RIGHT: 미국 -->
   <div class="col" id="col-us">
@@ -906,6 +928,122 @@ async function loadKrExport(){
   }
 }
 
+// ═══════════════════════════════════
+// KOSPI 12MF 밸류에이션 차트 (A: 시총+ROE+P/B, B: 시총+EPS+P/E)
+// ═══════════════════════════════════
+let _kospi12mfCache = null;
+async function fetchKospi12mf() {
+  if (_kospi12mfCache) return _kospi12mfCache;
+  const r = await fetch('data/kospi_12mf.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kospi_12mf load fail');
+  _kospi12mfCache = await r.json();
+  return _kospi12mfCache;
+}
+
+// 데이터 → lightweight-charts 시리즈 형식 (time-sorted, dedup)
+function fmtSeries(arr) {
+  if (!arr || !arr.length) return [];
+  const map = {};
+  for (const [t, v] of arr) {
+    if (v == null) continue;
+    map[t] = +v;
+  }
+  return Object.keys(map).sort().map(t => ({ time: t, value: map[t] }));
+}
+
+// 시가총액 placeholder: KOSPI 지수 candles에서 시총 추정 (KOSPI 지수 × 0.77 ≈ 조원)
+// 실제 KRX 시총 데이터는 KRX OpenAPI 신청 후 교체
+function buildMcapFromKospi() {
+  const map = chartDataMap['kospi'];
+  if (!map) return [];
+  const out = [];
+  Object.keys(map).sort().forEach(t => {
+    const r = map[t];
+    if (r && r.close != null) out.push({ time: t, value: r.close * 0.77 });
+  });
+  return out;
+}
+
+async function loadKrValuationA() {
+  const id = 'kr-val-a';
+  const msgEl = document.getElementById('msg-' + id);
+  try {
+    const D = await fetchKospi12mf();
+    const mcap = buildMcapFromKospi();
+    const roe = fmtSeries(D.kospi_12mfwd_roe?.main?.data);
+    const pb = fmtSeries(D.kospi_12mfwd_pb?.main_long?.data);
+
+    if (!allCharts[id]) {
+      createChart(id, 'kr', { showTimeAxis: true });
+      const ch = allCharts[id].chart;
+      // 좌축 (시총)
+      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시총(추정)' });
+      const sRoe = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'ROE(%)', lineStyle: 0 });
+      const sPb = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/B', lineStyle: 0 });
+      allCharts[id].series = sMcap;
+      allCharts[id].seriesByKey = { roe: sRoe, pb: sPb };
+    }
+    allCharts[id].series.setData(mcap);
+    allCharts[id].seriesByKey.roe.setData(roe);
+    allCharts[id].seriesByKey.pb.setData(pb);
+
+    // header 값
+    const lastM = mcap[mcap.length - 1];
+    const lastR = roe[roe.length - 1];
+    const lastP = pb[pb.length - 1];
+    const hdr = document.getElementById('p-' + id);
+    const hdrHtml = `<span style="color:rgb(210,175,100)">시총 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">ROE ${lastR ? lastR.value.toFixed(1) + '%' : '—'}</span> / <span style="color:rgb(249,117,131)">P/B ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+
+    msgEl.style.display = 'none';
+  } catch (e) {
+    console.error('loadKrValuationA', e);
+    msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
+  }
+}
+
+async function loadKrValuationB() {
+  const id = 'kr-val-b';
+  const msgEl = document.getElementById('msg-' + id);
+  try {
+    const D = await fetchKospi12mf();
+    const mcap = buildMcapFromKospi();
+    const eps = fmtSeries(D.kospi_12mfwd_eps?.main?.data);
+    const pe = fmtSeries(D.kospi_12mfwd_pe?.combined?.data);
+
+    if (!allCharts[id]) {
+      createChart(id, 'kr', { showTimeAxis: true });
+      const ch = allCharts[id].chart;
+      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시총(추정)' });
+      const sEps = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'EPS(원)' });
+      const sPe = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/E' });
+      allCharts[id].series = sMcap;
+      allCharts[id].seriesByKey = { eps: sEps, pe: sPe };
+    }
+    allCharts[id].series.setData(mcap);
+    allCharts[id].seriesByKey.eps.setData(eps);
+    allCharts[id].seriesByKey.pe.setData(pe);
+
+    const lastM = mcap[mcap.length - 1];
+    const lastE = eps[eps.length - 1];
+    const lastP = pe[pe.length - 1];
+    const hdr = document.getElementById('p-' + id);
+    const hdrHtml = `<span style="color:rgb(210,175,100)">시총 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">EPS ${lastE ? Math.round(lastE.value).toLocaleString() : '—'}</span> / <span style="color:rgb(249,117,131)">P/E ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+
+    msgEl.style.display = 'none';
+  } catch (e) {
+    console.error('loadKrValuationB', e);
+    msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
+  }
+}
+
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
 function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles) {
@@ -1190,7 +1328,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport(), loadKrValuationA(), loadKrValuationB()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadPMI()]);
   }
@@ -1334,7 +1472,6 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'04/24',cat:'실적',ev:'한화엔진, 현대로템',note:'조선 기자재·방산'},
     {d:'04/27',cat:'실적',ev:'한화시스템 (IR 컨콜 15:30)',note:'방산·위성통신'},
     {d:'04/28',cat:'실적',ev:'블룸에너지(BE), GM(GM), HD현대일렉트릭, 삼성전자, 두산로보틱스, 한화솔루션',note:'전력·자동차·반도체·로봇·신재생'},
     {d:'04/29',cat:'실적',ev:'알파벳(GOOGL), 마이크로소프트(MSFT), 포드(F), 메타(META), 아마존닷컴(AMZN), 삼성바이오로직스, 에코프로비엠',note:'빅테크 AI CAPEX 집중 발표일'},
@@ -1346,6 +1483,7 @@ function setupScrollbar(col, mainId) {
     {d:'05/01',cat:'경제지표',ev:'ISM 제조업 PMI 4월 (10:00 AM ET)',note:'3월 52.7'},
     {d:'05/01',cat:'정책',ev:'OCC GENIUS Act NPRM 의견 마감',note:'스테이블코인 규제'},
     {d:'05/01',cat:'실적',ev:'카메코(CCJ)',note:'원전 우라늄 AMC'},
+    {d:'05/02',cat:'기타',ev:'버크셔해서웨이 주주총회',note:'버핏 연례 메시지'},
     {d:'05/04',cat:'실적',ev:'팔란티어(PLTR)',note:'AI 소프트웨어 수주 AMC — 5/11→5/4 변경'},
     {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:''},
     {d:'05/05',cat:'경제지표',ev:'ISM 서비스업 PMI 4월 (10:00 AM ET)',note:''},
@@ -1368,6 +1506,7 @@ function setupScrollbar(col, mainId) {
     {d:'05/20',cat:'실적',ev:'엔비디아(NVDA)',note:'AI 반도체 Q1 FY2027'},
     {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체'},
     {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
+    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시',note:'반도체 수급 영향'},
     {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날)',note:''},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘, 지아이이노'},
@@ -1382,6 +1521,8 @@ function setupScrollbar(col, mainId) {
     {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
     {d:'06/15',cat:'IPO',ev:'스페이스X 상장 (가격책정 주간)',note:'밸류 $1.75~2T+, 조달 최대 $75B'},
     {d:'06/16',cat:'실적',ev:'오라클(ORCL)',note:'소프트웨어 클라우드 Q4 FY2026 AMC'},
+    {d:'06/16',cat:'정책',ev:'일본은행(BOJ) 금리결정',note:'엔화·글로벌 유동성'},
+    {d:'06/18',cat:'정책',ev:'미 FOMC 금리결정 (한국 03시)',note:'파월 후임 의장 첫 FOMC'},
     {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 여부 발표',note:'한국 증시'},
     {d:'07/07',cat:'지정학',ev:'나토 정상회의 (~7/8, 튀르키에)',note:'지정학'},
     {d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
