@@ -897,7 +897,7 @@ html = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>주도주 차트</title>
+<title>주도주 사이클</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
@@ -1005,13 +1005,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 </div>
 
 <div class="header">
-  <h1>주도주 차트</h1>
+  <h1>주도주 사이클</h1>
   <p>KOSPI + 시대별 주도주 | 3단 스택 (지수/종목/거래대금) | 한국식 캔들 | MA 5·10·20·60·120 | HTS 툴팁 | 드래그 줌 · 휠 1캔들 팬 · X축 스크롤바</p>
 </div>
 
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchView(event,'v1')">전체 히스토리</button>
-  <button class="tab-btn" onclick="switchView(event,'v2')">사이클 단위</button>
+  <button class="tab-btn active" onclick="switchView(event,'v1')">전체 사이클</button>
+  <button class="tab-btn" onclick="switchView(event,'v2')">개별 사이클</button>
 </div>
 
 <!-- VIEW 1 -->
@@ -2197,6 +2197,8 @@ function buildAllCyclesIndexAnn(idxId, view) {
         backgroundColor: col.bg,
         borderColor: col.border,
         borderWidth: 1,
+        // 개별 사이클 탭과 동일하게 박스마다 사이클 이름 표시
+        label: { display: true, content: c.name, position: 'start', color: col.text, font: { size: 9, weight: 'bold' } },
         // US 박스는 NASDAQ 또는 S&P500 둘 중 하나라도 ON 이면 표시
         display: () => !!(toggleStates[view].us_nasdaq || toggleStates[view].us_sp500),
       };
@@ -2206,6 +2208,7 @@ function buildAllCyclesIndexAnn(idxId, view) {
       const z = c.indexZones && c.indexZones[idxId];
       if (!z || !z.start || !z.end) return;
       const closed = z.status === '종료';
+      const lbl = c.name + (z.status ? ' [' + z.status + ']' : '');
       ann['c_' + idxId + '_' + i] = {
         type: 'box',
         xMin: new Date(z.start).getTime(),
@@ -2214,6 +2217,8 @@ function buildAllCyclesIndexAnn(idxId, view) {
         borderColor: 'rgba(40, 53, 147, 0.75)',
         borderWidth: 1,
         borderDash: closed ? undefined : [4, 4],
+        // 개별 사이클 탭과 동일하게 박스마다 사이클 이름 표시
+        label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 9, weight: 'bold' } },
         display: () => !!toggleStates[view][k],
       };
     });
