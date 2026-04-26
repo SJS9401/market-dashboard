@@ -884,6 +884,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .header h1 { font-size: 20px; color: #fff; margin-bottom: 2px; }
 .header p { font-size: 11px; color: #484f58; }
 
+/* 페이지 간 네비게이션 (마켓 대시보드 ↔ 시장 사이클 ↔ 주도주 사이클) */
+.global-nav { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; }
+.global-nav a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.global-nav a:hover { color: #f0f6fc; }
+.global-nav a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
+
 .tab-bar { display: flex; gap: 0; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 28px; }
 .tab-btn { padding: 10px 20px; font-size: 13px; font-weight: 600; color: #8b949e; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
 .tab-btn:hover { color: #e6edf3; }
@@ -967,6 +973,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 </style>
 </head>
 <body>
+
+<div class="global-nav">
+  <a href="dashboard.html">마켓 대시보드</a>
+  <a href="Market_cycle.html">시장 사이클</a>
+  <a href="Leading_stocks.html" class="active">주도주 사이클</a>
+</div>
 
 <div class="header">
   <h1>주도주 차트</h1>
