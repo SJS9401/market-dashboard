@@ -1302,6 +1302,54 @@ const crosshairPlugin = {
     ctx.moveTo(xPx, area.top);
     ctx.lineTo(xPx, area.bottom);
     ctx.stroke();
+    // === 같은 날짜 캔들 위에 굵은 점 (시계열 정렬 확인용) ===
+    const _srcChart = crosshairState.sourceChart;
+    if (_srcChart) {
+      const xValMark = _srcChart.scales.x.getValueForPixel(crosshairState.x);
+      if (xValMark != null) {
+        ctx.setLineDash([]);
+        // candle datasets — close 위에 마커
+        chart.data.datasets.forEach((ds, i) => {
+          if (!ds._candle) return;
+          const meta = chart.getDatasetMeta(i);
+          if (meta && meta.hidden) return;
+          const row = findRowAtTime(ds.data, xValMark);
+          if (!row || row.c == null) return;
+          const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
+          const rxPx = xS.getPixelForValue(row.x);
+          const ryPx = yS.getPixelForValue(row.c);
+          if (rxPx < area.left || rxPx > area.right) return;
+          if (ryPx < area.top || ryPx > area.bottom) return;
+          ctx.beginPath();
+          ctx.fillStyle = '#FFD700';
+          ctx.strokeStyle = '#0d1117';
+          ctx.lineWidth = 1.5;
+          ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        });
+        // volume dataset — 막대 끝에 마커
+        chart.data.datasets.forEach((ds, i) => {
+          if (!ds._volume) return;
+          const meta = chart.getDatasetMeta(i);
+          if (meta && meta.hidden) return;
+          const row = findRowAtTime(ds.data, xValMark);
+          if (!row || row.v == null) return;
+          const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
+          const rxPx = xS.getPixelForValue(row.x);
+          const ryPx = yS.getPixelForValue(row.v);
+          if (rxPx < area.left || rxPx > area.right) return;
+          if (ryPx < area.top || ryPx > area.bottom) return;
+          ctx.beginPath();
+          ctx.fillStyle = '#FFD700';
+          ctx.strokeStyle = '#0d1117';
+          ctx.lineWidth = 1.5;
+          ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        });
+      }
+    }
     // horizontal dashed only on hovered chart
     if (crosshairState.sourceChart === chart && crosshairState.y >= area.top && crosshairState.y <= area.bottom) {
       ctx.beginPath();
@@ -1473,30 +1521,55 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   const xVal = src.scales.x.getValueForPixel(px);
   if (xVal == null) { box.style.display = 'none'; return; }
 
+  const usIndexChart = charts.find(c => c.$role === 'us-price');
   const priceChart = charts.find(c => c.$role === 'price');
   const stockChart = charts.find(c => c.$role === 'stock');
   const volChart = charts.find(c => c.$role === 'volume');
 
   // 1차 판정: 호버 위치가 "어느 차트의 캔들" 위에 있는지 검사.
-  // 어떤 차트에서도 캔들 위가 아니면 → 툴팁 숨김 (크로스헤어만 표시)
-  function nearestRow(chart) {
+  // 보이는(hidden=false) candle dataset 을 찾아 그 시점의 row 반환.
+  function nearestVisibleCandle(chart) {
     if (!chart) return null;
-    const cds = chart.data.datasets.find(d => d._candle);
-    if (!cds || !cds.data.length) return null;
-    return findRowAtTime(cds.data, xVal);
+    for (let i = 0; i < chart.data.datasets.length; i++) {
+      const ds = chart.data.datasets[i];
+      if (!ds._candle) continue;
+      const meta = chart.getDatasetMeta(i);
+      if (meta && meta.hidden) continue;
+      const r = findRowAtTime(ds.data, xVal);
+      if (r) return { ds, row: r, dsIndex: i };
+    }
+    return null;
   }
-  const priceRow = nearestRow(priceChart);
-  const stockRow = nearestRow(stockChart);
+  const usHit = nearestVisibleCandle(usIndexChart);
+  const krHit = nearestVisibleCandle(priceChart);
+  const stockHit = nearestVisibleCandle(stockChart);
 
   // source chart 기준으로 캔들 위 판정 (우선)
-  // source 가 price / stock / volume 일 수 있으므로 source 와 매칭되는 row 로 1차 판정
   // hoverY 를 넘겨 x 뿐만 아니라 세로 방향(캔들 실제 범위)도 체크
+  // 지수 패널은 visible candle 가 여러 개일 수 있으므로 ANY-hit 채택
   const hoverY = crosshairState.y;
   let hoveredOnCandle = false;
-  if (src.$role === 'price' && priceRow) {
-    hoveredOnCandle = _isOnCandle(src, priceRow, xVal, hoverY);
-  } else if (src.$role === 'stock' && stockRow) {
-    hoveredOnCandle = _isOnCandle(src, stockRow, xVal, hoverY);
+  function anyHitOnCandle(chart, hit) {
+    return !!(hit && _isOnCandle(chart, hit.row, xVal, hoverY));
+  }
+  function anyVisibleOnCandle(chart) {
+    if (!chart) return false;
+    for (let i = 0; i < chart.data.datasets.length; i++) {
+      const ds = chart.data.datasets[i];
+      if (!ds._candle) continue;
+      const meta = chart.getDatasetMeta(i);
+      if (meta && meta.hidden) continue;
+      const r = findRowAtTime(ds.data, xVal);
+      if (r && _isOnCandle(chart, r, xVal, hoverY)) return true;
+    }
+    return false;
+  }
+  if (src.$role === 'us-price') {
+    hoveredOnCandle = anyVisibleOnCandle(src);
+  } else if (src.$role === 'price') {
+    hoveredOnCandle = anyVisibleOnCandle(src);
+  } else if (src.$role === 'stock' && stockHit) {
+    hoveredOnCandle = anyHitOnCandle(src, stockHit);
   } else if (src.$role === 'volume') {
     const vds = volChart ? volChart.data.datasets.find(d => d._volume) : null;
     const vrow = vds ? findRowAtTime(vds.data, xVal) : null;
@@ -1512,10 +1585,11 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
 
   let html = '<div class="hts-date">' + dateLabel + '</div>';
 
-  function renderSection(title, chart, color, row) {
-    if (!chart || !row) return '';
-    const cds = chart.data.datasets.find(d => d._candle);
+  function renderSection(title, chart, color, hit) {
+    if (!chart || !hit || !hit.row) return '';
+    const cds = hit.ds;
     if (!cds || !cds.data.length) return '';
+    const row = hit.row;
     // 해당 차트에서도 캔들 위 판정 — 아니면 이 섹션은 비움
     if (!_isOnCandle(chart, row, xVal)) return '';
     const idx = cds.data.indexOf(row);
@@ -1541,8 +1615,14 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     s += '<div class="hts-row"><span class="k">저가</span><span class="v">' + fmt(row.l) + pctSpan(lP) + '</span></div>';
     s += '<div class="hts-row"><span class="k">종가</span><span class="v ' + cCls + '">' + fmt(row.c) + pctSpan(cP) + '</span></div>';
     // MA values with 이격도 (당일종가 기준)
-    chart.data.datasets.forEach(ds => {
+    // 정책: (1) 토글 OFF (hidden) dataset 절대 표시 안 함
+    //        (2) 같은 _indexId 의 MA 만 매칭 (지수 패널 멀티 시리즈 분리)
+    chart.data.datasets.forEach((ds, i) => {
       if (!ds._isMa) return;
+      const meta = chart.getDatasetMeta(i);
+      if (meta && meta.hidden) return;
+      if (ds.hidden === true) return;
+      if (cds._indexId && ds._indexId && cds._indexId !== ds._indexId) return;
       const mp = findRowAtTime(ds.data, xVal);
       if (mp && mp.y != null) {
         const disparity = ((row.c - mp.y) / mp.y) * 100;
@@ -1556,9 +1636,41 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     return s;
   }
 
-  const kospiSection = renderSection('KOSPI', priceChart, '#F39C12', priceRow);
-  const stockSection = renderSection(stockChart && stockChart.$stockName ? stockChart.$stockName : '주도주', stockChart, stockChart && stockChart.$stockColor || '#58a6ff', stockRow);
-  html += kospiSection + stockSection;
+  // 모든 visible candle 수집 (지수 패널은 NASDAQ+S&P500 또는 KOSPI+KOSDAQ 동시 표시 가능)
+  function allVisibleHits(chart) {
+    if (!chart) return [];
+    const out = [];
+    for (let i = 0; i < chart.data.datasets.length; i++) {
+      const ds = chart.data.datasets[i];
+      if (!ds._candle) continue;
+      const meta = chart.getDatasetMeta(i);
+      if (meta && meta.hidden) continue;
+      const r = findRowAtTime(ds.data, xVal);
+      if (r) out.push({ ds, row: r, dsIndex: i });
+    }
+    return out;
+  }
+  const usHits = allVisibleHits(usIndexChart);
+  const krHits = allVisibleHits(priceChart);
+
+  // US 지수 섹션 (NASDAQ / S&P500 토글된 항목만)
+  const _usColors = { nasdaq: '#FF6B6B', sp500: '#4ECDC4' };
+  let usSection = '';
+  usHits.forEach(h => {
+    const lbl = h.ds.label;
+    const color = _usColors[h.ds._indexId] || '#8b949e';
+    usSection += renderSection(lbl, usIndexChart, color, h);
+  });
+  // KR 지수 섹션 (KOSPI / KOSDAQ)
+  const _krColors = { kospi: '#F39C12', kosdaq: '#4ECDC4' };
+  let krSection = '';
+  krHits.forEach(h => {
+    const lbl = h.ds.label;
+    const color = _krColors[h.ds._indexId] || '#8b949e';
+    krSection += renderSection(lbl, priceChart, color, h);
+  });
+  const stockSection = renderSection(stockChart && stockChart.$stockName ? stockChart.$stockName : '주도주', stockChart, stockChart && stockChart.$stockColor || '#58a6ff', stockHit);
+  html += usSection + krSection + stockSection;
 
   // 거래대금 — volume 섹션은 stock 캔들과 동일한 시점이므로 stock 이 캔들 위일 때만 표시
   if (volChart && stockSection) {
@@ -1572,7 +1684,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   }
 
   // 결과: 어떤 섹션도 렌더되지 않으면 숨김 (edge case 방어)
-  if (!kospiSection && !stockSection) {
+  if (!usSection && !krSection && !stockSection) {
     box.style.display = 'none';
     return;
   }
@@ -1625,7 +1737,7 @@ function getOverlayForChart(chart) {
   return document.getElementById('drag-overlay-' + chart.$view + '-' + chart.$role);
 }
 function hideAllOverlays(view) {
-  ['price','stock','volume'].forEach(r => {
+  ['us-price','price','stock','volume'].forEach(r => {
     const el = document.getElementById('drag-overlay-' + view + '-' + r);
     if (el) el.style.display = 'none';
   });
