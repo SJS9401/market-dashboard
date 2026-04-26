@@ -14,8 +14,10 @@
   .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
   .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; border-bottom: 1px solid #21262d; background: #0d1117; }
   .header h1 { font-size: 17px; color: #f0f6fc; } .header .time { font-size: 12px; color: #8b949e; }
-  .main { display: flex; gap: 10px; padding: 10px; max-width: 1600px; margin: 0 auto; }
+  .main { display: flex; gap: 50px; padding: 10px; max-width: 1600px; margin: 0 auto; }
   .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
+  /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
+  .sticky-index { position: sticky; top: 0; z-index: 10; background: #0d1117; }
   .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
   .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
   .col .card { border-radius: 0; border-bottom: none; }
@@ -105,6 +107,7 @@
   <!-- LEFT: 한국 -->
   <div class="col" id="col-kr">
     <div class="col-xline" id="xline-kr"></div>
+    <div class="sticky-index">
     <div class="card">
       <div class="card-top">
         <div class="left"><h3>코스피</h3><span class="price" id="p-kospi">—</span><span class="chg flat" id="c-kospi"></span></div>
@@ -116,6 +119,7 @@
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
+    </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kr-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kr-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
@@ -165,6 +169,7 @@
   <!-- RIGHT: 미국 -->
   <div class="col" id="col-us">
     <div class="col-xline" id="xline-us"></div>
+    <div class="sticky-index">
     <div class="card">
       <div class="card-top">
         <div class="left"><h3>나스닥 종합</h3><span class="price" id="p-ndx">—</span><span class="chg flat" id="c-ndx"></span></div>
@@ -176,6 +181,7 @@
       <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
+    </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
