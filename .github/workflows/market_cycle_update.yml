@@ -1,0 +1,63 @@
+name: Market_cycle.html 자동 갱신
+# yfinance에서 ^GSPC/^IXIC/^KS11/^KQ11 일별 종가 받기 → Market_cycle.html FULL_HISTORY + 활성 사이클 priceDatasets patch
+# 매일 KST 17:00 (UTC 08:00) 실행 — 한국장 마감 후
+# 변경 있을 때만 자동 commit/push
+
+on:
+  schedule:
+    - cron: '0 8 * * *'    # UTC 08:00 = KST 17:00
+  workflow_dispatch:        # 수동 실행 가능
+
+permissions:
+  contents: write           # commit/push 권한
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install --quiet yfinance pandas
+
+      - name: 빌드 스크립트 실행 (변경 없으면 exit 1로 종료)
+        id: build
+        run: |
+          python -u build_market_cycle_update.py --target Market_cycle.html
+        continue-on-error: true
+
+      - name: 변경사항 확인
+        id: changed
+        run: |
+          if [ "${{ steps.build.outcome }}" != "success" ]; then
+            echo "::notice::변경 없음 — 커밋 생략"
+            echo "has_change=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # index.html도 같은 내용이면 동기화
+          if [ -f index.html ] && [ -f Market_cycle.html ]; then
+            # Market_cycle은 별도 페이지라 index.html과 다름. 동기화 X.
+            :
+          fi
+          echo "has_change=true" >> $GITHUB_OUTPUT
+
+      - name: Commit & push
+        if: steps.changed.outputs.has_change == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Market_cycle.html
+          if git diff --cached --quiet; then
+            echo "::notice::Market_cycle.html 변경 없음 — 커밋 생략"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): Market_cycle.html yfinance 갱신 (${TS})"
+            git push
+            echo "::notice::Market_cycle.html 갱신 & 푸시 완료"
+          fi
