@@ -824,6 +824,9 @@ for uid in seen_stock_ids:
         stocks_data[uid] = raw["stocks"][uid]
 
 kospi_data = raw["stocks"].get("kospi", [])
+kosdaq_data = raw["stocks"].get("kosdaq", [])
+sp500_data = raw["stocks"].get("sp500", [])
+nasdaq_data = raw["stocks"].get("nasdaq", [])
 meta = raw["meta"]
 
 # ===== 4. GENERATE HTML =====
@@ -870,13 +873,20 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .chart-badge { padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 .chart-meta { font-size: 11px; color: #484f58; margin-bottom: 8px; }
 
-/* 3단 스택 차트 박스 */
+/* 4단 스택 차트 박스 */
 .stack-wrap { background: #161b22; border-radius: 8px; border: 1px solid #30363d; padding: 10px 12px 14px; position: relative; }
 .panel { position: relative; }
-.panel-price { height: 320px; }
+.panel-us { height: 220px; }
+.panel-price { height: 220px; }
 .panel-stock { height: 320px; }
 .panel-volume { height: 120px; }
 .panel-label { position: absolute; top: 6px; left: 70px; font-size: 11px; font-weight: 700; color: #8b949e; z-index: 5; pointer-events: none; background: rgba(22, 27, 34, 0.7); padding: 2px 8px; border-radius: 3px; }
+
+/* 토글 버튼 행 (패널 라벨 옆) */
+.panel-toggle-row { position: absolute; top: 6px; left: 420px; display: flex; gap: 6px; }
+.toggle-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; border: 1px solid #30363d; background: transparent; color: #8b949e; transition: all 0.15s; white-space: nowrap; }
+.toggle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+.toggle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
 
 /* HTS 스타일 툴팁 (마우스 근처 따라다님) */
 .hts-tooltip { position: absolute; top: 14px; left: 16px; background: rgba(22, 27, 34, 0.94); border: 1px solid #30363d; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #e6edf3; z-index: 20; pointer-events: none; min-width: 220px; line-height: 1.7; }
@@ -940,8 +950,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <div class="chart-meta" id="v1-meta"></div>
     <div class="stack-wrap">
       <div class="hts-tooltip" id="v1-tooltip" style="display:none;"></div>
+      <div class="panel panel-us">
+        <div class="panel-label">미국 지수</div>
+        <div class="panel-toggle-row">
+          <button class="toggle-btn active" id="v1-us-nasdaq" onclick="toggleUSIndex('v1','nasdaq')">NASDAQ</button>
+          <button class="toggle-btn" id="v1-us-sp500" onclick="toggleUSIndex('v1','sp500')">S&P500</button>
+        </div>
+        <canvas id="v1-us-price"></canvas>
+        <div class="drag-overlay" id="drag-overlay-v1-us-price"></div>
+      </div>
       <div class="panel panel-price">
-        <div class="panel-label">KOSPI</div>
+        <div class="panel-label">한국 지수</div>
+        <div class="panel-toggle-row">
+          <button class="toggle-btn active" id="v1-kr-kospi" onclick="toggleKRIndex('v1','kospi')">KOSPI</button>
+          <button class="toggle-btn" id="v1-kr-kosdaq" onclick="toggleKRIndex('v1','kosdaq')">KOSDAQ</button>
+        </div>
         <canvas id="v1-price"></canvas>
         <div class="drag-overlay" id="drag-overlay-v1-price"></div>
       </div>
@@ -988,8 +1011,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <div class="chart-meta" id="v2-meta"></div>
     <div class="stack-wrap">
       <div class="hts-tooltip" id="v2-tooltip" style="display:none;"></div>
+      <div class="panel panel-us">
+        <div class="panel-label">미국 지수</div>
+        <div class="panel-toggle-row">
+          <button class="toggle-btn active" id="v2-us-nasdaq" onclick="toggleUSIndex('v2','nasdaq')">NASDAQ</button>
+          <button class="toggle-btn" id="v2-us-sp500" onclick="toggleUSIndex('v2','sp500')">S&P500</button>
+        </div>
+        <canvas id="v2-us-price"></canvas>
+        <div class="drag-overlay" id="drag-overlay-v2-us-price"></div>
+      </div>
       <div class="panel panel-price">
-        <div class="panel-label">KOSPI</div>
+        <div class="panel-label">한국 지수</div>
+        <div class="panel-toggle-row">
+          <button class="toggle-btn active" id="v2-kr-kospi" onclick="toggleKRIndex('v2','kospi')">KOSPI</button>
+          <button class="toggle-btn" id="v2-kr-kosdaq" onclick="toggleKRIndex('v2','kosdaq')">KOSDAQ</button>
+        </div>
         <canvas id="v2-price"></canvas>
         <div class="drag-overlay" id="drag-overlay-v2-price"></div>
       </div>
@@ -1019,6 +1055,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 <script>
 // ===== DATA =====
 const KOSPI_RAW = """ + json.dumps(kospi_data) + """;
+const KOSDAQ_RAW = """ + json.dumps(kosdaq_data) + """;
+const SP500_RAW = """ + json.dumps(sp500_data) + """;
+const NASDAQ_RAW = """ + json.dumps(nasdaq_data) + """;
 const STOCKS_RAW = """ + json.dumps(stocks_data) + """;
 const META = """ + json.dumps(meta) + """;
 const UNIQUE_STOCKS = """ + json.dumps(unique_stocks) + """;
@@ -1029,6 +1068,12 @@ const STOCK_ZONES = """ + json.dumps(stock_zones) + """;
 
 const stockColorMap = {};
 UNIQUE_STOCKS.forEach((s, i) => { stockColorMap[s.id] = STOCK_COLORS[i % STOCK_COLORS.length]; });
+
+// ===== 토글 상태 =====
+const toggleStates = {
+  v1: { us_nasdaq: true, us_sp500: false, kr_kospi: true, kr_kosdaq: false },
+  v2: { us_nasdaq: true, us_sp500: false, kr_kospi: true, kr_kosdaq: false },
+};
 
 // 라벨 포맷: "연도 종목명(키워드)" — 차트 타이틀과 동일
 function formatStockLabel(s) {
@@ -1800,6 +1845,62 @@ function makePriceChart(canvasId, ohlcData, title, color, extraAnn, scaleType, v
   return ch;
 }
 
+function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
+  const datasets = [];
+  if (data1 && data1.length) {
+    datasets.push({
+      label: role === 'us-price' ? 'NASDAQ' : 'KOSPI',
+      data: data1,
+      borderColor: role === 'us-price' ? '#ffa500' : '#F39C12',
+      backgroundColor: 'transparent',
+      pointRadius: 0, yAxisID: 'y', order: 10,
+      borderWidth: 1.5, tension: 0, spanGaps: true,
+    });
+  }
+  if (data2 && data2.length) {
+    datasets.push({
+      label: role === 'us-price' ? 'S&P500' : 'KOSDAQ',
+      data: data2,
+      borderColor: role === 'us-price' ? '#00aa44' : '#4ECDC4',
+      backgroundColor: 'transparent',
+      pointRadius: 0, yAxisID: 'y', order: 10,
+      borderWidth: 1.5, tension: 0, spanGaps: true,
+      hidden: role === 'us-price' ? true : false,
+    });
+  }
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const ch = new Chart(ctx, {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: false,
+      interaction: { mode: 'nearest', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      scales: {
+        x: {
+          type: 'time',
+          time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
+          grid: { color: '#21262d' },
+          ticks: { color: '#484f58', font: { size: 10 }, maxTicksLimit: 14 },
+          display: false
+        },
+        y: {
+          type: scaleType === 'log' ? 'logarithmic' : 'linear',
+          position: 'left',
+          grid: { color: '#21262d' },
+          ticks: { color: '#b3b9c1', font: { size: 10 }, callback: v => v.toLocaleString() }
+        }
+      }
+    }
+  });
+  ch.$view = view; ch.$role = role;
+  return ch;
+}
+
 function makeVolumeChart(canvasId, ohlcData, view) {
   // Volume data with 'up' flag based on close vs open
   const data = ohlcData.map((d, i) => {
@@ -1932,18 +2033,23 @@ function renderV1() {
     }
   });
 
-  const priceCh = makePriceChart('v1-price', kospiWeekly, 'KOSPI', '#F39C12', {}, v1Scale, 'v1', 'price');
+  const nasdaqWeekly = toggleStates.v1.us_nasdaq ? toWeekly(NASDAQ_RAW) : [];
+  const sp500Weekly = toggleStates.v1.us_sp500 ? toWeekly(SP500_RAW) : [];
+  const kosdaqWeekly = toggleStates.v1.kr_kosdaq ? toWeekly(KOSDAQ_RAW) : [];
+
+  const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price');
+  const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price');
   const stockCh = makePriceChart('v1-stock', stockWeekly, stock.name, color, zoneAnn, v1Scale, 'v1', 'stock');
   const volCh = makeVolumeChart('v1-volume', stockWeekly, 'v1');
 
-  chartRegistry.v1 = [priceCh, stockCh, volCh];
+  chartRegistry.v1 = [usIndexCh, priceCh, stockCh, volCh];
 
-  // x-축 정렬: KOSPI(1981~) 와 종목(상장일~) 의 시작일 차이로 인한 크로스헤어 오정렬 방지
-  // 3개 패널 모두 동일 구간 강제 (KOSPI 전체 구간으로 맞춤)
-  if (kospiWeekly.length && stockWeekly.length) {
-    const xMinMs = Math.min(kospiWeekly[0].x, stockWeekly[0].x);
-    const xMaxMs = Math.max(kospiWeekly[kospiWeekly.length-1].x, stockWeekly[stockWeekly.length-1].x);
-    [priceCh, stockCh, volCh].forEach(ch => {
+  // x-축 정렬: 4개 패널 모두 동일 구간 강제
+  const allDataArrays = [nasdaqWeekly, sp500Weekly, kospiWeekly, kosdaqWeekly, stockWeekly].filter(a => a.length);
+  if (allDataArrays.length > 0) {
+    const xMinMs = Math.min(...allDataArrays.map(a => a[0].x));
+    const xMaxMs = Math.max(...allDataArrays.map(a => a[a.length-1].x));
+    [usIndexCh, priceCh, stockCh, volCh].forEach(ch => {
       ch.options.scales.x.min = xMinMs;
       ch.options.scales.x.max = xMaxMs;
       ch.update('none');
@@ -1951,8 +2057,11 @@ function renderV1() {
   }
 
   // Legend
-  let legendHTML = '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>KOSPI (캔들 · 상단)</div>';
-  legendHTML += '<div class="legend-item"><div class="legend-dot" style="background:' + color + '"></div>' + stock.name + ' (캔들 · 중단)</div>';
+  let legendHTML = '<div class="legend-item"><div class="legend-dot" style="background:#ffa500"></div>NASDAQ</div>';
+  legendHTML += '<div class="legend-item"><div class="legend-dot" style="background:#00aa44"></div>S&P500</div>';
+  legendHTML += '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>KOSPI</div>';
+  legendHTML += '<div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div>KOSDAQ</div>';
+  legendHTML += '<div class="legend-item"><div class="legend-dot" style="background:' + color + '"></div>' + stock.name + '</div>';
   ['5','10','20','60','120'].forEach(p => {
     legendHTML += '<div class="legend-item"><div class="legend-line" style="background:' + MA_COLORS['ma' + p] + '"></div>MA' + p + '</div>';
   });
@@ -1960,9 +2069,48 @@ function renderV1() {
   legendHTML += '<div class="legend-item"><div class="legend-line" style="background:' + VOL_DN + '"></div>거래대금 ▼</div>';
   document.getElementById('v1-legend').innerHTML = legendHTML;
 
+  attachZoomEvents(document.getElementById('v1-us-price'), () => usIndexCh, 'v1');
   attachZoomEvents(document.getElementById('v1-price'), () => priceCh, 'v1');
   attachZoomEvents(document.getElementById('v1-stock'), () => stockCh, 'v1');
   attachZoomEvents(document.getElementById('v1-volume'), () => volCh, 'v1');
+}
+
+// ===== 토글 함수 =====
+function toggleUSIndex(view, index) {
+  const btn = document.getElementById(view + '-us-' + index);
+  const otherIndex = index === 'nasdaq' ? 'sp500' : 'nasdaq';
+  const otherBtn = document.getElementById(view + '-us-' + otherIndex);
+
+  toggleStates[view]['us_' + index] = !toggleStates[view]['us_' + index];
+  btn.classList.toggle('active');
+
+  if (chartRegistry[view] && chartRegistry[view][0]) {
+    const ch = chartRegistry[view][0];
+    ch.data.datasets.forEach((ds, i) => {
+      if (index === 'nasdaq' && i === 0) ds.hidden = !ds.hidden;
+      if (index === 'sp500' && i === 1) ds.hidden = !ds.hidden;
+    });
+    ch.update('none');
+  }
+}
+
+function toggleKRIndex(view, index) {
+  const btn = document.getElementById(view + '-kr-' + index);
+  const otherIndex = index === 'kospi' ? 'kosdaq' : 'kospi';
+  const otherBtn = document.getElementById(view + '-kr-' + otherIndex);
+
+  toggleStates[view]['kr_' + index] = !toggleStates[view]['kr_' + index];
+  btn.classList.toggle('active');
+
+  const chartIndex = view === 'v1' ? 1 : 1;
+  if (chartRegistry[view] && chartRegistry[view][chartIndex]) {
+    const ch = chartRegistry[view][chartIndex];
+    ch.data.datasets.forEach((ds, i) => {
+      if (index === 'kospi' && i === 0) ds.hidden = !ds.hidden;
+      if (index === 'kosdaq' && i === 1) ds.hidden = !ds.hidden;
+    });
+    ch.update('none');
+  }
 }
 
 // ===== VIEW 2 =====
@@ -2055,8 +2203,15 @@ function renderV2() {
   }
 
   const kospiF = filterByDate(KOSPI_RAW, rangeStart, rangeEnd);
+  const kosdaqF = filterByDate(KOSDAQ_RAW, rangeStart, rangeEnd);
+  const nasdaqF = filterByDate(NASDAQ_RAW, rangeStart, rangeEnd);
+  const sp500F = filterByDate(SP500_RAW, rangeStart, rangeEnd);
   const stockF = filterByDate(stockRaw, rangeStart, rangeEnd);
+
+  const nasdaqProc = toggleStates.v2.us_nasdaq ? (v2Interval === 'weekly' ? toWeekly(nasdaqF) : toDaily(nasdaqF)) : [];
+  const sp500Proc = toggleStates.v2.us_sp500 ? (v2Interval === 'weekly' ? toWeekly(sp500F) : toDaily(sp500F)) : [];
   const kospiProc = v2Interval === 'weekly' ? toWeekly(kospiF) : toDaily(kospiF);
+  const kosdaqProc = toggleStates.v2.kr_kosdaq ? (v2Interval === 'weekly' ? toWeekly(kosdaqF) : toDaily(kosdaqF)) : [];
   const stockProc = v2Interval === 'weekly' ? toWeekly(stockF) : toDaily(stockF);
 
   document.getElementById('v2-title').textContent = cycle.name + ' — ' + stock.name;
@@ -2125,24 +2280,27 @@ function renderV2() {
     }
   }
 
-  const priceCh = makePriceChart('v2-price', kospiProc, 'KOSPI', '#F39C12', ann, v2Scale, 'v2', 'price');
+  const usIndexCh = makeIndexChart('v2-us-price', nasdaqProc, sp500Proc, v2Scale, 'v2', 'us-price');
+  const priceCh = makeIndexChart('v2-price', kospiProc, kosdaqProc, v2Scale, 'v2', 'price');
   const stockCh = makePriceChart('v2-stock', stockProc, stock.name, color, stockAnn, v2Scale, 'v2', 'stock');
   const volCh = makeVolumeChart('v2-volume', stockProc, 'v2');
-  chartRegistry.v2 = [priceCh, stockCh, volCh];
+  chartRegistry.v2 = [usIndexCh, priceCh, stockCh, volCh];
 
-  // x-축 정렬: KOSPI와 종목 데이터 시작일이 다르면 같은 date가 다른 x-pixel에 위치 → 크로스헤어 오정렬
-  // 3개 패널 모두 동일한 [rangeStart, rangeEnd]로 강제
+  // x-축 정렬: 4개 패널 모두 동일한 [rangeStart, rangeEnd]로 강제
   const xMinMs = new Date(rangeStart).getTime();
   const xMaxMs = new Date(rangeEnd).getTime();
-  [priceCh, stockCh, volCh].forEach(ch => {
+  [usIndexCh, priceCh, stockCh, volCh].forEach(ch => {
     ch.options.scales.x.min = xMinMs;
     ch.options.scales.x.max = xMaxMs;
     ch.update('none');
   });
 
   // Legend
-  let lg = '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>KOSPI (캔들)</div>';
-  lg += '<div class="legend-item"><div class="legend-dot" style="background:' + color + '"></div>' + stock.name + ' (캔들)</div>';
+  let lg = '<div class="legend-item"><div class="legend-dot" style="background:#ffa500"></div>NASDAQ</div>';
+  lg += '<div class="legend-item"><div class="legend-dot" style="background:#00aa44"></div>S&P500</div>';
+  lg += '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>KOSPI</div>';
+  lg += '<div class="legend-item"><div class="legend-dot" style="background:#4ECDC4"></div>KOSDAQ</div>';
+  lg += '<div class="legend-item"><div class="legend-dot" style="background:' + color + '"></div>' + stock.name + '</div>';
   ['5','10','20','60','120'].forEach(p => {
     lg += '<div class="legend-item"><div class="legend-line" style="background:' + MA_COLORS['ma' + p] + '"></div>MA' + p + '</div>';
   });
@@ -2150,6 +2308,7 @@ function renderV2() {
   lg += '<div class="legend-item"><div class="legend-line" style="background:' + VOL_DN + '"></div>거래대금 ▼</div>';
   document.getElementById('v2-legend').innerHTML = lg;
 
+  attachZoomEvents(document.getElementById('v2-us-price'), () => usIndexCh, 'v2');
   attachZoomEvents(document.getElementById('v2-price'), () => priceCh, 'v2');
   attachZoomEvents(document.getElementById('v2-stock'), () => stockCh, 'v2');
   attachZoomEvents(document.getElementById('v2-volume'), () => volCh, 'v2');
