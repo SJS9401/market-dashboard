@@ -911,25 +911,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .chart-badge { padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 .chart-meta { font-size: 11px; color: #484f58; margin-bottom: 8px; }
 
-/* 4단 스택 차트 박스 */
-.stack-wrap { background: #161b22; border-radius: 8px; border: 1px solid #30363d; padding: 10px 12px 14px; position: relative; }
+/* 4단 스택 차트 박스 — 키움 HTS 회색 테마 */
+.stack-wrap { background: #C0C0C0; border-radius: 8px; border: 1px solid #707070; padding: 10px 12px 14px; position: relative; }
 .panel { display: flex; flex-direction: column; position: relative; }
 .panel-us { height: 220px; }
 .panel-price { height: 220px; }
 .panel-stock { height: 320px; }
 .panel-volume { height: 120px; }
 /* 미국 지수 / 한국 지수 / 종목 영역 진입 시 강한 가로 구분선 (거래대금은 제외) */
-.panel-price { border-top: 2px solid #484f58; padding-top: 4px; margin-top: 4px; }
-.panel-stock { border-top: 2px solid #484f58; padding-top: 4px; margin-top: 4px; }
+.panel-price { border-top: 2px solid #707070; padding-top: 4px; margin-top: 4px; }
+.panel-stock { border-top: 2px solid #707070; padding-top: 4px; margin-top: 4px; }
 /* 패널 헤더: 라벨 + 토글 (캔버스 위 별도 행, absolute 아님) */
 .panel-header { display: flex; align-items: center; gap: 10px; height: 22px; flex: 0 0 auto; padding: 0 0 2px 70px; }
-.panel-label { font-size: 11px; font-weight: 700; color: #8b949e; }
+.panel-label { font-size: 11px; font-weight: 700; color: #1c2128; }
 .panel-canvas-wrap { flex: 1 1 auto; position: relative; min-height: 0; }
 
 /* 토글 버튼 행 (패널 라벨 바로 옆) */
 .panel-toggle-row { display: flex; gap: 6px; }
-.toggle-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; border: 1px solid #30363d; background: transparent; color: #8b949e; transition: all 0.15s; white-space: nowrap; }
-.toggle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+.toggle-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; border: 1px solid #707070; background: #E8E8E8; color: #1c2128; transition: all 0.15s; white-space: nowrap; }
+.toggle-btn:hover { border-color: #1f6feb; color: #1f6feb; }
 .toggle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
 
 /* HTS 스타일 툴팁 (마우스 근처 따라다님) */
@@ -1167,7 +1167,10 @@ const VOL_UP = 'rgba(231, 76, 60, 0.55)';
 const VOL_DN = 'rgba(52, 152, 219, 0.55)';
 
 // MA 컬러
-const MA_COLORS = { ma5: '#F1C40F', ma10: '#E67E22', ma20: '#E74C3C', ma60: '#27AE60', ma120: '#9B59B6' };
+// 키움 HTS 표준 이평선 색상 — 사용자 캡처 기준
+//   MA5  검정 (0,0,0) / MA10 파랑 (0,0,255) / MA20 노랑 (255,255,0)
+//   MA60 초록 (0,128,0) / MA120 보라 (153,0,204)
+const MA_COLORS = { ma5: '#000000', ma10: '#0000FF', ma20: '#FFFF00', ma60: '#008000', ma120: '#9900CC' };
 
 // ===== HELPERS =====
 function parseDate(d) {
@@ -1298,7 +1301,7 @@ const crosshairPlugin = {
     ctx.beginPath();
     ctx.setLineDash([3, 3]);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(200, 205, 215, 0.55)';
+    ctx.strokeStyle = 'rgba(28, 33, 40, 0.55)';
     ctx.moveTo(xPx, area.top);
     ctx.lineTo(xPx, area.bottom);
     ctx.stroke();
@@ -1311,8 +1314,7 @@ const crosshairPlugin = {
         // candle datasets — close 위에 마커
         chart.data.datasets.forEach((ds, i) => {
           if (!ds._candle) return;
-          const meta = chart.getDatasetMeta(i);
-          if (meta && meta.hidden) return;
+          if (!chart.isDatasetVisible(i)) return;
           const row = findRowAtTime(ds.data, xValMark);
           if (!row || row.c == null) return;
           const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
@@ -1331,8 +1333,7 @@ const crosshairPlugin = {
         // volume dataset — 막대 끝에 마커
         chart.data.datasets.forEach((ds, i) => {
           if (!ds._volume) return;
-          const meta = chart.getDatasetMeta(i);
-          if (meta && meta.hidden) return;
+          if (!chart.isDatasetVisible(i)) return;
           const row = findRowAtTime(ds.data, xValMark);
           if (!row || row.v == null) return;
           const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
@@ -1355,7 +1356,7 @@ const crosshairPlugin = {
       ctx.beginPath();
       ctx.setLineDash([3, 3]);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(200, 205, 215, 0.35)';
+      ctx.strokeStyle = 'rgba(28, 33, 40, 0.35)';
       ctx.moveTo(area.left, crosshairState.y);
       ctx.lineTo(area.right, crosshairState.y);
       ctx.stroke();
@@ -1388,8 +1389,7 @@ const candlestickPlugin = {
   afterDatasetDraw(chart, args) {
     const ds = chart.data.datasets[args.index];
     if (!ds._candle) return;
-    const meta = chart.getDatasetMeta(args.index);
-    if (meta && meta.hidden) return;
+    if (!chart.isDatasetVisible(args.index)) return;
     const ctx = chart.ctx;
     const xScale = chart.scales.x;
     const yScale = chart.scales[ds.yAxisID || 'y'];
@@ -1533,8 +1533,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     for (let i = 0; i < chart.data.datasets.length; i++) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
-      const meta = chart.getDatasetMeta(i);
-      if (meta && meta.hidden) continue;
+      if (!chart.isDatasetVisible(i)) continue;
       const r = findRowAtTime(ds.data, xVal);
       if (r) return { ds, row: r, dsIndex: i };
     }
@@ -1557,8 +1556,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     for (let i = 0; i < chart.data.datasets.length; i++) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
-      const meta = chart.getDatasetMeta(i);
-      if (meta && meta.hidden) continue;
+      if (!chart.isDatasetVisible(i)) continue;
       const r = findRowAtTime(ds.data, xVal);
       if (r && _isOnCandle(chart, r, xVal, hoverY)) return true;
     }
@@ -1619,9 +1617,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     //        (2) 같은 _indexId 의 MA 만 매칭 (지수 패널 멀티 시리즈 분리)
     chart.data.datasets.forEach((ds, i) => {
       if (!ds._isMa) return;
-      const meta = chart.getDatasetMeta(i);
-      if (meta && meta.hidden) return;
-      if (ds.hidden === true) return;
+      if (!chart.isDatasetVisible(i)) return;
       if (cds._indexId && ds._indexId && cds._indexId !== ds._indexId) return;
       const mp = findRowAtTime(ds.data, xVal);
       if (mp && mp.y != null) {
@@ -1643,8 +1639,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     for (let i = 0; i < chart.data.datasets.length; i++) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
-      const meta = chart.getDatasetMeta(i);
-      if (meta && meta.hidden) continue;
+      if (!chart.isDatasetVisible(i)) continue;
       const r = findRowAtTime(ds.data, xVal);
       if (r) out.push({ ds, row: r, dsIndex: i });
     }
@@ -2018,15 +2013,15 @@ function makePriceChart(canvasId, ohlcData, title, color, extraAnn, scaleType, v
         x: {
           type: 'time',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
-          grid: { color: '#21262d' },
-          ticks: { color: '#484f58', font: { size: 10 }, maxTicksLimit: 14 },
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 },
           display: false
         },
         y: {
           type: scaleType === 'log' ? 'logarithmic' : 'linear',
           position: 'left',
-          grid: { color: '#21262d' },
-          ticks: { color: '#b3b9c1', font: { size: 10 }, callback: v => v.toLocaleString() }
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, callback: v => v.toLocaleString() }
         }
       }
     }
@@ -2107,15 +2102,15 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotatio
         x: {
           type: 'time',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
-          grid: { color: '#21262d' },
-          ticks: { color: '#484f58', font: { size: 10 }, maxTicksLimit: 14 },
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 },
           display: false
         },
         y: {
           type: scaleType === 'log' ? 'logarithmic' : 'linear',
           position: 'left',
-          grid: { color: '#21262d' },
-          ticks: { color: '#b3b9c1', font: { size: 10 }, callback: v => v.toLocaleString() }
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, callback: v => v.toLocaleString() }
         }
       }
     }
@@ -2199,13 +2194,13 @@ function makeVolumeChart(canvasId, ohlcData, view) {
         x: {
           type: 'time',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
-          grid: { color: '#21262d' },
-          ticks: { color: '#484f58', font: { size: 10 }, maxTicksLimit: 14 }
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 }
         },
         y: {
           type: 'linear', position: 'left', beginAtZero: true,
-          grid: { color: '#21262d' },
-          ticks: { color: '#b3b9c1', font: { size: 10 }, callback: v => v.toLocaleString() }
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, callback: v => v.toLocaleString() }
         }
       }
     }
