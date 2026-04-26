@@ -1335,10 +1335,11 @@ const crosshairPlugin = {
     }
     if (xPx < area.left || xPx > area.right) return;
     ctx.save();
+    // 실선 + 다크 마젠타 (회색 배경 + 캔들 빨/파와 충돌 X)
     ctx.beginPath();
-    ctx.setLineDash([3, 3]);
+    ctx.setLineDash([]);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(28, 33, 40, 0.55)';
+    ctx.strokeStyle = 'rgba(194, 24, 91, 0.9)';
     ctx.moveTo(xPx, area.top);
     ctx.lineTo(xPx, area.bottom);
     ctx.stroke();
@@ -1388,12 +1389,12 @@ const crosshairPlugin = {
         });
       }
     }
-    // horizontal dashed only on hovered chart
+    // horizontal solid only on hovered chart
     if (crosshairState.sourceChart === chart && crosshairState.y >= area.top && crosshairState.y <= area.bottom) {
       ctx.beginPath();
-      ctx.setLineDash([3, 3]);
+      ctx.setLineDash([]);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(28, 33, 40, 0.35)';
+      ctx.strokeStyle = 'rgba(194, 24, 91, 0.7)';
       ctx.moveTo(area.left, crosshairState.y);
       ctx.lineTo(area.right, crosshairState.y);
       ctx.stroke();
@@ -2184,8 +2185,10 @@ function buildAllCyclesIndexAnn(idxId, view) {
   const k = _idxToggleKey(idxId);
   const isUS = (idxId === 'nasdaq' || idxId === 'sp500');
   if (isUS) {
+    // 주도주 사이클 차트는 상승장 위주 — 약세장(bear) 박스는 제외
     US_MARKET_CYCLES.forEach((c, i) => {
       if (!c.start || !c.end) return;
+      if (c.category === 'bear') return;
       const col = _usCycleColor(c.category);
       ann['us_' + i] = {
         type: 'box',
@@ -2194,7 +2197,6 @@ function buildAllCyclesIndexAnn(idxId, view) {
         backgroundColor: col.bg,
         borderColor: col.border,
         borderWidth: 1,
-        borderDash: c.category === 'bear' ? [4, 4] : undefined,
         // US 박스는 NASDAQ 또는 S&P500 둘 중 하나라도 ON 이면 표시
         display: () => !!(toggleStates[view].us_nasdaq || toggleStates[view].us_sp500),
       };
@@ -2237,6 +2239,8 @@ function buildCycleIndexAnn(cycle, idxId, view) {
     const ann = {};
     US_MARKET_CYCLES.forEach((c, i) => {
       if (!c.start || !c.end) return;
+      // 주도주 사이클 차트는 상승장 위주 — 약세장(bear) 박스는 제외
+      if (c.category === 'bear') return;
       const cs = new Date(c.start).getTime();
       const ce = new Date(c.end).getTime();
       if (ce < wsMs || cs > weMs) return;  // overlap 없음
@@ -2247,7 +2251,6 @@ function buildCycleIndexAnn(cycle, idxId, view) {
         backgroundColor: col.bg,
         borderColor: col.border,
         borderWidth: 1,
-        borderDash: c.category === 'bear' ? [4, 4] : undefined,
         label: { display: true, content: c.name, position: 'start', color: col.text, font: { size: 10, weight: 'bold' } },
         display: () => !!(toggleStates[view].us_nasdaq || toggleStates[view].us_sp500),
       };
