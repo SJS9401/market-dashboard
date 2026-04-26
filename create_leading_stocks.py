@@ -1400,6 +1400,7 @@ const crosshairPlugin = {
       ctx.stroke();
     }
     // date label at bottom of volume chart only (since volume is last)
+    // 차트 area 안쪽 하단에 그려서 캔버스/패널 경계로 잘리지 않도록
     if (chart.$role === 'volume') {
       const xScale = chart.scales.x;
       const dateVal = xScale.getValueForPixel(xPx);
@@ -1410,10 +1411,12 @@ const crosshairPlugin = {
         ctx.font = '10px -apple-system, sans-serif';
         const tw = ctx.measureText(label).width;
         const lx = Math.max(area.left, Math.min(xPx - tw/2 - 4, area.right - tw - 8));
-        ctx.fillStyle = '#30363d';
-        ctx.fillRect(lx, area.bottom + 2, tw + 8, 16);
+        const lblH = 16;
+        const lblY = area.bottom - lblH - 1;  // chart area 안쪽 하단
+        ctx.fillStyle = 'rgba(48, 54, 61, 0.95)';
+        ctx.fillRect(lx, lblY, tw + 8, lblH);
         ctx.fillStyle = '#e6edf3';
-        ctx.fillText(label, lx + 4, area.bottom + 13);
+        ctx.fillText(label, lx + 4, lblY + 11);
       }
     }
     ctx.restore();
