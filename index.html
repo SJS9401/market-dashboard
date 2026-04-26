@@ -142,7 +142,7 @@
     <!-- 12MF 밸류에이션 차트 A: 시총 + ROE + P/B -->
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>코스피 시총·12MF ROE·P/B</h3><span class="price" id="p-kr-val-a">—</span><span class="xdate" id="d-kr-val-a"></span></div>
+        <div class="left"><h3>코스피 시가총액 · 12MF ROE · P/B</h3><span class="price" id="p-kr-val-a">—</span><span class="xdate" id="d-kr-val-a"></span></div>
         <div class="series-toggle" data-chart="kr-val-a">
           <button data-s="roe" class="active">ROE</button>
           <button data-s="pb" class="active">P/B</button>
@@ -153,7 +153,7 @@
     <!-- 12MF 밸류에이션 차트 B: 시총 + EPS + P/E -->
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>코스피 시총·12MF EPS·P/E</h3><span class="price" id="p-kr-val-b">—</span><span class="xdate" id="d-kr-val-b"></span></div>
+        <div class="left"><h3>코스피 시가총액 · 12MF EPS · P/E</h3><span class="price" id="p-kr-val-b">—</span><span class="xdate" id="d-kr-val-b"></span></div>
         <div class="series-toggle" data-chart="kr-val-b">
           <button data-s="eps" class="active">EPS</button>
           <button data-s="pe" class="active">P/E</button>
@@ -934,10 +934,23 @@ async function loadKrExport(){
 let _kospi12mfCache = null;
 async function fetchKospi12mf() {
   if (_kospi12mfCache) return _kospi12mfCache;
-  const r = await fetch('data/kospi_12mf.json?_t=' + Date.now());
+  const r = await fetch('kospi_12mf.json?_t=' + Date.now());
   if (!r.ok) throw new Error('kospi_12mf load fail');
   _kospi12mfCache = await r.json();
   return _kospi12mfCache;
+}
+
+let _kospiMcapCache = null;
+async function fetchKospiMcap() {
+  if (_kospiMcapCache !== null) return _kospiMcapCache;
+  try {
+    const r = await fetch('kospi_mcap.json?_t=' + Date.now());
+    if (!r.ok) throw 0;
+    _kospiMcapCache = await r.json();
+  } catch(e) {
+    _kospiMcapCache = null; // 파일 없으면 placeholder 사용
+  }
+  return _kospiMcapCache;
 }
 
 // 데이터 → lightweight-charts 시리즈 형식 (time-sorted, dedup)
@@ -951,9 +964,16 @@ function fmtSeries(arr) {
   return Object.keys(map).sort().map(t => ({ time: t, value: map[t] }));
 }
 
-// 시가총액 placeholder: KOSPI 지수 candles에서 시총 추정 (KOSPI 지수 × 0.77 ≈ 조원)
-// 실제 KRX 시총 데이터는 KRX OpenAPI 신청 후 교체
-function buildMcapFromKospi() {
+// 시가총액: 우선 kospi_mcap.json (pykrx 백필) 사용, 없으면 KOSPI 지수에서 추정
+async function buildMcap() {
+  const real = await fetchKospiMcap();
+  if (real && Array.isArray(real.data) && real.data.length) {
+    // 단위: 조원 (raw 시총은 원 단위 → /1e12)
+    return real.data
+      .filter(([t, v]) => v != null)
+      .map(([t, v]) => ({ time: t, value: +v / 1e12 }));
+  }
+  // Fallback: KOSPI 지수 × 0.77 (조원 추정)
   const map = chartDataMap['kospi'];
   if (!map) return [];
   const out = [];
@@ -969,7 +989,7 @@ async function loadKrValuationA() {
   const msgEl = document.getElementById('msg-' + id);
   try {
     const D = await fetchKospi12mf();
-    const mcap = buildMcapFromKospi();
+    const mcap = await buildMcap();
     const roe = fmtSeries(D.kospi_12mfwd_roe?.main?.data);
     const pb = fmtSeries(D.kospi_12mfwd_pb?.main_long?.data);
 
@@ -979,7 +999,7 @@ async function loadKrValuationA() {
       // 좌축 (시총)
       ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시총(추정)' });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시가총액(추정)' });
       const sRoe = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'ROE(%)', lineStyle: 0 });
       const sPb = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/B', lineStyle: 0 });
       allCharts[id].series = sMcap;
@@ -994,7 +1014,7 @@ async function loadKrValuationA() {
     const lastR = roe[roe.length - 1];
     const lastP = pb[pb.length - 1];
     const hdr = document.getElementById('p-' + id);
-    const hdrHtml = `<span style="color:rgb(210,175,100)">시총 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">ROE ${lastR ? lastR.value.toFixed(1) + '%' : '—'}</span> / <span style="color:rgb(249,117,131)">P/B ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
+    const hdrHtml = `<span style="color:rgb(210,175,100)">시가총액 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">ROE ${lastR ? lastR.value.toFixed(1) + '%' : '—'}</span> / <span style="color:rgb(249,117,131)">P/B ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
@@ -1010,7 +1030,7 @@ async function loadKrValuationB() {
   const msgEl = document.getElementById('msg-' + id);
   try {
     const D = await fetchKospi12mf();
-    const mcap = buildMcapFromKospi();
+    const mcap = await buildMcap();
     const eps = fmtSeries(D.kospi_12mfwd_eps?.main?.data);
     const pe = fmtSeries(D.kospi_12mfwd_pe?.combined?.data);
 
@@ -1019,7 +1039,7 @@ async function loadKrValuationB() {
       const ch = allCharts[id].chart;
       ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시총(추정)' });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시가총액(추정)' });
       const sEps = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'EPS(원)' });
       const sPe = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/E' });
       allCharts[id].series = sMcap;
@@ -1033,7 +1053,7 @@ async function loadKrValuationB() {
     const lastE = eps[eps.length - 1];
     const lastP = pe[pe.length - 1];
     const hdr = document.getElementById('p-' + id);
-    const hdrHtml = `<span style="color:rgb(210,175,100)">시총 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">EPS ${lastE ? Math.round(lastE.value).toLocaleString() : '—'}</span> / <span style="color:rgb(249,117,131)">P/E ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
+    const hdrHtml = `<span style="color:rgb(210,175,100)">시가총액 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">EPS ${lastE ? Math.round(lastE.value).toLocaleString() : '—'}</span> / <span style="color:rgb(249,117,131)">P/E ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
