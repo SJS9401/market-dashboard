@@ -933,11 +933,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .toggle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
 
 /* HTS 스타일 툴팁 (흰 배경 + 키움 톤) */
-.hts-tooltip { position: absolute; top: 14px; left: 16px; background: rgba(255, 255, 255, 0.97); border: 1px solid #707070; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #1c2128; z-index: 20; pointer-events: none; min-width: 220px; line-height: 1.7; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-.hts-date { font-weight: 700; color: #1c2128; margin-bottom: 4px; font-size: 12px; border-bottom: 1px solid #B0B0B0; padding-bottom: 3px; }
-.hts-section { margin-top: 4px; }
-.hts-section-title { font-weight: 700; font-size: 11px; margin-bottom: 2px; }
-.hts-row { display: flex; justify-content: space-between; gap: 12px; font-family: 'Menlo', monospace; font-size: 11px; }
+.hts-tooltip { position: absolute; top: 14px; left: 16px; background: rgba(255, 255, 255, 0.97); border: 1px solid #707070; border-radius: 6px; padding: 9px 13px; font-size: 13px; color: #1c2128; z-index: 20; pointer-events: none; min-width: 240px; line-height: 1.7; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.hts-date { font-weight: 700; color: #1c2128; margin-bottom: 5px; font-size: 14px; border-bottom: 1px solid #B0B0B0; padding-bottom: 4px; }
+.hts-section { margin-top: 5px; }
+.hts-section-title { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+.hts-row { display: flex; justify-content: space-between; gap: 14px; font-family: 'Menlo', monospace; font-size: 12px; }
 .hts-row .k { color: #1c2128; }
 .hts-row .v { color: #1c2128; }
 .hts-up { color: #C9302C; }
@@ -1602,7 +1602,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       const up = pct >= 0;
       const cls = up ? 'hts-up' : 'hts-down';
       const sign = up ? '+' : '';
-      return ' <span class="' + cls + '" style="font-size:10px;">(' + sign + fmt(pct, 2) + '%)</span>';
+      return ' <span class="' + cls + '" style="font-size:11px;">(' + sign + fmt(pct, 2) + '%)</span>';
     }
     const oP = pctOf(row.o), hP = pctOf(row.h), lP = pctOf(row.l), cP = pctOf(row.c);
     const cCls = (cP != null && cP >= 0) ? 'hts-up' : 'hts-down';
@@ -1626,7 +1626,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
         const dCls = dUp ? 'hts-up' : 'hts-down';
         const dSign = dUp ? '+' : '';
         // MA 라벨은 일반 색 (큰 카테고리만 색을 유지). 등락 % 만 빨/파.
-        s += '<div class="hts-row"><span class="k">' + ds.label + '</span><span class="v">' + fmt(mp.y) + ' <span class="' + dCls + '" style="font-size:10px;">(' + dSign + fmt(disparity, 2) + '%)</span></span></div>';
+        s += '<div class="hts-row"><span class="k">' + ds.label + '</span><span class="v">' + fmt(mp.y) + ' <span class="' + dCls + '" style="font-size:11px;">(' + dSign + fmt(disparity, 2) + '%)</span></span></div>';
       }
     });
     s += '</div>';
@@ -2059,7 +2059,7 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotatio
   [5, 10, 20, 60, 120].forEach(p => {
     const ma = (data1 && data1.length) ? computeMA(data1, p) : [];
     datasets.push({
-      label: 'MA' + p + ' ' + lbl1, data: ma,
+      label: 'MA' + p, data: ma,
       borderColor: MA_COLORS['ma' + p], backgroundColor: 'transparent',
       borderWidth: 1.0, pointRadius: 0, fill: false, yAxisID: 'y', order: 20,
       tension: 0, _isMa: true, _indexId: id1, spanGaps: true,
@@ -2078,7 +2078,7 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotatio
   [5, 10, 20, 60, 120].forEach(p => {
     const ma = (data2 && data2.length) ? computeMA(data2, p) : [];
     datasets.push({
-      label: 'MA' + p + ' ' + lbl2, data: ma,
+      label: 'MA' + p, data: ma,
       borderColor: MA_COLORS['ma' + p], backgroundColor: 'transparent',
       borderWidth: 1.0, pointRadius: 0, fill: false, yAxisID: 'y', order: 20,
       tension: 0, _isMa: true, _indexId: id2, spanGaps: true,
@@ -2510,18 +2510,18 @@ function renderV2() {
     }
   };
   const stockAnn = {};
-  // Outer 중장기 박스 (teal; 종료=실선 / 진행중·조정중=점선)
+  // Outer 중장기 박스 — 지수 사이클 박스와 동일 인디고 톤 (시각 언어 통일)
   if (stock.longterm && stock.longterm.start && stock.longterm.end) {
     const lt = stock.longterm;
     const closed = lt.status === '종료';
     stockAnn.longtermZone = {
       type: 'box',
       xMin: new Date(lt.start).getTime(), xMax: new Date(lt.end).getTime(),
-      backgroundColor: 'rgba(26, 188, 156, 0.10)',
-      borderColor: 'rgba(26, 188, 156, 0.65)',
+      backgroundColor: 'rgba(40, 53, 147, 0.07)',
+      borderColor: 'rgba(40, 53, 147, 0.75)',
       borderWidth: 1,
       borderDash: closed ? undefined : [6, 4],
-      label: { display: true, content: fmtStockLabel(stock.era, stock.name) + ' [' + lt.status + ']', position: 'end', color: 'rgba(26, 188, 156, 0.95)', font: { size: 10, weight: 'bold' }, backgroundColor: 'transparent' }
+      label: { display: true, content: fmtStockLabel(stock.era, stock.name) + ' [' + lt.status + ']', position: 'end', color: '#283593', font: { size: 11, weight: 'bold' }, backgroundColor: 'transparent' }
     };
   }
   // Lifecycle box (관성~전고점 트라이)
