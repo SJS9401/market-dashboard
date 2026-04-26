@@ -932,16 +932,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .toggle-btn:hover { border-color: #1f6feb; color: #1f6feb; }
 .toggle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
 
-/* HTS 스타일 툴팁 (마우스 근처 따라다님) */
-.hts-tooltip { position: absolute; top: 14px; left: 16px; background: rgba(22, 27, 34, 0.94); border: 1px solid #30363d; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #e6edf3; z-index: 20; pointer-events: none; min-width: 220px; line-height: 1.7; }
-.hts-date { font-weight: 700; color: #F39C12; margin-bottom: 4px; font-size: 12px; border-bottom: 1px solid #30363d; padding-bottom: 3px; }
+/* HTS 스타일 툴팁 (흰 배경 + 키움 톤) */
+.hts-tooltip { position: absolute; top: 14px; left: 16px; background: rgba(255, 255, 255, 0.97); border: 1px solid #707070; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #1c2128; z-index: 20; pointer-events: none; min-width: 220px; line-height: 1.7; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.hts-date { font-weight: 700; color: #1c2128; margin-bottom: 4px; font-size: 12px; border-bottom: 1px solid #B0B0B0; padding-bottom: 3px; }
 .hts-section { margin-top: 4px; }
-.hts-section-title { font-weight: 700; font-size: 10px; color: #8b949e; margin-bottom: 2px; }
+.hts-section-title { font-weight: 700; font-size: 11px; margin-bottom: 2px; }
 .hts-row { display: flex; justify-content: space-between; gap: 12px; font-family: 'Menlo', monospace; font-size: 11px; }
-.hts-row .k { color: #8b949e; }
-.hts-row .v { color: #e6edf3; }
-.hts-up { color: #E74C3C; }
-.hts-down { color: #3498DB; }
+.hts-row .k { color: #1c2128; }
+.hts-row .v { color: #1c2128; }
+.hts-up { color: #C9302C; }
+.hts-down { color: #1565C0; }
 
 /* 줌/드래그 */
 .drag-overlay { position: absolute; top: 0; bottom: 0; background: rgba(31,111,235,0.12); border-left: 1px solid rgba(31,111,235,0.4); border-right: 1px solid rgba(31,111,235,0.4); pointer-events: none; z-index: 10; display: none; }
@@ -1161,10 +1161,10 @@ function formatStockLabel(s) {
 }
 
 // 한국식 캔들 컬러
-const CANDLE_UP = '#E74C3C';   // 양봉 = 빨강
-const CANDLE_DN = '#3498DB';   // 음봉 = 파랑
-const VOL_UP = 'rgba(231, 76, 60, 0.55)';
-const VOL_DN = 'rgba(52, 152, 219, 0.55)';
+const CANDLE_UP = '#DC0000';   // 양봉 = 진한 빨강 (회색 배경 대비 강화)
+const CANDLE_DN = '#003CC8';   // 음봉 = 진한 파랑
+const VOL_UP = 'rgba(220, 0, 0, 0.7)';
+const VOL_DN = 'rgba(0, 60, 200, 0.7)';
 
 // MA 컬러
 // 키움 HTS 표준 이평선 색상 — 사용자 캡처 기준
@@ -1625,7 +1625,8 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
         const dUp = disparity >= 0;
         const dCls = dUp ? 'hts-up' : 'hts-down';
         const dSign = dUp ? '+' : '';
-        s += '<div class="hts-row"><span class="k" style="color:' + ds.borderColor + ';">' + ds.label + '</span><span class="v">' + fmt(mp.y) + ' <span class="' + dCls + '" style="font-size:10px;">(' + dSign + fmt(disparity, 2) + '%)</span></span></div>';
+        // MA 라벨은 일반 색 (큰 카테고리만 색을 유지). 등락 % 만 빨/파.
+        s += '<div class="hts-row"><span class="k">' + ds.label + '</span><span class="v">' + fmt(mp.y) + ' <span class="' + dCls + '" style="font-size:10px;">(' + dSign + fmt(disparity, 2) + '%)</span></span></div>';
       }
     });
     s += '</div>';
@@ -2138,8 +2139,8 @@ function buildAllCyclesIndexAnn(idxId, view) {
       type: 'box',
       xMin: new Date(z.start).getTime(),
       xMax: new Date(z.end).getTime(),
-      backgroundColor: 'rgba(243, 156, 18, 0.04)',
-      borderColor: 'rgba(243, 156, 18, 0.35)',
+      backgroundColor: 'rgba(40, 53, 147, 0.05)',
+      borderColor: 'rgba(40, 53, 147, 0.55)',
       borderWidth: 1,
       borderDash: closed ? undefined : [4, 4],
       display: () => !!toggleStates[view][k],
@@ -2160,11 +2161,11 @@ function buildCycleIndexAnn(cycle, idxId, view) {
       type: 'box',
       xMin: new Date(z.start).getTime(),
       xMax: new Date(z.end).getTime(),
-      backgroundColor: 'rgba(243, 156, 18, 0.05)',
-      borderColor: 'rgba(243, 156, 18, 0.4)',
+      backgroundColor: 'rgba(40, 53, 147, 0.07)',
+      borderColor: 'rgba(40, 53, 147, 0.75)',
       borderWidth: 1,
       borderDash: closed ? undefined : [4, 4],
-      label: { display: true, content: lbl, position: 'start', color: '#F39C12', font: { size: 9 } },
+      label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 10, weight: 'bold' } },
       display: () => !!toggleStates[view][k],
     }
   };
@@ -2502,10 +2503,10 @@ function renderV2() {
     cycleZone: {
       type: 'box',
       xMin: new Date(cycle.start).getTime(), xMax: new Date(cycle.end).getTime(),
-      backgroundColor: 'rgba(243, 156, 18, 0.05)',
-      borderColor: 'rgba(243, 156, 18, 0.4)', borderWidth: 1,
+      backgroundColor: 'rgba(40, 53, 147, 0.07)',
+      borderColor: 'rgba(40, 53, 147, 0.75)', borderWidth: 1,
       borderDash: cycClosed ? undefined : [4, 4],
-      label: { display: true, content: cycLabel, position: 'start', color: '#F39C12', font: { size: 10 } }
+      label: { display: true, content: cycLabel, position: 'start', color: '#283593', font: { size: 10, weight: 'bold' } }
     }
   };
   const stockAnn = {};
