@@ -913,15 +913,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 /* 4단 스택 차트 박스 */
 .stack-wrap { background: #161b22; border-radius: 8px; border: 1px solid #30363d; padding: 10px 12px 14px; position: relative; }
-.panel { position: relative; }
+.panel { display: flex; flex-direction: column; position: relative; }
 .panel-us { height: 220px; }
 .panel-price { height: 220px; }
 .panel-stock { height: 320px; }
 .panel-volume { height: 120px; }
-.panel-label { position: absolute; top: 6px; left: 70px; font-size: 11px; font-weight: 700; color: #8b949e; z-index: 5; pointer-events: none; background: rgba(22, 27, 34, 0.7); padding: 2px 8px; border-radius: 3px; }
+/* 미국 지수 / 한국 지수 / 종목 영역 진입 시 강한 가로 구분선 (거래대금은 제외) */
+.panel-price { border-top: 2px solid #484f58; padding-top: 4px; margin-top: 4px; }
+.panel-stock { border-top: 2px solid #484f58; padding-top: 4px; margin-top: 4px; }
+/* 패널 헤더: 라벨 + 토글 (캔버스 위 별도 행, absolute 아님) */
+.panel-header { display: flex; align-items: center; gap: 10px; height: 22px; flex: 0 0 auto; padding: 0 0 2px 70px; }
+.panel-label { font-size: 11px; font-weight: 700; color: #8b949e; }
+.panel-canvas-wrap { flex: 1 1 auto; position: relative; min-height: 0; }
 
-/* 토글 버튼 행 (패널 라벨 옆) */
-.panel-toggle-row { position: absolute; top: 6px; left: 420px; display: flex; gap: 6px; }
+/* 토글 버튼 행 (패널 라벨 바로 옆) */
+.panel-toggle-row { display: flex; gap: 6px; }
 .toggle-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; border: 1px solid #30363d; background: transparent; color: #8b949e; transition: all 0.15s; white-space: nowrap; }
 .toggle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
 .toggle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
@@ -989,32 +995,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <div class="stack-wrap">
       <div class="hts-tooltip" id="v1-tooltip" style="display:none;"></div>
       <div class="panel panel-us">
-        <div class="panel-label">미국 지수</div>
-        <div class="panel-toggle-row">
-          <button class="toggle-btn active" id="v1-us-nasdaq" onclick="toggleUSIndex('v1','nasdaq')">NASDAQ</button>
-          <button class="toggle-btn" id="v1-us-sp500" onclick="toggleUSIndex('v1','sp500')">S&P500</button>
+        <div class="panel-header">
+          <span class="panel-label">미국 지수</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v1-us-nasdaq" onclick="toggleUSIndex('v1','nasdaq')">NASDAQ</button>
+            <button class="toggle-btn" id="v1-us-sp500" onclick="toggleUSIndex('v1','sp500')">S&P500</button>
+          </div>
         </div>
-        <canvas id="v1-us-price"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v1-us-price"></div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v1-us-price"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v1-us-price"></div>
+        </div>
       </div>
       <div class="panel panel-price">
-        <div class="panel-label">한국 지수</div>
-        <div class="panel-toggle-row">
-          <button class="toggle-btn active" id="v1-kr-kospi" onclick="toggleKRIndex('v1','kospi')">KOSPI</button>
-          <button class="toggle-btn" id="v1-kr-kosdaq" onclick="toggleKRIndex('v1','kosdaq')">KOSDAQ</button>
+        <div class="panel-header">
+          <span class="panel-label">한국 지수</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v1-kr-kospi" onclick="toggleKRIndex('v1','kospi')">KOSPI</button>
+            <button class="toggle-btn" id="v1-kr-kosdaq" onclick="toggleKRIndex('v1','kosdaq')">KOSDAQ</button>
+          </div>
         </div>
-        <canvas id="v1-price"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v1-price"></div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v1-price"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v1-price"></div>
+        </div>
       </div>
       <div class="panel panel-stock">
-        <div class="panel-label" id="v1-stock-label">주도주</div>
-        <canvas id="v1-stock"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v1-stock"></div>
+        <div class="panel-header">
+          <span class="panel-label" id="v1-stock-label">주도주</span>
+        </div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v1-stock"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v1-stock"></div>
+        </div>
       </div>
       <div class="panel panel-volume">
-        <div class="panel-label">거래대금 (억원)</div>
-        <canvas id="v1-volume"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v1-volume"></div>
+        <div class="panel-header">
+          <span class="panel-label">거래대금 (억원)</span>
+        </div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v1-volume"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v1-volume"></div>
+        </div>
       </div>
     </div>
     <div class="legend-row" id="v1-legend"></div>
@@ -1050,32 +1072,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <div class="stack-wrap">
       <div class="hts-tooltip" id="v2-tooltip" style="display:none;"></div>
       <div class="panel panel-us">
-        <div class="panel-label">미국 지수</div>
-        <div class="panel-toggle-row">
-          <button class="toggle-btn active" id="v2-us-nasdaq" onclick="toggleUSIndex('v2','nasdaq')">NASDAQ</button>
-          <button class="toggle-btn" id="v2-us-sp500" onclick="toggleUSIndex('v2','sp500')">S&P500</button>
+        <div class="panel-header">
+          <span class="panel-label">미국 지수</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v2-us-nasdaq" onclick="toggleUSIndex('v2','nasdaq')">NASDAQ</button>
+            <button class="toggle-btn" id="v2-us-sp500" onclick="toggleUSIndex('v2','sp500')">S&P500</button>
+          </div>
         </div>
-        <canvas id="v2-us-price"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v2-us-price"></div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v2-us-price"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v2-us-price"></div>
+        </div>
       </div>
       <div class="panel panel-price">
-        <div class="panel-label">한국 지수</div>
-        <div class="panel-toggle-row">
-          <button class="toggle-btn active" id="v2-kr-kospi" onclick="toggleKRIndex('v2','kospi')">KOSPI</button>
-          <button class="toggle-btn" id="v2-kr-kosdaq" onclick="toggleKRIndex('v2','kosdaq')">KOSDAQ</button>
+        <div class="panel-header">
+          <span class="panel-label">한국 지수</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v2-kr-kospi" onclick="toggleKRIndex('v2','kospi')">KOSPI</button>
+            <button class="toggle-btn" id="v2-kr-kosdaq" onclick="toggleKRIndex('v2','kosdaq')">KOSDAQ</button>
+          </div>
         </div>
-        <canvas id="v2-price"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v2-price"></div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v2-price"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v2-price"></div>
+        </div>
       </div>
       <div class="panel panel-stock">
-        <div class="panel-label" id="v2-stock-label">주도주</div>
-        <canvas id="v2-stock"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v2-stock"></div>
+        <div class="panel-header">
+          <span class="panel-label" id="v2-stock-label">주도주</span>
+        </div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v2-stock"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v2-stock"></div>
+        </div>
       </div>
       <div class="panel panel-volume">
-        <div class="panel-label">거래대금 (억원)</div>
-        <canvas id="v2-volume"></canvas>
-        <div class="drag-overlay" id="drag-overlay-v2-volume"></div>
+        <div class="panel-header">
+          <span class="panel-label">거래대금 (억원)</span>
+        </div>
+        <div class="panel-canvas-wrap">
+          <canvas id="v2-volume"></canvas>
+          <div class="drag-overlay" id="drag-overlay-v2-volume"></div>
+        </div>
       </div>
     </div>
     <div class="legend-row" id="v2-legend"></div>
