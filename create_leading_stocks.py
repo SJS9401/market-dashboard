@@ -867,6 +867,30 @@ sp500_data = raw["stocks"].get("sp500", [])
 nasdaq_data = raw["stocks"].get("nasdaq", [])
 meta = raw["meta"]
 
+# ===== 미국 시장 사이클 (Market_cycle.html 에서 추출) =====
+# extract_market_cycles.py 로 미리 추출. 미국 지수 박스에 사용.
+import os as _os
+_mc_path = _os.path.join(_os.path.dirname(__file__), "market_cycles.json")
+us_market_cycles = []
+if _os.path.exists(_mc_path):
+    with open(_mc_path, encoding="utf-8") as _f:
+        _mc = json.load(_f)
+    for _c in _mc.get("cycles", []):
+        _idx = set(_c.get("indices", []) or [])
+        if _idx & {"SP500", "NASDAQ"}:
+            # 박스에 필요한 필드만
+            us_market_cycles.append({
+                "id":       _c.get("id"),
+                "name":     _c.get("name"),
+                "start":    _c.get("start"),
+                "end":      _c.get("end"),
+                "category": _c.get("category"),  # bull / bear
+                "subtype":  _c.get("subtype"),
+            })
+    print(f"[*] US market cycles: {len(us_market_cycles)} 개")
+else:
+    print(f"[WARN] {_mc_path} 없음 — 미국 사이클 박스 비활성")
+
 # ===== 4. GENERATE HTML =====
 html = """<!DOCTYPE html>
 <html lang="ko">
@@ -1153,6 +1177,7 @@ const ALL_STOCK_ENTRIES = """ + json.dumps(all_stock_entries) + """;
 const CYCLES = """ + json.dumps(cycle_order) + """;
 const STOCK_COLORS = """ + json.dumps(STOCK_COLORS) + """;
 const STOCK_ZONES = """ + json.dumps(stock_zones) + """;
+const US_MARKET_CYCLES = """ + json.dumps(us_market_cycles) + """;
 
 const stockColorMap = {};
 UNIQUE_STOCKS.forEach((s, i) => { stockColorMap[s.id] = STOCK_COLORS[i % STOCK_COLORS.length]; });
@@ -2140,35 +2165,101 @@ function _idxToggleKey(idxId) {
   return 'kr_' + idxId;
 }
 
+// 미국 사이클 = bull/bear 에 따라 색상 구분
+//   bull: 인디고 (강세장)
+//   bear: 진한 빨강 톤 (약세장 — 회색 배경 대비 강한 대비)
+function _usCycleColor(category) {
+  if (category === 'bear') {
+    return { bg: 'rgba(176, 0, 32, 0.07)', border: 'rgba(176, 0, 32, 0.75)', text: '#B00020' };
+  }
+  // bull / 그 외
+  return { bg: 'rgba(40, 53, 147, 0.07)', border: 'rgba(40, 53, 147, 0.75)', text: '#283593' };
+}
+
 // V1 전체 히스토리: 모든 사이클의 박스를 누적 표시 (지수별)
+//   - 미국 지수 (nasdaq/sp500): US_MARKET_CYCLES (Market_cycle 정의 기반)
+//   - 한국 지수 (kospi/kosdaq):  CYCLES.indexZones (LEADING_STOCKS 기반)
 function buildAllCyclesIndexAnn(idxId, view) {
   const ann = {};
   const k = _idxToggleKey(idxId);
-  CYCLES.forEach((c, i) => {
-    const z = c.indexZones && c.indexZones[idxId];
-    if (!z || !z.start || !z.end) return;
-    const closed = z.status === '종료';
-    ann['c_' + idxId + '_' + i] = {
-      type: 'box',
-      xMin: new Date(z.start).getTime(),
-      xMax: new Date(z.end).getTime(),
-      backgroundColor: 'rgba(40, 53, 147, 0.07)',
-      borderColor: 'rgba(40, 53, 147, 0.75)',
-      borderWidth: 1,
-      borderDash: closed ? undefined : [4, 4],
-      display: () => !!toggleStates[view][k],
-    };
-  });
+  const isUS = (idxId === 'nasdaq' || idxId === 'sp500');
+  if (isUS) {
+    US_MARKET_CYCLES.forEach((c, i) => {
+      if (!c.start || !c.end) return;
+      const col = _usCycleColor(c.category);
+      ann['us_' + i] = {
+        type: 'box',
+        xMin: new Date(c.start).getTime(),
+        xMax: new Date(c.end).getTime(),
+        backgroundColor: col.bg,
+        borderColor: col.border,
+        borderWidth: 1,
+        borderDash: c.category === 'bear' ? [4, 4] : undefined,
+        // US 박스는 NASDAQ 또는 S&P500 둘 중 하나라도 ON 이면 표시
+        display: () => !!(toggleStates[view].us_nasdaq || toggleStates[view].us_sp500),
+      };
+    });
+  } else {
+    CYCLES.forEach((c, i) => {
+      const z = c.indexZones && c.indexZones[idxId];
+      if (!z || !z.start || !z.end) return;
+      const closed = z.status === '종료';
+      ann['c_' + idxId + '_' + i] = {
+        type: 'box',
+        xMin: new Date(z.start).getTime(),
+        xMax: new Date(z.end).getTime(),
+        backgroundColor: 'rgba(40, 53, 147, 0.07)',
+        borderColor: 'rgba(40, 53, 147, 0.75)',
+        borderWidth: 1,
+        borderDash: closed ? undefined : [4, 4],
+        display: () => !!toggleStates[view][k],
+      };
+    });
+  }
   return ann;
 }
 
-// V2 사이클 단위: 현재 사이클의 박스만 (지수별)
+// V2 사이클 단위: 현재 사이클의 박스 (지수별)
+//   - 한국 지수: 선택된 KR 사이클 박스 1개 (현재 로직)
+//   - 미국 지수: cycle 의 시간 윈도우와 겹치는 US 사이클들 모두 (각각 미국 사이클명 라벨)
 function buildCycleIndexAnn(cycle, idxId, view) {
+  const k = _idxToggleKey(idxId);
+  const isUS = (idxId === 'nasdaq' || idxId === 'sp500');
+
+  if (isUS) {
+    // cycle ±2년 범위와 overlap 되는 US 사이클들
+    const winStart = (cycle && cycle.manualStart) ? new Date(cycle.manualStart) : (cycle && cycle.start ? new Date(cycle.start) : null);
+    const winEnd   = (cycle && cycle.manualEnd)   ? new Date(cycle.manualEnd)   : (cycle && cycle.end   ? new Date(cycle.end)   : null);
+    if (!winStart || !winEnd) return {};
+    const ws = new Date(winStart); ws.setFullYear(ws.getFullYear() - 2);
+    const we = new Date(winEnd);   we.setFullYear(we.getFullYear() + 2);
+    const wsMs = ws.getTime(), weMs = we.getTime();
+    const ann = {};
+    US_MARKET_CYCLES.forEach((c, i) => {
+      if (!c.start || !c.end) return;
+      const cs = new Date(c.start).getTime();
+      const ce = new Date(c.end).getTime();
+      if (ce < wsMs || cs > weMs) return;  // overlap 없음
+      const col = _usCycleColor(c.category);
+      ann['us_' + i] = {
+        type: 'box',
+        xMin: cs, xMax: ce,
+        backgroundColor: col.bg,
+        borderColor: col.border,
+        borderWidth: 1,
+        borderDash: c.category === 'bear' ? [4, 4] : undefined,
+        label: { display: true, content: c.name, position: 'start', color: col.text, font: { size: 10, weight: 'bold' } },
+        display: () => !!(toggleStates[view].us_nasdaq || toggleStates[view].us_sp500),
+      };
+    });
+    return ann;
+  }
+
+  // KR 패널 — 기존 로직
   const z = cycle && cycle.indexZones && cycle.indexZones[idxId];
   if (!z || !z.start || !z.end) return {};
   const closed = z.status === '종료';
   const lbl = cycle.name + (z.status ? ' [' + z.status + ']' : '');
-  const k = _idxToggleKey(idxId);
   return {
     cycleZoneIdx: {
       type: 'box',
@@ -2321,7 +2412,8 @@ function renderV1() {
   const sp500Weekly = toWeekly(SP500_RAW);
   const kosdaqWeekly = toWeekly(KOSDAQ_RAW);
 
-  const usAnn = Object.assign({}, buildAllCyclesIndexAnn('nasdaq', 'v1'), buildAllCyclesIndexAnn('sp500', 'v1'));
+  // 미국 박스는 US_MARKET_CYCLES 기반 — nasdaq/sp500 공통이므로 한 번만 호출
+  const usAnn = buildAllCyclesIndexAnn('nasdaq', 'v1');
   const krAnn = Object.assign({}, buildAllCyclesIndexAnn('kospi',  'v1'), buildAllCyclesIndexAnn('kosdaq', 'v1'));
   const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price', usAnn);
   const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price', krAnn);
@@ -2567,10 +2659,9 @@ function renderV2() {
     }
   }
 
-  const usAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'nasdaq', 'v2'));
-  // 사이클 박스 키 충돌 방지를 위해 sp500 도 별도 키로 추가
-  const _spAnn = buildCycleIndexAnn(cycle, 'sp500', 'v2');
-  if (_spAnn.cycleZoneIdx) usAnn.cycleZoneIdxSp = _spAnn.cycleZoneIdx;
+  // 미국 박스: US_MARKET_CYCLES 와 cycle 의 ±2년 윈도우 overlap 사이클들 — 한 번 호출
+  const usAnn = buildCycleIndexAnn(cycle, 'nasdaq', 'v2');
+  // 한국 박스: KOSPI/KOSDAQ 각각의 indexZones 별도
   const krAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'kospi', 'v2'));
   const _kqAnn = buildCycleIndexAnn(cycle, 'kosdaq', 'v2');
   if (_kqAnn.cycleZoneIdx) krAnn.cycleZoneIdxKq = _kqAnn.cycleZoneIdx;

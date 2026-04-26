@@ -1,0 +1,767 @@
+{
+  "generated_from": "Market_cycle.html",
+  "count": 42,
+  "cycles": [
+    {
+      "subtype": "cyclical",
+      "name": "1973 1차 오일쇼크",
+      "trough": "1974-10-03",
+      "end": "1974-10-01",
+      "start": "1973-01-01",
+      "type": "경기순환 약세장",
+      "peak": "1973-01-11",
+      "category": "bear",
+      "id": "us_oil1_1973",
+      "indices": [
+        "SP500",
+        "NASDAQ"
+      ],
+      "mddMin": -64,
+      "region": "us"
+    },
+    {
+      "subtype": "cyclical",
+      "name": "1979 2차 오일쇼크",
+      "trough": "1982-08-12",
+      "end": "1982-08-01",
+      "start": "1980-01-01",
+      "type": "경기순환 약세장",
+      "peak": "1980-11-28",
+      "category": "bear",
+      "id": "us_oil2_1979",
+      "indices": [
+        "SP500",
+        "NASDAQ"
+      ],
+      "mddMin": -35,
+      "region": "us"
+    },
+    {
+      "subtype": "cyclical",
+      "name": "1984 볼커 긴축",
+      "trough": "1984-07-24",
+      "end": "1984-08-01",
+      "start": "1983-10-01",
+      "type": "경기순환 약세장",
+      "peak": "1983-11-29",
+      "category": "bear",
+      "id": "us_volcker_1983",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI"
+      ],
+      "mddMin": -35,
+      "region": "global"
+    },
+    {
+      "subtype": "event_financial",
+      "name": "1987 블랙먼데이",
+      "trough": "1987-12-04",
+      "end": "1987-12-01",
+      "start": "1987-08-01",
+      "type": "이벤트 드리븐",
+      "peak": "1987-08-25",
+      "category": "bear",
+      "id": "us_blackmonday_1987",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI"
+      ],
+      "mddMin": -41,
+      "region": "global"
+    },
+    {
+      "subtype": "event_war",
+      "name": "1990 걸프전",
+      "trough": "1990-10-11",
+      "end": "1990-11-01",
+      "start": "1990-07-01",
+      "type": "이벤트 드리븐",
+      "peak": "1990-07-16",
+      "category": "bear",
+      "id": "us_gulf_1990",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI"
+      ],
+      "mddMin": -37,
+      "region": "global"
+    },
+    {
+      "subtype": "innovation",
+      "name": "1995~2000 IT 혁명",
+      "trough": "1994-12-09",
+      "end": "2000-03-15",
+      "start": "1995-01-01",
+      "type": "기술혁신 주도",
+      "peak": "2000-03-10",
+      "category": "bull",
+      "id": "us_tech_1995",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -77,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "1997 IMF 외환위기",
+      "trough": "1998-06-16",
+      "end": "1998-06-30",
+      "start": "1997-06-01",
+      "type": "구조적 약세장",
+      "peak": "1997-06-16",
+      "category": "korea",
+      "id": "kr_imf_1997",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -67,
+      "region": "kr"
+    },
+    {
+      "subtype": "bull",
+      "name": "1998~1999 IT강세장",
+      "trough": "1998-06-16",
+      "end": "2000-01-15",
+      "start": "1998-06-01",
+      "type": "금융장세",
+      "peak": "2000-01-04",
+      "category": "korea",
+      "id": "kr_bull_1998",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -67,
+      "region": "kr"
+    },
+    {
+      "subtype": "event_financial",
+      "name": "1998 LTCM/러시아",
+      "trough": "1998-10-08",
+      "end": "1998-10-15",
+      "start": "1998-07-01",
+      "type": "이벤트 드리븐",
+      "peak": "1998-07-17",
+      "category": "bear",
+      "id": "us_ltcm_1998",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -67,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "2000 IT버블 붕괴",
+      "trough": "2001-09-21",
+      "end": "2001-09-30",
+      "start": "2000-01-01",
+      "type": "구조적 약세장",
+      "peak": "2000-01-04",
+      "category": "korea",
+      "id": "kr_itbubble_2000",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "kr"
+    },
+    {
+      "subtype": "structural",
+      "name": "2000 닷컴버블 붕괴",
+      "trough": "2002-10-09",
+      "end": "2002-10-15",
+      "start": "2000-03-01",
+      "type": "구조적 약세장",
+      "peak": "2000-03-24",
+      "category": "bear",
+      "id": "us_dotcom_2000",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -82,
+      "region": "global"
+    },
+    {
+      "subtype": "bull",
+      "name": "2001~2002 내수/카드버블",
+      "trough": "2001-09-21",
+      "end": "2002-04-30",
+      "start": "2001-09-01",
+      "type": "금융장세",
+      "peak": "2002-04-22",
+      "category": "korea",
+      "id": "kr_bull_2001",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "kr"
+    },
+    {
+      "subtype": "bear",
+      "name": "2002 카드채 사태",
+      "trough": "2003-03-17",
+      "end": "2003-03-31",
+      "start": "2002-04-01",
+      "type": "구조적 약세장",
+      "peak": "2002-04-22",
+      "category": "korea",
+      "id": "kr_card_2002",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -49,
+      "region": "kr"
+    },
+    {
+      "subtype": "financial",
+      "name": "2003 닷컴 이후 금융장세",
+      "trough": "2002-10-09",
+      "end": "2004-03-31",
+      "start": "2002-10-01",
+      "type": "금융장세",
+      "peak": "2004-02-11",
+      "category": "bull",
+      "id": "us_fin_2003",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -72,
+      "region": "global"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2003 SARS",
+      "trough": "2003-03-11",
+      "end": "2003-05-01",
+      "start": "2003-01-01",
+      "type": "이벤트 드리븐",
+      "peak": "2003-01-14",
+      "category": "bear",
+      "id": "us_sars_2003",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -64,
+      "region": "global"
+    },
+    {
+      "subtype": "bull",
+      "name": "2003~2007 중국특수 강세장",
+      "trough": "2003-03-17",
+      "end": "2007-10-31",
+      "start": "2003-03-01",
+      "type": "경기 강세장",
+      "peak": "2007-10-29",
+      "category": "korea",
+      "id": "kr_bull_2003",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "kr"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2004 조류독감",
+      "trough": "2004-05-17",
+      "end": "2004-06-01",
+      "start": "2004-01-01",
+      "type": "이벤트 드리븐",
+      "peak": "2004-02-11",
+      "category": "bear",
+      "id": "us_avianflu_2004",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -49,
+      "region": "global"
+    },
+    {
+      "subtype": "earnings",
+      "name": "2004~2007 실적장세",
+      "trough": "2004-08-12",
+      "end": "2007-10-31",
+      "start": "2004-08-01",
+      "type": "경기 강세장",
+      "peak": "2007-10-09",
+      "category": "bull",
+      "id": "us_earn_2004",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "global"
+    },
+    {
+      "subtype": "structural",
+      "name": "2008 글로벌 금융위기",
+      "trough": "2009-03-09",
+      "end": "2009-03-15",
+      "start": "2007-10-01",
+      "type": "구조적 약세장",
+      "peak": "2007-10-09",
+      "category": "bear",
+      "id": "us_gfc_2008",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "2008 금융위기 (코스피)",
+      "trough": "2008-10-24",
+      "end": "2009-03-15",
+      "start": "2007-10-01",
+      "type": "구조적 약세장",
+      "peak": "2007-10-29",
+      "category": "korea",
+      "id": "kr_gfc_2008",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "kr"
+    },
+    {
+      "subtype": "financial",
+      "name": "2009 금융위기 이후 금융장세",
+      "trough": "2009-03-09",
+      "end": "2010-04-30",
+      "start": "2009-03-01",
+      "type": "금융장세",
+      "peak": "2010-04-23",
+      "category": "bull",
+      "id": "us_fin_2009",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -59,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "2011~2016 횡보장",
+      "trough": "2016-02-12",
+      "end": "2016-02-29",
+      "start": "2011-04-01",
+      "type": "경기순환 약세장",
+      "peak": "2011-04-27",
+      "category": "korea",
+      "id": "kr_sideways_2011",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -28,
+      "region": "kr"
+    },
+    {
+      "subtype": "innovation",
+      "name": "2012~2020 FAANG 시대",
+      "trough": "2011-10-03",
+      "end": "2020-02-19",
+      "start": "2012-01-01",
+      "type": "기술혁신 주도",
+      "peak": "2020-02-19",
+      "category": "bull",
+      "id": "us_tech_2012",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -44,
+      "region": "global"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2012 MERS",
+      "trough": "2012-11-15",
+      "end": "2012-12-01",
+      "start": "2012-09-01",
+      "type": "이벤트 드리븐",
+      "peak": "2012-09-14",
+      "category": "bear",
+      "id": "us_mers_2012",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -28,
+      "region": "global"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2014 에볼라",
+      "trough": "2014-02-05",
+      "end": "2014-03-01",
+      "start": "2013-12-01",
+      "type": "이벤트 드리븐",
+      "peak": "2014-01-15",
+      "category": "bear",
+      "id": "us_ebola_2014",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -22,
+      "region": "global"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2015 MERS (코스피)",
+      "trough": "2015-08-24",
+      "end": "2015-09-01",
+      "start": "2015-04-01",
+      "type": "이벤트 드리븐",
+      "peak": "2015-04-27",
+      "category": "bear",
+      "id": "kr_mers_2015",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -22,
+      "region": "global"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2015 지카",
+      "trough": "2016-02-11",
+      "end": "2016-03-01",
+      "start": "2015-11-01",
+      "type": "이벤트 드리븐",
+      "peak": "2015-11-03",
+      "category": "bear",
+      "id": "us_zika_2015",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -22,
+      "region": "global"
+    },
+    {
+      "subtype": "earnings",
+      "name": "2016~2018 실적장세",
+      "trough": "2016-02-11",
+      "end": "2018-01-31",
+      "start": "2016-02-01",
+      "type": "경기 강세장",
+      "peak": "2018-01-26",
+      "category": "bull",
+      "id": "us_earn_2016",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -30,
+      "region": "global"
+    },
+    {
+      "subtype": "bull",
+      "name": "2016~2018 반도체 강세장",
+      "trough": "2016-02-12",
+      "end": "2018-01-31",
+      "start": "2016-02-01",
+      "type": "경기 강세장",
+      "peak": "2018-01-29",
+      "category": "korea",
+      "id": "kr_bull_2016",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -30,
+      "region": "kr"
+    },
+    {
+      "subtype": "bear",
+      "name": "2018 미중분쟁",
+      "trough": "2020-01-31",
+      "end": "2020-01-31",
+      "start": "2018-01-01",
+      "type": "경기순환 약세장",
+      "peak": "2018-01-29",
+      "category": "korea",
+      "id": "kr_trade_2018",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -44,
+      "region": "kr"
+    },
+    {
+      "subtype": "bear",
+      "name": "2020 코로나 (코스피)",
+      "trough": "2020-03-19",
+      "end": "2020-04-30",
+      "start": "2020-01-01",
+      "type": "이벤트 드리븐",
+      "peak": "2020-01-20",
+      "category": "korea",
+      "id": "kr_covid_2020",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -44,
+      "region": "kr"
+    },
+    {
+      "subtype": "event_virus",
+      "name": "2020 코로나",
+      "trough": "2020-03-23",
+      "end": "2020-04-01",
+      "start": "2020-02-01",
+      "type": "이벤트 드리븐",
+      "peak": "2020-02-19",
+      "category": "bear",
+      "id": "us_covid_2020",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -42,
+      "region": "global"
+    },
+    {
+      "subtype": "financial",
+      "name": "2020 코로나 이후 금융장세",
+      "trough": "2020-03-23",
+      "end": "2020-09-30",
+      "start": "2020-03-01",
+      "type": "금융장세",
+      "peak": "2020-09-02",
+      "category": "bull",
+      "id": "us_fin_2020",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -42,
+      "region": "global"
+    },
+    {
+      "subtype": "bull",
+      "name": "2020~2021 코로나 강세장",
+      "trough": "2020-03-19",
+      "end": "2021-07-01",
+      "start": "2020-03-01",
+      "type": "금융장세",
+      "peak": "2021-06-25",
+      "category": "korea",
+      "id": "kr_bull_2020",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -42,
+      "region": "kr"
+    },
+    {
+      "subtype": "cyclical",
+      "name": "2022 금리인상 사이클",
+      "trough": "2022-10-12",
+      "end": "2022-10-15",
+      "start": "2022-01-01",
+      "type": "경기순환 약세장",
+      "peak": "2022-01-03",
+      "category": "bear",
+      "id": "us_rate_2022",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -41,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "2022 금리인상 약세장",
+      "trough": "2022-09-26",
+      "end": "2022-10-31",
+      "start": "2022-01-01",
+      "type": "경기순환 약세장",
+      "peak": "2022-01-04",
+      "category": "korea",
+      "id": "kr_rate_2022",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -40,
+      "region": "kr"
+    },
+    {
+      "subtype": "innovation",
+      "name": "2022~ AI 강세장",
+      "trough": "2022-10-12",
+      "end": "2026-04-16",
+      "start": "2022-10-01",
+      "type": "기술혁신 주도",
+      "peak": "2025-02-19",
+      "category": "bull",
+      "id": "us_ai_2022",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -41,
+      "region": "global"
+    },
+    {
+      "subtype": "bear",
+      "name": "2023~2024 횡보장",
+      "trough": "2022-09-26",
+      "end": "2025-03-31",
+      "start": "2022-10-01",
+      "type": "경기순환 약세장",
+      "peak": "2024-07-11",
+      "category": "korea",
+      "id": "kr_sideways_2023",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -40,
+      "region": "kr"
+    },
+    {
+      "subtype": "event_trade",
+      "name": "2025 트럼프 관세",
+      "trough": "2025-04-08",
+      "end": "2025-06-01",
+      "start": "2025-02-01",
+      "type": "이벤트 드리븐",
+      "peak": "2025-02-19",
+      "category": "bear",
+      "id": "us_tariff_2025",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -27,
+      "region": "global"
+    },
+    {
+      "subtype": "financial",
+      "name": "2025 관세 이후 반등",
+      "trough": "2025-04-08",
+      "end": "2026-02-28",
+      "start": "2025-04-01",
+      "type": "금융장세",
+      "peak": "2026-02-19",
+      "category": "bull",
+      "id": "us_fin_2025",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -27,
+      "region": "global"
+    },
+    {
+      "subtype": "bull",
+      "name": "2025~ AI 강세장",
+      "trough": "2025-04-08",
+      "end": "2026-04-16",
+      "start": "2025-04-01",
+      "type": "기술혁신 주도",
+      "peak": "2026-04-16",
+      "category": "korea",
+      "id": "kr_ai_2025",
+      "indices": [
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -21,
+      "region": "kr"
+    },
+    {
+      "subtype": "event_war",
+      "name": "2026 이란 전쟁",
+      "trough": "2026-03-13",
+      "end": "2026-04-16",
+      "start": "2026-01-01",
+      "type": "이벤트 드리븐",
+      "peak": "2026-02-19",
+      "category": "bear",
+      "id": "us_iran_2026",
+      "indices": [
+        "SP500",
+        "NASDAQ",
+        "KOSPI",
+        "KOSDAQ"
+      ],
+      "mddMin": -27,
+      "region": "global"
+    }
+  ]
+}
