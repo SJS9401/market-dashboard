@@ -826,7 +826,7 @@ async function loadADR(){
 let _krExportCache = null;
 async function fetchKrExportSeries() {
   if (_krExportCache) return _krExportCache;
-  const r = await fetch('./kr_export.json?_t=' + Date.now());
+  const r = await fetch('./data/kr_export.json?_t=' + Date.now());
   if (!r.ok) throw new Error('kr_export.json fetch failed: ' + r.status);
   _krExportCache = await r.json();
   return _krExportCache;
@@ -934,7 +934,7 @@ async function loadKrExport(){
 let _kospi12mfCache = null;
 async function fetchKospi12mf() {
   if (_kospi12mfCache) return _kospi12mfCache;
-  const r = await fetch('kospi_12mf.json?_t=' + Date.now());
+  const r = await fetch('./data/kospi_12mf.json?_t=' + Date.now());
   if (!r.ok) throw new Error('kospi_12mf load fail');
   _kospi12mfCache = await r.json();
   return _kospi12mfCache;
@@ -944,7 +944,7 @@ let _kospiMcapCache = null;
 async function fetchKospiMcap() {
   if (_kospiMcapCache !== null) return _kospiMcapCache;
   try {
-    const r = await fetch('kospi_mcap.json?_t=' + Date.now());
+    const r = await fetch('./data/kospi_mcap.json?_t=' + Date.now());
     if (!r.ok) throw 0;
     _kospiMcapCache = await r.json();
   } catch(e) {
@@ -1184,7 +1184,7 @@ async function loadUSFG() {
 let usBreadthCache=null;
 async function getUSBreadthData(){
   if(usBreadthCache)return usBreadthCache;
-  const res=await fetch('./us_breadth.json?t='+Date.now());
+  const res=await fetch('./data/us_breadth.json?t='+Date.now());
   if(!res.ok)throw new Error('us_breadth.json fetch failed: '+res.status);
   usBreadthCache=await res.json();
   return usBreadthCache;
