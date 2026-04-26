@@ -1579,7 +1579,8 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   }
 
   const dt = new Date(xVal);
-  const dateLabel = dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+  const _dowKr = ['일','월','화','수','목','금','토'];
+  const dateLabel = dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0') + ' (' + _dowKr[dt.getDay()] + ')';
 
   let html = '<div class="hts-date">' + dateLabel + '</div>';
 
@@ -2139,8 +2140,8 @@ function buildAllCyclesIndexAnn(idxId, view) {
       type: 'box',
       xMin: new Date(z.start).getTime(),
       xMax: new Date(z.end).getTime(),
-      backgroundColor: 'rgba(40, 53, 147, 0.05)',
-      borderColor: 'rgba(40, 53, 147, 0.55)',
+      backgroundColor: 'rgba(40, 53, 147, 0.07)',
+      borderColor: 'rgba(40, 53, 147, 0.75)',
       borderWidth: 1,
       borderDash: closed ? undefined : [4, 4],
       display: () => !!toggleStates[view][k],
@@ -2270,7 +2271,7 @@ function renderV1() {
   STOCK_ZONES.forEach((z, i) => {
     if (z.stockId !== stock.id) return;
     if (stock.cycleId && z.cycleId && z.cycleId !== stock.cycleId) return;
-    // Outer 중장기 박스 (teal, 종료=실선 / 진행중·조정중=점선)
+    // Outer 중장기 박스 — 인디고 톤 (지수 사이클 박스와 동일 시각 언어)
     if (z.longterm && z.longterm.start && z.longterm.end) {
       const lt = z.longterm;
       const closed = lt.status === '종료';
@@ -2281,11 +2282,11 @@ function renderV1() {
         type: 'box',
         xMin: new Date(lt.start).getTime(),
         xMax: new Date(lt.end).getTime(),
-        backgroundColor: 'rgba(26, 188, 156, 0.10)',
-        borderColor: 'rgba(26, 188, 156, 0.65)',
+        backgroundColor: 'rgba(40, 53, 147, 0.07)',
+        borderColor: 'rgba(40, 53, 147, 0.75)',
         borderWidth: 1,
         borderDash: closed ? undefined : [6, 4],
-        label: { display: true, content: ltLabel, position: { x: 'center', y: 'start' }, color: 'rgba(26, 188, 156, 0.95)', font: { size: 10, weight: 'bold' }, backgroundColor: 'transparent' }
+        label: { display: true, content: ltLabel, position: { x: 'center', y: 'start' }, color: '#283593', font: { size: 11, weight: 'bold' }, backgroundColor: 'transparent' }
       };
     }
     // Inner lifecycle box (관성~전고점 트라이) — 보라 점선

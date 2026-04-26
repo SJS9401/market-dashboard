@@ -19,6 +19,43 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
+# 종목/지수 ID → 티커 매핑 (meta 에 ticker 누락 시 fallback).
+# 키움 normalize 후에도 자동 갱신이 정확히 동작하도록 보장.
+STOCK_TICKERS_FALLBACK = {
+    # 지수
+    "kospi":          "^KS11",
+    "kosdaq":         "^KQ11",
+    "sp500":          "^GSPC",
+    "nasdaq":         "^IXIC",
+    # 한국 종목 (LEADING_STOCKS 기준)
+    "spc_samlib":      "005610.KS",
+    "sk_telecom":      "017670.KS",
+    "coway":           "021240.KS",
+    "hyundai_elev":    "017800.KS",
+    "hyundai_mipo":    "010620.KQ",
+    "kia":             "000270.KS",
+    "hanmi_science":   "008930.KS",
+    "amorepacific":    "090430.KS",
+    "celltrion":       "068270.KS",
+    "sk_hynix":        "000660.KS",
+    "seegene":         "096530.KQ",
+    "hmm":             "011200.KS",
+    "ecopro":          "086520.KQ",
+    "hanmi_semi":      "042700.KQ",
+    "alteogen":        "196170.KQ",
+    "hanwha_ocean":    "042660.KS",
+    "doosan_enerbil":  "034020.KS",
+    "samsung_elec":    "005930.KS",
+    "hyundai_const":   "000720.KS",
+    "daishin_sec":     "003540.KS",
+    "kepco":           "015760.KS",
+    "posco":           "005490.KS",
+    "hyundai_motor":   "005380.KS",
+    "lg_chem":         "051910.KS",
+    "s_oil":           "010950.KS",
+}
+
+
 def fetch_yfinance(ticker, start_yyyymmdd, end_yyyymmdd):
     """yfinance OHLCV 받기. 반환: [(YYYYMMDD, O, H, L, C, vol_eok)]"""
     import yfinance as yf
@@ -66,10 +103,14 @@ def patch(fp, dry_run=False):
         if not isinstance(ts, list) or not ts:
             continue
         info = meta.get(stock_id, {})
-        ticker = info.get("ticker")
+        ticker = info.get("ticker") or STOCK_TICKERS_FALLBACK.get(stock_id)
         if not ticker:
-            print(f"  [skip] {stock_id}: ticker 없음")
+            print(f"  [skip] {stock_id}: ticker 없음 (fallback에도 없음)")
             continue
+        # meta 에 ticker 가 없었으면 채워 넣음 (다음 실행부터 빠르게)
+        if "ticker" not in info:
+            info["ticker"] = ticker
+            meta[stock_id] = info
 
         last_date = ts[-1][0] if isinstance(ts[-1], list) else None
         if not last_date:
