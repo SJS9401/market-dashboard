@@ -30,7 +30,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUT_PATH = SCRIPT_DIR / "kr_export.json"
+DATA_DIR = SCRIPT_DIR / "data"
+DATA_DIR.mkdir(exist_ok=True)
+OUT_PATH = DATA_DIR / "kr_export.json"
 
 ENDPOINT = "https://tradedata.go.kr/cts/hmpg/retrieveTentativeValues.do"
 START_YYYYMM = "201601"
