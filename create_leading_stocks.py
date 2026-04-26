@@ -739,6 +739,43 @@ for _cid in _cycle_order_for_index:
     else:
         _computed_index_cycles[_cid] = _cycle_longterm_raw.get(_cid)
 
+
+# ===== Per-index cycle zones (KOSPI / KOSDAQ / S&P500 / NASDAQ) =====
+# 각 지수마다 _compute_longterm_zone (3-Step Cascade + 2단계 휩쏘) 적용해
+# 사이클 박스 계산. KOSPI 는 위에서 sideways detection까지 적용된 결과 재사용.
+_per_index_zones = {}  # cycle_id -> { idx_id: {start,end,status} }
+_idx_rows_map = {
+    "kospi":  raw["stocks"].get("kospi",  []),
+    "kosdaq": raw["stocks"].get("kosdaq", []),
+    "sp500":  raw["stocks"].get("sp500",  []),
+    "nasdaq": raw["stocks"].get("nasdaq", []),
+}
+for _cid in _cycle_order_for_index:
+    _cs, _ce = _cycle_manual[_cid]
+    _zone_per_idx = {}
+    # KOSPI: 기존 sideways/longterm 결과 재사용
+    _kz = _computed_index_cycles.get(_cid)
+    if _kz:
+        _zone_per_idx["kospi"] = {
+            "start": _kz.get("start"),
+            "end": _kz.get("end"),
+            "status": _kz.get("status"),
+        }
+    # 나머지 3 지수: longterm zone 만 (sideways detection 미적용)
+    for _idx_id in ("kosdaq", "sp500", "nasdaq"):
+        _rows = _idx_rows_map[_idx_id]
+        if not _rows:
+            continue
+        _lt = _compute_longterm_zone(_rows, _cs, _ce, None)
+        if _lt and _lt.get("start") and _lt.get("end"):
+            _zone_per_idx[_idx_id] = {
+                "start": _lt.get("start"),
+                "end": _lt.get("end"),
+                "status": _lt.get("status"),
+            }
+    if _zone_per_idx:
+        _per_index_zones[_cid] = _zone_per_idx
+
 # Build cycle groups for View 2
 cycle_order = []
 seen_cycles = set()
@@ -756,6 +793,7 @@ for s in LEADING_STOCKS:
             "start": _cstart, "end": _cend,
             "status": _cstatus,
             "manualStart": s[5], "manualEnd": s[6],  # 백업용 (복원 가능)
+            "indexZones": _per_index_zones.get(cid, {}),  # idx_id -> {start,end,status}
             "stocks": []
         })
     _lt = _computed_longterms.get((s[0], cid))
@@ -1847,9 +1885,10 @@ function makePriceChart(canvasId, ohlcData, title, color, extraAnn, scaleType, v
   return ch;
 }
 
-function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
+function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotations) {
   // 한국식 캔들 차트 (양봉=빨강 / 음봉=파랑) — 종목 패널과 동일 스타일
   // data1, data2 는 항상 전달 (full OHLC). 표시 여부는 hidden 으로 토글.
+  // MA 5/10/20/60/120 동봉. 사이클 박스는 annotations 로 전달.
   const isUS = role === 'us-price';
   const id1 = isUS ? 'nasdaq' : 'kospi';
   const id2 = isUS ? 'sp500'  : 'kosdaq';
@@ -1857,6 +1896,9 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
   const lbl2 = isUS ? 'S&P500' : 'KOSDAQ';
   const k1 = (isUS ? 'us_' : 'kr_') + id1;
   const k2 = (isUS ? 'us_' : 'kr_') + id2;
+  const hidden1 = !toggleStates[view][k1];
+  const hidden2 = !toggleStates[view][k2];
+
   const datasets = [
     {
       label: lbl1, data: data1 || [],
@@ -1864,17 +1906,40 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
       pointRadius: 0, yAxisID: 'y', order: 10,
       _candle: true, _candleUp: CANDLE_UP, _candleDown: CANDLE_DN,
       _indexId: id1,
-      hidden: !toggleStates[view][k1],
-    },
-    {
-      label: lbl2, data: data2 || [],
-      borderColor: 'transparent', backgroundColor: 'transparent',
-      pointRadius: 0, yAxisID: 'y', order: 10,
-      _candle: true, _candleUp: CANDLE_UP, _candleDown: CANDLE_DN,
-      _indexId: id2,
-      hidden: !toggleStates[view][k2],
+      hidden: hidden1,
     },
   ];
+  // MA for dataset 1
+  [5, 10, 20, 60, 120].forEach(p => {
+    const ma = (data1 && data1.length) ? computeMA(data1, p) : [];
+    datasets.push({
+      label: 'MA' + p + ' ' + lbl1, data: ma,
+      borderColor: MA_COLORS['ma' + p], backgroundColor: 'transparent',
+      borderWidth: 1.0, pointRadius: 0, fill: false, yAxisID: 'y', order: 20,
+      tension: 0, _isMa: true, _indexId: id1, spanGaps: true,
+      hidden: hidden1,
+    });
+  });
+  datasets.push({
+    label: lbl2, data: data2 || [],
+    borderColor: 'transparent', backgroundColor: 'transparent',
+    pointRadius: 0, yAxisID: 'y', order: 10,
+    _candle: true, _candleUp: CANDLE_UP, _candleDown: CANDLE_DN,
+    _indexId: id2,
+    hidden: hidden2,
+  });
+  // MA for dataset 2
+  [5, 10, 20, 60, 120].forEach(p => {
+    const ma = (data2 && data2.length) ? computeMA(data2, p) : [];
+    datasets.push({
+      label: 'MA' + p + ' ' + lbl2, data: ma,
+      borderColor: MA_COLORS['ma' + p], backgroundColor: 'transparent',
+      borderWidth: 1.0, pointRadius: 0, fill: false, yAxisID: 'y', order: 20,
+      tension: 0, _isMa: true, _indexId: id2, spanGaps: true,
+      hidden: hidden2,
+    });
+  });
+
   const ctx = document.getElementById(canvasId).getContext('2d');
   const ch = new Chart(ctx, {
     type: 'line',
@@ -1885,6 +1950,7 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
       interaction: { mode: 'nearest', intersect: false },
       plugins: {
         legend: { display: false },
+        annotation: { annotations: annotations || {} },
         tooltip: { enabled: false }
       },
       scales: {
@@ -1906,6 +1972,47 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
   });
   ch.$view = view; ch.$role = role;
   return ch;
+}
+
+// ===== INDEX ANNOTATION BUILDERS =====
+// V1 전체 히스토리: 모든 사이클의 박스를 누적 표시 (지수별)
+function buildAllCyclesIndexAnn(idxId) {
+  const ann = {};
+  CYCLES.forEach((c, i) => {
+    const z = c.indexZones && c.indexZones[idxId];
+    if (!z || !z.start || !z.end) return;
+    const closed = z.status === '종료';
+    ann['c_' + idxId + '_' + i] = {
+      type: 'box',
+      xMin: new Date(z.start).getTime(),
+      xMax: new Date(z.end).getTime(),
+      backgroundColor: 'rgba(243, 156, 18, 0.04)',
+      borderColor: 'rgba(243, 156, 18, 0.35)',
+      borderWidth: 1,
+      borderDash: closed ? undefined : [4, 4],
+    };
+  });
+  return ann;
+}
+
+// V2 사이클 단위: 현재 사이클의 박스만 (지수별)
+function buildCycleIndexAnn(cycle, idxId) {
+  const z = cycle && cycle.indexZones && cycle.indexZones[idxId];
+  if (!z || !z.start || !z.end) return {};
+  const closed = z.status === '종료';
+  const lbl = cycle.name + (z.status ? ' [' + z.status + ']' : '');
+  return {
+    cycleZoneIdx: {
+      type: 'box',
+      xMin: new Date(z.start).getTime(),
+      xMax: new Date(z.end).getTime(),
+      backgroundColor: 'rgba(243, 156, 18, 0.05)',
+      borderColor: 'rgba(243, 156, 18, 0.4)',
+      borderWidth: 1,
+      borderDash: closed ? undefined : [4, 4],
+      label: { display: true, content: lbl, position: 'start', color: '#F39C12', font: { size: 9 } }
+    }
+  };
 }
 
 function makeVolumeChart(canvasId, ohlcData, view) {
@@ -2045,8 +2152,10 @@ function renderV1() {
   const sp500Weekly = toWeekly(SP500_RAW);
   const kosdaqWeekly = toWeekly(KOSDAQ_RAW);
 
-  const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price');
-  const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price');
+  const usAnn = Object.assign({}, buildAllCyclesIndexAnn('nasdaq'), buildAllCyclesIndexAnn('sp500'));
+  const krAnn = Object.assign({}, buildAllCyclesIndexAnn('kospi'),  buildAllCyclesIndexAnn('kosdaq'));
+  const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price', usAnn);
+  const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price', krAnn);
   const stockCh = makePriceChart('v1-stock', stockWeekly, stock.name, color, zoneAnn, v1Scale, 'v1', 'stock');
   const volCh = makeVolumeChart('v1-volume', stockWeekly, 'v1');
 
@@ -2085,11 +2194,11 @@ function renderV1() {
 
 // ===== 토글 함수 =====
 function _setIndexVisibility(ch, indexId, visible) {
+  // _indexId가 일치하는 모든 dataset (캔들 + MA5/10/20/60/120) 일괄 hide/show
   if (!ch) return;
   ch.data.datasets.forEach((ds, i) => {
     if (ds._indexId === indexId) {
       ds.hidden = !visible;
-      // Chart.js 메타 가시성 동기화 — 축 스케일 계산에 반영
       if (typeof ch.setDatasetVisibility === 'function') {
         ch.setDatasetVisibility(i, visible);
       } else {
@@ -2289,8 +2398,15 @@ function renderV2() {
     }
   }
 
-  const usIndexCh = makeIndexChart('v2-us-price', nasdaqProc, sp500Proc, v2Scale, 'v2', 'us-price');
-  const priceCh = makeIndexChart('v2-price', kospiProc, kosdaqProc, v2Scale, 'v2', 'price');
+  const usAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'nasdaq'));
+  // 사이클 박스 키 충돌 방지를 위해 sp500 도 별도 키로 추가
+  const _spAnn = buildCycleIndexAnn(cycle, 'sp500');
+  if (_spAnn.cycleZoneIdx) usAnn.cycleZoneIdxSp = _spAnn.cycleZoneIdx;
+  const krAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'kospi'));
+  const _kqAnn = buildCycleIndexAnn(cycle, 'kosdaq');
+  if (_kqAnn.cycleZoneIdx) krAnn.cycleZoneIdxKq = _kqAnn.cycleZoneIdx;
+  const usIndexCh = makeIndexChart('v2-us-price', nasdaqProc, sp500Proc, v2Scale, 'v2', 'us-price', usAnn);
+  const priceCh = makeIndexChart('v2-price', kospiProc, kosdaqProc, v2Scale, 'v2', 'price', krAnn);
   const stockCh = makePriceChart('v2-stock', stockProc, stock.name, color, stockAnn, v2Scale, 'v2', 'stock');
   const volCh = makeVolumeChart('v2-volume', stockProc, 'v2');
   chartRegistry.v2 = [usIndexCh, priceCh, stockCh, volCh];
