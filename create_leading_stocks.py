@@ -1264,6 +1264,8 @@ const candlestickPlugin = {
   afterDatasetDraw(chart, args) {
     const ds = chart.data.datasets[args.index];
     if (!ds._candle) return;
+    const meta = chart.getDatasetMeta(args.index);
+    if (meta && meta.hidden) return;
     const ctx = chart.ctx;
     const xScale = chart.scales.x;
     const yScale = chart.scales[ds.yAxisID || 'y'];
@@ -1846,28 +1848,33 @@ function makePriceChart(canvasId, ohlcData, title, color, extraAnn, scaleType, v
 }
 
 function makeIndexChart(canvasId, data1, data2, scaleType, view, role) {
-  const datasets = [];
-  if (data1 && data1.length) {
-    datasets.push({
-      label: role === 'us-price' ? 'NASDAQ' : 'KOSPI',
-      data: data1,
-      borderColor: role === 'us-price' ? '#ffa500' : '#F39C12',
-      backgroundColor: 'transparent',
+  // 한국식 캔들 차트 (양봉=빨강 / 음봉=파랑) — 종목 패널과 동일 스타일
+  // data1, data2 는 항상 전달 (full OHLC). 표시 여부는 hidden 으로 토글.
+  const isUS = role === 'us-price';
+  const id1 = isUS ? 'nasdaq' : 'kospi';
+  const id2 = isUS ? 'sp500'  : 'kosdaq';
+  const lbl1 = isUS ? 'NASDAQ' : 'KOSPI';
+  const lbl2 = isUS ? 'S&P500' : 'KOSDAQ';
+  const k1 = (isUS ? 'us_' : 'kr_') + id1;
+  const k2 = (isUS ? 'us_' : 'kr_') + id2;
+  const datasets = [
+    {
+      label: lbl1, data: data1 || [],
+      borderColor: 'transparent', backgroundColor: 'transparent',
       pointRadius: 0, yAxisID: 'y', order: 10,
-      borderWidth: 1.5, tension: 0, spanGaps: true,
-    });
-  }
-  if (data2 && data2.length) {
-    datasets.push({
-      label: role === 'us-price' ? 'S&P500' : 'KOSDAQ',
-      data: data2,
-      borderColor: role === 'us-price' ? '#00aa44' : '#4ECDC4',
-      backgroundColor: 'transparent',
+      _candle: true, _candleUp: CANDLE_UP, _candleDown: CANDLE_DN,
+      _indexId: id1,
+      hidden: !toggleStates[view][k1],
+    },
+    {
+      label: lbl2, data: data2 || [],
+      borderColor: 'transparent', backgroundColor: 'transparent',
       pointRadius: 0, yAxisID: 'y', order: 10,
-      borderWidth: 1.5, tension: 0, spanGaps: true,
-      hidden: role === 'us-price' ? true : false,
-    });
-  }
+      _candle: true, _candleUp: CANDLE_UP, _candleDown: CANDLE_DN,
+      _indexId: id2,
+      hidden: !toggleStates[view][k2],
+    },
+  ];
   const ctx = document.getElementById(canvasId).getContext('2d');
   const ch = new Chart(ctx, {
     type: 'line',
@@ -2033,9 +2040,10 @@ function renderV1() {
     }
   });
 
-  const nasdaqWeekly = toggleStates.v1.us_nasdaq ? toWeekly(NASDAQ_RAW) : [];
-  const sp500Weekly = toggleStates.v1.us_sp500 ? toWeekly(SP500_RAW) : [];
-  const kosdaqWeekly = toggleStates.v1.kr_kosdaq ? toWeekly(KOSDAQ_RAW) : [];
+  // 전체 데이터를 항상 전달 — 토글은 dataset.hidden 으로 제어
+  const nasdaqWeekly = toWeekly(NASDAQ_RAW);
+  const sp500Weekly = toWeekly(SP500_RAW);
+  const kosdaqWeekly = toWeekly(KOSDAQ_RAW);
 
   const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price');
   const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price');
@@ -2076,40 +2084,40 @@ function renderV1() {
 }
 
 // ===== 토글 함수 =====
+function _setIndexVisibility(ch, indexId, visible) {
+  if (!ch) return;
+  ch.data.datasets.forEach((ds, i) => {
+    if (ds._indexId === indexId) {
+      ds.hidden = !visible;
+      // Chart.js 메타 가시성 동기화 — 축 스케일 계산에 반영
+      if (typeof ch.setDatasetVisibility === 'function') {
+        ch.setDatasetVisibility(i, visible);
+      } else {
+        const m = ch.getDatasetMeta(i);
+        if (m) m.hidden = !visible;
+      }
+    }
+  });
+  ch.update('none');
+}
+
 function toggleUSIndex(view, index) {
   const btn = document.getElementById(view + '-us-' + index);
-  const otherIndex = index === 'nasdaq' ? 'sp500' : 'nasdaq';
-  const otherBtn = document.getElementById(view + '-us-' + otherIndex);
-
-  toggleStates[view]['us_' + index] = !toggleStates[view]['us_' + index];
-  btn.classList.toggle('active');
-
+  const key = 'us_' + index;
+  toggleStates[view][key] = !toggleStates[view][key];
+  if (btn) btn.classList.toggle('active', toggleStates[view][key]);
   if (chartRegistry[view] && chartRegistry[view][0]) {
-    const ch = chartRegistry[view][0];
-    ch.data.datasets.forEach((ds, i) => {
-      if (index === 'nasdaq' && i === 0) ds.hidden = !ds.hidden;
-      if (index === 'sp500' && i === 1) ds.hidden = !ds.hidden;
-    });
-    ch.update('none');
+    _setIndexVisibility(chartRegistry[view][0], index, toggleStates[view][key]);
   }
 }
 
 function toggleKRIndex(view, index) {
   const btn = document.getElementById(view + '-kr-' + index);
-  const otherIndex = index === 'kospi' ? 'kosdaq' : 'kospi';
-  const otherBtn = document.getElementById(view + '-kr-' + otherIndex);
-
-  toggleStates[view]['kr_' + index] = !toggleStates[view]['kr_' + index];
-  btn.classList.toggle('active');
-
-  const chartIndex = view === 'v1' ? 1 : 1;
-  if (chartRegistry[view] && chartRegistry[view][chartIndex]) {
-    const ch = chartRegistry[view][chartIndex];
-    ch.data.datasets.forEach((ds, i) => {
-      if (index === 'kospi' && i === 0) ds.hidden = !ds.hidden;
-      if (index === 'kosdaq' && i === 1) ds.hidden = !ds.hidden;
-    });
-    ch.update('none');
+  const key = 'kr_' + index;
+  toggleStates[view][key] = !toggleStates[view][key];
+  if (btn) btn.classList.toggle('active', toggleStates[view][key]);
+  if (chartRegistry[view] && chartRegistry[view][1]) {
+    _setIndexVisibility(chartRegistry[view][1], index, toggleStates[view][key]);
   }
 }
 
@@ -2208,10 +2216,11 @@ function renderV2() {
   const sp500F = filterByDate(SP500_RAW, rangeStart, rangeEnd);
   const stockF = filterByDate(stockRaw, rangeStart, rangeEnd);
 
-  const nasdaqProc = toggleStates.v2.us_nasdaq ? (v2Interval === 'weekly' ? toWeekly(nasdaqF) : toDaily(nasdaqF)) : [];
-  const sp500Proc = toggleStates.v2.us_sp500 ? (v2Interval === 'weekly' ? toWeekly(sp500F) : toDaily(sp500F)) : [];
+  // 전체 데이터를 항상 전달 — 토글은 dataset.hidden 으로 제어
+  const nasdaqProc = v2Interval === 'weekly' ? toWeekly(nasdaqF) : toDaily(nasdaqF);
+  const sp500Proc = v2Interval === 'weekly' ? toWeekly(sp500F) : toDaily(sp500F);
   const kospiProc = v2Interval === 'weekly' ? toWeekly(kospiF) : toDaily(kospiF);
-  const kosdaqProc = toggleStates.v2.kr_kosdaq ? (v2Interval === 'weekly' ? toWeekly(kosdaqF) : toDaily(kosdaqF)) : [];
+  const kosdaqProc = v2Interval === 'weekly' ? toWeekly(kosdaqF) : toDaily(kosdaqF);
   const stockProc = v2Interval === 'weekly' ? toWeekly(stockF) : toDaily(stockF);
 
   document.getElementById('v2-title').textContent = cycle.name + ' — ' + stock.name;
