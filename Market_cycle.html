@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마켓 사이클</title>
+<title>시장 사이클</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
@@ -73,7 +73,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 <body>
 <div class="tab-bar"><a href="dashboard.html">마켓 대시보드</a><a href="Market_cycle.html" class="active">시장 사이클</a><a href="Leading_stocks.html">주도주 사이클</a></div>
 <div class="header">
-  <h1>마켓 사이클</h1>
+  <h1>시장 사이클</h1>
   <p>S&P500 / NASDAQ / KOSPI | 종가 기준 | 전후 2년 포함 | MDD + 미국 기준금리(FFR) | ← → 키보드 네비게이션</p>
 </div>
 
@@ -242,7 +242,7 @@ function applyToggleState() {
   if (window._isKoreaHistory) {
     indices = ['KOSPI','KOSDAQ'];
   } else if (isFullHistory) {
-    indices = ['SP500','NASDAQ','KOSPI'];
+    indices = ['SP500','NASDAQ','KOSPI','KOSDAQ'];
   } else {
     indices = CYCLES[currentIdx].indices;
   }
@@ -282,7 +282,7 @@ function applyToggleState() {
 }
 
 function showFullHistoryLegend() {
-  const idxList = window._isKoreaHistory ? ['KOSPI','KOSDAQ'] : ['SP500','NASDAQ','KOSPI'];
+  const idxList = window._isKoreaHistory ? ['KOSPI','KOSDAQ'] : ['SP500','NASDAQ','KOSPI','KOSDAQ'];
   document.getElementById('legend').innerHTML =
     idxList.filter(i=>toggleState[i]!==false)
     .map(i=>'<div class="legend-item"><div class="legend-dot" style="background:'+colorMap[i].line+'"></div>'+colorMap[i].name+'</div>')
@@ -1186,12 +1186,12 @@ function showFullHistory(filter) {
   const badge = document.getElementById('chart-badge');
   badge.textContent = fhFilterLabels[filter] || '1973~현재';
   badge.style.background = '#1f6feb22'; badge.style.color = '#58a6ff'; badge.style.border = '1px solid #1f6feb44';
-  document.getElementById('chart-meta').innerHTML = '월봉 데이터 | <span>S&P500: 1973~ / NASDAQ: 1973~ / KOSPI: 1997~</span> | ' + (fhFilterLabels[filter]||'전체') + ' 구간 음영 표시';
+  document.getElementById('chart-meta').innerHTML = '월봉 데이터 | <span>S&P500: 1973~ / NASDAQ: 1973~ / KOSPI: 1985~ / KOSDAQ: 1997~</span> | ' + (fhFilterLabels[filter]||'전체') + ' 구간 음영 표시';
 
   // Show scale toggles, init toggle state
   document.getElementById('scale-toggles').style.display = 'flex';
-  toggleState = {SP500: true, NASDAQ: true, KOSPI: true};
-  buildToggles(['SP500','NASDAQ','KOSPI']);
+  toggleState = {SP500: true, NASDAQ: true, KOSPI: true, KOSDAQ: true};
+  buildToggles(['SP500','NASDAQ','KOSPI','KOSDAQ']);
 
   if (priceChart) priceChart.destroy();
   if (mddChart) mddChart.destroy();
@@ -1219,7 +1219,7 @@ function showFullHistory(filter) {
   };
 
   // Price
-  const pDsets = ['SP500','NASDAQ','KOSPI'].map(idx => ({
+  const pDsets = ['SP500','NASDAQ','KOSPI','KOSDAQ'].map(idx => ({
     label: idx, data: FULL_HISTORY[idx].map(r=>({x:r[0],y:r[1]})),
     borderColor: colorMap[idx].line, borderWidth:1.3, pointRadius:0, pointHitRadius:4,
     fill:false, tension:0.1, hidden:false, _indexKey:idx,
@@ -1251,7 +1251,7 @@ function showFullHistory(filter) {
   });
 
   // MDD
-  const mDsets = ['SP500','NASDAQ','KOSPI'].map(idx => {
+  const mDsets = ['SP500','NASDAQ','KOSPI','KOSDAQ'].map(idx => {
     const mdd = calcMDDarray(FULL_HISTORY[idx]);
     return {
       label: idx+' MDD', data: mdd.map(r=>({x:r[0],y:r[1]})),
