@@ -1975,9 +1975,16 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotatio
 }
 
 // ===== INDEX ANNOTATION BUILDERS =====
+// 토글 OFF 시 같이 숨기 위해 display 콜백 사용 (toggleStates 평가).
+function _idxToggleKey(idxId) {
+  if (idxId === 'nasdaq' || idxId === 'sp500') return 'us_' + idxId;
+  return 'kr_' + idxId;
+}
+
 // V1 전체 히스토리: 모든 사이클의 박스를 누적 표시 (지수별)
-function buildAllCyclesIndexAnn(idxId) {
+function buildAllCyclesIndexAnn(idxId, view) {
   const ann = {};
+  const k = _idxToggleKey(idxId);
   CYCLES.forEach((c, i) => {
     const z = c.indexZones && c.indexZones[idxId];
     if (!z || !z.start || !z.end) return;
@@ -1990,17 +1997,19 @@ function buildAllCyclesIndexAnn(idxId) {
       borderColor: 'rgba(243, 156, 18, 0.35)',
       borderWidth: 1,
       borderDash: closed ? undefined : [4, 4],
+      display: () => !!toggleStates[view][k],
     };
   });
   return ann;
 }
 
 // V2 사이클 단위: 현재 사이클의 박스만 (지수별)
-function buildCycleIndexAnn(cycle, idxId) {
+function buildCycleIndexAnn(cycle, idxId, view) {
   const z = cycle && cycle.indexZones && cycle.indexZones[idxId];
   if (!z || !z.start || !z.end) return {};
   const closed = z.status === '종료';
   const lbl = cycle.name + (z.status ? ' [' + z.status + ']' : '');
+  const k = _idxToggleKey(idxId);
   return {
     cycleZoneIdx: {
       type: 'box',
@@ -2010,7 +2019,8 @@ function buildCycleIndexAnn(cycle, idxId) {
       borderColor: 'rgba(243, 156, 18, 0.4)',
       borderWidth: 1,
       borderDash: closed ? undefined : [4, 4],
-      label: { display: true, content: lbl, position: 'start', color: '#F39C12', font: { size: 9 } }
+      label: { display: true, content: lbl, position: 'start', color: '#F39C12', font: { size: 9 } },
+      display: () => !!toggleStates[view][k],
     }
   };
 }
@@ -2152,8 +2162,8 @@ function renderV1() {
   const sp500Weekly = toWeekly(SP500_RAW);
   const kosdaqWeekly = toWeekly(KOSDAQ_RAW);
 
-  const usAnn = Object.assign({}, buildAllCyclesIndexAnn('nasdaq'), buildAllCyclesIndexAnn('sp500'));
-  const krAnn = Object.assign({}, buildAllCyclesIndexAnn('kospi'),  buildAllCyclesIndexAnn('kosdaq'));
+  const usAnn = Object.assign({}, buildAllCyclesIndexAnn('nasdaq', 'v1'), buildAllCyclesIndexAnn('sp500', 'v1'));
+  const krAnn = Object.assign({}, buildAllCyclesIndexAnn('kospi',  'v1'), buildAllCyclesIndexAnn('kosdaq', 'v1'));
   const usIndexCh = makeIndexChart('v1-us-price', nasdaqWeekly, sp500Weekly, v1Scale, 'v1', 'us-price', usAnn);
   const priceCh = makeIndexChart('v1-price', kospiWeekly, kosdaqWeekly, v1Scale, 'v1', 'price', krAnn);
   const stockCh = makePriceChart('v1-stock', stockWeekly, stock.name, color, zoneAnn, v1Scale, 'v1', 'stock');
@@ -2398,12 +2408,12 @@ function renderV2() {
     }
   }
 
-  const usAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'nasdaq'));
+  const usAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'nasdaq', 'v2'));
   // 사이클 박스 키 충돌 방지를 위해 sp500 도 별도 키로 추가
-  const _spAnn = buildCycleIndexAnn(cycle, 'sp500');
+  const _spAnn = buildCycleIndexAnn(cycle, 'sp500', 'v2');
   if (_spAnn.cycleZoneIdx) usAnn.cycleZoneIdxSp = _spAnn.cycleZoneIdx;
-  const krAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'kospi'));
-  const _kqAnn = buildCycleIndexAnn(cycle, 'kosdaq');
+  const krAnn = Object.assign({}, buildCycleIndexAnn(cycle, 'kospi', 'v2'));
+  const _kqAnn = buildCycleIndexAnn(cycle, 'kosdaq', 'v2');
   if (_kqAnn.cycleZoneIdx) krAnn.cycleZoneIdxKq = _kqAnn.cycleZoneIdx;
   const usIndexCh = makeIndexChart('v2-us-price', nasdaqProc, sp500Proc, v2Scale, 'v2', 'us-price', usAnn);
   const priceCh = makeIndexChart('v2-price', kospiProc, kosdaqProc, v2Scale, 'v2', 'price', krAnn);
