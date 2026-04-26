@@ -41,14 +41,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 백필 스크립트 실행
+      - name: 백필 스크립트 실행 (data/ 폴더에 자동 저장)
         run: python -u kr_export_backfill_local.py
 
       - name: JSON 구조 검증
         run: |
           python - <<'PY'
           import json, sys
-          d = json.load(open('kr_export.json'))
+          d = json.load(open('data/kr_export.json'))
           for k in ('monthly_confirmed', 'partial_1_20', 'partial_1_10'):
               assert k in d, f'missing key: {k}'
               assert isinstance(d[k], list) and len(d[k]) > 0, f'empty: {k}'
@@ -61,12 +61,12 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add kr_export.json
+          git add data/kr_export.json
           if git diff --cached --quiet; then
-            echo "::notice::kr_export.json 변경 없음 — 커밋 생략"
+            echo "::notice::data/kr_export.json 변경 없음 — 커밋 생략"
           else
             TS=$(date -u '+%Y-%m-%d %H:%M UTC')
-            git commit -m "chore(data): kr_export.json 자동 갱신 (${TS})"
+            git commit -m "chore(data): data/kr_export.json 자동 갱신 (${TS})"
             git push
-            echo "::notice::kr_export.json 갱신 & 푸시 완료"
+            echo "::notice::data/kr_export.json 갱신 & 푸시 완료"
           fi
