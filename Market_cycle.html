@@ -237,7 +237,15 @@ function toggleIndex(idx) {
 }
 
 function applyToggleState() {
-  const indices = isFullHistory ? ['SP500','NASDAQ','KOSPI'] : CYCLES[currentIdx].indices;
+  // 한국장 history view는 KOSPI+KOSDAQ만, 일반 fullHistory는 SP500+NASDAQ+KOSPI
+  let indices;
+  if (window._isKoreaHistory) {
+    indices = ['KOSPI','KOSDAQ'];
+  } else if (isFullHistory) {
+    indices = ['SP500','NASDAQ','KOSPI'];
+  } else {
+    indices = CYCLES[currentIdx].indices;
+  }
   buildToggles(indices);
 
   // Update price chart dataset visibility
@@ -274,8 +282,9 @@ function applyToggleState() {
 }
 
 function showFullHistoryLegend() {
+  const idxList = window._isKoreaHistory ? ['KOSPI','KOSDAQ'] : ['SP500','NASDAQ','KOSPI'];
   document.getElementById('legend').innerHTML =
-    ['SP500','NASDAQ','KOSPI'].filter(i=>toggleState[i]!==false)
+    idxList.filter(i=>toggleState[i]!==false)
     .map(i=>'<div class="legend-item"><div class="legend-dot" style="background:'+colorMap[i].line+'"></div>'+colorMap[i].name+'</div>')
     .join('')+
     '<div class="legend-item"><div style="width:14px;height:10px;background:#E74C3C22;border:1px solid #E74C3C44;border-radius:2px;"></div>구조적</div>'+
@@ -737,6 +746,7 @@ function isBearType(t) {
 
 function showCycle(idx) {
   isFullHistory = false;
+  window._isKoreaHistory = false;
   currentIdx = idx;
   const c = CYCLES[idx];
 
@@ -1159,6 +1169,7 @@ const fhFilterLabels = {
 function showFullHistory(filter) {
   filter = filter || 'all';
   isFullHistory = true;
+  window._isKoreaHistory = false;
   currentIdx = -1;
   window._fhFilter = filter;
 
@@ -1317,6 +1328,7 @@ function showFullHistory(filter) {
 function showKoreaHistory(filter) {
   filter = filter || 'kr_all';
   isFullHistory = true;
+  window._isKoreaHistory = true;
   currentIdx = -1;
   window._fhFilter = filter;
 
