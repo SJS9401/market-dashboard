@@ -61,6 +61,8 @@
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
   .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
   .ma-legend .dot { width: 10px; height: 2px; border-radius: 1px; display: inline-block; }
+  .ma-legend-row { display: flex; align-items: center; padding: 2px 14px 0; gap: 8px; }
+  .ma-legend-row .ma-legend { padding: 0; flex: 1; }
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
@@ -119,7 +121,13 @@
         <div class="bar-count" data-col="kr"><input type="text" id="bars-kr" value="" placeholder="봉"><span>봉</span></div>
         <div class="interval-btns" data-col="kr"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
-      <div class="ma-legend" id="ma-legend-kospi"></div>
+      <div class="ma-legend-row">
+        <div class="ma-legend" id="ma-legend-kospi"></div>
+        <div class="series-toggle" data-chart="kospi-overlay">
+          <button data-s="pb">PBR</button>
+          <button data-s="pe">PER</button>
+        </div>
+      </div>
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
@@ -146,17 +154,6 @@
         </div>
       </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
-    </div>
-    <!-- 12MF 밸류에이션 밴드 — PBR/PER 토글 + KOSPI 지수 -->
-    <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>코스피 12MF 밸류에이션 밴드</h3><span class="price" id="p-kr-val">—</span><span class="xdate" id="d-kr-val"></span></div>
-        <div class="series-toggle" data-chart="kr-val">
-          <button data-s="pb" class="active">PBR</button>
-          <button data-s="pe">PER</button>
-        </div>
-      </div>
-      <div class="cw cw-sub" id="cw-kr-val"><div class="msg" id="msg-kr-val">로딩 중...</div></div>
     </div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -196,10 +193,6 @@
     <div class="card">
       <div class="card-top"><div class="left"><h3>골드만 시장폭 (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>ISM 제조업 PMI</h3><span class="price" id="p-pmi">—</span><span class="xdate" id="d-pmi"></span></div></div>
-      <div class="cw cw-sub" id="cw-pmi"><div class="msg" id="msg-pmi">로딩 중...</div></div>
     </div>
   </div>
 </div>
@@ -321,14 +314,8 @@ function createChart(id, col, opts = {}) {
     syncing = true;
     colGroups[col].forEach(otherId => {
       if (otherId !== id && allCharts[otherId]) {
-        // 시가총액 차트는 series 길이가 달라 logical 인덱스 sync 가 어긋남 → 시간 기반 sync
-        const useTimeSync = (otherId === 'kr-val');
         try {
-          if (useTimeSync && visibleRange) {
-            allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
-          } else {
-            allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
-          }
+          allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
         } catch(_){}
       }
     });
@@ -508,9 +495,6 @@ function _updateHeaderForChartImpl(chartId, time) {
   } else if (chartId === 'goldman') {
     const pe = document.getElementById('p-goldman');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
-  } else if (chartId === 'pmi') {
-    const pe = document.getElementById('p-pmi');
-    if (pe && d.value != null) pe.textContent = d.value.toFixed(1);
   } else if (chartId === 'kr-export') {
     const pe = document.getElementById('p-kr-export');
     if (pe) {
@@ -533,7 +517,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','kr-export'] : ['ndx','us-fg','breadth','goldman','pmi'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1068,124 +1052,84 @@ async function buildMcap() {
   return out;
 }
 
-// 코스피 12MF 밸류에이션 밴드 차트 — PBR/PER 토글 + KOSPI 지수 우축
-// - 좌축: PBR (또는 PER) 시계열 + 평균 / +1σ / -1σ 밴드 (priceLine)
-// - 우축: KOSPI 지수 close
-let kvBandKey = 'pb'; // 'pb' or 'pe'
-
-// PBR/PER multiple 밴드 — 미래에셋 P/B band chart 스타일
-// 각 시점에서 BPS_t = KOSPI_t / PBR_t 역산 → multiple × BPS_t 라인 6개를 KOSPI 좌표계에 그림
+// PBR/PER multiple 오버레이 — 코스피 메인 차트에 multiple 6개 라인을 그림
+// 각 시점 BPS_t = KOSPI_t / PBR_t 역산 → multiple × BPS_t 라인 (KOSPI 좌표계)
 const PB_MULTIPLES = [0.8, 1.0, 1.2, 1.5, 1.8, 2.0];
 const PE_MULTIPLES = [8, 9, 10, 11, 12, 13];
 
-async function loadKrValuationBand() {
-  const id = 'kr-val';
-  const msgEl = document.getElementById('msg-' + id);
-  try {
-    const D = await fetchKospi12mf();
-    const kospiData = chartDataMap['kospi'];
-    const kospiSeries = kospiData
-      ? Object.keys(kospiData).sort().map(t => ({ time: t, value: kospiData[t].close })).filter(d => d.value != null)
-      : [];
-    const kospiStart = kospiSeries.length ? kospiSeries[0].time : null;
-    const filtByStart = arr => kospiStart ? arr.filter(r => r.time >= kospiStart) : arr;
+let kospiOverlayMode = null;  // null | 'pb' | 'pe'
 
-    const pb = filtByStart(fmtSeries(D.kospi_12mfwd_pb?.main_long?.data));
-    const pe = filtByStart(fmtSeries(D.kospi_12mfwd_pe?.combined?.data));
+async function applyKospiOverlay(mode) {
+  const id = 'kospi';
+  if (!allCharts[id]) return;
 
-    if (!allCharts[id]) {
-      createChart(id, 'kr', { showTimeAxis: true });
-      const ch = allCharts[id].chart;
-      // 좌축 비활성 — KOSPI 좌표계로 통일
-      ch.priceScale('left').applyOptions({ visible: false });
-      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      // multiple 라인 6개 (회색 그라데이션, 저배수 옅게 → 고배수 진하게)
-      const bandSeries = [];
-      for (let i = 0; i < 6; i++) {
-        const opacity = 0.3 + (i / 5) * 0.4;  // 0.3 ~ 0.7
-        const s = ch.addLineSeries({
-          color: `rgba(139,148,158,${opacity})`,
-          lineWidth: 1,
-          priceScaleId: 'right',
-          priceLineVisible: false,
-          lastValueVisible: true,
-          crosshairMarkerVisible: false
-        });
-        bandSeries.push(s);
-      }
-      // KOSPI 종가 — 메인 시리즈 (마지막에 추가해서 z-index 우선)
-      const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
-      allCharts[id].series = sKospi;
-      allCharts[id].seriesByKey = { bands: bandSeries };
+  // overlayLines 미존재 시 6개 시리즈 미리 생성 (한 번만)
+  if (!allCharts[id].overlayLines) {
+    allCharts[id].overlayLines = [];
+    for (let i = 0; i < 6; i++) {
+      const opacity = 0.3 + (i / 5) * 0.4;
+      const s = allCharts[id].chart.addLineSeries({
+        color: `rgba(139,148,158,${opacity})`,
+        lineWidth: 1,
+        priceScaleId: 'right',
+        priceLineVisible: false,
+        lastValueVisible: false,
+        crosshairMarkerVisible: false
+      });
+      allCharts[id].overlayLines.push(s);
     }
-
-    const bandData = (kvBandKey === 'pb') ? pb : pe;
-    const multiples = (kvBandKey === 'pb') ? PB_MULTIPLES : PE_MULTIPLES;
-
-    // 시점별 baseUnit (BPS 또는 EPS) 계산
-    const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
-    const baseUnits = [];
-    for (const r of bandData) {
-      const k = kospiMap.get(r.time);
-      if (k == null || r.value == null || r.value <= 0) continue;
-      baseUnits.push({ time: r.time, base: k / r.value });
-    }
-
-    // 각 multiple 시리즈에 데이터 주입 + title 갱신
-    allCharts[id].seriesByKey.bands.forEach((s, i) => {
-      const mult = multiples[i];
-      const data = baseUnits.map(u => ({ time: u.time, value: u.base * mult }));
-      s.setData(data);
-      s.applyOptions({ title: mult + 'x' });
-    });
-
-    allCharts[id].series.setData(kospiSeries);
-
-    // 헤더 — 현재 PBR/PER + 어느 multiple 영역에 위치하는지
-    const lastBand = bandData[bandData.length - 1];
-    const lastK = kospiSeries[kospiSeries.length - 1];
-    const hdr = document.getElementById('p-' + id);
-    const lbl = kvBandKey === 'pb' ? 'PBR' : 'PER';
-    const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
-    const cur = lastBand ? fmtBand(lastBand.value) : '—';
-
-    // 현재 위치 (multiple 영역)
-    let zone = '—';
-    if (lastBand) {
-      const v = lastBand.value;
-      let lower = null, upper = null;
-      for (const m of multiples) {
-        if (v >= m) lower = m;
-        else if (upper == null) upper = m;
-      }
-      if (lower == null) zone = `< ${multiples[0]}x`;
-      else if (upper == null) zone = `> ${multiples[multiples.length - 1]}x (역사적 고점 영역)`;
-      else zone = `${lower}x ~ ${upper}x 영역`;
-    }
-
-    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}x</span> <span style="color:rgb(139,148,158);font-size:11px">[${zone}]</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span>`;
-    if (hdr) hdr.innerHTML = hdrHtml;
-    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
-
-    msgEl.style.display = 'none';
-  } catch (e) {
-    console.error('loadKrValuationBand', e);
-    if (msgEl) msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
   }
+
+  // OFF — 데이터 비우기
+  if (mode == null) {
+    allCharts[id].overlayLines.forEach(s => {
+      try { s.setData([]); s.applyOptions({ title: '', lastValueVisible: false }); } catch(_){}
+    });
+    return;
+  }
+
+  // 데이터 fetch
+  const D = await fetchKospi12mf();
+  const pb = fmtSeries(D.kospi_12mfwd_pb?.main_long?.data);
+  const pe = fmtSeries(D.kospi_12mfwd_pe?.combined?.data);
+  const bandData = (mode === 'pb') ? pb : pe;
+  const multiples = (mode === 'pb') ? PB_MULTIPLES : PE_MULTIPLES;
+
+  const kospiData = chartDataMap[id];
+  if (!kospiData) return;
+  const kospiMap = new Map(Object.keys(kospiData).map(t => [t, kospiData[t].close]));
+
+  const baseUnits = [];
+  for (const r of bandData) {
+    const k = kospiMap.get(r.time);
+    if (k == null || r.value == null || r.value <= 0) continue;
+    baseUnits.push({ time: r.time, base: k / r.value });
+  }
+
+  allCharts[id].overlayLines.forEach((s, i) => {
+    const mult = multiples[i];
+    const data = baseUnits.map(u => ({ time: u.time, value: u.base * mult }));
+    s.setData(data);
+    s.applyOptions({ title: mult + 'x', lastValueVisible: true });
+  });
 }
 
-// PBR / PER 토글 버튼
+// PBR / PER 토글 — 한 번에 하나만 ON, 같은 버튼 재클릭 시 OFF
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleEl = document.querySelector('.series-toggle[data-chart="kr-val"]');
+  const toggleEl = document.querySelector('.series-toggle[data-chart="kospi-overlay"]');
   if (!toggleEl) return;
   toggleEl.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
-      const newKey = btn.dataset.s;
-      if (newKey === kvBandKey) return;
+      const newMode = btn.dataset.s;
+      const wasActive = btn.classList.contains('active');
       toggleEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      kvBandKey = newKey;
-      loadKrValuationBand();
+      if (!wasActive) {
+        btn.classList.add('active');
+        kospiOverlayMode = newMode;
+      } else {
+        kospiOverlayMode = null;
+      }
+      applyKospiOverlay(kospiOverlayMode);
     });
   });
 });
@@ -1380,49 +1324,6 @@ async function loadGoldmanBreadth(){
   }catch(e){console.error('loadGoldmanBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
 
-// ISM 제조업 PMI (선 차트, raw monthly → 일별 forward-fill 후 메인 차트 시간축에 정렬)
-async function loadPMI(){
-  const intv=colInterval.us;
-  const msgEl=document.getElementById('msg-pmi');
-  try{
-    const D=await getUSBreadthData();
-    const pmiList=(D.ism_pmi_monthly||[]).map(([t,v])=>({t,v})).filter(x=>x.v!=null).sort((a,b)=>a.t<b.t?-1:1);
-    if(!pmiList.length){msgEl.textContent='⚠ PMI 데이터 없음';return;}
-    // forward-fill PMI monthly values onto the column's daily time index
-    const idx=colTimeIndex.us||[];
-    const rawPts=[];
-    if(idx.length){
-      let pi=0;
-      for(const t of idx){
-        while(pi+1<pmiList.length&&pmiList[pi+1].t<=t)pi++;
-        const v=pmiList[pi]&&pmiList[pi].t<=t?pmiList[pi].v:null;
-        if(v!=null)rawPts.push({time:t,value:v});
-      }
-    } else {
-      pmiList.forEach(p=>rawPts.push({time:p.t,value:p.v}));
-    }
-    let pts=rawPts;
-    if(intv==='1wk')pts=resampleWeekly(pts);
-    const last=pts[pts.length-1];
-    const hdr=document.getElementById('p-pmi');
-    const hdrStr=last?last.value.toFixed(1):'—';
-    if(hdr)hdr.textContent=hdrStr;
-    origValues['pmi']=()=>{if(hdr)hdr.textContent=hdrStr;};
-    if(!allCharts['pmi']){
-      createChart('pmi','us',{showTimeAxis:true});
-      allCharts['pmi'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.1,bottom:0.1}});
-      const s=allCharts['pmi'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      allCharts['pmi'].series=s;
-      // 50 참고선만 (경계 표시용, 해석은 사용자 몫)
-      s.createPriceLine({price:50,color:'rgba(139,148,158,0.4)',lineWidth:1,lineStyle:2,axisLabelVisible:true,title:'50'});
-    }
-    const padded=alignToTimeIndex(pts,'us');
-    allCharts['pmi'].series.setData(padded);
-    buildDataMap('pmi',padded);
-    msgEl.style.display='none';
-  }catch(e){console.error('loadPMI',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
-}
-
 // US Fed Rate — ^IRX (13-week T-Bill, tracks Fed Funds Rate closely)
 // Shared data cache for both columns
 let fedRateCache=null;
@@ -1457,18 +1358,12 @@ function syncColumnToMain(mainId) {
   const main = allCharts[mainId];
   if (!main) return;
   const logicalRange = main.chart.timeScale().getVisibleLogicalRange();
-  const visibleRange = main.chart.timeScale().getVisibleRange();
   if (!logicalRange) return;
   const col = main.col;
   colGroups[col].forEach(otherId => {
     if (otherId !== mainId && allCharts[otherId]) {
-      const useTimeSync = (otherId === 'kr-val');
       try {
-        if (useTimeSync && visibleRange) {
-          allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
-        } else {
-          allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
-        }
+        allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
       } catch(_){}
     }
   });
@@ -1482,9 +1377,9 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport(), loadKrValuationBand()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadPMI()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
