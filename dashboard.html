@@ -1067,10 +1067,10 @@ async function applyKospiOverlay(mode) {
   if (!allCharts[id].overlayLines) {
     allCharts[id].overlayLines = [];
     for (let i = 0; i < 6; i++) {
-      const opacity = 0.3 + (i / 5) * 0.4;
+      const opacity = 0.45 + (i / 5) * 0.4;
       const s = allCharts[id].chart.addLineSeries({
         color: `rgba(139,148,158,${opacity})`,
-        lineWidth: 1,
+        lineWidth: 2,
         priceScaleId: 'right',
         priceLineVisible: false,
         lastValueVisible: false,
