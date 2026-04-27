@@ -480,7 +480,19 @@ function formatDate(t) {
 }
 
 // Update header value from crosshair time for a specific chart
+// Phase 3 fix: lightweight-charts setMarkers/setData 가 다시 crosshairMove emit 을
+// 트리거해서 무한 재귀 → toLocaleString 스택 폭발하는 케이스 방어
+let _updateHeaderInProgress = false;
 function updateHeaderForChart(chartId, time) {
+  if (_updateHeaderInProgress) return;
+  _updateHeaderInProgress = true;
+  try {
+    _updateHeaderForChartImpl(chartId, time);
+  } finally {
+    _updateHeaderInProgress = false;
+  }
+}
+function _updateHeaderForChartImpl(chartId, time) {
   const map = chartDataMap[chartId];
   if (!map) return;
   const d = map[time];
