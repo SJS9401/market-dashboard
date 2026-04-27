@@ -1115,24 +1115,7 @@ async function applyKospiOverlay(mode) {
 }
 
 // PBR / PER 토글 — 한 번에 하나만 ON, 같은 버튼 재클릭 시 OFF
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleEl = document.querySelector('.series-toggle[data-chart="kospi-overlay"]');
-  if (!toggleEl) return;
-  toggleEl.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const newMode = btn.dataset.s;
-      const wasActive = btn.classList.contains('active');
-      toggleEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      if (!wasActive) {
-        btn.classList.add('active');
-        kospiOverlayMode = newMode;
-      } else {
-        kospiOverlayMode = null;
-      }
-      applyKospiOverlay(kospiOverlayMode);
-    });
-  });
-});
+// kospi-overlay 토글은 글로벌 .series-toggle 핸들러 (line ~1440)에 통합 분기로 처리.
 
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
@@ -1442,6 +1425,21 @@ document.querySelectorAll('.series-toggle').forEach(g => {
   const chartId = g.dataset.chart;
   g.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
+      // kospi-overlay 전용 분기: 한 번에 하나만 ON, 같은 버튼 재클릭 시 OFF
+      if (chartId === 'kospi-overlay') {
+        const newMode = btn.dataset.s;
+        const wasActive = btn.classList.contains('active');
+        g.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        if (!wasActive) {
+          btn.classList.add('active');
+          kospiOverlayMode = newMode;
+        } else {
+          kospiOverlayMode = null;
+        }
+        applyKospiOverlay(kospiOverlayMode);
+        return;
+      }
+      // 기본 시리즈 ON/OFF (kr-export, breadth 등)
       btn.classList.toggle('active');
       const isActive = btn.classList.contains('active');
       const sKey = btn.dataset.s;
