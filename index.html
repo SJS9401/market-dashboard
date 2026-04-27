@@ -143,27 +143,16 @@
       </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
-    <!-- 12MF 밸류에이션 차트 A: 시총 + ROE + P/B -->
+    <!-- 12MF 밸류에이션 밴드 — PBR/PER 토글 + KOSPI 지수 -->
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>코스피 시가총액 · 12MF ROE · P/B</h3><span class="price" id="p-kr-val-a">—</span><span class="xdate" id="d-kr-val-a"></span></div>
-        <div class="series-toggle" data-chart="kr-val-a">
-          <button data-s="roe" class="active">ROE</button>
-          <button data-s="pb" class="active">P/B</button>
+        <div class="left"><h3>코스피 12MF 밸류에이션 밴드</h3><span class="price" id="p-kr-val">—</span><span class="xdate" id="d-kr-val"></span></div>
+        <div class="series-toggle" data-chart="kr-val">
+          <button data-s="pb" class="active">PBR</button>
+          <button data-s="pe">PER</button>
         </div>
       </div>
-      <div class="cw cw-sub" id="cw-kr-val-a"><div class="msg" id="msg-kr-val-a">로딩 중...</div></div>
-    </div>
-    <!-- 12MF 밸류에이션 차트 B: 시총 + EPS + P/E -->
-    <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>코스피 시가총액 · 12MF EPS · P/E</h3><span class="price" id="p-kr-val-b">—</span><span class="xdate" id="d-kr-val-b"></span></div>
-        <div class="series-toggle" data-chart="kr-val-b">
-          <button data-s="eps" class="active">EPS</button>
-          <button data-s="pe" class="active">P/E</button>
-        </div>
-      </div>
-      <div class="cw cw-sub" id="cw-kr-val-b"><div class="msg" id="msg-kr-val-b">로딩 중...</div></div>
+      <div class="cw cw-sub" id="cw-kr-val"><div class="msg" id="msg-kr-val">로딩 중...</div></div>
     </div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -326,7 +315,7 @@ function createChart(id, col, opts = {}) {
     syncing = true;
     colGroups[col].forEach(otherId => {
       if (otherId !== id && allCharts[otherId]) {
-        const useTimeSync = (otherId === 'kr-val-a' || otherId === 'kr-val-b');
+        const useTimeSync = (otherId === 'kr-val');
         try {
           if (useTimeSync && visibleRange) {
             allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
@@ -372,31 +361,28 @@ function createChart(id, col, opts = {}) {
       xline.style.display = 'block';
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
-        // 메인 차트 외 sub-차트에 marker dot 표시 (수직 정렬 시각 확인용).
-        // 시가총액 차트(kr-val-a/b)는 multi-series 라 setMarkers 가 emit cycle 유발 → skip
-        const mainId = col === 'kr' ? 'kospi' : 'ndx';
-        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
-        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
-          const d = chartDataMap[cid][param.time];
-          if (d && d.value != null) {
-            allCharts[cid].series.setMarkers([{
-              time: param.time,
-              position: 'inBar',
-              color: 'rgb(210,175,100)',
-              shape: 'circle',
-              size: 0.5
-            }]);
-          }
-        }
+        // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
+        const isMultiSeries = (cid === 'kr-val');
+        if (isMultiSeries) return;
+        if (!allCharts[cid] || !allCharts[cid].series) return;
+        try {
+          allCharts[cid].series.setMarkers([{
+            time: param.time,
+            position: 'inBar',
+            color: 'rgb(210,175,100)',
+            shape: 'circle',
+            size: 0.5
+          }]);
+        } catch(_) {}
       });
     } else {
       xline.style.display = 'none';
       restoreHeaders(col);
-      const mainId = col === 'kr' ? 'kospi' : 'ndx';
       colGroups[col].forEach(cid => {
-        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
-        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series) {
-          allCharts[cid].series.setMarkers([]);
+        const isMultiSeries = (cid === 'kr-val');
+        if (isMultiSeries) return;
+        if (allCharts[cid] && allCharts[cid].series) {
+          try { allCharts[cid].series.setMarkers([]); } catch(_) {}
         }
       });
     }
@@ -1068,92 +1054,99 @@ async function buildMcap() {
   return out;
 }
 
-async function loadKrValuationA() {
-  const id = 'kr-val-a';
-  const msgEl = document.getElementById('msg-' + id);
-  try {
-    const D = await fetchKospi12mf();
-    const mcap = await buildMcap();
-    // ROE 가 1989 부터 시작 → union 길이가 KOSPI 와 안 맞아 logical-range sync 어긋남
-    // 시가총액 시작점 (2014~) 이후로 모든 보조 series 필터링하여 union 정렬
-    const startT = mcap.length ? mcap[0].time : null;
-    const filtByStart = arr => startT ? arr.filter(r => r.time >= startT) : arr;
-    const roe = filtByStart(fmtSeries(D.kospi_12mfwd_roe?.main?.data));
-    const pb = filtByStart(fmtSeries(D.kospi_12mfwd_pb?.main_long?.data));
+// 코스피 12MF 밸류에이션 밴드 차트 — PBR/PER 토글 + KOSPI 지수 우축
+let kvBandKey = 'pb';
 
-    if (!allCharts[id]) {
-      createChart(id, 'kr', { showTimeAxis: true });
-      const ch = allCharts[id].chart;
-      // 좌축 (시총)
-      ch.priceScale('left').applyOptions({ visible: false });
-      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true, title: '시가총액' });
-      const sRoe = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'ROE(%)', lineStyle: 0 });
-      const sPb = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/B', lineStyle: 0 });
-      allCharts[id].series = sMcap;
-      allCharts[id].seriesByKey = { roe: sRoe, pb: sPb };
-    }
-    allCharts[id].series.setData(mcap);
-    allCharts[id].seriesByKey.roe.setData(roe);
-    allCharts[id].seriesByKey.pb.setData(pb);
-
-    // header 값
-    const lastM = mcap[mcap.length - 1];
-    const lastR = roe[roe.length - 1];
-    const lastP = pb[pb.length - 1];
-    const hdr = document.getElementById('p-' + id);
-    const hdrHtml = `<span style="color:rgb(210,175,100)">시가총액 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">ROE ${lastR ? lastR.value.toFixed(1) + '%' : '—'}</span> / <span style="color:rgb(249,117,131)">P/B ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
-    if (hdr) hdr.innerHTML = hdrHtml;
-    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
-
-    msgEl.style.display = 'none';
-  } catch (e) {
-    console.error('loadKrValuationA', e);
-    msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
-  }
+function _calcBand(arr) {
+  if (!arr || arr.length < 30) return null;
+  const vals = arr.map(r => r.value).filter(v => v != null && !isNaN(v));
+  if (!vals.length) return null;
+  const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+  const variance = vals.reduce((a,b) => a+(b-mean)*(b-mean), 0) / vals.length;
+  const std = Math.sqrt(variance);
+  return { mean, std, plus1: mean+std, minus1: mean-std };
 }
 
-async function loadKrValuationB() {
-  const id = 'kr-val-b';
+async function loadKrValuationBand() {
+  const id = 'kr-val';
   const msgEl = document.getElementById('msg-' + id);
   try {
     const D = await fetchKospi12mf();
-    const mcap = await buildMcap();
-    // 시가총액 시작점 이후로 EPS/PE 필터링 (logical-range sync 정렬)
-    const startT = mcap.length ? mcap[0].time : null;
-    const filtByStart = arr => startT ? arr.filter(r => r.time >= startT) : arr;
-    const eps = filtByStart(fmtSeries(D.kospi_12mfwd_eps?.main?.data));
+    const kospiData = chartDataMap['kospi'];
+    const kospiSeries = kospiData
+      ? Object.keys(kospiData).sort().map(t => ({ time: t, value: kospiData[t].close })).filter(d => d.value != null)
+      : [];
+    const kospiStart = kospiSeries.length ? kospiSeries[0].time : null;
+    const filtByStart = arr => kospiStart ? arr.filter(r => r.time >= kospiStart) : arr;
+
+    const pb = filtByStart(fmtSeries(D.kospi_12mfwd_pb?.main_long?.data));
     const pe = filtByStart(fmtSeries(D.kospi_12mfwd_pe?.combined?.data));
 
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
       const ch = allCharts[id].chart;
-      ch.priceScale('left').applyOptions({ visible: false });
+      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true, title: '시가총액' });
-      const sEps = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'EPS(원)' });
-      const sPe = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/E' });
-      allCharts[id].series = sMcap;
-      allCharts[id].seriesByKey = { eps: sEps, pe: sPe };
+      const sBand = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'PBR' });
+      const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
+      allCharts[id].series = sBand;
+      allCharts[id].seriesByKey = { kospi: sKospi };
+      allCharts[id].priceLines = [];
     }
-    allCharts[id].series.setData(mcap);
-    allCharts[id].seriesByKey.eps.setData(eps);
-    allCharts[id].seriesByKey.pe.setData(pe);
 
-    const lastM = mcap[mcap.length - 1];
-    const lastE = eps[eps.length - 1];
-    const lastP = pe[pe.length - 1];
+    const bandData = (kvBandKey === 'pb') ? pb : pe;
+    const bandStat = _calcBand(bandData);
+
+    allCharts[id].series.setData(bandData);
+    allCharts[id].seriesByKey.kospi.setData(kospiSeries);
+    allCharts[id].series.applyOptions({ title: kvBandKey === 'pb' ? 'PBR' : 'PER' });
+
+    if (allCharts[id].priceLines && allCharts[id].priceLines.length) {
+      allCharts[id].priceLines.forEach(pl => { try { allCharts[id].series.removePriceLine(pl); } catch(_){} });
+    }
+    allCharts[id].priceLines = [];
+    if (bandStat) {
+      const dashColor = 'rgba(139,148,158,0.55)';
+      const meanColor = 'rgba(139,148,158,0.85)';
+      const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
+      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.plus1, color: dashColor, lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '+1σ ' + fmtBand(bandStat.plus1) }));
+      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.mean, color: meanColor, lineWidth: 1, lineStyle: 1, axisLabelVisible: true, title: 'Avg ' + fmtBand(bandStat.mean) }));
+      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.minus1, color: dashColor, lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '-1σ ' + fmtBand(bandStat.minus1) }));
+    }
+
+    const lastBand = bandData[bandData.length - 1];
+    const lastK = kospiSeries[kospiSeries.length - 1];
     const hdr = document.getElementById('p-' + id);
-    const hdrHtml = `<span style="color:rgb(210,175,100)">시가총액 ${lastM ? Math.round(lastM.value).toLocaleString() : '—'}</span> / <span style="color:rgb(57,197,207)">EPS ${lastE ? Math.round(lastE.value).toLocaleString() : '—'}</span> / <span style="color:rgb(249,117,131)">P/E ${lastP ? lastP.value.toFixed(2) : '—'}</span>`;
+    const lbl = kvBandKey === 'pb' ? 'PBR' : 'PER';
+    const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
+    const cur = lastBand ? fmtBand(lastBand.value) : '—';
+    const avg = bandStat ? fmtBand(bandStat.mean) : '—';
+    const sigmaPos = (lastBand && bandStat && bandStat.std > 0) ? ((lastBand.value - bandStat.mean) / bandStat.std).toFixed(2) : '—';
+    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}</span> / <span style="color:rgb(139,148,158)">Avg ${avg} (σ ${sigmaPos})</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
     msgEl.style.display = 'none';
   } catch (e) {
-    console.error('loadKrValuationB', e);
-    msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
+    console.error('loadKrValuationBand', e);
+    if (msgEl) msgEl.textContent = '⚠ 12MF 데이터 로드 실패';
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleEl = document.querySelector('.series-toggle[data-chart="kr-val"]');
+  if (!toggleEl) return;
+  toggleEl.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const newKey = btn.dataset.s;
+      if (newKey === kvBandKey) return;
+      toggleEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      kvBandKey = newKey;
+      loadKrValuationBand();
+    });
+  });
+});
 
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
@@ -1427,7 +1420,7 @@ function syncColumnToMain(mainId) {
   const col = main.col;
   colGroups[col].forEach(otherId => {
     if (otherId !== mainId && allCharts[otherId]) {
-      const useTimeSync = (otherId === 'kr-val-a' || otherId === 'kr-val-b');
+      const useTimeSync = (otherId === 'kr-val');
       try {
         if (useTimeSync && visibleRange) {
           allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
@@ -1447,7 +1440,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport(), loadKrValuationA(), loadKrValuationB()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport(), loadKrValuationBand()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth(), loadPMI()]);
   }
