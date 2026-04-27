@@ -32,6 +32,7 @@ CLI
   (추세 방향성은 유지. 정확히 복제하려면 historical constituents CSV 필요 → 추후 v2.)
 """
 import argparse
+import io
 import json
 import os
 import sys
@@ -129,7 +130,8 @@ def fetch_spx_tickers() -> list:
     _log("Fetching SPX tickers from Wikipedia...")
     r = requests.get(WIKI_SPX, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
     r.raise_for_status()
-    tables = pd.read_html(r.text)
+    # pandas 2.x: read_html이 string을 파일경로로 해석하므로 StringIO로 감싸야 함
+    tables = pd.read_html(io.StringIO(r.text))
     df = tables[0]  # 첫 테이블이 현재 구성종목
     tickers = df["Symbol"].astype(str).str.replace(".", "-", regex=False).tolist()
     tickers = [t.strip() for t in tickers if t and t != "nan"]
