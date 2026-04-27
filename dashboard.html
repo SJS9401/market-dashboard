@@ -1073,22 +1073,16 @@ async function buildMcap() {
 // - 우축: KOSPI 지수 close
 let kvBandKey = 'pb'; // 'pb' or 'pe'
 
-function _calcBand(arr) {
-  if (!arr || arr.length < 30) return null;
-  const vals = arr.map(r => r.value).filter(v => v != null && !isNaN(v));
-  if (!vals.length) return null;
-  const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
-  const variance = vals.reduce((a,b) => a+(b-mean)*(b-mean), 0) / vals.length;
-  const std = Math.sqrt(variance);
-  return { mean, std, plus1: mean+std, minus1: mean-std };
-}
+// PBR/PER multiple 밴드 — 미래에셋 P/B band chart 스타일
+// 각 시점에서 BPS_t = KOSPI_t / PBR_t 역산 → multiple × BPS_t 라인 6개를 KOSPI 좌표계에 그림
+const PB_MULTIPLES = [0.8, 1.0, 1.2, 1.5, 1.8, 2.0];
+const PE_MULTIPLES = [8, 9, 10, 11, 12, 13];
 
 async function loadKrValuationBand() {
   const id = 'kr-val';
   const msgEl = document.getElementById('msg-' + id);
   try {
     const D = await fetchKospi12mf();
-    // KOSPI 메인 차트의 close 시계열 추출 (메인 시리즈)
     const kospiData = chartDataMap['kospi'];
     const kospiSeries = kospiData
       ? Object.keys(kospiData).sort().map(t => ({ time: t, value: kospiData[t].close })).filter(d => d.value != null)
@@ -1105,59 +1099,71 @@ async function loadKrValuationBand() {
       // 좌축 비활성 — KOSPI 좌표계로 통일
       ch.priceScale('left').applyOptions({ visible: false });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      // 환산 밴드 3개 — KOSPI 좌표계 (점선/평균선)
-      const sUpper = ch.addLineSeries({ color: 'rgba(249,117,131,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
-      const sMean  = ch.addLineSeries({ color: 'rgba(139,148,158,0.85)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 1 });
-      const sLower = ch.addLineSeries({ color: 'rgba(86,211,140,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
+      // multiple 라인 6개 (회색 그라데이션, 저배수 옅게 → 고배수 진하게)
+      const bandSeries = [];
+      for (let i = 0; i < 6; i++) {
+        const opacity = 0.3 + (i / 5) * 0.4;  // 0.3 ~ 0.7
+        const s = ch.addLineSeries({
+          color: `rgba(139,148,158,${opacity})`,
+          lineWidth: 1,
+          priceScaleId: 'right',
+          priceLineVisible: false,
+          lastValueVisible: true,
+          crosshairMarkerVisible: false
+        });
+        bandSeries.push(s);
+      }
       // KOSPI 종가 — 메인 시리즈 (마지막에 추가해서 z-index 우선)
       const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
       allCharts[id].series = sKospi;
-      allCharts[id].seriesByKey = { upper: sUpper, mean: sMean, lower: sLower };
+      allCharts[id].seriesByKey = { bands: bandSeries };
     }
 
     const bandData = (kvBandKey === 'pb') ? pb : pe;
-    const bandStat = _calcBand(bandData);
+    const multiples = (kvBandKey === 'pb') ? PB_MULTIPLES : PE_MULTIPLES;
 
-    // KOSPI 좌표계로 PBR/PER 밴드 환산: BPS_t = KOSPI_t / PBR_t  →  band = BPS_t × (μ ± σ)
-    let bandUpper = [], bandMean = [], bandLower = [];
-    if (bandStat) {
-      const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
-      for (const r of bandData) {
-        const k = kospiMap.get(r.time);
-        if (k == null || r.value == null || r.value <= 0) continue;
-        const baseUnit = k / r.value;  // PBR 기준이면 BPS, PER 기준이면 EPS
-        bandUpper.push({ time: r.time, value: baseUnit * bandStat.plus1 });
-        bandMean.push({  time: r.time, value: baseUnit * bandStat.mean });
-        bandLower.push({ time: r.time, value: baseUnit * bandStat.minus1 });
-      }
+    // 시점별 baseUnit (BPS 또는 EPS) 계산
+    const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
+    const baseUnits = [];
+    for (const r of bandData) {
+      const k = kospiMap.get(r.time);
+      if (k == null || r.value == null || r.value <= 0) continue;
+      baseUnits.push({ time: r.time, base: k / r.value });
     }
 
-    allCharts[id].seriesByKey.upper.setData(bandUpper);
-    allCharts[id].seriesByKey.mean.setData(bandMean);
-    allCharts[id].seriesByKey.lower.setData(bandLower);
+    // 각 multiple 시리즈에 데이터 주입 + title 갱신
+    allCharts[id].seriesByKey.bands.forEach((s, i) => {
+      const mult = multiples[i];
+      const data = baseUnits.map(u => ({ time: u.time, value: u.base * mult }));
+      s.setData(data);
+      s.applyOptions({ title: mult + 'x' });
+    });
+
     allCharts[id].series.setData(kospiSeries);
 
-    // 헤더 — PBR/PER 현재값 + σ 위치 + 환산 KOSPI ±1σ 레벨
+    // 헤더 — 현재 PBR/PER + 어느 multiple 영역에 위치하는지
     const lastBand = bandData[bandData.length - 1];
     const lastK = kospiSeries[kospiSeries.length - 1];
     const hdr = document.getElementById('p-' + id);
     const lbl = kvBandKey === 'pb' ? 'PBR' : 'PER';
     const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
     const cur = lastBand ? fmtBand(lastBand.value) : '—';
-    const avg = bandStat ? fmtBand(bandStat.mean) : '—';
-    const sigmaPos = (lastBand && bandStat && bandStat.std > 0) ? ((lastBand.value - bandStat.mean) / bandStat.std).toFixed(2) : '—';
-    // 환산 KOSPI 레벨 — 마지막 KOSPI 시점 기준 BPS/EPS 사용
-    let upperK = '—', meanK = '—', lowerK = '—', upperPct = '', lowerPct = '';
-    if (bandStat && lastBand && lastK && lastBand.value > 0) {
-      const baseUnit = lastK.value / lastBand.value;
-      const u = baseUnit * bandStat.plus1, m = baseUnit * bandStat.mean, l = baseUnit * bandStat.minus1;
-      upperK = Math.round(u).toLocaleString();
-      meanK  = Math.round(m).toLocaleString();
-      lowerK = Math.round(l).toLocaleString();
-      upperPct = ' (' + (u >= lastK.value ? '+' : '') + ((u/lastK.value-1)*100).toFixed(1) + '%)';
-      lowerPct = ' (' + (l >= lastK.value ? '+' : '') + ((l/lastK.value-1)*100).toFixed(1) + '%)';
+
+    // 현재 위치 (multiple 영역)
+    let zone = '—';
+    if (lastBand) {
+      const v = lastBand.value;
+      let lower = null, upper = null;
+      for (const m of multiples) {
+        if (v >= m) lower = m;
+        else if (upper == null) upper = m;
+      }
+      if (lower == null) zone = `< ${multiples[0]}x`;
+      else if (upper == null) zone = `> ${multiples[multiples.length - 1]}x (역사적 고점 영역)`;
+      else zone = `${lower}x ~ ${upper}x 영역`;
     }
-    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}</span> / <span style="color:rgb(139,148,158)">Avg ${avg} (σ ${sigmaPos})</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span> <span style="color:rgba(139,148,158,0.7);font-size:11px">[<span style="color:rgba(249,117,131,0.85)">+1σ ${upperK}${upperPct}</span> · <span style="color:rgba(86,211,140,0.85)">-1σ ${lowerK}${lowerPct}</span>]</span>`;
+
+    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}x</span> <span style="color:rgb(139,148,158);font-size:11px">[${zone}]</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 

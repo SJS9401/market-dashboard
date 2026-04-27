@@ -1055,15 +1055,9 @@ async function buildMcap() {
 // 코스피 12MF 밸류에이션 밴드 차트 — PBR/PER 토글 + KOSPI 지수 우축
 let kvBandKey = 'pb';
 
-function _calcBand(arr) {
-  if (!arr || arr.length < 30) return null;
-  const vals = arr.map(r => r.value).filter(v => v != null && !isNaN(v));
-  if (!vals.length) return null;
-  const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
-  const variance = vals.reduce((a,b) => a+(b-mean)*(b-mean), 0) / vals.length;
-  const std = Math.sqrt(variance);
-  return { mean, std, plus1: mean+std, minus1: mean-std };
-}
+// PBR/PER multiple 밴드 — 미래에셋 P/B band chart 스타일
+const PB_MULTIPLES = [0.8, 1.0, 1.2, 1.5, 1.8, 2.0];
+const PE_MULTIPLES = [8, 9, 10, 11, 12, 13];
 
 async function loadKrValuationBand() {
   const id = 'kr-val';
@@ -1085,33 +1079,42 @@ async function loadKrValuationBand() {
       const ch = allCharts[id].chart;
       ch.priceScale('left').applyOptions({ visible: false });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sUpper = ch.addLineSeries({ color: 'rgba(249,117,131,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
-      const sMean  = ch.addLineSeries({ color: 'rgba(139,148,158,0.85)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 1 });
-      const sLower = ch.addLineSeries({ color: 'rgba(86,211,140,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
+      const bandSeries = [];
+      for (let i = 0; i < 6; i++) {
+        const opacity = 0.3 + (i / 5) * 0.4;
+        const s = ch.addLineSeries({
+          color: `rgba(139,148,158,${opacity})`,
+          lineWidth: 1,
+          priceScaleId: 'right',
+          priceLineVisible: false,
+          lastValueVisible: true,
+          crosshairMarkerVisible: false
+        });
+        bandSeries.push(s);
+      }
       const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
       allCharts[id].series = sKospi;
-      allCharts[id].seriesByKey = { upper: sUpper, mean: sMean, lower: sLower };
+      allCharts[id].seriesByKey = { bands: bandSeries };
     }
 
     const bandData = (kvBandKey === 'pb') ? pb : pe;
-    const bandStat = _calcBand(bandData);
+    const multiples = (kvBandKey === 'pb') ? PB_MULTIPLES : PE_MULTIPLES;
 
-    let bandUpper = [], bandMean = [], bandLower = [];
-    if (bandStat) {
-      const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
-      for (const r of bandData) {
-        const k = kospiMap.get(r.time);
-        if (k == null || r.value == null || r.value <= 0) continue;
-        const baseUnit = k / r.value;
-        bandUpper.push({ time: r.time, value: baseUnit * bandStat.plus1 });
-        bandMean.push({  time: r.time, value: baseUnit * bandStat.mean });
-        bandLower.push({ time: r.time, value: baseUnit * bandStat.minus1 });
-      }
+    const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
+    const baseUnits = [];
+    for (const r of bandData) {
+      const k = kospiMap.get(r.time);
+      if (k == null || r.value == null || r.value <= 0) continue;
+      baseUnits.push({ time: r.time, base: k / r.value });
     }
 
-    allCharts[id].seriesByKey.upper.setData(bandUpper);
-    allCharts[id].seriesByKey.mean.setData(bandMean);
-    allCharts[id].seriesByKey.lower.setData(bandLower);
+    allCharts[id].seriesByKey.bands.forEach((s, i) => {
+      const mult = multiples[i];
+      const data = baseUnits.map(u => ({ time: u.time, value: u.base * mult }));
+      s.setData(data);
+      s.applyOptions({ title: mult + 'x' });
+    });
+
     allCharts[id].series.setData(kospiSeries);
 
     const lastBand = bandData[bandData.length - 1];
@@ -1120,18 +1123,21 @@ async function loadKrValuationBand() {
     const lbl = kvBandKey === 'pb' ? 'PBR' : 'PER';
     const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
     const cur = lastBand ? fmtBand(lastBand.value) : '—';
-    const avg = bandStat ? fmtBand(bandStat.mean) : '—';
-    const sigmaPos = (lastBand && bandStat && bandStat.std > 0) ? ((lastBand.value - bandStat.mean) / bandStat.std).toFixed(2) : '—';
-    let upperK = '—', lowerK = '—', upperPct = '', lowerPct = '';
-    if (bandStat && lastBand && lastK && lastBand.value > 0) {
-      const baseUnit = lastK.value / lastBand.value;
-      const u = baseUnit * bandStat.plus1, l = baseUnit * bandStat.minus1;
-      upperK = Math.round(u).toLocaleString();
-      lowerK = Math.round(l).toLocaleString();
-      upperPct = ' (' + (u >= lastK.value ? '+' : '') + ((u/lastK.value-1)*100).toFixed(1) + '%)';
-      lowerPct = ' (' + (l >= lastK.value ? '+' : '') + ((l/lastK.value-1)*100).toFixed(1) + '%)';
+
+    let zone = '—';
+    if (lastBand) {
+      const v = lastBand.value;
+      let lower = null, upper = null;
+      for (const m of multiples) {
+        if (v >= m) lower = m;
+        else if (upper == null) upper = m;
+      }
+      if (lower == null) zone = `< ${multiples[0]}x`;
+      else if (upper == null) zone = `> ${multiples[multiples.length - 1]}x (역사적 고점 영역)`;
+      else zone = `${lower}x ~ ${upper}x 영역`;
     }
-    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}</span> / <span style="color:rgb(139,148,158)">Avg ${avg} (σ ${sigmaPos})</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span> <span style="color:rgba(139,148,158,0.7);font-size:11px">[<span style="color:rgba(249,117,131,0.85)">+1σ ${upperK}${upperPct}</span> · <span style="color:rgba(86,211,140,0.85)">-1σ ${lowerK}${lowerPct}</span>]</span>`;
+
+    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}x</span> <span style="color:rgb(139,148,158);font-size:11px">[${zone}]</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
