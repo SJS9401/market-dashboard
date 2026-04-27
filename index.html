@@ -49,7 +49,9 @@
   .series-toggle button[data-s="m"].active,
   .series-toggle button[data-s="200"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
   .series-toggle button[data-s="20"].active,
-  .series-toggle button[data-s="50"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="50"].active,
+  .series-toggle button[data-s="pb"].active,
+  .series-toggle button[data-s="pe"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
   .series-toggle button[data-s="10"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
@@ -362,8 +364,6 @@ function createChart(id, col, opts = {}) {
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
-        const isMultiSeries = (cid === 'kr-val');
-        if (isMultiSeries) return;
         if (!allCharts[cid] || !allCharts[cid].series) return;
         try {
           allCharts[cid].series.setMarkers([{
@@ -379,8 +379,6 @@ function createChart(id, col, opts = {}) {
       xline.style.display = 'none';
       restoreHeaders(col);
       colGroups[col].forEach(cid => {
-        const isMultiSeries = (cid === 'kr-val');
-        if (isMultiSeries) return;
         if (allCharts[cid] && allCharts[cid].series) {
           try { allCharts[cid].series.setMarkers([]); } catch(_) {}
         }
@@ -1085,34 +1083,36 @@ async function loadKrValuationBand() {
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
       const ch = allCharts[id].chart;
-      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
+      ch.priceScale('left').applyOptions({ visible: false });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sBand = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'PBR' });
-      const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
-      allCharts[id].series = sBand;
-      allCharts[id].seriesByKey = { kospi: sKospi };
-      allCharts[id].priceLines = [];
+      const sUpper = ch.addLineSeries({ color: 'rgba(249,117,131,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
+      const sMean  = ch.addLineSeries({ color: 'rgba(139,148,158,0.85)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 1 });
+      const sLower = ch.addLineSeries({ color: 'rgba(86,211,140,0.7)', lineWidth: 1, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, lineStyle: 2 });
+      const sKospi = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'KOSPI' });
+      allCharts[id].series = sKospi;
+      allCharts[id].seriesByKey = { upper: sUpper, mean: sMean, lower: sLower };
     }
 
     const bandData = (kvBandKey === 'pb') ? pb : pe;
     const bandStat = _calcBand(bandData);
 
-    allCharts[id].series.setData(bandData);
-    allCharts[id].seriesByKey.kospi.setData(kospiSeries);
-    allCharts[id].series.applyOptions({ title: kvBandKey === 'pb' ? 'PBR' : 'PER' });
-
-    if (allCharts[id].priceLines && allCharts[id].priceLines.length) {
-      allCharts[id].priceLines.forEach(pl => { try { allCharts[id].series.removePriceLine(pl); } catch(_){} });
-    }
-    allCharts[id].priceLines = [];
+    let bandUpper = [], bandMean = [], bandLower = [];
     if (bandStat) {
-      const dashColor = 'rgba(139,148,158,0.55)';
-      const meanColor = 'rgba(139,148,158,0.85)';
-      const fmtBand = v => kvBandKey === 'pb' ? v.toFixed(2) : v.toFixed(1);
-      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.plus1, color: dashColor, lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '+1σ ' + fmtBand(bandStat.plus1) }));
-      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.mean, color: meanColor, lineWidth: 1, lineStyle: 1, axisLabelVisible: true, title: 'Avg ' + fmtBand(bandStat.mean) }));
-      allCharts[id].priceLines.push(allCharts[id].series.createPriceLine({ price: bandStat.minus1, color: dashColor, lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '-1σ ' + fmtBand(bandStat.minus1) }));
+      const kospiMap = new Map(kospiSeries.map(d => [d.time, d.value]));
+      for (const r of bandData) {
+        const k = kospiMap.get(r.time);
+        if (k == null || r.value == null || r.value <= 0) continue;
+        const baseUnit = k / r.value;
+        bandUpper.push({ time: r.time, value: baseUnit * bandStat.plus1 });
+        bandMean.push({  time: r.time, value: baseUnit * bandStat.mean });
+        bandLower.push({ time: r.time, value: baseUnit * bandStat.minus1 });
+      }
     }
+
+    allCharts[id].seriesByKey.upper.setData(bandUpper);
+    allCharts[id].seriesByKey.mean.setData(bandMean);
+    allCharts[id].seriesByKey.lower.setData(bandLower);
+    allCharts[id].series.setData(kospiSeries);
 
     const lastBand = bandData[bandData.length - 1];
     const lastK = kospiSeries[kospiSeries.length - 1];
@@ -1122,7 +1122,16 @@ async function loadKrValuationBand() {
     const cur = lastBand ? fmtBand(lastBand.value) : '—';
     const avg = bandStat ? fmtBand(bandStat.mean) : '—';
     const sigmaPos = (lastBand && bandStat && bandStat.std > 0) ? ((lastBand.value - bandStat.mean) / bandStat.std).toFixed(2) : '—';
-    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}</span> / <span style="color:rgb(139,148,158)">Avg ${avg} (σ ${sigmaPos})</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span>`;
+    let upperK = '—', lowerK = '—', upperPct = '', lowerPct = '';
+    if (bandStat && lastBand && lastK && lastBand.value > 0) {
+      const baseUnit = lastK.value / lastBand.value;
+      const u = baseUnit * bandStat.plus1, l = baseUnit * bandStat.minus1;
+      upperK = Math.round(u).toLocaleString();
+      lowerK = Math.round(l).toLocaleString();
+      upperPct = ' (' + (u >= lastK.value ? '+' : '') + ((u/lastK.value-1)*100).toFixed(1) + '%)';
+      lowerPct = ' (' + (l >= lastK.value ? '+' : '') + ((l/lastK.value-1)*100).toFixed(1) + '%)';
+    }
+    const hdrHtml = `<span style="color:rgb(57,197,207)">${lbl} ${cur}</span> / <span style="color:rgb(139,148,158)">Avg ${avg} (σ ${sigmaPos})</span> / <span style="color:rgb(210,175,100)">KOSPI ${lastK ? Math.round(lastK.value).toLocaleString() : '—'}</span> <span style="color:rgba(139,148,158,0.7);font-size:11px">[<span style="color:rgba(249,117,131,0.85)">+1σ ${upperK}${upperPct}</span> · <span style="color:rgba(86,211,140,0.85)">-1σ ${lowerK}${lowerPct}</span>]</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
