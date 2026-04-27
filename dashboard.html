@@ -325,11 +325,20 @@ function createChart(id, col, opts = {}) {
   chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
     if (syncing) return;
     const logicalRange = chart.timeScale().getVisibleLogicalRange();
+    const visibleRange = chart.timeScale().getVisibleRange();
     if (!logicalRange) return;
     syncing = true;
     colGroups[col].forEach(otherId => {
       if (otherId !== id && allCharts[otherId]) {
-        try { allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange); } catch(_){}
+        // 시가총액 차트는 series 길이가 달라 logical 인덱스 sync 가 어긋남 → 시간 기반 sync
+        const useTimeSync = (otherId === 'kr-val-a' || otherId === 'kr-val-b');
+        try {
+          if (useTimeSync && visibleRange) {
+            allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
+          } else {
+            allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
+          }
+        } catch(_){}
       }
     });
     // Update bar count display for main charts
@@ -1409,11 +1418,19 @@ function syncColumnToMain(mainId) {
   const main = allCharts[mainId];
   if (!main) return;
   const logicalRange = main.chart.timeScale().getVisibleLogicalRange();
+  const visibleRange = main.chart.timeScale().getVisibleRange();
   if (!logicalRange) return;
   const col = main.col;
   colGroups[col].forEach(otherId => {
     if (otherId !== mainId && allCharts[otherId]) {
-      try { allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange); } catch(_){}
+      const useTimeSync = (otherId === 'kr-val-a' || otherId === 'kr-val-b');
+      try {
+        if (useTimeSync && visibleRange) {
+          allCharts[otherId].chart.timeScale().setVisibleRange(visibleRange);
+        } else {
+          allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
+        }
+      } catch(_){}
     }
   });
 }
