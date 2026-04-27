@@ -672,9 +672,11 @@ async function loadMDD(indexId, mddId, col) {
   } catch(e) { console.error('MDD', e); msgEl.textContent = '⚠ 실패'; }
 }
 
-// KR Fear/Greed — Phase 2: VKOSPI(Volatility) + KODEX KTB10Y(Safe Haven) 고도화
-// Phase 1 Breadth(ADR) 유지. VKOSPI/bond fetch 실패 시 각 factor 독립 fallback (realized σ / FX 프록시)
-function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles) {
+// KR Fear/Greed — Phase 3: Put/Call factor 추가 (6-factor)
+// Phase 1 Breadth(ADR) / Phase 2 VKOSPI/Bond 유지
+// 가중치: Phase 3 활성 시 (Mom 20 / Str 15 / Brd 15 / Vol 20 / SH 15 / PC 15 = 100)
+//          Phase 2 (Put/Call 데이터 없음) → 기존 (25/20/15/25/15 = 100)
+function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
   const sma125=calcSMA(c,125),rsi=calcRSI(c);
   const ret=[];for(let i=1;i<c.length;i++)ret.push(Math.log(c[i]/c[i-1]));
@@ -694,6 +696,10 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles) {
   const vkMap={};if(vkospiCandles)vkospiCandles.forEach(x=>{vkMap[x.time]=x.close});
   const vkA=[];let lvk=null;for(const tt of t){if(vkMap[tt])lvk=vkMap[tt];vkA.push(lvk)}
   const vkSMA50=safeSMA(vkA,50);
+  // Phase 3: Put/Call ratio forward-fill + 20일 SMA (노이즈 제거)
+  const pcA=[];let lpc=null;for(const tt of t){if(putcallMap&&putcallMap[tt]!=null)lpc=putcallMap[tt];pcA.push(lpc)}
+  const pcSMA20=safeSMA(pcA,20);
+  const hasPC=pcSMA20.some(v=>v!=null);
   const out=[];
   for(let i=125;i<c.length;i++){
     const ma=sma125[i];if(!ma)continue;
@@ -725,7 +731,21 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles) {
       const sr=(c[i]-c[i-20])/c[i-20]*100,fr=(fxA[i]-fxA[i-20])/fxA[i-20]*100;
       sh=Math.max(0,Math.min(100,50+(sr-fr*3)*3));
     }
-    out.push({time:t[i],value:Math.max(0,Math.min(100,Math.round(mom*.25+str*.2+brd*.15+vol*.25+sh*.15)))});
+    // 6. Put/Call (Phase 3, 15%) — pc < 0.7 = Greed (100), pc > 1.3 = Fear (0)
+    //    20일 SMA 적용으로 일별 노이즈 제거. neutral pc=1.0 → 50.
+    let pcScore = 50;
+    if (pcSMA20[i] != null) {
+      pcScore = Math.max(0, Math.min(100, 100 - (pcSMA20[i] - 0.7) / 0.6 * 100));
+    }
+    let score;
+    if (hasPC) {
+      // 6-factor: Mom 20 / Str 15 / Brd 15 / Vol 20 / SH 15 / PC 15
+      score = mom*0.20 + str*0.15 + brd*0.15 + vol*0.20 + sh*0.15 + pcScore*0.15;
+    } else {
+      // 5-factor backward 호환 (Phase 2 가중치)
+      score = mom*0.25 + str*0.20 + brd*0.15 + vol*0.25 + sh*0.15;
+    }
+    out.push({time:t[i],value:Math.max(0,Math.min(100,Math.round(score)))});
   }
   return out;
 }
@@ -736,13 +756,15 @@ async function loadKrFG() {
   try {
     const fxResults=await Promise.allSettled(FALLBACKS.usdkrw.map(s=>getCachedData(s,range)));
     const fxWinner=fxResults.find(r=>r.status==='fulfilled'&&r.value.candles.length);
-    // Phase 2/3: bond(148070.KS) / vkospi 병렬 fetch — 각 실패 시 독립 fallback
+    // Phase 2/3: bond(148070.KS) / vkospi / putcall 병렬 fetch — 각 실패 시 독립 fallback
     // VKOSPI: KRX OpenAPI JSON (data/kr_vkospi.json) 우선, 실패 시 yfinance ^VKOSPI fallback (대부분 404)
-    const [k,fx,bond,vkospi]=await Promise.all([
+    // Put/Call: KRX OpenAPI JSON (data/kr_putcall.json) — 실패 시 5-factor 모드로 회귀
+    const [k,fx,bond,vkospi,putcall]=await Promise.all([
       getCachedData('^KS11',range).catch(()=>null),
       Promise.resolve(fxWinner?fxWinner.value:null),
       getCachedData('148070.KS',range).catch(()=>null),
-      fetchVkospiSeriesKRX().catch(()=>getCachedData('^VKOSPI',range).catch(()=>null))
+      fetchVkospiSeriesKRX().catch(()=>getCachedData('^VKOSPI',range).catch(()=>null)),
+      fetchPutcallSeriesKRX().catch(()=>null)
     ]);
     if(!k||k.candles.length<150)throw 0;
     // Phase 1: ADR 데이터를 Breadth factor로 사용 (데이터 없으면 양봉 비율 fallback)
@@ -756,7 +778,8 @@ async function loadKrFG() {
       }
     }catch(e){adrMap=null;/* ADR JSON 비어있거나 아직 배포 전 → 양봉 fallback 사용 */}
     let data=calcKrFG(k.candles,fx?fx.candles:null,adrMap,
-                      bond?bond.candles:null, vkospi?vkospi.candles:null);
+                      bond?bond.candles:null, vkospi?vkospi.candles:null,
+                      putcall);
     if(intv==='1wk')data=resampleWeekly(data);
     const last=data[data.length-1],score=last?last.value:50,lbl=getLabel(score);
     document.getElementById('kr-fg-val').textContent=score;
@@ -788,6 +811,29 @@ async function fetchVkospiSeriesKRX() {
   if (!candles.length) throw new Error('VKOSPI JSON empty');
   _vkospiCache = { candles };
   return _vkospiCache;
+}
+
+// KR Put/Call ratio (Phase 3) — KRX 옵션 일별매매정보 집계
+// 데이터 소스: ./data/kr_putcall.json — kr_putcall_backfill_local.py 로 생성
+// JSON 형식: { data: [["YYYY-MM-DD", { pc: 0.83, put_vol, call_vol }], ...] }
+// 출력: { "YYYY-MM-DD": pc_value } 맵 (calcKrFG 가 받는 형식)
+const PUTCALL_JSON_URL = './data/kr_putcall.json';
+let _putcallCache = null;
+async function fetchPutcallSeriesKRX() {
+  if (_putcallCache) return _putcallCache;
+  const r = await fetch(PUTCALL_JSON_URL + '?_t=' + Date.now());
+  if (!r.ok) throw new Error('Put/Call JSON fetch failed: ' + r.status);
+  const raw = await r.json();
+  const arr = raw && Array.isArray(raw.data) ? raw.data : [];
+  const map = {};
+  arr.forEach(rec => {
+    const d = rec[0]; const obj = rec[1];
+    if (!d || !obj || typeof obj.pc !== 'number') return;
+    map[d] = obj.pc;
+  });
+  if (!Object.keys(map).length) throw new Error('Put/Call JSON empty');
+  _putcallCache = map;
+  return _putcallCache;
 }
 
 // KR ADR — 정통 breadth 기반 ADR(20): Σ(20일 상승종목수) / Σ(20일 하락종목수) × 100
@@ -1015,8 +1061,12 @@ async function loadKrValuationA() {
   try {
     const D = await fetchKospi12mf();
     const mcap = await buildMcap();
-    const roe = fmtSeries(D.kospi_12mfwd_roe?.main?.data);
-    const pb = fmtSeries(D.kospi_12mfwd_pb?.main_long?.data);
+    // ROE 가 1989 부터 시작 → union 길이가 KOSPI 와 안 맞아 logical-range sync 어긋남
+    // 시가총액 시작점 (2014~) 이후로 모든 보조 series 필터링하여 union 정렬
+    const startT = mcap.length ? mcap[0].time : null;
+    const filtByStart = arr => startT ? arr.filter(r => r.time >= startT) : arr;
+    const roe = filtByStart(fmtSeries(D.kospi_12mfwd_roe?.main?.data));
+    const pb = filtByStart(fmtSeries(D.kospi_12mfwd_pb?.main_long?.data));
 
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
@@ -1056,8 +1106,11 @@ async function loadKrValuationB() {
   try {
     const D = await fetchKospi12mf();
     const mcap = await buildMcap();
-    const eps = fmtSeries(D.kospi_12mfwd_eps?.main?.data);
-    const pe = fmtSeries(D.kospi_12mfwd_pe?.combined?.data);
+    // 시가총액 시작점 이후로 EPS/PE 필터링 (logical-range sync 정렬)
+    const startT = mcap.length ? mcap[0].time : null;
+    const filtByStart = arr => startT ? arr.filter(r => r.time >= startT) : arr;
+    const eps = filtByStart(fmtSeries(D.kospi_12mfwd_eps?.main?.data));
+    const pe = filtByStart(fmtSeries(D.kospi_12mfwd_pe?.combined?.data));
 
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
