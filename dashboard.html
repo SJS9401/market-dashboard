@@ -369,8 +369,11 @@ function createChart(id, col, opts = {}) {
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // Show marker dot on sub-charts (not on main index)
+        // Phase 3 fix: 시가총액 차트(kr-val-a/b)는 multi-series 라서 setMarkers 가
+        //   crosshairMove emit cycle 을 일으킴 → 해당 차트 skip
         const mainId = col === 'kr' ? 'kospi' : 'ndx';
-        if (cid !== mainId && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
+        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
+        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
           const d = chartDataMap[cid][param.time];
           if (d && d.value != null) {
             allCharts[cid].series.setMarkers([{
