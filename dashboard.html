@@ -742,12 +742,13 @@ async function loadKrFG() {
   try {
     const fxResults=await Promise.allSettled(FALLBACKS.usdkrw.map(s=>getCachedData(s,range)));
     const fxWinner=fxResults.find(r=>r.status==='fulfilled'&&r.value.candles.length);
-    // Phase 2: bond(148070.KS) / vkospi(^VKOSPI) 병렬 fetch — 각 실패 시 독립 fallback
+    // Phase 2/3: bond(148070.KS) / vkospi 병렬 fetch — 각 실패 시 독립 fallback
+    // VKOSPI: KRX OpenAPI JSON (data/kr_vkospi.json) 우선, 실패 시 yfinance ^VKOSPI fallback (대부분 404)
     const [k,fx,bond,vkospi]=await Promise.all([
       getCachedData('^KS11',range).catch(()=>null),
       Promise.resolve(fxWinner?fxWinner.value:null),
       getCachedData('148070.KS',range).catch(()=>null),
-      getCachedData('^VKOSPI',range).catch(()=>null)
+      fetchVkospiSeriesKRX().catch(()=>getCachedData('^VKOSPI',range).catch(()=>null))
     ]);
     if(!k||k.candles.length<150)throw 0;
     // Phase 1: ADR 데이터를 Breadth factor로 사용 (데이터 없으면 양봉 비율 fallback)
@@ -773,6 +774,26 @@ async function loadKrFG() {
     // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   } catch(e){console.error('KR FG',e);msgEl.textContent='⚠ 실패';}
+}
+
+// KR VKOSPI (Phase 3) — KRX OpenAPI 파생상품지수 시세정보 추출 결과
+// 데이터 소스: ./data/kr_vkospi.json — kr_vkospi_backfill_local.py 로 생성
+// 출력: { candles: [{ time: "YYYY-MM-DD", close: 값, ... }, ...] } (calcKrFG 가 받는 형식)
+const VKOSPI_JSON_URL = './data/kr_vkospi.json';
+let _vkospiCache = null;
+async function fetchVkospiSeriesKRX() {
+  if (_vkospiCache) return _vkospiCache;
+  const r = await fetch(VKOSPI_JSON_URL + '?_t=' + Date.now());
+  if (!r.ok) throw new Error('VKOSPI JSON fetch failed: ' + r.status);
+  const raw = await r.json();
+  const arr = raw && Array.isArray(raw.data) ? raw.data : [];
+  const candles = arr.map(rec => {
+    const d = rec[0], v = rec[1];
+    return { time: d, open: v, high: v, low: v, close: v, volume: 0 };
+  }).filter(c => c.time && c.close != null);
+  if (!candles.length) throw new Error('VKOSPI JSON empty');
+  _vkospiCache = { candles };
+  return _vkospiCache;
 }
 
 // KR ADR — 정통 breadth 기반 ADR(20): Σ(20일 상승종목수) / Σ(20일 하락종목수) × 100
