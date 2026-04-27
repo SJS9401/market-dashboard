@@ -15,6 +15,8 @@ Goldman breadth = (SPX % from 52wH)  −  median(constituent % from 52wH)
     "pct_above_200ma": [float, ...],     # 구성종목 중 200일선 위 비율 (0-100)
     "pct_above_50ma":  [float, ...],     # 구성종목 중 50일선 위 비율 (0-100)
     "goldman_breadth": [float, ...],     # SPX %52wH - median(종목 %52wH)
+    "new_highs_pct":   [float, ...],     # 그 날 52주 신고가 갱신 종목 비율 (0-100) — F&G Strength factor용
+    "new_lows_pct":    [float, ...],     # 그 날 52주 신저가 갱신 종목 비율 (0-100) — F&G Strength factor용
     "ism_pmi_monthly": [[date, val], ...]# Market_cycle.html에서 추출한 월별 ISM PMI
   }
 
@@ -210,14 +212,24 @@ def compute_breadth(close_df, spx_close) -> dict:
     idx = spx_close.index.sort_values()
     close_df = close_df.reindex(idx)
 
-    # --- 52w rolling max 기반 %from52wH ---
+    # --- 52w rolling max/min 기반 %from52wH + NH/NL ---
     roll_max = close_df.rolling(WINDOW_52W, min_periods=60).max()
+    roll_min = close_df.rolling(WINDOW_52W, min_periods=60).min()
     pct_from_52wH = (close_df / roll_max - 1.0) * 100.0   # 0 이하 값 (부호 유지)
 
     spx_roll_max = spx_close.rolling(WINDOW_52W, min_periods=60).max()
     spx_pct_from_52wH = (spx_close / spx_roll_max - 1.0) * 100.0
 
     goldman = spx_pct_from_52wH - pct_from_52wH.median(axis=1)
+
+    # --- 52주 신고가/신저가 갱신 종목 수 → 비율(%) ---
+    # close == roll_max 면 그 날 52주 고점 (신고가). 부동소수점 허용오차 포함.
+    valid_count = close_df.notna().sum(axis=1)
+    new_highs_mask = (close_df >= roll_max - 1e-6) & close_df.notna()
+    new_lows_mask  = (close_df <= roll_min + 1e-6) & close_df.notna()
+    # safe divide: valid_count == 0 이면 0
+    nh_pct = (new_highs_mask.sum(axis=1) / valid_count.replace(0, np.nan) * 100.0).fillna(0)
+    nl_pct = (new_lows_mask.sum(axis=1)  / valid_count.replace(0, np.nan) * 100.0).fillna(0)
 
     # --- MA 위 비율 ---
     ma200 = close_df.rolling(MA_200, min_periods=60).mean()
@@ -240,6 +252,8 @@ def compute_breadth(close_df, spx_close) -> dict:
         "pct_above_200ma": clean(above_200),
         "pct_above_50ma": clean(above_50),
         "goldman_breadth": clean(goldman),
+        "new_highs_pct": clean(nh_pct),
+        "new_lows_pct":  clean(nl_pct),
     }
 
 

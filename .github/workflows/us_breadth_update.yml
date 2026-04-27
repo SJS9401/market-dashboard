@@ -1,0 +1,98 @@
+# US Breadth 자동 갱신 (시장폭 200/50MA + 골드만 시장폭 + NH/NL)
+# ----------------------------------------------------------
+# us_breadth_backfill_local.py 매일 1회 실행 → data/us_breadth.json 갱신
+# 데이터 소스: yfinance (S&P 500 구성종목 시세) + Wikipedia (티커 리스트)
+#
+# 스케줄 (미국 정규장 마감 16:00 ET = 21:00 UTC 이후 충분한 마진 두고 실행):
+#   - 매일 23:30 UTC = 한국 08:30 (1차 — 데이터 확정 후 빠른 갱신)
+#   - 매일 02:30 UTC = 한국 11:30 (2차 — 백업, 1차 실패 대비)
+#   - workflow_dispatch: 수동 실행
+#
+# 매 실행은 풀 백필 (10년 + 500종목, 약 5~10분). 신규 영업일 1~2개만
+# 결과적으로 새로 추가되지만 rolling 계산 특성상 풀 다운로드가 안전.
+#
+# Secret 의존: 없음 (yfinance + Wikipedia 모두 공개 접근)
+# ----------------------------------------------------------
+
+name: US Breadth Update
+
+on:
+  schedule:
+    - cron: '30 23 * * *'   # 08:30 KST — 미국 장 마감 후 1차
+    - cron: '30 2 * * *'    # 11:30 KST — 백업
+  workflow_dispatch:        # 수동 실행
+
+permissions:
+  contents: write           # data/us_breadth.json 커밋/푸시 권한
+
+concurrency:
+  group: us-breadth-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas requests lxml html5lib
+
+      - name: 백필 시작/종료 날짜 계산
+        id: dates
+        run: |
+          # SPX 데이터 시작은 2015-01-01 고정, 종료는 오늘 (UTC)
+          TODAY=$(date -u +%Y-%m-%d)
+          echo "start=2015-01-01" >> $GITHUB_OUTPUT
+          echo "end=${TODAY}" >> $GITHUB_OUTPUT
+          echo "백필 기간: 2015-01-01 → ${TODAY}"
+
+      - name: 풀 백필 실행
+        run: python -u us_breadth_backfill_local.py --backfill ${{ steps.dates.outputs.start }} ${{ steps.dates.outputs.end }}
+        timeout-minutes: 25
+
+      - name: JSON 구조 검증
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open('data/us_breadth.json'))
+          required = ['dates', 'spx', 'pct_above_200ma', 'pct_above_50ma',
+                      'goldman_breadth', 'new_highs_pct', 'new_lows_pct']
+          for k in required:
+              if k not in d:
+                  print(f"::error::missing key: {k}")
+                  sys.exit(1)
+              if not isinstance(d[k], list) or not d[k]:
+                  print(f"::error::empty: {k}")
+                  sys.exit(1)
+          n = len(d['dates'])
+          print(f"rows: {n}, last date: {d['dates'][-1]}")
+          print(f"  SPX: {d['spx'][-1]}")
+          print(f"  >200MA: {d['pct_above_200ma'][-1]}%  >50MA: {d['pct_above_50ma'][-1]}%")
+          print(f"  Goldman breadth: {d['goldman_breadth'][-1]}%p")
+          print(f"  NH%: {d['new_highs_pct'][-1]}  NL%: {d['new_lows_pct'][-1]}")
+          PY
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/us_breadth.json
+          if git diff --cached --quiet; then
+            echo "::notice::data/us_breadth.json 변경 없음 — 커밋 생략"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): data/us_breadth.json 자동 갱신 (${TS})"
+            git push
+            echo "::notice::data/us_breadth.json 갱신 & 푸시 완료"
+          fi
