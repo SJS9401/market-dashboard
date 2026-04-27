@@ -377,13 +377,34 @@ function createChart(id, col, opts = {}) {
       xline.style.display = 'block';
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
-        // Phase 3 fix: 호버 시점 setMarkers 호출은 lightweight-charts emit cycle 을
-        //   일으켜 RangeError 유발. marker dot 표시는 포기 (헤더값/크로스헤어로 대체).
+        // 메인 차트 외 sub-차트에 marker dot 표시 (수직 정렬 시각 확인용).
+        // 시가총액 차트(kr-val-a/b)는 multi-series 라 setMarkers 가 emit cycle 유발 → skip
+        const mainId = col === 'kr' ? 'kospi' : 'ndx';
+        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
+        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
+          const d = chartDataMap[cid][param.time];
+          if (d && d.value != null) {
+            allCharts[cid].series.setMarkers([{
+              time: param.time,
+              position: 'inBar',
+              color: 'rgb(210,175,100)',
+              shape: 'circle',
+              size: 0.5
+            }]);
+          }
+        }
       });
     } else {
       xline.style.display = 'none';
       restoreHeaders(col);
-      // setMarkers 호출 제거됨 (cycle 방지). marker 자체가 안 그려지므로 clear 불필요.
+      // Clear markers on all sub-charts (시가총액 제외)
+      const mainId = col === 'kr' ? 'kospi' : 'ndx';
+      colGroups[col].forEach(cid => {
+        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
+        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series) {
+          allCharts[cid].series.setMarkers([]);
+        }
+      });
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
@@ -1080,10 +1101,10 @@ async function loadKrValuationA() {
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
       const ch = allCharts[id].chart;
-      // 좌축 (시총)
-      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
+      // 시가총액은 헤더 텍스트로 표시 (좌측 priceScale 숨김 → 다른 차트와 chartArea.left 정렬)
+      ch.priceScale('left').applyOptions({ visible: false });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시가총액(추정)' });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true, title: '시가총액' });
       const sRoe = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'ROE(%)', lineStyle: 0 });
       const sPb = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/B', lineStyle: 0 });
       allCharts[id].series = sMcap;
@@ -1124,9 +1145,10 @@ async function loadKrValuationB() {
     if (!allCharts[id]) {
       createChart(id, 'kr', { showTimeAxis: true });
       const ch = allCharts[id].chart;
-      ch.priceScale('left').applyOptions({ visible: true, scaleMargins: { top: 0.1, bottom: 0.1 } });
+      // 시가총액은 헤더 텍스트로 표시 (좌측 priceScale 숨김 → chartArea.left 정렬)
+      ch.priceScale('left').applyOptions({ visible: false });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: '시가총액(추정)' });
+      const sMcap = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 1.6, priceScaleId: 'left', priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true, title: '시가총액' });
       const sEps = ch.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'EPS(원)' });
       const sPe = ch.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceScaleId: 'right', priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true, title: 'P/E' });
       allCharts[id].series = sMcap;
