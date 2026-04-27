@@ -368,34 +368,13 @@ function createChart(id, col, opts = {}) {
       xline.style.display = 'block';
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
-        // Show marker dot on sub-charts (not on main index)
-        // Phase 3 fix: 시가총액 차트(kr-val-a/b)는 multi-series 라서 setMarkers 가
-        //   crosshairMove emit cycle 을 일으킴 → 해당 차트 skip
-        const mainId = col === 'kr' ? 'kospi' : 'ndx';
-        const isMultiSeries = (cid === 'kr-val-a' || cid === 'kr-val-b');
-        if (cid !== mainId && !isMultiSeries && allCharts[cid] && allCharts[cid].series && chartDataMap[cid]) {
-          const d = chartDataMap[cid][param.time];
-          if (d && d.value != null) {
-            allCharts[cid].series.setMarkers([{
-              time: param.time,
-              position: 'inBar',
-              color: 'rgb(210,175,100)',
-              shape: 'circle',
-              size: 0.5
-            }]);
-          }
-        }
+        // Phase 3 fix: 호버 시점 setMarkers 호출은 lightweight-charts emit cycle 을
+        //   일으켜 RangeError 유발. marker dot 표시는 포기 (헤더값/크로스헤어로 대체).
       });
     } else {
       xline.style.display = 'none';
       restoreHeaders(col);
-      // Clear markers on all sub-charts
-      const mainId = col === 'kr' ? 'kospi' : 'ndx';
-      colGroups[col].forEach(cid => {
-        if (cid !== mainId && allCharts[cid] && allCharts[cid].series) {
-          allCharts[cid].series.setMarkers([]);
-        }
-      });
+      // setMarkers 호출 제거됨 (cycle 방지). marker 자체가 안 그려지므로 clear 불필요.
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
