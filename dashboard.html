@@ -1078,7 +1078,7 @@ async function buildMcap() {
 
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
-function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nhMap, nlMap) {
+function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nhMap, nlMap, vix9dCandles) {
   const c = ndxCandles.map(x => x.close), t = ndxCandles.map(x => x.time);
   const sma125 = calcSMA(c, 125), rsi = calcRSI(c);
   // Log returns for volatility fallback
@@ -1107,6 +1107,12 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
   const nhSMA5 = safeSMA(nhA, 5);
   const nlSMA5 = safeSMA(nlA, 5);
   const hasNHNL = nhSMA5.some(v => v != null) && nlSMA5.some(v => v != null);
+  // Put/Call 자체 계산: VIX9D / VIX term structure 비율 (Put/Call ratio 대체 fear sentiment)
+  // ratio < 0.95 (단기 vol < 한달 vol) → 정상, Greed
+  // ratio > 1.0 (역전, 단기 패닉) → Fear
+  const v9dMap = {}; if (vix9dCandles) vix9dCandles.forEach(x => { v9dMap[x.time] = x.close; });
+  const v9dA = []; let l9 = null; for (const tt of t) { if (v9dMap[tt]) l9 = v9dMap[tt]; v9dA.push(l9); }
+  const hasPC = v9dA.some(v => v != null) && vixA.some(v => v != null);
   const out = [];
   for (let i = 125; i < c.length; i++) {
     const ma = sma125[i]; if (!ma) continue;
@@ -1140,19 +1146,28 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
       const bondRet = (tltA[i] - tltA[i - 20]) / tltA[i - 20] * 100;
       sh = Math.max(0, Math.min(100, 50 + (stockRet - bondRet) * 3));
     }
-    // 6. (Phase 2 신규) Junk Bond Demand: HYG vs TLT 20일 상대 수익률
+    // 6. (Phase 2) Junk Bond Demand: HYG vs TLT 20일 상대 수익률
     let jb = null;
     if (junkBondEnabled && i >= 20 && hygA[i] && hygA[i - 20] && tltA[i] && tltA[i - 20]) {
       const hygRet = (hygA[i] - hygA[i - 20]) / hygA[i - 20] * 100;
       const tltRet = (tltA[i] - tltA[i - 20]) / tltA[i - 20] * 100;
-      // HYG 우위(하이일드 선호) = risk-on = greed
       jb = Math.max(0, Math.min(100, 50 + (hygRet - tltRet) * 10));
     }
-    // Phase 2 dynamic weighting
-    // 6-factor(JB 사용 가능): 균등 16.67% → CNN/금프리미엄 원형 구조
-    // 5-factor(JB 실패): 기존 25/20/15/25/15 → 후방 호환
+    // 7. (Phase D 자체계산) Put/Call sentiment: VIX9D / VIX term structure
+    //    ratio < 0.85 → Extreme Greed (100), ratio > 1.15 → Extreme Fear (0)
+    let pcScore = null;
+    if (hasPC && v9dA[i] != null && vixA[i] != null && vixA[i] > 0) {
+      const ratio = v9dA[i] / vixA[i];
+      pcScore = Math.max(0, Math.min(100, 100 - (ratio - 0.85) / 0.30 * 100));
+    }
+    // Phase D dynamic weighting
+    // 7-factor(JB+PC 모두 사용): 균등 14.29%
+    // 6-factor(JB만): 균등 16.67%
+    // 5-factor(둘 다 실패): 기존 25/20/15/25/15 후방 호환
     let score;
-    if (jb != null) {
+    if (jb != null && pcScore != null) {
+      score = (mom + str + brd + vol + sh + jb + pcScore) / 7;
+    } else if (jb != null) {
       score = (mom + str + brd + vol + sh + jb) / 6;
     } else {
       score = mom * .25 + str * .2 + brd * .15 + vol * .25 + sh * .15;
@@ -1167,11 +1182,12 @@ async function loadUSFG() {
   const msgEl = document.getElementById('msg-us-fg');
   try {
     // Phase 2: VIX(Volatility) / HYG(Junk Bond) 병렬 fetch — 각 실패 시 독립 fallback
-    const [ndx, tlt, vix, hyg] = await Promise.all([
+    const [ndx, tlt, vix, hyg, vix9d] = await Promise.all([
       getCachedData('^IXIC', range).catch(() => null),
       getCachedData('TLT', range).catch(() => null),
       getCachedData('^VIX', range).catch(() => null),
-      getCachedData('HYG', range).catch(() => null)
+      getCachedData('HYG', range).catch(() => null),
+      getCachedData('^VIX9D', range).catch(() => null)
     ]);
     if (!ndx || ndx.candles.length < 150) throw 0;
     // Phase 1+C: us_breadth.json 한 번 fetch → above_200ma(Breadth) + new_highs/new_lows(NH/NL Strength) 동시 추출
@@ -1191,7 +1207,8 @@ async function loadUSFG() {
       }
     } catch (e) { breadthMap = null; nhMap = null; nlMap = null; /* us_breadth.json 미도착 시 모든 factor fallback */ }
     let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null, breadthMap,
-                        vix ? vix.candles : null, hyg ? hyg.candles : null, nhMap, nlMap);
+                        vix ? vix.candles : null, hyg ? hyg.candles : null, nhMap, nlMap,
+                        vix9d ? vix9d.candles : null);
     if (intv === '1wk') data = resampleWeekly(data);
     const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
     document.getElementById('us-fg-val').textContent = score;
