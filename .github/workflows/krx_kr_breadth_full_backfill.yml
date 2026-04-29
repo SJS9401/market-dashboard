@@ -1,0 +1,102 @@
+# KRX KR Breadth 풀 백필 (10년치, 자동 트리거)
+# ----------------------------------------------------------
+# kr_breadth_backfill_local.py 가 push될 때 자동 1회 실행 (스크립트 변경 시만).
+# workflow_dispatch로 수동 재실행도 가능.
+#
+# 동작:
+#   - --backfill 20100104 <오늘> 10년치 풀 백필
+#   - 약 60~120분 (KRX 영업일 4000+ × 2 endpoint × ~1초 + pandas 계산)
+#   - timeout 240분 (4시간) — Actions 무료 한도 6시간 내
+#
+# Secret: KRX_AUTH_KEY (기존)
+# ----------------------------------------------------------
+
+name: KRX KR Breadth Full Backfill
+
+on:
+  push:
+    paths:
+      - 'kr_breadth_backfill_local.py'
+      - '.github/workflows/krx_kr_breadth_full_backfill.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krx-kr-breadth-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas
+
+      - name: AUTH_KEY 검증
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: |
+          if [ -z "$KRX_AUTH_KEY" ]; then
+            echo "::error::KRX_AUTH_KEY secret 미등록"
+            exit 1
+          fi
+          echo "KRX_AUTH_KEY length=${#KRX_AUTH_KEY}"
+
+      - name: 백필 시작/종료 일자
+        id: dates
+        run: |
+          START="20100104"
+          END=$(TZ=Asia/Seoul date +%Y%m%d)
+          echo "start=${START}" >> $GITHUB_OUTPUT
+          echo "end=${END}"     >> $GITHUB_OUTPUT
+          echo "백필 기간: ${START} → ${END}"
+
+      - name: 풀 백필 실행 (10년치, ~120분)
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: |
+          python -u kr_breadth_backfill_local.py --backfill ${{ steps.dates.outputs.start }} ${{ steps.dates.outputs.end }}
+
+      - name: JSON 구조 검증
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('data/kr_breadth.json'))
+          data = d.get('data', [])
+          n = len(data)
+          first = data[0] if data else None
+          last = data[-1] if data else None
+          print(f"rows: {n}")
+          print(f"first: {first}")
+          print(f"last: {last}")
+          if n < 1000:
+              print("::warning::row 1000 미만 — 백필 부분 실패 가능성")
+          PY
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -f data/kr_breadth.json ] && git add data/kr_breadth.json
+          if git diff --cached --quiet; then
+            echo "::notice::data/kr_breadth.json 변경 없음"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): data/kr_breadth.json 풀 백필 완료 (${TS})"
+            git push
+            echo "::notice::풀 백필 결과 push 완료"
+          fi

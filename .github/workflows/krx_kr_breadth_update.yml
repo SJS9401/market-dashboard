@@ -1,0 +1,94 @@
+# KRX KR Breadth 일일 업데이트 (ADR + NH/NL)
+# ----------------------------------------------------------
+# kr_breadth_backfill_local.py --update 매일 1회 실행
+# 최근 260영업일치 KOSPI + KOSDAQ 종목별 데이터를 fetch해서
+# ADR(20일) + NH%(252일) + NL%(252일) 재계산 → data/kr_breadth.json incremental 갱신
+#
+# 스케줄 (KRX 데이터 일배치 확정 16:00~17:00 KST 이후):
+#   - 매일 11:00 UTC = 한국 20:00 KST
+#   - 매일 13:30 UTC = 한국 22:30 KST (백업)
+#   - workflow_dispatch: 수동 실행
+#
+# 매 실행 약 5~10분 (KOSPI 950 + KOSDAQ 1820 종목 × 260일 fetch + rolling 계산).
+# Secret: KRX_AUTH_KEY (기존)
+# ----------------------------------------------------------
+
+name: KRX KR Breadth Update
+
+on:
+  schedule:
+    - cron: '0 11 * * *'    # 20:00 KST
+    - cron: '30 13 * * *'   # 22:30 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krx-kr-breadth
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas
+
+      - name: AUTH_KEY 검증
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: |
+          if [ -z "$KRX_AUTH_KEY" ]; then
+            echo "::error::KRX_AUTH_KEY secret 미등록"
+            exit 1
+          fi
+          echo "KRX_AUTH_KEY length=${#KRX_AUTH_KEY}"
+
+      - name: KR Breadth update 실행
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u kr_breadth_backfill_local.py --update
+
+      - name: JSON 구조 검증
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open('data/kr_breadth.json'))
+          data = d.get('data', [])
+          if not data:
+              print("::warning::data/kr_breadth.json 비어 있음")
+              sys.exit(0)
+          last = data[-1]
+          n = len(data)
+          print(f"rows: {n}  last: {last['date']}")
+          for k in ('adv','dec','unc','adr','nh_pct','nl_pct','n_traded'):
+              v = last.get(k)
+              print(f"  {k}: {v}")
+          PY
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -f data/kr_breadth.json ] && git add data/kr_breadth.json
+          if git diff --cached --quiet; then
+            echo "::notice::data/kr_breadth.json 변경 없음"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): data/kr_breadth.json 자동 갱신 (${TS})"
+            git push
+            echo "::notice::data/kr_breadth.json 갱신 & 푸시 완료"
+          fi
