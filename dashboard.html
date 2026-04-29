@@ -51,9 +51,9 @@
   .series-toggle button:hover { border-color: #58a6ff; }
   .series-toggle button[data-s="m"].active,
   .series-toggle button[data-s="200"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
-  .series-toggle button[data-s="20"].active,
-  .series-toggle button[data-s="50"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
-  .series-toggle button[data-s="10"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
+  .series-toggle button[data-s="20"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="10"].active,
+  .series-toggle button[data-s="50"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
@@ -501,7 +501,7 @@ function _updateHeaderForChartImpl(chartId, time) {
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
-      pe.innerHTML = `<span style="color:rgb(210,175,100)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(57,197,207)">50MA ${d.above50.toFixed(1)}%</span>`;
+      pe.innerHTML = `<span style="color:rgb(210,175,100)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${d.above50.toFixed(1)}%</span>`;
   } else if (chartId === 'goldman') {
     const pe = document.getElementById('p-goldman');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
@@ -1246,17 +1246,17 @@ async function loadUSBreadth(){
     if(intv==='1wk'){s200=resampleWeekly(s200);s50=resampleWeekly(s50);}
     const last200=s200[s200.length-1],last50=s50[s50.length-1];
     const hdr=document.getElementById('p-breadth');
-    const hdrHtml=(last200&&last50)?`<span style="color:rgb(210,175,100)">200MA ${last200.value.toFixed(1)}%</span> / <span style="color:rgb(57,197,207)">50MA ${last50.value.toFixed(1)}%</span>`:'—';
+    const hdrHtml=(last200&&last50)?`<span style="color:rgb(210,175,100)">200MA ${last200.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${last50.value.toFixed(1)}%</span>`:'—';
     if(hdr)hdr.innerHTML=hdrHtml;
     origValues['breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
     if(!allCharts['breadth']){
       createChart('breadth','us',{showTimeAxis:false});
       allCharts['breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
       const gold=allCharts['breadth'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      const cyan=allCharts['breadth'].chart.addLineSeries({color:'rgb(57,197,207)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const pink=allCharts['breadth'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['breadth'].series=gold;
-      allCharts['breadth'].series2=cyan;
-      allCharts['breadth'].seriesByKey = { '200': gold, '50': cyan };
+      allCharts['breadth'].series2=pink;
+      allCharts['breadth'].seriesByKey = { '200': gold, '50': pink };
       addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
     }
     const p200=alignToTimeIndex(s200,'us');
@@ -1288,7 +1288,7 @@ async function loadGoldmanBreadth(){
     if(!allCharts['goldman']){
       createChart('goldman','us',{showTimeAxis:true});
       allCharts['goldman'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.1}});
-      const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:'rgb(249,117,131)',topColor:'rgba(249,117,131,0.28)',bottomColor:'rgba(249,117,131,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:'rgb(210,175,100)',topColor:'rgba(210,175,100,0.28)',bottomColor:'rgba(210,175,100,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['goldman'].series=areaS;
       areaS.createPriceLine({price:0,color:'rgba(139,148,158,0.5)',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
     }
