@@ -693,7 +693,7 @@ async function loadMDD(indexId, mddId, col) {
 // Phase 1 Breadth(ADR) / Phase 2 VKOSPI/Bond 유지
 // 가중치: Phase 3 활성 시 (Mom 20 / Str 15 / Brd 15 / Vol 20 / SH 15 / PC 15 = 100)
 //          Phase 2 (Put/Call 데이터 없음) → 기존 (25/20/15/25/15 = 100)
-function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap) {
+function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap, nhMap, nlMap) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
   const sma125=calcSMA(c,125),rsi=calcRSI(c);
   const ret=[];for(let i=1;i<c.length;i++)ret.push(Math.log(c[i]/c[i-1]));
@@ -717,6 +717,12 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap) {
   const pcA=[];let lpc=null;for(const tt of t){if(putcallMap&&putcallMap[tt]!=null)lpc=putcallMap[tt];pcA.push(lpc)}
   const pcSMA20=safeSMA(pcA,20);
   const hasPC=pcSMA20.some(v=>v!=null);
+  // Phase C: NH/NL forward-fill + 5일 SMA (노이즈 제거, CNN 원형 정합)
+  const nhA=[];let lnh=null;for(const tt of t){if(nhMap&&nhMap[tt]!=null)lnh=nhMap[tt];nhA.push(lnh)}
+  const nlA=[];let lnl=null;for(const tt of t){if(nlMap&&nlMap[tt]!=null)lnl=nlMap[tt];nlA.push(lnl)}
+  const nhSMA5=safeSMA(nhA,5);
+  const nlSMA5=safeSMA(nlA,5);
+  const hasNHNL=nhSMA5.some(v=>v!=null)&&nlSMA5.some(v=>v!=null);
   const out=[];
   for(let i=125;i<c.length;i++){
     const ma=sma125[i];if(!ma)continue;
@@ -724,8 +730,14 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap) {
     const v2=v20[i-1],v5=v50[i-1];if(v2==null||v5==null)continue;
     // 1. Momentum (25%)
     const mom=Math.max(0,Math.min(100,50+((c[i]-ma)/ma)*300));
-    // 2. Strength (20%)
-    const str=Math.max(0,Math.min(100,(r-25)*2));
+    // 2. Strength (15%) — NH/NL 비율 우선 (CNN 원형: (NH-NL)/(NH+NL)×50+50), 없으면 RSI 프록시 fallback
+    let str;
+    if(hasNHNL&&nhSMA5[i]!=null&&nlSMA5[i]!=null&&(nhSMA5[i]+nlSMA5[i])>0.05){
+      const ratio=(nhSMA5[i]-nlSMA5[i])/(nhSMA5[i]+nlSMA5[i]);
+      str=Math.max(0,Math.min(100,ratio*50+50));
+    }else{
+      str=Math.max(0,Math.min(100,(r-25)*2));
+    }
     // 3. Breadth (15%) — ADR 우선, 없으면 양봉 비율 fallback
     let brd;
     if(adrA[i]!=null){brd=Math.max(0,Math.min(100,(adrA[i]-80)/(120-80)*100))}
@@ -784,19 +796,26 @@ async function loadKrFG() {
       fetchPutcallSeriesKRX().catch(()=>null)
     ]);
     if(!k||k.candles.length<150)throw 0;
-    // Phase 1: ADR 데이터를 Breadth factor로 사용 (데이터 없으면 양봉 비율 fallback)
-    let adrMap=null;
+    // Phase 1+B+C: kr_breadth.json 한 번 fetch → ADR (Breadth factor) + NH%/NL% (Strength factor) 동시 추출
+    let adrMap=null, nhMap=null, nlMap=null;
     try{
-      const adrRecords=await fetchAdrSeries();
-      if(Array.isArray(adrRecords)&&adrRecords.length){
-        adrMap={};
-        adrRecords.forEach(rec=>{if(rec&&rec.adr!=null&&rec.date)adrMap[rec.date]=rec.adr});
+      const recs=await fetchKrBreadthSeries();
+      if(Array.isArray(recs)&&recs.length){
+        adrMap={}; nhMap={}; nlMap={};
+        recs.forEach(rec=>{
+          if(!rec||!rec.date)return;
+          if(rec.adr!=null) adrMap[rec.date]=rec.adr;
+          if(rec.nh_pct!=null) nhMap[rec.date]=rec.nh_pct;
+          if(rec.nl_pct!=null) nlMap[rec.date]=rec.nl_pct;
+        });
         if(Object.keys(adrMap).length===0)adrMap=null;
+        if(Object.keys(nhMap).length===0)nhMap=null;
+        if(Object.keys(nlMap).length===0)nlMap=null;
       }
-    }catch(e){adrMap=null;/* ADR JSON 비어있거나 아직 배포 전 → 양봉 fallback 사용 */}
+    }catch(e){adrMap=null;nhMap=null;nlMap=null;/* JSON 비어있거나 배포 전 → 모든 factor fallback */}
     let data=calcKrFG(k.candles,fx?fx.candles:null,adrMap,
                       bond?bond.candles:null, vkospi?vkospi.candles:null,
-                      putcall);
+                      putcall, nhMap, nlMap);
     if(intv==='1wk')data=resampleWeekly(data);
     const last=data[data.length-1],score=last?last.value:50,lbl=getLabel(score);
     document.getElementById('kr-fg-val').textContent=score;
@@ -853,33 +872,25 @@ async function fetchPutcallSeriesKRX() {
   return _putcallCache;
 }
 
-// KR ADR — 정통 breadth 기반 ADR(20): Σ(20일 상승종목수) / Σ(20일 하락종목수) × 100
-// 데이터 소스: ./data/kr_adr.json (KRX OpenAPI raw HTTP 스크립트로 생성 → 리포에 수동/자동 업로드)
-// 원본 스키마: {series: [{d: "YYYYMMDD", adr20: ratio, up, dn, un, ...}, ...]}
-// → 정규화: [{date: "YYYY-MM-DD", adr: percentage, ...raw}, ...] (대시보드 내부 표준)
-const ADR_JSON_URL = './data/kr_adr.json';
-let _adrCache = null;
-async function fetchAdrSeries() {
-  if (_adrCache) return _adrCache;
-  const r = await fetch(ADR_JSON_URL + '?_t=' + Date.now());
-  if (!r.ok) throw new Error('ADR JSON fetch failed: ' + r.status);
+// KR Breadth (Phase B 통합) — ADR + NH%/NL% 한 파일에서 fetch
+// 데이터 소스: ./data/kr_breadth.json (kr_breadth_backfill_local.py로 생성, 매일 자동 갱신)
+// 스키마: {data: [{date, adv, dec, unc, n_traded, adr, nh_pct, nl_pct}, ...]}
+const KR_BREADTH_JSON_URL = './data/kr_breadth.json';
+let _krBreadthCache = null;
+async function fetchKrBreadthSeries() {
+  if (_krBreadthCache) return _krBreadthCache;
+  const r = await fetch(KR_BREADTH_JSON_URL + '?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_breadth.json fetch failed: ' + r.status);
   const raw = await r.json();
-  // 원본 형태 2가지 허용: (1) {series:[...]} 구조체, (2) flat [...] 배열
-  const src = (raw && Array.isArray(raw.series)) ? raw.series : (Array.isArray(raw) ? raw : []);
-  // 정규화: d → date (YYYYMMDD → YYYY-MM-DD), adr20 → adr (ratio × 100)
-  _adrCache = src.map(rec => {
-    if (!rec) return null;
-    // date 필드: 기존 rec.date 있으면 그대로, 없으면 rec.d 변환
-    let date = rec.date;
-    if (!date && typeof rec.d === 'string' && rec.d.length === 8) {
-      date = rec.d.slice(0, 4) + '-' + rec.d.slice(4, 6) + '-' + rec.d.slice(6, 8);
-    }
-    // adr 필드: 기존 rec.adr 있으면 그대로, 없으면 rec.adr20 × 100
-    let adr = (rec.adr != null) ? rec.adr : (rec.adr20 != null ? rec.adr20 * 100 : null);
-    if (adr != null) adr = Math.round(adr * 100) / 100; // 소수 2자리
-    return { ...rec, date, adr };
-  }).filter(r => r && r.date);
-  return _adrCache;
+  const src = Array.isArray(raw.data) ? raw.data : [];
+  _krBreadthCache = src.filter(r => r && r.date);
+  return _krBreadthCache;
+}
+
+// 하위 호환: ADR 차트 카드는 fetchAdrSeries 사용 → kr_breadth.json에서 ADR만 추출 반환
+async function fetchAdrSeries() {
+  const recs = await fetchKrBreadthSeries();
+  return recs.map(r => ({ ...r, adr: r.adr }));
 }
 function filterAdrByRange(records, range) {
   if (!records.length) return records;
@@ -1139,7 +1150,7 @@ async function applyKospiOverlay(mode) {
 
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
-function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles) {
+function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nhMap, nlMap) {
   const c = ndxCandles.map(x => x.close), t = ndxCandles.map(x => x.time);
   const sma125 = calcSMA(c, 125), rsi = calcRSI(c);
   // Log returns for volatility fallback
@@ -1162,6 +1173,12 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles) {
   const hygMap = {}; if (hygCandles) hygCandles.forEach(x => { hygMap[x.time] = x.close; });
   const hygA = []; let lh = null; for (const tt of t) { if (hygMap[tt]) lh = hygMap[tt]; hygA.push(lh); }
   const junkBondEnabled = !!(hygCandles && tltCandles);
+  // Phase C: NH/NL forward-fill + 5일 SMA (CNN 원형 정합)
+  const nhA = []; let lnh = null; for (const tt of t) { if (nhMap && nhMap[tt] != null) lnh = nhMap[tt]; nhA.push(lnh); }
+  const nlA = []; let lnl = null; for (const tt of t) { if (nlMap && nlMap[tt] != null) lnl = nlMap[tt]; nlA.push(lnl); }
+  const nhSMA5 = safeSMA(nhA, 5);
+  const nlSMA5 = safeSMA(nlA, 5);
+  const hasNHNL = nhSMA5.some(v => v != null) && nlSMA5.some(v => v != null);
   const out = [];
   for (let i = 125; i < c.length; i++) {
     const ma = sma125[i]; if (!ma) continue;
@@ -1169,8 +1186,14 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles) {
     const v2 = v20[i - 1], v5 = v50[i - 1]; if (v2 == null || v5 == null) continue;
     // 1. Momentum: price vs SMA(125)
     const mom = Math.max(0, Math.min(100, 50 + ((c[i] - ma) / ma) * 300));
-    // 2. Strength: RSI normalized
-    const str = Math.max(0, Math.min(100, (r - 25) * 2));
+    // 2. Strength — NH/NL 비율 우선 (CNN 원형: (NH-NL)/(NH+NL)×50+50), 없으면 RSI 프록시 fallback
+    let str;
+    if (hasNHNL && nhSMA5[i] != null && nlSMA5[i] != null && (nhSMA5[i] + nlSMA5[i]) > 0.05) {
+      const ratio = (nhSMA5[i] - nlSMA5[i]) / (nhSMA5[i] + nlSMA5[i]);
+      str = Math.max(0, Math.min(100, ratio * 50 + 50));
+    } else {
+      str = Math.max(0, Math.min(100, (r - 25) * 2));
+    }
     // 3. Breadth: above_200ma(S&P500) 직접 주입, 없으면 양봉 fallback
     let brd;
     if (brA[i] != null) { brd = Math.max(0, Math.min(100, brA[i])); }
@@ -1223,20 +1246,24 @@ async function loadUSFG() {
       getCachedData('HYG', range).catch(() => null)
     ]);
     if (!ndx || ndx.candles.length < 150) throw 0;
-    // Phase 1: above_200ma(S&P500) 를 Breadth factor로 직접 주입 (us_breadth.json 캐시 재사용)
-    let breadthMap = null;
+    // Phase 1+C: us_breadth.json 한 번 fetch → above_200ma(Breadth) + new_highs/new_lows(NH/NL Strength) 동시 추출
+    let breadthMap = null, nhMap = null, nlMap = null;
     try {
       const D = await getUSBreadthData();
-      if (D && Array.isArray(D.dates) && Array.isArray(D.pct_above_200ma)) {
-        breadthMap = {};
+      if (D && Array.isArray(D.dates)) {
+        breadthMap = {}; nhMap = {}; nlMap = {};
         for (let i = 0; i < D.dates.length; i++) {
-          if (D.pct_above_200ma[i] != null) breadthMap[D.dates[i]] = D.pct_above_200ma[i];
+          if (Array.isArray(D.pct_above_200ma) && D.pct_above_200ma[i] != null) breadthMap[D.dates[i]] = D.pct_above_200ma[i];
+          if (Array.isArray(D.new_highs_pct)   && D.new_highs_pct[i]   != null) nhMap[D.dates[i]]      = D.new_highs_pct[i];
+          if (Array.isArray(D.new_lows_pct)    && D.new_lows_pct[i]    != null) nlMap[D.dates[i]]      = D.new_lows_pct[i];
         }
         if (Object.keys(breadthMap).length === 0) breadthMap = null;
+        if (Object.keys(nhMap).length === 0) nhMap = null;
+        if (Object.keys(nlMap).length === 0) nlMap = null;
       }
-    } catch (e) { breadthMap = null; /* us_breadth.json 미도착 시 양봉 fallback */ }
+    } catch (e) { breadthMap = null; nhMap = null; nlMap = null; /* us_breadth.json 미도착 시 모든 factor fallback */ }
     let data = calcUsFG(ndx.candles, tlt ? tlt.candles : null, breadthMap,
-                        vix ? vix.candles : null, hyg ? hyg.candles : null);
+                        vix ? vix.candles : null, hyg ? hyg.candles : null, nhMap, nlMap);
     if (intv === '1wk') data = resampleWeekly(data);
     const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
     document.getElementById('us-fg-val').textContent = score;
