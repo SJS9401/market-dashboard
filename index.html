@@ -52,9 +52,7 @@
   .series-toggle button[data-s="m"].active,
   .series-toggle button[data-s="200"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
   .series-toggle button[data-s="20"].active,
-  .series-toggle button[data-s="50"].active,
-  .series-toggle button[data-s="pb"].active,
-  .series-toggle button[data-s="pe"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="50"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
   .series-toggle button[data-s="10"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
@@ -64,8 +62,6 @@
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
   .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
   .ma-legend .dot { width: 10px; height: 2px; border-radius: 1px; display: inline-block; }
-  .ma-legend-row { display: flex; align-items: center; padding: 2px 14px 0; gap: 8px; }
-  .ma-legend-row .ma-legend { padding: 0; flex: 1; }
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
@@ -124,13 +120,7 @@
         <div class="bar-count" data-col="kr"><input type="text" id="bars-kr" value="" placeholder="봉"><span>봉</span></div>
         <div class="interval-btns" data-col="kr"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
       </div>
-      <div class="ma-legend-row">
-        <div class="ma-legend" id="ma-legend-kospi"></div>
-        <div class="series-toggle" data-chart="kospi-overlay">
-          <button data-s="pb">P/B</button>
-          <button data-s="pe">P/E</button>
-        </div>
-      </div>
+      <div class="ma-legend" id="ma-legend-kospi"></div>
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
@@ -1083,70 +1073,8 @@ async function buildMcap() {
   return out;
 }
 
-// PBR/PER multiple 오버레이 — 코스피 메인 차트에 multiple 6개 라인을 그림
-// 각 시점 BPS_t = KOSPI_t / PBR_t 역산 → multiple × BPS_t 라인 (KOSPI 좌표계)
-const PB_MULTIPLES = [0.8, 1.0, 1.2, 1.5, 1.8, 2.0];
-const PE_MULTIPLES = [8, 9, 10, 11, 12, 13];
-
-let kospiOverlayMode = null;  // null | 'pb' | 'pe'
-
-async function applyKospiOverlay(mode) {
-  const id = 'kospi';
-  if (!allCharts[id]) return;
-
-  // overlayLines 미존재 시 6개 시리즈 미리 생성 (한 번만)
-  if (!allCharts[id].overlayLines) {
-    allCharts[id].overlayLines = [];
-    for (let i = 0; i < 6; i++) {
-      const opacity = 0.45 + (i / 5) * 0.4;
-      const s = allCharts[id].chart.addLineSeries({
-        color: `rgba(139,148,158,${opacity})`,
-        lineWidth: 2,
-        priceScaleId: 'right',
-        priceLineVisible: false,
-        lastValueVisible: false,
-        crosshairMarkerVisible: false
-      });
-      allCharts[id].overlayLines.push(s);
-    }
-  }
-
-  // OFF — 데이터 비우기
-  if (mode == null) {
-    allCharts[id].overlayLines.forEach(s => {
-      try { s.setData([]); s.applyOptions({ title: '', lastValueVisible: false }); } catch(_){}
-    });
-    return;
-  }
-
-  // 데이터 fetch
-  const D = await fetchKospi12mf();
-  const pb = fmtSeries(D.kospi_12mfwd_pb?.main_long?.data);
-  const pe = fmtSeries(D.kospi_12mfwd_pe?.combined?.data);
-  const bandData = (mode === 'pb') ? pb : pe;
-  const multiples = (mode === 'pb') ? PB_MULTIPLES : PE_MULTIPLES;
-
-  const kospiData = chartDataMap[id];
-  if (!kospiData) return;
-  const kospiMap = new Map(Object.keys(kospiData).map(t => [t, kospiData[t].close]));
-
-  const baseUnits = [];
-  for (const r of bandData) {
-    const k = kospiMap.get(r.time);
-    if (k == null || r.value == null || r.value <= 0) continue;
-    baseUnits.push({ time: r.time, base: k / r.value });
-  }
-
-  allCharts[id].overlayLines.forEach((s, i) => {
-    const mult = multiples[i];
-    const data = baseUnits.map(u => ({ time: u.time, value: u.base * mult }));
-    s.setData(data);
-    s.applyOptions({ title: mult + 'x', lastValueVisible: true });
-  });
-}
-
-// PBR / PER 토글 — 한 번에 하나만 ON, 같은 버튼 재클릭 시 OFF
-// kospi-overlay 토글은 글로벌 .series-toggle 핸들러 (line ~1440)에 통합 분기로 처리.
+// (PBR/PER 오버레이 제거 — 실시간 갱신 데이터 부재로 미사용. 2026-04-30)
+// 미래에 12MF 실시간 데이터 확보 시 재구현 가능. data/kospi_12mf.json 파일은 보존.
 
 // US Fear/Greed — Phase 2: VIX(Volatility) + HYG vs TLT(Junk Bond Demand) 추가
 // HYG/TLT 둘 다 존재 시 6-factor 균등(16.67%)로 전환, 실패 시 기존 5-factor 가중치 유지 (후방 호환)
@@ -1472,20 +1400,6 @@ document.querySelectorAll('.series-toggle').forEach(g => {
   const chartId = g.dataset.chart;
   g.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
-      // kospi-overlay 전용 분기: 한 번에 하나만 ON, 같은 버튼 재클릭 시 OFF
-      if (chartId === 'kospi-overlay') {
-        const newMode = btn.dataset.s;
-        const wasActive = btn.classList.contains('active');
-        g.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-        if (!wasActive) {
-          btn.classList.add('active');
-          kospiOverlayMode = newMode;
-        } else {
-          kospiOverlayMode = null;
-        }
-        applyKospiOverlay(kospiOverlayMode);
-        return;
-      }
       // 기본 시리즈 ON/OFF (kr-export, breadth 등)
       btn.classList.toggle('active');
       const isActive = btn.classList.contains('active');
