@@ -19,6 +19,9 @@
   /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
   .sticky-index { position: sticky; top: 0; z-index: 10; background: #0d1117; }
   .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
+  .col-date-label { position: absolute; background: #1f6feb; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; white-space: nowrap; pointer-events: none; display: none; z-index: 99999; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+  .col-date-main { bottom: 4px; }
+  .col-date-sub  { bottom: 4px; }
   .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
   .col .card { border-radius: 0; border-bottom: none; }
   .col .card:first-child { border-radius: 10px 10px 0 0; }
@@ -131,6 +134,7 @@
       <div class="cw cw-main" id="cw-kospi"><div class="msg" id="msg-kospi">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-kr"><div class="sb-thumb" id="sb-thumb-kr"></div></div>
+    <div class="col-date-label col-date-main" id="date-main-kr"></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kr-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kr-mdd"></span></div></div>
@@ -155,6 +159,7 @@
       </div>
       <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
     </div>
+    <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
   </div>
   <!-- RIGHT: 미국 -->
   <div class="col" id="col-us">
@@ -171,6 +176,7 @@
       <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
     </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
+    <div class="col-date-label col-date-main" id="date-main-us"></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
@@ -194,6 +200,7 @@
       <div class="card-top"><div class="left"><h3>골드만 시장폭 (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
     </div>
+    <div class="col-date-label col-date-sub" id="date-sub-us"></div>
   </div>
 </div>
 
@@ -333,6 +340,8 @@ function createChart(id, col, opts = {}) {
   // Column crosshair overlay line + header value update + marker dots on sub-charts
   const colEl = document.getElementById('col-' + col);
   const xline = document.getElementById('xline-' + col);
+  const dateMain = document.getElementById('date-main-' + col);
+  const dateSub  = document.getElementById('date-sub-' + col);
   chart.subscribeCrosshairMove(param => {
     // Gate: tooltip/xline/header updates only fire when mouse is within barSpacing/2 of the nearest bar.
     // This mirrors the HTS-style "tooltip only on candle/bar/line" behavior from the 주도주 차트.
@@ -351,8 +360,13 @@ function createChart(id, col, opts = {}) {
       // Since all charts in a column share the same timeScale (logical range synced), the bar X is identical.
       const elRect = el.getBoundingClientRect();
       const colRect = colEl.getBoundingClientRect();
-      xline.style.left = (elRect.left - colRect.left + barX) + 'px';
+      const xPos = elRect.left - colRect.left + barX;
+      xline.style.left = xPos + 'px';
       xline.style.display = 'block';
+      // 날짜 라벨 표시 (메인 차트 하단 + 마지막 sub 차트 하단)
+      const dateText = (typeof param.time === 'string') ? param.time : String(param.time);
+      if (dateMain) { dateMain.textContent = dateText; dateMain.style.left = xPos + 'px'; dateMain.style.display = 'block'; }
+      if (dateSub)  { dateSub.textContent  = dateText; dateSub.style.left  = xPos + 'px'; dateSub.style.display  = 'block'; }
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
@@ -369,6 +383,8 @@ function createChart(id, col, opts = {}) {
       });
     } else {
       xline.style.display = 'none';
+      if (dateMain) dateMain.style.display = 'none';
+      if (dateSub)  dateSub.style.display  = 'none';
       restoreHeaders(col);
       colGroups[col].forEach(cid => {
         if (allCharts[cid] && allCharts[cid].series) {
@@ -378,7 +394,11 @@ function createChart(id, col, opts = {}) {
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
-  el.addEventListener('mouseleave', () => { xline.style.display = 'none'; });
+  el.addEventListener('mouseleave', () => {
+    xline.style.display = 'none';
+    if (dateMain) dateMain.style.display = 'none';
+    if (dateSub)  dateSub.style.display  = 'none';
+  });
 
   // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
   el.addEventListener('wheel', (e) => {
@@ -1519,7 +1539,6 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'04/28',cat:'실적',ev:'블룸에너지(BE), GM(GM), HD현대일렉트릭, 삼성전자(15:00 확정), 두산로보틱스, 한화솔루션, 현대건설',note:'전력·자동차·반도체·로봇·신재생·원전 — 삼성 확정실적 한국 최대 변수'},
     {d:'04/29',cat:'실적',ev:'알파벳(GOOGL), 마이크로소프트(MSFT), 포드(F), 메타(META), 아마존닷컴(AMZN), 두산에너빌리티(15:45 IR)',note:'빅테크 4사 AI CAPEX 가이던스 집중 발표일'},
     {d:'04/29',cat:'IPO',ev:'채비 신규상장',note:'EV충전 CPO 1위, 공모가 12,300원'},
     {d:'04/30',cat:'실적',ev:'헌팅턴잉갈스(HII), 에코프로, 애플(AAPL), 삼성전자 컨콜(10:00 KST), LG에너지솔루션, 포스코퓨처엠',note:'조선·배터리·빅테크 — 한국 배터리 어닝 집중'},
@@ -1663,3 +1682,4 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                
