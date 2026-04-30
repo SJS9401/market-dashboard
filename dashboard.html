@@ -58,7 +58,8 @@
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
   /* HTS-style 툴팁 (주도주 사이클 페이지와 동일 디자인) */
-  .hts-tooltip { position: absolute; background: rgba(22,27,34,0.97); border: 1px solid #30363d; border-radius: 6px; padding: 7px 10px; min-width: 200px; max-width: 240px; z-index: 99998; pointer-events: none; display: none; font-size: 11px; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .hts-tooltip { position: absolute; background: rgba(22,27,34,0.97); border: 1px solid #30363d; border-radius: 6px; padding: 7px 10px; min-width: 220px; max-width: 320px; z-index: 99998; pointer-events: none; display: none; font-size: 11px; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .hts-tooltip .hts-divider { margin-top: 5px; padding-top: 5px; border-top: 1px solid #30363d; }
   .hts-tooltip .hts-section-title { font-size: 11px; font-weight: 700; padding: 2px 0 2px; }
   .hts-tooltip .hts-row { display: flex; justify-content: space-between; gap: 12px; padding: 1px 0; }
   .hts-tooltip .hts-row .k { color: #8b949e; }
@@ -503,6 +504,63 @@ function fmtN(n, dec) {
   if (n == null || isNaN(n)) return '-';
   return n.toLocaleString('en-US', { maximumFractionDigits: dec == null ? 2 : dec });
 }
+function fmtPctSigned(v) {
+  if (v == null || isNaN(v)) return '—';
+  return (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+}
+// HTS 툴팁의 sub 차트 데이터 렌더링 — KR/US 컬럼별로 보조지표 행 추가
+function renderSubsForTooltip(col, time) {
+  const subs = (col === 'kr')
+    ? [
+      { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
+      { id: 'kr-fg',     label: '공포탐욕지수',  color: '#FFD700' },
+      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
+      { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
+    ]
+    : [
+      { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
+      { id: 'us-fg',   label: '공포탐욕지수',   color: '#FFD700' },
+      { id: 'breadth', label: '시장폭',         color: 'rgb(210,175,100)' },
+      { id: 'goldman', label: '골드만 시장폭',  color: 'rgb(210,175,100)' }
+    ];
+  let html = '';
+  subs.forEach(s => {
+    const map = chartDataMap[s.id];
+    if (!map) return;
+    const d = map[time];
+    if (!d) return;
+    let valHtml = '';
+    if (s.id === 'kr-mdd' || s.id === 'us-mdd') {
+      if (d.value == null) return;
+      const v = d.value;
+      const cls = v < 0 ? 'hts-down' : '';
+      valHtml = '<span class="' + cls + '">' + v.toFixed(2) + '%</span>';
+    } else if (s.id === 'kr-fg' || s.id === 'us-fg') {
+      if (d.value == null) return;
+      const v = Math.round(d.value);
+      const lbl = getLabel(v);
+      valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
+    } else if (s.id === 'adr') {
+      if (d.value == null) return;
+      valHtml = d.value.toFixed(2);
+    } else if (s.id === 'kr-export') {
+      valHtml = '<span style="color:rgb(210,175,100)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
+              + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
+              + '<span style="color:rgb(249,117,131)">1-10잠 ' + fmtPctSigned(d.y10) + '</span>';
+    } else if (s.id === 'breadth') {
+      if (d.above200 == null && d.above50 == null) return;
+      const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
+      const a50  = d.above50  != null ? d.above50.toFixed(1)  + '%' : '—';
+      valHtml = '<span style="color:rgb(210,175,100)">200MA ' + a200 + '</span> / <span style="color:rgb(249,117,131)">50MA ' + a50 + '</span>';
+    } else if (s.id === 'goldman') {
+      if (d.value == null) return;
+      valHtml = d.value.toFixed(1) + '%p';
+    }
+    if (!valHtml) return;
+    html += '<div class="hts-row"><span class="k" style="color:' + s.color + ';font-weight:600;">' + s.label + '</span><span class="v">' + valHtml + '</span></div>';
+  });
+  return html;
+}
 // === HTS-style 툴팁 (KOSPI / NASDAQ — 주도주 사이클 페이지와 동일 디자인) ===
 function updateHTSTooltip(col, time, mx, my) {
   const tip = document.getElementById('hts-tooltip-' + col);
@@ -544,6 +602,11 @@ function updateHTSTooltip(col, time, mx, my) {
     const dUp = disp >= 0;
     html += `<div class="hts-row"><span class="k">MA${p}${unit}</span><span class="v">${fmtN(v)} <span class="${dUp ? 'hts-up' : 'hts-down'}" style="font-size:10px;">(${dUp ? '+' : ''}${disp.toFixed(2)}%)</span></span></div>`;
   });
+  // 보조지표 (MDD / 공포탐욕 / ADR / 수출 / 시장폭 / 골드만)
+  const subHtml = renderSubsForTooltip(col, time);
+  if (subHtml) {
+    html += '<div class="hts-divider">' + subHtml + '</div>';
+  }
   tip.innerHTML = html;
   tip.style.display = 'block';
   // 위치 — 컬럼 기준, 우측 절반이면 좌측으로 flip
