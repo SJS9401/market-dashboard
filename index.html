@@ -57,6 +57,14 @@
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
+  /* HTS-style 툴팁 (주도주 사이클 페이지와 동일 디자인) */
+  .hts-tooltip { position: absolute; background: rgba(22,27,34,0.97); border: 1px solid #30363d; border-radius: 6px; padding: 7px 10px; min-width: 200px; max-width: 240px; z-index: 99998; pointer-events: none; display: none; font-size: 11px; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .hts-tooltip .hts-section-title { font-size: 11px; font-weight: 700; padding: 2px 0 2px; }
+  .hts-tooltip .hts-row { display: flex; justify-content: space-between; gap: 12px; padding: 1px 0; }
+  .hts-tooltip .hts-row .k { color: #8b949e; }
+  .hts-tooltip .hts-row .v { color: #c9d1d9; font-variant-numeric: tabular-nums; }
+  .hts-tooltip .hts-up { color: #f04452; }
+  .hts-tooltip .hts-down { color: #3182f6; }
   .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 12px; pointer-events: none; }
   .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
@@ -112,6 +120,7 @@
   <!-- LEFT: 한국 -->
   <div class="col" id="col-kr">
     <div class="col-xline" id="xline-kr"></div>
+    <div class="hts-tooltip" id="hts-tooltip-kr"></div>
     <div class="sticky-index">
     <div class="card">
       <div class="card-top">
@@ -154,6 +163,7 @@
   <!-- RIGHT: 미국 -->
   <div class="col" id="col-us">
     <div class="col-xline" id="xline-us"></div>
+    <div class="hts-tooltip" id="hts-tooltip-us"></div>
     <div class="sticky-index">
     <div class="card">
       <div class="card-top">
@@ -371,6 +381,10 @@ function createChart(id, col, opts = {}) {
           }]);
         } catch(_) {}
       });
+      // HTS 툴팁 — 컬럼 기준 마우스 좌표 계산 후 갱신
+      const mx = elRect.left - colRect.left + (param.point ? param.point.x : barX);
+      const my = elRect.top  - colRect.top  + (param.point ? param.point.y : 0);
+      updateHTSTooltip(col, param.time, mx, my);
     } else {
       xline.style.display = 'none';
       if (dateMain) dateMain.style.display = 'none';
@@ -381,6 +395,7 @@ function createChart(id, col, opts = {}) {
           try { allCharts[cid].series.setMarkers([]); } catch(_) {}
         }
       });
+      hideHTSTooltip(col);
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
@@ -388,6 +403,7 @@ function createChart(id, col, opts = {}) {
     xline.style.display = 'none';
     if (dateMain) dateMain.style.display = 'none';
     if (dateSub)  dateSub.style.display  = 'none';
+    hideHTSTooltip(col);
   });
 
   // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
@@ -469,6 +485,83 @@ function formatDate(t) {
   if (typeof t === 'string') return t;
   if (t.year) return `${t.year}-${String(t.month).padStart(2,'0')}-${String(t.day).padStart(2,'0')}`;
   return '';
+}
+// HTS 툴팁용 — "YYYY-MM-DD 요일" (괄호 외부에서 한 번만 추가)
+function formatDateDow(t) {
+  let y, m, d;
+  if (typeof t === 'string') {
+    const parts = t.split('-');
+    y = +parts[0]; m = +parts[1]; d = +parts[2];
+  } else if (t && t.year) {
+    y = t.year; m = t.month; d = t.day;
+  } else { return ''; }
+  const dt = new Date(y, m - 1, d);
+  const dow = ['일','월','화','수','목','금','토'][dt.getDay()];
+  return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')} ${dow}`;
+}
+function fmtN(n, dec) {
+  if (n == null || isNaN(n)) return '-';
+  return n.toLocaleString('en-US', { maximumFractionDigits: dec == null ? 2 : dec });
+}
+// === HTS-style 툴팁 (KOSPI / NASDAQ — 주도주 사이클 페이지와 동일 디자인) ===
+function updateHTSTooltip(col, time, mx, my) {
+  const tip = document.getElementById('hts-tooltip-' + col);
+  if (!tip) return;
+  const mainId = (col === 'kr') ? 'kospi' : 'ndx';
+  const mainName = (col === 'kr') ? '코스피' : '나스닥 종합';
+  const mainColor = (col === 'kr') ? '#F39C12' : '#FF6B6B';
+  const map = chartDataMap[mainId];
+  const d = map && map[time];
+  if (!d || d.open == null) { tip.style.display = 'none'; return; }
+  const dateLbl = formatDateDow(time);
+  // 전일 종가 — colTimeIndex 에서 직전 영업일 lookup
+  const ti = colTimeIndex[col] || [];
+  const idx = ti.indexOf(time);
+  const prev = (idx > 0 && map[ti[idx - 1]]) ? map[ti[idx - 1]] : null;
+  const prevC = prev ? prev.close : null;
+  const pctOf = v => (prevC == null || !prevC || v == null) ? null : ((v - prevC) / prevC * 100);
+  const pctSpan = p => {
+    if (p == null) return '';
+    const up = p >= 0;
+    return ` <span class="${up ? 'hts-up' : 'hts-down'}" style="font-size:10px;">(${up ? '+' : ''}${p.toFixed(2)}%)</span>`;
+  };
+  const oP = pctOf(d.open), hP = pctOf(d.high), lP = pctOf(d.low), cP = pctOf(d.close);
+  const cCls = (cP != null && cP >= 0) ? 'hts-up' : 'hts-down';
+  let html = `<div class="hts-section-title" style="color:${mainColor};">${mainName} <span style="color:#8b949e;font-size:10px;font-weight:normal;">(${dateLbl})</span></div>`;
+  html += `<div class="hts-row"><span class="k">시가</span><span class="v">${fmtN(d.open)}${pctSpan(oP)}</span></div>`;
+  html += `<div class="hts-row"><span class="k">고가</span><span class="v">${fmtN(d.high)}${pctSpan(hP)}</span></div>`;
+  html += `<div class="hts-row"><span class="k">저가</span><span class="v">${fmtN(d.low)}${pctSpan(lP)}</span></div>`;
+  html += `<div class="hts-row"><span class="k">종가</span><span class="v ${cCls}">${fmtN(d.close)}${pctSpan(cP)}</span></div>`;
+  // MA + 이격도
+  const periods = allCharts[mainId].maPeriods || [];
+  const unit = allCharts[mainId].maUnit || 'D';
+  const mat = allCharts[mainId].maAtTime || {};
+  const mt = mat[time];
+  periods.forEach(p => {
+    const v = mt && mt[p];
+    if (v == null) return;
+    const disp = ((d.close - v) / v) * 100;
+    const dUp = disp >= 0;
+    html += `<div class="hts-row"><span class="k">MA${p}${unit}</span><span class="v">${fmtN(v)} <span class="${dUp ? 'hts-up' : 'hts-down'}" style="font-size:10px;">(${dUp ? '+' : ''}${disp.toFixed(2)}%)</span></span></div>`;
+  });
+  tip.innerHTML = html;
+  tip.style.display = 'block';
+  // 위치 — 컬럼 기준, 우측 절반이면 좌측으로 flip
+  const colEl = document.getElementById('col-' + col);
+  const cRect = colEl.getBoundingClientRect();
+  const tw = tip.offsetWidth || 220;
+  const th = tip.offsetHeight || 220;
+  const pad = 14;
+  let left = (mx < cRect.width / 2) ? (mx + pad) : (mx - tw - pad);
+  left = Math.max(4, Math.min(cRect.width - tw - 4, left));
+  let top = my + pad;
+  if (top + th > cRect.height - 4) top = Math.max(4, my - th - pad);
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+}
+function hideHTSTooltip(col) {
+  const tip = document.getElementById('hts-tooltip-' + col);
+  if (tip) tip.style.display = 'none';
 }
 
 // Update header value from crosshair time for a specific chart
@@ -583,6 +676,8 @@ async function loadIndex(id, col) {
     allCharts[id].maLines = [];
     // Add moving averages
     const cfg = MA_CONFIG[id];
+    // HTS 툴팁용 MA 시간 인덱스 ({time: {p: value, ...}})
+    const maAtTime = {};
     if (cfg) {
       const periods = intv === '1wk' ? cfg.weekly : cfg.daily;
       const closes = display.map(c => c.close);
@@ -590,7 +685,12 @@ async function loadIndex(id, col) {
         const sma = calcSMA(closes, p);
         const pts = [];
         for (let i = p - 1; i < display.length; i++) {
-          if (sma[i] != null) pts.push({ time: display[i].time, value: sma[i] });
+          if (sma[i] != null) {
+            pts.push({ time: display[i].time, value: sma[i] });
+            const t = display[i].time;
+            if (!maAtTime[t]) maAtTime[t] = {};
+            maAtTime[t][p] = sma[i];
+          }
         }
         if (pts.length) {
           const line = allCharts[id].chart.addLineSeries({
@@ -601,6 +701,9 @@ async function loadIndex(id, col) {
           allCharts[id].maLines.push(line);
         }
       });
+      allCharts[id].maAtTime = maAtTime;
+      allCharts[id].maPeriods = periods;
+      allCharts[id].maUnit = intv === '1wk' ? 'W' : 'D';
       // Update MA legend
       const legendEl = document.getElementById('ma-legend-' + id);
       if (legendEl) {
@@ -1108,6 +1211,8 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
   const nlSMA5 = safeSMA(nlA, 5);
   const hasNHNL = nhSMA5.some(v => v != null) && nlSMA5.some(v => v != null);
   // Put/Call 자체 계산: VIX9D / VIX term structure 비율 (Put/Call ratio 대체 fear sentiment)
+  // ratio < 0.95 (단기 vol < 한달 vol) → 정상, Greed
+  // ratio > 1.0 (역전, 단기 패닉) → Fear
   const v9dMap = {}; if (vix9dCandles) vix9dCandles.forEach(x => { v9dMap[x.time] = x.close; });
   const v9dA = []; let l9 = null; for (const tt of t) { if (v9dMap[tt]) l9 = v9dMap[tt]; v9dA.push(l9); }
   const hasPC = v9dA.some(v => v != null) && vixA.some(v => v != null);
@@ -1495,62 +1600,65 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'04/30',cat:'실적',ev:'헌팅턴잉갈스(HII), 에코프로, 애플(AAPL), 삼성전자 컨콜(10:00 KST), LG에너지솔루션, 포스코퓨처엠, 샌디스크(SNDK, AMC 1:30pm PT)',note:'조선·배터리·빅테크·NAND — 한국 배터리 어닝 집중'},
-    {d:'04/30',cat:'경제지표',ev:'GDP Q1 속보치 + Core PCE 3월 (8:30 AM ET)',note:'FOMC 직후 빅이벤트'},
-    {d:'04/30',cat:'정책',ev:'FOMC 금리결정 발표 완료 (한국시간 03시)',note:'동결 3.5~3.75%, 4명 dissent — 매파 톤'},
-    {d:'04/30',cat:'정책',ev:'FCC 위성 스펙트럼 공유 규칙 투표',note:'10.7~12.7 GHz GSO·NGSO 공유 — 위성통신·우주'},
-    {d:'04/30',cat:'IPO',ev:'신한제18호스팩 신규상장',note:'코스닥, 공모가 2,000원, 100억 규모'},
     {d:'05/01',cat:'시장구조',ev:'휴장 (근로자의날)',note:'한국'},
     {d:'05/01',cat:'경제지표',ev:'ISM 제조업 PMI 4월 (10:00 AM ET)',note:'3월 PMI 52.7'},
     {d:'05/01',cat:'정책',ev:'OCC GENIUS Act NPRM 의견 제출 마감',note:'스테이블코인 — 금융'},
     {d:'05/02',cat:'기타',ev:'버크셔해서웨이 주주총회',note:'버핏 연례 메시지'},
-    {d:'05/04',cat:'실적',ev:'팔란티어(PLTR) AMC',note:'AI 소프트웨어'},
+    {d:'05/04',cat:'실적',ev:'팔란티어(PLTR) AMC',note:'AI 소프트웨어 정부 수주'},
     {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:'한국'},
     {d:'05/05',cat:'경제지표',ev:'ISM 서비스업 PMI 4월 (10:00 AM ET)',note:''},
     {d:'05/05',cat:'실적',ev:'카메코(CCJ) AMC, 이튼(ETN) BMO, 헌팅턴잉갈스(HII) BMO',note:'원전·전력·조선'},
     {d:'05/05',cat:'산업',ev:'비트코인 컨센서스 2026 마이애미 (~5/7)',note:'코인 연간 최대행사'},
     {d:'05/05',cat:'정책',ev:'Section 301 공청회 (~5/8)',note:'한미통상 — 16개국 한국 포함'},
+    {d:'05/05',cat:'정책',ev:'미국 클래리티법안 상원 마크업(5월초 추정)',note:'스테이블코인'},
     {d:'05/06',cat:'실적',ev:'한화에어로스페이스, 에이피알 1Q',note:'K-방산·K-뷰티'},
-    {d:'05/07',cat:'실적',ev:'콘스텔레이션(CEG) AMC, 라인메탈(RHM), 비스트라(VST) BMO, 뉴스케일파워(SMR) AMC, 미래에셋증권',note:'원전 동시 발표 — 핵심 검증일'},
+    {d:'05/07',cat:'실적',ev:'콘스텔레이션(CEG) AMC, 비스트라(VST) BMO, 뉴스케일(SMR) AMC, 라인메탈(RHM), 미래에셋증권',note:'원전 동시 발표 — 핵심 검증일'},
     {d:'05/08',cat:'경제지표',ev:'NFP 4월 고용보고서 (8:30 AM ET)',note:'3월 +178K'},
     {d:'05/08',cat:'실적',ev:'토요타(TM), 셀트리온, 한국전력',note:'자동차·바이오·전력'},
-    {d:'05/11',cat:'IPO',ev:'코스모로보틱스 신규상장',note:'의료·재활 웨어러블로봇'},
-    {d:'05/12',cat:'경제지표',ev:'CPI 4월 (8:30 AM ET)',note:''},
-    {d:'05/12',cat:'실적',ev:'넥스트파워(NXT), 오클로(OKLO) AMC',note:'태양광·원전 SMR'},
-    {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담 (~5/15)',note:'한미통상·반도체·이란전 연계'},
-    {d:'05/14',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시'},
-    {d:'05/15',cat:'정책',ev:'국민참여형 국민성장펀드 출시(5월말 예정)',note:'정책 유동성·밸류업 2.0'},
+    {d:'05/11',cat:'IPO',ev:'코스모로보틱스 신규상장',note:'의료·재활 휴머노이드'},
+    {d:'05/12',cat:'경제지표',ev:'CPI 4월 (8:30 AM ET)',note:'인플레 핵심'},
+    {d:'05/12',cat:'실적',ev:'넥스트파워(NXT), 오클로(OKLO) AMC',note:'태양광·SMR'},
+    {d:'05/13',cat:'실적',ev:'샌디스크(SNDK) AMC',note:'NAND'},
+    {d:'05/14',cat:'IPO',ev:'폴레드 신규상장',note:'공모가 5,000원'},
+    {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담 (~5/15)',note:'한미통상·이란전 연계'},
+    {d:'05/15',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시'},
     {d:'05/15',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12 (5월초~중순)',note:'우주'},
     {d:'05/15',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한미통상'},
-    {d:'05/18',cat:'실적',ev:'한국항공우주, LIG넥스원(추정), LS일렉트릭(추정)',note:'방산·전력'},
+    {d:'05/15',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
+    {d:'05/18',cat:'실적',ev:'한국항공우주',note:'방산'},
     {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'차세대 제미나이·AI 에이전트'},
-    {d:'05/19',cat:'실적',ev:'오클로(OKLO) AMC',note:'원전 SMR'},
+    {d:'05/20',cat:'IPO',ev:'마키나락스 신규상장',note:'산업AI 솔루션'},
     {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027'},
     {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체'},
     {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
-    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시',note:'반도체 수급 영향'},
+    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시',note:'반도체 수급'},
     {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날)',note:'한국'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
+    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표(5월말)',note:'리밸런싱 적용 6/12'},
+    {d:'05/30',cat:'정책',ev:'국민참여형 국민성장펀드 출시(5월말)',note:'정책 유동성·밸류업 2.0'},
     {d:'06/02',cat:'정책',ev:'미 FCC 주파수 경매 입찰 시작',note:'위성통신·우주'},
     {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI'},
     {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향'},
     {d:'06/05',cat:'학회',ev:'미국 당뇨학회 (~6/8)',note:'비만·MASH — 바이오'},
-    {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스 — 반도체 연관'},
+    {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스'},
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
+    {d:'06/11',cat:'IPO',ev:'져스텍 신규상장',note:''},
     {d:'06/11',cat:'기타',ev:'북중미 월드컵 (~7/19)',note:'한국 경기 6/12·6/19·6/25'},
-    {d:'06/15',cat:'지정학',ev:'G7 정상회담 (~6/17)',note:'관세·우크라이나·중동·AI 규제'},
+    {d:'06/15',cat:'지정학',ev:'G7 정상회담 (~6/17)',note:'관세·우크라이나·중동·AI'},
     {d:'06/15',cat:'IPO',ev:'스페이스X IPO 가격책정 주간',note:'우주 — 밸류에이션 $2T+'},
-    {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 우선협상대상자(6~7월)',note:'조선·방산 — 한화오션·HD현대'},
+    {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 우선협상대상자(6~7월)',note:'조선·방산'},
     {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
+    {d:'06/15',cat:'시장구조',ev:'SK하이닉스 미 ADR 상장(6~7월)',note:'반도체 T1'},
     {d:'06/16',cat:'정책',ev:'일본은행(BOJ) 금리결정',note:'엔화·글로벌 유동성'},
     {d:'06/18',cat:'정책',ev:'미 FOMC 금리결정 (한국시간 03시)',note:'신임 의장 체제 첫 FOMC'},
+    {d:'06/30',cat:'정책',ev:'원화 스테이블코인 입법 본격화',note:'정책 유동성'},
     {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 발표',note:'한국 증시 구조적'},
     {d:'06/30',cat:'산업',ev:'국내 SMR 1호·원전 2기 부지결정',note:'두산에너빌리티·한전기술'},
     {d:'07/07',cat:'지정학',ev:'나토 정상회의 (~7/8, 튀르키에)',note:'지정학'},
     {d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
-    {d:'07/30',cat:'산업',ev:'테슬라 옵티머스 V3 양산·공개 (~8월초)',note:'로봇 — 4/23 어닝콜 재확정'},
-    {d:'11/03',cat:'정책',ev:'미국 중간선거',note:'트럼프 레임덕 리스크'},
+    {d:'07/30',cat:'산업',ev:'테슬라 옵티머스 V3 양산·공개 (~8월초)',note:'로봇 — 7월말~8월초'},
+    {d:'11/03',cat:'정책',ev:'미국 중간선거',note:'트럼프 레임덕'},
   ];
   const today=new Date();today.setHours(0,0,0,0);
   const limit=new Date(today);limit.setDate(limit.getDate()+30);
