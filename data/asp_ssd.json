@@ -1,7 +1,7 @@
 {
   "metric": "SSD 수출 ASP ($/g)",
   "source": "Weekly_Roko_260427.pdf",
-  "extracted_at": "2026-05-01T20:00:31 / asp_recompute_local",
+  "extracted_at": "2026-05-01T13:20:19",
   "data": [
     {
       "date": "2019-12-31",
@@ -294,30 +294,6 @@
     {
       "date": "2025-11-03",
       "value": 7.021
-    },
-    {
-      "date": "2025-12-03",
-      "value": 11.43
-    },
-    {
-      "date": "2026-01-01",
-      "value": 13.015
-    },
-    {
-      "date": "2026-02-01",
-      "value": 14.9,
-      "derived": true
-    },
-    {
-      "date": "2026-03-01",
-      "value": 16.112,
-      "derived": true
-    },
-    {
-      "date": "2026-04-01",
-      "value": 17.976,
-      "derived": true
     }
-  ],
-  "recompute_note": "마지막 anchor=2026-01-01 (val=13.015)에서 scale=0.244 도출 후 export_ssd_amount/export_ssd_volume로 3개월 보정 적용"
+  ]
 }
