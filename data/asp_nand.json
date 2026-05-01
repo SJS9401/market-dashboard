@@ -1,7 +1,7 @@
 {
   "metric": "NAND 수출 ASP ($/unit)",
   "source": "Weekly_Roko_260427.pdf",
-  "extracted_at": "2026-05-01T20:00:31",
+  "extracted_at": "2026-05-01T20:00:31 / asp_recompute_local",
   "data": [
     {
       "date": "2020-01-01",
@@ -298,6 +298,32 @@
     {
       "date": "2025-11-01",
       "value": 4.904
+    },
+    {
+      "date": "2025-12-01",
+      "value": 4.924,
+      "derived": true
+    },
+    {
+      "date": "2026-01-01",
+      "value": 5.05,
+      "derived": true
+    },
+    {
+      "date": "2026-02-01",
+      "value": 5.526,
+      "derived": true
+    },
+    {
+      "date": "2026-03-01",
+      "value": 4.945,
+      "derived": true
+    },
+    {
+      "date": "2026-04-01",
+      "value": 5.672,
+      "derived": true
     }
-  ]
+  ],
+  "recompute_note": "마지막 anchor=2025-11-01 (val=4.904)에서 scale=2.663 도출 후 export_nand_amount/export_nand_volume로 5개월 보정 적용"
 }

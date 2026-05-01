@@ -1,7 +1,7 @@
 {
   "metric": "메모리 반도체 수출 ASP ($/g)",
   "source": "Weekly_Roko_260427.pdf",
-  "extracted_at": "2026-05-01T20:00:30",
+  "extracted_at": "2026-05-01T20:00:30 / asp_recompute_local",
   "data": [
     {
       "date": "2019-12-31",
@@ -302,6 +302,22 @@
     {
       "date": "2026-01-01",
       "value": 56.846
+    },
+    {
+      "date": "2026-02-01",
+      "value": 47.502,
+      "derived": true
+    },
+    {
+      "date": "2026-03-01",
+      "value": 60.405,
+      "derived": true
+    },
+    {
+      "date": "2026-04-01",
+      "value": 67.377,
+      "derived": true
     }
-  ]
+  ],
+  "recompute_note": "마지막 anchor=2026-01-01 (val=56.846)에서 scale=2.300 도출 후 export_memory_amount/export_memory_weight로 3개월 보정 적용"
 }

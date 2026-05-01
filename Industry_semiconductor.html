@@ -91,7 +91,8 @@ const COLORS = {
   spot: 'rgb(57,197,207)',       // cyan — 현물가
   contract: 'rgb(210,175,100)',   // gold — 고정가, 막대
   premium: 'rgb(249,117,131)',    // red — 프리미엄 (DRAM/NAND 현물가, 마켓 대시보드와 통일)
-  yoy: 'rgb(57,197,207)',         // cyan(하늘색) — YoY 라인 (마켓 대시보드 시안과 통일)
+  yoy: 'rgb(210,175,100)',      // gold — YoY 라인 (사이클 시그널, 시각 위계 상위)
+  bar: 'rgb(139,148,158)',      // gray — 수출 바/ASP (절대 수치 컨텍스트, Tufte: gray for context)
   samsung: 'rgb(57,197,207)',
   sk_hynix: 'rgb(210,175,100)',
 };
@@ -106,133 +107,133 @@ const SECTIONS = [
       { fig: 19, title: "반도체 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_semi_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_semi_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_semi_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 20, title: "반도체 수출 중량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출중량", file: "export_semi_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출중량", file: "export_semi_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_semi_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "톤", unit_right: "%" } },
       { fig: 35, title: "반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_semi.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // 메모리
       { fig: 21, title: "메모리 반도체 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_memory_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_memory_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_memory_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 22, title: "메모리 반도체 수출 중량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출중량", file: "export_memory_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출중량", file: "export_memory_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_memory_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "톤", unit_right: "%" } },
       { fig: 36, title: "메모리 반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_memory.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // DRAM
       { fig: 23, title: "DRAM 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_dram_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_dram_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_dram_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 24, title: "DRAM 수출 수량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출수량", file: "export_dram_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출수량", file: "export_dram_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_dram_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "백만개", unit_right: "%" } },
       { fig: 37, title: "DRAM 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // NAND
       { fig: 27, title: "NAND 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_nand_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_nand_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_nand_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 28, title: "NAND 수출 수량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출수량", file: "export_nand_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출수량", file: "export_nand_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_nand_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "백만개", unit_right: "%" } },
       { fig: 38, title: "NAND 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // SSD
       { fig: 29, title: "SSD 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_ssd_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_ssd_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_ssd_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 30, title: "SSD 수출 수량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출수량", file: "export_ssd_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출수량", file: "export_ssd_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_ssd_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "백만개", unit_right: "%" } },
       { fig: 40, title: "SSD 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_ssd.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // MCP
       { fig: 31, title: "MCP 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_mcp_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_mcp_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_mcp_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 32, title: "MCP 수출 수량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출수량", file: "export_mcp_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출수량", file: "export_mcp_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_mcp_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "백만개", unit_right: "%" } },
       { fig: 41, title: "MCP 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_mcp.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // 시스템 반도체
       { fig: 33, title: "시스템 반도체 수출 금액",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출금액", file: "export_system_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출금액", file: "export_system_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_system_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "십억$", unit_right: "%" } },
       { fig: 34, title: "시스템 반도체 수출 중량",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "수출중량", file: "export_system_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "수출중량", file: "export_system_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "export_system_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "톤", unit_right: "%" } },
       { fig: 42, title: "시스템 반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.contract },
+            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.bar },
             { label: "YoY(우)", file: "asp_system.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
     ]
