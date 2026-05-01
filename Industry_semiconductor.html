@@ -40,6 +40,13 @@
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
   .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
   .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
+  /* 차트 호버 툴팁 */
+  .cw-tooltip { position: absolute; top: 8px; left: 8px; background: rgba(13,17,23,0.95); border: 1px solid #30363d; border-radius: 4px; padding: 5px 8px; font-size: 11px; color: #c9d1d9; pointer-events: none; z-index: 10; display: none; line-height: 1.5; min-width: 130px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+  .cw-tooltip .tt-date { color: #8b949e; font-size: 10px; padding-bottom: 3px; border-bottom: 1px solid #21262d; margin-bottom: 3px; font-weight: 600; }
+  .cw-tooltip .tt-row { display: flex; justify-content: space-between; gap: 12px; }
+  .cw-tooltip .tt-label { display: flex; align-items: center; gap: 4px; }
+  .cw-tooltip .tt-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+  .cw-tooltip .tt-value { font-variant-numeric: tabular-nums; font-weight: 600; }
   .cw-tbd { display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 11px; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(48,54,61,0.18) 8px, rgba(48,54,61,0.18) 9px); }
   .card-tbd .card-top { background: #1a1f26; }
   .card-tbd .card-top h3 { color: #8b949e; }
@@ -379,31 +386,79 @@ async function renderChart(containerId, def) {
       if (r.width > 0 && r.height > 0) chart.applyOptions({ width: r.width, height: r.height });
     }).observe(el);
 
+    // 단위 → priceFormat formatter
+    const unitL = def.unit_left || '';
+    const unitR = def.unit_right || '';
+    const makeFormatter = (unit) => {
+      return (v) => {
+        if (v == null || isNaN(v)) return '';
+        const a = Math.abs(v);
+        let s;
+        if (a >= 1000) s = Math.round(v).toLocaleString();
+        else if (a >= 100) s = v.toFixed(1);
+        else if (a >= 10) s = v.toFixed(2);
+        else s = v.toFixed(2);
+        return unit ? s + ' ' + unit : s;
+      };
+    };
+    const seriesByObj = new Map();  // series 객체 → meta
     const seriesData = await Promise.all(def.series.map(async (s) => {
       const data = await fetchSeries(s.file);
-      // dedupe by time (lightweight-charts requires sorted unique time)
       const seen = new Set();
       const cleaned = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
-      const priceScaleId = (def.type === 'dual_axis' && s.axis === 'left') ? 'left' : 'right';
+      const isLeft = (def.type === 'dual_axis' && s.axis === 'left');
+      const priceScaleId = isLeft ? 'left' : 'right';
+      const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
       const kind = s.kind || def.kind || 'line';
+      const fmtOpts = { type: 'custom', formatter: makeFormatter(unit), minMove: 0.01 };
       let series;
       if (kind === 'bar' || kind === 'histogram') {
         series = chart.addHistogramSeries({
           color: s.color,
           priceLineVisible: false, lastValueVisible: true,
-          priceScaleId,
+          priceScaleId, priceFormat: fmtOpts,
         });
       } else {
         series = chart.addLineSeries({
           color: s.color, lineWidth: 1.5,
           priceLineVisible: false, lastValueVisible: true,
-          priceScaleId,
+          priceScaleId, priceFormat: fmtOpts,
         });
       }
       series.setData(cleaned);
-      return { label: s.label, color: s.color, data: cleaned };
+      seriesByObj.set(series, { label: s.label, color: s.color, unit });
+      return { label: s.label, color: s.color, data: cleaned, series, unit };
     }));
     chart.timeScale().fitContent();
+    // 호버 툴팁
+    const tooltipEl = document.createElement('div');
+    tooltipEl.className = 'cw-tooltip';
+    el.appendChild(tooltipEl);
+    chart.subscribeCrosshairMove(param => {
+      if (!param.time || !param.seriesData || !param.seriesData.size) {
+        tooltipEl.style.display = 'none';
+        return;
+      }
+      const dateLbl = (typeof param.time === 'string') ? param.time : `${param.time.year}-${String(param.time.month).padStart(2,'0')}-${String(param.time.day).padStart(2,'0')}`;
+      let html = `<div class="tt-date">${dateLbl}</div>`;
+      param.seriesData.forEach((d, ser) => {
+        const meta = seriesByObj.get(ser);
+        if (!meta || d.value == null) return;
+        const fmt = makeFormatter(meta.unit);
+        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(d.value)}</span></div>`;
+      });
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.display = 'block';
+      // 툴팁 위치 — 마우스 우상단 또는 좌상단 (차트 절반 기준 flip)
+      const w = el.clientWidth, h = el.clientHeight;
+      const x = param.point.x, y = param.point.y;
+      const tw = tooltipEl.offsetWidth || 140, th = tooltipEl.offsetHeight || 60;
+      let left = x + 12, top = y + 12;
+      if (left + tw > w - 4) left = x - tw - 12;
+      if (top + th > h - 4) top = y - th - 12;
+      tooltipEl.style.left = Math.max(4, left) + 'px';
+      tooltipEl.style.top = Math.max(4, top) + 'px';
+    });
     // 차트 하단에 최근 6개 데이터 표 추가
     const tableHtml = buildRecentTable(seriesData);
     if (tableHtml) {
