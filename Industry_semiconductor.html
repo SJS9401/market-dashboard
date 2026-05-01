@@ -230,6 +230,7 @@ const CHART_OPTS = {
 // =========================================================================
 function buildPage() {
   const main = document.getElementById('main');
+  const renderQueue = [];  // 모든 카드 DOM attach 후 일괄 렌더링
   SECTIONS.forEach(sec => {
     const secDiv = document.createElement('div');
     secDiv.className = 'section';
@@ -265,10 +266,12 @@ function buildPage() {
         <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
       `;
       grid.appendChild(cardEl);
-      if (card.chart_def) renderChart(cwId, card.chart_def);
+      if (card.chart_def) renderQueue.push([cwId, card.chart_def]);
     });
-    main.appendChild(secDiv);
+    main.appendChild(secDiv);  // section을 main 에 먼저 attach
   });
+  // 모든 카드가 document에 붙은 뒤 일괄 차트 렌더링
+  renderQueue.forEach(([cwId, def]) => renderChart(cwId, def));
 }
 
 // =========================================================================
