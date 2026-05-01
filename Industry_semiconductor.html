@@ -285,29 +285,41 @@ const SECTIONS = [
     cols: 2,
     cards: [
       { fig: 7, title: "글로벌 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "글로벌 합계", file: "capex_global_dram.json", color: COLORS.bar }],
-          unit_left: "백만달러" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "글로벌 합계", file: "capex_global_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_global_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "백만달러", unit_right: "%" } },
       { fig: 8, title: "글로벌 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "글로벌 합계", file: "capex_global_nand.json", color: COLORS.bar }],
-          unit_left: "백만달러" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "글로벌 합계", file: "capex_global_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_global_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "백만달러", unit_right: "%" } },
       { fig: 9, title: "삼성전자 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capex_samsung_dram.json", color: COLORS.bar }],
-          unit_left: "십억원" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "삼성전자", file: "capex_samsung_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_samsung_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "십억원", unit_right: "%" } },
       { fig: 10, title: "삼성전자 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capex_samsung_nand.json", color: COLORS.bar }],
-          unit_left: "십억원" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "삼성전자", file: "capex_samsung_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_samsung_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "십억원", unit_right: "%" } },
       { fig: 11, title: "SK하이닉스 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "SK하이닉스", file: "capex_sk_hynix_dram.json", color: COLORS.bar }],
-          unit_left: "십억원" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "SK하이닉스", file: "capex_sk_hynix_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_sk_hynix_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "십억원", unit_right: "%" } },
       { fig: 12, title: "SK하이닉스 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "SK하이닉스", file: "capex_sk_hynix_nand.json", color: COLORS.bar }],
-          unit_left: "십억원" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "SK하이닉스", file: "capex_sk_hynix_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capex_sk_hynix_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "십억원", unit_right: "%" } },
     ]
   },
   {
@@ -316,29 +328,41 @@ const SECTIONS = [
     cols: 2,
     cards: [
       { fig: 13, title: "글로벌 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "글로벌 합계", file: "capa_global_dram.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "글로벌 합계", file: "capa_global_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_global_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
       { fig: 14, title: "글로벌 NAND CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "글로벌 합계", file: "capa_global_nand.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "글로벌 합계", file: "capa_global_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_global_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
       { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capa_samsung_dram.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "삼성전자", file: "capa_samsung_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_samsung_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
       { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capa_samsung_nand.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "삼성전자", file: "capa_samsung_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_samsung_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
       { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "SK하이닉스", file: "capa_sk_hynix_dram.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "SK하이닉스", file: "capa_sk_hynix_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_sk_hynix_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
       { fig: 18, title: "SK하이닉스 NAND CAPA 추이 및 전망",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "SK하이닉스", file: "capa_sk_hynix_nand.json", color: COLORS.bar }],
-          unit_left: "천장/월" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "SK하이닉스", file: "capa_sk_hynix_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "capa_sk_hynix_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
+          ], unit_left: "천장/월", unit_right: "%" } },
     ]
   },
 ];
@@ -566,7 +590,15 @@ async function renderChart(containerId, def) {
       el.appendChild(lbl);
     }
     const seriesByObj = new Map();  // series 객체 → meta
-    const seriesData = await Promise.all(def.series.map(async (s) => {
+    // Z-order: bar/histogram 먼저 추가 → line 시리즈가 위에 렌더링되도록 강제 정렬
+    const sortedSeries = [...def.series].sort((a, b) => {
+      const aIsBar = (a.kind || def.kind) === 'bar' || (a.kind || def.kind) === 'histogram';
+      const bIsBar = (b.kind || def.kind) === 'bar' || (b.kind || def.kind) === 'histogram';
+      return (bIsBar ? 1 : 0) - (aIsBar ? 1 : 0);  // bar 먼저(0), line 나중(1)
+    });
+    // 순차 await — Promise.all로 인한 race condition 방지
+    const seriesData = [];
+    for (const s of sortedSeries) {
       let data = await fetchSeries(s.file);
       const seen = new Set();
       data = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
@@ -576,7 +608,6 @@ async function renderChart(containerId, def) {
       const priceScaleId = isLeft ? 'left' : 'right';
       const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
       const kind = s.kind || def.kind || 'line';
-      // priceFormat: 가격축 라벨엔 숫자만 (단위는 상단 라벨에 별도). 툴팁은 단위 포함.
       const fmtOpts = { type: 'custom', formatter: numberOnly, minMove: 0.01 };
       let series;
       if (kind === 'bar' || kind === 'histogram') {
@@ -587,15 +618,15 @@ async function renderChart(containerId, def) {
         });
       } else {
         series = chart.addLineSeries({
-          color: s.color, lineWidth: 1.5,
+          color: s.color, lineWidth: 2.5,
           priceLineVisible: false, lastValueVisible: true,
           priceScaleId, priceFormat: fmtOpts,
         });
       }
       series.setData(cleaned);
       seriesByObj.set(series, { label: s.label, color: s.color, unit });
-      return { label: s.label, color: s.color, data: cleaned, series, unit };
-    }));
+      seriesData.push({ label: s.label, color: s.color, data: cleaned, series, unit });
+    }
     chart.timeScale().fitContent();
     // 호버 툴팁
     const tooltipEl = document.createElement('div');
