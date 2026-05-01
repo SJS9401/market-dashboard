@@ -91,7 +91,7 @@ const COLORS = {
   spot: 'rgb(57,197,207)',       // cyan — 현물가
   contract: 'rgb(210,175,100)',   // gold — 고정가, 막대
   premium: 'rgb(249,117,131)',    // red — 프리미엄 (DRAM/NAND 현물가, 마켓 대시보드와 통일)
-  yoy: 'rgb(249,117,131)',        // red — YoY 라인 (마켓 대시보드 빨간색과 통일)
+  yoy: 'rgb(57,197,207)',         // cyan(하늘색) — YoY 라인 (마켓 대시보드 시안과 통일)
   samsung: 'rgb(57,197,207)',
   sk_hynix: 'rgb(210,175,100)',
 };
@@ -118,7 +118,7 @@ const SECTIONS = [
       { fig: 35, title: "반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_semi.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // 메모리
@@ -137,7 +137,7 @@ const SECTIONS = [
       { fig: 36, title: "메모리 반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_memory.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // DRAM
@@ -156,7 +156,7 @@ const SECTIONS = [
       { fig: 37, title: "DRAM 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // NAND
@@ -175,7 +175,7 @@ const SECTIONS = [
       { fig: 38, title: "NAND 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // SSD
@@ -194,7 +194,7 @@ const SECTIONS = [
       { fig: 40, title: "SSD 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_ssd.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // MCP
@@ -213,7 +213,7 @@ const SECTIONS = [
       { fig: 41, title: "MCP 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_mcp.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/unit", unit_right: "%" } },
       // 시스템 반도체
@@ -232,7 +232,7 @@ const SECTIONS = [
       { fig: 42, title: "시스템 반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
-            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.spot },
+            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.contract },
             { label: "YoY(우)", file: "asp_system.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
     ]
@@ -258,11 +258,11 @@ const SECTIONS = [
           ], unit_left: "$", unit_right: "%" } },
       { fig: 3, title: "TLC 512Gb 현물가",
         chart_def: { type: "single",
-          series: [{ label: "현물가", file: "nand_tlc_512gb_spot.json", color: COLORS.spot }],
+          series: [{ label: "현물가", file: "nand_tlc_512gb_spot.json", color: COLORS.contract }],
           unit_left: "$" } },
       { fig: 4, title: "TLC/QLC 1Tb 현물가",
         chart_def: { type: "single",
-          series: [{ label: "현물가", file: "nand_tlc_1tb_spot.json", color: COLORS.spot }],
+          series: [{ label: "현물가", file: "nand_tlc_1tb_spot.json", color: COLORS.contract }],
           unit_left: "$" } },
       { fig: 5, title: "업체별 DRAM ASP 추이 및 전망",
         chart_def: { type: "multi",
@@ -293,11 +293,11 @@ const SECTIONS = [
           unit_left: "백만달러" } },
       { fig: 9, title: "삼성전자 DRAM CAPEX 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capex_samsung_dram.json", color: COLORS.samsung }],
+          series: [{ label: "삼성전자", file: "capex_samsung_dram.json", color: COLORS.contract }],
           unit_left: "십억원" } },
       { fig: 10, title: "삼성전자 NAND CAPEX 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capex_samsung_nand.json", color: COLORS.samsung }],
+          series: [{ label: "삼성전자", file: "capex_samsung_nand.json", color: COLORS.contract }],
           unit_left: "십억원" } },
       { fig: 11, title: "SK하이닉스 DRAM CAPEX 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
@@ -324,11 +324,11 @@ const SECTIONS = [
           unit_left: "천장/월" } },
       { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capa_samsung_dram.json", color: COLORS.samsung }],
+          series: [{ label: "삼성전자", file: "capa_samsung_dram.json", color: COLORS.contract }],
           unit_left: "천장/월" } },
       { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
-          series: [{ label: "삼성전자", file: "capa_samsung_nand.json", color: COLORS.samsung }],
+          series: [{ label: "삼성전자", file: "capa_samsung_nand.json", color: COLORS.contract }],
           unit_left: "천장/월" } },
       { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망",
         chart_def: { type: "single", kind: "bar",
