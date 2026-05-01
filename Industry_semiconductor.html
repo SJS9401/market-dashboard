@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산업별 선행지표 — 반도체</title>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, 'Pretendard', 'Segoe UI', sans-serif; overflow-x: hidden; }
+  .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; }
+  .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .tab-bar a:hover { color: #f0f6fc; }
+  .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 24px; border-bottom: 1px solid #21262d; background: #0d1117; gap: 16px; }
+  .header h1 { font-size: 17px; color: #f0f6fc; }
+  .source-box { font-size: 10px; color: #8b949e; line-height: 1.55; text-align: right; max-width: 520px; }
+  .source-box .src-line { color: #c9d1d9; font-weight: 600; }
+  .source-box .src-disclaimer { color: #6e7681; font-size: 10px; padding-top: 2px; border-top: 1px dashed #21262d; margin-top: 4px; }
+  .main { padding: 14px 16px 32px; max-width: 1600px; margin: 0 auto; }
+  .section { margin-bottom: 28px; }
+  .section-header { display: flex; align-items: baseline; gap: 12px; padding: 8px 4px; border-bottom: 2px solid #1f6feb; margin-bottom: 12px; }
+  .section-header h2 { font-size: 15px; font-weight: 700; color: #f0f6fc; }
+  .section-header .subtitle { font-size: 11px; color: #8b949e; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 10px; }
+  .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
+  .card-top { padding: 8px 12px; border-bottom: 1px solid #21262d; background: #1c2128; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
+  .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
+  .legend-row { display: flex; gap: 12px; padding: 4px 12px 0; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
+  .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
+  .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
+  .cw-tbd { display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 11px; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(48,54,61,0.18) 8px, rgba(48,54,61,0.18) 9px); }
+  .card-tbd .card-top { background: #1a1f26; }
+  .card-tbd .card-top h3 { color: #8b949e; }
+  .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
+  /* 최근 데이터 표 (차트 하단) */
+  .recent-data { padding: 6px 10px 8px; border-top: 1px solid #21262d; overflow-x: auto; }
+  .recent-data table { width: 100%; border-collapse: collapse; font-size: 10px; font-variant-numeric: tabular-nums; }
+  .recent-data th { font-weight: 500; color: #8b949e; text-align: right; padding: 2px 4px; white-space: nowrap; }
+  .recent-data td { color: #c9d1d9; text-align: right; padding: 2px 4px; white-space: nowrap; }
+  .recent-data thead th { color: #6e7681; font-weight: 400; border-bottom: 1px solid #21262d; }
+  .recent-data tbody th { color: #c9d1d9; text-align: left; padding-right: 8px; }
+  .recent-data tbody th .legend-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="tab-bar">
+  <a href="dashboard.html">마켓 대시보드</a>
+  <a href="Market_cycle.html">시장 사이클</a>
+  <a href="Leading_stocks.html">주도주 사이클</a>
+  <a href="Industry_semiconductor.html" class="active">반도체</a>
+</div>
+<div class="header">
+  <h1>산업별 선행지표 — 반도체</h1>
+  <div class="source-box">
+    <div class="src-line">출처: 하나증권 리서치 「반도체 및 소부장 Weekly」</div>
+    <div>Analyst 김록호 · RA 김영규 (자료 원본: DRAMeXchange · KITA · TrendForce · 각사 IR)</div>
+    <div class="src-disclaimer">※ 본 페이지는 본인·지인 비공개 학습 및 모니터링 용도로만 사용됩니다. 데이터·도표의 권리는 원저작자에게 귀속됩니다. 무단 재배포·상업적 이용 금지.</div>
+  </div>
+</div>
+<div class="main" id="main"></div>
+
+<script>
+// =========================================================================
+// 카테고리 + 카드 정의 (도표 1~42)
+//   chart_def 가 있으면 자동 차트 렌더링, 없으면 placeholder
+// =========================================================================
+const COLORS = {
+  spot: 'rgb(57,197,207)',       // cyan — 현물가
+  contract: 'rgb(210,175,100)',   // gold — 고정가
+  premium: 'rgb(249,117,131)',    // pink — 프리미엄 (우축)
+  samsung: 'rgb(57,197,207)',
+  sk_hynix: 'rgb(210,175,100)',
+};
+
+const SECTIONS = [
+  {
+    title: "수출 Data : 반도체",
+    subtitle: "도표 19~42 (KITA, 하나증권)",
+    cards: [
+      { fig: 19, title: "반도체 수출 금액", chart_def: null },
+      { fig: 20, title: "반도체 수출 중량", chart_def: null },
+      { fig: 21, title: "메모리 반도체 수출 금액", chart_def: null },
+      { fig: 22, title: "메모리 반도체 수출 중량", chart_def: null },
+      { fig: 23, title: "DRAM 수출 금액", chart_def: null },
+      { fig: 24, title: "DRAM 수출 수량", chart_def: null },
+      { fig: 25, title: "DRAM 모듈 수출 금액", chart_def: null },
+      { fig: 26, title: "DRAM 모듈 수출 중량", chart_def: null },
+      { fig: 27, title: "NAND 수출 금액", chart_def: null },
+      { fig: 28, title: "NAND 수출 수량", chart_def: null },
+      { fig: 29, title: "SSD 수출 금액", chart_def: null },
+      { fig: 30, title: "SSD 수출 수량", chart_def: null },
+      { fig: 31, title: "MCP 수출 금액", chart_def: null },
+      { fig: 32, title: "MCP 수출 수량", chart_def: null },
+      { fig: 33, title: "시스템 반도체 수출 금액", chart_def: null },
+      { fig: 34, title: "시스템 반도체 수출 중량", chart_def: null },
+      { fig: 35, title: "반도체 수출 ASP", chart_def: null },
+      { fig: 36, title: "메모리 반도체 수출 ASP", chart_def: null },
+      { fig: 37, title: "DRAM 수출 ASP", chart_def: null },
+      { fig: 38, title: "NAND 수출 ASP", chart_def: null },
+      { fig: 39, title: "DRAM 모듈 수출 ASP", chart_def: null },
+      { fig: 40, title: "SSD 수출 ASP", chart_def: null },
+      { fig: 41, title: "MCP 수출 ASP", chart_def: null },
+      { fig: 42, title: "시스템 반도체 수출 ASP", chart_def: null },
+    ]
+  },
+  {
+    title: "DRAM, NAND 현물가 및 고정가 추이",
+    subtitle: "도표 1~6 (DRAMeXchange, 하나증권)",
+    cards: [
+      { fig: 1, title: "DDR4 8Gb 현물가 vs 고정가",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "현물가", file: "dram_ddr4_8gb_spot.json", axis: "left", color: COLORS.spot },
+            { label: "고정가", file: "dram_ddr4_8gb_contract.json", axis: "left", color: COLORS.contract },
+            { label: "프리미엄(우)", file: "dram_ddr4_8gb_premium.json", axis: "right", color: COLORS.premium },
+          ], unit_left: "$", unit_right: "%" } },
+      { fig: 2, title: "DDR5 16Gb 현물가 vs 고정가",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "현물가", file: "dram_ddr5_16gb_spot.json", axis: "left", color: COLORS.spot },
+            { label: "고정가", file: "dram_ddr5_16gb_contract.json", axis: "left", color: COLORS.contract },
+            { label: "프리미엄(우)", file: "dram_ddr5_16gb_premium.json", axis: "right", color: COLORS.premium },
+          ], unit_left: "$", unit_right: "%" } },
+      { fig: 3, title: "TLC 512Gb 현물가",
+        chart_def: { type: "single",
+          series: [{ label: "현물가", file: "nand_tlc_512gb_spot.json", color: COLORS.spot }],
+          unit_left: "$" } },
+      { fig: 4, title: "TLC/QLC 1Tb 현물가",
+        chart_def: { type: "single",
+          series: [{ label: "현물가", file: "nand_tlc_1tb_spot.json", color: COLORS.spot }],
+          unit_left: "$" } },
+      { fig: 5, title: "업체별 DRAM ASP 추이 및 전망",
+        chart_def: { type: "multi",
+          series: [
+            { label: "삼성전자", file: "dram_asp_quarterly_samsung.json", color: COLORS.samsung },
+            { label: "SK하이닉스", file: "dram_asp_quarterly_sk_hynix.json", color: COLORS.sk_hynix },
+          ], unit_left: "$" } },
+      { fig: 6, title: "업체별 NAND ASP 추이 및 전망",
+        chart_def: { type: "multi",
+          series: [
+            { label: "삼성전자", file: "nand_asp_quarterly_samsung.json", color: COLORS.samsung },
+            { label: "SK하이닉스", file: "nand_asp_quarterly_sk_hynix.json", color: COLORS.sk_hynix },
+          ], unit_left: "$" } },
+    ]
+  },
+  {
+    title: "글로벌 DRAM/NAND CAPEX",
+    subtitle: "도표 7~12 (TrendForce, 하나증권)",
+    cards: [
+      { fig: 7, title: "글로벌 DRAM CAPEX 추이 및 전망", chart_def: null },
+      { fig: 8, title: "글로벌 NAND CAPEX 추이 및 전망", chart_def: null },
+      { fig: 9, title: "삼성전자 DRAM CAPEX 추이 및 전망", chart_def: null },
+      { fig: 10, title: "삼성전자 NAND CAPEX 추이 및 전망", chart_def: null },
+      { fig: 11, title: "SK하이닉스 DRAM CAPEX 추이 및 전망", chart_def: null },
+      { fig: 12, title: "SK하이닉스 NAND CAPEX 추이 및 전망", chart_def: null },
+    ]
+  },
+  {
+    title: "글로벌 DRAM/NAND CAPA",
+    subtitle: "도표 13~18 (TrendForce, 하나증권)",
+    cards: [
+      { fig: 13, title: "글로벌 DRAM CAPA 추이 및 전망", chart_def: null },
+      { fig: 14, title: "글로벌 NAND CAPA 추이 및 전망", chart_def: null },
+      { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망", chart_def: null },
+      { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망", chart_def: null },
+      { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망", chart_def: null },
+      { fig: 18, title: "SK하이닉스 NAND CAPA 추이 및 전망", chart_def: null },
+    ]
+  },
+];
+
+const DATA_DIR = './data/';
+const CHART_OPTS = {
+  layout: { background: { type: 'solid', color: '#161b22' }, textColor: '#8b949e', fontSize: 10 },
+  grid: { vertLines: { color: '#1e2229' }, horzLines: { color: '#1e2229' } },
+  crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+  rightPriceScale: { borderColor: '#21262d' },
+  leftPriceScale: { borderColor: '#21262d' },
+  timeScale: { borderColor: '#21262d', timeVisible: false },
+  handleScale: { mouseWheel: false, pinch: false, axisPressedMouseMove: false },
+  handleScroll: { mouseWheel: false, pressedMouseMove: false, horzTouchDrag: false, vertTouchDrag: false },
+};
+
+// =========================================================================
+// 페이지 빌드
+// =========================================================================
+function buildPage() {
+  const main = document.getElementById('main');
+  SECTIONS.forEach(sec => {
+    const secDiv = document.createElement('div');
+    secDiv.className = 'section';
+    secDiv.innerHTML = `
+      <div class="section-header">
+        <h2>${sec.title}</h2>
+        <span class="subtitle">${sec.subtitle}</span>
+      </div>
+      <div class="card-grid"></div>
+    `;
+    const grid = secDiv.querySelector('.card-grid');
+    sec.cards.forEach(card => {
+      const cardId = `card-fig-${card.fig}`;
+      const cwId = `cw-fig-${card.fig}`;
+      const isTbd = !card.chart_def;
+      const cardEl = document.createElement('div');
+      cardEl.className = 'card' + (isTbd ? ' card-tbd' : '');
+      cardEl.id = cardId;
+      let legendHtml = '';
+      if (card.chart_def && card.chart_def.series) {
+        legendHtml = '<div class="legend-row">' +
+          card.chart_def.series.map(s =>
+            `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
+          ).join('') + '</div>';
+      }
+      cardEl.innerHTML = `
+        <div class="card-top">
+          <h3>${card.title}</h3>
+          <span class="fig-num">도표 ${card.fig}</span>
+        </div>
+        ${legendHtml}
+        <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
+      `;
+      grid.appendChild(cardEl);
+      if (card.chart_def) renderChart(cwId, card.chart_def);
+    });
+    main.appendChild(secDiv);
+  });
+}
+
+// =========================================================================
+// 차트 렌더링 (lightweight-charts)
+// =========================================================================
+async function fetchSeries(file) {
+  const r = await fetch(DATA_DIR + file);
+  if (!r.ok) throw new Error(`fetch failed: ${file}`);
+  const j = await r.json();
+  return j.data.map(d => ({ time: d.date, value: d.value }));
+}
+
+// 데이터 빈도에 맞춰 최근 N개 샘플 추출 (일별 → 월별, 분기 → 그대로)
+function getRecentSamples(data, count = 6) {
+  if (!data || data.length === 0) return [];
+  if (data.length <= count) return data;
+  const intervalDays = (new Date(data[data.length - 1].time) - new Date(data[0].time)) / (data.length * 86400000);
+  if (intervalDays < 7) {
+    // 일별/주별 데이터 — 월말(또는 월의 마지막) 기준 샘플링
+    const monthLast = {};
+    data.forEach(d => { monthLast[d.time.slice(0, 7)] = d; });
+    return Object.values(monthLast).sort((a, b) => a.time.localeCompare(b.time)).slice(-count);
+  }
+  // 분기/연간 데이터 — 그대로 last N
+  return data.slice(-count);
+}
+
+function formatNum(v) {
+  if (v == null || isNaN(v)) return '—';
+  const a = Math.abs(v);
+  if (a >= 1000) return Math.round(v).toLocaleString();
+  if (a >= 100) return v.toFixed(1);
+  if (a >= 10) return v.toFixed(2);
+  return v.toFixed(2);
+}
+
+function formatTimeLabel(t, intervalDays) {
+  // YYYY-MM-DD (10 chars). 월별 stride면 YYYY-MM, 분기 stride면 YY-Qn 표시 가능
+  if (!t || t.length < 7) return t || '';
+  const yyyymm = t.slice(0, 7); // "2026-04"
+  if (intervalDays >= 60) {
+    // 분기 데이터 — 'YY Qn' 형식
+    const m = parseInt(t.slice(5, 7), 10);
+    const q = Math.floor((m - 1) / 3) + 1;
+    return `${t.slice(2, 4)} Q${q}`;
+  }
+  return yyyymm;
+}
+
+// chart_def + 모든 series 데이터 → 하단 데이터 표 HTML
+function buildRecentTable(seriesData) {
+  if (!seriesData || !seriesData.length) return '';
+  const samplesPer = seriesData.map(s => getRecentSamples(s.data, 6));
+  // 첫 series 시점을 컬럼 기준으로 (다른 series는 같은 시점에 매칭)
+  const baseSamples = samplesPer[0];
+  if (!baseSamples || !baseSamples.length) return '';
+  const intervalDays = baseSamples.length >= 2 ?
+    (new Date(baseSamples[baseSamples.length - 1].time) - new Date(baseSamples[0].time)) /
+    ((baseSamples.length - 1) * 86400000) : 0;
+  const cols = baseSamples.map(d => d.time);
+
+  let html = '<div class="recent-data"><table><thead><tr><th></th>';
+  cols.forEach(t => { html += `<th>${formatTimeLabel(t, intervalDays)}</th>`; });
+  html += '</tr></thead><tbody>';
+  seriesData.forEach((s, idx) => {
+    const samples = samplesPer[idx];
+    // 다른 series의 sample 시점이 base와 다르면 lookup
+    const lookup = {};
+    samples.forEach(d => { lookup[d.time.slice(0, 7)] = d.value; });
+    html += `<tr><th><span class="legend-dot" style="background:${s.color}"></span>${s.label}</th>`;
+    cols.forEach(t => {
+      const v = lookup[t.slice(0, 7)];
+      html += `<td>${v != null ? formatNum(v) : '—'}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+async function renderChart(containerId, def) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  try {
+    const opts = { ...CHART_OPTS, width: el.clientWidth, height: el.clientHeight };
+    if (def.type === 'dual_axis') {
+      opts.leftPriceScale = { ...opts.leftPriceScale, visible: true };
+      opts.rightPriceScale = { ...opts.rightPriceScale, visible: true };
+    } else {
+      opts.leftPriceScale = { visible: false };
+      opts.rightPriceScale = { ...opts.rightPriceScale, visible: true };
+    }
+    const chart = LightweightCharts.createChart(el, opts);
+    new ResizeObserver(es => {
+      const r = es[0].contentRect;
+      chart.applyOptions({ width: r.width, height: r.height });
+    }).observe(el);
+
+    const seriesData = await Promise.all(def.series.map(async (s) => {
+      const data = await fetchSeries(s.file);
+      // dedupe by time (lightweight-charts requires sorted unique time)
+      const seen = new Set();
+      const cleaned = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
+      const opts2 = {
+        color: s.color, lineWidth: 1.5,
+        priceLineVisible: false, lastValueVisible: true,
+        priceScaleId: (def.type === 'dual_axis' && s.axis === 'left') ? 'left' : 'right',
+      };
+      const series = chart.addLineSeries(opts2);
+      series.setData(cleaned);
+      return { label: s.label, color: s.color, data: cleaned };
+    }));
+    chart.timeScale().fitContent();
+    // 차트 하단에 최근 6개 데이터 표 추가
+    const tableHtml = buildRecentTable(seriesData);
+    if (tableHtml) {
+      const card = el.closest('.card');
+      if (card) card.insertAdjacentHTML('beforeend', tableHtml);
+    }
+  } catch (e) {
+    el.classList.add('cw-tbd');
+    el.textContent = '데이터 로드 실패';
+    console.error(`[${containerId}]`, e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', buildPage);
+</script>
+</body>
+</html>
