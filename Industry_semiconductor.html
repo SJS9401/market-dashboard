@@ -99,83 +99,117 @@ const SECTIONS = [
     cards: [
       // 반도체
       { fig: 19, title: "반도체 수출 금액",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출금액", file: "export_semi_amount.json", color: COLORS.contract }],
-          unit_left: "십억$" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_semi_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_semi_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
       { fig: 20, title: "반도체 수출 중량",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출중량", file: "export_semi_weight.json", color: COLORS.contract }],
-          unit_left: "톤" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출중량", file: "export_semi_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_semi_weight.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "톤", unit_right: "%" } },
       { fig: 35, title: "반도체 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_semi.json", color: COLORS.spot }],
-          unit_left: "$/g" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_semi.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/g", unit_right: "%" } },
       // 메모리
       { fig: 21, title: "메모리 반도체 수출 금액", chart_def: null },
       { fig: 22, title: "메모리 반도체 수출 중량", chart_def: null },
       { fig: 36, title: "메모리 반도체 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_memory.json", color: COLORS.spot }],
-          unit_left: "$/g" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_memory.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/g", unit_right: "%" } },
       // DRAM
       { fig: 23, title: "DRAM 수출 금액", chart_def: null },
       { fig: 24, title: "DRAM 수출 수량", chart_def: null },
       { fig: 37, title: "DRAM 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_dram.json", color: COLORS.spot }],
-          unit_left: "$/unit" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_dram.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/unit", unit_right: "%" } },
       // NAND
       { fig: 27, title: "NAND 수출 금액",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출금액", file: "export_nand_amount.json", color: COLORS.contract }],
-          unit_left: "십억$" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_nand_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_nand_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
       { fig: 28, title: "NAND 수출 수량",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출수량", file: "export_nand_volume.json", color: COLORS.contract }],
-          unit_left: "백만개" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출수량", file: "export_nand_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_nand_volume.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "백만개", unit_right: "%" } },
       { fig: 38, title: "NAND 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_nand.json", color: COLORS.spot }],
-          unit_left: "$/unit" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_nand.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/unit", unit_right: "%" } },
       // SSD
       { fig: 29, title: "SSD 수출 금액",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출금액", file: "export_ssd_amount.json", color: COLORS.contract }],
-          unit_left: "십억$" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_ssd_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_ssd_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
       { fig: 30, title: "SSD 수출 수량",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출수량", file: "export_ssd_volume.json", color: COLORS.contract }],
-          unit_left: "백만개" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출수량", file: "export_ssd_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_ssd_volume.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "백만개", unit_right: "%" } },
       { fig: 40, title: "SSD 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_ssd.json", color: COLORS.spot }],
-          unit_left: "$/g" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_ssd.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/g", unit_right: "%" } },
       // MCP
       { fig: 31, title: "MCP 수출 금액",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출금액", file: "export_mcp_amount.json", color: COLORS.contract }],
-          unit_left: "십억$" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_mcp_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_mcp_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
       { fig: 32, title: "MCP 수출 수량",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출수량", file: "export_mcp_volume.json", color: COLORS.contract }],
-          unit_left: "백만개" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출수량", file: "export_mcp_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_mcp_volume.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "백만개", unit_right: "%" } },
       { fig: 41, title: "MCP 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_mcp.json", color: COLORS.spot }],
-          unit_left: "$/unit" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_mcp.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/unit", unit_right: "%" } },
       // 시스템 반도체
       { fig: 33, title: "시스템 반도체 수출 금액",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출금액", file: "export_system_amount.json", color: COLORS.contract }],
-          unit_left: "십억$" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_system_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_system_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
       { fig: 34, title: "시스템 반도체 수출 중량",
-        chart_def: { type: "single", kind: "bar",
-          series: [{ label: "수출중량", file: "export_system_weight.json", color: COLORS.contract }],
-          unit_left: "톤" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출중량", file: "export_system_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_system_weight.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "톤", unit_right: "%" } },
       { fig: 42, title: "시스템 반도체 수출 ASP",
-        chart_def: { type: "single",
-          series: [{ label: "ASP", file: "asp_system.json", color: COLORS.spot }],
-          unit_left: "$/g" } },
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.spot },
+            { label: "YoY(우)", file: "asp_system.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "$/g", unit_right: "%" } },
     ]
   },
   {
@@ -342,6 +376,32 @@ async function fetchSeries(file) {
   return j.data.map(d => ({ time: d.date, value: d.value }));
 }
 
+// 12개월 YoY 자동 계산 (시간 기반 — 약 365일 전 가장 가까운 데이터)
+function computeYoY(data, windowDays = 365, toleranceDays = 35) {
+  if (!data || data.length < 2) return [];
+  const ms = data.map(d => new Date(d.time).getTime());
+  const out = [];
+  let j = 0;
+  for (let i = 0; i < data.length; i++) {
+    const target = ms[i] - windowDays * 86400000;
+    while (j < i && ms[j] < target - toleranceDays * 86400000) j++;
+    // j 부터 시작해서 target에 가장 가까운 것
+    let best = -1, bestDiff = Infinity;
+    for (let k = j; k < i; k++) {
+      const diff = Math.abs(ms[k] - target);
+      if (diff < bestDiff) { bestDiff = diff; best = k; }
+      if (ms[k] > target + toleranceDays * 86400000) break;
+    }
+    if (best >= 0 && bestDiff <= toleranceDays * 86400000) {
+      const prev = data[best].value;
+      if (prev !== 0 && prev != null) {
+        out.push({ time: data[i].time, value: Math.round(((data[i].value - prev) / Math.abs(prev)) * 1000) / 10 });
+      }
+    }
+  }
+  return out;
+}
+
 // 데이터 빈도에 맞춰 최근 N개 샘플 추출 (일별 → 월별, 분기 → 그대로)
 function getRecentSamples(data, count = 6) {
   if (!data || data.length === 0) return [];
@@ -454,9 +514,11 @@ async function renderChart(containerId, def) {
     };
     const seriesByObj = new Map();  // series 객체 → meta
     const seriesData = await Promise.all(def.series.map(async (s) => {
-      const data = await fetchSeries(s.file);
+      let data = await fetchSeries(s.file);
       const seen = new Set();
-      const cleaned = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
+      data = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
+      // derived 시리즈 처리 (yoy 등)
+      const cleaned = (s.derived === 'yoy') ? computeYoY(data) : data;
       const isLeft = (def.type === 'dual_axis' && s.axis === 'left');
       const priceScaleId = isLeft ? 'left' : 'right';
       const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
