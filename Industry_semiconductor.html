@@ -23,6 +23,14 @@
   .section-header h2 { font-size: 15px; font-weight: 700; color: #f0f6fc; }
   .section-header .subtitle { font-size: 11px; color: #8b949e; }
   .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 10px; }
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 1100px) {
+    .card-grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .card-grid.cols-2, .card-grid.cols-3 { grid-template-columns: 1fr; }
+  }
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
   .card-top { padding: 8px 12px; border-bottom: 1px solid #21262d; background: #1c2128; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -79,37 +87,43 @@ const COLORS = {
 const SECTIONS = [
   {
     title: "수출 Data : 반도체",
-    subtitle: "도표 19~42 (KITA, 하나증권)",
+    subtitle: "품목별 금액·중량(또는 수량)·ASP — 도표 19~42 (KITA, 하나증권)",
+    cols: 3,
     cards: [
+      // 반도체
       { fig: 19, title: "반도체 수출 금액", chart_def: null },
       { fig: 20, title: "반도체 수출 중량", chart_def: null },
+      { fig: 35, title: "반도체 수출 ASP", chart_def: null },
+      // 메모리
       { fig: 21, title: "메모리 반도체 수출 금액", chart_def: null },
       { fig: 22, title: "메모리 반도체 수출 중량", chart_def: null },
+      { fig: 36, title: "메모리 반도체 수출 ASP", chart_def: null },
+      // DRAM
       { fig: 23, title: "DRAM 수출 금액", chart_def: null },
       { fig: 24, title: "DRAM 수출 수량", chart_def: null },
-      { fig: 25, title: "DRAM 모듈 수출 금액", chart_def: null },
-      { fig: 26, title: "DRAM 모듈 수출 중량", chart_def: null },
+      { fig: 37, title: "DRAM 수출 ASP", chart_def: null },
+      // NAND
       { fig: 27, title: "NAND 수출 금액", chart_def: null },
       { fig: 28, title: "NAND 수출 수량", chart_def: null },
+      { fig: 38, title: "NAND 수출 ASP", chart_def: null },
+      // SSD
       { fig: 29, title: "SSD 수출 금액", chart_def: null },
       { fig: 30, title: "SSD 수출 수량", chart_def: null },
+      { fig: 40, title: "SSD 수출 ASP", chart_def: null },
+      // MCP
       { fig: 31, title: "MCP 수출 금액", chart_def: null },
       { fig: 32, title: "MCP 수출 수량", chart_def: null },
+      { fig: 41, title: "MCP 수출 ASP", chart_def: null },
+      // 시스템 반도체
       { fig: 33, title: "시스템 반도체 수출 금액", chart_def: null },
       { fig: 34, title: "시스템 반도체 수출 중량", chart_def: null },
-      { fig: 35, title: "반도체 수출 ASP", chart_def: null },
-      { fig: 36, title: "메모리 반도체 수출 ASP", chart_def: null },
-      { fig: 37, title: "DRAM 수출 ASP", chart_def: null },
-      { fig: 38, title: "NAND 수출 ASP", chart_def: null },
-      { fig: 39, title: "DRAM 모듈 수출 ASP", chart_def: null },
-      { fig: 40, title: "SSD 수출 ASP", chart_def: null },
-      { fig: 41, title: "MCP 수출 ASP", chart_def: null },
       { fig: 42, title: "시스템 반도체 수출 ASP", chart_def: null },
     ]
   },
   {
     title: "DRAM, NAND 현물가 및 고정가 추이",
     subtitle: "도표 1~6 (DRAMeXchange, 하나증권)",
+    cols: 2,
     cards: [
       { fig: 1, title: "DDR4 8Gb 현물가 vs 고정가",
         chart_def: { type: "dual_axis",
@@ -149,7 +163,8 @@ const SECTIONS = [
   },
   {
     title: "글로벌 DRAM/NAND CAPEX",
-    subtitle: "도표 7~12 (TrendForce, 하나증권)",
+    subtitle: "글로벌 → 삼성전자 → SK하이닉스 — 도표 7~12 (TrendForce, 각사 IR, 하나증권)",
+    cols: 2,
     cards: [
       { fig: 7, title: "글로벌 DRAM CAPEX 추이 및 전망", chart_def: null },
       { fig: 8, title: "글로벌 NAND CAPEX 추이 및 전망", chart_def: null },
@@ -161,7 +176,8 @@ const SECTIONS = [
   },
   {
     title: "글로벌 DRAM/NAND CAPA",
-    subtitle: "도표 13~18 (TrendForce, 하나증권)",
+    subtitle: "글로벌 → 삼성전자 → SK하이닉스 — 도표 13~18 (TrendForce, 각사 IR, 하나증권)",
+    cols: 2,
     cards: [
       { fig: 13, title: "글로벌 DRAM CAPA 추이 및 전망", chart_def: null },
       { fig: 14, title: "글로벌 NAND CAPA 추이 및 전망", chart_def: null },
@@ -193,12 +209,13 @@ function buildPage() {
   SECTIONS.forEach(sec => {
     const secDiv = document.createElement('div');
     secDiv.className = 'section';
+    const colsClass = sec.cols === 2 ? ' cols-2' : (sec.cols === 3 ? ' cols-3' : '');
     secDiv.innerHTML = `
       <div class="section-header">
         <h2>${sec.title}</h2>
         <span class="subtitle">${sec.subtitle}</span>
       </div>
-      <div class="card-grid"></div>
+      <div class="card-grid${colsClass}"></div>
     `;
     const grid = secDiv.querySelector('.card-grid');
     sec.cards.forEach(card => {
