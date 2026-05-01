@@ -351,10 +351,15 @@ function buildRecentTable(seriesData) {
 
 async function renderChart(containerId, def) {
   const el = document.getElementById(containerId);
-  if (!el) return;
+  if (!el) {
+    console.warn(`[renderChart] no element for ${containerId}`);
+    return;
+  }
+  console.log(`[renderChart] start ${containerId}`, { type: def.type, series: def.series.length });
   try {
-    // 카드가 막 DOM에 추가된 직후라 clientWidth/Height가 0일 수 있음 → 다음 frame까지 대기
-    await new Promise(r => requestAnimationFrame(r));
+    if (typeof LightweightCharts === 'undefined') {
+      throw new Error('LightweightCharts global not defined — script load failed');
+    }
     const w = el.clientWidth || el.offsetWidth || 400;
     const h = el.clientHeight || el.offsetHeight || 220;
     const opts = { ...CHART_OPTS, width: w, height: h };
@@ -394,8 +399,8 @@ async function renderChart(containerId, def) {
     }
   } catch (e) {
     el.classList.add('cw-tbd');
-    el.textContent = '데이터 로드 실패';
-    console.error(`[${containerId}]`, e);
+    el.textContent = '차트 로드 실패: ' + e.message;
+    console.error(`[${containerId}] FAILED:`, e);
   }
 }
 
