@@ -121,8 +121,18 @@ const SECTIONS = [
             { label: "YoY(우)", file: "asp_semi.json", axis: "right", color: COLORS.premium, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // 메모리
-      { fig: 21, title: "메모리 반도체 수출 금액", chart_def: null },
-      { fig: 22, title: "메모리 반도체 수출 중량", chart_def: null },
+      { fig: 21, title: "메모리 반도체 수출 금액",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_memory_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_memory_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
+      { fig: 22, title: "메모리 반도체 수출 중량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출중량", file: "export_memory_weight.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_memory_weight.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "톤", unit_right: "%" } },
       { fig: 36, title: "메모리 반도체 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
@@ -130,8 +140,18 @@ const SECTIONS = [
             { label: "YoY(우)", file: "asp_memory.json", axis: "right", color: COLORS.premium, derived: "yoy" },
           ], unit_left: "$/g", unit_right: "%" } },
       // DRAM
-      { fig: 23, title: "DRAM 수출 금액", chart_def: null },
-      { fig: 24, title: "DRAM 수출 수량", chart_def: null },
+      { fig: 23, title: "DRAM 수출 금액",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출금액", file: "export_dram_amount.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_dram_amount.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "십억$", unit_right: "%" } },
+      { fig: 24, title: "DRAM 수출 수량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "수출수량", file: "export_dram_volume.json", axis: "left", kind: "bar", color: COLORS.contract },
+            { label: "YoY(우)", file: "export_dram_volume.json", axis: "right", color: COLORS.premium, derived: "yoy" },
+          ], unit_left: "백만개", unit_right: "%" } },
       { fig: 37, title: "DRAM 수출 ASP",
         chart_def: { type: "dual_axis",
           series: [
@@ -301,10 +321,22 @@ const SECTIONS = [
         chart_def: { type: "single", kind: "bar",
           series: [{ label: "글로벌 합계", file: "capa_global_nand.json", color: COLORS.contract }],
           unit_left: "천장/월" } },
-      { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망", chart_def: null },
-      { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망", chart_def: null },
-      { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망", chart_def: null },
-      { fig: 18, title: "SK하이닉스 NAND CAPA 추이 및 전망", chart_def: null },
+      { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망",
+        chart_def: { type: "single", kind: "bar",
+          series: [{ label: "삼성전자", file: "capa_samsung_dram.json", color: COLORS.samsung }],
+          unit_left: "천장/월" } },
+      { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망",
+        chart_def: { type: "single", kind: "bar",
+          series: [{ label: "삼성전자", file: "capa_samsung_nand.json", color: COLORS.samsung }],
+          unit_left: "천장/월" } },
+      { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망",
+        chart_def: { type: "single", kind: "bar",
+          series: [{ label: "SK하이닉스", file: "capa_sk_hynix_dram.json", color: COLORS.sk_hynix }],
+          unit_left: "천장/월" } },
+      { fig: 18, title: "SK하이닉스 NAND CAPA 추이 및 전망",
+        chart_def: { type: "single", kind: "bar",
+          series: [{ label: "SK하이닉스", file: "capa_sk_hynix_nand.json", color: COLORS.sk_hynix }],
+          unit_left: "천장/월" } },
     ]
   },
 ];
