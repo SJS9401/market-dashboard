@@ -353,7 +353,11 @@ async function renderChart(containerId, def) {
   const el = document.getElementById(containerId);
   if (!el) return;
   try {
-    const opts = { ...CHART_OPTS, width: el.clientWidth, height: el.clientHeight };
+    // 카드가 막 DOM에 추가된 직후라 clientWidth/Height가 0일 수 있음 → 다음 frame까지 대기
+    await new Promise(r => requestAnimationFrame(r));
+    const w = el.clientWidth || el.offsetWidth || 400;
+    const h = el.clientHeight || el.offsetHeight || 220;
+    const opts = { ...CHART_OPTS, width: w, height: h };
     if (def.type === 'dual_axis') {
       opts.leftPriceScale = { ...opts.leftPriceScale, visible: true };
       opts.rightPriceScale = { ...opts.rightPriceScale, visible: true };
@@ -364,7 +368,7 @@ async function renderChart(containerId, def) {
     const chart = LightweightCharts.createChart(el, opts);
     new ResizeObserver(es => {
       const r = es[0].contentRect;
-      chart.applyOptions({ width: r.width, height: r.height });
+      if (r.width > 0 && r.height > 0) chart.applyOptions({ width: r.width, height: r.height });
     }).observe(el);
 
     const seriesData = await Promise.all(def.series.map(async (s) => {
