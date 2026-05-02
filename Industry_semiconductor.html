@@ -35,6 +35,7 @@
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
   .card-top { padding: 8px 12px; border-bottom: 1px solid #21262d; background: #1c2128; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-table .card-top h3 { font-size: 13px; font-weight: 700; color: #f0f6fc; }
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
   .legend-row { display: flex; gap: 12px; padding: 4px 12px 0; flex-wrap: wrap; }
@@ -68,30 +69,30 @@
   .coverage-table { width: 100%; padding: 0; overflow-x: auto; cursor: default; }
   .coverage-table .table-meta { padding: 6px 14px; font-size: 11px; color: #8b949e; display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; }
   .coverage-table .table-meta .unit { color: #d2af64; font-weight: 600; font-style: italic; }
-  .coverage-table table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .coverage-table table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
   /* 헤더 */
-  .coverage-table thead th { font-weight: 600; color: #8b949e; padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 2px solid #1f6feb; background: #1c2128; }
+  .coverage-table thead th { font-weight: 600; color: #8b949e; padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 2px solid #d2af64; background: #1c2128; }
   .coverage-table thead th:first-child, .coverage-table thead th:nth-child(2) { text-align: left; }
-  .coverage-table thead th.forecast { color: #58a6ff; }
+  .coverage-table thead th.forecast { color: #c9d1d9; }
   /* tbody 기본 */
   .coverage-table tbody th { text-align: left; padding: 5px 10px; white-space: nowrap; }
   .coverage-table tbody td { text-align: right; padding: 5px 10px; white-space: nowrap; color: #f0f6fc; font-weight: 500; }
   /* level 들여쓰기 + 색 위계 */
-  .coverage-table tbody tr.lvl-0 { background: rgba(31, 111, 235, 0.08); }
+  .coverage-table tbody tr.lvl-0 { background: rgba(210, 175, 100, 0.07); }
   .coverage-table tbody tr.lvl-1 { background: rgba(255, 255, 255, 0.015); }
   .coverage-table tbody tr.lvl-2 { background: transparent; }
-  .coverage-table tbody tr.lvl-0 th { color: #58a6ff; font-weight: 700; padding-left: 12px; font-size: 13.5px; }
+  .coverage-table tbody tr.lvl-0 th { color: #d2af64; font-weight: 700; padding-left: 12px; font-size: 12.5px; }
   .coverage-table tbody tr.lvl-1 th { color: #f0f6fc; font-weight: 600; padding-left: 28px; }
   .coverage-table tbody tr.lvl-2 th { color: #c9d1d9; font-weight: 400; padding-left: 44px; }
-  .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 12px; }
+  .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 11.5px; }
   /* 카테고리 헤더 row (cat-major) */
-  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #1f6feb; padding-top: 8px; }
+  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #d2af64; padding-top: 8px; }
   .coverage-table tbody tr.cat-start th, .coverage-table tbody tr.cat-start td { border-top: 1px solid #30363d; padding-top: 6px; }
   /* 카테고리 헤더 단독 row (is-header, cells 비) */
-  .coverage-table tbody tr.is-header th { font-size: 14px; padding-top: 10px; padding-bottom: 6px; }
+  .coverage-table tbody tr.is-header th { font-size: 13px; padding-top: 10px; padding-bottom: 6px; }
   /* forecast 영역 음영 */
-  .coverage-table td.forecast { background: rgba(31, 111, 235, 0.07); color: #79c0ff; }
-  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(31, 111, 235, 0.15); }
+  .coverage-table td.forecast { background: rgba(255, 255, 255, 0.035); color: #f0f6fc; }
+  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(210, 175, 100, 0.12); }
   /* hover */
   .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: rgba(255,255,255, 0.04); }
   /* 행 간 구분선 */
@@ -543,7 +544,8 @@ function buildPage() {
       const cwId = `cw-fig-${card.fig}`;
       const isTbd = !card.chart_def;
       const cardEl = document.createElement('div');
-      cardEl.className = 'card' + (isTbd ? ' card-tbd' : '');
+      const isTbl = card.chart_def && card.chart_def.type === 'table';
+      cardEl.className = 'card' + (isTbd ? ' card-tbd' : '') + (isTbl ? ' card-table' : '');
       cardEl.id = cardId;
       let legendHtml = '';
       if (card.chart_def && card.chart_def.series) {
