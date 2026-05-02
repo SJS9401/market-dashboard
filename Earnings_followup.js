@@ -372,6 +372,7 @@ function setupQuarterSelector() {
 }
 
 async function init() {
+  const wlText = await fetchText(DATA_PATHS.watchlist);
   if (wlText) state.watchlist = parseWatchlist(wlText);
   else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
   const calText = await fetchText(DATA_PATHS.calendar);
