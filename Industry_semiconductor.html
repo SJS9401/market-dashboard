@@ -80,6 +80,7 @@
   .coverage-table tbody th { text-align: left; padding: 8px 12px; white-space: nowrap; border-right: 1px solid #21262d; }
   /* label2 컬럼 통일 padding (lvl-1과 lvl-2 segment 표 동일 위치) */
   .coverage-table tbody th:nth-child(2) { padding-left: 28px; }
+  .coverage-table tbody tr.lvl-2 th:nth-child(2) { padding-left: 28px; }
   .coverage-table tbody tr.lvl-2 th.metric-label { padding-left: 56px; }
   .coverage-table tbody td { text-align: right; padding: 8px 12px; white-space: nowrap; color: #f0f6fc; font-weight: 500; border-right: 1px solid #21262d; }
   .coverage-table tbody tr.lvl-0 td { color: #f0f6fc; font-weight: 600; font-size: 12.5px; }
@@ -100,6 +101,8 @@
   .coverage-table tbody th:nth-child(10) { border-right: 2px solid #484f58; }
   /* 카테고리 헤더 row (cat-major) */
   .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #6e7681; padding-top: 12px; padding-bottom: 8px; }
+  /* 카테고리 묶음 마지막 row (cat-end) — 큰 카테고리 끝 굵은 선 */
+  .coverage-table tbody tr.cat-end th, .coverage-table tbody tr.cat-end td { border-bottom: 2px solid #6e7681; padding-bottom: 12px; }
   .coverage-table tbody tr.cat-start th, .coverage-table tbody tr.cat-start td { border-top: 1px solid #484f58; padding-top: 9px; padding-bottom: 6px; }
   /* 카테고리 헤더 단독 row (is-header, cells 비) */
   .coverage-table tbody tr.is-header th { font-size: 13px; padding-top: 12px; padding-bottom: 8px; letter-spacing: 0.2px; }
@@ -727,8 +730,26 @@ async function renderTable(containerId, def) {
     html += '<table><thead><tr><th></th><th></th>';
     cols.forEach((c, i) => { html += '<th' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + (c||'') + '</th>'; });
     html += '</tr></thead><tbody>';
+    // cat-end 식별 — 다음 새 lvl-0 카테고리 시작 row 직전 + 표 마지막 row
+    const catEndIndices = new Set();
+    let lastVisibleIdx = -1;
+    let scanPrevTop = null;
+    rows.forEach((r, i) => {
+      if (r._skip) return;
+      const l1 = (r.label1 || '').trim();
+      const cells = r.cells || {};
+      if (cells[cols[0]] === cols[0]) return;
+      if (l1.startsWith('자료:') || l1.startsWith('주:')) return;
+      const lvl = (typeof r._level === 'number') ? r._level : 0;
+      if (lvl === 0 && (l1 && l1 !== scanPrevTop || r._is_header)) {
+        if (lastVisibleIdx >= 0) catEndIndices.add(lastVisibleIdx);
+        if (l1) scanPrevTop = l1;
+      }
+      lastVisibleIdx = i;
+    });
+    if (lastVisibleIdx >= 0) catEndIndices.add(lastVisibleIdx);
     let prevTopCat = null;
-    rows.forEach(row => {
+    rows.forEach((row, _idx) => {
       if (row._skip) return;
       const l1 = (row.label1 || '').trim();
       const l2 = (row.label2 || '').trim();
@@ -748,6 +769,7 @@ async function renderTable(containerId, def) {
       } else if (lvl === 1 && isHeader) {
         rowCls += ' cat-start';
       }
+      if (catEndIndices.has(_idx)) rowCls += ' cat-end';
 
       html += '<tr class="' + rowCls + '">';
       // 카테고리 헤더 (cells 비, _is_header) — colspan 모두 차지
