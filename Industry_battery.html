@@ -143,6 +143,10 @@ const COLORS = {
   bar: 'rgb(139,148,158)',      // gray — 수출 바/ASP (절대 수치 컨텍스트, Tufte: gray for context)
   samsung: 'rgb(57,197,207)',
   sk_hynix: 'rgb(210,175,100)',
+  // LFP stacked bar (PDF 색상)
+  lfp_main: 'rgb(101, 201, 188)',     // 진청록 — LFP (가장 아래 stack)
+  lfp_nmc: 'rgb(196, 234, 229)',      // 옅은 청록 — NMC (중간 stack)
+  lfp_other: 'rgb(191, 191, 191)',    // 옅은 회색 — 기타 (가장 위 stack)
 };
 
 const SECTIONS = [
@@ -270,22 +274,30 @@ const SECTIONS = [
     cards: [
       { fig: 31, title: "글로벌",
         chart_def: { type: "dual_axis", series: [
-          { label: "LFP 출하", file: "battery_lfp_global_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "기타", file: "battery_lfp_global_total.json", axis: "left", kind: "bar", color: COLORS.lfp_other },
+          { label: "삼원계", file: "battery_lfp_global_nmc.json", axis: "left", kind: "bar", color: COLORS.lfp_nmc },
+          { label: "LFP", file: "battery_lfp_global_lfp.json", axis: "left", kind: "bar", color: COLORS.lfp_main },
           { label: "침투율(우)", file: "battery_lfp_global_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 32, title: "미국",
         chart_def: { type: "dual_axis", series: [
-          { label: "LFP 출하", file: "battery_lfp_us_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "기타", file: "battery_lfp_us_total.json", axis: "left", kind: "bar", color: COLORS.lfp_other },
+          { label: "삼원계", file: "battery_lfp_us_nmc.json", axis: "left", kind: "bar", color: COLORS.lfp_nmc },
+          { label: "LFP", file: "battery_lfp_us_lfp.json", axis: "left", kind: "bar", color: COLORS.lfp_main },
           { label: "침투율(우)", file: "battery_lfp_us_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 33, title: "중국",
         chart_def: { type: "dual_axis", series: [
-          { label: "LFP 출하", file: "battery_lfp_china_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "기타", file: "battery_lfp_china_total.json", axis: "left", kind: "bar", color: COLORS.lfp_other },
+          { label: "삼원계", file: "battery_lfp_china_nmc.json", axis: "left", kind: "bar", color: COLORS.lfp_nmc },
+          { label: "LFP", file: "battery_lfp_china_lfp.json", axis: "left", kind: "bar", color: COLORS.lfp_main },
           { label: "침투율(우)", file: "battery_lfp_china_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 34, title: "유럽",
         chart_def: { type: "dual_axis", series: [
-          { label: "LFP 출하", file: "battery_lfp_eu_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "기타", file: "battery_lfp_eu_total.json", axis: "left", kind: "bar", color: COLORS.lfp_other },
+          { label: "삼원계", file: "battery_lfp_eu_nmc.json", axis: "left", kind: "bar", color: COLORS.lfp_nmc },
+          { label: "LFP", file: "battery_lfp_eu_lfp.json", axis: "left", kind: "bar", color: COLORS.lfp_main },
           { label: "침투율(우)", file: "battery_lfp_eu_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
     ]
