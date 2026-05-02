@@ -78,22 +78,23 @@
   /* tbody 기본 */
   .coverage-table tbody th { text-align: left; padding: 5px 10px; white-space: nowrap; }
   .coverage-table tbody td { text-align: right; padding: 5px 10px; white-space: nowrap; color: #f0f6fc; font-weight: 500; }
+  .coverage-table tbody tr.lvl-0 td { color: #0d1117; font-weight: 600; }
   /* level 들여쓰기 + 색 위계 */
-  .coverage-table tbody tr.lvl-0 { background: rgba(0, 0, 0, 0.30); }
-  .coverage-table tbody tr.lvl-1 { background: rgba(0, 0, 0, 0.12); }
+  .coverage-table tbody tr.lvl-0 { background: #6e7681; }
+  .coverage-table tbody tr.lvl-1 { background: rgba(0, 0, 0, 0.20); }
   .coverage-table tbody tr.lvl-2 { background: transparent; }
-  .coverage-table tbody tr.lvl-0 th { color: #f0f6fc; font-weight: 700; padding-left: 12px; font-size: 12.5px; letter-spacing: 0.3px; text-transform: none; }
+  .coverage-table tbody tr.lvl-0 th { color: #0d1117; font-weight: 700; padding-left: 12px; font-size: 12.5px; letter-spacing: 0.3px; text-transform: none; }
   .coverage-table tbody tr.lvl-1 th { color: #f0f6fc; font-weight: 600; padding-left: 28px; }
   .coverage-table tbody tr.lvl-2 th { color: #c9d1d9; font-weight: 400; padding-left: 44px; }
   .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 11.5px; }
   /* 카테고리 헤더 row (cat-major) */
-  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #6e7681; padding-top: 12px; padding-bottom: 6px; }
+  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #30363d; padding-top: 12px; padding-bottom: 6px; }
   .coverage-table tbody tr.cat-start th, .coverage-table tbody tr.cat-start td { border-top: 1px solid #484f58; padding-top: 8px; padding-bottom: 4px; }
   /* 카테고리 헤더 단독 row (is-header, cells 비) */
   .coverage-table tbody tr.is-header th { font-size: 13.5px; padding-top: 14px; padding-bottom: 8px; letter-spacing: 0.4px; }
   /* forecast 영역 음영 */
-  .coverage-table td.forecast { background: rgba(0, 0, 0, 0.18); color: #f0f6fc; }
-  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(0, 0, 0, 0.40); }
+  .coverage-table td.forecast { background: rgba(0, 0, 0, 0.25); color: #f0f6fc; }
+  .coverage-table tbody tr.lvl-0 td.forecast { background: #58626f; color: #0d1117; }
   /* hover */
   .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: rgba(255,255,255, 0.05); }
   /* 행 간 구분선 */
