@@ -247,17 +247,20 @@ const SECTIONS = [
     cols: 3,
     cards: [
       { fig: 25, title: "영국",
-        chart_def: { type: "single", series: [
-          { label: "영국 전력가", file: "battery_uk_power.json", color: COLORS.premium },
-        ], unit_left: "GBP/MWh" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "영국 전력가", file: "battery_uk_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "WoW(우)", file: "battery_uk_power_wow.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "GBP/MWh", unit_right: "%" } },
       { fig: 26, title: "독일",
-        chart_def: { type: "single", series: [
-          { label: "독일 전력가", file: "battery_de_power.json", color: COLORS.premium },
-        ], unit_left: "EUR/MWh" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "독일 전력가", file: "battery_de_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "WoW(우)", file: "battery_de_power_wow.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "EUR/MWh", unit_right: "%" } },
       { fig: 27, title: "프랑스",
-        chart_def: { type: "single", series: [
-          { label: "프랑스 전력가", file: "battery_fr_power.json", color: COLORS.premium },
-        ], unit_left: "EUR/MWh" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "프랑스 전력가", file: "battery_fr_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "WoW(우)", file: "battery_fr_power_wow.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "EUR/MWh", unit_right: "%" } },
     ]
   },
   {
