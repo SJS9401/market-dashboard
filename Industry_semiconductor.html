@@ -67,38 +67,39 @@
   .recent-data tbody th .legend-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
   /* 커버리지 표 카드 */
   .coverage-table { width: 100%; padding: 0; overflow-x: auto; cursor: default; }
-  .coverage-table .table-meta { padding: 6px 14px; font-size: 11px; color: #8b949e; display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; }
+  .coverage-table { background: #0d1117; }
+  .coverage-table .table-meta { padding: 8px 14px; font-size: 11px; color: #8b949e; display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; }
   .coverage-table .table-meta .unit { color: #8b949e; font-weight: 500; font-style: italic; }
   .coverage-table table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
   /* 헤더 */
-  .coverage-table thead th { font-weight: 600; color: #c9d1d9; padding: 9px 10px; text-align: right; white-space: nowrap; border-bottom: 2px solid #6e7681; background: #1c2128; }
+  .coverage-table thead th { font-weight: 500; color: #8b949e; padding: 12px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid #2d333b; background: #0d1117; font-size: 11.5px; line-height: 1.4; }
   .coverage-table thead th:first-child, .coverage-table thead th:nth-child(2) { text-align: left; }
-  .coverage-table thead th:nth-child(3), .coverage-table tbody td:nth-child(3) { border-left: 1px solid #484f58; }
+  .coverage-table thead th:nth-child(3), .coverage-table tbody td:nth-child(3) { border-left: 1px solid #2d333b; }
   .coverage-table thead th.forecast { color: #c9d1d9; }
   /* tbody 기본 */
-  .coverage-table tbody th { text-align: left; padding: 5px 10px; white-space: nowrap; }
-  .coverage-table tbody td { text-align: right; padding: 5px 10px; white-space: nowrap; color: #f0f6fc; font-weight: 500; }
-  .coverage-table tbody tr.lvl-0 td { color: #f0f6fc; font-weight: 700; font-size: 12.5px; }
+  .coverage-table tbody th { text-align: left; padding: 8px 12px; white-space: nowrap; border-right: 1px solid #1e2229; }
+  .coverage-table tbody td { text-align: right; padding: 8px 12px; white-space: nowrap; color: #f0f6fc; font-weight: 500; border-right: 1px solid #1e2229; }
+  .coverage-table tbody tr.lvl-0 td { color: #f0f6fc; font-weight: 600; font-size: 12.5px; }
   /* level 들여쓰기 + 색 위계 */
-  .coverage-table tbody tr.lvl-0 { background: #1c2128; box-shadow: inset 3px 0 0 #39c5cf; }
-  .coverage-table tbody tr.lvl-1 { background: rgba(255, 255, 255, 0.025); }
+  .coverage-table tbody tr.lvl-0 { background: #161b22; }
+  .coverage-table tbody tr.lvl-1 { background: transparent; }
   .coverage-table tbody tr.lvl-2 { background: transparent; }
-  .coverage-table tbody tr.lvl-0 th { color: #39c5cf; font-weight: 700; padding-left: 18px; font-size: 13px; letter-spacing: 0.4px; text-transform: none; }
-  .coverage-table tbody tr.lvl-1 th { color: #f0f6fc; font-weight: 600; padding-left: 28px; }
+  .coverage-table tbody tr.lvl-0 th { color: #d2af64; font-weight: 700; padding-left: 14px; font-size: 13px; letter-spacing: 0.2px; }
+  .coverage-table tbody tr.lvl-1 th { color: #d2af64; font-weight: 500; padding-left: 28px; opacity: 0.85; }
   .coverage-table tbody tr.lvl-2 th { color: #c9d1d9; font-weight: 400; padding-left: 44px; }
-  .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 11.5px; }
+  .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 11.5px; opacity: 0.9; }
   /* 카테고리 헤더 row (cat-major) */
-  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 1px solid #30363d; padding-top: 10px; padding-bottom: 8px; }
+  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 1px solid #2d333b; padding-top: 10px; padding-bottom: 8px; }
   .coverage-table tbody tr.cat-start th, .coverage-table tbody tr.cat-start td { border-top: 1px solid #484f58; padding-top: 8px; padding-bottom: 4px; }
   /* 카테고리 헤더 단독 row (is-header, cells 비) */
-  .coverage-table tbody tr.is-header th { font-size: 13.5px; padding-top: 14px; padding-bottom: 8px; letter-spacing: 0.4px; }
+  .coverage-table tbody tr.is-header th { font-size: 13px; padding-top: 12px; padding-bottom: 8px; letter-spacing: 0.2px; }
   /* forecast 영역 음영 */
-  .coverage-table td.forecast { background: rgba(255, 255, 255, 0.04); color: #f0f6fc; }
-  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(57, 197, 207, 0.08); color: #f0f6fc; }
+  .coverage-table td.forecast { background: rgba(210, 175, 100, 0.03); color: #f0f6fc; }
+  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(210, 175, 100, 0.06); color: #f0f6fc; }
   /* hover */
-  .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: rgba(255,255,255, 0.05); }
+  .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: rgba(210, 175, 100, 0.04); }
   /* 행 간 구분선 */
-  .coverage-table tbody td, .coverage-table tbody th { border-bottom: 1px solid #2d333b; }
+  .coverage-table tbody td, .coverage-table tbody th { border-bottom: 1px solid #21262d; }
 </style>
 </head>
 <body>
@@ -142,21 +143,21 @@ const SECTIONS = [
     cards: [
       { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
         chart_def: { type: "single", no_recent: true, height: 380, series: [
-          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(57,197,207)" },
-          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(180,220,225)" },
-          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(150,150,150)" },
-          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(110,110,110)" },
-          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(80,80,80)" },
-          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(249,117,131)" },
+          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(212, 181, 80)" },
+          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(184, 152, 88)" },
+          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(152, 131, 90)" },
+          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(120, 110, 88)" },
+          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(88, 89, 85)" },
+          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(194, 85, 85)" },
         ], unit_left: "원" } },
       { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
         chart_def: { type: "single", no_recent: true, height: 380, series: [
-          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(57,197,207)" },
-          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(180,220,225)" },
-          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(150,150,150)" },
-          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(110,110,110)" },
-          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(80,80,80)" },
-          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(249,117,131)" },
+          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(212, 181, 80)" },
+          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(184, 152, 88)" },
+          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(152, 131, 90)" },
+          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(120, 110, 88)" },
+          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(88, 89, 85)" },
+          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(194, 85, 85)" },
         ], unit_left: "원" } },
     ]
   },
