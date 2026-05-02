@@ -621,7 +621,6 @@ async function renderTable(containerId, def) {
 }
 
 async function renderChart(containerId, def) {
-  if (def && def.type === 'table') return await renderTable(containerId, def);
   const el = document.getElementById(containerId);
   if (!el) {
     console.warn(`[renderChart] no element for ${containerId}`);
@@ -632,13 +631,134 @@ async function renderChart(containerId, def) {
     if (typeof LightweightCharts === 'undefined') {
       throw new Error('LightweightCharts global not defined — script load failed');
     }
-    if (def.height) el.style.height = def.height + 'px';
     const w = el.clientWidth || el.offsetWidth || 400;
-    const h = el.clientHeight || el.offsetHeight || (def.height || 220);
+    const h = el.clientHeight || el.offsetHeight || 220;
     const opts = { ...CHART_OPTS, width: w, height: h };
     if (def.type === 'dual_axis') {
       opts.leftPriceScale = { ...opts.leftPriceScale, visible: true };
       opts.rightPriceScale = { ...opts.rightPriceScale, visible: true };
     } else {
       opts.leftPriceScale = { visible: false };
-      opts.rightP
+      opts.rightPriceScale = { ...opts.rightPriceScale, visible: true };
+    }
+    const chart = LightweightCharts.createChart(el, opts);
+    new ResizeObserver(es => {
+      const r = es[0].contentRect;
+      if (r.width > 0 && r.height > 0) chart.applyOptions({ width: r.width, height: r.height });
+    }).observe(el);
+
+    // 단위 → priceFormat formatter
+    const unitL = def.unit_left || '';
+    const unitR = def.unit_right || '';
+    // 가격 라벨용 — 숫자만 (각 라벨에 단위 중복 X). 단위는 상단 cw-axis-unit에 별도 표시.
+    const numberOnly = (v) => {
+      if (v == null || isNaN(v)) return '';
+      const a = Math.abs(v);
+      if (a >= 1000) return Math.round(v).toLocaleString();
+      if (a >= 100) return v.toFixed(1);
+      if (a >= 10) return v.toFixed(2);
+      return v.toFixed(2);
+    };
+    // 툴팁/하단 표 — 숫자 + 단위
+    const makeFormatter = (unit) => (v) => {
+      const s = numberOnly(v);
+      return s && unit ? s + ' ' + unit : s;
+    };
+    // 차트 좌상단 단위 라벨 추가 (중복 라벨 제거)
+    if (unitL) {
+      const lbl = document.createElement('div');
+      lbl.className = 'cw-axis-unit left';
+      lbl.textContent = `(${unitL})`;
+      el.appendChild(lbl);
+    }
+    if (unitR) {
+      const lbl = document.createElement('div');
+      lbl.className = 'cw-axis-unit right';
+      lbl.textContent = `(${unitR})`;
+      el.appendChild(lbl);
+    }
+    const seriesByObj = new Map();  // series 객체 → meta
+    // Z-order: bar/histogram 먼저 추가 → line 시리즈가 위에 렌더링되도록 강제 정렬
+    const sortedSeries = [...def.series].sort((a, b) => {
+      const aIsBar = (a.kind || def.kind) === 'bar' || (a.kind || def.kind) === 'histogram';
+      const bIsBar = (b.kind || def.kind) === 'bar' || (b.kind || def.kind) === 'histogram';
+      return (bIsBar ? 1 : 0) - (aIsBar ? 1 : 0);  // bar 먼저(0), line 나중(1)
+    });
+    // 순차 await — Promise.all로 인한 race condition 방지
+    const seriesData = [];
+    for (const s of sortedSeries) {
+      let data = await fetchSeries(s.file);
+      const seen = new Set();
+      data = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
+      // derived 시리즈 처리 (yoy 등)
+      const cleaned = (s.derived === 'yoy') ? computeYoY(data) : data;
+      const isLeft = (def.type === 'dual_axis' && s.axis === 'left');
+      const priceScaleId = isLeft ? 'left' : 'right';
+      const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
+      const kind = s.kind || def.kind || 'line';
+      const fmtOpts = { type: 'custom', formatter: numberOnly, minMove: 0.01 };
+      let series;
+      if (kind === 'bar' || kind === 'histogram') {
+        series = chart.addHistogramSeries({
+          color: s.color,
+          priceLineVisible: false, lastValueVisible: true,
+          priceScaleId, priceFormat: fmtOpts,
+        });
+      } else {
+        series = chart.addLineSeries({
+          color: s.color, lineWidth: 2.5,
+          priceLineVisible: false, lastValueVisible: true,
+          priceScaleId, priceFormat: fmtOpts,
+        });
+      }
+      series.setData(cleaned);
+      seriesByObj.set(series, { label: s.label, color: s.color, unit });
+      seriesData.push({ label: s.label, color: s.color, data: cleaned, series, unit });
+    }
+    chart.timeScale().fitContent();
+    // 호버 툴팁
+    const tooltipEl = document.createElement('div');
+    tooltipEl.className = 'cw-tooltip';
+    el.appendChild(tooltipEl);
+    chart.subscribeCrosshairMove(param => {
+      if (!param.time || !param.seriesData || !param.seriesData.size) {
+        tooltipEl.style.display = 'none';
+        return;
+      }
+      const dateLbl = (typeof param.time === 'string') ? param.time : `${param.time.year}-${String(param.time.month).padStart(2,'0')}-${String(param.time.day).padStart(2,'0')}`;
+      let html = `<div class="tt-date">${dateLbl}</div>`;
+      param.seriesData.forEach((d, ser) => {
+        const meta = seriesByObj.get(ser);
+        if (!meta || d.value == null) return;
+        const fmt = makeFormatter(meta.unit);
+        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(d.value)}</span></div>`;
+      });
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.display = 'block';
+      // 툴팁 위치 — 마우스 우상단 또는 좌상단 (차트 절반 기준 flip)
+      const w = el.clientWidth, h = el.clientHeight;
+      const x = param.point.x, y = param.point.y;
+      const tw = tooltipEl.offsetWidth || 140, th = tooltipEl.offsetHeight || 60;
+      let left = x + 12, top = y + 12;
+      if (left + tw > w - 4) left = x - tw - 12;
+      if (top + th > h - 4) top = y - th - 12;
+      tooltipEl.style.left = Math.max(4, left) + 'px';
+      tooltipEl.style.top = Math.max(4, top) + 'px';
+    });
+    // 차트 하단에 최근 6개 데이터 표 추가
+    const tableHtml = buildRecentTable(seriesData);
+    if (tableHtml) {
+      const card = el.closest('.card');
+      if (card) card.insertAdjacentHTML('beforeend', tableHtml);
+    }
+  } catch (e) {
+    el.classList.add('cw-tbd');
+    el.textContent = '차트 로드 실패: ' + e.message;
+    console.error(`[${containerId}] FAILED:`, e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', buildPage);
+</script>
+</body>
+</html>
