@@ -763,7 +763,7 @@ async function renderTable(containerId, def) {
       // 새 top-level 카테고리 시작 표시 (cat-major)
       let rowCls = 'lvl-' + lvl;
       if (isHeader) rowCls += ' is-header';
-      if (lvl === 0 && (l1 !== prevTopCat || isHeader)) {
+      if (lvl === 0 && l1 && (l1 !== prevTopCat || isHeader)) {
         rowCls += ' cat-major';
         prevTopCat = l1;
       } else if (lvl === 1 && isHeader) {
