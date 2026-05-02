@@ -1,4 +1,4 @@
-/* deploy:2026-05-02-21:45 forced rebuild — invalidate CDN cache */
+/* deploy:2026-05-02-22:20 force CDN invalidate v2 */
 const DATA_PATHS = {
   watchlist: 'earnings/watchlist.md',
   calendar: 'earnings_calendar.md',
