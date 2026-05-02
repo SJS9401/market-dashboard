@@ -888,6 +888,15 @@ async function renderChart(containerId, def) {
         });
       }
       series.setData(cleaned);
+      // YoY 우축 라인이면 0 baseline 점선 추가
+      if (s.axis === 'right' && (kind === 'line' || !s.kind)) {
+        try {
+          series.createPriceLine({
+            price: 0, color: '#6e7681', lineWidth: 1,
+            lineStyle: 2, axisLabelVisible: false, title: ''
+          });
+        } catch(e) { /* skip */ }
+      }
       seriesByObj.set(series, { label: s.label, color: s.color, unit });
       seriesData.push({ label: s.label, color: s.color, data: cleaned, series, unit });
     }
