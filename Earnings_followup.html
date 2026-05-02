@@ -102,12 +102,7 @@ footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border
   <div class="quarter-selector">
     <input type="text" class="search-box" id="searchInput" placeholder="🔍 종목·섹터 검색...">
     <button id="prevQuarter">◀ 이전 분기</button>
-    <select id="quarterSelect">
-      <option value="2026-Q1" selected>2026-Q1</option>
-      <option value="2025-Q4">2025-Q4</option>
-      <option value="2025-Q3">2025-Q3</option>
-      <option value="2026-Q2">2026-Q2</option>
-    </select>
+    <select id="quarterSelect"></select>
     <button id="nextQuarter">다음 분기 ▶</button>
   </div>
 </header>
@@ -380,12 +375,87 @@ function setupSearch() {
   });
 }
 
+// ============================================================
+// 분기 표기 변환: "2026-Q1" → "1Q26"
+// ============================================================
+function displayQuarter(internal) {
+  const m = internal.match(/^(\d{4})-Q(\d)$/);
+  if (m) return `${m[2]}Q${m[1].slice(2)}`;
+  return internal;
+}
+
+function getCurrentQuarter() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const q = Math.floor(now.getMonth() / 3) + 1;
+  return `${y}-Q${q}`;
+}
+
+function extractQuartersFromManifest(manifest) {
+  const set = new Set();
+  for (const mode of ['preview', 'review', 'in-depth']) {
+    for (const file of (manifest[mode] || [])) {
+      const m = file.match(/^(\d{4}-Q\d)_/);
+      if (m) set.add(m[1]);
+    }
+  }
+  return Array.from(set);
+}
+
+function buildQuarterList() {
+  // manifest 기반 + 현재 분기 fallback
+  const set = new Set(extractQuartersFromManifest(state.manifest));
+  set.add(getCurrentQuarter());  // 데이터 없어도 현재 분기는 항상 선택 가능
+  // 정렬: 최신 분기 위로 (내림차순)
+  return Array.from(set).sort().reverse();
+}
+
+function populateQuarterSelector() {
+  const sel = $('quarterSelect');
+  const quarters = buildQuarterList();
+  sel.innerHTML = '';
+  for (const q of quarters) {
+    const opt = el('option', { value: q }, displayQuarter(q));
+    if (q === state.currentQuarter) opt.selected = true;
+    sel.appendChild(opt);
+  }
+  updateQuarterButtons();
+}
+
+function updateQuarterButtons() {
+  const quarters = buildQuarterList();
+  const idx = quarters.indexOf(state.currentQuarter);
+  // 정렬: 최신 위 → idx 작을수록 최근. 다음 분기 = 더 최근 = idx-1
+  $('nextQuarter').disabled = (idx <= 0);
+  $('prevQuarter').disabled = (idx >= quarters.length - 1);
+  $('nextQuarter').style.opacity = $('nextQuarter').disabled ? '0.4' : '1';
+  $('prevQuarter').style.opacity = $('prevQuarter').disabled ? '0.4' : '1';
+  $('nextQuarter').style.cursor = $('nextQuarter').disabled ? 'not-allowed' : 'pointer';
+  $('prevQuarter').style.cursor = $('prevQuarter').disabled ? 'not-allowed' : 'pointer';
+}
+
+function changeQuarter(newQ) {
+  state.currentQuarter = newQ;
+  $('quarterSelect').value = newQ;
+  $('currentQuarterLabel').textContent = displayQuarter(newQ);
+  updateQuarterButtons();
+  renderProgress();
+  renderSectors();
+}
+
 function setupQuarterSelector() {
   $('quarterSelect').addEventListener('change', (e) => {
-    state.currentQuarter = e.target.value;
-    $('currentQuarterLabel').textContent = state.currentQuarter;
-    renderProgress();
-    renderSectors();
+    changeQuarter(e.target.value);
+  });
+  $('prevQuarter').addEventListener('click', () => {
+    const quarters = buildQuarterList();
+    const idx = quarters.indexOf(state.currentQuarter);
+    if (idx >= 0 && idx < quarters.length - 1) changeQuarter(quarters[idx + 1]);
+  });
+  $('nextQuarter').addEventListener('click', () => {
+    const quarters = buildQuarterList();
+    const idx = quarters.indexOf(state.currentQuarter);
+    if (idx > 0) changeQuarter(quarters[idx - 1]);
   });
 }
 
@@ -404,17 +474,9 @@ async function init() {
   const manifest = await fetchJson(DATA_PATHS.manifest);
   if (manifest) state.manifest = manifest;
 
-  renderWatchlistSummary();
-  renderProgress();
-  renderSectors();
-  setupSearch();
-  setupQuarterSelector();
-  $('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
-}
+  // 초기 분기 = 오늘 날짜 기준 현재 분기
+  state.currentQuarter = getCurrentQuarter();
+  $('currentQuarterLabel').textContent = displayQuarter(state.currentQuarter);
 
-document.addEventListener('DOMContentLoaded', init);
-</script>
-
-</body>
-</html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+  populateQuarterSelector();
+  renderWatchlistSummar
