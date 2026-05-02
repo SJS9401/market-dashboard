@@ -328,6 +328,75 @@ const SECTIONS = [
     ]
   },
   {
+    title: "전방산업 — 서버",
+    subtitle: "도표 79 (DigiTimes, 하나증권) — Phase 2에서 도표 80~83 추가 예정",
+    cols: 2,
+    cards: [
+      { fig: 79, title: "글로벌 서버 출하량 및 성장률 전망",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "출하량", file: "frontside_server_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_server_shipment_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "천 대", unit_right: "%" } },
+    ]
+  },
+  {
+    title: "전방산업 — 스마트폰",
+    subtitle: "글로벌·중국·미국·유럽·인도 + Mediatek — 도표 84~89 (CounterPoint, 하나증권)",
+    cols: 3,
+    cards: [
+      { fig: 84, title: "글로벌 스마트폰 출하량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "출하량", file: "frontside_smartphone_global.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_smartphone_global_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 85, title: "중국 스마트폰 월별 판매량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "판매량", file: "frontside_smartphone_china.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_smartphone_china_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 86, title: "미국 스마트폰 월별 판매량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "판매량", file: "frontside_smartphone_us.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_smartphone_us_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 87, title: "유럽 스마트폰 월별 판매량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "판매량", file: "frontside_smartphone_eu.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_smartphone_eu_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 88, title: "인도 스마트폰 월별 판매량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "판매량", file: "frontside_smartphone_india.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_smartphone_india_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 89, title: "Mediatek 월별 매출",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "매출", file: "frontside_mediatek_revenue.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_mediatek_revenue_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "십억TWD", unit_right: "%" } },
+    ]
+  },
+  {
+    title: "전방산업 — PC",
+    subtitle: "도표 90 (IDC, 하나증권) — Phase 2/3에서 도표 91~93 추가 예정",
+    cols: 2,
+    cards: [
+      { fig: 90, title: "글로벌 PC 출하량",
+        chart_def: { type: "dual_axis",
+          series: [
+            { label: "출하량", file: "frontside_pc_global.json", axis: "left", kind: "bar", color: COLORS.bar },
+            { label: "YoY(우)", file: "frontside_pc_global_yoy.json", axis: "right", color: COLORS.yoy },
+          ], unit_left: "백만대", unit_right: "%" } },
+    ]
+  },
+  {
     title: "글로벌 DRAM/NAND CAPEX",
     subtitle: "글로벌 → 삼성전자 → SK하이닉스 — 도표 7~12 (TrendForce, 각사 IR, 하나증권)",
     cols: 2,
@@ -411,75 +480,6 @@ const SECTIONS = [
             { label: "SK하이닉스", file: "capa_sk_hynix_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "capa_sk_hynix_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
           ], unit_left: "천장/월", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "전방산업 — 서버",
-    subtitle: "도표 79 (DigiTimes, 하나증권) — Phase 2에서 도표 80~83 추가 예정",
-    cols: 2,
-    cards: [
-      { fig: 79, title: "글로벌 서버 출하량 및 성장률 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_server_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_server_shipment_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "천 대", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "전방산업 — 스마트폰",
-    subtitle: "글로벌·중국·미국·유럽·인도 + Mediatek — 도표 84~89 (CounterPoint, 하나증권)",
-    cols: 3,
-    cards: [
-      { fig: 84, title: "글로벌 스마트폰 출하량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_smartphone_global.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_global_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 85, title: "중국 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_china.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_china_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 86, title: "미국 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_us.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_us_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 87, title: "유럽 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_eu.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_eu_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 88, title: "인도 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_india.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_india_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 89, title: "Mediatek 월별 매출",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "매출", file: "frontside_mediatek_revenue.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_mediatek_revenue_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "십억TWD", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "전방산업 — PC",
-    subtitle: "도표 90 (IDC, 하나증권) — Phase 2/3에서 도표 91~93 추가 예정",
-    cols: 2,
-    cards: [
-      { fig: 90, title: "글로벌 PC 출하량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_pc_global.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_pc_global_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
     ]
   },
 ];
