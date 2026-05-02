@@ -2,7 +2,7 @@
   "metric": "독일 전력 가격",
   "unit": "EUR/MWh",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-02T12:30:49",
+  "extracted_at": "2026-05-02T12:39:52",
   "data": [
     {
       "date": "2022-11-26",
@@ -4280,7 +4280,7 @@
   "verified": true,
   "needs_review": false,
   "verification": {
-    "drift": "ok",
+    "drift": "first_run",
     "matched_label": "도표 26. 독일 전력 가격 추이",
     "dy": 0.0,
     "dx": 0.0

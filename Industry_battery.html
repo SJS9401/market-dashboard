@@ -210,29 +210,35 @@ const SECTIONS = [
     cols: 3,
     cards: [
       { fig: 63, title: "리튬",
-        chart_def: { type: "single", series: [
-          { label: "리튬", file: "battery_lithium_price.json", color: COLORS.premium },
-        ], unit_left: "$/kg" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "리튬가격", file: "battery_lithium_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_lithium_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "USD/kg", unit_right: "%" } },
       { fig: 64, title: "니켈",
-        chart_def: { type: "single", series: [
-          { label: "니켈", file: "battery_nickel_price.json", color: COLORS.premium },
-        ], unit_left: "천$/t" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "니켈가격", file: "battery_nickel_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_nickel_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "천$/t", unit_right: "%" } },
       { fig: 65, title: "코발트",
-        chart_def: { type: "single", series: [
-          { label: "코발트", file: "battery_cobalt_price.json", color: COLORS.premium },
-        ], unit_left: "천$/t" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "코발트가격", file: "battery_cobalt_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_cobalt_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "천$/t", unit_right: "%" } },
       { fig: 66, title: "망간",
-        chart_def: { type: "single", series: [
-          { label: "망간", file: "battery_manganese_price.json", color: COLORS.premium },
-        ], unit_left: "$/t" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "망간가격", file: "battery_manganese_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_manganese_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "천$/t", unit_right: "%" } },
       { fig: 67, title: "알루미늄",
-        chart_def: { type: "single", series: [
-          { label: "알루미늄", file: "battery_aluminum_price.json", color: COLORS.premium },
-        ], unit_left: "백$/t" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "알루미늄가격", file: "battery_aluminum_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_aluminum_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "천$/t", unit_right: "%" } },
       { fig: 68, title: "동",
-        chart_def: { type: "single", series: [
-          { label: "동", file: "battery_copper_price.json", color: COLORS.premium },
-        ], unit_left: "천$/t" } },
+        chart_def: { type: "dual_axis", series: [
+          { label: "동가격", file: "battery_copper_price.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "MoM(우)", file: "battery_copper_mom.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "천$/t", unit_right: "%" } },
     ]
   },
   {

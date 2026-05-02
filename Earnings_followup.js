@@ -1,3 +1,4 @@
+/* deploy:2026-05-02-21:45 forced rebuild — invalidate CDN cache */
 const DATA_PATHS = {
   watchlist: 'earnings/watchlist.md',
   calendar: 'earnings_calendar.md',
@@ -363,50 +364,6 @@ async function init() {
   renderProgress();
   renderSectors();
   setupSearch();
-  setupQuarterSelector();
-  $('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
-}
-
-document.addEventListener('DOMContentLoaded', init);
-      card.style.display = (q === '' || text.includes(q)) ? '' : 'none';
-    });
-  });
-}
-
-function setupQuarterSelector() {
-  $('quarterSelect').addEventListener('change', function(e) { changeQuarter(e.target.value); });
-  $('prevQuarter').addEventListener('click', function() {
-    const quarters = buildQuarterList();
-    const idx = quarters.indexOf(state.currentQuarter);
-    if (idx >= 0 && idx < quarters.length - 1) changeQuarter(quarters[idx + 1]);
-  });
-  $('nextQuarter').addEventListener('click', function() {
-    const quarters = buildQuarterList();
-    const idx = quarters.indexOf(state.currentQuarter);
-    if (idx > 0) changeQuarter(quarters[idx - 1]);
-  });
-}
-
-async function init() {
-  const wlText = await fetchText(DATA_PATHS.watchlist);
-  if (wlText) state.watchlist = parseWatchlist(wlText);
-  else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
-  const calText = await fetchText(DATA_PATHS.calendar);
-  if (calText) {
-    const parsed = parseCalendar(calText);
-    state.calendar = parsed.calendar;
-    state.signals = parsed.signals;
-  }
-  const manifest = await fetchJson(DATA_PATHS.manifest);
-  if (manifest) state.manifest = manifest;
-  state.currentQuarter = getCurrentQuarter();
-  $('currentQuarterLabel').textContent = displayQuarter(state.currentQuarter);
-  populateQuarterSelector();
-  renderWatchlistSummary();
-  renderProgress();
-  renderSectors();
-  setupSearch();
-  setupQuarterSelector();
   $('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
 }
 
