@@ -65,23 +65,37 @@
   .recent-data tbody th { color: #c9d1d9; text-align: left; padding-right: 8px; }
   .recent-data tbody th .legend-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
   /* 커버리지 표 카드 */
-  .coverage-table { width: 100%; padding: 8px 12px; overflow-x: auto; cursor: default; }
-  .coverage-table table { width: 100%; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; }
-  .coverage-table thead th { font-weight: 500; color: #6e7681; padding: 6px 8px; text-align: right; white-space: nowrap; border-bottom: 2px solid #1f6feb; background: #161b22; }
+  .coverage-table { width: 100%; padding: 0; overflow-x: auto; cursor: default; }
+  .coverage-table .table-meta { padding: 6px 14px; font-size: 11px; color: #8b949e; display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; }
+  .coverage-table .table-meta .unit { color: #d2af64; font-weight: 600; font-style: italic; }
+  .coverage-table table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  /* 헤더 */
+  .coverage-table thead th { font-weight: 600; color: #8b949e; padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 2px solid #1f6feb; background: #1c2128; }
   .coverage-table thead th:first-child, .coverage-table thead th:nth-child(2) { text-align: left; }
-  .coverage-table tbody th { color: #f0f6fc; text-align: left; padding: 3px 6px; white-space: nowrap; font-weight: 500; }
-  .coverage-table tbody th.indent { padding-left: 14px; color: #c9d1d9; font-weight: 400; }
-  /* 카테고리 들여쓰기 (level 1, 2) */
-  .coverage-table tbody th.lvl-0 { color: #f0f6fc; font-weight: 600; padding-left: 6px; }
-  .coverage-table tbody th.lvl-1 { color: #c9d1d9; font-weight: 500; padding-left: 22px; }
-  .coverage-table tbody th.lvl-2 { color: #8b949e; font-weight: 400; padding-left: 38px; }
-  /* 카테고리 구분선 */
-  .coverage-table tbody tr.cat-start td, .coverage-table tbody tr.cat-start th { border-top: 1px solid #30363d; padding-top: 6px; }
-  .coverage-table tbody tr.cat-major td, .coverage-table tbody tr.cat-major th { border-top: 2px solid #1f6feb; padding-top: 8px; }
-  /* forecast 영역 음영 (1Q26F~) */
-  .coverage-table td.forecast { background: rgba(31, 111, 235, 0.05); }
-  .coverage-table tbody td { color: #c9d1d9; text-align: right; padding: 3px 6px; white-space: nowrap; border-bottom: 1px solid #1e2229; }
-  .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: #1c2128; }
+  .coverage-table thead th.forecast { color: #58a6ff; }
+  /* tbody 기본 */
+  .coverage-table tbody th { text-align: left; padding: 5px 10px; white-space: nowrap; }
+  .coverage-table tbody td { text-align: right; padding: 5px 10px; white-space: nowrap; color: #f0f6fc; font-weight: 500; }
+  /* level 들여쓰기 + 색 위계 */
+  .coverage-table tbody tr.lvl-0 { background: rgba(31, 111, 235, 0.08); }
+  .coverage-table tbody tr.lvl-1 { background: rgba(255, 255, 255, 0.015); }
+  .coverage-table tbody tr.lvl-2 { background: transparent; }
+  .coverage-table tbody tr.lvl-0 th { color: #58a6ff; font-weight: 700; padding-left: 12px; font-size: 13.5px; }
+  .coverage-table tbody tr.lvl-1 th { color: #f0f6fc; font-weight: 600; padding-left: 28px; }
+  .coverage-table tbody tr.lvl-2 th { color: #c9d1d9; font-weight: 400; padding-left: 44px; }
+  .coverage-table tbody tr.lvl-2 th.metric-label { color: #8b949e; font-style: italic; padding-left: 56px; font-size: 12px; }
+  /* 카테고리 헤더 row (cat-major) */
+  .coverage-table tbody tr.cat-major th, .coverage-table tbody tr.cat-major td { border-top: 2px solid #1f6feb; padding-top: 8px; }
+  .coverage-table tbody tr.cat-start th, .coverage-table tbody tr.cat-start td { border-top: 1px solid #30363d; padding-top: 6px; }
+  /* 카테고리 헤더 단독 row (is-header, cells 비) */
+  .coverage-table tbody tr.is-header th { font-size: 14px; padding-top: 10px; padding-bottom: 6px; }
+  /* forecast 영역 음영 */
+  .coverage-table td.forecast { background: rgba(31, 111, 235, 0.07); color: #79c0ff; }
+  .coverage-table tbody tr.lvl-0 td.forecast { background: rgba(31, 111, 235, 0.15); }
+  /* hover */
+  .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: rgba(255,255,255, 0.04); }
+  /* 행 간 구분선 */
+  .coverage-table tbody td, .coverage-table tbody th { border-bottom: 1px solid #1e2229; }
 </style>
 </head>
 <body>
@@ -689,45 +703,47 @@ async function renderTable(containerId, def) {
     const d = await r.json();
     const cols = d.columns || [];
     const rows = d.rows || [];
-    const colIsForecast = cols.map(_isForecastCol);
-    let html = '<table><thead><tr><th></th><th></th>';
+    const colIsForecast = cols.map(c => /[FP]$/.test(String(c||'')));
+    const unitLabel = d.unit_label || d.unit || '';
+    let html = '';
+    if (unitLabel) {
+      html += '<div class="table-meta"><span></span><span class="unit">(' + unitLabel + ')</span></div>';
+    }
+    html += '<table><thead><tr><th></th><th></th>';
     cols.forEach((c, i) => { html += '<th' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + (c||'') + '</th>'; });
     html += '</tr></thead><tbody>';
-    let prevLevel = -1;
+    let prevTopCat = null;
     rows.forEach(row => {
+      if (row._skip) return;
       const l1 = (row.label1 || '').trim();
       const l2 = (row.label2 || '').trim();
       const cells = row.cells || {};
-      // 라벨 모두 비고 cells도 비면 skip
+      const lvl = (typeof row._level === 'number') ? row._level : 0;
+      const isHeader = !!row._is_header;
+      // 빈 row + cells에 헤더값이 mirror된 경우 skip
       if (!l1 && !l2 && Object.keys(cells).length === 0) return;
-      // 자료: 출처 row 스킵
-      if (l1.startsWith('자료:') || l1.startsWith('주:')) return;
-      // 첫 row (헤더 그대로 cells에 1Q25 등 들어있으면) skip
-      if (l1 === '' && l2 === '' && cells[cols[0]] === cols[0]) return;
+      if (cells[cols[0]] === cols[0]) return;  // 헤더 reflection skip
 
-      // l1이 있으면 카테고리 시작 — level 결정 + 구분선
-      let rowClass = '';
-      let lvl = -1;
-      if (l1 && _CAT_LEVEL[l1] !== undefined) {
-        lvl = _CAT_LEVEL[l1];
-        if (lvl === 0) rowClass = ' class="cat-major"';
-        else if (lvl === 1 || lvl === 2) rowClass = ' class="cat-start"';
-        prevLevel = lvl;
+      // 새 top-level 카테고리 시작 표시 (cat-major)
+      let rowCls = 'lvl-' + lvl;
+      if (isHeader) rowCls += ' is-header';
+      if (lvl === 0 && (l1 !== prevTopCat || isHeader)) {
+        rowCls += ' cat-major';
+        prevTopCat = l1;
+      } else if (lvl === 1 && isHeader) {
+        rowCls += ' cat-start';
       }
 
-      // l1만 있고 cells 없으면 카테고리 헤더 단독 행
-      const isHeaderOnly = l1 && !l2 && Object.keys(cells).length === 0;
-      if (isHeaderOnly) {
-        const lvlClass = (lvl >= 0) ? ' lvl-' + lvl : ' lvl-0';
-        html += '<tr' + rowClass + '><th class="' + lvlClass.trim() + '" colspan="' + (cols.length + 2) + '">' + l1 + '</th></tr>';
+      html += '<tr class="' + rowCls + '">';
+      // 카테고리 헤더 (cells 비, _is_header) — colspan 모두 차지
+      if (isHeader && Object.keys(cells).length === 0) {
+        html += '<th colspan="' + (cols.length + 2) + '">' + (l1 || l2) + '</th>';
+        html += '</tr>';
         return;
       }
-
-      // 일반 row: l1 (또는 빈) + l2
-      const l1cls = (lvl >= 0) ? 'lvl-' + lvl : '';
-      html += '<tr' + rowClass + '>';
-      html += '<th' + (l1cls ? ' class="' + l1cls + '"' : '') + '>' + l1 + '</th>';
-      html += '<th class="indent">' + l2 + '</th>';
+      // 일반 row
+      html += '<th>' + l1 + '</th>';
+      html += '<th' + (lvl === 2 ? ' class="metric-label"' : '') + '>' + l2 + '</th>';
       cols.forEach((c, i) => {
         const v = cells[c] || '';
         html += '<td' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + v + '</td>';
