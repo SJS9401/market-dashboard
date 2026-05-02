@@ -44,10 +44,17 @@ function displayQuarter(internal) {
 }
 
 function getCurrentQuarter() {
+  // 분기 발표 마감 + 5일 cutoff 기준 기본 분기 결정
+  // 1Q 마감 5/15 → 5/20부터 2Q, 2Q 마감 8/15 → 8/20부터 3Q,
+  // 3Q 마감 11/15 → 11/20부터 4Q, 4Q 마감 익년 2/15 → 익년 2/20부터 1Q
   const now = new Date();
   const y = now.getFullYear();
-  const q = Math.floor(now.getMonth() / 3) + 1;
-  return y + '-Q' + q;
+  const md = (now.getMonth() + 1) * 100 + now.getDate();  // MMDD
+  if (md < 220) return (y - 1) + '-Q4';
+  if (md < 520) return y + '-Q1';
+  if (md < 820) return y + '-Q2';
+  if (md < 1120) return y + '-Q3';
+  return y + '-Q4';
 }
 
 function extractQuartersFromManifest(manifest) {
@@ -229,14 +236,12 @@ function renderStockRow(stock) {
   const stockRow = el('div', { class: 'stock-row' });
   const ticker = (cal && cal.ticker) || (sig && sig.ticker) || '';
   const followup = sig ? sig.signal : '';
-  const info = el('div', { class: 'stock-info' });
   const nameRow = el('div', { class: 'stock-name-row' }, [
     el('span', { class: 'stock-name' }, stock.name),
-    ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
+    ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null,
+    followup ? el('span', { class: 'stock-followup' }, '— ' + followup) : null
   ]);
-  info.appendChild(nameRow);
-  if (followup) info.appendChild(el('div', { class: 'stock-followup' }, '↳ ' + followup));
-  stockRow.appendChild(info);
+  stockRow.appendChild(nameRow);
   const middleCol = el('div', null, [
     cal && cal.date ? el('div', { class: 'dday-cell' }, cal.date) : el('div', { class: 'dday-cell' }, '발표일 미정'),
     renderProgressCircles(stage)

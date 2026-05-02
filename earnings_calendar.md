@@ -36,7 +36,7 @@
 | SNDK | SanDisk | NAND 업황, SSD 수요 |
 | TSM | TSMC | 파운드리 가동률, AI칩 수요 |
 | — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
-| — | SK하이닉스 | HBM, DRAM/NAND 업황 |
+| — | SK하이닉스 | OPM 76% 돌파, ADR 6월 결정, HBM4 양산, NAND Bit 회복, DDR5 ASP 둔화 |
 
 ### 전력
 
