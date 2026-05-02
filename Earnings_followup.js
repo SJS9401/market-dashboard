@@ -118,15 +118,21 @@ function parseWatchlist(md) {
     else if (line.match(new RegExp('^##\\s+' + T1 + '\\s*T2'))) currentTier = 'T2';
     else if (line.match(new RegExp('^##\\s+' + T1 + '\\s*T3'))) currentTier = 'T3';
     else if (/^##\s/.test(line)) currentTier = null;
-    else if (currentTier && /^\s*-\s+/.test(line)) {
-      const m = line.match(/-\s+\*?\*?([\u{AC00}-\u{D7AF}\w\s]+?)\*?\*?\s*\(([^)]+)\)/u);
+    else if (currentTier && /^\s*-\s+\*\*/.test(line)) {
+      // 섹터명: **섹터** 다음 (...) 안의 종목 리스트 추출
+      const m = line.match(/^\s*-\s+\*\*([^*]+)\*\*\s*\((.+)\)\s*$/);
       if (m) {
         const sector = m[1].trim();
+        // 종목 분리: 콤마로 자르되 종목 안의 ticker 괄호와 충돌 방지
+        // "삼성전자, SK하이닉스, Micron(MU)" → ['삼성전자','SK하이닉스','Micron(MU)']
         const stocks = m[2].split(',').map(s => s.trim()).filter(Boolean);
-        const looksLikeStocks = stocks.every(s => s.length < 30 && !/[:%]/.test(s));
-        if (looksLikeStocks) {
-          result[currentTier].push({ sector, stocks: stocks.map(name => ({ name, ticker: '' })) });
-        }
+        const stockObjs = stocks.map(s => {
+          // 종목명(ticker) 형식이면 분리
+          const tm = s.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+          if (tm) return { name: tm[1].trim(), ticker: tm[2].trim() };
+          return { name: s, ticker: '' };
+        });
+        result[currentTier].push({ sector, stocks: stockObjs });
       }
     }
   }
@@ -178,16 +184,18 @@ function parseCalendar(md) {
 
 const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인댄스' };
 
-function getModeFile(stockName, mode) {
-  const expected = state.currentQuarter + '_' + stockName + '_' + SUFFIX[mode] + '.html';
+function getModeFile(stock, mode) {
+  // stock: {name, ticker}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
+  const key = stock.ticker || stock.name;
+  const expected = state.currentQuarter + '_' + key + '_' + SUFFIX[mode] + '.html';
   const list = state.manifest[mode] || [];
   return list.includes(expected) ? expected : null;
 }
 
-function getProgressStage(stockName) {
-  if (getModeFile(stockName, 'in-depth')) return 3;
-  if (getModeFile(stockName, 'review')) return 2;
-  if (getModeFile(stockName, 'preview')) return 1;
+function getProgressStage(stock) {
+  if (getModeFile(stock, 'in-depth')) return 3;
+  if (getModeFile(stock, 'review')) return 2;
+  if (getModeFile(stock, 'preview')) return 1;
   return 0;
 }
 
@@ -200,11 +208,12 @@ function getPreviousQuarter(quarter) {
   return y + '-Q' + q;
 }
 
-function hasPriorReview(stockName, currentQuarter) {
+function hasPriorReview(stock, currentQuarter) {
   const prev = getPreviousQuarter(currentQuarter);
   if (!prev) return false;
-  const reviewFile = prev + '_' + stockName + '_' + SUFFIX.review + '.html';
-  const indepthFile = prev + '_' + stockName + '_' + SUFFIX['in-depth'] + '.html';
+  const key = stock.ticker || stock.name;
+  const reviewFile = prev + '_' + key + '_' + SUFFIX.review + '.html';
+  const indepthFile = prev + '_' + key + '_' + SUFFIX['in-depth'] + '.html';
   return (state.manifest.review || []).includes(reviewFile) ||
          (state.manifest['in-depth'] || []).includes(indepthFile);
 }
@@ -230,8 +239,8 @@ function renderProgress() {
     for (const sec of state.watchlist[tier]) {
       for (const stock of sec.stocks) {
         totalStocks++;
-        if (getModeFile(stock.name, 'preview')) p++;
-        if (getModeFile(stock.name, 'review')) r++;
+        if (getModeFile(stock, 'preview')) p++;
+        if (getModeFile(stock, 'review')) r++;
       }
     }
   }
@@ -250,11 +259,11 @@ function renderProgressCircles(stage) {
 function renderStockRow(stock) {
   const cal = state.calendar[stock.name];
   const sig = state.signals[stock.name];
-  const stage = getProgressStage(stock.name);
+  const stage = getProgressStage(stock);
   const stockRow = el('div', { class: 'stock-row' });
-  const ticker = (cal && cal.ticker) || (sig && sig.ticker) || '';
+  const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
   // 직전 분기에 review 또는 in-depth 산출물이 있을 때만 팔로업 키워드 표시
-  const followup = (sig && hasPriorReview(stock.name, state.currentQuarter)) ? sig.signal : '';
+  const followup = (sig && hasPriorReview(stock, state.currentQuarter)) ? sig.signal : '';
   const nameCell = el('div', { class: 'stock-name-cell' }, [
     el('span', { class: 'stock-name' }, stock.name),
     ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
@@ -270,7 +279,7 @@ function renderStockRow(stock) {
   let hasAny = false;
   for (const pair of [['preview', 'P'], ['review', 'R'], ['in-depth', 'I']]) {
     const mode = pair[0], label = pair[1];
-    const file = getModeFile(stock.name, mode);
+    const file = getModeFile(stock, mode);
     if (file) {
       buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));
       hasAny = true;
@@ -289,8 +298,8 @@ function renderSectorCard(sectorObj, tier) {
   ]));
   let pCount = 0, rCount = 0;
   for (const stock of sectorObj.stocks) {
-    if (getModeFile(stock.name, 'preview')) pCount++;
-    if (getModeFile(stock.name, 'review')) rCount++;
+    if (getModeFile(stock, 'preview')) pCount++;
+    if (getModeFile(stock, 'review')) rCount++;
   }
   card.appendChild(el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
     '진행: P ' + pCount + '/' + sectorObj.stocks.length + ' · R ' + rCount + '/' + sectorObj.stocks.length));
@@ -316,6 +325,49 @@ function setupSearch() {
     const q = e.target.value.toLowerCase().trim();
     document.querySelectorAll('.sector-card').forEach(function(card) {
       const text = card.textContent.toLowerCase();
+      card.style.display = (q === '' || text.includes(q)) ? '' : 'none';
+    });
+  });
+}
+
+function setupQuarterSelector() {
+  $('quarterSelect').addEventListener('change', function(e) { changeQuarter(e.target.value); });
+  $('prevQuarter').addEventListener('click', function() {
+    const quarters = buildQuarterList();
+    const idx = quarters.indexOf(state.currentQuarter);
+    if (idx >= 0 && idx < quarters.length - 1) changeQuarter(quarters[idx + 1]);
+  });
+  $('nextQuarter').addEventListener('click', function() {
+    const quarters = buildQuarterList();
+    const idx = quarters.indexOf(state.currentQuarter);
+    if (idx > 0) changeQuarter(quarters[idx - 1]);
+  });
+}
+
+async function init() {
+  const wlText = await fetchText(DATA_PATHS.watchlist);
+  if (wlText) state.watchlist = parseWatchlist(wlText);
+  else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
+  const calText = await fetchText(DATA_PATHS.calendar);
+  if (calText) {
+    const parsed = parseCalendar(calText);
+    state.calendar = parsed.calendar;
+    state.signals = parsed.signals;
+  }
+  const manifest = await fetchJson(DATA_PATHS.manifest);
+  if (manifest) state.manifest = manifest;
+  state.currentQuarter = getCurrentQuarter();
+  $('currentQuarterLabel').textContent = displayQuarter(state.currentQuarter);
+  populateQuarterSelector();
+  renderWatchlistSummary();
+  renderProgress();
+  renderSectors();
+  setupSearch();
+  setupQuarterSelector();
+  $('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
+}
+
+document.addEventListener('DOMContentLoaded', init);
       card.style.display = (q === '' || text.includes(q)) ? '' : 'none';
     });
   });
