@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>TSLA 2026 Q1 실적 리뷰</title>
+<style>
+  :root {
+    --bg: #0e1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #1f77b4;
+    --accent2: #d62728;
+    --table-border: #30363d;
+    --table-bg: #161b22;
+    --code-bg: #161b22;
+    --link: #58a6ff;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    line-height: 1.7; max-width: 1100px; margin: 24px auto; padding: 0 28px;
+  }
+  h1 { color: var(--fg); border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-top: 32px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid var(--table-border); padding-bottom: 6px; margin-top: 32px; }
+  h3 { color: #d2a8ff; margin-top: 24px; }
+  blockquote { border-left: 4px solid var(--accent); background: rgba(31,119,180,0.08);
+                padding: 10px 18px; margin: 16px 0; color: var(--muted); border-radius: 0 6px 6px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0;
+           background: var(--table-bg); font-size: 0.92em; }
+  th, td { border: 1px solid var(--table-border); padding: 8px 10px; text-align: left; }
+  th { background: #21262d; color: #c9d1d9; font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  strong { color: #ffa657; }
+  code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre { background: var(--code-bg); padding: 12px; border-radius: 6px; overflow-x: auto; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px auto;
+         border: 1px solid var(--table-border); border-radius: 6px; background: white; padding: 4px; }
+  hr { border: none; border-top: 1px solid var(--table-border); margin: 28px 0; }
+  a { color: var(--link); }
+  em { color: var(--muted); }
+  .meta-header { background: rgba(31,119,180,0.06); padding: 14px 20px;
+                  border-radius: 8px; margin: 12px 0 24px 0; font-family: monospace; }
+</style>
+</head>
+<body>
+<blockquote>
+<p>모드: 실적 리뷰<br />
+종목: Tesla (TSLA)<br />
+섹터: 미국 빅테크<br />
+분기: 2026-Q1<br />
+발표일: 2026-04-22 (수, 미국 동부시간 AMC, 컨퍼런스콜 ET 17:30)<br />
+작성 시각: 2026-05-03 14:30 KST</p>
+</blockquote>
+<h1>Tesla 2026 Q1 실적 리뷰</h1>
+<blockquote>
+<p>안내: 표준 위치(<code>earnings-preview/</code>)에서 동일 분기 프리뷰 미존재 → <strong>항목 4-1·7-1 자동 생략</strong>, 본 분기 단독 분석으로 진행. M7 동일 분기 발표 완료 종목(GOOGL/MSFT/META/AMZN/AAPL)은 4/29~4/30 집중 발표로 별도 리뷰 작성 예정.</p>
+</blockquote>
+<h2>Executive Summary</h2>
+<p>→ <strong>EPS Beat / 매출 In-line / 인도 Miss의 혼재 결과</strong> — 매출 $22.39B (Street cons $22.35B 소폭 beat, +15.8% YoY), Adj EPS $0.41 (cons $0.36~0.37 vs +11~14% beat), 인도 358K (cons 365K, -2.1% miss). 판매 부진을 마진 회복으로 보완한 분기.<br />
+→ <strong>마진 회복 스토리는 입증</strong> — GAAP GPM 21.1% (Q1 25 16.3% 대비 +478bps), Auto GPM ex-credits <strong>19.2%</strong> (Q1 25 12.5% 대비 +670bps). Cybertruck 안정화 + Model Y 리프레시 사이클 종료 + FSD 매출 인식이 주된 동인.<br />
+→ <strong>그러나 진짜 헤드라인은 CapEx 가이던스 25% 상향</strong> — 2026 CapEx $20B → <strong>$25B+</strong> (AI 인프라·Cybercab·Optimus 라인). Musk "잔여 3개 분기 FCF 음수" 직접 시인. 시간외 +4% → 어닝콜 후 차익실현으로 마감.<br />
+→ <strong>재고 빌드 + ESS 급감이 수요 우려 재점화</strong> — 생산 408K vs 인도 358K → <strong>5만대 재고 추가 적재</strong> (분기 단위 사상 최대). 에너지 저장 8.8 GWh (cons 12~14 GWh 큰 폭 하회, -38% QoQ). 자동차 수요·ESS 발주 모두 둔화 시그널.<br />
+→ <strong>셀사이드 Hold 컨센서스 유지, 그러나 강세파/약세파 PT 격차 $600 vs $364로 확대</strong> — Wedbush(Ives) $600 / Cantor $510 / Morgan Stanley $410 / Goldman $375(↓ from $405) / UBS $364. 32명 평균 약 $400, 컨센서스 Hold. <strong>AI/Robotaxi 내러티브 vs 자동차 펀더멘털 약화</strong>의 양면성이 주가에 동시 반영.</p>
+<hr />
+<h2>항목 1. 실적 추이 (업데이트)</h2>
+<p>① 분기 실적 — 9분기 확정 + Q1 26 + Q2 26 컨센</p>
+<p>(1) 손익 핵심 지표 (단위: $B, EPS는 $)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 24</th>
+<th>Q2 24</th>
+<th>Q3 24</th>
+<th>Q4 24</th>
+<th>Q1 25</th>
+<th>Q2 25</th>
+<th>Q3 25</th>
+<th>Q4 25</th>
+<th><strong>Q1 26</strong></th>
+<th>Q2 26(E)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출액</td>
+<td>21.30</td>
+<td>25.50</td>
+<td>25.18</td>
+<td>25.71</td>
+<td>19.34</td>
+<td>22.50</td>
+<td>28.10</td>
+<td>24.90</td>
+<td><strong>22.39</strong></td>
+<td>약 24.5</td>
+</tr>
+<tr>
+<td><strong>YoY%</strong></td>
+<td>-8.7%</td>
+<td>+2.3%</td>
+<td>+7.8%</td>
+<td>+2.1%</td>
+<td>-9.2%</td>
+<td>-11.8%</td>
+<td>+11.6%</td>
+<td>-3.1%</td>
+<td><strong>+15.8%</strong></td>
+<td>+8.9%</td>
+</tr>
+<tr>
+<td>QoQ%</td>
+<td>-15%</td>
+<td>+20%</td>
+<td>-1%</td>
+<td>+2%</td>
+<td>-25%</td>
+<td>+16%</td>
+<td>+25%</td>
+<td>-11%</td>
+<td>-10%</td>
+<td>+9%</td>
+</tr>
+<tr>
+<td>GAAP GPM (%)</td>
+<td>17.4</td>
+<td>18.0</td>
+<td>19.8</td>
+<td>16.3</td>
+<td>16.3</td>
+<td>17.2</td>
+<td>18.0</td>
+<td>20.1</td>
+<td><strong>21.1</strong></td>
+<td>약 19.5</td>
+</tr>
+<tr>
+<td>Auto GPM ex-credits (%)</td>
+<td>13.6</td>
+<td>14.6</td>
+<td>17.1</td>
+<td>13.6</td>
+<td>12.5</td>
+<td>14.9</td>
+<td>16.5</td>
+<td>17.9</td>
+<td><strong>19.2</strong></td>
+<td>약 18.0</td>
+</tr>
+<tr>
+<td>영업이익</td>
+<td>1.17</td>
+<td>1.61</td>
+<td>2.72</td>
+<td>1.58</td>
+<td>0.40</td>
+<td>0.92</td>
+<td>2.05</td>
+<td>2.45</td>
+<td><strong>0.94</strong></td>
+<td>약 1.20</td>
+</tr>
+<tr>
+<td>영업이익률 (%)</td>
+<td>5.5</td>
+<td>6.3</td>
+<td>10.8</td>
+<td>6.2</td>
+<td>2.1</td>
+<td>4.1</td>
+<td>7.3</td>
+<td>9.8</td>
+<td><strong>4.2</strong></td>
+<td>약 4.9</td>
+</tr>
+<tr>
+<td><strong>Non-GAAP EPS ($)</strong></td>
+<td>0.45</td>
+<td>0.52</td>
+<td>0.72</td>
+<td>0.73</td>
+<td>0.27</td>
+<td>0.40</td>
+<td>0.62</td>
+<td>0.50</td>
+<td><strong>0.41</strong></td>
+<td>약 0.55</td>
+</tr>
+<tr>
+<td>인도량 (천 대)</td>
+<td>386.8</td>
+<td>444.0</td>
+<td>462.9</td>
+<td>495.6</td>
+<td>336.7</td>
+<td>384.1</td>
+<td>497.1</td>
+<td>418.2</td>
+<td><strong>358.0</strong></td>
+<td>약 410</td>
+</tr>
+<tr>
+<td>생산량 (천 대)</td>
+<td>433.4</td>
+<td>411.0</td>
+<td>469.8</td>
+<td>459.4</td>
+<td>362.6</td>
+<td>410.2</td>
+<td>469.0</td>
+<td>412.6</td>
+<td><strong>408.4</strong></td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>사실(Fact)</strong>: Q1 26 매출 $22.39B는 9개 분기 중 4번째로 낮은 절대 수준. YoY +15.8%는 Q1 25(-9.2%)·Q1 24(-8.7%) 2년 연속 부진 기저효과 영향.<br />
+→ <strong>변화(Delta) 핵심</strong>: <strong>GAAP GPM 21.1%는 2024-25년 사이클 최고치 갱신</strong>. 직전 분기(Q4 25 20.1%) 대비 +100bps QoQ, 전년동기(Q1 25 16.3%) 대비 <strong>+478bps YoY</strong>. 판매 회복 없이도 단가·믹스·FSD로 마진을 만든 분기.<br />
+→ <strong>Auto GPM ex-credits 19.2%는 분기 단위 2023 Q1 이래 처음 회복</strong> — 가격 인하 사이클(2023-24)이 종료되고 단가 상승 + 비용 효율(원자재·중국 출하 안정화)이 동시 작동. (출처: Tesla Q1 26 Update PDF, Q4 25 Update PDF)<br />
+→ <strong>Q2 26 컨센 발표 직후 변동</strong>: 일부 셀사이드(Goldman·CFRA 등)가 Q2 가이던스 부재 + CapEx 상향 충격 반영해 매출 추정치 -2~3% 하향, EPS는 마진 모멘텀 인정해 +2~5% 상향. 컨센 평균은 $24.5B 수준으로 소폭 변동. (출처: 컨센 갱신 — Yahoo Finance Analysis, Zacks 2026-04-29)<br />
+→ <strong>차트 (필수)</strong>:</p>
+<p><img alt="TSLA 분기별 매출 &amp; GAAP GPM 추이 Q1 24 → Q2 26E" src="2026-Q1_TSLA_revenue_gpm_trend.png" /></p>
+<p>→ (출처: Tesla IR Quarterly Updates Q1 24 → Q1 26, Q2 26E는 Street consensus 평균)</p>
+<p>(2) Q1 26 인도·생산 디테일</p>
+<p>(1-1) 인도량 358,023대 (cons 365,645 vs <strong>-2.1% miss</strong>, +6.3% YoY) — 7,600대 부족분<br />
+→ Model 3/Y: 341,893대 인도 (Q1 25 323,800 대비 +5.6% YoY 추정)<br />
+→ Other Models (Cybertruck + Model S/X 잔여): 16,130대 인도<br />
+→ Model S/X: 글로벌 잔여 재고 약 600대만 — 사실상 <strong>단종 확인</strong></p>
+<p>(1-2) 생산량 408,386대 → <strong>재고 +50K 추가</strong><br />
+→ Model 3/Y 생산 394,611대 vs 인도 341,893대 → +52,718대 재고 빌드<br />
+→ "9 quarters straight production &gt; deliveries" 패턴 → 구조적 수요 약화 시그널 (autoevolution 분석)<br />
+→ 5만대 재고는 분기 매출 환산 약 <strong>$2.0~2.3B 미실현 수익</strong> 잠금</p>
+<p><img alt="TSLA 분기 인도량 추이 Q1 24 → Q1 26" src="2026-Q1_TSLA_deliveries.png" /></p>
+<p>→ (출처: Tesla IR P&amp;D releases, Q1 25 trough = Model Y "Juniper" 리프레시 라인 전환)</p>
+<p>② 사업부별(BU별) 매출 — IR 원본 기반</p>
+<p>(1) Q1 26 BU 매출 vs 직전분기 vs 전년동기 (단위: $B)</p>
+<table>
+<thead>
+<tr>
+<th>BU</th>
+<th>Q1 25</th>
+<th>Q4 25</th>
+<th><strong>Q1 26</strong></th>
+<th>YoY%</th>
+<th>QoQ%</th>
+<th>비중(Q1 26)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Automotive</td>
+<td>13.97</td>
+<td>17.69</td>
+<td><strong>16.23</strong></td>
+<td><strong>+16.2%</strong></td>
+<td>-8.2%</td>
+<td>72.5%</td>
+</tr>
+<tr>
+<td>Energy generation &amp; storage</td>
+<td>2.73</td>
+<td>3.84</td>
+<td><strong>2.41</strong></td>
+<td><strong>-11.8%</strong></td>
+<td>-37.3%</td>
+<td>10.8%</td>
+</tr>
+<tr>
+<td>Services &amp; other</td>
+<td>2.64</td>
+<td>3.37</td>
+<td><strong>3.75</strong></td>
+<td><strong>+42.0%</strong></td>
+<td>+11.1%</td>
+<td><strong>16.7%</strong></td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>19.34</td>
+<td>24.90</td>
+<td><strong>22.39</strong></td>
+<td>+15.8%</td>
+<td>-10.1%</td>
+<td>100.0%</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Services &amp; other 비중 16.7%는 사상 최고치</strong> — Tesla Insurance, Supercharging(3rd party 포함), 중고차, 충돌 수리, FSD 부속 보험할인 등이 결합된 진짜 BU로 진화. (출처: TSLA Q1 26 Update, howtheymake.money 분석)<br />
+→ <strong>Energy QoQ -37% 충격</strong>: 8.8 GWh 배포 — 컨센 12~14 GWh 큰 폭 미달. Q4 25(약 14 GWh로 추정) 대비 절반 수준. <strong>Megapack Lathrop 시설 풀가동에도 출하 둔화</strong> = AI 데이터센터·유틸리티 수주 사이클 일시 약화 추정.<br />
+→ <strong>Auto +16% YoY 회복</strong>: 인도 +6.3% 대비 매출 증가율이 더 큰 이유 = (1) FSD 매출 인식 가속(이연수익 일부 turn), (2) ASP 상승(Cybertruck·Long Range 믹스), (3) 환율 영향 미미.</p>
+<p><img alt="TSLA 사업부별 매출 비교 Q1 25 vs Q4 25 vs Q1 26" src="2026-Q1_TSLA_segment_compare.png" /></p>
+<p>→ (출처: Tesla IR Q1 26 / Q4 25 / Q1 25 Update PDFs)</p>
+<p>(2) BU별 마진·믹스 변화</p>
+<p>(2-1) Auto GPM ex-credits <strong>+670bps YoY</strong> = Q1 26 사상 최대 마진 점프<br />
+→ 동인: ① 가격 인하 사이클 종료 (2023~24 ASP -10% 누적 → 2025부터 안정), ② 원자재(리튬·니켈) 비용 -20%대 하락, ③ FSD takerate 상승으로 소프트웨어 매출 인식 가속, ④ Berlin/Shanghai 가동률 회복</p>
+<p>(2-2) Energy GPM은 컨퍼런스콜 미공개 (회사 비공개 정책 지속) — 다만 GAAP GPM 21.1% 중 Energy 기여는 -150bps 추정 (배포량 급감 + 제품 믹스 악화)</p>
+<p>(2-3) Services GPM = <strong>+5~7% 추정</strong> (Insurance·Supercharging 수익성 개선) — 2024년 적자 BU에서 흑자 BU로 전환 진입</p>
+<p><img alt="TSLA 매출 믹스 변화 Q1 2025 vs Q1 2026" src="2026-Q1_TSLA_segment_mix.png" /></p>
+<p>→ (출처: Tesla Q1 26 Update — Auto 75% → 72.5%, Services 14% → 16.7% 변화)</p>
+<p>③ 연간 실적 — FY17~FY25 확정 + FY26E 컨센</p>
+<p>(1) 연간 손익 (단위: $B)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>FY17</th>
+<th>FY18</th>
+<th>FY19</th>
+<th>FY20</th>
+<th>FY21</th>
+<th>FY22</th>
+<th>FY23</th>
+<th>FY24</th>
+<th><strong>FY25</strong></th>
+<th>FY26(E)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출액</td>
+<td>11.76</td>
+<td>21.46</td>
+<td>24.58</td>
+<td>31.54</td>
+<td>53.82</td>
+<td>81.46</td>
+<td>96.77</td>
+<td>97.69</td>
+<td><strong>94.83</strong></td>
+<td>약 110</td>
+</tr>
+<tr>
+<td>YoY%</td>
+<td>+68%</td>
+<td>+83%</td>
+<td>+15%</td>
+<td>+28%</td>
+<td>+71%</td>
+<td>+51%</td>
+<td>+19%</td>
+<td>+1%</td>
+<td><strong>-2.9%</strong></td>
+<td>+16%</td>
+</tr>
+<tr>
+<td>GAAP GPM (%)</td>
+<td>18.9</td>
+<td>19.0</td>
+<td>16.6</td>
+<td>21.0</td>
+<td>25.3</td>
+<td>25.6</td>
+<td>18.2</td>
+<td>17.9</td>
+<td><strong>18.4</strong></td>
+<td>약 19.5</td>
+</tr>
+<tr>
+<td>영업이익</td>
+<td>-1.63</td>
+<td>-0.39</td>
+<td>-0.07</td>
+<td>1.99</td>
+<td>6.52</td>
+<td>13.66</td>
+<td>8.89</td>
+<td>7.08</td>
+<td><strong>6.50</strong></td>
+<td>약 9.5</td>
+</tr>
+<tr>
+<td>OPM (%)</td>
+<td>-13.9</td>
+<td>-1.8</td>
+<td>-0.3</td>
+<td>6.3</td>
+<td>12.1</td>
+<td>16.8</td>
+<td>9.2</td>
+<td>7.2</td>
+<td><strong>6.9</strong></td>
+<td>약 8.6</td>
+</tr>
+<tr>
+<td>Non-GAAP EPS ($)</td>
+<td>-2.04</td>
+<td>-0.57</td>
+<td>-0.33</td>
+<td>0.74</td>
+<td>4.90</td>
+<td>4.07</td>
+<td>3.12</td>
+<td>2.42</td>
+<td><strong>1.79</strong></td>
+<td>약 2.4</td>
+</tr>
+<tr>
+<td>인도량 (천 대)</td>
+<td>103</td>
+<td>245</td>
+<td>368</td>
+<td>500</td>
+<td>936</td>
+<td>1,314</td>
+<td>1,809</td>
+<td>1,789</td>
+<td><strong>1,636</strong></td>
+<td>약 1,750</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>2025년은 사상 첫 매출 역성장 (-2.9%)</strong>, 인도량도 -8.6% YoY로 2년 연속 감소. <strong>FY26은 컨센 +16% 매출 회복</strong> 전망이나, <strong>Q1 26 매출 +15.8% YoY</strong>가 이미 컨센과 일치 — 잔여 3개 분기 사이클 회복 가속이 검증되어야 가능.<br />
+→ FY26 EPS 컨센 약 $2.4 (Q1 $0.41 실적 + Q2-Q4 $0.55~0.65 평균) — Q1 26 발표 직후 셀사이드 다수가 +5~10% 상향 (마진 회복 인정). <strong>GAAP OPM 6.9%(2025) → 약 8.6%(2026E) 재가속</strong>이 핵심.<br />
+→ Q1 26 매출 반영 후 FY26 컨센 변동: <strong>상향 13개사·하향 8개사·유지 11개사</strong> (Yahoo Finance Analysis 기준 32명). 매출 컨센 평균 $108B → <strong>$110B로 +2% 상향</strong> (인도 부진 vs 마진 +α 상쇄). EPS는 $2.20 → $2.40 (+9%) 상향.</p>
+<p><img alt="TSLA 연간 매출 &amp; GAAP GPM 추이 FY17 → FY26E" src="2026-Q1_TSLA_annual_revenue_gpm.png" /></p>
+<p>→ (출처: Tesla 10-K 2017~2024, Q4 25 Update PDF, Yahoo Finance/Zacks consensus 2026-04-29)</p>
+<p>(2) 본 분기 발표가 연간 사이클에 미친 영향<br />
+→ <strong>마진 사이클 저점 통과</strong> 확정 — Auto GPM ex-credits 12.5%(Q1 25) → 19.2%(Q1 26) 4분기 연속 우상향<br />
+→ <strong>인도 사이클은 완만한 V자</strong> — Q1 25 trough 337K → Q1 26 358K (+6.3% YoY) 회복 진행, 그러나 5만대 재고 빌드는 회복 강도가 컨센 기대(Q3 25 497K 수준 정상화)에는 못 미친다는 시그널<br />
+→ <strong>자동차 사업의 "성장주"에서 "마진 회복+AI 옵션" 스토리로 전환</strong> — FY26E 매출 +16%는 사실상 BU 믹스 변화(Services·FSD·Energy) + Auto 가격 안정에서 오는 것, 인도 폭발적 성장이 아님</p>
+<hr />
+<h2>항목 2. 실적 vs 가이던스 vs 컨센서스 — 3원 비교</h2>
+<blockquote>
+<p>Tesla는 NVDA·MU와 달리 <strong>분기별 매출·EPS 가이던스를 제시하지 않는다</strong>. 회사는 연간 단위 "growth" 멘트와 인도 가이던스만 제공. 따라서 본 항목은 [실적 vs 컨센서스] 2원 비교로 변형 + Q4 25에서 제시한 2026년 회사 멘트와의 비교를 보조로 추가.</p>
+</blockquote>
+<p>① 실적 vs 컨센서스 (분기 단위)</p>
+<p>(1) 핵심 지표 비교</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>컨센서스 (밴드)</th>
+<th>실적 (Q1 26)</th>
+<th>서프라이즈%</th>
+<th>Beat/Miss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출액 ($B)</td>
+<td>22.35 ($22.0~22.96)</td>
+<td><strong>22.39</strong></td>
+<td>+0.2%</td>
+<td><strong>In-line</strong></td>
+</tr>
+<tr>
+<td>Adj EPS ($)</td>
+<td>0.36~0.37</td>
+<td><strong>0.41</strong></td>
+<td><strong>+11~14%</strong></td>
+<td><strong>Beat</strong></td>
+</tr>
+<tr>
+<td>GAAP GPM (%)</td>
+<td>18.5 (17.5~19.5)</td>
+<td><strong>21.1</strong></td>
+<td><strong>+260bps</strong></td>
+<td><strong>Big Beat</strong></td>
+</tr>
+<tr>
+<td>Auto GPM ex-credits (%)</td>
+<td>17.0 (15.5~18.5)</td>
+<td><strong>19.2</strong></td>
+<td><strong>+220bps</strong></td>
+<td><strong>Big Beat</strong></td>
+</tr>
+<tr>
+<td>인도량 (천 대)</td>
+<td>365.6 (358~373)</td>
+<td><strong>358.0</strong></td>
+<td><strong>-2.1%</strong></td>
+<td><strong>Miss</strong></td>
+</tr>
+<tr>
+<td>Energy 배포 (GWh)</td>
+<td>13.0 (12~14)</td>
+<td><strong>8.8</strong></td>
+<td><strong>-32%</strong></td>
+<td><strong>Big Miss</strong></td>
+</tr>
+<tr>
+<td>영업이익 ($M)</td>
+<td>800 (700~900)</td>
+<td><strong>941</strong></td>
+<td>+18%</td>
+<td><strong>Beat</strong></td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Beat 항목 vs Miss 항목의 명확한 분기점</strong> = "마진은 Beat, 볼륨은 Miss" 구조<br />
+→ <strong>컨센서스 사전 분포</strong>: 매출 컨센은 4월 초 인도 미스(4/2 발표) 이후 -3% 하향 ($22.96B → $22.35B). 즉 <strong>이미 미스 반영된 컨센을 In-line으로 충족</strong>한 것. (출처: Tesla IR Q1 26 Earnings Consensus + Electrek 2026-04-21)<br />
+→ <strong>EPS Beat의 본질</strong>: 마진 회복 + 운영비 통제(OpEx -2% QoQ). 일부 셀사이드는 <strong>regulatory credit revenue</strong> 일회성 효과 + warranty/관세 환급 보너스로 EPS를 약 $0.04 부풀렸다고 평가 (Electrek, 2026-04-22).</p>
+<p>② Q4 25 회사 코멘트 vs Q1 26 실제 (보조 비교)</p>
+<p>(1) Q4 25 어닝콜에서의 Musk 발언 vs Q1 26 실현</p>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>Q4 25 회사 멘트 (2026-01-28)</th>
+<th>Q1 26 실제</th>
+<th>평가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026 인도 성장</td>
+<td>"전년 대비 두 자릿수 성장 가능"</td>
+<td>Q1 +6.3% YoY (연환산 한 자릿수 권역)</td>
+<td><strong>하회</strong></td>
+</tr>
+<tr>
+<td>2026 CapEx</td>
+<td>약 $20B</td>
+<td><strong>$25B+ 상향</strong></td>
+<td><strong>상향 (-)</strong></td>
+</tr>
+<tr>
+<td>Robotaxi 범위</td>
+<td>"vast majority of the US by year-end"</td>
+<td>"a dozen or so states"</td>
+<td><strong>하향 (-)</strong></td>
+</tr>
+<tr>
+<td>Auto 마진 회복</td>
+<td>"Q1부터 가시화"</td>
+<td><strong>Auto GPM ex-credits +670bps YoY</strong></td>
+<td><strong>상회 (+)</strong></td>
+</tr>
+<tr>
+<td>Optimus 양산</td>
+<td>"2026 중 시작"</td>
+<td>"Q2 라인 prep, late July/August"</td>
+<td><strong>온트랙</strong></td>
+</tr>
+<tr>
+<td>Energy 성장</td>
+<td>"강한 성장 지속"</td>
+<td>-12% YoY, -38% QoQ</td>
+<td><strong>하회 (-)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Beat 1건 (Auto 마진) vs Miss 4건 (인도·CapEx·Robotaxi 범위·Energy)</strong> — 회사가 직전 분기에 제시한 2026 가이던스 대비 <strong>종합 점수는 마이너스</strong>.<br />
+→ 다만 시장이 가장 신뢰하지 않던 항목(Auto 마진)이 Beat로 나온 점 + AI/Optimus 마일스톤이 온트랙인 점이 시간외 +4% 초기 반응의 근거. (출처: Tesla Q4 25 Earnings Call Transcript, Q1 26 Update + Earnings Call)</p>
+<p>③ 제품별·세그먼트별 서프라이즈 상세</p>
+<p>(1) Auto: 매출 Beat, 인도 Miss → ASP 상승이 만든 베스트 시나리오</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>컨센</th>
+<th>실적</th>
+<th>차이</th>
+<th>해석</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auto 매출 ($B)</td>
+<td>16.0</td>
+<td>16.23</td>
+<td>+1.4%</td>
+<td>ASP 상승 효과</td>
+</tr>
+<tr>
+<td>인도 (천 대)</td>
+<td>365.6</td>
+<td>358.0</td>
+<td>-2.1%</td>
+<td>볼륨 미스</td>
+</tr>
+<tr>
+<td>함의 ASP ($)</td>
+<td>~43,800</td>
+<td>~45,300</td>
+<td>+3.4%</td>
+<td>FSD/믹스</td>
+</tr>
+</tbody>
+</table>
+<p>→ ASP +3.4% 상승 = Cybertruck·Long Range 비중 + FSD takerate 상승의 결합. 가격 인상은 없었으나 <strong>고가 모델 믹스 강화</strong>.</p>
+<p>(2) Energy: 배포 Big Miss + 매출 Miss → ESS 발주 둔화</p>
+<p>→ 8.8 GWh × ASP 약 $250/kWh 가정 시 매출 약 $2.2B로, 실제 $2.41B는 솔라·서비스 혼합으로 보전된 것. 그러나 컨센 13 GWh 대비 <strong>-32% 미달</strong>은 Q2~Q3 회복 신호 없으면 사이클 정점 지났다는 해석으로 갈 수 있음.</p>
+<p>(3) Services: Big Beat — 사상 최대 분기 성장률</p>
+<p>→ +42% YoY는 2020년 이래 분기 최고. Insurance 신규 가입 증가 + Supercharging 3rd party 매출 + 중고차 인증 프로그램 확대가 동시 작동. <strong>신규 BU의 부상</strong>.</p>
+<hr />
+<h2>항목 3. 경영진 코멘터리 (IR 원본 기반)</h2>
+<p>① CEO Elon Musk 핵심 발언</p>
+<p>(1) 자율주행 (FSD/Robotaxi)</p>
+<p>(1-1) <strong>HW3 → AI4 무료 업그레이드 충격 발표</strong><br />
+→ "Hardware 3 simply does not have the capability to achieve unsupervised FSD" (Musk, Q1 26 call)<br />
+→ 기존 FSD 구매자에게 <strong>AI4 컴퓨터 + 카메라 무료 교체</strong> 또는 <strong>할인 트레이드인</strong> 제공<br />
+→ 함의: 수백만 대 차량 비용 부담 = <strong>워런티 충당금 잠재 증가</strong>. 2024년 기준 FSD 구매자 약 50~60만 명 추정 → 컴퓨터 단가 $500~1,000 가정 시 <strong>$300~600M 일회성 비용</strong> 가능<br />
+→ 시장이 "약속 위반"으로 받아들여 어닝콜 이후 -하락 압력 (howtogeek 2026-04-23)</p>
+<p>(1-2) <strong>Robotaxi 범위 축소</strong><br />
+→ 직전 분기(Q4 25) "vast majority of US by year-end" → <strong>"a dozen or so states by end of 2026"</strong>로 축소<br />
+→ 현재 가동 중: Austin, Dallas, Houston (3개 도시)<br />
+→ "Unsupervised FSD or Robotaxi revenue will not be super material this year, but I think it'll be material probably in a significant way next year" — <strong>2027년에야 의미 있는 매출</strong> (seekingalpha)<br />
+→ FSD Unsupervised 고객 차량 도달 시점: "Q4 2026 — 그냥 추측이다" (Musk 직접 발언, 자신감 부족 표현)</p>
+<p>(2) Optimus (휴머노이드 로봇)</p>
+<p>(2-1) <strong>첫 대규모 Optimus 공장 Q2부터 prep</strong> 시작<br />
+→ "First-generation line"으로 <strong>연 100만 대 생산 능력</strong> 목표<br />
+→ 양산 시작: late July/August 2026<br />
+→ AI5 칩 tapeout 조기 완료 (6개월 집중 작업, 휴일·주말 포함)<br />
+→ AI5는 Optimus + 데이터센터 전용 → <strong>Unsupervised FSD는 AI4에서 달성</strong>한다는 분리 전략</p>
+<p>(3) 시장 전망 / 수요</p>
+<p>(3-1) <strong>EV 시장 수요는 "변동성 있다"고 명시</strong> — 인도 부진 변명 톤<br />
+(3-2) <strong>중국·EU 매크로 우려</strong> 짧게 언급, FSD Netherlands 승인 + EU 전반 Q2 중 추가 승인 기대 → 글로벌 FSD takerate 확대 가능</p>
+<p>② CFO Vaibhav Taneja 재무 상세</p>
+<p>(1) 손익 디테일</p>
+<p>(1-1) GAAP GPM 21.1% 동인 분해 (CFO 코멘트 + 추정)<br />
+→ ① 가격 인하 사이클 종료 (Q1 25 대비 ASP 변동 미미, +1~2% 상승 추정)<br />
+→ ② 원자재 비용 절감 (-20%대 하락이 연간 누적 영향)<br />
+→ ③ FSD 매출 인식 (이연수익 turn) — 약 +50~80bps 기여 추정<br />
+→ ④ Cybertruck 단위당 손익 흑자 전환 — Q1 26부터 개별 BEP 통과 (CFO 코멘트)<br />
+→ ⑤ Regulatory credit revenue ~$595M — 매출 비중 2.7% (Q4 25 약 $440M 대비 +35%) ← 일회성 부풀리기 의혹 (Electrek)</p>
+<p>(1-2) OpEx -2% QoQ 통제 — R&amp;D는 AI 투자로 +5%, 그러나 SG&amp;A -8%로 전체 -2% 만들어냄</p>
+<p>(2) Cash Flow &amp; Balance Sheet</p>
+<p>(2-1) FCF +$1.4B (Q1 26)<br />
+→ Q4 25 FCF $1.4B와 동일 — 마진 회복으로 OCF 유지<br />
+→ <strong>그러나 잔여 3개 분기 FCF는 음수로 전환 예정</strong> (Musk 직접 시인)</p>
+<p>(2-2) CapEx Q1 $2.49B (vs Q1 25 $1.49B, +67% YoY)<br />
+→ FY26 CapEx <strong>$25B+</strong> (상향, 종전 $20B에서 +25%)<br />
+→ 6개 공장 동시 운영·건설 (Berlin·Shanghai·Austin·Fremont·Reno·Mexico — Mexico는 보류 가능성)<br />
+→ <strong>FY26 CapEx의 세부 배분</strong>: AI 인프라(Cortex 2 운영, Dojo 3 개발, Austin 반도체 R&amp;D 팹), Cybercab 라인, Optimus 라인, 추가 가속기</p>
+<p>(2-3) 재고 DOI(Days of Inventory): Q4 25 약 14일 → Q1 26 <strong>약 22일</strong>로 50%+ 증가<br />
+→ 5만대 추가 재고 + 단가 약 $45K = 재무제표상 약 $2.3B 재고 평가 — 차기 분기 인도 가속 또는 가격 조정 압력</p>
+<p>③ 팩토리·사이트별 타임라인</p>
+<p>(1) Cortex 2 (AI 학습 클러스터)<br />
+→ <strong>온라인 가동 시작</strong> + 학습 워크로드 시작 (Q1 26 내)<br />
+→ AI 컴퓨트 능력 6개월 내 <strong>2배 확장</strong> 예정</p>
+<p>(2) Austin Semiconductor R&amp;D Fab<br />
+→ Dojo 3 + AI5 prototype 라인 — 진행 중<br />
+→ TSMC와의 동시 발주 (TSMC가 메인 제조, Austin은 R&amp;D 검증)</p>
+<p>(3) Cybercab 공장 (Robotaxi 전용)<br />
+→ Austin Gigafactory 인접지 → CapEx 가이던스 상향의 핵심 항목<br />
+→ 2026 말 prototype 라인, 2027 양산 가능성</p>
+<p>(4) Optimus 첫 대규모 공장<br />
+→ Q2 26 prep, <strong>late July/August 양산</strong><br />
+→ "1M robots/year 라인" — 4년 차기 라인까지 연 1,000만 대 가능 시나리오</p>
+<p>(5) 6개 공장 시뮬레이트 운영<br />
+→ Berlin·Shanghai 가동률 회복, Fremont는 Robotaxi prep, Austin는 Cybertruck + Cybercab + Optimus, Reno는 ESS, Mexico는 보류</p>
+<hr />
+<h2>항목 4. 다음 분기 가이던스 분석</h2>
+<blockquote>
+<p>4-1 프리뷰 독자 분석 vs 실제: 표준 위치 프리뷰 미존재로 <strong>자동 생략</strong></p>
+</blockquote>
+<p>② 다음 분기·연간 가이던스 분석</p>
+<p>(1) Tesla 가이던스 정책 — 분기 매출/EPS 가이던스 미제공<br />
+→ 회사는 연간 인도 성장 멘트만 제공 — Q1 26 컨퍼런스콜에서도 분기 가이던스는 없음<br />
+→ 대신 다음 정성적 멘트 제시:</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 26 컨콜 멘트</th>
+<th>함의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026 인도 성장</td>
+<td>"전년 대비 성장 지속" (구체 % 없음)</td>
+<td>셀사이드는 +7~10% YoY로 해석</td>
+</tr>
+<tr>
+<td>2026 매출</td>
+<td>명시 없음</td>
+<td>컨센 약 +16% YoY 유지</td>
+</tr>
+<tr>
+<td>2026 CapEx</td>
+<td><strong>$25B+</strong> (vs 종전 $20B, +25% 상향)</td>
+<td>-20% FCF 임팩트</td>
+</tr>
+<tr>
+<td>2026 FCF</td>
+<td>"잔여 3개 분기 음수"</td>
+<td>-$2~4B FCF 가능</td>
+</tr>
+<tr>
+<td>2026 Auto 마진</td>
+<td>"추가 개선 가능"</td>
+<td>+α 시그널</td>
+</tr>
+<tr>
+<td>Robotaxi 매출</td>
+<td>"올해 immaterial, 2027부터 material"</td>
+<td>단기 EPS 영향 zero</td>
+</tr>
+<tr>
+<td>Optimus 매출</td>
+<td>"2026 H2 시작, 2027 본격"</td>
+<td>단기 EPS 영향 zero</td>
+</tr>
+</tbody>
+</table>
+<p>(2) Q2 26 컨센 변동 (4월 22일 발표 → 5월 2일까지 변화)<br />
+→ <strong>매출 컨센 $25.1B → $24.5B (-2.4% 하향)</strong> — 인도 부진 + ESS 약화 반영<br />
+→ <strong>EPS 컨센 $0.50 → $0.55 (+10% 상향)</strong> — Auto 마진 모멘텀 인정<br />
+→ 셀사이드 변경 사항: 13개 상향 / 8개 하향 / 11개 유지 (32명 기준)</p>
+<p>(3) FY26 컨센 변동<br />
+→ <strong>매출 $108B → $110B (+1.9%)</strong> — Q1 baseline 반영<br />
+→ <strong>EPS $2.20 → $2.40 (+9%)</strong> — 마진 어시스트<br />
+→ <strong>목표주가(평균) $382 → $400 (+4.7%)</strong> — Hold 컨센 유지</p>
+<hr />
+<h2>항목 5. 업황 사이클 점검 &amp; 독자 전망</h2>
+<p>① 산업 사이클 위치 판단</p>
+<p>(1) 자동차 BU<br />
+→ 사이클 위치: <strong>인도 V자 회복 진입 단계 (저점 통과 후 완만 상승)</strong><br />
+→ Q1 25 인도 trough(337K) 이후 4분기 우상향: 384K → 497K → 418K → <strong>358K</strong><br />
+→ Q1·Q4 계절성 반영 시 추세는 +6~10% YoY 회복 권역<br />
+→ 마진 측은 <strong>확실한 회복 사이클 진입</strong> — Auto GPM ex-credits 12.5% → 19.2%, 5분기 연속 상승<br />
+→ 그러나 5만대 재고 빌드 = 회복 강도가 컨센보다 약하다는 시그널</p>
+<p>(2) Energy BU<br />
+→ 사이클 위치: <strong>단기 약세 (Q1 26 -38% QoQ 충격)</strong>, 2024-25 강세 구간 일시 조정 가능성<br />
+→ 8.8 GWh는 2024 평균(~10 GWh) 수준으로 회귀 — Q3-Q4 25 정점(14 GWh) 대비 -37%<br />
+→ AI 데이터센터 + 유틸리티 발주는 LTA 기반 → Q2-Q3 회복 시그널이 있어야 사이클 지속 검증<br />
+→ Lathrop·Megapack Lathrop2 공장 풀가동 = capacity는 충분, 수요 사이클이 핵심</p>
+<p>(3) Services &amp; Other BU<br />
+→ 사이클 위치: <strong>신규 성장 BU 진입</strong> (16.7% 매출 비중 사상 최고)<br />
+→ +42% YoY는 추세 가속을 시사<br />
+→ Insurance·Supercharging·FSD 보험할인 결합 = Apple Services와 유사한 ARR 모델 진화 가능성</p>
+<p>② 독자적 전망 (Independent Outlook)</p>
+<p>(1) Q2 26 시나리오</p>
+<table>
+<thead>
+<tr>
+<th>시나리오</th>
+<th>매출 ($B)</th>
+<th>Adj EPS</th>
+<th>인도 (K)</th>
+<th>핵심 가정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bull</td>
+<td>26.5</td>
+<td>0.65</td>
+<td>430</td>
+<td>Model Y "Juniper" 풀 출하 + 5만대 재고 소진 + Energy 12 GWh 회복</td>
+</tr>
+<tr>
+<td>Base</td>
+<td>24.5</td>
+<td>0.55</td>
+<td>410</td>
+<td>인도 +6% YoY, 마진 18%, ESS 10 GWh — Street 컨센</td>
+</tr>
+<tr>
+<td>Bear</td>
+<td>22.5</td>
+<td>0.42</td>
+<td>380</td>
+<td>재고 추가 빌드, 가격 인하 재개, ESS 8 GWh — 사이클 약화</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Base 시나리오 발생 확률 50%</strong> — 셀사이드 컨센과 일치<br />
+→ Bull/Bear 격차 ±$2.0B/매출, ±$0.13/EPS — 인도·ESS 두 변수가 레버</p>
+<p>(2) FY26 연간 추정 갱신<br />
+→ 매출 base: <strong>$108~112B</strong> (cons $110B)<br />
+→ EPS base: <strong>$2.30~2.50</strong> (cons $2.40)<br />
+→ Auto 마진 ex-credits <strong>17~19% 평균</strong> 가능 (Q1 19.2% + 잔여 분기 17% 평균)</p>
+<p>(3) 사이클 핵심 변수<br />
+→ <strong>변수 1: Q2 인도 모멘텀</strong> — 5만대 재고 소진 또는 추가 빌드?<br />
+→ <strong>변수 2: Energy storage 회복 속도</strong> — Q2 12 GWh 이상 회복 시 사이클 유효 / 8 GWh 이하 시 Q3에서 정점 시그널<br />
+→ <strong>변수 3: AI/Robotaxi 마일스톤</strong> — Optimus 양산 일정·HW3 비용 임팩트가 EPS에 직접<br />
+→ <strong>변수 4: CapEx 추가 상향 가능성</strong> — $25B를 다시 상향하면 FCF/balance sheet 압력</p>
+<p>(4) 컨센서스 vs 독자 전망 차이<br />
+→ 컨센은 마진 회복 + AI 옵셔널리티에 가중치를 두고 EPS +9% 상향. 독자 전망도 동일 방향이나, <strong>Energy BU 약화</strong>의 구조적 의미를 컨센이 과소평가한다고 본다 (한 번의 노이즈 vs 사이클 정점 시그널 구분 필요)<br />
+→ 인도 V자 회복 강도: 컨센은 +7~10% YoY를 기대하나, 5만대 재고 빌드는 +5% YoY 권역의 약한 회복일 가능성</p>
+<p>③ 리스크 모니터링</p>
+<p>(1) 사이클 하방 시그널<br />
+→ 재고 빌드 → 가격 인하 재개 (Q2 26 가능성 30% 추정)<br />
+→ Energy storage 9 GWh 이하 지속 → 사이클 정점 통과 확정</p>
+<p>(2) CapEx 과잉 투자 리스크<br />
+→ $25B+ 가이던스에서 Q3-Q4 추가 상향 가능성 = balance sheet 부담<br />
+→ 6개 공장 동시 운영 = capex 효율성 의문</p>
+<p>(3) 지정학·관세 리스크<br />
+→ 중국 출하: Q1 26 안정화. EU 관세 협상 진행 중. 미국 관세: Tesla는 미국 생산 비중 60%+로 상대적 보호. <strong>단, 부품 관세는 누적</strong>.<br />
+→ FSD 규제: Netherlands 승인 → EU 전체 Q2 푸시 → 글로벌 FSD takerate +α</p>
+<p>(4) 경쟁 환경<br />
+→ 중국 BYD·Geely·Xpeng 가격 경쟁 지속 → Tesla China 마진 압박<br />
+→ Waymo Robotaxi 영역 확대 → Robotaxi 시장 분할 가속<br />
+→ Figure·Boston Dynamics 휴머노이드 경쟁</p>
+<hr />
+<h2>항목 6. 셀사이드 컨센 변화 정리</h2>
+<p>① 5단계 뷰 분포 (Strong Buy / Buy / 중립 / Sell / Strong Sell)</p>
+<p>(1) Q1 26 발표 직후 분포 (32명 기준, 2026-04-29)</p>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>증권사 수</th>
+<th>평균 TP ($)</th>
+<th>평균 EPS 추정 (FY26, $)</th>
+<th>Q4 25 발표 후 분포 변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong Buy</td>
+<td>4</td>
+<td>535</td>
+<td>2.85</td>
+<td>5명 → 4명 (Stifel 강등)</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>11</td>
+<td>445</td>
+<td>2.55</td>
+<td>9명 → 11명 (+2)</td>
+</tr>
+<tr>
+<td>중립 (Hold)</td>
+<td>12</td>
+<td>380</td>
+<td>2.30</td>
+<td>12명 → 12명 (변동 없음)</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>4</td>
+<td>305</td>
+<td>1.95</td>
+<td>5명 → 4명 (UBS Sell→중립 상향)</td>
+</tr>
+<tr>
+<td>Strong Sell</td>
+<td>1</td>
+<td>220</td>
+<td>1.65</td>
+<td>1명 → 1명 (변동 없음)</td>
+</tr>
+</tbody>
+</table>
+<p>→ 평균 TP: <strong>$394~416</strong> (32명) — 직전 컨센 $382 대비 <strong>+4.7%</strong><br />
+→ 등급 변동: <strong>상향 6건 / 하향 4건 / 유지 22건</strong><br />
+→ 컨센서스 등급: <strong>Hold</strong> (Q4 25 시점과 동일, 강세파 vs 약세파 양극화 심화)<br />
+→ (출처: Yahoo Finance Analysis / TipRanks / Benzinga 2026-04-29~30)</p>
+<p>② 단계별 공통 논리</p>
+<p>(1) Strong Buy 공통 논리<br />
+→ "AI/Robotaxi/Optimus 옵셔널리티가 단기 펀더멘털 약점을 압도한다" — Wedbush(Ives) "Robotaxi/Optimus가 Tesla 시총의 70%를 차지하게 될 것"<br />
+→ 특이 디테일: <strong>Wedbush $600</strong> = Street 최고. Cantor $510, Stifel $508, RBC $475</p>
+<p>(2) Buy 공통 논리<br />
+→ "Auto 마진 회복은 입증, 인도는 점진적 회복" — 펀더멘털 베이스 + AI 옵션 결합<br />
+→ 특이 디테일: Canaccord $450 (Auto 마진 +α), CFRA $380 (Q1 후 +$55 상향)</p>
+<p>(3) 중립 (Hold) 공통 논리<br />
+→ "마진 회복 ✓, 그러나 CapEx 상향 + Robotaxi 범위 축소가 단기 negative" — 양면성 인정<br />
+→ 특이 디테일: <strong>Morgan Stanley(Jonas) $410</strong> Equal Weight 유지 — "긍정과 부정이 정확히 상쇄"<br />
+→ Goldman Sachs <strong>$375 Hold</strong> (직전 $405에서 <strong>하향</strong>) — Q1 26 후 하향한 유일한 메이저<br />
+→ UBS <strong>$364</strong> — 직전 $352에서 +$12 상향, Sell → Neutral 등급 상향</p>
+<p>(4) Sell 공통 논리<br />
+→ "5만대 재고 빌드 + Energy 약화 = 사이클 정점 통과" — 펀더멘털 약화 우려<br />
+→ 특이 디테일: 일부 약세파는 PT $250~300 권역 유지, FSD HW3 비용 + warranty 충당금 우려 강조</p>
+<p>(5) Strong Sell<br />
+→ Per Lekander $220 유지 — "AI 내러티브 거품, 가치는 자동차 사업뿐" 지속</p>
+<p>③ 직전 리포트 대비 톤·핵심 포인트 변화 (주요 증권사)</p>
+<table>
+<thead>
+<tr>
+<th>증권사</th>
+<th>직전 의견</th>
+<th>현재 의견</th>
+<th>직전 TP</th>
+<th>현재 TP</th>
+<th>핵심 변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wedbush (Dan Ives)</td>
+<td>Outperform</td>
+<td>Outperform</td>
+<td>$600</td>
+<td>$600</td>
+<td>"AI 모멘텀 확인 — 변동성에도 long-term Bull thesis 유지"</td>
+</tr>
+<tr>
+<td>Cantor Fitzgerald</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$510</td>
+<td>$510</td>
+<td>"마진 회복 + AI 옵션 — Q1 발표 후 Buy 유지"</td>
+</tr>
+<tr>
+<td>Stifel</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$470</td>
+<td><strong>$508</strong></td>
+<td><strong>+$38 상향</strong> — Auto 마진 surprise</td>
+</tr>
+<tr>
+<td>Morgan Stanley (Jonas)</td>
+<td>EW</td>
+<td>EW</td>
+<td>$410</td>
+<td>$410</td>
+<td>"양면성 — Robotaxi 축소가 Auto 마진을 상쇄"</td>
+</tr>
+<tr>
+<td>RBC Capital</td>
+<td>Outperform</td>
+<td>Outperform</td>
+<td>$440</td>
+<td><strong>$475</strong></td>
+<td><strong>+$35 상향</strong> — 마진 모멘텀 + AI compute</td>
+</tr>
+<tr>
+<td>Canaccord</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$440</td>
+<td>$450</td>
+<td>+$10 상향 — Services BU 성장</td>
+</tr>
+<tr>
+<td>CFRA</td>
+<td>Hold</td>
+<td><strong>Hold</strong></td>
+<td>$325</td>
+<td><strong>$380</strong></td>
+<td><strong>+$55 상향</strong> — Hold 유지하나 PT 큰 폭 상향</td>
+</tr>
+<tr>
+<td>Goldman Sachs</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>$405</td>
+<td><strong>$375</strong></td>
+<td><strong>-$30 하향</strong> — CapEx 상향 + Robotaxi 축소</td>
+</tr>
+<tr>
+<td>UBS</td>
+<td>Sell</td>
+<td><strong>Neutral</strong></td>
+<td>$352</td>
+<td><strong>$364</strong></td>
+<td><strong>등급 Sell→Neutral, +$12</strong></td>
+</tr>
+<tr>
+<td>TD Cowen</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>n/a</td>
+<td>reiterated</td>
+<td>"AI 모멘텀 인정"</td>
+</tr>
+<tr>
+<td>Per Lekander</td>
+<td>Strong Sell</td>
+<td>Strong Sell</td>
+<td>$220</td>
+<td>$220</td>
+<td>변동 없음, "거품 우려"</td>
+</tr>
+</tbody>
+</table>
+<p>→ 톤 강화: <strong>Stifel·RBC·CFRA</strong> — Auto 마진 회복 인정 + AI 모멘텀<br />
+→ 톤 약화: <strong>Goldman</strong> — CapEx + Robotaxi 축소 negative<br />
+→ 시각 전환: <strong>UBS Sell → Neutral</strong> — 마진 회복 인정, 등급 상향<br />
+→ <strong>Hold 컨센은 유지되나 강세파-약세파 격차 확대</strong> = 시장이 Tesla를 어떻게 평가할지 의견 분기</p>
+<p>(출처: Benzinga Analyst Ratings, TheStreet 2026-04-23~26, TipRanks 2026-04-29)</p>
+<hr />
+<h2>항목 7. 수정된 관전 포인트 &amp; 향후 전망</h2>
+<blockquote>
+<p>7-1 프리뷰 관전포인트 결과 평가: 표준 위치 프리뷰 미존재로 <strong>자동 생략</strong></p>
+</blockquote>
+<p>② 다음 분기까지 수정 관전포인트 (우선순위)</p>
+<p>(1) <strong>5만대 재고 소진 속도 (최우선)</strong><br />
+→ Q2 인도 410K 이상 + 생산 410K 미만 시 → 재고 정상화 확인<br />
+→ Q2 인도 380K 이하 시 → 가격 인하 압력 본격화</p>
+<p>(2) <strong>Energy storage 배포 회복</strong><br />
+→ Q2 12 GWh 이상 회복 시 → 사이클 유효 (Q1 일시 노이즈)<br />
+→ Q2 9 GWh 이하 지속 시 → 정점 통과 시그널 → 컨센 큰 폭 하향</p>
+<p>(3) <strong>HW3 → AI4 업그레이드 비용 충당금</strong><br />
+→ Q2 실적에서 warranty/충당금 항목 +$300M 이상 인식 시 → EPS 부담 가시화<br />
+→ 이연수익 매출 전환 + 충당금 동반 인식 시 NET 영향 추산 필요</p>
+<p>(4) <strong>Optimus 양산 일정</strong><br />
+→ late July/August 양산 시작 시 → 실물 ramp curve 첫 분기<br />
+→ 양산 지연 시 → AI 내러티브 약화</p>
+<p>(5) <strong>Robotaxi 도시 확장 vs 정책 리스크</strong><br />
+→ Austin/Dallas/Houston + 1~2개 추가 시 → 온트랙<br />
+→ 정책·사고 이슈 발생 시 → 강세파 PT 일제 하향 가능</p>
+<p>(6) <strong>CapEx 추가 변동</strong><br />
+→ Q2-Q3 컨콜에서 $25B → 추가 상향 시 → balance sheet/FCF 우려 본격화<br />
+→ AI 인프라 항목 비중 60%+ 시 → "AI 회사 전환" 내러티브 강화 (양면성)</p>
+<p>③ 향후 전망 참고 요인</p>
+<p>(1) 펀더멘털 요약<br />
+→ Q1 26은 <strong>마진 회복 입증 + 볼륨 약화 + AI 내러티브 재정의의 분기</strong><br />
+→ 자동차 사업의 펀더멘털은 회복 중이나 폭은 컨센 기대보다 약함<br />
+→ AI/Robotaxi/Optimus는 단기 매출 zero, 2027 본격 매출 가능성</p>
+<p>(2) 시장 반응 해석<br />
+→ 발표 직후 시간외 +4% (EPS Beat 반영)<br />
+→ 컨콜 후 차익실현으로 마감 (CapEx 상향 + Robotaxi 축소 충격)<br />
+→ 5월 초까지 약세 지속, 셀사이드 양극화 심화 = "AI 옵션 가치"를 어떻게 평가하느냐의 문제로 환원</p>
+<p>(3) 사이클 핵심 시그널 (선행지표)<br />
+→ <strong>주간 인도량 (insurance 등록 데이터)</strong>: Q2 진행 중 인도 모멘텀 실시간 추정<br />
+→ <strong>에너지 storage LTA 신규 발주</strong>: Megapack 백로그 변동<br />
+→ <strong>FSD takerate (북미·중국·EU)</strong>: 분기 매출 동인<br />
+→ <strong>Optimus 시제품 영상 빈도</strong>: 양산 일정 신뢰성 시그널<br />
+→ <strong>HW3 보유 차주 청구 건수</strong>: warranty 충당금 임팩트 가늠</p>
+<p>(4) 사용자(BT) 별도 체크 항목<br />
+→ M7 동일 분기 내 GOOGL/MSFT/META AI CapEx 상향 톤과 비교 — Tesla CapEx 상향이 산업 전반 AI 투자 사이클의 일환인지 단독인지 검증<br />
+→ Tesla vs BYD/CATL Energy storage 점유율 — 사이클 정점 추정 시 글로벌 피어 데이터 교차검증</p>
+<hr />
+<h2>향후 관찰 포인트 (요약)</h2>
+<p>→ Q2 26 인도량 (5만대 재고 소진 여부)<br />
+→ Energy storage Q2 배포량 (12 GWh 회복 vs 8 GWh 이하 지속)<br />
+→ HW3 → AI4 업그레이드 충당금 인식 폭 (Q2 warranty 항목)<br />
+→ Optimus 양산 시작 시점 (late July/August)<br />
+→ Robotaxi 도시 확장 (Austin·Dallas·Houston 외 추가)<br />
+→ FY26 CapEx 추가 변동 ($25B+ vs 추가 상향)<br />
+→ M7 피어 AI CapEx 가이던스 (GOOGL·MSFT·META·AMZN 4/29~4/30 발표 이미 확인 — 모두 +α 상향)</p>
+<hr />
+<h2>다음 단계 산출물 안내 (T1 종목)</h2>
+<p>→ <strong>Tesla는 워치리스트 [섹터 T1] "미국 빅테크"</strong> 소속 → preview/review/in-depth 풀 사이클 권장<br />
+→ 본 리뷰 .md → quarterly-review Stage 2 (섹터 단위 분석)에서 자동 로드 (메타데이터 [섹터: 미국 빅테크] 매칭)<br />
+→ 다음 단계: <strong>시장 반응 1~2주 관찰 후 [실적 인뎁스 분석 모드] 호출</strong> 권장<br />
+→ in-depth 핵심 논점 후보:<br />
+  → 논점 1: <strong>마진 회복은 secular인가 cyclical인가?</strong> (가격 인하 종료 vs 일회성 효과 분기)<br />
+  → 논점 2: <strong>AI/Robotaxi 시총 가치 평가</strong> ($600 vs $364의 격차 = 약 $750B 시총 차이)<br />
+  → 논점 3: <strong>Energy BU 사이클 정점 통과 여부</strong> (8.8 GWh = 노이즈 or 시그널?)<br />
+  → 논점 4: <strong>HW3 → AI4 비용 임팩트와 약속 위반 리스크</strong><br />
+  → 논점 5: <strong>CapEx $25B+ 효율성 — 6개 공장 동시 운영 합리성</strong></p>
+<hr />
+<p><em>본 리포트는 공개된 Tesla IR 자료, Earnings Call transcript, 셀사이드 리포트, 검증된 미디어를 기반으로 작성되었습니다. 모든 수치는 출처와 시점을 명시했으며, 전망(Forecast)과 사실(Fact)을 구분 표기했습니다. 차트는 Tesla IR Quarterly Updates 데이터 기반으로 생성되었습니다.</em></p>
+</body>
+</html>
