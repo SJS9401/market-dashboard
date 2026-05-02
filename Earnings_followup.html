@@ -20,8 +20,7 @@
   --t3: #888;
   --done: #4caf50;
   --pending: #555;
-  --upcoming: #ff9800;
-  --past: #777;
+  --signal: #b9c5d4;
 }
 * { box-sizing: border-box; }
 body {
@@ -45,42 +44,36 @@ h3 { color: var(--text-bright); margin: 0.8rem 0 0.4rem; font-size: 1rem; }
 .tier-T1 { background: var(--t1); color: #000; }
 .tier-T2 { background: var(--t2); color: #fff; }
 .tier-T3 { background: var(--t3); color: #fff; }
-.progress-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
-.stat { display: flex; flex-direction: column; align-items: center; min-width: 50px; }
-.stat-value { font-size: 1.2rem; font-weight: 700; color: var(--text-bright); }
-.stat-label { font-size: 0.75rem; color: var(--text-dim); }
-.upcoming-row { display: flex; gap: 0.6rem; flex-wrap: wrap; padding: 0.6rem 0.8rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 1.5rem; }
-.upcoming-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.7rem; background: var(--bg-3); border-radius: 4px; font-size: 0.8rem; cursor: pointer; transition: background 0.15s; }
-.upcoming-item:hover { background: var(--accent); }
-.dday { font-weight: 700; color: var(--upcoming); }
-.dday.past { color: var(--past); }
-.dday.today { color: var(--done); }
+.progress-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+.stat { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+.stat-value { font-size: 1.4rem; font-weight: 700; color: var(--text-bright); }
+.stat-label { font-size: 0.78rem; color: var(--text-dim); }
 .sector-grid-t1 { display: grid; grid-template-columns: 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
 .sector-grid-t2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.5rem; }
-.sector-grid-t3 { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.sector-grid-t3 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.5rem; }
 .sector-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; transition: border-color 0.15s; }
 .sector-card.t1 { border-left: 4px solid var(--t1); }
 .sector-card.t2 { border-left: 4px solid var(--t2); }
-.sector-card.t3 { border-left: 4px solid var(--t3); padding: 0.5rem 0.8rem; min-width: 200px; }
+.sector-card.t3 { border-left: 4px solid var(--t3); }
 .sector-card:hover { border-color: var(--accent); }
 .sector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
 .sector-name { color: var(--text-bright); font-size: 1.05rem; font-weight: 600; }
 .sector-meta { font-size: 0.78rem; color: var(--text-dim); }
 .stock-list { margin-top: 0.5rem; }
-.stock-row { display: grid; grid-template-columns: minmax(180px, 1.5fr) 100px auto; gap: 0.5rem; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--bg-3); }
+.stock-row { display: grid; grid-template-columns: minmax(220px, 1.8fr) 90px auto; gap: 0.5rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--bg-3); }
 .stock-row:last-child { border-bottom: 0; }
-.stock-name { color: var(--text); }
-.ticker { color: var(--text-dim); font-size: 0.78rem; margin-left: 0.3rem; }
-.dday-cell { font-size: 0.8rem; }
+.stock-info { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.stock-name-row { color: var(--text); display: flex; align-items: baseline; gap: 0.3rem; flex-wrap: wrap; }
+.stock-name { font-weight: 500; }
+.ticker { color: var(--text-dim); font-size: 0.78rem; }
+.stock-followup { color: var(--signal); font-size: 0.78rem; opacity: 0.85; padding-left: 0.1rem; }
+.progress-circles { display: inline-flex; gap: 0.2rem; align-items: center; }
+.circle { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--done); }
+.circle.empty { background: transparent; border: 1px solid var(--pending); }
 .mode-buttons { display: flex; gap: 0.3rem; justify-content: flex-end; }
-.mode-btn { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; background: var(--bg-3); color: var(--text-dim); border: 1px solid var(--border); border-radius: 3px; font-size: 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; }
-.mode-btn.done { background: var(--done); color: #fff; border-color: var(--done); }
-.mode-btn.done:hover { background: #5cba5c; }
-.mode-btn.pending { cursor: not-allowed; opacity: 0.5; }
-.sector-footer { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border); font-size: 0.78rem; }
-.sector-footer a { color: var(--accent); text-decoration: none; margin-right: 1rem; }
-.sector-footer a:hover { text-decoration: underline; }
-.t3-sector-line { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
+.mode-btn { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; background: var(--bg-3); color: var(--text); border: 1px solid var(--border-2); border-radius: 3px; font-size: 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; }
+.mode-btn:hover { background: var(--accent); color: var(--text-bright); border-color: var(--accent); }
+.dday-cell { font-size: 0.8rem; color: var(--text-dim); }
 .collapsible-toggle { color: var(--accent); cursor: pointer; user-select: none; margin-bottom: 0.5rem; font-size: 0.85rem; }
 .hidden { display: none; }
 .loading { color: var(--text-dim); font-style: italic; padding: 1rem; }
@@ -118,15 +111,8 @@ footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border
     <div id="progressStats" class="progress-stats">
       <div class="stat"><div class="stat-value" id="statP">-</div><div class="stat-label">Preview</div></div>
       <div class="stat"><div class="stat-value" id="statR">-</div><div class="stat-label">Review</div></div>
-      <div class="stat"><div class="stat-value" id="statI">-</div><div class="stat-label">In-Depth</div></div>
-      <div class="stat"><div class="stat-value" id="statS2">-</div><div class="stat-label">Stage 2</div></div>
     </div>
   </div>
-</div>
-
-<h2>⏰ 다음 발표 (Top 5)</h2>
-<div id="upcomingEarnings" class="upcoming-row">
-  <div class="loading">발표 일정 로딩...</div>
 </div>
 
 <h2>🌟 T1 메인 (분기 주도 섹터)</h2>
@@ -150,7 +136,7 @@ footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border
 // ============================================================
 const DATA_PATHS = {
   watchlist: 'earnings/watchlist.md',
-  calendar: 'earnings_calendar.md',  // deploy.bat이 영문 rename 복사
+  calendar: 'earnings_calendar.md',
   manifest: 'earnings/manifest.json'
 };
 
@@ -159,8 +145,9 @@ const DATA_PATHS = {
 // ============================================================
 let state = {
   currentQuarter: '2026-Q1',
-  watchlist: { T1: [], T2: [], T3: [] },  // [{sector, stocks: [{name, ticker}]}]
-  calendar: {},  // { stockName: {date, ticker, sector, note} }
+  watchlist: { T1: [], T2: [], T3: [] },
+  calendar: {},        // {stockName: {date, ticker, sector, note, isArchive}}
+  signals: {},         // {stockName: {ticker, sector, signal}} — "추적 종목" 섹션
   manifest: { preview: [], review: [], 'in-depth': [] }
 };
 
@@ -181,26 +168,6 @@ function el(tag, attrs, children) {
     else if (c) e.appendChild(c);
   });
   return e;
-}
-
-function dateDiff(targetStr) {
-  // targetStr: "5/4" or "2026-05-04"
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  let target;
-  if (targetStr.includes('-')) target = new Date(targetStr);
-  else {
-    const [m, d] = targetStr.split('/').map(Number);
-    target = new Date(today.getFullYear(), m-1, d);
-  }
-  target.setHours(0,0,0,0);
-  return Math.round((target - today) / (1000*60*60*24));
-}
-
-function formatDday(diff) {
-  if (diff === 0) return { text: 'D-0 ✓', cls: 'today' };
-  if (diff < 0) return { text: 'D+' + Math.abs(diff), cls: 'past' };
-  return { text: 'D-' + diff, cls: '' };
 }
 
 // ============================================================
@@ -229,7 +196,6 @@ async function fetchJson(path) {
 }
 
 function parseWatchlist(md) {
-  // 섹터 T1: "- **반도체** (삼성전자, SK하이닉스)" 또는 "- 반도체 (삼성전자, SK하이닉스)"
   const result = { T1: [], T2: [], T3: [] };
   let currentTier = null;
   const lines = md.split('\n');
@@ -237,13 +203,18 @@ function parseWatchlist(md) {
     if (/^##\s+섹터\s*T1/.test(line)) currentTier = 'T1';
     else if (/^##\s+섹터\s*T2/.test(line)) currentTier = 'T2';
     else if (/^##\s+섹터\s*T3/.test(line)) currentTier = 'T3';
+    else if (/^##\s/.test(line)) currentTier = null;  // 다른 ## 헤더 (예: tier 운영 룰 요약) → 리셋
     else if (currentTier && /^\s*-\s+/.test(line)) {
-      // - **섹터** (종목1, 종목2, 종목3)
+      // - **섹터명** (종목1, 종목2, ...) 패턴만 매칭. 운영 룰 라인은 (종목 list) 형태가 아니므로 자연 제외
       const m = line.match(/-\s+\*?\*?([가-힣\w\s]+?)\*?\*?\s*\(([^)]+)\)/);
       if (m) {
         const sector = m[1].trim();
         const stocks = m[2].split(',').map(s => s.trim()).filter(Boolean);
-        result[currentTier].push({ sector, stocks: stocks.map(name => ({ name, ticker: '' })) });
+        // 종목 list 안에 "팔로업" 같은 단어 있으면 잘못 매칭일 가능성 — 한 번 더 필터
+        const looksLikeStocks = stocks.every(s => s.length < 30 && !/[:%]/.test(s));
+        if (looksLikeStocks) {
+          result[currentTier].push({ sector, stocks: stocks.map(name => ({ name, ticker: '' })) });
+        }
       }
     }
   }
@@ -251,21 +222,31 @@ function parseWatchlist(md) {
 }
 
 function parseCalendar(md) {
-  // 표 행: | 5/4 | Palantir (PLTR) | 소프트웨어 | ... |
-  // 또는: | 5/8 | 한국전력 | 원전 | ... |
-  const result = {};
+  const result = { calendar: {}, signals: {} };
   const lines = md.split('\n');
+  let inSignalSection = false;
+  let inEarningsSection = false;
   let inTable = false;
-  let isArchive = false;
+
   for (const line of lines) {
     if (/^##\s/.test(line)) {
-      isArchive = /아카이브/.test(line);
+      inSignalSection = /추적\s*종목/.test(line);
+      inEarningsSection = /실적\s*발표\s*일정|아카이브/.test(line);
       inTable = false;
     }
-    if (/^\|\s*날짜\s*\|/.test(line)) inTable = true;
+    // 발표 일정 / 아카이브 표 헤더
+    if (inEarningsSection && /^\|\s*날짜\s*\|/.test(line)) {
+      inTable = 'earnings';
+    }
+    // 추적 종목 표 헤더
+    else if (inSignalSection && /^\|\s*티커\s*\|/.test(line)) {
+      inTable = 'signal';
+    }
     else if (inTable && /^\|/.test(line) && !/^\|\s*-+/.test(line)) {
       const cells = line.split('|').map(c => c.trim()).filter(c => c !== '');
-      if (cells.length >= 3) {
+      if (cells.length < 3) continue;
+
+      if (inTable === 'earnings') {
         const date = cells[0];
         const nameTickerRaw = cells[1];
         const sector = cells[2];
@@ -273,20 +254,35 @@ function parseCalendar(md) {
         const tickerMatch = nameTickerRaw.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
         const name = tickerMatch ? tickerMatch[1].trim() : nameTickerRaw.trim();
         const ticker = tickerMatch ? tickerMatch[2].trim() : '';
-        // 한국 종목은 그냥 이름만, 미국은 ticker도 있음
-        result[name] = { date, ticker, sector, note, isArchive };
+        result.calendar[name] = { date, ticker, sector, note };
+      }
+      else if (inTable === 'signal') {
+        const ticker = cells[0] === '—' ? '' : cells[0];
+        const name = cells[1];
+        const signal = cells[2];
+        if (name && signal) {
+          result.signals[name] = { ticker, signal };
+        }
       }
     }
+    // 빈 줄 또는 ## 만나면 표 종료
+    if (/^\s*$/.test(line) || /^##/.test(line)) inTable = false;
   }
   return result;
 }
 
-function getModeStatus(stockName, mode) {
-  // manifest.preview: ["2026-Q1_SK하이닉스_프리뷰.html", ...]
+function getModeFile(stockName, mode) {
   const suffix = mode === 'preview' ? '프리뷰' : mode === 'review' ? '리뷰' : '인뎁스';
   const expected = `${state.currentQuarter}_${stockName}_${suffix}.html`;
   const list = state.manifest[mode] || [];
   return list.includes(expected) ? expected : null;
+}
+
+function getProgressStage(stockName) {
+  if (getModeFile(stockName, 'in-depth')) return 3;
+  if (getModeFile(stockName, 'review')) return 2;
+  if (getModeFile(stockName, 'preview')) return 1;
+  return 0;
 }
 
 function buildHtmlPath(mode, file) {
@@ -309,57 +305,76 @@ function renderWatchlistSummary() {
 }
 
 function renderProgress() {
-  let totalStocks = 0, p=0, r=0, i=0, s2=0;
+  let totalStocks = 0, p = 0, r = 0;
   for (const tier of ['T1', 'T2', 'T3']) {
     for (const sec of state.watchlist[tier]) {
       for (const stock of sec.stocks) {
         totalStocks++;
-        if (getModeStatus(stock.name, 'preview')) p++;
-        if (getModeStatus(stock.name, 'review')) r++;
-        if (getModeStatus(stock.name, 'in-depth')) i++;
+        if (getModeFile(stock.name, 'preview')) p++;
+        if (getModeFile(stock.name, 'review')) r++;
       }
     }
   }
-  // Stage 2: T1 섹터 수만큼 (4개)
-  const t1Count = state.watchlist.T1.length;
   $('statP').textContent = `${p}/${totalStocks}`;
   $('statR').textContent = `${r}/${totalStocks}`;
-  $('statI').textContent = `${i}/${totalStocks}`;
-  $('statS2').textContent = `${s2}/${t1Count}`;
 }
 
-function renderUpcoming() {
-  // 워치리스트 종목 중 가장 임박한 5개 (D-0 ~ D+30 범위)
-  const stocks = [];
-  for (const tier of ['T1', 'T2', 'T3']) {
-    for (const sec of state.watchlist[tier]) {
-      for (const stock of sec.stocks) {
-        const cal = state.calendar[stock.name];
-        if (!cal) continue;
-        const diff = dateDiff(cal.date);
-        if (diff >= -3 && diff <= 30) {
-          stocks.push({ name: stock.name, ticker: cal.ticker, diff, sector: sec.sector, tier });
-        }
-      }
+function renderProgressCircles(stage) {
+  const container = el('span', { class: 'progress-circles' });
+  for (let i = 1; i <= 3; i++) {
+    container.appendChild(el('span', { class: i <= stage ? 'circle' : 'circle empty' }));
+  }
+  return container;
+}
+
+function renderStockRow(stock) {
+  const cal = state.calendar[stock.name];
+  const sig = state.signals[stock.name];
+  const stage = getProgressStage(stock.name);
+  const stockRow = el('div', { class: 'stock-row' });
+
+  // 종목 정보 (이름 + 티커 + 팔로업 사항)
+  const ticker = (cal && cal.ticker) || (sig && sig.ticker) || '';
+  const followup = sig ? sig.signal : '';
+  const info = el('div', { class: 'stock-info' });
+  const nameRow = el('div', { class: 'stock-name-row' }, [
+    el('span', { class: 'stock-name' }, stock.name),
+    ticker ? el('span', { class: 'ticker' }, `(${ticker})`) : null
+  ]);
+  info.appendChild(nameRow);
+  if (followup) {
+    info.appendChild(el('div', { class: 'stock-followup' }, '↳ ' + followup));
+  }
+  stockRow.appendChild(info);
+
+  // 진행 단계 (원 N개)
+  const middleCol = el('div', null, [
+    cal && cal.date ? el('div', { class: 'dday-cell' }, cal.date) : el('div', { class: 'dday-cell' }, '발표일 미정'),
+    renderProgressCircles(stage)
+  ]);
+  stockRow.appendChild(middleCol);
+
+  // 작성된 모드 클릭 가능 라벨
+  const buttons = el('div', { class: 'mode-buttons' });
+  let hasAny = false;
+  for (const [mode, label] of [['preview', 'P'], ['review', 'R'], ['in-depth', 'I']]) {
+    const file = getModeFile(stock.name, mode);
+    if (file) {
+      buttons.appendChild(el('a', {
+        class: 'mode-btn',
+        href: buildHtmlPath(mode, file),
+        target: '_blank',
+        title: label + ': ' + file
+      }, label));
+      hasAny = true;
     }
   }
-  stocks.sort((a, b) => a.diff - b.diff);
-  const top5 = stocks.slice(0, 5);
-  const container = $('upcomingEarnings');
-  container.innerHTML = '';
-  if (top5.length === 0) {
-    container.innerHTML = '<div class="loading">예정된 발표 없음 (워치리스트 종목 + 캘린더 매칭 결과 없음)</div>';
-    return;
+  if (!hasAny) {
+    buttons.appendChild(el('span', { class: 'sector-meta', style: 'opacity:0.5;' }, '미작성'));
   }
-  for (const s of top5) {
-    const dd = formatDday(s.diff);
-    const item = el('div', { class: 'upcoming-item' }, [
-      el('span', { class: 'tier-badge tier-' + s.tier }, s.tier),
-      el('strong', null, s.name + (s.ticker ? ` (${s.ticker})` : '')),
-      el('span', { class: 'dday ' + dd.cls }, dd.text),
-    ]);
-    container.appendChild(item);
-  }
+  stockRow.appendChild(buttons);
+
+  return stockRow;
 }
 
 function renderSectorCard(sectorObj, tier) {
@@ -370,74 +385,24 @@ function renderSectorCard(sectorObj, tier) {
   ]);
   card.appendChild(header);
 
-  // 진행률
-  let pCount = 0, rCount = 0, iCount = 0;
+  // 진행률 (P, R)
+  let pCount = 0, rCount = 0;
   for (const stock of sectorObj.stocks) {
-    if (getModeStatus(stock.name, 'preview')) pCount++;
-    if (getModeStatus(stock.name, 'review')) rCount++;
-    if (getModeStatus(stock.name, 'in-depth')) iCount++;
+    if (getModeFile(stock.name, 'preview')) pCount++;
+    if (getModeFile(stock.name, 'review')) rCount++;
   }
   const meta = el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
-    `진행: P ${pCount}/${sectorObj.stocks.length} · R ${rCount}/${sectorObj.stocks.length} · I ${iCount}/${sectorObj.stocks.length}`);
+    `진행: P ${pCount}/${sectorObj.stocks.length} · R ${rCount}/${sectorObj.stocks.length}`);
   card.appendChild(meta);
 
-  // 종목 리스트 (T3는 생략 또는 컴팩트)
-  if (tier === 'T3') {
-    const stockSummary = el('div', { class: 'sector-meta' }, sectorObj.stocks.map(s => s.name).join(', '));
-    card.appendChild(stockSummary);
-    return card;
-  }
-
+  // 종목 리스트 (T1·T2·T3 모두 동일 포맷)
   const stockList = el('div', { class: 'stock-list' });
   for (const stock of sectorObj.stocks) {
-    const cal = state.calendar[stock.name];
-    const stockRow = el('div', { class: 'stock-row' });
-
-    // 종목명
-    const nameDiv = el('div', { class: 'stock-name' }, [
-      stock.name,
-      cal && cal.ticker ? el('span', { class: 'ticker' }, ` (${cal.ticker})`) : null
-    ]);
-    stockRow.appendChild(nameDiv);
-
-    // D-day
-    let ddayCell;
-    if (cal && cal.date) {
-      const diff = dateDiff(cal.date);
-      const dd = formatDday(diff);
-      ddayCell = el('div', { class: 'dday-cell' }, [
-        cal.date + ' ',
-        el('span', { class: 'dday ' + dd.cls }, dd.text)
-      ]);
-    } else {
-      ddayCell = el('div', { class: 'dday-cell', style: 'color:var(--text-dim);' }, '발표일 미정');
-    }
-    stockRow.appendChild(ddayCell);
-
-    // 모드 버튼
-    const buttons = el('div', { class: 'mode-buttons' });
-    for (const [mode, label] of [['preview', 'P'], ['review', 'R'], ['in-depth', 'I']]) {
-      const file = getModeStatus(stock.name, mode);
-      if (file) {
-        const a = el('a', { class: 'mode-btn done', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label + ' ✓');
-        buttons.appendChild(a);
-      } else {
-        const span = el('span', { class: 'mode-btn pending', title: label + ': 미작성' }, label);
-        buttons.appendChild(span);
-      }
-    }
-    stockRow.appendChild(buttons);
-    stockList.appendChild(stockRow);
+    stockList.appendChild(renderStockRow(stock));
   }
   card.appendChild(stockList);
 
-  // 푸터
-  const footer = el('div', { class: 'sector-footer' });
-  footer.appendChild(el('a', { href: '#', onclick: (e) => { e.preventDefault(); alert('Stage 2 통합 분석 (자동 호출 예정 5/16)'); } }, '→ Stage 2 섹터 통합'));
-  footer.appendChild(el('a', { href: `earnings/sectors/${sectorObj.sector}/working_hypotheses.md`, target: '_blank' }, '→ 가설'));
-  footer.appendChild(el('a', { href: `earnings/sectors/${sectorObj.sector}/tracking_variables.md`, target: '_blank' }, '→ 추적 변수'));
-  footer.appendChild(el('a', { href: `earnings/sectors/${sectorObj.sector}/unresolved_in_depth_points.md`, target: '_blank' }, '→ 미해결 논점'));
-  card.appendChild(footer);
+  // 푸터 라인 제거됨 (BT 요청)
 
   return card;
 }
@@ -505,7 +470,6 @@ function setupQuarterSelector() {
 // 메인
 // ============================================================
 async function init() {
-  // watchlist 로드
   const wlText = await fetchText(DATA_PATHS.watchlist);
   if (wlText) {
     state.watchlist = parseWatchlist(wlText);
@@ -513,23 +477,20 @@ async function init() {
     $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md 로드 실패. earnings/watchlist.md 경로 확인 필요.</div>';
   }
 
-  // calendar 로드
   const calText = await fetchText(DATA_PATHS.calendar);
   if (calText) {
-    state.calendar = parseCalendar(calText);
+    const parsed = parseCalendar(calText);
+    state.calendar = parsed.calendar;
+    state.signals = parsed.signals;
   }
 
-  // manifest 로드
   const manifest = await fetchJson(DATA_PATHS.manifest);
   if (manifest) state.manifest = manifest;
 
-  // 렌더링
   renderWatchlistSummary();
   renderProgress();
-  renderUpcoming();
   renderSectors();
 
-  // 인터랙션 셋업
   setupSearch();
   setupT3Toggle();
   setupQuarterSelector();
