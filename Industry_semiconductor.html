@@ -65,12 +65,21 @@
   .recent-data tbody th { color: #c9d1d9; text-align: left; padding-right: 8px; }
   .recent-data tbody th .legend-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
   /* 커버리지 표 카드 */
-  .coverage-table { width: 100%; padding: 8px 12px; overflow: auto; max-height: 720px; cursor: default; }
+  .coverage-table { width: 100%; padding: 8px 12px; overflow-x: auto; cursor: default; }
   .coverage-table table { width: 100%; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; }
-  .coverage-table thead th { font-weight: 500; color: #6e7681; padding: 5px 6px; text-align: right; white-space: nowrap; border-bottom: 1px solid #21262d; position: sticky; top: 0; background: #161b22; z-index: 1; }
+  .coverage-table thead th { font-weight: 500; color: #6e7681; padding: 6px 8px; text-align: right; white-space: nowrap; border-bottom: 2px solid #1f6feb; background: #161b22; }
   .coverage-table thead th:first-child, .coverage-table thead th:nth-child(2) { text-align: left; }
   .coverage-table tbody th { color: #f0f6fc; text-align: left; padding: 3px 6px; white-space: nowrap; font-weight: 500; }
   .coverage-table tbody th.indent { padding-left: 14px; color: #c9d1d9; font-weight: 400; }
+  /* 카테고리 들여쓰기 (level 1, 2) */
+  .coverage-table tbody th.lvl-0 { color: #f0f6fc; font-weight: 600; padding-left: 6px; }
+  .coverage-table tbody th.lvl-1 { color: #c9d1d9; font-weight: 500; padding-left: 22px; }
+  .coverage-table tbody th.lvl-2 { color: #8b949e; font-weight: 400; padding-left: 38px; }
+  /* 카테고리 구분선 */
+  .coverage-table tbody tr.cat-start td, .coverage-table tbody tr.cat-start th { border-top: 1px solid #30363d; padding-top: 6px; }
+  .coverage-table tbody tr.cat-major td, .coverage-table tbody tr.cat-major th { border-top: 2px solid #1f6feb; padding-top: 8px; }
+  /* forecast 영역 음영 (1Q26F~) */
+  .coverage-table td.forecast { background: rgba(31, 111, 235, 0.05); }
   .coverage-table tbody td { color: #c9d1d9; text-align: right; padding: 3px 6px; white-space: nowrap; border-bottom: 1px solid #1e2229; }
   .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: #1c2128; }
 </style>
@@ -86,7 +95,7 @@
 <div class="header">
   <h1>산업별 선행지표 — 반도체</h1>
   <div class="source-box">
-    <div class="src-line">출처: 하나증권 리서치 「반도체 및 소부장 Weekly」</div>
+    <div class="src-line">출처: 하나증권 리서치 「반도체 및 소부장 Weekly」 <span id="pdf-pub-date" style="color:#1f6feb;font-weight:700;">—</span></div>
     <div>Analyst 김록호 · RA 김영규 (자료 원본: DRAMeXchange · KITA · TrendForce · 각사 IR)</div>
     <div class="src-disclaimer">※ 본 페이지는 본인·지인 비공개 학습 및 모니터링 용도로만 사용됩니다. 데이터·도표의 권리는 원저작자에게 귀속됩니다. 무단 재배포·상업적 이용 금지.</div>
   </div>
@@ -115,7 +124,7 @@ const SECTIONS = [
     cols: 2,
     cards: [
       { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
-        chart_def: { type: "single", series: [
+        chart_def: { type: "single", no_recent: true, height: 380, series: [
           { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(57,197,207)" },
           { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(180,220,225)" },
           { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(150,150,150)" },
@@ -124,7 +133,7 @@ const SECTIONS = [
           { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(249,117,131)" },
         ], unit_left: "원" } },
       { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
-        chart_def: { type: "single", series: [
+        chart_def: { type: "single", no_recent: true, height: 380, series: [
           { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(57,197,207)" },
           { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(180,220,225)" },
           { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(150,150,150)" },
@@ -650,6 +659,23 @@ function buildRecentTable(seriesData) {
   return html;
 }
 
+// 카테고리 라벨 → indent level (PDF 원본 들여쓰기 재현)
+const _CAT_LEVEL = {
+  // level 0 (사업부문/총합)
+  '반도체': 0, '디스플레이': 0, 'MX/NW': 0, 'VD/DA': 0, 'Harman': 0, 'Total': 0,
+  '원/달러 평균': 0, 'Bit Growth': 0, 'ASP Growth': 0, '매출액': 0, '매출비중': 0,
+  '매출액 Growth': 0, '영업이익': 0, '영업이익률': 0,
+  // level 1 (대분류 안 중분류)
+  'Memory': 1, 'non-Memory': 1, 'Mobile': 1, 'Mobile Total': 1, 'Smart Phone': 1,
+  'LCD TV': 1, 'DRAM': 1, 'NAND': 1, 'Others': 1,
+};
+
+function _isForecastCol(colName) {
+  if (!colName) return false;
+  const s = String(colName);
+  return /[FP]$/.test(s) || /F$/.test(s);  // "1Q26F", "2025F", "1Q26P" 등
+}
+
 async function renderTable(containerId, def) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -663,22 +689,49 @@ async function renderTable(containerId, def) {
     const d = await r.json();
     const cols = d.columns || [];
     const rows = d.rows || [];
+    const colIsForecast = cols.map(_isForecastCol);
     let html = '<table><thead><tr><th></th><th></th>';
-    cols.forEach(c => { html += '<th>' + (c||'') + '</th>'; });
+    cols.forEach((c, i) => { html += '<th' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + (c||'') + '</th>'; });
     html += '</tr></thead><tbody>';
+    let prevLevel = -1;
     rows.forEach(row => {
       const l1 = (row.label1 || '').trim();
       const l2 = (row.label2 || '').trim();
+      const cells = row.cells || {};
       // 라벨 모두 비고 cells도 비면 skip
-      if (!l1 && !l2 && Object.keys(row.cells||{}).length === 0) return;
-      // l1만 있고 cells 없으면 헤더 행 (사업부문/카테고리 구분)
-      const isHeader = l1 && !l2 && Object.keys(row.cells||{}).length === 0;
-      if (isHeader) {
-        html += '<tr><th colspan="' + (cols.length + 2) + '" style="color:#1f6feb;font-weight:600;padding:6px 6px 2px;">' + l1 + '</th></tr>';
+      if (!l1 && !l2 && Object.keys(cells).length === 0) return;
+      // 자료: 출처 row 스킵
+      if (l1.startsWith('자료:') || l1.startsWith('주:')) return;
+      // 첫 row (헤더 그대로 cells에 1Q25 등 들어있으면) skip
+      if (l1 === '' && l2 === '' && cells[cols[0]] === cols[0]) return;
+
+      // l1이 있으면 카테고리 시작 — level 결정 + 구분선
+      let rowClass = '';
+      let lvl = -1;
+      if (l1 && _CAT_LEVEL[l1] !== undefined) {
+        lvl = _CAT_LEVEL[l1];
+        if (lvl === 0) rowClass = ' class="cat-major"';
+        else if (lvl === 1 || lvl === 2) rowClass = ' class="cat-start"';
+        prevLevel = lvl;
+      }
+
+      // l1만 있고 cells 없으면 카테고리 헤더 단독 행
+      const isHeaderOnly = l1 && !l2 && Object.keys(cells).length === 0;
+      if (isHeaderOnly) {
+        const lvlClass = (lvl >= 0) ? ' lvl-' + lvl : ' lvl-0';
+        html += '<tr' + rowClass + '><th class="' + lvlClass.trim() + '" colspan="' + (cols.length + 2) + '">' + l1 + '</th></tr>';
         return;
       }
-      html += '<tr><th>' + l1 + '</th><th class="indent">' + l2 + '</th>';
-      cols.forEach(c => { html += '<td>' + ((row.cells||{})[c] || '') + '</td>'; });
+
+      // 일반 row: l1 (또는 빈) + l2
+      const l1cls = (lvl >= 0) ? 'lvl-' + lvl : '';
+      html += '<tr' + rowClass + '>';
+      html += '<th' + (l1cls ? ' class="' + l1cls + '"' : '') + '>' + l1 + '</th>';
+      html += '<th class="indent">' + l2 + '</th>';
+      cols.forEach((c, i) => {
+        const v = cells[c] || '';
+        html += '<td' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + v + '</td>';
+      });
       html += '</tr>';
     });
     html += '</tbody></table>';
@@ -701,8 +754,9 @@ async function renderChart(containerId, def) {
     if (typeof LightweightCharts === 'undefined') {
       throw new Error('LightweightCharts global not defined — script load failed');
     }
+    if (def.height) el.style.height = def.height + 'px';
     const w = el.clientWidth || el.offsetWidth || 400;
-    const h = el.clientHeight || el.offsetHeight || 220;
+    const h = el.clientHeight || el.offsetHeight || (def.height || 220);
     const opts = { ...CHART_OPTS, width: w, height: h };
     if (def.type === 'dual_axis') {
       opts.leftPriceScale = { ...opts.leftPriceScale, visible: true };
@@ -815,11 +869,13 @@ async function renderChart(containerId, def) {
       tooltipEl.style.left = Math.max(4, left) + 'px';
       tooltipEl.style.top = Math.max(4, top) + 'px';
     });
-    // 차트 하단에 최근 6개 데이터 표 추가
-    const tableHtml = buildRecentTable(seriesData);
-    if (tableHtml) {
-      const card = el.closest('.card');
-      if (card) card.insertAdjacentHTML('beforeend', tableHtml);
+    // 차트 하단에 최근 6개 데이터 표 추가 (no_recent 플래그가 true면 skip)
+    if (!def.no_recent) {
+      const tableHtml = buildRecentTable(seriesData);
+      if (tableHtml) {
+        const card = el.closest('.card');
+        if (card) card.insertAdjacentHTML('beforeend', tableHtml);
+      }
     }
   } catch (e) {
     el.classList.add('cw-tbd');
@@ -828,7 +884,24 @@ async function renderChart(containerId, def) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', buildPage);
+// PDF 발행일자 표시 — 임의 JSON에서 source 필드 추출
+async function showPdfPubDate() {
+  try {
+    const r = await fetch(DATA_DIR + 'export_semi_amount.json');
+    if (!r.ok) return;
+    const d = await r.json();
+    const src = d.source || '';
+    // Weekly_Roko_260427.pdf → 2026.04.27
+    const m = src.match(/(\d{2})(\d{2})(\d{2})/);
+    if (m) {
+      const [, yy, mm, dd] = m;
+      const dateStr = '20' + yy + '.' + mm + '.' + dd + ' 자';
+      const lbl = document.getElementById('pdf-pub-date');
+      if (lbl) lbl.textContent = dateStr;
+    }
+  } catch (e) { console.warn('pubDate extract failed', e); }
+}
+document.addEventListener('DOMContentLoaded', () => { buildPage(); showPdfPubDate(); });
 </script>
 </body>
 </html>
