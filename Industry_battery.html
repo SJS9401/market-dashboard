@@ -264,8 +264,35 @@ const SECTIONS = [
     ]
   },
   {
+    title: "LFP 배터리 침투율",
+    subtitle: "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 — 도표 31-34 (페이지 17, SNE Research)",
+    cols: 2,
+    cards: [
+      { fig: 31, title: "글로벌",
+        chart_def: { type: "dual_axis", series: [
+          { label: "LFP 출하", file: "battery_lfp_global_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "침투율(우)", file: "battery_lfp_global_share.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "GWh", unit_right: "%" } },
+      { fig: 32, title: "미국",
+        chart_def: { type: "dual_axis", series: [
+          { label: "LFP 출하", file: "battery_lfp_us_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "침투율(우)", file: "battery_lfp_us_share.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "GWh", unit_right: "%" } },
+      { fig: 33, title: "중국",
+        chart_def: { type: "dual_axis", series: [
+          { label: "LFP 출하", file: "battery_lfp_china_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "침투율(우)", file: "battery_lfp_china_share.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "GWh", unit_right: "%" } },
+      { fig: 34, title: "유럽",
+        chart_def: { type: "dual_axis", series: [
+          { label: "LFP 출하", file: "battery_lfp_eu_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
+          { label: "침투율(우)", file: "battery_lfp_eu_share.json", axis: "right", color: COLORS.yoy },
+        ], unit_left: "GWh", unit_right: "%" } },
+    ]
+  },
+  {
     title: "(향후 추가 예정)",
-    subtitle: "EV 판매 (도표 8-22) · 출하/LFP 침투율 (도표 29-33) · ESS (도표 4-7)",
+    subtitle: "EV 판매 (도표 8-22) · EV용 리튬이온 배터리 출하 (도표 29-30) · ESS (도표 4-7)",
     cols: 2,
     cards: [
       { fig: 8, title: "글로벌 EV 월별 판매증가율 (TBD)" },
