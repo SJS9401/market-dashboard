@@ -42,12 +42,12 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
 .sector-meta { font-size:0.78rem; color:var(--text-dim); }
 .stock-list { margin-top:0.5rem; }
-.stock-row { display:grid; grid-template-columns:minmax(220px,2fr) 90px auto; gap:0.5rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
+.stock-row { display:grid; grid-template-columns:minmax(110px,140px) 1fr 90px auto; gap:0.8rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
 .stock-row:last-child { border-bottom:0; }
-.stock-name-row { color:var(--text); display:flex; align-items:baseline; gap:0.4rem; flex-wrap:wrap; min-width:0; }
-.stock-name { font-weight:500; white-space:nowrap; }
-.ticker { color:var(--text-dim); font-size:0.78rem; white-space:nowrap; }
-.stock-followup { color:var(--signal); font-size:0.78rem; opacity:0.9; }
+.stock-name-cell { color:var(--text); display:flex; align-items:baseline; gap:0.3rem; flex-wrap:wrap; min-width:0; }
+.stock-name { font-weight:500; }
+.ticker { color:var(--text-dim); font-size:0.78rem; }
+.stock-followup-cell { color:var(--signal); font-size:0.78rem; opacity:0.9; min-width:0; word-break:keep-all; line-height:1.4; }
 .progress-circles { display:inline-flex; gap:0.2rem; align-items:center; }
 .circle { display:inline-block; width:0.7rem; height:0.7rem; border-radius:50%; background:var(--done); }
 .circle.empty { background:transparent; border:1px solid var(--pending); }

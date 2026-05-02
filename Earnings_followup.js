@@ -191,6 +191,24 @@ function getProgressStage(stockName) {
   return 0;
 }
 
+function getPreviousQuarter(quarter) {
+  const m = quarter.match(/^(\d{4})-Q(\d)$/);
+  if (!m) return null;
+  let y = parseInt(m[1]), q = parseInt(m[2]);
+  q -= 1;
+  if (q < 1) { q = 4; y -= 1; }
+  return y + '-Q' + q;
+}
+
+function hasPriorReview(stockName, currentQuarter) {
+  const prev = getPreviousQuarter(currentQuarter);
+  if (!prev) return false;
+  const reviewFile = prev + '_' + stockName + '_' + SUFFIX.review + '.html';
+  const indepthFile = prev + '_' + stockName + '_' + SUFFIX['in-depth'] + '.html';
+  return (state.manifest.review || []).includes(reviewFile) ||
+         (state.manifest['in-depth'] || []).includes(indepthFile);
+}
+
 function buildHtmlPath(mode, file) { return 'earnings/earnings-' + mode + '/' + file; }
 
 function renderWatchlistSummary() {
@@ -235,13 +253,14 @@ function renderStockRow(stock) {
   const stage = getProgressStage(stock.name);
   const stockRow = el('div', { class: 'stock-row' });
   const ticker = (cal && cal.ticker) || (sig && sig.ticker) || '';
-  const followup = sig ? sig.signal : '';
-  const nameRow = el('div', { class: 'stock-name-row' }, [
+  // 직전 분기에 review 또는 in-depth 산출물이 있을 때만 팔로업 키워드 표시
+  const followup = (sig && hasPriorReview(stock.name, state.currentQuarter)) ? sig.signal : '';
+  const nameCell = el('div', { class: 'stock-name-cell' }, [
     el('span', { class: 'stock-name' }, stock.name),
-    ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null,
-    followup ? el('span', { class: 'stock-followup' }, '— ' + followup) : null
+    ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
   ]);
-  stockRow.appendChild(nameRow);
+  stockRow.appendChild(nameCell);
+  stockRow.appendChild(el('div', { class: 'stock-followup-cell' }, followup));
   const middleCol = el('div', null, [
     cal && cal.date ? el('div', { class: 'dday-cell' }, cal.date) : el('div', { class: 'dday-cell' }, '발표일 미정'),
     renderProgressCircles(stage)
