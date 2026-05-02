@@ -115,7 +115,8 @@
 </style>
 </head>
 <body>
-<div class="tab-bar"><a href="dashboard.html" class="active">마켓 대시보드</a><a href="Market_cycle.html">시장 사이클</a><a href="Leading_stocks.html">주도주 사이클</a><a href="Industry_semiconductor.html">반도체</a></div>
+<div class="tab-bar"><a href="dashboard.html" class="active">마켓 대시보드</a><a href="Market_cycle.html">시장 사이클</a><a href="Leading_stocks.html">주도주 사이클</a><a href="Industry_semiconductor.html">반도체</a>
+  <a href="Industry_battery.html">배터리</a></div>
 <div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer">갱신 15:00</span><div class="time" id="clock"></div></div></div>
 <div class="main">
   <!-- LEFT: 한국 -->
@@ -1663,29 +1664,25 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/01',cat:'시장구조',ev:'휴장 (근로자의날)',note:'한국'},
-    {d:'05/01',cat:'경제지표',ev:'ISM 제조업 PMI 4월 (10:00 AM ET)',note:'3월 PMI 52.7'},
-    {d:'05/01',cat:'정책',ev:'OCC GENIUS Act NPRM 의견 제출 마감',note:'스테이블코인 — 금융'},
     {d:'05/02',cat:'기타',ev:'버크셔해서웨이 주주총회',note:'버핏 연례 메시지'},
-    {d:'05/04',cat:'실적',ev:'팔란티어(PLTR) AMC',note:'AI 소프트웨어 정부 수주'},
+    {d:'05/04',cat:'실적',ev:'팔란티어(PLTR) AMC',note:'AI 소프트웨어 정부 수주 — 5/11→5/4 변경'},
     {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:'한국'},
     {d:'05/05',cat:'경제지표',ev:'ISM 서비스업 PMI 4월 (10:00 AM ET)',note:''},
     {d:'05/05',cat:'실적',ev:'카메코(CCJ) AMC, 이튼(ETN) BMO, 헌팅턴잉갈스(HII) BMO',note:'원전·전력·조선'},
     {d:'05/05',cat:'산업',ev:'비트코인 컨센서스 2026 마이애미 (~5/7)',note:'코인 연간 최대행사'},
     {d:'05/05',cat:'정책',ev:'Section 301 공청회 (~5/8)',note:'한미통상 — 16개국 한국 포함'},
     {d:'05/05',cat:'정책',ev:'미국 클래리티법안 상원 마크업(5월초 추정)',note:'스테이블코인'},
-    {d:'05/06',cat:'실적',ev:'한화에어로스페이스, 에이피알 1Q',note:'K-방산·K-뷰티'},
+    {d:'05/06',cat:'실적',ev:'에이피알 1Q',note:'K-뷰티'},
     {d:'05/07',cat:'실적',ev:'콘스텔레이션(CEG) AMC, 비스트라(VST) BMO, 뉴스케일(SMR) AMC, 라인메탈(RHM), 미래에셋증권',note:'원전 동시 발표 — 핵심 검증일'},
     {d:'05/08',cat:'경제지표',ev:'NFP 4월 고용보고서 (8:30 AM ET)',note:'3월 +178K'},
     {d:'05/08',cat:'실적',ev:'토요타(TM), 셀트리온, 한국전력',note:'자동차·바이오·전력'},
     {d:'05/11',cat:'IPO',ev:'코스모로보틱스 신규상장',note:'의료·재활 휴머노이드'},
     {d:'05/12',cat:'경제지표',ev:'CPI 4월 (8:30 AM ET)',note:'인플레 핵심'},
     {d:'05/12',cat:'실적',ev:'넥스트파워(NXT), 오클로(OKLO) AMC',note:'태양광·SMR'},
-    {d:'05/13',cat:'실적',ev:'샌디스크(SNDK) AMC',note:'NAND'},
+    {d:'05/12',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'우주 — 5/12 타게팅'},
     {d:'05/14',cat:'IPO',ev:'폴레드 신규상장',note:'공모가 5,000원'},
     {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담 (~5/15)',note:'한미통상·이란전 연계'},
     {d:'05/15',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시'},
-    {d:'05/15',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12 (5월초~중순)',note:'우주'},
     {d:'05/15',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한미통상'},
     {d:'05/15',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
     {d:'05/18',cat:'실적',ev:'한국항공우주',note:'방산'},
@@ -1714,13 +1711,16 @@ function setupScrollbar(col, mainId) {
     {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
     {d:'06/15',cat:'시장구조',ev:'SK하이닉스 미 ADR 상장(6~7월)',note:'반도체 T1'},
     {d:'06/16',cat:'정책',ev:'일본은행(BOJ) 금리결정',note:'엔화·글로벌 유동성'},
+    {d:'06/16',cat:'실적',ev:'오라클(ORCL) AMC',note:'Q4 FY2026 — Cloud·AI DB'},
     {d:'06/18',cat:'정책',ev:'미 FOMC 금리결정 (한국시간 03시)',note:'신임 의장 체제 첫 FOMC'},
     {d:'06/30',cat:'정책',ev:'원화 스테이블코인 입법 본격화',note:'정책 유동성'},
     {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 발표',note:'한국 증시 구조적'},
     {d:'06/30',cat:'산업',ev:'국내 SMR 1호·원전 2기 부지결정',note:'두산에너빌리티·한전기술'},
+    {d:'07/01',cat:'실적',ev:'마이크론(MU) AMC',note:'Q3 FY2026 — 메모리'},
     {d:'07/07',cat:'지정학',ev:'나토 정상회의 (~7/8, 튀르키에)',note:'지정학'},
     {d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
     {d:'07/30',cat:'산업',ev:'테슬라 옵티머스 V3 양산·공개 (~8월초)',note:'로봇 — 7월말~8월초'},
+    {d:'07/30',cat:'실적',ev:'BAE Systems (BA.)',note:'H1 2026 — 유럽 방산'},
     {d:'11/03',cat:'정책',ev:'미국 중간선거',note:'트럼프 레임덕'},
   ];
   const today=new Date();today.setHours(0,0,0,0);

@@ -63,6 +63,15 @@
   .recent-data thead th { color: #6e7681; font-weight: 400; border-bottom: 1px solid #21262d; }
   .recent-data tbody th { color: #c9d1d9; text-align: left; padding-right: 8px; }
   .recent-data tbody th .legend-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+  /* 커버리지 표 카드 */
+  .coverage-table { width: 100%; padding: 8px 12px; overflow: auto; max-height: 420px; cursor: default; }
+  .coverage-table table { width: 100%; border-collapse: collapse; font-size: 10px; font-variant-numeric: tabular-nums; }
+  .coverage-table thead th { font-weight: 500; color: #6e7681; padding: 5px 6px; text-align: right; white-space: nowrap; border-bottom: 1px solid #21262d; position: sticky; top: 0; background: #161b22; z-index: 1; }
+  .coverage-table thead th:first-child, .coverage-table thead th:nth-child(2) { text-align: left; }
+  .coverage-table tbody th { color: #f0f6fc; text-align: left; padding: 3px 6px; white-space: nowrap; font-weight: 500; }
+  .coverage-table tbody th.indent { padding-left: 14px; color: #c9d1d9; font-weight: 400; }
+  .coverage-table tbody td { color: #c9d1d9; text-align: right; padding: 3px 6px; white-space: nowrap; border-bottom: 1px solid #1e2229; }
+  .coverage-table tbody tr:hover td, .coverage-table tbody tr:hover th { background: #1c2128; }
 </style>
 </head>
 <body>
@@ -71,6 +80,7 @@
   <a href="Market_cycle.html">시장 사이클</a>
   <a href="Leading_stocks.html">주도주 사이클</a>
   <a href="Industry_semiconductor.html" class="active">반도체</a>
+  <a href="Industry_battery.html">배터리</a>
 </div>
 <div class="header">
   <h1>산업별 선행지표 — 반도체</h1>
@@ -434,6 +444,44 @@ const SECTIONS = [
           ], unit_left: "백만대", unit_right: "%" } },
     ]
   },
+  {
+    title: "커버리지 업체 — 12MF PBR 밴드",
+    subtitle: "삼성전자 + SK하이닉스 — 페이지 24 (각사 IR, 하나증권)",
+    cols: 2,
+    cards: [
+      { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
+        chart_def: { type: "single", series: [
+          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(57,197,207)" },
+          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(180,220,225)" },
+          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(150,150,150)" },
+          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(110,110,110)" },
+          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(80,80,80)" },
+          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(249,117,131)" },
+        ], unit_left: "원" } },
+      { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
+        chart_def: { type: "single", series: [
+          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(57,197,207)" },
+          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(180,220,225)" },
+          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(150,150,150)" },
+          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(110,110,110)" },
+          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(80,80,80)" },
+          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(249,117,131)" },
+        ], unit_left: "원" } },
+    ]
+  },
+  {
+    title: "커버리지 업체 — 실적 추정 테이블",
+    subtitle: "삼성전자 사업부문 / 주요 가정 / SK하이닉스 — 페이지 23-24 (각사 IR, 하나증권)",
+    cols: 1,
+    cards: [
+      { fig: "T-SS-SEG", title: "삼성전자 사업부문별 실적 전망",
+        chart_def: { type: "table", file: "coverage_samsung_segment.json" } },
+      { fig: "T-SS-ASM", title: "삼성전자 주요 가정",
+        chart_def: { type: "table", file: "coverage_samsung_assumptions.json" } },
+      { fig: "T-SK", title: "SK하이닉스 분기 및 연간 주요 가정 및 실적 전망",
+        chart_def: { type: "table", file: "coverage_skhynix_perf.json" } },
+    ]
+  },
 ];
 
 const DATA_DIR = './data/';
@@ -601,7 +649,47 @@ function buildRecentTable(seriesData) {
   return html;
 }
 
+async function renderTable(containerId, def) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.classList.remove('cw');
+  el.classList.add('coverage-table');
+  el.style.height = 'auto';
+  el.innerHTML = '<div style="color:#6e7681;font-size:11px;padding:6px;">로딩...</div>';
+  try {
+    const r = await fetch(DATA_DIR + def.file);
+    if (!r.ok) throw new Error('fetch failed: ' + def.file);
+    const d = await r.json();
+    const cols = d.columns || [];
+    const rows = d.rows || [];
+    let html = '<table><thead><tr><th></th><th></th>';
+    cols.forEach(c => { html += '<th>' + (c||'') + '</th>'; });
+    html += '</tr></thead><tbody>';
+    rows.forEach(row => {
+      const l1 = (row.label1 || '').trim();
+      const l2 = (row.label2 || '').trim();
+      // 라벨 모두 비고 cells도 비면 skip
+      if (!l1 && !l2 && Object.keys(row.cells||{}).length === 0) return;
+      // l1만 있고 cells 없으면 헤더 행 (사업부문/카테고리 구분)
+      const isHeader = l1 && !l2 && Object.keys(row.cells||{}).length === 0;
+      if (isHeader) {
+        html += '<tr><th colspan="' + (cols.length + 2) + '" style="color:#1f6feb;font-weight:600;padding:6px 6px 2px;">' + l1 + '</th></tr>';
+        return;
+      }
+      html += '<tr><th>' + l1 + '</th><th class="indent">' + l2 + '</th>';
+      cols.forEach(c => { html += '<td>' + ((row.cells||{})[c] || '') + '</td>'; });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = '<div style="color:#f97583;padding:6px;">표 로드 실패: ' + e.message + '</div>';
+    console.error('[renderTable]', e);
+  }
+}
+
 async function renderChart(containerId, def) {
+  if (def && def.type === 'table') return await renderTable(containerId, def);
   const el = document.getElementById(containerId);
   if (!el) {
     console.warn(`[renderChart] no element for ${containerId}`);
