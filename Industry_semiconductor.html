@@ -758,7 +758,7 @@ async function renderTable(containerId, def) {
       }
       // 일반 row
       html += '<th>' + l1 + '</th>';
-      const isMetric = (lvl === 2 && !l1);
+      const isMetric = !!d.has_metric_label && (lvl === 2 && !l1);
       html += '<th' + (isMetric ? ' class="metric-label"' : '') + '>' + l2 + '</th>';
       cols.forEach((c, i) => {
         const v = cells[c] || '';
