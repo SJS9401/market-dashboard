@@ -37,6 +37,7 @@
   .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .card-table .card-top h3 { font-size: 13px; font-weight: 700; color: #f0f6fc; }
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
+  .review-flag { color: #d2af64; font-style: italic; font-size: 11px; font-weight: 400; margin-left: 6px; letter-spacing: 0.2px; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
   .legend-row { display: flex; gap: 12px; padding: 4px 12px 0; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
@@ -580,12 +581,46 @@ function buildPage() {
         <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
       `;
       grid.appendChild(cardEl);
-      if (card.chart_def) renderQueue.push([cwId, card.chart_def]);
+      if (card.chart_def) {
+        renderQueue.push([cwId, card.chart_def]);
+        markNeedsReviewIfFlagged(cardEl, card.chart_def);
+      }
     });
     main.appendChild(secDiv);  // section을 main 에 먼저 attach
   });
   // 모든 카드가 document에 붙은 뒤 일괄 차트 렌더링
   renderQueue.forEach(([cwId, def]) => renderChart(cwId, def));
+}
+
+// JSON 메타에서 needs_review=true인 시리즈가 있으면 카드 제목 옆에 플래그 표시
+async function markNeedsReviewIfFlagged(cardEl, chart_def) {
+  if (!chart_def) return;
+  const files = [];
+  if (chart_def.series) {
+    for (const s of chart_def.series) if (s.file) files.push(s.file);
+  }
+  if (chart_def.file) files.push(chart_def.file);
+  if (!files.length) return;
+  for (const f of files) {
+    try {
+      const r = await fetch(DATA_DIR + f, { cache: 'no-store' });
+      if (!r.ok) continue;
+      const j = await r.json();
+      if (j && j.needs_review === true) {
+        const h3 = cardEl.querySelector('.card-top h3');
+        if (h3 && !h3.querySelector('.review-flag')) {
+          const drift = (j.verification && j.verification.drift) || '';
+          const matched = (j.verification && j.verification.matched_label) || '';
+          const tip = drift === 'missing'
+            ? '도표 라벨을 찾지 못했습니다. PDF 원본과 비교하세요.'
+            : `라벨 위치 변동 감지 (drift=${drift}). 매칭: ${matched}`;
+          h3.insertAdjacentHTML('beforeend',
+            ` <span class="review-flag" title="${tip}">(원본과 비교 필요)</span>`);
+        }
+        return;
+      }
+    } catch (e) { /* skip */ }
+  }
 }
 
 // =========================================================================
