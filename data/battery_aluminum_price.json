@@ -2,7 +2,7 @@
   "metric": "알루미늄 월별 평균 가격",
   "unit": "$/kg or $/t",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-02T05:36:21",
+  "extracted_at": "2026-05-02T12:30:46",
   "data": [
     {
       "date": "2017-04-02",
@@ -452,5 +452,13 @@
       "date": "2026-06-25",
       "value": 33.57
     }
-  ]
+  ],
+  "verified": true,
+  "needs_review": false,
+  "verification": {
+    "drift": "ok",
+    "matched_label": "도표 67. 알루미늄 월별 평균 가격 추이",
+    "dy": 0.0,
+    "dx": 0.0
+  }
 }

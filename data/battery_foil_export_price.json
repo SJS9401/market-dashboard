@@ -2,7 +2,7 @@
   "metric": "동박 수출 단가",
   "unit": "백만달러",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-02T05:37:42",
+  "extracted_at": "2026-05-02T12:30:47",
   "data": [
     {
       "date": "2020-01-01",
@@ -208,5 +208,13 @@
       "date": "2024-03-01",
       "value": 26.2
     }
-  ]
+  ],
+  "verified": true,
+  "needs_review": false,
+  "verification": {
+    "drift": "ok",
+    "matched_label": "도표 42. 동박 수출 단가 추이",
+    "dy": 0.0,
+    "dx": 0.0
+  }
 }
