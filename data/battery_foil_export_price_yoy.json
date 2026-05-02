@@ -2,7 +2,7 @@
   "metric": "동박 수출 단가 YoY",
   "unit": "%",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-02T12:39:50",
+  "extracted_at": "2026-05-02T12:49:57",
   "data": [
     {
       "date": "2020-03-09",
@@ -208,7 +208,7 @@
   "verified": true,
   "needs_review": false,
   "verification": {
-    "drift": "first_run",
+    "drift": "ok",
     "matched_label": "도표 42. 동박 수출 단가 추이",
     "dy": 0.0,
     "dx": 0.0

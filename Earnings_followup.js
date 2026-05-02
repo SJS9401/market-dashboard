@@ -69,9 +69,35 @@ function extractQuartersFromManifest(manifest) {
   return Array.from(set);
 }
 
+function getNextQuarter(quarter) {
+  const m = quarter.match(/^(\d{4})-Q(\d)$/);
+  if (!m) return null;
+  let y = parseInt(m[1]), q = parseInt(m[2]);
+  q += 1;
+  if (q > 4) { q = 1; y += 1; }
+  return y + '-Q' + q;
+}
+
+function extractFollowupQuarters(manifest) {
+  // review 또는 in-depth 산출물이 있는 분기의 다음 분기를 자동 생성
+  // (리뷰/인뎁스 작성 시점부터 다음 분기 마일스톤이 시작되므로)
+  const set = new Set();
+  for (const mode of ['review', 'in-depth']) {
+    for (const file of (manifest[mode] || [])) {
+      const m = file.match(/^(\d{4}-Q\d)_/);
+      if (m) {
+        const next = getNextQuarter(m[1]);
+        if (next) set.add(next);
+      }
+    }
+  }
+  return set;
+}
+
 function buildQuarterList() {
   const set = new Set(extractQuartersFromManifest(state.manifest));
   set.add(getCurrentQuarter());
+  for (const q of extractFollowupQuarters(state.manifest)) set.add(q);
   return Array.from(set).sort().reverse();
 }
 
@@ -346,7 +372,6 @@ function setupQuarterSelector() {
 }
 
 async function init() {
-  const wlText = await fetchText(DATA_PATHS.watchlist);
   if (wlText) state.watchlist = parseWatchlist(wlText);
   else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
   const calText = await fetchText(DATA_PATHS.calendar);
@@ -364,6 +389,7 @@ async function init() {
   renderProgress();
   renderSectors();
   setupSearch();
+  setupQuarterSelector();
   $('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
 }
 
