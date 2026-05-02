@@ -451,7 +451,7 @@ async function renderTable(containerId, def) {
     const colIsForecast = cols.map(c => /[FP]$/.test(String(c||'')));
     const unitLabel = d.unit_label || d.unit || '';
     let html = '<table><thead><tr>';
-    html += '<th class="unit-cell" colspan="2">' + (unitLabel ? '(' + unitLabel + ')' : '') + '</th>';
+    html += '<th class="unit-cell">' + (unitLabel ? '(' + unitLabel + ')' : '') + '</th><th></th>';
     cols.forEach((c, i) => { html += '<th' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + (c||'') + '</th>'; });
     html += '</tr></thead><tbody>';
     // cat-end 식별 — 다음 새 lvl-0 카테고리 시작 row 직전 + 표 마지막 row
