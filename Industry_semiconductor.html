@@ -70,6 +70,7 @@
   .coverage-table { background: #0d1117; }
   .coverage-table .table-meta { padding: 8px 14px; font-size: 11px; color: #8b949e; display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; }
   .coverage-table .table-meta .unit { color: #8b949e; font-weight: 500; font-style: italic; }
+  .coverage-table thead th.unit-cell { color: #8b949e; font-weight: 400; font-style: italic; text-align: left; padding: 12px 14px; }
   .coverage-table table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
   /* 헤더 */
   .coverage-table thead th { font-weight: 500; color: #8b949e; padding: 12px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid #2d333b; background: #0d1117; font-size: 11.5px; line-height: 1.4; }
@@ -723,11 +724,8 @@ async function renderTable(containerId, def) {
     const rows = d.rows || [];
     const colIsForecast = cols.map(c => /[FP]$/.test(String(c||'')));
     const unitLabel = d.unit_label || d.unit || '';
-    let html = '';
-    if (unitLabel) {
-      html += '<div class="table-meta"><span></span><span class="unit">(' + unitLabel + ')</span></div>';
-    }
-    html += '<table><thead><tr><th></th><th></th>';
+    let html = '<table><thead><tr>';
+    html += '<th class="unit-cell" colspan="2">' + (unitLabel ? '(' + unitLabel + ')' : '') + '</th>';
     cols.forEach((c, i) => { html += '<th' + (colIsForecast[i] ? ' class="forecast"' : '') + '>' + (c||'') + '</th>'; });
     html += '</tr></thead><tbody>';
     // cat-end 식별 — 다음 새 lvl-0 카테고리 시작 row 직전 + 표 마지막 row
