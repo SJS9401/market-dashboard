@@ -1,6 +1,7 @@
 {
   "metric": "삼성SDI 실적 추이 및 전망",
-  "unit": "십억원",
+  "unit": "십억원, %",
+  "unit_label": "단위: 십억원, %",
   "columns": [
     "1Q25",
     "2Q25",
@@ -14,26 +15,16 @@
     "2026F",
     "2027F"
   ],
+  "has_metric_label": false,
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-02T05:33:51",
+  "extracted_at": "2026-05-02T09:34:52",
   "rows": [
     {
-      "label1": "",
+      "label1": "EV",
       "label2": "",
-      "cells": {
-        "1Q25": "1Q25",
-        "2Q25": "2Q25",
-        "3Q25": "3Q25",
-        "4Q25": "4Q25",
-        "1Q26F": "1Q26F",
-        "2Q26F": "2Q26F",
-        "3Q26F": "3Q26F",
-        "4Q26F": "4Q26F",
-        "2025": "2025",
-        "2026F": "2026F",
-        "2027F": "2027F"
-      },
-      "_level": 1
+      "cells": {},
+      "_level": 0,
+      "_is_header": true
     },
     {
       "label1": "",
@@ -108,6 +99,13 @@
       "_level": 1
     },
     {
+      "label1": "ESS",
+      "label2": "",
+      "cells": {},
+      "_level": 0,
+      "_is_header": true
+    },
+    {
       "label1": "",
       "label2": "매출",
       "cells": {
@@ -180,6 +178,13 @@
       "_level": 1
     },
     {
+      "label1": "Battery Others",
+      "label2": "",
+      "cells": {},
+      "_level": 0,
+      "_is_header": true
+    },
+    {
       "label1": "",
       "label2": "매출",
       "cells": {
@@ -234,6 +239,13 @@
       "_level": 1
     },
     {
+      "label1": "Non-Battery",
+      "label2": "",
+      "cells": {},
+      "_level": 0,
+      "_is_header": true
+    },
+    {
       "label1": "",
       "label2": "매출",
       "cells": {
@@ -286,6 +298,13 @@
         "2027F": "17.8%"
       },
       "_level": 1
+    },
+    {
+      "label1": "Total",
+      "label2": "",
+      "cells": {},
+      "_level": 0,
+      "_is_header": true
     },
     {
       "label1": "",
@@ -359,7 +378,5 @@
       },
       "_level": 1
     }
-  ],
-  "unit_label": "단위: 십억원, %",
-  "has_metric_label": false
+  ]
 }
