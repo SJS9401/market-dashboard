@@ -5,478 +5,93 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>실적 팔로업 - 마켓 대시보드</title>
 <style>
-:root {
-  --bg: #0d1117;
-  --bg-2: #161b22;
-  --bg-3: #21262d;
-  --border: #21262d;
-  --border-2: #30363d;
-  --text: #c9d1d9;
-  --text-dim: #8b949e;
-  --text-bright: #f0f6fc;
-  --accent: #1f6feb;
-  --t1: #ffd700;
-  --t2: #4a90d9;
-  --t3: #888;
-  --done: #4caf50;
-  --pending: #555;
-  --signal: #b9c5d4;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: -apple-system, 'Pretendard', 'Segoe UI', 'Noto Sans KR', sans-serif;
-  line-height: 1.5; font-size: 0.9rem;
-}
-.tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid var(--border); padding: 0 24px; }
-.tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-dim); text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
-.tab-bar a:hover { color: var(--text-bright); }
-.tab-bar a.active { color: var(--text-bright); border-bottom-color: var(--accent); }
-.content { padding: 1.5rem 24px; max-width: 1600px; margin: 0 auto; }
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-2); }
-h1 { color: var(--text-bright); margin: 0; font-size: 1.6rem; }
-h2 { color: var(--text-bright); margin: 1.5rem 0 0.8rem; font-size: 1.15rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
-h3 { color: var(--text-bright); margin: 0.8rem 0 0.4rem; font-size: 1rem; }
-.quarter-selector { display: flex; gap: 0.5rem; align-items: center; }
-.quarter-selector button, .quarter-selector select { background: var(--bg-3); color: var(--text); border: 1px solid var(--border-2); padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
-.quarter-selector button:hover { background: var(--accent); color: var(--text-bright); }
-.search-box { background: var(--bg-3); color: var(--text); border: 1px solid var(--border-2); padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.85rem; min-width: 200px; }
-.summary-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.watchlist-box, .progress-box { background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; }
-.tier-line { margin: 0.3rem 0; font-size: 0.88rem; }
-.tier-badge { display: inline-block; min-width: 1.6rem; text-align: center; padding: 0.05rem 0.4rem; border-radius: 3px; font-weight: 600; margin-right: 0.4rem; font-size: 0.8rem; }
-.tier-T1 { background: var(--t1); color: #000; }
-.tier-T2 { background: var(--t2); color: #fff; }
-.tier-T3 { background: var(--t3); color: #fff; }
-.progress-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
-.stat { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
-.stat-value { font-size: 1.4rem; font-weight: 700; color: var(--text-bright); }
-.stat-label { font-size: 0.78rem; color: var(--text-dim); }
-.sector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.5rem; }
-.sector-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; transition: border-color 0.15s; }
-.sector-card.t1 { border-left: 4px solid var(--t1); }
-.sector-card.t2 { border-left: 4px solid var(--t2); }
-.sector-card.t3 { border-left: 4px solid var(--t3); }
-.sector-card:hover { border-color: var(--accent); }
-.sector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-.sector-name { color: var(--text-bright); font-size: 1.05rem; font-weight: 600; }
-.sector-meta { font-size: 0.78rem; color: var(--text-dim); }
-.stock-list { margin-top: 0.5rem; }
-.stock-row { display: grid; grid-template-columns: minmax(180px, 1.6fr) 90px auto; gap: 0.5rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--bg-3); }
-.stock-row:last-child { border-bottom: 0; }
-.stock-info { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
-.stock-name-row { color: var(--text); display: flex; align-items: baseline; gap: 0.3rem; flex-wrap: wrap; }
-.stock-name { font-weight: 500; }
-.ticker { color: var(--text-dim); font-size: 0.78rem; }
-.stock-followup { color: var(--signal); font-size: 0.78rem; opacity: 0.85; padding-left: 0.1rem; }
-.progress-circles { display: inline-flex; gap: 0.2rem; align-items: center; }
-.circle { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--done); }
-.circle.empty { background: transparent; border: 1px solid var(--pending); }
-.mode-buttons { display: flex; gap: 0.3rem; justify-content: flex-end; }
-.mode-btn { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.5rem; background: var(--bg-3); color: var(--text); border: 1px solid var(--border-2); border-radius: 3px; font-size: 0.75rem; cursor: pointer; text-decoration: none; transition: all 0.15s; }
-.mode-btn:hover { background: var(--accent); color: var(--text-bright); border-color: var(--accent); }
-.dday-cell { font-size: 0.8rem; color: var(--text-dim); }
-.loading { color: var(--text-dim); font-style: italic; padding: 1rem; }
-.error-box { background: #3a1f1f; border: 1px solid #c44; padding: 0.6rem 1rem; border-radius: 4px; margin: 0.5rem 0; font-size: 0.85rem; }
-footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-dim); font-size: 0.8rem; }
+:root { --bg:#0d1117; --bg-2:#161b22; --bg-3:#21262d; --border:#21262d; --border-2:#30363d; --text:#c9d1d9; --text-dim:#8b949e; --text-bright:#f0f6fc; --accent:#1f6feb; --t1:#ffd700; --t2:#4a90d9; --t3:#888; --done:#4caf50; --pending:#555; --signal:#b9c5d4; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,'Pretendard','Segoe UI','Noto Sans KR',sans-serif; line-height:1.5; font-size:0.9rem; }
+.tab-bar { display:flex; gap:0; background:#010409; border-bottom:1px solid var(--border); padding:0 24px; }
+.tab-bar a { display:inline-block; padding:8px 18px; font-size:13px; font-weight:600; color:var(--text-dim); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.15s; }
+.tab-bar a:hover { color:var(--text-bright); }
+.tab-bar a.active { color:var(--text-bright); border-bottom-color:var(--accent); }
+.content { padding:1.5rem 24px; max-width:1600px; margin:0 auto; }
+header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; padding-bottom:0.8rem; border-bottom:1px solid var(--border-2); }
+h1 { color:var(--text-bright); margin:0; font-size:1.6rem; }
+h2 { color:var(--text-bright); margin:1.5rem 0 0.8rem; font-size:1.15rem; padding-bottom:0.3rem; border-bottom:1px solid var(--border); }
+h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
+.quarter-selector { display:flex; gap:0.5rem; align-items:center; }
+.quarter-selector button, .quarter-selector select { background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); padding:0.4rem 0.8rem; border-radius:4px; cursor:pointer; font-size:0.85rem; }
+.quarter-selector button:hover { background:var(--accent); color:var(--text-bright); }
+.search-box { background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); padding:0.4rem 0.8rem; border-radius:4px; font-size:0.85rem; min-width:200px; }
+.summary-row { display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1rem; }
+.watchlist-box, .progress-box { background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:0.8rem 1rem; }
+.tier-line { margin:0.3rem 0; font-size:0.88rem; }
+.tier-badge { display:inline-block; min-width:1.6rem; text-align:center; padding:0.05rem 0.4rem; border-radius:3px; font-weight:600; margin-right:0.4rem; font-size:0.8rem; }
+.tier-T1 { background:var(--t1); color:#000; }
+.tier-T2 { background:var(--t2); color:#fff; }
+.tier-T3 { background:var(--t3); color:#fff; }
+.progress-stats { display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center; }
+.stat { display:flex; flex-direction:column; align-items:center; min-width:60px; }
+.stat-value { font-size:1.4rem; font-weight:700; color:var(--text-bright); }
+.stat-label { font-size:0.78rem; color:var(--text-dim); }
+.sector-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin-bottom:1.5rem; }
+.sector-card { background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:0.8rem 1rem; transition:border-color 0.15s; }
+.sector-card.t1 { border-left:4px solid var(--t1); }
+.sector-card.t2 { border-left:4px solid var(--t2); }
+.sector-card.t3 { border-left:4px solid var(--t3); }
+.sector-card:hover { border-color:var(--accent); }
+.sector-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; }
+.sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
+.sector-meta { font-size:0.78rem; color:var(--text-dim); }
+.stock-list { margin-top:0.5rem; }
+.stock-row { display:grid; grid-template-columns:minmax(180px,1.6fr) 90px auto; gap:0.5rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
+.stock-row:last-child { border-bottom:0; }
+.stock-info { display:flex; flex-direction:column; gap:0.15rem; min-width:0; }
+.stock-name-row { color:var(--text); display:flex; align-items:baseline; gap:0.3rem; flex-wrap:wrap; }
+.stock-name { font-weight:500; }
+.ticker { color:var(--text-dim); font-size:0.78rem; }
+.stock-followup { color:var(--signal); font-size:0.78rem; opacity:0.85; padding-left:0.1rem; }
+.progress-circles { display:inline-flex; gap:0.2rem; align-items:center; }
+.circle { display:inline-block; width:0.7rem; height:0.7rem; border-radius:50%; background:var(--done); }
+.circle.empty { background:transparent; border:1px solid var(--pending); }
+.mode-buttons { display:flex; gap:0.3rem; justify-content:flex-end; }
+.mode-btn { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.75rem; cursor:pointer; text-decoration:none; transition:all 0.15s; }
+.mode-btn:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
+.dday-cell { font-size:0.8rem; color:var(--text-dim); }
+.loading { color:var(--text-dim); font-style:italic; padding:1rem; }
+.error-box { background:#3a1f1f; border:1px solid #c44; padding:0.6rem 1rem; border-radius:4px; margin:0.5rem 0; font-size:0.85rem; }
+footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); text-align:center; color:var(--text-dim); font-size:0.8rem; }
 </style>
 </head>
 <body>
-
 <div class="tab-bar">
-  <a href="dashboard.html">마켓 대시보드</a>
-  <a href="Market_cycle.html">시장 사이클</a>
-  <a href="Leading_stocks.html">주도주 사이클</a>
-  <a href="Earnings_followup.html" class="active">실적 팔로업</a>
-  <a href="Industry_semiconductor.html">반도체</a>
-  <a href="Industry_battery.html">배터리</a>
+<a href="dashboard.html">마켓 대시보드</a>
+<a href="Market_cycle.html">시장 사이클</a>
+<a href="Leading_stocks.html">주도주 사이클</a>
+<a href="Earnings_followup.html" class="active">실적 팔로업</a>
+<a href="Industry_semiconductor.html">반도체</a>
+<a href="Industry_battery.html">배터리</a>
 </div>
-
 <div class="content">
-
 <header>
-  <div>
-    <h1>실적 팔로업</h1>
-    <div style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.2rem;">분기별 종목·섹터 실적 분석 아카이브</div>
-  </div>
-  <div class="quarter-selector">
-    <input type="text" class="search-box" id="searchInput" placeholder="🔍 종목·섹터 검색...">
-    <button id="prevQuarter">◀ 이전 분기</button>
-    <select id="quarterSelect"></select>
-    <button id="nextQuarter">다음 분기 ▶</button>
-  </div>
+<div><h1>실적 팔로업</h1><div style="color:var(--text-dim);font-size:0.85rem;margin-top:0.2rem;">분기별 종목·섹터 실적 분석 아카이브</div></div>
+<div class="quarter-selector">
+<input type="text" class="search-box" id="searchInput" placeholder="종목·섹터 검색...">
+<button id="prevQuarter">이전 분기</button>
+<select id="quarterSelect"></select>
+<button id="nextQuarter">다음 분기</button>
+</div>
 </header>
-
 <div class="summary-row">
-  <div class="watchlist-box">
-    <h3 style="margin-top: 0;">📋 워치리스트 — <span id="currentQuarterLabel">2026-Q1</span></h3>
-    <div id="watchlistSummary" class="loading">워치리스트 로딩...</div>
-  </div>
-  <div class="progress-box">
-    <h3 style="margin-top: 0;">📊 진행률</h3>
-    <div id="progressStats" class="progress-stats">
-      <div class="stat"><div class="stat-value" id="statP">-</div><div class="stat-label">Preview</div></div>
-      <div class="stat"><div class="stat-value" id="statR">-</div><div class="stat-label">Review</div></div>
-    </div>
-  </div>
+<div class="watchlist-box"><h3 style="margin-top:0;">워치리스트 — <span id="currentQuarterLabel">-</span></h3><div id="watchlistSummary" class="loading">워치리스트 로딩...</div></div>
+<div class="progress-box"><h3 style="margin-top:0;">진행률</h3><div id="progressStats" class="progress-stats"><div class="stat"><div class="stat-value" id="statP">-</div><div class="stat-label">Preview</div></div><div class="stat"><div class="stat-value" id="statR">-</div><div class="stat-label">Review</div></div></div></div>
 </div>
-
-<h2>🌟 Tier 1</h2>
-<div id="t1Sectors" class="sector-grid">
-  <div class="loading">섹터 데이터 로딩...</div>
-</div>
-
-<h2>🔵 Tier 2</h2>
+<h2>Tier 1</h2>
+<div id="t1Sectors" class="sector-grid"><div class="loading">섹터 데이터 로딩...</div></div>
+<h2>Tier 2</h2>
 <div id="t2Sectors" class="sector-grid"></div>
-
-<h2>⚪ Tier 3</h2>
+<h2>Tier 3</h2>
 <div id="t3Sectors" class="sector-grid"></div>
-
-<footer>
-  최종 갱신: <span id="lastUpdate">-</span> · 데이터 source: watchlist.md, 실적_캘린더.md, manifest.json
-</footer>
-
+<footer>최종 갱신: <span id="lastUpdate">-</span> · 데이터 source: watchlist.md, earnings_calendar.md, manifest.json</footer>
 </div>
-
-<script>
-const DATA_PATHS = {
-  watchlist: 'earnings/watchlist.md',
-  calendar: 'earnings_calendar.md',
-  manifest: 'earnings/manifest.json'
-};
-
-let state = {
-  currentQuarter: '2026-Q1',
-  watchlist: { T1: [], T2: [], T3: [] },
-  calendar: {},
-  signals: {},
-  manifest: { preview: [], review: [], 'in-depth': [] }
-};
-
-function $(id) { return document.getElementById(id); }
-function el(tag, attrs, children) {
-  const e = document.createElement(tag);
-  if (attrs) for (const k in attrs) {
-    if (k === 'class') e.className = attrs[k];
-    else if (k === 'html') e.innerHTML = attrs[k];
-    else if (k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
-    else e.setAttribute(k, attrs[k]);
-  }
-  if (children) (Array.isArray(children) ? children : [children]).forEach(c => {
-    if (typeof c === 'string') e.appendChild(document.createTextNode(c));
-    else if (c) e.appendChild(c);
-  });
-  return e;
-}
-
-async function fetchText(path) {
-  try { const r = await fetch(path); if (!r.ok) throw new Error(r.status); return await r.text(); }
-  catch (e) { console.error('Fetch failed:', path, e); return null; }
-}
-async function fetchJson(path) {
-  try { const r = await fetch(path); if (!r.ok) throw new Error(r.status); return await r.json(); }
-  catch (e) { console.error('Fetch JSON failed:', path, e); return null; }
-}
-
-function parseWatchlist(md) {
-  const result = { T1: [], T2: [], T3: [] };
-  let currentTier = null;
-  const lines = md.split('\n');
-  for (const line of lines) {
-    if (/^##\s+섹터\s*T1/.test(line)) currentTier = 'T1';
-    else if (/^##\s+섹터\s*T2/.test(line)) currentTier = 'T2';
-    else if (/^##\s+섹터\s*T3/.test(line)) currentTier = 'T3';
-    else if (/^##\s/.test(line)) currentTier = null;
-    else if (currentTier && /^\s*-\s+/.test(line)) {
-      const m = line.match(/-\s+\*?\*?([가-힣\w\s]+?)\*?\*?\s*\(([^)]+)\)/);
-      if (m) {
-        const sector = m[1].trim();
-        const stocks = m[2].split(',').map(s => s.trim()).filter(Boolean);
-        const looksLikeStocks = stocks.every(s => s.length < 30 && !/[:%]/.test(s));
-        if (looksLikeStocks) {
-          result[currentTier].push({ sector, stocks: stocks.map(name => ({ name, ticker: '' })) });
-        }
-      }
-    }
-  }
-  return result;
-}
-
-function parseCalendar(md) {
-  const result = { calendar: {}, signals: {} };
-  const lines = md.split('\n');
-  let inSignalSection = false;
-  let inEarningsSection = false;
-  let inTable = false;
-
-  for (const line of lines) {
-    if (/^##\s/.test(line)) {
-      inSignalSection = /추적\s*종목/.test(line);
-      inEarningsSection = /실적\s*발표\s*일정|아카이브/.test(line);
-      inTable = false;
-    }
-    if (inEarningsSection && /^\|\s*날짜\s*\|/.test(line)) inTable = 'earnings';
-    else if (inSignalSection && /^\|\s*티커\s*\|/.test(line)) inTable = 'signal';
-    else if (inTable && /^\|/.test(line) && !/^\|\s*-+/.test(line)) {
-      const cells = line.split('|').map(c => c.trim()).filter(c => c !== '');
-      if (cells.length < 3) continue;
-      if (inTable === 'earnings') {
-        const date = cells[0];
-        const nameTickerRaw = cells[1];
-        const sector = cells[2];
-        const note = cells[3] || '';
-        const tickerMatch = nameTickerRaw.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
-        const name = tickerMatch ? tickerMatch[1].trim() : nameTickerRaw.trim();
-        const ticker = tickerMatch ? tickerMatch[2].trim() : '';
-        result.calendar[name] = { date, ticker, sector, note };
-      } else if (inTable === 'signal') {
-        const ticker = cells[0] === '—' ? '' : cells[0];
-        const name = cells[1];
-        const signal = cells[2];
-        if (name && signal) result.signals[name] = { ticker, signal };
-      }
-    }
-    if (/^\s*$/.test(line) || /^##/.test(line)) inTable = false;
-  }
-  return result;
-}
-
-function getModeFile(stockName, mode) {
-  const suffix = mode === 'preview' ? '프리뷰' : mode === 'review' ? '리뷰' : '인뎁스';
-  const expected = `${state.currentQuarter}_${stockName}_${suffix}.html`;
-  const list = state.manifest[mode] || [];
-  return list.includes(expected) ? expected : null;
-}
-
-function getProgressStage(stockName) {
-  if (getModeFile(stockName, 'in-depth')) return 3;
-  if (getModeFile(stockName, 'review')) return 2;
-  if (getModeFile(stockName, 'preview')) return 1;
-  return 0;
-}
-
-function buildHtmlPath(mode, file) {
-  return `earnings/earnings-${mode}/${file}`;
-}
-
-function renderWatchlistSummary() {
-  const wl = state.watchlist;
-  const lines = [];
-  for (const tier of ['T1', 'T2', 'T3']) {
-    const sectors = wl[tier];
-    if (sectors.length === 0) continue;
-    const sectorNames = sectors.map(s => s.sector).join(' · ');
-    lines.push(`<div class="tier-line"><span class="tier-badge tier-${tier}">${tier}</span>${sectorNames} <span style="color:var(--text-dim);">(${sectors.length}개 섹터, ${sectors.reduce((sum, s) => sum + s.stocks.length, 0)}개 종목)</span></div>`);
-  }
-  $('watchlistSummary').innerHTML = lines.join('');
-}
-
-function renderProgress() {
-  let totalStocks = 0, p = 0, r = 0;
-  for (const tier of ['T1', 'T2', 'T3']) {
-    for (const sec of state.watchlist[tier]) {
-      for (const stock of sec.stocks) {
-        totalStocks++;
-        if (getModeFile(stock.name, 'preview')) p++;
-        if (getModeFile(stock.name, 'review')) r++;
-      }
-    }
-  }
-  $('statP').textContent = `${p}/${totalStocks}`;
-  $('statR').textContent = `${r}/${totalStocks}`;
-}
-
-function renderProgressCircles(stage) {
-  const container = el('span', { class: 'progress-circles' });
-  for (let i = 1; i <= 3; i++) {
-    container.appendChild(el('span', { class: i <= stage ? 'circle' : 'circle empty' }));
-  }
-  return container;
-}
-
-function renderStockRow(stock) {
-  const cal = state.calendar[stock.name];
-  const sig = state.signals[stock.name];
-  const stage = getProgressStage(stock.name);
-  const stockRow = el('div', { class: 'stock-row' });
-
-  const ticker = (cal && cal.ticker) || (sig && sig.ticker) || '';
-  const followup = sig ? sig.signal : '';
-  const info = el('div', { class: 'stock-info' });
-  const nameRow = el('div', { class: 'stock-name-row' }, [
-    el('span', { class: 'stock-name' }, stock.name),
-    ticker ? el('span', { class: 'ticker' }, `(${ticker})`) : null
-  ]);
-  info.appendChild(nameRow);
-  if (followup) info.appendChild(el('div', { class: 'stock-followup' }, '↳ ' + followup));
-  stockRow.appendChild(info);
-
-  const middleCol = el('div', null, [
-    cal && cal.date ? el('div', { class: 'dday-cell' }, cal.date) : el('div', { class: 'dday-cell' }, '발표일 미정'),
-    renderProgressCircles(stage)
-  ]);
-  stockRow.appendChild(middleCol);
-
-  const buttons = el('div', { class: 'mode-buttons' });
-  let hasAny = false;
-  for (const [mode, label] of [['preview', 'P'], ['review', 'R'], ['in-depth', 'I']]) {
-    const file = getModeFile(stock.name, mode);
-    if (file) {
-      buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));
-      hasAny = true;
-    }
-  }
-  if (!hasAny) buttons.appendChild(el('span', { class: 'sector-meta', style: 'opacity:0.5;' }, '미작성'));
-  stockRow.appendChild(buttons);
-
-  return stockRow;
-}
-
-function renderSectorCard(sectorObj, tier) {
-  const card = el('div', { class: `sector-card ${tier.toLowerCase()}` });
-  card.appendChild(el('div', { class: 'sector-header' }, [
-    el('div', { class: 'sector-name' }, sectorObj.sector),
-    el('div', { class: 'sector-meta' }, `종목 ${sectorObj.stocks.length}개 · ${tier}`)
-  ]));
-
-  let pCount = 0, rCount = 0;
-  for (const stock of sectorObj.stocks) {
-    if (getModeFile(stock.name, 'preview')) pCount++;
-    if (getModeFile(stock.name, 'review')) rCount++;
-  }
-  card.appendChild(el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
-    `진행: P ${pCount}/${sectorObj.stocks.length} · R ${rCount}/${sectorObj.stocks.length}`));
-
-  const stockList = el('div', { class: 'stock-list' });
-  for (const stock of sectorObj.stocks) stockList.appendChild(renderStockRow(stock));
-  card.appendChild(stockList);
-
-  return card;
-}
-
-function renderSectors() {
-  const t1 = $('t1Sectors'), t2 = $('t2Sectors'), t3 = $('t3Sectors');
-  t1.innerHTML = ''; t2.innerHTML = ''; t3.innerHTML = '';
-  for (const sec of state.watchlist.T1) t1.appendChild(renderSectorCard(sec, 'T1'));
-  for (const sec of state.watchlist.T2) t2.appendChild(renderSectorCard(sec, 'T2'));
-  for (const sec of state.watchlist.T3) t3.appendChild(renderSectorCard(sec, 'T3'));
-  if (state.watchlist.T1.length === 0) t1.innerHTML = '<div class="loading">Tier 1 섹터 없음</div>';
-  if (state.watchlist.T2.length === 0) t2.innerHTML = '<div class="loading">Tier 2 섹터 없음</div>';
-  if (state.watchlist.T3.length === 0) t3.innerHTML = '<div class="loading">Tier 3 섹터 없음</div>';
-}
-
-function setupSearch() {
-  $('searchInput').addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase().trim();
-    document.querySelectorAll('.sector-card').forEach(card => {
-      const text = card.textContent.toLowerCase();
-      card.style.display = (q === '' || text.includes(q)) ? '' : 'none';
-    });
-  });
-}
-
-// ============================================================
-// 분기 표기 변환: "2026-Q1" → "1Q26"
-// ============================================================
-function displayQuarter(internal) {
-  const m = internal.match(/^(\d{4})-Q(\d)$/);
-  if (m) return `${m[2]}Q${m[1].slice(2)}`;
-  return internal;
-}
-
-function getCurrentQuarter() {
-  const now = new Date();
-  const y = now.getFullYear();
-  const q = Math.floor(now.getMonth() / 3) + 1;
-  return `${y}-Q${q}`;
-}
-
-function extractQuartersFromManifest(manifest) {
-  const set = new Set();
-  for (const mode of ['preview', 'review', 'in-depth']) {
-    for (const file of (manifest[mode] || [])) {
-      const m = file.match(/^(\d{4}-Q\d)_/);
-      if (m) set.add(m[1]);
-    }
-  }
-  return Array.from(set);
-}
-
-function buildQuarterList() {
-  // manifest 기반 + 현재 분기 fallback
-  const set = new Set(extractQuartersFromManifest(state.manifest));
-  set.add(getCurrentQuarter());  // 데이터 없어도 현재 분기는 항상 선택 가능
-  // 정렬: 최신 분기 위로 (내림차순)
-  return Array.from(set).sort().reverse();
-}
-
-function populateQuarterSelector() {
-  const sel = $('quarterSelect');
-  const quarters = buildQuarterList();
-  sel.innerHTML = '';
-  for (const q of quarters) {
-    const opt = el('option', { value: q }, displayQuarter(q));
-    if (q === state.currentQuarter) opt.selected = true;
-    sel.appendChild(opt);
-  }
-  updateQuarterButtons();
-}
-
-function updateQuarterButtons() {
-  const quarters = buildQuarterList();
-  const idx = quarters.indexOf(state.currentQuarter);
-  // 정렬: 최신 위 → idx 작을수록 최근. 다음 분기 = 더 최근 = idx-1
-  $('nextQuarter').disabled = (idx <= 0);
-  $('prevQuarter').disabled = (idx >= quarters.length - 1);
-  $('nextQuarter').style.opacity = $('nextQuarter').disabled ? '0.4' : '1';
-  $('prevQuarter').style.opacity = $('prevQuarter').disabled ? '0.4' : '1';
-  $('nextQuarter').style.cursor = $('nextQuarter').disabled ? 'not-allowed' : 'pointer';
-  $('prevQuarter').style.cursor = $('prevQuarter').disabled ? 'not-allowed' : 'pointer';
-}
-
-function changeQuarter(newQ) {
-  state.currentQuarter = newQ;
-  $('quarterSelect').value = newQ;
-  $('currentQuarterLabel').textContent = displayQuarter(newQ);
-  updateQuarterButtons();
-  renderProgress();
-  renderSectors();
-}
-
-function setupQuarterSelector() {
-  $('quarterSelect').addEventListener('change', (e) => {
-    changeQuarter(e.target.value);
-  });
-  $('prevQuarter').addEventListener('click', () => {
-    const quarters = buildQuarterList();
-    const idx = quarters.indexOf(state.currentQuarter);
-    if (idx >= 0 && idx < quarters.length - 1) changeQuarter(quarters[idx + 1]);
-  });
-  $('nextQuarter').addEventListener('click', () => {
-    const quarters = buildQuarterList();
-    const idx = quarters.indexOf(state.currentQuarter);
-    if (idx > 0) changeQuarter(quarters[idx - 1]);
-  });
-}
-
-async function init() {
-  const wlText = await fetchText(DATA_PATHS.watchlist);
-  if (wlText) state.watchlist = parseWatchlist(wlText);
-  else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md 로드 실패.</div>';
-
-  const calText = await fetchText(DATA_PATHS.calendar);
-  if (calText) {
-    const parsed = parseCalendar(calText);
-    state.calendar = parsed.calendar;
-    state.signals = parsed.signals;
-  }
-
-  const manifest = await fetchJson(DATA_PATHS.manifest);
-  if (manifest) state.manifest = manifest;
-
-  // 초기 분기 = 오늘 날짜 기준 현재 분기
-  state.currentQuarter = getCurrentQuarter();
-  $('currentQuarterLabel').textContent = displayQuarter(state.currentQuarter);
-
-  populateQuarterSelector();
-  renderWatchlistSummar
+<script src="Earnings_followup.js"></script>
+</body>
+</html>

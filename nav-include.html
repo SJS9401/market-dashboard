@@ -1,0 +1,15 @@
+<!--
+통합 nav 정의 — 모든 dashboard HTML이 이 파일을 fetch해서 inject.
+새 탭 추가 시 이 파일에서 한 줄만 추가하면 모든 페이지에 자동 반영.
+
+운영 룰:
+- 마켓 대시보드 세션 + 실적 분석 세션이 같은 nav를 공유
+- 두 세션 중 어느 쪽이든 새 탭 추가 시 이 파일만 만짐 (다른 페이지 본문 무관)
+- 충돌 영역을 이 파일 1개로 한정
+-->
+<a href="dashboard.html" data-key="dashboard">마켓 대시보드</a>
+<a href="Market_cycle.html" data-key="market_cycle">시장 사이클</a>
+<a href="Leading_stocks.html" data-key="leading_stocks">주도주 사이클</a>
+<a href="Earnings_followup.html" data-key="earnings">실적 팔로업</a>
+<a href="Industry_semiconductor.html" data-key="industry_semi">반도체</a>
+<a href="Industry_battery.html" data-key="industry_battery">배터리</a>
