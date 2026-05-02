@@ -236,14 +236,32 @@ const SECTIONS = [
     ]
   },
   {
+    title: "전력 가격",
+    subtitle: "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표) — 도표 25-27 (페이지 15)",
+    cols: 3,
+    cards: [
+      { fig: 25, title: "영국",
+        chart_def: { type: "single", series: [
+          { label: "영국 전력가", file: "battery_uk_power.json", color: COLORS.premium },
+        ], unit_left: "GBP/MWh" } },
+      { fig: 26, title: "독일",
+        chart_def: { type: "single", series: [
+          { label: "독일 전력가", file: "battery_de_power.json", color: COLORS.premium },
+        ], unit_left: "EUR/MWh" } },
+      { fig: 27, title: "프랑스",
+        chart_def: { type: "single", series: [
+          { label: "프랑스 전력가", file: "battery_fr_power.json", color: COLORS.premium },
+        ], unit_left: "EUR/MWh" } },
+    ]
+  },
+  {
     title: "(향후 추가 예정)",
-    subtitle: "EV 판매 (도표 8-22) · 출하/LFP 침투율 (도표 29-33) · ESS (도표 4-7) · 전력 가격 (도표 25-27)",
+    subtitle: "EV 판매 (도표 8-22) · 출하/LFP 침투율 (도표 29-33) · ESS (도표 4-7)",
     cols: 2,
     cards: [
       { fig: 8, title: "글로벌 EV 월별 판매증가율 (TBD)" },
       { fig: 29, title: "전기차용 리튬이온배터리 출하 (TBD)" },
       { fig: 4, title: "ESS 신규 설치량 (TBD)" },
-      { fig: 25, title: "유럽 전력 가격 (TBD)" },
     ]
   },
 ];
