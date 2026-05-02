@@ -109,6 +109,44 @@ const COLORS = {
 
 const SECTIONS = [
   {
+    title: "커버리지 업체 — 12MF PBR 밴드",
+    subtitle: "삼성전자 + SK하이닉스 — 페이지 24 (각사 IR, 하나증권)",
+    cols: 2,
+    cards: [
+      { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
+        chart_def: { type: "single", series: [
+          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(57,197,207)" },
+          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(180,220,225)" },
+          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(150,150,150)" },
+          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(110,110,110)" },
+          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(80,80,80)" },
+          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(249,117,131)" },
+        ], unit_left: "원" } },
+      { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
+        chart_def: { type: "single", series: [
+          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(57,197,207)" },
+          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(180,220,225)" },
+          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(150,150,150)" },
+          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(110,110,110)" },
+          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(80,80,80)" },
+          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(249,117,131)" },
+        ], unit_left: "원" } },
+    ]
+  },
+  {
+    title: "커버리지 업체 — 실적 추정 테이블",
+    subtitle: "삼성전자 사업부문 / 주요 가정 / SK하이닉스 — 페이지 23-24 (각사 IR, 하나증권)",
+    cols: 1,
+    cards: [
+      { fig: "T-SS-SEG", title: "삼성전자 사업부문별 실적 전망",
+        chart_def: { type: "table", file: "coverage_samsung_segment.json" } },
+      { fig: "T-SS-ASM", title: "삼성전자 주요 가정",
+        chart_def: { type: "table", file: "coverage_samsung_assumptions.json" } },
+      { fig: "T-SK", title: "SK하이닉스 분기 및 연간 주요 가정 및 실적 전망",
+        chart_def: { type: "table", file: "coverage_skhynix_perf.json" } },
+    ]
+  },
+  {
     title: "수출 Data : 반도체",
     subtitle: "품목별 금액·중량(또는 수량)·ASP — 도표 19~42 (KITA, 하나증권)",
     cols: 3,
@@ -442,44 +480,6 @@ const SECTIONS = [
             { label: "출하량", file: "frontside_pc_global.json", axis: "left", kind: "bar", color: COLORS.bar },
             { label: "YoY(우)", file: "frontside_pc_global_yoy.json", axis: "right", color: COLORS.yoy },
           ], unit_left: "백만대", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "커버리지 업체 — 12MF PBR 밴드",
-    subtitle: "삼성전자 + SK하이닉스 — 페이지 24 (각사 IR, 하나증권)",
-    cols: 2,
-    cards: [
-      { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
-        chart_def: { type: "single", series: [
-          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(57,197,207)" },
-          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(180,220,225)" },
-          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(150,150,150)" },
-          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(110,110,110)" },
-          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(80,80,80)" },
-          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(249,117,131)" },
-        ], unit_left: "원" } },
-      { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
-        chart_def: { type: "single", series: [
-          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(57,197,207)" },
-          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(180,220,225)" },
-          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(150,150,150)" },
-          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(110,110,110)" },
-          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(80,80,80)" },
-          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(249,117,131)" },
-        ], unit_left: "원" } },
-    ]
-  },
-  {
-    title: "커버리지 업체 — 실적 추정 테이블",
-    subtitle: "삼성전자 사업부문 / 주요 가정 / SK하이닉스 — 페이지 23-24 (각사 IR, 하나증권)",
-    cols: 1,
-    cards: [
-      { fig: "T-SS-SEG", title: "삼성전자 사업부문별 실적 전망",
-        chart_def: { type: "table", file: "coverage_samsung_segment.json" } },
-      { fig: "T-SS-ASM", title: "삼성전자 주요 가정",
-        chart_def: { type: "table", file: "coverage_samsung_assumptions.json" } },
-      { fig: "T-SK", title: "SK하이닉스 분기 및 연간 주요 가정 및 실적 전망",
-        chart_def: { type: "table", file: "coverage_skhynix_perf.json" } },
     ]
   },
 ];
