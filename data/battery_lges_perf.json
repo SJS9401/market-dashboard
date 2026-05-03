@@ -2,6 +2,7 @@
   "metric": "LG에너지솔루션 실적 추이 및 전망",
   "unit": "십억원, %",
   "unit_label": "십억원, %",
+  "has_metric_label": true,
   "columns": [
     "1Q25",
     "2Q25",
@@ -16,9 +17,6 @@
     "2027F",
     "2028F"
   ],
-  "has_metric_label": true,
-  "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-03T12:01:29",
   "rows": [
     {
       "label1": "EV (대형)",
@@ -279,13 +277,6 @@
     {
       "label1": "AMPC",
       "label2": "",
-      "cells": {},
-      "_level": 0,
-      "_is_header": true
-    },
-    {
-      "label1": "",
-      "label2": "",
       "cells": {
         "1Q25": "458",
         "2Q25": "491",
@@ -368,7 +359,7 @@
     },
     {
       "label1": "",
-      "label2": "영업이익(AMPC제외)",
+      "label2": "영업이익(AMPC 제외)",
       "cells": {
         "1Q25": "-83",
         "2Q25": "1",
@@ -387,7 +378,7 @@
     },
     {
       "label1": "",
-      "label2": "OPM(AMPC제외)",
+      "label2": "OPM(AMPC 제외)",
       "cells": {
         "1Q25": "-1.3%",
         "2Q25": "0.0%",
@@ -423,5 +414,9 @@
       },
       "_level": 2
     }
-  ]
+  ],
+  "source": "Battery_Weekly_2026.4.27.pdf",
+  "extracted_at": "2026-05-03T22:17:16",
+  "extraction_method": "claude_vision",
+  "validation_issues": []
 }
