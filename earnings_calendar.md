@@ -38,17 +38,23 @@
 | — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
 | — | SK하이닉스 | OPM 76% 돌파, ADR 6월 결정, HBM4 양산, NAND Bit 회복, DDR5 ASP 둔화 |
 
-### 전력
+### 전력 (= 전력 인프라 섹터, 발표일 빠른 순)
+
+> 본 섹션은 워치리스트 [전력 인프라] 섹터와 1:1 매핑. 글로벌 피어 6사 + 한국 3사 통합 운영 (2026-05-03 신설). 발표일 순서: ABB(4/16) → LS일렉트릭(4/21) → GEV(4/23) → 효성(4/25) → HD(4/28) → Schneider/Hitachi(4/30) → ETN(5/5) → Siemens Energy(5/7).
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| BE | Bloom Energy | 분산발전, 연료전지 |
-| ETN | Eaton | 전력 인프라 CAPEX, 데이터센터 전력 |
-| GEV | GE Vernova | 가스터빈, 전력장비 수주 |
-| NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
-| — | HD현대일렉트릭 | 변압기, 전력기기 수주 |
+| ABB | ABB | 변압기·차단기·GIS 글로벌 1위, 산업 사이클 첫 cue (한국 3사 9~12일 선행) |
+| — | LS일렉트릭 | 빅테크 B사 수주 5,000억+ 도달, 미국 관세 환급 (3개월 후 7월), 다른 증권사 2차 갱신 TP 250,000+ 정착, 2Q26 OPM 10%+ 회복 + 부산공장 가동률 90%, DC SST 첫 수주 |
+| GEV | GE Vernova | 765kV 변압기·HVDC·SST·AI 데이터센터, 멀티플 reference (한국 3사 PER 50배 reference) |
 | — | 효성중공업 | OPM 16% 회복, 765kV 후속 수주 2~3조, HD현대일렉트릭 비교, SST 초도 수주, 미국 관세 환급 |
-| — | LS일렉트릭 | 전력기기, 에너지솔루션 |
+| — | HD현대일렉트릭 | 2Q26 OPM 27% 회복 (이연분 인식), 신규수주 가이던스 상향 50~60억$, AIDC 온사이트 발전 후속 수주, 유럽 SF6-Free 420kV GIS 개발 완료, 미국 관세 환급 vs LS 비교 |
+| SU | Schneider Electric | LVDC·MVDC·데이터센터 (LS와 직접 비교), 글로벌 피어 PER reference |
+| HE | Hitachi Energy | HVDC 변압기 글로벌 1위, 백로그 fully booked through 2030 |
+| ETN | Eaton | 전력 인프라 CAPEX, 데이터센터 전력 (LS와 가장 직접 비교, OPM 24%) |
+| ENR | Siemens Energy | 그리드 송전·HVDC·풍력, 한국 3사 후 발표 (확정실적·인뎁스 분석 단계 cue) |
+| BE | Bloom Energy | 분산발전, 연료전지 (AIDC 온사이트 발전 인접) |
+| NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
 
 ### 원전
 
@@ -142,7 +148,8 @@
 |------|------------|------|------|
 | 5/4 | Palantir (PLTR) | 소프트웨어 | AMC (확정, Palantir 공식, 이전 5/11→5/4 업데이트) |
 | 5/5 | Cameco (CCJ) | 원전 | AMC (이전 5/1→5/5 업데이트, MarketBeat·Nasdaq 확인) |
-| 5/5 | Eaton (ETN) | 전력 | BMO (확정) |
+| 5/5 | Eaton (ETN) | 전력 | BMO (확정) — 전력 인프라 섹터 8번째 발표, LS와 직접 비교 |
+| 5/7 | Siemens Energy (ENR) | 전력 | 독일 (확정) — 전력 인프라 섹터 9번째·마지막 발표, 그리드·HVDC·풍력 |
 | 5/5 | Huntington Ingalls (HII) | 조선 | BMO (확정, 이전 4/30→5/5 업데이트, HII 공식 IR 확인) |
 | 5/6 | 에이피알 | 화장품 | 1분기 실적 발표 (확정) |
 | 5/7 | Constellation Energy (CEG) | 원전 | AMC (확정, 콘퍼런스콜 5/11 10am ET) |
@@ -185,6 +192,8 @@
 | 4/30 | 삼성전자 | 반도체 | 1분기 컨퍼런스콜 완료 (10AM KST, 확정실적은 4/28 공시) |
 | 4/30 | LG에너지솔루션 | 배터리 | 1분기 확정실적 컨퍼런스콜 완료 (10AM KST) |
 | 4/30 | 포스코퓨처엠 | 배터리 | 1분기 실적 발표 완료 |
+| 4/30 | Schneider Electric (SU) | 전력 | 발표 완료 (Euronext, 매출 +8% YoY, OPM 약 18%, 데이터센터 +35%) — 전력 인프라 섹터 6번째 발표 |
+| 4/30 | Hitachi Energy (HE) | 전력 | 발표 완료 (Hitachi 6501 segment, 매출 +25%+, OPM 11~12%, HVDC 백로그 fully booked through 2030) — 전력 인프라 섹터 7번째 발표 |
 | 4/29 | Alphabet (GOOGL) | 빅테크 | [Review완료 2026-05-03, IR원본기반] **All-around Beat — 펀더멘털 11분기 연속 두 자릿수 성장 + AI 수익화 확정**. 매출 $109.9B (+22% YoY, +19% constant currency), GAAP OPM 36.1% (+220bps), Diluted EPS $5.11 (+82% — 단 $2.35는 Anthropic 추정 비마케터블 equity 평가차익 일회성). **Cloud 매출 $20.03B (+63% YoY) 첫 $20B 돌파, OPM 17.8%→32.9% 트리플 (+1,510bps)**, OpInc $6.6B (+203%). **백로그 $462B QoQ ~2배 (50%+ 24개월 매출 인식)**. **Sundar "compute constrained in near term — Cloud revenue would have been higher" 시인**. CapEx Q1 $35.7B (+107% YoY). **FY26 CapEx 가이던스 $175-185B → $180-190B 상향**, **2027 "significantly increase"**. Wiz $29.5B + Intersect $5.9B 인수 완료, senior unsecured notes $31.1B 신규. **자사주 매입 Q1 $0** (Q1 25 $15B 대비 완전 중단). 컨센 Buy→Strong Buy 강화 (44명 PT 평균 $200→$215 +7.5%). 다음: in-depth (Cloud sustainability, CapEx ROIC, Antitrust, AI Search 경쟁) |
 | 4/29 | Microsoft (MSFT) | 빅테크 | [Review완료 2026-05-03, IR원본7종기반] **All-around Beat — "exceeded expectations"** (CFO Amy). 매출 $82.9B (+18% YoY, +15% CC), 영업이익 $38.4B (+20%, +16% CC), GAAP EPS $4.27 (+23%). OPM 46.3% (+60bps YoY). **AI ARR $37B +123% YoY** (Satya). **Azure +40% YoY (+39% CC) — 3분기 연속 +39%+ 가속 sustainable**. Microsoft Cloud $54.5B (+29%/+25% CC, GPM 66% — 5분기 연속 하락, Q4 가이드 64%). **Commercial RPO $627B (+99% YoY, 25% 12개월 인식 +39% YoY)**. **CapEx CY26 ~$190B 가이던스** (component pricing $25B 포함) + **Q4 FY26 >$40B**. M365 Copilot **20M+ 좌석, +250% YoY 신규 사상 최대** (Accenture 740K). VRP $900M Q4 일회성. **CFO "remain constrained at least through 2026" + "second half acceleration"** = 공급 제약이 천장. 컨센 Buy→Strong Buy 강화 (45명 PT 평균 $510→$540, +5.9%). 다음: in-depth (Azure sustainability, Cloud GPM 변곡점, M365 Copilot ARR, CapEx ROIC) |
 | 4/29 | Meta (META) | 빅테크 | [Review완료 2026-05-03, IR원본7종기반] **All-around Mega Beat — 매출 +33% YoY (+29% CC) M7 4/29 4종 중 1위 성장률**. 매출 $56.31B (cons $55.5B +$0.8B Beat), 영업이익 $22.87B (+30% YoY), OPM 41% (40.6%, -90bps YoY = AI 투자 헤드윈드 시작). GAAP EPS $10.44 (+62%) 중 $3.13는 $8.03B CAMT relief 일회성 → **정상화 EPS $7.31 (+14% YoY, cons $7.20 small Beat)**. **AI 광고 ARR $30B+ (Value Optimization $20B + Partnership $10B, 2x YoY)**. **Mark "Muse Spark" 첫 모델 출시 = Meta Superintelligence Labs 첫 산출물**. **CapEx 가이던스 +$10B 상향 → $125-145B FY26** (메모리 가격 + DC capacity). **multi-year cloud + 인프라 commitments $107B step-up 분기 단독 추가**. Impressions +19% × Price +12% 동시 가속 = 광고 매출 +33%. ARPP $15.66 (+27% YoY). DAP 3.56B (+4%, Iran/Russia QoQ -0.6% 일회성). 1GW+ MTIA Broadcom + AMD + NVIDIA. **자사주 매입 Q1 $0** (vs Q1 25 $12.75B). 5월 헤드카운트 감축 예정. 컨센 Strong Buy 강화 (50명 PT 평균 $720→$760 +5.6%). 다음: in-depth (광고 +33% sustainability, AI 광고 ARR multi-year, Muse vs OpenAI/Anthropic, MTIA 1GW+, LPA EU + 청소년 법적 사안) |
@@ -212,6 +221,7 @@
 | 4/22 | GE Vernova (GEV) | 전력 | BMO (발표 완료) |
 | 4/21 | RTX (RTX) | 방산 | BMO (발표 완료) |
 | 4/16 | TSMC (TSM) | 반도체 | BMO (발표 완료) |
+| 4/16 | ABB (ABB) | 전력 | 발표 완료 (Swiss/NYSE ADR, 매출 +9% YoY, OPM 약 19%, 변압기 강세) — 전력 인프라 섹터 1번째 발표 (한국 3사 9~12일 선행, 산업 사이클 첫 cue) |
 | 4/15 | ASML (ASML) | 반도체 | BMO (발표 완료) |
 | 4/15 | Bank of America (BAC) | 금융 | BMO (발표 완료) |
 | 4/15 | Morgan Stanley (MS) | 금융 | BMO (발표 완료) |
