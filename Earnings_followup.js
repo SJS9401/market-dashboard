@@ -166,17 +166,51 @@ function parseWatchlist(md) {
   return result;
 }
 
+// 발표일 → 캘린더 분기 매핑
+// 4~6월 발표 → 1Q (직전 회계 분기 결과), 7~9월 → 2Q, 10~12월 → 3Q, 익년 1~3월 → 4Q
+function mapDateToQuarter(dateStr, currentYear) {
+  // dateStr 예: "7/1", "(5월중)", "4/23"
+  const m = dateStr.match(/(\d{1,2})\//);
+  let month;
+  if (m) {
+    month = parseInt(m[1]);
+  } else {
+    // "(5월중)" 같은 패턴
+    const m2 = dateStr.match(/(\d{1,2})월/);
+    if (!m2) return null;
+    month = parseInt(m2[1]);
+  }
+  if (month >= 1 && month <= 3) return (currentYear - 1) + '-Q4';
+  if (month >= 4 && month <= 6) return currentYear + '-Q1';
+  if (month >= 7 && month <= 9) return currentYear + '-Q2';
+  if (month >= 10 && month <= 12) return currentYear + '-Q3';
+  return null;
+}
+
+// 발표일 표시 양식: "M/D" → "YY/MM/DD" (currentQuarter year 기준)
+function formatDate(rawDate, currentQuarter) {
+  if (!rawDate) return '';
+  const yearMatch = currentQuarter && currentQuarter.match(/^(\d{4})/);
+  const year = yearMatch ? yearMatch[1] : '26';
+  const yy = year.slice(2);
+  const m = rawDate.match(/^(\d{1,2})\/(\d{1,2})/);
+  if (!m) return rawDate;  // "(5월중)" 같은 경우 원본
+  return yy + '/' + String(m[1]).padStart(2, '0') + '/' + String(m[2]).padStart(2, '0');
+}
+
 function parseCalendar(md) {
   const result = { calendar: {}, signals: {} };
   const lines = md.split('\n');
   let inSignalSection = false;
   let inEarningsSection = false;
   let inTable = false;
-  const SIGNAL_HDR = '추적';  // 추적
-  const EARN_HDR = '실적';    // 실적
-  const ARCH_HDR = '아카이브'; // 아카이브
-  const DATE_COL = '날짜';    // 날짜
-  const TICKER_COL = '티커';  // 티커
+  const SIGNAL_HDR = '추적';
+  const EARN_HDR = '실적';
+  const ARCH_HDR = '아카이브';
+  const DATE_COL = '날짜';
+  const TICKER_COL = '티커';
+  // currentYear 추정 — manifest 또는 default 2026
+  const currentYear = 2026;
   for (const line of lines) {
     if (/^##\s/.test(line)) {
       inSignalSection = line.indexOf(SIGNAL_HDR) >= 0;
@@ -196,7 +230,11 @@ function parseCalendar(md) {
         const tickerMatch = nameTickerRaw.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
         const name = tickerMatch ? tickerMatch[1].trim() : nameTickerRaw.trim();
         const ticker = tickerMatch ? tickerMatch[2].trim() : '';
-        result.calendar[name] = { date, ticker, sector, note };
+        // 분기 추정 후 종목별 분기-entry 저장
+        const quarter = mapDateToQuarter(date, currentYear);
+        if (!quarter) continue;
+        if (!result.calendar[name]) result.calendar[name] = {};
+        result.calendar[name][quarter] = { date, ticker, sector, note };
       } else if (inTable === 'signal') {
         const ticker = cells[0] === '—' ? '' : cells[0];
         const name = cells[1];
@@ -294,7 +332,8 @@ function renderProgressCircles(stage) {
 }
 
 function renderStockRow(stock) {
-  const cal = state.calendar[stock.name];
+  const calByQuarter = state.calendar[stock.name];
+  const cal = calByQuarter ? calByQuarter[state.currentQuarter] : null;
   const sig = state.signals[stock.name];
   const tr = el('tr', { class: 'stock-row' });
   const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
@@ -307,8 +346,8 @@ function renderStockRow(stock) {
   tr.appendChild(nameTd);
   // td 2: 팔로업 키워드
   tr.appendChild(el('td', { class: 'col-followup' }, followup));
-  // td 3: 발표일
-  tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? cal.date : '발표일 미정'));
+  // td 3: 발표일 (YY/MM/DD)
+  tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
   // td 4: 리포트 4개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
   for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
@@ -347,8 +386,25 @@ function renderSectorCard(sectorObj, tier) {
     el('th', { class: 'col-report' }, '리포트')
   ]));
   table.appendChild(thead);
+  // 발표일 오름차순 정렬 (currentQuarter 기준), 발표일 없는 종목은 마지막
+  const sortedStocks = sectorObj.stocks.slice().sort((a, b) => {
+    const calA = state.calendar[a.name] && state.calendar[a.name][state.currentQuarter];
+    const calB = state.calendar[b.name] && state.calendar[b.name][state.currentQuarter];
+    const dateA = calA && calA.date ? calA.date : 'zz';  // 'zz' → 마지막 정렬
+    const dateB = calB && calB.date ? calB.date : 'zz';
+    // M/D 형식이라 단순 lexical sort 안 됨 — 월·일 분리 비교
+    const parseDate = (d) => {
+      const m = d.match(/^(\d{1,2})\/(\d{1,2})/);
+      if (!m) return [99, 99];
+      return [parseInt(m[1]), parseInt(m[2])];
+    };
+    const [mA, dA] = parseDate(dateA);
+    const [mB, dB] = parseDate(dateB);
+    if (mA !== mB) return mA - mB;
+    return dA - dB;
+  });
   const tbody = el('tbody');
-  for (const stock of sectorObj.stocks) tbody.appendChild(renderStockRow(stock));
+  for (const stock of sortedStocks) tbody.appendChild(renderStockRow(stock));
   table.appendChild(tbody);
   card.appendChild(table);
   return card;
