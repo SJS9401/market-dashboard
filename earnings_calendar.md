@@ -187,7 +187,7 @@
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 3/18 | Micron (MU) | 반도체 | [2026-Q1] AMC, FY26 Q2 발표 완료 (매출 $23.86B +27% 가이던스 비트, GPM 74.9%, EPS $12.20, 6주 후 ATH $542 +94% PT 상향) |
-| 4/30 | Apple (AAPL) | 빅테크 | AMC 발표 완료 (매출 $111.2B +17% YoY beat, EPS $2.01 vs 예상 $1.94 beat, iPhone $56.99B, 중국 +28%, CEO 승계 John Ternus) |
+| 4/30 | Apple (AAPL) | 빅테크 | [Review완료 2026-05-03, IR원본4종기반] **🌟 CEO 승계 발표 분기 — Tim Cook → John Ternus, September 1st 효력**. Cook 28년 Apple, 15년 CEO, 89번째 컨콜 → Executive Chairman 전환. Ternus = SVP Hardware Engineering 출신, 25년 Apple 경력. 재무 정책 연속성 명시. **March 분기 사상 최고 트리플 (Total revenue + iPhone revenue + EPS)**. 매출 $111.2B (+17% YoY) cons +$1.7B Beat, 가이드 상단 초과 (despite supply constraints). **GAAP GPM 49.3% 사상 최고** (가이드 상단 +80bps 초과, +110bps QoQ). EPS $2.01 (+22% YoY). **iPhone 17 +22% YoY = "most popular lineup in our history" + 99% customer satisfaction**. **Greater China +28% YoY = M7 4/30 발표 중 가장 큰 가속**. Services 사상 최고 $30.98B (+16%, GPM 76.7%). **신규 $100B buyback authorization** + 배당 +4%. **Net Cash Neutral 공식 폐기** (since 2018 -$100B 감축 완료). R&D +34% YoY = AI 사이클 진입. M7 빅테크 6종 풀 커버리지. 다음: WWDC 2026 (5/19) AI 발표 + in-depth (CEO 승계 narrative, iPhone 17 cycle, Greater China sustainability, Apple Intelligence vs M7 hyperscaler) |
 | 4/30 | SanDisk (SNDK) | 반도체 | AMC 발표 완료 (매출 $5.95B +251% YoY beat, GAAP GM 78.4%, 자사주 $6B, Q4 가이던스 $7.75-8.25B) |
 | 4/30 | 한화에어로스페이스 | 방산 | 발표 완료 (매출 5.75조 +5%, 영업이익 6389억 +21% YoY, 수주잔고 ~40조, 2분기 개선 전망) |
 | 4/30 | 삼성전자 | 반도체 | 1분기 컨퍼런스콜 완료 (10AM KST, 확정실적은 4/28 공시) |
