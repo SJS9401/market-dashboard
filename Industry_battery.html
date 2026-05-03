@@ -280,25 +280,25 @@ const SECTIONS = [
     cards: [
       { fig: 31, title: "글로벌",
         chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_global_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2 },
+          { label: "삼원계", file: "battery_lfp_global_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
           { label: "LFP", file: "battery_lfp_global_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
           { label: "침투율(우)", file: "battery_lfp_global_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 32, title: "미국",
         chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_us_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2 },
+          { label: "삼원계", file: "battery_lfp_us_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
           { label: "LFP", file: "battery_lfp_us_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
           { label: "침투율(우)", file: "battery_lfp_us_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 33, title: "중국",
         chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_china_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2 },
+          { label: "삼원계", file: "battery_lfp_china_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
           { label: "LFP", file: "battery_lfp_china_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
           { label: "침투율(우)", file: "battery_lfp_china_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
       { fig: 34, title: "유럽",
         chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_eu_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2 },
+          { label: "삼원계", file: "battery_lfp_eu_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
           { label: "LFP", file: "battery_lfp_eu_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
           { label: "침투율(우)", file: "battery_lfp_eu_share.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "GWh", unit_right: "%" } },
@@ -714,14 +714,30 @@ async function renderChart(containerId, def) {
       const bIsBar = (b.kind || def.kind) === 'bar' || (b.kind || def.kind) === 'histogram';
       return (bIsBar ? 1 : 0) - (aIsBar ? 1 : 0);  // bar 먼저(0), line 나중(1)
     });
-    // 순차 await — Promise.all로 인한 race condition 방지
-    const seriesData = [];
+    // Pass 1 — 모든 series의 raw data fetch (stackBelow 처리 위해 한꺼번에 필요)
+    const fetched = [];
     for (const s of sortedSeries) {
       let data = await fetchSeries(s.file);
       const seen = new Set();
       data = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
-      // derived 시리즈 처리 (yoy 등)
       const cleaned = (s.derived === 'yoy') ? computeYoY(data) : data;
+      fetched.push({ s, raw: cleaned, display: cleaned });
+    }
+    // Pass 2 — stackBelow 처리: cumulative 변환 (display값 = raw + base의 같은 시점 값)
+    const rawByLabel = new Map(fetched.map(f => [f.s.label, f.raw]));
+    for (const f of fetched) {
+      if (f.s.stackBelow) {
+        const base = rawByLabel.get(f.s.stackBelow);
+        if (base) {
+          const baseMap = new Map(base.map(d => [d.time, d.value]));
+          f.display = f.raw.map(d => ({ ...d, value: d.value + (baseMap.get(d.time) || 0) }));
+        }
+      }
+    }
+    // Pass 3 — series 추가 (z-order = sortedSeries 순서: 먼저 추가가 뒤로 깔림)
+    const seriesData = [];
+    for (const f of fetched) {
+      const { s, raw, display } = f;
       const isLeft = (def.type === 'dual_axis' && s.axis === 'left');
       const priceScaleId = isLeft ? 'left' : 'right';
       const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
@@ -731,7 +747,7 @@ async function renderChart(containerId, def) {
       if (kind === 'bar' || kind === 'histogram') {
         series = chart.addHistogramSeries({
           color: s.color,
-          priceLineVisible: false, lastValueVisible: true,
+          priceLineVisible: false, lastValueVisible: !s.stackBelow,  // stack된 시리즈는 last value 숨김 (cumulative=잘못된 값)
           priceScaleId, priceFormat: fmtOpts,
         });
       } else {
@@ -740,7 +756,6 @@ async function renderChart(containerId, def) {
           priceLineVisible: false, lastValueVisible: true,
           priceScaleId, priceFormat: fmtOpts,
         };
-        // right axis range 강제 (PDF 원본 anchor 따라가기)
         if (priceScaleId === 'right' && def.right_min !== undefined && def.right_max !== undefined) {
           lineOpts.autoscaleInfoProvider = () => ({
             priceRange: { minValue: def.right_min, maxValue: def.right_max }
@@ -748,8 +763,7 @@ async function renderChart(containerId, def) {
         }
         series = chart.addLineSeries(lineOpts);
       }
-      series.setData(cleaned);
-      // YoY 우축 라인이면 0 baseline 점선 추가
+      series.setData(display);
       if (s.axis === 'right' && (kind === 'line' || !s.kind)) {
         try {
           series.createPriceLine({
@@ -758,8 +772,10 @@ async function renderChart(containerId, def) {
           });
         } catch(e) { /* skip */ }
       }
-      seriesByObj.set(series, { label: s.label, color: s.color, unit });
-      seriesData.push({ label: s.label, color: s.color, data: cleaned, series, unit });
+      // stackBelow=라벨 메타에 보관해서 tooltip에서 raw 역산
+      seriesByObj.set(series, { label: s.label, color: s.color, unit, stackBelow: s.stackBelow || null });
+      // footer table은 raw 값 사용 (cumulative 아님)
+      seriesData.push({ label: s.label, color: s.color, data: raw, series, unit });
     }
     chart.timeScale().fitContent();
     // 호버 툴팁
@@ -773,11 +789,22 @@ async function renderChart(containerId, def) {
       }
       const dateLbl = (typeof param.time === 'string') ? param.time : `${param.time.year}-${String(param.time.month).padStart(2,'0')}-${String(param.time.day).padStart(2,'0')}`;
       let html = `<div class="tt-date">${dateLbl}</div>`;
+      // stackBelow 역산용 — 이 시점의 시리즈별 displayed 값
+      const valueByLabel = new Map();
+      param.seriesData.forEach((d, ser) => {
+        const meta = seriesByObj.get(ser);
+        if (meta && d.value != null) valueByLabel.set(meta.label, d.value);
+      });
       param.seriesData.forEach((d, ser) => {
         const meta = seriesByObj.get(ser);
         if (!meta || d.value == null) return;
+        let displayVal = d.value;
+        if (meta.stackBelow) {
+          const baseVal = valueByLabel.get(meta.stackBelow);
+          if (baseVal != null) displayVal = d.value - baseVal;
+        }
         const fmt = makeFormatter(meta.unit);
-        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(d.value)}</span></div>`;
+        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(displayVal)}</span></div>`;
       });
       tooltipEl.innerHTML = html;
       tooltipEl.style.display = 'block';
