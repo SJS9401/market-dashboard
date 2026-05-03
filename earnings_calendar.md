@@ -187,7 +187,7 @@
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 3/18 | Micron (MU) | 반도체 | [2026-Q1] AMC, FY26 Q2 발표 완료 (매출 $23.86B +27% 가이던스 비트, GPM 74.9%, EPS $12.20, 6주 후 ATH $542 +94% PT 상향) |
-| 4/30 | Apple (AAPL) | 빅테크 | [Review완료 2026-05-03, IR원본4종기반] **🌟 CEO 승계 발표 분기 — Tim Cook → John Ternus, September 1st 효력**. Cook 28년 Apple, 15년 CEO, 89번째 컨콜 → Executive Chairman 전환. Ternus = SVP Hardware Engineering 출신, 25년 Apple 경력. 재무 정책 연속성 명시. **March 분기 사상 최고 트리플 (Total revenue + iPhone revenue + EPS)**. 매출 $111.2B (+17% YoY) cons +$1.7B Beat, 가이드 상단 초과 (despite supply constraints). **GAAP GPM 49.3% 사상 최고** (가이드 상단 +80bps 초과, +110bps QoQ). EPS $2.01 (+22% YoY). **iPhone 17 +22% YoY = "most popular lineup in our history" + 99% customer satisfaction**. **Greater China +28% YoY = M7 4/30 발표 중 가장 큰 가속**. Services 사상 최고 $30.98B (+16%, GPM 76.7%). **신규 $100B buyback authorization** + 배당 +4%. **Net Cash Neutral 공식 폐기** (since 2018 -$100B 감축 완료). R&D +34% YoY = AI 사이클 진입. M7 빅테크 6종 풀 커버리지. 다음: WWDC 2026 (5/19) AI 발표 + in-depth (CEO 승계 narrative, iPhone 17 cycle, Greater China sustainability, Apple Intelligence vs M7 hyperscaler) |
+| 4/30 | Apple (AAPL) | 빅테크 | AMC 발표 완료 (매출 $111.2B +17% YoY beat, EPS $2.01 vs 예상 $1.94 beat, iPhone $56.99B, 중국 +28%, CEO 승계 John Ternus) |
 | 4/30 | SanDisk (SNDK) | 반도체 | AMC 발표 완료 (매출 $5.95B +251% YoY beat, GAAP GM 78.4%, 자사주 $6B, Q4 가이던스 $7.75-8.25B) |
 | 4/30 | 한화에어로스페이스 | 방산 | 발표 완료 (매출 5.75조 +5%, 영업이익 6389억 +21% YoY, 수주잔고 ~40조, 2분기 개선 전망) |
 | 4/30 | 삼성전자 | 반도체 | 1분기 컨퍼런스콜 완료 (10AM KST, 확정실적은 4/28 공시) |
@@ -197,5 +197,37 @@
 | 4/30 | Hitachi Energy (HE) | 전력 | 발표 완료 (Hitachi 6501 segment, 매출 +25%+, OPM 11~12%, HVDC 백로그 fully booked through 2030) — 전력 인프라 섹터 7번째 발표 |
 | 4/29 | Alphabet (GOOGL) | 빅테크 | [Review완료 2026-05-03, IR원본기반] **All-around Beat — 펀더멘털 11분기 연속 두 자릿수 성장 + AI 수익화 확정**. 매출 $109.9B (+22% YoY, +19% constant currency), GAAP OPM 36.1% (+220bps), Diluted EPS $5.11 (+82% — 단 $2.35는 Anthropic 추정 비마케터블 equity 평가차익 일회성). **Cloud 매출 $20.03B (+63% YoY) 첫 $20B 돌파, OPM 17.8%→32.9% 트리플 (+1,510bps)**, OpInc $6.6B (+203%). **백로그 $462B QoQ ~2배 (50%+ 24개월 매출 인식)**. **Sundar "compute constrained in near term — Cloud revenue would have been higher" 시인**. CapEx Q1 $35.7B (+107% YoY). **FY26 CapEx 가이던스 $175-185B → $180-190B 상향**, **2027 "significantly increase"**. Wiz $29.5B + Intersect $5.9B 인수 완료, senior unsecured notes $31.1B 신규. **자사주 매입 Q1 $0** (Q1 25 $15B 대비 완전 중단). 컨센 Buy→Strong Buy 강화 (44명 PT 평균 $200→$215 +7.5%). 다음: in-depth (Cloud sustainability, CapEx ROIC, Antitrust, AI Search 경쟁) |
 | 4/29 | Microsoft (MSFT) | 빅테크 | [Review완료 2026-05-03, IR원본7종기반] **All-around Beat — "exceeded expectations"** (CFO Amy). 매출 $82.9B (+18% YoY, +15% CC), 영업이익 $38.4B (+20%, +16% CC), GAAP EPS $4.27 (+23%). OPM 46.3% (+60bps YoY). **AI ARR $37B +123% YoY** (Satya). **Azure +40% YoY (+39% CC) — 3분기 연속 +39%+ 가속 sustainable**. Microsoft Cloud $54.5B (+29%/+25% CC, GPM 66% — 5분기 연속 하락, Q4 가이드 64%). **Commercial RPO $627B (+99% YoY, 25% 12개월 인식 +39% YoY)**. **CapEx CY26 ~$190B 가이던스** (component pricing $25B 포함) + **Q4 FY26 >$40B**. M365 Copilot **20M+ 좌석, +250% YoY 신규 사상 최대** (Accenture 740K). VRP $900M Q4 일회성. **CFO "remain constrained at least through 2026" + "second half acceleration"** = 공급 제약이 천장. 컨센 Buy→Strong Buy 강화 (45명 PT 평균 $510→$540, +5.9%). 다음: in-depth (Azure sustainability, Cloud GPM 변곡점, M365 Copilot ARR, CapEx ROIC) |
-| 4/29 | Meta (META) | 빅테크 | [Review완료 2026-05-03, IR원본7종기반] **All-around Mega Beat — 매출 +33% YoY (+29% CC) M7 4/29 4종 중 1위 성장률**. 매출 $56.31B (cons $55.5B +$0.8B Beat), 영업이익 $22.87B (+30% YoY), OPM 41% (40.6%, -90bps YoY = AI 투자 헤드윈드 시작). GAAP EPS $10.44 (+62%) 중 $3.13는 $8.03B CAMT relief 일회성 → **정상화 EPS $7.31 (+14% YoY, cons $7.20 small Beat)**. **AI 광고 ARR $30B+ (Value Optimization $20B + Partnership $10B, 2x YoY)**. **Mark "Muse Spark" 첫 모델 출시 = Meta Superintelligence Labs 첫 산출물**. **CapEx 가이던스 +$10B 상향 → $125-145B FY26** (메모리 가격 + DC capacity). **multi-year cloud + 인프라 commitments $107B step-up 분기 단독 추가**. Impressions +19% × Price +12% 동시 가속 = 광고 매출 +33%. ARPP $15.66 (+27% YoY). DAP 3.56B (+4%, Iran/Russia QoQ -0.6% 일회성). 1GW+ MTIA Broadcom + AMD + NVIDIA. **자사주 매입 Q1 $0** (vs Q1 25 $12.75B). 5월 헤드카운트 감축 예정. 컨센 Strong Buy 강화 (50명 PT 평균 $720→$760 +5.6%). 다음: in-depth (광고 +33% sustainability, AI 광고 ARR multi-year, Muse vs OpenAI/Anthropic, MTIA 1GW+, LPA EU + 청소년 법적 사안) |
-| 4/29 | Amazon (AMZN) | 빅테크 | [Review완료 2026-05-03, IR원본4종기반] **All-around Mega Beat — Q1 26 OPM 13.1% "highest operating margin ever"** (CFO verbatim). 매출 $181.5B (+17% YoY, +15% ex-FX), 영업이익 **$23.85B (+30% YoY) = Q4 25 가이드 $14-18B 대비 +$5.85-9.85B 초과**. GAAP EPS $2.78 (+75% YoY) — 단 $1.22는 Anthropic 평가차익 $16.8B 일회성, 정상화 영업 EPS ~$1.56. **AWS +28% YoY (+$2B QoQ) = Jassy "fastest growth rate in 15 quarters" + $150B 연환산 run rate, AI 매출 run rate $15B+ (3년 만에 260배)**. **AWS 백로그 $364B (+ Anthropic $100B+ 별도 → 사실상 $464B+)**. **Trainium 백로그 >$225B + 칩 비즈니스 $20B run rate (triple-digit YoY)** = 데이터센터 칩 톱 3 진입. **TTM CapEx $147.3B (+67% YoY) ≈ MSFT FY26E $144B = AI hyperscaler arms race 정량 확정**. TTM FCF $1.2B (-95% YoY) — capex 폭증. 광고 TTM $70B+ (Google YouTube ads 수준). 컨센 Strong Buy 
+| 4/29 | Meta (META) | 빅테크 | [Review완료 2026-05-03, IR원본7종기반] **All-around Mega Beat — 매출 +33% YoY (+29% CC) M7 4/29 4종 중 1위 성장률**. 매출 $56.31B (cons $55.5B +$0.8B Beat), 영업이익 $22.87B (+30% YoY), OPM 41% (40.6%, -90bps YoY = AI 투자 헤드윈드 시작). GAAP EPS $10.44 (+62%) 중 $3.13는 $8.03B CAMT relief 일회성 → **정상화 EPS $7.31 (+14% YoY, cons $7.20 small Beat)**. **AI 광고 ARR $30B+ (Value Optimization $20B + Partnership $10B, 2x YoY)**. **Mark "Muse Spark" 첫 모델 출시 = Meta Superintelligence Labs 첫 산출물**. **CapEx 가이던스 +$10B 상향 → $125-145B FY26** (메모리 가격 + DC capacity). **multi-year cloud + 인프라 commitments $107B step-up 분기 단독 추가**. Impressions +19% × Price +12% 동시 가속 = 광고 매출 +33%. ARPP $15.66 (+27% YoY). DAP 3.56B (+4%, Iran/Russia QoQ -0.6% 일회성). 1GW+ MTIA Broadcom + AMD + NVIDIA. **자사주 매입 Q1 $0** (vs Q1 25 $12.75B). 5월 헤드카운트 감축 예정. 컨센 Strong Buy 강화 (50명 PT 평균 $720→$760 +5.6%). 다음: in-depth (광고 +33% sustainability, AI 광고 ARR multi-year, Muse vs OpenAI/Anthropic, MTIA roadmap) |
+| 4/29 | Amazon (AMZN) | 빅테크 | 발표 완료 AMC (매출 $181.5B +17%, AWS $37.59B +28%, EPS $2.78 beat) |
+| 4/29 | Ford (F) | 자동차 | 발표 완료 AMC (EPS $0.66, 매출 $43.4B, EBIT 가이던스 $8.5-10.5B 상향, 관세 환급 $1.3B 특수) |
+| 4/29 | 두산에너빌리티 | 원전 | 1분기 실적 발표 완료 (오후 3:45 IR설명회) |
+| 4/29 | 에코프로 | 배터리 | 공시 완료 (매출 8220억 +2%, 영업이익 602억, YoY +42배) |
+| 4/28 | Bloom Energy (BE) | 전력 | 발표 완료 AMC (매출 $751.1M +130% YoY, EPS $0.44 vs 예상 $0.13 대폭 beat, 가이던스 상향) |
+| 4/28 | General Motors (GM) | 자동차 | 발표 완료 BMO (EPS $3.70 vs 예상 $2.62 beat, 2026 가이던스 상향 $13.5~15.5B) |
+| 4/28 | HD현대일렉트릭 | 전력 | 발표 완료 (매출 1조365억 +2.1%, 영업이익 2583억 +18.4% YoY, OPM 24.9%) — 전력 인프라 섹터 5번째 발표 |
+| 4/28 | 삼성전자 | 반도체 | 확정실적 공시 완료 (잠정 영업이익 57.2조 확인, 컨퍼런스콜 4/30 완료) |
+| 4/28 | 현대건설 | 원전 | 발표 완료 (매출 6.3조 +증가, 영업이익 1809억 -15.4% YoY, 수주잔고 92조) |
+| 4/27 | 한화시스템 | 방산 | 발표 완료 (매출 8071억, 영업이익 343억, YoY +17%/+2%, 순손실 958억·필리조선소 여파) |
+| 4/27 | 한화오션 | 조선 | 발표 완료 (매출 3.2조, 영업이익 4411억, YoY +71%, 상선 이익률 18%) |
+| 4/27 | LIG넥스원 | 방산 | 발표 완료 (매출 5468억, 영업이익 682억, YoY +28%) |
+| 4/21 | LS일렉트릭 | 전력 | 발표 완료 (매출 1조3766억, 영업이익 1266억, YoY +33%/+45%) — 전력 인프라 섹터 2번째 발표 |
+| 4/24 | 삼성중공업 | 조선 | 발표 완료 (매출 2조3478억, 영업이익 779억, YoY +297.4%) |
+| 4/24 | 현대로템 | 방산 | 발표 완료 (매출 1조4575억, 영업이익 2242억, YoY +10.5%) |
+| 4/24 | 효성중공업 | 전력 | 발표 완료 (영업이익 1523억, YoY +48.8%) — 전력 인프라 섹터 4번째 발표 |
+| 4/22 | 삼성바이오로직스 | 제약/바이오 | 발표 완료 (매출 1조2571억, 영업이익 5808억, YoY +26%/+35%) |
+| 4/23 | Tesla (TSLA) | 자동차 | 발표 완료 AMC (Adj EPS $0.41 beat / GAAP EPS $0.13 miss, 매출 $22.39B +16% YoY, Auto GPM ex-credits 19.2% 헤드라인) |
+| 4/23 | SK하이닉스 | 반도체 | 발표 완료 (매출 52.6조, 영업이익 37.6조, OPM 72%, YoY +405%) |
+| 4/23 | Lockheed Martin (LMT) | 방산 | BMO (발표 완료, EPS $6.44 miss, 현금흐름 급감) |
+| 4/23 | 현대차 | 자동차 | 발표 완료 (매출 45.9조 역대 최대, 영업이익 2.5조 -30.8% YoY) |
+| 4/22 | GE Vernova (GEV) | 전력 | BMO (발표 완료) — 전력 인프라 섹터 3번째 발표 |
+| 4/21 | RTX (RTX) | 방산 | BMO (발표 완료) |
+| 4/16 | TSMC (TSM) | 반도체 | BMO (발표 완료) |
+| 4/16 | ABB (ABB) | 전력 | BMO 발표 완료 (전력 인프라 섹터 1번째 발표) |
+| 4/15 | ASML (ASML) | 반도체 | BMO (발표 완료) |
+| 4/15 | Bank of America (BAC) | 금융 | BMO (발표 완료) |
+| 4/15 | Morgan Stanley (MS) | 금융 | BMO (발표 완료) |
+| 4/13 | Goldman Sachs (GS) | 금융 | BMO (발표 완료) |
+| 4/14 | JPMorgan Chase (JPM) | 금융 | BMO (발표 완료) |
+| 4/14 | Citigroup (C) | 금융 | BMO (발표 완료) |
+| 4/7 | 삼성전자 | 반도체 | 잠정실적 (발표 완료, 오후 3시, 영업이익 57.2조) |
+| 4/7 | LG에너지솔루션 | 배터리 | 잠정실적 (발표 완료, 영업손실 2078억, 적자 전환) |
