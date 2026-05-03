@@ -2,40 +2,46 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마이크론 팔로업 2026-Q2</title>
+<title>2026-Q2 MU 팔로업</title>
 <style>
-:root { --bg: #0d1117; --bg-elevated: #161b22; --bg-table-alt: #1c2128; --text: #e6edf3; --text-secondary: #8b949e; --accent: #58a6ff; --accent-2: #2ea043; --warn: #f85149; --border: #30363d; }
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif; font-size: 15px; line-height: 1.65; }
-.container { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
-h1 { font-size: 26px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-top: 24px; color: #fff; }
-h2 { font-size: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 36px; color: var(--accent); }
-h3 { font-size: 17px; margin-top: 24px; color: var(--text); }
-blockquote { background: var(--bg-elevated); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; color: var(--text-secondary); font-size: 14px; border-radius: 0 6px 6px 0; }
-blockquote p { margin: 4px 0; }
-table { border-collapse: collapse; width: 100%; margin: 14px 0 24px; font-size: 13px; background: var(--bg-elevated); border-radius: 6px; overflow: hidden; display: block; overflow-x: auto; }
-th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; white-space: nowrap; }
-th { background: #1c2630; color: var(--accent); font-weight: 600; }
-tr:nth-child(even) td { background: var(--bg-table-alt); }
-strong { color: #fff; font-weight: 600; }
-em { color: var(--accent-2); }
-code { background: var(--bg-table-alt); border-radius: 3px; padding: 1px 5px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; color: var(--accent); }
-hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-ul, ol { padding-left: 22px; }
-li { margin: 4px 0; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+  :root {
+    --bg: #0e1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #1f77b4;
+    --accent2: #d62728;
+    --table-border: #30363d;
+    --table-bg: #161b22;
+    --link: #58a6ff;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    line-height: 1.7; max-width: 980px; margin: 24px auto; padding: 0 28px;
+  }
+  h1 { color: var(--fg); border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-top: 32px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid var(--table-border); padding-bottom: 6px; margin-top: 32px; }
+  h3 { color: #d2a8ff; margin-top: 24px; }
+  blockquote { border-left: 4px solid var(--accent); background: rgba(31,119,180,0.08);
+                padding: 10px 18px; margin: 16px 0; color: var(--muted); border-radius: 0 6px 6px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0;
+           background: var(--table-bg); font-size: 0.92em; }
+  th, td { border: 1px solid var(--table-border); padding: 8px 10px; text-align: left; }
+  th { background: #21262d; color: #c9d1d9; font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  strong { color: #ffa657; }
+  hr { border: none; border-top: 1px solid var(--table-border); margin: 28px 0; }
+  a { color: var(--link); }
+  em { color: var(--muted); }
 </style>
 </head>
 <body>
-<div class="container">
 <blockquote>
-<p>모드: 팔로업 요약
-종목: 마이크론 테크놀로지 (MU)
-섹터: 반도체 (메모리 — DRAM/NAND/HBM)
-분기: 2026-Q2 (마이크론 회계 기준 FY26 Q3, 2026-06 말 발표 예상)
-발표 예정일: 2026-06-25 (예상)
+<p>모드: 팔로업 요약<br />
+종목: 마이크론 테크놀로지 (MU)<br />
+섹터: 반도체 (메모리 — DRAM/NAND/HBM)<br />
+분기: 2026-Q2 (마이크론 회계 기준 FY26 Q3, 2026-06 말 발표 예상)<br />
+발표 예정일: 2026-06-25 (예상)<br />
 작성 시각: 2026-05-03 16:00 KST (v6 룰 소급 작성 — 1Q26 리뷰 기반)</p>
 </blockquote>
 <h1>Micron FY26 Q3 팔로업 요약 (2026-Q2)</h1>
@@ -44,67 +50,67 @@ a:hover { text-decoration: underline; }
 </blockquote>
 <hr />
 <h2>① 1Q26 (FY26 Q2) 실적 — 비트/미스/보합 요인</h2>
-<p>(1) 트리플 비트 — 사상 최대급
-→ 매출 <strong>$23.86B</strong> (가이던스 $18.7B 대비 <strong>+27.6%</strong> / 컨센 $20.07B 대비 +18.9%)
-→ Non-GAAP GPM <strong>74.9%</strong> (가이던스 ~68% 대비 <strong>+6.9pp</strong>)
-→ Non-GAAP EPS <strong>$12.20</strong> (가이던스 $8.42 대비 <strong>+45%</strong>) — 마이크론 사상 최대 폭 EPS Beat 중 하나
+<p>(1) 트리플 비트 — 사상 최대급<br />
+→ 매출 <strong>$23.86B</strong> (가이던스 $18.7B 대비 <strong>+27.6%</strong> / 컨센 $20.07B 대비 +18.9%)<br />
+→ Non-GAAP GPM <strong>74.9%</strong> (가이던스 ~68% 대비 <strong>+6.9pp</strong>)<br />
+→ Non-GAAP EPS <strong>$12.20</strong> (가이던스 $8.42 대비 <strong>+45%</strong>) — 마이크론 사상 최대 폭 EPS Beat 중 하나<br />
 → OCF $11.9B / Adj. FCF $6.9B (전 분기 +77%) 동반 record</p>
-<p>(2) 비트 핵심 동인 — 가격이 전부
-→ DRAM ASP <strong>+mid-60% QoQ</strong> (Bit는 mid-single digits 부합) — ASP가 매출 성장의 약 90% 설명
-→ NAND ASP <strong>+high-70% QoQ</strong> (Bit low-single digits) — DRAM보다 더 폭등
-→ 산업 전체 공급 부족 + 우호적 믹스 + 비용 실행 결합 (CFO 인용)
+<p>(2) 비트 핵심 동인 — 가격이 전부<br />
+→ DRAM ASP <strong>+mid-60% QoQ</strong> (Bit는 mid-single digits 부합) — ASP가 매출 성장의 약 90% 설명<br />
+→ NAND ASP <strong>+high-70% QoQ</strong> (Bit low-single digits) — DRAM보다 더 폭등<br />
+→ 산업 전체 공급 부족 + 우호적 믹스 + 비용 실행 결합 (CFO 인용)<br />
 → 4 BU 모두 record + 모두 +50%+ QoQ. CDBU +139% QoQ로 폭발 1위, MCBU OPM 76% (1년 전 1% → +75pp 점프)</p>
-<p>(3) 미스/보합
-→ 미스 항목 부재 (모든 KPI 가이던스·컨센 동시 비트)
+<p>(3) 미스/보합<br />
+→ 미스 항목 부재 (모든 KPI 가이던스·컨센 동시 비트)<br />
 → 회사가 의도적으로 침묵한 항목: <strong>Q4 이후 GPM forward outlook</strong> (이게 폭락 트리거 — 항목 ③ 참조)</p>
 <hr />
 <h2>② 지난 분기 (4Q25 = FY26 Q1) 핵심 팔로업 사항</h2>
-<p>→ ⚠️ <strong>첫 작성 — 4Q25 리뷰 자료 없음</strong> (v6 룰 적용 전 분기, 풀 리뷰 미존재)
+<p>→ ⚠️ <strong>첫 작성 — 4Q25 리뷰 자료 없음</strong> (v6 룰 적용 전 분기, 풀 리뷰 미존재)<br />
 → 다음 분기(FY26 Q4) 팔로업부터 본 1Q26 리뷰 자료 기반 추적 정상화</p>
 <hr />
 <h2>③ 1Q26 핵심 변화 (3개 카테고리)</h2>
-<p>(1) 산업/사이클
-→ <strong>메모리 산업 전체 슈퍼사이클 입증</strong> — 마이크론(3/18) → 삼성 DS OPM 38% (4/7) → SK하이닉스 OPM 71.5% (4/23) 6주간 3사 동시 record 발표
-→ <strong>HBM3E + HBM4 100% sold out CY2026 (회사 공식)</strong> — 가격 가시성 multi-year 확보
-→ <strong>첫 5년 SCA 체결</strong> — 메모리 spot 가격 시대 종료 시그널, 산업 구조 변화
-→ DRAM/NAND 산업 bit 출하 CY2026 +20%대 (직전 outlook 대비 상향)
+<p>(1) 산업/사이클<br />
+→ <strong>메모리 산업 전체 슈퍼사이클 입증</strong> — 마이크론(3/18) → 삼성 DS OPM 38% (4/7) → SK하이닉스 OPM 71.5% (4/23) 6주간 3사 동시 record 발표<br />
+→ <strong>HBM3E + HBM4 100% sold out CY2026 (회사 공식)</strong> — 가격 가시성 multi-year 확보<br />
+→ <strong>첫 5년 SCA 체결</strong> — 메모리 spot 가격 시대 종료 시그널, 산업 구조 변화<br />
+→ DRAM/NAND 산업 bit 출하 CY2026 +20%대 (직전 outlook 대비 상향)<br />
 → "Supply-demand tight beyond CY2026" — CFO 명시</p>
-<p>(2) 사업부 mix
-→ <strong>HBM4 12H NVIDIA Vera Rubin mass production 진입 (3/16)</strong> — 2일 후 실적 발표
-→ CMBU(Cloud/HBM) 비중 32% / CDBU(Core DC) 24% 합산 56%로 데이터센터 매출 압도
-→ MCBU(Mobile/Client) GPM 79% / OPM 76% — 4 BU 중 최고 수익성 (모바일 LPDDR5X / Client SSD ASP 폭등)
+<p>(2) 사업부 mix<br />
+→ <strong>HBM4 12H NVIDIA Vera Rubin mass production 진입 (3/16)</strong> — 2일 후 실적 발표<br />
+→ CMBU(Cloud/HBM) 비중 32% / CDBU(Core DC) 24% 합산 56%로 데이터센터 매출 압도<br />
+→ MCBU(Mobile/Client) GPM 79% / OPM 76% — 4 BU 중 최고 수익성 (모바일 LPDDR5X / Client SSD ASP 폭등)<br />
 → AEBU(Auto/Embedded) 매출 record — 자동차+산업 합산 분기 $2B 초과</p>
-<p>(3) Narrative / Multiple
-→ <strong>시각 전환 cyclical → secular</strong> — 6주간 평균 PT $267 → $517 <strong>(+94%)</strong>
-→ Strong Buy 만장일치 (38명 중 매도 0건) — DA Davidson $1,000 / Melius·Lynx $825 / TD Cowen $660
-→ ★ <strong>폭락 1차 트리거 = GPM 피크 시그널</strong> (Q4 이후 forward outlook 회사 침묵) → -30%
-→ 회복 결정적 catalyst = SK하이닉스 1Q26 발표(4/23) GPM 79.3% — "산업 전체 GPM 도약" reframe
+<p>(3) Narrative / Multiple<br />
+→ <strong>시각 전환 cyclical → secular</strong> — 6주간 평균 PT $267 → $517 <strong>(+94%)</strong><br />
+→ Strong Buy 만장일치 (38명 중 매도 0건) — DA Davidson $1,000 / Melius·Lynx $825 / TD Cowen $660<br />
+→ ★ <strong>폭락 1차 트리거 = GPM 피크 시그널</strong> (Q4 이후 forward outlook 회사 침묵) → -30%<br />
+→ 회복 결정적 catalyst = SK하이닉스 1Q26 발표(4/23) GPM 79.3% — "산업 전체 GPM 도약" reframe<br />
 → FY26 EPS 컨센 $25 → $53 / FY27 EPS 컨센 $35 → $100 (양쪽 모두 약 +180~200% 상향)</p>
 <hr />
 <h2>④ 2Q26 (FY26 Q3) 핵심 팔로업 사항</h2>
-<p>(1) <strong>★ GPM 81% 가이던스 달성 + Q4 forward outlook 톤</strong> (1순위)
-→ 이번 폭락의 1차 트리거가 GPM 피크 시그널이었던 점 감안, 단순 81% 달성보다 <strong>Q4 GPM 코멘트가 진짜 시그널</strong>
-→ Bull: "Q4도 80%+ 유지 / FY27 H1 plateau" → secular 10x+ multiple 강화 → 추가 +30% 가능
-→ Bear: Q3 81% 미달 (78~80%) + Q4 declining 인정 → 3/30 패턴 재발 (-15~-20%)
+<p>(1) <strong>★ GPM 81% 가이던스 달성 + Q4 forward outlook 톤</strong> (1순위)<br />
+→ 이번 폭락의 1차 트리거가 GPM 피크 시그널이었던 점 감안, 단순 81% 달성보다 <strong>Q4 GPM 코멘트가 진짜 시그널</strong><br />
+→ Bull: "Q4도 80%+ 유지 / FY27 H1 plateau" → secular 10x+ multiple 강화 → 추가 +30% 가능<br />
+→ Bear: Q3 81% 미달 (78~80%) + Q4 declining 인정 → 3/30 패턴 재발 (-15~-20%)<br />
 → <strong>모니터링</strong>: Micron IR 컨퍼런스콜 transcript (CFO Q&amp;A 톤), 뉴스 키워드 "GPM sustainability" / "Q4 gross margin guidance"</p>
-<p>(2) HBM4 12H ramp 진척 + 16H 출하 시점
-→ NVIDIA Vera Rubin platform 출하 일정 연동 — Vera Rubin 양산 가속 시 HBM4 ramp 동반 가속
-→ 마이크론 HBM 점유율 (현재 ~20%) → 25%+ 도달 가능 여부 (SK하이닉스 70% 점유율 대비 다크호스)
-→ HBM4 16H (48GB) 샘플링 → 양산 전환 시점 첫 코멘트 가능성
+<p>(2) HBM4 12H ramp 진척 + 16H 출하 시점<br />
+→ NVIDIA Vera Rubin platform 출하 일정 연동 — Vera Rubin 양산 가속 시 HBM4 ramp 동반 가속<br />
+→ 마이크론 HBM 점유율 (현재 ~20%) → 25%+ 도달 가능 여부 (SK하이닉스 70% 점유율 대비 다크호스)<br />
+→ HBM4 16H (48GB) 샘플링 → 양산 전환 시점 첫 코멘트 가능성<br />
 → <strong>모니터링</strong>: TrendForce HBM 분기 보고서, NVDA FY27 Q1 어닝 (5/20) 후 HBM 코멘트, Bloomberg 뉴스 "HBM4 production ramp"</p>
-<p>(3) 추가 SCA 체결 발표 — 어떤 Hyperscaler까지
-→ 첫 5년 SCA 후속 체결 가능성 (2~3건 추가 시 multi-year 가시성 본격)
-→ 가능성 후보: Microsoft, Google, AWS 중 — 어느 hyperscaler가 마이크론과 SCA 체결하는지가 핵심
+<p>(3) 추가 SCA 체결 발표 — 어떤 Hyperscaler까지<br />
+→ 첫 5년 SCA 후속 체결 가능성 (2~3건 추가 시 multi-year 가시성 본격)<br />
+→ 가능성 후보: Microsoft, Google, AWS 중 — 어느 hyperscaler가 마이크론과 SCA 체결하는지가 핵심<br />
 → <strong>모니터링</strong>: 마이크론 IR 보도자료, Hyperscaler 분기 컨콜 (4월 말~5월 초 발표 후 SCA 언급 여부), 뉴스 키워드 "Strategic Customer Agreement" / "5-year supply"</p>
-<p>(4) FY27 가이던스 첫 시그널
-→ FY26 Q3 컨콜에서 FY27 매출/EPS 정성적 톤 — "exceptional growth continues" vs "moderation expected" 어휘 선택 결정적
-→ FY27 OP $115B 컨센 미달 시 sell-the-news 가능성
-→ FY27 CapEx +$10B 상향이 FY28 공급 과잉 우려 추가 부각 가능성
+<p>(4) FY27 가이던스 첫 시그널<br />
+→ FY26 Q3 컨콜에서 FY27 매출/EPS 정성적 톤 — "exceptional growth continues" vs "moderation expected" 어휘 선택 결정적<br />
+→ FY27 OP $115B 컨센 미달 시 sell-the-news 가능성<br />
+→ FY27 CapEx +$10B 상향이 FY28 공급 과잉 우려 추가 부각 가능성<br />
 → <strong>모니터링</strong>: CFO 컨콜 발언, Bloomberg/Yahoo Finance 컨센 즉시 갱신 추적</p>
-<p>(5) NAND 공급-수요 갭 정량화 + Singapore fab 진척
-→ "Demand significantly in excess of supply" 워딩 변화 (강도 / 약화) 추적
-→ Singapore NAND fab 착공 진척 — H2 CY2028 일정 유지 / 슬립 여부
-→ Singapore HBM 패키징 가동 시점 — CY2027 의미 있는 기여 일정 변화
+<p>(5) NAND 공급-수요 갭 정량화 + Singapore fab 진척<br />
+→ "Demand significantly in excess of supply" 워딩 변화 (강도 / 약화) 추적<br />
+→ Singapore NAND fab 착공 진척 — H2 CY2028 일정 유지 / 슬립 여부<br />
+→ Singapore HBM 패키징 가동 시점 — CY2027 의미 있는 기여 일정 변화<br />
 → <strong>모니터링</strong>: Trendforce NAND 가격 보고서, 마이크론 IR Singapore fab 업데이트</p>
 <hr />
 <h2>부록 — 빠른 참조 데이터</h2>
@@ -163,6 +169,5 @@ a:hover { text-decoration: underline; }
 <blockquote>
 <p><strong>연계 참조</strong>: 풀 디테일은 <code>earnings-review/2026-Q1_MU_리뷰.md</code> (v2, 발표 후 6주 갱신판). 차트 6종(revenue+GPM, BU 믹스, ASP YoY, 6년 연간, 6주 주가 여정, BU 마진/매출비중) + Bull/Bear narrative 매트릭스 + 38개 셀사이드 컨센 변화 표 모두 풀 리뷰에 보관. 다음 분기 (FY26 Q3, 2026-06 말 발표) 직후 본 팔로업의 ④ 핵심 모니터링 항목 사후 검증 + 새 팔로업 작성 (2026-Q3_MU_팔로업.md).</p>
 </blockquote>
-</div>
 </body>
 </html>
