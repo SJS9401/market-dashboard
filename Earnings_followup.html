@@ -46,13 +46,16 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .stock-table th:last-child, .stock-table td:last-child { border-right:0; padding-right:0; }
 .stock-table th:first-child, .stock-table td:first-child { padding-left:0; }
 .stock-table tbody tr:last-child td { border-bottom:0; }
-.stock-table thead th { color:var(--text-dim); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.03em; text-align:left; padding-top:0.3rem; padding-bottom:0.3rem; border-bottom:1px solid var(--border-2); }
+.stock-table thead th { color:var(--text-dim); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.03em; text-align:center; padding-top:0.3rem; padding-bottom:0.3rem; border-bottom:1px solid var(--border-2); }
 .col-name { width:140px; }
 .col-followup { color:var(--signal); font-size:0.78rem; opacity:0.9; word-break:keep-all; line-height:1.4; }
-.col-date { width:90px; text-align:center; font-size:0.8rem; color:var(--text-dim); }
-.col-report { width:220px; text-align:right; }
-.stock-table thead .col-date { text-align:center; }
-.stock-table thead .col-report { text-align:right; }
+.col-date { width:90px; font-size:0.8rem; color:var(--text-dim); }
+.col-report { width:220px; }
+/* 데이터(td) 컬럼별 정렬: 종목명·팔로업=좌측, 발표일·리포트=가운데 */
+.stock-table tbody .col-name { text-align:left; }
+.stock-table tbody .col-followup { text-align:left; }
+.stock-table tbody .col-date { text-align:center; }
+.stock-table tbody .col-report { text-align:center; }
 .stock-name { font-weight:500; color:var(--text); }
 .ticker { color:var(--text-dim); font-size:0.78rem; }
 .progress-circles { display:inline-flex; gap:0.2rem; align-items:center; }

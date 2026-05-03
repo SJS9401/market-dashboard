@@ -341,7 +341,7 @@ function renderSectorCard(sectorObj, tier) {
   const table = el('table', { class: 'stock-table' });
   const thead = el('thead');
   thead.appendChild(el('tr', null, [
-    el('th', { class: 'col-name' }, '종목명(티커)'),
+    el('th', { class: 'col-name' }, '종목명'),
     el('th', { class: 'col-followup' }, '팔로업 키워드'),
     el('th', { class: 'col-date' }, '발표일'),
     el('th', { class: 'col-report' }, '리포트')
