@@ -527,14 +527,17 @@ function formatTimeLabel(t, intervalDays) {
 // chart_def + 모든 series 데이터 → 하단 데이터 표 HTML
 function buildRecentTable(seriesData) {
   if (!seriesData || !seriesData.length) return '';
+  // intervalDays는 raw data 기준으로 계산 (sampling 후 sample끼리 간격이 아님)
+  const baseRaw = seriesData[0].data;
+  const rawInterval = (baseRaw && baseRaw.length >= 2) ?
+    (new Date(baseRaw[baseRaw.length - 1].time) - new Date(baseRaw[0].time)) / (baseRaw.length * 86400000) : 0;
+  console.log(`[footer] series=${seriesData[0].label}, raw n=${baseRaw.length}, rawInterval=${rawInterval.toFixed(2)}일`);
   const samplesPer = seriesData.map(s => getRecentSamples(s.data, 6));
-  // 첫 series 시점을 컬럼 기준으로 (다른 series는 같은 시점에 매칭)
   const baseSamples = samplesPer[0];
   if (!baseSamples || !baseSamples.length) return '';
-  const intervalDays = baseSamples.length >= 2 ?
-    (new Date(baseSamples[baseSamples.length - 1].time) - new Date(baseSamples[0].time)) /
-    ((baseSamples.length - 1) * 86400000) : 0;
+  const intervalDays = rawInterval;  // raw 기준으로 sampling 분기 결정
   const cols = baseSamples.map(d => d.time);
+  console.log(`[footer] cols (sampling 후):`, cols);
 
   // lookup 키: 일별(<2일)이면 full date, 그 이상이면 month
   const useFullDate = intervalDays < 2;
