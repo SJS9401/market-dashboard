@@ -323,8 +323,8 @@ function renderProgress() {
       }
     }
   }
-  $('statP').textContent = p + '/' + totalStocks;
-  $('statR').textContent = r + '/' + totalStocks;
+  const pct = totalStocks > 0 ? Math.round((r / totalStocks) * 100) : 0;
+  $('statR').textContent = r + '/' + totalStocks + ' (' + pct + '%)';
 }
 
 function renderProgressCircles(stage) {

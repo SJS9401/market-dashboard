@@ -1,276 +1,268 @@
 {
-  "metric": "글로벌 LFP LFP",
+  "metric": "global LFP shipment (derived = total × share)",
   "unit": "GWh",
-  "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-03T03:28:30",
+  "computed": true,
+  "extracted_at": "2026-05-03T11:25:43",
   "data": [
     {
       "date": "2020-08-12",
-      "value": 2.3
+      "value": 1.97
     },
     {
       "date": "2020-09-12",
-      "value": 2.3
+      "value": 1.99
     },
     {
       "date": "2020-10-12",
-      "value": 3.45
+      "value": 3.12
     },
     {
       "date": "2020-11-12",
-      "value": 6.43
+      "value": 5.95
     },
     {
       "date": "2020-12-13",
-      "value": 3.33
+      "value": 3.08
     },
     {
       "date": "2021-01-13",
-      "value": 1.95
+      "value": 1.76
     },
     {
       "date": "2021-02-12",
-      "value": 5.86
+      "value": 5.45
     },
     {
       "date": "2021-03-15",
-      "value": 4.14
+      "value": 3.8
     },
     {
       "date": "2021-04-15",
-      "value": 4.6
+      "value": 4.21
     },
     {
       "date": "2021-05-15",
-      "value": 5.86
+      "value": 5.43
     },
     {
       "date": "2021-06-15",
-      "value": 5.52
+      "value": 5.14
     },
     {
       "date": "2021-07-16",
-      "value": 6.89
+      "value": 6.45
     },
     {
       "date": "2021-08-15",
-      "value": 10.92
+      "value": 10.28
     },
     {
       "date": "2021-09-15",
-      "value": 7.58
+      "value": 7.06
     },
     {
       "date": "2021-10-16",
-      "value": 9.77
+      "value": 9.16
     },
     {
       "date": "2021-11-15",
-      "value": 14.13
+      "value": 13.26
     },
     {
       "date": "2021-12-17",
-      "value": 9.31
+      "value": 8.79
     },
     {
       "date": "2022-01-16",
-      "value": 8.04
+      "value": 7.53
     },
     {
       "date": "2022-02-16",
-      "value": 14.71
+      "value": 13.88
     },
     {
       "date": "2022-03-19",
-      "value": 9.08
+      "value": 8.59
     },
     {
       "date": "2022-04-18",
-      "value": 11.03
+      "value": 10.39
     },
     {
       "date": "2022-05-20",
-      "value": 16.78
+      "value": 15.92
     },
     {
       "date": "2022-06-19",
-      "value": 14.71
+      "value": 13.95
     },
     {
       "date": "2022-07-20",
-      "value": 17.01
+      "value": 16.2
     },
     {
       "date": "2022-08-20",
-      "value": 20.57
+      "value": 19.52
     },
     {
       "date": "2022-09-19",
-      "value": 17.12
+      "value": 16.24
     },
     {
       "date": "2022-10-21",
-      "value": 21.95
+      "value": 20.89
     },
     {
       "date": "2022-11-20",
-      "value": 24.94
+      "value": 23.62
     },
     {
       "date": "2022-12-21",
-      "value": 10.69
+      "value": 10.17
     },
     {
       "date": "2023-01-21",
-      "value": 14.36
+      "value": 13.61
     },
     {
       "date": "2023-02-20",
-      "value": 20.91
+      "value": 19.97
     },
     {
       "date": "2023-03-23",
-      "value": 17.58
+      "value": 16.71
     },
     {
       "date": "2023-04-23",
-      "value": 19.65
+      "value": 18.72
     },
     {
       "date": "2023-05-23",
-      "value": 24.82
+      "value": 23.61
     },
     {
       "date": "2023-06-23",
-      "value": 21.03
+      "value": 19.99
     },
     {
       "date": "2023-07-24",
-      "value": 24.36
+      "value": 23.25
     },
     {
       "date": "2023-08-23",
-      "value": 25.17
+      "value": 24.01
     },
     {
       "date": "2023-09-23",
-      "value": 24.48
+      "value": 23.29
     },
     {
       "date": "2023-10-24",
-      "value": 28.27
+      "value": 27.05
     },
     {
       "date": "2023-11-24",
-      "value": 31.94
+      "value": 30.54
     },
     {
       "date": "2023-12-24",
-      "value": 18.73
+      "value": 17.87
     },
     {
       "date": "2024-01-24",
-      "value": 12.18
+      "value": 11.46
     },
     {
       "date": "2024-02-24",
-      "value": 26.77
+      "value": 25.65
     },
     {
       "date": "2024-03-25",
-      "value": 24.25
+      "value": 23.15
     },
     {
       "date": "2024-04-26",
-      "value": 29.3
+      "value": 28.06
     },
     {
       "date": "2024-05-26",
-      "value": 32.29
+      "value": 30.9
     },
     {
       "date": "2024-06-26",
-      "value": 31.14
+      "value": 29.95
     },
     {
       "date": "2024-07-27",
-      "value": 35.97
+      "value": 34.61
     },
     {
       "date": "2024-08-26",
-      "value": 43.32
+      "value": 41.73
     },
     {
       "date": "2024-09-27",
-      "value": 42.86
+      "value": 41.24
     },
     {
       "date": "2024-10-27",
-      "value": 48.95
+      "value": 47.2
     },
     {
       "date": "2024-11-27",
-      "value": 57.22
+      "value": 55.25
     },
     {
       "date": "2024-12-28",
-      "value": 30.57
+      "value": 29.48
     },
     {
       "date": "2025-01-27",
-      "value": 30.8
+      "value": 29.66
     },
     {
       "date": "2025-02-27",
-      "value": 47.0
+      "value": 45.33
     },
     {
       "date": "2025-03-30",
-      "value": 44.47
+      "value": 43.0
     },
     {
       "date": "2025-04-30",
-      "value": 49.07
+      "value": 47.47
     },
     {
       "date": "2025-05-30",
-      "value": 55.5
+      "value": 53.67
     },
     {
       "date": "2025-06-30",
-      "value": 49.64
+      "value": 47.95
     },
     {
       "date": "2025-07-31",
-      "value": 56.08
+      "value": 54.31
     },
     {
       "date": "2025-08-30",
-      "value": 66.65
+      "value": 64.39
     },
     {
       "date": "2025-09-30",
-      "value": 63.08
+      "value": 61.1
     },
     {
       "date": "2025-10-31",
-      "value": 67.34
+      "value": 65.31
     },
     {
       "date": "2025-11-30",
-      "value": 75.27
+      "value": 72.61
     },
     {
       "date": "2025-12-31",
-      "value": 38.03
+      "value": 40.09
     }
-  ],
-  "verified": true,
-  "needs_review": false,
-  "verification": {
-    "drift": "ok",
-    "matched_label": "도표 31. 글로벌 LFP 배터리 침투율",
-    "dy": 0.0,
-    "dx": 0.0
-  }
+  ]
 }

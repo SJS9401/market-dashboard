@@ -2,7 +2,7 @@
   "metric": "미국 LFP 침투율",
   "unit": "%",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-03T03:28:30",
+  "extracted_at": "2026-05-03T11:25:43",
   "data": [
     {
       "date": "2020-08-14",
@@ -262,15 +262,7 @@
     },
     {
       "date": "2026-02-01",
-      "value": 2.651
+      "value": 1.852
     }
-  ],
-  "verified": true,
-  "needs_review": false,
-  "verification": {
-    "drift": "ok",
-    "matched_label": "도표 32. 미국 LFP 배터리 침투율",
-    "dy": 0.0,
-    "dx": 0.0
-  }
+  ]
 }
