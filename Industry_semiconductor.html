@@ -39,14 +39,13 @@
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
   .review-flag { color: #d2af64; font-style: italic; font-size: 11px; font-weight: 400; margin-left: 6px; letter-spacing: 0.2px; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
-  .legend-row { display: flex; gap: 12px; padding: 4px 12px 0; flex-wrap: wrap; }
+  /* axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위 (3등분) */
+  .axis-unit-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 12px 8px; font-size: 10px; color: #8b949e; }
+  .axis-unit-left, .axis-unit-right { padding: 0 4px; flex: 0 0 auto; }
+  .legend-row { display: flex; gap: 12px; flex-wrap: wrap; flex: 1; justify-content: center; }
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
   .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
   .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
-  /* 차트 세로축 상단 단위 라벨 */
-  .cw-axis-unit { position: absolute; font-size: 10px; color: #8b949e; pointer-events: none; z-index: 5; padding: 2px 4px; background: rgba(22,27,34,0.7); border-radius: 2px; }
-  .cw-axis-unit.left { top: 4px; left: 6px; }
-  .cw-axis-unit.right { top: 4px; right: 6px; }
   /* 차트 호버 툴팁 */
   .cw-tooltip { position: absolute; top: 8px; left: 8px; background: rgba(13,17,23,0.95); border: 1px solid #30363d; border-radius: 4px; padding: 5px 8px; font-size: 11px; color: #c9d1d9; pointer-events: none; z-index: 10; display: none; line-height: 1.5; min-width: 130px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
   .cw-tooltip .tt-date { color: #8b949e; font-size: 10px; padding-bottom: 3px; border-bottom: 1px solid #21262d; margin-bottom: 3px; font-weight: 600; }
@@ -527,8 +526,8 @@ const CHART_OPTS = {
   layout: { background: { type: 'solid', color: '#161b22' }, textColor: '#8b949e', fontSize: 10 },
   grid: { vertLines: { color: '#1e2229' }, horzLines: { color: '#1e2229' } },
   crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-  rightPriceScale: { borderColor: '#21262d' },
-  leftPriceScale: { borderColor: '#21262d' },
+  rightPriceScale: { borderColor: '#21262d', scaleMargins: { top: 0.18, bottom: 0.05 } },
+  leftPriceScale: { borderColor: '#21262d', scaleMargins: { top: 0.18, bottom: 0.05 } },
   timeScale: { borderColor: '#21262d', timeVisible: false },
   handleScale: { mouseWheel: false, pinch: false, axisPressedMouseMove: false },
   handleScroll: { mouseWheel: false, pressedMouseMove: false, horzTouchDrag: false, vertTouchDrag: false },
@@ -567,12 +566,25 @@ function buildPage() {
             `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
           ).join('') + '</div>';
       }
+      // axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위
+      let axisUnitRow = '';
+      if (card.chart_def) {
+        const ul = card.chart_def.unit_left || '';
+        const ur = card.chart_def.unit_right || '';
+        if (ul || ur || legendHtml) {
+          axisUnitRow = '<div class="axis-unit-row">' +
+            `<span class="axis-unit-left">${ul ? '(' + ul + ')' : ''}</span>` +
+            legendHtml +
+            `<span class="axis-unit-right">${ur ? '(' + ur + ')' : ''}</span>` +
+            '</div>';
+        }
+      }
       cardEl.innerHTML = `
         <div class="card-top">
           <h3>${card.title}</h3>
           <span class="fig-num">도표 ${card.fig}</span>
         </div>
-        ${legendHtml}
+        ${axisUnitRow}
         <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
       `;
       grid.appendChild(cardEl);
@@ -870,19 +882,7 @@ async function renderChart(containerId, def) {
       const s = numberOnly(v);
       return s && unit ? s + ' ' + unit : s;
     };
-    // 차트 좌상단 단위 라벨 추가 (중복 라벨 제거)
-    if (unitL) {
-      const lbl = document.createElement('div');
-      lbl.className = 'cw-axis-unit left';
-      lbl.textContent = `(${unitL})`;
-      el.appendChild(lbl);
-    }
-    if (unitR) {
-      const lbl = document.createElement('div');
-      lbl.className = 'cw-axis-unit right';
-      lbl.textContent = `(${unitR})`;
-      el.appendChild(lbl);
-    }
+    // axis-unit은 cardEl.innerHTML의 axis-unit-row에서 처리됨 (chart 위, legend와 같은 row)
     const seriesByObj = new Map();  // series 객체 → meta
     // Z-order: bar/histogram 먼저 추가 → line 시리즈가 위에 렌더링되도록 강제 정렬
     const sortedSeries = [...def.series].sort((a, b) => {
