@@ -42,7 +42,12 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
 .sector-meta { font-size:0.78rem; color:var(--text-dim); }
 .stock-list { margin-top:0.5rem; }
-.stock-row { display:grid; grid-template-columns:minmax(100px,130px) 1fr 80px auto; gap:0.6rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
+.stock-row { display:grid; grid-template-columns:minmax(100px,130px) 1fr 80px auto; gap:0; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
+.stock-row > div { padding:0 0.6rem; border-right:1px solid var(--bg-3); }
+.stock-row > div:first-child { padding-left:0; }
+.stock-row > div:last-child { border-right:0; padding-right:0; }
+.stock-row-header > div { border-right:1px solid var(--border-2); }
+.stock-row-header > div:last-child { border-right:0; }
 .stock-row:last-child { border-bottom:0; }
 .stock-name-cell { color:var(--text); display:flex; align-items:baseline; gap:0.3rem; flex-wrap:wrap; min-width:0; }
 .stock-name { font-weight:500; }
