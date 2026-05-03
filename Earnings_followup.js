@@ -304,16 +304,15 @@ function renderStockRow(stock) {
   ]);
   stockRow.appendChild(middleCol);
   const buttons = el('div', { class: 'mode-buttons' });
-  let hasAny = false;
   for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {
       buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));
-      hasAny = true;
+    } else {
+      buttons.appendChild(el('span', { class: 'mode-btn disabled', title: label + ': 미작성' }, label));
     }
   }
-  if (!hasAny) buttons.appendChild(el('span', { class: 'sector-meta', style: 'opacity:0.5;' }, '미작성'));
   stockRow.appendChild(buttons);
   return stockRow;
 }

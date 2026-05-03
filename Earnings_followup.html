@@ -54,6 +54,7 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .mode-buttons { display:flex; gap:0.25rem; justify-content:flex-end; flex-wrap:nowrap; }
 .mode-btn { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.45rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; cursor:pointer; text-decoration:none; transition:all 0.15s; white-space:nowrap; }
 .mode-btn:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
+.mode-btn.disabled { opacity:0.25; cursor:not-allowed; pointer-events:none; }
 .dday-cell { font-size:0.8rem; color:var(--text-dim); }
 .loading { color:var(--text-dim); font-style:italic; padding:1rem; }
 .error-box { background:#3a1f1f; border:1px solid #c44; padding:0.6rem 1rem; border-radius:4px; margin:0.5rem 0; font-size:0.85rem; }
