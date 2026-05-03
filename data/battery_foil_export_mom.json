@@ -1,15 +1,7 @@
 {
-  "metric": "동박 수출액 MoM",
+  "metric": "foil_export MoM (placeholder)",
   "unit": "%",
-  "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-03T05:29:24",
-  "data": [],
-  "verified": true,
-  "needs_review": false,
-  "verification": {
-    "drift": "ok",
-    "matched_label": "도표 41. 동박 수출액 추이",
-    "dy": 0.0,
-    "dx": 0.0
-  }
+  "source": "cleared",
+  "extracted_at": "2026-05-03T16:30:15",
+  "data": []
 }

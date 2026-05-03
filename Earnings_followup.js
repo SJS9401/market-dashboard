@@ -296,19 +296,20 @@ function renderProgressCircles(stage) {
 function renderStockRow(stock) {
   const cal = state.calendar[stock.name];
   const sig = state.signals[stock.name];
-  const stage = getProgressStage(stock);
-  const stockRow = el('div', { class: 'stock-row' });
+  const tr = el('tr', { class: 'stock-row' });
   const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
-  // 시그널 키워드: 직전 분기 review/in-depth 있으면 표시 (다음 분기 페이지에서)
   const followup = (sig && hasPriorReview(stock, state.currentQuarter)) ? sig.signal : '';
-  const nameCell = el('div', { class: 'stock-name-cell' }, [
+  // td 1: 종목명(티커)
+  const nameTd = el('td', { class: 'col-name' }, [
     el('span', { class: 'stock-name' }, stock.name),
-    ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
+    ticker ? el('span', { class: 'ticker' }, ' (' + ticker + ')') : null
   ]);
-  stockRow.appendChild(nameCell);
-  stockRow.appendChild(el('div', { class: 'stock-followup-cell' }, followup));
-  // 발표일 단독 (동그라미 제거 — 4개 mode-btn이 진행 단계 시각화)
-  stockRow.appendChild(el('div', { class: 'dday-cell' }, (cal && cal.date) ? cal.date : '발표일 미정'));
+  tr.appendChild(nameTd);
+  // td 2: 팔로업 키워드
+  tr.appendChild(el('td', { class: 'col-followup' }, followup));
+  // td 3: 발표일
+  tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? cal.date : '발표일 미정'));
+  // td 4: 리포트 4개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
   for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
     const mode = pair[0], label = pair[1];
@@ -319,8 +320,8 @@ function renderStockRow(stock) {
       buttons.appendChild(el('span', { class: 'mode-btn disabled', title: label + ': 미작성' }, label));
     }
   }
-  stockRow.appendChild(buttons);
-  return stockRow;
+  tr.appendChild(el('td', { class: 'col-report' }, [buttons]));
+  return tr;
 }
 
 function renderSectorCard(sectorObj, tier) {
@@ -336,17 +337,20 @@ function renderSectorCard(sectorObj, tier) {
   }
   card.appendChild(el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
     '진행: P ' + pCount + '/' + sectorObj.stocks.length + ' · R ' + rCount + '/' + sectorObj.stocks.length));
-  // 컬럼 헤더 행 (종목명·팔로업·발표일·리포트)
-  const headerRow = el('div', { class: 'stock-row stock-row-header' }, [
-    el('div', { class: 'col-header' }, '종목명(티커)'),
-    el('div', { class: 'col-header' }, '팔로업 키워드'),
-    el('div', { class: 'col-header' }, '발표일'),
-    el('div', { class: 'col-header col-header-right' }, '리포트')
-  ]);
-  card.appendChild(headerRow);
-  const stockList = el('div', { class: 'stock-list' });
-  for (const stock of sectorObj.stocks) stockList.appendChild(renderStockRow(stock));
-  card.appendChild(stockList);
+  // 종목 테이블 (table 사용 — 컬럼 vertical line 카드 전체에 이어짐)
+  const table = el('table', { class: 'stock-table' });
+  const thead = el('thead');
+  thead.appendChild(el('tr', null, [
+    el('th', { class: 'col-name' }, '종목명(티커)'),
+    el('th', { class: 'col-followup' }, '팔로업 키워드'),
+    el('th', { class: 'col-date' }, '발표일'),
+    el('th', { class: 'col-report' }, '리포트')
+  ]));
+  table.appendChild(thead);
+  const tbody = el('tbody');
+  for (const stock of sectorObj.stocks) tbody.appendChild(renderStockRow(stock));
+  table.appendChild(tbody);
+  card.appendChild(table);
   return card;
 }
 
