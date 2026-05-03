@@ -1,0 +1,15 @@
+{
+  "metric": "동박 수출 단가 MoM",
+  "unit": "%",
+  "source": "Battery_Weekly_2026.4.27.pdf",
+  "extracted_at": "2026-05-03T05:29:24",
+  "data": [],
+  "verified": true,
+  "needs_review": false,
+  "verification": {
+    "drift": "ok",
+    "matched_label": "도표 42. 동박 수출 단가 추이",
+    "dy": 0.0,
+    "dx": 0.0
+  }
+}

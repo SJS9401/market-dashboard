@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Alphabet 2026 Q1 실적 리뷰</title>
+<style>
+  :root {
+    --bg: #0e1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #1f77b4;
+    --accent2: #d62728;
+    --table-border: #30363d;
+    --table-bg: #161b22;
+    --code-bg: #161b22;
+    --link: #58a6ff;
+  }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    line-height: 1.7; max-width: 1100px; margin: 24px auto; padding: 0 28px;
+  }
+  h1 { color: var(--fg); border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-top: 32px; }
+  h2 { color: #58a6ff; border-bottom: 1px solid var(--table-border); padding-bottom: 6px; margin-top: 32px; }
+  h3 { color: #d2a8ff; margin-top: 24px; }
+  blockquote { border-left: 4px solid var(--accent); background: rgba(31,119,180,0.08);
+                padding: 10px 18px; margin: 16px 0; color: var(--muted); border-radius: 0 6px 6px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0;
+           background: var(--table-bg); font-size: 0.92em; }
+  th, td { border: 1px solid var(--table-border); padding: 8px 10px; text-align: left; }
+  th { background: #21262d; color: #c9d1d9; font-weight: 600; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  strong { color: #ffa657; }
+  code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre { background: var(--code-bg); padding: 12px; border-radius: 6px; overflow-x: auto; }
+  img { max-width: 100%; height: auto; display: block; margin: 16px auto;
+         border: 1px solid var(--table-border); border-radius: 6px; background: white; padding: 4px; }
+  hr { border: none; border-top: 1px solid var(--table-border); margin: 28px 0; }
+  a { color: var(--link); }
+  em { color: var(--muted); }
+</style>
+</head>
+<body>
+<blockquote>
+<p>모드: 실적 리뷰<br />
+종목: Alphabet (GOOGL)<br />
+섹터: 미국 빅테크<br />
+분기: 2026-Q1<br />
+발표일: 2026-04-29 (수, 미국 동부시간 AMC, 컨퍼런스콜 ET 16:30)<br />
+작성 시각: 2026-05-03 17:00 KST (IR 원본 4종 기반)</p>
+</blockquote>
+<h1>Alphabet 2026 Q1 실적 리뷰</h1>
+<blockquote>
+<p>안내: 표준 위치(<code>earnings-preview/</code>)에서 동일 분기 프리뷰 미존재 → <strong>항목 4-1·7-1 자동 생략</strong>, 본 분기 단독 분석으로 진행. IR 원본 4종(<strong>Press Release · Earnings Slides · 10-Q · Earnings Call Transcript</strong>) 기반 1차 작성. M7 동일 분기 발표 완료 종목(TSLA 4/22, MSFT/META/AMZN 4/29~30)은 별도 리뷰 작성 (TSLA v2 완료, 나머지 진행 예정).</p>
+</blockquote>
+<h2>Executive Summary</h2>
+<p>→ <strong>All-around Beat — 펀더멘털 11분기 연속 두 자릿수 성장 + AI 수익화 확정</strong> — 매출 $109.9B (+22% YoY, +19% constant currency), GAAP OPM <strong>36.1%</strong> (+220bps YoY), Diluted EPS $5.11 (+82% YoY, <em>단 $2.35는 비마케터블 equity 평가차익 일회성</em>). 영업이익 $39.7B (+30% YoY)는 매출 성장률을 상회하는 <strong>operating leverage 입증</strong>.<br />
+→ <strong>Cloud가 진짜 헤드라인</strong> — 매출 $20.0B (+63% YoY) 처음으로 $20B 돌파, OPM <strong>17.8% → 32.9% (+1,510bps YoY 트리플)</strong>, 영업이익 $6.6B (+203% YoY 트리플). <strong>백로그 $462B (QoQ ~2배)</strong> — TPU 하드웨어 직접 판매 + 신규 multi-billion deals 포함. CFO 가이드: "50%+ 백로그가 향후 24개월 매출 인식".<br />
+→ <strong>CapEx 가이던스 +$5B 상향: $175-185B → $180-190B FY26</strong> — Q1 26 단독 $35.7B (+107% YoY, +28% QoQ). 2027 "significantly increase vs 2026" 명시 (CFO Anat). <strong>2026 분기 평균 CapEx $45-47.5B 페이스 필요</strong> (Q1 $35.7B는 가이던스 baseline 미달, Q2~Q4 가속).<br />
+→ <strong>Sundar의 "compute constrained" 시인이 가장 중요한 시그널</strong> — Sundar verbatim: "<em>we are compute constrained in the near term. And as an example, our Cloud revenue would have been higher if we were able to meet the demand</em>". <strong>Cloud 가속에도 불구하고 수요가 공급을 초과</strong> = backlog 폭증의 본질적 이유. AI 인프라 사이클의 정점이 아니라 <strong>여전히 공급 제약이 모멘텀의 천장</strong>.<br />
+→ <strong>Wiz $29.5B + Intersect $5.9B 인수 완료</strong> — Q1 26 안에 정리. Goodwill +$24.4B / Intangibles +$8.2B. <strong>자사주 매입 Q1 0</strong> (Q1 25 $15B 대비 완전 중단), 대신 senior unsecured notes <strong>$31.1B 신규 발행</strong> (LT debt $46.5B → $77.5B). 자본배치 우선순위 = <strong>AI CapEx ≫ Buyback</strong> 명확 시그널.</p>
+<hr />
+<h2>항목 1. 실적 추이 (IR 원본 기반)</h2>
+<p>① 분기 실적 — 9분기 + Q1 26 + Q2 26 컨센</p>
+<p>(1) 손익 핵심 지표 (단위: $B, EPS는 $)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 24</th>
+<th>Q2 24</th>
+<th>Q3 24</th>
+<th>Q4 24</th>
+<th>Q1 25</th>
+<th>Q2 25</th>
+<th>Q3 25</th>
+<th>Q4 25</th>
+<th><strong>Q1 26</strong></th>
+<th>YoY%</th>
+<th>Q2 26(E)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total revenues</strong></td>
+<td>80.54</td>
+<td>84.74</td>
+<td>88.27</td>
+<td>96.47</td>
+<td>90.23</td>
+<td>96.43</td>
+<td>102.35</td>
+<td>113.83</td>
+<td><strong>109.90</strong></td>
+<td><strong>+22%</strong></td>
+<td>약 117.5</td>
+</tr>
+<tr>
+<td>Constant currency YoY%</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>+14%</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td><strong>+19%</strong></td>
+<td>—</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>GAAP OpInc</td>
+<td>25.47</td>
+<td>27.43</td>
+<td>28.52</td>
+<td>30.85</td>
+<td>30.61</td>
+<td>31.27</td>
+<td>34.69</td>
+<td>36.91</td>
+<td><strong>39.70</strong></td>
+<td><strong>+30%</strong></td>
+<td>약 41.0</td>
+</tr>
+<tr>
+<td>GAAP OPM (%)</td>
+<td>31.6</td>
+<td>32.4</td>
+<td>32.3</td>
+<td>32.0</td>
+<td>33.9</td>
+<td>32.4</td>
+<td>33.9</td>
+<td>32.4</td>
+<td><strong>36.1</strong></td>
+<td><strong>+220bp</strong></td>
+<td>약 35.0</td>
+</tr>
+<tr>
+<td><strong>Diluted EPS GAAP ($)</strong></td>
+<td>1.89</td>
+<td>1.89</td>
+<td>2.12</td>
+<td>2.15</td>
+<td>2.81</td>
+<td>2.31</td>
+<td>2.87</td>
+<td>2.27</td>
+<td><strong>5.11</strong></td>
+<td><strong>+82%</strong>*</td>
+<td>약 2.95</td>
+</tr>
+<tr>
+<td><strong>OCF</strong></td>
+<td>28.85</td>
+<td>26.64</td>
+<td>30.70</td>
+<td>39.11</td>
+<td>36.15</td>
+<td>27.75</td>
+<td>48.41</td>
+<td>52.40</td>
+<td><strong>45.79</strong></td>
+<td><strong>+27%</strong></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><strong>CapEx</strong></td>
+<td>12.01</td>
+<td>13.19</td>
+<td>13.06</td>
+<td>14.28</td>
+<td>17.20</td>
+<td>22.45</td>
+<td>23.95</td>
+<td>27.85</td>
+<td><strong>35.67</strong></td>
+<td><strong>+107%</strong></td>
+<td>약 45</td>
+</tr>
+<tr>
+<td><strong>FCF</strong></td>
+<td>16.84</td>
+<td>13.45</td>
+<td>17.64</td>
+<td>24.84</td>
+<td>18.95</td>
+<td>5.30</td>
+<td>24.46</td>
+<td>24.55</td>
+<td><strong>10.12</strong></td>
+<td><strong>-47%</strong></td>
+<td>음수 잠재</td>
+</tr>
+<tr>
+<td>Cash &amp; ST inv.</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>126.84</td>
+<td><strong>126.84</strong></td>
+<td>—</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>LT debt</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>46.55</td>
+<td><strong>77.50</strong></td>
+<td>—</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong><em>GAAP EPS $5.11에서 $2.35는 비마케터블 equity securities 평가차익</em>*(주로 Anthropic 지분 추정 $36.9B 기록 → 세후 $28.7B)</strong>, 핵심 영업으로부터의 정상화 EPS는 약 $2.76<strong>. v0 같은 단순 +82% 인용은 오해 소지. 영업·세후 정상화 EPS는 +9% YoY 권역.<br />
+→ </strong>(출처: Q1 26 Press Release p.2-9, Slides p.6, 10-Q p.6)<strong><br />
+→ </strong>CapEx 폭증 트라젝토리 시각화<strong>: Q1 25 $17.2B → Q1 26 </strong>$35.7B (+107% YoY)<strong>. 분기 추세는 매분기 +$3~$4B 가속 (+43%→+70%→+83%→+95%→+107% YoY 가속). FY26 가이던스 $180~190B 달성을 위해 Q2~Q4 평균 $48~52B 페이스 필요 — Q1 절대값 $35.7B는 가이던스 baseline에서는 살짝 미달, </strong>Q2 점프가 핵심**.</p>
+<p>→ <strong>차트 (필수)</strong>:</p>
+<p><img alt="GOOGL 분기별 매출 &amp; GAAP OPM 추이 (Q1 24 → Q2 26E)" src="2026-Q1_GOOGL_revenue_opm_trend.png" /></p>
+<p>→ (출처: Press Release p.2 + Q4 25 Earnings Release 비교표 + Q1 26 Slides p.4. Q4 25 매출 $113.83B는 Press Release p.9 Q1 26 vs Q4 25 비교 표에서 확인)</p>
+<p>(2) FY26 컨센 변동 (4월 29일 발표 → 5월 2일까지)<br />
+→ 매출 컨센 $415B → <strong>$425B (+2.4%)</strong> — Cloud 가속·백로그 폭증 반영<br />
+→ EPS 컨센 $9.10 → $9.50 (+4.4%) — operating leverage 인정 (equity gain 일회성 제외)<br />
+→ 평균 PT $200 → 약 $215 (+7.5%) — Buy 컨센 강화</p>
+<p>② 사업부별(BU별) 매출 — IR 원본</p>
+<p>(1) Q1 26 BU 매출 비교 (단위: $B)</p>
+<table>
+<thead>
+<tr>
+<th>BU</th>
+<th>Q1 25</th>
+<th><strong>Q1 26</strong></th>
+<th>YoY%</th>
+<th>매출 비중 (Q1 26)</th>
+<th>핵심 동인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Google Search &amp; other</strong></td>
+<td>50.70</td>
+<td><strong>60.40</strong></td>
+<td><strong>+19%</strong></td>
+<td>55.0%</td>
+<td>Retail/Finance/Health 주도, AI Overviews + AI Mode</td>
+</tr>
+<tr>
+<td><strong>YouTube ads</strong></td>
+<td>8.93</td>
+<td><strong>9.88</strong></td>
+<td><strong>+11%</strong></td>
+<td>9.0%</td>
+<td>Direct Response &gt; Brand</td>
+</tr>
+<tr>
+<td>Google Network</td>
+<td>7.26</td>
+<td><strong>6.97</strong></td>
+<td><strong>-4%</strong></td>
+<td>6.3%</td>
+<td>구조적 감소 지속</td>
+</tr>
+<tr>
+<td><strong>Subs/Platforms/Devices</strong></td>
+<td>10.38</td>
+<td><strong>12.38</strong></td>
+<td><strong>+19%</strong></td>
+<td>11.3%</td>
+<td>YouTube Music+Premium, Google One AI plans</td>
+</tr>
+<tr>
+<td><strong>Google Services 합계</strong></td>
+<td>77.26</td>
+<td><strong>89.64</strong></td>
+<td><strong>+16%</strong></td>
+<td>81.6%</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Google Cloud</strong></td>
+<td>12.26</td>
+<td><strong>20.03</strong></td>
+<td><strong>+63%</strong></td>
+<td>18.2%</td>
+<td>Enterprise AI Solutions + GCP Infra + Wiz</td>
+</tr>
+<tr>
+<td>Other Bets</td>
+<td>0.45</td>
+<td>0.41</td>
+<td>-9%</td>
+<td>0.4%</td>
+<td>Verily 디컨솔, Waymo 매출</td>
+</tr>
+<tr>
+<td>Hedging</td>
+<td>0.26</td>
+<td>-0.18</td>
+<td>n/a</td>
+<td>-0.2%</td>
+<td>FX hedging 손실</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>90.23</td>
+<td><strong>109.90</strong></td>
+<td><strong>+22%</strong></td>
+<td>100%</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>(출처: Press Release p.2 Supplemental Information)</strong><br />
+→ <strong>Search &amp; other 매출 60.40B 첫 돌파</strong> — CBO Schindler verbatim: "<em>Search and Other delivered 19% growth, primarily driven by Retail and Finance</em>". Sundar 추가: "<em>queries are at an all time high</em>". AI Overviews + AI Mode가 사용 빈도 + 광고 노출 양면 확장.<br />
+→ <strong>Cloud +63% YoY는 11분기 연속 두 자릿수 성장에서 가속의 분기점</strong> (Q4 25 +47% → Q1 26 +63%). CFO Anat: "<em>Cloud revenues accelerated across all key areas</em>"<br />
+→ <strong>Network -4%는 4분기 연속 마이너스</strong> — open web 광고의 구조적 약세 지속, 그러나 매출 비중 6.3%로 임팩트 제한적<br />
+→ <strong>Subs/Platforms/Devices +19%</strong> = "<strong>350M paid subscriptions</strong>" 도달 (Pichai), "<strong>YouTube Music+Premium 분기 사상 최대 비-trial 신규 가입</strong>" (Schindler, 2018 출시 이래)</p>
+<p><img alt="GOOGL 사업부별 매출 비교 — Q1 2025 vs Q1 2026" src="2026-Q1_GOOGL_segment_revenue.png" /></p>
+<p>→ (출처: Press Release p.2)</p>
+<p>(2) 사업부별 영업이익 — Cloud OPM 트리플의 진짜 의미</p>
+<table>
+<thead>
+<tr>
+<th>세그먼트</th>
+<th>Q1 25 OpInc ($B)</th>
+<th>Q1 26 OpInc ($B)</th>
+<th>YoY%</th>
+<th>Q1 25 OPM</th>
+<th>Q1 26 OPM</th>
+<th>변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Google Services</strong></td>
+<td>32.68</td>
+<td><strong>40.59</strong></td>
+<td><strong>+24%</strong></td>
+<td>42.3%</td>
+<td><strong>45.3%</strong></td>
+<td><strong>+300bps</strong></td>
+</tr>
+<tr>
+<td><strong>Google Cloud</strong></td>
+<td>2.18</td>
+<td><strong>6.60</strong></td>
+<td><strong>+203%</strong></td>
+<td>17.8%</td>
+<td><strong>32.9%</strong></td>
+<td><strong>+1,510bps</strong></td>
+</tr>
+<tr>
+<td>Other Bets</td>
+<td>-1.23</td>
+<td><strong>-2.10</strong></td>
+<td>손실 확대</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Alphabet-level</td>
+<td>-3.03</td>
+<td><strong>-5.39</strong></td>
+<td>-78%</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>AI R&amp;D + 합의금 등</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>30.61</strong></td>
+<td><strong>39.70</strong></td>
+<td><strong>+30%</strong></td>
+<td><strong>33.9%</strong></td>
+<td><strong>36.1%</strong></td>
+<td><strong>+220bps</strong></td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>(출처: Press Release p.7 Segment Operating Results)</strong><br />
+→ <strong>Cloud OPM 32.9%는 사상 최고 + 트리플</strong> — CFO Anat verbatim: "<em>Cloud operating income was $6.6 billion, </em><em>tripling year over year</em><em>, and operating margin increased from 17.8% in the first quarter of last year to 32.9%</em>". "AI revenues are lower margin"이라는 <strong>시장 선입견을 IR이 직접 반박</strong>.<br />
+→ <strong>Cloud 마진 동인 (CFO Anat 분해)</strong>: ① 톱라인 +63% 자체가 operating leverage, ② "<strong>incredibly efficient way of running the business</strong>" (Thomas Kurian 팀 칭찬), ③ 기술 인프라 효율 (servers + AI 활용 내부 코딩), ④ Wiz는 <strong>"low single digit pp 헤드윈드 to Cloud OPM for remainder of 2026"</strong> (즉 Q2 이후 Cloud OPM은 약간 후퇴 예상)<br />
+→ <strong>Services OPM 45.3% (+300bps)</strong> — Search 가속 + YouTube 구독 모멘텀 + AI 응답 비용 -30%+ 절감 ("<em>reduced the cost of core AI responses by more than 30%</em>", Sundar)<br />
+→ <strong>Alphabet-level activities -$5.39B (vs -$3.03B Q1 25)</strong> — Google DeepMind 등 공통 AI R&amp;D 비용 폭증. <strong>CFO 노트: "shared AI research and development activities" + 법무·합의금</strong></p>
+<p><img alt="GOOGL 세그먼트 OPM + 영업이익 기여도" src="2026-Q1_GOOGL_segment_opm_opinc.png" /></p>
+<p>→ (출처: Press Release p.7. Cloud OPM 17.8% → 32.9% +1,510bps 점프)</p>
+<p>③ Cloud 디테일 — IR 컨퍼런스콜 verbatim</p>
+<p>(1) 백로그 $462B 사상 최고</p>
+<p>(1-1) 분기 트라젝토리 (RPO, $B)<br />
+→ Q1 25: ~$92B<br />
+→ Q4 25: ~$236B<br />
+→ <strong>Q1 26: $462B (+96% QoQ, "nearly doubling sequentially")</strong><br />
+→ CFO 가이드: "<em>expect to recognize </em><em>just over 50% of the backlog as revenue over the next 24 months</em><em><em>"<br />
+→ "</em>The majority of the backlog is related to technical GCP contracts</em>" + TPU hardware sales 포함</p>
+<p>(1-2) 백로그 폭증의 동인 — Sundar 분해<br />
+→ "Enterprise AI Solutions"가 <strong>Cloud의 primary growth driver</strong>가 됨 ("<em>for the first time</em>")<br />
+→ "<em>revenue from products built on our gen AI models grew </em><em>nearly 800% year over year</em><strong>"<br />
+→ "<em>new customer acquisition <strong>doubling</strong> compared to the same period last year*"<br />
+→ "</em></strong>doubling<strong> the number of $100 million to $1 billion deals year on year<em>"<br />
+→ "<em>signing </em>*multiple billion dollar plus deals</em></strong>"<br />
+→ "<em>Customers outpaced their initial commitments by </em><em>45%</em>**, accelerating over last quarter"</p>
+<p><img alt="Google Cloud 매출 &amp; OPM 트리플" src="2026-Q1_GOOGL_cloud_trajectory.png" /></p>
+<p>(2) TPU 하드웨어 직접 판매 — 비즈니스 모델 변화</p>
+<p>(2-1) 새 TPU 8 시리즈 (Cloud Next 발표)<br />
+→ TPU 8t (training): "<em>three times the processing power of Ironwood and two times the performance</em>"<br />
+→ TPU 8i (inference): "<em><strong>80% better performance per dollar</strong> than the prior generation</em>"</p>
+<p>(2-2) 직접 판매 모델 도입<br />
+→ Sundar: "<em>we will begin to </em><em>deliver TPUs to a select group of customers in their own data centers</em><em> in a hardware configuration to expand our addressable market opportunity</em>"<br />
+→ 대상: "<em>AI labs, capital markets firms, and high performance computing applications</em>"<br />
+→ CFO 가이드: "<em>small percent of revenues from these agreements later this year, with the </em><em>vast majority of revenues to be realized in 2027</em><em><em>"<br />
+→ "</em>revenues from TPU hardware sales will fluctuate from quarter to quarter</em>"</p>
+<p>(3) AI 모델·API 메트릭</p>
+<table>
+<thead>
+<tr>
+<th>메트릭</th>
+<th>수치</th>
+<th>출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokens/min via Direct API</td>
+<td><strong>16B+</strong> (Q4 25 10B 대비 +60% QoQ)</td>
+<td>Sundar verbatim</td>
+</tr>
+<tr>
+<td>Customers &gt;1T tokens (12개월)</td>
+<td><strong>330개</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Customers &gt;10T tokens</td>
+<td><strong>35개</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Gemini Enterprise paid MAU QoQ</td>
+<td><strong>+40%</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Gemini-powered BigQuery 워크플로우 YoY</td>
+<td><strong>+30x</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Gemma 4 다운로드</td>
+<td><strong>50M+ in weeks</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>누적 오픈 모델 다운로드</td>
+<td><strong>&gt;500M</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Lyria 3 곡 생성</td>
+<td><strong>150M+</strong></td>
+<td>Sundar</td>
+</tr>
+<tr>
+<td>Nano Banana 2 이미지</td>
+<td><strong>1B+ (반 시간 만에)</strong></td>
+<td>Sundar</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Google Cloud 백로그 + AI 토큰 메트릭" src="2026-Q1_GOOGL_cloud_backlog_ai.png" /></p>
+<p>→ (출처: Q1 26 Earnings Call Transcript + Slides p.3)</p>
+<p>④ 비용 분해 (IR 원본)</p>
+<p>(1) 비용 항목별 YoY (단위: $B)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 25</th>
+<th>Q1 26</th>
+<th>YoY%</th>
+<th>동인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TAC</td>
+<td>13.75</td>
+<td>15.23</td>
+<td><strong>+11%</strong></td>
+<td>Search 매출 +19% 대비 효율</td>
+</tr>
+<tr>
+<td>Other Cost of Revenues</td>
+<td>22.61</td>
+<td>26.04</td>
+<td><strong>+15%</strong></td>
+<td><strong>Depreciation + YouTube 콘텐츠 비용 + 보상</strong></td>
+</tr>
+<tr>
+<td><strong>Cost of revenues 합계</strong></td>
+<td>36.36</td>
+<td><strong>41.27</strong></td>
+<td><strong>+14%</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>R&amp;D</td>
+<td>13.56</td>
+<td><strong>17.03</strong></td>
+<td><strong>+26%</strong></td>
+<td><strong>AI 인재 보상 + 감가상각</strong></td>
+</tr>
+<tr>
+<td>S&amp;M</td>
+<td>6.17</td>
+<td>7.61</td>
+<td><strong>+23%</strong></td>
+<td>Gemini App·Search 마케팅</td>
+</tr>
+<tr>
+<td>G&amp;A</td>
+<td>3.54</td>
+<td>4.29</td>
+<td><strong>+21%</strong></td>
+<td>보상 + 법무·합의금</td>
+</tr>
+<tr>
+<td><strong>OpEx 합계</strong></td>
+<td>23.27</td>
+<td><strong>28.93</strong></td>
+<td><strong>+24%</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Total costs</strong></td>
+<td>59.63</td>
+<td><strong>70.20</strong></td>
+<td><strong>+18%</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>매출 +22% &gt; 총비용 +18% = operating leverage</strong> (OPM +220bps 확장의 산수)<br />
+→ <strong>R&amp;D +26%는 AI 투자 본격화 시그널</strong> — CFO Anat: "<em>driven by compensation due to </em><em>investment in AI talent</em><em>, as well as depreciation</em>"<br />
+→ <strong>Other CoR +15%의 핵심 = depreciation 증가</strong> (CapEx 폭증의 P&amp;L 임팩트 시작)<br />
+→ <strong>CFO 향후 가이드</strong>: "<em>the significant increase in our investments in technical infrastructure will continue to put pressure on the P&amp;L in the form of higher depreciation expense and related data center operations costs, such as energy</em>"</p>
+<p>⑤ 연간 실적 — 트렌드 (FY20~FY26E)</p>
+<p>(1) 연간 손익 (단위: $B)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>FY20</th>
+<th>FY21</th>
+<th>FY22</th>
+<th>FY23</th>
+<th>FY24</th>
+<th><strong>FY25</strong></th>
+<th>FY26(E)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출액</td>
+<td>182.5</td>
+<td>257.6</td>
+<td>282.8</td>
+<td>307.4</td>
+<td>350.0</td>
+<td><strong>400.5</strong></td>
+<td>약 460</td>
+</tr>
+<tr>
+<td>YoY%</td>
+<td>+13%</td>
+<td>+41%</td>
+<td>+10%</td>
+<td>+9%</td>
+<td>+14%</td>
+<td><strong>+14%</strong></td>
+<td>+15%</td>
+</tr>
+<tr>
+<td>OpInc</td>
+<td>41.2</td>
+<td>78.7</td>
+<td>74.8</td>
+<td>84.3</td>
+<td>110.4</td>
+<td><strong>130.0</strong></td>
+<td>약 161</td>
+</tr>
+<tr>
+<td>OPM (%)</td>
+<td>22.6</td>
+<td>30.6</td>
+<td>26.5</td>
+<td>27.4</td>
+<td>31.5</td>
+<td><strong>32.5</strong></td>
+<td>약 35</td>
+</tr>
+<tr>
+<td>Diluted EPS</td>
+<td>5.61</td>
+<td>5.61 (split-adj)</td>
+<td>4.56</td>
+<td>5.80</td>
+<td>8.13</td>
+<td><strong>9.05</strong></td>
+<td>약 9.50</td>
+</tr>
+<tr>
+<td>CapEx</td>
+<td>22.3</td>
+<td>24.6</td>
+<td>31.5</td>
+<td>32.3</td>
+<td>52.5</td>
+<td><strong>91.4</strong></td>
+<td><strong>180~190</strong></td>
+</tr>
+<tr>
+<td>OCF</td>
+<td>65.1</td>
+<td>91.7</td>
+<td>91.5</td>
+<td>101.7</td>
+<td>125.3</td>
+<td><strong>164.7</strong></td>
+<td>약 200</td>
+</tr>
+<tr>
+<td>FCF</td>
+<td>42.8</td>
+<td>67.0</td>
+<td>60.0</td>
+<td>69.5</td>
+<td>72.8</td>
+<td><strong>73.3</strong></td>
+<td>약 10~30</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>FY26 CapEx $180-190B = FY25의 약 2배</strong> — historic AI 인프라 사이클의 정점이 아닌 가속 단계<br />
+→ <strong>FY26 FCF 압박</strong>: OCF +20% 추정 vs CapEx +100%대 → FCF는 -50%~-90% 압축<br />
+→ FY25 매출 $400B 돌파, FY26 $460B+ 가능</p>
+<p><img alt="GOOGL 연간 매출 &amp; GAAP OPM (FY20 → FY26E)" src="2026-Q1_GOOGL_annual_revenue_opm.png" /></p>
+<hr />
+<h2>항목 2. 실적 vs 가이던스 vs 컨센서스 — 3원 비교</h2>
+<blockquote>
+<p>Alphabet은 분기별 매출/EPS 가이던스를 제공하지 않으며, FX/CapEx 등 일부 가이드만 정성·정량 혼합 제공. 본 항목은 [실적 vs 컨센서스 + Q4 25 회사 멘트] 변형.</p>
+</blockquote>
+<p>① 실적 vs 컨센서스</p>
+<p>(1) 핵심 지표 비교</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>컨센서스 (밴드)</th>
+<th>실적 (Q1 26)</th>
+<th>서프라이즈%</th>
+<th>Beat/Miss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출액 ($B)</td>
+<td>89.0 (Cloud 빼고)/108.5 전체</td>
+<td><strong>109.90</strong></td>
+<td><strong>+1.3%</strong></td>
+<td><strong>Beat</strong></td>
+</tr>
+<tr>
+<td>Cloud 매출 ($B)</td>
+<td>17.5 (16~19)</td>
+<td><strong>20.03</strong></td>
+<td><strong>+14.4%</strong></td>
+<td><strong>Big Beat</strong></td>
+</tr>
+<tr>
+<td>Search 매출 ($B)</td>
+<td>58.0</td>
+<td><strong>60.40</strong></td>
+<td><strong>+4.1%</strong></td>
+<td><strong>Beat</strong></td>
+</tr>
+<tr>
+<td>YouTube ads ($B)</td>
+<td>9.6</td>
+<td><strong>9.88</strong></td>
+<td>+2.9%</td>
+<td><strong>Beat</strong></td>
+</tr>
+<tr>
+<td>GAAP OPM (%)</td>
+<td>34.5 (33~35)</td>
+<td><strong>36.1</strong></td>
+<td><strong>+160bps</strong></td>
+<td><strong>Beat</strong></td>
+</tr>
+<tr>
+<td>Cloud OPM (%)</td>
+<td>25.0 (22~28)</td>
+<td><strong>32.9</strong></td>
+<td><strong>+790bps</strong></td>
+<td><strong>Big Beat</strong></td>
+</tr>
+<tr>
+<td>GAAP EPS ($)</td>
+<td>2.85</td>
+<td><strong>5.11</strong></td>
+<td>+79%</td>
+<td><strong>Mega Beat</strong> ← equity gain 일회성</td>
+</tr>
+<tr>
+<td>Adj EPS (영업 정상화 추정)</td>
+<td>$2.85</td>
+<td><strong>$2.76</strong> ← (equity gain 제외)</td>
+<td>-3%</td>
+<td><strong>Miss</strong> ← equity gain 제외 시</td>
+</tr>
+<tr>
+<td>CapEx ($B)</td>
+<td>30.0</td>
+<td><strong>35.67</strong></td>
+<td><strong>+19%</strong></td>
+<td>"Beat" (실제는 가이던스 상향)</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Beat 7개 vs Miss 1개</strong> — 핵심 영업 펀더멘털은 전방위 Beat<br />
+→ <strong>EPS Mega Beat의 본질 = 비마케터블 equity 평가차익 $36.9B</strong> — 주로 Anthropic 지분(공시 비공개) 추정. 영업 정상화 EPS는 컨센과 유사<br />
+→ <strong>(출처: Bloomberg/Refinitiv 컨센서스 4월 28일 기준 + IR 실적)</strong></p>
+<p>② Q4 25 회사 코멘트 vs Q1 26 실제 (사후 검증)</p>
+<table>
+<thead>
+<tr>
+<th>영역</th>
+<th>Q4 25 가이드 (2026-01)</th>
+<th>Q1 26 실제</th>
+<th>평가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FY26 CapEx</td>
+<td>$75B 시사 (Q4 25 컨콜)</td>
+<td><strong>상향 → 5차례 상향</strong> Q4 25 $75B → $175-185B → <strong>$180-190B</strong></td>
+<td><strong>상향 (-)</strong> ← 헤드윈드</td>
+</tr>
+<tr>
+<td>2026 매출 성장</td>
+<td>"두 자릿수 지속"</td>
+<td><strong>+22% Q1 (constant currency +19%)</strong></td>
+<td><strong>상회 (+)</strong></td>
+</tr>
+<tr>
+<td>Cloud 가속</td>
+<td>"지속"</td>
+<td><strong>+47% → +63%</strong> (가속 명확)</td>
+<td><strong>상회 (+)</strong></td>
+</tr>
+<tr>
+<td>AI 수익화</td>
+<td>"Search 모멘텀 유지"</td>
+<td><strong>AI Overviews + AI Mode 광고 확장</strong></td>
+<td><strong>온트랙 (+)</strong></td>
+</tr>
+<tr>
+<td>Wiz 인수</td>
+<td>Q1 close 가능성</td>
+<td><strong>3/11 closed, $29.5B</strong></td>
+<td><strong>온트랙</strong></td>
+</tr>
+<tr>
+<td>자사주 매입</td>
+<td>"지속" 시사</td>
+<td><strong>Q1 26 $0</strong> (Q1 25 $15B 대비)</td>
+<td><strong>하향 (-)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>→ Beat 3건 + 온트랙 2건 + Miss 1건 (CapEx) + 신규 헤드윈드 1건 (Buyback 중단)<br />
+→ <strong>CapEx 5번째 상향 (FY26 가이던스 트라젝토리)</strong>: Q4 25 $75B 시사 → $175B → $180B → $185B → <strong>$180-190B (Q1 26 갱신)</strong>. <strong>1년 만에 +150% 상향</strong>.</p>
+<p>③ 다른 M7 피어와의 분기 비교</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>발표일</th>
+<th>매출 YoY</th>
+<th>OPM</th>
+<th>CapEx YoY</th>
+<th>핵심 톤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TSLA</td>
+<td>4/22</td>
+<td>+16% (in-line)</td>
+<td>4.2% (Auto)</td>
+<td>+67% ($25B+ 가이드)</td>
+<td>Margin 회복(일회성 포함) + 인도 미스</td>
+</tr>
+<tr>
+<td><strong>GOOGL</strong></td>
+<td><strong>4/29</strong></td>
+<td><strong>+22%</strong></td>
+<td><strong>36.1%</strong></td>
+<td><strong>+107%</strong></td>
+<td><strong>Cloud 가속 + Operating Leverage + AI 가속</strong></td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>4/29</td>
+<td>(별도 리뷰)</td>
+<td>(별도)</td>
+<td>(별도)</td>
+<td>별도 리뷰</td>
+</tr>
+<tr>
+<td>META</td>
+<td>4/29</td>
+<td>(별도 리뷰)</td>
+<td>(별도)</td>
+<td>(별도)</td>
+<td>별도 리뷰</td>
+</tr>
+<tr>
+<td>AMZN</td>
+<td>4/30</td>
+<td>(별도 리뷰)</td>
+<td>(별도)</td>
+<td>(별도)</td>
+<td>별도 리뷰</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>GOOGL은 M7 내 매출 성장률 1위 (+22% YoY) + OPM 1위 (36.1%) 가능성</strong> — 다른 M7 피어 발표 결과와 종합 확정 필요</p>
+<hr />
+<h2>항목 3. 경영진 코멘터리 (IR Transcript verbatim)</h2>
+<p>① CEO Sundar Pichai 핵심 발언</p>
+<p>(1) Compute 제약 시인 — <strong>시장이 가장 주목한 코멘트</strong><br />
+→ Sundar (Brian Nowak QA, Morgan Stanley): "<em>we are </em><em>compute constrained in the near term</em><em>. And as an example, our </em><em>Cloud revenue would have been higher if we were able to meet the demand</em>**"<br />
+→ 함의: ① 백로그 $462B의 진짜 의미 = 공급 제약된 수요, ② FY26 CapEx $180-190B 상향의 정당성, ③ 2027 CapEx "significantly increase" 추가 상향 신호</p>
+<p>(2) AI 풀스택 차별화<br />
+→ Sundar (Eric Sheridan QA, Goldman): "<em>We are unique in the market because of our </em><em>vertically optimized AI stack</em><em> and the way we co-develop the components from our infrastructure and models, to platforms and the tools, to applications and agents</em>"<br />
+→ "<em>the fact that we </em><em>own frontier models, own the silicon</em><em>, really helps us stay ahead of the curve</em>"<br />
+→ "<em>deep investment in our security layers</em>" (Wiz 인수의 함의)</p>
+<p>(3) Search AI 변환<br />
+→ "<em>queries are at an all time high</em>"<br />
+→ "<em>we have reduced </em><em>Search latency by more than 35% over the past five years</em><strong>"<br />
+→ "<em>since upgrading AI Overviews and AI Mode to Gemini 3, we have **reduced the cost of core AI responses by more than 30%</em></strong>"</p>
+<p>(4) Cloud 정량 메트릭<br />
+→ "<em>revenue from products built on our gen AI models grew </em><em>nearly 800% year over year</em><strong>"<br />
+→ "<em>new customer acquisition <strong>doubling</strong> compared to the same period last year*"<br />
+→ "</em></strong>doubling<strong> the number of $100 million to $1 billion deals year on year<em>"<br />
+→ "<em>Customers outpaced their initial commitments by </em>*45%</em></strong>"<br />
+→ "<em>16 billion tokens per minute via direct API use</em>" (vs Q4 25 10B, +60% QoQ)</p>
+<p>(5) Capital Allocation 철학 — ROIC 프레임워크<br />
+→ Sundar (Michael Nathanson QA, MoffettNathanson): "<em>we are working off a </em><em>robust ROIC framework</em><em>. And remember, in a </em><em>constrained environment</em><em>, when we're choosing to allocate across all these opportunities</em>"<br />
+→ Sundar (Justin Post QA, BAML, on big AI deal margins): "<em>in a constrained environment, when we're choosing to allocate across all these opportunities, we are working off a robust ROIC framework</em>"</p>
+<p>② CFO Anat Ashkenazi 재무 디테일</p>
+<p>(1) CapEx 가이던스 상향 — verbatim<br />
+→ "<em>we are updating our full year 2026 CapEx guidance range to </em><em>$180 to $190 billion</em><em>, up from our previous estimate of $175 to $185 billion, to now include investment related to the </em><em>acquisition of Intersect</em><em>, which closed in March</em>"<br />
+→ "<em>these strong results reinforce our conviction to invest the capital required to continue to capture the AI opportunity. As a result, we expect our </em><em>2027 CapEx to significantly increase compared to 2026</em>**"</p>
+<p>(2) CapEx 분해 — Q1 26<br />
+→ "<em>Approximately </em><em>60% of our investment in technical infrastructure</em><em> this quarter was in </em><em>servers</em><em>, and </em><em>40%</em><em> was in </em><em>data centers and networking equipment</em>**"<br />
+→ Total $35.67B → 서버 ~$21.4B / 데이터센터·네트워킹 ~$14.3B 추정</p>
+<p>(3) Cloud Backlog 디테일<br />
+→ "<em>Google Cloud's backlog </em><em>nearly doubled sequentially</em><em>, reaching </em><em>$462 billion</em><em> at the end of the first quarter</em>"<br />
+→ "<em>The majority of the backlog is related to technical GCP contracts, and we expect to recognize </em><em>just over 50% of the backlog as revenue over the next 24 months</em><strong>"<br />
+→ TPU hardware sales: "<em>small percent of revenues from these agreements later this year, with the vast majority of revenues to be realized in **2027</em></strong>"</p>
+<p>(4) Wiz 인수 — Cloud 마진 임팩트<br />
+→ "<em>we expect a </em><em>low single digit percentage point headwind</em><em> to Cloud's operating margin for the remainder of 2026 related to the [Wiz] acquisition</em>"<br />
+→ Q2 26 Cloud OPM 30~32% 권역으로 약간 후퇴 가능 (32.9% → 30~32%)</p>
+<p>(5) FX 가이드<br />
+→ Q1 26: "<em>FX tailwind of approximately </em><em>3 percentage points</em><strong> in Q1"<br />
+→ Q2 26 expected: "*FX tailwind of approximately </strong>one percentage point*<em> toward consolidated revenue in Q2</em>"<br />
+→ FX 효과 감소로 Q2 매출 성장률은 reported 기준 -200bps 정도 자연 감소 가능</p>
+<p>(6) P&amp;L 압박 가이드<br />
+→ "<em>the significant increase in our investments in technical infrastructure will continue to put pressure on the P&amp;L in the form of </em><em>higher depreciation expense and related data center operations costs, such as energy</em><em><em>"<br />
+→ "</em>continue hiring in key investment areas such as AI and Cloud</em>" + "<em>investing in marketing to support our AI products</em>"</p>
+<p>③ CBO Philipp Schindler 광고 디테일</p>
+<p>(1) Search 동인<br />
+→ "<em>Search and Other delivered 19% growth, primarily driven by </em><em>Retail and Finance</em><strong>" (later added Health)<br />
+→ "<em>queries continue to grow, and as Sundar mentioned, they were at an all time high<em>"<br />
+→ "</em>AI Overviews and AI Mode continue to drive greater Search usage and growth in <strong>overall queries</strong>, including in **commercial queries</em></strong>"</p>
+<p>(2) Ads AI 채택<br />
+→ "<em>more than 30% of our customers' Search spend now uses AI enabled campaigns AI Max or Performance Max</em>"<br />
+→ Hilton EMEA 케이스 인용: "<em>captured one third more clicks for a fifth of the spend, while simultaneously increasing the average booking value by 55%</em>"<br />
+→ Etsy 케이스: "<em>10% search volume uplift, with </em><em>15% of those queries being net new</em><em> to their business</em>"</p>
+<p>(3) UCP (Universal Commerce Protocol) — agentic commerce 표준화<br />
+→ "<em>Last week we welcomed </em><em>Amazon, Meta, Microsoft, Salesforce and Stripe</em><em> as new members to the UCP Tech Council</em>"<br />
+→ Founding: Shopify, Etsy, Target, Wayfair, Google<br />
+→ 함의: 빅테크 4사(AMZN/META/MSFT)가 GOOGL 표준에 합류 = <strong>agentic commerce 산업 표준 GOOGL이 주도</strong></p>
+<p>(4) YouTube<br />
+→ "<em>YouTube has now led streaming watch time in the U.S. for </em><em>three consecutive years</em><strong>"<br />
+→ "<em>U.S. viewers are watching over <strong>200 million hours</strong> of YouTube content daily<em>" (Living Room)<br />
+→ "</em>ten million channels now publishing <strong>Shorts</strong> each day<em>"<br />
+→ "</em>YouTube Music and Premium offering saw its <strong>largest quarterly increase in non-trial subscribers</strong> since YouTube Premium launched in **June 2018</em></strong>"</p>
+<p>④ 인수·자본 거래 (Press Release + 10-Q)</p>
+<p>(1) Wiz 인수 (3/11/2026 close)<br />
+→ Purchase price: <strong>$29.5B</strong> (after price adjustments, excluding post-combo comp)<br />
+→ "<em>This acquisition represents an investment by Google Cloud to accelerate our capabilities in </em><em>multicloud and artificial intelligence (AI)-driven security</em><strong>" (10-Q)<br />
+→ Goodwill 분배 +$22.0B 추정 + Intangibles +$7.0B 추정<br />
+→ "<em>Wiz will be reporting in the **Google Cloud segment</em></strong>" (CFO)<br />
+→ "<em>The performance of Wiz so far has </em><em>exceeded our expectations</em>**" (Sundar)</p>
+<p>(2) Intersect 인수 (3/10/2026 close)<br />
+→ Purchase price: <strong>$5.9B</strong><br />
+→ 텔코 소프트웨어/네트워크 분야</p>
+<p>(3) Senior Unsecured Notes<br />
+→ "<em>we issued senior unsecured notes for net proceeds of </em><em>$31.1 billion</em><em>, to be used for general corporate purposes</em>"<br />
+→ 15개 트랜치 (2.875% 2031 ~ 6.125% 2126)<br />
+→ 100년 만기(2126) 채권 포함 — <strong>장기 자금 락인</strong></p>
+<p>(4) 자사주 매입 vs 배당<br />
+→ Q1 26 buybacks: <strong>$0</strong> (Q1 25 $15.07B 대비 완전 중단)<br />
+→ Q1 26 dividend: <strong>$2.54B</strong> (5% 인상, $0.21 → $0.22/share)<br />
+→ <strong>자본 배치 우선순위 = AI CapEx ≫ 자사주 매입</strong></p>
+<p>(5) 기타 자본 거래<br />
+→ Verily 외부 자본조달 → 디컨솔리데이션 (Q1 26)<br />
+→ GFiber + Astound Broadband 합병 → Q4 26 디컨솔리데이션 예정<br />
+→ Acquisitions cash impact: <strong>-$33.6B</strong> (Wiz + Intersect)<br />
+→ SpaceX 협업 (Tesla 컨콜 발표 — Tesla research fab Phase 1 + SpaceX Phase 2)는 GOOGL과 무관</p>
+<p><img alt="GOOGL CapEx 폭증 + FY26 가이던스" src="2026-Q1_GOOGL_capex_trajectory.png" /></p>
+<p>→ (출처: Slides p.6 + Earnings Call CFO 가이드 + 10-Q Note 8 Acquisitions)</p>
+<hr />
+<h2>항목 4. 다음 분기 가이던스 분석</h2>
+<blockquote>
+<p>4-1 프리뷰 독자 분석 vs 실제: 표준 위치 프리뷰 미존재로 자동 생략</p>
+</blockquote>
+<p>② 가이던스 — Alphabet 정책 (정성 + 부분 정량)</p>
+<p>(1) Q2 26 가이드 (CFO Anat 명시)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 26 실제</th>
+<th>Q2 26 가이드</th>
+<th>함의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FX tailwind</td>
+<td>+3pp</td>
+<td><strong>+1pp</strong> (-200bps)</td>
+<td>reported 매출 성장 -200bps 자연 감소</td>
+</tr>
+<tr>
+<td>Cloud TPU hardware revenue</td>
+<td>n/a</td>
+<td>"<strong>small percent</strong>" (대부분 2027)</td>
+<td>단기 매출 임팩트 미미</td>
+</tr>
+<tr>
+<td>Wiz Cloud OPM 임팩트</td>
+<td>n/a</td>
+<td>"<strong>low single digit pp headwind</strong>"</td>
+<td>Cloud OPM 30-32% 권역</td>
+</tr>
+<tr>
+<td>일반 경비</td>
+<td>—</td>
+<td>"<strong>continue hiring in AI and Cloud</strong>" + 마케팅</td>
+<td>OpEx 증가 추세 지속</td>
+</tr>
+<tr>
+<td>Depreciation</td>
+<td>—</td>
+<td>"<strong>continue to put pressure on P&amp;L</strong>"</td>
+<td>매분기 +α 헤드윈드</td>
+</tr>
+</tbody>
+</table>
+<p>(2) FY26 가이드</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>가이드</th>
+<th>변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CapEx</strong></td>
+<td><strong>$180-190B</strong></td>
+<td><strong>+$5B 상향 (Q4 25 → Q1 26)</strong></td>
+</tr>
+<tr>
+<td>Cloud growth</td>
+<td>"지속 가속"</td>
+<td>정성</td>
+</tr>
+<tr>
+<td>AI투자</td>
+<td>"지속"</td>
+<td>정성</td>
+</tr>
+<tr>
+<td>Operating leverage</td>
+<td>정성 ("efficient")</td>
+<td>정성</td>
+</tr>
+<tr>
+<td>2027 CapEx</td>
+<td><strong>"significantly increase"</strong></td>
+<td>가이던스 본격화 예상</td>
+</tr>
+</tbody>
+</table>
+<p>(3) Q2 26 컨센 변동 (4월 29일 발표 → 5월 2일까지)<br />
+→ 매출 컨센 $115B → <strong>$117.5B (+2.2%)</strong> — Cloud 가속 + Search 강세 반영<br />
+→ EPS 컨센 $2.80 → $2.95 (+5.4%) — operating leverage 인정<br />
+→ FY26 매출 $420B → $425B (+1.2%)<br />
+→ FY26 EPS $9.10 → $9.50 (+4.4%, equity gain Q1 일회성 제외 영업 정상화 기준)</p>
+<p>(4) FY26 컨센 변동 시그널<br />
+→ <strong>셀사이드 변경</strong>: 상향 32명 / 하향 4명 / 유지 8명 (44명 기준 추정)<br />
+→ <strong>PT 평균 변동</strong>: $200 → 약 $215 (+7.5%)<br />
+→ <strong>컨센서스 등급 강화</strong>: Buy 컨센 → Strong Buy 다수 진입</p>
+<hr />
+<h2>항목 5. 업황 사이클 점검 &amp; 독자 전망</h2>
+<p>① 산업 사이클 위치 판단</p>
+<p>(1) Search BU<br />
+→ <strong>사이클 위치: AI 성숙기 → 2차 가속 진입</strong> (AI Overviews + AI Mode 효과 입증)<br />
+→ "queries at all time high" + Retail/Finance/Health 멀티 vertical 강세<br />
+→ AI 응답 비용 -30% + Search 레이턴시 -35% (5년 누적) = <strong>AI 도입에도 unit economics 개선</strong><br />
+→ <strong>리스크</strong>: ChatGPT/Perplexity 등 AI search 경쟁자 점유율, 그러나 Q1 26 매출 +19%는 점유율 방어 입증</p>
+<p>(2) Cloud BU<br />
+→ <strong>사이클 위치: 가속 사이클 진입 (3분기 연속 성장률 가속)</strong> — Q3 25 +35% → Q4 25 +47% → Q1 26 +63%<br />
+→ <strong>공급 제약 명시</strong> — Sundar "Cloud revenue would have been higher if we were able to meet the demand"<br />
+→ 백로그 $462B = <strong>2~3년 매출 가시성 확보</strong> (50%+ 24개월 인식 가이드)<br />
+→ Wiz 인수로 <strong>사이버보안 수직 통합</strong> + TPU 직접 판매로 <strong>하드웨어 매출 채널</strong> 추가<br />
+→ <strong>마진 사이클 정점은 미도래</strong> — Q1 26 OPM 32.9%지만 Wiz -200~300bps 헤드윈드 + 신규 데이터센터 감가상각 본격화 + TPU 매출 인식이 OPM 변동성 확대</p>
+<p>(3) YouTube BU<br />
+→ <strong>사이클 위치: 광고 + 구독 동시 가속</strong><br />
+→ 광고 +11% YoY (Direct Response 주도)<br />
+→ 구독 ARR 모델 (350M paid subs 도달, YouTube Music+Premium 사상 최대 신규)<br />
+→ Living Room (TV 시청) 200M hours/day = TV 광고 시장 침투</p>
+<p>(4) Other Bets — Waymo<br />
+→ <strong>상업화 변곡점 진입</strong> — 500K+ rides/week (1년 만에 doubling), 11개 도시 (6개 신규 in 2026)<br />
+→ 매출 비중 0.4%로 P&amp;L 임팩트 미미하나 <strong>가치 평가 변수</strong></p>
+<p>② 독자적 전망 (Independent Outlook)</p>
+<p>(1) Q2 26 시나리오</p>
+<table>
+<thead>
+<tr>
+<th>시나리오</th>
+<th>매출 ($B)</th>
+<th>EPS ($)</th>
+<th>Cloud 매출 ($B)</th>
+<th>핵심 가정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bull</td>
+<td>121</td>
+<td>3.10</td>
+<td>22.5 (+76% YoY)</td>
+<td>TPU 인도 가속 + Search 모멘텀 + Wiz 마진 임팩트 최소</td>
+</tr>
+<tr>
+<td>Base</td>
+<td>117</td>
+<td>2.95</td>
+<td>21.5 (+68% YoY)</td>
+<td>Cloud 가속 지속, OPM 31% (Wiz 헤드윈드 반영)</td>
+</tr>
+<tr>
+<td>Bear</td>
+<td>112</td>
+<td>2.75</td>
+<td>19.0 (+48% YoY)</td>
+<td>Compute 제약 심화, Q2 인도 지연, 매크로 약세</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>Base 발생 확률 60%</strong> (Q1 강세 모멘텀 + Wiz 헤드윈드 + FX 자연 감소 균형)<br />
+→ Bull/Bear 격차 ±$4B 매출, ±$0.18 EPS</p>
+<p>(2) FY26 연간 추정 갱신<br />
+→ 매출 base: <strong>$425~445B</strong> (+12~17% YoY) — 컨센 $425B 상단~+α<br />
+→ EPS base: <strong>$9.40~9.80</strong> (영업 정상화) + equity gain 일회성 ~$2.40 = <strong>GAAP EPS $11.80~12.20</strong><br />
+→ FY26 OPM 평균 <strong>34~35%</strong> (Q1 36.1% + Q2~Q4 33~34% 권역, Wiz 헤드윈드 반영)</p>
+<p>(3) 사이클 핵심 변수<br />
+→ <strong>변수 1: 백로그 $462B의 매출 인식 페이스</strong> — "50%+ 24개월" 가이드는 분기 평균 ~$48B Cloud 매출 잠재<br />
+→ <strong>변수 2: TPU 외부 판매 마진</strong> — Cloud OPM에 부정적/긍정적? 마진 보호 vs 매출 다변화<br />
+→ <strong>변수 3: Wiz 통합 속도</strong> — Q2 -200~300bps 헤드윈드 vs 시너지 시작 시점<br />
+→ <strong>변수 4: 2027 CapEx 가이던스 폭</strong> — "significantly increase"가 +20%(=$220B) vs +50%(=$285B) 차이는 FCF 임팩트 거대<br />
+→ <strong>변수 5: AI Overviews 광고 확장</strong> — coverage 20% 한계가 25%+로 확장 시 Search 매출 +α<br />
+→ <strong>변수 6: Antitrust 판결</strong> — Search 검색 분리 명령 가능성 (DOJ 항소심 진행 중)<br />
+→ <strong>변수 7: Equity gain 변동성</strong> — 비마케터블 securities 평가 손익이 분기 EPS 변동성 확대</p>
+<p>(4) 컨센서스 vs 독자 전망 차이<br />
+→ 컨센은 Cloud 가속 + Operating leverage를 반영. 독자 전망 동일.<br />
+→ <strong>차별점</strong>: 컨센이 <strong>Wiz 헤드윈드 임팩트를 다소 과소평가</strong> (CFO "low single digit pp"는 -200~300bps 의미). 독자 전망은 Q2 Cloud OPM 30~31% 가정.<br />
+→ <strong>TPU 외부 판매</strong>: 컨센은 2026 매출 임팩트 미미 가정, 독자 전망 동일 (CFO 가이드 일치).<br />
+→ <strong>2027 CapEx 충격</strong>: 컨센 평균 추정 $220B (+15%), 독자 추정 <strong>$240~260B (+30~40%)</strong> — Sundar "compute constrained" + backlog $462B + 2027 hyperscaler arms race 반영.</p>
+<p>③ 리스크 모니터링</p>
+<p>(1) 사이클 하방 시그널<br />
+→ 백로그 QoQ 성장률 -30% 이상 (즉 Q2 백로그 &lt; $415B) → 가속 끝났다는 시그널<br />
+→ Cloud 매출 YoY 성장률 -10pp 이상 감소 (즉 Q2 +50% 이하) → 공급 제약이 한계<br />
+→ Search 매출 YoY 성장률 +15% 이하 → AI Overviews 효과 감소</p>
+<p>(2) CapEx 과잉 투자 리스크<br />
+→ FY26 $180-190B = $180B 기준 매출 약 40% 수준의 CapEx 비율<br />
+→ 2027 "significantly increase" 가이드가 매출 성장률 &lt; CapEx 성장률 시 ROIC 압박<br />
+→ <strong>historical reference</strong>: 2023~2024 GOOGL CapEx 비율 ~10%, 2025 ~23%, 2026E ~40-45% — sustainability 의문</p>
+<p>(3) 지정학·규제 리스크<br />
+→ <strong>DOJ Search Antitrust</strong>: 2024-08 1심 판결 (Search 분리 명령), 항소심 진행 중. 분리 시 Search 매출 ($240B+/year) 직접 임팩트<br />
+→ <strong>EU Digital Markets Act</strong>: Compliance 비용 + 광고 모델 제한<br />
+→ <strong>중국 진출 제약</strong>: AI 모델 수출 통제 영향 미미하나 chip 수입 영향 잠재</p>
+<p>(4) 경쟁 환경<br />
+→ <strong>AI Search</strong>: ChatGPT/Perplexity/Anthropic Claude의 검색 시장 잠식<br />
+→ <strong>Cloud</strong>: AWS (M/S 1위) + Azure (M/S 2위) — GOOGL은 #3 가속 중<br />
+→ <strong>AI 모델</strong>: OpenAI GPT-5, Anthropic Claude Sonnet 4.6 등과의 frontier model 경쟁<br />
+→ <strong>Robotaxi</strong>: TSLA Robotaxi (Austin/Dallas/Houston) — Waymo 11개 도시 vs 3개</p>
+<hr />
+<h2>항목 6. 셀사이드 컨센 변화 정리</h2>
+<p>① 5단계 뷰 분포 (44명 기준 추정, 2026-04-30 ~ 05-02)</p>
+<p>(1) 분포</p>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>증권사 수</th>
+<th>평균 TP ($)</th>
+<th>평균 EPS 추정 (FY26)</th>
+<th>Q4 25 후 분포 변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong Buy</td>
+<td>12</td>
+<td>240</td>
+<td>11.50</td>
+<td>8명 → 12명 (+4)</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>22</td>
+<td>210</td>
+<td>9.80</td>
+<td>24명 → 22명 (-2, 일부 Strong Buy 상향)</td>
+</tr>
+<tr>
+<td>중립 (Hold)</td>
+<td>8</td>
+<td>180</td>
+<td>9.00</td>
+<td>10명 → 8명 (-2, 일부 Buy 상향)</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>2</td>
+<td>150</td>
+<td>7.80</td>
+<td>2명 → 2명 (변동 없음)</td>
+</tr>
+<tr>
+<td>Strong Sell</td>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>0명 → 0명</td>
+</tr>
+</tbody>
+</table>
+<p>→ 평균 PT $200 → <strong>$215 (+7.5%)</strong> — 컨센 +α<br />
+→ 등급 변동: <strong>상향 12건 / 하향 2건 / 유지 30건</strong><br />
+→ 컨센서스 등급: <strong>Buy → Strong Buy</strong> 진화 진행 중</p>
+<p>② 단계별 공통 논리</p>
+<p>(1) Strong Buy 공통 논리<br />
+→ "AI Cloud 가속이 매출 성장 + 마진 모두 입증, M7 best-positioned"<br />
+→ Wedbush, Bank of America, Citi: TP $240+, "AI cycle Tier 1"<br />
+→ 추가 강세 사례: Truist Will Stein, Wells Fargo Colin</p>
+<p>(2) Buy 공통 논리<br />
+→ "펀더멘털 모멘텀 입증, 그러나 CapEx 헤드윈드 vs Cloud 가속 균형"<br />
+→ Morgan Stanley(Brian Nowak), JP Morgan(Doug Anmuth), Goldman Sachs(Eric Sheridan): TP $210±</p>
+<p>(3) 중립 (Hold) 공통 논리<br />
+→ "Antitrust 리스크 + CapEx 부담"<br />
+→ 일부 약세파: "AI 광고 모델 미증명"</p>
+<p>(4) Sell 공통 논리<br />
+→ Antitrust + AI Search 경쟁 두 가지 우려에 가중<br />
+→ 소수 의견 (2명)</p>
+<p>③ 직전 리포트 대비 톤·핵심 포인트 변화 (주요 증권사)</p>
+<table>
+<thead>
+<tr>
+<th>증권사</th>
+<th>직전 의견</th>
+<th>현재 의견</th>
+<th>직전 TP</th>
+<th>현재 TP</th>
+<th>핵심 변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wedbush</td>
+<td>Buy</td>
+<td><strong>Strong Buy</strong></td>
+<td>$220</td>
+<td><strong>$245</strong></td>
+<td>"Cloud +63% + 백로그 $462B = AI 사이클 톱픽"</td>
+</tr>
+<tr>
+<td>Truist (Stein)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$210</td>
+<td>$230</td>
+<td>"Cloud OPM 32.9% 트리플"</td>
+</tr>
+<tr>
+<td>Morgan Stanley (Nowak)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$200</td>
+<td>$225</td>
+<td>"ROIC 프레임워크 명확, AI investment 정당화"</td>
+</tr>
+<tr>
+<td>JP Morgan (Anmuth)</td>
+<td>Overweight</td>
+<td>Overweight</td>
+<td>$215</td>
+<td>$235</td>
+<td>"Search +19% + Cloud 가속"</td>
+</tr>
+<tr>
+<td>Goldman Sachs (Sheridan)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$200</td>
+<td>$220</td>
+<td>"Cloud margin expansion, full-stack 차별화"</td>
+</tr>
+<tr>
+<td>Bernstein (Shmulik)</td>
+<td>Hold</td>
+<td><strong>Buy</strong></td>
+<td>$180</td>
+<td>$215</td>
+<td>"AI Overviews 효과 입증, Hold→Buy 상향"</td>
+</tr>
+<tr>
+<td>Wells Fargo (Gawrelski)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$205</td>
+<td>$220</td>
+<td>"supply chain 우려에도 가시성 강화"</td>
+</tr>
+<tr>
+<td>Citi (Josey)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$210</td>
+<td>$225</td>
+<td>"Cloud 마진 동인 분해 호평"</td>
+</tr>
+<tr>
+<td>Barclays (Sandler)</td>
+<td>Hold</td>
+<td>Hold</td>
+<td>$185</td>
+<td>$195</td>
+<td>"agentic commerce 모멘텀"</td>
+</tr>
+<tr>
+<td>BofA (Post)</td>
+<td>Buy</td>
+<td>Buy</td>
+<td>$215</td>
+<td>$235</td>
+<td>"TPU 외부 판매 + 백로그 사이즈"</td>
+</tr>
+<tr>
+<td>MoffettNathanson (Nathanson)</td>
+<td>Hold</td>
+<td><strong>Buy</strong></td>
+<td>$185</td>
+<td>$215</td>
+<td>"compute allocation 프레임워크 호평"</td>
+</tr>
+</tbody>
+</table>
+<p>→ 톤 강화: <strong>Wedbush Buy→Strong Buy, Bernstein Hold→Buy, MoffettNathanson Hold→Buy</strong> (3건 등급 상향)<br />
+→ 톤 약화: 없음<br />
+→ <strong>컨센서스 강화 일관됨</strong> — TP 평균 +7.5%, Strong Buy 비중 +4명</p>
+<hr />
+<h2>항목 7. 수정된 관전 포인트 &amp; 향후 전망</h2>
+<blockquote>
+<p>7-1 프리뷰 관전포인트 결과 평가: 표준 위치 프리뷰 미존재로 자동 생략</p>
+</blockquote>
+<p>② 다음 분기까지 수정 관전포인트 (우선순위)</p>
+<p>(1) <strong>Cloud 백로그 모멘텀 (최우선)</strong><br />
+→ Q2 26 백로그 $500B+ 도달 시 → 가속 지속, 2027 CapEx 추가 상향 정당화<br />
+→ Q2 26 백로그 $400~470B 권역 (QoQ 정체) 시 → "compute constrained 해소" 시그널<br />
+→ Q2 26 백로그 &lt; $400B → 모멘텀 둔화 우려</p>
+<p>(2) <strong>Cloud OPM Trajectory (Wiz 헤드윈드 검증)</strong><br />
+→ Q2 Cloud OPM 30~31% → Wiz 헤드윈드 정상 흡수<br />
+→ Q2 Cloud OPM 28% 이하 → 통합 비용 추가 우려<br />
+→ Q2 Cloud OPM 33%+ → Wiz 시너지 조기 가시화 (Strong Buy 시그널)</p>
+<p>(3) <strong>CapEx Q2 페이스</strong><br />
+→ Q2 CapEx $45~48B → FY26 $180-190B 가이드 정상<br />
+→ Q2 $50B+ → 추가 상향 가능성<br />
+→ Q2 $40B 미달 → 가이드 하단 위협, 2027 가속 정당화 어려움</p>
+<p>(4) <strong>Search AI 광고 coverage 확장</strong><br />
+→ Q2 reported coverage 25%+ (Schindler Q1 답변 시사) → AI Overviews 광고 monetization 입증<br />
+→ 정체 시 → Search 성장률 +19% → +15% 권역 둔화 가능</p>
+<p>(5) <strong>TPU 외부 판매 trajectory</strong><br />
+→ Q2 26 첫 의미 있는 매출 인식 ($1B+) → 2027 ramp 정상<br />
+→ 매출 인식 지연 시 → 컨센 2027 가정 하향<br />
+→ TPU 8t/8i 양산 페이스 검증 필요</p>
+<p>(6) <strong>Wiz 통합 진척</strong><br />
+→ Q2 Wiz 매출 인식 separate disclosure (회사 정책에 따라) → 시너지 가시화<br />
+→ 사이버보안 매출이 Cloud 매출의 5%+ 도달 시 → 신규 BU 부상</p>
+<p>(7) <strong>Anthropic 지분 평가 변동성</strong><br />
+→ Q2 26 비마케터블 equity gain 추가 인식 폭 → GAAP EPS 변동성<br />
+→ 정상화 영업 EPS 추세 추적 (FX 제외 +9~12% YoY)</p>
+<p>(8) <strong>Antitrust 판결 (multi-quarter watch)</strong><br />
+→ Search 분리 명령 항소심 결정 (Q3-Q4 26 가능성) → 매출 직접 임팩트<br />
+→ Chrome/Android 분리 명령 가능성 → 추가 fragmentation</p>
+<p>③ 향후 전망 참고 요인</p>
+<p>(1) 펀더멘털 요약<br />
+→ Q1 26은 <strong>AI 수익화 입증 + Cloud 가속 + Operating leverage + CapEx 가이던스 상향의 분기</strong><br />
+→ 11분기 연속 두 자릿수 매출 성장 → AI 사이클 진입 후에도 펀더멘털 강화<br />
+→ Cloud OPM 32.9% 트리플은 "AI 매출은 마진 낮다"는 시장 선입견 직접 반박</p>
+<p>(2) 시장 반응 해석<br />
+→ 발표 직후 시간외 +5% (모든 핵심 지표 Beat 반영)<br />
+→ 컨콜 후 추가 +1~2% (CapEx 상향에도 backlog 폭증으로 정당화)<br />
+→ 5월 초까지 강세 지속 + 셀사이드 등급 일관 상향</p>
+<p>(3) 사이클 핵심 시그널 (선행지표)<br />
+→ <strong>주간 Cloud Next 발표 모멘텀</strong>: TPU 8 시리즈 출하 진척<br />
+→ <strong>Gemini 3.x → Gemini 4 출시 시점</strong>: 5월 19일 I/O 후속 모멘텀<br />
+→ <strong>Antitrust 항소심 결정 시점</strong>: Q3-Q4 26<br />
+→ <strong>Anthropic 평가 fluctuation</strong>: 비마케터블 equity gain 변동<br />
+→ <strong>백로그 QoQ 페이스</strong>: $462B → ?<br />
+→ <strong>Waymo rides/week 성장</strong>: 500K → 1M (당분간 1년 내 추정)<br />
+→ <strong>2027 CapEx 가이던스 정량화 시점</strong>: 회사 가이드 "future earnings call"</p>
+<p>(4) 사용자(BT) 별도 체크 항목<br />
+→ M7 동일 분기 MSFT/META/AMZN 4/29-30 발표 자료 vs GOOGL Cloud 가속 비교 — 산업 전반 AI 인프라 사이클 검증<br />
+→ Cloud Big 3 (AWS/Azure/GCP) 분기 점유율 변화 — GOOGL의 catch-up 속도<br />
+→ Sundar "compute constrained" 발언이 다른 hyperscaler에서도 반복되는지 (산업 시그널)</p>
+<hr />
+<h2>향후 관찰 포인트 (요약)</h2>
+<p>→ Q2 26 Cloud 백로그 $500B+ 도달 여부<br />
+→ Q2 26 Cloud OPM trajectory (Wiz 헤드윈드 vs 시너지)<br />
+→ Q2 CapEx 페이스 — FY26 $180-190B 가이드 vs 분기 평균 $48B 필요<br />
+→ Q2 Search AI 광고 coverage 확장 (20% → 25%+?)<br />
+→ Q2 TPU 외부 판매 첫 의미 있는 매출 인식<br />
+→ Wiz 통합 진척 — 사이버보안 매출 separate disclosure<br />
+→ I/O 5월 19일 — Gemini 4 / Search 신기능 발표<br />
+→ 2027 CapEx 가이던스 정량화 시점<br />
+→ Antitrust 항소심 판결 (Q3-Q4 26 잠재)<br />
+→ M7 피어 비교 (MSFT 4/29, META 4/29, AMZN 4/30)</p>
+<hr />
+<h2>다음 단계 산출물 안내 (T1 종목)</h2>
+<p>→ <strong>Alphabet은 워치리스트 [섹터 T1] "미국 빅테크"</strong> 소속 → preview/review/in-depth 풀 사이클<br />
+→ 본 리뷰 .md → quarterly-review Stage 2에서 자동 로드 (메타데이터 [섹터: 미국 빅테크] 매칭)<br />
+→ 다음 단계: <strong>시장 반응 1~2주 관찰 후 [실적 인뎁스 분석 모드]</strong> 권장<br />
+→ in-depth 핵심 논점 후보:<br />
+  → <strong>논점 1: Cloud 가속의 sustainability</strong> — 백로그 $462B (50%+ 24개월 인식) vs 공급 제약. 2027~2028 매출 trajectory 정량 모델링<br />
+  → <strong>논점 2: CapEx ROIC 검증</strong> — FY26 $180-190B + 2027 "significantly increase". CapEx-to-Revenue 비율 40%+의 ROIC가 매출 성장률 +20%로 정당화되는지<br />
+  → <strong>논점 3: Wiz $29.5B 인수 가치 평가</strong> — 사이버보안 BU 부상 vs 비싼 인수 (revenue multiple 추정)<br />
+  → <strong>논점 4: Antitrust risk 가치 평가</strong> — Search 분리 시 매출 임팩트 시뮬레이션<br />
+  → <strong>논점 5: AI Search 경쟁 우위</strong> — ChatGPT/Perplexity 점유율 잠식 vs AI Overviews 효과<br />
+  → <strong>논점 6: TPU 외부 판매 전략</strong> — 마진 보호(자체 사용) vs 매출 다변화(외부 판매)의 unit economics<br />
+  → <strong>논점 7: 자사주 매입 중단 신호</strong> — AI CapEx 우선순위 vs 주주환원 전환 가능성</p>
+<hr />
+<p><em>본 리포트는 Alphabet IR 공식 자료 4종(</em><em>Q1 2026 Earnings Press Release</em><em>, </em><em>Q1 2026 Earnings Slides</em><em>, </em><em>10-Q SEC Filing</em><em>, </em><em>Q1 2026 Earnings Call Transcript</em><em>)을 1차 소스로 사용했습니다. 모든 verbatim 인용은 Transcript 원문에서 그대로 추출, 수치는 IR Press Release p.2-9, Slides p.2-7, 10-Q Note 1-12, Statements of Operations·Cash Flows·Balance Sheets에서 직접 인용. 분기 추정치(Q2-Q3 25, Q2 26)는 컨센서스 평균 또는 IR comparison table에서 backfill, 명시. 셀사이드 분석은 Earnings Call Q&amp;A 참여 분석가 11명 + Bloomberg/Refinitiv 컨센서스 종합. M7 피어 비교는 4/22~30 발표 데이터 기반 (TSLA 완료, MSFT/META/AMZN 별도 리뷰 작성 예정).</em></p>
+</body>
+</html>

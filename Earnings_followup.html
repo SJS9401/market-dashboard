@@ -42,7 +42,7 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
 .sector-meta { font-size:0.78rem; color:var(--text-dim); }
 .stock-list { margin-top:0.5rem; }
-.stock-row { display:grid; grid-template-columns:minmax(110px,140px) 1fr 90px auto; gap:0.8rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
+.stock-row { display:grid; grid-template-columns:minmax(100px,130px) 1fr 80px auto; gap:0.6rem; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--bg-3); }
 .stock-row:last-child { border-bottom:0; }
 .stock-name-cell { color:var(--text); display:flex; align-items:baseline; gap:0.3rem; flex-wrap:wrap; min-width:0; }
 .stock-name { font-weight:500; }
@@ -51,8 +51,8 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .progress-circles { display:inline-flex; gap:0.2rem; align-items:center; }
 .circle { display:inline-block; width:0.7rem; height:0.7rem; border-radius:50%; background:var(--done); }
 .circle.empty { background:transparent; border:1px solid var(--pending); }
-.mode-buttons { display:flex; gap:0.3rem; justify-content:flex-end; }
-.mode-btn { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.75rem; cursor:pointer; text-decoration:none; transition:all 0.15s; }
+.mode-buttons { display:flex; gap:0.25rem; justify-content:flex-end; flex-wrap:nowrap; }
+.mode-btn { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.45rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; cursor:pointer; text-decoration:none; transition:all 0.15s; white-space:nowrap; }
 .mode-btn:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
 .dday-cell { font-size:0.8rem; color:var(--text-dim); }
 .loading { color:var(--text-dim); font-style:italic; padding:1rem; }

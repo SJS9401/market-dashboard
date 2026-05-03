@@ -140,6 +140,7 @@ const COLORS = {
   contract: 'rgb(210,175,100)',   // gold — 고정가, 막대
   premium: 'rgb(249,117,131)',    // red — 프리미엄 (DRAM/NAND 현물가, 마켓 대시보드와 통일)
   yoy: 'rgb(210,175,100)',      // gold — YoY 라인 (사이클 시그널, 시각 위계 상위)
+  mom: 'rgb(160,168,179)',      // 옅은 회색 — MoM 라인 (보조 시그널, YoY와 구분)
   bar: 'rgb(139,148,158)',      // gray — 수출 바/ASP (절대 수치 컨텍스트, Tufte: gray for context)
   samsung: 'rgb(57,197,207)',
   sk_hynix: 'rgb(210,175,100)',
@@ -172,41 +173,45 @@ const SECTIONS = [
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_battery_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_battery_export_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_battery_export_mom.json", axis: "right", color: COLORS.mom },
         ], unit_left: "백만$", unit_right: "%" } },
       { fig: 36, title: "리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_liion_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_liion_export_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_liion_export_mom.json", axis: "right", color: COLORS.mom },
         ], unit_left: "백만$", unit_right: "%" } },
       { fig: 37, title: "EV용 리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_ev_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ev_export_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_ev_export_mom.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "백만$", unit_right: "%" } },
       { fig: 38, title: "EV용 리튬이온전지 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_ev_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ev_export_price_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_ev_export_price_mom.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "$/kg", unit_right: "%" } },
       { fig: 39, title: "ESS용 리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_ess_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ess_export_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_ess_export_mom.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "백만$", unit_right: "%" } },
       { fig: 40, title: "ESS용 리튬이온전지 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_ess_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ess_export_price_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_ess_export_price_mom.json", axis: "right", color: COLORS.yoy },
         ], unit_left: "$/kg", unit_right: "%" } },
       { fig: 41, title: "동박 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_foil_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_foil_export_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_foil_export_mom.json", axis: "right", color: COLORS.mom },
         ], unit_left: "백만$", unit_right: "%" } },
       { fig: 42, title: "동박 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_foil_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_foil_export_price_yoy.json", axis: "right", color: COLORS.yoy },
+          { label: "MoM(우)", file: "battery_foil_export_price_mom.json", axis: "right", color: COLORS.mom },
         ], unit_left: "$/kg", unit_right: "%" } },
     ]
   },

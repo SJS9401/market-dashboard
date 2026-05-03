@@ -10,7 +10,7 @@ let state = {
   watchlist: { T1: [], T2: [], T3: [] },
   calendar: {},
   signals: {},
-  manifest: { preview: [], review: [], 'in-depth': [] }
+  manifest: { preview: [], review: [], 'in-depth': [], followup: [] }
 };
 
 function $(id) { return document.getElementById(id); }
@@ -60,7 +60,7 @@ function getCurrentQuarter() {
 
 function extractQuartersFromManifest(manifest) {
   const set = new Set();
-  for (const mode of ['preview', 'review', 'in-depth']) {
+  for (const mode of ['preview', 'review', 'in-depth', 'followup']) {
     for (const file of (manifest[mode] || [])) {
       const m = file.match(/^(\d{4}-Q\d)_/);
       if (m) set.add(m[1]);
@@ -209,7 +209,8 @@ function parseCalendar(md) {
   return result;
 }
 
-const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인댄스' };
+const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '팔로업' };
+const MODE_LABELS = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '요약' };
 
 function getModeFile(stock, mode) {
   // stock: {name, ticker}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
@@ -304,7 +305,7 @@ function renderStockRow(stock) {
   stockRow.appendChild(middleCol);
   const buttons = el('div', { class: 'mode-buttons' });
   let hasAny = false;
-  for (const pair of [['preview', 'P'], ['review', 'R'], ['in-depth', 'I']]) {
+  for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {

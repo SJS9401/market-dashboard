@@ -185,7 +185,7 @@
 | 4/30 | 삼성전자 | 반도체 | 1분기 컨퍼런스콜 완료 (10AM KST, 확정실적은 4/28 공시) |
 | 4/30 | LG에너지솔루션 | 배터리 | 1분기 확정실적 컨퍼런스콜 완료 (10AM KST) |
 | 4/30 | 포스코퓨처엠 | 배터리 | 1분기 실적 발표 완료 |
-| 4/29 | Alphabet (GOOGL) | 빅테크 | 발표 완료 AMC (매출 $109.9B +22%, Cloud $20.03B +63%, EPS beat) |
+| 4/29 | Alphabet (GOOGL) | 빅테크 | [Review완료 2026-05-03, IR원본기반] **All-around Beat — 펀더멘털 11분기 연속 두 자릿수 성장 + AI 수익화 확정**. 매출 $109.9B (+22% YoY, +19% constant currency), GAAP OPM 36.1% (+220bps), Diluted EPS $5.11 (+82% — 단 $2.35는 Anthropic 추정 비마케터블 equity 평가차익 일회성). **Cloud 매출 $20.03B (+63% YoY) 첫 $20B 돌파, OPM 17.8%→32.9% 트리플 (+1,510bps)**, OpInc $6.6B (+203%). **백로그 $462B QoQ ~2배 (50%+ 24개월 매출 인식)**. **Sundar "compute constrained in near term — Cloud revenue would have been higher" 시인**. CapEx Q1 $35.7B (+107% YoY). **FY26 CapEx 가이던스 $175-185B → $180-190B 상향**, **2027 "significantly increase"**. Wiz $29.5B + Intersect $5.9B 인수 완료, senior unsecured notes $31.1B 신규. **자사주 매입 Q1 $0** (Q1 25 $15B 대비 완전 중단). 컨센 Buy→Strong Buy 강화 (44명 PT 평균 $200→$215 +7.5%). 다음: in-depth (Cloud sustainability, CapEx ROIC, Antitrust, AI Search 경쟁) |
 | 4/29 | Microsoft (MSFT) | 빅테크 | 발표 완료 AMC (매출 $82.9B +18%, Azure +40%, EPS $4.27 vs $4.06 beat) |
 | 4/29 | Meta (META) | 빅테크 | 발표 완료 AMC (매출 $56.31B +33%, EPS $10.44 beat, CAPEX $125-145B↑, 시간외 -7%) |
 | 4/29 | Amazon (AMZN) | 빅테크 | 발표 완료 AMC (매출 $181.5B +17%, AWS $37.59B +28%, EPS $2.78 beat) |
