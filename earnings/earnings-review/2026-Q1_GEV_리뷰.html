@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GE Vernova Q1 2026 실적 리뷰 — 글로벌 피어 (전력 인프라)</title>
+<style>
+:root { --bg: #0d1117; --bg-elevated: #161b22; --bg-table-alt: #1c2128; --text: #e6edf3; --text-secondary: #8b949e; --accent: #58a6ff; --accent-2: #2ea043; --warn: #f85149; --border: #30363d; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif; font-size: 15px; line-height: 1.65; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-top: 32px; color: #fff; }
+h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 40px; color: var(--accent); }
+h3 { font-size: 18px; margin-top: 28px; color: var(--text); }
+blockquote { background: var(--bg-elevated); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; color: var(--text-secondary); font-size: 14px; border-radius: 0 6px 6px 0; }
+blockquote p { margin: 4px 0; }
+table { border-collapse: collapse; width: 100%; margin: 14px 0 24px; font-size: 13px; background: var(--bg-elevated); border-radius: 6px; overflow: hidden; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; white-space: nowrap; }
+th { background: #1c2630; color: var(--accent); font-weight: 600; }
+tr:nth-child(even) td { background: var(--bg-table-alt); }
+strong { color: #fff; font-weight: 600; }
+em { color: var(--accent-2); }
+code { background: var(--bg-table-alt); border-radius: 3px; padding: 1px 5px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+figure.chart { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin: 18px 0; text-align: center; }
+figure.chart img { max-width: 100%; height: auto; border-radius: 4px; }
+figure.chart figcaption { margin-top: 8px; font-size: 12px; color: var(--text-secondary); font-style: italic; }
+ul, ol { padding-left: 22px; }
+li { margin: 4px 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+<blockquote>
+<p>모드: 실적 리뷰 (글로벌 피어 — 가벼운 깊이)
+종목: GE Vernova (GEV / NYSE)
+섹터: 전력 인프라
+분기: 2026-Q1 (Q1 2026, 분기 종료 2026-03-31)
+발표일: 2026-04-22 (수, BMO) — Press Release + 10-Q + Presentation + Earnings Call 동시 발행
+작성 시각: 2026-05-03 23:00 KST</p>
+</blockquote>
+<h1 id="ge-vernova-q1-2026-3-cue">GE Vernova Q1 2026 실적 리뷰 (글로벌 피어 — 한국 전력 인프라 3사 핵심 cue)</h1>
+<blockquote>
+<p><strong>본 리뷰는 글로벌 피어 워크플로우 (workflow rule 4)에 따라 한국 종목 review 7개 항목 중 핵심 4-5개로 압축 작성</strong>: 1번 실적 추이 + 사업부 분해, 3번 경영진 코멘터리, 5번 업황 사이클(특히 한국 3사 cross-ref), 7번 관전포인트.
+<strong>본 리뷰의 1차 목적</strong>: ABB(4/16) → LS일렉트릭(4/21) → <strong>GEV(4/22)</strong> → 효성(4/25) → HD(4/28) 순서 중 GEV는 <strong>한국 3사 직전 발표</strong> = 가장 강력한 leading indicator. 특히 데이터센터·HVDC·765kV·가스터빈 모멘텀에서 secular thesis의 정량 reference.
+동일 폴더 한국 3사 review (<code>2026-Q1_효성중공업_리뷰.md</code>, <code>2026-Q1_HD현대일렉트릭_리뷰.md</code>, <code>2026-Q1_LS일렉트릭_리뷰.md</code>) + ABB review (<code>2026-Q1_ABB_리뷰.md</code>) 자동 cross-reference.
+<strong>사업부 재편 (2026-01-01 effective)</strong>: Steam → Nuclear/Hydro/Gas로 분산, Grid Solutions → Power Transmission/Grid Systems Integration/Grid Automation &amp; Software 3분할, LM Wind → Onshore Wind 통합. 본 review는 신규 reporting 구조 기반.</p>
+</blockquote>
+<h2 id="executive-summary-3-6-gev-abb-cue">Executive Summary — 한국 3사에 미치는 6대 시그널 (GEV는 ABB보다 더 강력한 cue)</h2>
+<p>→ <strong>데이터센터 단일 분기 수주 $2.4B = 작년 전체 ($2.0B) 초과</strong> — Electrification segment 단일 분기 데이터센터 equipment orders. CEO Strazik 인용: "Q1 Electrification orders to data centers were more than full year '25 results." <strong>이는 ABB의 "데이터센터 triple-digit + CAGR 35%" cue보다 정량적으로 더 강력</strong>. <strong>한국 3사 적용</strong>: LS 빅테크 LTA (X·A·B사 누적 1.5조+) + HD AIDC 온사이트 발전 + 효성 데이터센터 직수주 narrative 모두 secular thesis 정량 확정.
+→ <strong>Electrification Equipment 백로그 $38.6B (+75% YoY)</strong> — 변압기·차단기·HVDC 슈퍼사이클의 절대값 reference. <strong>한국 3사 적용</strong>: 효성 잔고 15.1조 + HD 11.5조 + LS 5.6조 = 합산 32.2조 (USD 약 $22B) → <strong>GEV Equipment 백로그 단독 $38.6B = 한국 3사 합산의 1.75배</strong> = 글로벌 산업 절대 규모 입증
+→ <strong>Power Transmission (변압기) 매출 $1.38B (+99% org)</strong> — 효성·HD 변압기 사업과 직접 비교 가능. Power Transmission이 Electrification 안에서 가장 큰 매출 드라이버. <strong>HD현대일렉트릭 변압기·고압차단기 +21.6% YoY와 동조이나 GEV가 Prolec GE 인수로 +99% 가속</strong> = 글로벌 피어 M&amp;A 가속이 한국 3사 점유율 잠식 위험 시그널 (반대로 효성·HD M&amp;A 압박 가능성)
+→ <strong>HVDC 백로그 $10B + 아시아 신규 대형 수주</strong> — 한국 3사 (특히 효성중공업의 전압형 HVDC 독자기술·LS의 MVDC/HVDC 솔루션) 모멘텀 confirm. CEO: "Booked another large HVDC order this quarter (Asia)" — 한국 시장 추가 수주 가능성 시그널
+→ <strong>가스터빈 1H26 가격 +10~20% 상향 ($/kW 기준)</strong> — 가스터빈은 한국 3사 직접 사업 아니나, <strong>글로벌 산업 가격 인상 사이클</strong> confirm. 효성·HD·LS도 1Q26에 3월 국내·4월 해외 판가 인상 단행 → GEV의 가격 인상 폭이 더 강함 = 한국 3사 추가 가격 인상 여지 시그널
+→ <strong>2026 가이던스 매우 공격적 상향</strong>: Revenue $44-45B → <strong>$44.5-45.5B</strong>, EBITDA margin 11-13% → <strong>12-14% (+1pp)</strong>, FCF $5.0-5.5B → <strong>$6.5-7.5B (+30%)</strong>. <strong>한국 3사 적용</strong>: GEV가 1Q에 이미 +30% FCF 상향 → 한국 3사 가이던스 상향 가능성 매우 높음 강력 confirm. CEO: "Backlog 목표 $200B 2027년 달성 (기존 2028) <strong>1년 단축</strong>" → secular 슈퍼사이클 가속 정량 확정.</p>
+<hr>
+<h2 id="1-q1-2026-outlook">항목 1. 실적 추이 (Q1 2026 + Outlook)</h2>
+<p>① 핵심 손익 (Q1 2026 vs Q1 2025, USD $M)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 2026</th>
+<th>Q1 2025</th>
+<th>YoY (USD)</th>
+<th>YoY Organic</th>
+<th>코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>신규수주</strong></td>
+<td><strong>18,279</strong></td>
+<td>10,152</td>
+<td><strong>+80%</strong></td>
+<td><strong>+71%</strong></td>
+<td>모든 segment growth</td>
+</tr>
+<tr>
+<td>┗ Equipment</td>
+<td>12,753</td>
+<td>5,760</td>
+<td>+121%</td>
+<td>+106%</td>
+<td>Power 95% + Electrification 99% 폭발</td>
+</tr>
+<tr>
+<td>┗ Services</td>
+<td>5,526</td>
+<td>4,392</td>
+<td>+26%</td>
+<td>+25%</td>
+<td>Power services lead</td>
+</tr>
+<tr>
+<td>매출</td>
+<td>9,339</td>
+<td>8,032</td>
+<td>+16%</td>
+<td>+7%</td>
+<td>Wind drag (-25% org)</td>
+</tr>
+<tr>
+<td>Net income (GAAP)</td>
+<td><strong>4,750</strong></td>
+<td>264</td>
+<td><strong>+1,700%</strong></td>
+<td>—</td>
+<td>$4.5B Prolec GE 일회성 (M&amp;A gain)</td>
+</tr>
+<tr>
+<td><strong>Adjusted EBITDA</strong></td>
+<td><strong>896</strong></td>
+<td>457</td>
+<td><strong>+96%</strong></td>
+<td>—</td>
+<td>margin 9.6% (+390bps)</td>
+</tr>
+<tr>
+<td>┗ Adj Organic EBITDA Margin</td>
+<td>9.1%</td>
+<td>5.2%</td>
+<td>—</td>
+<td>—</td>
+<td>+390bps</td>
+</tr>
+<tr>
+<td><strong>Free Cash Flow</strong></td>
+<td><strong>4,791</strong></td>
+<td>975</td>
+<td><strong>+391%</strong></td>
+<td>—</td>
+<td><strong>분기 단독으로 FY25 전체($3.7B) 초과</strong></td>
+</tr>
+<tr>
+<td><strong>Total Backlog (RPO)</strong></td>
+<td><strong>163,276</strong></td>
+<td>123,438</td>
+<td><strong>+32%</strong></td>
+<td>—</td>
+<td>사상 최대, +$13B sequential</td>
+</tr>
+<tr>
+<td>┗ Equipment Backlog</td>
+<td>75,924</td>
+<td>45,478</td>
+<td><strong>+67%</strong></td>
+<td>—</td>
+<td>사상 최대 폭증</td>
+</tr>
+<tr>
+<td>┗ Services Backlog</td>
+<td>87,352</td>
+<td>77,959</td>
+<td>+12%</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Diluted EPS</td>
+<td>$17.44</td>
+<td>$0.91</td>
+<td>F</td>
+<td>—</td>
+<td>Prolec gain 효과</td>
+</tr>
+<tr>
+<td>Cash balance</td>
+<td>10,200</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>$1.4B 자본 환원 후도 강함</td>
+</tr>
+</tbody>
+</table>
+<p>→ (출처: GEV Q1 2026 Press Release, Presentation page 4·6·15)</p>
+<p><img alt="GE Vernova 분기별 Revenue &amp; Adj EBITDA Margin" src="2026-Q1_GEV_revenue_ebitda_trend.png"></p>
+<p>→ (출처: GEV Press Release page 2, Presentation Financial trending metrics page 15)
+→ Q2 2026 Outlook: 가이던스 미명시 (분기 outlook은 segment별만 제공)
+→ FY 2026 가이던스 raised: Revenue $44.5-45.5B (was $44-45B), Adj EBITDA Margin 12-14% (was 11-13%), FCF $6.5-7.5B (was $5.0-5.5B)</p>
+<p>② 사업부별 (Power · Electrification · Wind)</p>
+<p>(1) Q1 2026 사업부별 (USD $M)</p>
+<table>
+<thead>
+<tr>
+<th>사업부</th>
+<th>Orders</th>
+<th>YoY Org</th>
+<th>Revenue</th>
+<th>YoY Org</th>
+<th>EBITDA</th>
+<th>Margin</th>
+<th>Margin Δ YoY</th>
+<th>RPO 증가 코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Power</strong></td>
+<td><strong>10,008</strong></td>
+<td><strong>+59%</strong></td>
+<td>4,971</td>
+<td>+10%</td>
+<td><strong>811</strong></td>
+<td><strong>16.3%</strong></td>
+<td><strong>+470bps</strong></td>
+<td>+500bps org</td>
+</tr>
+<tr>
+<td>┗ Gas Power</td>
+<td>—</td>
+<td>—</td>
+<td>4,066</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>21 GW 신규, 100→110+ GW 가이드</td>
+</tr>
+<tr>
+<td>┗ Nuclear Power</td>
+<td>—</td>
+<td>—</td>
+<td>757</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>OPG SMR 진행, 미일 $40B SMR JV</td>
+</tr>
+<tr>
+<td>┗ Hydro Power</td>
+<td>—</td>
+<td>—</td>
+<td>148</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Electrification</strong></td>
+<td><strong>7,112</strong></td>
+<td><strong>+86%</strong></td>
+<td>2,959</td>
+<td><strong>+29%</strong></td>
+<td><strong>528</strong></td>
+<td><strong>17.8%</strong></td>
+<td><strong>+670bps</strong></td>
+<td>book-to-bill 2.5</td>
+</tr>
+<tr>
+<td>┗ Power Transmission</td>
+<td>—</td>
+<td>—</td>
+<td>1,380</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Prolec GE 추가, 변압기 +99%</td>
+</tr>
+<tr>
+<td>┗ Grid Systems Integration</td>
+<td>—</td>
+<td>—</td>
+<td>691</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>HVDC + 데이터센터</td>
+</tr>
+<tr>
+<td>┗ Power Conversion &amp; Storage</td>
+<td>—</td>
+<td>—</td>
+<td>477</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>┗ Grid Automation &amp; Software</td>
+<td>—</td>
+<td>—</td>
+<td>411</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Wind</strong></td>
+<td>1,199</td>
+<td>+85%</td>
+<td>1,432</td>
+<td>-25%</td>
+<td>-382</td>
+<td>-26.7%</td>
+<td>-1,880bps</td>
+<td>low base 효과, 2026 FY -$400M EBITDA 손실 가이드</td>
+</tr>
+<tr>
+<td>┗ Onshore Wind</td>
+<td>—</td>
+<td>—</td>
+<td>1,186</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>-39% equipment</td>
+</tr>
+<tr>
+<td>┗ Offshore Wind</td>
+<td>—</td>
+<td>—</td>
+<td>246</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Dogger Bank A·Vineyard 완공</td>
+</tr>
+<tr>
+<td><strong>Group</strong></td>
+<td><strong>18,279</strong></td>
+<td><strong>+71%</strong></td>
+<td><strong>9,339</strong></td>
+<td><strong>+7%</strong></td>
+<td><strong>896</strong></td>
+<td><strong>9.6%</strong></td>
+<td><strong>+390bps</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>→ (출처: GEV Press Release page 3-4, Presentation page 7-9·15-19)</p>
+<p><img alt="GE Vernova 3개 Segment Q1 2026 실적" src="2026-Q1_GEV_segment_breakdown.png"></p>
+<p>(1-1) Power — 가스터빈 슈퍼사이클 본격
+→ <strong>신규수주 $10.0B (+59% org)</strong> — Gas Power 가격 인상 + Nuclear Power 대형 service order
+→ <strong>가스터빈 21 GW 신규</strong> = 19 GW slot reservation + 2 GW orders. Backlog 40→44 GW + Slot 43→56 GW = <strong>합산 100 GW (1Q 시작 83 GW에서 +17 GW)</strong>
+→ <strong>연말 가이드: 110+ GW</strong> (was 90 GW level in Q4'25 commentary)
+→ <strong>April quarter-to-date: 이미 Q1 전체보다 더 많은 power equipment 수주 booked</strong> (CEO 명시) — 2Q 가속 leading indicator
+→ <strong>가격 인상</strong>: 1H26 orders pricing <strong>+10~20%</strong> vs Q4'25 ($/kW 기준)
+→ Production capacity: 280+ new machines installed, 20 GW annualized output by 3Q
+→ Margin <strong>16.3% (+470bps)</strong> — 가격 + 볼륨 + productivity, capacity·R&amp;D 투자 일부 offset
+→ <strong>2Q26 가이드</strong>: Power 매출 +15-17% organic, EBITDA margin 17-18%</p>
+<p>(1-2) Electrification — <strong>한국 3사와 가장 직접 비교 사업부</strong>
+→ <strong>신규수주 $7.1B (+86% org, +111% USD)</strong> — book-to-bill <strong>2.5</strong> (압도적)
+→ Equipment orders 단독 +99% YoY org
+→ <strong>데이터센터 equipment orders 단일 분기 $2.4B = FY 2025 전체 ($2.0B) 초과</strong> (CEO: "more than the full year '25 results")
+→ <strong>Equipment 백로그 $38.6B (+75% YoY)</strong> — Prolec GE 인수로 +$5B 추가
+→ Total Electrification 백로그 $42B (vs FY22 $9B = <strong>4.7배</strong>)
+→ HVDC 백로그 ~$10B (주로 유럽), 아시아 신규 대형 수주 발생
+→ <strong>2030년 예상 TAM $300B</strong> (현재 offering 기반)
+→ Power Transmission 매출 $1.38B (vs Q1'25 $692M = <strong>+99%</strong>) — Prolec 효과 + 변압기 슈퍼사이클
+→ Grid Systems Integration $691M (vs $390M = <strong>+77%</strong>) — HVDC + 데이터센터 솔루션
+→ Margin <strong>17.8% (+670bps reported, +590bps organic)</strong> — 볼륨·가격·productivity
+→ <strong>2Q26 가이드</strong>: Electrification 매출 $3.3-3.5B (vs Q1 $2.96B), modest sequential margin expansion</p>
+<p>(1-3) Wind — 한국 3사 직접 비교 약함, 일시 약세
+→ Orders +85% org이나 low base
+→ Revenue -25% org, Onshore Wind equipment -39%
+→ EBITDA loss $(382M) (margin -26.7%) — 관세 + offshore 계약 손실
+→ Dogger Bank A + Vineyard Wind 설치 완료, Dogger Bank B 시작
+→ <strong>2Q26 가이드</strong>: revenue mid-teens 감소, EBITDA loss $200-300M
+→ <strong>FY26 가이드</strong>: organic revenue down low double-digit, ~$400M EBITDA loss (변화 없음)</p>
+<p>② 백로그 (RPO) 추이 — secular thesis 핵심 입증</p>
+<p><img alt="GE Vernova 수주 백로그 추이" src="2026-Q1_GEV_backlog_trend.png"></p>
+<p>(2-1) 핵심 시그널
+→ <strong>Total Backlog $163.3B (+32% YoY)</strong> — spin (4/2024) 시점 $116B → <strong>15개월에 +$47B 증가</strong>
+→ <strong>Equipment Backlog $75.9B (+67% YoY)</strong> — 슈퍼사이클 정량 입증
+→ <strong>2027년 백로그 $200B 도달 가이드 (기존 2028 → 1년 단축)</strong> — CEO 명시
+→ <strong>한국 3사 합산 (효성 15.1 + HD 11.5 + LS 5.6 = 32.2조 ≈ $22B)</strong> vs GEV Equipment 단독 $76B → <strong>GEV 단일이 한국 3사 합산의 3.5배</strong> = 글로벌 슈퍼사이클 절대 규모 reference</p>
+<hr>
+<h2 id="3-earnings-call">항목 3. 경영진 코멘터리 (Earnings Call 핵심 인용)</h2>
+<p>① CEO Scott Strazik 핵심 발언</p>
+<p>(1) 슈퍼사이클·전체 시각
+→ "We've had a solid start to '26. As global electrification accelerates, the structural drivers underpinning demand for our solutions continue to strengthen. <strong>The growth is just starting</strong>, and there is no company better positioned to serve and transform the global electricity system than GE Vernova."
+→ "Since our spin, we launched with $116 billion backlog. We've grown this backlog to $163 billion, with an 80% increase in our equipment backlog at considerably better margins. In the last 90 days, we've added $13 billion to our total backlog and now expect to reach $200 billion in backlog in '27 versus our previous expectation of '28."</p>
+<p>(2) Power · 가스터빈 슈퍼사이클
+→ "Signed 21 gigawatts in countries like the US, Vietnam, Mexico, Brazil and Canada to grow our total gigawatts under contract from 83 to 100 gigawatts sequentially."
+→ "Our momentum has continued into April. Quarter-to-date, we have booked more power equipment orders in terms of value than we did in all of Q1'26."
+→ "On pricing, we expect our orders in the first half of '26 to be priced 10 to 20 points higher than our 4Q'25 orders on a dollar per kW basis."
+→ "We now expect to book 10 to 15 gigawatts of contracts in Q2 and to end '26 with at least 110 gigawatts under contract."
+→ <strong>80% traditional / 20% data center</strong> customer mix (gas turbine)</p>
+<p>(3) Nuclear · SMR
+→ "We are inspired and appreciative of the US and Japanese government's announcement of up to <strong>$40 billion for GE Vernova Hitachi to build SMRs in the U.S.</strong>"
+→ "We expect the NRC to issue the license to construct for Clinch River in Tennessee as soon as the second half of '26."
+→ Canadian OPG Darlington SMR Unit 1 — basemat 설치 곧 시작</p>
+<p>(4) Electrification · 데이터센터 — <strong>한국 3사 핵심 cue</strong>
+→ "Electrification's growth trajectory has been significant. Since year-end '22, its backlog has grown from $9 billion to $42 billion."
+→ "<strong>Q1 Electrification orders to the data centers were more than full year '25 results</strong>. Just to repeat that — our Q1 Electrification orders to data centers were more than full year '25 results."
+→ "Electrification's backlog in North America is now nearly as large as its backlog in Europe, following a strong Q1 and the addition of Prolec."
+→ HVDC 백로그 ~$10B, 주로 유럽이나 아시아 신규 대형 수주 발생
+→ Power Transmission: "Prolec GE expands transformer offerings, scale, &amp; flexibility" — 변압기 시장 점유율 가속 의지
+→ "We'll approach $14.5 billion in revenue this year, but project an annual addressable market by the end of the decade of approximately <strong>$300 billion based on what we offer today</strong>. Point being, there remains substantial opportunity for us to grow."</p>
+<p>(5) Middle East 영향
+→ "Regarding recent conflicts in the Middle East, the safety and well-being of our employees and partners in the region remains our top priority, and we continue operations in the region where it is safe to do so. We are monitoring the situation closely and have seen <strong>minimal impact to our business and financial performance to-date</strong>."</p>
+<p>(6) Operations · AI
+→ Kaizen Week (~200 events, 2,000 team members) — 100,000+ lifting activities elimination, 480+ days production time reduction
+→ "Coming out of the Kaizen Week, we see the opportunity for <strong>over $100 million in EBITDA improvement in future years</strong>"
+→ "13 AI-based process transformations" → "now working to <strong>double the transformations to 26</strong>"
+→ Prolec 1차 Kaizen: transformer tank subassembly 70% rework 감소, 40% output 개선</p>
+<p>② CFO Ken Parks 핵심 발언</p>
+<p>(1) 가이던스 상향 근거
+→ "Our backlog grew to $163 billion, inclusive of Prolec GE. We maintained a strong investment grade balance sheet, growing our healthy cash balance to $10.2 billion with significant free cash flow generation and proceeds from dispositions"
+→ "Given our strong results and continued business momentum, we are increasing our guidance for 2026 revenue, adjusted EBITDA margin, and free cash flow."</p>
+<p>(2) Capital Allocation
+→ Q1: $1.4B 자본 환원 (분기배당 $0.50/share + 자사주 $1.3B/1.8M shares avg $720)
+→ $2.6B senior notes 발행 (BBB / BBB+ rating)
+→ Prolec GE 인수 ($5.3B for remaining 50%, 2/2/2026 closing)
+→ Proficy 매각 ($0.6B, TPG)
+→ R&amp;D + CapEx Q1 합산 ~$700M (R&amp;D +25% YoY)
+→ FY 2025-2028: CapEx $6B 약정 (Prolec 추가 $1B 2026-2028) + R&amp;D $5B 약정</p>
+<hr>
+<h2 id="5-3-cross-reference">항목 5. 업황 사이클 점검 — <strong>한국 3사 cross-reference (본 리뷰의 핵심)</strong></h2>
+<p>① 산업 사이클 위치 — <strong>확장 가속 (slope steepening) + 정량 확정</strong></p>
+<p>(1) 데이터센터 — secular 슈퍼사이클 정량 확정
+→ ABB가 "데이터센터 triple-digit + CAGR 35%"이라 했고 <strong>GEV는 "단일 분기 수주 $2.4B = 작년 전체 초과"</strong> = 정량적으로 더 강한 cue
+→ <strong>한국 3사 적용</strong>:
+  - LS일렉트릭 빅테크 X사 누적 3,530억 + A사 1,703억 + 2025 데이터센터 1조 + 2026 1.5조 추정 → GEV의 단일 분기 $2.4B 대비 한국 3사 누적 ~$2B 수준 = 시장 점유율 LS는 $400-500M 범위
+  - HD현대일렉트릭 AIDC 발전 패키지 6,800억 (그룹사 협의체) + 직수주 100kV 변압기 → GEV의 그리드+발전 통합 솔루션과 직접 경쟁
+  - 효성중공업 765kV 미국 PJT 9,200억 + 데이터센터 직수주 → GEV Power Transmission $1.38B (Prolec) 변압기 사업과 직접 경쟁</p>
+<p>(2) US Utilities + 765kV 그리드 투자 — 본격 개화 + GEV 가격 인상 신호
+→ GEV Power Transmission 변압기 매출 +99% YoY (Prolec) — 변압기 시장 글로벌 가속
+→ <strong>한국 3사 적용</strong>: 효성·HD 765kV 모멘텀 confirm + <strong>변압기 가격 인상 여지 추가 시그널</strong> (GEV 가스터빈 +10-20% pricing이 변압기에도 spillover 가능)</p>
+<p>(3) HVDC — 한국 3사 (특히 효성) 핵심 cue
+→ GEV HVDC 백로그 $10B 대부분 유럽, <strong>아시아 신규 대형 수주</strong> 발생
+→ <strong>한국 3사 적용</strong>: 효성중공업 전압형 HVDC 독자기술 → 아시아 HVDC 시장 확대 = 효성에 직접 기회. GEV가 아시아 시장 1Q에 진입 → 효성 후속 수주 기회 동시 확장</p>
+<p>(4) 가스터빈 가격 +10-20% — 산업 가격 인상 환경 confirm
+→ GEV Power Q4'25 → 1H'26 orders pricing <strong>+10-20%</strong> ($/kW)
+→ <strong>한국 3사 적용</strong>: 한국 3사도 1Q26에 3월(국내)·4월(해외) 판가 인상 단행. GEV의 +10-20% 폭은 한국 3사보다 강함 → <strong>2H26 한국 3사 추가 가격 인상 여지 시그널</strong></p>
+<p>(5) M&amp;A 가속 (Prolec GE $5.3B) — 한국 3사 점유율 잠식 위험 OR 한국 3사 M&amp;A 압박
+→ GEV가 Prolec GE 인수로 변압기 사업 즉시 50% 확장
+→ <strong>한국 3사 적용</strong>:
+  - 위험: Prolec은 미국·중남미 변압기 시장 강자 → 효성·HD의 미국 시장 점유율 잠식 가능
+  - 기회: 글로벌 산업 통합 가속 → 한국 3사 M&amp;A 가능성 (HD 그룹사 협의체 확장, 효성 글로벌 인수)</p>
+<p>② 글로벌 피어 vs 한국 3사 Q1 2026 비교 (cross-reference 핵심)</p>
+<p><img alt="GEV vs ABB vs 한국 3사 Q1 2026 비교" src="2026-Q1_GEV_peer_comparison.png"></p>
+<p>(1) EBITDA Margin 비교 (전사 vs 핵심 사업부)</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>전사 EBITDA Margin</th>
+<th>핵심 사업부 Margin</th>
+<th>Wind/Auto·자회사 영향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HD현대일렉트릭</td>
+<td><strong>24.9%</strong></td>
+<td>24.9% (전력기기 single-segment)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ABB Group</td>
+<td>23.5%</td>
+<td>23.5% (Real estate gain incl.)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ABB Electrification (사업부)</td>
+<td>—</td>
+<td><strong>24.0%</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>GEV Electrification (사업부)</td>
+<td>—</td>
+<td><strong>17.8%</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>GEV Power (사업부)</td>
+<td>—</td>
+<td>16.3%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GEV Group</td>
+<td><strong>9.6%</strong></td>
+<td>17.0% (ex-Wind)</td>
+<td>Wind -27% drag</td>
+</tr>
+<tr>
+<td>효성중공업</td>
+<td>11.2%</td>
+<td>— (이연 가산 14.1%)</td>
+<td>건설 7.2% (소폭 dilution)</td>
+</tr>
+<tr>
+<td>LS ELECTRIC</td>
+<td>9.2%</td>
+<td>12.2% (전력 부문만)</td>
+<td>자동화 3.3% + 자회사 5.4% dilution</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>시그널</strong>: HD 24.9% &gt; ABB Electrification 24.0% &gt; GEV Electrification 17.8% &gt; GEV Power 16.3% &gt; 효성 14.1% (이연 가산) &gt; LS 전력 12.2%
+→ <strong>HD가 글로벌 피어 OPM 최상위권 입증</strong> (ABB Electrification과 동급, GEV Electrification 추월)
+→ <strong>GEV Electrification 17.8%는 LS·효성 대비 +5pp 우위</strong> = LS·효성 OPM 개선 여지 reference</p>
+<p>(2) 신규수주 YoY% 비교 (Comparable / Organic)</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>Q1 26 신규수주 YoY</th>
+<th>사상 최대 여부</th>
+<th>절대 규모 (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>효성중공업</strong></td>
+<td>+108% USD</td>
+<td>✓ 단일 분기 사상 최대</td>
+<td>~$2.9B</td>
+</tr>
+<tr>
+<td><strong>GEV</strong></td>
+<td><strong>+71% organic</strong></td>
+<td>— (1Q'25 base 작음 + Prolec)</td>
+<td><strong>$18.3B</strong></td>
+</tr>
+<tr>
+<td><strong>GEV Electrification</strong></td>
+<td><strong>+86% organic</strong></td>
+<td>—</td>
+<td>$7.1B</td>
+</tr>
+<tr>
+<td>GEV Power</td>
+<td>+59% organic</td>
+<td>—</td>
+<td>$10.0B</td>
+</tr>
+<tr>
+<td>HD현대일렉트릭</td>
+<td>+35% USD</td>
+<td>✓ 단일 분기 사상 최대</td>
+<td>~$1.8B</td>
+</tr>
+<tr>
+<td>ABB Group</td>
+<td>+24% comparable</td>
+<td>✓ 단일 분기 사상 최대</td>
+<td>~$11.3B</td>
+</tr>
+<tr>
+<td>LS ELECTRIC</td>
+<td>+27% USD</td>
+<td>✗ (4Q25 1.57조 최대)</td>
+<td>~$0.75B</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>시그널</strong>: GEV 절대 규모 $18.3B는 ABB $11.3B의 1.6배, 한국 3사 합산 (~$5.5B)의 3.3배. <strong>글로벌 피어 슈퍼사이클의 absolute scale을 보여주는 핵심 reference</strong></p>
+<p>(3) 데이터센터 수주 정량 비교</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>Q1 26 데이터센터 수주</th>
+<th>한국 3사 응용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GEV Electrification</strong></td>
+<td><strong>$2.4B (작년 전체 $2.0B 초과)</strong></td>
+<td>LS 누적 + HD AIDC + 효성 직수주 합산해도 ~$1.5B 수준</td>
+</tr>
+<tr>
+<td>ABB Electrification</td>
+<td>"Triple-digit YoY", CAGR 35% (2019-25)</td>
+<td>정량 미공개이나 GEV보다 작을 가능성</td>
+</tr>
+<tr>
+<td>LS ELECTRIC</td>
+<td>빅테크 A사 1,703억 + LS파워솔루션 1,066억 = ~$2.0B (2025 누적)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>HD현대일렉트릭</td>
+<td>AIDC 그룹사 협의체 6,800억 (HD 비중 6-10% = $40-65M)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>효성중공업</td>
+<td>데이터센터 직수주 미공개 (765kV 9,200억 별도)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>시그널</strong>: GEV 데이터센터 수주 절대 규모가 한국 3사 합산보다 큼. 그러나 한국 3사도 단납기·LTA 구조로 회전 빠르므로 매출 인식 측면에서는 동등 수준 가능</p>
+<p>③ 독자적 전망 (한국 3사 인뎁스 분석 시 활용)</p>
+<p>(1) FY 2026 가이던스 상향이 주는 시사</p>
+<p><img alt="GE Vernova FY26 Guidance Raised" src="2026-Q1_GEV_guidance_raise.png"></p>
+<p>→ GEV가 1Q에 이미 매우 공격적 가이던스 상향:
+  - Revenue +$0.5B (top of range +1.1%)
+  - EBITDA margin +1pp
+  - <strong>FCF +30%</strong> (가장 큰 폭 상향)
+→ <strong>한국 3사 적용</strong>: 한국 3사도 통상 2Q (8월 중) 가이던스 상향. GEV의 1Q 상향 폭이 가장 크므로 <strong>한국 3사 8월 가이던스 상향 폭도 클 가능성</strong>:
+  - 효성중공업: 7.6조 신규수주 → 11~13조 (+45~70%) — Daishin/LS 추정과 일치
+  - HD현대일렉트릭: 42억$ → 50~60억$ (+20-40%)
+  - LS ELECTRIC: 30년 매출 10조 목표 1년+ 조기 달성 가능성</p>
+<p>(2) 가스터빈 가격 인상 +10-20% spillover
+→ GEV의 가스터빈 가격 인상이 변압기·차단기 산업으로 spillover 시 한국 3사 추가 가격 인상 여지
+→ 한국 3사는 1Q에 3월/4월 1차 인상 → <strong>GEV reference 보면 2H26 추가 인상 가능성</strong></p>
+<p>(3) M&amp;A 가속 — 한국 3사 위험 / 기회
+→ GEV Prolec GE $5.3B + ABB $4B deal welcome 명시 + 자사주 매입 가속
+→ <strong>한국 3사 위험</strong>: Prolec은 미국 변압기 시장 강자 → 효성·HD 미국 점유율 잠식 가능성
+→ <strong>한국 3사 기회</strong>: 글로벌 산업 통합 가속 → 한국 3사 자체 M&amp;A (HD 협의체 확장·효성 글로벌 인수)</p>
+<p>(4) Backlog $200B 1년 단축의 함의
+→ GEV 백로그 목표 2028 → 2027 단축 = secular 슈퍼사이클 가속 정량 확정
+→ <strong>한국 3사 적용</strong>: 한국 3사 백로그도 가속 가능성 — 2H26 신규수주 가이던스 추가 상향 시 백로그 가속 본격화</p>
+<hr>
+<h2 id="7-3-cue">항목 7. 관전 포인트 — 한국 3사 분석 시 활용 cue</h2>
+<p>⑦ 한국 3사 다음 분기 분석 시 GEV 시그널 활용 가이드</p>
+<p>(1) <strong>데이터센터 secular 정량 확정 cue</strong>
+→ GEV Q1 데이터센터 $2.4B = FY25 전체 초과 — secular thesis 정량 확정 강력 cue
+→ <strong>활용</strong>: 한국 3사 (특히 LS·HD) 데이터센터 narrative 강화. 효성도 765kV 외 데이터센터 직수주 narrative 시작 가능</p>
+<p>(2) <strong>HVDC 아시아 신규 수주 = 효성 직접 기회</strong>
+→ GEV HVDC $10B 백로그 + 아시아 신규 대형 수주
+→ <strong>활용</strong>: 효성중공업 전압형 HVDC 독자기술 → 아시아 HVDC 시장 확대 시 효성 후속 수주 기회 narrative</p>
+<p>(3) <strong>가스터빈 가격 +10-20% spillover로 변압기·차단기 가격 추가 인상 여지</strong>
+→ GEV 가격 +10-20% (1H26 vs Q4'25, $/kW)
+→ <strong>활용</strong>: 한국 3사 2H26 추가 가격 인상 가능성 narrative — 효성 OPM 16% 회복 가속, HD OPM 27% 회복 가속, LS OPM 10% 안정화</p>
+<p>(4) <strong>가이던스 상향 leading indicator (가장 강력)</strong>
+→ GEV: Revenue +$0.5B, EBITDA margin +1pp, <strong>FCF +30%</strong> 가이던스 상향
+→ <strong>활용</strong>: 한국 3사 8월 가이던스 상향 가능성 매우 높음 narrative. ABB가 "slightly improve" → "raise" 한 패턴과 동조하여 더 강한 cue</p>
+<p>(5) <strong>M&amp;A 가속 위험 vs 기회</strong>
+→ GEV Prolec GE $5.3B + ABB $4B deal welcome
+→ <strong>위험 활용</strong>: 한국 3사 미국 점유율 잠식 risk monitoring (효성 미국 765kV 1위 vs Prolec 진입)
+→ <strong>기회 활용</strong>: 한국 3사 자체 M&amp;A 가능성 (HD 협의체 확장·효성 글로벌 인수)</p>
+<p>(6) <strong>백로그 절대 규모 reference</strong>
+→ GEV Equipment backlog $76B vs 한국 3사 합산 ~$22B
+→ <strong>활용</strong>: 한국 3사 백로그 가속 여지 정량 reference (한국 3사 +$10B 추가 가능성)</p>
+<p>⑦ GEV 자체 다음 분기 (Q2 2026) 모니터링</p>
+<p>(1) Q2 가스터빈 10-15 GW 수주 달성 여부 (가이드)
+(2) Q2 Power 매출 15-17% organic, EBITDA margin 17-18% (가이드)
+(3) Q2 Electrification 매출 $3.3-3.5B, modest sequential margin expansion
+(4) 데이터센터 수주 단일 분기 $2.4B+ 지속 여부
+(5) 미일 SMR $40B JV 진행 (NRC 라이선스 2H26 가능성)
+(6) FY26 가이던스 추가 상향 가능성 (Q2 시점)</p>
+<hr>
+<h2 id="3-timing">[향후 관찰 포인트] — 한국 3사 분석 timing</h2>
+<p>→ <strong>2026 5월 중</strong>: Schneider Electric (4/30 발표) + Hitachi Energy (4/30 발표) review 추가 작성 → 글로벌 피어 4사 (ABB·GEV·SE·HE) 통합 cross-reference 완성
+→ <strong>2026 5/16 quarterly-review Stage 2</strong>: 9사 통합 분석 자동 수행 — <strong>GEV·ABB가 1·2번째 글로벌 피어 cue로 활용</strong>
+→ <strong>2026 7월 중</strong>: 한국 3사 2Q26 프리뷰 작성 시 본 GEV review 핵심 5대 시그널 (데이터센터 $2.4B, HVDC 아시아 수주, 가격 +10-20%, 가이던스 상향, M&amp;A 가속) 자동 활용
+→ <strong>2026 8월 중</strong>: 한국 3사 2Q26 잠정실적 + 가이던스 상향 발표 시 GEV reference로 상향 폭 적정성 평가</p>
+<hr>
+<blockquote>
+<p><strong>다음 단계</strong>: 글로벌 피어 4사 (Schneider Electric·Hitachi Energy·Eaton·Siemens Energy) 자료 첨부 시 발표일 빠른 순으로 차례 review 작성. 본 GEV review 형식 (가벼운 깊이 + 한국 3사 cross-ref 강조) 일관 적용. ABB·GEV review의 cross-ref pattern 정착 시 5/16 Stage 2 통합 분석 본격 가동.
+<strong>Stage 2 자동 연계</strong>: GEV review = <code>2026-Q1_GEV_리뷰.md</code> + 메타데이터 [섹터: 전력 인프라] 표준 위치 저장 → quarterly-review Stage 2 자동 로드.
+<strong>인뎁스 분석 잠재 논점</strong>: ① 데이터센터 $2.4B → secular vs cyclical 정량 임계값 (sustainable 분기 수주 base는?), ② Prolec GE M&amp;A 효과 — 효성·HD 미국 점유율 잠식 정량화, ③ HVDC 아시아 신규 수주 = 효성 직접 기회의 정량화, ④ GEV Electrification 17.8% vs ABB Electrification 24.0% vs HD 24.9% — 사업 mix 차이의 multiple 정당화.</p>
+</blockquote>
+</div>
+</body>
+</html>

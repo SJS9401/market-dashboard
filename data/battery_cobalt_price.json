@@ -2,7 +2,7 @@
   "metric": "코발트 월별 평균 가격",
   "unit": "$/kg or $/t",
   "source": "Battery_Weekly_2026.4.27.pdf",
-  "extracted_at": "2026-05-03T23:29:45",
+  "extracted_at": "2026-05-03T23:44:55",
   "data": [
     {
       "date": "2017-04-30",
@@ -428,7 +428,7 @@
   "verified": true,
   "needs_review": false,
   "verification": {
-    "drift": "first_run",
+    "drift": "ok",
     "matched_label": "도표 65. 코발트 월별 평균 가격 추이",
     "dy": 0.0,
     "dx": 0.0
