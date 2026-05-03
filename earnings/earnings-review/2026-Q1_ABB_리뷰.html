@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABB Q1 2026 실적 리뷰 — 글로벌 피어 (전력 인프라)</title>
+<style>
+:root { --bg: #0d1117; --bg-elevated: #161b22; --bg-table-alt: #1c2128; --text: #e6edf3; --text-secondary: #8b949e; --accent: #58a6ff; --accent-2: #2ea043; --warn: #f85149; --border: #30363d; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif; font-size: 15px; line-height: 1.65; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-top: 32px; color: #fff; }
+h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 40px; color: var(--accent); }
+h3 { font-size: 18px; margin-top: 28px; color: var(--text); }
+blockquote { background: var(--bg-elevated); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; color: var(--text-secondary); font-size: 14px; border-radius: 0 6px 6px 0; }
+blockquote p { margin: 4px 0; }
+table { border-collapse: collapse; width: 100%; margin: 14px 0 24px; font-size: 13px; background: var(--bg-elevated); border-radius: 6px; overflow: hidden; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; white-space: nowrap; }
+th { background: #1c2630; color: var(--accent); font-weight: 600; }
+tr:nth-child(even) td { background: var(--bg-table-alt); }
+strong { color: #fff; font-weight: 600; }
+em { color: var(--accent-2); }
+code { background: var(--bg-table-alt); border-radius: 3px; padding: 1px 5px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+figure.chart { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin: 18px 0; text-align: center; }
+figure.chart img { max-width: 100%; height: auto; border-radius: 4px; }
+figure.chart figcaption { margin-top: 8px; font-size: 12px; color: var(--text-secondary); font-style: italic; }
+ul, ol { padding-left: 22px; }
+li { margin: 4px 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+<blockquote>
+<p>모드: 실적 리뷰 (글로벌 피어 — 가벼운 깊이)
+종목: ABB Ltd (ABB / NYSE ADR, ABBN.SW Swiss primary)
+섹터: 전력 인프라
+분기: 2026-Q1 (Q1 FY26, 분기 종료 2026-03-31)
+발표일: 2026-04-22 (수, Zurich) — IR자료 + Earnings Call (4:00 AM EDT) 동시 발행
+작성 시각: 2026-05-03 21:00 KST</p>
+</blockquote>
+<h1 id="abb-q1-2026-3-cue">ABB Q1 2026 실적 리뷰 (글로벌 피어 — 한국 전력 인프라 3사 선행 cue)</h1>
+<blockquote>
+<p><strong>본 리뷰는 글로벌 피어 워크플로우 (workflow rule 4)에 따라 한국 종목 review 7개 항목 중 핵심 4-5개로 압축 작성</strong>: 1번 실적 추이, 3번 경영진 코멘터리, 5번 업황 사이클(특히 한국 3사 cross-ref), 7번 관전포인트. 컨센·셀사이드 5단계는 글로벌 피어 가벼운 깊이 룰에 따라 생략.
+<strong>본 리뷰의 1차 목적</strong>: ABB(4/22 발표) → LS일렉트릭(4/21) → GEV(4/23) → 효성(4/25) → HD(4/28) 순서로 같은 분기 내 발표되는 한국 전력 인프라 3사 review·인뎁스 분석 시 산업 사이클 cue로 활용.
+동일 폴더 한국 3사 review (<code>2026-Q1_효성중공업_리뷰.md</code>, <code>2026-Q1_HD현대일렉트릭_리뷰.md</code>, <code>2026-Q1_LS일렉트릭_리뷰.md</code>) 자동 cross-reference.</p>
+</blockquote>
+<h2 id="executive-summary-3-5">Executive Summary — 한국 3사에 미치는 5대 시그널</h2>
+<p>→ <strong>데이터센터 수요 = 명확한 stand-out 영역</strong> — Electrification 사업부 데이터센터 신규수주 <strong>triple-digit YoY 증가</strong>, 2019~2025 CAGR 35%. CFO Christian Nilsson 인용: "Pipeline looks good, expect another strong year". <strong>이는 LS일렉트릭의 빅테크 LTA 패키지 narrative + HD현대일렉트릭의 AIDC 온사이트 발전 thesis + 효성중공업의 765kV 모멘텀 모두 confirm</strong>.
+→ <strong>Utilities 그리드 투자 호조</strong> — Electrification 백로그 $11.5B (+38% comparable), book-to-bill 1.44. <strong>한국 3사의 765kV·HVDC 모멘텀이 단일 기업 호조가 아닌 산업 전체 슈퍼사이클 입증</strong>. CEO 인용: "Investment in efficient, smart, and reliable grid are needed to make power available and accessible. We see this happening particularly in the U.S."
+→ <strong>미국 신규수주 +67% YoY (comparable) 폭증</strong> — Americas 전체 +48%, US +67%. <strong>한국 3사의 미국 비중 확대 narrative (효성 잔고 53%·HD 69%·LS 빅테크 직수주) 강하게 confirm</strong>. CEO: "U.S. base orders 30% 개선" (large bookings 제외 underlying 강도)
+→ <strong>Q1 2026 OPM 23.5%로 사상 최강 (real estate 250bps gain 제외 시 21%)</strong> — +320bps YoY 중 +70bps는 real business improvement. <strong>한국 3사 OPM (효성 11.2%·HD 24.9%·LS 9.2%) 비교 시 ABB가 효성·LS보다 높고 HD와 비슷</strong>. 글로벌 피어 OPM 20%대가 정상화 reference로 자리잡음 → <strong>HD 24.9%·HD-equivalent 정당화</strong>.
+→ <strong>2026 가이던스 상향</strong> — 종전 "slightly improve" → 신규 "high single-digit to low double-digit comparable revenue growth + OPM improve YoY". <strong>한국 3사 가이던스 상향 가능성에 대한 강한 leading indicator</strong> (효성 7.6조 → 11~13조 추정, HD 42억$ → 50~60억$ 추정 narrative와 동조).</p>
+<hr>
+<h2 id="1-q1-2026-outlook">항목 1. 실적 추이 (Q1 2026 + Outlook)</h2>
+<p>① 핵심 손익 (Q1 2026 vs Q1 2025, USD $M)</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>Q1 2026</th>
+<th>Q1 2025</th>
+<th>YoY (USD)</th>
+<th>YoY Comparable</th>
+<th>코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>신규수주</strong></td>
+<td><strong>11,298</strong></td>
+<td>8,589</td>
+<td><strong>+32%</strong></td>
+<td><strong>+24%</strong></td>
+<td><strong>사상 최대 분기</strong> (Q1, 새로운 record)</td>
+</tr>
+<tr>
+<td>매출</td>
+<td>8,734</td>
+<td>7,382</td>
+<td>+18%</td>
+<td>+11%</td>
+<td>단기 cycle 강세 + FX +6%</td>
+</tr>
+<tr>
+<td>Gross Profit</td>
+<td>3,440</td>
+<td>3,122</td>
+<td>+10%</td>
+<td>+3%</td>
+<td>GPM 39.4% (-290bps, FX/원자재 hedge 영향)</td>
+</tr>
+<tr>
+<td>Income from operations</td>
+<td>1,780</td>
+<td>1,474</td>
+<td>+21%</td>
+<td>—</td>
+<td>OPM 20.4% (+40bps)</td>
+</tr>
+<tr>
+<td><strong>Operational EBITA</strong></td>
+<td><strong>2,049</strong></td>
+<td>1,495</td>
+<td><strong>+37%</strong></td>
+<td><strong>+28%</strong></td>
+<td><strong>margin 23.5% (+320bps)</strong></td>
+</tr>
+<tr>
+<td>┗ ex-real estate gain</td>
+<td>~1,672</td>
+<td>—</td>
+<td>~+12%</td>
+<td>—</td>
+<td>margin ~21% (+70bps real biz)</td>
+</tr>
+<tr>
+<td>Net income (ABB)</td>
+<td>1,324</td>
+<td>1,102</td>
+<td>+20%</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>EPS (basic)</td>
+<td>$0.73</td>
+<td>$0.60</td>
+<td>+21%</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Free Cash Flow</strong></td>
+<td><strong>1,250</strong></td>
+<td>652</td>
+<td><strong>+92%</strong></td>
+<td>—</td>
+<td><strong>Q1 사상 최강</strong> (real estate $425M 포함)</td>
+</tr>
+<tr>
+<td><strong>Order Backlog</strong></td>
+<td><strong>27,515</strong></td>
+<td>~22,500</td>
+<td><strong>+27%</strong></td>
+<td><strong>+22%</strong></td>
+<td><strong>사상 최대</strong></td>
+</tr>
+<tr>
+<td>ROCE</td>
+<td>27.2%</td>
+<td>24.4%</td>
+<td>+280bps</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Book-to-bill</td>
+<td><strong>1.29</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>모든 사업부 positive</td>
+</tr>
+</tbody>
+</table>
+<p>→ (출처: ABB Q1 2026 Press Release page 1, Group Presentation page 3)</p>
+<p><img alt="ABB Group 분기별 Revenue &amp; Operational EBITA Margin" src="2026-Q1_ABB_revenue_opebita_trend.png"></p>
+<p>→ (출처: ABB Q1 2026 Press Release Additional figures + Earnings Call Outlook)
+→ Q2 2026 가이던스: 매출 high single-digit to low double-digit comparable growth, OPM improve YoY
+→ FY 2026 가이던스 상향: 매출 동일 범위, OPM YoY improve <strong>excluding real estate gain</strong> (= 강한 underlying 모멘텀)</p>
+<p>② 사업부별 (Electrification·Motion·Automation, Robotics는 discontinued)</p>
+<p>(1) Q1 2026 사업부별 (USD $M)</p>
+<table>
+<thead>
+<tr>
+<th>사업부</th>
+<th>Orders</th>
+<th>YoY Comp</th>
+<th>Revenue</th>
+<th>YoY Comp</th>
+<th>Op EBITA</th>
+<th>OPM</th>
+<th>OPM Δ YoY</th>
+<th>Backlog</th>
+<th>Backlog YoY Comp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Electrification</strong></td>
+<td><strong>6,647</strong></td>
+<td><strong>+44%</strong></td>
+<td>4,613</td>
+<td>+15%</td>
+<td><strong>1,105</strong></td>
+<td><strong>24.0%</strong></td>
+<td><strong>+80bps</strong></td>
+<td><strong>11,460</strong></td>
+<td><strong>+38%</strong></td>
+</tr>
+<tr>
+<td>Motion</td>
+<td>2,548</td>
+<td>+9%</td>
+<td>2,142</td>
+<td>+7%</td>
+<td>398</td>
+<td>18.5%</td>
+<td>-110bps (Gamesa 희석)</td>
+<td>6,597</td>
+<td>+8%</td>
+</tr>
+<tr>
+<td>Automation</td>
+<td>2,464</td>
+<td>+5%</td>
+<td>2,147</td>
+<td>+10%</td>
+<td>311</td>
+<td>14.7%</td>
+<td>+50bps</td>
+<td>10,350</td>
+<td>+21%</td>
+</tr>
+<tr>
+<td><strong>Group 합계</strong></td>
+<td><strong>11,298</strong></td>
+<td><strong>+24%</strong></td>
+<td>8,734</td>
+<td>+11%</td>
+<td><strong>2,049</strong></td>
+<td><strong>23.5%</strong></td>
+<td><strong>+320bps</strong></td>
+<td><strong>27,515</strong></td>
+<td><strong>+22%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>→ (출처: ABB Q1 2026 Press Release page 6-8)</p>
+<p><img alt="ABB 4개 사업부 Q1 2026 실적" src="2026-Q1_ABB_segment_breakdown.png"></p>
+<p>(1-1) Electrification — <strong>한국 3사와 가장 직접 비교 가능 사업부</strong>
+→ <strong>신규수주 $6.6B (+44% comparable) — 사상 최대 분기</strong>
+→ 데이터센터 triple-digit YoY (2019~25 CAGR 35%) — <strong>LS일렉트릭 빅테크 패키지 narrative 동조</strong>
+→ Utilities double-digit + 모든 customer segment double-digit — <strong>효성·HD 765kV 모멘텀 동조</strong>
+→ Americas +80% comparable orders — <strong>한국 3사 미국 비중 확대 thesis confirm</strong>
+→ Backlog $11.5B (+38%), book-to-bill <strong>1.44</strong> — <strong>한국 3사 Backlog 형성 패턴과 다름</strong> (효성 4년·HD 3년 백로그 vs ABB Electrification 백로그/매출 ≈ 2.5년)
+→ <strong>OPM 24.0% (+80bps real business)</strong> — HD현대일렉트릭 24.9%와 거의 동일 = HD 멀티플 reference 정당화</p>
+<p>(1-2) Motion — Process 산업 mixed
+→ Orders +9% comparable, HVAC + Power 강세, Rail 일시 감소
+→ OPM 18.5% (-110bps) — Gamesa Electric 인수 dilution 70bps + High Power division 일시 비효율 15bps + project mix
+→ 한국 3사 직접 비교 사업부 없음 (HD 회전기기와 일부 겹침)</p>
+<p>(1-3) Automation — 한국 3사 cross-ref 약함
+→ Orders +5% comparable. Marine·Ports·Mining 강세, O&amp;G·Chemical 약세
+→ OPM 14.7% (+50bps), Backlog $10.4B (5분기 매출 커버)
+→ Middle East 영향 일부 발생 — Energy plants 공격으로 일부 customer disrupt (전체 매출의 5% 미만 영향)</p>
+<p>③ 지역별 (Q1 2026)</p>
+<table>
+<thead>
+<tr>
+<th>지역</th>
+<th>Orders ($M)</th>
+<th>YoY USD</th>
+<th>YoY Comp</th>
+<th>Revenue ($M)</th>
+<th>YoY USD</th>
+<th>YoY Comp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Americas</strong></td>
+<td><strong>4,584</strong></td>
+<td><strong>+52%</strong></td>
+<td><strong>+48%</strong></td>
+<td>3,391</td>
+<td>+21%</td>
+<td>+18%</td>
+</tr>
+<tr>
+<td>┗ US (highlight)</td>
+<td>n/a</td>
+<td><strong>+70%</strong></td>
+<td><strong>+67%</strong></td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Europe</td>
+<td>3,755</td>
+<td>+26%</td>
+<td>+13%</td>
+<td>2,992</td>
+<td>+17%</td>
+<td>+3%</td>
+</tr>
+<tr>
+<td>Asia/Middle East/Africa</td>
+<td>2,959</td>
+<td>+14%</td>
+<td>+10%</td>
+<td>2,351</td>
+<td>+16%</td>
+<td>+12%</td>
+</tr>
+<tr>
+<td>┗ China</td>
+<td>n/a</td>
+<td>+9%</td>
+<td>+3%</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>→ (출처: ABB Q1 2026 Press Release page 3)
+→ <strong>US +67% comparable orders 폭증 = 한국 3사 미국 모멘텀 strong leading indicator</strong></p>
+<p><img alt="ABB 신규수주 &amp; 백로그 추이" src="2026-Q1_ABB_orders_backlog.png"></p>
+<hr>
+<h2 id="3-earnings-call">항목 3. 경영진 코멘터리 (Earnings Call 핵심 인용)</h2>
+<p>① CEO Morten Wierod 핵심 발언</p>
+<p>(1) 시장 환경
+→ "We have had a strong start to the year with a supportive overall market environment and improved business performance. Orders were at a record-high level and increased 24% on a comparable basis, supported by all three business areas. Overall demand remained robust throughout the period."
+→ "Looking at the developments through the quarter, the overall demand remained strong throughout. For us, the Middle East conflict has not changed the overall demand picture so far."
+→ "Market momentum remains strongest in the data center segment, but also positive for grid investments. Other strong areas include electrical upgrades of land-based transport infrastructure, marine, port automation, HVAC and buildings."
+→ "Customer activity is more muted in parts of the process industry-related areas." (Chemical·Pulp·Paper 약세 — Motion·Automation 일부 영향)</p>
+<p>(2) 데이터센터 디테일 (CFO Christian Nilsson)
+→ "Looking at data centers, it was up triple digits. For this segment, we have an order CAGR of close to 35% in 2019 to 2025. The data center orders were very strong in both Q4 and in Q1. Pipeline looks good, and we expect this year to be another strong year."
+→ CEO 추가: <strong>"90% of ABB is not data center, and that is growing very strongly, but then you put the data center growth on top, that is giving the very strong performance of the Q1."</strong>
+→ CFO Buildings: "Buildings, at about 30% of revenues. 2/3 of that goes to commercial segment. This market continues to be strong."</p>
+<p>(3) Pricing &amp; Costs
+→ CFO: "We had a price-cost gap. Pricing did not quite fully offset higher costs for commodities and tariffs. We expect that this will gradually improve as we progress through the year."
+→ CEO: "About 1% (price increase) for the whole company. We do see more, as expected, of price increase in Americas and less in Asia due to a bit of, like China as one example."
+→ <strong>한국 3사 cross-ref</strong>: 효성·HD·LS도 1Q26에 원자재 (은·전기동) 상승 vs 판가 인상 시점 mismatch로 일시 마진 부담 발생 — ABB의 동일 패턴 confirm</p>
+<p>(4) 가이던스 상향 근거
+→ CEO: "We raise our growth and margin expectations for 2026, although acknowledging risks from geopolitical uncertainties."
+→ "We have a backlog of $27.5 billion. Markets were overall strong in Q1, and so far, our customer interactions give us confidence for the year."
+→ "We now expect comparable revenue growth to be in the high single-digit to low double-digit range, and the operational EBITDA margin should improve year-on-year, even when excluding the real estate gain in the Q1 of 2026. <strong>This is up from previous guidance of slightly improve</strong>."</p>
+<p>(5) M&amp;A 의지 (CEO 명시)
+→ "I've already messaged that we want to allocate more capital to acquisitions. Cash flow should continue to be strong. With net debt to EBITDA of 0.3, we have plenty of headroom."
+→ "Big to me would be along the lines of $4 billion we spent on Thomas &amp; Betts and Baldor a few years ago. It would be great if we could get some deals up to that size."
+→ "Key for us is the long-term value creation. I would rather make no deals than bad deals."</p>
+<p>(6) Capital Allocation
+→ 자사주 매입 $2B 신규 launch (2026/2/9) — 직전 $1.5B 프로그램 1/28 완료
+→ 인도 manufacturing $75M 투자 (4번째 큰 시장)
+→ Dividend CHF 0.94 (1.3% yield)
+→ Q1 자사주 매입 $225M (2.6M shares)</p>
+<p>(7) Middle East 영향 (5% 매출 비중)
+→ CEO: "For us, the Middle East conflict has not changed the overall demand picture so far. The group, the Middle East represents just below 5% of revenues, and Automation is about 1/3 of this exposure."
+→ "Gulf states as an isolated group, this is about 3.5% of sales."
+→ <strong>한국 3사 cross-ref</strong>: 효성 11~12%, HD 16% 중동 매출 비중 → <strong>ABB 5%보다 한국 3사 영향 더 클 수 있음 (특히 HD)</strong></p>
+<p>② CFO Christian Nilsson 핵심 발언</p>
+<p>(1) Cash flow 가이던스
+→ "We aim to slightly improve the full-year free cash flow from last year's $4.6 billion. This will be supported by higher cash flow in the business and a higher real estate impact."
+→ Q1 FCF $1.25B 중 $425M는 real estate sale 기여</p>
+<p>(2) 운전자본 관리
+→ Trade NWC 12.5% of revenues (작년 14.1% 대비 1.6pp 개선)
+→ Net debt $2,268M (Q4 25 $1,683M 대비 +$585M, 배당 timing 영향)</p>
+<p>(3) Robotics 사업부 매각 진행 (SoftBank deal)
+→ Discontinued operations로 분리 표기
+→ 2026 closing 시 $300M 세금 cash impact, 2027년 추가 $100M
+→ Robotics hub 스웨덴 신축 CapEx +$100M</p>
+<hr>
+<h2 id="5-3-cross-reference">항목 5. 업황 사이클 점검 — <strong>한국 3사 cross-reference (본 리뷰의 핵심)</strong></h2>
+<p>① 산업 사이클 위치 — <strong>확장 가속 (slope steepening)</strong></p>
+<p>(1) 데이터센터 — secular 슈퍼사이클 진입 확정
+→ ABB Electrification 데이터센터 2019~2025 CAGR 35% → 2026 가속
+→ <strong>한국 3사 적용</strong>: LS일렉트릭 빅테크 LTA 패키지(X·A·B사 누적 1.5조+) + HD현대일렉트릭 AIDC 온사이트 발전 (그룹사 협의체 6,800억) + 효성중공업 765kV (미국 9,200억 단일 PJT)
+→ <strong>시그널</strong>: ABB가 데이터센터 단독 triple-digit + 90% non-DC 부문도 강세 → 한국 3사 데이터센터 narrative는 secular thesis 강화</p>
+<p>(2) US Utilities + 765kV 그리드 투자 — 본격 개화
+→ ABB Americas Orders +48% comparable, US +67% — Electrification 핵심 driver
+→ <strong>한국 3사 적용</strong>: 효성중공업 미국 비중 53% (잔고) + HD현대일렉트릭 69% + LS 빅테크 직수주 — 모두 ABB와 동조
+→ <strong>시그널</strong>: ABB의 US +67%가 가장 강력한 단일 leading indicator. 한국 3사 인뎁스 분석 시 "미국 RTO 765kV LRTP Tranche 2 확정 (2025년 말, MISO)" 일관 narrative confirm</p>
+<p>(3) Process 산업 — Mixed (Chemical·Pulp·Paper 약세)
+→ ABB Motion·Automation에서 약세 시그널
+→ <strong>한국 3사 cross-ref</strong>: 한국 3사는 process 산업 비중 작음 (효성 0%·HD 5%·LS 자동화 6%만) → 영향 제한적
+→ <strong>단</strong>: LS의 자동화 부문 OPM 3.3% (Process 약세 영향 일부) + Automation 회복 신호는 LS 자동화 회복 시그널</p>
+<p>(4) Marine·Ports·HVAC — 견조
+→ ABB Motion·Automation 강세 영역
+→ <strong>한국 3사 cross-ref</strong>: HD현대일렉트릭 회전기기 +39.5% QoQ (선박용) — 동조</p>
+<p>② 글로벌 피어 vs 한국 3사 Q1 2026 비교 (cross-reference 핵심)</p>
+<p>(1) OPM 비교</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>Q1 2026 OPM</th>
+<th>코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HD현대일렉트릭</td>
+<td><strong>24.9%</strong></td>
+<td>한국 3사 1위, ABB Electrification 24.0%와 동급</td>
+</tr>
+<tr>
+<td><strong>ABB Group (전체)</strong></td>
+<td><strong>23.5%</strong></td>
+<td>Real estate gain 250bps 포함, real biz 21%</td>
+</tr>
+<tr>
+<td>ABB Electrification (사업부)</td>
+<td>24.0%</td>
+<td>HD현대일렉트릭과 거의 동일</td>
+</tr>
+<tr>
+<td>효성중공업</td>
+<td>11.2%</td>
+<td>자체 일회성 이연 400억 가산 시 14.1%</td>
+</tr>
+<tr>
+<td>ABB Motion (사업부)</td>
+<td>18.5%</td>
+<td>Gamesa 희석 영향</td>
+</tr>
+<tr>
+<td>ABB Automation (사업부)</td>
+<td>14.7%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>LS일렉트릭</td>
+<td>9.2%</td>
+<td>일회성 100~150억 제외 시 10.2%, 자동화·자회사 희석</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>시그널</strong>: HD가 ABB Electrification과 동급 OPM 입증 → HD 멀티플 정당화. LS·효성은 사업 mix·일회성 영향으로 절대 OPM 낮으나 회복 trajectory 동일</p>
+<p>(2) 신규수주 YoY% 비교</p>
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>Q1 26 신규수주 YoY (Comp/USD)</th>
+<th>사상 최대 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>효성중공업</strong></td>
+<td><strong>+108%</strong> USD</td>
+<td>✓ 단일 분기 사상 최대</td>
+</tr>
+<tr>
+<td>HD현대일렉트릭</td>
+<td>+35% USD (+76% 북미)</td>
+<td>✓ 단일 분기 사상 최대</td>
+</tr>
+<tr>
+<td>LS ELECTRIC</td>
+<td>+27% USD</td>
+<td>✗ (4Q25가 1.57조 최대)</td>
+</tr>
+<tr>
+<td><strong>ABB Group</strong></td>
+<td><strong>+24%</strong> comparable (+32% USD)</td>
+<td>✓ 단일 분기 사상 최대</td>
+</tr>
+<tr>
+<td>ABB Electrification</td>
+<td><strong>+44%</strong> comparable</td>
+<td>✓ 단일 분기 사상 최대</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>시그널</strong>: 4사 중 3사 (효성·HD·ABB)가 단일 분기 사상 최대 신규수주 동시 달성 → <strong>산업 전체 슈퍼사이클 진입 확정</strong></p>
+<p>(3) 매출 YoY% 비교</p>
+<p><img alt="ABB vs 한국 3사 + GEV Q1 2026 비교" src="2026-Q1_ABB_peer_comparison.png"></p>
+<p>→ LS +33% &gt; 효성 +26% &gt; GEV +27% &gt; ABB +11% (comparable) &gt; HD +2.1%
+→ <strong>시그널</strong>: HD 매출 +2.1%는 일시 회계 이연 (북미·중동·유럽 3개 지역 PJT 2Q26 이월). 정상화 시 ABB·효성과 비슷한 +20%대로 가속 예상</p>
+<p>③ 독자적 전망 (한국 3사 인뎁스 분석 시 활용)</p>
+<p>(1) FY 2026 가이던스 상향이 주는 시사
+→ ABB FY26 매출 가이던스: high single to low double-digit comparable growth (종전 mid single-digit) → <strong>+5pp 이상 상향</strong>
+→ ABB OPM 가이던스: improve YoY (real estate excl.) → <strong>종전 "slightly improve"보다 강화</strong>
+→ <strong>한국 3사 적용</strong>: 효성 가이던스 7.6조 신규수주는 거의 확실히 11~13조로 상향. HD 42억$ → 50~60억$ 상향. LS 30년 매출 10조 목표는 1년+ 조기 달성 가능성</p>
+<p>(2) 가이던스 상향 시점 추정
+→ ABB는 1Q 발표 시점에 FY 가이던스 상향 — 가장 빠른 신호
+→ 한국 3사: 통상 2Q 발표 시점에 가이던스 상향 (8월 중)
+→ <strong>시그널</strong>: 8월 중 한국 3사 일제 가이던스 상향 가능성 매우 높음 → 7월 중 한국 3사 프리뷰 작성 시 적극 반영</p>
+<p>(3) Pricing 회복 timeline
+→ ABB CFO: "Pricing will gradually improve as we progress through the year"
+→ 효성·HD·LS 모두 1Q26에 동일 패턴 (3월 국내·4월 해외 판가 인상)
+→ <strong>시그널</strong>: 2H26부터 한국 3사 OPM 점진 회복 — 한국 3사 인뎁스 분석 시 2H 마진 회복 가정 정당화</p>
+<hr>
+<h2 id="7-3-cue">항목 7. 관전 포인트 — 한국 3사 분석 시 활용 cue</h2>
+<p>⑦ 한국 3사 다음 분기 분석 시 ABB 시그널 활용 가이드</p>
+<p>(1) <strong>데이터센터 수주 가속 narrative 강화 근거</strong>
+→ ABB Q1 데이터센터 triple-digit + 2019~25 CAGR 35% — 한국 3사 빅테크 수주 narrative 정당화
+→ <strong>활용</strong>: LS일렉트릭 빅테크 B사 수주 5,000억+ 도달, HD AIDC 온사이트 발전 후속 수주 시 narrative 인용</p>
+<p>(2) <strong>US +67% 폭증 = 한국 3사 미국 비중 확대 confirm</strong>
+→ ABB Americas Q1 신규수주 +48% comparable, US +67%
+→ <strong>활용</strong>: 효성 미국 잔고 53%·HD 69%·LS 빅테크 직수주 narrative 모두 강화</p>
+<p>(3) <strong>OPM 23.5%가 정상화 reference</strong>
+→ ABB Real business OPM 21% (real estate excl.) = 한국 3사 정상화 OPM 목표 reference
+→ <strong>활용</strong>: HD 24.9% 정당화, 효성·LS의 2H26 OPM 16~18% 가속 예상 정당화</p>
+<p>(4) <strong>가이던스 상향 leading indicator</strong>
+→ ABB가 FY26 가이던스 mid single → high single/low double 상향 — 한국 3사 가이던스 상향 leading indicator
+→ <strong>활용</strong>: 7월 한국 3사 프리뷰 작성 시 "가이던스 상향 가능성 매우 높음" narrative</p>
+<p>(5) <strong>Middle East 영향 5% — 한국 3사 reference</strong>
+→ ABB는 중동 5% 매출 비중에서 영향 제한적
+→ <strong>활용</strong>: 효성 11~12%·HD 16% 중동 비중 → ABB보다 영향 더 클 수 있음. 한국 3사 인뎁스 분석 시 중동 정성적 risk monitoring 강화</p>
+<p>(6) <strong>M&amp;A 가속 신호</strong>
+→ ABB CEO "$4B deals welcome" + 자사주 매입 $2B + 인도 $75M
+→ <strong>활용</strong>: 글로벌 피어 M&amp;A 가속 → 한국 3사 자체 M&amp;A 가능성 (HD 그룹사 협의체 패키지 확장 등) 모니터링</p>
+<p>⑦ ABB 자체 다음 분기 (Q2 2026) 모니터링</p>
+<p>(1) Q2 매출 high single ~ low double 가이드 달성 여부 (vs 1Q 11% comparable)
+(2) Q2 OPM YoY 개선 (1Q 기저 효과 없음)
+(3) 데이터센터 신규수주 triple-digit YoY 지속 여부 (단순 base 효과 vs secular)
+(4) Middle East 영향 확대 여부 (1Q는 5월 말까지만 영향)
+(5) M&amp;A 발표 가능성 ($4B 규모 deal 언급)</p>
+<hr>
+<h2 id="3-timing">[향후 관찰 포인트] — 한국 3사 분석 timing</h2>
+<p>→ <strong>2026 5월 중</strong>: GE Vernova(4/23 발표 완료) + Schneider/Hitachi(4/30 발표 완료) review 추가 작성 → 글로벌 피어 4사 (ABB·GEV·Schneider·Hitachi) 통합 cross-reference 완성
+→ <strong>2026 5/16 quarterly-review Stage 2</strong>: ABB·GEV·SE·HE·ETN·SiE 6개 글로벌 피어 + 효성·HD·LS 3개 한국 종목 = <strong>전력 인프라 9사 통합 분석</strong> 자동 수행
+→ <strong>2026 7월 중</strong>: 한국 3사 2Q26 프리뷰 작성 시 <strong>본 ABB review + 글로벌 피어 5사 review = 6개 산업 모멘텀 cue 자동 활용</strong> (다음 분기부터 프리뷰 워크플로우 정착)
+→ <strong>2026 8월 중</strong>: 한국 3사 2Q26 잠정실적 발표 시 글로벌 피어 가이던스 상향 vs 한국 3사 가이던스 상향 timing 비교</p>
+<hr>
+<blockquote>
+<p><strong>다음 단계</strong>: 글로벌 피어 5사 (GEV·Schneider Electric·Hitachi Energy·Eaton·Siemens Energy) 자료 첨부 시 발표일 빠른 순으로 차례 review 작성. 각각 본 ABB review 형식 (가벼운 깊이 4-5개 항목 + 한국 3사 cross-ref 강조) 따라 작성 권장.
+<strong>Stage 2 자동 연계</strong>: ABB review = <code>2026-Q1_ABB_리뷰.md</code> + 메타데이터 [섹터: 전력 인프라] 표준 위치 저장 → 5/16 quarterly-review Stage 2 자동 로드 → 9사 통합 사이클·논쟁·시장시각 통합본 산출.
+<strong>인뎁스 분석 잠재 논점</strong>: ① 데이터센터 secular vs cyclical 정량화 (CAGR 35% sustainability), ② 글로벌 피어 OPM 21~25% reference의 한국 3사 적용 한계, ③ M&amp;A 가속이 글로벌 산업 구조 변화에 미치는 영향, ④ Middle East 영향 정량화 (한국 3사 vs ABB 5% 차이).</p>
+</blockquote>
+</div>
+</body>
+</html>
