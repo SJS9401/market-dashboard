@@ -242,11 +242,15 @@ function getPreviousQuarter(quarter) {
   return y + '-Q' + q;
 }
 
-function hasReviewInQuarter(stock, quarter) {
-  // 이번 분기에 review 또는 in-depth 산출물이 있으면 시그널 키워드 표시
+function hasPriorReview(stock, currentQuarter) {
+  // 시그널 키워드는 다음 분기 페이지에서 표시:
+  // 직전 분기에 review 또는 in-depth 산출물 있으면 시그널 표시
+  // (예: 1Q26 review 작성 → 2Q26 페이지에서 SK하이닉스 시그널 표시)
+  const prev = getPreviousQuarter(currentQuarter);
+  if (!prev) return false;
   const key = stock.ticker || stock.name;
-  const reviewFile = quarter + '_' + key + '_' + SUFFIX.review + '.html';
-  const indepthFile = quarter + '_' + key + '_' + SUFFIX['in-depth'] + '.html';
+  const reviewFile = prev + '_' + key + '_' + SUFFIX.review + '.html';
+  const indepthFile = prev + '_' + key + '_' + SUFFIX['in-depth'] + '.html';
   return (state.manifest.review || []).includes(reviewFile) ||
          (state.manifest['in-depth'] || []).includes(indepthFile);
 }
@@ -295,8 +299,8 @@ function renderStockRow(stock) {
   const stage = getProgressStage(stock);
   const stockRow = el('div', { class: 'stock-row' });
   const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
-  // 이번 분기에 review/in-depth 있으면 시그널 키워드 표시
-  const followup = (sig && hasReviewInQuarter(stock, state.currentQuarter)) ? sig.signal : '';
+  // 시그널 키워드: 직전 분기 review/in-depth 있으면 표시 (다음 분기 페이지에서)
+  const followup = (sig && hasPriorReview(stock, state.currentQuarter)) ? sig.signal : '';
   const nameCell = el('div', { class: 'stock-name-cell' }, [
     el('span', { class: 'stock-name' }, stock.name),
     ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
