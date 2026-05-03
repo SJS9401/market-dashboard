@@ -214,8 +214,14 @@ const MODE_LABELS = { preview: '프리뷰', review: '리뷰', 'in-depth': '인�
 
 function getModeFile(stock, mode) {
   // stock: {name, ticker}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
+  // followup은 다음 분기 파일을 이번 분기 페이지에서 찾음 (BT가 이번 분기 페이지에서 보길 원함)
   const key = stock.ticker || stock.name;
-  const expected = state.currentQuarter + '_' + key + '_' + SUFFIX[mode] + '.html';
+  let quarter = state.currentQuarter;
+  if (mode === 'followup') {
+    quarter = getNextQuarter(state.currentQuarter);
+    if (!quarter) return null;
+  }
+  const expected = quarter + '_' + key + '_' + SUFFIX[mode] + '.html';
   const list = state.manifest[mode] || [];
   return list.includes(expected) ? expected : null;
 }
@@ -236,12 +242,11 @@ function getPreviousQuarter(quarter) {
   return y + '-Q' + q;
 }
 
-function hasPriorReview(stock, currentQuarter) {
-  const prev = getPreviousQuarter(currentQuarter);
-  if (!prev) return false;
+function hasReviewInQuarter(stock, quarter) {
+  // 이번 분기에 review 또는 in-depth 산출물이 있으면 시그널 키워드 표시
   const key = stock.ticker || stock.name;
-  const reviewFile = prev + '_' + key + '_' + SUFFIX.review + '.html';
-  const indepthFile = prev + '_' + key + '_' + SUFFIX['in-depth'] + '.html';
+  const reviewFile = quarter + '_' + key + '_' + SUFFIX.review + '.html';
+  const indepthFile = quarter + '_' + key + '_' + SUFFIX['in-depth'] + '.html';
   return (state.manifest.review || []).includes(reviewFile) ||
          (state.manifest['in-depth'] || []).includes(indepthFile);
 }
@@ -290,19 +295,16 @@ function renderStockRow(stock) {
   const stage = getProgressStage(stock);
   const stockRow = el('div', { class: 'stock-row' });
   const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
-  // 직전 분기에 review 또는 in-depth 산출물이 있을 때만 팔로업 키워드 표시
-  const followup = (sig && hasPriorReview(stock, state.currentQuarter)) ? sig.signal : '';
+  // 이번 분기에 review/in-depth 있으면 시그널 키워드 표시
+  const followup = (sig && hasReviewInQuarter(stock, state.currentQuarter)) ? sig.signal : '';
   const nameCell = el('div', { class: 'stock-name-cell' }, [
     el('span', { class: 'stock-name' }, stock.name),
     ticker ? el('span', { class: 'ticker' }, '(' + ticker + ')') : null
   ]);
   stockRow.appendChild(nameCell);
   stockRow.appendChild(el('div', { class: 'stock-followup-cell' }, followup));
-  const middleCol = el('div', null, [
-    cal && cal.date ? el('div', { class: 'dday-cell' }, cal.date) : el('div', { class: 'dday-cell' }, '발표일 미정'),
-    renderProgressCircles(stage)
-  ]);
-  stockRow.appendChild(middleCol);
+  // 발표일 단독 (동그라미 제거 — 4개 mode-btn이 진행 단계 시각화)
+  stockRow.appendChild(el('div', { class: 'dday-cell' }, (cal && cal.date) ? cal.date : '발표일 미정'));
   const buttons = el('div', { class: 'mode-buttons' });
   for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
     const mode = pair[0], label = pair[1];
@@ -330,6 +332,14 @@ function renderSectorCard(sectorObj, tier) {
   }
   card.appendChild(el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
     '진행: P ' + pCount + '/' + sectorObj.stocks.length + ' · R ' + rCount + '/' + sectorObj.stocks.length));
+  // 컬럼 헤더 행 (종목명·팔로업·발표일·리포트)
+  const headerRow = el('div', { class: 'stock-row stock-row-header' }, [
+    el('div', { class: 'col-header' }, '종목명(티커)'),
+    el('div', { class: 'col-header' }, '팔로업 키워드'),
+    el('div', { class: 'col-header' }, '발표일'),
+    el('div', { class: 'col-header col-header-right' }, '리포트')
+  ]);
+  card.appendChild(headerRow);
   const stockList = el('div', { class: 'stock-list' });
   for (const stock of sectorObj.stocks) stockList.appendChild(renderStockRow(stock));
   card.appendChild(stockList);
