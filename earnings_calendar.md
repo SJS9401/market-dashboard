@@ -14,11 +14,11 @@
 |------|--------|--------|
 | AAPL | Apple | 소비자 수요, 서비스 매출 |
 | AMZN | Amazon | 클라우드(AWS) CAPEX, 소비 |
-| GOOGL | Alphabet | 광고 시장, 클라우드(GCP) CAPEX |
+| GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
 | META | Meta | 광고 시장, AI CAPEX |
 | MSFT | Microsoft | 클라우드(Azure) CAPEX, AI 수익화 |
 | NVDA | Nvidia | AI 칩 수요, 데이터센터 CAPEX |
-| TSLA | Tesla | EV 수요, 옵티머스/로보택시 업데이트 |
+| TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
 
 ### 소프트웨어/클라우드
 
@@ -32,7 +32,7 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | ASML | ASML | 장비 수주 → 팹 투자 사이클 |
-| MU | Micron | 메모리 업황, HBM → SK하이닉스 |
+| MU | Micron | ★GPM 81% + Q4 톤, HBM4 12H ramp, 추가 SCA 체결, FY27 가이던스 첫 시그널, Singapore fab |
 | SNDK | SanDisk | NAND 업황, SSD 수요 |
 | TSM | TSMC | 파운드리 가동률, AI칩 수요 |
 | — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
@@ -47,7 +47,7 @@
 | GEV | GE Vernova | 가스터빈, 전력장비 수주 |
 | NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
 | — | HD현대일렉트릭 | 변압기, 전력기기 수주 |
-| — | 효성중공업 | 변압기, 차단기, 전력인프라 |
+| — | 효성중공업 | OPM 16% 회복, 765kV 후속 수주 2~3조, HD현대일렉트릭 비교, SST 초도 수주, 미국 관세 환급 |
 | — | LS일렉트릭 | 전력기기, 에너지솔루션 |
 
 ### 원전
