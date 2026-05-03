@@ -44,9 +44,9 @@
   .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
   .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
   /* 차트 세로축 상단 단위 라벨 */
-  .cw-axis-unit { position: absolute; font-size: 10px; color: #8b949e; pointer-events: none; z-index: 5; padding: 2px 4px; background: rgba(22,27,34,0.7); border-radius: 2px; }
-  .cw-axis-unit.left { top: 4px; left: 6px; }
-  .cw-axis-unit.right { top: 4px; right: 6px; }
+  .cw-axis-unit { position: absolute; font-size: 10px; color: #8b949e; pointer-events: none; z-index: 5; padding: 0 4px; background: transparent; border-radius: 0; }
+  .cw-axis-unit.left { top: -14px; left: 6px; }
+  .cw-axis-unit.right { top: -14px; right: 6px; }
   /* 차트 호버 툴팁 */
   .cw-tooltip { position: absolute; top: 8px; left: 8px; background: rgba(13,17,23,0.95); border: 1px solid #30363d; border-radius: 4px; padding: 5px 8px; font-size: 11px; color: #c9d1d9; pointer-events: none; z-index: 10; display: none; line-height: 1.5; min-width: 130px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
   .cw-tooltip .tt-date { color: #8b949e; font-size: 10px; padding-bottom: 3px; border-bottom: 1px solid #21262d; margin-bottom: 3px; font-weight: 600; }
@@ -174,45 +174,45 @@ const SECTIONS = [
           { label: "수출액", file: "battery_battery_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_battery_export_yoy.json", axis: "right", color: COLORS.yoy },
           { label: "MoM(우)", file: "battery_battery_export_mom.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "백만$", unit_right: "%" } },
+        ], unit_left: "백만$", unit_right: "%", right_min: -50, right_max: 50 } },
       { fig: 36, title: "리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_liion_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_liion_export_yoy.json", axis: "right", color: COLORS.yoy },
           { label: "MoM(우)", file: "battery_liion_export_mom.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "백만$", unit_right: "%" } },
+        ], unit_left: "백만$", unit_right: "%", right_min: -40, right_max: 60 } },
       { fig: 37, title: "EV용 리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_ev_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "MoM(우)", file: "battery_ev_export_yoy.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "백만$", unit_right: "%" } },
+        ], unit_left: "백만$", unit_right: "%", right_min: -40, right_max: 80 } },
       { fig: 38, title: "EV용 리튬이온전지 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_ev_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "MoM(우)", file: "battery_ev_export_price_yoy.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "$/kg", unit_right: "%" } },
+        ], unit_left: "$/kg", unit_right: "%", right_min: -30, right_max: 30 } },
       { fig: 39, title: "ESS용 리튬이온전지 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_ess_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "MoM(우)", file: "battery_ess_export_yoy.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "백만$", unit_right: "%" } },
+        ], unit_left: "백만$", unit_right: "%", right_min: -50, right_max: 150 } },
       { fig: 40, title: "ESS용 리튬이온전지 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_ess_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "MoM(우)", file: "battery_ess_export_price_yoy.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "$/kg", unit_right: "%" } },
+        ], unit_left: "$/kg", unit_right: "%", right_min: -20, right_max: 60 } },
       { fig: 41, title: "동박 수출액",
         chart_def: { type: "dual_axis", series: [
           { label: "수출액", file: "battery_foil_export.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_foil_export_yoy.json", axis: "right", color: COLORS.yoy },
           { label: "MoM(우)", file: "battery_foil_export_mom.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "백만$", unit_right: "%" } },
+        ], unit_left: "백만$", unit_right: "%", right_min: -50, right_max: 150 } },
       { fig: 42, title: "동박 수출 단가",
         chart_def: { type: "dual_axis", series: [
           { label: "단가", file: "battery_foil_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
           { label: "YoY(우)", file: "battery_foil_export_price_yoy.json", axis: "right", color: COLORS.yoy },
           { label: "MoM(우)", file: "battery_foil_export_price_mom.json", axis: "right", color: COLORS.mom },
-        ], unit_left: "$/kg", unit_right: "%" } },
+        ], unit_left: "$/kg", unit_right: "%", right_min: -20, right_max: 30 } },
     ]
   },
   {
@@ -711,11 +711,18 @@ async function renderChart(containerId, def) {
           priceScaleId, priceFormat: fmtOpts,
         });
       } else {
-        series = chart.addLineSeries({
+        const lineOpts = {
           color: s.color, lineWidth: 2.5,
           priceLineVisible: false, lastValueVisible: true,
           priceScaleId, priceFormat: fmtOpts,
-        });
+        };
+        // right axis range 강제 (PDF 원본 anchor 따라가기)
+        if (priceScaleId === 'right' && def.right_min !== undefined && def.right_max !== undefined) {
+          lineOpts.autoscaleInfoProvider = () => ({
+            priceRange: { minValue: def.right_min, maxValue: def.right_max }
+          });
+        }
+        series = chart.addLineSeries(lineOpts);
       }
       series.setData(cleaned);
       // YoY 우축 라인이면 0 baseline 점선 추가
