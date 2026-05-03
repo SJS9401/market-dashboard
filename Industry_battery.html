@@ -39,8 +39,13 @@
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
   .review-flag { color: #d2af64; font-style: italic; font-size: 11px; font-weight: 400; margin-left: 6px; letter-spacing: 0.2px; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
-  .legend-row { display: flex; gap: 12px; padding: 4px 12px 0; flex-wrap: wrap; }
+  /* legend는 chart 안 absolute (axis-unit이 있던 자리) */
+  .legend-row { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); z-index: 10; background: #161b22; padding: 2px 8px; border-radius: 3px; display: flex; gap: 12px; flex-wrap: wrap; }
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
+  /* axis-unit은 chart 위 row (legend가 있던 자리) */
+  .axis-unit-row { display: flex; justify-content: space-between; padding: 4px 12px 0; font-size: 10px; color: #8b949e; }
+  .axis-unit-left, .axis-unit-right { padding: 0 4px; }
+  .cw { position: relative; }  /* legend absolute의 reference */
   .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
   .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
   /* 차트 세로축 상단 단위 라벨 */
@@ -366,13 +371,25 @@ function buildPage() {
             `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
           ).join('') + '</div>';
       }
+      // axis-unit은 chart 위 (legend 자리), legend는 chart 안 (axis-unit 자리)로 swap
+      let axisUnitRow = '';
+      if (card.chart_def) {
+        const ul = card.chart_def.unit_left || '';
+        const ur = card.chart_def.unit_right || '';
+        if (ul || ur) {
+          axisUnitRow = '<div class="axis-unit-row">' +
+            `<span class="axis-unit-left">${ul ? '(' + ul + ')' : ''}</span>` +
+            `<span class="axis-unit-right">${ur ? '(' + ur + ')' : ''}</span>` +
+            '</div>';
+        }
+      }
       cardEl.innerHTML = `
         <div class="card-top">
           <h3>${card.title}</h3>
           <span class="fig-num">도표 ${card.fig}</span>
         </div>
-        ${legendHtml}
-        <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
+        ${axisUnitRow}
+        <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : legendHtml}</div>
       `;
       grid.appendChild(cardEl);
       if (card.chart_def) {
@@ -670,19 +687,8 @@ async function renderChart(containerId, def) {
       const s = numberOnly(v);
       return s && unit ? s + ' ' + unit : s;
     };
-    // 차트 좌상단 단위 라벨 추가 (중복 라벨 제거)
-    if (unitL) {
-      const lbl = document.createElement('div');
-      lbl.className = 'cw-axis-unit left';
-      lbl.textContent = `(${unitL})`;
-      el.appendChild(lbl);
-    }
-    if (unitR) {
-      const lbl = document.createElement('div');
-      lbl.className = 'cw-axis-unit right';
-      lbl.textContent = `(${unitR})`;
-      el.appendChild(lbl);
-    }
+    // axis-unit은 cardEl.innerHTML의 axis-unit-row에서 처리됨 (chart 위)
+    // legend는 chart 안 absolute 배치 (CSS .legend-row position absolute)
     const seriesByObj = new Map();  // series 객체 → meta
     // Z-order: bar/histogram 먼저 추가 → line 시리즈가 위에 렌더링되도록 강제 정렬
     const sortedSeries = [...def.series].sort((a, b) => {
