@@ -167,15 +167,19 @@ function parseWatchlist(md) {
 }
 
 // 발표일 → 캘린더 분기 매핑
-// 4~6월 발표 → 1Q (직전 회계 분기 결과), 7~9월 → 2Q, 10~12월 → 3Q, 익년 1~3월 → 4Q
-function mapDateToQuarter(dateStr, currentYear) {
-  // dateStr 예: "7/1", "(5월중)", "4/23"
+// default: 4~6월 발표 → 1Q (직전 회계 분기 결과), 7~9월 → 2Q, 10~12월 → 3Q, 익년 1~3월 → 4Q
+// override: 캘린더 entry 비고에 [YYYY-Qn] 패턴 명시 시 그 분기로 매핑 (마이크론 등 회계 어긋난 종목)
+function mapDateToQuarter(dateStr, currentYear, note) {
+  // 비고 override 우선 — 마이크론 3/18 → [2026-Q1] 같은 케이스
+  if (note) {
+    const override = note.match(/\[(\d{4}-Q\d)\]/);
+    if (override) return override[1];
+  }
   const m = dateStr.match(/(\d{1,2})\//);
   let month;
   if (m) {
     month = parseInt(m[1]);
   } else {
-    // "(5월중)" 같은 패턴
     const m2 = dateStr.match(/(\d{1,2})월/);
     if (!m2) return null;
     month = parseInt(m2[1]);
@@ -231,7 +235,7 @@ function parseCalendar(md) {
         const name = tickerMatch ? tickerMatch[1].trim() : nameTickerRaw.trim();
         const ticker = tickerMatch ? tickerMatch[2].trim() : '';
         // 분기 추정 후 종목별 분기-entry 저장
-        const quarter = mapDateToQuarter(date, currentYear);
+        const quarter = mapDateToQuarter(date, currentYear, note);
         if (!quarter) continue;
         if (!result.calendar[name]) result.calendar[name] = {};
         result.calendar[name][quarter] = { date, ticker, sector, note };

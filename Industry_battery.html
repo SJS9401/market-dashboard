@@ -490,8 +490,8 @@ function getRecentSamples(data, count = 6) {
     });
     return Object.values(weekLast).sort((a, b) => a.time.localeCompare(b.time)).slice(-count);
   }
-  if (intervalDays < 30) {
-    // 주별/월별 — 월별 마지막 샘플링
+  if (intervalDays < 60) {
+    // 주별/월별/유사 — 월별 마지막 샘플링 (LFP처럼 month당 1-2 sample 일 때도 dedup)
     const monthLast = {};
     data.forEach(d => { monthLast[d.time.slice(0, 7)] = d; });
     return Object.values(monthLast).sort((a, b) => a.time.localeCompare(b.time)).slice(-count);
