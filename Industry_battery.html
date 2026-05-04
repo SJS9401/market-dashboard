@@ -157,14 +157,18 @@ const COLORS = {
 
 const SECTIONS = [
   {
-    title: "셀 메이커 실적 추정 테이블",
-    subtitle: "LG에너지솔루션 · 삼성SDI — 도표 69~70 (각사 IR, 하나증권)",
+    title: "셀 메이커·소재 업체 실적 추정 테이블",
+    subtitle: "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 — 도표 69~72 (각사 IR, 하나증권)",
     cols: 1,
     cards: [
       { fig: "T-LGES", title: "LG에너지솔루션 실적 추이 및 전망",
         chart_def: { type: "table", file: "battery_lges_perf.json" } },
       { fig: "T-SDI", title: "삼성SDI 실적 추이 및 전망",
         chart_def: { type: "table", file: "battery_samsungsdi_perf.json" } },
+      { fig: "T-EBM", title: "에코프로비엠 실적 추이 및 전망",
+        chart_def: { type: "table", file: "battery_ecoprobm_perf.json" } },
+      { fig: "T-PFM", title: "포스코퓨처엠 실적 추이 및 전망",
+        chart_def: { type: "table", file: "battery_pfm_perf.json" } },
     ]
   },
   {
@@ -305,13 +309,80 @@ const SECTIONS = [
     ]
   },
   {
-    title: "(향후 추가 예정)",
-    subtitle: "EV 판매 (도표 8-22) · EV용 리튬이온 배터리 출하 (도표 29-30) · ESS (도표 4-7)",
+    title: "ESS 시장",
+    subtitle: "글로벌 ESS 신규 설치량 · 케미스트리 · 지역별 — 도표 4-7 (페이지 8-9, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 8, title: "글로벌 EV 월별 판매증가율 (TBD)" },
-      { fig: 29, title: "전기차용 리튬이온배터리 출하 (TBD)" },
-      { fig: 4, title: "ESS 신규 설치량 (TBD)" },
+      { fig: 4, title: "ESS 신규 설치량 (글로벌)", placeholder: true },
+      { fig: 5, title: "ESS 케미스트리별 비중", placeholder: true },
+      { fig: 6, title: "지역별 ESS 배터리 신규 설치량", placeholder: true },
+      { fig: 7, title: "전력망 시장 내 연계 유형별 ESS", placeholder: true },
+    ]
+  },
+  {
+    title: "EV 판매 — 글로벌·지역별",
+    subtitle: "월별 판매량 + 시장점유율 — 도표 8-23 (페이지 10-13, SNE Research/EV-Volumes)",
+    cols: 2,
+    cards: [
+      { fig: 8, title: "글로벌 EV(BEV+PHEV) 월별 판매증가율", placeholder: true },
+      { fig: 9, title: "미국 EV 월별 판매 추이", placeholder: true },
+      { fig: 10, title: "중국 EV 월별 판매 추이", placeholder: true },
+      { fig: 11, title: "유럽 EV 월별 판매 추이", placeholder: true },
+      { fig: 12, title: "미국 전기차 판매량 추이", placeholder: true },
+      { fig: 13, title: "미국 전기차 시장점유율 추이", placeholder: true },
+      { fig: 14, title: "중국 전기차 판매량 추이", placeholder: true },
+      { fig: 15, title: "중국 전기차 시장점유율 추이", placeholder: true },
+      { fig: 16, title: "영국 전기차 판매량 추이", placeholder: true },
+      { fig: 17, title: "영국 전기차 시장점유율 추이", placeholder: true },
+      { fig: 18, title: "독일 전기차 판매량 추이", placeholder: true },
+      { fig: 19, title: "독일 전기차 시장점유율 추이", placeholder: true },
+      { fig: 20, title: "프랑스 전기차 판매량 추이", placeholder: true },
+      { fig: 21, title: "프랑스 전기차 시장점유율 추이", placeholder: true },
+      { fig: 22, title: "유럽 주요 3국 전기차 판매량", placeholder: true },
+      { fig: 23, title: "유럽 주요 3국 전기차 점유율", placeholder: true },
+      { fig: 24, title: "미국 전기차 모델별 판매량 (표)", placeholder: true },
+    ]
+  },
+  {
+    title: "EV용 리튬이온 배터리 출하",
+    subtitle: "전기차용 LIB 출하량 — 도표 29-30 (페이지 16, SNE Research)",
+    cols: 2,
+    cards: [
+      { fig: 29, title: "전기차용 리튬이온배터리 출하량 (글로벌)", placeholder: true },
+      { fig: 30, title: "한국 배터리 3사 EV용 LIB 출하량", placeholder: true },
+    ]
+  },
+  {
+    title: "수출 Data — 양극재",
+    subtitle: "월별 수출액·중량·단가 — 도표 43-54 (페이지 20-22, 산업통상자원부)",
+    cols: 2,
+    cards: [
+      { fig: 43, title: "양극재 수출액 (NCM+NCA)", placeholder: true },
+      { fig: 44, title: "NCM 양극재 수출액", placeholder: true },
+      { fig: 45, title: "NCA 양극재 수출액", placeholder: true },
+      { fig: 46, title: "NCM+NCA 양극재 수출액", placeholder: true },
+      { fig: 47, title: "양극재 수출 중량 (NCM+NCA)", placeholder: true },
+      { fig: 48, title: "NCM 양극재 수출 중량", placeholder: true },
+      { fig: 49, title: "NCA 양극재 수출 중량", placeholder: true },
+      { fig: 50, title: "NCM+NCA 양극재 수출 중량", placeholder: true },
+      { fig: 51, title: "양극재 수출 단가", placeholder: true },
+      { fig: 52, title: "NCM 양극재 수출 단가", placeholder: true },
+      { fig: 53, title: "NCA 양극재 수출 단가", placeholder: true },
+      { fig: 54, title: "NCM+NCA 양극재 수출 단가", placeholder: true },
+      { fig: 55, title: "지역별 양극재 수출 (표)", placeholder: true },
+    ]
+  },
+  {
+    title: "수입 Data — 원재료/소재",
+    subtitle: "수산화리튬·음극재·천연흑연 — 도표 56-61 (페이지 23-25, 산업통상자원부)",
+    cols: 2,
+    cards: [
+      { fig: 56, title: "수산화리튬 수입액", placeholder: true },
+      { fig: 57, title: "수산화리튬 수입 단가", placeholder: true },
+      { fig: 58, title: "음극재 수입액", placeholder: true },
+      { fig: 59, title: "음극재 수입 단가", placeholder: true },
+      { fig: 60, title: "천연흑연 수입액", placeholder: true },
+      { fig: 61, title: "천연흑연 수입 단가", placeholder: true },
     ]
   },
 ];
