@@ -183,20 +183,21 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-04 (자동 실행)**
+> **최종 갱신: 2026-05-05 (자동 실행)**
 
 ### 5월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 5/4 | Palantir (PLTR) | 소프트웨어 | AMC (확정, Palantir 공식, 이전 5/11→5/4 업데이트) |
+| 5/5 | AMD (AMD) | 반도체-CPU | AMC, Q1 2026 — 데이터센터 MI300X/MI350, Zen5 EPYC 점유율 (신규) |
 | 5/5 | Cameco (CCJ) | 원전 | AMC (이전 5/1→5/5 업데이트, MarketBeat·Nasdaq 확인) |
 | 5/5 | Eaton (ETN) | 전력 | BMO (확정) — 전력 인프라 섹터 8번째 발표, LS와 직접 비교 |
-| 5/7 | Siemens Energy (ENR) | 전력 | 독일 (확정) — 전력 인프라 섹터 9번째·마지막 발표, 그리드·HVDC·풍력 |
 | 5/5 | Huntington Ingalls (HII) | 조선 | BMO (확정, 이전 4/30→5/5 업데이트, HII 공식 IR 확인) |
+| 5/6 | ARM Holdings (ARM) | 반도체-CPU | AMC, Q4 FY2026 — FY2027 가이던스, AGI CPU 로드맵 (신규) |
 | 5/6 | 에이피알 | 화장품 | 1분기 실적 발표 (확정) |
 | 5/7 | Constellation Energy (CEG) | 원전 | AMC (확정, 콘퍼런스콜 5/11 10am ET) |
 | 5/7 | Rheinmetall (RHM) | 방산 | Q1 2026 결과 (유럽, 확정) |
+| 5/7 | Siemens Energy (ENR) | 전력 | 독일 (확정) — 전력 인프라 섹터 9번째·마지막 발표, 그리드·HVDC·풍력 |
 | 5/7 | Vistra (VST) | 원전 | BMO (확정, 10am ET 콘퍼런스 콜) |
 | 5/7 | NuScale Power (SMR) | 원전 | AMC, 컨퍼런스콜 5pm ET (NuScale 공식) |
 | 5/7 | 미래에셋증권 | 금융 | 1분기 실적 발표 (Investing.com) |
@@ -205,8 +206,10 @@
 | 5/8 | 한국전력 | 원전 | 1분기 실적 발표 (Investing.com, 재확인 권장, 이전 5월중→5/8 업데이트) |
 | 5/12 | Nextpower (NXT) | 전력 | AMC (확정), Q4 FY2026, 2pm PT — 회사명 Nextracker→Nextpower 변경, 이전 5/20→5/12 업데이트 |
 | 5/12 | Oklo (OKLO) | 원전 | AMC, 콜 5pm ET (이전 5/19→5/12 업데이트, 보고서+콜 동일일 확정) |
+| 5/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC, Q2 FY2026 — 메모리 장비 비중, HBM·DRAM 투자 사이클 (신규) |
 | 5/18 | 한국항공우주 | 방산 | 1분기 실적 발표 (Investing.com) |
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC, Q1 FY2027 (확정) |
+| 5/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (신규) |
 | (5월중) | HD현대중공업 | 조선 | 과거 패턴 추정 |
 | (5월중) | SK증권 | 금융 | 과거 패턴 추정 |
 
@@ -214,6 +217,8 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (신규) |
+| 6/3 | 달바글로벌 | 화장품 | 1분기 실적 발표 예정 (신규) |
 | 6/16 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 (확정) |
 
 ### 7월
@@ -229,12 +234,25 @@
 | 7/30 | Amazon (AMZN) | 빅테크 | Q2 2026, AMC (확정) |
 | 7/30 | BAE Systems (BA.) | 방산 | H1 2026 결과 (유럽) |
 
+### 8월
+
+| 날짜 | 종목명(티커) | 산업 | 비고 |
+|------|------------|------|------|
+| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026, HDD+Flash, 데이터센터 스토리지 수요 (신규) |
+| 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q1 FY2027, 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 (신규) |
+
 ---
 
 ## 아카이브 (발표 완료)
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 5/4 | Palantir (PLTR) | 소프트웨어 | AMC 발표 완료 (매출 $1.63B +85% YoY vs 컨센 $1.54B 비트, Adj EPS $0.33 vs $0.28 비트, 미국 매출 +104% YoY, 미국 상업부문 +133%, FY26 가이던스 $7.65~7.66B 컨센 $7.27B 대폭 상회) |
+| 4/29 | Qualcomm (QCOM) | 반도체-모바일 | Q2 FY2026 AMC 발표 완료 (매출 $10.6B, 비GAAP EPS $2.65, 가이던스 상단 달성, 자동차 매출 레코드) |
+| 4/29 | KLA Corporation (KLAC) | 반도체-소부장 | Q3 FY2026 발표 완료 (4/29, 검사·계측 장비) |
+| 4/28 | Seagate (STX) | 반도체-스토리지 | Q3 FY2026 AMC 발표 완료 (매출 $3.11B, GAAP EPS $3.27, 비GAAP EPS $4.10, 레코드 마진, 성장 가이던스 상향) |
+| 4/23 | Intel (INTC) | 반도체-CPU | Q1 2026 발표 완료 (매출 $13.58B +7.2% YoY, 비GAAP EPS $0.29 vs 컨센 $0.01 대폭 비트, 데이터센터 Xeon 반등) |
+| 4/21 | RTX (RTX) | 방산 | Q1 2026 BMO 발표 완료 (매출 $22.1B +9% YoY, EPS $1.78 vs 컨센 $1.52 비트, 2026 가이던스 $92.5~93.5B 상향) |
 | 3/18 | Micron (MU) | 반도체 | [2026-Q1] AMC, FY26 Q2 발표 완료 (매출 $23.86B +27% 가이던스 비트, GPM 74.9%, EPS $12.20, 6주 후 ATH $542 +94% PT 상향) |
 | 4/30 | Apple (AAPL) | 빅테크 | AMC 발표 완료 (매출 $111.2B +17% YoY beat, EPS $2.01 vs 예상 $1.94 beat, iPhone $56.99B, 중국 +28%, CEO 승계 John Ternus) |
 | 4/30 | SanDisk (SNDK) | 반도체 | AMC 발표 완료 (매출 $5.95B +251% YoY beat, GAAP GM 78.4%, 자사주 $6B, Q4 가이던스 $7.75-8.25B) |
