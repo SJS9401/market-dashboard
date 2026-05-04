@@ -284,7 +284,14 @@
     },
     {
       "label1": "",
-      "label2": "Mobile Total Shipment(Mn)",
+      "label2": "Mobile Total",
+      "cells": {},
+      "_level": 1,
+      "_is_header": true
+    },
+    {
+      "label1": "",
+      "label2": "Shipment(Mn)",
       "cells": {
         "1Q25": "69",
         "2Q25": "65",
@@ -320,7 +327,14 @@
     },
     {
       "label1": "",
-      "label2": "Smart Phone Shipment(Mn)",
+      "label2": "Smart Phone",
+      "cells": {},
+      "_level": 1,
+      "_is_header": true
+    },
+    {
+      "label1": "",
+      "label2": "Shipment(Mn)",
       "cells": {
         "1Q25": "61",
         "2Q25": "57",
@@ -349,7 +363,7 @@
         "3Q26F": "7%",
         "4Q26F": "-5%",
         "2024": "0%",
-        "2025": "7%",
+        "2025": "2%",
         "2026F": "2%"
       },
       "_level": 2
@@ -409,7 +423,7 @@
       "_level": 2
     },
     {
-      "label1": "TV/AV",
+      "label1": "OD",
       "label2": "",
       "cells": {},
       "_level": 0,
@@ -417,7 +431,14 @@
     },
     {
       "label1": "",
-      "label2": "LCD TV Shipment(Mn)",
+      "label2": "LCD TV",
+      "cells": {},
+      "_level": 1,
+      "_is_header": true
+    },
+    {
+      "label1": "",
+      "label2": "Shipment(Mn)",
       "cells": {
         "1Q25": "9.19",
         "2Q25": "8.46",
@@ -489,7 +510,7 @@
     }
   ],
   "source": "Weekly_Roko_260504.pdf",
-  "extracted_at": "2026-05-04T09:27:32",
+  "extracted_at": "2026-05-04T10:04:01",
   "extraction_method": "claude_vision",
   "sector": "semi",
   "validation_issues": []
