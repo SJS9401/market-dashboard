@@ -2,14 +2,14 @@
   "metric": "EV용 리튬이온전지 수출 단가 YoY",
   "unit": "%",
   "source": "Battery_Weekly_2026.5.4.pdf",
-  "extracted_at": "2026-05-04T09:53:56",
+  "extracted_at": "2026-05-04T10:51:45",
   "data": [],
-  "verified": false,
-  "needs_review": true,
+  "verified": true,
+  "needs_review": false,
   "verification": {
-    "drift": "moved",
-    "matched_label": "도표 40. ESS용 리튬이온전지 수출 단가 추이",
-    "dy": -434.3500000000001,
+    "drift": "ok",
+    "matched_label": "도표 38. EV용 리튬이온전지 수출 단가 추이",
+    "dy": 0.0,
     "dx": 0.0
   }
 }

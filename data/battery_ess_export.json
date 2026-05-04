@@ -2,14 +2,19 @@
   "metric": "ESS용 리튬이온전지 수출액",
   "unit": "백만달러",
   "source": "Battery_Weekly_2026.5.4.pdf",
-  "extracted_at": "2026-05-04T09:53:56",
-  "data": [],
-  "verified": false,
-  "needs_review": true,
+  "extracted_at": "2026-05-04T13:31:48",
+  "data": [
+    {
+      "date": "2026-03-01",
+      "value": 275.0
+    }
+  ],
+  "verified": true,
   "verification": {
-    "drift": "missing",
-    "matched_label": null,
-    "dy": null,
-    "dx": null
-  }
+    "drift": "ok",
+    "matched_label": "도표 39. ESS용 리튬이온전지 수출액 추이",
+    "dy": 0.0,
+    "dx": 0.0
+  },
+  "last_extraction_method": "llm_vision_lastvalue"
 }

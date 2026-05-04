@@ -39,7 +39,7 @@
         "4Q26F": "2,703",
         "2025": "13,973",
         "2026F": "10,770",
-        "2027F": "11,335",
+        "2027F": "11,355",
         "2028F": "11,893"
       },
       "_level": 2
@@ -313,8 +313,8 @@
       "_level": 2
     },
     {
-      "label1": "",
-      "label2": "AMPC",
+      "label1": "AMPC",
+      "label2": "",
       "cells": {
         "1Q25": "458",
         "2Q25": "458",
@@ -329,7 +329,8 @@
         "2027F": "1,057",
         "2028F": "2,219"
       },
-      "_level": 2
+      "_level": 0,
+      "_is_header": false
     },
     {
       "label1": "Total",
@@ -397,7 +398,7 @@
     },
     {
       "label1": "",
-      "label2": "영업이익(AMPC 제외)",
+      "label2": "영업이익 (AMPC 제외)",
       "cells": {
         "1Q25": "(83)",
         "2Q25": "1",
@@ -416,7 +417,7 @@
     }
   ],
   "source": "Battery_Weekly_2026.5.4.pdf",
-  "extracted_at": "2026-05-04T10:02:55",
+  "extracted_at": "2026-05-04T13:33:30",
   "extraction_method": "claude_vision",
   "sector": "battery",
   "validation_issues": []

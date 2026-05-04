@@ -18,13 +18,6 @@
   ],
   "rows": [
     {
-      "label1": "삼성전자 주요 가정",
-      "label2": "",
-      "cells": {},
-      "_level": 0,
-      "_is_header": true
-    },
-    {
       "label1": "반도체",
       "label2": "",
       "cells": {},
@@ -32,10 +25,10 @@
       "_is_header": true
     },
     {
-      "label1": "",
-      "label2": "DRAM",
+      "label1": "DRAM",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -111,10 +104,10 @@
       "_level": 2
     },
     {
-      "label1": "",
-      "label2": "NAND",
+      "label1": "NAND",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -197,10 +190,10 @@
       "_is_header": true
     },
     {
-      "label1": "",
-      "label2": "Mobile",
+      "label1": "Mobile",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -283,10 +276,10 @@
       "_is_header": true
     },
     {
-      "label1": "",
-      "label2": "Mobile Total",
+      "label1": "Mobile Total",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -326,10 +319,10 @@
       "_level": 2
     },
     {
-      "label1": "",
-      "label2": "Smart Phone",
+      "label1": "Smart Phone",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -363,7 +356,7 @@
         "3Q26F": "7%",
         "4Q26F": "-5%",
         "2024": "0%",
-        "2025": "2%",
+        "2025": "7%",
         "2026F": "2%"
       },
       "_level": 2
@@ -375,14 +368,14 @@
         "1Q25": "98%",
         "2Q25": "98%",
         "3Q25": "99%",
-        "4Q25": "90%",
-        "1Q26P": "90%",
+        "4Q25": "99%",
+        "1Q26P": "99%",
         "2Q26F": "99%",
-        "3Q26F": "90%",
-        "4Q26F": "90%",
+        "3Q26F": "99%",
+        "4Q26F": "99%",
         "2024": "98%",
         "2025": "98%",
-        "2026F": "90%"
+        "2026F": "99%"
       },
       "_level": 2
     },
@@ -423,17 +416,17 @@
       "_level": 2
     },
     {
-      "label1": "OD",
+      "label1": "VD",
       "label2": "",
       "cells": {},
       "_level": 0,
       "_is_header": true
     },
     {
-      "label1": "",
-      "label2": "LCD TV",
+      "label1": "LCD TV",
+      "label2": "",
       "cells": {},
-      "_level": 1,
+      "_level": 0,
       "_is_header": true
     },
     {
@@ -510,7 +503,7 @@
     }
   ],
   "source": "Weekly_Roko_260504.pdf",
-  "extracted_at": "2026-05-04T10:04:01",
+  "extracted_at": "2026-05-04T13:35:48",
   "extraction_method": "claude_vision",
   "sector": "semi",
   "validation_issues": []
