@@ -16,7 +16,7 @@
 - **반도체** (삼성전자, SK하이닉스, Micron(MU))
 - **반도체 소부장** (삼성전기, 한미반도체, 리노공업)
 - **전력 인프라** (ABB(ABB), LS일렉트릭, GE Vernova(GEV), 효성중공업, HD현대일렉트릭, Schneider Electric(SU), Hitachi Energy(HE), Eaton(ETN), Siemens Energy(ENR))
-- **배터리** (LG에너지솔루션, 포스코퓨쳐엠, 삼성SDI, 엘앤에프)
+- **배터리** (LG에너지솔루션, 포스코퓨쳐엠, 삼성SDI, 엘앤에프, 에코프로비엠)
 
 ## 섹터 T2 — 주도 후보
 
