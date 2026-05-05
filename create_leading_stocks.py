@@ -1002,6 +1002,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
   <a href="dashboard.html">마켓 대시보드</a>
   <a href="Market_cycle.html">시장 사이클</a>
   <a href="Leading_stocks.html" class="active">주도주 사이클</a>
+  <a href="Industry_semiconductor.html">반도체</a>
 </div>
 
 <div class="header">
@@ -1278,6 +1279,48 @@ function findRowAtTime(arr, t) {
   }
   return arr[lo];
 }
+function _dayKey(t) {
+  const d = new Date(t);
+  return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
+}
+function findRowAtTimeExact(arr, t) {
+  // 정확한 같은 날짜의 row 만 반환. 없으면 null. (휴장일/공휴일 처리용)
+  if (!arr || !arr.length) return null;
+  const tKey = _dayKey(t);
+  let lo = 0, hi = arr.length - 1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const mKey = _dayKey(arr[mid].x);
+    if (mKey === tKey) return arr[mid];
+    if (mKey < tKey) lo = mid + 1;
+    else hi = mid - 1;
+  }
+  return null;
+}
+function _fmtDateDow(t) {
+  // 외부 괄호 포함 — top label 용 ("2026-04-30 (목)")
+  const d = new Date(t);
+  const dow = ['일','월','화','수','목','금','토'][d.getDay()];
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' ('+dow+')';
+}
+function _fmtDateDowPlain(t) {
+  // 외부 괄호 없이 — 섹션 제목의 (날짜 요일) 안쪽에 들어갈 때 중복 괄호 방지
+  const d = new Date(t);
+  const dow = ['일','월','화','수','목','금','토'][d.getDay()];
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+dow;
+}
+// 토글된(visible) 캔들 dataset 정보 추출 — 휴장 섹션 렌더링용
+function _visibleCandleInfo(chart) {
+  const out = [];
+  if (!chart) return out;
+  for (let i = 0; i < chart.data.datasets.length; i++) {
+    const ds = chart.data.datasets[i];
+    if (!ds._candle) continue;
+    if (!chart.isDatasetVisible(i)) continue;
+    out.push({ ds, label: ds.label, indexId: ds._indexId });
+  }
+  return out;
+}
 
 // ===== Y-AXIS WIDTH FIX (크로스헤어 Y축폭 일치용) =====
 // 고정 너비로 강제 → 차트마다 y-axis 라벨 폭이 달라도 chartArea.left 가 동일해져
@@ -1328,12 +1371,20 @@ const crosshairPlugin = {
     const ctx = chart.ctx;
     const area = chart.chartArea;
     let xPx = crosshairState.x;
-    if (crosshairState.sourceChart && crosshairState.sourceChart !== chart) {
-      const xScale = crosshairState.sourceChart.scales.x;
+    const _srcChart = crosshairState.sourceChart;
+    if (_srcChart && _srcChart !== chart) {
+      const xScale = _srcChart.scales.x;
       const val = xScale.getValueForPixel(crosshairState.x);
       xPx = chart.scales.x.getPixelForValue(val);
     }
     if (xPx < area.left || xPx > area.right) return;
+
+    // 호버 시점의 timestamp (모든 패널 공유 — 황금점 exact-match 용)
+    let xValMark = null;
+    if (_srcChart) {
+      xValMark = _srcChart.scales.x.getValueForPixel(crosshairState.x);
+    }
+
     ctx.save();
     // 실선 + 다크 마젠타 (회색 배경 + 캔들 빨/파와 충돌 X)
     ctx.beginPath();
@@ -1343,54 +1394,50 @@ const crosshairPlugin = {
     ctx.moveTo(xPx, area.top);
     ctx.lineTo(xPx, area.bottom);
     ctx.stroke();
-    // === 같은 날짜 캔들 위에 굵은 점 (시계열 정렬 확인용) ===
-    const _srcChart = crosshairState.sourceChart;
-    if (_srcChart) {
-      const xValMark = _srcChart.scales.x.getValueForPixel(crosshairState.x);
-      if (xValMark != null) {
-        ctx.setLineDash([]);
-        // candle datasets — close 위에 마커
-        chart.data.datasets.forEach((ds, i) => {
-          if (!ds._candle) return;
-          if (!chart.isDatasetVisible(i)) return;
-          const row = findRowAtTime(ds.data, xValMark);
-          if (!row || row.c == null) return;
-          const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
-          const rxPx = xS.getPixelForValue(row.x);
-          const ryPx = yS.getPixelForValue(row.c);
-          if (rxPx < area.left || rxPx > area.right) return;
-          if (ryPx < area.top || ryPx > area.bottom) return;
-          ctx.beginPath();
-          ctx.fillStyle = '#FFD700';
-          ctx.strokeStyle = '#0d1117';
-          ctx.lineWidth = 1.5;
-          ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-        });
-        // volume dataset — 막대 끝에 마커
-        chart.data.datasets.forEach((ds, i) => {
-          if (!ds._volume) return;
-          if (!chart.isDatasetVisible(i)) return;
-          const row = findRowAtTime(ds.data, xValMark);
-          if (!row || row.v == null) return;
-          const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
-          const rxPx = xS.getPixelForValue(row.x);
-          const ryPx = yS.getPixelForValue(row.v);
-          if (rxPx < area.left || rxPx > area.right) return;
-          if (ryPx < area.top || ryPx > area.bottom) return;
-          ctx.beginPath();
-          ctx.fillStyle = '#FFD700';
-          ctx.strokeStyle = '#0d1117';
-          ctx.lineWidth = 1.5;
-          ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-        });
-      }
+    // === 같은 날짜 캔들 위에 굵은 점 (시계열 정렬 확인용) — exact match 만 ===
+    if (xValMark != null) {
+      ctx.setLineDash([]);
+      // candle datasets — close 위에 마커
+      chart.data.datasets.forEach((ds, i) => {
+        if (!ds._candle) return;
+        if (!chart.isDatasetVisible(i)) return;
+        const row = findRowAtTimeExact(ds.data, xValMark);
+        if (!row || row.c == null) return;
+        const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
+        const rxPx = xS.getPixelForValue(row.x);
+        const ryPx = yS.getPixelForValue(row.c);
+        if (rxPx < area.left || rxPx > area.right) return;
+        if (ryPx < area.top || ryPx > area.bottom) return;
+        ctx.beginPath();
+        ctx.fillStyle = '#FFD700';
+        ctx.strokeStyle = '#0d1117';
+        ctx.lineWidth = 1.5;
+        ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      });
+      // volume dataset — 막대 끝에 마커
+      chart.data.datasets.forEach((ds, i) => {
+        if (!ds._volume) return;
+        if (!chart.isDatasetVisible(i)) return;
+        const row = findRowAtTimeExact(ds.data, xValMark);
+        if (!row || row.v == null) return;
+        const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
+        const rxPx = xS.getPixelForValue(row.x);
+        const ryPx = yS.getPixelForValue(row.v);
+        if (rxPx < area.left || rxPx > area.right) return;
+        if (ryPx < area.top || ryPx > area.bottom) return;
+        ctx.beginPath();
+        ctx.fillStyle = '#FFD700';
+        ctx.strokeStyle = '#0d1117';
+        ctx.lineWidth = 1.5;
+        ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      });
     }
     // horizontal solid only on hovered chart
-    if (crosshairState.sourceChart === chart && crosshairState.y >= area.top && crosshairState.y <= area.bottom) {
+    if (_srcChart === chart && crosshairState.y >= area.top && crosshairState.y <= area.bottom) {
       ctx.beginPath();
       ctx.setLineDash([]);
       ctx.lineWidth = 1;
@@ -1569,13 +1616,14 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
 
   // 1차 판정: 호버 위치가 "어느 차트의 캔들" 위에 있는지 검사.
   // 보이는(hidden=false) candle dataset 을 찾아 그 시점의 row 반환.
+  // === EXACT-MATCH 만 채택: 휴장일 패널은 자연스럽게 null → 섹션 누락 ===
   function nearestVisibleCandle(chart) {
     if (!chart) return null;
     for (let i = 0; i < chart.data.datasets.length; i++) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
       if (!chart.isDatasetVisible(i)) continue;
-      const r = findRowAtTime(ds.data, xVal);
+      const r = findRowAtTimeExact(ds.data, xVal);
       if (r) return { ds, row: r, dsIndex: i };
     }
     return null;
@@ -1598,7 +1646,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
       if (!chart.isDatasetVisible(i)) continue;
-      const r = findRowAtTime(ds.data, xVal);
+      const r = findRowAtTimeExact(ds.data, xVal);
       if (r && _isOnCandle(chart, r, xVal, hoverY)) return true;
     }
     return false;
@@ -1611,7 +1659,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     hoveredOnCandle = anyHitOnCandle(src, stockHit);
   } else if (src.$role === 'volume') {
     const vds = volChart ? volChart.data.datasets.find(d => d._volume) : null;
-    const vrow = vds ? findRowAtTime(vds.data, xVal) : null;
+    const vrow = vds ? findRowAtTimeExact(vds.data, xVal) : null;
     hoveredOnCandle = !!(vrow && _isOnCandle(src, vrow, xVal, hoverY));
   }
   if (!hoveredOnCandle) {
@@ -1619,9 +1667,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     return;
   }
 
-  const dt = new Date(xVal);
-  const _dowKr = ['일','월','화','수','목','금','토'];
-  const dateLabel = dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0') + ' (' + _dowKr[dt.getDay()] + ')';
+  const dateLabel = _fmtDateDow(xVal);
 
   let html = '<div class="hts-date">' + dateLabel + '</div>';
 
@@ -1648,8 +1694,10 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     }
     const oP = pctOf(row.o), hP = pctOf(row.h), lP = pctOf(row.l), cP = pctOf(row.c);
     const cCls = (cP != null && cP >= 0) ? 'hts-up' : 'hts-down';
+    // 섹션 실제 데이터 날짜 (xVal 과 다를 수 있음 — 정합성 검증용)
+    const _rowDateLbl = _fmtDateDowPlain(row.x);
     let s = '<div class="hts-section">';
-    s += '<div class="hts-section-title" style="color:' + (color || '#8b949e') + ';">' + title + '</div>';
+    s += '<div class="hts-section-title" style="color:' + (color || '#8b949e') + ';">' + title + ' <span style="color:#8b949e;font-size:11px;font-weight:normal;">(' + _rowDateLbl + ')</span></div>';
     s += '<div class="hts-row"><span class="k">시가</span><span class="v">' + fmt(row.o) + pctSpan(oP) + '</span></div>';
     s += '<div class="hts-row"><span class="k">고가</span><span class="v">' + fmt(row.h) + pctSpan(hP) + '</span></div>';
     s += '<div class="hts-row"><span class="k">저가</span><span class="v">' + fmt(row.l) + pctSpan(lP) + '</span></div>';
@@ -1661,7 +1709,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       if (!ds._isMa) return;
       if (!chart.isDatasetVisible(i)) return;
       if (cds._indexId && ds._indexId && cds._indexId !== ds._indexId) return;
-      const mp = findRowAtTime(ds.data, xVal);
+      const mp = findRowAtTimeExact(ds.data, row.x);
       if (mp && mp.y != null) {
         const disparity = ((row.c - mp.y) / mp.y) * 100;
         const dUp = disparity >= 0;
@@ -1676,6 +1724,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   }
 
   // 모든 visible candle 수집 (지수 패널은 NASDAQ+S&P500 또는 KOSPI+KOSDAQ 동시 표시 가능)
+  // === EXACT-MATCH: 정확히 같은 날짜의 캔들만 — 휴장일은 빈 배열 반환 ===
   function allVisibleHits(chart) {
     if (!chart) return [];
     const out = [];
@@ -1683,7 +1732,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       const ds = chart.data.datasets[i];
       if (!ds._candle) continue;
       if (!chart.isDatasetVisible(i)) continue;
-      const r = findRowAtTime(ds.data, xVal);
+      const r = findRowAtTimeExact(ds.data, xVal);
       if (r) out.push({ ds, row: r, dsIndex: i });
     }
     return out;
@@ -1691,30 +1740,63 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   const usHits = allVisibleHits(usIndexChart);
   const krHits = allVisibleHits(priceChart);
 
+  // 휴장 섹션 — 제목 + (날짜 요일) - 휴장 표시만
+  function renderClosedSection(title, color) {
+    return '<div class="hts-section">'
+      + '<div class="hts-section-title" style="color:' + (color || '#8b949e') + ';">'
+      + title + ' <span style="color:#8b949e;font-size:11px;font-weight:normal;">'
+      + '(' + _fmtDateDowPlain(xVal) + ') - 휴장</span></div>'
+      + '</div>';
+  }
+
   // US 지수 섹션 (NASDAQ / S&P500 토글된 항목만)
   const _usColors = { nasdaq: '#FF6B6B', sp500: '#4ECDC4' };
   let usSection = '';
-  usHits.forEach(h => {
-    const lbl = h.ds.label;
-    const color = _usColors[h.ds._indexId] || '#8b949e';
-    usSection += renderSection(lbl, usIndexChart, color, h);
-  });
+  if (usHits.length > 0) {
+    usHits.forEach(h => {
+      const lbl = h.ds.label;
+      const color = _usColors[h.ds._indexId] || '#8b949e';
+      usSection += renderSection(lbl, usIndexChart, color, h);
+    });
+  } else {
+    // 미장 휴장 — visible candle dataset 라벨로 휴장 섹션 생성
+    _visibleCandleInfo(usIndexChart).forEach(info => {
+      const color = _usColors[info.indexId] || '#8b949e';
+      usSection += renderClosedSection(info.label, color);
+    });
+  }
   // KR 지수 섹션 (KOSPI / KOSDAQ)
   const _krColors = { kospi: '#F39C12', kosdaq: '#4ECDC4' };
   let krSection = '';
-  krHits.forEach(h => {
-    const lbl = h.ds.label;
-    const color = _krColors[h.ds._indexId] || '#8b949e';
-    krSection += renderSection(lbl, priceChart, color, h);
-  });
-  const stockSection = renderSection(stockChart && stockChart.$stockName ? stockChart.$stockName : '주도주', stockChart, stockChart && stockChart.$stockColor || '#58a6ff', stockHit);
+  if (krHits.length > 0) {
+    krHits.forEach(h => {
+      const lbl = h.ds.label;
+      const color = _krColors[h.ds._indexId] || '#8b949e';
+      krSection += renderSection(lbl, priceChart, color, h);
+    });
+  } else {
+    _visibleCandleInfo(priceChart).forEach(info => {
+      const color = _krColors[info.indexId] || '#8b949e';
+      krSection += renderClosedSection(info.label, color);
+    });
+  }
+  // 종목 섹션
+  let stockSection = '';
+  if (stockHit) {
+    stockSection = renderSection(stockChart && stockChart.$stockName ? stockChart.$stockName : '주도주', stockChart, stockChart && stockChart.$stockColor || '#58a6ff', stockHit);
+  } else if (stockChart) {
+    // 종목 휴장 — 종목명+휴장 표시
+    const stockColor = stockChart.$stockColor || '#58a6ff';
+    const stockName = stockChart.$stockName || '주도주';
+    stockSection = renderClosedSection(stockName, stockColor);
+  }
   html += usSection + krSection + stockSection;
 
   // 거래대금 — volume 섹션은 stock 캔들과 동일한 시점이므로 stock 이 캔들 위일 때만 표시
   if (volChart && stockSection) {
     const vds = volChart.data.datasets.find(d => d._volume);
     if (vds) {
-      const row = findRowAtTime(vds.data, xVal);
+      const row = findRowAtTimeExact(vds.data, xVal);
       if (row && row.v != null) {
         html += '<div class="hts-section"><div class="hts-row"><span class="k">거래대금</span><span class="v">' + fmt(row.v, 0) + ' 억</span></div></div>';
       }
@@ -2054,10 +2136,25 @@ function makePriceChart(canvasId, ohlcData, title, color, extraAnn, scaleType, v
       },
       scales: {
         x: {
-          type: 'time',
+          type: 'timeseries',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
           grid: { color: '#9A9A9A' },
-          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true,
+            // 줌 윈도우 시간 범위 기준 분기 (4년):
+            //   - 4년 이상: 연도 변경 tick 만 yyyy, 같은 연도 중복은 빈 라벨
+            //   - 4년 미만: 매 tick에 라벨. 1월(또는 첫 tick)은 yyyy, 그 외는 'M월'
+            // autoSkip:false 로 chart.js 자동 hide 방지 — 빈 라벨도 자리만 차지하고 그 외는 모두 표시.
+            callback: function(value, index, ticks) {
+              if (!ticks || !ticks.length) return '';
+              const winYears = (ticks[ticks.length - 1].value - ticks[0].value) / (365.25 * 86400000);
+              const d = new Date(value);
+              const yr = d.getFullYear();
+              const mo = d.getMonth() + 1;
+              if (winYears >= 4) return yr;
+              if (mo === 1 || index === 0) return yr;
+              return mo + '월';
+            }
+          },
           display: false
         },
         y: {
@@ -2143,10 +2240,25 @@ function makeIndexChart(canvasId, data1, data2, scaleType, view, role, annotatio
       },
       scales: {
         x: {
-          type: 'time',
+          type: 'timeseries',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
           grid: { color: '#9A9A9A' },
-          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true,
+            // 줌 윈도우 시간 범위 기준 분기 (4년):
+            //   - 4년 이상: 연도 변경 tick 만 yyyy, 같은 연도 중복은 빈 라벨
+            //   - 4년 미만: 매 tick에 라벨. 1월(또는 첫 tick)은 yyyy, 그 외는 'M월'
+            // autoSkip:false 로 chart.js 자동 hide 방지 — 빈 라벨도 자리만 차지하고 그 외는 모두 표시.
+            callback: function(value, index, ticks) {
+              if (!ticks || !ticks.length) return '';
+              const winYears = (ticks[ticks.length - 1].value - ticks[0].value) / (365.25 * 86400000);
+              const d = new Date(value);
+              const yr = d.getFullYear();
+              const mo = d.getMonth() + 1;
+              if (winYears >= 4) return yr;
+              if (mo === 1 || index === 0) return yr;
+              return mo + '월';
+            }
+          },
           display: false
         },
         y: {
@@ -2308,10 +2420,21 @@ function makeVolumeChart(canvasId, ohlcData, view) {
       plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: {
         x: {
-          type: 'time',
+          type: 'timeseries',
           time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
           grid: { color: '#9A9A9A' },
-          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14 }
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true,
+            callback: function(value, index, ticks) {
+              if (!ticks || !ticks.length) return '';
+              const winYears = (ticks[ticks.length - 1].value - ticks[0].value) / (365.25 * 86400000);
+              const d = new Date(value);
+              const yr = d.getFullYear();
+              const mo = d.getMonth() + 1;
+              if (winYears >= 4) return yr;
+              if (mo === 1 || index === 0) return yr;
+              return mo + '월';
+            }
+          }
         },
         y: {
           type: 'linear', position: 'left', beginAtZero: true,
@@ -2432,6 +2555,23 @@ function renderV1() {
   const volCh = makeVolumeChart('v1-volume', stockWeekly, 'v1');
 
   chartRegistry.v1 = [usIndexCh, priceCh, stockCh, volCh];
+
+  // === 합집합 X축 padding — 4 패널 시점 sync (한국 영업일 ∪ 미국 영업일) ===
+  const _v1UnionXSet = new Set();
+  kospiWeekly.forEach(d => _v1UnionXSet.add(d.x));
+  nasdaqWeekly.forEach(d => _v1UnionXSet.add(d.x));
+  const _v1UnionX = Array.from(_v1UnionXSet).sort((a, b) => a - b);
+  const _v1GhostData = _v1UnionX.map(t => ({ x: t, y: null }));
+  [usIndexCh, priceCh, stockCh, volCh].forEach(ch => {
+    ch.data.datasets.push({
+      label: '_xunion', data: _v1GhostData,
+      borderColor: 'transparent', backgroundColor: 'transparent',
+      pointRadius: 0, fill: false, _xunion: true,
+      yAxisID: ch.options.scales.y ? 'y' : undefined,
+      order: 999
+    });
+    ch.update('none');
+  });
 
   // x-축 정렬: 4개 패널 모두 동일 구간 강제
   const allDataArrays = [nasdaqWeekly, sp500Weekly, kospiWeekly, kosdaqWeekly, stockWeekly].filter(a => a.length);
@@ -2681,6 +2821,25 @@ function renderV2() {
   const stockCh = makePriceChart('v2-stock', stockProc, stock.name, color, stockAnn, v2Scale, 'v2', 'stock');
   const volCh = makeVolumeChart('v2-volume', stockProc, 'v2');
   chartRegistry.v2 = [usIndexCh, priceCh, stockCh, volCh];
+
+  // === 합집합 X축 padding — 4 패널 시점 sync (한국 영업일 ∪ 미국 영업일) ===
+  // chart.js timeseries 는 모든 dataset 의 X 값 union 을 X축 카테고리로 사용.
+  // ghost dataset 을 모든 패널에 동일하게 주입하면 4 패널이 같은 X 시퀀스를 가짐.
+  const _unionXSet = new Set();
+  kospiProc.forEach(d => _unionXSet.add(d.x));
+  nasdaqProc.forEach(d => _unionXSet.add(d.x));
+  const unionX = Array.from(_unionXSet).sort((a, b) => a - b);
+  const ghostData = unionX.map(t => ({ x: t, y: null }));
+  [usIndexCh, priceCh, stockCh, volCh].forEach(ch => {
+    ch.data.datasets.push({
+      label: '_xunion', data: ghostData,
+      borderColor: 'transparent', backgroundColor: 'transparent',
+      pointRadius: 0, fill: false, _xunion: true,
+      yAxisID: ch.options.scales.y ? 'y' : undefined,
+      order: 999
+    });
+    ch.update('none');
+  });
 
   // x-축 정렬: 4개 패널 모두 동일한 [rangeStart, rangeEnd]로 강제
   const xMinMs = new Date(rangeStart).getTime();

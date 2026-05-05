@@ -292,10 +292,16 @@ def cmd_probe() -> None:
 # ----------------------------------------------------------------------
 
 def _fetch_spx_stooq(start: str, end: str):
-    """Stooq CSV 에서 ^SPX 일봉 시계열 fetch.
+    """Stooq CSV 에서 ^SPX 일봉 시계열 fetch (다중 심볼 시도).
 
-    URL 형식: https://stooq.com/q/d/l/?s=^spx&i=d&d1=YYYYMMDD&d2=YYYYMMDD
-    응답: CSV ('Date,Open,High,Low,Close,Volume', 날짜 오름차순)
+    Stooq 심볼 후보 (응답이 다를 수 있어 fallback):
+      1) ^spx        — 표준 (Stooq 일반 형식)
+      2) ^spx.us     — 미국 거래소 한정 표기
+      3) %5Espx      — 미리 URL-encoded
+      4) spx         — caret 없이
+
+    각 심볼에 대해 GET. 첫 번째 valid CSV 응답 파싱.
+    실패 원인은 _log() 로 기록 (status, body length, body preview).
 
     Returns
     -------
@@ -306,25 +312,55 @@ def _fetch_spx_stooq(start: str, end: str):
 
     d1 = start.replace("-", "")
     d2 = end.replace("-", "")
-    url = f"https://stooq.com/q/d/l/?s=^spx&i=d&d1={d1}&d2={d2}"
-    r = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-    r.raise_for_status()
-    body = r.text.strip()
-    # Stooq returns "No data" or empty on error
-    if not body or body.lower().startswith("no data") or "\n" not in body:
-        return pd.Series(dtype=float, name="Close")
-    # Parse via pandas (handles header row)
-    try:
-        df = pd.read_csv(io.StringIO(body))
-    except Exception:
-        return pd.Series(dtype=float, name="Close")
-    if df.empty or "Date" not in df.columns or "Close" not in df.columns:
-        return pd.Series(dtype=float, name="Close")
-    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-    df = df.dropna(subset=["Date", "Close"]).sort_values("Date")
-    s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
-    s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
-    return s
+    candidates = [
+        "^spx",      # caret 그대로 (requests 가 자동 URL-encode)
+        "^spx.us",
+        "spx",
+        "spx.us",
+    ]
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/csv,text/plain,*/*",
+    }
+
+    for sym in candidates:
+        url = f"https://stooq.com/q/d/l/?s={sym}&i=d&d1={d1}&d2={d2}"
+        try:
+            r = requests.get(url, timeout=30, headers=headers)
+        except Exception as e:
+            _log(f"  stooq[{sym}] EXCEPTION: {e}")
+            continue
+        if r.status_code != 200:
+            _log(f"  stooq[{sym}] HTTP {r.status_code}")
+            continue
+        body = (r.text or "").strip()
+        if not body:
+            _log(f"  stooq[{sym}] empty response (0 bytes)")
+            continue
+        if body.lower().startswith("no data") or "\n" not in body:
+            _log(f"  stooq[{sym}] no-data response: {body[:80]!r}")
+            continue
+        # Parse via pandas (handles header row)
+        try:
+            df = pd.read_csv(io.StringIO(body))
+        except Exception as e:
+            _log(f"  stooq[{sym}] parse error: {e}; preview={body[:100]!r}")
+            continue
+        if df.empty or "Date" not in df.columns or "Close" not in df.columns:
+            cols = list(df.columns)
+            _log(f"  stooq[{sym}] schema unexpected: cols={cols} rows={len(df)}")
+            continue
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        df = df.dropna(subset=["Date", "Close"]).sort_values("Date")
+        if df.empty:
+            _log(f"  stooq[{sym}] empty after parse")
+            continue
+        s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
+        s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
+        _log(f"  stooq[{sym}] ✓ {len(s)} rows")
+        return s
+
+    return pd.Series(dtype=float, name="Close")
 
 
 def _fetch_spx_yfinance(start: str, end: str):
