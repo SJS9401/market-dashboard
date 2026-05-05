@@ -398,6 +398,7 @@ function buildPage(manifest) {
 
       if (card.embed_page === true) {
         // PDF vector iframe embed (글자 무한 해상도)
+        // view=Fit: 페이지 전체 fit (스크롤바 X). aspect-ratio 는 applyEmbedAspectRatios() 가 동적 설정.
         const pdfFile = `pdf_pages/battery_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
         cardEl.innerHTML = `
@@ -405,7 +406,7 @@ function buildPage(manifest) {
             <h3>${card.title || cid}</h3>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}">
-            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
+            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=Fit"
                     title="${pdfTitle}"></iframe>
           </div>
         `;
@@ -866,6 +867,25 @@ async function renderChart(containerId, def) {
   }
 }
 
+// PDF embed 카드 aspect-ratio 동적 적용 — figures meta 의 mediabox_pt 사용
+// PDF 가 letter (612×792) 인지 A4 (595×842) 인지 등에 따라 카드별 정확한 비율로 fit.
+async function applyEmbedAspectRatios() {
+  try {
+    const r = await fetch(DATA_DIR + 'figures/battery_figures_meta.json', { cache: 'no-store' });
+    if (!r.ok) return;
+    const meta = await r.json();
+    const figs = meta.figures || {};
+    Object.entries(figs).forEach(([cid, fig]) => {
+      if (fig.type !== 'pdf_embed' || !fig.mediabox_pt) return;
+      const cw = document.getElementById(`cw-${cid}`);
+      if (cw) {
+        const [w, h] = fig.mediabox_pt;
+        cw.style.aspectRatio = `${w} / ${h}`;
+      }
+    });
+  } catch (e) { console.warn('embed aspect-ratio apply failed', e); }
+}
+
 // PDF 발행일자 표시 — battery_figures_meta.json 의 source_pdf 필드에서 추출
 // 예: "Battery_Weekly_2026.5.4.pdf" → "2026.05.04 자"
 async function showPdfPubDate() {
@@ -888,6 +908,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const manifest = await fetchCardsManifest();
   buildPage(manifest);
   showPdfPubDate();
+  applyEmbedAspectRatios();
 });
 </script>
 </body>

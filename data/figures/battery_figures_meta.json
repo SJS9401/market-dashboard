@@ -1,7 +1,7 @@
 {
   "sector": "battery",
   "source_pdf": "Battery_Weekly_2026.5.4.pdf",
-  "generated_at": "2026-05-05T16:52:55Z",
+  "generated_at": "2026-05-05T17:00:17Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
@@ -13,35 +13,55 @@
       "type": "pdf_embed",
       "page_idx": 12,
       "page_num": 13,
-      "file": "pdf_pages/battery_ev_us_models_table.pdf"
+      "file": "pdf_pages/battery_ev_us_models_table.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
     },
     "cellmaker_lges_perf": {
       "title": "LG에너지솔루션 실적 추이 및 전망",
       "type": "pdf_embed",
       "page_idx": 26,
       "page_num": 27,
-      "file": "pdf_pages/battery_cellmaker_lges_perf.pdf"
+      "file": "pdf_pages/battery_cellmaker_lges_perf.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
     },
     "cellmaker_sdi_perf": {
       "title": "삼성SDI 실적 추이 및 전망",
       "type": "pdf_embed",
       "page_idx": 27,
       "page_num": 28,
-      "file": "pdf_pages/battery_cellmaker_sdi_perf.pdf"
+      "file": "pdf_pages/battery_cellmaker_sdi_perf.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
     },
     "cellmaker_p29_combined": {
       "title": "에코프로비엠 + 포스코퓨처엠 실적 추이 및 전망",
       "type": "pdf_embed",
       "page_idx": 28,
       "page_num": 29,
-      "file": "pdf_pages/battery_cellmaker_p29_combined.pdf"
+      "file": "pdf_pages/battery_cellmaker_p29_combined.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
     },
     "summary_page1": {
       "title": "주간 시황 요약",
       "type": "pdf_embed",
       "page_idx": 0,
       "page_num": 1,
-      "file": "pdf_pages/battery_summary_page1.pdf"
+      "file": "pdf_pages/battery_summary_page1.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
     },
     "ev_global_growth": {
       "title": "글로벌 EV(BEV+PHEV) 월별 판매증가율",
