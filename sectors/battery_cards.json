@@ -8,40 +8,16 @@
     "PDF 도표 번호는 매주 바뀔 수 있어 의도적으로 미사용 — match 만 신뢰.",
     "사용처:",
     "  - lib/pdf_image_crop.py: --cards-manifest 옵션으로 fetch → PDF 매칭 → battery_<id>.png crop.",
-    "  - Industry_battery.html: fetch(./sectors/battery_cards.json) → buildPage."
+    "  - Industry_battery.html: fetch(./sectors/battery_cards.json) → buildPage.",
+    "섹션 순서 — 선행성 위계 (BT 확정, 2026-05-06):",
+    "  A. 수요 측 (가장 선행): EV 판매·모델 → 셀 출하 → LFP 침투율 → ESS",
+    "  B. 원재료/원가 (선행 chain): 원재료 가격 추이 → 전력 가격 → 수입 → 수출 양극재 → 수출 2차전지",
+    "  C. 후행: 셀메이커 실적",
+    "  Disabled: 원재료 가격 종합 표, 지역별 양극재 수출 표 (카탈로그 보존, 사이트 hide)."
   ],
   "sector": "battery",
   "schema_version": 1,
   "sections": [
-    {
-      "title": "셀 메이커·소재 업체 실적 추정 테이블",
-      "subtitle": "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 (각사 IR, 하나증권)",
-      "cols": 1,
-      "cards": [
-        {"id": "cellmaker_lges_perf",     "title": "LG에너지솔루션 실적 추이 및 전망", "match": "LG에너지솔루션 실적"},
-        {"id": "cellmaker_sdi_perf",      "title": "삼성SDI 실적 추이 및 전망",        "match": "삼성SDI 실적"},
-        {"id": "cellmaker_ecoprobm_perf", "title": "에코프로비엠 실적 추이 및 전망",   "match": "에코프로비엠 실적"},
-        {"id": "cellmaker_pfm_perf",      "title": "포스코퓨처엠 실적 추이 및 전망",   "match": "포스코퓨처엠 실적"}
-      ]
-    },
-    {
-      "title": "ESS 시장 — 글로벌·케미스트리",
-      "subtitle": "ESS 신규 설치량 + 케미스트리별 비중 (SNE Research)",
-      "cols": 1,
-      "cards": [
-        {"id": "ess_install_global",    "title": "ESS 신규 설치량 (글로벌)",          "match": "ESS 신규 설치량"},
-        {"id": "ess_chemistry_share",   "title": "ESS 케미스트리별 비중",             "match": "ESS 케미스트리"}
-      ]
-    },
-    {
-      "title": "ESS 시장 — 지역별·연계 유형",
-      "subtitle": "지역별 ESS 신규 설치량 + 전력망 연계 유형 (SNE Research)",
-      "cols": 1,
-      "cards": [
-        {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리"},
-        {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망"}
-      ]
-    },
     {
       "title": "EV 판매 — 글로벌·지역별",
       "subtitle": "월별 판매량 + 시장점유율 (SNE Research/EV-Volumes)",
@@ -74,17 +50,6 @@
       ]
     },
     {
-      "title": "전력 가격",
-      "subtitle": "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표)",
-      "cols": 2,
-      "cards": [
-        {"id": "power_uk",           "title": "영국 전력 가격",      "match": "영국 전력 가격"},
-        {"id": "power_de",           "title": "독일 전력 가격",      "match": "독일 전력 가격"},
-        {"id": "power_fr",           "title": "프랑스 전력 가격",    "match": "프랑스 전력 가격"},
-        {"id": "power_eu3_combined", "title": "유럽 3국 전력 가격",  "match": "유럽 3국 전력 가격"}
-      ]
-    },
-    {
       "title": "EV용 리튬이온 배터리 출하",
       "subtitle": "전기차용 LIB 출하량 (SNE Research)",
       "cols": 1,
@@ -105,18 +70,58 @@
       ]
     },
     {
-      "title": "수출 Data — 2차전지",
-      "subtitle": "품목별 수출액·단가 (KITA, 하나증권)",
+      "title": "ESS 시장 — 글로벌·케미스트리",
+      "subtitle": "ESS 신규 설치량 + 케미스트리별 비중 (SNE Research)",
+      "cols": 1,
+      "cards": [
+        {"id": "ess_install_global",    "title": "ESS 신규 설치량 (글로벌)",          "match": "ESS 신규 설치량"},
+        {"id": "ess_chemistry_share",   "title": "ESS 케미스트리별 비중",             "match": "ESS 케미스트리"}
+      ]
+    },
+    {
+      "title": "ESS 시장 — 지역별·연계 유형",
+      "subtitle": "지역별 ESS 신규 설치량 + 전력망 연계 유형 (SNE Research)",
+      "cols": 1,
+      "cards": [
+        {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리"},
+        {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망"}
+      ]
+    },
+    {
+      "title": "원재료 가격 추이",
+      "subtitle": "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 (한국광물자원공사, 하나증권)",
       "cols": 2,
       "cards": [
-        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액"},
-        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액"},
-        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액"},
-        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가"},
-        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액"},
-        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가"},
-        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액"},
-        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가"}
+        {"id": "raw_lithium",   "title": "리튬",      "match": "리튬 월별 평균 가격"},
+        {"id": "raw_nickel",    "title": "니켈",      "match": "니켈 월별 평균 가격"},
+        {"id": "raw_cobalt",    "title": "코발트",    "match": "코발트 월별 평균 가격"},
+        {"id": "raw_manganese", "title": "망간",      "match": "망간 월별 평균 가격"},
+        {"id": "raw_aluminum",  "title": "알루미늄",  "match": "알루미늄 월별 평균 가격"},
+        {"id": "raw_copper",    "title": "동",        "match": "동 월별 평균 가격"}
+      ]
+    },
+    {
+      "title": "전력 가격",
+      "subtitle": "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표)",
+      "cols": 2,
+      "cards": [
+        {"id": "power_uk",           "title": "영국 전력 가격",      "match": "영국 전력 가격"},
+        {"id": "power_de",           "title": "독일 전력 가격",      "match": "독일 전력 가격"},
+        {"id": "power_fr",           "title": "프랑스 전력 가격",    "match": "프랑스 전력 가격"},
+        {"id": "power_eu3_combined", "title": "유럽 3국 전력 가격",  "match": "유럽 3국 전력 가격"}
+      ]
+    },
+    {
+      "title": "수입 Data — 원재료/소재",
+      "subtitle": "수산화리튬·음극재·천연흑연 (산업통상자원부)",
+      "cols": 2,
+      "cards": [
+        {"id": "import_lithium_hydroxide_value", "title": "수산화리튬 수입액",     "match": "수산화리튬 수입액"},
+        {"id": "import_lithium_hydroxide_price", "title": "수산화리튬 수입 단가",  "match": "수산화리튬 수입 단가"},
+        {"id": "import_anode_value",             "title": "음극재 수입액",         "match": "음극재 수입액"},
+        {"id": "import_anode_price",             "title": "음극재 수입 단가",      "match": "음극재 수입 단가"},
+        {"id": "import_graphite_value",          "title": "천연흑연 수입액",       "match": "천연흑연 수입액"},
+        {"id": "import_graphite_price",          "title": "천연흑연 수입 단가",    "match": "천연흑연 수입 단가"}
       ]
     },
     {
@@ -139,45 +144,45 @@
       ]
     },
     {
-      "title": "지역별 양극재 수출 (표)",
-      "subtitle": "산업통상자원부",
-      "cols": 1,
-      "cards": [
-        {"id": "cathode_export_by_region_table", "title": "지역별 양극재 수출 추이", "match": "지역별 양극재 수출"}
-      ]
-    },
-    {
-      "title": "수입 Data — 원재료/소재",
-      "subtitle": "수산화리튬·음극재·천연흑연 (산업통상자원부)",
+      "title": "수출 Data — 2차전지",
+      "subtitle": "품목별 수출액·단가 (KITA, 하나증권)",
       "cols": 2,
       "cards": [
-        {"id": "import_lithium_hydroxide_value", "title": "수산화리튬 수입액",     "match": "수산화리튬 수입액"},
-        {"id": "import_lithium_hydroxide_price", "title": "수산화리튬 수입 단가",  "match": "수산화리튬 수입 단가"},
-        {"id": "import_anode_value",             "title": "음극재 수입액",         "match": "음극재 수입액"},
-        {"id": "import_anode_price",             "title": "음극재 수입 단가",      "match": "음극재 수입 단가"},
-        {"id": "import_graphite_value",          "title": "천연흑연 수입액",       "match": "천연흑연 수입액"},
-        {"id": "import_graphite_price",          "title": "천연흑연 수입 단가",    "match": "천연흑연 수입 단가"}
+        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액"},
+        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액"},
+        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액"},
+        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가"},
+        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액"},
+        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가"},
+        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액"},
+        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가"}
       ]
     },
     {
-      "title": "원재료 가격 종합 (표)",
+      "title": "셀 메이커·소재 업체 실적 추정 테이블",
+      "subtitle": "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 (각사 IR, 하나증권)",
+      "cols": 1,
+      "cards": [
+        {"id": "cellmaker_lges_perf",     "title": "LG에너지솔루션 실적 추이 및 전망", "match": "LG에너지솔루션 실적"},
+        {"id": "cellmaker_sdi_perf",      "title": "삼성SDI 실적 추이 및 전망",        "match": "삼성SDI 실적"},
+        {"id": "cellmaker_ecoprobm_perf", "title": "에코프로비엠 실적 추이 및 전망",   "match": "에코프로비엠 실적"},
+        {"id": "cellmaker_pfm_perf",      "title": "포스코퓨처엠 실적 추이 및 전망",   "match": "포스코퓨처엠 실적"}
+      ]
+    },
+    {
+      "title": "원재료 가격 종합 (표) [DISABLED — 카탈로그 보존]",
       "subtitle": "월별 평균 가격 (한국광물자원공사·Antaike·Wind·하나증권)",
       "cols": 1,
       "cards": [
-        {"id": "raw_materials_summary_table", "title": "2차전지 주요 원재료 가격 추이", "match": "2차전지 주요 원재료 가격 추이"}
+        {"id": "raw_materials_summary_table", "title": "2차전지 주요 원재료 가격 추이", "match": "2차전지 주요 원재료 가격 추이", "disabled": true}
       ]
     },
     {
-      "title": "원재료 가격 추이",
-      "subtitle": "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 (한국광물자원공사, 하나증권)",
-      "cols": 2,
+      "title": "지역별 양극재 수출 (표) [DISABLED — 카탈로그 보존]",
+      "subtitle": "산업통상자원부",
+      "cols": 1,
       "cards": [
-        {"id": "raw_lithium",   "title": "리튬",      "match": "리튬 월별 평균 가격"},
-        {"id": "raw_nickel",    "title": "니켈",      "match": "니켈 월별 평균 가격"},
-        {"id": "raw_cobalt",    "title": "코발트",    "match": "코발트 월별 평균 가격"},
-        {"id": "raw_manganese", "title": "망간",      "match": "망간 월별 평균 가격"},
-        {"id": "raw_aluminum",  "title": "알루미늄",  "match": "알루미늄 월별 평균 가격"},
-        {"id": "raw_copper",    "title": "동",        "match": "동 월별 평균 가격"}
+        {"id": "cathode_export_by_region_table", "title": "지역별 양극재 수출 추이", "match": "지역별 양극재 수출", "disabled": true}
       ]
     }
   ]

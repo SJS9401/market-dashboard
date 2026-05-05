@@ -369,6 +369,10 @@ function buildPage(manifest) {
     return;
   }
   sections.forEach(sec => {
+    // 활성 카드 0개 섹션은 통째로 hide (모두 disabled 또는 cards 비어있음)
+    const activeCards = (sec.cards || []).filter(c => c && c.id && c.disabled !== true);
+    if (activeCards.length === 0) return;
+
     const secDiv = document.createElement('div');
     secDiv.className = 'section';
     const colsClass = sec.cols === 1 ? ' cols-1'
@@ -383,10 +387,8 @@ function buildPage(manifest) {
       <div class="card-grid${colsClass}"></div>
     `;
     const grid = secDiv.querySelector('.card-grid');
-    (sec.cards || []).forEach(card => {
+    activeCards.forEach(card => {
       const cid = card.id;
-      if (!cid) return;
-      if (card.disabled === true) return;  // 사이트 표시 안 함 (백그라운드 카탈로그에 유지)
       const cardEl = document.createElement('div');
       cardEl.className = 'card card-image';
       cardEl.id = `card-${cid}`;
