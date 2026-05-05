@@ -10,7 +10,7 @@ let state = {
   watchlist: { T1: [], T2: [], T3: [] },
   calendar: {},
   signals: {},
-  manifest: { preview: [], review: [], 'in-depth': [], followup: [] }
+  manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], theme: [] }
 };
 
 function $(id) { return document.getElementById(id); }
@@ -251,13 +251,24 @@ function parseCalendar(md) {
   return result;
 }
 
-const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '팔로업' };
+const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '팔로업', company: '기업분석', theme: '테마분석' };
 const MODE_LABELS = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '요약' };
 
 function getModeFile(stock, mode) {
   // stock: {name, ticker}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
-  // followup은 다음 분기 파일을 이번 분기 페이지에서 찾음 (BT가 이번 분기 페이지에서 보길 원함)
   const key = stock.ticker || stock.name;
+  // company: 분기 무관 단일 파일 ({종목}_기업분석.html)
+  if (mode === 'company') {
+    const expected = key + '_기업분석.html';
+    return (state.manifest.company || []).includes(expected) ? expected : null;
+  }
+  // theme: Phase 2에서 multi-theme dropdown 구현 예정. 지금은 산출물 없으면 dim
+  if (mode === 'theme') {
+    // Phase 2: 테마 산출물 본문 fetch 후 관련 종목 list parse → 매칭
+    return null;  // Phase 1 — disabled
+  }
+  // 분기 mode (preview/review/in-depth/followup)
+  // followup은 다음 분기 파일을 이번 분기 페이지에서 찾음
   let quarter = state.currentQuarter;
   if (mode === 'followup') {
     quarter = getNextQuarter(state.currentQuarter);
@@ -354,7 +365,7 @@ function renderStockRow(stock) {
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
   // td 4: 리포트 4개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
-  for (const pair of [['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '요약']]) {
+  for (const pair of [['company', '기업개요'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '팔로업']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {

@@ -1,7 +1,8 @@
 # US Breadth 자동 갱신 (시장폭 200/50MA + 골드만 시장폭 + NH/NL)
 # ----------------------------------------------------------
 # us_breadth_backfill_local.py 매일 1회 실행 → data/us_breadth.json 갱신
-# 데이터 소스: yfinance (S&P 500 구성종목 시세) + Wikipedia (티커 리스트)
+# 데이터 소스: SPX 다중 소스 폴백 (FRED → Yahoo HTTP direct → yfinance) +
+#              503 종목 yfinance + Wikipedia (티커 리스트)
 #
 # 스케줄 (미국 정규장 마감 16:00 ET = 21:00 UTC 이후 충분한 마진 두고 실행):
 #   - 매일 23:30 UTC = 한국 08:30 (1차 — 데이터 확정 후 빠른 갱신)
@@ -11,7 +12,9 @@
 # 매 실행은 풀 백필 (10년 + 500종목, 약 5~10분). 신규 영업일 1~2개만
 # 결과적으로 새로 추가되지만 rolling 계산 특성상 풀 다운로드가 안전.
 #
-# Secret 의존: 없음 (yfinance + Wikipedia 모두 공개 접근)
+# Secret 의존:
+#   - FRED_API_KEY (선택): 설정 시 SPX 1차 소스로 FRED SP500 series 사용.
+#     없으면 Yahoo HTTP direct 가 1차로 승격. 두 경로 모두 fallback 으로 yfinance.
 # ----------------------------------------------------------
 
 name: US Breadth Update
@@ -58,6 +61,8 @@ jobs:
           echo "백필 기간: 2015-01-01 → ${TODAY}"
 
       - name: 풀 백필 실행
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python -u us_breadth_backfill_local.py --backfill ${{ steps.dates.outputs.start }} ${{ steps.dates.outputs.end }}
         timeout-minutes: 25
 

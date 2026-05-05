@@ -288,79 +288,129 @@ def cmd_probe() -> None:
 
 
 # ----------------------------------------------------------------------
-# v2: SPX 다중 소스 폴백 (Stooq → yfinance → Stooq retry)
+# v2.2: SPX 다중 소스 폴백 (FRED → Yahoo HTTP direct → yfinance)
 # ----------------------------------------------------------------------
 
-def _fetch_spx_stooq(start: str, end: str):
-    """Stooq CSV 에서 ^SPX 일봉 시계열 fetch (다중 심볼 시도).
+FRED_API_KEY_ENV = "FRED_API_KEY"
 
-    Stooq 심볼 후보 (응답이 다를 수 있어 fallback):
-      1) ^spx        — 표준 (Stooq 일반 형식)
-      2) ^spx.us     — 미국 거래소 한정 표기
-      3) %5Espx      — 미리 URL-encoded
-      4) spx         — caret 없이
 
-    각 심볼에 대해 GET. 첫 번째 valid CSV 응답 파싱.
-    실패 원인은 _log() 로 기록 (status, body length, body preview).
+def _fetch_spx_fred(start: str, end: str, api_key: str):
+    """FRED SP500 series API.
 
-    Returns
-    -------
-    pd.Series  (index=DatetimeIndex tz-naive, values=Close float, 빈 응답 시 빈 Series)
+    Endpoint: https://api.stlouisfed.org/fred/series/observations
+        ?series_id=SP500
+        &api_key=KEY
+        &file_type=json
+        &observation_start=YYYY-MM-DD
+        &observation_end=YYYY-MM-DD
+
+    응답: JSON {observations: [{date, value, ...}, ...]}
+    value="." 은 NaN/없음 — drop.
     """
     import pandas as pd
     import requests
 
-    d1 = start.replace("-", "")
-    d2 = end.replace("-", "")
-    candidates = [
-        "^spx",      # caret 그대로 (requests 가 자동 URL-encode)
-        "^spx.us",
-        "spx",
-        "spx.us",
-    ]
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/csv,text/plain,*/*",
+    url = "https://api.stlouisfed.org/fred/series/observations"
+    params = {
+        "series_id": "SP500",
+        "api_key": api_key,
+        "file_type": "json",
+        "observation_start": start,
+        "observation_end": end,
     }
+    r = requests.get(url, params=params, timeout=30)
+    if r.status_code != 200:
+        _log(f"  fred HTTP {r.status_code}: {r.text[:120]}")
+        return pd.Series(dtype=float, name="Close")
+    try:
+        obj = r.json()
+    except Exception as e:
+        _log(f"  fred parse error: {e}")
+        return pd.Series(dtype=float, name="Close")
 
-    for sym in candidates:
-        url = f"https://stooq.com/q/d/l/?s={sym}&i=d&d1={d1}&d2={d2}"
-        try:
-            r = requests.get(url, timeout=30, headers=headers)
-        except Exception as e:
-            _log(f"  stooq[{sym}] EXCEPTION: {e}")
-            continue
-        if r.status_code != 200:
-            _log(f"  stooq[{sym}] HTTP {r.status_code}")
-            continue
-        body = (r.text or "").strip()
-        if not body:
-            _log(f"  stooq[{sym}] empty response (0 bytes)")
-            continue
-        if body.lower().startswith("no data") or "\n" not in body:
-            _log(f"  stooq[{sym}] no-data response: {body[:80]!r}")
-            continue
-        # Parse via pandas (handles header row)
-        try:
-            df = pd.read_csv(io.StringIO(body))
-        except Exception as e:
-            _log(f"  stooq[{sym}] parse error: {e}; preview={body[:100]!r}")
-            continue
-        if df.empty or "Date" not in df.columns or "Close" not in df.columns:
-            cols = list(df.columns)
-            _log(f"  stooq[{sym}] schema unexpected: cols={cols} rows={len(df)}")
-            continue
-        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-        df = df.dropna(subset=["Date", "Close"]).sort_values("Date")
-        if df.empty:
-            _log(f"  stooq[{sym}] empty after parse")
-            continue
-        s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
-        s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
-        _log(f"  stooq[{sym}] ✓ {len(s)} rows")
-        return s
+    obs = obj.get("observations", [])
+    if not obs:
+        _log(f"  fred no observations")
+        return pd.Series(dtype=float, name="Close")
 
-    return pd.Series(dtype=float, name="Close")
+    rows = []
+    for o in obs:
+        v = o.get("value", "").strip()
+        if not v or v == ".":
+            continue
+        try:
+            rows.append((o["date"], float(v)))
+        except (KeyError, ValueError):
+            continue
+    if not rows:
+        return pd.Series(dtype=float, name="Close")
+
+    df = pd.DataFrame(rows, columns=["Date", "Close"])
+    df["Date"] = pd.to_datetime(df["Date"])
+    df = df.sort_values("Date")
+    s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
+    s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
+    return s
+
+
+def _fetch_spx_yahoo_http(start: str, end: str):
+    """Yahoo Finance HTTP API direct (no library, no crumb auth).
+
+    Endpoint: https://query1.finance.yahoo.com/v8/finance/chart/^GSPC
+        ?period1=UNIX_START
+        &period2=UNIX_END
+        &interval=1d
+
+    응답: JSON {chart: {result: [{timestamp, indicators: {quote: [{close}]}}]}}
+    """
+    import pandas as pd
+    import requests
+
+    # Convert to unix timestamps (UTC midnight)
+    start_dt = datetime.strptime(start, "%Y-%m-%d")
+    end_dt = datetime.strptime(end, "%Y-%m-%d")
+    p1 = int(start_dt.timestamp())
+    p2 = int(end_dt.timestamp()) + 86400  # include end day
+
+    url = "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC"
+    params = {"period1": p1, "period2": p2, "interval": "1d"}
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"}
+    r = requests.get(url, params=params, headers=headers, timeout=30)
+    if r.status_code != 200:
+        _log(f"  yahoo_http HTTP {r.status_code}")
+        return pd.Series(dtype=float, name="Close")
+    try:
+        obj = r.json()
+    except Exception as e:
+        _log(f"  yahoo_http parse error: {e}")
+        return pd.Series(dtype=float, name="Close")
+
+    try:
+        result = obj["chart"]["result"][0]
+        ts = result["timestamp"]
+        closes = result["indicators"]["quote"][0]["close"]
+    except (KeyError, IndexError, TypeError) as e:
+        err = obj.get("chart", {}).get("error")
+        _log(f"  yahoo_http schema error: {e}; api_error={err}")
+        return pd.Series(dtype=float, name="Close")
+
+    rows = []
+    for t, c in zip(ts, closes):
+        if c is None:
+            continue
+        # Yahoo timestamps are exchange-time (US/Eastern) at market open, but for daily series
+        # the date label is normalized to UTC date. Convert to date.
+        d = datetime.utcfromtimestamp(t).date()
+        rows.append((d, float(c)))
+    if not rows:
+        return pd.Series(dtype=float, name="Close")
+
+    df = pd.DataFrame(rows, columns=["Date", "Close"])
+    df["Date"] = pd.to_datetime(df["Date"])
+    df = df.drop_duplicates("Date").sort_values("Date")
+    s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
+    s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
+    return s
 
 
 def _fetch_spx_yfinance(start: str, end: str):
@@ -390,26 +440,29 @@ def _fetch_spx_multi(start: str, end: str, attempts_log: list):
     """SPX 일봉 다중 소스 폴백.
 
     순서:
-      1) Stooq            (1차, 인증 X, Yahoo 와 인프라 분리)
-      2) yfinance ^GSPC   (2차, 기존 경로)
-      3) Stooq retry      (3차, 일시 네트워크 장애 대비)
+      1) FRED SP500           (1차, 미 정부 데이터, 가장 안정적; FRED_API_KEY 환경변수 필요)
+      2) Yahoo HTTP direct    (2차, query1.finance.yahoo.com 직접 호출, yfinance 라이브러리 우회)
+      3) yfinance ^GSPC       (3차, 라이브러리 경로)
 
     각 소스마다 last_date 가 today - STALE_DAYS_HARD (7일) 초과 stale 이면 다음 소스로.
+    FRED_API_KEY 가 없으면 FRED 단계 스킵.
     모두 실패 시 sys.exit(1).
-
-    attempts_log: list[dict] — 각 시도 결과 기록 (Health JSON 출력용).
     """
     today = datetime.utcnow().date()
-    sources = [
-        ("stooq",     _fetch_spx_stooq,    0),
-        ("yfinance",  _fetch_spx_yfinance, 0),
-        ("stooq",     _fetch_spx_stooq,    5),  # 5s backoff
-    ]
+    fred_key = os.environ.get(FRED_API_KEY_ENV, "").strip()
+
+    sources = []
+    if fred_key:
+        sources.append(("fred", lambda s, e: _fetch_spx_fred(s, e, fred_key), 0))
+    else:
+        _log(f"FRED_API_KEY env not set — skipping FRED source")
+    sources.append(("yahoo_http", _fetch_spx_yahoo_http, 0))
+    sources.append(("yfinance",   _fetch_spx_yfinance,   0))
 
     for i, (name, fn, backoff) in enumerate(sources, 1):
         if backoff:
             time.sleep(backoff)
-        _log(f"SPX source attempt {i}/3: {name} ...")
+        _log(f"SPX source attempt {i}/{len(sources)}: {name} ...")
         attempt = {"source": name, "attempt": i, "ok": False, "rows": 0, "last": None, "error": None}
         try:
             spx = fn(start, end)
