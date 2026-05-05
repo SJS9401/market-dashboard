@@ -294,6 +294,74 @@ async function getCachedData(sym, range) {
   return dataCache[key];
 }
 
+// Tooltip Y-axis gate: returns true only if (time, mouseY) is on a visible graphic element of `id`'s chart.
+//  - Candlestick: mouseY between high-Y and low-Y (+ small pad).
+//  - Line:        |mouseY − valueY| ≤ 14px for any numeric value in data row.
+//  - Area/Histogram: mouseY within filled region (between value-Y and baseline-Y at price=0) + line tolerance.
+// Multi-series charts (breadth/kr-export): every numeric key in the data row is treated as a candidate value.
+// Returns true (allow) when chartDataMap is missing for resilience (back-compat with charts that don't populate map).
+function isOnGraphic(id, time, mouseY) {
+  const ci = allCharts[id];
+  if (!ci) return false;
+  if (!chartDataMap[id]) return true;
+  const data = chartDataMap[id][time];
+  if (data == null) return false;
+
+  const pad = 4;
+
+  // ── Candlestick branch ──
+  if (data.high != null && data.low != null && ci.series) {
+    try {
+      const yH = ci.series.priceToCoordinate(data.high);
+      const yL = ci.series.priceToCoordinate(data.low);
+      if (yH != null && yL != null) {
+        return mouseY >= (yH - pad) && mouseY <= (yL + pad);
+      }
+    } catch(_) {}
+    return false;
+  }
+
+  // ── Line/Area/Histogram branch ──
+  const series = ci.series;
+  if (!series) return false;
+
+  const values = [];
+  for (const k in data) {
+    if (k === 'time') continue;
+    if (typeof data[k] === 'number') values.push(data[k]);
+  }
+  if (values.length === 0) return false;
+
+  // (1) Narrow line-tolerance band around each value Y
+  const tolPx = 14;
+  for (const v of values) {
+    try {
+      const y = series.priceToCoordinate(v);
+      if (y != null && Math.abs(mouseY - y) <= tolPx) return true;
+    } catch(_) {}
+  }
+
+  // (2) Area/Histogram also accept any pixel Y between value-Y and baseline-Y (filled region)
+  let stype = 'Line';
+  try { stype = series.seriesType ? series.seriesType() : 'Line'; } catch(_) {}
+  if (stype === 'Area' || stype === 'Histogram') {
+    let yBase = null;
+    try { yBase = series.priceToCoordinate(0); } catch(_) {}
+    if (yBase != null) {
+      for (const v of values) {
+        try {
+          const y = series.priceToCoordinate(v);
+          if (y == null) continue;
+          const yMin = Math.min(y, yBase) - pad;
+          const yMax = Math.max(y, yBase) + pad;
+          if (mouseY >= yMin && mouseY <= yMax) return true;
+        } catch(_) {}
+      }
+    }
+  }
+  return false;
+}
+
 function createChart(id, col, opts = {}) {
   const el = document.getElementById('cw-' + id);
   const chart = LightweightCharts.createChart(el, {
@@ -345,8 +413,11 @@ function createChart(id, col, opts = {}) {
   const dateMain = document.getElementById('date-main-' + col);
   const dateSub  = document.getElementById('date-sub-' + col);
   chart.subscribeCrosshairMove(param => {
-    // Gate: tooltip/xline/header updates only fire when mouse is within barSpacing/2 of the nearest bar.
-    // This mirrors the HTS-style "tooltip only on candle/bar/line" behavior from the 주도주 차트.
+    // Gate: tooltip/xline/header updates only fire when the mouse pointer is on a *visible* graphic element
+    // (candle wick/body, line, or area fill) of THIS chart. Mirrors the HTS-style "tooltip only on candle/bar/line"
+    // behavior from 주도주 차트.
+    //   X-check: |mouse.x − bar-center.x| ≤ barSpacing/2  (within column of the nearest bar)
+    //   Y-check: isOnGraphic(id, time, mouse.y)            (vertically over the drawn shape)
     let onBar = false;
     let barX = null;
     if (param.time && param.point) {
@@ -354,7 +425,7 @@ function createChart(id, col, opts = {}) {
       if (barX != null) {
         const bs = (chart.timeScale().options && chart.timeScale().options().barSpacing) || 6;
         const dx = Math.abs(param.point.x - barX);
-        if (dx <= bs / 2) onBar = true;
+        if (dx <= bs / 2 && isOnGraphic(id, param.time, param.point.y)) onBar = true;
       }
     }
     if (onBar) {
