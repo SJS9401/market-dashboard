@@ -386,6 +386,7 @@ function buildPage(manifest) {
     (sec.cards || []).forEach(card => {
       const cid = card.id;
       if (!cid) return;
+      if (card.disabled === true) return;  // 사이트 표시 안 함 (백그라운드 카탈로그에 유지)
       const cardEl = document.createElement('div');
       cardEl.className = 'card card-image';
       cardEl.id = `card-${cid}`;
