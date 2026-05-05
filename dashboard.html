@@ -17,7 +17,8 @@
   .main { display: flex; gap: 50px; padding: 10px; max-width: 1600px; margin: 0 auto; }
   .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
   /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
-  .sticky-index { position: sticky; top: 0; z-index: 10; background: #0d1117; }
+  /* 지수 차트 sticky 해제 (지표 4개 컴팩트 레이아웃) — relative 유지해서 date-main 이 index 카드 하단에 자리잡도록 함 */
+  .sticky-index { position: relative; background: #0d1117; }
   .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
   .col-date-label { position: absolute; background: #1f6feb; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; white-space: nowrap; pointer-events: none; display: none; z-index: 99999; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
   .col-date-main { bottom: 4px; }
@@ -418,6 +419,11 @@ function createChart(id, col, opts = {}) {
     // behavior from 주도주 차트.
     //   X-check: |mouse.x − bar-center.x| ≤ barSpacing/2  (within column of the nearest bar)
     //   Y-check: isOnGraphic(id, time, mouse.y)            (vertically over the drawn shape)
+    //
+    // 분리:
+    //   onColumn (X만 통과)   → xline + 날짜 라벨 (메인 차트 하단 + 마지막 sub 차트 하단)
+    //   onBar    (X + Y 통과) → 헤더 값/마커/HTS 툴팁
+    let onColumn = false;
     let onBar = false;
     let barX = null;
     if (param.time && param.point) {
@@ -425,10 +431,15 @@ function createChart(id, col, opts = {}) {
       if (barX != null) {
         const bs = (chart.timeScale().options && chart.timeScale().options().barSpacing) || 6;
         const dx = Math.abs(param.point.x - barX);
-        if (dx <= bs / 2 && isOnGraphic(id, param.time, param.point.y)) onBar = true;
+        if (dx <= bs / 2) {
+          onColumn = true;
+          if (isOnGraphic(id, param.time, param.point.y)) onBar = true;
+        }
       }
     }
-    if (onBar) {
+
+    // ── X 통과 시: xline + 날짜 라벨 (그래픽 위에 없어도 표시) ──
+    if (onColumn) {
       // Align xline to exact bar X (not raw mouse X) using timeToCoordinate from the hovered chart.
       // Since all charts in a column share the same timeScale (logical range synced), the bar X is identical.
       const elRect = el.getBoundingClientRect();
@@ -440,6 +451,16 @@ function createChart(id, col, opts = {}) {
       const dateText = (typeof param.time === 'string') ? param.time : String(param.time);
       if (dateMain) { dateMain.textContent = dateText; dateMain.style.left = xPos + 'px'; dateMain.style.display = 'block'; }
       if (dateSub)  { dateSub.textContent  = dateText; dateSub.style.left  = xPos + 'px'; dateSub.style.display  = 'block'; }
+    } else {
+      xline.style.display = 'none';
+      if (dateMain) dateMain.style.display = 'none';
+      if (dateSub)  dateSub.style.display  = 'none';
+    }
+
+    // ── X+Y 둘 다 통과 시: 헤더 값/마커/툴팁 ──
+    if (onBar) {
+      const elRect = el.getBoundingClientRect();
+      const colRect = colEl.getBoundingClientRect();
       colGroups[col].forEach(cid => {
         updateHeaderForChart(cid, param.time);
         // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
@@ -459,9 +480,6 @@ function createChart(id, col, opts = {}) {
       const my = elRect.top  - colRect.top  + (param.point ? param.point.y : 0);
       updateHTSTooltip(col, param.time, mx, my);
     } else {
-      xline.style.display = 'none';
-      if (dateMain) dateMain.style.display = 'none';
-      if (dateSub)  dateSub.style.display  = 'none';
       restoreHeaders(col);
       colGroups[col].forEach(cid => {
         if (allCharts[cid] && allCharts[cid].series) {
