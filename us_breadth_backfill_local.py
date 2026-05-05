@@ -43,6 +43,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(THIS_DIR, "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 OUT_PATH = os.path.join(DATA_DIR, "us_breadth.json")
+HEALTH_PATH = os.path.join(DATA_DIR, "us_breadth_health.json")    # v2 사이드카
 ISM_PMI_SRC = os.path.join(THIS_DIR, "ism_pmi_extracted.json")   # 있으면 사용. 없으면 HTML 추출 시도.
 CYCLE_HTML = os.path.join(THIS_DIR, "Market_cycle.html")         # ISM PMI 원본 HTML
 
@@ -52,6 +53,11 @@ MA_50 = 50
 
 # S&P500 티커 리스트 — Wikipedia (자동 업데이트 대체 소스)
 WIKI_SPX = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+
+# v2 임계값
+STALE_DAYS_HARD     = 7   # SPX last_date 와 today 차이 7일 초과 = 해당 소스 stale
+CONSTITUENT_STALE_PCT_MAX = 10.0  # 503 종목 중 stale 비율 10% 초과 시 fail
+CONSTITUENT_STALE_BDAYS   = 3     # ticker last_date < SPX last_date - 3 영업일이면 stale
 
 # ----------------------------------------------------------------------
 # Utilities
@@ -281,63 +287,215 @@ def cmd_probe() -> None:
     _log("== probe OK ==")
 
 
-def _spx_download_with_retry(start: str, end: str, max_attempts: int = 3):
-    """yfinance ^GSPC 다운로드 + stale 감지 + retry. 실패 시 sys.exit(1)."""
-    import yfinance as yf
-    import pandas as pd
+# ----------------------------------------------------------------------
+# v2: SPX 다중 소스 폴백 (Stooq → yfinance → Stooq retry)
+# ----------------------------------------------------------------------
 
+def _fetch_spx_stooq(start: str, end: str):
+    """Stooq CSV 에서 ^SPX 일봉 시계열 fetch.
+
+    URL 형식: https://stooq.com/q/d/l/?s=^spx&i=d&d1=YYYYMMDD&d2=YYYYMMDD
+    응답: CSV ('Date,Open,High,Low,Close,Volume', 날짜 오름차순)
+
+    Returns
+    -------
+    pd.Series  (index=DatetimeIndex tz-naive, values=Close float, 빈 응답 시 빈 Series)
+    """
+    import pandas as pd
+    import requests
+
+    d1 = start.replace("-", "")
+    d2 = end.replace("-", "")
+    url = f"https://stooq.com/q/d/l/?s=^spx&i=d&d1={d1}&d2={d2}"
+    r = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+    r.raise_for_status()
+    body = r.text.strip()
+    # Stooq returns "No data" or empty on error
+    if not body or body.lower().startswith("no data") or "\n" not in body:
+        return pd.Series(dtype=float, name="Close")
+    # Parse via pandas (handles header row)
+    try:
+        df = pd.read_csv(io.StringIO(body))
+    except Exception:
+        return pd.Series(dtype=float, name="Close")
+    if df.empty or "Date" not in df.columns or "Close" not in df.columns:
+        return pd.Series(dtype=float, name="Close")
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date", "Close"]).sort_values("Date")
+    s = pd.Series(df["Close"].values, index=df["Date"].values, name="Close")
+    s.index = s.index.tz_localize(None) if hasattr(s.index, "tz") and s.index.tz else s.index
+    return s
+
+
+def _fetch_spx_yfinance(start: str, end: str):
+    """yfinance ^GSPC 일봉 시계열 fetch. 실패 시 빈 Series."""
+    import pandas as pd
+    try:
+        import yfinance as yf
+    except ImportError:
+        return pd.Series(dtype=float, name="Close")
+    try:
+        df = yf.download(
+            "^GSPC", start=start, end=end,
+            auto_adjust=True, progress=False,
+        )
+    except Exception:
+        return pd.Series(dtype=float, name="Close")
+    if df is None or df.empty:
+        return pd.Series(dtype=float, name="Close")
+    s = df["Close"]
+    if hasattr(s, "columns"):
+        s = s.iloc[:, 0]
+    s.index = s.index.tz_localize(None) if s.index.tz else s.index
+    return s
+
+
+def _fetch_spx_multi(start: str, end: str, attempts_log: list):
+    """SPX 일봉 다중 소스 폴백.
+
+    순서:
+      1) Stooq            (1차, 인증 X, Yahoo 와 인프라 분리)
+      2) yfinance ^GSPC   (2차, 기존 경로)
+      3) Stooq retry      (3차, 일시 네트워크 장애 대비)
+
+    각 소스마다 last_date 가 today - STALE_DAYS_HARD (7일) 초과 stale 이면 다음 소스로.
+    모두 실패 시 sys.exit(1).
+
+    attempts_log: list[dict] — 각 시도 결과 기록 (Health JSON 출력용).
+    """
     today = datetime.utcnow().date()
-    last_seen = None
-    for attempt in range(1, max_attempts + 1):
-        _log(f"downloading ^GSPC ... (attempt {attempt}/{max_attempts})")
+    sources = [
+        ("stooq",     _fetch_spx_stooq,    0),
+        ("yfinance",  _fetch_spx_yfinance, 0),
+        ("stooq",     _fetch_spx_stooq,    5),  # 5s backoff
+    ]
+
+    for i, (name, fn, backoff) in enumerate(sources, 1):
+        if backoff:
+            time.sleep(backoff)
+        _log(f"SPX source attempt {i}/3: {name} ...")
+        attempt = {"source": name, "attempt": i, "ok": False, "rows": 0, "last": None, "error": None}
         try:
-            spx = yf.download(
-                "^GSPC", start=start, end=end,
-                auto_adjust=True, progress=False,
-            )["Close"]
-            if hasattr(spx, "columns"):
-                spx = spx.iloc[:, 0]
-            spx.index = spx.index.tz_localize(None) if spx.index.tz else spx.index
+            spx = fn(start, end)
         except Exception as e:
-            _log(f"  attempt {attempt} EXCEPTION: {e}")
-            time.sleep(5)
+            attempt["error"] = f"exception: {e}"
+            _log(f"  {name} EXCEPTION: {e}")
+            attempts_log.append(attempt)
             continue
 
-        if len(spx) == 0:
-            _log(f"  attempt {attempt} returned EMPTY; retrying...")
-            time.sleep(5)
+        rows = len(spx)
+        attempt["rows"] = rows
+        if rows == 0:
+            attempt["error"] = "empty"
+            _log(f"  {name} returned EMPTY")
+            attempts_log.append(attempt)
             continue
 
         last_date = spx.index[-1].date()
-        last_seen = last_date
         days_stale = (today - last_date).days
-        _log(f"  SPX rows: {len(spx)}  last: {last_date}  (today-last={days_stale}d)")
+        attempt["last"] = str(last_date)
+        attempt["days_stale"] = days_stale
+        _log(f"  {name} rows: {rows}  last: {last_date}  (today-last={days_stale}d)")
 
-        # 7일 이상 stale 이면 retry. 5/2~5/3 같은 주말+월 시초도 있으니 7일 마진.
-        if days_stale > 7:
-            _log(f"  SPX last_date {last_date} too stale (>{days_stale}d); retry after 8s")
-            time.sleep(8)
+        if days_stale > STALE_DAYS_HARD:
+            attempt["error"] = f"stale (>{STALE_DAYS_HARD}d)"
+            attempts_log.append(attempt)
+            _log(f"  {name} too stale, trying next source")
             continue
-        return spx
 
-    _log(f"::error::SPX download stale after {max_attempts} attempts (last_seen={last_seen}). Aborting.")
+        attempt["ok"] = True
+        attempts_log.append(attempt)
+        _log(f"  ✓ using {name} as SPX source")
+        return spx, name
+
+    # 모든 소스 실패
+    _log(f"::error::all SPX sources stale or failed. attempts: {attempts_log}")
     sys.exit(1)
 
 
-def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
+# ----------------------------------------------------------------------
+# v2: 503 종목 stale ratio 게이트
+# ----------------------------------------------------------------------
+
+def _validate_constituents_freshness(close_df, spx_last_date) -> dict:
+    """
+    503 종목별 last_date를 SPX last_date와 비교, stale 비율 산출.
+
+    Stale 정의: 종목 last_date < SPX last_date - CONSTITUENT_STALE_BDAYS 영업일
+    (영업일 단위로 비교; 주말/공휴일은 정상이므로 무시)
+
+    Returns dict: {total, stale, stale_pct, threshold_pct, ok, stale_tickers (sample 10)}
+    """
     import pandas as pd
 
-    _log(f"== backfill {start} → {end} ==")
+    spx_last = pd.Timestamp(spx_last_date)
+    # SPX last 에서 N 영업일 빼기 (BDay 사용)
+    threshold = spx_last - pd.tseries.offsets.BDay(CONSTITUENT_STALE_BDAYS)
+
+    stale = []
+    total = 0
+    for col in close_df.columns:
+        s = close_df[col].dropna()
+        total += 1
+        if len(s) == 0:
+            stale.append(col)
+            continue
+        ticker_last = s.index[-1]
+        if ticker_last < threshold:
+            stale.append(col)
+
+    stale_pct = (len(stale) / total * 100.0) if total > 0 else 0.0
+    ok = stale_pct <= CONSTITUENT_STALE_PCT_MAX
+    return {
+        "total": total,
+        "stale": len(stale),
+        "stale_pct": round(stale_pct, 2),
+        "threshold_pct": CONSTITUENT_STALE_PCT_MAX,
+        "ok": ok,
+        "stale_tickers_sample": stale[:10],
+    }
+
+
+def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
+    """v2: 다중 소스 SPX + 종목 stale 게이트 + health JSON 사이드카."""
+    import pandas as pd
+
+    run_started = datetime.utcnow()
+    _log(f"== backfill v2 {start} → {end} ==")
+
     tickers = fetch_spx_tickers()
     if max_tickers > 0:
         tickers = tickers[:max_tickers]
         _log(f"  (limited to first {max_tickers} tickers for test)")
 
-    # SPX 지수 다운로드 (retry + stale 감지)
-    spx = _spx_download_with_retry(start, end)
+    # --- Layer A: SPX 다중 소스 폴백 ---
+    spx_attempts = []
+    spx, spx_source = _fetch_spx_multi(start, end, spx_attempts)
+    spx_last_date = spx.index[-1].date()
 
+    # --- 503 종목 다운로드 (yfinance 배치, 기존 동작) ---
     close_df = download_prices(tickers, start, end)
 
+    # --- Layer B: 종목 stale ratio 게이트 ---
+    constituent_health = _validate_constituents_freshness(close_df, spx_last_date)
+    _log(f"constituents: total={constituent_health['total']} "
+         f"stale={constituent_health['stale']} ({constituent_health['stale_pct']}%) "
+         f"threshold={constituent_health['threshold_pct']}%")
+    if not constituent_health["ok"]:
+        _log(f"::error::data quality degraded: {constituent_health['stale_pct']}% of "
+             f"constituents are stale (>{CONSTITUENT_STALE_BDAYS}bd behind SPX last_date={spx_last_date}). "
+             f"sample: {constituent_health['stale_tickers_sample']}")
+        # health JSON 도 fail 상태로 기록한 뒤 exit
+        _write_health_json(
+            run_started=run_started, status="FAIL_CONSTITUENT_STALE",
+            spx_source=spx_source, spx_attempts=spx_attempts,
+            constituents=constituent_health,
+            last_date=str(spx_last_date),
+            extra={"reason": "constituent_stale_pct_exceeded"},
+        )
+        sys.exit(3)
+
+    # --- Breadth 계산 ---
     result = compute_breadth(close_df, spx)
 
     # --- 회귀 방어: 기존 파일 last_date 보다 새 결과 last_date 가 빠르면 거부 ---
@@ -346,7 +504,15 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
     if prev and prev.get("dates") and new_last:
         prev_last = prev["dates"][-1]
         if new_last < prev_last:
-            _log(f"::error::regression detected: new last_date={new_last} < prev last_date={prev_last}. Refusing to overwrite. (max_tickers={max_tickers})")
+            _log(f"::error::regression detected: new last_date={new_last} < prev last_date={prev_last}. "
+                 f"Refusing to overwrite. (max_tickers={max_tickers})")
+            _write_health_json(
+                run_started=run_started, status="FAIL_REGRESSION",
+                spx_source=spx_source, spx_attempts=spx_attempts,
+                constituents=constituent_health,
+                last_date=new_last,
+                extra={"reason": "regression", "prev_last": prev_last},
+            )
             sys.exit(2)
         if new_last == prev_last:
             _log(f"  no new trading day (last_date unchanged: {new_last}) — proceeding to update meta only")
@@ -360,10 +526,54 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
         "window_days": WINDOW_52W,
         "start": start,
         "end": end,
+        "spx_source": spx_source,                   # v2: 어느 소스에서 SPX 가져왔는지
+        "constituent_stale_pct": constituent_health["stale_pct"],
     }
 
     _atomic_write_json(OUT_PATH, result)
-    _log(f"SAVED → {OUT_PATH}  ({len(result['dates'])} rows, {result['meta']['universe_size']} tickers, last={new_last})")
+    _log(f"SAVED → {OUT_PATH}  ({len(result['dates'])} rows, {result['meta']['universe_size']} tickers, "
+         f"last={new_last}, spx_src={spx_source})")
+
+    # --- Layer C: Health JSON 사이드카 ---
+    _write_health_json(
+        run_started=run_started, status="OK",
+        spx_source=spx_source, spx_attempts=spx_attempts,
+        constituents=constituent_health,
+        last_date=new_last,
+    )
+
+
+def _write_health_json(run_started, status, spx_source, spx_attempts,
+                       constituents, last_date, extra=None):
+    """v2 사이드카: 매 런마다 갱신되는 파이프라인 헬스 스코어."""
+    today = datetime.utcnow().date()
+    last_d = datetime.strptime(last_date, "%Y-%m-%d").date() if last_date else None
+    bd = 0
+    if last_d:
+        cur = last_d
+        while cur < today:
+            cur += timedelta(days=1)
+            if cur.weekday() < 5:
+                bd += 1
+    health = {
+        "schema_version": 2,
+        "last_run_started": run_started.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "last_run_finished": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "status": status,                      # OK / FAIL_REGRESSION / FAIL_CONSTITUENT_STALE / FAIL_SPX
+        "spx_source_used": spx_source,
+        "spx_attempts": spx_attempts,
+        "constituents_total": constituents.get("total"),
+        "constituents_stale": constituents.get("stale"),
+        "stale_pct": constituents.get("stale_pct"),
+        "last_date": last_date,
+        "business_days_stale": bd,
+        "stale_tickers_sample": constituents.get("stale_tickers_sample", []),
+    }
+    if extra:
+        health.update(extra)
+    _atomic_write_json(HEALTH_PATH, health)
+    _log(f"HEALTH → {HEALTH_PATH}  status={status} spx_src={spx_source} "
+         f"stale_pct={constituents.get('stale_pct')}% bd_stale={bd}")
 
 
 def main():
