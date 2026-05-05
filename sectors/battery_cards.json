@@ -11,15 +11,31 @@
     "사용처:",
     "  - lib/pdf_image_crop.py: --cards-manifest 옵션으로 fetch → PDF 매칭 → battery_<id>.png crop.",
     "  - Industry_battery.html: fetch(./sectors/battery_cards.json) → buildPage.",
-    "섹션 순서 — 선행성 위계 (BT 확정, 2026-05-06):",
-    "  A. 수요 측 (가장 선행): EV 판매·모델 → 셀 출하 → LFP 침투율 → ESS",
-    "  B. 원재료/원가 (선행 chain): 원재료 가격 추이 → 전력 가격 → 수입 → 수출 양극재 → 수출 2차전지",
-    "  C. 후행: 셀메이커 실적",
+    "섹션 순서 — 선행성 위계 + BT 우선 모니터링 (2026-05-06):",
+    "  Top. 한국 셀메이커 직접 추적: 수출 Data — 2차전지 (관세청 weekly, 가장 빠른 인풋)",
+    "  A. 수요 측 (수요 → 화학 mix → ESS): EV 판매·모델 → LIB 출하 → LFP 침투율 → ESS",
+    "  B. 원재료/원가 (선행 chain): 원재료 가격 추이 → 전력 가격 → 수입 → 수출 양극재",
+    "  C. 후행: 셀메이커 실적 → 시황 요약 page",
     "  Disabled: 원재료 가격 종합 표, 지역별 양극재 수출 표 (카탈로그 보존, 사이트 hide)."
   ],
   "sector": "battery",
   "schema_version": 1,
   "sections": [
+    {
+      "title": "수출 Data — 2차전지",
+      "subtitle": "품목별 수출액·단가 (KITA, 하나증권 — 한국 셀메이커 직접 추적)",
+      "cols": 2,
+      "cards": [
+        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액"},
+        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액"},
+        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액"},
+        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가"},
+        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액"},
+        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가"},
+        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액"},
+        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가"}
+      ]
+    },
     {
       "title": "EV 판매 — 글로벌·지역별",
       "subtitle": "월별 판매량 + 시장점유율 (SNE Research/EV-Volumes)",
@@ -143,21 +159,6 @@
         {"id": "export_cathode_ncm_price",      "title": "NCM 양극재 수출 단가",       "match": "NCM 양극재 수출 단가"},
         {"id": "export_cathode_nca_price",      "title": "NCA 양극재 수출 단가",       "match": "NCA 양극재 수출 단가"},
         {"id": "export_cathode_ncm_nca_price",  "title": "NCM+NCA 양극재 수출 단가",   "match": "NCM+NCA 양극재 수출 단가"}
-      ]
-    },
-    {
-      "title": "수출 Data — 2차전지",
-      "subtitle": "품목별 수출액·단가 (KITA, 하나증권)",
-      "cols": 2,
-      "cards": [
-        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액"},
-        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액"},
-        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액"},
-        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가"},
-        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액"},
-        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가"},
-        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액"},
-        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가"}
       ]
     },
     {
