@@ -1,109 +1,13 @@
 {
   "sector": "battery",
   "source_pdf": "Battery_Weekly_2026.5.4.pdf",
-  "generated_at": "2026-05-05T15:26:39Z",
+  "generated_at": "2026-05-05T16:24:53Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
-  "matched_count": 69,
+  "matched_count": 67,
   "missing_ids": [],
   "figures": {
-    "cellmaker_lges_perf": {
-      "title": "LG에너지솔루션 실적 추이 및 전망",
-      "match": "LG에너지솔루션 실적",
-      "matched_pdf_title": "LG에너지솔루션 실적 추이 및 전망",
-      "matched_fig_num": 69,
-      "page_idx": 26,
-      "file": "battery_cellmaker_lges_perf.png",
-      "size_px": [
-        1547,
-        1383
-      ]
-    },
-    "cellmaker_sdi_perf": {
-      "title": "삼성SDI 실적 추이 및 전망",
-      "match": "삼성SDI 실적",
-      "matched_pdf_title": "삼성SDI 실적 추이 및 전망",
-      "matched_fig_num": 1,
-      "page_idx": 27,
-      "file": "battery_cellmaker_sdi_perf.png",
-      "size_px": [
-        1547,
-        1383
-      ]
-    },
-    "cellmaker_ecoprobm_perf": {
-      "title": "에코프로비엠 실적 추이 및 전망",
-      "match": "에코프로비엠 실적",
-      "matched_pdf_title": "에코프로비엠 실적 추이 및 전망",
-      "matched_fig_num": 71,
-      "page_idx": 28,
-      "file": "battery_cellmaker_ecoprobm_perf.png",
-      "size_px": [
-        1547,
-        1383
-      ]
-    },
-    "cellmaker_pfm_perf": {
-      "title": "포스코퓨처엠 실적 추이 및 전망",
-      "match": "포스코퓨처엠 실적",
-      "matched_pdf_title": "포스코퓨처엠 실적 추이 및 전망",
-      "matched_fig_num": 72,
-      "page_idx": 28,
-      "file": "battery_cellmaker_pfm_perf.png",
-      "size_px": [
-        1547,
-        1383
-      ]
-    },
-    "ess_install_global": {
-      "title": "ESS 신규 설치량 (글로벌)",
-      "match": "ESS 신규 설치량",
-      "matched_pdf_title": "ESS 신규 설치량",
-      "matched_fig_num": 4,
-      "page_idx": 6,
-      "file": "battery_ess_install_global.png",
-      "size_px": [
-        1112,
-        560
-      ]
-    },
-    "ess_chemistry_share": {
-      "title": "ESS 케미스트리별 비중",
-      "match": "ESS 케미스트리",
-      "matched_pdf_title": "ESS 케미스트리별 비중",
-      "matched_fig_num": 5,
-      "page_idx": 6,
-      "file": "battery_ess_chemistry_share.png",
-      "size_px": [
-        1112,
-        560
-      ]
-    },
-    "ess_install_by_region": {
-      "title": "지역별 ESS 배터리 신규 설치량",
-      "match": "지역별 ESS 배터리",
-      "matched_pdf_title": "지역별 ESS 배터리 신규 설치량",
-      "matched_fig_num": 6,
-      "page_idx": 7,
-      "file": "battery_ess_install_by_region.png",
-      "size_px": [
-        1533,
-        492
-      ]
-    },
-    "ess_grid_market_type": {
-      "title": "전력망 시장 내 연계 유형별 ESS",
-      "match": "전력망",
-      "matched_pdf_title": "전력망(Grid) 시장 내 연계 유형별 ESS 배터리 신규",
-      "matched_fig_num": 7,
-      "page_idx": 7,
-      "file": "battery_ess_grid_market_type.png",
-      "size_px": [
-        1534,
-        492
-      ]
-    },
     "ev_global_growth": {
       "title": "글로벌 EV(BEV+PHEV) 월별 판매증가율",
       "match": "글로벌 전기차",
@@ -308,54 +212,6 @@
         1705
       ]
     },
-    "power_uk": {
-      "title": "영국 전력 가격",
-      "match": "영국 전력 가격",
-      "matched_pdf_title": "영국 전력 가격 추이",
-      "matched_fig_num": 25,
-      "page_idx": 13,
-      "file": "battery_power_uk.png",
-      "size_px": [
-        804,
-        562
-      ]
-    },
-    "power_de": {
-      "title": "독일 전력 가격",
-      "match": "독일 전력 가격",
-      "matched_pdf_title": "독일 전력 가격 추이",
-      "matched_fig_num": 26,
-      "page_idx": 13,
-      "file": "battery_power_de.png",
-      "size_px": [
-        804,
-        562
-      ]
-    },
-    "power_fr": {
-      "title": "프랑스 전력 가격",
-      "match": "프랑스 전력 가격",
-      "matched_pdf_title": "프랑스 전력 가격 추이",
-      "matched_fig_num": 27,
-      "page_idx": 13,
-      "file": "battery_power_fr.png",
-      "size_px": [
-        804,
-        562
-      ]
-    },
-    "power_eu3_combined": {
-      "title": "유럽 3국 전력 가격",
-      "match": "유럽 3국 전력 가격",
-      "matched_pdf_title": "유럽 3국 전력 가격 추이",
-      "matched_fig_num": 28,
-      "page_idx": 13,
-      "file": "battery_power_eu3_combined.png",
-      "size_px": [
-        804,
-        562
-      ]
-    },
     "lib_global_shipment": {
       "title": "전기차용 리튬이온배터리 출하량 (글로벌)",
       "match": "전기차용 리튬 이온 배터리 출하량",
@@ -428,97 +284,241 @@
         561
       ]
     },
-    "export_battery_total": {
-      "title": "2차전지 수출액",
-      "match": "2차전지 수출액",
-      "matched_pdf_title": "2차전지 수출액 추이",
-      "matched_fig_num": 35,
-      "page_idx": 16,
-      "file": "battery_export_battery_total.png",
+    "ess_install_global": {
+      "title": "ESS 신규 설치량 (글로벌)",
+      "match": "ESS 신규 설치량",
+      "matched_pdf_title": "ESS 신규 설치량",
+      "matched_fig_num": 4,
+      "page_idx": 6,
+      "file": "battery_ess_install_global.png",
+      "size_px": [
+        1112,
+        560
+      ]
+    },
+    "ess_chemistry_share": {
+      "title": "ESS 케미스트리별 비중",
+      "match": "ESS 케미스트리",
+      "matched_pdf_title": "ESS 케미스트리별 비중",
+      "matched_fig_num": 5,
+      "page_idx": 6,
+      "file": "battery_ess_chemistry_share.png",
+      "size_px": [
+        1112,
+        560
+      ]
+    },
+    "ess_install_by_region": {
+      "title": "지역별 ESS 배터리 신규 설치량",
+      "match": "지역별 ESS 배터리",
+      "matched_pdf_title": "지역별 ESS 배터리 신규 설치량",
+      "matched_fig_num": 6,
+      "page_idx": 7,
+      "file": "battery_ess_install_by_region.png",
+      "size_px": [
+        1533,
+        492
+      ]
+    },
+    "ess_grid_market_type": {
+      "title": "전력망 시장 내 연계 유형별 ESS",
+      "match": "전력망",
+      "matched_pdf_title": "전력망(Grid) 시장 내 연계 유형별 ESS 배터리 신규",
+      "matched_fig_num": 7,
+      "page_idx": 7,
+      "file": "battery_ess_grid_market_type.png",
+      "size_px": [
+        1534,
+        492
+      ]
+    },
+    "raw_lithium": {
+      "title": "리튬",
+      "match": "리튬 월별 평균 가격",
+      "matched_pdf_title": "리튬 월별 평균 가격 추이",
+      "matched_fig_num": 63,
+      "page_idx": 25,
+      "file": "battery_raw_lithium.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_liion": {
-      "title": "리튬이온전지 수출액",
-      "match": "리튬이온전지 수출액",
-      "matched_pdf_title": "리튬이온전지 수출액 추이",
-      "matched_fig_num": 36,
-      "page_idx": 16,
-      "file": "battery_export_liion.png",
+    "raw_nickel": {
+      "title": "니켈",
+      "match": "니켈 월별 평균 가격",
+      "matched_pdf_title": "니켈 월별 평균 가격 추이",
+      "matched_fig_num": 64,
+      "page_idx": 25,
+      "file": "battery_raw_nickel.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_ev_value": {
-      "title": "EV용 리튬이온전지 수출액",
-      "match": "EV용 리튬이온전지 수출액",
-      "matched_pdf_title": "EV용 리튬이온전지 수출액 추이",
-      "matched_fig_num": 37,
-      "page_idx": 16,
-      "file": "battery_export_ev_value.png",
+    "raw_cobalt": {
+      "title": "코발트",
+      "match": "코발트 월별 평균 가격",
+      "matched_pdf_title": "코발트 월별 평균 가격 추이",
+      "matched_fig_num": 65,
+      "page_idx": 25,
+      "file": "battery_raw_cobalt.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "raw_manganese": {
+      "title": "망간",
+      "match": "망간 월별 평균 가격",
+      "matched_pdf_title": "망간 월별 평균 가격 추이",
+      "matched_fig_num": 66,
+      "page_idx": 25,
+      "file": "battery_raw_manganese.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "raw_aluminum": {
+      "title": "알루미늄",
+      "match": "알루미늄 월별 평균 가격",
+      "matched_pdf_title": "알루미늄 월별 평균 가격 추이",
+      "matched_fig_num": 67,
+      "page_idx": 25,
+      "file": "battery_raw_aluminum.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "raw_copper": {
+      "title": "동",
+      "match": "동 월별 평균 가격",
+      "matched_pdf_title": "동 월별 평균 가격 추이",
+      "matched_fig_num": 68,
+      "page_idx": 25,
+      "file": "battery_raw_copper.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "power_uk": {
+      "title": "영국 전력 가격",
+      "match": "영국 전력 가격",
+      "matched_pdf_title": "영국 전력 가격 추이",
+      "matched_fig_num": 25,
+      "page_idx": 13,
+      "file": "battery_power_uk.png",
+      "size_px": [
+        804,
+        562
+      ]
+    },
+    "power_de": {
+      "title": "독일 전력 가격",
+      "match": "독일 전력 가격",
+      "matched_pdf_title": "독일 전력 가격 추이",
+      "matched_fig_num": 26,
+      "page_idx": 13,
+      "file": "battery_power_de.png",
+      "size_px": [
+        804,
+        562
+      ]
+    },
+    "power_fr": {
+      "title": "프랑스 전력 가격",
+      "match": "프랑스 전력 가격",
+      "matched_pdf_title": "프랑스 전력 가격 추이",
+      "matched_fig_num": 27,
+      "page_idx": 13,
+      "file": "battery_power_fr.png",
+      "size_px": [
+        804,
+        562
+      ]
+    },
+    "power_eu3_combined": {
+      "title": "유럽 3국 전력 가격",
+      "match": "유럽 3국 전력 가격",
+      "matched_pdf_title": "유럽 3국 전력 가격 추이",
+      "matched_fig_num": 28,
+      "page_idx": 13,
+      "file": "battery_power_eu3_combined.png",
+      "size_px": [
+        804,
+        562
+      ]
+    },
+    "import_lithium_hydroxide_value": {
+      "title": "수산화리튬 수입액",
+      "match": "수산화리튬 수입액",
+      "matched_pdf_title": "수산화리튬 수입액 추이",
+      "matched_fig_num": 56,
+      "page_idx": 22,
+      "file": "battery_import_lithium_hydroxide_value.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_ev_price": {
-      "title": "EV용 리튬이온전지 수출 단가",
-      "match": "EV용 리튬이온전지 수출 단가",
-      "matched_pdf_title": "EV용 리튬이온전지 수출 단가 추이",
-      "matched_fig_num": 38,
-      "page_idx": 16,
-      "file": "battery_export_ev_price.png",
+    "import_lithium_hydroxide_price": {
+      "title": "수산화리튬 수입 단가",
+      "match": "수산화리튬 수입 단가",
+      "matched_pdf_title": "수산화리튬 수입 단가 추이",
+      "matched_fig_num": 57,
+      "page_idx": 22,
+      "file": "battery_import_lithium_hydroxide_price.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_ess_value": {
-      "title": "ESS용 리튬이온전지 수출액",
-      "match": "ESS용 리튬이온전지 수출액",
-      "matched_pdf_title": "ESS용 리튬이온전지 수출액 추이",
-      "matched_fig_num": 39,
-      "page_idx": 17,
-      "file": "battery_export_ess_value.png",
+    "import_anode_value": {
+      "title": "음극재 수입액",
+      "match": "음극재 수입액",
+      "matched_pdf_title": "음극재 수입액 추이",
+      "matched_fig_num": 58,
+      "page_idx": 22,
+      "file": "battery_import_anode_value.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_ess_price": {
-      "title": "ESS용 리튬이온전지 수출 단가",
-      "match": "ESS용 리튬이온전지 수출 단가",
-      "matched_pdf_title": "ESS용 리튬이온전지 수출 단가 추이",
-      "matched_fig_num": 40,
-      "page_idx": 17,
-      "file": "battery_export_ess_price.png",
+    "import_anode_price": {
+      "title": "음극재 수입 단가",
+      "match": "음극재 수입 단가",
+      "matched_pdf_title": "음극재 수입 단가 추이",
+      "matched_fig_num": 59,
+      "page_idx": 22,
+      "file": "battery_import_anode_price.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_foil_value": {
-      "title": "동박 수출액",
-      "match": "동박 수출액",
-      "matched_pdf_title": "동박 수출액 추이",
-      "matched_fig_num": 41,
-      "page_idx": 17,
-      "file": "battery_export_foil_value.png",
+    "import_graphite_value": {
+      "title": "천연흑연 수입액",
+      "match": "천연흑연 수입액",
+      "matched_pdf_title": "천연흑연 수입액 추이",
+      "matched_fig_num": 60,
+      "page_idx": 23,
+      "file": "battery_import_graphite_value.png",
       "size_px": [
         816,
         560
       ]
     },
-    "export_foil_price": {
-      "title": "동박 수출 단가",
-      "match": "동박 수출 단가",
-      "matched_pdf_title": "동박 수출 단가 추이",
-      "matched_fig_num": 42,
-      "page_idx": 17,
-      "file": "battery_export_foil_price.png",
+    "import_graphite_price": {
+      "title": "천연흑연 수입 단가",
+      "match": "천연흑연 수입 단가",
+      "matched_pdf_title": "천연흑연 수입 단가 추이",
+      "matched_fig_num": 61,
+      "page_idx": 23,
+      "file": "battery_import_graphite_price.png",
       "size_px": [
         816,
         560
@@ -668,172 +668,160 @@
         560
       ]
     },
-    "cathode_export_by_region_table": {
-      "title": "지역별 양극재 수출 추이",
-      "match": "지역별 양극재 수출",
-      "matched_pdf_title": "지역별 양극재 수출 추이",
-      "matched_fig_num": 55,
-      "page_idx": 21,
-      "file": "battery_cathode_export_by_region_table.png",
-      "size_px": [
-        1538,
-        1658
-      ]
-    },
-    "import_lithium_hydroxide_value": {
-      "title": "수산화리튬 수입액",
-      "match": "수산화리튬 수입액",
-      "matched_pdf_title": "수산화리튬 수입액 추이",
-      "matched_fig_num": 56,
-      "page_idx": 22,
-      "file": "battery_import_lithium_hydroxide_value.png",
+    "export_battery_total": {
+      "title": "2차전지 수출액",
+      "match": "2차전지 수출액",
+      "matched_pdf_title": "2차전지 수출액 추이",
+      "matched_fig_num": 35,
+      "page_idx": 16,
+      "file": "battery_export_battery_total.png",
       "size_px": [
         816,
         560
       ]
     },
-    "import_lithium_hydroxide_price": {
-      "title": "수산화리튬 수입 단가",
-      "match": "수산화리튬 수입 단가",
-      "matched_pdf_title": "수산화리튬 수입 단가 추이",
-      "matched_fig_num": 57,
-      "page_idx": 22,
-      "file": "battery_import_lithium_hydroxide_price.png",
+    "export_liion": {
+      "title": "리튬이온전지 수출액",
+      "match": "리튬이온전지 수출액",
+      "matched_pdf_title": "리튬이온전지 수출액 추이",
+      "matched_fig_num": 36,
+      "page_idx": 16,
+      "file": "battery_export_liion.png",
       "size_px": [
         816,
         560
       ]
     },
-    "import_anode_value": {
-      "title": "음극재 수입액",
-      "match": "음극재 수입액",
-      "matched_pdf_title": "음극재 수입액 추이",
-      "matched_fig_num": 58,
-      "page_idx": 22,
-      "file": "battery_import_anode_value.png",
+    "export_ev_value": {
+      "title": "EV용 리튬이온전지 수출액",
+      "match": "EV용 리튬이온전지 수출액",
+      "matched_pdf_title": "EV용 리튬이온전지 수출액 추이",
+      "matched_fig_num": 37,
+      "page_idx": 16,
+      "file": "battery_export_ev_value.png",
       "size_px": [
         816,
         560
       ]
     },
-    "import_anode_price": {
-      "title": "음극재 수입 단가",
-      "match": "음극재 수입 단가",
-      "matched_pdf_title": "음극재 수입 단가 추이",
-      "matched_fig_num": 59,
-      "page_idx": 22,
-      "file": "battery_import_anode_price.png",
+    "export_ev_price": {
+      "title": "EV용 리튬이온전지 수출 단가",
+      "match": "EV용 리튬이온전지 수출 단가",
+      "matched_pdf_title": "EV용 리튬이온전지 수출 단가 추이",
+      "matched_fig_num": 38,
+      "page_idx": 16,
+      "file": "battery_export_ev_price.png",
       "size_px": [
         816,
         560
       ]
     },
-    "import_graphite_value": {
-      "title": "천연흑연 수입액",
-      "match": "천연흑연 수입액",
-      "matched_pdf_title": "천연흑연 수입액 추이",
-      "matched_fig_num": 60,
-      "page_idx": 23,
-      "file": "battery_import_graphite_value.png",
+    "export_ess_value": {
+      "title": "ESS용 리튬이온전지 수출액",
+      "match": "ESS용 리튬이온전지 수출액",
+      "matched_pdf_title": "ESS용 리튬이온전지 수출액 추이",
+      "matched_fig_num": 39,
+      "page_idx": 17,
+      "file": "battery_export_ess_value.png",
       "size_px": [
         816,
         560
       ]
     },
-    "import_graphite_price": {
-      "title": "천연흑연 수입 단가",
-      "match": "천연흑연 수입 단가",
-      "matched_pdf_title": "천연흑연 수입 단가 추이",
-      "matched_fig_num": 61,
-      "page_idx": 23,
-      "file": "battery_import_graphite_price.png",
+    "export_ess_price": {
+      "title": "ESS용 리튬이온전지 수출 단가",
+      "match": "ESS용 리튬이온전지 수출 단가",
+      "matched_pdf_title": "ESS용 리튬이온전지 수출 단가 추이",
+      "matched_fig_num": 40,
+      "page_idx": 17,
+      "file": "battery_export_ess_price.png",
       "size_px": [
         816,
         560
       ]
     },
-    "raw_materials_summary_table": {
-      "title": "2차전지 주요 원재료 가격 추이",
-      "match": "2차전지 주요 원재료 가격 추이",
-      "matched_pdf_title": "2차전지 주요 원재료 가격 추이",
-      "matched_fig_num": 62,
-      "page_idx": 24,
-      "file": "battery_raw_materials_summary_table.png",
+    "export_foil_value": {
+      "title": "동박 수출액",
+      "match": "동박 수출액",
+      "matched_pdf_title": "동박 수출액 추이",
+      "matched_fig_num": 41,
+      "page_idx": 17,
+      "file": "battery_export_foil_value.png",
+      "size_px": [
+        816,
+        560
+      ]
+    },
+    "export_foil_price": {
+      "title": "동박 수출 단가",
+      "match": "동박 수출 단가",
+      "matched_pdf_title": "동박 수출 단가 추이",
+      "matched_fig_num": 42,
+      "page_idx": 17,
+      "file": "battery_export_foil_price.png",
+      "size_px": [
+        816,
+        560
+      ]
+    },
+    "cellmaker_lges_perf": {
+      "title": "LG에너지솔루션 실적 추이 및 전망",
+      "match": "LG에너지솔루션 실적",
+      "matched_pdf_title": "LG에너지솔루션 실적 추이 및 전망",
+      "matched_fig_num": 69,
+      "page_idx": 26,
+      "file": "battery_cellmaker_lges_perf.png",
       "size_px": [
         1547,
-        1469
+        1383
       ]
     },
-    "raw_lithium": {
-      "title": "리튬",
-      "match": "리튬 월별 평균 가격",
-      "matched_pdf_title": "리튬 월별 평균 가격 추이",
-      "matched_fig_num": 63,
-      "page_idx": 25,
-      "file": "battery_raw_lithium.png",
+    "cellmaker_sdi_perf": {
+      "title": "삼성SDI 실적 추이 및 전망",
+      "match": "삼성SDI 실적",
+      "matched_pdf_title": "삼성SDI 실적 추이 및 전망",
+      "matched_fig_num": 1,
+      "page_idx": 27,
+      "file": "battery_cellmaker_sdi_perf.png",
       "size_px": [
-        816,
-        560
+        1547,
+        1383
       ]
     },
-    "raw_nickel": {
-      "title": "니켈",
-      "match": "니켈 월별 평균 가격",
-      "matched_pdf_title": "니켈 월별 평균 가격 추이",
-      "matched_fig_num": 64,
-      "page_idx": 25,
-      "file": "battery_raw_nickel.png",
+    "cellmaker_ecoprobm_perf": {
+      "title": "에코프로비엠 실적 추이 및 전망",
+      "match": "에코프로비엠 실적",
+      "matched_pdf_title": "에코프로비엠 실적 추이 및 전망",
+      "matched_fig_num": 71,
+      "page_idx": 28,
+      "file": "battery_cellmaker_ecoprobm_perf.png",
       "size_px": [
-        816,
-        560
+        1547,
+        1383
       ]
     },
-    "raw_cobalt": {
-      "title": "코발트",
-      "match": "코발트 월별 평균 가격",
-      "matched_pdf_title": "코발트 월별 평균 가격 추이",
-      "matched_fig_num": 65,
-      "page_idx": 25,
-      "file": "battery_raw_cobalt.png",
+    "cellmaker_pfm_perf": {
+      "title": "포스코퓨처엠 실적 추이 및 전망",
+      "match": "포스코퓨처엠 실적",
+      "matched_pdf_title": "포스코퓨처엠 실적 추이 및 전망",
+      "matched_fig_num": 72,
+      "page_idx": 28,
+      "file": "battery_cellmaker_pfm_perf.png",
       "size_px": [
-        804,
-        560
+        1547,
+        1383
       ]
     },
-    "raw_manganese": {
-      "title": "망간",
-      "match": "망간 월별 평균 가격",
-      "matched_pdf_title": "망간 월별 평균 가격 추이",
-      "matched_fig_num": 66,
-      "page_idx": 25,
-      "file": "battery_raw_manganese.png",
+    "summary_page1": {
+      "title": "주간 시황 요약",
+      "match": null,
+      "matched_pdf_title": "PDF page 1",
+      "matched_fig_num": null,
+      "page_idx": 0,
+      "file": "battery_summary_page1.png",
       "size_px": [
-        804,
-        560
-      ]
-    },
-    "raw_aluminum": {
-      "title": "알루미늄",
-      "match": "알루미늄 월별 평균 가격",
-      "matched_pdf_title": "알루미늄 월별 평균 가격 추이",
-      "matched_fig_num": 67,
-      "page_idx": 25,
-      "file": "battery_raw_aluminum.png",
-      "size_px": [
-        804,
-        560
-      ]
-    },
-    "raw_copper": {
-      "title": "동",
-      "match": "동 월별 평균 가격",
-      "matched_pdf_title": "동 월별 평균 가격 추이",
-      "matched_fig_num": 68,
-      "page_idx": 25,
-      "file": "battery_raw_copper.png",
-      "size_px": [
-        804,
-        560
+        1654,
+        2339
       ]
     }
   }

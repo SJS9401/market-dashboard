@@ -5,6 +5,7 @@
     "match: PDF 차트 제목 검색용 substring (PDF 작성자 표기 변동에도 안정).",
     "title: 사이트 카드 표시 제목 (한글).",
     "disabled: (선택) true 면 사이트 표시 X + crop X. 카탈로그에 유지하여 후일 재활성/매칭 안정성 확보.",
+    "page_full: (선택) <int>. PDF 의 그 페이지 통째로 PNG 캡쳐 (시황 요약 등). match 매칭에서 제외, skip_pages 무관.",
     "PDF 도표 번호는 매주 바뀔 수 있어 의도적으로 미사용 — match 만 신뢰.",
     "사용처:",
     "  - lib/pdf_image_crop.py: --cards-manifest 옵션으로 fetch → PDF 매칭 → battery_<id>.png crop.",
@@ -167,6 +168,14 @@
         {"id": "cellmaker_sdi_perf",      "title": "삼성SDI 실적 추이 및 전망",        "match": "삼성SDI 실적"},
         {"id": "cellmaker_ecoprobm_perf", "title": "에코프로비엠 실적 추이 및 전망",   "match": "에코프로비엠 실적"},
         {"id": "cellmaker_pfm_perf",      "title": "포스코퓨처엠 실적 추이 및 전망",   "match": "포스코퓨처엠 실적"}
+      ]
+    },
+    {
+      "title": "주간 시황 요약 (PDF 1페이지)",
+      "subtitle": "하나증권 김현수 Weekly — 헤드라인 (PDF 첫 페이지 통째 캡쳐)",
+      "cols": 1,
+      "cards": [
+        {"id": "summary_page1", "title": "주간 시황 요약", "page_full": 1}
       ]
     },
     {
