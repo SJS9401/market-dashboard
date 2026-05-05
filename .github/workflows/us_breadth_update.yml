@@ -65,6 +65,7 @@ jobs:
         run: |
           python - <<'PY'
           import json, sys
+          from datetime import date, datetime, timedelta
           d = json.load(open('data/us_breadth.json'))
           required = ['dates', 'spx', 'pct_above_200ma', 'pct_above_50ma',
                       'goldman_breadth', 'new_highs_pct', 'new_lows_pct']
@@ -76,11 +77,31 @@ jobs:
                   print(f"::error::empty: {k}")
                   sys.exit(1)
           n = len(d['dates'])
-          print(f"rows: {n}, last date: {d['dates'][-1]}")
+          last = d['dates'][-1]
+          last_d = datetime.strptime(last, "%Y-%m-%d").date()
+          today = datetime.utcnow().date()
+
+          # business-day staleness check: count weekdays between last and today
+          bd = 0
+          cur = last_d
+          while cur < today:
+              cur += timedelta(days=1)
+              if cur.weekday() < 5:  # Mon-Fri
+                  bd += 1
+          MAX_STALE_BDAYS = 5
+          stale = bd > MAX_STALE_BDAYS
+
+          print(f"rows: {n}, last date: {last}  (today={today}, business_days_since_last={bd})")
           print(f"  SPX: {d['spx'][-1]}")
           print(f"  >200MA: {d['pct_above_200ma'][-1]}%  >50MA: {d['pct_above_50ma'][-1]}%")
           print(f"  Goldman breadth: {d['goldman_breadth'][-1]}%p")
           print(f"  NH%: {d['new_highs_pct'][-1]}  NL%: {d['new_lows_pct'][-1]}")
+
+          if stale:
+              print(f"::error::data is stale: last_date={last} is {bd} business days old (threshold={MAX_STALE_BDAYS}). yfinance likely returned cached/throttled response.")
+              sys.exit(1)
+          else:
+              print(f"::notice::data freshness OK: last_date={last} ({bd} business days old)")
           PY
 
       - name: 변경사항 있을 때만 커밋

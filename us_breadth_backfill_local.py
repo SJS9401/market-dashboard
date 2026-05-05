@@ -281,6 +281,49 @@ def cmd_probe() -> None:
     _log("== probe OK ==")
 
 
+def _spx_download_with_retry(start: str, end: str, max_attempts: int = 3):
+    """yfinance ^GSPC 다운로드 + stale 감지 + retry. 실패 시 sys.exit(1)."""
+    import yfinance as yf
+    import pandas as pd
+
+    today = datetime.utcnow().date()
+    last_seen = None
+    for attempt in range(1, max_attempts + 1):
+        _log(f"downloading ^GSPC ... (attempt {attempt}/{max_attempts})")
+        try:
+            spx = yf.download(
+                "^GSPC", start=start, end=end,
+                auto_adjust=True, progress=False,
+            )["Close"]
+            if hasattr(spx, "columns"):
+                spx = spx.iloc[:, 0]
+            spx.index = spx.index.tz_localize(None) if spx.index.tz else spx.index
+        except Exception as e:
+            _log(f"  attempt {attempt} EXCEPTION: {e}")
+            time.sleep(5)
+            continue
+
+        if len(spx) == 0:
+            _log(f"  attempt {attempt} returned EMPTY; retrying...")
+            time.sleep(5)
+            continue
+
+        last_date = spx.index[-1].date()
+        last_seen = last_date
+        days_stale = (today - last_date).days
+        _log(f"  SPX rows: {len(spx)}  last: {last_date}  (today-last={days_stale}d)")
+
+        # 7일 이상 stale 이면 retry. 5/2~5/3 같은 주말+월 시초도 있으니 7일 마진.
+        if days_stale > 7:
+            _log(f"  SPX last_date {last_date} too stale (>{days_stale}d); retry after 8s")
+            time.sleep(8)
+            continue
+        return spx
+
+    _log(f"::error::SPX download stale after {max_attempts} attempts (last_seen={last_seen}). Aborting.")
+    sys.exit(1)
+
+
 def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
     import pandas as pd
 
@@ -290,18 +333,23 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
         tickers = tickers[:max_tickers]
         _log(f"  (limited to first {max_tickers} tickers for test)")
 
-    # SPX 지수 다운로드
-    import yfinance as yf
-    _log("downloading ^GSPC ...")
-    spx = yf.download("^GSPC", start=start, end=end, auto_adjust=True, progress=False)["Close"]
-    if hasattr(spx, "columns"):
-        spx = spx.iloc[:, 0]
-    spx.index = spx.index.tz_localize(None) if spx.index.tz else spx.index
-    _log(f"  SPX rows: {len(spx)}")
+    # SPX 지수 다운로드 (retry + stale 감지)
+    spx = _spx_download_with_retry(start, end)
 
     close_df = download_prices(tickers, start, end)
 
     result = compute_breadth(close_df, spx)
+
+    # --- 회귀 방어: 기존 파일 last_date 보다 새 결과 last_date 가 빠르면 거부 ---
+    new_last = result["dates"][-1] if result["dates"] else None
+    prev = _load_json(OUT_PATH)
+    if prev and prev.get("dates") and new_last:
+        prev_last = prev["dates"][-1]
+        if new_last < prev_last:
+            _log(f"::error::regression detected: new last_date={new_last} < prev last_date={prev_last}. Refusing to overwrite. (max_tickers={max_tickers})")
+            sys.exit(2)
+        if new_last == prev_last:
+            _log(f"  no new trading day (last_date unchanged: {new_last}) — proceeding to update meta only")
 
     ism = extract_ism_pmi()
     result["ism_pmi_monthly"] = ism
@@ -315,7 +363,7 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
     }
 
     _atomic_write_json(OUT_PATH, result)
-    _log(f"SAVED → {OUT_PATH}  ({len(result['dates'])} rows, {result['meta']['universe_size']} tickers)")
+    _log(f"SAVED → {OUT_PATH}  ({len(result['dates'])} rows, {result['meta']['universe_size']} tickers, last={new_last})")
 
 
 def main():
