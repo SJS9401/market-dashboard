@@ -60,6 +60,10 @@
   .cw-tbd { display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 11px; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(48,54,61,0.18) 8px, rgba(48,54,61,0.18) 9px); }
   .card-tbd .card-top { background: #1a1f26; }
   .card-tbd .card-top h3 { color: #8b949e; }
+  /* image 카드 — PDF crop PNG 가 차트 영역을 통째로 채움 (라이트 배경 + 약한 패딩으로 다크모드 대비) */
+  .card-image .cw { height: auto; min-height: 0; cursor: default; background: #ffffff; padding: 4px; }
+  .card-image .cw img { width: 100%; height: auto; display: block; border-radius: 2px; }
+  .card-image .card-top { border-bottom: 1px solid #21262d; }
   .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
   /* 최근 데이터 표 (차트 하단) */
   .recent-data { padding: 6px 10px 8px; border-top: 1px solid #21262d; overflow-x: auto; }
@@ -155,157 +159,22 @@ const COLORS = {
   stack_4: 'rgb(45, 200, 175)',       // 진한 cyan — 4개 시리즈 시 추가
 };
 
+// ───────────────────────────────────────────────────────────────────────
+// 2026-05-05: 전 사이트 이미지화 (image-first dashboard).
+// 모든 카드 → PDF crop PNG (data/figures/battery_fig_NN.png).
+// 매주 PDF 갱신 시 lib/pdf_image_crop.py 가 같은 번호로 이미지 덮어씀.
+// chart_def: { type: "image" } 로 통일. fig 값은 PDF 도표 번호.
+// ───────────────────────────────────────────────────────────────────────
 const SECTIONS = [
   {
     title: "셀 메이커·소재 업체 실적 추정 테이블",
     subtitle: "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 — 도표 69~72 (각사 IR, 하나증권)",
-    cols: 1,
-    cards: [
-      { fig: "T-LGES", title: "LG에너지솔루션 실적 추이 및 전망",
-        chart_def: { type: "table", file: "battery_lges_perf.json" } },
-      { fig: "T-SDI", title: "삼성SDI 실적 추이 및 전망",
-        chart_def: { type: "table", file: "battery_samsungsdi_perf.json" } },
-      { fig: "T-EBM", title: "에코프로비엠 실적 추이 및 전망",
-        chart_def: { type: "table", file: "battery_ecoprobm_perf.json" } },
-      { fig: "T-PFM", title: "포스코퓨처엠 실적 추이 및 전망",
-        chart_def: { type: "table", file: "battery_pfm_perf.json" } },
-    ]
-  },
-  {
-    title: "수출 Data : 2차전지",
-    subtitle: "품목별 수출액·단가 — 도표 35~42 (KITA, 하나증권)",
-    cols: 3,
-    cards: [
-      { fig: 35, title: "2차전지 수출액",
-        chart_def: { type: "dual_axis", series: [
-          { label: "수출액", file: "battery_battery_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_battery_export_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "백만$", unit_right: "%" } },
-      { fig: 36, title: "리튬이온전지 수출액",
-        chart_def: { type: "dual_axis", series: [
-          { label: "수출액", file: "battery_liion_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_liion_export_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "백만$", unit_right: "%" } },
-      { fig: 37, title: "EV용 리튬이온전지 수출액",
-        chart_def: { type: "dual_axis", series: [
-          { label: "수출액", file: "battery_ev_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ev_export_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "백만$", unit_right: "%" } },
-      { fig: 38, title: "EV용 리튬이온전지 수출 단가",
-        chart_def: { type: "dual_axis", series: [
-          { label: "단가", file: "battery_ev_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ev_export_price_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "$/kg", unit_right: "%" } },
-      { fig: 39, title: "ESS용 리튬이온전지 수출액",
-        chart_def: { type: "dual_axis", series: [
-          { label: "수출액", file: "battery_ess_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ess_export_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "백만$", unit_right: "%" } },
-      { fig: 40, title: "ESS용 리튬이온전지 수출 단가",
-        chart_def: { type: "dual_axis", series: [
-          { label: "단가", file: "battery_ess_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_ess_export_price_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "$/kg", unit_right: "%" } },
-      { fig: 41, title: "동박 수출액",
-        chart_def: { type: "dual_axis", series: [
-          { label: "수출액", file: "battery_foil_export.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_foil_export_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "백만$", unit_right: "%" } },
-      { fig: 42, title: "동박 수출 단가",
-        chart_def: { type: "dual_axis", series: [
-          { label: "단가", file: "battery_foil_export_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "YoY(우)", file: "battery_foil_export_price_yoy.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "$/kg", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "원재료 가격 추이",
-    subtitle: "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 — 도표 63~68 (한국광물자원공사, 하나증권)",
-    cols: 3,
-    cards: [
-      { fig: 63, title: "리튬",
-        chart_def: { type: "dual_axis", series: [
-          { label: "리튬가격", file: "battery_lithium_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_lithium_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "USD/kg", unit_right: "%" } },
-      { fig: 64, title: "니켈",
-        chart_def: { type: "dual_axis", series: [
-          { label: "니켈가격", file: "battery_nickel_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_nickel_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "천$/t", unit_right: "%" } },
-      { fig: 65, title: "코발트",
-        chart_def: { type: "dual_axis", series: [
-          { label: "코발트가격", file: "battery_cobalt_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_cobalt_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "천$/t", unit_right: "%" } },
-      { fig: 66, title: "망간",
-        chart_def: { type: "dual_axis", series: [
-          { label: "망간가격", file: "battery_manganese_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_manganese_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "천$/t", unit_right: "%" } },
-      { fig: 67, title: "알루미늄",
-        chart_def: { type: "dual_axis", series: [
-          { label: "알루미늄가격", file: "battery_aluminum_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_aluminum_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "천$/t", unit_right: "%" } },
-      { fig: 68, title: "동",
-        chart_def: { type: "dual_axis", series: [
-          { label: "동가격", file: "battery_copper_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "MoM(우)", file: "battery_copper_mom.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "천$/t", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "전력 가격",
-    subtitle: "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표) — 도표 25-27 (페이지 15)",
-    cols: 3,
-    cards: [
-      { fig: 25, title: "영국",
-        chart_def: { type: "dual_axis", series: [
-          { label: "영국 전력가", file: "battery_uk_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "WoW(우)", file: "battery_uk_power_wow.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "GBP/MWh", unit_right: "%" } },
-      { fig: 26, title: "독일",
-        chart_def: { type: "dual_axis", series: [
-          { label: "독일 전력가", file: "battery_de_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "WoW(우)", file: "battery_de_power_wow.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "EUR/MWh", unit_right: "%" } },
-      { fig: 27, title: "프랑스",
-        chart_def: { type: "dual_axis", series: [
-          { label: "프랑스 전력가", file: "battery_fr_power_price.json", axis: "left", kind: "bar", color: COLORS.bar },
-          { label: "WoW(우)", file: "battery_fr_power_wow.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "EUR/MWh", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "LFP 배터리 침투율",
-    subtitle: "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 — 도표 31-34 (페이지 17, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 31, title: "글로벌",
-        chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_global_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
-          { label: "LFP", file: "battery_lfp_global_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
-          { label: "침투율(우)", file: "battery_lfp_global_share.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "GWh", unit_right: "%" } },
-      { fig: 32, title: "미국",
-        chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_us_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
-          { label: "LFP", file: "battery_lfp_us_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
-          { label: "침투율(우)", file: "battery_lfp_us_share.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "GWh", unit_right: "%" } },
-      { fig: 33, title: "중국",
-        chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_china_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
-          { label: "LFP", file: "battery_lfp_china_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
-          { label: "침투율(우)", file: "battery_lfp_china_share.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "GWh", unit_right: "%" } },
-      { fig: 34, title: "유럽",
-        chart_def: { type: "dual_axis", series: [
-          { label: "삼원계", file: "battery_lfp_eu_nmc.json", axis: "left", kind: "bar", color: COLORS.stack_2, stackBelow: "LFP" },
-          { label: "LFP", file: "battery_lfp_eu_lfp.json", axis: "left", kind: "bar", color: COLORS.stack_3 },
-          { label: "침투율(우)", file: "battery_lfp_eu_share.json", axis: "right", color: COLORS.yoy },
-        ], unit_left: "GWh", unit_right: "%" } },
+      { fig: 69, title: "LG에너지솔루션 실적 추이 및 전망",  chart_def: { type: "image" } },
+      { fig: 70, title: "삼성SDI 실적 추이 및 전망",        chart_def: { type: "image" } },
+      { fig: 71, title: "에코프로비엠 실적 추이 및 전망",    chart_def: { type: "image" } },
+      { fig: 72, title: "포스코퓨처엠 실적 추이 및 전망",    chart_def: { type: "image" } },
     ]
   },
   {
@@ -313,76 +182,134 @@ const SECTIONS = [
     subtitle: "글로벌 ESS 신규 설치량 · 케미스트리 · 지역별 — 도표 4-7 (페이지 8-9, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 4, title: "ESS 신규 설치량 (글로벌)", placeholder: true },
-      { fig: 5, title: "ESS 케미스트리별 비중", placeholder: true },
-      { fig: 6, title: "지역별 ESS 배터리 신규 설치량", placeholder: true },
-      { fig: 7, title: "전력망 시장 내 연계 유형별 ESS", placeholder: true },
+      { fig: 4, title: "ESS 신규 설치량 (글로벌)",          chart_def: { type: "image" } },
+      { fig: 5, title: "ESS 케미스트리별 비중",             chart_def: { type: "image" } },
+      { fig: 6, title: "지역별 ESS 배터리 신규 설치량",     chart_def: { type: "image" } },
+      { fig: 7, title: "전력망 시장 내 연계 유형별 ESS",    chart_def: { type: "image" } },
     ]
   },
   {
     title: "EV 판매 — 글로벌·지역별",
-    subtitle: "월별 판매량 + 시장점유율 — 도표 8-23 (페이지 10-13, SNE Research/EV-Volumes)",
+    subtitle: "월별 판매량 + 시장점유율 — 도표 8-24 (페이지 10-13, SNE Research/EV-Volumes)",
     cols: 2,
     cards: [
-      { fig: 8, title: "글로벌 EV(BEV+PHEV) 월별 판매증가율", placeholder: true },
-      { fig: 9, title: "미국 EV 월별 판매 추이", placeholder: true },
-      { fig: 10, title: "중국 EV 월별 판매 추이", placeholder: true },
-      { fig: 11, title: "유럽 EV 월별 판매 추이", placeholder: true },
-      { fig: 12, title: "미국 전기차 판매량 추이", placeholder: true },
-      { fig: 13, title: "미국 전기차 시장점유율 추이", placeholder: true },
-      { fig: 14, title: "중국 전기차 판매량 추이", placeholder: true },
-      { fig: 15, title: "중국 전기차 시장점유율 추이", placeholder: true },
-      { fig: 16, title: "영국 전기차 판매량 추이", placeholder: true },
-      { fig: 17, title: "영국 전기차 시장점유율 추이", placeholder: true },
-      { fig: 18, title: "독일 전기차 판매량 추이", placeholder: true },
-      { fig: 19, title: "독일 전기차 시장점유율 추이", placeholder: true },
-      { fig: 20, title: "프랑스 전기차 판매량 추이", placeholder: true },
-      { fig: 21, title: "프랑스 전기차 시장점유율 추이", placeholder: true },
-      { fig: 22, title: "유럽 주요 3국 전기차 판매량", placeholder: true },
-      { fig: 23, title: "유럽 주요 3국 전기차 점유율", placeholder: true },
-      { fig: 24, title: "미국 전기차 모델별 판매량 (표)", placeholder: true },
+      { fig: 8,  title: "글로벌 EV(BEV+PHEV) 월별 판매증가율",  chart_def: { type: "image" } },
+      { fig: 9,  title: "미국 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 10, title: "중국 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 11, title: "유럽 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 12, title: "미국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 13, title: "미국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 14, title: "중국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 15, title: "중국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 16, title: "영국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 17, title: "영국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 18, title: "독일 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 19, title: "독일 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 20, title: "프랑스 전기차 판매량 추이",             chart_def: { type: "image" } },
+      { fig: 21, title: "프랑스 전기차 시장점유율 추이",         chart_def: { type: "image" } },
+      { fig: 22, title: "유럽 주요 3국 전기차 판매량",           chart_def: { type: "image" } },
+      { fig: 23, title: "유럽 주요 3국 전기차 점유율",           chart_def: { type: "image" } },
+      { fig: 24, title: "미국 전기차 모델별 판매량 (표)",        chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "전력 가격",
+    subtitle: "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표) — 도표 25-28 (페이지 14)",
+    cols: 2,
+    cards: [
+      { fig: 25, title: "영국 전력 가격",      chart_def: { type: "image" } },
+      { fig: 26, title: "독일 전력 가격",      chart_def: { type: "image" } },
+      { fig: 27, title: "프랑스 전력 가격",    chart_def: { type: "image" } },
+      { fig: 28, title: "유럽 3국 전력 가격",  chart_def: { type: "image" } },
     ]
   },
   {
     title: "EV용 리튬이온 배터리 출하",
-    subtitle: "전기차용 LIB 출하량 — 도표 29-30 (페이지 16, SNE Research)",
+    subtitle: "전기차용 LIB 출하량 — 도표 29-30 (페이지 15, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 29, title: "전기차용 리튬이온배터리 출하량 (글로벌)", placeholder: true },
-      { fig: 30, title: "한국 배터리 3사 EV용 LIB 출하량", placeholder: true },
+      { fig: 29, title: "전기차용 리튬이온배터리 출하량 (글로벌)",  chart_def: { type: "image" } },
+      { fig: 30, title: "한국 배터리 3사 EV용 LIB 출하량",           chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "LFP 배터리 침투율",
+    subtitle: "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 — 도표 31-34 (페이지 16, SNE Research)",
+    cols: 2,
+    cards: [
+      { fig: 31, title: "글로벌",  chart_def: { type: "image" } },
+      { fig: 32, title: "미국",    chart_def: { type: "image" } },
+      { fig: 33, title: "중국",    chart_def: { type: "image" } },
+      { fig: 34, title: "유럽",    chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "수출 Data — 2차전지",
+    subtitle: "품목별 수출액·단가 — 도표 35-42 (페이지 17-18, KITA, 하나증권)",
+    cols: 2,
+    cards: [
+      { fig: 35, title: "2차전지 수출액",            chart_def: { type: "image" } },
+      { fig: 36, title: "리튬이온전지 수출액",        chart_def: { type: "image" } },
+      { fig: 37, title: "EV용 리튬이온전지 수출액",   chart_def: { type: "image" } },
+      { fig: 38, title: "EV용 리튬이온전지 수출 단가", chart_def: { type: "image" } },
+      { fig: 39, title: "ESS용 리튬이온전지 수출액",  chart_def: { type: "image" } },
+      { fig: 40, title: "ESS용 리튬이온전지 수출 단가", chart_def: { type: "image" } },
+      { fig: 41, title: "동박 수출액",                chart_def: { type: "image" } },
+      { fig: 42, title: "동박 수출 단가",             chart_def: { type: "image" } },
     ]
   },
   {
     title: "수출 Data — 양극재",
-    subtitle: "월별 수출액·중량·단가 — 도표 43-54 (페이지 20-22, 산업통상자원부)",
+    subtitle: "월별 수출액·중량·단가 — 도표 43-55 (페이지 19-22, 산업통상자원부)",
     cols: 2,
     cards: [
-      { fig: 43, title: "양극재 수출액 (NCM+NCA)", placeholder: true },
-      { fig: 44, title: "NCM 양극재 수출액", placeholder: true },
-      { fig: 45, title: "NCA 양극재 수출액", placeholder: true },
-      { fig: 46, title: "NCM+NCA 양극재 수출액", placeholder: true },
-      { fig: 47, title: "양극재 수출 중량 (NCM+NCA)", placeholder: true },
-      { fig: 48, title: "NCM 양극재 수출 중량", placeholder: true },
-      { fig: 49, title: "NCA 양극재 수출 중량", placeholder: true },
-      { fig: 50, title: "NCM+NCA 양극재 수출 중량", placeholder: true },
-      { fig: 51, title: "양극재 수출 단가", placeholder: true },
-      { fig: 52, title: "NCM 양극재 수출 단가", placeholder: true },
-      { fig: 53, title: "NCA 양극재 수출 단가", placeholder: true },
-      { fig: 54, title: "NCM+NCA 양극재 수출 단가", placeholder: true },
-      { fig: 55, title: "지역별 양극재 수출 (표)", placeholder: true },
+      { fig: 43, title: "양극재 수출액 (NCM+NCA)",   chart_def: { type: "image" } },
+      { fig: 44, title: "NCM 양극재 수출액",          chart_def: { type: "image" } },
+      { fig: 45, title: "NCA 양극재 수출액",          chart_def: { type: "image" } },
+      { fig: 46, title: "NCM+NCA 양극재 수출액",      chart_def: { type: "image" } },
+      { fig: 47, title: "양극재 수출 중량 (NCM+NCA)", chart_def: { type: "image" } },
+      { fig: 48, title: "NCM 양극재 수출 중량",       chart_def: { type: "image" } },
+      { fig: 49, title: "NCA 양극재 수출 중량",       chart_def: { type: "image" } },
+      { fig: 50, title: "NCM+NCA 양극재 수출 중량",   chart_def: { type: "image" } },
+      { fig: 51, title: "양극재 수출 단가",           chart_def: { type: "image" } },
+      { fig: 52, title: "NCM 양극재 수출 단가",       chart_def: { type: "image" } },
+      { fig: 53, title: "NCA 양극재 수출 단가",       chart_def: { type: "image" } },
+      { fig: 54, title: "NCM+NCA 양극재 수출 단가",   chart_def: { type: "image" } },
+      { fig: 55, title: "지역별 양극재 수출 (표)",    chart_def: { type: "image" } },
     ]
   },
   {
     title: "수입 Data — 원재료/소재",
-    subtitle: "수산화리튬·음극재·천연흑연 — 도표 56-61 (페이지 23-25, 산업통상자원부)",
+    subtitle: "수산화리튬·음극재·천연흑연 — 도표 56-61 (페이지 23-24, 산업통상자원부)",
     cols: 2,
     cards: [
-      { fig: 56, title: "수산화리튬 수입액", placeholder: true },
-      { fig: 57, title: "수산화리튬 수입 단가", placeholder: true },
-      { fig: 58, title: "음극재 수입액", placeholder: true },
-      { fig: 59, title: "음극재 수입 단가", placeholder: true },
-      { fig: 60, title: "천연흑연 수입액", placeholder: true },
-      { fig: 61, title: "천연흑연 수입 단가", placeholder: true },
+      { fig: 56, title: "수산화리튬 수입액",     chart_def: { type: "image" } },
+      { fig: 57, title: "수산화리튬 수입 단가",  chart_def: { type: "image" } },
+      { fig: 58, title: "음극재 수입액",         chart_def: { type: "image" } },
+      { fig: 59, title: "음극재 수입 단가",      chart_def: { type: "image" } },
+      { fig: 60, title: "천연흑연 수입액",       chart_def: { type: "image" } },
+      { fig: 61, title: "천연흑연 수입 단가",    chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "원재료 가격 종합 (표)",
+    subtitle: "월별 평균 가격 — 도표 62 (페이지 25, 한국광물자원공사·Antaike·Wind·하나증권)",
+    cols: 1,
+    cards: [
+      { fig: 62, title: "2차전지 주요 원재료 가격 추이",  chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "원재료 가격 추이",
+    subtitle: "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 — 도표 63-68 (페이지 26, 한국광물자원공사, 하나증권)",
+    cols: 3,
+    cards: [
+      { fig: 63, title: "리튬",      chart_def: { type: "image" } },
+      { fig: 64, title: "니켈",      chart_def: { type: "image" } },
+      { fig: 65, title: "코발트",    chart_def: { type: "image" } },
+      { fig: 66, title: "망간",      chart_def: { type: "image" } },
+      { fig: 67, title: "알루미늄",  chart_def: { type: "image" } },
+      { fig: 68, title: "동",        chart_def: { type: "image" } },
     ]
   },
 ];
@@ -421,20 +348,24 @@ function buildPage() {
       const cardId = `card-fig-${card.fig}`;
       const cwId = `cw-fig-${card.fig}`;
       const isTbd = !card.chart_def;
+      const isImg = card.chart_def && card.chart_def.type === 'image';
       const cardEl = document.createElement('div');
       const isTbl = card.chart_def && card.chart_def.type === 'table';
-      cardEl.className = 'card' + (isTbd ? ' card-tbd' : '') + (isTbl ? ' card-table' : '');
+      cardEl.className = 'card'
+        + (isTbd ? ' card-tbd' : '')
+        + (isTbl ? ' card-table' : '')
+        + (isImg ? ' card-image' : '');
       cardEl.id = cardId;
       let legendHtml = '';
-      if (card.chart_def && card.chart_def.series) {
+      if (!isImg && card.chart_def && card.chart_def.series) {
         legendHtml = '<div class="legend-row">' +
           card.chart_def.series.map(s =>
             `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
           ).join('') + '</div>';
       }
-      // axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위
+      // axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위 (image 카드는 PDF에 이미 포함되므로 생략)
       let axisUnitRow = '';
-      if (card.chart_def) {
+      if (!isImg && card.chart_def) {
         const ul = card.chart_def.unit_left || '';
         const ur = card.chart_def.unit_right || '';
         if (ul || ur || legendHtml) {
@@ -445,16 +376,26 @@ function buildPage() {
             '</div>';
         }
       }
+      // image 카드: 단순 <img> 로딩 (라이트 배경 + 패딩 — CSS 의 .card-image .cw-image 에서)
+      let bodyHtml;
+      if (isImg) {
+        const imgFile = card.chart_def.file || `figures/battery_fig_${card.fig}.png`;
+        // cache-bust 쿼리는 deploy_dashboard.bat 가 매주 같은 파일명으로 덮어쓰므로 불필요. 다만 브라우저 강한 캐시 회피용으로 ?v=<deploy_ts> 쓰면 좋음 → 추후.
+        bodyHtml = `<div class="cw cw-image" id="${cwId}"><img src="${DATA_DIR}${imgFile}" alt="${card.title}" loading="lazy"/></div>`;
+      } else {
+        bodyHtml = `<div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>`;
+      }
       cardEl.innerHTML = `
         <div class="card-top">
           <h3>${card.title}</h3>
           <span class="fig-num">도표 ${card.fig}</span>
         </div>
         ${axisUnitRow}
-        <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
+        ${bodyHtml}
       `;
       grid.appendChild(cardEl);
-      if (card.chart_def) {
+      // image 타입은 별도 차트 렌더링 불필요 — <img> 태그가 자체적으로 처리.
+      if (card.chart_def && !isImg) {
         renderQueue.push([cwId, card.chart_def]);
         // needs_review 플래그 비동기 체크
         markNeedsReviewIfFlagged(cardEl, card.chart_def);
