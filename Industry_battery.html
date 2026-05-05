@@ -65,6 +65,8 @@
   .card-image .cw { height: auto; min-height: 0; cursor: default; background: #ffffff; padding: 4px; }
   .card-image .cw img { width: 100%; height: auto; display: block; border-radius: 2px; }
   .card-image .card-top { border-bottom: 1px solid #21262d; }
+  .card-image .cw-missing { display: flex; align-items: center; justify-content: center; min-height: 200px; background: #1a1f26; color: #6e7681; font-size: 12px; padding: 0; }
+  .card-image .cw-missing .missing-msg { padding: 16px; text-align: center; }
   .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
   /* 최근 데이터 표 (차트 하단) */
   .recent-data { padding: 6px 10px 8px; border-top: 1px solid #21262d; overflow-x: auto; }
@@ -161,12 +163,12 @@ const COLORS = {
 };
 
 // ───────────────────────────────────────────────────────────────────────
-// 2026-05-05: 전 사이트 이미지화 (image-first dashboard).
-// 모든 카드 → PDF crop PNG (data/figures/battery_fig_NN.png).
-// 매주 PDF 갱신 시 lib/pdf_image_crop.py 가 같은 번호로 이미지 덮어씀.
-// chart_def: { type: "image" } 로 통일. fig 값은 PDF 도표 번호.
+// 2026-05-05 v2: 카드 정의는 sectors/battery_cards.json (single source).
+// 이미지 매칭은 PDF 차트 제목 substring 으로 (도표 번호 무관). 파일명은 영문 id 기반.
+// SECTIONS 인라인 상수는 제거됨 — fetchCardsManifest() 사용.
+// 아래 SECTIONS_LEGACY 는 dual-axis 차트 인터랙티브 시절 호환용 reference. 현재 미사용.
 // ───────────────────────────────────────────────────────────────────────
-const SECTIONS = [
+const SECTIONS_LEGACY = [
   {
     title: "셀 메이커·소재 업체 실적 추정 테이블",
     subtitle: "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 — 도표 69~72 (각사 IR, 하나증권)",
@@ -342,84 +344,65 @@ const CHART_OPTS = {
 };
 
 // =========================================================================
-// 페이지 빌드
+// 페이지 빌드 (image-first, 2026-05-05~ cards.json driven)
 // =========================================================================
-function buildPage() {
+// 카드 정의는 sectors/battery_cards.json (single source of truth) 에 있음.
+// 이미지 파일명은 카드 id (영문 슬러그) 기반: data/figures/battery_<id>.png.
+// PDF 도표 번호는 매주 변동 가능하므로 사이트에서 표시 안 함.
+async function fetchCardsManifest() {
+  const url = './sectors/battery_cards.json';
+  try {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  } catch (e) {
+    console.error('cards manifest fetch 실패:', e);
+    return null;
+  }
+}
+
+function buildPage(manifest) {
   const main = document.getElementById('main');
-  const renderQueue = [];  // 모든 카드 DOM attach 후 일괄 렌더링
-  SECTIONS.forEach(sec => {
+  const sections = (manifest && manifest.sections) || [];
+  if (!sections.length) {
+    main.innerHTML = '<div class="msg">⚠ sectors/battery_cards.json 로드 실패</div>';
+    return;
+  }
+  sections.forEach(sec => {
     const secDiv = document.createElement('div');
     secDiv.className = 'section';
-    const colsClass = sec.cols === 1 ? ' cols-1' : (sec.cols === 2 ? ' cols-2' : (sec.cols === 3 ? ' cols-3' : (sec.cols === 4 ? ' cols-4' : '')));
+    const colsClass = sec.cols === 1 ? ' cols-1'
+                    : sec.cols === 2 ? ' cols-2'
+                    : sec.cols === 3 ? ' cols-3'
+                    : sec.cols === 4 ? ' cols-4' : '';
     secDiv.innerHTML = `
       <div class="section-header">
         <h2>${sec.title}</h2>
-        <span class="subtitle">${sec.subtitle}</span>
+        <span class="subtitle">${sec.subtitle || ''}</span>
       </div>
       <div class="card-grid${colsClass}"></div>
     `;
     const grid = secDiv.querySelector('.card-grid');
-    sec.cards.forEach(card => {
-      const cardId = `card-fig-${card.fig}`;
-      const cwId = `cw-fig-${card.fig}`;
-      const isTbd = !card.chart_def;
-      const isImg = card.chart_def && card.chart_def.type === 'image';
+    (sec.cards || []).forEach(card => {
+      const cid = card.id;
+      if (!cid) return;
       const cardEl = document.createElement('div');
-      const isTbl = card.chart_def && card.chart_def.type === 'table';
-      cardEl.className = 'card'
-        + (isTbd ? ' card-tbd' : '')
-        + (isTbl ? ' card-table' : '')
-        + (isImg ? ' card-image' : '');
-      cardEl.id = cardId;
-      let legendHtml = '';
-      if (!isImg && card.chart_def && card.chart_def.series) {
-        legendHtml = '<div class="legend-row">' +
-          card.chart_def.series.map(s =>
-            `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
-          ).join('') + '</div>';
-      }
-      // axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위 (image 카드는 PDF에 이미 포함되므로 생략)
-      let axisUnitRow = '';
-      if (!isImg && card.chart_def) {
-        const ul = card.chart_def.unit_left || '';
-        const ur = card.chart_def.unit_right || '';
-        if (ul || ur || legendHtml) {
-          axisUnitRow = '<div class="axis-unit-row">' +
-            `<span class="axis-unit-left">${ul ? '(' + ul + ')' : ''}</span>` +
-            legendHtml +
-            `<span class="axis-unit-right">${ur ? '(' + ur + ')' : ''}</span>` +
-            '</div>';
-        }
-      }
-      // image 카드: 단순 <img> 로딩 (라이트 배경 + 패딩 — CSS 의 .card-image .cw-image 에서)
-      let bodyHtml;
-      if (isImg) {
-        const imgFile = card.chart_def.file || `figures/battery_fig_${card.fig}.png`;
-        // cache-bust 쿼리는 deploy_dashboard.bat 가 매주 같은 파일명으로 덮어쓰므로 불필요. 다만 브라우저 강한 캐시 회피용으로 ?v=<deploy_ts> 쓰면 좋음 → 추후.
-        bodyHtml = `<div class="cw cw-image" id="${cwId}"><img src="${DATA_DIR}${imgFile}" alt="${card.title}" loading="lazy"/></div>`;
-      } else {
-        bodyHtml = `<div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>`;
-      }
+      cardEl.className = 'card card-image';
+      cardEl.id = `card-${cid}`;
+      const imgFile = `figures/battery_${cid}.png`;
       cardEl.innerHTML = `
         <div class="card-top">
-          <h3>${card.title}</h3>
-          <span class="fig-num">도표 ${card.fig}</span>
+          <h3>${card.title || cid}</h3>
         </div>
-        ${axisUnitRow}
-        ${bodyHtml}
+        <div class="cw cw-image" id="cw-${cid}">
+          <img src="${DATA_DIR}${imgFile}" alt="${card.title || cid}" loading="lazy"
+               onerror="this.style.display='none';this.parentElement.classList.add('cw-missing');this.parentElement.innerHTML='<span class=&quot;missing-msg&quot;>이미지 매칭 실패 (다음 PDF 갱신 시 자동 복구)</span>';"/>
+        </div>
       `;
       grid.appendChild(cardEl);
-      // image 타입은 별도 차트 렌더링 불필요 — <img> 태그가 자체적으로 처리.
-      if (card.chart_def && !isImg) {
-        renderQueue.push([cwId, card.chart_def]);
-        // needs_review 플래그 비동기 체크
-        markNeedsReviewIfFlagged(cardEl, card.chart_def);
-      }
     });
-    main.appendChild(secDiv);  // section을 main 에 먼저 attach
+    main.appendChild(secDiv);
   });
-  // 모든 카드가 document에 붙은 뒤 일괄 차트 렌더링
-  renderQueue.forEach(([cwId, def]) => renderChart(cwId, def));
 }
 
 // JSON 메타에서 needs_review=true인 시리즈가 있으면 카드 제목 옆에 플래그 표시
@@ -877,7 +860,11 @@ async function showPdfPubDate() {
     }
   } catch (e) { console.warn('pubDate extract failed', e); }
 }
-document.addEventListener('DOMContentLoaded', () => { buildPage(); showPdfPubDate(); });
+document.addEventListener('DOMContentLoaded', async () => {
+  const manifest = await fetchCardsManifest();
+  buildPage(manifest);
+  showPdfPubDate();
+});
 </script>
 </body>
 </html>
