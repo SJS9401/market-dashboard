@@ -133,7 +133,7 @@
 <div class="header">
   <h1>산업별 선행지표 — 배터리</h1>
   <div class="source-box">
-    <div class="src-line">출처: 하나증권 리서치 「반도체 및 소부장 Weekly」</div>
+    <div class="src-line">출처: 하나증권 리서치 「2차전지 Weekly」 <span id="pdf-pub-date" style="color:#1f6feb;font-weight:700;">—</span></div>
     <div>Analyst 김현수 · RA 홍지원 (자료 원본: KITA · 한국광물자원공사 · CounterPoint · 각사 IR)</div>
     <div class="src-disclaimer">※ 본 페이지는 본인·지인 비공개 학습 및 모니터링 용도로만 사용됩니다. 데이터·도표의 권리는 원저작자에게 귀속됩니다. 무단 재배포·상업적 이용 금지.</div>
   </div>
@@ -846,18 +846,19 @@ async function renderChart(containerId, def) {
   }
 }
 
-// PDF 발행일자 표시 — 임의 JSON에서 source 필드 추출
+// PDF 발행일자 표시 — battery_figures_meta.json 의 source_pdf 필드에서 추출
+// 예: "Battery_Weekly_2026.5.4.pdf" → "2026.05.04 자"
 async function showPdfPubDate() {
   try {
-    const r = await fetch(DATA_DIR + 'battery_lithium_price.json');
+    const r = await fetch(DATA_DIR + 'figures/battery_figures_meta.json', { cache: 'no-store' });
     if (!r.ok) return;
     const d = await r.json();
-    const src = d.source || '';
-    // Weekly_Roko_260427.pdf → 2026.04.27
-    const m = src.match(/(\d{2})(\d{2})(\d{2})/);
+    const src = d.source_pdf || '';
+    // Battery_Weekly_YYYY.M.D.pdf → YYYY.MM.DD
+    const m = src.match(/(\d{4})\.(\d{1,2})\.(\d{1,2})/);
     if (m) {
-      const [, yy, mm, dd] = m;
-      const dateStr = '20' + yy + '.' + mm + '.' + dd + ' 자';
+      const [, yyyy, mm, dd] = m;
+      const dateStr = `${yyyy}.${mm.padStart(2, '0')}.${dd.padStart(2, '0')} 자`;
       const lbl = document.getElementById('pdf-pub-date');
       if (lbl) lbl.textContent = dateStr;
     }
