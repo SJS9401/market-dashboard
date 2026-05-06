@@ -67,10 +67,9 @@
   .card-image .card-top { border-bottom: 1px solid #21262d; }
   .card-image .cw-missing { display: flex; align-items: center; justify-content: center; min-height: 200px; background: #1a1f26; color: #6e7681; font-size: 12px; padding: 0; }
   .card-image .cw-missing .missing-msg { padding: 16px; text-align: center; }
-  /* PDF embed 카드 — iframe vector graphics, 무한 해상도.
-     default aspect-ratio: 4/3 (가로 긴 차트 비율, embed_chart 평균과 비슷).
-     embed_page 카드 (시황·표) 는 inline style 로 정확한 A4 비율 (595/842) 적용. */
-  .card-image .cw-pdf { width: 100%; aspect-ratio: 4 / 3; background: #ffffff; padding: 0; cursor: default; height: auto; min-height: 0; }
+  /* PDF embed 카드 — iframe vector graphics, 무한 해상도. embed_page 카드 (5개) 만 사용.
+     inline style 로 mediabox_pt 비율 동적 적용. default A4 portrait (595/842) fallback. */
+  .card-image .cw-pdf { width: 100%; aspect-ratio: 595 / 842; background: #ffffff; padding: 0; cursor: default; height: auto; min-height: 0; }
   .card-image .cw-pdf iframe { width: 100%; height: 100%; border: none; display: block; }
   .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
   /* 최근 데이터 표 (차트 하단) */

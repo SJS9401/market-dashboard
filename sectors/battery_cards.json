@@ -7,7 +7,7 @@
     "disabled: (선택) true 면 사이트 표시 X + crop X. 카탈로그에 유지하여 후일 재활성/매칭 안정성 확보.",
     "page_full: (선택) <int>. PDF 의 그 페이지 통째로 PNG 캡쳐 (시황 요약 등). match 매칭에서 제외, skip_pages 무관.",
     "embed_page: (선택) true. PNG 대신 PDF 페이지 통째 vector iframe embed. data/pdf_pages/<sector>_<id>.pdf 저장.",
-    "embed_chart: (선택) true. PNG 대신 차트 영역만 PDF cropbox 분리 vector iframe embed (글자 무한 해상도). 매칭 + region 사용.",
+    "embed_chart: (선택, 2026-05-07 비활성화) true. 차트 영역만 cropbox vector embed. viewer fit 일관성 문제로 보류.",
     "PDF 도표 번호는 매주 바뀔 수 있어 의도적으로 미사용 — match 만 신뢰.",
     "사용처:",
     "  - lib/pdf_image_crop.py: --cards-manifest 옵션으로 fetch → PDF 매칭 → battery_<id>.png crop 또는 .pdf vector.",
@@ -18,7 +18,7 @@
     "  B. 원재료/원가 (선행 chain): 원재료 가격 추이 → 전력 가격 → 수입 → 수출 양극재",
     "  C. 후행: 셀메이커 실적 → 시황 요약 page",
     "  Disabled: 원재료 가격 종합 표, 지역별 양극재 수출 표 (카탈로그 보존, 사이트 hide).",
-    "Phase 7 (2026-05-07): 모든 차트 카드 embed_chart=true 적용 — vector quality 검증 단계."
+    "Vector embed: embed_page 5개 (시황·EV모델표·셀메이커 3) 만 적용. 차트들은 PNG 로 복원 (2026-05-07)."
   ],
   "sector": "battery",
   "schema_version": 1,
@@ -28,14 +28,14 @@
       "subtitle": "품목별 수출액·단가 (KITA, 하나증권 — 한국 셀메이커 직접 추적)",
       "cols": 2,
       "cards": [
-        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액", "embed_chart": true},
-        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액", "embed_chart": true},
-        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액", "embed_chart": true},
-        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가", "embed_chart": true},
-        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액", "embed_chart": true},
-        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가", "embed_chart": true},
-        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액", "embed_chart": true},
-        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가", "embed_chart": true}
+        {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액"},
+        {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액"},
+        {"id": "export_ev_value",      "title": "EV용 리튬이온전지 수출액",   "match": "EV용 리튬이온전지 수출액"},
+        {"id": "export_ev_price",      "title": "EV용 리튬이온전지 수출 단가", "match": "EV용 리튬이온전지 수출 단가"},
+        {"id": "export_ess_value",     "title": "ESS용 리튬이온전지 수출액",  "match": "ESS용 리튬이온전지 수출액"},
+        {"id": "export_ess_price",     "title": "ESS용 리튬이온전지 수출 단가", "match": "ESS용 리튬이온전지 수출 단가"},
+        {"id": "export_foil_value",    "title": "동박 수출액",                "match": "동박 수출액"},
+        {"id": "export_foil_price",    "title": "동박 수출 단가",             "match": "동박 수출 단가"}
       ]
     },
     {
@@ -43,22 +43,22 @@
       "subtitle": "월별 판매량 + 시장점유율 (SNE Research/EV-Volumes)",
       "cols": 2,
       "cards": [
-        {"id": "ev_global_growth",     "title": "글로벌 EV(BEV+PHEV) 월별 판매증가율",  "match": "글로벌 전기차", "embed_chart": true},
-        {"id": "ev_us_monthly",        "title": "미국 EV 월별 판매 추이",               "match": "미국 전기차(BEV+PHEV) 월별", "embed_chart": true},
-        {"id": "ev_china_monthly",     "title": "중국 EV 월별 판매 추이",               "match": "중국 전기차(BEV+PHEV) 월별", "embed_chart": true},
-        {"id": "ev_eu_monthly",        "title": "유럽 EV 월별 판매 추이",               "match": "유럽 전기차(BEV+PHEV) 월별", "embed_chart": true},
-        {"id": "ev_us_volume",         "title": "미국 전기차 판매량 추이",               "match": "미국 전기차 판매량", "embed_chart": true},
-        {"id": "ev_us_share",          "title": "미국 전기차 시장점유율 추이",           "match": "미국 전기차 시장점유율", "embed_chart": true},
-        {"id": "ev_china_volume",      "title": "중국 전기차 판매량 추이",               "match": "중국 전기차 판매량", "embed_chart": true},
-        {"id": "ev_china_share",       "title": "중국 전기차 시장점유율 추이",           "match": "중국 전기차 시장점유율", "embed_chart": true},
-        {"id": "ev_uk_volume",         "title": "영국 전기차 판매량 추이",               "match": "영국 전기차 판매량", "embed_chart": true},
-        {"id": "ev_uk_share",          "title": "영국 전기차 시장점유율 추이",           "match": "영국 전기차 시장점유율", "embed_chart": true},
-        {"id": "ev_de_volume",         "title": "독일 전기차 판매량 추이",               "match": "독일 전기차 판매량", "embed_chart": true},
-        {"id": "ev_de_share",          "title": "독일 전기차 시장점유율 추이",           "match": "독일 전기차 시장점유율", "embed_chart": true},
-        {"id": "ev_fr_volume",         "title": "프랑스 전기차 판매량 추이",             "match": "프랑스 전기차 판매량", "embed_chart": true},
-        {"id": "ev_fr_share",          "title": "프랑스 전기차 시장점유율 추이",         "match": "프랑스 전기차 시장점유율", "embed_chart": true},
-        {"id": "ev_eu3_volume",        "title": "유럽 주요 3국 전기차 판매량",           "match": "유럽 주요 3개국 전기차 판매량", "embed_chart": true},
-        {"id": "ev_eu3_share",         "title": "유럽 주요 3국 전기차 점유율",           "match": "유럽 주요 3개국 전기차 시장점유율", "embed_chart": true}
+        {"id": "ev_global_growth",     "title": "글로벌 EV(BEV+PHEV) 월별 판매증가율",  "match": "글로벌 전기차"},
+        {"id": "ev_us_monthly",        "title": "미국 EV 월별 판매 추이",               "match": "미국 전기차(BEV+PHEV) 월별"},
+        {"id": "ev_china_monthly",     "title": "중국 EV 월별 판매 추이",               "match": "중국 전기차(BEV+PHEV) 월별"},
+        {"id": "ev_eu_monthly",        "title": "유럽 EV 월별 판매 추이",               "match": "유럽 전기차(BEV+PHEV) 월별"},
+        {"id": "ev_us_volume",         "title": "미국 전기차 판매량 추이",               "match": "미국 전기차 판매량"},
+        {"id": "ev_us_share",          "title": "미국 전기차 시장점유율 추이",           "match": "미국 전기차 시장점유율"},
+        {"id": "ev_china_volume",      "title": "중국 전기차 판매량 추이",               "match": "중국 전기차 판매량"},
+        {"id": "ev_china_share",       "title": "중국 전기차 시장점유율 추이",           "match": "중국 전기차 시장점유율"},
+        {"id": "ev_uk_volume",         "title": "영국 전기차 판매량 추이",               "match": "영국 전기차 판매량"},
+        {"id": "ev_uk_share",          "title": "영국 전기차 시장점유율 추이",           "match": "영국 전기차 시장점유율"},
+        {"id": "ev_de_volume",         "title": "독일 전기차 판매량 추이",               "match": "독일 전기차 판매량"},
+        {"id": "ev_de_share",          "title": "독일 전기차 시장점유율 추이",           "match": "독일 전기차 시장점유율"},
+        {"id": "ev_fr_volume",         "title": "프랑스 전기차 판매량 추이",             "match": "프랑스 전기차 판매량"},
+        {"id": "ev_fr_share",          "title": "프랑스 전기차 시장점유율 추이",         "match": "프랑스 전기차 시장점유율"},
+        {"id": "ev_eu3_volume",        "title": "유럽 주요 3국 전기차 판매량",           "match": "유럽 주요 3개국 전기차 판매량"},
+        {"id": "ev_eu3_share",         "title": "유럽 주요 3국 전기차 점유율",           "match": "유럽 주요 3개국 전기차 시장점유율"}
       ]
     },
     {
@@ -74,8 +74,8 @@
       "subtitle": "전기차용 LIB 출하량 (SNE Research)",
       "cols": 1,
       "cards": [
-        {"id": "lib_global_shipment", "title": "전기차용 리튬이온배터리 출하량 (글로벌)", "match": "전기차용 리튬 이온 배터리 출하량", "embed_chart": true},
-        {"id": "lib_kr3_shipment",    "title": "한국 배터리 3사 EV용 LIB 출하량",          "match": "한국 배터리 3사", "embed_chart": true}
+        {"id": "lib_global_shipment", "title": "전기차용 리튬이온배터리 출하량 (글로벌)", "match": "전기차용 리튬 이온 배터리 출하량"},
+        {"id": "lib_kr3_shipment",    "title": "한국 배터리 3사 EV용 LIB 출하량",          "match": "한국 배터리 3사"}
       ]
     },
     {
@@ -83,10 +83,10 @@
       "subtitle": "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 (SNE Research)",
       "cols": 2,
       "cards": [
-        {"id": "lfp_global", "title": "글로벌", "match": "글로벌 LFP 배터리 침투율", "embed_chart": true},
-        {"id": "lfp_us",     "title": "미국",   "match": "미국 LFP 배터리 침투율", "embed_chart": true},
-        {"id": "lfp_china",  "title": "중국",   "match": "중국 LFP 배터리 침투율", "embed_chart": true},
-        {"id": "lfp_eu",     "title": "유럽",   "match": "유럽 LFP 배터리 침투율", "embed_chart": true}
+        {"id": "lfp_global", "title": "글로벌", "match": "글로벌 LFP 배터리 침투율"},
+        {"id": "lfp_us",     "title": "미국",   "match": "미국 LFP 배터리 침투율"},
+        {"id": "lfp_china",  "title": "중국",   "match": "중국 LFP 배터리 침투율"},
+        {"id": "lfp_eu",     "title": "유럽",   "match": "유럽 LFP 배터리 침투율"}
       ]
     },
     {
@@ -94,8 +94,8 @@
       "subtitle": "ESS 신규 설치량 + 케미스트리별 비중 (SNE Research)",
       "cols": 1,
       "cards": [
-        {"id": "ess_install_global",    "title": "ESS 신규 설치량 (글로벌)",          "match": "ESS 신규 설치량", "embed_chart": true},
-        {"id": "ess_chemistry_share",   "title": "ESS 케미스트리별 비중",             "match": "ESS 케미스트리", "embed_chart": true}
+        {"id": "ess_install_global",    "title": "ESS 신규 설치량 (글로벌)",          "match": "ESS 신규 설치량"},
+        {"id": "ess_chemistry_share",   "title": "ESS 케미스트리별 비중",             "match": "ESS 케미스트리"}
       ]
     },
     {
@@ -103,8 +103,8 @@
       "subtitle": "지역별 ESS 신규 설치량 + 전력망 연계 유형 (SNE Research)",
       "cols": 1,
       "cards": [
-        {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리", "embed_chart": true},
-        {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망", "embed_chart": true}
+        {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리"},
+        {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망"}
       ]
     },
     {
@@ -112,12 +112,12 @@
       "subtitle": "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 (한국광물자원공사, 하나증권)",
       "cols": 2,
       "cards": [
-        {"id": "raw_lithium",   "title": "리튬",      "match": "리튬 월별 평균 가격", "embed_chart": true},
-        {"id": "raw_nickel",    "title": "니켈",      "match": "니켈 월별 평균 가격", "embed_chart": true},
-        {"id": "raw_cobalt",    "title": "코발트",    "match": "코발트 월별 평균 가격", "embed_chart": true},
-        {"id": "raw_manganese", "title": "망간",      "match": "망간 월별 평균 가격", "embed_chart": true},
-        {"id": "raw_aluminum",  "title": "알루미늄",  "match": "알루미늄 월별 평균 가격", "embed_chart": true},
-        {"id": "raw_copper",    "title": "동",        "match": "동 월별 평균 가격", "embed_chart": true}
+        {"id": "raw_lithium",   "title": "리튬",      "match": "리튬 월별 평균 가격"},
+        {"id": "raw_nickel",    "title": "니켈",      "match": "니켈 월별 평균 가격"},
+        {"id": "raw_cobalt",    "title": "코발트",    "match": "코발트 월별 평균 가격"},
+        {"id": "raw_manganese", "title": "망간",      "match": "망간 월별 평균 가격"},
+        {"id": "raw_aluminum",  "title": "알루미늄",  "match": "알루미늄 월별 평균 가격"},
+        {"id": "raw_copper",    "title": "동",        "match": "동 월별 평균 가격"}
       ]
     },
     {
@@ -125,10 +125,10 @@
       "subtitle": "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표)",
       "cols": 2,
       "cards": [
-        {"id": "power_uk",           "title": "영국 전력 가격",      "match": "영국 전력 가격", "embed_chart": true},
-        {"id": "power_de",           "title": "독일 전력 가격",      "match": "독일 전력 가격", "embed_chart": true},
-        {"id": "power_fr",           "title": "프랑스 전력 가격",    "match": "프랑스 전력 가격", "embed_chart": true},
-        {"id": "power_eu3_combined", "title": "유럽 3국 전력 가격",  "match": "유럽 3국 전력 가격", "embed_chart": true}
+        {"id": "power_uk",           "title": "영국 전력 가격",      "match": "영국 전력 가격"},
+        {"id": "power_de",           "title": "독일 전력 가격",      "match": "독일 전력 가격"},
+        {"id": "power_fr",           "title": "프랑스 전력 가격",    "match": "프랑스 전력 가격"},
+        {"id": "power_eu3_combined", "title": "유럽 3국 전력 가격",  "match": "유럽 3국 전력 가격"}
       ]
     },
     {
@@ -136,12 +136,12 @@
       "subtitle": "수산화리튬·음극재·천연흑연 (산업통상자원부)",
       "cols": 2,
       "cards": [
-        {"id": "import_lithium_hydroxide_value", "title": "수산화리튬 수입액",     "match": "수산화리튬 수입액", "embed_chart": true},
-        {"id": "import_lithium_hydroxide_price", "title": "수산화리튬 수입 단가",  "match": "수산화리튬 수입 단가", "embed_chart": true},
-        {"id": "import_anode_value",             "title": "음극재 수입액",         "match": "음극재 수입액", "embed_chart": true},
-        {"id": "import_anode_price",             "title": "음극재 수입 단가",      "match": "음극재 수입 단가", "embed_chart": true},
-        {"id": "import_graphite_value",          "title": "천연흑연 수입액",       "match": "천연흑연 수입액", "embed_chart": true},
-        {"id": "import_graphite_price",          "title": "천연흑연 수입 단가",    "match": "천연흑연 수입 단가", "embed_chart": true}
+        {"id": "import_lithium_hydroxide_value", "title": "수산화리튬 수입액",     "match": "수산화리튬 수입액"},
+        {"id": "import_lithium_hydroxide_price", "title": "수산화리튬 수입 단가",  "match": "수산화리튬 수입 단가"},
+        {"id": "import_anode_value",             "title": "음극재 수입액",         "match": "음극재 수입액"},
+        {"id": "import_anode_price",             "title": "음극재 수입 단가",      "match": "음극재 수입 단가"},
+        {"id": "import_graphite_value",          "title": "천연흑연 수입액",       "match": "천연흑연 수입액"},
+        {"id": "import_graphite_price",          "title": "천연흑연 수입 단가",    "match": "천연흑연 수입 단가"}
       ]
     },
     {
@@ -149,18 +149,18 @@
       "subtitle": "월별 수출액·중량·단가 (산업통상자원부)",
       "cols": 2,
       "cards": [
-        {"id": "export_cathode_value_total",    "title": "양극재 수출액 (NCM+NCA)",   "match": "양극재 수출액 추이", "embed_chart": true},
-        {"id": "export_cathode_ncm_value",      "title": "NCM 양극재 수출액",          "match": "NCM 양극재 수출액", "embed_chart": true},
-        {"id": "export_cathode_nca_value",      "title": "NCA 양극재 수출액",          "match": "NCA 양극재 수출액", "embed_chart": true},
-        {"id": "export_cathode_ncm_nca_value",  "title": "NCM+NCA 양극재 수출액",      "match": "NCM+NCA 양극재 수출액", "embed_chart": true},
-        {"id": "export_cathode_weight_total",   "title": "양극재 수출 중량 (NCM+NCA)", "match": "양극재 수출 중량", "embed_chart": true},
-        {"id": "export_cathode_ncm_weight",     "title": "NCM 양극재 수출 중량",       "match": "NCM 양극재 수출 중량", "embed_chart": true},
-        {"id": "export_cathode_nca_weight",     "title": "NCA 양극재 수출 중량",       "match": "NCA 양극재 수출 중량", "embed_chart": true},
-        {"id": "export_cathode_ncm_nca_weight", "title": "NCM+NCA 양극재 수출 중량",   "match": "NCM+NCA 양극재 수출 중량", "embed_chart": true},
-        {"id": "export_cathode_unit_price",     "title": "양극재 수출 단가",           "match": "양극재 수출 단가", "embed_chart": true},
-        {"id": "export_cathode_ncm_price",      "title": "NCM 양극재 수출 단가",       "match": "NCM 양극재 수출 단가", "embed_chart": true},
-        {"id": "export_cathode_nca_price",      "title": "NCA 양극재 수출 단가",       "match": "NCA 양극재 수출 단가", "embed_chart": true},
-        {"id": "export_cathode_ncm_nca_price",  "title": "NCM+NCA 양극재 수출 단가",   "match": "NCM+NCA 양극재 수출 단가", "embed_chart": true}
+        {"id": "export_cathode_value_total",    "title": "양극재 수출액 (NCM+NCA)",   "match": "양극재 수출액 추이"},
+        {"id": "export_cathode_ncm_value",      "title": "NCM 양극재 수출액",          "match": "NCM 양극재 수출액"},
+        {"id": "export_cathode_nca_value",      "title": "NCA 양극재 수출액",          "match": "NCA 양극재 수출액"},
+        {"id": "export_cathode_ncm_nca_value",  "title": "NCM+NCA 양극재 수출액",      "match": "NCM+NCA 양극재 수출액"},
+        {"id": "export_cathode_weight_total",   "title": "양극재 수출 중량 (NCM+NCA)", "match": "양극재 수출 중량"},
+        {"id": "export_cathode_ncm_weight",     "title": "NCM 양극재 수출 중량",       "match": "NCM 양극재 수출 중량"},
+        {"id": "export_cathode_nca_weight",     "title": "NCA 양극재 수출 중량",       "match": "NCA 양극재 수출 중량"},
+        {"id": "export_cathode_ncm_nca_weight", "title": "NCM+NCA 양극재 수출 중량",   "match": "NCM+NCA 양극재 수출 중량"},
+        {"id": "export_cathode_unit_price",     "title": "양극재 수출 단가",           "match": "양극재 수출 단가"},
+        {"id": "export_cathode_ncm_price",      "title": "NCM 양극재 수출 단가",       "match": "NCM 양극재 수출 단가"},
+        {"id": "export_cathode_nca_price",      "title": "NCA 양극재 수출 단가",       "match": "NCA 양극재 수출 단가"},
+        {"id": "export_cathode_ncm_nca_price",  "title": "NCM+NCA 양극재 수출 단가",   "match": "NCM+NCA 양극재 수출 단가"}
       ]
     },
     {
