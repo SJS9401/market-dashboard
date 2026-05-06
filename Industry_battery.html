@@ -364,9 +364,23 @@ async function fetchCardsManifest() {
   }
 }
 
-function buildPage(manifest) {
+async function fetchFiguresMeta() {
+  // figures meta 의 mediabox_pt → buildPage 가 카드 생성 시 inline aspect-ratio 적용.
+  // applyEmbedAspectRatios() 의 race condition 회피용.
+  try {
+    const r = await fetch(DATA_DIR + 'figures/battery_figures_meta.json', { cache: 'no-store' });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) {
+    console.warn('figures meta fetch 실패:', e);
+    return null;
+  }
+}
+
+function buildPage(manifest, figuresMeta) {
   const main = document.getElementById('main');
   const sections = (manifest && manifest.sections) || [];
+  const figs = (figuresMeta && figuresMeta.figures) || {};
   if (!sections.length) {
     main.innerHTML = '<div class="msg">⚠ sectors/battery_cards.json 로드 실패</div>';
     return;
@@ -399,16 +413,19 @@ function buildPage(manifest) {
       if (card.embed_page === true || card.embed_chart === true) {
         // PDF vector iframe embed (글자 무한 해상도)
         // embed_page: PDF 페이지 통째 / embed_chart: 차트 영역만 cropbox 분리
-        // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit, mediabox 기반 fit 보다 정확).
-        //   mediabox/cropbox 불일치 케이스에서도 차트가 iframe 가득 표시.
-        // aspect-ratio 는 applyEmbedAspectRatios() 가 동적 설정.
+        // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit).
+        // mediabox_pt 가 있으면 inline aspect-ratio 즉시 적용 (race condition 방지).
         const pdfFile = `pdf_pages/battery_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
+        const fig = figs[cid];
+        const aspectStyle = (fig && fig.mediabox_pt && fig.mediabox_pt.length === 2)
+          ? `style="aspect-ratio: ${fig.mediabox_pt[0]} / ${fig.mediabox_pt[1]};"`
+          : '';
         cardEl.innerHTML = `
           <div class="card-top">
             <h3>${card.title || cid}</h3>
           </div>
-          <div class="cw cw-pdf" id="cw-${cid}">
+          <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
             <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitB"
                     title="${pdfTitle}" loading="lazy"></iframe>
           </div>
@@ -909,9 +926,13 @@ async function showPdfPubDate() {
   } catch (e) { console.warn('pubDate extract failed', e); }
 }
 document.addEventListener('DOMContentLoaded', async () => {
-  const manifest = await fetchCardsManifest();
-  buildPage(manifest);
+  const [manifest, figuresMeta] = await Promise.all([
+    fetchCardsManifest(),
+    fetchFiguresMeta(),
+  ]);
+  buildPage(manifest, figuresMeta);
   showPdfPubDate();
+  // applyEmbedAspectRatios() 는 buildPage 가 이미 inline style 적용하므로 fallback 으로만.
   applyEmbedAspectRatios();
 });
 </script>
