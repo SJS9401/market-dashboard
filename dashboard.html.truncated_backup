@@ -1753,13 +1753,10 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/05',cat:'시장구조',ev:'휴장 (어린이날)',note:'한국'},
-    {d:'05/05',cat:'경제지표',ev:'ISM 서비스업 PMI 4월 (10:00 AM ET)',note:''},
-    {d:'05/05',cat:'실적',ev:'카메코(CCJ) AMC, 이튼(ETN) BMO, 헌팅턴잉갈스(HII) BMO',note:'원전·전력·조선'},
-    {d:'05/05',cat:'산업',ev:'비트코인 컨센서스 2026 마이애미 (~5/7)',note:'코인 연간 최대행사'},
-    {d:'05/05',cat:'정책',ev:'Section 301 공청회 (~5/8)',note:'한미통상 — 16개국 한국 포함'},
-    {d:'05/05',cat:'정책',ev:'미국 클래리티법안 상원 마크업(5월초 추정)',note:'스테이블코인'},
-    {d:'05/06',cat:'실적',ev:'에이피알 1Q',note:'K-뷰티'},
+    {d:'05/06',cat:'실적',ev:'에이피알 1Q, 카카오뱅크/페이, 현대백화점, ARM AMC',note:'K-뷰티·핀테크·AI 칩 라이센스'},
+    {d:'05/07',cat:'산업',ev:'비트코인 컨센서스 2026 마이애미 마지막날',note:'코인 연간 최대행사'},
+    {d:'05/08',cat:'정책',ev:'Section 301 공청회 마지막날',note:'한미통상 — 16개국 한국 포함'},
+    {d:'05/08',cat:'정책',ev:'미국 클래리티법안 상원 마크업(5월초)',note:'스테이블코인'},
     {d:'05/07',cat:'실적',ev:'콘스텔레이션(CEG) AMC, 비스트라(VST) BMO, 뉴스케일(SMR) AMC, 라인메탈(RHM), 미래에셋증권',note:'원전 동시 발표 — 핵심 검증일'},
     {d:'05/08',cat:'경제지표',ev:'NFP 4월 고용보고서 (8:30 AM ET)',note:'3월 +178K'},
     {d:'05/08',cat:'실적',ev:'토요타(TM), 셀트리온, 한국전력',note:'자동차·바이오·전력'},
@@ -1877,20 +1874,4 @@ setInterval(() => {
   }
   lastRefreshSlot = curSlot;
   const m = Math.floor(secsLeft / 60), s = secsLeft % 60;
-  if (timerEl) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}, 1000);
-
-// ── INIT ──
-window.addEventListener('load',()=>{
-  setTimeout(async()=>{
-    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
-    setupScrollbar('kr', 'kospi');
-    setupScrollbar('us', 'ndx');
-    // Auto-refresh every 15 minutes
-    setInterval(refreshAllData, 15 * 60 * 1000);
-  },200);
-});
-</script>
-</body>
-</html>
-                                                                                                                                                                                                                                                                                
+  if (timerE
