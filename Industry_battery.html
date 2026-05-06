@@ -399,7 +399,9 @@ function buildPage(manifest) {
       if (card.embed_page === true || card.embed_chart === true) {
         // PDF vector iframe embed (글자 무한 해상도)
         // embed_page: PDF 페이지 통째 / embed_chart: 차트 영역만 cropbox 분리
-        // view=Fit: 페이지/차트 전체 fit (스크롤바 X). aspect-ratio 는 applyEmbedAspectRatios() 가 동적 설정.
+        // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit, mediabox 기반 fit 보다 정확).
+        //   mediabox/cropbox 불일치 케이스에서도 차트가 iframe 가득 표시.
+        // aspect-ratio 는 applyEmbedAspectRatios() 가 동적 설정.
         const pdfFile = `pdf_pages/battery_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
         cardEl.innerHTML = `
@@ -407,7 +409,7 @@ function buildPage(manifest) {
             <h3>${card.title || cid}</h3>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}">
-            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=Fit"
+            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitB"
                     title="${pdfTitle}" loading="lazy"></iframe>
           </div>
         `;
