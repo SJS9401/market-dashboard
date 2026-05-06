@@ -183,29 +183,26 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-06 (자동 실행)**
+> **최종 갱신: 2026-05-07 (자동 실행)**
 
 ### 5월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 5/6 | ARM Holdings (ARM) | 반도체-CPU | AMC, Q4 FY2026 — FY2027 가이던스, AGI CPU 로드맵 (신규) |
-| 5/6 | 에이피알 | 화장품 | 1분기 실적 발표 (확정) |
 | 5/7 | Constellation Energy (CEG) | 원전 | AMC (확정, 콘퍼런스콜 5/11 10am ET) |
 | 5/7 | Rheinmetall (RHM) | 방산 | Q1 2026 결과 (유럽, 확정) |
 | 5/7 | Siemens Energy (ENR) | 전력 | 독일 (확정) — 전력 인프라 섹터 9번째·마지막 발표, 그리드·HVDC·풍력 |
 | 5/7 | Vistra (VST) | 원전 | BMO (확정, 10am ET 콘퍼런스 콜) |
 | 5/7 | NuScale Power (SMR) | 원전 | AMC, 컨퍼런스콜 5pm ET (NuScale 공식) |
-| 5/7 | 미래에셋증권 | 금융 | 1분기 실적 발표 (Investing.com) |
+| 5/7 | 미래에셋증권 | 금융 | 1분기 실적 발표 (확정) |
+| 5/7 | 한국항공우주 | 방산 | 1분기 실적 발표 (이전 5/18→5/7 업데이트) |
 | 5/8 | Toyota (TM) | 자동차 | FY2026 연간실적, 1:55pm JST (이전 5/7→5/8 업데이트, Toyota 공식 Newsroom 확인) |
-| 5/8 | 셀트리온 | 제약/바이오 | 1분기 실적 발표 (소스 확인) |
 | 5/8 | 한국전력 | 원전 | 1분기 실적 발표 (Investing.com, 재확인 권장, 이전 5월중→5/8 업데이트) |
 | 5/12 | Nextpower (NXT) | 전력 | AMC (확정), Q4 FY2026, 2pm PT — 회사명 Nextracker→Nextpower 변경, 이전 5/20→5/12 업데이트 |
 | 5/12 | Oklo (OKLO) | 원전 | AMC, 콜 5pm ET (이전 5/19→5/12 업데이트, 보고서+콜 동일일 확정) |
-| 5/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC, Q2 FY2026 — 메모리 장비 비중, HBM·DRAM 투자 사이클 (신규) |
-| 5/18 | 한국항공우주 | 방산 | 1분기 실적 발표 (Investing.com) |
-| 5/20 | Nvidia (NVDA) | 반도체 | AMC, Q1 FY2027 (확정) |
-| 5/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (신규) |
+| 5/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC, Q2 FY2026 — 메모리 장비 비중, HBM·DRAM 투자 사이클 |
+| 5/20 | Nvidia (NVDA) | 반도체 | AMC, Q1 FY2027 (확정, 5:00pm ET) |
+| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (이전 5/21→5/27 업데이트, 확정) |
 | (5월중) | HD현대중공업 | 조선 | 과거 패턴 추정 |
 | (5월중) | SK증권 | 금융 | 과거 패턴 추정 |
 
@@ -229,10 +226,12 @@
 | 7/15 | Morgan Stanley (MS) | 금융 | BMO, Q2 2026 (공식 확정, 7:30am ET, 콜 8:30am ET) |
 | 7/15 | ASML (ASML) | 반도체-소부장 | BMO, Q2 2026 (확정 — EUV 장비 수주 동향, High-NA ramp) |
 | 7/16 | TSMC (TSM) | 반도체-파운드리 | Q2 2026 (확정, TSMC 공식 IR — 파운드리 가동률, N3·N2 ramp) |
+| 7/16 | Seagate (STX) | 반도체-스토리지 | BMO, Q4 FY2026 — HDD 니어라인, 데이터센터 클라우드 수요 (신규) |
 | (~7/22) | Tesla (TSLA) | 자동차 | Q2 2026, 날짜 미발표 — 과거 패턴 추정 (2025 Q2: 7/23 AMC) |
 | (~7/23) | Intel (INTC) | 반도체-CPU | Q2 2026, AMC — 미확정, 과거 패턴 추정 (Q1: 4/23) |
 | (~7/28) | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC — 대부분 소스 7/28 예측, 미확정 |
 | 7/29 | Microsoft (MSFT) | 빅테크 | Q4 FY2026 (확정, Microsoft IR) |
+| 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
 | (~7/29) | Meta (META) | 빅테크 | Q2 2026, AMC — 과거 패턴 추정, 미확정 |
 | 7/30 | Apple (AAPL) | 빅테크 | Q3 FY2026 (확정, Apple IR) |
 | 7/30 | Amazon (AMZN) | 빅테크 | Q2 2026, AMC (확정) |
@@ -242,8 +241,11 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026, HDD+Flash, 데이터센터 스토리지 수요 (신규) |
-| 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q1 FY2027, 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 (신규) |
+| 8/4 | AMD (AMD) | 반도체-CPU | Q2 2026, AMC (추정) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
+| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026, HDD+Flash, 데이터센터 스토리지 수요 |
+| 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q4 FY2026 (이전 Q1 FY2027 레이블 오류 수정), 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 |
+| 8/5 | Qualcomm (QCOM) | 반도체-모바일 | Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
+| 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (추정) — NAND 업황, SSD 데이터센터 수요, Q3 가이던스 $7.75-8.25B 달성 여부 |
 
 ---
 
@@ -251,6 +253,9 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 5/6 | ARM Holdings (ARM) | 반도체-CPU | AMC 발표 완료 (Q4 FYE26 매출 $1.49B record, FY26 full-year $4.92B, AGI CPU 첫 공개 — 데이터센터 자체 설계 CPU, 주가 강세) |
+| 5/6 | 에이피알 | 화장품 | 발표 완료 (매출 5,895억 +122% YoY 추정, 1분기 사상 최대 실적) |
+| 5/6 | 셀트리온 | 제약/바이오 | 발표 완료 (매출 1조1450억 +36% YoY, 영업익 3219억 +115.4% YoY, 1분기 역대 최대, 신규 바이오시밀러 매출 비중 60% 첫 돌파) |
 | 5/5 | AMD (AMD) | 반도체-CPU | AMC 발표 완료 (매출 $10.3B +57% YoY beat vs 컨센 $9.84B, 비GAAP EPS $1.37 beat vs $1.25, 데이터센터 $5.8B +57% YoY, Q2 가이던스 $11.2B·GM 56%) |
 | 5/5 | Cameco (CCJ) | 원전 | AMC 발표 완료 (EPS $0.47 beat, 매출 $845M beat, 우라늄 생산 가이던스 19.5~21.5Mlb 유지, 주가 +2.7%) |
 | 5/5 | Eaton (ETN) | 전력 | BMO 발표 완료 (매출 $7.5B +17% record, adj EPS $2.81 record, 유기적 성장 가이던스 8%→10% 상향, 주가 -5.9% 마진 압박 우려) |

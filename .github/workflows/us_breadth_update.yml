@@ -4,9 +4,11 @@
 # 데이터 소스: SPX 다중 소스 폴백 (FRED → Yahoo HTTP direct → yfinance) +
 #              503 종목 yfinance + Wikipedia (티커 리스트)
 #
-# 스케줄 (미국 정규장 마감 16:00 ET = 21:00 UTC 이후 충분한 마진 두고 실행):
-#   - 매일 23:30 UTC = 한국 08:30 (1차 — 데이터 확정 후 빠른 갱신)
-#   - 매일 02:30 UTC = 한국 11:30 (2차 — 백업, 1차 실패 대비)
+# 스케줄 (BT 데일리 프리뷰 07:20 KST 시작 — 07:00 KST 이전 갱신 완료 목표):
+# 미국 close 16:00 ET = 한국 05:00 (DST 3-11월) / 06:00 (표준시 11-3월).
+#   - 매일 21:30 UTC = 한국 06:30 (1차 — DST: close+1.5h, 표준시: close+0.5h)
+#   - 매일 22:30 UTC = 한국 07:30 (2차 — 1차 fail retry, 데일리 프리뷰 시작 직후 보완)
+#   - 매일 02:30 UTC = 한국 11:30 (3차 안전망)
 #   - workflow_dispatch: 수동 실행
 #
 # 매 실행은 풀 백필 (10년 + 500종목, 약 5~10분). 신규 영업일 1~2개만
@@ -21,8 +23,9 @@ name: US Breadth Update
 
 on:
   schedule:
-    - cron: '30 23 * * *'   # 08:30 KST — 미국 장 마감 후 1차
-    - cron: '30 2 * * *'    # 11:30 KST — 백업
+    - cron: '30 21 * * *'   # 06:30 KST — 1차 (BT 데일리 프리뷰 07:20 직전)
+    - cron: '30 22 * * *'   # 07:30 KST — 2차 (1차 fail retry)
+    - cron: '30 2 * * *'    # 11:30 KST — 3차 안전망
   workflow_dispatch:        # 수동 실행
 
 permissions:
