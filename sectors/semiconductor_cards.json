@@ -44,37 +44,37 @@
       "subtitle": "관세청 — 한국 반도체 수출 직접 추적 (카테고리별 정렬)",
       "cols": 2,
       "cards": [
-        {"id": "export_semi_amount",       "title": "반도체 수출 금액",       "match": "반도체 수출 금액"},
-        {"id": "export_semi_weight",       "title": "반도체 수출 중량",       "match": "반도체 수출 중량"},
-        {"id": "asp_semi",                 "title": "반도체 수출 ASP",        "match": "반도체 수출 ASP"},
+        {"id": "export_semi_amount",       "title": "반도체 수출 금액",       "match": "반도체 수출 금액", "embed_chart": true},
+        {"id": "export_semi_weight",       "title": "반도체 수출 중량",       "match": "반도체 수출 중량", "embed_chart": true},
+        {"id": "asp_semi",                 "title": "반도체 수출 ASP",        "match": "반도체 수출 ASP", "embed_chart": true},
 
-        {"id": "export_memory_amount",     "title": "메모리 반도체 수출 금액", "match": "메모리 반도체 수출 금액"},
-        {"id": "export_memory_weight",     "title": "메모리 반도체 수출 중량", "match": "메모리 반도체 수출 중량"},
-        {"id": "asp_memory",               "title": "메모리 반도체 수출 ASP", "match": "메모리 반도체 수출 ASP"},
+        {"id": "export_memory_amount",     "title": "메모리 반도체 수출 금액", "match": "메모리 반도체 수출 금액", "embed_chart": true},
+        {"id": "export_memory_weight",     "title": "메모리 반도체 수출 중량", "match": "메모리 반도체 수출 중량", "embed_chart": true},
+        {"id": "asp_memory",               "title": "메모리 반도체 수출 ASP", "match": "메모리 반도체 수출 ASP", "embed_chart": true},
 
-        {"id": "export_dram_amount",       "title": "DRAM 수출 금액",         "match": "DRAM 수출 금액"},
-        {"id": "export_dram_qty",          "title": "DRAM 수출 수량",         "match": "DRAM 수출 수량"},
-        {"id": "asp_dram",                 "title": "DRAM 수출 ASP",          "match": "DRAM 수출 ASP"},
+        {"id": "export_dram_amount",       "title": "DRAM 수출 금액",         "match": "DRAM 수출 금액", "embed_chart": true},
+        {"id": "export_dram_qty",          "title": "DRAM 수출 수량",         "match": "DRAM 수출 수량", "embed_chart": true},
+        {"id": "asp_dram",                 "title": "DRAM 수출 ASP",          "match": "DRAM 수출 ASP", "embed_chart": true},
 
-        {"id": "export_dram_module_amount","title": "DRAM 모듈 수출 금액",     "match": "DRAM 모듈 수출 금액"},
-        {"id": "export_dram_module_weight","title": "DRAM 모듈 수출 중량",     "match": "DRAM 모듈 수출 중량"},
-        {"id": "asp_dram_module",          "title": "DRAM 모듈 수출 ASP",     "match": "DRAM 모듈 수출 ASP"},
+        {"id": "export_dram_module_amount","title": "DRAM 모듈 수출 금액",     "match": "DRAM 모듈 수출 금액", "embed_chart": true},
+        {"id": "export_dram_module_weight","title": "DRAM 모듈 수출 중량",     "match": "DRAM 모듈 수출 중량", "embed_chart": true},
+        {"id": "asp_dram_module",          "title": "DRAM 모듈 수출 ASP",     "match": "DRAM 모듈 수출 ASP", "embed_chart": true},
 
-        {"id": "export_nand_amount",       "title": "NAND 수출 금액",         "match": "NAND 수출 금액"},
-        {"id": "export_nand_qty",          "title": "NAND 수출 수량",         "match": "NAND 수출 수량"},
-        {"id": "asp_nand",                 "title": "NAND 수출 ASP",          "match": "NAND 수출 ASP"},
+        {"id": "export_nand_amount",       "title": "NAND 수출 금액",         "match": "NAND 수출 금액", "embed_chart": true},
+        {"id": "export_nand_qty",          "title": "NAND 수출 수량",         "match": "NAND 수출 수량", "embed_chart": true},
+        {"id": "asp_nand",                 "title": "NAND 수출 ASP",          "match": "NAND 수출 ASP", "embed_chart": true},
 
-        {"id": "export_ssd_amount",        "title": "SSD 수출 금액",          "match": "SSD 수출 금액"},
-        {"id": "export_ssd_qty",           "title": "SSD 수출 수량",          "match": "SSD 수출 수량"},
-        {"id": "asp_ssd",                  "title": "SSD 수출 ASP",           "match": "SSD 수출 ASP"},
+        {"id": "export_ssd_amount",        "title": "SSD 수출 금액",          "match": "SSD 수출 금액", "embed_chart": true},
+        {"id": "export_ssd_qty",           "title": "SSD 수출 수량",          "match": "SSD 수출 수량", "embed_chart": true},
+        {"id": "asp_ssd",                  "title": "SSD 수출 ASP",           "match": "SSD 수출 ASP", "embed_chart": true},
 
-        {"id": "export_mcp_amount",        "title": "MCP 수출 금액",          "match": "MCP 수출 금액"},
-        {"id": "export_mcp_qty",           "title": "MCP 수출 수량",          "match": "MCP 수출 수량"},
-        {"id": "asp_mcp",                  "title": "MCP 수출 ASP",           "match": "MCP 수출 ASP"},
+        {"id": "export_mcp_amount",        "title": "MCP 수출 금액",          "match": "MCP 수출 금액", "embed_chart": true},
+        {"id": "export_mcp_qty",           "title": "MCP 수출 수량",          "match": "MCP 수출 수량", "embed_chart": true},
+        {"id": "asp_mcp",                  "title": "MCP 수출 ASP",           "match": "MCP 수출 ASP", "embed_chart": true},
 
-        {"id": "export_system_amount",     "title": "시스템 반도체 수출 금액", "match": "시스템 반도체 수출 금액"},
-        {"id": "export_system_weight",     "title": "시스템 반도체 수출 중량", "match": "시스템 반도체 수출 중량"},
-        {"id": "asp_system",               "title": "시스템 반도체 수출 ASP", "match": "시스템 반도체 수출 ASP"}
+        {"id": "export_system_amount",     "title": "시스템 반도체 수출 금액", "match": "시스템 반도체 수출 금액", "embed_chart": true},
+        {"id": "export_system_weight",     "title": "시스템 반도체 수출 중량", "match": "시스템 반도체 수출 중량", "embed_chart": true},
+        {"id": "asp_system",               "title": "시스템 반도체 수출 ASP", "match": "시스템 반도체 수출 ASP", "embed_chart": true}
       ]
     },
     {
@@ -82,12 +82,12 @@
       "subtitle": "DRAMeXchange 현물·고정가 + 삼성·SK·Micron ASP 추이",
       "cols": 2,
       "cards": [
-        {"id": "spot_ddr4_8gb",   "title": "DDR4 8Gb 현물가 vs 고정가",   "match": "DDR4 8Gb 현물가"},
-        {"id": "spot_ddr5_16gb",  "title": "DDR5 16Gb 현물가 vs 고정가",  "match": "DDR5 16Gb 현물가"},
-        {"id": "spot_tlc_512gb",  "title": "TLC 512Gb 현물가격",          "match": "TLC 512Gb 현물가격"},
-        {"id": "spot_tlc_qlc_1tb","title": "TLC/QLC 1Tb 현물가격 추이",   "match": "TLC/QLC 1Tb 현물가격"},
-        {"id": "asp_dram_vendor", "title": "업체별 DRAM ASP 추이 및 전망",  "match": "업체별 DRAM ASP"},
-        {"id": "asp_nand_vendor", "title": "업체별 NAND ASP 추이 및 전망",  "match": "업체별 NAND ASP"}
+        {"id": "spot_ddr4_8gb",   "title": "DDR4 8Gb 현물가 vs 고정가",   "match": "DDR4 8Gb 현물가", "embed_chart": true},
+        {"id": "spot_ddr5_16gb",  "title": "DDR5 16Gb 현물가 vs 고정가",  "match": "DDR5 16Gb 현물가", "embed_chart": true},
+        {"id": "spot_tlc_512gb",  "title": "TLC 512Gb 현물가격",          "match": "TLC 512Gb 현물가격", "embed_chart": true},
+        {"id": "spot_tlc_qlc_1tb","title": "TLC/QLC 1Tb 현물가격 추이",   "match": "TLC/QLC 1Tb 현물가격", "embed_chart": true},
+        {"id": "asp_dram_vendor", "title": "업체별 DRAM ASP 추이 및 전망",  "match": "업체별 DRAM ASP", "embed_chart": true},
+        {"id": "asp_nand_vendor", "title": "업체별 NAND ASP 추이 및 전망",  "match": "업체별 NAND ASP", "embed_chart": true}
       ]
     },
     {
@@ -108,11 +108,11 @@
       "subtitle": "서버 출하·DRAM 수요공급·대만 OEM 매출 (SNE / TrendForce / 대만 IR)",
       "cols": 2,
       "cards": [
-        {"id": "server_shipment",            "title": "서버 출하량 및 성장률 전망",            "match": "서버 출하량 및 성장률"},
-        {"id": "server_oem_shipment",        "title": "OEM별 서버 출하량 추이 및 전망",        "match": "OEM별 서버 출하량"},
-        {"id": "server_dram_demand_supply",  "title": "서버용 DRAM 수요/공급 추이",            "match": "서버용 DRAM 수요/공급"},
-        {"id": "server_dram_production",     "title": "서버용 DRAM 생산량 추이",              "match": "서버용 DRAM 생산량"},
-        {"id": "taiwan_server_oem_revenue",  "title": "대만 주요 서버 OEM 업체 월별 매출",      "match": "대만 주요 서버 OEM"}
+        {"id": "server_shipment",            "title": "서버 출하량 및 성장률 전망",            "match": "서버 출하량 및 성장률", "embed_chart": true},
+        {"id": "server_oem_shipment",        "title": "OEM별 서버 출하량 추이 및 전망",        "match": "OEM별 서버 출하량", "embed_chart": true},
+        {"id": "server_dram_demand_supply",  "title": "서버용 DRAM 수요/공급 추이",            "match": "서버용 DRAM 수요/공급", "embed_chart": true},
+        {"id": "server_dram_production",     "title": "서버용 DRAM 생산량 추이",              "match": "서버용 DRAM 생산량", "embed_chart": true},
+        {"id": "taiwan_server_oem_revenue",  "title": "대만 주요 서버 OEM 업체 월별 매출",      "match": "대만 주요 서버 OEM", "embed_chart": true}
       ]
     },
     {
@@ -120,12 +120,12 @@
       "subtitle": "글로벌·지역별 출하량 + Mediatek (SNE / TrendForce)",
       "cols": 2,
       "cards": [
-        {"id": "smartphone_global",   "title": "글로벌 스마트폰 출하량 추이 및 전망", "match": "글로벌 스마트폰 출하량"},
-        {"id": "smartphone_china",    "title": "중국 스마트폰 월별 판매량",           "match": "중국 스마트폰 월별 판매량"},
-        {"id": "smartphone_us",       "title": "미국 스마트폰 월별 판매량",           "match": "미국 스마트폰 월별 판매량"},
-        {"id": "smartphone_eu",       "title": "유럽 스마트폰 월별 판매량",           "match": "유럽 스마트폰 월별 판매량"},
-        {"id": "smartphone_india",    "title": "인도 스마트폰 월별 판매량",           "match": "인도"},
-        {"id": "mediatek_revenue",    "title": "Mediatek 월별 매출액 및 성장률",       "match": "Mediatek 월별 매출액"}
+        {"id": "smartphone_global",   "title": "글로벌 스마트폰 출하량 추이 및 전망", "match": "글로벌 스마트폰 출하량", "embed_chart": true},
+        {"id": "smartphone_china",    "title": "중국 스마트폰 월별 판매량",           "match": "중국 스마트폰 월별 판매량", "embed_chart": true},
+        {"id": "smartphone_us",       "title": "미국 스마트폰 월별 판매량",           "match": "미국 스마트폰 월별 판매량", "embed_chart": true},
+        {"id": "smartphone_eu",       "title": "유럽 스마트폰 월별 판매량",           "match": "유럽 스마트폰 월별 판매량", "embed_chart": true},
+        {"id": "smartphone_india",    "title": "인도 스마트폰 월별 판매량",           "match": "인도", "embed_chart": true},
+        {"id": "mediatek_revenue",    "title": "Mediatek 월별 매출액 및 성장률",       "match": "Mediatek 월별 매출액", "embed_chart": true}
       ]
     },
     {
@@ -133,8 +133,8 @@
       "subtitle": "PC 출하·노트북 YoY (TrendForce)",
       "cols": 2,
       "cards": [
-        {"id": "pc_global_shipment",         "title": "글로벌 PC 출하량 추이 및 전망",        "match": "글로벌 PC 출하량"},
-        {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑"}
+        {"id": "pc_global_shipment",         "title": "글로벌 PC 출하량 추이 및 전망",        "match": "글로벌 PC 출하량", "embed_chart": true},
+        {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑", "embed_chart": true}
       ]
     },
     {
@@ -142,8 +142,8 @@
       "subtitle": "마더보드 / PC ODM 월별 매출 (대만 IR)",
       "cols": 1,
       "cards": [
-        {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출",          "match": "대만 마더보드"},
-        {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출",            "match": "대만 PC ODM"}
+        {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출",          "match": "대만 마더보드", "embed_chart": true},
+        {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출",            "match": "대만 PC ODM", "embed_chart": true}
       ]
     },
     {
@@ -151,12 +151,12 @@
       "subtitle": "글로벌·삼성·SK하이닉스 DRAM/NAND CAPEX (TrendForce / 각사 IR)",
       "cols": 2,
       "cards": [
-        {"id": "capex_dram_global",    "title": "글로벌 DRAM CAPEX 추이 및 전망",   "match": "글로벌 DRAM CAPEX"},
-        {"id": "capex_nand_global",    "title": "글로벌 NAND CAPEX 추이 및 전망",   "match": "글로벌 NAND CAPEX"},
-        {"id": "capex_dram_samsung",   "title": "삼성전자 DRAM CAPEX 추이 및 전망", "match": "삼성전자 DRAM CAPEX"},
-        {"id": "capex_nand_samsung",   "title": "삼성전자 NAND CAPEX 추이 및 전망", "match": "삼성전자 NAND CAPEX"},
-        {"id": "capex_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPEX 추이 및 전망","match": "SK하이닉스 DRAM CAPEX"},
-        {"id": "capex_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPEX 추이 및 전망","match": "SK하이닉스 NAND CAPEX"}
+        {"id": "capex_dram_global",    "title": "글로벌 DRAM CAPEX 추이 및 전망",   "match": "글로벌 DRAM CAPEX", "embed_chart": true},
+        {"id": "capex_nand_global",    "title": "글로벌 NAND CAPEX 추이 및 전망",   "match": "글로벌 NAND CAPEX", "embed_chart": true},
+        {"id": "capex_dram_samsung",   "title": "삼성전자 DRAM CAPEX 추이 및 전망", "match": "삼성전자 DRAM CAPEX", "embed_chart": true},
+        {"id": "capex_nand_samsung",   "title": "삼성전자 NAND CAPEX 추이 및 전망", "match": "삼성전자 NAND CAPEX", "embed_chart": true},
+        {"id": "capex_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPEX 추이 및 전망","match": "SK하이닉스 DRAM CAPEX", "embed_chart": true},
+        {"id": "capex_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPEX 추이 및 전망","match": "SK하이닉스 NAND CAPEX", "embed_chart": true}
       ]
     },
     {
@@ -164,12 +164,12 @@
       "subtitle": "글로벌·삼성·SK하이닉스 DRAM/NAND CAPA (TrendForce / 각사 IR)",
       "cols": 2,
       "cards": [
-        {"id": "capa_dram_global",    "title": "글로벌 DRAM CAPA 추이 및 전망",   "match": "글로벌 DRAM CAPA"},
-        {"id": "capa_nand_global",    "title": "글로벌 NAND CAPA 추이 및 전망",   "match": "글로벌 NAND CAPA"},
-        {"id": "capa_dram_samsung",   "title": "삼성전자 DRAM CAPA 추이 및 전망", "match": "삼성전자 DRAM CAPA"},
-        {"id": "capa_nand_samsung",   "title": "삼성전자 NAND CAPA 추이 및 전망", "match": "삼성전자 NAND CAPA"},
-        {"id": "capa_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPA 추이 및 전망","match": "SK하이닉스 DRAM CAPA"},
-        {"id": "capa_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPA 추이 및 전망","match": "SK하이닉스 NAND CAPA"}
+        {"id": "capa_dram_global",    "title": "글로벌 DRAM CAPA 추이 및 전망",   "match": "글로벌 DRAM CAPA", "embed_chart": true},
+        {"id": "capa_nand_global",    "title": "글로벌 NAND CAPA 추이 및 전망",   "match": "글로벌 NAND CAPA", "embed_chart": true},
+        {"id": "capa_dram_samsung",   "title": "삼성전자 DRAM CAPA 추이 및 전망", "match": "삼성전자 DRAM CAPA", "embed_chart": true},
+        {"id": "capa_nand_samsung",   "title": "삼성전자 NAND CAPA 추이 및 전망", "match": "삼성전자 NAND CAPA", "embed_chart": true},
+        {"id": "capa_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPA 추이 및 전망","match": "SK하이닉스 DRAM CAPA", "embed_chart": true},
+        {"id": "capa_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPA 추이 및 전망","match": "SK하이닉스 NAND CAPA", "embed_chart": true}
       ]
     },
     {
