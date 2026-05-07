@@ -34,142 +34,459 @@
       "subtitle": "12개월 forward PBR 밴드 차트 (하나증권 — PDF vector embed)",
       "cols": 1,
       "cards": [
-        {"id": "pbr_band_samsung_sk", "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
-         "page_clip": {"page": 26, "x0": 35, "x1": 580, "top": 460, "bottom": 750},
-         "embed_clip": true}
+        {
+          "id": "pbr_band_samsung_sk",
+          "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
+          "page_clip": {
+            "page": 26,
+            "x0": 35,
+            "x1": 580,
+            "top": 460,
+            "bottom": 750
+          },
+          "embed_clip": true
+        }
       ]
     },
     {
       "title": "수출 Data — 반도체 (금액 / 수량·중량 / ASP)",
       "subtitle": "관세청 — 한국 반도체 수출 직접 추적 (카테고리별 정렬)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "export_semi_amount",       "title": "반도체 수출 금액",       "match": "반도체 수출 금액", "embed_chart": true},
-        {"id": "export_semi_weight",       "title": "반도체 수출 중량",       "match": "반도체 수출 중량", "embed_chart": true},
-        {"id": "asp_semi",                 "title": "반도체 수출 ASP",        "match": "반도체 수출 ASP", "embed_chart": true},
-
-        {"id": "export_memory_amount",     "title": "메모리 반도체 수출 금액", "match": "메모리 반도체 수출 금액", "embed_chart": true},
-        {"id": "export_memory_weight",     "title": "메모리 반도체 수출 중량", "match": "메모리 반도체 수출 중량", "embed_chart": true},
-        {"id": "asp_memory",               "title": "메모리 반도체 수출 ASP", "match": "메모리 반도체 수출 ASP", "embed_chart": true},
-
-        {"id": "export_dram_amount",       "title": "DRAM 수출 금액",         "match": "DRAM 수출 금액", "embed_chart": true},
-        {"id": "export_dram_qty",          "title": "DRAM 수출 수량",         "match": "DRAM 수출 수량", "embed_chart": true},
-        {"id": "asp_dram",                 "title": "DRAM 수출 ASP",          "match": "DRAM 수출 ASP", "embed_chart": true},
-
-        {"id": "export_dram_module_amount","title": "DRAM 모듈 수출 금액",     "match": "DRAM 모듈 수출 금액", "embed_chart": true},
-        {"id": "export_dram_module_weight","title": "DRAM 모듈 수출 중량",     "match": "DRAM 모듈 수출 중량", "embed_chart": true},
-        {"id": "asp_dram_module",          "title": "DRAM 모듈 수출 ASP",     "match": "DRAM 모듈 수출 ASP", "embed_chart": true},
-
-        {"id": "export_nand_amount",       "title": "NAND 수출 금액",         "match": "NAND 수출 금액", "embed_chart": true},
-        {"id": "export_nand_qty",          "title": "NAND 수출 수량",         "match": "NAND 수출 수량", "embed_chart": true},
-        {"id": "asp_nand",                 "title": "NAND 수출 ASP",          "match": "NAND 수출 ASP", "embed_chart": true},
-
-        {"id": "export_ssd_amount",        "title": "SSD 수출 금액",          "match": "SSD 수출 금액", "embed_chart": true},
-        {"id": "export_ssd_qty",           "title": "SSD 수출 수량",          "match": "SSD 수출 수량", "embed_chart": true},
-        {"id": "asp_ssd",                  "title": "SSD 수출 ASP",           "match": "SSD 수출 ASP", "embed_chart": true},
-
-        {"id": "export_mcp_amount",        "title": "MCP 수출 금액",          "match": "MCP 수출 금액", "embed_chart": true},
-        {"id": "export_mcp_qty",           "title": "MCP 수출 수량",          "match": "MCP 수출 수량", "embed_chart": true},
-        {"id": "asp_mcp",                  "title": "MCP 수출 ASP",           "match": "MCP 수출 ASP", "embed_chart": true},
-
-        {"id": "export_system_amount",     "title": "시스템 반도체 수출 금액", "match": "시스템 반도체 수출 금액", "embed_chart": true},
-        {"id": "export_system_weight",     "title": "시스템 반도체 수출 중량", "match": "시스템 반도체 수출 중량", "embed_chart": true},
-        {"id": "asp_system",               "title": "시스템 반도체 수출 ASP", "match": "시스템 반도체 수출 ASP", "embed_chart": true}
+        {
+          "id": "export_semi_amount",
+          "title": "반도체 수출 금액",
+          "match": "반도체 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_semi_weight",
+          "title": "반도체 수출 중량",
+          "match": "반도체 수출 중량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_semi",
+          "title": "반도체 수출 ASP",
+          "match": "반도체 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_memory_amount",
+          "title": "메모리 반도체 수출 금액",
+          "match": "메모리 반도체 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_memory_weight",
+          "title": "메모리 반도체 수출 중량",
+          "match": "메모리 반도체 수출 중량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_memory",
+          "title": "메모리 반도체 수출 ASP",
+          "match": "메모리 반도체 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_dram_amount",
+          "title": "DRAM 수출 금액",
+          "match": "DRAM 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_dram_qty",
+          "title": "DRAM 수출 수량",
+          "match": "DRAM 수출 수량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_dram",
+          "title": "DRAM 수출 ASP",
+          "match": "DRAM 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_dram_module_amount",
+          "title": "DRAM 모듈 수출 금액",
+          "match": "DRAM 모듈 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_dram_module_weight",
+          "title": "DRAM 모듈 수출 중량",
+          "match": "DRAM 모듈 수출 중량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_dram_module",
+          "title": "DRAM 모듈 수출 ASP",
+          "match": "DRAM 모듈 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_nand_amount",
+          "title": "NAND 수출 금액",
+          "match": "NAND 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_nand_qty",
+          "title": "NAND 수출 수량",
+          "match": "NAND 수출 수량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_nand",
+          "title": "NAND 수출 ASP",
+          "match": "NAND 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_ssd_amount",
+          "title": "SSD 수출 금액",
+          "match": "SSD 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_ssd_qty",
+          "title": "SSD 수출 수량",
+          "match": "SSD 수출 수량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_ssd",
+          "title": "SSD 수출 ASP",
+          "match": "SSD 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_mcp_amount",
+          "title": "MCP 수출 금액",
+          "match": "MCP 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_mcp_qty",
+          "title": "MCP 수출 수량",
+          "match": "MCP 수출 수량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_mcp",
+          "title": "MCP 수출 ASP",
+          "match": "MCP 수출 ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "export_system_amount",
+          "title": "시스템 반도체 수출 금액",
+          "match": "시스템 반도체 수출 금액",
+          "embed_chart": true
+        },
+        {
+          "id": "export_system_weight",
+          "title": "시스템 반도체 수출 중량",
+          "match": "시스템 반도체 수출 중량",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_system",
+          "title": "시스템 반도체 수출 ASP",
+          "match": "시스템 반도체 수출 ASP",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "가격 — DRAM/NAND 현물·고정가 + 업체별 ASP",
       "subtitle": "DRAMeXchange 현물·고정가 + 삼성·SK·Micron ASP 추이",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "spot_ddr4_8gb",   "title": "DDR4 8Gb 현물가 vs 고정가",   "match": "DDR4 8Gb 현물가", "embed_chart": true},
-        {"id": "spot_ddr5_16gb",  "title": "DDR5 16Gb 현물가 vs 고정가",  "match": "DDR5 16Gb 현물가", "embed_chart": true},
-        {"id": "spot_tlc_512gb",  "title": "TLC 512Gb 현물가격",          "match": "TLC 512Gb 현물가격", "embed_chart": true},
-        {"id": "spot_tlc_qlc_1tb","title": "TLC/QLC 1Tb 현물가격 추이",   "match": "TLC/QLC 1Tb 현물가격", "embed_chart": true},
-        {"id": "asp_dram_vendor", "title": "업체별 DRAM ASP 추이 및 전망",  "match": "업체별 DRAM ASP", "embed_chart": true},
-        {"id": "asp_nand_vendor", "title": "업체별 NAND ASP 추이 및 전망",  "match": "업체별 NAND ASP", "embed_chart": true}
+        {
+          "id": "spot_ddr4_8gb",
+          "title": "DDR4 8Gb 현물가 vs 고정가",
+          "match": "DDR4 8Gb 현물가",
+          "embed_chart": true
+        },
+        {
+          "id": "spot_ddr5_16gb",
+          "title": "DDR5 16Gb 현물가 vs 고정가",
+          "match": "DDR5 16Gb 현물가",
+          "embed_chart": true
+        },
+        {
+          "id": "spot_tlc_512gb",
+          "title": "TLC 512Gb 현물가격",
+          "match": "TLC 512Gb 현물가격",
+          "embed_chart": true
+        },
+        {
+          "id": "spot_tlc_qlc_1tb",
+          "title": "TLC/QLC 1Tb 현물가격 추이",
+          "match": "TLC/QLC 1Tb 현물가격",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_dram_vendor",
+          "title": "업체별 DRAM ASP 추이 및 전망",
+          "match": "업체별 DRAM ASP",
+          "embed_chart": true
+        },
+        {
+          "id": "asp_nand_vendor",
+          "title": "업체별 NAND ASP 추이 및 전망",
+          "match": "업체별 NAND ASP",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "지역별 수출 비중 [DISABLED — 카탈로그 보존]",
       "subtitle": "한국 반도체 수출 지역 mix (관세청) — BT 결정 2026-05-07 disabled",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "region_dram",       "title": "DRAM 지역별 수출 비중",          "match": "DRAM 지역별 수출 비중", "disabled": true},
-        {"id": "region_nand",       "title": "NAND 지역별 수출 비중",          "match": "NAND 지역별 수출 비중", "disabled": true},
-        {"id": "region_mcp",        "title": "MCP 지역별 수출 비중",            "match": "MCP 지역별 수출 비중", "disabled": true},
-        {"id": "region_processor",  "title": "프로세서·컨트롤러 지역별 수출 비중", "match": "프로세서와 컨트롤러 지역별 수출 비중", "disabled": true},
-        {"id": "region_amplifier",  "title": "증폭기 지역별 수출 비중",          "match": "증폭기 지역별 수출 비중", "disabled": true},
-        {"id": "region_smartcard",  "title": "스마트카드 지역별 수출 비중",       "match": "스마트 카드 지역별 수출 비중", "disabled": true}
+        {
+          "id": "region_dram",
+          "title": "DRAM 지역별 수출 비중",
+          "match": "DRAM 지역별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "region_nand",
+          "title": "NAND 지역별 수출 비중",
+          "match": "NAND 지역별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "region_mcp",
+          "title": "MCP 지역별 수출 비중",
+          "match": "MCP 지역별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "region_processor",
+          "title": "프로세서·컨트롤러 지역별 수출 비중",
+          "match": "프로세서와 컨트롤러 지역별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "region_amplifier",
+          "title": "증폭기 지역별 수출 비중",
+          "match": "증폭기 지역별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "region_smartcard",
+          "title": "스마트카드 지역별 수출 비중",
+          "match": "스마트 카드 지역별 수출 비중",
+          "disabled": true
+        }
       ]
     },
     {
       "title": "수요 측 — 서버",
       "subtitle": "서버 출하·DRAM 수요공급·대만 OEM 매출 (SNE / TrendForce / 대만 IR)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "server_shipment",            "title": "서버 출하량 및 성장률 전망",            "match": "서버 출하량 및 성장률", "embed_chart": true},
-        {"id": "server_oem_shipment",        "title": "OEM별 서버 출하량 추이 및 전망",        "match": "OEM별 서버 출하량", "embed_chart": true},
-        {"id": "server_dram_demand_supply",  "title": "서버용 DRAM 수요/공급 추이",            "match": "서버용 DRAM 수요/공급", "embed_chart": true},
-        {"id": "server_dram_production",     "title": "서버용 DRAM 생산량 추이",              "match": "서버용 DRAM 생산량", "embed_chart": true},
-        {"id": "taiwan_server_oem_revenue",  "title": "대만 주요 서버 OEM 업체 월별 매출",      "match": "대만 주요 서버 OEM", "embed_chart": true}
+        {
+          "id": "server_shipment",
+          "title": "서버 출하량 및 성장률 전망",
+          "match": "서버 출하량 및 성장률",
+          "embed_chart": true
+        },
+        {
+          "id": "server_oem_shipment",
+          "title": "OEM별 서버 출하량 추이 및 전망",
+          "match": "OEM별 서버 출하량",
+          "embed_chart": true
+        },
+        {
+          "id": "server_dram_demand_supply",
+          "title": "서버용 DRAM 수요/공급 추이",
+          "match": "서버용 DRAM 수요/공급",
+          "embed_chart": true
+        },
+        {
+          "id": "server_dram_production",
+          "title": "서버용 DRAM 생산량 추이",
+          "match": "서버용 DRAM 생산량",
+          "embed_chart": true
+        },
+        {
+          "id": "taiwan_server_oem_revenue",
+          "title": "대만 주요 서버 OEM 업체 월별 매출",
+          "match": "대만 주요 서버 OEM",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "수요 측 — 스마트폰",
       "subtitle": "글로벌·지역별 출하량 + Mediatek (SNE / TrendForce)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "smartphone_global",   "title": "글로벌 스마트폰 출하량 추이 및 전망", "match": "글로벌 스마트폰 출하량", "embed_chart": true},
-        {"id": "smartphone_china",    "title": "중국 스마트폰 월별 판매량",           "match": "중국 스마트폰 월별 판매량", "embed_chart": true},
-        {"id": "smartphone_us",       "title": "미국 스마트폰 월별 판매량",           "match": "미국 스마트폰 월별 판매량", "embed_chart": true},
-        {"id": "smartphone_eu",       "title": "유럽 스마트폰 월별 판매량",           "match": "유럽 스마트폰 월별 판매량", "embed_chart": true},
-        {"id": "smartphone_india",    "title": "인도 스마트폰 월별 판매량",           "match": "인도", "embed_chart": true},
-        {"id": "mediatek_revenue",    "title": "Mediatek 월별 매출액 및 성장률",       "match": "Mediatek 월별 매출액", "embed_chart": true}
+        {
+          "id": "smartphone_global",
+          "title": "글로벌 스마트폰 출하량 추이 및 전망",
+          "match": "글로벌 스마트폰 출하량",
+          "embed_chart": true
+        },
+        {
+          "id": "smartphone_china",
+          "title": "중국 스마트폰 월별 판매량",
+          "match": "중국 스마트폰 월별 판매량",
+          "embed_chart": true
+        },
+        {
+          "id": "smartphone_us",
+          "title": "미국 스마트폰 월별 판매량",
+          "match": "미국 스마트폰 월별 판매량",
+          "embed_chart": true
+        },
+        {
+          "id": "smartphone_eu",
+          "title": "유럽 스마트폰 월별 판매량",
+          "match": "유럽 스마트폰 월별 판매량",
+          "embed_chart": true
+        },
+        {
+          "id": "smartphone_india",
+          "title": "인도 스마트폰 월별 판매량",
+          "match": "인도",
+          "embed_chart": true
+        },
+        {
+          "id": "mediatek_revenue",
+          "title": "Mediatek 월별 매출액 및 성장률",
+          "match": "Mediatek 월별 매출액",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "수요 측 — PC (글로벌)",
       "subtitle": "PC 출하·노트북 YoY (TrendForce)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "pc_global_shipment",         "title": "글로벌 PC 출하량 추이 및 전망",        "match": "글로벌 PC 출하량", "embed_chart": true},
-        {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑", "embed_chart": true}
+        {
+          "id": "pc_global_shipment",
+          "title": "글로벌 PC 출하량 추이 및 전망",
+          "match": "글로벌 PC 출하량",
+          "embed_chart": true
+        },
+        {
+          "id": "pc_notebook_desktop_yoy",
+          "title": "글로벌 노트북/데스크탑 성장률(YoY)",
+          "match": "글로벌 노트북/데스크탑",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "수요 측 — 대만 PC 업체 매출",
       "subtitle": "마더보드 / PC ODM 월별 매출 (대만 IR)",
-      "cols": 1,
+      "cols": 2,
       "cards": [
-        {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출",          "match": "대만 마더보드", "embed_chart": true},
-        {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출",            "match": "대만 PC ODM", "embed_chart": true}
+        {
+          "id": "taiwan_motherboard_revenue",
+          "title": "대만 마더보드 업체 월별 매출",
+          "match": "대만 마더보드",
+          "embed_chart": true
+        },
+        {
+          "id": "taiwan_pc_odm_revenue",
+          "title": "대만 PC ODM 업체 월별 매출",
+          "match": "대만 PC ODM",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "공급 — CAPEX",
       "subtitle": "글로벌·삼성·SK하이닉스 DRAM/NAND CAPEX (TrendForce / 각사 IR)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "capex_dram_global",    "title": "글로벌 DRAM CAPEX 추이 및 전망",   "match": "글로벌 DRAM CAPEX", "embed_chart": true},
-        {"id": "capex_nand_global",    "title": "글로벌 NAND CAPEX 추이 및 전망",   "match": "글로벌 NAND CAPEX", "embed_chart": true},
-        {"id": "capex_dram_samsung",   "title": "삼성전자 DRAM CAPEX 추이 및 전망", "match": "삼성전자 DRAM CAPEX", "embed_chart": true},
-        {"id": "capex_nand_samsung",   "title": "삼성전자 NAND CAPEX 추이 및 전망", "match": "삼성전자 NAND CAPEX", "embed_chart": true},
-        {"id": "capex_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPEX 추이 및 전망","match": "SK하이닉스 DRAM CAPEX", "embed_chart": true},
-        {"id": "capex_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPEX 추이 및 전망","match": "SK하이닉스 NAND CAPEX", "embed_chart": true}
+        {
+          "id": "capex_dram_global",
+          "title": "글로벌 DRAM CAPEX 추이 및 전망",
+          "match": "글로벌 DRAM CAPEX",
+          "embed_chart": true
+        },
+        {
+          "id": "capex_nand_global",
+          "title": "글로벌 NAND CAPEX 추이 및 전망",
+          "match": "글로벌 NAND CAPEX",
+          "embed_chart": true
+        },
+        {
+          "id": "capex_dram_samsung",
+          "title": "삼성전자 DRAM CAPEX 추이 및 전망",
+          "match": "삼성전자 DRAM CAPEX",
+          "embed_chart": true
+        },
+        {
+          "id": "capex_nand_samsung",
+          "title": "삼성전자 NAND CAPEX 추이 및 전망",
+          "match": "삼성전자 NAND CAPEX",
+          "embed_chart": true
+        },
+        {
+          "id": "capex_dram_sk_hynix",
+          "title": "SK하이닉스 DRAM CAPEX 추이 및 전망",
+          "match": "SK하이닉스 DRAM CAPEX",
+          "embed_chart": true
+        },
+        {
+          "id": "capex_nand_sk_hynix",
+          "title": "SK하이닉스 NAND CAPEX 추이 및 전망",
+          "match": "SK하이닉스 NAND CAPEX",
+          "embed_chart": true
+        }
       ]
     },
     {
       "title": "공급 — CAPA",
       "subtitle": "글로벌·삼성·SK하이닉스 DRAM/NAND CAPA (TrendForce / 각사 IR)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
-        {"id": "capa_dram_global",    "title": "글로벌 DRAM CAPA 추이 및 전망",   "match": "글로벌 DRAM CAPA", "embed_chart": true},
-        {"id": "capa_nand_global",    "title": "글로벌 NAND CAPA 추이 및 전망",   "match": "글로벌 NAND CAPA", "embed_chart": true},
-        {"id": "capa_dram_samsung",   "title": "삼성전자 DRAM CAPA 추이 및 전망", "match": "삼성전자 DRAM CAPA", "embed_chart": true},
-        {"id": "capa_nand_samsung",   "title": "삼성전자 NAND CAPA 추이 및 전망", "match": "삼성전자 NAND CAPA", "embed_chart": true},
-        {"id": "capa_dram_sk_hynix",  "title": "SK하이닉스 DRAM CAPA 추이 및 전망","match": "SK하이닉스 DRAM CAPA", "embed_chart": true},
-        {"id": "capa_nand_sk_hynix",  "title": "SK하이닉스 NAND CAPA 추이 및 전망","match": "SK하이닉스 NAND CAPA", "embed_chart": true}
+        {
+          "id": "capa_dram_global",
+          "title": "글로벌 DRAM CAPA 추이 및 전망",
+          "match": "글로벌 DRAM CAPA",
+          "embed_chart": true
+        },
+        {
+          "id": "capa_nand_global",
+          "title": "글로벌 NAND CAPA 추이 및 전망",
+          "match": "글로벌 NAND CAPA",
+          "embed_chart": true
+        },
+        {
+          "id": "capa_dram_samsung",
+          "title": "삼성전자 DRAM CAPA 추이 및 전망",
+          "match": "삼성전자 DRAM CAPA",
+          "embed_chart": true
+        },
+        {
+          "id": "capa_nand_samsung",
+          "title": "삼성전자 NAND CAPA 추이 및 전망",
+          "match": "삼성전자 NAND CAPA",
+          "embed_chart": true
+        },
+        {
+          "id": "capa_dram_sk_hynix",
+          "title": "SK하이닉스 DRAM CAPA 추이 및 전망",
+          "match": "SK하이닉스 DRAM CAPA",
+          "embed_chart": true
+        },
+        {
+          "id": "capa_nand_sk_hynix",
+          "title": "SK하이닉스 NAND CAPA 추이 및 전망",
+          "match": "SK하이닉스 NAND CAPA",
+          "embed_chart": true
+        }
       ]
     },
     {
@@ -177,8 +494,12 @@
       "subtitle": "분기·연간 매출/영업이익 + Bit Growth/ASP 가정 (하나증권 — PDF p25 vector)",
       "cols": 1,
       "cards": [
-        {"id": "samsung_perf_p25", "title": "삼성전자 사업부문별 실적 전망",
-         "page_full": 25, "embed_page": true}
+        {
+          "id": "samsung_perf_p25",
+          "title": "삼성전자 사업부문별 실적 전망",
+          "page_full": 25,
+          "embed_page": true
+        }
       ]
     },
     {
@@ -186,9 +507,18 @@
       "subtitle": "분기·연간 가정 + 사업부문별 매출/영업이익 (하나증권 — PDF p26 상단 vector)",
       "cols": 1,
       "cards": [
-        {"id": "sk_hynix_perf_p26", "title": "SK하이닉스 사업부문별 실적 전망",
-         "page_clip": {"page": 26, "x0": 35, "x1": 565, "top": 90, "bottom": 460},
-         "embed_clip": true}
+        {
+          "id": "sk_hynix_perf_p26",
+          "title": "SK하이닉스 사업부문별 실적 전망",
+          "page_clip": {
+            "page": 26,
+            "x0": 35,
+            "x1": 565,
+            "top": 90,
+            "bottom": 460
+          },
+          "embed_clip": true
+        }
       ]
     },
     {
@@ -196,8 +526,12 @@
       "subtitle": "하나증권 김록호 Weekly — 헤드라인 + 데이터 포인트 (PDF p1 vector)",
       "cols": 1,
       "cards": [
-        {"id": "summary_page1", "title": "주간 시황 요약",
-         "page_full": 1, "embed_page": true}
+        {
+          "id": "summary_page1",
+          "title": "주간 시황 요약",
+          "page_full": 1,
+          "embed_page": true
+        }
       ]
     },
     {
@@ -205,36 +539,186 @@
       "subtitle": "도표 49-78 — BT 결정 2026-05-07 disabled (카탈로그 유지)",
       "cols": 1,
       "cards": [
-        {"id": "import_equipment_total",       "title": "반도체 장비 수입 금액",       "match": "반도체 장비 수입 금액", "disabled": true},
-        {"id": "import_equipment_country",     "title": "반도체 장비 국가별 수입 비중", "match": "반도체 장비 국가별 수입 비중", "disabled": true},
-        {"id": "import_lithography_amount",    "title": "리소그래프 수입 금액",         "match": "리소그래프 수입 금액", "disabled": true},
-        {"id": "import_lithography_country",   "title": "리소그래프 국가별 수입 비중",  "match": "리소그래프 국가별 수입 비중", "disabled": true},
-        {"id": "import_deposition_amount",     "title": "증착장비 수입 금액",           "match": "증착장비 수입 금액", "disabled": true},
-        {"id": "import_deposition_country",    "title": "증착장비 국가별 수입 비중",    "match": "증착장비 국가별 수입 비중", "disabled": true},
-        {"id": "import_dry_etch_amount",       "title": "건식 식각 장비 수입 금액",      "match": "건식 식각 장비 수입 금액", "disabled": true},
-        {"id": "import_dry_etch_country",      "title": "건식 식각 장비 국가별 수입 비중","match": "건식 식각 장비 국가별 수입 비중", "disabled": true},
-        {"id": "import_cmp_amount",            "title": "CMP 장비 수입 금액",           "match": "CMP 장비 수입 금액", "disabled": true},
-        {"id": "import_cmp_country",           "title": "CMP 장비 국가별 수입 비중",     "match": "CMP 장비 국가별 수입 비중", "disabled": true},
-        {"id": "import_track_amount",          "title": "Track 장비 수입 금액",          "match": "Track 장비 수입 금액", "disabled": true},
-        {"id": "import_track_country",         "title": "Track 장비 국가별 수입 비중",   "match": "Track 장비 국가별 수입 비중", "disabled": true},
-        {"id": "import_wet_amount",            "title": "습식 공정 장비 수입 금액",      "match": "습식 공정 장비 수입 금액", "disabled": true},
-        {"id": "import_wet_country",           "title": "습식 공정 장비 국가별 수입 비중","match": "습식 공정 장비 국가별 수입 비중", "disabled": true},
-        {"id": "export_equipment_total",       "title": "반도체 장비 수출 금액",         "match": "반도체 장비 수출 금액", "disabled": true},
-        {"id": "export_equipment_country",     "title": "반도체 장비 국가별 수출 비중",  "match": "반도체 장비 국가별 수출 비중", "disabled": true},
-        {"id": "export_deposition_amount",     "title": "증착장비 수출 금액",            "match": "증착장비 수출 금액", "disabled": true},
-        {"id": "export_deposition_country",    "title": "증착장비 국가별 수출 비중",     "match": "증착장비 국가별 수출 비중", "disabled": true},
-        {"id": "export_other_front_amount",    "title": "기타 전공정 장비 수출 금액",    "match": "기타 전공정 장비 수출 금액", "disabled": true},
-        {"id": "export_other_front_country",   "title": "기타 전공정 장비 국가별 수출 비중","match": "기타 전공정 장비 국가별 수출 비중", "disabled": true},
-        {"id": "export_dry_etch_amount",       "title": "건식 식각 장비 수출 금액",       "match": "건식 식각 장비 수출 금액", "disabled": true},
-        {"id": "export_dry_etch_country",      "title": "건식 식각 장비 국가별 수출 비중","match": "건식 식각 장비 국가별 수출 비중", "disabled": true},
-        {"id": "export_wet_amount",            "title": "습식 공정 장비 수출 금액",       "match": "습식 공정 장비 수출 금액", "disabled": true},
-        {"id": "export_wet_country",           "title": "습식 공정 장비 수출 비중",       "match": "습식 공정 장비 수출 비중", "disabled": true},
-        {"id": "export_other_back_amount",     "title": "기타 후공정 장비 수출 금액",     "match": "기타 후공정 장비 수출 금액", "disabled": true},
-        {"id": "export_other_back_country",    "title": "기타 후공정 장비 국가별 수출 비중","match": "기타 후공정 장비 국가별 수출 비중", "disabled": true},
-        {"id": "export_bonder_amount",         "title": "본더 수출 금액",                "match": "본더 수출 금액", "disabled": true},
-        {"id": "export_bonder_country",        "title": "본더 국가별 수출 비중",          "match": "본더 국가별 수출 비중", "disabled": true},
-        {"id": "export_afm_amount",            "title": "원자 현미경 수출 금액",          "match": "원자 현미경 수출 금액", "disabled": true},
-        {"id": "export_afm_country",           "title": "원자 현미경 국가별 수출 비중",   "match": "원자 현미경 국가별 수출 비중", "disabled": true}
+        {
+          "id": "import_equipment_total",
+          "title": "반도체 장비 수입 금액",
+          "match": "반도체 장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_equipment_country",
+          "title": "반도체 장비 국가별 수입 비중",
+          "match": "반도체 장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_lithography_amount",
+          "title": "리소그래프 수입 금액",
+          "match": "리소그래프 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_lithography_country",
+          "title": "리소그래프 국가별 수입 비중",
+          "match": "리소그래프 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_deposition_amount",
+          "title": "증착장비 수입 금액",
+          "match": "증착장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_deposition_country",
+          "title": "증착장비 국가별 수입 비중",
+          "match": "증착장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_dry_etch_amount",
+          "title": "건식 식각 장비 수입 금액",
+          "match": "건식 식각 장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_dry_etch_country",
+          "title": "건식 식각 장비 국가별 수입 비중",
+          "match": "건식 식각 장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_cmp_amount",
+          "title": "CMP 장비 수입 금액",
+          "match": "CMP 장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_cmp_country",
+          "title": "CMP 장비 국가별 수입 비중",
+          "match": "CMP 장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_track_amount",
+          "title": "Track 장비 수입 금액",
+          "match": "Track 장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_track_country",
+          "title": "Track 장비 국가별 수입 비중",
+          "match": "Track 장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "import_wet_amount",
+          "title": "습식 공정 장비 수입 금액",
+          "match": "습식 공정 장비 수입 금액",
+          "disabled": true
+        },
+        {
+          "id": "import_wet_country",
+          "title": "습식 공정 장비 국가별 수입 비중",
+          "match": "습식 공정 장비 국가별 수입 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_equipment_total",
+          "title": "반도체 장비 수출 금액",
+          "match": "반도체 장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_equipment_country",
+          "title": "반도체 장비 국가별 수출 비중",
+          "match": "반도체 장비 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_deposition_amount",
+          "title": "증착장비 수출 금액",
+          "match": "증착장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_deposition_country",
+          "title": "증착장비 국가별 수출 비중",
+          "match": "증착장비 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_other_front_amount",
+          "title": "기타 전공정 장비 수출 금액",
+          "match": "기타 전공정 장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_other_front_country",
+          "title": "기타 전공정 장비 국가별 수출 비중",
+          "match": "기타 전공정 장비 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_dry_etch_amount",
+          "title": "건식 식각 장비 수출 금액",
+          "match": "건식 식각 장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_dry_etch_country",
+          "title": "건식 식각 장비 국가별 수출 비중",
+          "match": "건식 식각 장비 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_wet_amount",
+          "title": "습식 공정 장비 수출 금액",
+          "match": "습식 공정 장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_wet_country",
+          "title": "습식 공정 장비 수출 비중",
+          "match": "습식 공정 장비 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_other_back_amount",
+          "title": "기타 후공정 장비 수출 금액",
+          "match": "기타 후공정 장비 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_other_back_country",
+          "title": "기타 후공정 장비 국가별 수출 비중",
+          "match": "기타 후공정 장비 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_bonder_amount",
+          "title": "본더 수출 금액",
+          "match": "본더 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_bonder_country",
+          "title": "본더 국가별 수출 비중",
+          "match": "본더 국가별 수출 비중",
+          "disabled": true
+        },
+        {
+          "id": "export_afm_amount",
+          "title": "원자 현미경 수출 금액",
+          "match": "원자 현미경 수출 금액",
+          "disabled": true
+        },
+        {
+          "id": "export_afm_country",
+          "title": "원자 현미경 국가별 수출 비중",
+          "match": "원자 현미경 국가별 수출 비중",
+          "disabled": true
+        }
       ]
     }
   ]
