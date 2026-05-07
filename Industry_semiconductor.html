@@ -415,6 +415,10 @@ function buildPage(manifest, figuresMeta) {
       const cardEl = document.createElement('div');
       cardEl.className = 'card card-image';
       cardEl.id = `card-${cid}`;
+      // colspan: 카드가 차지할 그리드 열 개수 (cols=3 안에서 colspan=2 면 가로 2칸 차지)
+      if (typeof card.colspan === 'number' && card.colspan > 1) {
+        cardEl.style.gridColumn = `span ${card.colspan}`;
+      }
 
       if (card.embed_page === true || card.embed_chart === true || card.embed_clip === true) {
         // PDF vector iframe embed (글자 무한 해상도)
@@ -434,8 +438,6 @@ function buildPage(manifest, figuresMeta) {
         cardEl.innerHTML = `
           <div class="card-top">
             <h3>${card.title || cid}</h3>
-            <a href="${DATA_DIR}${pdfFile}" target="_blank" class="pdf-newtab"
-               title="새 탭에서 PDF 단독 열기 (zoom % 확인용)">🔗 PDF</a>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
             <iframe src="${DATA_DIR}${pdfFile}#toolbar=${toolbarVal}&navpanes=0&scrollbar=0&view=FitH&zoom=page-width${zoomFragment}"
