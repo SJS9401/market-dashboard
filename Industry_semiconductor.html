@@ -428,8 +428,10 @@ function buildPage(manifest, figuresMeta) {
         const pdfFile = `pdf_pages/semi_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
         const fig = figs[cid];
+        // height_scale: 카드 세로 폭 배율 (default 1). aspect-ratio = w / (h * scale) → 클수록 카드 더 큼.
+        const heightScale = (typeof card.height_scale === 'number' && card.height_scale > 0) ? card.height_scale : 1;
         const aspectStyle = (fig && fig.mediabox_pt && fig.mediabox_pt.length === 2)
-          ? `style="aspect-ratio: ${fig.mediabox_pt[0]} / ${fig.mediabox_pt[1]};"`
+          ? `style="aspect-ratio: ${fig.mediabox_pt[0]} / ${fig.mediabox_pt[1] * heightScale};"`
           : '';
         const zoomFragment = (typeof card.zoom_pct === 'number' && card.zoom_pct > 0)
           ? `&zoom=${card.zoom_pct}` : '';
