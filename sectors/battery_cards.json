@@ -101,7 +101,7 @@
     {
       "title": "ESS 시장 — 지역별·연계 유형",
       "subtitle": "지역별 ESS 신규 설치량 + 전력망 연계 유형 (SNE Research)",
-      "cols": 2,
+      "cols": 1,
       "cards": [
         {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리", "embed_chart": true},
         {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망",            "embed_chart": true}
