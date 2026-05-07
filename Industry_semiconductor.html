@@ -19,23 +19,24 @@
   .source-box .src-disclaimer { color: #6e7681; font-size: 10px; padding-top: 2px; border-top: 1px dashed #21262d; margin-top: 4px; }
   .main { padding: 14px 16px 32px; max-width: 1600px; margin: 0 auto; }
   .section { margin-bottom: 28px; }
-  .section-header { display: flex; align-items: baseline; gap: 12px; padding: 8px 4px; border-bottom: 2px solid #1f6feb; margin-bottom: 12px; }
-  .section-header h2 { font-size: 15px; font-weight: 700; color: #f0f6fc; }
-  .section-header .subtitle { font-size: 11px; color: #8b949e; }
+  .section-header { display: flex; align-items: baseline; gap: 14px; padding: 10px 4px; border-bottom: 2px solid #1f6feb; margin-bottom: 14px; }
+  .section-header h2 { font-size: 22px; font-weight: 700; color: #f0f6fc; }
+  .section-header .subtitle { font-size: 14px; color: #8b949e; }
   .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 10px; }
   .card-grid.cols-1 { grid-template-columns: 1fr; gap: 28px; }
   .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
   .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
   @media (max-width: 1100px) {
-    .card-grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 720px) {
     .card-grid.cols-2, .card-grid.cols-3 { grid-template-columns: 1fr; }
   }
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; overflow: hidden; }
-  .card-top { padding: 8px 12px; border-bottom: 1px solid #21262d; background: #1c2128; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-table .card-top h3 { font-size: 13px; font-weight: 700; color: #f0f6fc; }
+  .card-top { padding: 10px 14px; border-bottom: 1px solid #21262d; background: #1c2128; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .card-top h3 { font-size: 17px; font-weight: 600; color: #f0f6fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-table .card-top h3 { font-size: 18px; font-weight: 700; color: #f0f6fc; }
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
   .review-flag { color: #d2af64; font-style: italic; font-size: 11px; font-weight: 400; margin-left: 6px; letter-spacing: 0.2px; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
@@ -46,6 +47,10 @@
   .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #8b949e; }
   .legend-item .dot { width: 8px; height: 2px; border-radius: 1px; }
   .cw { width: 100%; height: 220px; position: relative; cursor: crosshair; }
+  /* 차트 세로축 상단 단위 라벨 */
+  .cw-axis-unit { position: absolute; font-size: 10px; color: #8b949e; pointer-events: none; z-index: 10; padding: 1px 4px; background: #161b22; border-radius: 2px; }
+  .cw-axis-unit.left { top: 4px; left: 50px; }
+  .cw-axis-unit.right { top: 4px; right: 50px; }
   /* 차트 호버 툴팁 */
   .cw-tooltip { position: absolute; top: 8px; left: 8px; background: rgba(13,17,23,0.95); border: 1px solid #30363d; border-radius: 4px; padding: 5px 8px; font-size: 11px; color: #c9d1d9; pointer-events: none; z-index: 10; display: none; line-height: 1.5; min-width: 130px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
   .cw-tooltip .tt-date { color: #8b949e; font-size: 10px; padding-bottom: 3px; border-bottom: 1px solid #21262d; margin-bottom: 3px; font-weight: 600; }
@@ -56,6 +61,16 @@
   .cw-tbd { display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 11px; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(48,54,61,0.18) 8px, rgba(48,54,61,0.18) 9px); }
   .card-tbd .card-top { background: #1a1f26; }
   .card-tbd .card-top h3 { color: #8b949e; }
+  /* image 카드 — PDF crop PNG 가 차트 영역을 통째로 채움 (라이트 배경 + 약한 패딩으로 다크모드 대비) */
+  .card-image .cw { height: auto; min-height: 0; cursor: default; background: #ffffff; padding: 4px; }
+  .card-image .cw img { width: 100%; height: auto; display: block; border-radius: 2px; }
+  .card-image .card-top { border-bottom: 1px solid #21262d; }
+  .card-image .cw-missing { display: flex; align-items: center; justify-content: center; min-height: 200px; background: #1a1f26; color: #6e7681; font-size: 12px; padding: 0; }
+  .card-image .cw-missing .missing-msg { padding: 16px; text-align: center; }
+  /* PDF embed 카드 — iframe vector graphics, 무한 해상도. embed_page 카드 (5개) 만 사용.
+     inline style 로 mediabox_pt 비율 동적 적용. default A4 portrait (595/842) fallback. */
+  .card-image .cw-pdf { width: 100%; aspect-ratio: 595 / 842; background: #ffffff; padding: 0; cursor: default; height: auto; min-height: 0; }
+  .card-image .cw-pdf iframe { width: 100%; height: 100%; border: none; display: block; }
   .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
   /* 최근 데이터 표 (차트 하단) */
   .recent-data { padding: 6px 10px 8px; border-top: 1px solid #21262d; overflow-x: auto; }
@@ -123,7 +138,7 @@
   <h1>산업별 선행지표 — 반도체</h1>
   <div class="source-box">
     <div class="src-line">출처: 하나증권 리서치 「반도체 및 소부장 Weekly」 <span id="pdf-pub-date" style="color:#1f6feb;font-weight:700;">—</span></div>
-    <div>Analyst 김록호 · RA 김영규 (자료 원본: DRAMeXchange · KITA · TrendForce · 각사 IR)</div>
+    <div>Analyst 김록호 · RA 김영규 (자료 원본: KITA · DRAMeXchange · TrendForce · 각사 IR)</div>
     <div class="src-disclaimer">※ 본 페이지는 본인·지인 비공개 학습 및 모니터링 용도로만 사용됩니다. 데이터·도표의 권리는 원저작자에게 귀속됩니다. 무단 재배포·상업적 이용 금지.</div>
   </div>
 </div>
@@ -139,384 +154,183 @@ const COLORS = {
   contract: 'rgb(210,175,100)',   // gold — 고정가, 막대
   premium: 'rgb(249,117,131)',    // red — 프리미엄 (DRAM/NAND 현물가, 마켓 대시보드와 통일)
   yoy: 'rgb(210,175,100)',      // gold — YoY 라인 (사이클 시그널, 시각 위계 상위)
+  mom: 'rgb(45,200,175)',       // 청록 — MoM 라인 (bar 회색과 분리, YoY gold와도 구분)
   bar: 'rgb(139,148,158)',      // gray — 수출 바/ASP (절대 수치 컨텍스트, Tufte: gray for context)
   samsung: 'rgb(57,197,207)',
   sk_hynix: 'rgb(210,175,100)',
+  // Stacked bar 팔레트 (LFP 같은 다중 색상 stacked 차트)
+  // z-order: stack_1(가장 큰, 뒤) → stack_2 → stack_3(가장 강조, 앞), 4개 시 stack_4 추가
+  stack_1: 'rgb(139, 148, 158)',      // 회색 — 가장 뒤 (Total / 기타)
+  stack_2: 'rgb(88, 138, 200)',       // 파랑 — 중간
+  stack_3: 'rgb(249, 117, 131)',      // 핑크 — 가장 강조 (앞)
+  stack_4: 'rgb(45, 200, 175)',       // 진한 cyan — 4개 시리즈 시 추가
 };
 
-const SECTIONS = [
+// ───────────────────────────────────────────────────────────────────────
+// 2026-05-05 v2: 카드 정의는 sectors/semiconductor_cards.json (single source).
+// 이미지 매칭은 PDF 차트 제목 substring 으로 (도표 번호 무관). 파일명은 영문 id 기반.
+// SECTIONS 인라인 상수는 제거됨 — fetchCardsManifest() 사용.
+// 아래 SECTIONS_LEGACY 는 dual-axis 차트 인터랙티브 시절 호환용 reference. 현재 미사용.
+// ───────────────────────────────────────────────────────────────────────
+const SECTIONS_LEGACY = [
   {
-    title: "커버리지 업체 — 12MF PBR 밴드",
-    subtitle: "삼성전자 + SK하이닉스 — 페이지 24 (각사 IR, 하나증권)",
-    cols: 2,
-    cards: [
-      { fig: "PBR-S", title: "삼성전자 12MF PBR 밴드",
-        chart_def: { type: "single", no_recent: true, height: 380, series: [
-          { label: "1.9x",   file: "coverage_pbr_samsung_19x.json",   color: "rgb(212, 181, 80)" },
-          { label: "1.6x",   file: "coverage_pbr_samsung_16x.json",   color: "rgb(184, 152, 88)" },
-          { label: "1.3x",   file: "coverage_pbr_samsung_13x.json",   color: "rgb(152, 131, 90)" },
-          { label: "1.0x",   file: "coverage_pbr_samsung_10x.json",   color: "rgb(120, 110, 88)" },
-          { label: "0.7x",   file: "coverage_pbr_samsung_07x.json",   color: "rgb(88, 89, 85)" },
-          { label: "수정주가", file: "coverage_pbr_samsung_price.json", color: "rgb(194, 85, 85)" },
-        ], unit_left: "원" } },
-      { fig: "PBR-K", title: "SK하이닉스 12MF PBR 밴드",
-        chart_def: { type: "single", no_recent: true, height: 380, series: [
-          { label: "2.1x",   file: "coverage_pbr_skhynix_21x.json",   color: "rgb(212, 181, 80)" },
-          { label: "1.7x",   file: "coverage_pbr_skhynix_17x.json",   color: "rgb(184, 152, 88)" },
-          { label: "1.4x",   file: "coverage_pbr_skhynix_14x.json",   color: "rgb(152, 131, 90)" },
-          { label: "1.0x",   file: "coverage_pbr_skhynix_10x.json",   color: "rgb(120, 110, 88)" },
-          { label: "0.7x",   file: "coverage_pbr_skhynix_07x.json",   color: "rgb(88, 89, 85)" },
-          { label: "수정주가", file: "coverage_pbr_skhynix_price.json", color: "rgb(194, 85, 85)" },
-        ], unit_left: "원" } },
-    ]
-  },
-  {
-    title: "커버리지 업체 — 실적 추정 테이블",
-    subtitle: "삼성전자 사업부문 / 주요 가정 / SK하이닉스 — 페이지 23-24 (각사 IR, 하나증권)",
+    title: "셀 메이커·소재 업체 실적 추정 테이블",
+    subtitle: "LG에너지솔루션 · 삼성SDI · 에코프로비엠 · 포스코퓨처엠 — 도표 69~72 (각사 IR, 하나증권)",
     cols: 1,
     cards: [
-      { fig: "T-SS-SEG", title: "삼성전자 사업부문별 실적 전망",
-        chart_def: { type: "table", file: "coverage_samsung_segment.json" } },
-      { fig: "T-SS-ASM", title: "삼성전자 주요 가정",
-        chart_def: { type: "table", file: "coverage_samsung_assumptions.json" } },
-      { fig: "T-SK", title: "SK하이닉스 분기 및 연간 주요 가정 및 실적 전망",
-        chart_def: { type: "table", file: "coverage_skhynix_perf.json" } },
+      { fig: 69, title: "LG에너지솔루션 실적 추이 및 전망",  chart_def: { type: "image" } },
+      { fig: 70, title: "삼성SDI 실적 추이 및 전망",        chart_def: { type: "image" } },
+      { fig: 71, title: "에코프로비엠 실적 추이 및 전망",    chart_def: { type: "image" } },
+      { fig: 72, title: "포스코퓨처엠 실적 추이 및 전망",    chart_def: { type: "image" } },
     ]
   },
   {
-    title: "수출 Data : 반도체",
-    subtitle: "품목별 금액·중량(또는 수량)·ASP — 도표 19~42 (KITA, 하나증권)",
-    cols: 3,
-    cards: [
-      // 반도체
-      { fig: 19, title: "반도체 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_semi_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_semi_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 20, title: "반도체 수출 중량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출중량", file: "export_semi_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_semi_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "톤", unit_right: "%" } },
-      { fig: 35, title: "반도체 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_semi.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_semi.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/g", unit_right: "%" } },
-      // 메모리
-      { fig: 21, title: "메모리 반도체 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_memory_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_memory_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 22, title: "메모리 반도체 수출 중량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출중량", file: "export_memory_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_memory_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "톤", unit_right: "%" } },
-      { fig: 36, title: "메모리 반도체 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_memory.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_memory.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/g", unit_right: "%" } },
-      // DRAM
-      { fig: 23, title: "DRAM 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_dram_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_dram_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 24, title: "DRAM 수출 수량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출수량", file: "export_dram_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_dram_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만개", unit_right: "%" } },
-      { fig: 37, title: "DRAM 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_dram.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/unit", unit_right: "%" } },
-      // NAND
-      { fig: 27, title: "NAND 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_nand_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_nand_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 28, title: "NAND 수출 수량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출수량", file: "export_nand_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_nand_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만개", unit_right: "%" } },
-      { fig: 38, title: "NAND 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_nand.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/unit", unit_right: "%" } },
-      // SSD
-      { fig: 29, title: "SSD 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_ssd_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_ssd_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 30, title: "SSD 수출 수량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출수량", file: "export_ssd_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_ssd_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만개", unit_right: "%" } },
-      { fig: 40, title: "SSD 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_ssd.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_ssd.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/g", unit_right: "%" } },
-      // MCP
-      { fig: 31, title: "MCP 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_mcp_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_mcp_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 32, title: "MCP 수출 수량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출수량", file: "export_mcp_volume.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_mcp_volume.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만개", unit_right: "%" } },
-      { fig: 41, title: "MCP 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_mcp.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_mcp.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/unit", unit_right: "%" } },
-      // 시스템 반도체
-      { fig: 33, title: "시스템 반도체 수출 금액",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출금액", file: "export_system_amount.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_system_amount.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억$", unit_right: "%" } },
-      { fig: 34, title: "시스템 반도체 수출 중량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "수출중량", file: "export_system_weight.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "export_system_weight.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "톤", unit_right: "%" } },
-      { fig: 42, title: "시스템 반도체 수출 ASP",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "ASP", file: "asp_system.json", axis: "left", color: COLORS.premium },
-            { label: "YoY(우)", file: "asp_system.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "$/g", unit_right: "%" } },
-    ]
-  },
-  {
-    title: "DRAM, NAND 현물가 및 고정가 추이",
-    subtitle: "도표 1~6 (DRAMeXchange, 하나증권)",
+    title: "ESS 시장",
+    subtitle: "글로벌 ESS 신규 설치량 · 케미스트리 · 지역별 — 도표 4-7 (페이지 8-9, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 1, title: "DDR4 8Gb 현물가 vs 고정가",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "현물가", file: "dram_ddr4_8gb_spot.json", axis: "left", color: COLORS.spot },
-            { label: "고정가", file: "dram_ddr4_8gb_contract.json", axis: "left", color: COLORS.contract },
-            { label: "프리미엄(우)", file: "dram_ddr4_8gb_premium.json", axis: "right", color: COLORS.premium },
-          ], unit_left: "$", unit_right: "%" } },
-      { fig: 2, title: "DDR5 16Gb 현물가 vs 고정가",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "현물가", file: "dram_ddr5_16gb_spot.json", axis: "left", color: COLORS.spot },
-            { label: "고정가", file: "dram_ddr5_16gb_contract.json", axis: "left", color: COLORS.contract },
-            { label: "프리미엄(우)", file: "dram_ddr5_16gb_premium.json", axis: "right", color: COLORS.premium },
-          ], unit_left: "$", unit_right: "%" } },
-      { fig: 3, title: "TLC 512Gb 현물가",
-        chart_def: { type: "single",
-          series: [{ label: "현물가", file: "nand_tlc_512gb_spot.json", color: COLORS.contract }],
-          unit_left: "$" } },
-      { fig: 4, title: "TLC/QLC 1Tb 현물가",
-        chart_def: { type: "single",
-          series: [{ label: "현물가", file: "nand_tlc_1tb_spot.json", color: COLORS.contract }],
-          unit_left: "$" } },
-      { fig: 5, title: "업체별 DRAM ASP 추이 및 전망",
-        chart_def: { type: "multi",
-          series: [
-            { label: "삼성전자", file: "dram_asp_quarterly_samsung.json", color: COLORS.premium },
-            { label: "SK하이닉스", file: "dram_asp_quarterly_sk_hynix.json", color: COLORS.sk_hynix },
-          ], unit_left: "$" } },
-      { fig: 6, title: "업체별 NAND ASP 추이 및 전망",
-        chart_def: { type: "multi",
-          series: [
-            { label: "삼성전자", file: "nand_asp_quarterly_samsung.json", color: COLORS.premium },
-            { label: "SK하이닉스", file: "nand_asp_quarterly_sk_hynix.json", color: COLORS.sk_hynix },
-          ], unit_left: "$" } },
+      { fig: 4, title: "ESS 신규 설치량 (글로벌)",          chart_def: { type: "image" } },
+      { fig: 5, title: "ESS 케미스트리별 비중",             chart_def: { type: "image" } },
+      { fig: 6, title: "지역별 ESS 반도체 신규 설치량",     chart_def: { type: "image" } },
+      { fig: 7, title: "전력망 시장 내 연계 유형별 ESS",    chart_def: { type: "image" } },
     ]
   },
   {
-    title: "전방산업 — 서버",
-    subtitle: "도표 79 (DigiTimes, 하나증권) — Phase 2에서 도표 80~83 추가 예정",
+    title: "EV 판매 — 글로벌·지역별",
+    subtitle: "월별 판매량 + 시장점유율 — 도표 8-23 (페이지 10-12, SNE Research/EV-Volumes)",
     cols: 2,
     cards: [
-      { fig: 79, title: "글로벌 서버 출하량 및 성장률 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_server_shipment.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_server_shipment_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "천 대", unit_right: "%" } },
+      { fig: 8,  title: "글로벌 EV(BEV+PHEV) 월별 판매증가율",  chart_def: { type: "image" } },
+      { fig: 9,  title: "미국 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 10, title: "중국 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 11, title: "유럽 EV 월별 판매 추이",               chart_def: { type: "image" } },
+      { fig: 12, title: "미국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 13, title: "미국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 14, title: "중국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 15, title: "중국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 16, title: "영국 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 17, title: "영국 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 18, title: "독일 전기차 판매량 추이",               chart_def: { type: "image" } },
+      { fig: 19, title: "독일 전기차 시장점유율 추이",           chart_def: { type: "image" } },
+      { fig: 20, title: "프랑스 전기차 판매량 추이",             chart_def: { type: "image" } },
+      { fig: 21, title: "프랑스 전기차 시장점유율 추이",         chart_def: { type: "image" } },
+      { fig: 22, title: "유럽 주요 3국 전기차 판매량",           chart_def: { type: "image" } },
+      { fig: 23, title: "유럽 주요 3국 전기차 점유율",           chart_def: { type: "image" } },
     ]
   },
   {
-    title: "전방산업 — 스마트폰",
-    subtitle: "글로벌·중국·미국·유럽·인도 + Mediatek — 도표 84~89 (CounterPoint, 하나증권)",
-    cols: 3,
+    title: "EV 모델별 판매 (표)",
+    subtitle: "미국 전기차 모델별 판매량 — 도표 24 (페이지 13, SNE Research)",
+    cols: 1,
     cards: [
-      { fig: 84, title: "글로벌 스마트폰 출하량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_smartphone_global.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_global_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 85, title: "중국 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_china.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_china_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 86, title: "미국 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_us.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_us_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 87, title: "유럽 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_eu.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_eu_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 88, title: "인도 스마트폰 월별 판매량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "판매량", file: "frontside_smartphone_india.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_smartphone_india_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
-      { fig: 89, title: "Mediatek 월별 매출",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "매출", file: "frontside_mediatek_revenue.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_mediatek_revenue_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "십억TWD", unit_right: "%" } },
+      { fig: 24, title: "미국 전기차 모델별 판매량",  chart_def: { type: "image" } },
     ]
   },
   {
-    title: "전방산업 — PC",
-    subtitle: "도표 90 (IDC, 하나증권) — Phase 2/3에서 도표 91~93 추가 예정",
+    title: "전력 가격",
+    subtitle: "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표) — 도표 25-28 (페이지 14)",
     cols: 2,
     cards: [
-      { fig: 90, title: "글로벌 PC 출하량",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "출하량", file: "frontside_pc_global.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "frontside_pc_global_yoy.json", axis: "right", color: COLORS.yoy },
-          ], unit_left: "백만대", unit_right: "%" } },
+      { fig: 25, title: "영국 전력 가격",      chart_def: { type: "image" } },
+      { fig: 26, title: "독일 전력 가격",      chart_def: { type: "image" } },
+      { fig: 27, title: "프랑스 전력 가격",    chart_def: { type: "image" } },
+      { fig: 28, title: "유럽 3국 전력 가격",  chart_def: { type: "image" } },
     ]
   },
   {
-    title: "글로벌 DRAM/NAND CAPEX",
-    subtitle: "글로벌 → 삼성전자 → SK하이닉스 — 도표 7~12 (TrendForce, 각사 IR, 하나증권)",
+    title: "EV용 리튬이온 반도체 출하",
+    subtitle: "전기차용 LIB 출하량 — 도표 29-30 (페이지 15, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 7, title: "글로벌 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "글로벌 합계", file: "capex_global_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_global_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만달러", unit_right: "%" } },
-      { fig: 8, title: "글로벌 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "글로벌 합계", file: "capex_global_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_global_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "백만달러", unit_right: "%" } },
-      { fig: 9, title: "삼성전자 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "삼성전자", file: "capex_samsung_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_samsung_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억원", unit_right: "%" } },
-      { fig: 10, title: "삼성전자 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "삼성전자", file: "capex_samsung_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_samsung_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억원", unit_right: "%" } },
-      { fig: 11, title: "SK하이닉스 DRAM CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "SK하이닉스", file: "capex_sk_hynix_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_sk_hynix_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억원", unit_right: "%" } },
-      { fig: 12, title: "SK하이닉스 NAND CAPEX 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "SK하이닉스", file: "capex_sk_hynix_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capex_sk_hynix_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "십억원", unit_right: "%" } },
+      { fig: 29, title: "전기차용 리튬이온반도체 출하량 (글로벌)",  chart_def: { type: "image" } },
+      { fig: 30, title: "한국 반도체 3사 EV용 LIB 출하량",           chart_def: { type: "image" } },
     ]
   },
   {
-    title: "글로벌 DRAM/NAND CAPA",
-    subtitle: "글로벌 → 삼성전자 → SK하이닉스 — 도표 13~18 (TrendForce, 각사 IR, 하나증권)",
+    title: "LFP 반도체 침투율",
+    subtitle: "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 — 도표 31-34 (페이지 16, SNE Research)",
     cols: 2,
     cards: [
-      { fig: 13, title: "글로벌 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "글로벌 합계", file: "capa_global_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_global_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
-      { fig: 14, title: "글로벌 NAND CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "글로벌 합계", file: "capa_global_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_global_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
-      { fig: 15, title: "삼성전자 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "삼성전자", file: "capa_samsung_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_samsung_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
-      { fig: 16, title: "삼성전자 NAND CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "삼성전자", file: "capa_samsung_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_samsung_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
-      { fig: 17, title: "SK하이닉스 DRAM CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "SK하이닉스", file: "capa_sk_hynix_dram.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_sk_hynix_dram.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
-      { fig: 18, title: "SK하이닉스 NAND CAPA 추이 및 전망",
-        chart_def: { type: "dual_axis",
-          series: [
-            { label: "SK하이닉스", file: "capa_sk_hynix_nand.json", axis: "left", kind: "bar", color: COLORS.bar },
-            { label: "YoY(우)", file: "capa_sk_hynix_nand.json", axis: "right", color: COLORS.yoy, derived: "yoy" },
-          ], unit_left: "천장/월", unit_right: "%" } },
+      { fig: 31, title: "글로벌",  chart_def: { type: "image" } },
+      { fig: 32, title: "미국",    chart_def: { type: "image" } },
+      { fig: 33, title: "중국",    chart_def: { type: "image" } },
+      { fig: 34, title: "유럽",    chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "수출 Data — 2차전지",
+    subtitle: "품목별 수출액·단가 — 도표 35-42 (페이지 17-18, KITA, 하나증권)",
+    cols: 2,
+    cards: [
+      { fig: 35, title: "2차전지 수출액",            chart_def: { type: "image" } },
+      { fig: 36, title: "리튬이온전지 수출액",        chart_def: { type: "image" } },
+      { fig: 37, title: "EV용 리튬이온전지 수출액",   chart_def: { type: "image" } },
+      { fig: 38, title: "EV용 리튬이온전지 수출 단가", chart_def: { type: "image" } },
+      { fig: 39, title: "ESS용 리튬이온전지 수출액",  chart_def: { type: "image" } },
+      { fig: 40, title: "ESS용 리튬이온전지 수출 단가", chart_def: { type: "image" } },
+      { fig: 41, title: "동박 수출액",                chart_def: { type: "image" } },
+      { fig: 42, title: "동박 수출 단가",             chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "수출 Data — 양극재",
+    subtitle: "월별 수출액·중량·단가 — 도표 43-54 (페이지 19-21, 산업통상자원부)",
+    cols: 2,
+    cards: [
+      { fig: 43, title: "양극재 수출액 (NCM+NCA)",   chart_def: { type: "image" } },
+      { fig: 44, title: "NCM 양극재 수출액",          chart_def: { type: "image" } },
+      { fig: 45, title: "NCA 양극재 수출액",          chart_def: { type: "image" } },
+      { fig: 46, title: "NCM+NCA 양극재 수출액",      chart_def: { type: "image" } },
+      { fig: 47, title: "양극재 수출 중량 (NCM+NCA)", chart_def: { type: "image" } },
+      { fig: 48, title: "NCM 양극재 수출 중량",       chart_def: { type: "image" } },
+      { fig: 49, title: "NCA 양극재 수출 중량",       chart_def: { type: "image" } },
+      { fig: 50, title: "NCM+NCA 양극재 수출 중량",   chart_def: { type: "image" } },
+      { fig: 51, title: "양극재 수출 단가",           chart_def: { type: "image" } },
+      { fig: 52, title: "NCM 양극재 수출 단가",       chart_def: { type: "image" } },
+      { fig: 53, title: "NCA 양극재 수출 단가",       chart_def: { type: "image" } },
+      { fig: 54, title: "NCM+NCA 양극재 수출 단가",   chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "지역별 양극재 수출 (표)",
+    subtitle: "도표 55 (페이지 22, 산업통상자원부)",
+    cols: 1,
+    cards: [
+      { fig: 55, title: "지역별 양극재 수출 추이",  chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "수입 Data — 원재료/소재",
+    subtitle: "수산화리튬·음극재·천연흑연 — 도표 56-61 (페이지 23-24, 산업통상자원부)",
+    cols: 2,
+    cards: [
+      { fig: 56, title: "수산화리튬 수입액",     chart_def: { type: "image" } },
+      { fig: 57, title: "수산화리튬 수입 단가",  chart_def: { type: "image" } },
+      { fig: 58, title: "음극재 수입액",         chart_def: { type: "image" } },
+      { fig: 59, title: "음극재 수입 단가",      chart_def: { type: "image" } },
+      { fig: 60, title: "천연흑연 수입액",       chart_def: { type: "image" } },
+      { fig: 61, title: "천연흑연 수입 단가",    chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "원재료 가격 종합 (표)",
+    subtitle: "월별 평균 가격 — 도표 62 (페이지 25, 한국광물자원공사·Antaike·Wind·하나증권)",
+    cols: 1,
+    cards: [
+      { fig: 62, title: "2차전지 주요 원재료 가격 추이",  chart_def: { type: "image" } },
+    ]
+  },
+  {
+    title: "원재료 가격 추이",
+    subtitle: "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 — 도표 63-68 (페이지 26, 한국광물자원공사, 하나증권)",
+    cols: 2,
+    cards: [
+      { fig: 63, title: "리튬",      chart_def: { type: "image" } },
+      { fig: 64, title: "니켈",      chart_def: { type: "image" } },
+      { fig: 65, title: "코발트",    chart_def: { type: "image" } },
+      { fig: 66, title: "망간",      chart_def: { type: "image" } },
+      { fig: 67, title: "알루미늄",  chart_def: { type: "image" } },
+      { fig: 68, title: "동",        chart_def: { type: "image" } },
     ]
   },
 ];
@@ -534,69 +348,106 @@ const CHART_OPTS = {
 };
 
 // =========================================================================
-// 페이지 빌드
+// 페이지 빌드 (image-first, 2026-05-05~ cards.json driven)
 // =========================================================================
-function buildPage() {
+// 카드 정의는 sectors/semiconductor_cards.json (single source of truth) 에 있음.
+// 이미지 파일명은 카드 id (영문 슬러그) 기반: data/figures/semi_<id>.png.
+// PDF 도표 번호는 매주 변동 가능하므로 사이트에서 표시 안 함.
+async function fetchCardsManifest() {
+  const url = './sectors/semiconductor_cards.json';
+  try {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  } catch (e) {
+    console.error('cards manifest fetch 실패:', e);
+    return null;
+  }
+}
+
+async function fetchFiguresMeta() {
+  // figures meta 의 mediabox_pt → buildPage 가 카드 생성 시 inline aspect-ratio 적용.
+  // applyEmbedAspectRatios() 의 race condition 회피용.
+  try {
+    const r = await fetch(DATA_DIR + 'figures/semi_figures_meta.json', { cache: 'no-store' });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) {
+    console.warn('figures meta fetch 실패:', e);
+    return null;
+  }
+}
+
+function buildPage(manifest, figuresMeta) {
   const main = document.getElementById('main');
-  const renderQueue = [];  // 모든 카드 DOM attach 후 일괄 렌더링
-  SECTIONS.forEach(sec => {
+  const sections = (manifest && manifest.sections) || [];
+  const figs = (figuresMeta && figuresMeta.figures) || {};
+  if (!sections.length) {
+    main.innerHTML = '<div class="msg">⚠ sectors/semiconductor_cards.json 로드 실패</div>';
+    return;
+  }
+  sections.forEach(sec => {
+    // 활성 카드 0개 섹션은 통째로 hide (모두 disabled 또는 cards 비어있음)
+    const activeCards = (sec.cards || []).filter(c => c && c.id && c.disabled !== true);
+    if (activeCards.length === 0) return;
+
     const secDiv = document.createElement('div');
     secDiv.className = 'section';
-    const colsClass = sec.cols === 1 ? ' cols-1' : (sec.cols === 2 ? ' cols-2' : (sec.cols === 3 ? ' cols-3' : ''));
+    const colsClass = sec.cols === 1 ? ' cols-1'
+                    : sec.cols === 2 ? ' cols-2'
+                    : sec.cols === 3 ? ' cols-3'
+                    : sec.cols === 4 ? ' cols-4' : '';
     secDiv.innerHTML = `
       <div class="section-header">
         <h2>${sec.title}</h2>
-        <span class="subtitle">${sec.subtitle}</span>
+        <span class="subtitle">${sec.subtitle || ''}</span>
       </div>
       <div class="card-grid${colsClass}"></div>
     `;
     const grid = secDiv.querySelector('.card-grid');
-    sec.cards.forEach(card => {
-      const cardId = `card-fig-${card.fig}`;
-      const cwId = `cw-fig-${card.fig}`;
-      const isTbd = !card.chart_def;
+    activeCards.forEach(card => {
+      const cid = card.id;
       const cardEl = document.createElement('div');
-      const isTbl = card.chart_def && card.chart_def.type === 'table';
-      cardEl.className = 'card' + (isTbd ? ' card-tbd' : '') + (isTbl ? ' card-table' : '');
-      cardEl.id = cardId;
-      let legendHtml = '';
-      if (card.chart_def && card.chart_def.series) {
-        legendHtml = '<div class="legend-row">' +
-          card.chart_def.series.map(s =>
-            `<span class="legend-item"><span class="dot" style="background:${s.color}"></span>${s.label}</span>`
-          ).join('') + '</div>';
+      cardEl.className = 'card card-image';
+      cardEl.id = `card-${cid}`;
+
+      if (card.embed_page === true || card.embed_chart === true) {
+        // PDF vector iframe embed (글자 무한 해상도)
+        // embed_page: PDF 페이지 통째 / embed_chart: 차트 영역만 cropbox 분리
+        // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit).
+        // mediabox_pt 가 있으면 inline aspect-ratio 즉시 적용 (race condition 방지).
+        const pdfFile = `pdf_pages/semi_${cid}.pdf`;
+        const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
+        const fig = figs[cid];
+        const aspectStyle = (fig && fig.mediabox_pt && fig.mediabox_pt.length === 2)
+          ? `style="aspect-ratio: ${fig.mediabox_pt[0]} / ${fig.mediabox_pt[1]};"`
+          : '';
+        cardEl.innerHTML = `
+          <div class="card-top">
+            <h3>${card.title || cid}</h3>
+          </div>
+          <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
+            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitB"
+                    title="${pdfTitle}" loading="lazy"></iframe>
+          </div>
+        `;
+      } else {
+        // 기존 PNG img
+        const imgFile = `figures/semi_${cid}.png`;
+        cardEl.innerHTML = `
+          <div class="card-top">
+            <h3>${card.title || cid}</h3>
+          </div>
+          <div class="cw cw-image" id="cw-${cid}">
+            <img src="${DATA_DIR}${imgFile}" alt="${card.title || cid}" loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.classList.add('cw-missing');this.parentElement.innerHTML='<span class=&quot;missing-msg&quot;>이미지 매칭 실패 (다음 PDF 갱신 시 자동 복구)</span>';"/>
+          </div>
+        `;
       }
-      // axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위
-      let axisUnitRow = '';
-      if (card.chart_def) {
-        const ul = card.chart_def.unit_left || '';
-        const ur = card.chart_def.unit_right || '';
-        if (ul || ur || legendHtml) {
-          axisUnitRow = '<div class="axis-unit-row">' +
-            `<span class="axis-unit-left">${ul ? '(' + ul + ')' : ''}</span>` +
-            legendHtml +
-            `<span class="axis-unit-right">${ur ? '(' + ur + ')' : ''}</span>` +
-            '</div>';
-        }
-      }
-      cardEl.innerHTML = `
-        <div class="card-top">
-          <h3>${card.title}</h3>
-          <span class="fig-num">도표 ${card.fig}</span>
-        </div>
-        ${axisUnitRow}
-        <div class="cw ${isTbd ? 'cw-tbd' : ''}" id="${cwId}">${isTbd ? '데이터 추출 예정' : ''}</div>
-      `;
       grid.appendChild(cardEl);
-      if (card.chart_def) {
-        renderQueue.push([cwId, card.chart_def]);
-        markNeedsReviewIfFlagged(cardEl, card.chart_def);
-      }
     });
-    main.appendChild(secDiv);  // section을 main 에 먼저 attach
+    main.appendChild(secDiv);
   });
-  // 모든 카드가 document에 붙은 뒤 일괄 차트 렌더링
-  renderQueue.forEach(([cwId, def]) => renderChart(cwId, def));
 }
 
 // JSON 메타에서 needs_review=true인 시리즈가 있으면 카드 제목 옆에 플래그 표시
@@ -666,13 +517,32 @@ function computeYoY(data, windowDays = 365, toleranceDays = 35) {
   return out;
 }
 
-// 데이터 빈도에 맞춰 최근 N개 샘플 추출 (일별 → 월별, 분기 → 그대로)
+// 데이터 빈도에 맞춰 최근 N개 샘플 추출
+//   일별(<2일 간격): 주별 마지막 sampling (전력 가격 같은 일별 데이터)
+//   주별~월간(2~30일): 월별 마지막 sampling
+//   분기 이상: 그대로 last N
 function getRecentSamples(data, count = 6) {
   if (!data || data.length === 0) return [];
   if (data.length <= count) return data;
   const intervalDays = (new Date(data[data.length - 1].time) - new Date(data[0].time)) / (data.length * 86400000);
-  if (intervalDays < 7) {
-    // 일별/주별 데이터 — 월말(또는 월의 마지막) 기준 샘플링
+  if (intervalDays < 2) {
+    // 일별 데이터 — ISO week 단위로 묶어 주별 마지막 sample
+    const weekLast = {};
+    data.forEach(d => {
+      const dt = new Date(d.time);
+      // ISO week: 연도-주차 키 (목요일 기준)
+      const tmp = new Date(dt);
+      tmp.setHours(0, 0, 0, 0);
+      tmp.setDate(tmp.getDate() + 3 - (tmp.getDay() + 6) % 7);
+      const yearStart = new Date(tmp.getFullYear(), 0, 4);
+      const weekNo = Math.ceil(((tmp - yearStart) / 86400000 + yearStart.getDay() + 1) / 7);
+      const key = `${tmp.getFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+      weekLast[key] = d;
+    });
+    return Object.values(weekLast).sort((a, b) => a.time.localeCompare(b.time)).slice(-count);
+  }
+  if (intervalDays < 60) {
+    // 주별/월별/유사 — 월별 마지막 샘플링 (LFP처럼 month당 1-2 sample 일 때도 dedup)
     const monthLast = {};
     data.forEach(d => { monthLast[d.time.slice(0, 7)] = d; });
     return Object.values(monthLast).sort((a, b) => a.time.localeCompare(b.time)).slice(-count);
@@ -691,41 +561,49 @@ function formatNum(v) {
 }
 
 function formatTimeLabel(t, intervalDays) {
-  // YYYY-MM-DD (10 chars). 월별 stride면 YYYY-MM, 분기 stride면 YY-Qn 표시 가능
   if (!t || t.length < 7) return t || '';
-  const yyyymm = t.slice(0, 7); // "2026-04"
   if (intervalDays >= 60) {
-    // 분기 데이터 — 'YY Qn' 형식
+    // 분기 — 'YY Qn'
     const m = parseInt(t.slice(5, 7), 10);
     const q = Math.floor((m - 1) / 3) + 1;
     return `${t.slice(2, 4)} Q${q}`;
   }
-  return yyyymm;
+  if (intervalDays < 2) {
+    // 일별 → 주별 sampling — full date "YYYY-MM-DD"
+    return t.slice(0, 10);
+  }
+  return t.slice(0, 7);  // 월별 — "YYYY-MM"
 }
 
 // chart_def + 모든 series 데이터 → 하단 데이터 표 HTML
 function buildRecentTable(seriesData) {
   if (!seriesData || !seriesData.length) return '';
+  // intervalDays는 raw data 기준으로 계산 (sampling 후 sample끼리 간격이 아님)
+  const baseRaw = seriesData[0].data;
+  const rawInterval = (baseRaw && baseRaw.length >= 2) ?
+    (new Date(baseRaw[baseRaw.length - 1].time) - new Date(baseRaw[0].time)) / (baseRaw.length * 86400000) : 0;
+  console.log(`[footer] series=${seriesData[0].label}, raw n=${baseRaw.length}, rawInterval=${rawInterval.toFixed(2)}일`);
   const samplesPer = seriesData.map(s => getRecentSamples(s.data, 6));
-  // 첫 series 시점을 컬럼 기준으로 (다른 series는 같은 시점에 매칭)
   const baseSamples = samplesPer[0];
   if (!baseSamples || !baseSamples.length) return '';
-  const intervalDays = baseSamples.length >= 2 ?
-    (new Date(baseSamples[baseSamples.length - 1].time) - new Date(baseSamples[0].time)) /
-    ((baseSamples.length - 1) * 86400000) : 0;
+  const intervalDays = rawInterval;  // raw 기준으로 sampling 분기 결정
   const cols = baseSamples.map(d => d.time);
+  console.log(`[footer] cols (sampling 후):`, cols);
+
+  // lookup 키: 일별(<2일)이면 full date, 그 이상이면 month
+  const useFullDate = intervalDays < 2;
+  const keyOf = (t) => useFullDate ? t : t.slice(0, 7);
 
   let html = '<div class="recent-data"><table><thead><tr><th></th>';
   cols.forEach(t => { html += `<th>${formatTimeLabel(t, intervalDays)}</th>`; });
   html += '</tr></thead><tbody>';
   seriesData.forEach((s, idx) => {
     const samples = samplesPer[idx];
-    // 다른 series의 sample 시점이 base와 다르면 lookup
     const lookup = {};
-    samples.forEach(d => { lookup[d.time.slice(0, 7)] = d.value; });
+    samples.forEach(d => { lookup[keyOf(d.time)] = d.value; });
     html += `<tr><th><span class="legend-dot" style="background:${s.color}"></span>${s.label}</th>`;
     cols.forEach(t => {
-      const v = lookup[t.slice(0, 7)];
+      const v = lookup[keyOf(t)];
       html += `<td>${v != null ? formatNum(v) : '—'}</td>`;
     });
     html += '</tr>';
@@ -882,7 +760,8 @@ async function renderChart(containerId, def) {
       const s = numberOnly(v);
       return s && unit ? s + ' ' + unit : s;
     };
-    // axis-unit은 cardEl.innerHTML의 axis-unit-row에서 처리됨 (chart 위, legend와 같은 row)
+    // axis-unit은 cardEl.innerHTML의 axis-unit-row에서 처리됨 (chart 위)
+    // legend는 chart 안 absolute 배치 (CSS .legend-row position absolute)
     const seriesByObj = new Map();  // series 객체 → meta
     // Z-order: bar/histogram 먼저 추가 → line 시리즈가 위에 렌더링되도록 강제 정렬
     const sortedSeries = [...def.series].sort((a, b) => {
@@ -890,14 +769,30 @@ async function renderChart(containerId, def) {
       const bIsBar = (b.kind || def.kind) === 'bar' || (b.kind || def.kind) === 'histogram';
       return (bIsBar ? 1 : 0) - (aIsBar ? 1 : 0);  // bar 먼저(0), line 나중(1)
     });
-    // 순차 await — Promise.all로 인한 race condition 방지
-    const seriesData = [];
+    // Pass 1 — 모든 series의 raw data fetch (stackBelow 처리 위해 한꺼번에 필요)
+    const fetched = [];
     for (const s of sortedSeries) {
       let data = await fetchSeries(s.file);
       const seen = new Set();
       data = data.filter(d => { if (seen.has(d.time)) return false; seen.add(d.time); return true; });
-      // derived 시리즈 처리 (yoy 등)
       const cleaned = (s.derived === 'yoy') ? computeYoY(data) : data;
+      fetched.push({ s, raw: cleaned, display: cleaned });
+    }
+    // Pass 2 — stackBelow 처리: cumulative 변환 (display값 = raw + base의 같은 시점 값)
+    const rawByLabel = new Map(fetched.map(f => [f.s.label, f.raw]));
+    for (const f of fetched) {
+      if (f.s.stackBelow) {
+        const base = rawByLabel.get(f.s.stackBelow);
+        if (base) {
+          const baseMap = new Map(base.map(d => [d.time, d.value]));
+          f.display = f.raw.map(d => ({ ...d, value: d.value + (baseMap.get(d.time) || 0) }));
+        }
+      }
+    }
+    // Pass 3 — series 추가 (z-order = sortedSeries 순서: 먼저 추가가 뒤로 깔림)
+    const seriesData = [];
+    for (const f of fetched) {
+      const { s, raw, display } = f;
       const isLeft = (def.type === 'dual_axis' && s.axis === 'left');
       const priceScaleId = isLeft ? 'left' : 'right';
       const unit = isLeft ? unitL : (def.type === 'dual_axis' ? unitR : unitL);
@@ -907,18 +802,23 @@ async function renderChart(containerId, def) {
       if (kind === 'bar' || kind === 'histogram') {
         series = chart.addHistogramSeries({
           color: s.color,
-          priceLineVisible: false, lastValueVisible: true,
+          priceLineVisible: false, lastValueVisible: !s.stackBelow,  // stack된 시리즈는 last value 숨김 (cumulative=잘못된 값)
           priceScaleId, priceFormat: fmtOpts,
         });
       } else {
-        series = chart.addLineSeries({
+        const lineOpts = {
           color: s.color, lineWidth: 2.5,
           priceLineVisible: false, lastValueVisible: true,
           priceScaleId, priceFormat: fmtOpts,
-        });
+        };
+        if (priceScaleId === 'right' && def.right_min !== undefined && def.right_max !== undefined) {
+          lineOpts.autoscaleInfoProvider = () => ({
+            priceRange: { minValue: def.right_min, maxValue: def.right_max }
+          });
+        }
+        series = chart.addLineSeries(lineOpts);
       }
-      series.setData(cleaned);
-      // YoY 우축 라인이면 0 baseline 점선 추가
+      series.setData(display);
       if (s.axis === 'right' && (kind === 'line' || !s.kind)) {
         try {
           series.createPriceLine({
@@ -927,8 +827,10 @@ async function renderChart(containerId, def) {
           });
         } catch(e) { /* skip */ }
       }
-      seriesByObj.set(series, { label: s.label, color: s.color, unit });
-      seriesData.push({ label: s.label, color: s.color, data: cleaned, series, unit });
+      // stackBelow=라벨 메타에 보관해서 tooltip에서 raw 역산
+      seriesByObj.set(series, { label: s.label, color: s.color, unit, stackBelow: s.stackBelow || null });
+      // footer table은 raw 값 사용 (cumulative 아님)
+      seriesData.push({ label: s.label, color: s.color, data: raw, series, unit });
     }
     chart.timeScale().fitContent();
     // 호버 툴팁
@@ -942,11 +844,22 @@ async function renderChart(containerId, def) {
       }
       const dateLbl = (typeof param.time === 'string') ? param.time : `${param.time.year}-${String(param.time.month).padStart(2,'0')}-${String(param.time.day).padStart(2,'0')}`;
       let html = `<div class="tt-date">${dateLbl}</div>`;
+      // stackBelow 역산용 — 이 시점의 시리즈별 displayed 값
+      const valueByLabel = new Map();
+      param.seriesData.forEach((d, ser) => {
+        const meta = seriesByObj.get(ser);
+        if (meta && d.value != null) valueByLabel.set(meta.label, d.value);
+      });
       param.seriesData.forEach((d, ser) => {
         const meta = seriesByObj.get(ser);
         if (!meta || d.value == null) return;
+        let displayVal = d.value;
+        if (meta.stackBelow) {
+          const baseVal = valueByLabel.get(meta.stackBelow);
+          if (baseVal != null) displayVal = d.value - baseVal;
+        }
         const fmt = makeFormatter(meta.unit);
-        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(d.value)}</span></div>`;
+        html += `<div class="tt-row"><span class="tt-label"><span class="tt-dot" style="background:${meta.color}"></span>${meta.label}</span><span class="tt-value">${fmt(displayVal)}</span></div>`;
       });
       tooltipEl.innerHTML = html;
       tooltipEl.style.display = 'block';
@@ -975,24 +888,55 @@ async function renderChart(containerId, def) {
   }
 }
 
-// PDF 발행일자 표시 — 임의 JSON에서 source 필드 추출
+// PDF embed 카드 aspect-ratio 동적 적용 — figures meta 의 mediabox_pt 사용
+// PDF 가 letter (612×792) 인지 A4 (595×842) 인지 등에 따라 카드별 정확한 비율로 fit.
+async function applyEmbedAspectRatios() {
+  try {
+    const r = await fetch(DATA_DIR + 'figures/semi_figures_meta.json', { cache: 'no-store' });
+    if (!r.ok) return;
+    const meta = await r.json();
+    const figs = meta.figures || {};
+    Object.entries(figs).forEach(([cid, fig]) => {
+      // pdf_embed (페이지 통째) + pdf_embed_chart (차트 영역만) 둘 다 처리
+      if ((fig.type !== 'pdf_embed' && fig.type !== 'pdf_embed_chart') || !fig.mediabox_pt) return;
+      const cw = document.getElementById(`cw-${cid}`);
+      if (cw) {
+        const [w, h] = fig.mediabox_pt;
+        cw.style.aspectRatio = `${w} / ${h}`;
+      }
+    });
+  } catch (e) { console.warn('embed aspect-ratio apply failed', e); }
+}
+
+// PDF 발행일자 표시 — semi_figures_meta.json 의 source_pdf 필드에서 추출
+// 예: "Weekly_Roko_260504.pdf" → "2026.05.04 자"
 async function showPdfPubDate() {
   try {
-    const r = await fetch(DATA_DIR + 'export_semi_amount.json');
+    const r = await fetch(DATA_DIR + 'figures/semi_figures_meta.json', { cache: 'no-store' });
     if (!r.ok) return;
     const d = await r.json();
-    const src = d.source || '';
-    // Weekly_Roko_260427.pdf → 2026.04.27
+    const src = d.source_pdf || '';
+    // Weekly_Roko_YYMMDD.pdf → YYYY.MM.DD
     const m = src.match(/(\d{2})(\d{2})(\d{2})/);
     if (m) {
       const [, yy, mm, dd] = m;
-      const dateStr = '20' + yy + '.' + mm + '.' + dd + ' 자';
+      const dateStr = `20${yy}.${mm}.${dd} 자`;
       const lbl = document.getElementById('pdf-pub-date');
       if (lbl) lbl.textContent = dateStr;
     }
   } catch (e) { console.warn('pubDate extract failed', e); }
 }
-document.addEventListener('DOMContentLoaded', () => { buildPage(); showPdfPubDate(); });
+document.addEventListener('DOMContentLoaded', async () => {
+  const [manifest, figuresMeta] = await Promise.all([
+    fetchCardsManifest(),
+    fetchFiguresMeta(),
+  ]);
+  buildPage(manifest, figuresMeta);
+  showPdfPubDate();
+  // applyEmbedAspectRatios() 는 buildPage 가 이미 inline style 적용하므로 fallback 으로만.
+  applyEmbedAspectRatios();
+});
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
