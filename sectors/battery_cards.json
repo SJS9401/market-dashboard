@@ -26,7 +26,7 @@
     {
       "title": "수출 Data — 2차전지",
       "subtitle": "품목별 수출액·단가 (KITA, 하나증권 — 한국 셀메이커 직접 추적)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "export_battery_total", "title": "2차전지 수출액",            "match": "2차전지 수출액",        "embed_chart": true},
         {"id": "export_liion",         "title": "리튬이온전지 수출액",        "match": "리튬이온전지 수출액",    "embed_chart": true},
@@ -41,7 +41,7 @@
     {
       "title": "EV 판매 — 글로벌·지역별",
       "subtitle": "월별 판매량 + 시장점유율 (SNE Research/EV-Volumes)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "ev_global_growth",     "title": "글로벌 EV(BEV+PHEV) 월별 판매증가율",  "match": "글로벌 전기차",                          "embed_chart": true},
         {"id": "ev_us_monthly",        "title": "미국 EV 월별 판매 추이",               "match": "미국 전기차(BEV+PHEV) 월별",              "embed_chart": true},
@@ -72,7 +72,7 @@
     {
       "title": "EV용 리튬이온 배터리 출하",
       "subtitle": "전기차용 LIB 출하량 (SNE Research)",
-      "cols": 1,
+      "cols": 2,
       "cards": [
         {"id": "lib_global_shipment", "title": "전기차용 리튬이온배터리 출하량 (글로벌)", "match": "전기차용 리튬 이온 배터리 출하량", "embed_chart": true},
         {"id": "lib_kr3_shipment",    "title": "한국 배터리 3사 EV용 LIB 출하량",          "match": "한국 배터리 3사",                  "embed_chart": true}
@@ -81,7 +81,7 @@
     {
       "title": "LFP 배터리 침투율",
       "subtitle": "글로벌·미국·중국·유럽 LFP 출하량 + 전체 대비 침투율 (SNE Research)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "lfp_global", "title": "글로벌", "match": "글로벌 LFP 배터리 침투율", "embed_chart": true},
         {"id": "lfp_us",     "title": "미국",   "match": "미국 LFP 배터리 침투율",   "embed_chart": true},
@@ -92,7 +92,7 @@
     {
       "title": "ESS 시장 — 글로벌·케미스트리",
       "subtitle": "ESS 신규 설치량 + 케미스트리별 비중 (SNE Research)",
-      "cols": 1,
+      "cols": 2,
       "cards": [
         {"id": "ess_install_global",    "title": "ESS 신규 설치량 (글로벌)",          "match": "ESS 신규 설치량", "embed_chart": true},
         {"id": "ess_chemistry_share",   "title": "ESS 케미스트리별 비중",             "match": "ESS 케미스트리",  "embed_chart": true}
@@ -110,7 +110,7 @@
     {
       "title": "원재료 가격 추이",
       "subtitle": "리튬·니켈·코발트·망간·알루미늄·동 월별 평균 (한국광물자원공사, 하나증권)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "raw_lithium",   "title": "리튬",      "match": "리튬 월별 평균 가격",     "embed_chart": true},
         {"id": "raw_nickel",    "title": "니켈",      "match": "니켈 월별 평균 가격",     "embed_chart": true},
@@ -123,7 +123,7 @@
     {
       "title": "전력 가격",
       "subtitle": "유럽 주요국 전력 가격 (LFP·NCM 양극재 원가 선행지표)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "power_uk",           "title": "영국 전력 가격",      "match": "영국 전력 가격",     "embed_chart": true},
         {"id": "power_de",           "title": "독일 전력 가격",      "match": "독일 전력 가격",     "embed_chart": true},
@@ -134,7 +134,7 @@
     {
       "title": "수입 Data — 원재료/소재",
       "subtitle": "수산화리튬·음극재·천연흑연 (산업통상자원부)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "import_lithium_hydroxide_value", "title": "수산화리튬 수입액",     "match": "수산화리튬 수입액",    "embed_chart": true},
         {"id": "import_lithium_hydroxide_price", "title": "수산화리튬 수입 단가",  "match": "수산화리튬 수입 단가", "embed_chart": true},
@@ -147,7 +147,7 @@
     {
       "title": "수출 Data — 양극재",
       "subtitle": "월별 수출액·중량·단가 (산업통상자원부)",
-      "cols": 2,
+      "cols": 3,
       "cards": [
         {"id": "export_cathode_value_total",    "title": "양극재 수출액 (NCM+NCA)",   "match": "양극재 수출액 추이",        "embed_chart": true},
         {"id": "export_cathode_ncm_value",      "title": "NCM 양극재 수출액",          "match": "NCM 양극재 수출액",         "embed_chart": true},
