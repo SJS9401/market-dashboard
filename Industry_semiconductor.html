@@ -438,8 +438,9 @@ function buildPage(manifest, figuresMeta) {
                title="새 탭에서 PDF 단독 열기 (zoom % 확인용)">🔗 PDF</a>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
-            <iframe src="${DATA_DIR}${pdfFile}#toolbar=${toolbarVal}&navpanes=0&scrollbar=0&view=FitH${zoomFragment}"
-                    title="${pdfTitle}" loading="lazy"></iframe>
+            <iframe src="${DATA_DIR}${pdfFile}#toolbar=${toolbarVal}&navpanes=0&scrollbar=0&view=FitH&zoom=page-width${zoomFragment}"
+                    title="${pdfTitle}" loading="lazy"
+                    onload="if(!this.dataset.r){this.dataset.r='1';setTimeout(()=>{this.src=this.src;},80);}"></iframe>
           </div>
         `;
       } else {
