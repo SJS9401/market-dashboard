@@ -71,6 +71,11 @@
      inline style 로 mediabox_pt 비율 동적 적용. default A4 portrait (595/842) fallback. */
   .card-image .cw-pdf { width: 100%; aspect-ratio: 595 / 842; background: #ffffff; padding: 0; cursor: default; height: auto; min-height: 0; }
   .card-image .cw-pdf iframe { width: 100%; height: 100%; border: none; display: block; }
+  /* PDF 새 탭 링크 — vector 카드 헤더 우측 (zoom % 확인용 standalone viewer 진입) */
+  .pdf-newtab { font-size: 11px; color: #58a6ff; text-decoration: none; padding: 2px 8px;
+                border: 1px solid #30363d; border-radius: 3px; background: #21262d;
+                white-space: nowrap; flex-shrink: 0; }
+  .pdf-newtab:hover { background: #30363d; color: #79c0ff; }
   .source-note { font-size: 11px; color: #6e7681; margin-top: 6px; padding-left: 4px; }
   /* 최근 데이터 표 (차트 하단) */
   .recent-data { padding: 6px 10px 8px; border-top: 1px solid #21262d; overflow-x: auto; }
@@ -428,6 +433,8 @@ function buildPage(manifest, figuresMeta) {
         cardEl.innerHTML = `
           <div class="card-top">
             <h3>${card.title || cid}</h3>
+            <a href="${DATA_DIR}${pdfFile}" target="_blank" class="pdf-newtab"
+               title="새 탭에서 PDF 단독 열기 (zoom % 확인용)">🔗 PDF</a>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
             <iframe src="${DATA_DIR}${pdfFile}#toolbar=${toolbarVal}&navpanes=0&scrollbar=0&view=FitB${zoomFragment}"
