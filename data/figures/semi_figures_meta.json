@@ -1,7 +1,7 @@
 {
   "sector": "semi",
   "source_pdf": "Weekly_Roko_260504.pdf",
-  "generated_at": "2026-05-07T02:58:21Z",
+  "generated_at": "2026-05-07T03:10:39Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
@@ -88,6 +88,18 @@
         590
       ]
     },
+    "asp_semi": {
+      "title": "반도체 수출 ASP",
+      "match": "반도체 수출 ASP",
+      "matched_pdf_title": "반도체 수출 ASP",
+      "matched_fig_num": 35,
+      "page_idx": 13,
+      "file": "semi_asp_semi.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
     "export_memory_amount": {
       "title": "메모리 반도체 수출 금액",
       "match": "메모리 반도체 수출 금액",
@@ -107,6 +119,18 @@
       "matched_fig_num": 22,
       "page_idx": 11,
       "file": "semi_export_memory_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "asp_memory": {
+      "title": "메모리 반도체 수출 ASP",
+      "match": "메모리 반도체 수출 ASP",
+      "matched_pdf_title": "메모리 반도체 수출 ASP",
+      "matched_fig_num": 36,
+      "page_idx": 13,
+      "file": "semi_asp_memory.png",
       "size_px": [
         817,
         590
@@ -136,6 +160,18 @@
         590
       ]
     },
+    "asp_dram": {
+      "title": "DRAM 수출 ASP",
+      "match": "DRAM 수출 ASP",
+      "matched_pdf_title": "DRAM 수출 ASP",
+      "matched_fig_num": 37,
+      "page_idx": 14,
+      "file": "semi_asp_dram.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
     "export_dram_module_amount": {
       "title": "DRAM 모듈 수출 금액",
       "match": "DRAM 모듈 수출 금액",
@@ -155,6 +191,18 @@
       "matched_fig_num": 26,
       "page_idx": 12,
       "file": "semi_export_dram_module_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "asp_dram_module": {
+      "title": "DRAM 모듈 수출 ASP",
+      "match": "DRAM 모듈 수출 ASP",
+      "matched_pdf_title": "DRAM 모듈 수출 ASP",
+      "matched_fig_num": 39,
+      "page_idx": 14,
+      "file": "semi_asp_dram_module.png",
       "size_px": [
         817,
         590
@@ -184,6 +232,18 @@
         590
       ]
     },
+    "asp_nand": {
+      "title": "NAND 수출 ASP",
+      "match": "NAND 수출 ASP",
+      "matched_pdf_title": "NAND 수출 ASP",
+      "matched_fig_num": 38,
+      "page_idx": 14,
+      "file": "semi_asp_nand.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
     "export_ssd_amount": {
       "title": "SSD 수출 금액",
       "match": "SSD 수출 금액",
@@ -203,6 +263,18 @@
       "matched_fig_num": 30,
       "page_idx": 12,
       "file": "semi_export_ssd_qty.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "asp_ssd": {
+      "title": "SSD 수출 ASP",
+      "match": "SSD 수출 ASP",
+      "matched_pdf_title": "SSD 수출 ASP",
+      "matched_fig_num": 40,
+      "page_idx": 14,
+      "file": "semi_asp_ssd.png",
       "size_px": [
         817,
         590
@@ -232,6 +304,18 @@
         590
       ]
     },
+    "asp_mcp": {
+      "title": "MCP 수출 ASP",
+      "match": "MCP 수출 ASP",
+      "matched_pdf_title": "MCP 수출 ASP",
+      "matched_fig_num": 41,
+      "page_idx": 14,
+      "file": "semi_asp_mcp.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
     "export_system_amount": {
       "title": "시스템 반도체 수출 금액",
       "match": "시스템 반도체 수출 금액",
@@ -256,90 +340,6 @@
         590
       ]
     },
-    "asp_semi": {
-      "title": "반도체 수출 ASP",
-      "match": "반도체 수출 ASP",
-      "matched_pdf_title": "반도체 수출 ASP",
-      "matched_fig_num": 35,
-      "page_idx": 13,
-      "file": "semi_asp_semi.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_memory": {
-      "title": "메모리 반도체 수출 ASP",
-      "match": "메모리 반도체 수출 ASP",
-      "matched_pdf_title": "메모리 반도체 수출 ASP",
-      "matched_fig_num": 36,
-      "page_idx": 13,
-      "file": "semi_asp_memory.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_dram": {
-      "title": "DRAM 수출 ASP",
-      "match": "DRAM 수출 ASP",
-      "matched_pdf_title": "DRAM 수출 ASP",
-      "matched_fig_num": 37,
-      "page_idx": 14,
-      "file": "semi_asp_dram.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_nand": {
-      "title": "NAND 수출 ASP",
-      "match": "NAND 수출 ASP",
-      "matched_pdf_title": "NAND 수출 ASP",
-      "matched_fig_num": 38,
-      "page_idx": 14,
-      "file": "semi_asp_nand.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_dram_module": {
-      "title": "DRAM 모듈 수출 ASP",
-      "match": "DRAM 모듈 수출 ASP",
-      "matched_pdf_title": "DRAM 모듈 수출 ASP",
-      "matched_fig_num": 39,
-      "page_idx": 14,
-      "file": "semi_asp_dram_module.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_ssd": {
-      "title": "SSD 수출 ASP",
-      "match": "SSD 수출 ASP",
-      "matched_pdf_title": "SSD 수출 ASP",
-      "matched_fig_num": 40,
-      "page_idx": 14,
-      "file": "semi_asp_ssd.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
-    "asp_mcp": {
-      "title": "MCP 수출 ASP",
-      "match": "MCP 수출 ASP",
-      "matched_pdf_title": "MCP 수출 ASP",
-      "matched_fig_num": 41,
-      "page_idx": 14,
-      "file": "semi_asp_mcp.png",
-      "size_px": [
-        817,
-        589
-      ]
-    },
     "asp_system": {
       "title": "시스템 반도체 수출 ASP",
       "match": "시스템 반도체 수출 ASP",
@@ -349,78 +349,78 @@
       "file": "semi_asp_system.png",
       "size_px": [
         817,
-        589
+        590
       ]
     },
-    "region_dram": {
-      "title": "DRAM 지역별 수출 비중",
-      "match": "DRAM 지역별 수출 비중",
-      "matched_pdf_title": "DRAM 지역별 수출 비중",
-      "matched_fig_num": 43,
-      "page_idx": 15,
-      "file": "semi_region_dram.png",
+    "spot_ddr4_8gb": {
+      "title": "DDR4 8Gb 현물가 vs 고정가",
+      "match": "DDR4 8Gb 현물가",
+      "matched_pdf_title": "DDR4 8Gb 현물가 vs 고정가",
+      "matched_fig_num": 1,
+      "page_idx": 8,
+      "file": "semi_spot_ddr4_8gb.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
-    "region_nand": {
-      "title": "NAND 지역별 수출 비중",
-      "match": "NAND 지역별 수출 비중",
-      "matched_pdf_title": "NAND 지역별 수출 비중",
-      "matched_fig_num": 44,
-      "page_idx": 15,
-      "file": "semi_region_nand.png",
+    "spot_ddr5_16gb": {
+      "title": "DDR5 16Gb 현물가 vs 고정가",
+      "match": "DDR5 16Gb 현물가",
+      "matched_pdf_title": "DDR5 16Gb 현물가 vs 고정가",
+      "matched_fig_num": 2,
+      "page_idx": 8,
+      "file": "semi_spot_ddr5_16gb.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
-    "region_mcp": {
-      "title": "MCP 지역별 수출 비중",
-      "match": "MCP 지역별 수출 비중",
-      "matched_pdf_title": "MCP 지역별 수출 비중",
-      "matched_fig_num": 45,
-      "page_idx": 15,
-      "file": "semi_region_mcp.png",
+    "spot_tlc_512gb": {
+      "title": "TLC 512Gb 현물가격",
+      "match": "TLC 512Gb 현물가격",
+      "matched_pdf_title": "TLC 512Gb 현물가격",
+      "matched_fig_num": 3,
+      "page_idx": 8,
+      "file": "semi_spot_tlc_512gb.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
-    "region_processor": {
-      "title": "프로세서·컨트롤러 지역별 수출 비중",
-      "match": "프로세서와 컨트롤러 지역별 수출 비중",
-      "matched_pdf_title": "프로세서와 컨트롤러 지역별 수출 비중",
-      "matched_fig_num": 46,
-      "page_idx": 15,
-      "file": "semi_region_processor.png",
+    "spot_tlc_qlc_1tb": {
+      "title": "TLC/QLC 1Tb 현물가격 추이",
+      "match": "TLC/QLC 1Tb 현물가격",
+      "matched_pdf_title": "TLC/QLC 1Tb 현물가격 추이",
+      "matched_fig_num": 4,
+      "page_idx": 8,
+      "file": "semi_spot_tlc_qlc_1tb.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
-    "region_amplifier": {
-      "title": "증폭기 지역별 수출 비중",
-      "match": "증폭기 지역별 수출 비중",
-      "matched_pdf_title": "증폭기 지역별 수출 비중",
-      "matched_fig_num": 47,
-      "page_idx": 15,
-      "file": "semi_region_amplifier.png",
+    "asp_dram_vendor": {
+      "title": "업체별 DRAM ASP 추이 및 전망",
+      "match": "업체별 DRAM ASP",
+      "matched_pdf_title": "업체별 DRAM ASP 추이 및 전망",
+      "matched_fig_num": 5,
+      "page_idx": 8,
+      "file": "semi_asp_dram_vendor.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
-    "region_smartcard": {
-      "title": "스마트카드 지역별 수출 비중",
-      "match": "스마트 카드 지역별 수출 비중",
-      "matched_pdf_title": "스마트 카드 지역별 수출 비중",
-      "matched_fig_num": 48,
-      "page_idx": 15,
-      "file": "semi_region_smartcard.png",
+    "asp_nand_vendor": {
+      "title": "업체별 NAND ASP 추이 및 전망",
+      "match": "업체별 NAND ASP",
+      "matched_pdf_title": "업체별 NAND ASP 추이 및 전망",
+      "matched_fig_num": 6,
+      "page_idx": 8,
+      "file": "semi_asp_nand_vendor.png",
       "size_px": [
-        817,
+        804,
         560
       ]
     },
