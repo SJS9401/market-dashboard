@@ -113,12 +113,19 @@
       ]
     },
     {
-      "title": "수요 측 — PC",
-      "subtitle": "PC 출하·노트북 YoY·대만 마더보드/ODM 매출 (TrendForce / 대만 IR)",
+      "title": "수요 측 — PC (글로벌)",
+      "subtitle": "PC 출하·노트북 YoY (TrendForce)",
       "cols": 2,
       "cards": [
         {"id": "pc_global_shipment",         "title": "글로벌 PC 출하량 추이 및 전망",        "match": "글로벌 PC 출하량"},
-        {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑"},
+        {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑"}
+      ]
+    },
+    {
+      "title": "수요 측 — 대만 PC 업체 매출",
+      "subtitle": "마더보드 / PC ODM 월별 매출 (대만 IR)",
+      "cols": 1,
+      "cards": [
         {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출",          "match": "대만 마더보드"},
         {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출",            "match": "대만 PC ODM"}
       ]
