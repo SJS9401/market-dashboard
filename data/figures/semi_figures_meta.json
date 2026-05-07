@@ -1,0 +1,756 @@
+{
+  "sector": "semi",
+  "source_pdf": "Weekly_Roko_260504.pdf",
+  "generated_at": "2026-05-07T01:45:45Z",
+  "resolution_dpi": 200,
+  "schema_version": 9,
+  "match_strategy": "title_substring",
+  "matched_count": 57,
+  "missing_ids": [],
+  "figures": {
+    "samsung_perf_p25": {
+      "title": "삼성전자 사업부문별 실적 전망",
+      "type": "pdf_embed",
+      "page_idx": 24,
+      "page_num": 25,
+      "file": "pdf_pages/semi_samsung_perf_p25.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
+    },
+    "summary_page1": {
+      "title": "주간 시황 요약",
+      "type": "pdf_embed",
+      "page_idx": 0,
+      "page_num": 1,
+      "file": "pdf_pages/semi_summary_page1.pdf",
+      "mediabox_pt": [
+        595.32,
+        841.92
+      ]
+    },
+    "server_oem_shipment_table": {
+      "title": "OEM별 서버 출하량 추이 (표)",
+      "type": "pdf_embed_chart",
+      "matched_pdf_title": "OEM별 서버 출하량 추이 및 전망",
+      "matched_fig_num": 80,
+      "page_idx": 21,
+      "page_num": 22,
+      "file": "pdf_pages/semi_server_oem_shipment_table.pdf",
+      "mediabox_pt": [
+        252.34000000000003,
+        200.03592000000003
+      ]
+    },
+    "taiwan_server_oem_revenue": {
+      "title": "대만 주요 서버 OEM 업체 월별 매출 (표)",
+      "type": "pdf_embed_chart",
+      "matched_pdf_title": "대만 주요 서버 OEM 업체들 월별 매출액 추이",
+      "matched_fig_num": 83,
+      "page_idx": 21,
+      "page_num": 22,
+      "file": "pdf_pages/semi_taiwan_server_oem_revenue.pdf",
+      "mediabox_pt": [
+        371.59,
+        199.91192
+      ]
+    },
+    "taiwan_motherboard_revenue": {
+      "title": "대만 마더보드 업체 월별 매출 (표)",
+      "type": "pdf_embed_chart",
+      "matched_pdf_title": "대만 마더보드 업체들 월별 매출액 및 성장률 추이",
+      "matched_fig_num": 92,
+      "page_idx": 23,
+      "page_num": 24,
+      "file": "pdf_pages/semi_taiwan_motherboard_revenue.pdf",
+      "mediabox_pt": [
+        371.59,
+        199.90592000000004
+      ]
+    },
+    "taiwan_pc_odm_revenue": {
+      "title": "대만 PC ODM 업체 월별 매출 (표)",
+      "type": "pdf_embed_chart",
+      "matched_pdf_title": "대만 PC ODM 업체들 월별 매출액 및 성장률 추이",
+      "matched_fig_num": 93,
+      "page_idx": 23,
+      "page_num": 24,
+      "file": "pdf_pages/semi_taiwan_pc_odm_revenue.pdf",
+      "mediabox_pt": [
+        371.59,
+        199.91192
+      ]
+    },
+    "pbr_band_samsung_sk": {
+      "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
+      "type": "pdf_embed_clip",
+      "page_idx": 25,
+      "page_num": 26,
+      "region_pt": [
+        20.0,
+        460.0,
+        575.0,
+        820.0
+      ],
+      "file": "pdf_pages/semi_pbr_band_samsung_sk.pdf",
+      "mediabox_pt": [
+        555.0,
+        360.0
+      ]
+    },
+    "sk_hynix_perf_p26": {
+      "title": "SK하이닉스 사업부문별 실적 전망",
+      "type": "pdf_embed_clip",
+      "page_idx": 25,
+      "page_num": 26,
+      "region_pt": [
+        20.0,
+        80.0,
+        575.0,
+        460.0
+      ],
+      "file": "pdf_pages/semi_sk_hynix_perf_p26.pdf",
+      "mediabox_pt": [
+        555.0,
+        380.0
+      ]
+    },
+    "export_semi_amount": {
+      "title": "반도체 수출 금액",
+      "match": "반도체 수출 금액",
+      "matched_pdf_title": "반도체 수출 금액",
+      "matched_fig_num": 19,
+      "page_idx": 11,
+      "file": "semi_export_semi_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_semi_weight": {
+      "title": "반도체 수출 중량",
+      "match": "반도체 수출 중량",
+      "matched_pdf_title": "반도체 수출 중량",
+      "matched_fig_num": 20,
+      "page_idx": 11,
+      "file": "semi_export_semi_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_memory_amount": {
+      "title": "메모리 반도체 수출 금액",
+      "match": "메모리 반도체 수출 금액",
+      "matched_pdf_title": "메모리 반도체 수출 금액",
+      "matched_fig_num": 21,
+      "page_idx": 11,
+      "file": "semi_export_memory_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_memory_weight": {
+      "title": "메모리 반도체 수출 중량",
+      "match": "메모리 반도체 수출 중량",
+      "matched_pdf_title": "메모리 반도체 수출 중량",
+      "matched_fig_num": 22,
+      "page_idx": 11,
+      "file": "semi_export_memory_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_dram_amount": {
+      "title": "DRAM 수출 금액",
+      "match": "DRAM 수출 금액",
+      "matched_pdf_title": "DRAM 수출 금액",
+      "matched_fig_num": 23,
+      "page_idx": 11,
+      "file": "semi_export_dram_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_dram_qty": {
+      "title": "DRAM 수출 수량",
+      "match": "DRAM 수출 수량",
+      "matched_pdf_title": "DRAM 수출 수량",
+      "matched_fig_num": 24,
+      "page_idx": 11,
+      "file": "semi_export_dram_qty.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_dram_module_amount": {
+      "title": "DRAM 모듈 수출 금액",
+      "match": "DRAM 모듈 수출 금액",
+      "matched_pdf_title": "DRAM 모듈 수출 금액",
+      "matched_fig_num": 25,
+      "page_idx": 12,
+      "file": "semi_export_dram_module_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_dram_module_weight": {
+      "title": "DRAM 모듈 수출 중량",
+      "match": "DRAM 모듈 수출 중량",
+      "matched_pdf_title": "DRAM 모듈 수출 중량",
+      "matched_fig_num": 26,
+      "page_idx": 12,
+      "file": "semi_export_dram_module_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_nand_amount": {
+      "title": "NAND 수출 금액",
+      "match": "NAND 수출 금액",
+      "matched_pdf_title": "NAND 수출 금액",
+      "matched_fig_num": 27,
+      "page_idx": 12,
+      "file": "semi_export_nand_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_nand_qty": {
+      "title": "NAND 수출 수량",
+      "match": "NAND 수출 수량",
+      "matched_pdf_title": "NAND 수출 수량",
+      "matched_fig_num": 28,
+      "page_idx": 12,
+      "file": "semi_export_nand_qty.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_ssd_amount": {
+      "title": "SSD 수출 금액",
+      "match": "SSD 수출 금액",
+      "matched_pdf_title": "SSD 수출 금액",
+      "matched_fig_num": 29,
+      "page_idx": 12,
+      "file": "semi_export_ssd_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_ssd_qty": {
+      "title": "SSD 수출 수량",
+      "match": "SSD 수출 수량",
+      "matched_pdf_title": "SSD 수출 수량",
+      "matched_fig_num": 30,
+      "page_idx": 12,
+      "file": "semi_export_ssd_qty.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_mcp_amount": {
+      "title": "MCP 수출 금액",
+      "match": "MCP 수출 금액",
+      "matched_pdf_title": "MCP 수출 금액",
+      "matched_fig_num": 31,
+      "page_idx": 13,
+      "file": "semi_export_mcp_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_mcp_qty": {
+      "title": "MCP 수출 수량",
+      "match": "MCP 수출 수량",
+      "matched_pdf_title": "MCP 수출 수량",
+      "matched_fig_num": 32,
+      "page_idx": 13,
+      "file": "semi_export_mcp_qty.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_system_amount": {
+      "title": "시스템 반도체 수출 금액",
+      "match": "시스템 반도체 수출 금액",
+      "matched_pdf_title": "시스템 반도체 수출 금액",
+      "matched_fig_num": 33,
+      "page_idx": 13,
+      "file": "semi_export_system_amount.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "export_system_weight": {
+      "title": "시스템 반도체 수출 중량",
+      "match": "시스템 반도체 수출 중량",
+      "matched_pdf_title": "시스템 반도체 수출 중량",
+      "matched_fig_num": 34,
+      "page_idx": 13,
+      "file": "semi_export_system_weight.png",
+      "size_px": [
+        817,
+        590
+      ]
+    },
+    "asp_semi": {
+      "title": "반도체 수출 ASP",
+      "match": "반도체 수출 ASP",
+      "matched_pdf_title": "반도체 수출 ASP",
+      "matched_fig_num": 35,
+      "page_idx": 13,
+      "file": "semi_asp_semi.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_memory": {
+      "title": "메모리 반도체 수출 ASP",
+      "match": "메모리 반도체 수출 ASP",
+      "matched_pdf_title": "메모리 반도체 수출 ASP",
+      "matched_fig_num": 36,
+      "page_idx": 13,
+      "file": "semi_asp_memory.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_dram": {
+      "title": "DRAM 수출 ASP",
+      "match": "DRAM 수출 ASP",
+      "matched_pdf_title": "DRAM 수출 ASP",
+      "matched_fig_num": 37,
+      "page_idx": 14,
+      "file": "semi_asp_dram.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_nand": {
+      "title": "NAND 수출 ASP",
+      "match": "NAND 수출 ASP",
+      "matched_pdf_title": "NAND 수출 ASP",
+      "matched_fig_num": 38,
+      "page_idx": 14,
+      "file": "semi_asp_nand.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_dram_module": {
+      "title": "DRAM 모듈 수출 ASP",
+      "match": "DRAM 모듈 수출 ASP",
+      "matched_pdf_title": "DRAM 모듈 수출 ASP",
+      "matched_fig_num": 39,
+      "page_idx": 14,
+      "file": "semi_asp_dram_module.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_ssd": {
+      "title": "SSD 수출 ASP",
+      "match": "SSD 수출 ASP",
+      "matched_pdf_title": "SSD 수출 ASP",
+      "matched_fig_num": 40,
+      "page_idx": 14,
+      "file": "semi_asp_ssd.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_mcp": {
+      "title": "MCP 수출 ASP",
+      "match": "MCP 수출 ASP",
+      "matched_pdf_title": "MCP 수출 ASP",
+      "matched_fig_num": 41,
+      "page_idx": 14,
+      "file": "semi_asp_mcp.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "asp_system": {
+      "title": "시스템 반도체 수출 ASP",
+      "match": "시스템 반도체 수출 ASP",
+      "matched_pdf_title": "시스템 반도체 수출 ASP",
+      "matched_fig_num": 42,
+      "page_idx": 14,
+      "file": "semi_asp_system.png",
+      "size_px": [
+        817,
+        589
+      ]
+    },
+    "region_dram": {
+      "title": "DRAM 지역별 수출 비중",
+      "match": "DRAM 지역별 수출 비중",
+      "matched_pdf_title": "DRAM 지역별 수출 비중",
+      "matched_fig_num": 43,
+      "page_idx": 15,
+      "file": "semi_region_dram.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "region_nand": {
+      "title": "NAND 지역별 수출 비중",
+      "match": "NAND 지역별 수출 비중",
+      "matched_pdf_title": "NAND 지역별 수출 비중",
+      "matched_fig_num": 44,
+      "page_idx": 15,
+      "file": "semi_region_nand.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "region_mcp": {
+      "title": "MCP 지역별 수출 비중",
+      "match": "MCP 지역별 수출 비중",
+      "matched_pdf_title": "MCP 지역별 수출 비중",
+      "matched_fig_num": 45,
+      "page_idx": 15,
+      "file": "semi_region_mcp.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "region_processor": {
+      "title": "프로세서·컨트롤러 지역별 수출 비중",
+      "match": "프로세서와 컨트롤러 지역별 수출 비중",
+      "matched_pdf_title": "프로세서와 컨트롤러 지역별 수출 비중",
+      "matched_fig_num": 46,
+      "page_idx": 15,
+      "file": "semi_region_processor.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "region_amplifier": {
+      "title": "증폭기 지역별 수출 비중",
+      "match": "증폭기 지역별 수출 비중",
+      "matched_pdf_title": "증폭기 지역별 수출 비중",
+      "matched_fig_num": 47,
+      "page_idx": 15,
+      "file": "semi_region_amplifier.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "region_smartcard": {
+      "title": "스마트카드 지역별 수출 비중",
+      "match": "스마트 카드 지역별 수출 비중",
+      "matched_pdf_title": "스마트 카드 지역별 수출 비중",
+      "matched_fig_num": 48,
+      "page_idx": 15,
+      "file": "semi_region_smartcard.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "server_shipment": {
+      "title": "서버 출하량 및 성장률 전망",
+      "match": "서버 출하량 및 성장률",
+      "matched_pdf_title": "서버 출하량 및 성장률 전망",
+      "matched_fig_num": 79,
+      "page_idx": 21,
+      "file": "semi_server_shipment.png",
+      "size_px": [
+        741,
+        560
+      ]
+    },
+    "server_dram_demand_supply": {
+      "title": "서버용 DRAM 수요/공급 추이",
+      "match": "서버용 DRAM 수요/공급",
+      "matched_pdf_title": "서버용 DRAM 수요/공급 추이 및 전망",
+      "matched_fig_num": 81,
+      "page_idx": 21,
+      "file": "semi_server_dram_demand_supply.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "server_dram_production": {
+      "title": "서버용 DRAM 생산량 추이",
+      "match": "서버용 DRAM 생산량",
+      "matched_pdf_title": "서버용 DRAM 생산량 추이 및 전망",
+      "matched_fig_num": 82,
+      "page_idx": 21,
+      "file": "semi_server_dram_production.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "smartphone_global": {
+      "title": "글로벌 스마트폰 출하량 추이 및 전망",
+      "match": "글로벌 스마트폰 출하량",
+      "matched_pdf_title": "글로벌 스마트폰 출하량 추이 및 전망",
+      "matched_fig_num": 84,
+      "page_idx": 22,
+      "file": "semi_smartphone_global.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "smartphone_china": {
+      "title": "중국 스마트폰 월별 판매량",
+      "match": "중국 스마트폰 월별 판매량",
+      "matched_pdf_title": "중국 스마트폰 월별 판매량 추이",
+      "matched_fig_num": 85,
+      "page_idx": 22,
+      "file": "semi_smartphone_china.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "smartphone_us": {
+      "title": "미국 스마트폰 월별 판매량",
+      "match": "미국 스마트폰 월별 판매량",
+      "matched_pdf_title": "미국 스마트폰 월별 판매량 추이",
+      "matched_fig_num": 86,
+      "page_idx": 22,
+      "file": "semi_smartphone_us.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "smartphone_eu": {
+      "title": "유럽 스마트폰 월별 판매량",
+      "match": "유럽 스마트폰 월별 판매량",
+      "matched_pdf_title": "유럽 스마트폰 월별 판매량 추이",
+      "matched_fig_num": 87,
+      "page_idx": 22,
+      "file": "semi_smartphone_eu.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "smartphone_india": {
+      "title": "인도 스마트폰 월별 판매량",
+      "match": "인도",
+      "matched_pdf_title": "인도 월별 스마트폰 월별 판매량 추이",
+      "matched_fig_num": 88,
+      "page_idx": 22,
+      "file": "semi_smartphone_india.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "mediatek_revenue": {
+      "title": "Mediatek 월별 매출액 및 성장률",
+      "match": "Mediatek 월별 매출액",
+      "matched_pdf_title": "Mediatek 월별 매출액 및 성장률 추이",
+      "matched_fig_num": 89,
+      "page_idx": 22,
+      "file": "semi_mediatek_revenue.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "pc_global_shipment": {
+      "title": "글로벌 PC 출하량 추이 및 전망",
+      "match": "글로벌 PC 출하량",
+      "matched_pdf_title": "글로벌 PC 출하량 추이 및 전망",
+      "matched_fig_num": 90,
+      "page_idx": 23,
+      "file": "semi_pc_global_shipment.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "pc_notebook_desktop_yoy": {
+      "title": "글로벌 노트북/데스크탑 성장률(YoY)",
+      "match": "글로벌 노트북/데스크탑",
+      "matched_pdf_title": "글로벌 노트북/데스크탑 성장률(YoY)",
+      "matched_fig_num": 91,
+      "page_idx": 23,
+      "file": "semi_pc_notebook_desktop_yoy.png",
+      "size_px": [
+        817,
+        560
+      ]
+    },
+    "capex_dram_global": {
+      "title": "글로벌 DRAM CAPEX 추이 및 전망",
+      "match": "글로벌 DRAM CAPEX",
+      "matched_pdf_title": "글로벌 DRAM CAPEX 추이 및 전망",
+      "matched_fig_num": 7,
+      "page_idx": 9,
+      "file": "semi_capex_dram_global.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capex_nand_global": {
+      "title": "글로벌 NAND CAPEX 추이 및 전망",
+      "match": "글로벌 NAND CAPEX",
+      "matched_pdf_title": "글로벌 NAND CAPEX 추이 및 전망",
+      "matched_fig_num": 8,
+      "page_idx": 9,
+      "file": "semi_capex_nand_global.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capex_dram_samsung": {
+      "title": "삼성전자 DRAM CAPEX 추이 및 전망",
+      "match": "삼성전자 DRAM CAPEX",
+      "matched_pdf_title": "삼성전자 DRAM CAPEX 추이 및 전망",
+      "matched_fig_num": 9,
+      "page_idx": 9,
+      "file": "semi_capex_dram_samsung.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capex_nand_samsung": {
+      "title": "삼성전자 NAND CAPEX 추이 및 전망",
+      "match": "삼성전자 NAND CAPEX",
+      "matched_pdf_title": "삼성전자 NAND CAPEX 추이 및 전망",
+      "matched_fig_num": 10,
+      "page_idx": 9,
+      "file": "semi_capex_nand_samsung.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capex_dram_sk_hynix": {
+      "title": "SK하이닉스 DRAM CAPEX 추이 및 전망",
+      "match": "SK하이닉스 DRAM CAPEX",
+      "matched_pdf_title": "SK하이닉스 DRAM CAPEX 추이 및 전망",
+      "matched_fig_num": 11,
+      "page_idx": 9,
+      "file": "semi_capex_dram_sk_hynix.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capex_nand_sk_hynix": {
+      "title": "SK하이닉스 NAND CAPEX 추이 및 전망",
+      "match": "SK하이닉스 NAND CAPEX",
+      "matched_pdf_title": "SK하이닉스 NAND CAPEX 추이 및 전망",
+      "matched_fig_num": 12,
+      "page_idx": 9,
+      "file": "semi_capex_nand_sk_hynix.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_dram_global": {
+      "title": "글로벌 DRAM CAPA 추이 및 전망",
+      "match": "글로벌 DRAM CAPA",
+      "matched_pdf_title": "글로벌 DRAM CAPA 추이 및 전망",
+      "matched_fig_num": 13,
+      "page_idx": 10,
+      "file": "semi_capa_dram_global.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_nand_global": {
+      "title": "글로벌 NAND CAPA 추이 및 전망",
+      "match": "글로벌 NAND CAPA",
+      "matched_pdf_title": "글로벌 NAND CAPA 추이 및 전망",
+      "matched_fig_num": 14,
+      "page_idx": 10,
+      "file": "semi_capa_nand_global.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_dram_samsung": {
+      "title": "삼성전자 DRAM CAPA 추이 및 전망",
+      "match": "삼성전자 DRAM CAPA",
+      "matched_pdf_title": "삼성전자 DRAM CAPA 추이 및 전망",
+      "matched_fig_num": 15,
+      "page_idx": 10,
+      "file": "semi_capa_dram_samsung.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_nand_samsung": {
+      "title": "삼성전자 NAND CAPA 추이 및 전망",
+      "match": "삼성전자 NAND CAPA",
+      "matched_pdf_title": "삼성전자 NAND CAPA 추이 및 전망",
+      "matched_fig_num": 16,
+      "page_idx": 10,
+      "file": "semi_capa_nand_samsung.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_dram_sk_hynix": {
+      "title": "SK하이닉스 DRAM CAPA 추이 및 전망",
+      "match": "SK하이닉스 DRAM CAPA",
+      "matched_pdf_title": "SK하이닉스 DRAM CAPA 추이 및 전망",
+      "matched_fig_num": 17,
+      "page_idx": 10,
+      "file": "semi_capa_dram_sk_hynix.png",
+      "size_px": [
+        804,
+        560
+      ]
+    },
+    "capa_nand_sk_hynix": {
+      "title": "SK하이닉스 NAND CAPA 추이 및 전망",
+      "match": "SK하이닉스 NAND CAPA",
+      "matched_pdf_title": "SK하이닉스 NAND CAPA 추이 및 전망",
+      "matched_fig_num": 18,
+      "page_idx": 10,
+      "file": "semi_capa_nand_sk_hynix.png",
+      "size_px": [
+        804,
+        560
+      ]
+    }
+  }
+}
