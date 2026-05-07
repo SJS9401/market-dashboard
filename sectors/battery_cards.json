@@ -51,12 +51,12 @@
         {"id": "ev_us_share",          "title": "미국 전기차 시장점유율 추이",           "match": "미국 전기차 시장점유율",                  "embed_chart": true},
         {"id": "ev_china_volume",      "title": "중국 전기차 판매량 추이",               "match": "중국 전기차 판매량",                      "embed_chart": true},
         {"id": "ev_china_share",       "title": "중국 전기차 시장점유율 추이",           "match": "중국 전기차 시장점유율",                  "embed_chart": true},
-        {"id": "ev_uk_volume",         "title": "영국 전기차 판매량 추이",               "match": "영국 전기차 판매량",                      "embed_chart": true},
-        {"id": "ev_uk_share",          "title": "영국 전기차 시장점유율 추이",           "match": "영국 전기차 시장점유율",                  "embed_chart": true},
-        {"id": "ev_de_volume",         "title": "독일 전기차 판매량 추이",               "match": "독일 전기차 판매량",                      "embed_chart": true},
-        {"id": "ev_de_share",          "title": "독일 전기차 시장점유율 추이",           "match": "독일 전기차 시장점유율",                  "embed_chart": true},
-        {"id": "ev_fr_volume",         "title": "프랑스 전기차 판매량 추이",             "match": "프랑스 전기차 판매량",                    "embed_chart": true},
-        {"id": "ev_fr_share",          "title": "프랑스 전기차 시장점유율 추이",         "match": "프랑스 전기차 시장점유율",                "embed_chart": true},
+        {"id": "ev_uk_volume",         "title": "영국 전기차 판매량 추이",               "match": "영국 전기차 판매량",                      "disabled": true},
+        {"id": "ev_uk_share",          "title": "영국 전기차 시장점유율 추이",           "match": "영국 전기차 시장점유율",                  "disabled": true},
+        {"id": "ev_de_volume",         "title": "독일 전기차 판매량 추이",               "match": "독일 전기차 판매량",                      "disabled": true},
+        {"id": "ev_de_share",          "title": "독일 전기차 시장점유율 추이",           "match": "독일 전기차 시장점유율",                  "disabled": true},
+        {"id": "ev_fr_volume",         "title": "프랑스 전기차 판매량 추이",             "match": "프랑스 전기차 판매량",                    "disabled": true},
+        {"id": "ev_fr_share",          "title": "프랑스 전기차 시장점유율 추이",         "match": "프랑스 전기차 시장점유율",                "disabled": true},
         {"id": "ev_eu3_volume",        "title": "유럽 주요 3국 전기차 판매량",           "match": "유럽 주요 3개국 전기차 판매량",           "embed_chart": true},
         {"id": "ev_eu3_share",         "title": "유럽 주요 3국 전기차 점유율",           "match": "유럽 주요 3개국 전기차 시장점유율",       "embed_chart": true}
       ]
@@ -66,7 +66,7 @@
       "subtitle": "미국 전기차 모델별 판매량 (SNE Research)",
       "cols": 1,
       "cards": [
-        {"id": "ev_us_models_table", "title": "미국 전기차 모델별 판매량", "match": "미국 전기차 모델별", "embed_page": true}
+        {"id": "ev_us_models_table", "title": "미국 전기차 모델별 판매량", "match": "미국 전기차 모델별", "embed_page": true, "disabled": true}
       ]
     },
     {
@@ -101,7 +101,7 @@
     {
       "title": "ESS 시장 — 지역별·연계 유형",
       "subtitle": "지역별 ESS 신규 설치량 + 전력망 연계 유형 (SNE Research)",
-      "cols": 1,
+      "cols": 2,
       "cards": [
         {"id": "ess_install_by_region", "title": "지역별 ESS 배터리 신규 설치량",     "match": "지역별 ESS 배터리", "embed_chart": true},
         {"id": "ess_grid_market_type",  "title": "전력망 시장 내 연계 유형별 ESS",    "match": "전력망",            "embed_chart": true}
