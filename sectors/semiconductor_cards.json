@@ -35,7 +35,7 @@
       "cards": [
         {"id": "pbr_band_samsung_sk", "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
          "page_clip": {"page": 26, "x0": 35, "x1": 580, "top": 460, "bottom": 750},
-         "embed_clip": true}
+         "embed_clip": true, "zoom_pct": 500}
       ]
     },
     {
@@ -177,7 +177,7 @@
       "cols": 1,
       "cards": [
         {"id": "samsung_perf_p25", "title": "삼성전자 사업부문별 실적 전망",
-         "page_full": 25, "embed_page": true}
+         "page_full": 25, "embed_page": true, "zoom_pct": 500}
       ]
     },
     {
@@ -187,7 +187,7 @@
       "cards": [
         {"id": "sk_hynix_perf_p26", "title": "SK하이닉스 사업부문별 실적 전망",
          "page_clip": {"page": 26, "x0": 35, "x1": 565, "top": 90, "bottom": 460},
-         "embed_clip": true}
+         "embed_clip": true, "zoom_pct": 500}
       ]
     },
     {
@@ -196,7 +196,7 @@
       "cols": 1,
       "cards": [
         {"id": "summary_page1", "title": "주간 시황 요약",
-         "page_full": 1, "embed_page": true}
+         "page_full": 1, "embed_page": true, "zoom_pct": 500}
       ]
     },
     {
