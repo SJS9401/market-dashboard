@@ -411,9 +411,9 @@ function buildPage(manifest, figuresMeta) {
       cardEl.className = 'card card-image';
       cardEl.id = `card-${cid}`;
 
-      if (card.embed_page === true || card.embed_chart === true) {
+      if (card.embed_page === true || card.embed_chart === true || card.embed_clip === true) {
         // PDF vector iframe embed (글자 무한 해상도)
-        // embed_page: PDF 페이지 통째 / embed_chart: 차트 영역만 cropbox 분리
+        // embed_page: PDF 페이지 통째 / embed_chart: 차트 cropbox / embed_clip: 직접 좌표
         // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit).
         // mediabox_pt 가 있으면 inline aspect-ratio 즉시 적용 (race condition 방지).
         const pdfFile = `pdf_pages/battery_${cid}.pdf`;
@@ -898,7 +898,7 @@ async function applyEmbedAspectRatios() {
     const figs = meta.figures || {};
     Object.entries(figs).forEach(([cid, fig]) => {
       // pdf_embed (페이지 통째) + pdf_embed_chart (차트 영역만) 둘 다 처리
-      if ((fig.type !== 'pdf_embed' && fig.type !== 'pdf_embed_chart') || !fig.mediabox_pt) return;
+      if ((fig.type !== 'pdf_embed' && fig.type !== 'pdf_embed_chart' && fig.type !== 'pdf_embed_clip') || !fig.mediabox_pt) return;
       const cw = document.getElementById(`cw-${cid}`);
       if (cw) {
         const [w, h] = fig.mediabox_pt;

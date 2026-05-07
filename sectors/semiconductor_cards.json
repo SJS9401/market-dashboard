@@ -93,10 +93,10 @@
       "cols": 2,
       "cards": [
         {"id": "server_shipment",            "title": "서버 출하량 및 성장률 전망",            "match": "서버 출하량 및 성장률"},
-        {"id": "server_oem_shipment_table",  "title": "OEM별 서버 출하량 추이 (표)",          "match": "OEM별 서버 출하량", "embed_chart": true},
+        {"id": "server_oem_shipment",        "title": "OEM별 서버 출하량 추이 및 전망",        "match": "OEM별 서버 출하량"},
         {"id": "server_dram_demand_supply",  "title": "서버용 DRAM 수요/공급 추이",            "match": "서버용 DRAM 수요/공급"},
         {"id": "server_dram_production",     "title": "서버용 DRAM 생산량 추이",              "match": "서버용 DRAM 생산량"},
-        {"id": "taiwan_server_oem_revenue",  "title": "대만 주요 서버 OEM 업체 월별 매출 (표)", "match": "대만 주요 서버 OEM", "embed_chart": true}
+        {"id": "taiwan_server_oem_revenue",  "title": "대만 주요 서버 OEM 업체 월별 매출",      "match": "대만 주요 서버 OEM"}
       ]
     },
     {
@@ -119,8 +119,8 @@
       "cards": [
         {"id": "pc_global_shipment",         "title": "글로벌 PC 출하량 추이 및 전망",        "match": "글로벌 PC 출하량"},
         {"id": "pc_notebook_desktop_yoy",    "title": "글로벌 노트북/데스크탑 성장률(YoY)",   "match": "글로벌 노트북/데스크탑"},
-        {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출 (표)",     "match": "대만 마더보드", "embed_chart": true},
-        {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출 (표)",       "match": "대만 PC ODM", "embed_chart": true}
+        {"id": "taiwan_motherboard_revenue", "title": "대만 마더보드 업체 월별 매출",          "match": "대만 마더보드"},
+        {"id": "taiwan_pc_odm_revenue",      "title": "대만 PC ODM 업체 월별 매출",            "match": "대만 PC ODM"}
       ]
     },
     {
@@ -159,8 +159,8 @@
       ]
     },
     {
-      "title": "SK하이닉스 사업부문별 실적 전망 + 주요 가정",
-      "subtitle": "분기·연간 매출/영업이익 + Bit Growth/ASP 가정 (하나증권 — PDF p26 상단 vector)",
+      "title": "SK하이닉스 사업부문별 실적 전망",
+      "subtitle": "분기·연간 가정 + 사업부문별 매출/영업이익 (하나증권 — PDF p26 상단 vector)",
       "cols": 1,
       "cards": [
         {"id": "sk_hynix_perf_p26", "title": "SK하이닉스 사업부문별 실적 전망",

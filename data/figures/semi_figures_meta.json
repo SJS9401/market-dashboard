@@ -1,7 +1,7 @@
 {
   "sector": "semi",
   "source_pdf": "Weekly_Roko_260504.pdf",
-  "generated_at": "2026-05-07T01:45:45Z",
+  "generated_at": "2026-05-07T02:39:44Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
@@ -28,58 +28,6 @@
       "mediabox_pt": [
         595.32,
         841.92
-      ]
-    },
-    "server_oem_shipment_table": {
-      "title": "OEM별 서버 출하량 추이 (표)",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "OEM별 서버 출하량 추이 및 전망",
-      "matched_fig_num": 80,
-      "page_idx": 21,
-      "page_num": 22,
-      "file": "pdf_pages/semi_server_oem_shipment_table.pdf",
-      "mediabox_pt": [
-        252.34000000000003,
-        200.03592000000003
-      ]
-    },
-    "taiwan_server_oem_revenue": {
-      "title": "대만 주요 서버 OEM 업체 월별 매출 (표)",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "대만 주요 서버 OEM 업체들 월별 매출액 추이",
-      "matched_fig_num": 83,
-      "page_idx": 21,
-      "page_num": 22,
-      "file": "pdf_pages/semi_taiwan_server_oem_revenue.pdf",
-      "mediabox_pt": [
-        371.59,
-        199.91192
-      ]
-    },
-    "taiwan_motherboard_revenue": {
-      "title": "대만 마더보드 업체 월별 매출 (표)",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "대만 마더보드 업체들 월별 매출액 및 성장률 추이",
-      "matched_fig_num": 92,
-      "page_idx": 23,
-      "page_num": 24,
-      "file": "pdf_pages/semi_taiwan_motherboard_revenue.pdf",
-      "mediabox_pt": [
-        371.59,
-        199.90592000000004
-      ]
-    },
-    "taiwan_pc_odm_revenue": {
-      "title": "대만 PC ODM 업체 월별 매출 (표)",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "대만 PC ODM 업체들 월별 매출액 및 성장률 추이",
-      "matched_fig_num": 93,
-      "page_idx": 23,
-      "page_num": 24,
-      "file": "pdf_pages/semi_taiwan_pc_odm_revenue.pdf",
-      "mediabox_pt": [
-        371.59,
-        199.91192
       ]
     },
     "pbr_band_samsung_sk": {
@@ -484,7 +432,19 @@
       "page_idx": 21,
       "file": "semi_server_shipment.png",
       "size_px": [
-        741,
+        817,
+        560
+      ]
+    },
+    "server_oem_shipment": {
+      "title": "OEM별 서버 출하량 추이 및 전망",
+      "match": "OEM별 서버 출하량",
+      "matched_pdf_title": "OEM별 서버 출하량 추이 및 전망",
+      "matched_fig_num": 80,
+      "page_idx": 21,
+      "file": "semi_server_oem_shipment.png",
+      "size_px": [
+        817,
         560
       ]
     },
@@ -509,6 +469,18 @@
       "file": "semi_server_dram_production.png",
       "size_px": [
         817,
+        560
+      ]
+    },
+    "taiwan_server_oem_revenue": {
+      "title": "대만 주요 서버 OEM 업체 월별 매출",
+      "match": "대만 주요 서버 OEM",
+      "matched_pdf_title": "대만 주요 서버 OEM 업체들 월별 매출액 추이",
+      "matched_fig_num": 83,
+      "page_idx": 21,
+      "file": "semi_taiwan_server_oem_revenue.png",
+      "size_px": [
+        1112,
         560
       ]
     },
@@ -605,6 +577,30 @@
       "file": "semi_pc_notebook_desktop_yoy.png",
       "size_px": [
         817,
+        560
+      ]
+    },
+    "taiwan_motherboard_revenue": {
+      "title": "대만 마더보드 업체 월별 매출",
+      "match": "대만 마더보드",
+      "matched_pdf_title": "대만 마더보드 업체들 월별 매출액 및 성장률 추이",
+      "matched_fig_num": 92,
+      "page_idx": 23,
+      "file": "semi_taiwan_motherboard_revenue.png",
+      "size_px": [
+        1112,
+        560
+      ]
+    },
+    "taiwan_pc_odm_revenue": {
+      "title": "대만 PC ODM 업체 월별 매출",
+      "match": "대만 PC ODM",
+      "matched_pdf_title": "대만 PC ODM 업체들 월별 매출액 및 성장률 추이",
+      "matched_fig_num": 93,
+      "page_idx": 23,
+      "file": "semi_taiwan_pc_odm_revenue.png",
+      "size_px": [
+        1112,
         560
       ]
     },
