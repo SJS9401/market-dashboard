@@ -415,19 +415,21 @@ function buildPage(manifest, figuresMeta) {
         // PDF vector iframe embed (글자 무한 해상도)
         // embed_page: PDF 페이지 통째 / embed_chart: 차트 cropbox / embed_clip: 직접 좌표
         // view=FitB: BoundingBox fit (실제 콘텐츠 영역 fit).
-        // mediabox_pt 가 있으면 inline aspect-ratio 즉시 적용 (race condition 방지).
+        // zoom_pct: (선택) cards.json 카드의 zoom_pct 값 → URL fragment #zoom=N. default auto.
         const pdfFile = `pdf_pages/semi_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
         const fig = figs[cid];
         const aspectStyle = (fig && fig.mediabox_pt && fig.mediabox_pt.length === 2)
           ? `style="aspect-ratio: ${fig.mediabox_pt[0]} / ${fig.mediabox_pt[1]};"`
           : '';
+        const zoomFragment = (typeof card.zoom_pct === 'number' && card.zoom_pct > 0)
+          ? `&zoom=${card.zoom_pct}` : '';
         cardEl.innerHTML = `
           <div class="card-top">
             <h3>${card.title || cid}</h3>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
-            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitB"
+            <iframe src="${DATA_DIR}${pdfFile}#toolbar=0&navpanes=0&scrollbar=0&view=FitB${zoomFragment}"
                     title="${pdfTitle}" loading="lazy"></iframe>
           </div>
         `;
