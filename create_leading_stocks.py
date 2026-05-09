@@ -2885,11 +2885,24 @@ initV2();
 </html>"""
 
 # ===== 5. WRITE OUTPUT =====
-output_dir = os.path.join(os.path.dirname(__file__), '..', 'mnt', 'Documents--3 시장 사이클 전략')
-if not os.path.isdir(output_dir):
-    output_dir = os.path.dirname(__file__)
+# --output <path>: override default output path (used by build_leading_stocks_update.py
+# to generate a temp HTML for partial-patch refactor).
+import argparse as _argparse
+_p = _argparse.ArgumentParser(add_help=False)
+_p.add_argument("--output", default=None)
+_args, _ = _p.parse_known_args()
 
-output_path = os.path.join(output_dir, 'Leading_stocks.html')
+if _args.output:
+    output_path = _args.output
+    output_dir = os.path.dirname(output_path) or '.'
+    if output_dir and not os.path.isdir(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+else:
+    output_dir = os.path.join(os.path.dirname(__file__), '..', 'mnt', 'Documents--3 시장 사이클 전략')
+    if not os.path.isdir(output_dir):
+        output_dir = os.path.dirname(__file__)
+    output_path = os.path.join(output_dir, 'Leading_stocks.html')
+
 with open(output_path, 'w', encoding='utf-8') as f:
     f.write(html)
 

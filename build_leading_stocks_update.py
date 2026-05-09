@@ -171,13 +171,101 @@ def patch(fp, dry_run=False):
 
 
 def rebuild_html():
-    """create_leading_stocks.py 실행 → Leading_stocks.html 재생성"""
+    """
+    Leading_stocks.html 의 데이터 영역만 부분 patch (디자인/CSS/JS 보존).
+
+    동작:
+      1. create_leading_stocks.py 를 임시 경로 (--output) 에 호출 → 새 HTML 생성
+      2. 새 HTML 에서 `// ===== DATA =====` ~ `// ===== HELPERS =====` 영역 추출
+      3. 기존 Leading_stocks.html 의 같은 영역만 새 데이터로 교체 → 저장
+
+    안전 fallback:
+      - 기존 HTML 없거나, marker 못 찾거나, 임시 빌더 실패 시 → 통째 재생성 (구 동작)
+    """
     import subprocess
+    import re
+    import tempfile
+
     builder = Path(__file__).parent / "create_leading_stocks.py"
     if not builder.exists():
         print(f"[WARN] {builder} 없음 — HTML 재빌드 skip")
         return False
-    print(f"\n[*] HTML 재빌드: {builder}")
+
+    # 기존 HTML 위치 결정 (create_leading_stocks.py 와 동일 우선순위)
+    candidate_dirs = [
+        Path(__file__).parent.parent / "mnt" / "Documents--3 시장 사이클 전략",
+        Path(__file__).parent,
+    ]
+    target_html = None
+    for d in candidate_dirs:
+        candidate = d / "Leading_stocks.html"
+        if candidate.exists():
+            target_html = candidate
+            break
+
+    # 임시 파일 경로 (새 HTML 생성용)
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False, encoding='utf-8') as tmp:
+        tmp_path = Path(tmp.name)
+
+    try:
+        print(f"\n[*] HTML 데이터 영역 patch 시도: {target_html or '(target 없음 → 통째 생성)'}")
+        # --output 옵션으로 임시 경로 출력
+        r = subprocess.run(
+            [sys.executable, str(builder), "--output", str(tmp_path)],
+            capture_output=True, text=True, cwd=str(builder.parent)
+        )
+        if r.returncode != 0:
+            print(f"[ERROR] 임시 빌더 실행 실패: {r.stderr[-500:]}")
+            return _rebuild_html_fallback(builder)
+
+        new_html = tmp_path.read_text(encoding='utf-8')
+        # 데이터 영역 추출 — `// ===== DATA =====` ~ `// ===== HELPERS =====` 사이
+        marker_pattern = r'(// ===== DATA =====\n)([\s\S]*?)(\n// ===== HELPERS =====)'
+        new_match = re.search(marker_pattern, new_html)
+        if not new_match:
+            print("[WARN] 임시 HTML 에서 데이터 영역 marker 못 찾음 — 통째 재생성으로 fallback")
+            return _rebuild_html_fallback(builder)
+
+        # target HTML 없으면 임시 HTML 자체를 target 위치로 이동 (첫 빌드)
+        if target_html is None:
+            target_html = candidate_dirs[0] / "Leading_stocks.html"
+            target_html.parent.mkdir(parents=True, exist_ok=True)
+            target_html.write_text(new_html, encoding='utf-8')
+            print(f"✓ 첫 빌드 — 통째 생성: {target_html}")
+            return True
+
+        # 기존 HTML 의 데이터 영역만 교체
+        old_html = target_html.read_text(encoding='utf-8')
+        old_match = re.search(marker_pattern, old_html)
+        if not old_match:
+            print("[WARN] 기존 HTML 에서 marker 못 찾음 — 통째 재생성으로 fallback")
+            return _rebuild_html_fallback(builder)
+
+        # 새 데이터 영역으로 교체 (start_marker + new_data + end_marker)
+        new_data_block = new_match.group(1) + new_match.group(2) + new_match.group(3)
+        patched = (
+            old_html[:old_match.start()]
+            + new_data_block
+            + old_html[old_match.end():]
+        )
+
+        target_html.write_text(patched, encoding='utf-8')
+        sz = target_html.stat().st_size
+        print(f"✓ 데이터 영역 patch 완료: {target_html} ({sz:,} bytes)")
+        print(f"  - 디자인/CSS/JS 보존, 데이터 영역만 갱신")
+        return True
+
+    finally:
+        try:
+            tmp_path.unlink(missing_ok=True)
+        except Exception:
+            pass
+
+
+def _rebuild_html_fallback(builder):
+    """patch 실패 시 fallback — create_leading_stocks.py 를 default path 로 호출 (통째 재생성)"""
+    import subprocess
+    print(f"[*] fallback: create_leading_stocks.py 통째 재생성")
     r = subprocess.run([sys.executable, str(builder)], capture_output=True, text=True, cwd=str(builder.parent))
     print(r.stdout[-500:] if r.stdout else "")
     if r.returncode != 0:
