@@ -1,0 +1,23 @@
+# Credentials / secrets — DO NOT commit to GitHub
+.env
+.env.*
+*.session
+.github_token
+config_secret.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+deploy_logs/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+.idea/

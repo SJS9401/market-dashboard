@@ -1760,13 +1760,15 @@ function setupScrollbar(col, mainId) {
     {d:'05/11',cat:'IPO',ev:'코스모로보틱스 신규상장',note:'의료·재활 휴머노이드'},
     {d:'05/12',cat:'경제지표',ev:'CPI 4월 (8:30 AM ET)',note:'인플레 핵심'},
     {d:'05/12',cat:'실적',ev:'넥스트파워(NXT), 오클로(OKLO) AMC',note:'태양광·SMR'},
-    {d:'05/12',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'우주 — 5/12 타게팅'},
+    {d:'05/15',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'우주 — 5/15 17:30 CDT NET (KST 5/16 07:30). 5/7 33엔진 풀 정적 점화 성공 후 5/12 → 5/15 슬립 (NextBigFuture·Next Spaceflight 트래커 업데이트)'},
+    {d:'05/13',cat:'실적',ev:'HD현대, NC, 클래시스',note:'조선·게임'},
     {d:'05/14',cat:'IPO',ev:'폴레드 신규상장',note:'공모가 5,000원'},
     {d:'05/14',cat:'실적',ev:'어플라이드머티리얼즈(AMAT) AMC, 삼성화재',note:'반도체 메모리 장비 — HBM·DRAM CAPEX'},
     {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담 (~5/15)',note:'한미통상·이란전 연계'},
     {d:'05/15',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시'},
     {d:'05/15',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한미통상'},
     {d:'05/15',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
+    {d:'05/15',cat:'실적',ev:'현대해상',note:'보험'},
     {d:'06/05',cat:'IPO',ev:'보스턴다이내믹스 IPO 의향 결정 (6월 초~6/30)',note:'로봇 T1 — 머니투데이 5/8 "빠르면 다음달(6월) 결정". SoftBank 풋옵션 시한 약 한 달 앞. 잔여지분 9.5%. 장재훈 부회장 직속 사업기획TF 운영. 2028년까지 美 연 3만대 아틀라스 공장 계획. 잠재 밸류에이션 $28B~$85B+'},
     {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'반도체 ASIC — AWS Trainium·MS Maia + 광 DSP'},
     {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'차세대 제미나이·AI 에이전트'},
@@ -1774,7 +1776,7 @@ function setupScrollbar(col, mainId) {
     {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027'},
     {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체'},
     {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
-    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시',note:'반도체 수급'},
+    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시 (5/22~5월말 조건부)',note:'반도체 수급 — 금융위 4/21 "이르면 5/22" 조건부. 5/22 국민성장펀드+네이버 주총 일정 충돌로 5월 말까지 미뤄질 가능성. 8개 운용사·16개 상품, 최대 5.3조 유입 추정'},
     {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날)',note:'한국'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
@@ -1879,14 +1881,4 @@ setInterval(() => {
 // ── INIT ──
 window.addEventListener('load',()=>{
   setTimeout(async()=>{
-    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
-    setupScrollbar('kr', 'kospi');
-    setupScrollbar('us', 'ndx');
-    // Auto-refresh every 15 minutes
-    setInterval(refreshAllData, 15 * 60 * 1000);
-  },200);
-});
-</script>
-</body>
-</html>
-                                                                                                                                        
+    await Promise.allS
