@@ -10,7 +10,7 @@ let state = {
   watchlist: { T1: [], T2: [], T3: [] },
   calendar: {},
   signals: {},
-  manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], theme: [] }
+  manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], analysis: [], theme: [] }
 };
 
 function $(id) { return document.getElementById(id); }
@@ -263,6 +263,15 @@ function getModeFile(stock, mode) {
     const expected = key + '_기업개요.html';
     return (state.manifest.company || []).includes(expected) ? expected : null;
   }
+  // analysis: 분기 무관, 테마별 파일 ({종목}_{테마}_기업분석.html) — company-analysis 스킬 산출물
+  // 폴더는 earnings/company-analysis/. 한 종목이 multi-theme 보유 가능
+  // 현재: prefix 매칭으로 첫 파일 반환 (1개면 직접, multi면 첫 번째). 향후 dropdown UX 추가
+  if (mode === 'analysis') {
+    const list = state.manifest.analysis || [];
+    const prefix = key + '_';
+    const matched = list.filter(f => f.startsWith(prefix) && f.endsWith('_기업분석.html'));
+    return matched.length > 0 ? matched[0] : null;
+  }
   // theme: Phase 2에서 multi-theme dropdown 구현 예정. 지금은 산출물 없으면 dim
   if (mode === 'theme') {
     // Phase 2: 테마 산출물 본문 fetch 후 관련 종목 list parse → 매칭
@@ -312,6 +321,8 @@ function hasPriorReview(stock, currentQuarter) {
 function buildHtmlPath(mode, file) {
   // company-overview 스킬 산출물은 별도 폴더 (earnings/company-overview/)
   if (mode === 'company') return 'earnings/company-overview/' + file;
+  // company-analysis 스킬 산출물도 별도 폴더 (earnings/company-analysis/)
+  if (mode === 'analysis') return 'earnings/company-analysis/' + file;
   return 'earnings/earnings-' + mode + '/' + file;
 }
 
@@ -370,7 +381,7 @@ function renderStockRow(stock) {
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
   // td 4: 리포트 4개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
-  for (const pair of [['company', '기업개요'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '팔로업']]) {
+  for (const pair of [['company', '기업개요'], ['analysis', '기업분석'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '팔로업']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {
