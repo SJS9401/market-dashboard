@@ -271,6 +271,10 @@ const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
 // chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
 // (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
 const lastCrosshairOnBar = { kr: false, us: false };
+// Same idea for onBar=true case: while mouse moves on the SAME candle, time doesn't change so
+// setMarkers/updateHeader/innerHTML rebuild are all redundant. Track last hovered time per column
+// so heavy work runs only on time change; only tooltip *position* updates every frame.
+const lastCrosshairTime = { kr: null, us: null };
 const colRange = { kr: '10y', us: '10y' };
 const colInterval = { kr: '1d', us: '1d' };
 let syncing = false;
@@ -470,24 +474,30 @@ function createChart(id, col, opts = {}) {
     if (onBar) {
       const elRect = el.getBoundingClientRect();
       const colRect = colEl.getBoundingClientRect();
-      colGroups[col].forEach(cid => {
-        updateHeaderForChart(cid, param.time);
-        // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
-        if (!allCharts[cid] || !allCharts[cid].series) return;
-        try {
-          allCharts[cid].series.setMarkers([{
-            time: param.time,
-            position: 'inBar',
-            color: 'rgb(210,175,100)',
-            shape: 'circle',
-            size: 0.5
-          }]);
-        } catch(_) {}
-      });
-      // HTS 툴팁 — 컬럼 기준 마우스 좌표 계산 후 갱신
       const mx = elRect.left - colRect.left + (param.point ? param.point.x : barX);
       const my = elRect.top  - colRect.top  + (param.point ? param.point.y : 0);
-      updateHTSTooltip(col, param.time, mx, my);
+      // Perf: heavy work (setMarkers + updateHeader + tooltip innerHTML rebuild) only on time change.
+      // While mouse moves on the SAME candle, only tooltip position needs to follow the cursor.
+      if (param.time !== lastCrosshairTime[col]) {
+        colGroups[col].forEach(cid => {
+          updateHeaderForChart(cid, param.time);
+          // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
+          if (!allCharts[cid] || !allCharts[cid].series) return;
+          try {
+            allCharts[cid].series.setMarkers([{
+              time: param.time,
+              position: 'inBar',
+              color: 'rgb(210,175,100)',
+              shape: 'circle',
+              size: 0.5
+            }]);
+          } catch(_) {}
+        });
+        updateHTSTooltip(col, param.time, mx, my);  // full rebuild + position
+        lastCrosshairTime[col] = param.time;
+      } else {
+        moveHTSTooltip(col, mx, my);  // position-only (cheap)
+      }
       lastCrosshairOnBar[col] = true;
     } else {
       // Perf: cleanup runs ONCE on true→false transition, not every frame.
@@ -502,6 +512,7 @@ function createChart(id, col, opts = {}) {
         });
         hideHTSTooltip(col);
         lastCrosshairOnBar[col] = false;
+        lastCrosshairTime[col] = null;
       }
     }
   });
@@ -520,6 +531,7 @@ function createChart(id, col, opts = {}) {
         }
       });
       lastCrosshairOnBar[col] = false;
+      lastCrosshairTime[col] = null;
     }
   });
 
@@ -741,6 +753,24 @@ function updateHTSTooltip(col, time, mx, my) {
 function hideHTSTooltip(col) {
   const tip = document.getElementById('hts-tooltip-' + col);
   if (tip) tip.style.display = 'none';
+}
+// Position-only update (no innerHTML rebuild). Called every frame while mouse hovers same candle —
+// the contents (price/MA/sub values) don't change since time is the same.
+function moveHTSTooltip(col, mx, my) {
+  const tip = document.getElementById('hts-tooltip-' + col);
+  if (!tip || tip.style.display === 'none') return;
+  const colEl = document.getElementById('col-' + col);
+  if (!colEl) return;
+  const cRect = colEl.getBoundingClientRect();
+  const tw = tip.offsetWidth || 220;
+  const th = tip.offsetHeight || 220;
+  const pad = 14;
+  let left = (mx < cRect.width / 2) ? (mx + pad) : (mx - tw - pad);
+  left = Math.max(4, Math.min(cRect.width - tw - 4, left));
+  let top = my + pad;
+  if (top + th > cRect.height - 4) top = Math.max(4, my - th - pad);
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
 }
 
 // Update header value from crosshair time for a specific chart
