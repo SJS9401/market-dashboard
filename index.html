@@ -267,6 +267,14 @@ const allCharts = {}; // id → { chart, series, el }
 const colGroups = { kr: [], us: [] }; // chart ids per column
 const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
 const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+// Crosshair perf cache: setMarkers([]) re-renders each chart; calling it every frame on empty-space hover
+// chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
+// (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
+const lastCrosshairOnBar = { kr: false, us: false };
+// Same idea for onBar=true case: while mouse moves on the SAME candle, time doesn't change so
+// setMarkers/updateHeader/innerHTML rebuild are all redundant. Track last hovered time per column
+// so heavy work runs only on time change; only tooltip *position* updates every frame.
+const lastCrosshairTime = { kr: null, us: null };
 const colRange = { kr: '10y', us: '10y' };
 const colInterval = { kr: '1d', us: '1d' };
 let syncing = false;
@@ -281,7 +289,10 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:130},
+  // minimumWidth 50: matches label width (~45-50px for 8000.00, 26000.00). If labels grow longer
+  // (e.g. 6-digit prices), lightweight-charts auto-expands -- this is a minimum, not a fixed cap.
+  // Result: right padding inside price-scale matches left padding (~14px) of MA legend.
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:50},
   handleScale:false,handleScroll:false
 });
 
@@ -370,7 +381,9 @@ function createChart(id, col, opts = {}) {
     ...CHART_OPTS(),
     timeScale: {
       borderColor: '#21262d', timeVisible: false,
-      visible: opts.showTimeAxis !== false
+      visible: opts.showTimeAxis !== false,
+      // rightOffset 0: 데이터 마지막 bar 가 차트 우측 끝과 정렬. 추가 trailing padding 없음.
+      rightOffset: 0
     }
   });
 
@@ -461,32 +474,46 @@ function createChart(id, col, opts = {}) {
     if (onBar) {
       const elRect = el.getBoundingClientRect();
       const colRect = colEl.getBoundingClientRect();
-      colGroups[col].forEach(cid => {
-        updateHeaderForChart(cid, param.time);
-        // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
-        if (!allCharts[cid] || !allCharts[cid].series) return;
-        try {
-          allCharts[cid].series.setMarkers([{
-            time: param.time,
-            position: 'inBar',
-            color: 'rgb(210,175,100)',
-            shape: 'circle',
-            size: 0.5
-          }]);
-        } catch(_) {}
-      });
-      // HTS 툴팁 — 컬럼 기준 마우스 좌표 계산 후 갱신
       const mx = elRect.left - colRect.left + (param.point ? param.point.x : barX);
       const my = elRect.top  - colRect.top  + (param.point ? param.point.y : 0);
-      updateHTSTooltip(col, param.time, mx, my);
+      // Perf: heavy work (setMarkers + updateHeader + tooltip innerHTML rebuild) only on time change.
+      // While mouse moves on the SAME candle, only tooltip position needs to follow the cursor.
+      if (param.time !== lastCrosshairTime[col]) {
+        colGroups[col].forEach(cid => {
+          updateHeaderForChart(cid, param.time);
+          // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
+          if (!allCharts[cid] || !allCharts[cid].series) return;
+          try {
+            allCharts[cid].series.setMarkers([{
+              time: param.time,
+              position: 'inBar',
+              color: 'rgb(210,175,100)',
+              shape: 'circle',
+              size: 0.5
+            }]);
+          } catch(_) {}
+        });
+        updateHTSTooltip(col, param.time, mx, my);  // full rebuild + position
+        lastCrosshairTime[col] = param.time;
+      } else {
+        moveHTSTooltip(col, mx, my);  // position-only (cheap)
+      }
+      lastCrosshairOnBar[col] = true;
     } else {
-      restoreHeaders(col);
-      colGroups[col].forEach(cid => {
-        if (allCharts[cid] && allCharts[cid].series) {
-          try { allCharts[cid].series.setMarkers([]); } catch(_) {}
-        }
-      });
-      hideHTSTooltip(col);
+      // Perf: cleanup runs ONCE on true→false transition, not every frame.
+      // setMarkers([]) triggers chart re-render — calling it every frame on empty-space hover
+      // (e.g. between candles) chokes the frame budget and makes xline/date-label feel laggy.
+      if (lastCrosshairOnBar[col]) {
+        restoreHeaders(col);
+        colGroups[col].forEach(cid => {
+          if (allCharts[cid] && allCharts[cid].series) {
+            try { allCharts[cid].series.setMarkers([]); } catch(_) {}
+          }
+        });
+        hideHTSTooltip(col);
+        lastCrosshairOnBar[col] = false;
+        lastCrosshairTime[col] = null;
+      }
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
@@ -495,6 +522,17 @@ function createChart(id, col, opts = {}) {
     if (dateMain) dateMain.style.display = 'none';
     if (dateSub)  dateSub.style.display  = 'none';
     hideHTSTooltip(col);
+    // Sync state so next entry triggers fresh cleanup if needed
+    if (lastCrosshairOnBar[col]) {
+      restoreHeaders(col);
+      colGroups[col].forEach(cid => {
+        if (allCharts[cid] && allCharts[cid].series) {
+          try { allCharts[cid].series.setMarkers([]); } catch(_) {}
+        }
+      });
+      lastCrosshairOnBar[col] = false;
+      lastCrosshairTime[col] = null;
+    }
   });
 
   // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
@@ -715,6 +753,24 @@ function updateHTSTooltip(col, time, mx, my) {
 function hideHTSTooltip(col) {
   const tip = document.getElementById('hts-tooltip-' + col);
   if (tip) tip.style.display = 'none';
+}
+// Position-only update (no innerHTML rebuild). Called every frame while mouse hovers same candle —
+// the contents (price/MA/sub values) don't change since time is the same.
+function moveHTSTooltip(col, mx, my) {
+  const tip = document.getElementById('hts-tooltip-' + col);
+  if (!tip || tip.style.display === 'none') return;
+  const colEl = document.getElementById('col-' + col);
+  if (!colEl) return;
+  const cRect = colEl.getBoundingClientRect();
+  const tw = tip.offsetWidth || 220;
+  const th = tip.offsetHeight || 220;
+  const pad = 14;
+  let left = (mx < cRect.width / 2) ? (mx + pad) : (mx - tw - pad);
+  left = Math.max(4, Math.min(cRect.width - tw - 4, left));
+  let top = my + pad;
+  if (top + th > cRect.height - 4) top = Math.max(4, my - th - pad);
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
 }
 
 // Update header value from crosshair time for a specific chart
@@ -1753,35 +1809,35 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/12',cat:'경제지표',ev:'CPI 4월 (8:30 AM ET, KST 21:30)',note:'인플레 핵심 — 컨센 헤드라인 +0.6% MoM·+3.7% YoY, Core +0.3%·+2.7% (가속)'},
-    {d:'05/12',cat:'실적',ev:'넥스트파워(NXT), 오클로(OKLO) AMC, 달바글로벌, CJ제일제당, 한화생명, KT, 위메이드, NHN',note:'태양광·SMR·화장품·실적 시즌'},
-    {d:'05/12',cat:'정책',ev:'스테이블코인 관련 법안소위 상정',note:'클래리티법안 5/14 연계'},
-    {d:'05/18',cat:'시장구조',ev:'Lumentum NASDAQ-100 편입 효력',note:'광통신 패시브 매수 트리거 — CoStar 대체, 5/9 발표'},
-    {d:'05/15',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'우주 — 5/15 17:30 CDT NET (KST 5/16 07:30). 5/7 33엔진 풀 정적 점화 성공 후 5/12 → 5/15 슬립 (NextBigFuture·Next Spaceflight 트래커 업데이트)'},
-    {d:'05/13',cat:'실적',ev:'HD현대, NC, 클래시스',note:'조선·게임'},
+    {d:'05/13',cat:'경제지표',ev:'美 4월 CPI (8:30 AM ET, KST 21:30)',note:'인플레 변곡 — 4월 컨센·전월비 변화 주시'},
+    {d:'05/13',cat:'실적',ev:'HD현대, NC소프트, 클래시스, 샌디스크(SNDK) AMC',note:'조선·게임·의료기기 / SNDK NAND 메모리 (KST 5/14 05:00)'},
+    {d:'05/13',cat:'지정학',ev:'트럼프 베이징 도착 (정상회담 5/13~15)',note:'5/11 중국 외교부 발표 — H200·B30A·이란·관세'},
     {d:'05/14',cat:'IPO',ev:'폴레드 신규상장',note:'공모가 5,000원'},
-    {d:'05/14',cat:'실적',ev:'어플라이드머티리얼즈(AMAT) AMC, 삼성화재',note:'반도체 메모리 장비 — HBM·DRAM CAPEX'},
-    {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담 (~5/15)',note:'한미통상·이란전 연계'},
-    {d:'05/15',cat:'정책',ev:'파월 연준의장 임기 종료',note:'후임 케빈 워시'},
-    {d:'05/15',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한미통상'},
-    {d:'05/15',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
+    {d:'05/14',cat:'실적',ev:'어플라이드머티(AMAT) AMC, 삼성화재',note:'반도체 메모리 장비 HBM/DRAM CAPEX (KST 5/15 05:00)'},
+    {d:'05/14',cat:'지정학',ev:'트럼프-시진핑 베이징 정상회담',note:'한미통상·이란전·반도체 수출통제'},
+    {d:'05/15',cat:'정책',ev:'파월 임기 종료 → 케빈 워시 신임 연준의장 취임',note:'6/18 FOMC 신임 의장 첫 데뷔'},
+    {d:'05/15',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'KST 5/16 07:30 (CDT 17:30 NET) — 5/12 → 5/15 슬립'},
     {d:'05/15',cat:'실적',ev:'현대해상',note:'보험'},
-    {d:'06/05',cat:'IPO',ev:'보스턴다이내믹스 IPO 의향 결정 (6월 초~6/30)',note:'로봇 T1 — 머니투데이 5/8 "빠르면 다음달(6월) 결정". SoftBank 풋옵션 시한 약 한 달 앞. 잔여지분 9.5%. 장재훈 부회장 직속 사업기획TF 운영. 2028년까지 美 연 3만대 아틀라스 공장 계획. 잠재 밸류에이션 $28B~$85B+'},
-    {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'반도체 ASIC — AWS Trainium·MS Maia + 광 DSP'},
+    {d:'05/15',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한-미 $350B 후속 — LNG·원전 유력'},
+    {d:'05/15',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
+    {d:'05/18',cat:'시장구조',ev:'Lumentum NASDAQ-100 편입 효력',note:'광통신 패시브 매수 트리거 — CoStar 대체, 5/9 발표'},
     {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'차세대 제미나이·AI 에이전트'},
     {d:'05/20',cat:'IPO',ev:'마키나락스 신규상장',note:'산업AI 솔루션'},
-    {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027'},
-    {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체'},
+    {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027 (KST 5/21 06:00)'},
+    {d:'05/20',cat:'산업',ev:'삼성전자 노조 파업 가처분 판결',note:'반도체 — 5/21~6/7 총파업 전제'},
+    {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체 — 5/20 가처분 결과에 따라'},
     {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
-    {d:'05/22',cat:'시장구조',ev:'삼성전자·SK하이닉스 2배 레버리지 ETF 출시 (5/22~5월말 조건부)',note:'반도체 수급 — 금융위 4/21 "이르면 5/22" 조건부. 5/22 국민성장펀드+네이버 주총 일정 충돌로 5월 말까지 미뤄질 가능성. 8개 운용사·16개 상품, 최대 5.3조 유입 추정'},
-    {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날)',note:'한국'},
+    {d:'05/22',cat:'정책',ev:'국민성장펀드 출시 (~6/11)',note:'6,000억원, 밸류업 2.0 연계 — 정책 유동성'},
+    {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날 + 메모리얼데이)',note:'한·미 양국 동시 휴장'},
+    {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'반도체 ASIC — AWS Trainium·MS Maia + 광 DSP'},
+    {d:'05/27',cat:'시장구조',ev:'삼성전자·SK하이닉스 2x 레버리지·인버스 ETF 16종 상장',note:'반도체 수급 — 5/27 최종 확정. 8개 운용사·16개 상품, 최대 5.3조 유입 추정'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
-    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표(5월말)',note:'리밸런싱 적용 6/12'},
-    {d:'05/30',cat:'정책',ev:'국민참여형 국민성장펀드 출시(5월말)',note:'정책 유동성·밸류업 2.0'},
+    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/12'},
     {d:'06/02',cat:'정책',ev:'미 FCC 주파수 경매 입찰 시작',note:'위성통신·우주'},
     {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI'},
     {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향'},
+    {d:'06/05',cat:'IPO',ev:'보스턴다이내믹스 IPO 의향 결정 (6월초~6/30)',note:'로봇 T1 — 머니투데이 5/8 "빠르면 다음달". SoftBank 풋옵션 시한 약 한 달 앞. 잔여지분 9.5%. 잠재 밸류 $28B~$85B+'},
     {d:'06/05',cat:'학회',ev:'미국 당뇨학회 (~6/8)',note:'비만·MASH — 바이오'},
     {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스'},
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
@@ -1888,4 +1944,4 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                
