@@ -281,8 +281,10 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  // minimumWidth 130 → 60: price labels (e.g. 8500.00) need ~50px; remainder was wasted blank space.
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:60},
+  // minimumWidth 50: matches label width (~45-50px for 8000.00, 26000.00). If labels grow longer
+  // (e.g. 6-digit prices), lightweight-charts auto-expands -- this is a minimum, not a fixed cap.
+  // Result: right padding inside price-scale matches left padding (~14px) of MA legend.
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:50},
   handleScale:false,handleScroll:false
 });
 
