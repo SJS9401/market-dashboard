@@ -281,7 +281,8 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:130},
+  // minimumWidth 130 → 60: price labels (e.g. 8500.00) need ~50px; remainder was wasted blank space.
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:60},
   handleScale:false,handleScroll:false
 });
 
@@ -370,7 +371,9 @@ function createChart(id, col, opts = {}) {
     ...CHART_OPTS(),
     timeScale: {
       borderColor: '#21262d', timeVisible: false,
-      visible: opts.showTimeAxis !== false
+      visible: opts.showTimeAxis !== false,
+      // rightOffset 0: 데이터 마지막 bar 가 차트 우측 끝과 정렬. 추가 trailing padding 없음.
+      rightOffset: 0
     }
   });
 

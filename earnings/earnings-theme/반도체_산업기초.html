@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>반도체 산업 기초 분석 (Industry Basic — Semiconductor)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --kr:#2ca02c; --us:#1f77b4; --tw:#d62728; --jp:#9467bd;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65;font-size:14.5px}
+  .wrap{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;max-width:1280px;margin:0 auto;padding:24px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:13px}
+  nav.toc h4{margin:0 0 8px 0;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  nav.toc a.sub{padding-left:18px;font-size:12px;color:#555}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:36px 44px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16.5px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14.5px;margin:18px 0 8px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .bottleneck{background:#fff0c2 !important;border:2px solid var(--accent2) !important}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13.5px}
+  .chunk{border:1px solid var(--line);border-radius:6px;margin:18px 0;padding:14px 18px;background:#fcfbf6}
+  .chunk-head{font-weight:600;color:var(--accent);font-size:15.5px;margin-bottom:6px}
+  .chunk-period{display:inline-block;background:var(--accent);color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;margin-right:8px;vertical-align:middle}
+  .layer-grid{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;margin-top:8px;font-size:13px}
+  .layer-grid .lbl{color:var(--accent2);font-weight:600;text-align:right;padding-top:2px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .scenario{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+  .scenario .sc{border:1px solid var(--line);border-radius:6px;padding:12px;background:#fafaf7}
+  .scenario .sc.base{background:#ecf3ff;border-color:var(--accent)}
+  .scenario .sc.bear{background:#fff4f0;border-color:#cc7a3a}
+  .scenario .sc.risk{background:#fff0f0;border-color:var(--danger)}
+  .scenario .sc.swan{background:#f4f0ff;border-color:var(--jp)}
+  .scenario .lbl{font-size:11px;color:var(--muted);text-transform:uppercase}
+  .scenario .pct{font-size:22px;font-weight:bold;margin:4px 0}
+  .scenario .head{font-weight:600;margin-bottom:4px}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  ul.appendix{list-style:none;padding:0;font-size:13px}
+  ul.appendix li{padding:4px 0;border-bottom:1px dashed var(--line)}
+  .pill{display:inline-block;background:var(--paper);border:1px solid var(--line);padding:1px 8px;border-radius:10px;font-size:11px;margin-right:4px}
+  .pill.high{background:#ffe8e8;border-color:#d88}
+  .pill.mid{background:#fff7e0;border-color:#ddb86b}
+  .pill.low{background:#e8f1f7;border-color:#9fbcd6}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .scenario{grid-template-columns:repeat(2,1fr)}
+    .twocol{grid-template-columns:1fr}
+    main{padding:24px 18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#onepager">1-pager 요약</a>
+    <a href="#stage1">1. 역사 (6 chunks)</a>
+    <a href="#stage1" class="sub">Chunk 1. 1947–1970</a>
+    <a href="#stage1" class="sub">Chunk 2. 1970–1985</a>
+    <a href="#stage1" class="sub">Chunk 3. 1985–2000</a>
+    <a href="#stage1" class="sub">Chunk 4. 2000–2010</a>
+    <a href="#stage1" class="sub">Chunk 5. 2010–2020</a>
+    <a href="#stage1" class="sub">Chunk 6. 2020–2026</a>
+    <a href="#stage2">2. 주가 사이클</a>
+    <a href="#stage3">3. BM/밸류체인</a>
+    <a href="#stage4">4. 공급 구조 점검</a>
+    <a href="#stage5">5. 수요 구조 점검</a>
+    <a href="#concl">4+5 종합 결론</a>
+    <a href="#scen">시나리오</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">INDUSTRY BASIC · MAJOR</span>
+      <h1>반도체 산업 기초 분석</h1>
+      <div class="meta">Industry Basic Reference · last_updated 2026-05-12 · sub_industries: 메모리 / 시스템반도체 / 파운드리 / OSAT / 소부장 / EDA·IP</div>
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li>반도체는 1947년 트랜지스터 발명으로 시작된 <b>세상에서 가장 자본집약적이고 학습곡선이 가파른 산업</b> — 단일 노드 전환 $30B+ CapEx, EUV 1대 €350M.</li>
+          <li><b>패권 이동의 역사</b>: 미국(1947–80) → 일본(1985–95) → 한국·대만(2000–) → AI 시대 미·대만·한국 3강 (NVIDIA 설계 + TSMC 제조 + SK하이닉스·삼성 메모리).</li>
+          <li><b>사이클 산업의 정수</b> — 7~10년 단위 메모리 호황·불황 반복. 매 사이클마다 약자 도태 → CR3 1990년 35% → 2025년 95%+로 수렴.</li>
+          <li>2025년 산업 위치 (4+5 종합): <span class="star">★ 카테고리 A — 구조적 메가 병목</span>. AI capex $448B → 2026E $700B가 첨단 노드(TSMC)·HBM·EUV·CoWoS 4대 병목 동시 충격.</li>
+          <li>한국은 <b>메모리 직접성 최고</b>(글로벌 70%+) + <b>소부장 직접성 중간</b>(한미반도체 등) — 시스템반도체·파운드리 직접성 낮음.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="onepager">
+      <h2>1-pager 요약 (5단계 핵심 결론)</h2>
+      <table>
+        <tr><th width="120">단계</th><th>핵심 결론</th></tr>
+        <tr><td><b>1. 역사</b></td><td>6 chunk: ① 1947–1970 미국 단독 ② 1970–1985 마이크로프로세서·DRAM, 일본 추격 ③ 1985–2000 일본 패권→몰락, 한국 진입 ④ 2000–2010 한국·대만 패권, 파운드리·모바일 ⑤ 2010–2020 EUV·클라우드, 미·중 갈등 시작 ⑥ 2020–2026 AI 폭발·디커플링·HBM</td></tr>
+        <tr><td><b>2. 사이클</b></td><td>메모리 4~5년 / 매크로 7~10년. 1985·1996·2001·2008·2018·2022 6차례 메모리 침체. 약자 도태 → 과점 강화 패턴</td></tr>
+        <tr><td><b>3. BM</b></td><td>6 layer: 팹리스(NVIDIA·AMD·QCOM) / IDM(Intel·삼성·Micron·SK하이닉스) / 파운드리(TSMC·삼성·Intel) / OSAT(ASE·Amkor) / 소부장(ASML·AMAT·LAM·TEL) / EDA·IP(Synopsys·Cadence·ARM). OPM -10% (메모리 불황) ~ 60% (NVIDIA·ASML)</td></tr>
+        <tr><td><b>4. 공급</b></td><td>메모리 25→<b>3사</b> (CR3 95%+) / 첨단 파운드리 사실상 <b>2사</b> (TSMC 90%+, 삼성 7%) / EUV <b>1사</b> (ASML) / CoWoS <b>1사</b> (TSMC)</td></tr>
+        <tr><td><b>5. 수요</b></td><td>AI/데이터센터 30%+ (5년 전 15%, 2배), 모바일 25%, PC 15%, 자동차/산업 20%, 가전 10%. 메가 트렌드 직접 60%. B2B 70%+. 가격탄력성 매우 낮음</td></tr>
+        <tr class="bottleneck"><td><b>4+5</b></td><td><span class="star">★ 카테고리 A: 구조적 메가 병목</span> — 공급 매우 제한, 수요 AI 메가 견인. 향후 5~7년 P+Q 동반 상승 사이클 가능성 높음 (AI capex 변곡점 + 미·중 디커플링 reset risk 동반)</td></tr>
+      </table>
+    </section>
+
+    <!-- ======================== STAGE 1 ======================== -->
+    <section id="stage1">
+      <h2>1단계. 역사 — 1947년부터 2026년까지</h2>
+      <p style="color:var(--muted);font-size:13px">각 chunk를 6 layer로 풀어낸다: <b>(a)</b> 매크로 배경 · <b>(b)</b> 패권자 · <b>(c)</b> 산업 변화 · <b>(d)</b> 사이클 단계 · <b>(e)</b> 대표 기업 주가 · <b>(f)</b> 규제. 트리거 시점은 일반인 친화 비유로 풀이.</p>
+
+      <div class="chart-card">
+        <h4>반도체 패권 이동의 역사 (1947–2026)</h4>
+        <canvas id="hegemonyChart" height="160"></canvas>
+        <div class="src">→ 개념적 시각화 — 산업 핵심 패권자(설계·제조·메모리·장비)의 시대별 점유 비중</div>
+      </div>
+
+      <!-- Chunk 1 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">1947–1970</span>Chunk 1. 미국 단독 시대 (산업의 탄생)</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>미·소 냉전, 스푸트니크 충격(1957) → NASA 설립, 우주·미사일 미니어처화 요구가 반도체의 원초적 수요. 비유: 진공관 시대 ENIAC 27톤·면적 167㎡·전력 150kW → 반도체 = "방 한 칸짜리 컴퓨터를 손바닥에"</div>
+          <div class="lbl">(b) 패권자</div><div>미국 100% 단독. Bell Labs / TI / Fairchild / Intel(1968) / Motorola / IBM. 일본·유럽은 라이센스 도입자</div>
+          <div class="lbl">(c) 산업 변화</div><div>1947 점접촉 트랜지스터 → 1958 IC(Kilby) → 1959 평면 공정 IC(Noyce) → 1965 Moore의 법칙 → 1968 Intel 창업</div>
+          <div class="lbl">(d) 사이클</div><div>0차 — 산업 형성기. IC 가격 학습곡선 따라 $1,000 → $10 급락</div>
+          <div class="lbl">(e) 주가</div><div>1960년대 후반 "전자 주식 붐" → 1969 폭락</div>
+          <div class="lbl">(f) 규제</div><div>DARPA·NASA·국방부 R&D 50%+. Apollo 프로그램이 1965 미국 IC 생산의 60% 흡수. COCOM 공산권 수출 금지</div>
+        </div>
+      </div>
+
+      <!-- Chunk 2 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">1970–1985</span>Chunk 2. 마이크로프로세서 혁명, DRAM 등장, 일본 추격</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>1971 닉슨 쇼크 → 변동환율, 1973·79 오일쇼크. 미국 제조업 약화 / 일본 환율·품질로 부상. 1985 플라자합의로 패권 이동의 거시 무대 완성</div>
+          <div class="lbl">(b) 패권자</div><div>미국 주도 + 일본 빠른 추격. NEC·도시바·히타치·후지쯔·미쓰비시 6사 체제. 일본 점유율 1975 30% → 1985 50%</div>
+          <div class="lbl">(c) 산업 변화</div><div>1971 Intel 4004 (최초 MPU) + Intel 1103 (최초 DRAM) → 1981 IBM PC (Wintel 시작) → 1985 Intel 메모리 철수, CPU 집중. 비유: "축구→야구 종목 이동"</div>
+          <div class="lbl">(d) 사이클</div><div>1차 메모리 사이클 형성·성장기 → 1985년 1차 침체 직전</div>
+          <div class="lbl">(e) 주가</div><div>Intel 우상향, NEC·도시바 등 일본 6사 폭등 (1985 직전이 일본 반도체 1차 정점)</div>
+          <div class="lbl">(f) 규제</div><div>1974 Trade Act §301 / 일본 VLSI 프로젝트(1976–80, 통산성 720억엔) → 추격의 결정적 동력</div>
+        </div>
+      </div>
+
+      <!-- Chunk 3 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">1985–2000</span>Chunk 3. 일본 패권의 정점·몰락, 한국·대만 진입</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>1985 플라자합의 → 엔/달러 240→120 (2배 절상) → 일본 자산 거품 → 1990 닛케이 38,915 정점 → 30년 침체. 미국 클린턴 IT 붐, 1989 베를린 장벽, 1991 소련 해체</div>
+          <div class="lbl">(b) 패권자</div><div>1985–92 일본 절정 (메모리 80%, NEC 세계 1위) → 1992–2000 미국 컴백 + 한국·대만 진입. 1992 삼성 64Mb DRAM 세계 최초 → 한국 추월의 시작</div>
+          <div class="lbl">(c) 산업 변화</div><div>1986 미·일 협정 → 1987 TSMC 창업(파운드리 모델) → 1988 삼성 4Mb DRAM 진입 → 1992 삼성 64Mb 세계 최초 → 1995 Win95 → 1996 2차 메모리 침체 → 1999 현대·LG 합병(하이닉스). 비유: 일본 6사 합의 vs 한국 2사 단독결정 — 의사결정 속도 2배</div>
+          <div class="lbl">(d) 사이클</div><div>1차 침체(1985–87) → 2차 사이클 → 2차 침체(1996–98) → 3차 사이클 시작(1999 닷컴)</div>
+          <div class="lbl">(e) 주가</div><div>일본 6사 1985 정점 후 30년 하락. Intel 1990s 10배. TSMC 1994 상장 후 폭등</div>
+          <div class="lbl">(f) 규제</div><div>1986 미·일 반도체 협정 (일본 가격 통제 + 외국 20% 보장) / 1987 SEMATECH / 1996 WTO ITA — 자유무역 절정</div>
+        </div>
+      </div>
+
+      <!-- Chunk 4 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">2000–2010</span>Chunk 4. 한국 메모리 패권, 파운드리 모델 정착, 모바일 혁명 신호탄</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>2000 닷컴 정점 → -78%. 2001 9·11, 중국 WTO. 2003 이라크. 2007 iPhone 출시, 2008 글로벌 금융위기. 비유: 닷컴 폭락의 잔해 위에 클라우드(2006 AWS)·모바일(2007 iPhone) 씨앗</div>
+          <div class="lbl">(b) 패권자</div><div>메모리: 한국·미국 우위 (Elpida·Qimonda 약화). CPU: Intel 절대. 파운드리: TSMC 1위. 새 강자: NVIDIA(GPU)·Apple(2008 A4)</div>
+          <div class="lbl">(c) 산업 변화</div><div>2001 3차 침체(Hynix 부도 위기) → 2003 TSMC 130nm → 2006 AWS → 2007 iPhone → 2007–09 4차 침체(Qimonda 파산, Elpida 회생) → 2009 SSD MacBook Air → 2010 Apple A4 모바일 SoC</div>
+          <div class="lbl">(d) 사이클</div><div>3차 침체 → 4차 사이클(2003–06) → 4차 침체(2007–09) → 회복</div>
+          <div class="lbl">(e) 주가</div><div>삼성 우상향. Hynix 파동 큼. TSMC 폭등. Intel 정체(모바일 실패). Apple 2007 이후 폭등</div>
+          <div class="lbl">(f) 규제</div><div>2001 중국 WTO → SMIC 부상. 2003 WTO Hynix 보조금 분쟁 / 2009 EU Qualcomm 반독점</div>
+        </div>
+      </div>
+
+      <!-- Chunk 5 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">2010–2020</span>Chunk 5. 모바일·클라우드, EUV 도입, 미·중 갈등 시작</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>2010s 글로벌 저금리, 2014 셰일·달러 강세, 2016 브렉시트·트럼프, 2018 미·중 무역전쟁, 2019 화웨이 엔티티리스트, 2020 코로나. 비유: "스마트폰·클라우드 보급 + 미·중 30년만의 분리 + 코로나 충격" 동시 3개</div>
+          <div class="lbl">(b) 패권자</div><div>메모리: 한국 2사 + Micron (3사 체제 확립). 파운드리: TSMC 절대화, Intel 14nm 정체. CPU: AMD 부활(2017 Ryzen·EPYC). GPU·AI: NVIDIA 데이터센터 진입(2017 V100). 소부장: ASML EUV 독점</div>
+          <div class="lbl">(c) 산업 변화</div><div>2011 TSMC 28nm → 2012 Elpida → Micron / NVIDIA AlexNet → 2014 Intel 14nm 정체 / 삼성 14nm FF → 2018 5차 메모리 사이클 정점·침체 / 화웨이 엔티티리스트 → 2019 EUV 양산(7nm+) → 2020 코로나 6차 호황 출발</div>
+          <div class="lbl">(d) 사이클</div><div>4차 회복 → 5차 슈퍼사이클(2012–18, 7년) → 5차 침체(2018–20) → 6차 호황 시작</div>
+          <div class="lbl">(e) 주가</div><div>NVIDIA·TSMC 폭등 본격화. 삼성·SK하이닉스 2017–18 사상 최대. Intel 정체. AMD 10년 50배. ASML EUV 폭등</div>
+          <div class="lbl">(f) 규제</div><div>2018 트럼프 관세 / 2019 화웨이 / 2020 ASML EUV 중국 통제 시작 / EU Digital Compass / 중국 14·5 계획</div>
+        </div>
+      </div>
+
+      <!-- Chunk 6 -->
+      <div class="chunk">
+        <div class="chunk-head"><span class="chunk-period">2020–2026</span>Chunk 6. AI 폭발, 미·중 디커플링, HBM·첨단 패키징 시대</div>
+        <div class="layer-grid">
+          <div class="lbl">(a) 매크로</div><div>코로나·인플레·금리 인상. 2022 우크라이나·ChatGPT. 2023–25 미·중 디커플링 본격, AI capex 사상 최대. 비유: "AI + 디커플링 더블 슈퍼사이클" — 두 거대 동력 동시</div>
+          <div class="lbl">(b) 패권자</div><div>NVIDIA + TSMC 양강. SK하이닉스 HBM 1위(53–62%), Samsung 추격(22–35%), Micron 11–21%. 2025 SK하이닉스 메모리 매출 사상 첫 1위. AMD 데이터센터 30%+. Intel 18A 진입</div>
+          <div class="lbl">(c) 산업 변화</div><div>2020 TSMC 5nm → 2021 글로벌 칩 부족 → 2022 CHIPS Act / 대중 수출규제 / ChatGPT → 2023 NVIDIA $1T → 2024 Blackwell·Intel 18A·Rapidus → 2025 TSMC AZ 양산·Intel Fab52·SK하이닉스 메모리 1위 → 2026 HBM4 양산·반도체 매출 $1.3T 첫 돌파 전망. 비유: AI 가속기 = "1981 IBM PC·2007 iPhone에 비견되는 새 컴퓨팅 패러다임", 단 단가 100~1000배·hyperscaler 5~10개 집중</div>
+          <div class="lbl">(d) 사이클</div><div>6차 호황(2020–22) → 6차 침체(2022 H2–23 H1) → 7차 호황(2023–현재). 메모리·AI는 회복 중, PC·모바일은 reset</div>
+          <div class="lbl">(e) 주가</div><div>NVIDIA $14 → $130+, 시총 $3~4T. TSMC $1T 돌파. SK하이닉스 사상 최고. Intel 사상 최저 갱신 후 회복 시도. ASML 우상향</div>
+          <div class="lbl">(f) 규제</div><div>CHIPS Act $390억 (Intel $7.86B / TSMC $6.6B / Samsung $4.75B / Micron $6.1B). 2022·23·24·25 대중 수출규제 강화. EU Chips Act €430억. K-Chips 25% 세제. 2025 미국 정부 CHIPS 수혜기업 지분 인수 검토(Intel 10%)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================== STAGE 2 ======================== -->
+    <section id="stage2">
+      <h2>2단계. 주가 사이클 — 두 주기의 중첩</h2>
+      <p>메모리 단주기(4~5년) + 매크로 장주기(7~10년) 중첩. 비유: "심장박동 + 호흡". 위상 일치 시 슈퍼사이클.</p>
+
+      <div class="chart-card">
+        <h4>메모리 사이클 — 6차례 침체의 깊이·길이</h4>
+        <canvas id="cycleChart" height="220"></canvas>
+        <div class="src">→ 1985 / 1996 / 2001 / 2008 / 2018 / 2022 — 6차례 메모리 사이클 침체 비교 (DRAM ASP 하락폭 %)</div>
+      </div>
+
+      <div class="twocol">
+        <div class="chart-card">
+          <h4>침체 깊이 vs 길이 (1985→2022)</h4>
+          <canvas id="cycleDepth" height="200"></canvas>
+          <div class="src">→ 침체 깊이 -80%→-45%로 점차 얕아지고, 길이 24개월→9개월로 단축</div>
+        </div>
+        <div class="chart-card">
+          <h4>대표 기업 사이클 진폭 (Trough → Peak %)</h4>
+          <canvas id="amplitudeChart" height="200"></canvas>
+          <div class="src">→ NVIDIA 2018→2024 +2,000%, 삼성 2009→2018 +400%</div>
+        </div>
+      </div>
+
+      <h4>1단계 chunk와 사이클 변곡점 매핑</h4>
+      <table>
+        <tr><th>chunk 경계</th><th>매크로 변곡</th><th>메모리 사이클 변곡</th><th>일치 여부</th></tr>
+        <tr><td>1→2 (1970)</td><td>닉슨 쇼크, MPU 등장</td><td>1차 사이클 형성</td><td>일치</td></tr>
+        <tr><td>2→3 (1985)</td><td>플라자합의, 미·일 협정</td><td>1차 침체 정점</td><td>완벽 일치</td></tr>
+        <tr><td>3→4 (2000)</td><td>닷컴 정점</td><td>3차 침체 시작</td><td>완벽 일치</td></tr>
+        <tr><td>4→5 (2010)</td><td>모바일·클라우드</td><td>4차 침체 회복</td><td>일치</td></tr>
+        <tr><td>5→6 (2020)</td><td>코로나, AI 직전</td><td>6차 호황 시작</td><td>일치</td></tr>
+      </table>
+      <p><b>결론</b>: chunk가 multi-dimension 변화 시점이므로 자연스럽게 사이클 변곡점과 겹침. 5/5 완벽 일치.</p>
+    </section>
+
+    <!-- ======================== STAGE 3 ======================== -->
+    <section id="stage3">
+      <h2>3단계. 비즈니스 구조 + 밸류체인</h2>
+
+      <h4>6 layer 매핑 (업스트림 → 다운스트림)</h4>
+      <table>
+        <tr><th>Layer</th><th>대표사</th><th>BM</th><th>진입장벽</th><th>OPM</th><th>CapEx/매출</th></tr>
+        <tr><td>EDA·IP</td><td>Synopsys / Cadence / ARM</td><td>SW 라이센스·로열티</td><td>30년+ 누적 코드·표준화</td><td>25~35%</td><td>&lt;5%</td></tr>
+        <tr><td>소부장</td><td>ASML / AMAT / LAM / TEL / KLA</td><td>장비·소재 판매</td><td>수십년 R&D, 고객 협업</td><td>25~50%</td><td>5~10%</td></tr>
+        <tr><td>팹리스</td><td>NVIDIA / AMD / QCOM / Apple</td><td>설계 + 위탁 제조</td><td>SW(CUDA)·고객 lock-in</td><td>30~60%</td><td>&lt;5%</td></tr>
+        <tr><td>IDM</td><td>Intel / 삼성 / Micron / SK하이닉스</td><td>설계+제조+판매 일관</td><td>$30B+ CapEx, 사이클 견딤</td><td>-10~40%</td><td>25~35%</td></tr>
+        <tr><td>파운드리</td><td>TSMC / 삼성LSI / Intel Foundry</td><td>위탁 생산 fee</td><td>EUV $350M·CapEx $30B+</td><td>35~50%</td><td>30~40%</td></tr>
+        <tr><td>OSAT</td><td>ASE / Amkor / JCET</td><td>패키징·테스트 fee</td><td>자본 + 고객 인증</td><td>10~20%</td><td>10~15%</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>레이어별 영업이익률 비교 (2025 Industry Avg)</h4>
+        <canvas id="layerOpm" height="200"></canvas>
+        <div class="src">→ EDA·IP·소부장·팹리스가 마진 상위. IDM(메모리)는 사이클 변동성 큼</div>
+      </div>
+
+      <h4>한국 기업 위치 + 테마 직접성 (AI)</h4>
+      <table>
+        <tr><th>기업</th><th>Layer</th><th>글로벌 위치</th><th>AI 직접성</th></tr>
+        <tr><td>삼성전자</td><td>IDM (메모리) + 파운드리 (LSI)</td><td>메모리 #1~#2, 파운드리 #2</td><td><span class="pill high">높음</span></td></tr>
+        <tr><td>SK하이닉스</td><td>IDM (메모리)</td><td>메모리 #2~#1, HBM #1</td><td><span class="pill high">매우 높음</span></td></tr>
+        <tr><td>한미반도체</td><td>후공정 장비 (TC본더)</td><td>HBM TC본더 #1</td><td><span class="pill high">매우 높음</span></td></tr>
+        <tr><td>이오테크닉스</td><td>후공정 장비 (레이저)</td><td>글로벌 강자</td><td><span class="pill mid">중간</span></td></tr>
+        <tr><td>원익IPS·세메스·테스</td><td>전공정 장비</td><td>한국 IDM 내수 + 일부 글로벌</td><td><span class="pill mid">중간</span></td></tr>
+        <tr><td>솔브레인·SK머티리얼즈·동진쎄미켐</td><td>소재</td><td>일부 segment 글로벌 강자</td><td><span class="pill mid">중간</span></td></tr>
+        <tr><td>DB하이텍</td><td>파운드리 (8인치)</td><td>Specialty 8인치 #5~6</td><td><span class="pill low">낮음</span></td></tr>
+        <tr><td>LX세미콘·텔레칩스</td><td>팹리스</td><td>Specialty 시장</td><td><span class="pill low">낮음~중간</span></td></tr>
+      </table>
+      <p><b>핵심</b>: 한국은 메모리·후공정 장비(HBM)·일부 소재에서 글로벌 경쟁력 보유. <b>시스템반도체 팹리스(QCOM·NVIDIA급)·첨단 노드 파운드리(TSMC급)·전공정 핵심 장비(ASML·AMAT급)는 부재</b>. 메모리는 1위, 시스템·장비는 추격자 — 두 얼굴.</p>
+    </section>
+
+    <!-- ======================== STAGE 4 ======================== -->
+    <section id="stage4">
+      <h2>4단계. 공급 구조 점검 — 현재 정량 snapshot</h2>
+
+      <div class="chart-card">
+        <h4>메모리 메이저 수 변화 (1990 → 2010 → 2025)</h4>
+        <canvas id="suppliersChart" height="200"></canvas>
+        <div class="src">→ 25사 → 5사 → 3사. 매 사이클 침체마다 약자 도태</div>
+      </div>
+
+      <h4>구조조정 이력 (시간순)</h4>
+      <table>
+        <tr><th>연도</th><th>이벤트</th><th>플레이어 수</th></tr>
+        <tr><td>1985</td><td>Intel·TI 메모리 철수</td><td>25 → 23</td></tr>
+        <tr><td>1986</td><td>미·일 협정 — 일본 6사 체제 굳음</td><td>23</td></tr>
+        <tr><td>1996–98</td><td>2차 침체 — 일부 일본·유럽 정리</td><td>~ 18</td></tr>
+        <tr><td>1999</td><td>한국 현대·LG 합병 → 하이닉스</td><td>한국 2사로</td></tr>
+        <tr><td>2001–02</td><td>3차 침체 — Hynix 회생</td><td>~ 12</td></tr>
+        <tr><td>2009</td><td>Qimonda(독일) 파산</td><td>11 → 10</td></tr>
+        <tr><td>2012</td><td>Elpida(일본) → Micron 인수</td><td>7 → 6</td></tr>
+        <tr><td>2013</td><td>일본 후지쯔·중국 일부 정리</td><td>~ 5</td></tr>
+        <tr><td>2018–25</td><td>3사 + 중국 후발 2사(CXMT/YMTC)</td><td><b>3 (메이저) + 2 (중국, 격차)</b></td></tr>
+      </table>
+
+      <div class="twocol">
+        <div class="chart-card">
+          <h4>공급 집중도 (CR3) 변화</h4>
+          <canvas id="cr3Chart" height="200"></canvas>
+          <div class="src">→ DRAM CR3 35%→95%+ / NAND CR3 75%→85%</div>
+        </div>
+        <div class="chart-card">
+          <h4>첨단 노드 신규 fab CapEx (USD B)</h4>
+          <canvas id="capexChart" height="200"></canvas>
+          <div class="src">→ 1990 $1B (1㎛급) → 2025 $30~50B (2/3nm)</div>
+        </div>
+      </div>
+
+      <h4>공급 집중도 매트릭스 — 1990 vs 2010 vs 2025</h4>
+      <table>
+        <tr><th>구분</th><th>1990</th><th>2010</th><th>2025</th></tr>
+        <tr><td>메모리 메이저 수</td><td>25</td><td>5</td><td><b>3</b></td></tr>
+        <tr><td>DRAM CR3</td><td>~35%</td><td>~80%</td><td><b>95%+</b></td></tr>
+        <tr><td>DRAM HHI</td><td>&lt;1,000</td><td>~2,500</td><td><b>~3,300</b></td></tr>
+        <tr><td>NAND CR3</td><td>n/a</td><td>~75%</td><td><b>~85%</b></td></tr>
+        <tr><td>HBM 메이저 수</td><td>n/a</td><td>n/a</td><td><b>3</b></td></tr>
+        <tr><td>메모리 CapEx/매출</td><td>~15%</td><td>~25%</td><td><b>30~40%</b></td></tr>
+        <tr><td>파운드리 CR1 (TSMC)</td><td>n/a</td><td>~50%</td><td><b>~70%</b></td></tr>
+        <tr><td>첨단 노드 (3nm) CR1</td><td>n/a</td><td>n/a</td><td><b>TSMC ~90%+</b></td></tr>
+        <tr><td>EUV 노광기 CR1 (ASML)</td><td>n/a</td><td>n/a</td><td><b>100%</b></td></tr>
+        <tr><td>CoWoS 패키징 CR1 (TSMC)</td><td>n/a</td><td>n/a</td><td><b>~85%</b></td></tr>
+      </table>
+    </section>
+
+    <!-- ======================== STAGE 5 ======================== -->
+    <section id="stage5">
+      <h2>5단계. 수요 구조 점검 — 현재 정량 snapshot</h2>
+
+      <div class="twocol">
+        <div class="chart-card">
+          <h4>응용 분야별 수요 비중 (2020 → 2025)</h4>
+          <canvas id="demandChart" height="200"></canvas>
+          <div class="src">→ AI/데이터센터 15%→30% (2배). 모바일·PC·가전 비중 축소</div>
+        </div>
+        <div class="chart-card">
+          <h4>메가 트렌드 직접 견인 비중 (2020 → 2025 → 2030E)</h4>
+          <canvas id="megaChart" height="200"></canvas>
+          <div class="src">→ 30%→60%→80% — 메가 인프라 산업으로 격상</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h4>Hyperscaler AI CapEx 추이 (USD B)</h4>
+        <canvas id="aicapexChart" height="200"></canvas>
+        <div class="src">→ 2022 $162B → 2025 $448B → 2026E $700B (Big Tech 합계)</div>
+      </div>
+
+      <div class="chart-card">
+        <h4>HBM 시장 점유율 (2025)</h4>
+        <canvas id="hbmChart" height="180"></canvas>
+        <div class="src">→ SK하이닉스 53–62% / Samsung 22–35%(회복) / Micron 11–21%. TAM $35B(2025)→$100B(2028E), CAGR 40%</div>
+      </div>
+
+      <h4>응용 분야별 비중 + 5년 변화</h4>
+      <table>
+        <tr><th>응용</th><th>2020 비중</th><th>2025 비중</th><th>2025 YoY</th></tr>
+        <tr><td><b>AI/데이터센터·서버</b></td><td>~15%</td><td><b>~30%</b></td><td>+50%+</td></tr>
+        <tr><td>모바일</td><td>~30%</td><td>~25%</td><td>-3%</td></tr>
+        <tr><td>PC</td><td>~18%</td><td>~15%</td><td>+5%</td></tr>
+        <tr><td>자동차</td><td>~10%</td><td>~12%</td><td>+8%</td></tr>
+        <tr><td>산업용</td><td>~10%</td><td>~8%</td><td>+5%</td></tr>
+        <tr><td>가전·소비</td><td>~17%</td><td>~10%</td><td>-2%</td></tr>
+      </table>
+
+      <h4>수요 집중도 — B2B 핵심 (상위 5개 고객 비중)</h4>
+      <table>
+        <tr><th>응용</th><th>주요 고객</th><th>상위 5사 비중</th></tr>
+        <tr><td>AI 가속기</td><td>MSFT·META·GOOG·AMZN·ORCL·TSLA·xAI·소버린</td><td><b>~70%</b> (MSFT·META 단독 각 15%+)</td></tr>
+        <tr><td>HBM</td><td>NVIDIA·AMD·Broadcom(GOOG)·MSFT 자체칩·AWS</td><td><b>NVIDIA 단독 50%+</b></td></tr>
+        <tr><td>첨단 노드 파운드리(TSMC)</td><td>Apple·NVIDIA·AMD·QCOM·Broadcom·Tesla</td><td><b>60%+</b> (Apple 단독 20%+)</td></tr>
+        <tr><td>EUV(ASML)</td><td>TSMC·삼성·Intel·SK하이닉스·Micron</td><td><b>90%+</b></td></tr>
+      </table>
+
+      <h4>가격탄력성</h4>
+      <table>
+        <tr><th>응용</th><th>탄력성</th><th>이유</th></tr>
+        <tr><td>AI 가속기·HBM</td><td><span class="pill high">매우 낮음</span></td><td>hyperscaler 우선순위 1순위, NVIDIA H100 $30K→$40K but 수요 증가</td></tr>
+        <tr><td>첨단 파운드리 (3/2nm)</td><td><span class="pill high">낮음</span></td><td>Apple·NVIDIA·AMD가 cutting-edge 강제</td></tr>
+        <tr><td>메모리(레거시 DRAM·NAND)</td><td><span class="pill mid">중간~높음</span></td><td>모바일·PC·가전 BOM 부담</td></tr>
+        <tr><td>자동차 반도체</td><td><span class="pill low">낮음~중간</span></td><td>차량 가격의 5~10%, 비중 낮음</td></tr>
+        <tr><td>소비 가전</td><td><span class="pill low">높음</span></td><td>가전 OEM BOM 1순위 절감 대상</td></tr>
+      </table>
+    </section>
+
+    <!-- ======================== CONCLUSION ======================== -->
+    <section id="concl">
+      <h2>4+5 종합 — 수급 매트릭스 현재 위치</h2>
+
+      <div class="chart-card">
+        <h4>현재 위치: 카테고리 A — 구조적 메가 병목</h4>
+        <table>
+          <tr><th></th><th>공급 제한</th><th>공급 적당</th><th>공급 감소</th><th>공급 증가</th></tr>
+          <tr><td><b>수요 급증</b></td><td class="bottleneck"><span class="star">★ A. 구조적 메가 병목 (현재)</span></td><td>B. 수요 견인</td><td>(A 강화)</td><td>D. 동반 확대</td></tr>
+          <tr><td>수요 일정</td><td>E. 점진적 가격 상승</td><td>중립</td><td>C. 일시적 사이클 반등</td><td>F. 공급 과잉</td></tr>
+          <tr><td>수요 감소</td><td>G. 구조조정</td><td>(F 강화)</td><td>(시장 축소)</td><td>(디플레이션)</td></tr>
+        </table>
+      </div>
+
+      <h4>근거</h4>
+      <table>
+        <tr><th>측면</th><th>핵심 fact</th></tr>
+        <tr><td><b>공급</b></td><td>CR3 95%+ (메모리), 첨단 노드 TSMC 90%+ 단독, EUV 100% ASML, CoWoS 85% TSMC. CapEx 진입장벽 $30B+. 새 메이저 진입 5~10년 내 불가능</td></tr>
+        <tr><td><b>수요</b></td><td>AI 슈퍼사이클(메가 직접 60%), B2B 70%, 가격탄력성 매우 낮음. AI capex $448B → 2026E $700B 가속</td></tr>
+      </table>
+    </section>
+
+    <section id="scen">
+      <h2>향후 5~7년 시나리오</h2>
+      <div class="scenario">
+        <div class="sc base">
+          <div class="lbl">Base (50%)</div>
+          <div class="pct">A. 메가 병목 지속</div>
+          <div class="head"></div>
+          <div>AI capex 2027~28 peak까지 가속. P+Q 동반 상승. 메가 종목 우상향 지속</div>
+        </div>
+        <div class="sc bear">
+          <div class="lbl">Bear (25%)</div>
+          <div class="pct">B. AI capex 변곡점</div>
+          <div class="head"></div>
+          <div>2026~27 hyperscaler capex 일시 조정 → 메모리·HBM·첨단 노드 12~18개월 침체. 본질 구조 유지</div>
+        </div>
+        <div class="sc risk">
+          <div class="lbl">Risk (15%)</div>
+          <div class="pct">C. 디커플링 가속</div>
+          <div class="head"></div>
+          <div>미·중 디커플링 추가 강화 → 시장 양분, 비용 상승·중복 투자, 글로벌 $1T 목표 지연</div>
+        </div>
+        <div class="sc swan">
+          <div class="lbl">Black Swan (10%)</div>
+          <div class="pct">D. 새 패러다임</div>
+          <div class="head"></div>
+          <div>광·양자·뉴로모픽 등 새 칩이 일부 segment 잠식. 시점 불확실</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted)"><b>알 수 없는 영역</b>: AI capex peak 시점, 추론 시장 칩 다양화 정도(NVIDIA 외 ASIC 점유율), 미·중 디커플링 최종 깊이 — 모두 시나리오로 다룬다.</p>
+    </section>
+
+    <!-- ======================== APPENDIX ======================== -->
+    <section id="appx">
+      <h2>부록 — 용어집 · Cross-Reference · 출처</h2>
+      <div class="twocol">
+        <div>
+          <h4>핵심 용어</h4>
+          <ul class="appendix">
+            <li><b>DRAM</b> — 휘발성 메모리, 주 메모리</li>
+            <li><b>NAND</b> — 비휘발성 메모리, SSD·모바일 저장</li>
+            <li><b>HBM</b> — DRAM 수직 적층, AI 가속기 핵심</li>
+            <li><b>EUV</b> — 13.5nm 파장 노광, ASML 독점</li>
+            <li><b>CoWoS</b> — TSMC 2.5D 첨단 패키징</li>
+            <li><b>팹리스</b> — 설계만, 제조 위탁</li>
+            <li><b>파운드리</b> — 위탁 생산 전문</li>
+            <li><b>IDM</b> — 설계+제조 일관</li>
+            <li><b>OSAT</b> — 후공정 위탁</li>
+            <li><b>EDA</b> — 칩 설계 SW</li>
+            <li><b>HHI</b> — 시장 집중도, 2,500+ = 매우 높음</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Cross-Reference</h4>
+          <ul class="appendix">
+            <li>메모리 segment 깊은 역사·HBM 상세: <code>메모리_산업기초.md</code> (작성 예정)</li>
+            <li>시스템반도체 segment: <code>시스템반도체_산업기초.md</code> (작성 예정)</li>
+            <li>테마 키워드 narrative → <code>theme-analysis</code> 모드</li>
+            <li>개별 기업 분석 → <code>company-analysis</code> 모드</li>
+            <li>분기 변동 → <code>earnings-preview/review/in-depth</code></li>
+          </ul>
+          <h4>주요 출처</h4>
+          <ul class="appendix">
+            <li>Gartner Worldwide Semiconductor Revenue 2025 (2026.01)</li>
+            <li>WSTS Semiconductor Forecast 2025 Autumn</li>
+            <li>TrendForce / Counterpoint Research 분기 점유율</li>
+            <li>Astute Group HBM 2025 점유율 보고</li>
+            <li>Dell'Oro Hyperscaler Capex 2Q 2025</li>
+            <li>US DoC CHIPS Program / GAO-26-107882</li>
+            <li>각 사 IR (삼성·SK하이닉스·TSMC·NVIDIA·Intel·ASML·Micron)</li>
+            <li>Chris Miller, "Chip War" (2022)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      본 문서는 <b>영구적 reference</b>로 운영된다. 분기 변동·단기 narrative는 본 문서에 반영하지 않으며, 산업의 본질·구조·역사적 큰 흐름이 변할 때만 갱신한다.<br/>
+      industry_level: <b>major</b> · last_updated: <b>2026-05-12</b> · last_industry_review_date: <b>null</b>
+    </div>
+  </main>
+</div>
+
+<script>
+const ACC='#1f3a68', ACC2='#a8843f', KR='#2ca02c', US='#1f77b4', TW='#d62728', JP='#9467bd', RD='#b03030';
+Chart.defaults.font.family='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+Chart.defaults.font.size=11.5;
+Chart.defaults.color='#333';
+
+// (1) Hegemony chart — stacked area conceptual
+new Chart(document.getElementById('hegemonyChart'),{
+  type:'line',
+  data:{
+    labels:['1947','1960','1970','1980','1985','1990','1995','2000','2005','2010','2015','2020','2025','2026'],
+    datasets:[
+      {label:'미국',data:[100,100,90,80,65,55,55,60,55,55,60,55,55,55],borderColor:US,backgroundColor:US+'30',fill:'origin',tension:0.3},
+      {label:'일본',data:[0,0,5,15,30,40,30,20,15,10,8,7,6,6],borderColor:JP,backgroundColor:JP+'30',fill:'-1',tension:0.3},
+      {label:'한국',data:[0,0,0,0,2,5,10,15,20,22,20,22,24,25],borderColor:KR,backgroundColor:KR+'30',fill:'-1',tension:0.3},
+      {label:'대만',data:[0,0,0,0,0,3,5,10,15,18,20,22,24,25],borderColor:TW,backgroundColor:TW+'30',fill:'-1',tension:0.3},
+      {label:'기타(중·EU)',data:[0,0,5,5,3,-3,0,-5,-5,-5,-8,-6,-9,-11],borderColor:'#888',backgroundColor:'#88884030',fill:'-1',tension:0.3,hidden:true},
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,suggestedMax:100,title:{display:true,text:'점유 (개념)'}}},responsive:true,interaction:{mode:'index'}}
+});
+
+// (2) Cycle chart — 6 historical downturns
+new Chart(document.getElementById('cycleChart'),{
+  type:'bar',
+  data:{
+    labels:['1차 1985','2차 1996','3차 2001','4차 2008','5차 2018','6차 2022'],
+    datasets:[{label:'DRAM ASP 하락폭 (%)',data:[80,60,80,70,50,45],backgroundColor:[RD,RD,RD,RD,'#cc7a3a','#cc7a3a']}]
+  },
+  options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'하락폭 (%)'}}}}
+});
+
+// (3) Cycle depth vs length
+new Chart(document.getElementById('cycleDepth'),{
+  type:'line',
+  data:{
+    labels:['1985','1996','2001','2008','2018','2022'],
+    datasets:[
+      {label:'침체 깊이 (%)',data:[80,60,80,70,50,45],borderColor:RD,backgroundColor:RD+'20',yAxisID:'y',tension:0.3},
+      {label:'침체 길이 (개월)',data:[18,24,24,18,15,9],borderColor:US,backgroundColor:US+'20',yAxisID:'y2',tension:0.3}
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'%'}},y2:{position:'right',title:{display:true,text:'월'},grid:{drawOnChartArea:false}}}}
+});
+
+// (4) Amplitude chart
+new Chart(document.getElementById('amplitudeChart'),{
+  type:'bar',
+  data:{
+    labels:['삼성 09→18','SK하이닉스 09→18','TSMC 08→24','NVIDIA 18→24','ASML 12→24','AMD 16→24'],
+    datasets:[{label:'주가 진폭 (%)',data:[400,500,1200,2000,800,5000],backgroundColor:[KR,KR,TW,'#76b900',US,RD]}]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'%'},ticks:{callback:(v)=>v+'%'}}}}
+});
+
+// (5) Layer OPM
+new Chart(document.getElementById('layerOpm'),{
+  type:'bar',
+  data:{
+    labels:['EDA·IP','소부장','팹리스(NVIDIA)','IDM (메모리)','파운드리(TSMC)','OSAT'],
+    datasets:[
+      {label:'영업이익률 하단 (%)',data:[25,25,30,-10,35,10],backgroundColor:'#aac1d8'},
+      {label:'영업이익률 상단 (%)',data:[35,50,60,40,50,20],backgroundColor:ACC}
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'%'}}}}
+});
+
+// (6) Suppliers chart
+new Chart(document.getElementById('suppliersChart'),{
+  type:'bar',
+  data:{
+    labels:['1990','2000','2010','2018','2025'],
+    datasets:[{label:'메모리 메이저 수',data:[25,12,5,4,3],backgroundColor:[ACC2,ACC2,ACC,ACC,RD]}]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'사 수'}}}}
+});
+
+// (7) CR3 chart
+new Chart(document.getElementById('cr3Chart'),{
+  type:'line',
+  data:{
+    labels:['1990','2000','2010','2018','2025'],
+    datasets:[
+      {label:'DRAM CR3 (%)',data:[35,55,80,90,95],borderColor:KR,backgroundColor:KR+'20',tension:0.3},
+      {label:'NAND CR3 (%)',data:[null,40,75,80,85],borderColor:US,backgroundColor:US+'20',tension:0.3,spanGaps:true},
+      {label:'TSMC 파운드리 점유 (%)',data:[null,30,50,60,70],borderColor:TW,backgroundColor:TW+'20',tension:0.3,spanGaps:true},
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'}}}}
+});
+
+// (8) CapEx chart
+new Chart(document.getElementById('capexChart'),{
+  type:'bar',
+  data:{
+    labels:['1990 (1㎛)','2000 (180nm)','2010 (45nm)','2018 (7nm)','2025 (3/2nm)'],
+    datasets:[{label:'단일 첨단 fab CapEx (USD B)',data:[1,2,5,15,40],backgroundColor:[ACC2,ACC2,ACC,ACC,RD]}]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'USD Billion'}}}}
+});
+
+// (9) Demand mix
+new Chart(document.getElementById('demandChart'),{
+  type:'bar',
+  data:{
+    labels:['AI/DC','모바일','PC','자동차','산업','가전'],
+    datasets:[
+      {label:'2020',data:[15,30,18,10,10,17],backgroundColor:'#aac1d8'},
+      {label:'2025',data:[30,25,15,12,8,10],backgroundColor:ACC}
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'비중 (%)'}}}}
+});
+
+// (10) Mega trend share
+new Chart(document.getElementById('megaChart'),{
+  type:'line',
+  data:{
+    labels:['2020','2022','2024','2025','2027E','2030E'],
+    datasets:[
+      {label:'AI',data:[5,10,22,30,40,45],borderColor:'#76b900',backgroundColor:'#76b90020',tension:0.3,fill:'origin'},
+      {label:'자동차 전동화·자율주행',data:[7,8,10,12,15,18],borderColor:KR,backgroundColor:KR+'20',tension:0.3,fill:'-1'},
+      {label:'클라우드(AI 제외)',data:[10,10,10,10,10,10],borderColor:US,backgroundColor:US+'20',tension:0.3,fill:'-1'},
+      {label:'산업·로보틱스·IoT',data:[8,8,8,8,10,12],borderColor:JP,backgroundColor:JP+'20',tension:0.3,fill:'-1'},
+      {label:'소비 디바이스',data:[70,64,50,40,25,15],borderColor:'#888',backgroundColor:'#88888820',tension:0.3,fill:'-1'},
+    ]
+  },
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'},stacked:false}}}
+});
+
+// (11) AI Capex
+new Chart(document.getElementById('aicapexChart'),{
+  type:'bar',
+  data:{
+    labels:['2022','2023','2024','2025','2026E'],
+    datasets:[{label:'Big Tech CapEx (USD B)',data:[162,225,310,448,700],backgroundColor:['#aac1d8','#aac1d8','#aac1d8',ACC,'#76b900']}]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'USD Billion'}}}}
+});
+
+// (12) HBM share
+new Chart(document.getElementById('hbmChart'),{
+  type:'doughnut',
+  data:{
+    labels:['SK하이닉스 (~57%)','Samsung (~25%)','Micron (~18%)'],
+    datasets:[{data:[57,25,18],backgroundColor:[KR,'#3d6abf','#cc7a3a']}]
+  },
+  options:{plugins:{legend:{position:'right'}}}
+});
+</script>
+</body>
+</html>
