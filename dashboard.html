@@ -267,6 +267,10 @@ const allCharts = {}; // id → { chart, series, el }
 const colGroups = { kr: [], us: [] }; // chart ids per column
 const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
 const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+// Crosshair perf cache: setMarkers([]) re-renders each chart; calling it every frame on empty-space hover
+// chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
+// (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
+const lastCrosshairOnBar = { kr: false, us: false };
 const colRange = { kr: '10y', us: '10y' };
 const colInterval = { kr: '1d', us: '1d' };
 let syncing = false;
@@ -484,14 +488,21 @@ function createChart(id, col, opts = {}) {
       const mx = elRect.left - colRect.left + (param.point ? param.point.x : barX);
       const my = elRect.top  - colRect.top  + (param.point ? param.point.y : 0);
       updateHTSTooltip(col, param.time, mx, my);
+      lastCrosshairOnBar[col] = true;
     } else {
-      restoreHeaders(col);
-      colGroups[col].forEach(cid => {
-        if (allCharts[cid] && allCharts[cid].series) {
-          try { allCharts[cid].series.setMarkers([]); } catch(_) {}
-        }
-      });
-      hideHTSTooltip(col);
+      // Perf: cleanup runs ONCE on true→false transition, not every frame.
+      // setMarkers([]) triggers chart re-render — calling it every frame on empty-space hover
+      // (e.g. between candles) chokes the frame budget and makes xline/date-label feel laggy.
+      if (lastCrosshairOnBar[col]) {
+        restoreHeaders(col);
+        colGroups[col].forEach(cid => {
+          if (allCharts[cid] && allCharts[cid].series) {
+            try { allCharts[cid].series.setMarkers([]); } catch(_) {}
+          }
+        });
+        hideHTSTooltip(col);
+        lastCrosshairOnBar[col] = false;
+      }
     }
   });
   // Hide xline when mouse leaves the chart pane entirely
@@ -500,6 +511,16 @@ function createChart(id, col, opts = {}) {
     if (dateMain) dateMain.style.display = 'none';
     if (dateSub)  dateSub.style.display  = 'none';
     hideHTSTooltip(col);
+    // Sync state so next entry triggers fresh cleanup if needed
+    if (lastCrosshairOnBar[col]) {
+      restoreHeaders(col);
+      colGroups[col].forEach(cid => {
+        if (allCharts[cid] && allCharts[cid].series) {
+          try { allCharts[cid].series.setMarkers([]); } catch(_) {}
+        }
+      });
+      lastCrosshairOnBar[col] = false;
+    }
   });
 
   // Wheel → scroll 1 bar, clamped so last bar can't scroll past right edge
