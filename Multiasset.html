@@ -1825,6 +1825,86 @@ const MA_BENCH_MAP = {
   'bd':    'TLT'    // 채권 -> TLT
 };
 
+// === 매크로 드라이버 5-Type 매핑 (Python multiasset_macros.py 와 동기화) ===
+const MA_MACRO_TYPE_PANELS = {
+  'A': ['M2', 'WALCL', 'FEDFUNDS', 'DFII10'],
+  'B': ['CPI', 'FEDFUNDS', 'DFII10', 'DTWEXBGS'],
+  'C': ['FEDFUNDS', 'DGS10', 'VIXCLS', 'T10Y2Y'],
+  'D': ['DGS10', 'VIXCLS', 'BAMLH0A0HYM2', 'DTWEXBGS'],
+  'E': ['T10Y2Y', 'DTWEXBGS', 'FEDFUNDS', 'DGS10']
+};
+const MA_MACRO_TYPE_LABEL = {
+  'A': 'A. 유동성/QE',
+  'B': 'B. 인플레/공급 충격',
+  'C': 'C. 기술/사이클',
+  'D': 'D. 위기/정책 충격',
+  'E': 'E. 통화/캐리'
+};
+const MA_MACRO_COLOR = ['#1f6feb', '#27AE60', '#F39C12', '#9B59B6'];
+
+// 이벤트별 macroType 명시 매핑 (41 events)
+function getMacroTypeFor(event) {
+  const explicit = {
+    '1907_panic': 'D',           '1915_bethlehem': 'C',         '1924_29_roaring20s': 'C',
+    '1985_89_nikkei': 'C',       '1998_2000_nasdaq': 'C',       '2018_tilray': 'C',
+    '2020_covid_v': 'A',         '2020_21_tesla': 'A',          '2020_21_arkk': 'A',
+    '2021_gamestop': 'A',        '2023_24_nvda': 'C',
+    '1978_80_gold': 'B',         '1979_80_silver': 'B',         '2003_07_supercycle': 'B',
+    '2007_08_crude': 'B',        '2008_11_gold_qe': 'A',        '2010_11_silver_qe2': 'A',
+    '2014_16_oil_crash': 'B',    '2020_21_lumber': 'A',         '2022_wti_russia': 'B',
+    '2022_23_uranium': 'B',
+    '2005_08_posco': 'B',        '2009_kr_china_2nd': 'A',      '2020_21_bbig': 'A',
+    '2022_23_ecopro': 'C',       '2024_25_shipbuilding': 'C',
+    '2025_q1_hanwha': 'C',       '2025_q2_doosan': 'C',         '2025_q3_skhynix': 'C',
+    '2026_q1_samsung': 'C',      '2026_q2_skhynix': 'C',
+    '2013_btc': 'A',             '2017_btc': 'A',               '2020_21_btc': 'A',
+    '2020_21_eth': 'A',
+    '1992_gbp': 'E',             '1995_98_usdjpy': 'E',         '2014_15_usd': 'E',
+    '2022_usdjpy': 'E',
+    '2007_09_subprime': 'D',     '2022_bond_crash': 'D'
+  };
+  return explicit[event.id] || 'C';
+}
+
+// 매크로 line chart (multi-series, close-only [date,V,V,V,V,0] 데이터)
+function makeMacroChart(canvasId, seriesList, view) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return null;
+  const ctx = canvas.getContext('2d');
+  if (typeof Chart === 'undefined') return null;
+  const datasets = seriesList.map((s, i) => ({
+    label: s.key,
+    data: s.data.map(row => ({
+      x: new Date(row[0].slice(0,4) + '-' + row[0].slice(4,6) + '-' + row[0].slice(6,8)).getTime(),
+      y: row[1]
+    })),
+    borderColor: MA_MACRO_COLOR[i % MA_MACRO_COLOR.length],
+    backgroundColor: 'transparent',
+    pointRadius: 0,
+    borderWidth: 1.5,
+    fill: false,
+    spanGaps: true,
+    tension: 0.1
+  }));
+  const ch = new Chart(ctx, {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { type: 'time', display: true, ticks: { font: { size: 9 }, color: '#1c2128', maxRotation: 0 } },
+        y: { display: true, position: 'right', ticks: { font: { size: 9 }, color: '#1c2128' } }
+      }
+    }
+  });
+  ch._role = 'macro';
+  return ch;
+}
+
 // View-1/2 공통 멀티에셋 차트 빌더 (4-stack: SP500/벤치마크/메인자산/거래량)
 function renderMaChart(view, event) {
   if (typeof destroyView === 'function') destroyView(view);
@@ -1895,6 +1975,41 @@ function renderMaChart(view, event) {
       '<div class="legend-item"><div class="legend-dot" style="background:#00aa44"></div>S&P500</div>' +
       '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>' + benchKey + ' (' + acLabel + ' 벤치마크)</div>' +
       '<div class="legend-item"><div class="legend-dot" style="background:' + acColor + '"></div>' + event.asset + '</div>';
+  }
+
+  // Stack 5: 매크로 드라이버 패널
+  const macroType = getMacroTypeFor(event);
+  const macroKeys = MA_MACRO_TYPE_PANELS[macroType] || [];
+  const macroSeries = macroKeys.map(k => ({
+    key: k,
+    data: (MA_DATA.macros && MA_DATA.macros[k]) || [],
+    unit: (MA_DATA.meta && MA_DATA.meta[k] && MA_DATA.meta[k].unit) || ''
+  })).filter(s => s.data.length > 0);
+
+  const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
+  if (macroCh) {
+    if (allArrs.length > 0) {
+      const mMin = Math.min(...allArrs.map(a => a[0].x));
+      const mMax = Math.max(...allArrs.map(a => a[a.length-1].x));
+      macroCh.options.scales.x.min = mMin;
+      macroCh.options.scales.x.max = mMax;
+      macroCh.update('none');
+    }
+    if (typeof chartRegistry !== 'undefined' && chartRegistry[view]) {
+      chartRegistry[view].push(macroCh);
+    }
+  }
+
+  // 매크로 패널 라벨 + 토글 행 (4 series 색상 범례)
+  const macroPanelLabel = document.querySelector('#view-' + view + ' .panel-macro .panel-label');
+  if (macroPanelLabel) macroPanelLabel.textContent = '매크로 드라이버 [' + MA_MACRO_TYPE_LABEL[macroType] + ']';
+  const macroTogglesEl = document.getElementById(view + '-macro-toggles');
+  if (macroTogglesEl) {
+    macroTogglesEl.innerHTML = macroSeries.map((s, i) =>
+      '<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;">' +
+      '<span style="display:inline-block;width:12px;height:2px;background:' + MA_MACRO_COLOR[i] + ';"></span>' +
+      '<span style="font-size:10px;color:#1c2128;">' + s.key + (s.unit ? ' (' + s.unit + ')' : '') + '</span></span>'
+    ).join('');
   }
 }
 
