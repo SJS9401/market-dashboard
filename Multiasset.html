@@ -1800,14 +1800,101 @@ function selectMaButton(view, event) {
   }
   const titleEl = document.getElementById(view + '-title');
   const metaEl = document.getElementById(view + '-meta');
+  const hasData = MA_DATA && MA_DATA.assets && MA_DATA.assets[event.asset] && MA_DATA.assets[event.asset].length > 0;
   if (titleEl) titleEl.textContent = event.era + ' \u00B7 ' + event.name;
   if (metaEl) {
     const acMeta = MA_ASSET_CLASS[event.ac];
+    const statusHTML = hasData ? '' : ' \u00B7 <span style="color:#F85149;">(' + event.asset + ' 데이터 미연결)</span>';
     metaEl.innerHTML = '<span style="color:' + acMeta.color + ';font-weight:600;">[' + acMeta.label + ']</span> ' +
       '자산: ' + event.asset + ' \u00B7 변동폭: ' + event.mag +
       (event.rec ? ' \u00B7 <span style="color:#F39C12;">\u2605 추천</span>' : '') +
       (event.bt  ? ' \u00B7 <span style="color:#F39C12;">BT 매매</span>' : '') +
-      ' \u00B7 <span style="color:#484f58;">(차트 데이터 연결은 Phase 2c)</span>';
+      statusHTML;
+  }
+  // Phase 2c-2B: 차트 렌더링
+  renderMaChart(view, event);
+}
+
+// 자산군별 벤치마크 매핑 (Python registry BENCHMARKS 와 동기화)
+const MA_BENCH_MAP = {
+  'eq-gl': 'SPX',   // 글로벌 주식 -> SP500
+  'eq-kr': 'SPX',   // 한국 주식 -> SP500 (KOSPI 추후 --include-kr-indices 옵션 후 변경 가능)
+  'cm':    'BCOM',  // 원자재 -> BCOM (DBC ETF proxy)
+  'cr':    'BTC',   // 크립토 -> BTC (dominance proxy)
+  'fx':    'DXY',   // FX -> DXY
+  'bd':    'TLT'    // 채권 -> TLT
+};
+
+// View-1/2 공통 멀티에셋 차트 빌더 (4-stack: SP500/벤치마크/메인자산/거래량)
+function renderMaChart(view, event) {
+  if (typeof destroyView === 'function') destroyView(view);
+  if (typeof zoomStates !== 'undefined') zoomStates[view] = { zoomed: false };
+  const zoomEl = document.getElementById(view + '-zoom');
+  if (zoomEl) zoomEl.style.display = 'none';
+
+  if (!MA_DATA || !MA_DATA.assets) {
+    console.warn('[multiasset] MA_DATA not loaded yet');
+    const legend = document.getElementById(view + '-legend');
+    if (legend) legend.innerHTML = '<div class="legend-item" style="color:#8b949e;">데이터 로딩 중...</div>';
+    return;
+  }
+  const assetData = MA_DATA.assets[event.asset];
+  if (!assetData || assetData.length === 0) {
+    const legend = document.getElementById(view + '-legend');
+    if (legend) legend.innerHTML = '<div class="legend-item" style="color:#F85149;">이 이벤트의 자산 데이터 미연결 (' + event.asset + ')</div>';
+    return;
+  }
+
+  // 데이터 추출 + toWeekly 변환 (Leading_stocks 인프라 재사용)
+  const spxRaw    = MA_DATA.assets.SPX    || [];
+  const nasdaqRaw = MA_DATA.assets.NASDAQ || [];
+  const benchKey  = MA_BENCH_MAP[event.ac] || 'SPX';
+  const benchRaw  = MA_DATA.assets[benchKey] || [];
+
+  const spxWeekly    = toWeekly(spxRaw);
+  const nasdaqWeekly = toWeekly(nasdaqRaw);
+  const benchWeekly  = toWeekly(benchRaw);
+  const assetWeekly  = toWeekly(assetData);
+
+  const acColor = MA_ASSET_CLASS[event.ac].color;
+
+  // 4-stack 차트 생성
+  const usCh    = makeIndexChart(view + '-us-price', nasdaqWeekly, spxWeekly, 'linear', view, 'us-price', {});
+  const benchCh = makeIndexChart(view + '-price', benchWeekly, [], 'linear', view, 'price', {});
+  const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, 'linear', view, 'stock');
+  const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
+
+  if (typeof chartRegistry !== 'undefined') chartRegistry[view] = [usCh, benchCh, mainCh, volCh];
+
+  // X축 동기화
+  const allArrs = [spxWeekly, nasdaqWeekly, benchWeekly, assetWeekly].filter(a => a.length);
+  if (allArrs.length > 0) {
+    const xMin = Math.min(...allArrs.map(a => a[0].x));
+    const xMax = Math.max(...allArrs.map(a => a[a.length-1].x));
+    [usCh, benchCh, mainCh, volCh].forEach(ch => {
+      if (ch) {
+        ch.options.scales.x.min = xMin;
+        ch.options.scales.x.max = xMax;
+        ch.update('none');
+      }
+    });
+  }
+
+  // 라벨 업데이트
+  const stockLabel = document.getElementById(view + '-stock-label');
+  if (stockLabel) stockLabel.textContent = event.asset;
+  const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
+  if (benchLabelEl) benchLabelEl.textContent = '자산군 벤치마크: ' + MA_ASSET_CLASS[event.ac].label + ' (' + benchKey + ')';
+
+  // Legend
+  const legend = document.getElementById(view + '-legend');
+  if (legend) {
+    const acLabel = MA_ASSET_CLASS[event.ac].label;
+    legend.innerHTML =
+      '<div class="legend-item"><div class="legend-dot" style="background:#ffa500"></div>NASDAQ</div>' +
+      '<div class="legend-item"><div class="legend-dot" style="background:#00aa44"></div>S&P500</div>' +
+      '<div class="legend-item"><div class="legend-dot" style="background:#F39C12"></div>' + benchKey + ' (' + acLabel + ' 벤치마크)</div>' +
+      '<div class="legend-item"><div class="legend-dot" style="background:' + acColor + '"></div>' + event.asset + '</div>';
   }
 }
 
