@@ -131,6 +131,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 /* === Stack 5 — Macro Driver Panel === */
 .panel-macro { height: 200px; border-top: 2px solid #707070; padding-top: 4px; margin-top: 4px; }
 
+/* === Macro Series ON/OFF Toggle === */
+.macro-toggle-btn { background: #E8E8E8; border: 1px solid #707070; color: #1c2128; padding: 2px 8px; border-radius: 3px; font-size: 10px; cursor: pointer; margin-right: 6px; transition: opacity 0.15s; display: inline-flex; align-items: center; gap: 4px; }
+.macro-toggle-btn:hover { border-color: #1f6feb; }
+.macro-toggle-btn.off { opacity: 0.35; background: #F0F0F0; }
+.macro-toggle-btn .macro-swatch { display: inline-block; width: 12px; height: 2px; }
+
 /* === Multi-asset Inline Buttons === */
 .ma-btn { padding: 4px 11px; border: 1px solid var(--ma-color, #30363d); border-radius: 14px; background: transparent; color: #c9d1d9; font-size: 11px; cursor: pointer; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
 .ma-btn:hover { color: #fff; background: var(--ma-color-soft, rgba(31,111,235,0.1)); }
@@ -1818,7 +1824,7 @@ function selectMaButton(view, event) {
 // 자산군별 벤치마크 매핑 (Python registry BENCHMARKS 와 동기화)
 const MA_BENCH_MAP = {
   'eq-gl': 'SPX',   // 글로벌 주식 -> SP500
-  'eq-kr': 'SPX',   // 한국 주식 -> SP500 (KOSPI 추후 --include-kr-indices 옵션 후 변경 가능)
+  'eq-kr': 'KOSPI', // 한국 주식 -> KOSPI (KOSDAQ 은 second series)
   'cm':    'BCOM',  // 원자재 -> BCOM (DBC ETF proxy)
   'cr':    'BTC',   // 크립토 -> BTC (dominance proxy)
   'fx':    'DXY',   // FX -> DXY
@@ -1931,23 +1937,29 @@ function renderMaChart(view, event) {
   const benchKey  = MA_BENCH_MAP[event.ac] || 'SPX';
   const benchRaw  = MA_DATA.assets[benchKey] || [];
 
+  // 한국 주식 이벤트는 KOSPI(=benchKey) + KOSDAQ 둘 다 표시
+  const isKrEquity = event.ac === 'eq-kr';
+  const kosdaqRaw = isKrEquity ? (MA_DATA.assets.KOSDAQ || []) : [];
+
   const spxWeekly    = toWeekly(spxRaw);
   const nasdaqWeekly = toWeekly(nasdaqRaw);
   const benchWeekly  = toWeekly(benchRaw);
+  const kosdaqWeekly = toWeekly(kosdaqRaw);
   const assetWeekly  = toWeekly(assetData);
 
   const acColor = MA_ASSET_CLASS[event.ac].color;
 
   // 4-stack 차트 생성
   const usCh    = makeIndexChart(view + '-us-price', nasdaqWeekly, spxWeekly, 'linear', view, 'us-price', {});
-  const benchCh = makeIndexChart(view + '-price', benchWeekly, [], 'linear', view, 'price', {});
+  // Stack 2: 한국 주식 = KOSPI + KOSDAQ, 그 외 = 벤치마크 단일 (data2 fallback 동일 데이터)
+  const benchCh = makeIndexChart(view + '-price', benchWeekly, isKrEquity ? kosdaqWeekly : benchWeekly, 'linear', view, 'price', {});
   const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, 'linear', view, 'stock');
   const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
 
   if (typeof chartRegistry !== 'undefined') chartRegistry[view] = [usCh, benchCh, mainCh, volCh];
 
   // X축 동기화
-  const allArrs = [spxWeekly, nasdaqWeekly, benchWeekly, assetWeekly].filter(a => a.length);
+  const allArrs = [spxWeekly, nasdaqWeekly, benchWeekly, kosdaqWeekly, assetWeekly].filter(a => a.length);
   if (allArrs.length > 0) {
     const xMin = Math.min(...allArrs.map(a => a[0].x));
     const xMax = Math.max(...allArrs.map(a => a[a.length-1].x));
@@ -1964,7 +1976,14 @@ function renderMaChart(view, event) {
   const stockLabel = document.getElementById(view + '-stock-label');
   if (stockLabel) stockLabel.textContent = event.asset;
   const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
-  if (benchLabelEl) benchLabelEl.textContent = '자산군 벤치마크: ' + MA_ASSET_CLASS[event.ac].label + ' (' + benchKey + ')';
+  if (benchLabelEl) {
+    benchLabelEl.textContent = isKrEquity
+      ? '자산군 벤치마크: ' + MA_ASSET_CLASS[event.ac].label + ' (KOSPI + KOSDAQ)'
+      : '자산군 벤치마크: ' + MA_ASSET_CLASS[event.ac].label + ' (' + benchKey + ')';
+  }
+  // 한국 주식이 아니면 KOSPI/KOSDAQ 토글 행 숨김
+  const benchToggleRow = document.querySelector('#view-' + view + ' .panel-price .panel-toggle-row');
+  if (benchToggleRow) benchToggleRow.style.display = isKrEquity ? '' : 'none';
 
   // Legend
   const legend = document.getElementById(view + '-legend');
@@ -2006,11 +2025,26 @@ function renderMaChart(view, event) {
   const macroTogglesEl = document.getElementById(view + '-macro-toggles');
   if (macroTogglesEl) {
     macroTogglesEl.innerHTML = macroSeries.map((s, i) =>
-      '<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;">' +
-      '<span style="display:inline-block;width:12px;height:2px;background:' + MA_MACRO_COLOR[i] + ';"></span>' +
-      '<span style="font-size:10px;color:#1c2128;">' + s.key + (s.unit ? ' (' + s.unit + ')' : '') + '</span></span>'
+      '<button class="macro-toggle-btn active" data-series-idx="' + i + '" onclick="toggleMacroSeries(\'' + view + '\', ' + i + ')">' +
+      '<span class="macro-swatch" style="background:' + MA_MACRO_COLOR[i] + ';"></span>' +
+      s.key + (s.unit ? ' (' + s.unit + ')' : '') +
+      '</button>'
     ).join('');
   }
+}
+
+// 매크로 series ON/OFF — 클릭 시 해당 dataset 의 hidden 토글
+function toggleMacroSeries(view, idx) {
+  if (typeof chartRegistry === 'undefined') return;
+  const charts = chartRegistry[view] || [];
+  const macroCh = charts.find(c => c && c._role === 'macro');
+  if (!macroCh) return;
+  const ds = macroCh.data.datasets[idx];
+  if (!ds) return;
+  ds.hidden = !ds.hidden;
+  macroCh.update();
+  const btn = document.querySelector('#' + view + '-macro-toggles button[data-series-idx="' + idx + '"]');
+  if (btn) btn.classList.toggle('off', ds.hidden);
 }
 
 // ===== VIEW 1 =====
