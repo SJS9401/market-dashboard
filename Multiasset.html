@@ -1959,14 +1959,23 @@ function renderMaChart(view, event) {
 
   const acColor = MA_ASSET_CLASS[event.ac].color;
 
-  // 4-stack 차트 생성
-  const usCh    = makeIndexChart(view + '-us-price', nasdaqWeekly, spxWeekly, 'linear', view, 'us-price', {});
+  // 4-stack 차트 생성 — Linear/Log scale 동적
+  const scale = view === 'v1' ? v1Scale : v2Scale;
+  const usCh    = makeIndexChart(view + '-us-price', nasdaqWeekly, spxWeekly, scale, view, 'us-price', {});
   // Stack 2: 한국 주식 = KOSPI + KOSDAQ, 그 외 = 벤치마크 단일 (data2 fallback 동일 데이터)
-  const benchCh = makeIndexChart(view + '-price', benchWeekly, isKrEquity ? kosdaqWeekly : benchWeekly, 'linear', view, 'price', {});
-  const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, 'linear', view, 'stock');
+  const benchCh = makeIndexChart(view + '-price', benchWeekly, isKrEquity ? kosdaqWeekly : benchWeekly, scale, view, 'price', {});
+  const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, scale, view, 'stock');
   const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
 
   if (typeof chartRegistry !== 'undefined') chartRegistry[view] = [usCh, benchCh, mainCh, volCh];
+
+  // === Leading_stocks 패턴 — 줌/팬/툴팁 인터랙션 활성화 (4 main panels) ===
+  if (typeof attachZoomEvents === 'function') {
+    attachZoomEvents(document.getElementById(view + '-us-price'), () => usCh, view);
+    attachZoomEvents(document.getElementById(view + '-price'), () => benchCh, view);
+    attachZoomEvents(document.getElementById(view + '-stock'), () => mainCh, view);
+    attachZoomEvents(document.getElementById(view + '-volume'), () => volCh, view);
+  }
 
   // X축 동기화
   const allArrs = [spxWeekly, nasdaqWeekly, benchWeekly, kosdaqWeekly, assetWeekly].filter(a => a.length);
@@ -2027,7 +2036,12 @@ function renderMaChart(view, event) {
     if (typeof chartRegistry !== 'undefined' && chartRegistry[view]) {
       chartRegistry[view].push(macroCh);
     }
+    if (typeof attachZoomEvents === 'function') {
+      attachZoomEvents(document.getElementById(view + '-macro'), () => macroCh, view);
+    }
   }
+  // 스크롤바 업데이트 (Leading_stocks 패턴)
+  if (typeof updateScrollbar === 'function') updateScrollbar(view);
 
   // 매크로 패널 라벨 + 토글 행 (4 series 색상 범례)
   const macroPanelLabel = document.querySelector('#view-' + view + ' .panel-macro .panel-label');
@@ -2478,6 +2492,11 @@ function switchView(evt, viewId) {
 loadMaData().then(() => {
   initV1();
   initV2();
+  // Leading_stocks 패턴 — X축 스크롤바 attach (페이지 로드 시 한 번만)
+  if (typeof attachScrollbar === 'function') {
+    attachScrollbar('v1');
+    attachScrollbar('v2');
+  }
 });
 </script>
 <
