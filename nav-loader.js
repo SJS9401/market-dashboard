@@ -11,7 +11,7 @@
  *   <script src="nav-loader.js" defer></script>
  *
  * data-active 값:
- *   dashboard | market_cycle | leading_stocks | earnings | industry_semi | industry_battery
+ *   dashboard | market_cycle | leading_stocks | multiasset | earnings | industry_semi | industry_battery
  */
 (function () {
   // data-active 속성을 가진 첫 컨테이너 (클래스명 무관)
