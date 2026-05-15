@@ -179,6 +179,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <span class="ctrl-label">스케일:</span>
     <button class="ctrl-btn active" id="v1-linear" onclick="setV1Scale('linear')">Linear</button>
     <button class="ctrl-btn" id="v1-log" onclick="setV1Scale('log')">Log</button>
+    <span class="ctrl-label" style="margin-left:12px;">주기:</span>
+    <button class="ctrl-btn active" id="v1-weekly" onclick="setV1Interval('weekly')">주봉</button>
+    <button class="ctrl-btn" id="v1-daily" onclick="setV1Interval('daily')">일봉</button>
   </div>
   <div class="main">
     <div class="chart-info">
@@ -1808,6 +1811,10 @@ function selectMaButton(view, event) {
   const metaEl = document.getElementById(view + '-meta');
   const hasData = MA_DATA && MA_DATA.assets && MA_DATA.assets[event.asset] && MA_DATA.assets[event.asset].length > 0;
   if (titleEl) titleEl.textContent = event.era + ' \u00B7 ' + event.name;
+  // chart-badge 동적 업데이트 (주봉/일봉)
+  const intervalForView = view === 'v1' ? v1Interval : v2Interval;
+  const badgeEl = document.querySelector('#view-' + view + ' .chart-badge');
+  if (badgeEl) badgeEl.textContent = intervalForView === 'daily' ? '일봉' : '주봉';
   if (metaEl) {
     const acMeta = MA_ASSET_CLASS[event.ac];
     const statusHTML = hasData ? '' : ' \u00B7 <span style="color:#F85149;">(' + event.asset + ' 데이터 미연결)</span>';
@@ -1941,11 +1948,14 @@ function renderMaChart(view, event) {
   const isKrEquity = event.ac === 'eq-kr';
   const kosdaqRaw = isKrEquity ? (MA_DATA.assets.KOSDAQ || []) : [];
 
-  const spxWeekly    = toWeekly(spxRaw);
-  const nasdaqWeekly = toWeekly(nasdaqRaw);
-  const benchWeekly  = toWeekly(benchRaw);
-  const kosdaqWeekly = toWeekly(kosdaqRaw);
-  const assetWeekly  = toWeekly(assetData);
+  // 일봉/주봉 분기 (view 별 interval state)
+  const interval = view === 'v1' ? v1Interval : v2Interval;
+  const convert = interval === 'daily' ? toDaily : toWeekly;
+  const spxWeekly    = convert(spxRaw);
+  const nasdaqWeekly = convert(nasdaqRaw);
+  const benchWeekly  = convert(benchRaw);
+  const kosdaqWeekly = convert(kosdaqRaw);
+  const assetWeekly  = convert(assetData);
 
   const acColor = MA_ASSET_CLASS[event.ac].color;
 
@@ -2060,7 +2070,16 @@ function setV1Scale(scale) {
   v1Scale = scale;
   document.getElementById('v1-linear').classList.toggle('active', scale === 'linear');
   document.getElementById('v1-log').classList.toggle('active', scale === 'log');
-  if (v1CurrentStock) renderV1();
+  if (maSelection.v1) renderMaChart('v1', maSelection.v1);
+}
+
+// V1 일봉/주봉 토글 (V1 default = weekly: 전체 사이클 long-term 이라 주봉이 적합)
+let v1Interval = 'weekly';
+function setV1Interval(interval) {
+  v1Interval = interval;
+  document.getElementById('v1-weekly').classList.toggle('active', interval === 'weekly');
+  document.getElementById('v1-daily').classList.toggle('active', interval === 'daily');
+  if (maSelection.v1) renderMaChart('v1', maSelection.v1);
 }
 
 function renderV1() {
@@ -2270,13 +2289,13 @@ function setV2Scale(scale) {
   v2Scale = scale;
   document.getElementById('v2-linear').classList.toggle('active', scale === 'linear');
   document.getElementById('v2-log').classList.toggle('active', scale === 'log');
-  renderV2();
+  if (maSelection.v2) renderMaChart('v2', maSelection.v2);
 }
 function setV2Interval(interval) {
   v2Interval = interval;
   document.getElementById('v2-daily').classList.toggle('active', interval === 'daily');
   document.getElementById('v2-weekly').classList.toggle('active', interval === 'weekly');
-  renderV2();
+  if (maSelection.v2) renderMaChart('v2', maSelection.v2);
 }
 function toggleExpand() {
   v2Expanded = !v2Expanded;
