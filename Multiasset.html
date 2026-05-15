@@ -1906,10 +1906,11 @@ function makeMacroChart(canvasId, seriesList, view) {
       responsive: true,
       maintainAspectRatio: false,
       animation: false,
-      interaction: { mode: 'index', intersect: false },
+      interaction: { mode: 'index', intersect: false, axis: 'x' },
+      hover: { mode: 'index', intersect: false, axis: 'x' },
       plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: {
-        x: { type: 'time', display: true, ticks: { font: { size: 9 }, color: '#1c2128', maxRotation: 0 } },
+        x: { type: 'time', display: true, time: { unit: 'month' }, ticks: { font: { size: 9 }, color: '#1c2128', maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
         y: { display: true, position: 'right', ticks: { font: { size: 9 }, color: '#1c2128' } }
       }
     }
@@ -1977,17 +1978,28 @@ function renderMaChart(view, event) {
     attachZoomEvents(document.getElementById(view + '-volume'), () => volCh, view);
   }
 
-  // X축 동기화
+  // X축 동기화 (Leading_stocks 패턴 — 합집합 ghost dataset 으로 4 panel 정확 정렬)
   const allArrs = [spxWeekly, nasdaqWeekly, benchWeekly, kosdaqWeekly, assetWeekly].filter(a => a.length);
+  let xMin = null, xMax = null;
   if (allArrs.length > 0) {
-    const xMin = Math.min(...allArrs.map(a => a[0].x));
-    const xMax = Math.max(...allArrs.map(a => a[a.length-1].x));
+    xMin = Math.min(...allArrs.map(a => a[0].x));
+    xMax = Math.max(...allArrs.map(a => a[a.length-1].x));
+    // 합집합 X 좌표 ghost dataset (모든 chart 가 동일 X 범위에 동일 tick 갖도록)
+    const unionSet = new Set();
+    allArrs.forEach(a => a.forEach(d => unionSet.add(d.x)));
+    const unionX = Array.from(unionSet).sort((a,b)=>a-b);
+    const ghostData = unionX.map(t => ({ x: t, y: null }));
     [usCh, benchCh, mainCh, volCh].forEach(ch => {
-      if (ch) {
-        ch.options.scales.x.min = xMin;
-        ch.options.scales.x.max = xMax;
-        ch.update('none');
-      }
+      if (!ch) return;
+      ch.options.scales.x.min = xMin;
+      ch.options.scales.x.max = xMax;
+      ch.data.datasets.push({
+        label: '_xunion', data: ghostData,
+        borderColor: 'transparent', backgroundColor: 'transparent',
+        pointRadius: 0, fill: false, _xunion: true, order: 999,
+        yAxisID: ch.options.scales.y ? 'y' : undefined
+      });
+      ch.update('none');
     });
   }
 
@@ -2026,11 +2038,16 @@ function renderMaChart(view, event) {
 
   const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
   if (macroCh) {
-    if (allArrs.length > 0) {
-      const mMin = Math.min(...allArrs.map(a => a[0].x));
-      const mMax = Math.max(...allArrs.map(a => a[a.length-1].x));
-      macroCh.options.scales.x.min = mMin;
-      macroCh.options.scales.x.max = mMax;
+    if (xMin !== null && xMax !== null) {
+      macroCh.options.scales.x.min = xMin;
+      macroCh.options.scales.x.max = xMax;
+      // ghost dataset — 위 4 panel 과 동일 X 범위 강제
+      const macroGhost = [{x: xMin, y: null}, {x: xMax, y: null}];
+      macroCh.data.datasets.push({
+        label: '_xunion', data: macroGhost,
+        borderColor: 'transparent', backgroundColor: 'transparent',
+        pointRadius: 0, fill: false, _xunion: true, order: 999
+      });
       macroCh.update('none');
     }
     if (typeof chartRegistry !== 'undefined' && chartRegistry[view]) {

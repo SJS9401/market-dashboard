@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-15 (자동 실행)**
+> **최종 갱신: 2026-05-16 (자동 실행)**
 
 ### 5월
 
@@ -197,7 +197,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (신규) |
+| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (확정, Broadcom 공식 발표, 2:00 PM PT / 5:00 PM ET 컨퍼런스콜) |
 | 6/16 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 (확정) |
 
 ### 7월
@@ -229,7 +229,7 @@
 | (~7/28) | 현대건설 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/28) |
 | 7/28 | RTX (RTX) | 방산 | BMO, Q2 2026 (확정 — 방산+항공엔진, 수주잔고) |
 | 7/28 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC — 다수 소스 7/28 일치 (StockEvents·Nasdaq·TipRanks 확인, 미공식) |
-| 7/29 | Microsoft (MSFT) | 빅테크 | Q4 FY2026 (확정, Microsoft IR) |
+| 7/28 | Microsoft (MSFT) | 빅테크 | Q4 FY2026, AMC (7/29→7/28 업데이트 — TipRanks·Investing.com 7/28 AMC 확정, Microsoft 패턴 Q4 FY25: 7/29 vs 현재 7/28, 재확인 권장) |
 | 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
 | 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 — TipRanks·Investing.com 7/29 확정, 7/22→7/29 업데이트 (WallStreetHorizon은 여전히 7/22, 재확인 권장) |
