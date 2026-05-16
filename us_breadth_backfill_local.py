@@ -439,10 +439,11 @@ def _fetch_spx_yfinance(start: str, end: str):
 def _fetch_spx_multi(start: str, end: str, attempts_log: list):
     """SPX 일봉 다중 소스 폴백.
 
-    순서:
-      1) FRED SP500           (1차, 미 정부 데이터, 가장 안정적; FRED_API_KEY 환경변수 필요)
-      2) Yahoo HTTP direct    (2차, query1.finance.yahoo.com 직접 호출, yfinance 라이브러리 우회)
-      3) yfinance ^GSPC       (3차, 라이브러리 경로)
+    순서 (2026-05-16 변경 — BT 요구: 06:30 KST cron 에서 그날 close 데이터 즉시 가용):
+      1) yfinance ^GSPC       (1차, close 후 30분~1시간 내 갱신 — 06:30 cron 시점 가용)
+      2) Yahoo HTTP direct    (2차, 같은 source 다른 path — yfinance 라이브러리 실패 시 fallback)
+      3) FRED SP500           (3차, historical safety net — close 후 12-24시간 후 갱신이라 1차 부적합;
+                              yfinance/yahoo_http 둘 다 실패 시만 사용)
 
     각 소스마다 last_date 가 today - STALE_DAYS_HARD (7일) 초과 stale 이면 다음 소스로.
     FRED_API_KEY 가 없으면 FRED 단계 스킵.
@@ -452,12 +453,12 @@ def _fetch_spx_multi(start: str, end: str, attempts_log: list):
     fred_key = os.environ.get(FRED_API_KEY_ENV, "").strip()
 
     sources = []
+    sources.append(("yfinance",   _fetch_spx_yfinance,   0))
+    sources.append(("yahoo_http", _fetch_spx_yahoo_http, 0))
     if fred_key:
         sources.append(("fred", lambda s, e: _fetch_spx_fred(s, e, fred_key), 0))
     else:
-        _log(f"FRED_API_KEY env not set — skipping FRED source")
-    sources.append(("yahoo_http", _fetch_spx_yahoo_http, 0))
-    sources.append(("yfinance",   _fetch_spx_yfinance,   0))
+        _log(f"FRED_API_KEY env not set — FRED fallback unavailable")
 
     for i, (name, fn, backoff) in enumerate(sources, 1):
         if backoff:
