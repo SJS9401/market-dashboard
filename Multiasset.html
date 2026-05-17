@@ -713,6 +713,30 @@ const crosshairPlugin = {
         ctx.fill();
         ctx.stroke();
       });
+      // === Multi-asset 매크로 line dataset — 가장 가까운 datapoint 에 황금원 ===
+      chart.data.datasets.forEach((ds, i) => {
+        if (!ds._macroDot) return;
+        if (!chart.isDatasetVisible(i)) return;
+        let nearest = null, minDiff = Infinity;
+        for (const pt of ds.data) {
+          if (pt == null || pt.y == null) continue;
+          const diff = Math.abs(pt.x - xValMark);
+          if (diff < minDiff) { minDiff = diff; nearest = pt; }
+        }
+        if (!nearest) return;
+        const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
+        const rxPx = xS.getPixelForValue(nearest.x);
+        const ryPx = yS.getPixelForValue(nearest.y);
+        if (rxPx < area.left || rxPx > area.right) return;
+        if (ryPx < area.top || ryPx > area.bottom) return;
+        ctx.beginPath();
+        ctx.fillStyle = '#FFD700';
+        ctx.strokeStyle = '#0d1117';
+        ctx.lineWidth = 1.5;
+        ctx.arc(rxPx, ryPx, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      });
     }
     // horizontal solid only on hovered chart
     if (_srcChart === chart && crosshairState.y >= area.top && crosshairState.y <= area.bottom) {
@@ -1897,7 +1921,8 @@ function makeMacroChart(canvasId, seriesList, view) {
     borderWidth: 1.5,
     fill: false,
     spanGaps: true,
-    tension: 0.1
+    tension: 0.1,
+    _macroDot: true  // crosshair afterDraw 의 황금원 처리 대상
   }));
   const ch = new Chart(ctx, {
     type: 'line',
@@ -1916,7 +1941,7 @@ function makeMacroChart(canvasId, seriesList, view) {
     }
   });
   ch._role = 'macro';
-  // ch.$view 는 의도적으로 설정 안 함 (BT 결정 2026-05-15: 황금원 적용 보류)
+  ch.$view = view;  // crosshair plugin 매크로 chart 활성화 (vertical line + 황금원 마커)
   return ch;
 }
 
