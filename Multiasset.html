@@ -274,8 +274,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
           <span class="panel-label">거래대금 (억원)</span>
           <div class="panel-toggle-row">
             <button class="toggle-btn active" id="v1-vol-mode-vol" onclick="toggleVolMode('v1','vol')">거래량</button>
-            <button class="toggle-btn" id="v1-vol-mode-oi" onclick="toggleVolMode('v1','oi')" style="display:none;">OI</button>
-            <button class="toggle-btn" id="v1-vol-mode-spec" onclick="toggleVolMode('v1','spec')" style="display:none;">Spec Net</button>
+            <button class="toggle-btn" id="v1-vol-mode-oi" onclick="toggleVolMode('v1','oi')" style="display:none;">미결제약정(OI)</button>
+            <button class="toggle-btn" id="v1-vol-mode-spec" onclick="toggleVolMode('v1','spec')" style="display:none;">투기자산 순포지션(Spec Net)</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -365,8 +365,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
           <span class="panel-label">거래대금 (억원)</span>
           <div class="panel-toggle-row">
             <button class="toggle-btn active" id="v2-vol-mode-vol" onclick="toggleVolMode('v2','vol')">거래량</button>
-            <button class="toggle-btn" id="v2-vol-mode-oi" onclick="toggleVolMode('v2','oi')" style="display:none;">OI</button>
-            <button class="toggle-btn" id="v2-vol-mode-spec" onclick="toggleVolMode('v2','spec')" style="display:none;">Spec Net</button>
+            <button class="toggle-btn" id="v2-vol-mode-oi" onclick="toggleVolMode('v2','oi')" style="display:none;">미결제약정(OI)</button>
+            <button class="toggle-btn" id="v2-vol-mode-spec" onclick="toggleVolMode('v2','spec')" style="display:none;">투기자산 순포지션(Spec Net)</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -1507,9 +1507,9 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       if (row && row.v != null) {
         const mode = volChart.$volMode || 'vol';
         let volLabel, volUnit, valueColor = '';
-        if (mode === 'oi')        { volLabel = 'Open Interest';     volUnit = ' contracts'; }
+        if (mode === 'oi')        { volLabel = '미결제약정';        volUnit = ' contracts'; }
         else if (mode === 'spec') {
-          volLabel = 'Spec Net';
+          volLabel = '투기자산 순포지션';
           volUnit = ' contracts';
           valueColor = row.v >= 0 ? '#C9302C' : '#1565C0';
         }
@@ -2168,23 +2168,26 @@ function coalesceCotOiToOhlc(cotData, ohlcData) {
     return new Date(y, m, d).getTime();
   });
   const out = new Array(ohlcData.length);
+  // OI 색: prev weekly OI 대비 증감. ci 변할 때만 up 재계산 (같은 주의 일봉들 = 같은 색).
+  let prevCi = -1, prevOi = null, cachedUp = true;
   for (let i = 0; i < ohlcData.length; i++) {
     const dp = ohlcData[i];
     const ts = dp.x;
-    // up 색: 캔들과 정확히 동일 로직 (당일 open vs close — 전일 비교 X)
-    const up = (dp.c >= dp.o);
-    // _maBinFindLE 재사용: ts 이하 가장 큰 COT 인덱스
     const ci = _maBinFindLE(cotTs, ts);
     if (ci < 0) {
-      // 첫 COT 이전 — 데이터 없음, .v=0 으로 placeholder
       out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: 0,
-                 oi: null, ncnet: null, cnl: null, cns: null, up: up };
+                 oi: null, ncnet: null, cnl: null, cns: null, up: true };
       continue;
     }
     const cot = cotData[ci];
     const oi = cot[1], ncl = cot[2], ncs = cot[3], ncnet = cot[4];
+    if (ci !== prevCi) {
+      cachedUp = (prevOi === null) ? true : (oi >= prevOi);
+      prevOi = oi;
+      prevCi = ci;
+    }
     out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: oi,
-               oi: oi, ncnet: ncnet, cnl: ncl, cns: ncs, up: up };
+               oi: oi, ncnet: ncnet, cnl: ncl, cns: ncs, up: cachedUp };
   }
   return out;
 }
@@ -2202,6 +2205,8 @@ function coalesceCotSpecToOhlc(cotData, ohlcData) {
     return new Date(y, m, d).getTime();
   });
   const out = new Array(ohlcData.length);
+  // Spec Net 색: prev weekly Spec Net 대비 증감 (롱/숏 포지션 변화 방향)
+  let prevCi = -1, prevNc = null, cachedUp = true;
   for (let i = 0; i < ohlcData.length; i++) {
     const dp = ohlcData[i];
     const ts = dp.x;
@@ -2213,9 +2218,13 @@ function coalesceCotSpecToOhlc(cotData, ohlcData) {
     }
     const cot = cotData[ci];
     const oi = cot[1], ncl = cot[2], ncs = cot[3], ncnet = cot[4];
-    const up = ncnet >= 0;
+    if (ci !== prevCi) {
+      cachedUp = (prevNc === null) ? true : (ncnet >= prevNc);
+      prevNc = ncnet;
+      prevCi = ci;
+    }
     out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: ncnet,
-               oi: oi, ncnet: ncnet, cnl: ncl, cns: ncs, up: up };
+               oi: oi, ncnet: ncnet, cnl: ncl, cns: ncs, up: cachedUp };
   }
   return out;
 }
@@ -3220,9 +3229,9 @@ function toggleVolMode(view, mode) {
   const lbl = document.querySelector('#view-' + view + ' .panel-volume .panel-label');
   if (lbl) {
     if (mode === 'oi') {
-      lbl.textContent = 'Open Interest (contracts)';
+      lbl.textContent = '미결제약정 OI (contracts)';
     } else if (mode === 'spec') {
-      lbl.textContent = 'Speculator Net Position (contracts, +long/-short)';
+      lbl.textContent = '투기자산 순포지션 Spec Net (contracts, +long/-short)';
     } else {
       // 거래량 라벨 = selectMaButton 이 설정한 ASSET_VOL_UNIT 기준 — re-derive
       const evt = (typeof maSelection !== 'undefined' && maSelection[view]) ? maSelection[view] : null;
