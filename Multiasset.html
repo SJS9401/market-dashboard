@@ -196,6 +196,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .v3-glossary dl { display: grid; grid-template-columns: 160px 1fr; gap: 8px 18px; font-size: 12.5px; }
 .v3-glossary dt { color: #79c0ff; font-weight: 700; font-family: 'Menlo', monospace; }
 .v3-glossary dd { color: #c9d1d9; line-height: 1.65; }
+.v3-indicator { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 11px 14px; margin-top: 8px; border-left: 3px solid #58a6ff; }
+.v3-indicator-name { font-size: 13.5px; font-weight: 700; color: #58a6ff; margin-bottom: 5px; }
+.v3-indicator-body { font-size: 12.5px; color: #c9d1d9; line-height: 1.75; }
+.v3-indicator-body b { color: #f0f6fc; font-weight: 600; }
+.v3-indicator-body code { background: #161b22; color: #79c0ff; padding: 1px 5px; border-radius: 3px; font-size: 11.5px; font-family: 'Menlo', monospace; border: 1px solid #21262d; }
+.v3-indicator-body + .v3-indicator-body { margin-top: 4px; }
 
 </style>
 </head>
@@ -441,6 +447,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
         <div class="v3-callout">가격 정점 ±5~10 거래일 내에 <b>역사적 최대 거래대금</b> 동반.<br>대표 케이스: 2021 BBIG, 2023 에코프로, 2021 GME, 2018 TLRY</div>
       </div>
 
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 거래대금 (Turnover)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 기관 자금의 실제 유입 측정. 거래량(shares) 이 아닌 금액 기반이라 액면분할·주가 변동 무관. 시가총액 큰 종목이 climax 시 거래대금 절대값 자체가 시장 전체의 일부 차지 (예: 2023 에코프로 코스닥 거래대금 1위 장기 유지).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>2021 GME</b> ($20→$483, 24x) climax 시 일일 거래대금 시장 1위. <b>2023 에코프로</b> 38x. <b>2020-21 BBIG</b> 카카오 5x. <b>2018 TLRY</b> 캐나비스 climax 15x. 모두 가격 peak ±5거래일 내 역대 최대 거래대금 동반.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>거래량</code> 모드 (default). KR 단위 = 억원, US = USD M.
+          </div>
+        </div>
+      </div>
+
       <div class="v3-meta-row">
         <span><b>데이터 source:</b> Yahoo (Close × Volume 자동 계산)</span>
         <span><b>가용:</b> ✅ 한국 8종 운영 중 · 미국 5종 normalize 작업 예정</span>
@@ -482,7 +504,37 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
       <div class="v3-section">
         <div class="v3-section-label">Climax 패턴</div>
-        <div class="v3-callout v3-callout-good">2007-08 Crude $147, 2022 WTI, 1979-80 Gold/Silver, 2022-23 Uranium 모두 <b>OI peak ≈ 가격 peak</b> (시차 1~2주 이내).</div>
+        <div class="v3-callout v3-callout-good">2007-08 Crude $147, 1979-80 Gold/Silver, 2022-23 Uranium 모두 <b>OI peak ≈ 가격 peak</b> (시차 1~2주 이내).</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 미결제약정 OI (Open Interest)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 선물에서 거래량은 매수/매도 회전(롱 → 롱 손바뀜) 포함이라 신규 자금 진입 여부 구분 불가. <b>OI 가 증가해야 진짜 신규 자금이 contracts 를 만든 것</b>. 가격↑ + OI↑ = 강한 추세, 가격↑ + OI 정체 = 숏커버 rally (climax 가능성).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>2007-08 Crude $147</b> — OI 역대 최대 ~3.5M contracts, 가격 peak 1주 이내 동기화 = textbook demand climax. <b>반례: 2022 WTI $130 Russia 침공</b> — OI 오히려 -25% 감소 = supply shock spike (climax 아님, 가격이 빠르게 $90 회귀). 이 차이가 demand-climax vs supply-shock 의 본질적 구분.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>미결제약정(OI)</code> 토글 (WTI 등 CFTC COT 등록 자산). 색은 prev 주 OI 대비 증감.
+          </div>
+        </div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 투기자산 순포지션 Spec Net</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 전체 OI 중 헤지펀드·CTA 같은 투기 자금이 net long 인지 short 인지 측정. <b>역대 극값 = 한쪽 쏠림 = 반대 베팅 기회</b>. CFTC 가 매주 화요일 종가 기준 금요일 발표. Commercial(헤지) 과 거울 관계 (Spec long ↔ Commercial short).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: 2007-08 Crude 직전 spec net long 역대급 (헤지펀드 일제 long → reversal). 1979-80 Gold/Silver 광기 직전 동일. Hunt 형제 Silver corner 의 mirror. 향후 FX 사이클 (1992 GBP Soros, 2022 USDJPY) 분석에 핵심.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>투기자산 순포지션(Spec Net)</code> 토글. 양수 = 빨강 (롱 우세), 음수 = 파랑 (숏 우세).
+          </div>
+        </div>
       </div>
 
       <div class="v3-meta-row">
@@ -510,6 +562,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
       <div class="v3-section">
         <div class="v3-section-label">Climax 패턴</div>
         <div class="v3-callout">2011 SLV (은 광기): AUM 이 역사적 최대 후 5주 내에 가격 -40% 폭락. AUM peak 가 가격 peak 보다 약간 선행.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ USD 거래대금</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: ETF 는 주식 형태 (선물 아님) 이라 OI 개념 없음. USD 거래대금이 표준 (주식 카테고리와 동일 원리). 보조 지표 <b>AUM 변화</b> 가 더 강력하지만 (GLD inflow = 실물 금 매입) 별도 데이터 source 필요 — 우리 인프라엔 미연결.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>2011 SLV 은 광기</b> — ETF 거래대금 + AUM 역대 최대 후 5주 내 가격 -40% 폭락. <b>2008-11 GLD QE climax</b>. <b>2022-23 URA</b> 원자력 부활 후반부.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>거래량</code> 모드 (USD M 단위).
+          </div>
+        </div>
       </div>
 
       <div class="v3-meta-row">
@@ -547,11 +615,51 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
       <div class="v3-section">
         <div class="v3-section-label">중요 — OI 가 가격에 선행</div>
-        <div class="v3-callout v3-callout-good">2017/2021 BTC 정점에서 <b>파생 OI peak 가 가격 peak 보다 2~5일 먼저</b> 등장. 이는 다른 자산군에서 보기 힘든 크립토 고유 특성. 파생이 spot 을 선도한다.</div>
+        <div class="v3-callout v3-callout-good">2017/2021 BTC 정점에서 <b>파생 OI peak 가 가격 peak 보다 1~3일 먼저</b> 등장. 이는 다른 자산군에서 보기 힘든 크립토 고유 특성. 파생이 spot 을 선도한다.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 현물 거래대금 (USD)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: Coinbase/Kraken/Bithumb/Binance 현물 의 USD 거래대금. 단 크립토 시장은 파생 거래가 현물의 5-10배 더 크므로 OI 와 같이 봐야 정확한 자금 위치 파악.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>거래량</code> 모드 (Yahoo native USD).
+          </div>
+        </div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 미결제약정 OI (4-거래소 합산)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 무기한 선물의 미결제 contracts 합. <b>크립토 시장의 진짜 자금 위치</b>. Binance + Bybit + OKX + Huobi 4 거래소 합산 (시장 ~70% 점유). 단위 = BTC/ETH contracts (price 곱하면 USD).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>2021-04-14 BTC $64k 1차 climax</b> — OI peak 56K BTC (4/13), 가격 peak (4/14) 1일 선행 → 4/18 OI 43K BTC (-23%) long liquidation cascade. <b>2021-11-10 BTC $69k 2차 climax</b> 동일 패턴. 둘 다 textbook demand climax. 2020-21 ETH DeFi+NFT climax 동일.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>미결제약정(OI)</code> 토글. 2020-01 부터 가용 (2017 climax 는 source 한계로 미커버 — BitMEX archive 폐쇄).
+          </div>
+        </div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ 펀딩비 Funding Rate (% per 8h)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 무기한 선물 ↔ 현물 가격 anchor 메커니즘. 8h 마다 한쪽이 다른 쪽에 비용 지불. <b>양수</b> = 롱이 지불 (롱 과열), <b>음수</b> = 숏이 지불 (숏 과열). 평소 0.01~0.05%/8h 정상, 0.1%+ 과열, 0.3%+ 광기. <b>시장 심리 가장 직접 측정 지표</b>.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: 2021 BTC 두 climax 모두 funding 양수 폭증 (연환산 100%+) → 비싼 비용 감수하고도 롱 진입 = climax 임박 → long squeeze cascade. 통상 OI peak 보다 funding 이 1~3일 더 선행. capitulation 직전엔 funding 음수 극단 (역포지셔닝 기회).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: <code>펀딩비(Funding)</code> 토글. 양수 빨강 (롱 우세), 음수 파랑 (숏 우세).
+          </div>
+        </div>
       </div>
 
       <div class="v3-meta-row">
-        <span><b>데이터 source:</b> Yahoo (현물) + Coinglass (파생 OI)</span>
+        <span><b>데이터 source:</b> Yahoo (현물) + Coinalyze (파생 OI + Funding, 4-exch 합산)</span>
         <span><b>가용:</b> ✅ 현물 운영 중 · ⏳ 파생 OI 는 Phase C 작업 (단 2018 이전 sparse)</span>
       </div>
     </div>
@@ -587,6 +695,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
         <div class="v3-callout v3-callout-good">Speculator net long/short 가 <b>역대 99 percentile</b> + IV peak → reversal 임박.<br>대표 케이스: <b>Soros 1992 GBP shorts</b> 직전 spec short 역대급 · <b>2022 USD/JPY ¥150</b> climax 직전 spec long 역대급.</div>
       </div>
 
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ CFTC Spec Net Position (인프라 준비 완료, FX symbol 등록 대기)</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: FX 는 OTC 분산 시장이라 통합 거래량 자체가 존재하지 않음. CME (시카고상품거래소) 의 FX 선물 부분만 공식 데이터로 잡힘 — 전체 FX 거래의 일부지만 <b>투기 자금의 positioning proxy 로 충분</b>. 사실상 FX 유일한 표준 지표.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>1992 GBP Soros 공매도</b> 직전 spec net short 역대급 (Soros 가 반대 진입 → 영국은행 항복). <b>2022 USDJPY ¥150 divergence</b> climax 직전 spec long 역대급 (BOJ 개입 후 reversal). <b>1995-98 USDJPY carry bubble</b>. <b>2014-15 USD strength</b> climax. 모두 spec net 극값이 reversal 1~3주 선행.
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: FX deep-dive 시점에 <code>multiasset_cot.py</code> 에 GBP/JPY contract code 추가 → <code>투기자산 순포지션(Spec Net)</code> 토글 자동 활성화 (WTI 와 동일 source, 코드 추가 5분).
+          </div>
+        </div>
+      </div>
+
       <div class="v3-meta-row">
         <span><b>데이터 source:</b> CFTC COT (FX 부분 포함, 무료)</span>
         <span><b>가용:</b> ⏳ Phase B (원자재 COT 와 동일 source — 1번에 해결)</span>
@@ -617,6 +742,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
       <div class="v3-section">
         <div class="v3-section-label">보조 지표 — 선물 OI (ZN/ZB)</div>
         <div class="v3-section-body">10년 국채 (ZN) / 30년 국채 (ZB) 선물의 OI. CFTC COT 동일 source.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">📚 우리 대시보드 셋팅 지표 활용</div>
+
+        <div class="v3-indicator">
+          <div class="v3-indicator-name">▶ MOVE Index ("채권의 VIX")</div>
+          <div class="v3-indicator-body">
+            <b>이론적 의미</b>: 미국채 옵션 implied volatility 기반 채권 변동성 지수. BofA Merrill Lynch 산출. <b>"채권 시장의 VIX"</b>. TLT 같은 채권 ETF 가격보다 채권 panic 을 명확하게 가시화 (옵션 IV 는 향후 변동성 기대치라 panic 즉시 반영).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대표 활용 시기</b>: <b>2022-01-10 TLT -34% 채권 폭락</b> — MOVE 가 2008 위기 이후 처음으로 160 돌파 = 채권 climax 시그널. Fed 50bp 인상 cycle 진입 직전. 평소 80~100 정상, 130+ 긴장, 160+ panic (2008/2020/2022 만 도달).
+          </div>
+          <div class="v3-indicator-body" style="margin-top:6px;">
+            <b>대시보드</b>: MOVE 자산 직접 선택 → 자체 가격 차트 (캔들). TLT 사이클 분석 시 매크로 패널에 비교 표시 검토.
+          </div>
+        </div>
       </div>
 
       <div class="v3-meta-row">
