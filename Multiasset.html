@@ -921,35 +921,7 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   const xVal = src.scales.x.getValueForPixel(px);
   if (xVal == null) { box.style.display = 'none'; return; }
 
-  // === Multi-asset: 매크로 패널 hover 시 매크로 series 만 툴팁 표시 ===
-  if (src.$role === 'macro') {
-    let html = '<div class="hts-date">' + _fmtDateDow(xVal) + '</div>';
-    html += '<div class="hts-section"><div class="hts-section-title" style="color:#F39C12;">매크로 드라이버</div>';
-    let any = false;
-    src.data.datasets.forEach((ds, i) => {
-      if (!ds._macroDot) return;
-      if (!src.isDatasetVisible(i)) return;
-      // hover X 시점 값 (forward-fill 적용된 dataset.data 에서 가장 가까운 dt)
-      let val = null, bestDt = Infinity;
-      for (const pt of ds.data) {
-        if (pt == null || pt.y == null) continue;
-        const dt = Math.abs(pt.x - xVal);
-        if (dt < bestDt) { bestDt = dt; val = pt.y; }
-      }
-      const c = ds.borderColor;
-      const u = ds._unit || '';
-      html += '<div class="hts-row"><span class="k" style="color:' + c + ';">' + ds.label + '</span><span class="v">' + (val != null ? fmt(val, 2) + (u ? ' ' + u : '') : '-') + '</span></div>';
-      any = true;
-    });
-    html += '</div>';
-    if (any) {
-      box.innerHTML = html;
-      box.style.display = 'block';
-    } else {
-      box.style.display = 'none';
-    }
-    return;
-  }
+  // === Multi-asset: 매크로 분기 제거 (통합 툴팁 — 자산+매크로 동시 표시) ===
 
   const usIndexChart = charts.find(c => c.$role === 'us-price');
   const priceChart = charts.find(c => c.$role === 'price');
@@ -1003,6 +975,8 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     const vds = volChart ? volChart.data.datasets.find(d => d._volume) : null;
     const vrow = vds ? findRowAtTimeExact(vds.data, xVal) : null;
     hoveredOnCandle = !!(vrow && _isOnCandle(src, vrow, xVal, hoverY));
+  } else if (src.$role === 'macro') {
+    hoveredOnCandle = true;  // 매크로 panel 안 어디에 hover 해도 통합 툴팁 표시
   }
   if (!hoveredOnCandle) {
     box.style.display = 'none';
@@ -1145,8 +1119,35 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     }
   }
 
+  // === Multi-asset: 매크로 section 추가 (자산 sections 다음에 동시 표시) ===
+  const macroChart = charts.find(c => c.$role === 'macro');
+  let macroSection = '';
+  if (macroChart) {
+    let macroHtml = '<div class="hts-section"><div class="hts-section-title" style="color:#F39C12;">매크로 드라이버</div>';
+    let macroAny = false;
+    macroChart.data.datasets.forEach((ds, i) => {
+      if (!ds._macroDot) return;
+      if (!macroChart.isDatasetVisible(i)) return;
+      let val = null, bestDt = Infinity;
+      for (const pt of ds.data) {
+        if (pt == null || pt.y == null) continue;
+        const dt = Math.abs(pt.x - xVal);
+        if (dt < bestDt) { bestDt = dt; val = pt.y; }
+      }
+      const c = ds.borderColor;
+      const u = ds._unit || '';
+      macroHtml += '<div class="hts-row"><span class="k" style="color:' + c + ';">' + ds.label + '</span><span class="v">' + (val != null ? fmt(val, 2) + (u ? ' ' + u : '') : '-') + '</span></div>';
+      macroAny = true;
+    });
+    macroHtml += '</div>';
+    if (macroAny) {
+      macroSection = macroHtml;
+      html += macroHtml;
+    }
+  }
+
   // 결과: 어떤 섹션도 렌더되지 않으면 숨김 (edge case 방어)
-  if (!usSection && !krSection && !stockSection) {
+  if (!usSection && !krSection && !stockSection && !macroSection) {
     box.style.display = 'none';
     return;
   }
