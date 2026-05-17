@@ -713,14 +713,24 @@ const crosshairPlugin = {
         ctx.fill();
         ctx.stroke();
       });
-      // === Multi-asset 매크로 line dataset — 가장 가까운 datapoint 에 황금원 ===
+      // === Multi-asset 매크로 line dataset — native timestamp 기준 황금원 (월별 점프) ===
       chart.data.datasets.forEach((ds, i) => {
         if (!ds._macroDot) return;
         if (!chart.isDatasetVisible(i)) return;
+        const nativeTs = ds._nativeTs || [];
+        if (!nativeTs.length) return;
+        // hover X 시점에 forward-fill 로 적용된 최신 native timestamp 찾기 (≤ xValMark)
+        let nearestNative = null;
+        for (const t of nativeTs) {
+          if (t <= xValMark) nearestNative = t;
+          else break;
+        }
+        if (nearestNative == null) return;
+        // dataset.data 에서 그 native timestamp 와 가장 가까운 datapoint 찾기
         let nearest = null, minDiff = Infinity;
         for (const pt of ds.data) {
           if (pt == null || pt.y == null) continue;
-          const diff = Math.abs(pt.x - xValMark);
+          const diff = Math.abs(pt.x - nearestNative);
           if (diff < minDiff) { minDiff = diff; nearest = pt; }
         }
         if (!nearest) return;
@@ -733,7 +743,7 @@ const crosshairPlugin = {
         ctx.fillStyle = '#FFD700';
         ctx.strokeStyle = '#0d1117';
         ctx.lineWidth = 1.5;
-        ctx.arc(rxPx, ryPx, 3, 0, Math.PI * 2);
+        ctx.arc(rxPx, ryPx, 4, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
       });
@@ -1922,7 +1932,8 @@ function makeMacroChart(canvasId, seriesList, view) {
     fill: false,
     spanGaps: true,
     tension: 0.1,
-    _macroDot: true  // crosshair afterDraw 의 황금원 처리 대상
+    _macroDot: true,  // crosshair afterDraw 의 황금원 처리 대상
+    _nativeTs: s._nativeTs || []  // native timestamp 배열 (월별 점프용)
   }));
   const ch = new Chart(ctx, {
     type: 'line',
@@ -2086,6 +2097,10 @@ function renderMaChart(view, event) {
   const _pad = (n) => String(n).padStart(2,'0');
   const macroSeries = macroSeriesRaw.map(s => {
     const sorted = s.data.slice().sort((a,b) => a[0].localeCompare(b[0]));
+    // native timestamp 배열 — 황금원이 월별/주별 점프하도록 별도 보관
+    const nativeTs = sorted.map(r =>
+      new Date(+r[0].slice(0,4), +r[0].slice(4,6)-1, +r[0].slice(6,8)).getTime()
+    );
     const aligned = [];
     let idx = 0, lastY = null;
     for (const t of _maUnionX) {
@@ -2100,7 +2115,7 @@ function renderMaChart(view, event) {
         aligned.push([key, lastY, lastY, lastY, lastY, 0]);
       }
     }
-    return Object.assign({}, s, { data: aligned });
+    return Object.assign({}, s, { data: aligned, _nativeTs: nativeTs });
   });
 
   const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
