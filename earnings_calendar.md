@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-16 (자동 실행)**
+> **최종 갱신: 2026-05-17 (자동 실행)**
 
 ### 5월
 
@@ -234,7 +234,7 @@
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
 | 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 — TipRanks·Investing.com 7/29 확정, 7/22→7/29 업데이트 (WallStreetHorizon은 여전히 7/22, 재확인 권장) |
 | 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
-| (~7/29) | ARM Holdings (ARM) | 반도체-CPU | Q1 FY2027 — 다수 소스 7/29 일치, 미공식 (TipRanks·wallstreethorizon 추정) |
+| 7/29 | ARM Holdings (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
 | (~7/29) | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026 — 과거 패턴 추정 (FY 6월 결산, Q3 4/29 발표, Q4 FY25: 7/31) |
 | (~7/29) | Ford (F) | 자동차 | Q2 2026, AMC — 미확정 추정 (wallstreethorizon, Q1: 4/29) |
 | (~7/29) | 에코프로비엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |

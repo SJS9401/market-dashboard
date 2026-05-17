@@ -1916,6 +1916,7 @@ function makeMacroChart(canvasId, seriesList, view) {
     }
   });
   ch._role = 'macro';
+  ch.$view = view;  // crosshair plugin 이 chart.$view 로 view 식별 — 황금원 marker 적용
   return ch;
 }
 
