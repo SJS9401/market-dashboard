@@ -1912,7 +1912,7 @@ function makeMacroChart(canvasId, seriesList, view) {
   const datasets = seriesList.map((s, i) => ({
     label: s.key,
     data: s.data.map(row => ({
-      x: new Date(row[0].slice(0,4) + '-' + row[0].slice(4,6) + '-' + row[0].slice(6,8)).getTime(),
+      x: new Date(+row[0].slice(0,4), +row[0].slice(4,6)-1, +row[0].slice(6,8)).getTime(),
       y: row[1]
     })),
     borderColor: MA_MACRO_COLOR[i % MA_MACRO_COLOR.length],
