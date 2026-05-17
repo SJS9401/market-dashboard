@@ -1916,7 +1916,7 @@ function makeMacroChart(canvasId, seriesList, view) {
     }
   });
   ch._role = 'macro';
-  ch.$view = view;  // crosshair plugin 이 chart.$view 로 view 식별 — 황금원 marker 적용
+  // ch.$view 는 의도적으로 설정 안 함 (BT 결정 2026-05-15: 황금원 적용 보류)
   return ch;
 }
 
@@ -2039,13 +2039,16 @@ function renderMaChart(view, event) {
 
   const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
   if (macroCh) {
-    if (xMin !== null && xMax !== null) {
+    if (xMin !== null && xMax !== null && allArrs.length > 0) {
       macroCh.options.scales.x.min = xMin;
       macroCh.options.scales.x.max = xMax;
-      // ghost dataset — 위 4 panel 과 동일 X 범위 강제
-      const macroGhost = [{x: xMin, y: null}, {x: xMax, y: null}];
+      // timeseries 타입은 dataset 의 unique date 만 X 축 등록 -> 합집합 unionX 전체를 ghost 로 추가
+      const unionSet2 = new Set();
+      allArrs.forEach(a => a.forEach(d => unionSet2.add(d.x)));
+      const unionX2 = Array.from(unionSet2).sort((a,b)=>a-b);
+      const macroGhostFull = unionX2.map(t => ({x: t, y: null}));
       macroCh.data.datasets.push({
-        label: '_xunion', data: macroGhost,
+        label: '_xunion', data: macroGhostFull,
         borderColor: 'transparent', backgroundColor: 'transparent',
         pointRadius: 0, fill: false, _xunion: true, order: 999
       });
