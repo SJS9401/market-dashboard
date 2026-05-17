@@ -183,14 +183,14 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-17 (자동 실행)**
+> **최종 갱신: 2026-05-18 (자동 실행)**
 
 ### 5월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC, Q1 FY2027 (확정, 5:00pm ET) |
-| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (이전 5/21→5/27 업데이트, 확정) |
+| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (이전 5/21→5/27 업데이트, 다수 소스 5/27 확정. TipRanks만 5/21 혼재) |
 | (5월중) | SK증권 | 금융 | 과거 패턴 추정 |
 
 ### 6월
@@ -218,7 +218,8 @@
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
 | (~7/22) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/22) |
-| (~7/23) | Intel (INTC) | 반도체-CPU | Q2 2026, AMC — 미확정, 과거 패턴 추정 (Q1: 4/23) |
+| (~7/22) | Tesla (TSLA) | 자동차 | AMC, Q2 2026 — 7/29→7/22 재업데이트. MarketBeat·Benzinga·Yahoo·WSH 다수 소스 7/22 수렴 (미확정, 재확인 권장) |
+| 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
 | (~7/24) | 현대로템 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
 | (~7/24) | 삼성중공업 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
@@ -228,11 +229,10 @@
 | (~7/28) | 삼성SDI | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/28) |
 | (~7/28) | 현대건설 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/28) |
 | 7/28 | RTX (RTX) | 방산 | BMO, Q2 2026 (확정 — 방산+항공엔진, 수주잔고) |
-| 7/28 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC — 다수 소스 7/28 일치 (StockEvents·Nasdaq·TipRanks 확인, 미공식) |
-| 7/28 | Microsoft (MSFT) | 빅테크 | Q4 FY2026, AMC (7/29→7/28 업데이트 — TipRanks·Investing.com 7/28 AMC 확정, Microsoft 패턴 Q4 FY25: 7/29 vs 현재 7/28, 재확인 권장) |
+| 7/28 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (확정, TipRanks·Nasdaq — 소수 소스 7/22·7/23 혼재, 재확인 권장) |
+| 7/28 | Microsoft (MSFT) | 빅테크 | Q4 FY2026, AMC (확정, Microsoft 공식 발표 2026-04-08) |
 | 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
-| 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 — TipRanks·Investing.com 7/29 확정, 7/22→7/29 업데이트 (WallStreetHorizon은 여전히 7/22, 재확인 권장) |
 | 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
 | 7/29 | ARM Holdings (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
 | (~7/29) | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026 — 과거 패턴 추정 (FY 6월 결산, Q3 4/29 발표, Q4 FY25: 7/31) |
@@ -269,6 +269,7 @@
 | (~8/8) | 한국전력 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/8) |
 | 8/10 | Palantir (PLTR) | 소프트웨어 | Q2 2026, AMC (확정, TipRanks — AI 소프트웨어 수주, 미국 상업부문 성장세) |
 | 8/12 | Vistra (VST) | 원전 | Q2 2026, BMO (확정 — 원전+가스 발전, 전력 가격) |
+| 8/12 | NuScale Power (SMR) | 원전 | Q2 2026 (확정, MarketBeat·Nasdaq — SMR 수주/인허가 진척, pre-revenue) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
 | 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — NAND 업황, SSD 데이터센터 수요, Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
 | (~8월중) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 미확정, 과거 패턴 추정 (FY 9월 결산, Q2: 5/7) |
