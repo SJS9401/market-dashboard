@@ -1503,13 +1503,21 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     if (vds) {
       const row = findRowAtTimeExact(vds.data, xVal);
       if (row && row.v != null) {
-        const isOiMode = volChart.$volMode === 'oi';
-        const volLabel = isOiMode ? 'Open Interest' : '거래대금';
-        const volUnit  = isOiMode ? ' contracts' : ' 억';
+        const mode = volChart.$volMode || 'vol';
+        let volLabel, volUnit, valueColor = '';
+        if (mode === 'oi')        { volLabel = 'Open Interest';     volUnit = ' contracts'; }
+        else if (mode === 'spec') {
+          volLabel = 'Spec Net';
+          volUnit = ' contracts';
+          valueColor = row.v >= 0 ? '#C9302C' : '#1565C0';
+        }
+        else                      { volLabel = '거래대금';            volUnit = ' 억'; }
+        const valSign = (mode === 'spec' && row.v > 0) ? '+' : '';
         let volBlock = '<div class="hts-section">';
-        volBlock += '<div class="hts-row"><span class="k">' + volLabel + '</span><span class="v">' + fmt(row.v, 0) + volUnit + '</span></div>';
-        // OI mode + Spec 데이터 있으면 positioning 정보 표시
-        if (isOiMode && row.cnl != null && row.cns != null && row.ncnet != null) {
+        volBlock += '<div class="hts-row"><span class="k">' + volLabel + '</span><span class="v"' + (valueColor ? ' style="color:' + valueColor + ';font-weight:700;"' : '') + '>' + valSign + fmt(row.v, 0) + volUnit + '</span></div>';
+        // OI / Spec mode 둘 다 Spec positioning 보조 정보 표시 (한 화면 비교)
+        const showSpecDetail = (mode === 'oi' || mode === 'spec');
+        if (showSpecDetail && row.cnl != null && row.cns != null && row.ncnet != null) {
           const netColor = row.ncnet >= 0 ? '#C9302C' : '#1565C0';
           const netSign  = row.ncnet >= 0 ? '+' : '';
           volBlock += '<div class="hts-row"><span class="k" style="color:#6e7681;">└ Spec Long</span><span class="v" style="color:#C9302C;">' + fmt(row.cnl, 0) + '</span></div>';
@@ -3140,30 +3148,34 @@ function toggleVolMode(view, mode) {
   // chartRegistry index 3 = volCh (renderMaChart 에서 [usCh, benchCh, mainCh, volCh] 순서)
   const volCh = charts[3];
   if (!volCh) return;
-  if (mode === 'oi' && !volCh.$cotAvailable) return;  // COT 없는 자산은 OI 모드 차단
+  if ((mode === 'oi' || mode === 'spec') && !volCh.$cotAvailable) return;  // COT 없으면 차단
 
-  const ohlc = mode === 'oi' ? volCh.$oiOhlc : volCh.$volOhlc;
+  let ohlc;
+  if (mode === 'oi')        ohlc = volCh.$oiOhlc;
+  else if (mode === 'spec') ohlc = volCh.$specOhlc;
+  else                      ohlc = volCh.$volOhlc;
   if (!ohlc) return;
 
-  // dataset.data 를 새 ohlc 로 재변환 (makeVolumeChart 와 동일 로직)
+  // dataset.data 를 새 ohlc 로 재변환
   const ds = volCh.data.datasets.find(d => d._volume);
   if (!ds) return;
   ds.data = ohlc.map((d, i) => {
-    // 캔들과 정확 일치 (당일 open vs close)
+    // Spec Net mode: .up 이 coalesceCotSpecToOhlc 에서 ncnet>=0 부호 기반으로 미리 설정됨
+    // 거래량/OI mode: 캔들과 정확 일치 (당일 open vs close)
     const up = (d.up !== undefined && d.up !== null) ? d.up : (d.c >= d.o);
     return { x: d.x, y: d.v, v: d.v, up,
              oi: d.oi, ncnet: d.ncnet, cnl: d.cnl, cns: d.cns };
   });
   volCh.$volMode = mode;
 
-  // Y scale 자동 재계산 (range 변경)
+  // Y scale: beginAtZero true → zeroY 기준 양수↑/음수↓ 둘 다 표시 (Spec Net 음수도 OK)
   if (volCh.scales && volCh.scales.y) {
     volCh.scales.y.options.beginAtZero = true;
   }
   volCh.update('none');
 
-  // 버튼 active 상태 swap
-  ['vol', 'oi'].forEach(m => {
+  // 버튼 active 상태 swap (3-way)
+  ['vol', 'oi', 'spec'].forEach(m => {
     const btn = document.getElementById(view + '-vol-mode-' + m);
     if (btn) btn.classList.toggle('active', m === mode);
   });
@@ -3173,6 +3185,8 @@ function toggleVolMode(view, mode) {
   if (lbl) {
     if (mode === 'oi') {
       lbl.textContent = 'Open Interest (contracts)';
+    } else if (mode === 'spec') {
+      lbl.textContent = 'Speculator Net Position (contracts, +long/-short)';
     } else {
       // 거래량 라벨 = selectMaButton 이 설정한 ASSET_VOL_UNIT 기준 — re-derive
       const evt = (typeof maSelection !== 'undefined' && maSelection[view]) ? maSelection[view] : null;
@@ -3196,6 +3210,34 @@ function toggleVolMode(view, mode) {
           'GBPUSD':'거래량 (참고)','USDJPY':'거래량 (참고)','DXY':'거래량 (참고)',
         };
         lbl.textContent = assetMap[evt.asset] || fallbackMap[evt.ac] || '거래량';
+      } else {
+        lbl.textContent = '거래량';
+      }
+    }
+  }
+}
+
+function switchView(evt, viewId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('view-' + viewId).classList.add('active');
+  evt.target.classList.add('active');
+}
+
+// ===== INIT =====
+loadMaData().then(() => {
+  initV1();
+  initV2();
+  // Leading_stocks 패턴 — X축 스크롤바 attach (페이지 로드 시 한 번만)
+  if (typeof attachScrollbar === 'function') {
+    attachScrollbar('v1');
+    attachScrollbar('v2');
+  }
+});
+</script>
+</body>
+</html>
+setMap[evt.asset] || fallbackMap[evt.ac] || '거래량';
       } else {
         lbl.textContent = '거래량';
       }
