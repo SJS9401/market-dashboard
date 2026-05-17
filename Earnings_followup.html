@@ -67,6 +67,15 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .mode-btn.disabled { opacity:0.25; cursor:not-allowed; pointer-events:none; }
 .loading { color:var(--text-dim); font-style:italic; padding:1rem; }
 .error-box { background:#3a1f1f; border:1px solid #c44; padding:0.6rem 1rem; border-radius:4px; margin:0.5rem 0; font-size:0.85rem; }
+/* 5/18 신규 — 테마 리뷰 카드 */
+.theme-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin-bottom:1.5rem; }
+.theme-card { background:var(--bg-2); border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:6px; padding:0.7rem 0.9rem; }
+.theme-name { color:var(--text-bright); font-size:1rem; font-weight:600; margin-bottom:0.3rem; }
+.theme-meta { font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem; }
+.theme-reviews { display:flex; gap:0.3rem; flex-wrap:wrap; }
+.theme-review-link { padding:0.18rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; text-decoration:none; transition:all 0.15s; }
+.theme-review-link:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
+.empty-state { color:var(--text-dim); font-style:italic; padding:1rem; text-align:center; grid-column:1/-1; background:var(--bg-2); border:1px dashed var(--border-2); border-radius:6px; }
 footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); text-align:center; color:var(--text-dim); font-size:0.8rem; }
 </style>
 </head>
@@ -86,6 +95,9 @@ footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); 
 <div class="watchlist-box"><h3 style="margin-top:0;">워치리스트 — <span id="currentQuarterLabel">-</span></h3><div id="watchlistSummary" class="loading">워치리스트 로딩...</div></div>
 <div class="progress-box"><h3 style="margin-top:0;">진행률</h3><div id="progressStats" class="progress-stats"><div class="stat"><div class="stat-value" id="statR">-</div></div></div></div>
 </div>
+<!-- 5/18 신규 — 테마 리뷰 카드 섹션 (워치리스트와 Tier 1 사이) -->
+<h2>테마 리뷰</h2>
+<div id="themeReviews" class="theme-grid"><div class="loading">테마 리뷰 로딩...</div></div>
 <h2>Tier 1</h2>
 <div id="t1Sectors" class="sector-grid"><div class="loading">섹터 데이터 로딩...</div></div>
 <h2>Tier 2</h2>

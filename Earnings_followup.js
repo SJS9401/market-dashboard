@@ -10,7 +10,7 @@ let state = {
   watchlist: { T1: [], T2: [], T3: [] },
   calendar: {},
   signals: {},
-  manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], analysis: [], theme: [] }
+  manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], analysis: [], theme: [], 'theme-review': [] }
 };
 
 function $(id) { return document.getElementById(id); }
@@ -132,6 +132,7 @@ function changeQuarter(newQ) {
   $('currentQuarterLabel').textContent = displayQuarter(newQ);
   updateQuarterButtons();
   renderProgress();
+  renderThemeReviews();
   renderSectors();
 }
 
@@ -255,8 +256,17 @@ const SUFFIX = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스'
 const MODE_LABELS = { preview: '프리뷰', review: '리뷰', 'in-depth': '인뎁스', followup: '요약' };
 
 function getModeFile(stock, mode) {
-  // stock: {name, ticker}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
+  // stock: {name, ticker, sector}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
+  // sector는 renderSectorCard에서 inject (산업기초 매칭용).
   const key = stock.ticker || stock.name;
+  // industry-basic: 산업 단위 산출물 ({sector}_산업기초.html) — 산업/기업 분석 세션의 industry-basic 스킬
+  // 폴더는 earnings/earnings-theme/ (산업/기업 세션이 테마와 같은 폴더에 둠)
+  // 같은 산업 종목 모두 같은 .md 열림 (예: 삼성전자·하이닉스 모두 반도체_산업기초.html)
+  if (mode === 'industry-basic') {
+    if (!stock.sector) return null;
+    const expected = stock.sector + '_산업기초.html';
+    return (state.manifest.theme || []).includes(expected) ? expected : null;
+  }
   // company: 분기 무관 단일 파일 ({종목}_기업개요.html) — company-overview 스킬 v4.8 산출물
   // 폴더는 earnings/company-overview/, 파일은 _기업개요 suffix
   if (mode === 'company') {
@@ -323,6 +333,10 @@ function buildHtmlPath(mode, file) {
   if (mode === 'company') return 'earnings/company-overview/' + file;
   // company-analysis 스킬 산출물도 별도 폴더 (earnings/company-analysis/)
   if (mode === 'analysis') return 'earnings/company-analysis/' + file;
+  // industry-basic은 산업/기업 세션이 earnings-theme 폴더에 둠
+  if (mode === 'industry-basic') return 'earnings/earnings-theme/' + file;
+  // theme-review는 별도 폴더 (earnings/theme-review/)
+  if (mode === 'theme-review') return 'earnings/theme-review/' + file;
   return 'earnings/earnings-' + mode + '/' + file;
 }
 
@@ -379,10 +393,8 @@ function renderStockRow(stock) {
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
   // td 3: 리포트 5개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
-  // 5/18 변경: 7개 → 5개 (기업분석·팔로업 버튼 제거)
-  // - 기업분석: 테마 분석(통합)에 흡수 (종목별 디테일 포함)
-  // - 팔로업: 컬럼·버튼 모두 제거 (시그널은 review/in-depth가 자체 처리)
-  for (const pair of [['company', '기업개요'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스']]) {
+  // 5/18 변경: 산업기초 추가 + 라벨 풀네임 통일 (총 6개)
+  for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['theme', '테마분석'], ['preview', '실적 프리뷰'], ['review', '실적 리뷰'], ['in-depth', '실적 인뎁스']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {
@@ -435,7 +447,11 @@ function renderSectorCard(sectorObj, tier) {
     return dA - dB;
   });
   const tbody = el('tbody');
-  for (const stock of sortedStocks) tbody.appendChild(renderStockRow(stock));
+  // 5/18 변경: stock 객체에 sector inject (산업기초 버튼 매칭용)
+  for (const stock of sortedStocks) {
+    stock.sector = sectorObj.sector;
+    tbody.appendChild(renderStockRow(stock));
+  }
   table.appendChild(tbody);
   card.appendChild(table);
   return card;
@@ -450,6 +466,51 @@ function renderSectors() {
   if (state.watchlist.T1.length === 0) t1.innerHTML = '<div class="loading">no data</div>';
   if (state.watchlist.T2.length === 0) t2.innerHTML = '<div class="loading">no data</div>';
   if (state.watchlist.T3.length === 0) t3.innerHTML = '<div class="loading">no data</div>';
+}
+
+// 5/18 신규 — 테마 리뷰 카드 렌더링
+// 위치: 워치리스트 박스 / 진행률 카드 다음, Tier 1 카드 전
+// 데이터: manifest['theme-review']에서 파일명 parse → 테마별 그룹핑 → 분기별 link
+// 파일 패턴: {테마}_테마리뷰_{분기}.html (예: 에이전트AI_테마리뷰_1Q26.html)
+function renderThemeReviews() {
+  const container = $('themeReviews');
+  if (!container) return;
+  container.innerHTML = '';
+  const list = state.manifest['theme-review'] || [];
+  if (list.length === 0) {
+    container.appendChild(el('div', { class: 'empty-state' },
+      '아직 작성된 테마 리뷰가 없습니다. theme-analysis 통합본 작성 후 [테마 리뷰 모드] {테마}로 첫 리뷰 작성.'));
+    return;
+  }
+  // 테마별 그룹핑
+  const themeMap = {};
+  list.forEach(file => {
+    const m = file.match(/^(.+)_테마리뷰_(.+)\.html$/);
+    if (m) {
+      const theme = m[1], quarter = m[2];
+      if (!themeMap[theme]) themeMap[theme] = [];
+      themeMap[theme].push({ quarter, file });
+    }
+  });
+  // 카드 렌더링 (테마명 ABC순)
+  const themeNames = Object.keys(themeMap).sort();
+  for (const theme of themeNames) {
+    const reviews = themeMap[theme].slice().sort((a, b) => b.quarter.localeCompare(a.quarter));
+    const card = el('div', { class: 'theme-card' });
+    card.appendChild(el('div', { class: 'theme-name' }, theme));
+    card.appendChild(el('div', { class: 'theme-meta' }, '분기 리뷰: ' + reviews.length + '회'));
+    const links = el('div', { class: 'theme-reviews' });
+    for (const r of reviews) {
+      links.appendChild(el('a', {
+        class: 'theme-review-link',
+        href: buildHtmlPath('theme-review', r.file),
+        target: '_blank',
+        title: r.file
+      }, r.quarter));
+    }
+    card.appendChild(links);
+    container.appendChild(card);
+  }
 }
 
 function setupSearch() {
@@ -493,6 +554,7 @@ async function init() {
   populateQuarterSelector();
   renderWatchlistSummary();
   renderProgress();
+  renderThemeReviews();
   renderSectors();
   setupSearch();
   setupQuarterSelector();
