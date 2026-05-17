@@ -155,6 +155,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 .view-panel { display: none; }
 .view-panel.active { display: block; }
+
+/* === Phase 2c-2W: 자산군별 특성 학습 탭 === */
+.v3-wrap { padding: 18px 28px 30px; max-width: 1280px; margin: 0 auto; }
+.v3-intro { background: linear-gradient(135deg, #161b22 0%, #1c2128 100%); border: 1px solid #30363d; border-left: 4px solid #F39C12; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; }
+.v3-intro h2 { font-size: 16px; color: #f0f6fc; margin-bottom: 6px; }
+.v3-intro p { font-size: 13px; color: #c9d1d9; line-height: 1.7; }
+.v3-intro p + p { margin-top: 6px; }
+.v3-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px 22px; margin-bottom: 16px; transition: border-color 0.15s; }
+.v3-card:hover { border-color: #58a6ff; }
+.v3-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #21262d; }
+.v3-card-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.v3-card-title { font-size: 17px; font-weight: 700; color: #f0f6fc; }
+.v3-card-sub { font-size: 12px; color: #8b949e; margin-left: auto; font-family: 'Menlo', monospace; }
+.v3-section { margin-top: 12px; }
+.v3-section-label { font-size: 12px; font-weight: 700; color: #F39C12; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 5px; }
+.v3-section-body { font-size: 13px; color: #c9d1d9; line-height: 1.75; }
+.v3-section-body b { color: #f0f6fc; font-weight: 600; }
+.v3-section-body code { background: #0d1117; color: #79c0ff; padding: 1px 6px; border-radius: 3px; font-size: 12px; font-family: 'Menlo', monospace; border: 1px solid #21262d; }
+.v3-list { margin-top: 4px; padding-left: 18px; }
+.v3-list li { font-size: 13px; color: #c9d1d9; line-height: 1.7; margin-bottom: 2px; }
+.v3-list li b { color: #f0f6fc; }
+.v3-callout { background: #0d1117; border: 1px solid #21262d; border-left: 3px solid #58a6ff; border-radius: 4px; padding: 8px 12px; margin-top: 6px; font-size: 12.5px; color: #c9d1d9; line-height: 1.65; }
+.v3-callout-warn { border-left-color: #f85149; }
+.v3-callout-good { border-left-color: #3fb950; }
+.v3-callout b { color: #f0f6fc; }
+.v3-summary { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px 22px; margin-top: 24px; }
+.v3-summary h3 { font-size: 15px; color: #f0f6fc; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+.v3-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.v3-table th { text-align: left; padding: 8px 10px; background: #0d1117; color: #F39C12; font-weight: 700; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid #30363d; }
+.v3-table td { padding: 8px 10px; color: #c9d1d9; border-bottom: 1px solid #21262d; vertical-align: top; }
+.v3-table tr:hover td { background: #1c2128; }
+.v3-table .v3-td-asset { font-weight: 700; color: #f0f6fc; min-width: 110px; }
+.v3-table .v3-td-asset-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.v3-meta-row { display: flex; gap: 16px; font-size: 11.5px; color: #8b949e; margin-top: 8px; flex-wrap: wrap; }
+.v3-meta-row span { display: inline-flex; align-items: center; gap: 4px; }
+.v3-meta-row b { color: #c9d1d9; font-weight: 600; }
+.v3-glossary { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; margin-top: 20px; }
+.v3-glossary h3 { font-size: 14px; color: #f0f6fc; margin-bottom: 10px; }
+.v3-glossary dl { display: grid; grid-template-columns: 160px 1fr; gap: 8px 18px; font-size: 12.5px; }
+.v3-glossary dt { color: #79c0ff; font-weight: 700; font-family: 'Menlo', monospace; }
+.v3-glossary dd { color: #c9d1d9; line-height: 1.65; }
+
 </style>
 </head>
 <body>
@@ -170,6 +212,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchView(event,'v1')">전체 사이클</button>
   <button class="tab-btn" onclick="switchView(event,'v2')">개별 사이클</button>
+  <button class="tab-btn" onclick="switchView(event,'v3')">자산군별 특성</button>
 </div>
 
 <!-- VIEW 1 -->
@@ -341,6 +384,325 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
       <button class="zoom-reset-btn" onclick="resetZoom('v2')">줌 리셋</button>
       <span class="zoom-hint" id="v2-zoom-hint"></span>
     </div>
+  </div>
+</div>
+
+<!-- VIEW 3 — 자산군별 특성 학습 -->
+<div class="view-panel" id="view-v3">
+  <div class="v3-wrap">
+
+    <div class="v3-intro">
+      <h2>왜 자산군마다 다른 거래량 지표를 봐야 하는가</h2>
+      <p>자산군마다 "돈이 얼마나 들어왔는지" 측정하는 표준 지표가 다르다. 잘못된 지표를 보면 climax 신호를 놓치거나 노이즈에 속는다. 핵심 차이는 시장 구조에 있다.</p>
+      <p><b>주식</b>은 발행주식이 유한하고 거래소 집중 시장이라 <b>거래대금</b>이 기관 자금 가시화의 직접 척도다. <b>선물</b>은 contracts 가 무한 생성되는 derivatives 라 거래량은 단순 회전이고 <b>Open Interest (미결제약정)</b> 가 신규 자금 진입의 진짜 척도다. <b>FX</b> 는 OTC 분산 시장이라 공식 거래량 자체가 없어 <b>CFTC COT Speculator positioning</b> 으로 대체한다. <b>크립토</b> 는 현물 거래대금만으론 부족하고 <b>파생 OI</b> 가 더 명확한 climax 시그널이다. <b>채권</b> 은 <b>MOVE Index</b> (채권 VIX) 가 panic 가시화 표준이다.</p>
+    </div>
+
+    <!-- ====== Card 1: 주식 (eq-gl + eq-kr) ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#1f6feb;"></span>
+        <span class="v3-card-dot" style="background:#3fb950;margin-left:-8px;"></span>
+        <span class="v3-card-title">주식 (Stocks)</span>
+        <span class="v3-card-sub">eq-gl / eq-kr</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — 거래대금 (Turnover)</div>
+        <div class="v3-section-body">
+          공식: <code>Price × Volume = 거래대금</code><br>
+          단위: 한국 = <b>억원</b>, 미국 = <b>USD 백만</b><br>
+          <span style="color:#8b949e;font-size:12px;">왜 거래량(shares) 가 아니라 거래대금인가 — 액면분할·주가 변동으로 거래량 절대값의 의미가 변형됨. 거래대금이 "실제 자금 유입"을 직접 반영한다.</span>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">사용 근거 — 트레이더 references</div>
+        <ul class="v3-list">
+          <li><b>William O'Neil (CAN SLIM)</b>: 돌파일 거래대금이 평균 대비 <b>+50% 이상</b>이어야 institutional accumulation 신호.</li>
+          <li><b>Mark Minervini (VCP, Volatility Contraction Pattern)</b>: 돌파일 <b>+40~50% 이상</b>, contraction 구간에서는 dry-up.</li>
+          <li><b>Wyckoff</b>: Buying Climax 정점에서 거래대금이 역사적 극값.</li>
+        </ul>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">Climax 패턴</div>
+        <div class="v3-callout">가격 정점 ±5~10 거래일 내에 <b>역사적 최대 거래대금</b> 동반.<br>대표 케이스: 2021 BBIG, 2023 에코프로, 2021 GME, 2018 TLRY</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> Yahoo (Close × Volume 자동 계산)</span>
+        <span><b>가용:</b> ✅ 한국 8종 운영 중 · 미국 5종 normalize 작업 예정</span>
+      </div>
+    </div>
+
+    <!-- ====== Card 2: 원자재 선물 (cm) ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#d29922;"></span>
+        <span class="v3-card-title">원자재 선물 (Commodity Futures)</span>
+        <span class="v3-card-sub">cm — WTI / Gold / Silver / Lumber / Uranium</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — Open Interest (미결제약정)</div>
+        <div class="v3-section-body">
+          공식: 종가 시점에 <b>미결제된 contracts 수</b> (CFTC 가 매주 수요일 종가 기준, 금요일 발표)<br>
+          <span style="color:#8b949e;font-size:12px;">왜 OI 인가 — 선물 거래량은 단순 손바뀜(롱→롱 회전) 포함이라 신규 자금 진입 여부를 구분 못 한다. OI 가 증가해야 진짜 신규 자금이다.</span>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">3가지 해석 패턴</div>
+        <ul class="v3-list">
+          <li><b>가격↑ + OI↑</b> = 신규 매수 자금 유입 (<span style="color:#3fb950;">강한 상승 추세</span>)</li>
+          <li><b>가격↑ + OI↓</b> = 숏커버 rally (<span style="color:#f85149;">추세 약함, climax 가능성</span>)</li>
+          <li><b>가격↓ + OI↑</b> = 신규 매도 진입 (<span style="color:#f85149;">하락 추세 시작</span>)</li>
+        </ul>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">사용 근거</div>
+        <ul class="v3-list">
+          <li><b>Peter Brandt (50년차 commodity trader)</b>: "expanded volume during a breakout is far more critical in stocks than it is in futures markets." 선물에서는 OI 가 결정적.</li>
+          <li><b>Wyckoff</b>: OI 의 climactic peak 가 distribution 시작점.</li>
+        </ul>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">Climax 패턴</div>
+        <div class="v3-callout v3-callout-good">2007-08 Crude $147, 2022 WTI, 1979-80 Gold/Silver, 2022-23 Uranium 모두 <b>OI peak ≈ 가격 peak</b> (시차 1~2주 이내).</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> CFTC COT (무료 CSV, weekly)</span>
+        <span><b>가용:</b> ⏳ Phase B 작업 예정 (fetch_cftc.py 신규)</span>
+      </div>
+    </div>
+
+    <!-- ====== Card 3: 원자재 ETF ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#d29922;border:2px solid #fff;"></span>
+        <span class="v3-card-title">원자재 ETF</span>
+        <span class="v3-card-sub">GLD · SLV · URA · DBC</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — USD 거래대금</div>
+        <div class="v3-section-body">
+          ETF 는 선물이 아니라 <b>주식 형태</b> → OI 개념 없음. 거래대금이 표준 (주식 카테고리와 동일 원리).<br>
+          <span style="color:#8b949e;font-size:12px;">단, ETF 의 진짜 강력한 보조 지표는 <b>AUM 변화</b>다. GLD inflow = 실물 금 매입, SLV inflow = 실물 은 매입을 의미하므로 spot 시장에 직접 영향을 미친다.</span>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">Climax 패턴</div>
+        <div class="v3-callout">2011 SLV (은 광기): AUM 이 역사적 최대 후 5주 내에 가격 -40% 폭락. AUM peak 가 가격 peak 보다 약간 선행.</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> Yahoo (거래대금) · 별도 (AUM)</span>
+        <span><b>가용:</b> ✅ 거래대금 즉시 가능 · AUM 은 future work</span>
+      </div>
+    </div>
+
+    <!-- ====== Card 4: 크립토 (cr) ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#f78166;"></span>
+        <span class="v3-card-title">크립토 (Crypto)</span>
+        <span class="v3-card-sub">cr — BTC / ETH</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — 현물 USD 거래대금 + 파생 OI</div>
+        <div class="v3-section-body">
+          <b>현물 거래대금</b>: 이미 USD 단위로 fetch (BTC-USD, ETH-USD volume)<br>
+          <b>파생 OI</b> (가장 강력한 climax 시그널): 무기한 선물 + 옵션의 미결제약정.<br>
+          <span style="color:#8b949e;font-size:12px;">크립토에서는 현물 거래대금만으론 부족하다. 파생(perpetual futures) 가 spot 보다 훨씬 큰 비중이라 파생 OI 가 진짜 자금 위치를 보여준다.</span>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">3-Trio Climax 패턴</div>
+        <ul class="v3-list">
+          <li><b>Funding rate 극단</b>: 롱 funding 이 연환산 100%+ 도달</li>
+          <li><b>OI 역대급</b>: 무기한 OI 가 역사적 최대 갱신</li>
+          <li><b>김프 / 현물 프리미엄</b>: 한국·미국 거래소 간 프리미엄 5%+</li>
+        </ul>
+        <div class="v3-callout v3-callout-warn">3가지가 동시에 켜지면 climax 임박. 2017 BTC $20k, 2021 BTC $69k 둘 다 정확히 이 패턴.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">중요 — OI 가 가격에 선행</div>
+        <div class="v3-callout v3-callout-good">2017/2021 BTC 정점에서 <b>파생 OI peak 가 가격 peak 보다 2~5일 먼저</b> 등장. 이는 다른 자산군에서 보기 힘든 크립토 고유 특성. 파생이 spot 을 선도한다.</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> Yahoo (현물) + Coinglass (파생 OI)</span>
+        <span><b>가용:</b> ✅ 현물 운영 중 · ⏳ 파생 OI 는 Phase C 작업 (단 2018 이전 sparse)</span>
+      </div>
+    </div>
+
+    <!-- ====== Card 5: FX ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#a371f7;"></span>
+        <span class="v3-card-title">FX (외환)</span>
+        <span class="v3-card-sub">fx — GBPUSD · USDJPY · DXY</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">중요 — FX 는 거래량이 없다</div>
+        <div class="v3-callout v3-callout-warn"><b>OTC 분산 시장이라 공식 거래량 자체가 존재하지 않는다.</b> 은행간 거래의 통합 데이터가 없어서 다른 자산군 방식이 적용 불가능.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — CFTC COT Speculator Net Position</div>
+        <div class="v3-section-body">
+          CME (시카고상품거래소) 의 FX 선물 부분만 공식 데이터로 잡힌다. 전체 FX 거래의 일부지만 <b>투기 자금의 positioning proxy</b> 로 충분.<br>
+          공식: <code>Non-Commercial Long − Non-Commercial Short = Speculator Net Position</code>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">보조 지표 — CME FX Options Implied Volatility</div>
+        <div class="v3-section-body">위기 climax 때 IV 폭증. 1992 GBP 위기 때 GBP IV 정점이 영국은행 항복 직전 등장.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">Climax 패턴</div>
+        <div class="v3-callout v3-callout-good">Speculator net long/short 가 <b>역대 99 percentile</b> + IV peak → reversal 임박.<br>대표 케이스: <b>Soros 1992 GBP shorts</b> 직전 spec short 역대급 · <b>2022 USD/JPY ¥150</b> climax 직전 spec long 역대급.</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> CFTC COT (FX 부분 포함, 무료)</span>
+        <span><b>가용:</b> ⏳ Phase B (원자재 COT 와 동일 source — 1번에 해결)</span>
+      </div>
+    </div>
+
+    <!-- ====== Card 6: 채권 ====== -->
+    <div class="v3-card">
+      <div class="v3-card-header">
+        <span class="v3-card-dot" style="background:#db6d28;"></span>
+        <span class="v3-card-title">채권 (Bonds)</span>
+        <span class="v3-card-sub">bd — TLT · 미국채 선물</span>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">표준 지표 — MOVE Index ("채권의 VIX")</div>
+        <div class="v3-section-body">
+          옵션 implied vol 기반 <b>채권 변동성 지수</b>. BofA Merrill Lynch 가 산출.<br>
+          <span style="color:#8b949e;font-size:12px;">왜 MOVE 인가 — TLT ETF 거래대금은 회전 노이즈가 너무 크다. MOVE 가 채권 시장의 panic 을 가장 명확하게 시각화한다.</span>
+        </div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">사용 근거 — 2022 채권 폭락의 결정적 시그널</div>
+        <div class="v3-callout v3-callout-warn">2022년 MOVE 가 <b>2008 위기 이후 처음으로 160 돌파</b> → 채권 climax 시그널. TLT 가격보다 훨씬 명확한 panic 가시화였다.</div>
+      </div>
+
+      <div class="v3-section">
+        <div class="v3-section-label">보조 지표 — 선물 OI (ZN/ZB)</div>
+        <div class="v3-section-body">10년 국채 (ZN) / 30년 국채 (ZB) 선물의 OI. CFTC COT 동일 source.</div>
+      </div>
+
+      <div class="v3-meta-row">
+        <span><b>데이터 source:</b> Yahoo <code>^MOVE</code> · CFTC COT (선물 OI)</span>
+        <span><b>가용:</b> ⏳ MOVE 는 즉시 가능 (Phase A) · OI 는 Phase B</span>
+      </div>
+    </div>
+
+    <!-- ====== 한눈에 보는 요약표 ====== -->
+    <div class="v3-summary">
+      <h3>한눈에 보는 자산군별 거래량 지표 요약</h3>
+      <table class="v3-table">
+        <thead>
+          <tr>
+            <th>자산군</th>
+            <th>1순위 지표</th>
+            <th>2순위 지표</th>
+            <th>데이터 source</th>
+            <th>대표 케이스</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#3fb950;"></span>주식 (KR)</td>
+            <td><b>거래대금</b> (억원)</td>
+            <td>—</td>
+            <td>Yahoo</td>
+            <td>2023 에코프로</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#1f6feb;"></span>주식 (US)</td>
+            <td><b>거래대금</b> (USD M)</td>
+            <td>—</td>
+            <td>Yahoo</td>
+            <td>2021 GME</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#d29922;"></span>원자재 선물</td>
+            <td><b>Open Interest</b></td>
+            <td>거래량 (contracts)</td>
+            <td>CFTC COT</td>
+            <td>2022 WTI · 1979 Gold</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#d29922;border:1.5px solid #fff;"></span>원자재 ETF</td>
+            <td><b>USD 거래대금</b></td>
+            <td>AUM 변화 (inflow)</td>
+            <td>Yahoo</td>
+            <td>2011 SLV</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#f78166;"></span>크립토</td>
+            <td><b>현물 USD 거래대금</b></td>
+            <td>파생 OI + Funding</td>
+            <td>Yahoo + Coinglass</td>
+            <td>2017 / 2021 BTC</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#a371f7;"></span>FX</td>
+            <td><b>CFTC Spec Net Position</b></td>
+            <td>Implied Vol (1M IV)</td>
+            <td>CFTC COT</td>
+            <td>1992 GBP · 2022 USDJPY</td>
+          </tr>
+          <tr>
+            <td class="v3-td-asset"><span class="v3-td-asset-dot" style="background:#db6d28;"></span>채권</td>
+            <td><b>MOVE Index</b></td>
+            <td>국채 선물 OI</td>
+            <td>Yahoo + CFTC</td>
+            <td>2022 Bond crash</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ====== 용어집 ====== -->
+    <div class="v3-glossary">
+      <h3>용어집 (Glossary)</h3>
+      <dl>
+        <dt>거래대금</dt>
+        <dd>Price × Volume. 실제 자금 유입 척도. 한국은 억원, 미국은 USD 백만 단위.</dd>
+        <dt>Open Interest (OI)</dt>
+        <dd>미결제약정. 선물·옵션에서 종가 시점 결제 안 된 contracts 수. 신규 자금 진입 척도.</dd>
+        <dt>CFTC COT</dt>
+        <dd>Commitments of Traders. 미국 선물 시장의 참가자별 (Commercial/Non-Commercial/Retail) positioning 보고서. 매주 금요일 발표 (수요일 종가 기준).</dd>
+        <dt>Non-Commercial</dt>
+        <dd>= Speculator. 헤지 목적 아닌 투기 자금. positioning 극값이 reversal 시그널.</dd>
+        <dt>MOVE Index</dt>
+        <dd>Merrill Lynch Option Volatility Estimate. 미국채 옵션 implied vol 기반. "채권의 VIX".</dd>
+        <dt>Funding Rate</dt>
+        <dd>크립토 perpetual futures 에서 롱/숏 균형 맞추는 8시간 단위 수수료. 양수 = 롱 우세, 극단 값 = climax 시그널.</dd>
+        <dt>AUM (Assets Under Management)</dt>
+        <dd>ETF 의 운용자산. GLD 의 AUM 증가 = 실물 금 매입을 의미. spot 시장 직접 영향.</dd>
+        <dt>VCP (Volatility Contraction Pattern)</dt>
+        <dd>Minervini 의 베이스 패턴. 변동성 수축 + 거래량 dry-up + 돌파일 거래량 폭증.</dd>
+      </dl>
+    </div>
+
   </div>
 </div>
 
@@ -2120,6 +2482,20 @@ function renderMaChart(view, event) {
   // 라벨 업데이트
   const stockLabel = document.getElementById(view + '-stock-label');
   if (stockLabel) stockLabel.textContent = event.asset;
+
+  // 거래대금/거래량 panel 라벨 동적 (자산군별 단위)
+  const volPanelLabel = document.querySelector('#view-' + view + ' .panel-volume .panel-label');
+  if (volPanelLabel) {
+    const volLabelMap = {
+      'eq-kr': '거래대금 (억원)',
+      'eq-gl': '거래량 (shares)',
+      'cm':    '거래량 (contracts)',
+      'cr':    '거래량 (USD)',
+      'fx':    '거래량',
+      'bd':    '거래량 (shares)'
+    };
+    volPanelLabel.textContent = volLabelMap[event.ac] || '거래량';
+  }
   const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
   if (benchLabelEl) {
     benchLabelEl.textContent = isKrEquity
