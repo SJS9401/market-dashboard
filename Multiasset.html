@@ -180,8 +180,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <button class="ctrl-btn active" id="v1-linear" onclick="setV1Scale('linear')">Linear</button>
     <button class="ctrl-btn" id="v1-log" onclick="setV1Scale('log')">Log</button>
     <span class="ctrl-label" style="margin-left:12px;">주기:</span>
-    <button class="ctrl-btn active" id="v1-weekly" onclick="setV1Interval('weekly')">주봉</button>
-    <button class="ctrl-btn" id="v1-daily" onclick="setV1Interval('daily')">일봉</button>
+    <button class="ctrl-btn active" id="v1-daily" onclick="setV1Interval('daily')">일봉</button>
+    <button class="ctrl-btn" id="v1-weekly" onclick="setV1Interval('weekly')">주봉</button>
   </div>
   <div class="main">
     <div class="chart-info">
@@ -1910,7 +1910,7 @@ function makeMacroChart(canvasId, seriesList, view) {
       hover: { mode: 'index', intersect: false, axis: 'x' },
       plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: {
-        x: { type: 'time', display: true, time: { unit: 'month' }, ticks: { font: { size: 9 }, color: '#1c2128', maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+        x: { type: 'timeseries', display: true, time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } }, grid: { color: '#9A9A9A' }, ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true, maxRotation: 0 } },
         y: { display: true, position: 'right', ticks: { font: { size: 9 }, color: '#1c2128' } }
       }
     }
@@ -2105,8 +2105,8 @@ function setV1Scale(scale) {
   if (maSelection.v1) renderMaChart('v1', maSelection.v1);
 }
 
-// V1 일봉/주봉 토글 (V1 default = weekly: 전체 사이클 long-term 이라 주봉이 적합)
-let v1Interval = 'weekly';
+// V1 일봉/주봉 토글 (V1 default = daily, BT 선호)
+let v1Interval = 'daily';
 function setV1Interval(interval) {
   v1Interval = interval;
   document.getElementById('v1-weekly').classList.toggle('active', interval === 'weekly');
