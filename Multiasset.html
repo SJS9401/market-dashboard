@@ -557,6 +557,30 @@ function findRowAtTime(arr, t) {
   }
   return arr[lo];
 }
+// Multi-asset: 매크로 series 의 nearest 검색용 binary search (linear scan -> O(log N))
+function _maBinFindLE(arr, target) {
+  // arr: number[] sorted ascending. target 이하 가장 큰 index 반환 (없으면 -1)
+  if (!arr.length || arr[0] > target) return -1;
+  let lo = 0, hi = arr.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (arr[mid] <= target) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
+}
+function _maBinFindClosest(arr, target) {
+  // arr: {x,y}[] sorted by x. target 에 가장 가까운 index 반환
+  if (!arr.length) return -1;
+  let lo = 0, hi = arr.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (arr[mid].x < target) lo = mid + 1;
+    else hi = mid;
+  }
+  if (lo > 0 && Math.abs(arr[lo-1].x - target) < Math.abs(arr[lo].x - target)) return lo - 1;
+  return lo;
+}
 function _dayKey(t) {
   const d = new Date(t);
   return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
@@ -714,26 +738,19 @@ const crosshairPlugin = {
         ctx.stroke();
       });
       // === Multi-asset 매크로 line dataset — native timestamp 기준 황금원 (월별 점프) ===
+      // 최적화: linear scan -> binary search (전체 zoom 시 lag 완화)
       chart.data.datasets.forEach((ds, i) => {
         if (!ds._macroDot) return;
         if (!chart.isDatasetVisible(i)) return;
         const nativeTs = ds._nativeTs || [];
         if (!nativeTs.length) return;
-        // hover X 시점에 forward-fill 로 적용된 최신 native timestamp 찾기 (≤ xValMark)
-        let nearestNative = null;
-        for (const t of nativeTs) {
-          if (t <= xValMark) nearestNative = t;
-          else break;
-        }
-        if (nearestNative == null) return;
-        // dataset.data 에서 그 native timestamp 와 가장 가까운 datapoint 찾기
-        let nearest = null, minDiff = Infinity;
-        for (const pt of ds.data) {
-          if (pt == null || pt.y == null) continue;
-          const diff = Math.abs(pt.x - nearestNative);
-          if (diff < minDiff) { minDiff = diff; nearest = pt; }
-        }
-        if (!nearest) return;
+        const niIdx = _maBinFindLE(nativeTs, xValMark);
+        if (niIdx < 0) return;
+        const nearestNative = nativeTs[niIdx];
+        const ptIdx = _maBinFindClosest(ds.data, nearestNative);
+        if (ptIdx < 0) return;
+        const nearest = ds.data[ptIdx];
+        if (!nearest || nearest.y == null) return;
         const xS = chart.scales.x; const yS = chart.scales[ds.yAxisID || 'y'];
         const rxPx = xS.getPixelForValue(nearest.x);
         const ryPx = yS.getPixelForValue(nearest.y);
@@ -1128,12 +1145,10 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
     macroChart.data.datasets.forEach((ds, i) => {
       if (!ds._macroDot) return;
       if (!macroChart.isDatasetVisible(i)) return;
-      let val = null, bestDt = Infinity;
-      for (const pt of ds.data) {
-        if (pt == null || pt.y == null) continue;
-        const dt = Math.abs(pt.x - xVal);
-        if (dt < bestDt) { bestDt = dt; val = pt.y; }
-      }
+      // 최적화: binary search 로 hover 시점 nearest point
+      const ptIdx = _maBinFindClosest(ds.data, xVal);
+      const pt = ptIdx >= 0 ? ds.data[ptIdx] : null;
+      const val = (pt && pt.y != null) ? pt.y : null;
       const c = ds.borderColor;
       const u = ds._unit || '';
       macroHtml += '<div class="hts-row"><span class="k" style="color:' + c + ';">' + ds.label + '</span><span class="v">' + (val != null ? fmt(val, 2) + (u ? ' ' + u : '') : '-') + '</span></div>';
