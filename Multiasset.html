@@ -1193,8 +1193,19 @@ const candlestickPlugin = {
       if (px >= area.left && px <= area.right) visCount++;
     }
     const barWidth = Math.max(1.2, Math.min(10, (area.right - area.left) / Math.max(visCount, 1) * 0.62));
+    // Phase B-2e: FX 자산은 전일 종가 대비로 색 결정 (yfinance FX OHLC 의 open ≈ close 한계 보정)
+    const useByPrevC = chart.$colorByPrevClose === true;
+    if (useByPrevC && data.length > 0 && data[0]._prevCCached !== true) {
+      let lastC = null;
+      for (let j = 0; j < data.length; j++) {
+        data[j]._prevC = lastC;
+        data[j]._prevCCached = true;
+        if (data[j].c != null) lastC = data[j].c;
+      }
+    }
     ctx.save();
-    for (const d of data) {
+    for (let i = 0; i < data.length; i++) {
+      const d = data[i];
       if (d.o == null || d.c == null) continue;
       const xPx = xScale.getPixelForValue(d.x);
       if (xPx < area.left - barWidth || xPx > area.right + barWidth) continue;
@@ -1202,7 +1213,7 @@ const candlestickPlugin = {
       const cY = yScale.getPixelForValue(d.c);
       const hY = yScale.getPixelForValue(d.h);
       const lY = yScale.getPixelForValue(d.l);
-      const isUp = d.c >= d.o;
+      const isUp = (useByPrevC && d._prevC != null) ? (d.c >= d._prevC) : (d.c >= d.o);
       const color = isUp ? (ds._candleUp || CANDLE_UP) : (ds._candleDown || CANDLE_DN);
       ctx.beginPath();
       ctx.strokeStyle = color;
@@ -2565,6 +2576,12 @@ function renderMaChart(view, event) {
     volCh.$oiOhlc   = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly)   : null;
     volCh.$specOhlc = cotRaw ? coalesceCotSpecToOhlc(cotRaw, assetWeekly) : null;
     volCh.$cotAvailable = !!cotRaw;
+  }
+
+  // Phase B-2e: FX 자산이면 메인 + 자산군 벤치마크 캔들 색을 전일 종가 대비로
+  if (event.ac === 'fx') {
+    if (benchCh) { benchCh.$colorByPrevClose = true; benchCh.update('none'); }
+    if (mainCh)  { mainCh.$colorByPrevClose  = true; mainCh.update('none'); }
   }
 
   if (typeof chartRegistry !== 'undefined') chartRegistry[view] = [usCh, benchCh, mainCh, volCh];
