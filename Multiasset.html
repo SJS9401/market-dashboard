@@ -2056,11 +2056,35 @@ function renderMaChart(view, event) {
   // Stack 5: 매크로 드라이버 패널
   const macroType = getMacroTypeFor(event);
   const macroKeys = MA_MACRO_TYPE_PANELS[macroType] || [];
-  const macroSeries = macroKeys.map(k => ({
+  const macroSeriesRaw = macroKeys.map(k => ({
     key: k,
     data: (MA_DATA.macros && MA_DATA.macros[k]) || [],
     unit: (MA_DATA.meta && MA_DATA.meta[k] && MA_DATA.meta[k].unit) || ''
   })).filter(s => s.data.length > 0);
+  // X축 완전 정렬: 매크로 series 의 timestamp 를 자산 union 에 forward-fill 매핑
+  // (timeseries X 축이 dataset unique date 로 결정되므로 위 4 panels 와 완전 일치)
+  const _maUnionSet = new Set();
+  allArrs.forEach(a => a.forEach(d => _maUnionSet.add(d.x)));
+  const _maUnionX = Array.from(_maUnionSet).sort((a,b)=>a-b);
+  const _pad = (n) => String(n).padStart(2,'0');
+  const macroSeries = macroSeriesRaw.map(s => {
+    const sorted = s.data.slice().sort((a,b) => a[0].localeCompare(b[0]));
+    const aligned = [];
+    let idx = 0, lastY = null;
+    for (const t of _maUnionX) {
+      while (idx < sorted.length) {
+        const r = sorted[idx];
+        const rts = new Date(+r[0].slice(0,4), +r[0].slice(4,6)-1, +r[0].slice(6,8)).getTime();
+        if (rts <= t) { lastY = r[1]; idx++; } else break;
+      }
+      if (lastY != null) {
+        const d = new Date(t);
+        const key = '' + d.getFullYear() + _pad(d.getMonth()+1) + _pad(d.getDate());
+        aligned.push([key, lastY, lastY, lastY, lastY, 0]);
+      }
+    }
+    return Object.assign({}, s, { data: aligned });
+  });
 
   const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
   if (macroCh) {
