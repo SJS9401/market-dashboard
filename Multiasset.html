@@ -272,6 +272,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
       <div class="panel panel-volume">
         <div class="panel-header">
           <span class="panel-label">거래대금 (억원)</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v1-vol-mode-vol" onclick="toggleVolMode('v1','vol')">거래량</button>
+            <button class="toggle-btn" id="v1-vol-mode-oi" onclick="toggleVolMode('v1','oi')" style="display:none;">OI</button>
+          </div>
         </div>
         <div class="panel-canvas-wrap">
           <canvas id="v1-volume"></canvas>
@@ -358,6 +362,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
       <div class="panel panel-volume">
         <div class="panel-header">
           <span class="panel-label">거래대금 (억원)</span>
+          <div class="panel-toggle-row">
+            <button class="toggle-btn active" id="v2-vol-mode-vol" onclick="toggleVolMode('v2','vol')">거래량</button>
+            <button class="toggle-btn" id="v2-vol-mode-oi" onclick="toggleVolMode('v2','oi')" style="display:none;">OI</button>
+          </div>
         </div>
         <div class="panel-canvas-wrap">
           <canvas id="v2-volume"></canvas>
@@ -2162,11 +2170,14 @@ function coalesceCotOiToOhlc(cotData, ohlcData) {
 }
 
 function makeVolumeChart(canvasId, ohlcData, view) {
-  // Volume data with 'up' flag based on close vs open
+  // Volume data with 'up' flag — OI 모드에선 ohlcData 의 d.up 이 미리 설정되어 있음 (OI 변화 기준).
+  // 거래량 모드는 close 비교로 색 결정.
   const data = ohlcData.map((d, i) => {
     const prev = i > 0 ? ohlcData[i-1] : null;
-    const up = prev ? (d.c >= prev.c) : (d.c >= d.o);
-    return { x: d.x, y: d.v, v: d.v, up };
+    const up = (d.up !== undefined && d.up !== null) ? d.up : (prev ? (d.c >= prev.c) : (d.c >= d.o));
+    // OI 모드용 보조 필드 부착 (Phase B-2b 툴팁 확장용 예약)
+    return { x: d.x, y: d.v, v: d.v, up,
+             oi: d.oi, ncnet: d.ncnet, cnl: d.cnl, cns: d.cns };
   });
   const ctx = document.getElementById(canvasId).getContext('2d');
   const ch = new Chart(ctx, {
@@ -2485,11 +2496,16 @@ function renderMaChart(view, event) {
     benchCh.update('none');
   }
   const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, scale, view, 'stock');
-  // Phase B-2a: COT 데이터 보유 자산 (현재 WTI 등) 은 거래량 대신 OI 표시
+  // Phase B-2a-2: 거래량/OI 토글 — default = 거래량 (HTS 표준), OI 는 옵션 swap
   const cotRaw = MA_DATA.cot && MA_DATA.cot[event.asset];
-  const volPayload = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly) : assetWeekly;
-  const volCh   = makeVolumeChart(view + '-volume', volPayload, view);
-  if (cotRaw && volCh) volCh.$volMode = 'oi';
+  const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
+  // 두 source 모두 chart 객체에 보관 → toggleVolMode 에서 ds.data swap
+  if (volCh) {
+    volCh.$volMode = 'vol';
+    volCh.$volOhlc = assetWeekly;
+    volCh.$oiOhlc  = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly) : null;
+    volCh.$cotAvailable = !!cotRaw;
+  }
 
   if (typeof chartRegistry !== 'undefined') chartRegistry[view] = [usCh, benchCh, mainCh, volCh];
 
@@ -2572,12 +2588,18 @@ function renderMaChart(view, event) {
       'fx':    '거래량 (참고)',
       'bd':    '거래대금/지수'
     };
-    // Phase B-2a: COT 보유 자산은 거래량 대신 OI 라벨 강제
-    if (MA_DATA && MA_DATA.cot && MA_DATA.cot[event.asset]) {
-      volPanelLabel.textContent = 'Open Interest (contracts)';
-    } else {
-      volPanelLabel.textContent = ASSET_VOL_UNIT[event.asset] || volLabelMap[event.ac] || '거래량';
-    }
+    // Phase B-2a-2: 기본 라벨은 거래량 (HTS 표준). OI 토글 시 동적 변경 (toggleVolMode 가 책임).
+    volPanelLabel.textContent = ASSET_VOL_UNIT[event.asset] || volLabelMap[event.ac] || '거래량';
+  }
+  // Phase B-2a-2: OI 토글 버튼 visibility + 초기 mode = 거래량 reset
+  {
+    const cotAvail = !!(MA_DATA && MA_DATA.cot && MA_DATA.cot[event.asset]);
+    const oiBtn = document.getElementById(view + '-vol-mode-oi');
+    const volBtn = document.getElementById(view + '-vol-mode-vol');
+    if (oiBtn) oiBtn.style.display = cotAvail ? '' : 'none';
+    // 새 이벤트 선택 시 항상 거래량 mode 로 reset
+    if (volBtn) { volBtn.classList.add('active'); }
+    if (oiBtn)  { oiBtn.classList.remove('active'); }
   }
   const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
   if (benchLabelEl) {
@@ -3102,6 +3124,76 @@ function renderV2() {
 }
 
 // ===== TAB SWITCHING =====
+// Phase B-2a-2: 거래량 ↔ OI 토글 (mutually exclusive)
+function toggleVolMode(view, mode) {
+  if (typeof chartRegistry === 'undefined') return;
+  const charts = chartRegistry[view] || [];
+  // chartRegistry index 3 = volCh (renderMaChart 에서 [usCh, benchCh, mainCh, volCh] 순서)
+  const volCh = charts[3];
+  if (!volCh) return;
+  if (mode === 'oi' && !volCh.$cotAvailable) return;  // COT 없는 자산은 OI 모드 차단
+
+  const ohlc = mode === 'oi' ? volCh.$oiOhlc : volCh.$volOhlc;
+  if (!ohlc) return;
+
+  // dataset.data 를 새 ohlc 로 재변환 (makeVolumeChart 와 동일 로직)
+  const ds = volCh.data.datasets.find(d => d._volume);
+  if (!ds) return;
+  ds.data = ohlc.map((d, i) => {
+    const prev = i > 0 ? ohlc[i-1] : null;
+    const up = (d.up !== undefined && d.up !== null) ? d.up : (prev ? (d.c >= prev.c) : (d.c >= d.o));
+    return { x: d.x, y: d.v, v: d.v, up,
+             oi: d.oi, ncnet: d.ncnet, cnl: d.cnl, cns: d.cns };
+  });
+  volCh.$volMode = mode;
+
+  // Y scale 자동 재계산 (range 변경)
+  if (volCh.scales && volCh.scales.y) {
+    volCh.scales.y.options.beginAtZero = true;
+  }
+  volCh.update('none');
+
+  // 버튼 active 상태 swap
+  ['vol', 'oi'].forEach(m => {
+    const btn = document.getElementById(view + '-vol-mode-' + m);
+    if (btn) btn.classList.toggle('active', m === mode);
+  });
+
+  // 패널 라벨 swap
+  const lbl = document.querySelector('#view-' + view + ' .panel-volume .panel-label');
+  if (lbl) {
+    if (mode === 'oi') {
+      lbl.textContent = 'Open Interest (contracts)';
+    } else {
+      // 거래량 라벨 = selectMaButton 이 설정한 ASSET_VOL_UNIT 기준 — re-derive
+      const evt = (typeof maSelection !== 'undefined' && maSelection[view]) ? maSelection[view] : null;
+      if (evt) {
+        const fallbackMap = {
+          'eq-kr': '거래대금 (억원)', 'eq-gl': '거래대금/거래량', 'cm': '거래량 (contracts)',
+          'cr': '거래대금 (USD)', 'fx': '거래량 (참고)', 'bd': '거래대금/지수'
+        };
+        const assetMap = {
+          'POSCO':'거래대금 (억원)','KAKAO':'거래대금 (억원)','ECOPRO':'거래대금 (억원)',
+          'HD_HEAVY':'거래대금 (억원)','HANWHA_OCEAN':'거래대금 (억원)','DOOSAN_E':'거래대금 (억원)',
+          'SK_HYNIX':'거래대금 (억원)','SAMSUNG_ELEC':'거래대금 (억원)',
+          'TSLA':'거래대금 (USD M)','NVDA':'거래대금 (USD M)','GME':'거래대금 (USD M)',
+          'TLRY':'거래대금 (USD M)','ARKK':'거래대금 (USD M)',
+          'GLD':'거래대금 (USD M)','SLV':'거래대금 (USD M)','URA':'거래대금 (USD M)','DBC':'거래대금 (USD M)',
+          'TLT':'거래대금 (USD M)','MOVE':'지수 (points)',
+          'SPX':'거래량 (shares, 참고)','NASDAQ':'거래량 (shares, 참고)','DJI':'거래량 (shares, 참고)',
+          'N225':'거래량 (shares, 참고)','KOSPI':'거래량 (shares, 참고)','KOSDAQ':'거래량 (shares, 참고)',
+          'WTI':'거래량 (contracts)','LBR':'거래량 (contracts)','NATGAS':'거래량 (contracts)','WHEAT':'거래량 (contracts)',
+          'BTC':'거래대금 (USD)','ETH':'거래대금 (USD)',
+          'GBPUSD':'거래량 (참고)','USDJPY':'거래량 (참고)','DXY':'거래량 (참고)',
+        };
+        lbl.textContent = assetMap[evt.asset] || fallbackMap[evt.ac] || '거래량';
+      } else {
+        lbl.textContent = '거래량';
+      }
+    }
+  }
+}
+
 function switchView(evt, viewId) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
@@ -3109,15 +3201,4 @@ function switchView(evt, viewId) {
   evt.target.classList.add('active');
 }
 
-// ===== INIT =====
-loadMaData().then(() => {
-  initV1();
-  initV2();
-  // Leading_stocks 패턴 — X축 스크롤바 attach (페이지 로드 시 한 번만)
-  if (typeof attachScrollbar === 'function') {
-    attachScrollbar('v1');
-    attachScrollbar('v2');
-  }
-});
-</script>
-<
+// ===== INIT ====
