@@ -921,6 +921,36 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
   const xVal = src.scales.x.getValueForPixel(px);
   if (xVal == null) { box.style.display = 'none'; return; }
 
+  // === Multi-asset: 매크로 패널 hover 시 매크로 series 만 툴팁 표시 ===
+  if (src.$role === 'macro') {
+    let html = '<div class="hts-date">' + _fmtDateDow(xVal) + '</div>';
+    html += '<div class="hts-section"><div class="hts-section-title" style="color:#F39C12;">매크로 드라이버</div>';
+    let any = false;
+    src.data.datasets.forEach((ds, i) => {
+      if (!ds._macroDot) return;
+      if (!src.isDatasetVisible(i)) return;
+      // hover X 시점 값 (forward-fill 적용된 dataset.data 에서 가장 가까운 dt)
+      let val = null, bestDt = Infinity;
+      for (const pt of ds.data) {
+        if (pt == null || pt.y == null) continue;
+        const dt = Math.abs(pt.x - xVal);
+        if (dt < bestDt) { bestDt = dt; val = pt.y; }
+      }
+      const c = ds.borderColor;
+      const u = ds._unit || '';
+      html += '<div class="hts-row"><span class="k" style="color:' + c + ';">' + ds.label + '</span><span class="v">' + (val != null ? fmt(val, 2) + (u ? ' ' + u : '') : '-') + '</span></div>';
+      any = true;
+    });
+    html += '</div>';
+    if (any) {
+      box.innerHTML = html;
+      box.style.display = 'block';
+    } else {
+      box.style.display = 'none';
+    }
+    return;
+  }
+
   const usIndexChart = charts.find(c => c.$role === 'us-price');
   const priceChart = charts.find(c => c.$role === 'price');
   const stockChart = charts.find(c => c.$role === 'stock');
@@ -1933,7 +1963,8 @@ function makeMacroChart(canvasId, seriesList, view) {
     spanGaps: true,
     tension: 0.1,
     _macroDot: true,  // crosshair afterDraw 의 황금원 처리 대상
-    _nativeTs: s._nativeTs || []  // native timestamp 배열 (월별 점프용)
+    _nativeTs: s._nativeTs || [],  // native timestamp 배열 (월별 점프용)
+    _unit: s.unit || ''  // 툴팁 표시용 단위 (%, pt 등)
   }));
   const ch = new Chart(ctx, {
     type: 'line',
