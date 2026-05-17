@@ -3201,4 +3201,16 @@ function switchView(evt, viewId) {
   evt.target.classList.add('active');
 }
 
-// ===== INIT ====
+// ===== INIT =====
+loadMaData().then(() => {
+  initV1();
+  initV2();
+  // Leading_stocks 패턴 — X축 스크롤바 attach (페이지 로드 시 한 번만)
+  if (typeof attachScrollbar === 'function') {
+    attachScrollbar('v1');
+    attachScrollbar('v2');
+  }
+});
+</script>
+</body>
+</html>
