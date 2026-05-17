@@ -1935,7 +1935,24 @@ function makeMacroChart(canvasId, seriesList, view) {
       hover: { mode: 'index', intersect: false, axis: 'x' },
       plugins: { legend: { display: false }, tooltip: { enabled: false } },
       scales: {
-        x: { type: 'timeseries', display: true, time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } }, grid: { color: '#9A9A9A' }, ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true, maxRotation: 0 } },
+        x: {
+          type: 'timeseries',
+          display: true,
+          time: { unit: 'year', displayFormats: { year: 'yyyy', month: 'yyyy-MM', day: 'yyyy-MM-dd' } },
+          grid: { color: '#9A9A9A' },
+          ticks: { color: '#1c2128', font: { size: 10 }, maxTicksLimit: 14, autoSkip: true, maxRotation: 0,
+            callback: function(value, index, ticks) {
+              if (!ticks || !ticks.length) return '';
+              const winYears = (ticks[ticks.length - 1].value - ticks[0].value) / (365.25 * 86400000);
+              const d = new Date(value);
+              const yr = d.getFullYear();
+              const mo = d.getMonth() + 1;
+              if (winYears >= 4) return yr;
+              if (mo === 1 || index === 0) return yr;
+              return mo + '월';
+            }
+          }
+        },
         y: { display: true, position: 'left', ticks: { font: { size: 9 }, color: '#1c2128' } }
       }
     }
