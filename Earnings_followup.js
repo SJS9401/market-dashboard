@@ -368,20 +368,21 @@ function renderStockRow(stock) {
   const sig = state.signals[stock.name];
   const tr = el('tr', { class: 'stock-row' });
   const ticker = stock.ticker || (cal && cal.ticker) || (sig && sig.ticker) || '';
-  const followup = (sig && hasPriorReview(stock, state.currentQuarter)) ? sig.signal : '';
+  // 5/18 변경: 팔로업 컬럼 제거 (3 컬럼 = 종목명·발표일·리포트)
   // td 1: 종목명(티커)
   const nameTd = el('td', { class: 'col-name' }, [
     el('span', { class: 'stock-name' }, stock.name),
     ticker ? el('span', { class: 'ticker' }, ' (' + ticker + ')') : null
   ]);
   tr.appendChild(nameTd);
-  // td 2: 팔로업 키워드
-  tr.appendChild(el('td', { class: 'col-followup' }, followup));
-  // td 3: 발표일 (YY/MM/DD)
+  // td 2: 발표일 (YY/MM/DD)
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
-  // td 4: 리포트 4개 버튼
+  // td 3: 리포트 5개 버튼
   const buttons = el('div', { class: 'mode-buttons' });
-  for (const pair of [['company', '기업개요'], ['analysis', '기업분석'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스'], ['followup', '팔로업']]) {
+  // 5/18 변경: 7개 → 5개 (기업분석·팔로업 버튼 제거)
+  // - 기업분석: 테마 분석(통합)에 흡수 (종목별 디테일 포함)
+  // - 팔로업: 컬럼·버튼 모두 제거 (시그널은 review/in-depth가 자체 처리)
+  for (const pair of [['company', '기업개요'], ['theme', '테마분석'], ['preview', '프리뷰'], ['review', '리뷰'], ['in-depth', '인뎁스']]) {
     const mode = pair[0], label = pair[1];
     const file = getModeFile(stock, mode);
     if (file) {
@@ -412,7 +413,6 @@ function renderSectorCard(sectorObj, tier) {
   const thead = el('thead');
   thead.appendChild(el('tr', null, [
     el('th', { class: 'col-name' }, '종목명'),
-    el('th', { class: 'col-followup' }, '팔로업 키워드'),
     el('th', { class: 'col-date' }, '발표일'),
     el('th', { class: 'col-report' }, '리포트')
   ]));
