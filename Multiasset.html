@@ -275,6 +275,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
           <div class="panel-toggle-row">
             <button class="toggle-btn active" id="v1-vol-mode-vol" onclick="toggleVolMode('v1','vol')">거래량</button>
             <button class="toggle-btn" id="v1-vol-mode-oi" onclick="toggleVolMode('v1','oi')" style="display:none;">OI</button>
+            <button class="toggle-btn" id="v1-vol-mode-spec" onclick="toggleVolMode('v1','spec')" style="display:none;">Spec Net</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -365,6 +366,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
           <div class="panel-toggle-row">
             <button class="toggle-btn active" id="v2-vol-mode-vol" onclick="toggleVolMode('v2','vol')">거래량</button>
             <button class="toggle-btn" id="v2-vol-mode-oi" onclick="toggleVolMode('v2','oi')" style="display:none;">OI</button>
+            <button class="toggle-btn" id="v2-vol-mode-spec" onclick="toggleVolMode('v2','spec')" style="display:none;">Spec Net</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -2187,6 +2189,37 @@ function coalesceCotOiToOhlc(cotData, ohlcData) {
   return out;
 }
 
+// Phase B-2c: weekly COT -> daily Spec Net forward-fill 변환
+// .v = ncnet (Speculator Net Position, 음수 가능)
+// .up = 부호 기반 (양수 = 빨강 = long 우세, 음수 = 파랑 = short 우세)
+function coalesceCotSpecToOhlc(cotData, ohlcData) {
+  if (!cotData || !cotData.length || !ohlcData || !ohlcData.length) return ohlcData;
+  const cotTs = cotData.map(r => {
+    const s = String(r[0]);
+    const y = parseInt(s.slice(0, 4));
+    const m = parseInt(s.slice(4, 6)) - 1;
+    const d = parseInt(s.slice(6, 8));
+    return new Date(y, m, d).getTime();
+  });
+  const out = new Array(ohlcData.length);
+  for (let i = 0; i < ohlcData.length; i++) {
+    const dp = ohlcData[i];
+    const ts = dp.x;
+    const ci = _maBinFindLE(cotTs, ts);
+    if (ci < 0) {
+      out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: 0,
+                 oi: null, ncnet: null, cnl: null, cns: null, up: true };
+      continue;
+    }
+    const cot = cotData[ci];
+    const oi = cot[1], ncl = cot[2], ncs = cot[3], ncnet = cot[4];
+    const up = ncnet >= 0;
+    out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: ncnet,
+               oi: oi, ncnet: ncnet, cnl: ncl, cns: ncs, up: up };
+  }
+  return out;
+}
+
 function makeVolumeChart(canvasId, ohlcData, view) {
   // Volume/OI data with 'up' flag — 캔들 색과 정확 일치 (당일 open vs close).
   // OI 모드에선 ohlcData 의 d.up 이 coalesceCotOiToOhlc 에서 동일 로직으로 미리 설정됨.
@@ -2519,8 +2552,9 @@ function renderMaChart(view, event) {
   // 두 source 모두 chart 객체에 보관 → toggleVolMode 에서 ds.data swap
   if (volCh) {
     volCh.$volMode = 'vol';
-    volCh.$volOhlc = assetWeekly;
-    volCh.$oiOhlc  = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly) : null;
+    volCh.$volOhlc  = assetWeekly;
+    volCh.$oiOhlc   = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly)   : null;
+    volCh.$specOhlc = cotRaw ? coalesceCotSpecToOhlc(cotRaw, assetWeekly) : null;
     volCh.$cotAvailable = !!cotRaw;
   }
 
@@ -2608,15 +2642,17 @@ function renderMaChart(view, event) {
     // Phase B-2a-2: 기본 라벨은 거래량 (HTS 표준). OI 토글 시 동적 변경 (toggleVolMode 가 책임).
     volPanelLabel.textContent = ASSET_VOL_UNIT[event.asset] || volLabelMap[event.ac] || '거래량';
   }
-  // Phase B-2a-2: OI 토글 버튼 visibility + 초기 mode = 거래량 reset
+  // Phase B-2a-2 / B-2c: OI + Spec Net 토글 버튼 visibility + 초기 mode = 거래량 reset
   {
     const cotAvail = !!(MA_DATA && MA_DATA.cot && MA_DATA.cot[event.asset]);
-    const oiBtn = document.getElementById(view + '-vol-mode-oi');
-    const volBtn = document.getElementById(view + '-vol-mode-vol');
-    if (oiBtn) oiBtn.style.display = cotAvail ? '' : 'none';
-    // 새 이벤트 선택 시 항상 거래량 mode 로 reset
-    if (volBtn) { volBtn.classList.add('active'); }
-    if (oiBtn)  { oiBtn.classList.remove('active'); }
+    const volBtn  = document.getElementById(view + '-vol-mode-vol');
+    const oiBtn   = document.getElementById(view + '-vol-mode-oi');
+    const specBtn = document.getElementById(view + '-vol-mode-spec');
+    if (oiBtn)   oiBtn.style.display   = cotAvail ? '' : 'none';
+    if (specBtn) specBtn.style.display = cotAvail ? '' : 'none';
+    if (volBtn)  volBtn.classList.add('active');
+    if (oiBtn)   oiBtn.classList.remove('active');
+    if (specBtn) specBtn.classList.remove('active');
   }
   const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
   if (benchLabelEl) {
@@ -3210,34 +3246,6 @@ function toggleVolMode(view, mode) {
           'GBPUSD':'거래량 (참고)','USDJPY':'거래량 (참고)','DXY':'거래량 (참고)',
         };
         lbl.textContent = assetMap[evt.asset] || fallbackMap[evt.ac] || '거래량';
-      } else {
-        lbl.textContent = '거래량';
-      }
-    }
-  }
-}
-
-function switchView(evt, viewId) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('view-' + viewId).classList.add('active');
-  evt.target.classList.add('active');
-}
-
-// ===== INIT =====
-loadMaData().then(() => {
-  initV1();
-  initV2();
-  // Leading_stocks 패턴 — X축 스크롤바 attach (페이지 로드 시 한 번만)
-  if (typeof attachScrollbar === 'function') {
-    attachScrollbar('v1');
-    attachScrollbar('v2');
-  }
-});
-</script>
-</body>
-</html>
-setMap[evt.asset] || fallbackMap[evt.ac] || '거래량';
       } else {
         lbl.textContent = '거래량';
       }
