@@ -2051,6 +2051,19 @@ function renderMaChart(view, event) {
   const usCh    = makeIndexChart(view + '-us-price', nasdaqWeekly, spxWeekly, scale, view, 'us-price', {});
   // Stack 2: 한국 주식 = KOSPI + KOSDAQ, 그 외 = 벤치마크 단일 (data2 fallback 동일 데이터)
   const benchCh = makeIndexChart(view + '-price', benchWeekly, isKrEquity ? kosdaqWeekly : benchWeekly, scale, view, 'price', {});
+  // 자산군 벤치마크 라벨 동적 — KR equity 면 KOSPI/KOSDAQ 유지, 그 외엔 benchKey (BCOM/DXY/TLT/BTC) 로 변경
+  // 한국 주식이 아니면 두 번째 dataset (KOSDAQ slot) 은 중복이므로 hidden 처리 (툴팁 중복 방지)
+  if (benchCh && benchCh.data && benchCh.data.datasets) {
+    benchCh.data.datasets.forEach(ds => {
+      if (ds._indexId === 'kospi') {
+        if (ds._candle) ds.label = isKrEquity ? 'KOSPI' : benchKey;
+      } else if (ds._indexId === 'kosdaq') {
+        if (ds._candle) ds.label = isKrEquity ? 'KOSDAQ' : benchKey;
+        if (!isKrEquity) ds.hidden = true;
+      }
+    });
+    benchCh.update('none');
+  }
   const mainCh  = makePriceChart(view + '-stock', assetWeekly, event.asset, acColor, {}, scale, view, 'stock');
   const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
 
