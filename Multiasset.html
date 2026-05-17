@@ -276,6 +276,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
             <button class="toggle-btn active" id="v1-vol-mode-vol" onclick="toggleVolMode('v1','vol')">거래량</button>
             <button class="toggle-btn" id="v1-vol-mode-oi" onclick="toggleVolMode('v1','oi')" style="display:none;">미결제약정(OI)</button>
             <button class="toggle-btn" id="v1-vol-mode-spec" onclick="toggleVolMode('v1','spec')" style="display:none;">투기자산 순포지션(Spec Net)</button>
+            <button class="toggle-btn" id="v1-vol-mode-fund" onclick="toggleVolMode('v1','fund')" style="display:none;">펀딩비(Funding)</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -367,6 +368,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
             <button class="toggle-btn active" id="v2-vol-mode-vol" onclick="toggleVolMode('v2','vol')">거래량</button>
             <button class="toggle-btn" id="v2-vol-mode-oi" onclick="toggleVolMode('v2','oi')" style="display:none;">미결제약정(OI)</button>
             <button class="toggle-btn" id="v2-vol-mode-spec" onclick="toggleVolMode('v2','spec')" style="display:none;">투기자산 순포지션(Spec Net)</button>
+            <button class="toggle-btn" id="v2-vol-mode-fund" onclick="toggleVolMode('v2','fund')" style="display:none;">펀딩비(Funding)</button>
           </div>
         </div>
         <div class="panel-canvas-wrap">
@@ -744,7 +746,8 @@ async function loadMaData() {
     const nA = Object.keys(MA_DATA.assets || {}).length;
     const nM = Object.keys(MA_DATA.macros || {}).length;
     const nC = Object.keys(MA_DATA.cot    || {}).length;
-    console.log('[multiasset] data loaded:', nA, 'assets,', nM, 'macros,', nC, 'COT');
+    const nX = Object.keys(MA_DATA.crypto || {}).length;
+    console.log('[multiasset] data loaded:', nA, 'assets,', nM, 'macros,', nC, 'COT,', nX, 'crypto');
     return true;
   } catch (e) {
     console.error('[multiasset] data fetch failed:', e);
@@ -1518,10 +1521,18 @@ function updateHTSTooltip(view, px, evt, sourceChart) {
       if (row && row.v != null) {
         const mode = volChart.$volMode || 'vol';
         let volLabel, volUnit, valueColor = '';
-        if (mode === 'oi')        { volLabel = '미결제약정';        volUnit = ' contracts'; }
+        if (mode === 'oi') {
+          volLabel = '미결제약정';
+          volUnit = volChart.$cryptoAvailable ? ' BTC/ETH' : ' contracts';
+        }
         else if (mode === 'spec') {
           volLabel = '투기자산 순포지션';
           volUnit = ' contracts';
+          valueColor = row.v >= 0 ? '#C9302C' : '#1565C0';
+        }
+        else if (mode === 'fund') {
+          volLabel = '펀딩비';
+          volUnit = '% per 8h';
           valueColor = row.v >= 0 ? '#C9302C' : '#1565C0';
         }
         else                      { volLabel = '거래대금';            volUnit = ' 억'; }
@@ -2240,6 +2251,94 @@ function coalesceCotSpecToOhlc(cotData, ohlcData) {
   return out;
 }
 
+// Phase C-3: 크립토 OI/Funding 데이터 → ohlcData 와 X축 정렬
+// crypto 데이터는 daily cadence 이라 forward-fill 거의 불필요 (assetWeekly 와 동일 시점)
+// .v = OI 또는 funding 값. .up = prev value 대비 증감 (OI) 또는 부호 (funding)
+
+function _maBinFindLEByX(arr, target) {
+  // arr: [[YYYYMMDD, value], ...] 또는 [{x, v}] — string date 기반 가정 X. ts 기반.
+  // 단순 binary search 헬퍼 — string 비교 X, ts 비교만.
+  if (!arr.length) return -1;
+  let lo = 0, hi = arr.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (arr[mid][0] <= target) lo = mid;
+    else hi = mid - 1;
+  }
+  return arr[lo][0] <= target ? lo : -1;
+}
+
+function coalesceCryptoOiToOhlc(oiData, ohlcData) {
+  // oiData: [[YYYYMMDD_str, oi_value], ...]
+  // ohlcData: [{x: ms, o, h, l, c, v}, ...]
+  // 반환: ohlcData 와 같은 길이. .v = OI. .up = prev OI 대비 증감.
+  if (!oiData || !oiData.length || !ohlcData || !ohlcData.length) return ohlcData;
+  // YYYYMMDD -> oi value map (O(1) lookup)
+  const oiMap = new Map();
+  oiData.forEach(r => oiMap.set(r[0], r[1]));
+  // 정렬 + forward-fill 준비
+  const sortedKeys = oiData.map(r => r[0]).sort();
+
+  const out = new Array(ohlcData.length);
+  let prevOi = null;
+  let lastSeen = null;  // forward-fill 용
+  for (let i = 0; i < ohlcData.length; i++) {
+    const dp = ohlcData[i];
+    const dt = new Date(dp.x);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const d = String(dt.getDate()).padStart(2, '0');
+    const key = '' + y + m + d;
+    let oi = oiMap.get(key);
+    if (oi === undefined) {
+      // forward-fill: 이전에 본 가장 가까운 OI
+      oi = lastSeen;
+    } else {
+      lastSeen = oi;
+    }
+    if (oi === undefined || oi === null) {
+      out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: 0,
+                 oi: null, fund: null, up: true };
+      continue;
+    }
+    const up = (prevOi === null) ? true : (oi >= prevOi);
+    prevOi = oi;
+    out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: oi,
+               oi: oi, fund: null, up: up };
+  }
+  return out;
+}
+
+function coalesceCryptoFundingToOhlc(fundData, ohlcData) {
+  // fundData: [[YYYYMMDD_str, funding_rate], ...]
+  // .v = funding. .up = 부호 기반 (양수 빨강 = 롱 우세, 음수 파랑 = 숏 우세)
+  if (!fundData || !fundData.length || !ohlcData || !ohlcData.length) return ohlcData;
+  const fmap = new Map();
+  fundData.forEach(r => fmap.set(r[0], r[1]));
+  const out = new Array(ohlcData.length);
+  let lastSeen = null;
+  for (let i = 0; i < ohlcData.length; i++) {
+    const dp = ohlcData[i];
+    const dt = new Date(dp.x);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const d = String(dt.getDate()).padStart(2, '0');
+    const key = '' + y + m + d;
+    let fr = fmap.get(key);
+    if (fr === undefined) fr = lastSeen;
+    else lastSeen = fr;
+    if (fr === undefined || fr === null) {
+      out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: 0,
+                 oi: null, fund: null, up: true };
+      continue;
+    }
+    const up = (fr >= 0);
+    out[i] = { x: dp.x, o: dp.o, h: dp.h, l: dp.l, c: dp.c, v: fr,
+               oi: null, fund: fr, up: up };
+  }
+  return out;
+}
+
 function makeVolumeChart(canvasId, ohlcData, view) {
   // Volume/OI data with 'up' flag — 캔들 색과 정확 일치 (당일 open vs close).
   // OI 모드에선 ohlcData 의 d.up 이 coalesceCotOiToOhlc 에서 동일 로직으로 미리 설정됨.
@@ -2570,12 +2669,28 @@ function renderMaChart(view, event) {
   const cotRaw = MA_DATA.cot && MA_DATA.cot[event.asset];
   const volCh   = makeVolumeChart(view + '-volume', assetWeekly, view);
   // 두 source 모두 chart 객체에 보관 → toggleVolMode 에서 ds.data swap
+  // Phase C-3: 크립토 데이터 (BTC/ETH) — cot 와 배타적 source
+  const cryptoData = MA_DATA.crypto && MA_DATA.crypto[event.asset];
   if (volCh) {
     volCh.$volMode = 'vol';
     volCh.$volOhlc  = assetWeekly;
-    volCh.$oiOhlc   = cotRaw ? coalesceCotOiToOhlc(cotRaw, assetWeekly)   : null;
-    volCh.$specOhlc = cotRaw ? coalesceCotSpecToOhlc(cotRaw, assetWeekly) : null;
-    volCh.$cotAvailable = !!cotRaw;
+    // OI: COT 자산이면 COT OI, Crypto 자산이면 Crypto OI
+    if (cotRaw) {
+      volCh.$oiOhlc   = coalesceCotOiToOhlc(cotRaw, assetWeekly);
+      volCh.$specOhlc = coalesceCotSpecToOhlc(cotRaw, assetWeekly);
+    } else if (cryptoData && cryptoData.oi) {
+      volCh.$oiOhlc   = coalesceCryptoOiToOhlc(cryptoData.oi, assetWeekly);
+      volCh.$specOhlc = null;
+    } else {
+      volCh.$oiOhlc   = null;
+      volCh.$specOhlc = null;
+    }
+    // Funding: crypto 자산만
+    volCh.$fundOhlc = (cryptoData && cryptoData.funding)
+      ? coalesceCryptoFundingToOhlc(cryptoData.funding, assetWeekly)
+      : null;
+    volCh.$cotAvailable    = !!cotRaw;
+    volCh.$cryptoAvailable = !!cryptoData;
   }
 
   // Phase B-2e: FX 자산이면 메인 + 자산군 벤치마크 캔들 색을 전일 종가 대비로
@@ -2668,17 +2783,23 @@ function renderMaChart(view, event) {
     // Phase B-2a-2: 기본 라벨은 거래량 (HTS 표준). OI 토글 시 동적 변경 (toggleVolMode 가 책임).
     volPanelLabel.textContent = ASSET_VOL_UNIT[event.asset] || volLabelMap[event.ac] || '거래량';
   }
-  // Phase B-2a-2 / B-2c: OI + Spec Net 토글 버튼 visibility + 초기 mode = 거래량 reset
+  // Phase B-2a-2 / B-2c / C-3: 자산군별 OI/Spec/Fund 토글 visibility + 거래량 reset
   {
-    const cotAvail = !!(MA_DATA && MA_DATA.cot && MA_DATA.cot[event.asset]);
+    const cotAvail    = !!(MA_DATA && MA_DATA.cot    && MA_DATA.cot[event.asset]);
+    const cryptoAvail = !!(MA_DATA && MA_DATA.crypto && MA_DATA.crypto[event.asset]);
+    const oiAvail     = cotAvail || cryptoAvail;  // OI 는 COT 또는 Crypto 어느 쪽이든 있으면
     const volBtn  = document.getElementById(view + '-vol-mode-vol');
     const oiBtn   = document.getElementById(view + '-vol-mode-oi');
     const specBtn = document.getElementById(view + '-vol-mode-spec');
-    if (oiBtn)   oiBtn.style.display   = cotAvail ? '' : 'none';
-    if (specBtn) specBtn.style.display = cotAvail ? '' : 'none';
+    const fundBtn = document.getElementById(view + '-vol-mode-fund');
+    if (oiBtn)   oiBtn.style.display   = oiAvail    ? '' : 'none';
+    if (specBtn) specBtn.style.display = cotAvail   ? '' : 'none';  // Spec Net 은 COT 만
+    if (fundBtn) fundBtn.style.display = cryptoAvail ? '' : 'none'; // Funding 은 Crypto 만
+    // 새 이벤트 선택 시 항상 거래량 mode 로 reset
     if (volBtn)  volBtn.classList.add('active');
     if (oiBtn)   oiBtn.classList.remove('active');
     if (specBtn) specBtn.classList.remove('active');
+    if (fundBtn) fundBtn.classList.remove('active');
   }
   const benchLabelEl = document.querySelector('#view-' + view + ' .panel-price .panel-label');
   if (benchLabelEl) {
@@ -3210,11 +3331,15 @@ function toggleVolMode(view, mode) {
   // chartRegistry index 3 = volCh (renderMaChart 에서 [usCh, benchCh, mainCh, volCh] 순서)
   const volCh = charts[3];
   if (!volCh) return;
-  if ((mode === 'oi' || mode === 'spec') && !volCh.$cotAvailable) return;  // COT 없으면 차단
+  // Phase C-3: oi 는 COT 또는 Crypto 둘 다 가능. spec 은 COT. fund 는 Crypto.
+  if (mode === 'oi'   && !volCh.$cotAvailable && !volCh.$cryptoAvailable) return;
+  if (mode === 'spec' && !volCh.$cotAvailable) return;
+  if (mode === 'fund' && !volCh.$cryptoAvailable) return;
 
   let ohlc;
   if (mode === 'oi')        ohlc = volCh.$oiOhlc;
   else if (mode === 'spec') ohlc = volCh.$specOhlc;
+  else if (mode === 'fund') ohlc = volCh.$fundOhlc;
   else                      ohlc = volCh.$volOhlc;
   if (!ohlc) return;
 
@@ -3236,8 +3361,8 @@ function toggleVolMode(view, mode) {
   }
   volCh.update('none');
 
-  // 버튼 active 상태 swap (3-way)
-  ['vol', 'oi', 'spec'].forEach(m => {
+  // 버튼 active 상태 swap (4-way: vol/oi/spec/fund)
+  ['vol', 'oi', 'spec', 'fund'].forEach(m => {
     const btn = document.getElementById(view + '-vol-mode-' + m);
     if (btn) btn.classList.toggle('active', m === mode);
   });
@@ -3246,9 +3371,13 @@ function toggleVolMode(view, mode) {
   const lbl = document.querySelector('#view-' + view + ' .panel-volume .panel-label');
   if (lbl) {
     if (mode === 'oi') {
-      lbl.textContent = '미결제약정 OI (contracts)';
+      // OI 단위: COT = contracts, Crypto = BTC/ETH base
+      const unit = volCh.$cryptoAvailable ? 'BTC/ETH contracts (base)' : 'contracts';
+      lbl.textContent = '미결제약정 OI (' + unit + ')';
     } else if (mode === 'spec') {
       lbl.textContent = '투기자산 순포지션 Spec Net (contracts, +long/-short)';
+    } else if (mode === 'fund') {
+      lbl.textContent = '펀딩비 Funding Rate (% per 8h, +long/-short)';
     } else {
       // 거래량 라벨 = selectMaButton 이 설정한 ASSET_VOL_UNIT 기준 — re-derive
       const evt = (typeof maSelection !== 'undefined' && maSelection[view]) ? maSelection[view] : null;
