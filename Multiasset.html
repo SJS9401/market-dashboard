@@ -1999,8 +1999,8 @@ function makeMacroChart(canvasId, seriesList, view) {
       }
     }
   });
-  ch._role = 'macro';
-  ch.$view = view;  // crosshair plugin 매크로 chart 활성화 (vertical line + 황금원 마커)
+  ch.$role = 'macro';  // updateHTSTooltip 의 src.$role === 'macro' 분기 활성화
+  ch.$view = view;     // crosshair plugin 매크로 chart 활성화 (vertical line + 황금원 마커)
   return ch;
 }
 
@@ -2194,7 +2194,7 @@ function renderMaChart(view, event) {
 function toggleMacroSeries(view, idx) {
   if (typeof chartRegistry === 'undefined') return;
   const charts = chartRegistry[view] || [];
-  const macroCh = charts.find(c => c && c._role === 'macro');
+  const macroCh = charts.find(c => c && c.$role === 'macro');
   if (!macroCh) return;
   const ds = macroCh.data.datasets[idx];
   if (!ds) return;
