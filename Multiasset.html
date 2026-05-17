@@ -2161,9 +2161,8 @@ function coalesceCotOiToOhlc(cotData, ohlcData) {
   for (let i = 0; i < ohlcData.length; i++) {
     const dp = ohlcData[i];
     const ts = dp.x;
-    // up 색: OI 변화가 아니라 *가격 캔들 색* 기준으로 통일 (BT 요청 — 같은 날 visual 매칭)
-    const prev = i > 0 ? ohlcData[i-1] : null;
-    const up = prev ? (dp.c >= prev.c) : (dp.c >= dp.o);
+    // up 색: 캔들과 정확히 동일 로직 (당일 open vs close — 전일 비교 X)
+    const up = (dp.c >= dp.o);
     // _maBinFindLE 재사용: ts 이하 가장 큰 COT 인덱스
     const ci = _maBinFindLE(cotTs, ts);
     if (ci < 0) {
@@ -2181,11 +2180,10 @@ function coalesceCotOiToOhlc(cotData, ohlcData) {
 }
 
 function makeVolumeChart(canvasId, ohlcData, view) {
-  // Volume data with 'up' flag — OI 모드에선 ohlcData 의 d.up 이 미리 설정되어 있음 (OI 변화 기준).
-  // 거래량 모드는 close 비교로 색 결정.
+  // Volume/OI data with 'up' flag — 캔들 색과 정확 일치 (당일 open vs close).
+  // OI 모드에선 ohlcData 의 d.up 이 coalesceCotOiToOhlc 에서 동일 로직으로 미리 설정됨.
   const data = ohlcData.map((d, i) => {
-    const prev = i > 0 ? ohlcData[i-1] : null;
-    const up = (d.up !== undefined && d.up !== null) ? d.up : (prev ? (d.c >= prev.c) : (d.c >= d.o));
+    const up = (d.up !== undefined && d.up !== null) ? d.up : (d.c >= d.o);
     // OI 모드용 보조 필드 부착 (Phase B-2b 툴팁 확장용 예약)
     return { x: d.x, y: d.v, v: d.v, up,
              oi: d.oi, ncnet: d.ncnet, cnl: d.cnl, cns: d.cns };
@@ -3151,8 +3149,8 @@ function toggleVolMode(view, mode) {
   const ds = volCh.data.datasets.find(d => d._volume);
   if (!ds) return;
   ds.data = ohlc.map((d, i) => {
-    const prev = i > 0 ? ohlc[i-1] : null;
-    const up = (d.up !== undefined && d.up !== null) ? d.up : (prev ? (d.c >= prev.c) : (d.c >= d.o));
+    // 캔들과 정확 일치 (당일 open vs close)
+    const up = (d.up !== undefined && d.up !== null) ? d.up : (d.c >= d.o);
     return { x: d.x, y: d.v, v: d.v, up,
              oi: d.oi, ncnet: d.ncnet, cnl: d.cnl, cns: d.cns };
   });
