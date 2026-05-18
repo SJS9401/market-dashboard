@@ -234,7 +234,7 @@
 | 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
 | 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
-| 7/29 | ARM Holdings (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
+| 7/29 | ARM (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
 | (~7/29) | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026 — 과거 패턴 추정 (FY 6월 결산, Q3 4/29 발표, Q4 FY25: 7/31) |
 | (~7/29) | Ford (F) | 자동차 | Q2 2026, AMC — 미확정 추정 (wallstreethorizon, Q1: 4/29) |
 | (~7/29) | 에코프로비엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
@@ -295,7 +295,7 @@
 | 5/7 | NuScale Power (SMR) | 원전 | AMC 발표 완료 (Q1 2026, pre-revenue 단계) |
 | 5/7 | 미래에셋증권 | 금융 | 1분기 실적 발표 완료 |
 | 5/7 | 한국항공우주 | 방산 | 1분기 실적 발표 완료 |
-| 5/6 | ARM Holdings (ARM) | 반도체-CPU | AMC 발표 완료 (Q4 FYE26 매출 $1.49B record, FY26 full-year $4.92B, AGI CPU 첫 공개 — 데이터센터 자체 설계 CPU, 주가 강세) |
+| 5/6 | ARM (ARM) | 반도체-CPU | AMC 발표 완료 (Q4 FYE26 매출 $1.49B record, FY26 full-year $4.92B, AGI CPU 첫 공개 — 데이터센터 자체 설계 CPU, 주가 강세) |
 | 5/6 | 에이피알 | 화장품 | 발표 완료 (매출 5,895억 +122% YoY 추정, 1분기 사상 최대 실적) |
 | 5/6 | 셀트리온 | 제약/바이오 | 발표 완료 (매출 1조1450억 +36% YoY, 영업익 3219억 +115.4% YoY, 1분기 역대 최대, 신규 바이오시밀러 매출 비중 60% 첫 돌파) |
 | 5/5 | AMD (AMD) | 반도체-CPU | AMC 발표 완료 (매출 $10.3B +57% YoY beat vs 컨센 $9.84B, 비GAAP EPS $1.37 beat vs $1.25, 데이터센터 $5.8B +57% YoY, Q2 가이던스 $11.2B·GM 56%) |
