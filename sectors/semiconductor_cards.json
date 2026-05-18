@@ -37,7 +37,6 @@
         {
           "id": "pbr_band_samsung_sk",
           "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
-          "match_page": "삼성전자 12MF PBR 밴드",
           "page_clip": {
             "page": 26,
             "x0": 35,
@@ -45,7 +44,11 @@
             "top": 460,
             "bottom": 750
           },
-          "embed_clip": true
+          "embed_clip": true,
+          "match_page": [
+            "삼성전자 12MF PBR 밴드",
+            "12MF PBR 밴드"
+          ]
         }
       ]
     },
@@ -389,7 +392,7 @@
     {
       "title": "수요 측 — 대만 PC 업체 매출",
       "subtitle": "마더보드 / PC ODM 월별 매출 (대만 IR)",
-      "cols": 2,
+      "cols": 1,
       "cards": [
         {
           "id": "taiwan_motherboard_revenue",
@@ -499,9 +502,13 @@
         {
           "id": "samsung_perf_p25",
           "title": "삼성전자 사업부문별 실적 전망",
-          "match_page": "삼성전자 사업부문별 실적 전망",
           "page_full": 25,
-          "embed_page": true
+          "embed_page": true,
+          "match_page": [
+            "삼성전자 사업부문별 실적 전망",
+            "삼성전자의 분기 및 연간 주요 가정",
+            "삼성전자의 분기"
+          ]
         }
       ]
     },
@@ -513,11 +520,6 @@
         {
           "id": "sk_hynix_perf_p26",
           "title": "SK하이닉스 사업부문별 실적 전망",
-          "match_page": [
-            "SK하이닉스 사업부문별 실적 전망",
-            "SK하이닉스의 분기 및 연간 주요 가정",
-            "SK하이닉스의 분기"
-          ],
           "page_clip": {
             "page": 26,
             "x0": 35,
@@ -525,7 +527,12 @@
             "top": 90,
             "bottom": 460
           },
-          "embed_clip": true
+          "embed_clip": true,
+          "match_page": [
+            "SK하이닉스 사업부문별 실적 전망",
+            "SK하이닉스의 분기 및 연간 주요 가정",
+            "SK하이닉스의 분기"
+          ]
         }
       ]
     },

@@ -910,8 +910,8 @@ const MA_CLASS_ORDER = ["eq-gl", "eq-kr", "cm", "cr", "fx", "bd"];
 
 const MULTIASSET_EVENTS = [
   // === 주식·글로벌 (11) ===
-  { id: "1907_panic",          ac: "eq-gl", era: "1907",       name: "US Equities Panic (Livermore)",    asset: "DJI",         mag: "~-45% climax bear",            rec: false },
-  { id: "1915_bethlehem",      ac: "eq-gl", era: "1914-16",    name: "Bethlehem Steel WW1",              asset: "BTH_STEEL",   mag: "$46→$700 (15x)",          rec: false },
+  { id: "1907_panic",          ac: "eq-gl", era: "1907",       name: "US Equities Panic (Livermore)",    asset: "SPX_SHILLER",         mag: "~-45% climax bear",            rec: false },
+  { id: "1915_bethlehem",      ac: "eq-gl", era: "1914-16",    name: "Bethlehem Steel WW1",              asset: "SPX_SHILLER",   mag: "$46→$700 (15x)",          rec: false },
   { id: "1924_29_roaring20s",  ac: "eq-gl", era: "1924-29",    name: "Roaring 20s climax",               asset: "SPX",         mag: "Dow 3x, RCA $11→$549",    rec: false },
   { id: "1985_89_nikkei",      ac: "eq-gl", era: "1985-89",    name: "Japan Nikkei 38915",               asset: "N225_LONG",   mag: "13k→38.9k (3x)",          rec: true  },
   { id: "1998_2000_nasdaq",    ac: "eq-gl", era: "1998-2000",  name: "Dot-com NASDAQ climax",            asset: "NASDAQ",      mag: "1500→5132 (3.4x)",        rec: true  },
@@ -935,8 +935,8 @@ const MULTIASSET_EVENTS = [
   { id: "2026_q2_skhynix",     ac: "eq-kr", era: "2026.Q2",    name: "SK하이닉스 재진입 (BT)",           asset: "SK_HYNIX",    mag: "BT 매매 검증 #5",              rec: true,  bt: true },
 
   // === 원자재 (10) ===
-  { id: "1979_80_gold",        ac: "cm",    era: "1978-80",    name: "Gold $850 인플레 climax",          asset: "GLD_LONG",    mag: "$200→$850 (4.3x)",        rec: false },
-  { id: "1979_80_silver",      ac: "cm",    era: "1979-80",    name: "Silver Hunt corner",               asset: "SLV_LONG",    mag: "$5→$50 (10x)",            rec: true  },
+  { id: "1979_80_gold",        ac: "cm",    era: "1978-80",    name: "Gold $850 인플레 climax",          asset: "GLD_MANUAL",    mag: "$200→$850 (4.3x)",        rec: false },
+  { id: "1979_80_silver",      ac: "cm",    era: "1979-80",    name: "Silver Hunt corner",               asset: "SLV_MANUAL",    mag: "$5→$50 (10x)",            rec: true  },
   { id: "2003_07_supercycle",  ac: "cm",    era: "2003-07",    name: "China commodity supercycle",       asset: "BCOM",        mag: "Copper 5x, Crude 6x",          rec: false },
   { id: "2007_08_crude",       ac: "cm",    era: "2007-08",    name: "Crude $147 peak oil",              asset: "WTI",         mag: "$60→$147 (2.5x)",         rec: true  },
   { id: "2008_11_gold_qe",     ac: "cm",    era: "2008-11",    name: "Gold $1920 QE climax",             asset: "GLD",         mag: "$700→$1920 (2.7x)",       rec: false },

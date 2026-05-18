@@ -39,6 +39,8 @@
   .card-table .card-top h3 { font-size: 18px; font-weight: 700; color: #f0f6fc; }
   .card-top .fig-num { font-size: 10px; color: #6e7681; font-weight: 500; flex-shrink: 0; }
   .review-flag { color: #d2af64; font-style: italic; font-size: 11px; font-weight: 400; margin-left: 6px; letter-spacing: 0.2px; }
+  .card.needs-review { border: 2px solid #d2af64; box-shadow: 0 0 0 1px rgba(210,175,100,0.3); }
+  .card.needs-review .card-top { background: #2a1f0e; }
   .card-meta { font-size: 10px; color: #8b949e; padding: 2px 12px 0; }
   /* axis-unit-row: 좌측 단위 + 가운데 legend + 우측 단위 (3등분) */
   .axis-unit-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 12px 8px; font-size: 10px; color: #8b949e; }
@@ -419,6 +421,16 @@ function buildPage(manifest, figuresMeta) {
       if (typeof card.colspan === 'number' && card.colspan > 1) {
         cardEl.style.gridColumn = `span ${card.colspan}`;
       }
+      // needs_review 플래그 — match_page fallback 시 (PDF 구조 변경으로 hardcode page 사용)
+      const fig = figs[cid];
+      const needsReview = fig && fig.needs_review === true;
+      const reviewReason = (fig && fig.review_reason) || '';
+      if (needsReview) {
+        cardEl.classList.add('needs-review');
+      }
+      const reviewFlag = needsReview
+        ? ` <span class="review-flag" title="${reviewReason.replace(/"/g, '&quot;')}">⚠ 검증 필요</span>`
+        : '';
 
       if (card.embed_page === true || card.embed_chart === true || card.embed_clip === true) {
         // PDF vector iframe embed (글자 무한 해상도)
@@ -427,7 +439,6 @@ function buildPage(manifest, figuresMeta) {
         // zoom_pct: (선택) cards.json 카드의 zoom_pct 값 → URL fragment #zoom=N. default auto.
         const pdfFile = `pdf_pages/semi_${cid}.pdf`;
         const pdfTitle = (card.title || cid).replace(/"/g, '&quot;');
-        const fig = figs[cid];
         // height_scale: 카드 세로 폭 배율 (default 1). aspect-ratio = w / (h * scale) → 클수록 카드 더 큼.
         const heightScale = (typeof card.height_scale === 'number' && card.height_scale > 0) ? card.height_scale : 1;
         const aspectStyle = (fig && fig.mediabox_pt && fig.mediabox_pt.length === 2)
@@ -439,7 +450,7 @@ function buildPage(manifest, figuresMeta) {
         const toolbarVal = card.pdf_toolbar === true ? 1 : 0;
         cardEl.innerHTML = `
           <div class="card-top">
-            <h3>${card.title || cid}</h3>
+            <h3>${card.title || cid}${reviewFlag}</h3>
           </div>
           <div class="cw cw-pdf" id="cw-${cid}" ${aspectStyle}>
             <iframe src="${DATA_DIR}${pdfFile}#toolbar=${toolbarVal}&navpanes=0&scrollbar=0&view=FitH&zoom=page-width${zoomFragment}"
@@ -452,7 +463,7 @@ function buildPage(manifest, figuresMeta) {
         const imgFile = `figures/semi_${cid}.png`;
         cardEl.innerHTML = `
           <div class="card-top">
-            <h3>${card.title || cid}</h3>
+            <h3>${card.title || cid}${reviewFlag}</h3>
           </div>
           <div class="cw cw-image" id="cw-${cid}">
             <img src="${DATA_DIR}${imgFile}" alt="${card.title || cid}" loading="lazy"
