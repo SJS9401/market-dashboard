@@ -151,14 +151,26 @@ function parseWatchlist(md) {
       const m = line.match(/^\s*-\s+\*\*([^*]+)\*\*\s*\((.+)\)\s*$/);
       if (m) {
         const sector = m[1].trim();
-        // 종목 분리: 콤마로 자르되 종목 안의 ticker 괄호와 충돌 방지
-        // "삼성전자, SK하이닉스, Micron(MU)" → ['삼성전자','SK하이닉스','Micron(MU)']
-        const stocks = m[2].split(',').map(s => s.trim()).filter(Boolean);
+        // 5/18 변경: 종목 안의 괄호에 ticker + industry 들어갈 수 있음 (예: "Tesla(TSLA, industry=자동차)")
+        // 괄호 안 콤마는 분리 안 하도록 negative lookahead split 사용
+        const stocks = m[2].split(/,(?![^()]*\))/).map(s => s.trim()).filter(Boolean);
         const stockObjs = stocks.map(s => {
-          // 종목명(ticker) 형식이면 분리
+          // 종목명(inner) 형식이면 분리. inner는 콤마로 split → [ticker, industry, ...]
           const tm = s.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
-          if (tm) return { name: tm[1].trim(), ticker: tm[2].trim() };
-          return { name: s, ticker: '' };
+          if (tm) {
+            const name = tm[1].trim();
+            const innerParts = tm[2].split(',').map(x => x.trim()).filter(Boolean);
+            const ticker = innerParts[0] || '';
+            // industry=XXX 또는 그냥 두 번째 토큰
+            let industry = null;
+            for (const part of innerParts.slice(1)) {
+              const im = part.match(/^industry\s*=\s*(.+)$/i);
+              if (im) industry = im[1].trim();
+              else if (!industry) industry = part;
+            }
+            return { name, ticker, industry };
+          }
+          return { name: s, ticker: '', industry: null };
         });
         result[currentTier].push({ sector, stocks: stockObjs });
       }
@@ -259,12 +271,16 @@ function getModeFile(stock, mode) {
   // stock: {name, ticker, sector}. ticker 있으면 ticker 사용 (미국 기업 산출물 명명 규칙).
   // sector는 renderSectorCard에서 inject (산업기초 매칭용).
   const key = stock.ticker || stock.name;
-  // industry-basic: 산업 단위 산출물 ({sector}_산업기초.html) — 산업/기업 분석 세션의 industry-basic 스킬
+  // industry-basic: 산업 단위 산출물 ({industry}_산업기초.html) — 산업/기업 분석 세션의 industry-basic 스킬
   // 폴더는 earnings/earnings-theme/ (산업/기업 세션이 테마와 같은 폴더에 둠)
-  // 같은 산업 종목 모두 같은 .md 열림 (예: 삼성전자·하이닉스 모두 반도체_산업기초.html)
+  // 5/18 변경: stock.industry 우선 (mixed 그룹 = 미국 빅테크 7종목이 다른 산업기초 가리킴)
+  //   - Nvidia (industry=반도체) → 반도체_산업기초.html
+  //   - Apple (industry=소비재) → 소비재_산업기초.html
+  //   - 다른 섹터는 그루핑 = 산업이라 sector fallback
   if (mode === 'industry-basic') {
-    if (!stock.sector) return null;
-    const expected = stock.sector + '_산업기초.html';
+    const industryName = stock.industry || stock.sector;
+    if (!industryName) return null;
+    const expected = industryName + '_산업기초.html';
     return (state.manifest.theme || []).includes(expected) ? expected : null;
   }
   // company: 분기 무관 단일 파일 ({종목}_기업개요.html) — company-overview 스킬 v4.8 산출물
