@@ -12,7 +12,7 @@
 
 ## 섹터 T1 — 메인 (분기 주도 섹터)
 
-- **미국 빅테크** (Tesla(TSLA, industry=자동차), Amazon(AMZN, industry=클라우드), Alphabet(GOOGL, industry=클라우드), Meta(META, industry=광고), Microsoft(MSFT, industry=클라우드), Apple(AAPL, industry=소비재), Nvidia(NVDA, industry=반도체))
+- **미국 빅테크** (Tesla(TSLA, industry=자동차|자율주행), Amazon(AMZN, industry=소비재|클라우드), Alphabet(GOOGL, industry=광고|클라우드), Meta(META, industry=광고), Microsoft(MSFT, industry=클라우드), Apple(AAPL, industry=소비재), Nvidia(NVDA, industry=반도체))
 - **반도체** (삼성전자, SK하이닉스, Micron(MU))
 - **반도체 소부장** (삼성전기, 한미반도체, 리노공업)
 - **전력 인프라** (ABB(ABB), LS일렉트릭, GE Vernova(GEV), 효성중공업, HD현대일렉트릭, Schneider Electric(SU), Hitachi Energy(HE), Eaton(ETN), Siemens Energy(ENR))

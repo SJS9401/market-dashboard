@@ -155,22 +155,30 @@ function parseWatchlist(md) {
         // 괄호 안 콤마는 분리 안 하도록 negative lookahead split 사용
         const stocks = m[2].split(/,(?![^()]*\))/).map(s => s.trim()).filter(Boolean);
         const stockObjs = stocks.map(s => {
-          // 종목명(inner) 형식이면 분리. inner는 콤마로 split → [ticker, industry, ...]
+          // 종목명(inner) 형식이면 분리. inner는 콤마로 split → [ticker, industry=primary|secondary, ...]
+          // 5/18 변경: industry는 파이프(|)로 multi 표현 — 첫째 primary, 나머지 secondary
+          //   예: industry=광고|클라우드 → primary 광고, secondary 클라우드
           const tm = s.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
           if (tm) {
             const name = tm[1].trim();
             const innerParts = tm[2].split(',').map(x => x.trim()).filter(Boolean);
             const ticker = innerParts[0] || '';
-            // industry=XXX 또는 그냥 두 번째 토큰
-            let industry = null;
+            let industriesRaw = null;
             for (const part of innerParts.slice(1)) {
               const im = part.match(/^industry\s*=\s*(.+)$/i);
-              if (im) industry = im[1].trim();
-              else if (!industry) industry = part;
+              if (im) industriesRaw = im[1].trim();
+              else if (!industriesRaw) industriesRaw = part;
             }
-            return { name, ticker, industry };
+            const industries = industriesRaw
+              ? industriesRaw.split('|').map(x => x.trim()).filter(Boolean)
+              : null;
+            return {
+              name, ticker,
+              industry: industries ? industries[0] : null,  // primary (backward compat)
+              industries  // array, multi 케이스용
+            };
           }
-          return { name: s, ticker: '', industry: null };
+          return { name: s, ticker: '', industry: null, industries: null };
         });
         result[currentTier].push({ sector, stocks: stockObjs });
       }
@@ -392,6 +400,50 @@ function renderProgressCircles(stage) {
   return container;
 }
 
+// 5/18 신규 — multi-industry 종목 (예: Alphabet=광고|클라우드)의 [산업기초] 버튼
+// click = primary 산업기초 직접 열림. hover = dropdown으로 secondary 산업기초 접근.
+function renderIndustryBasicDropdown(stock, label) {
+  const themeList = state.manifest.theme || [];
+  const inds = stock.industries;
+  const primaryFile = inds[0] + '_산업기초.html';
+  const primaryActive = themeList.includes(primaryFile);
+
+  const wrapper = el('div', { class: 'mode-btn-wrapper' });
+  // 메인 버튼 (primary 직접 link)
+  if (primaryActive) {
+    wrapper.appendChild(el('a', {
+      class: 'mode-btn mode-btn-multi',
+      href: buildHtmlPath('industry-basic', primaryFile),
+      target: '_blank',
+      title: label + ' (' + inds.length + '): ' + inds.join(', ')
+    }, label + ' ▾'));
+  } else {
+    wrapper.appendChild(el('span', {
+      class: 'mode-btn mode-btn-multi disabled',
+      title: label + ' (' + inds.length + '): ' + inds.join(', ') + ' — primary 미작성'
+    }, label + ' ▾'));
+  }
+  // dropdown — 모든 industry option 표시 (primary 포함)
+  const dropdown = el('div', { class: 'mode-btn-dropdown' });
+  for (const ind of inds) {
+    const file = ind + '_산업기초.html';
+    if (themeList.includes(file)) {
+      dropdown.appendChild(el('a', {
+        class: 'dropdown-item',
+        href: buildHtmlPath('industry-basic', file),
+        target: '_blank'
+      }, ind));
+    } else {
+      dropdown.appendChild(el('span', {
+        class: 'dropdown-item disabled',
+        title: ind + ' — 미작성'
+      }, ind + ' (미작성)'));
+    }
+  }
+  wrapper.appendChild(dropdown);
+  return wrapper;
+}
+
 function renderStockRow(stock) {
   const calByQuarter = state.calendar[stock.name];
   const cal = calByQuarter ? calByQuarter[state.currentQuarter] : null;
@@ -412,6 +464,11 @@ function renderStockRow(stock) {
   // 5/18 변경: 산업기초 추가 + 라벨 풀네임 통일 (총 6개)
   for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['theme', '테마분석'], ['preview', '실적 프리뷰'], ['review', '실적 리뷰'], ['in-depth', '실적 인뎁스']]) {
     const mode = pair[0], label = pair[1];
+    // 5/18 추가: industry-basic + multi-industry (예: Alphabet=광고|클라우드) → dropdown UX
+    if (mode === 'industry-basic' && stock.industries && stock.industries.length > 1) {
+      buttons.appendChild(renderIndustryBasicDropdown(stock, label));
+      continue;
+    }
     const file = getModeFile(stock, mode);
     if (file) {
       buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));

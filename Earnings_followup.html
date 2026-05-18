@@ -76,6 +76,15 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .theme-review-link { padding:0.18rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; text-decoration:none; transition:all 0.15s; }
 .theme-review-link:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
 .empty-state { color:var(--text-dim); font-style:italic; padding:1rem; text-align:center; grid-column:1/-1; background:var(--bg-2); border:1px dashed var(--border-2); border-radius:6px; }
+/* 5/18 신규 — multi-industry 종목 ([산업기초] 버튼 dropdown UX) */
+.mode-btn-wrapper { position:relative; display:inline-flex; }
+.mode-btn-multi { position:relative; }
+.mode-btn-dropdown { display:none; position:absolute; top:calc(100% + 2px); left:0; background:var(--bg-3); border:1px solid var(--border-2); border-radius:4px; padding:0.25rem; min-width:max-content; z-index:100; box-shadow:0 2px 6px rgba(0,0,0,0.4); }
+.mode-btn-wrapper:hover .mode-btn-dropdown { display:flex; flex-direction:column; gap:0.2rem; }
+.dropdown-item { padding:0.2rem 0.6rem; font-size:0.7rem; color:var(--text); text-decoration:none; border-radius:3px; white-space:nowrap; }
+.dropdown-item:hover { background:var(--accent); color:var(--text-bright); }
+.dropdown-item.disabled { color:var(--text-dim); opacity:0.5; cursor:not-allowed; }
+.dropdown-item.disabled:hover { background:transparent; color:var(--text-dim); }
 footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); text-align:center; color:var(--text-dim); font-size:0.8rem; }
 </style>
 </head>
