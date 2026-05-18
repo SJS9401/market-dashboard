@@ -385,3 +385,18 @@
 > **데이터 소스**: SEC EDGAR AMD 10-K FY11~FY25 (15개) + 10-Q (47분기), **AMD IR Earnings Slides 8개** (Q2 24~Q1 26, cloudfront URL 패턴 발견 후 batch fetch), Yahoo Finance v8 (NASDAQ:AMD 20년), FY25 10-K (CIK 0000002488) Item 1·8.
 > **차트 12종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (4사업부), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: Intel (직접 x86 경쟁) + NVIDIA (AI GPU 경쟁) 기업 개요와 cross-reference. AMD = "Intel turnaround 실패 + NVIDIA AI 압도" 사이 niche에서 폭발적 성장.
+
+## Long Timeseries 보강 — 56분기 (14년)
+
+AMD는 calendar year fiscal. SKILL 60+분기 표준 대비 56분기 (93%) 달성. IR Earnings Deck 옛 분기는 d1io3yog0oux5.cloudfront.net 패턴이지만 자동 다운로드 0개 — SEC 8-K로 보강. 추가 4분기 (FY11) 가능.
+
+![AMD 56분기 매출·OPM (Q1 2012~Q4 2025) — Lisa Su 100배 turnaround](charts/AMD_chart10_long_56분기시계열.png)
+
+*AMD 56분기 매출·OPM (Q1 2012~Q4 2025) — Lisa Su 100배 turnaround*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 204 + DEF 14A 16 batch 추가 (이전 IR 0개 → 8-K로 대체). **chart10_long 56분기 시계열 신규** — Q1 2012~Q4 2025 풀. 매출 $0.83B 저점 (Q1 2016) → $10.3B 정점 (Q4 2025, +57% YoY) = **12.4배 폭등**. OPM 적자기 -39% (Q4 2012) → 흑자기 +34% (FY22) → AI Data Center 회복기 +15% (Q4 2025).**
+

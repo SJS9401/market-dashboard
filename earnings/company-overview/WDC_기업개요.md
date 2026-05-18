@@ -366,3 +366,18 @@
 > **데이터 소스**: SEC EDGAR WDC 10-K FY11~FY25 (15개) + 10-Q (47분기), WDC IR Earnings Documents (28개 PDF — FY26 Q3·Q2·Q1 Deck + Release 6개 + 분사 전 Press Release 다수), Yahoo Finance v8 (NASDAQ:WDC 20년), FY25 10-K Item 7 MD&A (Revenue by end-market, top customer concentration, HAMR 진척).
 > **차트 12종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (Cloud/Client/Consumer 3 segment), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기, 분사 시점 표시), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: SanDisk Corporation (분사된 NAND 사업) 기업 개요와 cross-reference 필수. 분사 후 SNDK는 NAND 슈퍼사이클로 30배+ 폭등 vs WDC는 HDD pureplay 안정적 회복 — 분사 효과의 양면성.
+
+## Long Timeseries 보강 — 59분기 (14.5년)
+
+WDC는 fiscal Jun 마감. SKILL 60+분기 표준 대비 59분기 (98%) 달성. SanDisk 분사 (2025.02) 이후 매출은 HDD only로 reset.
+
+![Western Digital 59분기 매출·OPM (Q1FY12~Q3FY26) — HDD+Flash → SanDisk 인수 → SNDK 분사 → HDD pure-play](charts/WDC_chart10_long_59분기시계열.png)
+
+*Western Digital 59분기 매출·OPM (Q1FY12~Q3FY26) — HDD+Flash → SanDisk 인수 → SNDK 분사 → HDD pure-play*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 270 + DEF 14A 16 batch 추가. **chart10_long 59분기 시계열 신규** — Q1FY12~Q3FY26 풀. 핵심 변곡점: (1) 2016 SanDisk 인수 ($19B), (2) FY18~FY19 NAND 슈퍼사이클, (3) FY23 인플레이션·DRAM 폭락 OPM -25%, (4) 2025.02 SanDisk 분사 → HDD pure-play. Post-분사 매출 $2.3B → $3.8B (60%+ ramp), OPM +44%.**
+

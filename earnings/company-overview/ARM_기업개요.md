@@ -386,3 +386,21 @@
 > **데이터 소스**: SEC EDGAR ARM 20-F 2개 (FY24·FY25, CIK 0001973239) + 6-K 24개 + F-1 + DEF 14A, ARM IR Earnings PDF **6개** (FYE25 Q4 ~ FYE26 Q4 Investor Presentation + Shareholder Letter + Transcript), Yahoo Finance v8 (2.5년 history), 웹 검색 Q4 FY26 결과 보강.
 > **차트 12종**: chart1 (매출OPM 7년), chart1b (License vs Royalty), chart2 (Chip Shipments + ARMv9), chart4 (자산자본부채 5년), chart5 (주주지분), chart6 (현금흐름 5년), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 IPO 후), chart12 (Royalty Mix).
 > **연계 참조**: NVIDIA·AMD·Intel·Apple 기업 개요와 cross-reference. ARM = "모든 fabless·통합 회사의 공통 backbone" (NVIDIA Grace·Apple M-series·AWS Graviton 등 모두 ARM IP 기반).
+
+## Long Timeseries 보강 — 12분기 (IPO 후, 3년)
+
+ARM은 2023.09 NASDAQ IPO + FPI(Foreign Private Issuer)로 SEC 양식 20-F/6-K. SKILL 60+분기 표준은 IPO 전 데이터 부재로 도달 불가능. IPO 후 standalone 12분기 풀 커버.
+
+![ARM 12분기 매출·OPM](charts/ARM_chart10_long_12분기시계열.png)
+
+*ARM 12분기 (Q1FY24~Q4FY26) — 매출 $0.68B → $1.49B record (+120%), OPM 16% → 62%*
+
+![License vs Royalty](charts/ARM_chart2_long_License_Royalty_12분기.png)
+
+*License Q1FY24 $222M / Q4FY26 $598M (+170%), Royalty $453M → $890M (+97%) — Royalty가 안정 성장축*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19)**: SKILL.md 60+분기 표준 도달은 IPO 신규 상장 + FPI 한계로 불가능. **chart10_long·chart2_long_License_Royalty 12분기 시계열 신규**. SEC 6-K 23개 batch (FPI 양식).

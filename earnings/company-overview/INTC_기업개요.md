@@ -447,3 +447,18 @@
 > **데이터 소스**: SEC EDGAR 10-K (FY10~FY25 16개) + 10-Q (46분기), Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Earnings Deck 9개, FY25 10-K Item 1·8 (Business + Financial Statements).
 > **차트 13종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (사업부별 3년 + 12년), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: 추후 Intel earnings preview/review 작성 시 본 기업 개요 참조.
+
+## Long Timeseries 보강 — 57분기 (14년)
+
+Intel은 calendar year fiscal. SKILL 60+분기 표준 대비 57분기 (95%) 달성. 다른 3분기 보강은 SEC 10-K 5-year 표 / 10-Q에서 추출 가능.
+
+![Intel 57분기 매출·OPM (Q1 2012~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드](charts/INTC_chart10_long_57분기시계열.png)
+
+*Intel 57분기 매출·OPM (Q1 2012~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 263개 batch 추가. **chart10_long 57분기 시계열 신규** — Q1 2012~Q1 2026 풀. 매출 정점 Q3 2021 $19.7B → Q1 2024 $12.7B (-35%) → Q1 2026 $13.6B 턴어라운드 시작. OPM 정점 +42% (Q3 2018) → 저점 -37% (Q1 2023, Foundry 인프라 투자 + AMD 추격 데미지) → Q4 2025 +6% (회복).**
+

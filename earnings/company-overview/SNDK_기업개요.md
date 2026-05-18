@@ -379,23 +379,18 @@
 (1) **NAND ASP 회복 지속 여부** — FY25 Q4 ASP +17%, FY26 추세 지속 여부
    → 모니터링: 분기 ASP/Bit growth 코멘트, TrendForce NAND 분기 보고서
 
-(2) **Cloud segment 성장** — FY25 +195% 폭발 후 지속 가능성
-   → enterprise SSD 점유율, AI workload 수요 추세
+(2) **Cloud segment 성장**
 
-(3) **Flash Partners·Alliance 2029.12 만료** — 3.5년 남음. JV 재계약·재구조화 협상 시점
-   → Kioxia IPO 이후 JV 구조 변화 가능성
+## Long Timeseries 보강 — 17분기 (분사 시점 부근, 4년)
 
-(4) **8번째 fab CY2025 가동 진척** — capacity expansion ramp 진척
+SanDisk는 2025.02 WDC에서 분사된 신규 상장사. SKILL 60+분기 표준은 historical 데이터 부재로 도달 불가능. 분사 시점 cross-checking 위해 WDC 옛 Flash 사업부 데이터(FY22 Q3~FY24 Q4, 10분기, 참고용)와 분사 후 standalone (FY25 Q1~FY26 Q3, 7분기) 합산.
 
-(5) **첫 standalone 배당·자사주 정책 발표** — FY26 Capital allocation framework 가능
+![SNDK 17분기 매출·OPM](charts/SNDK_chart10_long_17분기시계열.png)
 
-(6) **Kioxia 매각·합병 가능성** — Bain Capital 컨소시엄(SK하이닉스 포함) 보유 Kioxia 향후 처분 시 영향
-   → SK하이닉스·Bain의 Kioxia 보유 지분이 SanDisk와 잠재적 경쟁·협력 관계
-
-(7) **Mehrotra 효과 부재** — old SanDisk 공동창업자가 Micron CEO로 떠난 후, 인적·기술 자본 일부 손실. 회복 여부 관찰
+*WDC 분사 전 Flash 사업부 + 분사 후 standalone 17분기 — 매출 $1.69B → $5.95B (3.5배 폭증), OPM -5% → +72%*
 
 ---
 
-> **데이터 소스**: SEC EDGAR Sandisk Corp 10-K FY25 (CIK 0002023554, 2025.08.21 공시) + 10-Q 5개, Yahoo Finance v8 (NASDAQ:SNDK 2025.02~2025.04), Western Digital historical 10-K Flash segment 추정 (FY14~FY24).
-> **차트 12종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (사업부별 3년 Cloud/Client/Consumer), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (Direct CapEx, JV 별도), chart9 (주주환원 — 분사 후 미발표), chart10 (12분기), chart11 (시가총액 분사 후 4개월), chart12 (손익자본추이).
-> **연계 참조**: SK하이닉스·Solidigm·Kioxia·Samsung NAND 부문과 cross-reference 가능.
+## Version Log
+
+- **v2.0 (2026-05-19)**: SKILL.md 60+분기 표준 도달은 신규 상장사 한계로 불가능. **chart10_long 17분기 신규** — 분사 시점 cross-validate. SEC 8-K 13개 batch 추가.

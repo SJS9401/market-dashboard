@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>효성중공업 기업 개요 v1.0 최종본 — 전력 인프라 T1</title>
+<title>효성중공업 기업 개요 v1.1 — 연결현금흐름 정확값</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-:root { --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --accent: #264653; --border: #e5e7eb; --code-bg: #f3f4f6; }
-* { box-sizing: border-box; }
+:root { --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --accent: #264653; --border: #e5e7eb; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   margin: 0; padding: 0; background: var(--bg); color: var(--fg); line-height: 1.7; font-size: 15px; }
 .container { max-width: 1100px; margin: 0 auto; padding: 30px 40px 80px; }
 h1 { font-size: 28px; margin: 30px 0 16px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); color: var(--accent); }
 h2 { font-size: 22px; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); color: var(--accent); }
 h3 { font-size: 18px; margin: 24px 0 12px; color: var(--accent); }
-p { margin: 12px 0; }
-blockquote { margin: 16px 0; padding: 12px 18px; border-left: 4px solid var(--accent); background: #f8fafc; color: var(--muted); font-size: 14px; }
 img { max-width: 100%; height: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: 6px; display: block; }
 table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
 th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
 th { background: #f8fafc; font-weight: 600; }
-code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
 strong { color: #c0392b; }
-ul, ol { padding-left: 28px; }
-li { margin: 4px 0; }
-hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
 </style></head><body>
 <div class="container"><div id="content"></div></div>
 <script>
@@ -32,7 +25,7 @@ const md = `> 종목: 효성중공업 (298040.KS / 효성중공업 주식회사 
 > 데이터: 8년 연결 연간(2018~2025, 2018.6 분할상장 후 8년 모두 DART 본문 정확값) + 9분기(1Q24~1Q26) 사업부별 + 20년 Yahoo 시가총액 시계열 + 1Q26 review 통합
 > 출처: **DART 본문 사업보고서 4개년 (2018/2020/2022/2025 viewer.do 자동 fetch) — 8년 연결 시계열·R&D·주주·임원·매출처 모두 정확값**, DART 사업보고서 batch 32건 (corp_code 01316245, dart_download_reports), **효성중공업 IR PDF 5건 (1Q25~1Q26, hyosungheavyindustries.com /download/{N} URL pattern)**, 11개 증권사 1Q26 review, **Yahoo Finance 298040.KS 20년 월간 시계열**
 
-# 효성중공업 기업 개요 (v1.0 — 전력 인프라 T1, 최종본)
+# 효성중공업 기업 개요 (v1.1 — 전력 인프라 T1, 연결현금흐름 정확값 보강)
 
 ## ① 기업 분류
 
@@ -273,13 +266,29 @@ const md = `> 종목: 효성중공업 (298040.KS / 효성중공업 주식회사 
 → **부채총계 (연결, FY25)**: 47,382억 → **부채비율 190%** (FY25말) — 한국 3사 중 가장 높음 (건설 부문 선수금 + 차입 영향)
 → **이익잉여금 trajectory**: 별도 기준 2018 +207억 (분할 후) → 2025 5,454억 (8년 +5,247억 누적)
 
-(3) 현금흐름표 (3년 시계열, DART 본문 추정)
+(3) 현금흐름표 (3년 시계열 — **v1.1 DART 본문 연결현금흐름표 정확값 갱신**)
 
 ![효성중공업 현금흐름 추이](charts/효성중공업_chart6_현금흐름_3년.png)
 
-→ FY25 OCF 약 3,500억 (FY24 1,500억 → +133% YoY) — secular 사이클 OCF 가속
-→ FY24 CFF +2,200억 (자본 증가 + 차입 확대) → FY25 안정
-→ 12년 현금흐름 정확값은 v1.1에서 DART 본문 연결현금흐름표 직접 parse로 갱신 예정
+| 항목 (단위: 억원) | FY25 (제8기) | FY24 (제7기) | FY23 (제6기) |
+|---|---|---|---|
+| **OCF (영업활동)** | **+4,930** | **+4,121** | **+4,547** |
+| ICF (투자활동) | -2,128 | -2,146 | -517 |
+| CFF (재무활동) | -3,127 | -2,283 | -3,383 |
+| **유형자산 취득 (Tangible CapEx)** | **-1,629** | -840 | -323 |
+| 무형자산 취득 | -156 | -147 | -31 |
+| 투자부동산 취득 | -135 | -1 | -0.07 |
+| 관계기업투자주식 취득 | -190 | -920 | -40 |
+| 단기차입금 순변동 | -1,593 | -2,382 | -1,851 |
+| 사채 발행 | 0 | +299 | 0 |
+| 유상증자 | +75 | +892 | 0 |
+| 법인세 납부 | -1,547 | -841 | -128 |
+
+→ (출처: **DART 본문 사업보고서 2025 "III. 재무에 관한 사항 2-5. 연결 현금흐름표" 직접 fetch** — rcpNo=20260323001004, dcmNo=11164996, eleId=26)
+→ **FY25 OCF 4,930억 = 안정적 영업 캐시플로우** (FY23 4,547 → FY24 4,121 → FY25 4,930) — 매출 대폭 증가에도 OCF 증가폭 작은 이유: 수주 증가에 따른 운전자본 (재고·매출채권) 증가
+→ **FY25 CapEx 1,629억 = FY24 840억의 +94% YoY** — Memphis 신공장 ramp + 창원공장 capa 확대
+→ **법인세 납부 FY23 128억 → FY24 841 → FY25 1,547억 (12배 가속)** — 흑전 후 본격 법인세 납부 사이클 진입
+→ **FY24 유상증자 892억** = Memphis 공장 신설 자금 조달 + 자본 확충
 
 (4) CapEx — 3년 시계열
 
@@ -481,23 +490,6 @@ const md = `> 종목: 효성중공업 (298040.KS / 효성중공업 주식회사 
     - **5% 매출처**: 별도 HICO 6.78% + 부산우암 4.31% + 산곡 4.30% + 강원풍력 3.89% + 한전 3.40% + AL FANAR 3.39%
     - **HICO 미국 IOU**: Eversource·AEP·Dominion·Intersect Power·Southern·Georgia Power
     - **종속회사 24개** (Hyosung UK·태안솔라팜 신규)
-  - **차트 12종 v4.8 완성** (chart3 제품 매트릭스 포함)
-  - **Phase 1 audit 보고**: 사용자 호출 트리거 4개 모두 X → 작업 진행
-  - **데이터 confidence: 90%+ 시계열·정량값 확정** (HD현대일렉트릭 v1.0 최종본과 동등 수준)
-
-- **자동화 인프라 진단 (v1.0 정식 적용)**:
-  - ✅ \`dart_download_reports\` (MCP) = DART 정기공시 (감사보고서 + 첨부)
-  - ✅ **\`mcp__company-data__web_fetch\` + DART /dsab001/search.ax + /dsaf001/main.do + /report/viewer.do = DART 본문 사업보고서 옛 연도 section별 자동 fetch**
-  - ✅ \`web_fetch\` = 효성중공업 IR (\`/download/{N}\` URL 패턴), Yahoo Finance v8 (.KS suffix), 임의 URL
-  - ✅ pdfplumber = PDF parse
-  - **수동 다운로드 0건. 한 번에 v1.0 최종본 완성 = Source 6종 룰 + Phase 1 audit 보고 룰의 효과 입증**
-
-- **v1.1 (선택적, 미세 보강)**:
-  - 8년 연결현금흐름표 정확값 (DART 본문 eleId 추가 fetch)
-  - 8년 CapEx 정확값
-  - 8년 배당 정확값
-  - KCGS 통합 ESG 등급 정확값 (KCGS 홈페이지 직접 조회)
-  - 분기 시계열 9분기 → 33분기 확장 (받은 5 IR PDFs 외 옛 분기 DART 분기보고서에서 추출)
-`;
+  - **차트 12종 v4.8 완�`;
 document.getElementById('content').innerHTML = marked.parse(md);
 </script></body></html>

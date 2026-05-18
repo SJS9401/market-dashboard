@@ -349,3 +349,18 @@
 > **데이터 소스**: SEC EDGAR Seagate 10-K FY11~FY25 (15개) + 10-Q (47분기), Seagate IR PDFs **8개** (Q1·Q2·Q3 FY26 Release + Q3·Q4 FY25 Release/Remarks + Analyst Day 2025 6.5MB deck + Q3 FY26 Supplemental), Yahoo Finance v8 (NASDAQ:STX 20년), FY25 10-K Item 1 (Business) + Item 7 MD&A.
 > **차트 12종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (Mass Capacity vs Legacy), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: WDC (HDD 2위) 기업 개요와 cross-reference. STX Mozaic HAMR 선행 vs WDC 후발. 두 종목 합산 글로벌 HDD 85% 점유.
+
+## Long Timeseries 보강 — 59분기 (14.5년)
+
+Seagate fiscal Jul 마감. SKILL 60+분기 표준 대비 59분기 (98%) 달성. HAMR Mozaic 본격 ramp 시작.
+
+![Seagate 59분기 매출·OPM (Q1FY12~Q3FY26) — PC HDD → Mass Capacity → HAMR Mozaic](charts/STX_chart10_long_59분기시계열.png)
+
+*Seagate 59분기 매출·OPM (Q1FY12~Q3FY26) — PC HDD → Mass Capacity → HAMR Mozaic*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 228 + DEF 14A 16 batch 추가. **chart10_long 59분기 시계열 신규** — Q1FY12~Q3FY26 풀. 매출 정점 $4.50B (Q3FY12 PC HDD 황금기) → $1.46B 저점 (Q1FY24 PC 침체 + 클라우드 inventory digestion) → $3.34B 회복 (Q2FY26 HAMR Mozaic + Mass Capacity 폭증). OPM 정점 +42% (Q1FY26), 저점 -15% (Q1FY24).**
+

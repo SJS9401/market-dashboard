@@ -1,43 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LS ELECTRIC 기업 개요 v1.3 — 전력 인프라 T1</title>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LS ELECTRIC 기업 개요 v1.4 — chart3 보강</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-:root {
-  --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --accent: #264653;
-  --border: #e5e7eb; --code-bg: #f3f4f6;
-}
-* { box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  margin: 0; padding: 0; background: var(--bg); color: var(--fg);
-  line-height: 1.7; font-size: 15px;
-}
+:root { --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --accent: #264653; --border: #e5e7eb; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  margin: 0; padding: 0; background: var(--bg); color: var(--fg); line-height: 1.7; font-size: 15px; }
 .container { max-width: 1100px; margin: 0 auto; padding: 30px 40px 80px; }
 h1 { font-size: 28px; margin: 30px 0 16px; padding-bottom: 12px; border-bottom: 3px solid var(--accent); color: var(--accent); }
 h2 { font-size: 22px; margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); color: var(--accent); }
 h3 { font-size: 18px; margin: 24px 0 12px; color: var(--accent); }
-p { margin: 12px 0; }
-blockquote { margin: 16px 0; padding: 12px 18px; border-left: 4px solid var(--accent); background: #f8fafc; color: var(--muted); font-size: 14px; }
 img { max-width: 100%; height: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: 6px; display: block; }
 table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
 th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
 th { background: #f8fafc; font-weight: 600; }
-code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
 strong { color: #c0392b; }
-ul, ol { padding-left: 28px; }
-li { margin: 4px 0; }
-hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
-.meta { font-size: 13px; color: var(--muted); padding: 12px 16px; background: #f8fafc; border-radius: 6px; margin-bottom: 24px; }
-</style>
-</head>
-<body>
-<div class="container">
-<div id="content"></div>
-</div>
+</style></head><body>
+<div class="container"><div id="content"></div></div>
 <script>
 const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사)
 > 섹터: 전력 인프라 (T1 메인)
@@ -46,7 +25,12 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 > 데이터: 12년 별도 연간(2014~2025) + 13분기 연결(1Q23~1Q26) 사업부별 + 20년 시가총액 (Yahoo 241개월) + 현금흐름·CapEx·R&D 12년 추이 + **DART 본문 사업보고서 회사개요/주주/임원/매출처/연구개발 정확값 (v1.3)** + 1Q26 review 통합
 > 출처: DART 사업보고서 12년치 (corp_code 00105855), **DART 본문 사업보고서 2025 (rcpNo=20260318001243, 본문 7.9M chars, dart3.fss /report/viewer.do 자동 fetch — v1.3 신규)**, 1Q26 분기보고서 (2026.05.14), LS ELECTRIC IR 분기경영실적 PDF 20개 (2020.4Q~2026.1Q, 자동 web_fetch), 12개 증권사 1Q26 review, Yahoo Finance 010120.KS 20년 월간 시계열 (자동 web_fetch), LS-electric Sustainability Report 2024-2025 (자동 web_fetch)
 
-# LS ELECTRIC 기업 개요 (v1.3 — 전력 인프라 T1)
+# LS ELECTRIC 기업 개요 (v1.4 — 전력 인프라 T1, chart3 제품 매트릭스 보강)
+
+![LS ELECTRIC 제품·서비스 매트릭스 (FY25 연결)](charts/LS일렉트릭_chart3_제품매트릭스.png)
+
+→ (출처: DART 본문 사업보고서 2025 + LS-electric Sustainability Report)
+→ **DC솔루션·HVDC·ESS·자동화 통합 라인업 = 한국 3사 중 가장 다양한 portfolio**
 
 ## ① 기업 분류
 
@@ -124,7 +108,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 | 외국인지분율 | 21.87% (1Q26 기준) |
 | **주요주주 (FY25말 v1.3 확정값)** | **(주)LS 14,539,000주 (48.46%)** + 등기임원 3명 자기주식 상여금 합 691주 = **최대주주·특수관계인 49.33%** |
 | **(주)LS 최대주주** | **구자열 외 44인 32.60%** (LS그룹 오너 일가) |
-| **신용등급 (v1.3 확정)** | **AA- (회사채, 안정적 전망) / A1 (CP)** |
+| **신용등급 (v1.2 확정)** | **AA- (회사채, 안정적 전망) / A1 (CP)** |
 | **임직원 수 (FY25.12.31, v1.3 확정)** | **3,482명** (별도, 자회사 제외) — 전력 791 + 생산/R&D 1,602 + 자동화 699 + 기타 390. 1인 평균 급여 9,500만원 / 평균 근속 16.0년 |
 | **대표이사 (Chairman)** | **구자균** (1957.10, University of Texas Austin 기업재무학 박사) — 2005~ 회장, 2026.03.26 재선임 예정 |
 | **사내이사 (4명)** | 구자균 (회장/CEO), 채대석 (전무, ESG/비전경영총괄 CVO), 김종우 (사장, 전력CIC COO), 오재석 (사장, 생산/R&D총괄 COO) |
@@ -309,7 +293,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 → **부채총계**: 자산 - 자본 = 약 20,000~25,000억 범위. **부채비율 약 100~110%** (FY25 별도)
 → **연결 부채비율 (1Q26)**: **151.4%** (전년말 131.4% 대비 +20pp) — 수주 증가에 따른 선수금 유입 영향, 음의 신호 아님
 
-(3) 현금흐름표 — 12년 시계열 (v1.3 확정)
+(3) 현금흐름표 — 12년 시계열 (v1.2 확정)
 
 ![LS ELECTRIC 12년 별도 현금흐름 추이](charts/LS일렉트릭_chart6_현금흐름_12년.png)
 
@@ -322,7 +306,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 → **CFF (재무)**: 2024년 +33억·2025년 **+805억** (양 전환) = 차입금 확대로 CapEx 가속 funding — 1Q26 부채비율 151%로 상승한 배경
 → **2018년 ICF 특이값 +707억** = 북미 Parker Hannifin EGT 사업부 인수 회계 처리 (현금유출 분류 변경) 영향
 
-(4) CapEx — 12년 시계열 (v1.3 확정)
+(4) CapEx — 12년 시계열 (v1.2 확정)
 
 ![LS ELECTRIC 12년 별도 CapEx (유형·무형자산 취득) 추이](charts/LS일렉트릭_chart8_CapEx_12년.png)
 
@@ -340,7 +324,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 
 → 1Q26 차입금 14,079억 (별도 환산 수치), 순차입금 6,116억, 순차입금비율 28.6%
 → 단기차입금 6,406백만원 / 장기차입금 720,229백만원 = 별도 기준 (사업보고서 2025)
-→ **신용등급 (v1.3 확정)**: **AA- (회사채), A1 (기업어음 CP), 안정적 전망** — 한국신용평가·NICE 공통 등급 (LS-electric Sustainability Report 2024-2025 직접 명시)
+→ **신용등급 (v1.2 확정)**: **AA- (회사채), A1 (기업어음 CP), 안정적 전망** — 한국신용평가·NICE 공통 등급 (LS-electric Sustainability Report 2024-2025 직접 명시)
 → **2024년 회사채 발행 1,000억 (예정) → 수요예측 4,300억 몰림 → 1,500억으로 증액 발행** = 채권시장 우량 등급 수요 강세 확인
 
 (6) 배당·자사주 — 12년 시계열
@@ -431,7 +415,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 → **이충희** (상무, **Americas사업본부장**) — 경북대 경영학
 → **하형철** (이사, 경영혁신실장 CDO/CIO) — 서울대 산업공학 석사
 
-→ **공동 회장 체제는 v1.3 잘못된 표기** (CSR Report 영문 표기상 "Chairman" 단일/공동 모호) → **v1.3 정정: 단일 대표이사 회장 구자균 + 사내이사 채대석·김종우·오재석 3명**
+→ **공동 회장 체제는 v1.2 잘못된 표기** (CSR Report 영문 표기상 "Chairman" 단일/공동 모호) → **v1.3 정정: 단일 대표이사 회장 구자균 + 사내이사 채대석·김종우·오재석 3명**
 
 ---
 
@@ -457,7 +441,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 
 → **2025년 R&D 1,580억 (정부보조금 차감 후 1,550억)** = FY24 1,413억 대비 **+11.8% 증가** → 2025년 매출 4.97조원 대비 3.2%
 → **R&D / 매출액 비율 변화**: 2023 3.5% → 2024 3.1% → 2025 3.2% = ratio dilution 완화 → 절대 금액 1,400→1,580억 가속 (FY25 +12% YoY)
-→ **v1.3 chart7 추정 vs v1.3 확정 비교**: 2025년 추정 1,100억 → 실제 1,580억 (+44% 상향). chart7 정확값으로 갱신 필요
+→ **v1.2 chart7 추정 vs v1.3 확정 비교**: 2025년 추정 1,100억 → 실제 1,580억 (+44% 상향). chart7 정확값으로 갱신 필요
 → **R&D 센터 (4개 거점)**:
   - R&D Campus (안양): 본사 통합 R&D
   - Electric Power R&D Center (청주): 전력기기 핵심
@@ -496,7 +480,7 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 → **빅테크 데이터센터 CAPEX 둔화 risk** — 현재 가속 중이나 사이클 전환 시 LS 매출 직접 영향
 → **소송·우발채무**: 해외수주 프로젝트 총계약원가 추정 변경 핵심감사사항 (감사인 삼정회계법인 지적, 2025 사업보고서)
 
-(5) ESG 등급 (v1.3 확정)
+(5) ESG 등급 (v1.2 확정)
 
 → **LS-electric Sustainability Report 2024-2025 발간** (170 페이지+ comprehensive report, English + Korean) — 매년 정기 발간
 → **ESG 전략 핵심**: 환경친화 GIS 170kV 50kA (g3 gas 사용 → SF6 대비 CO2 배출 -98%), Life Cycle Assessment (LCA) 도입, Digital Product Passport (DPP) 사전 연구
@@ -533,21 +517,21 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
 - **v1.3 (2026-05-18 16:30)**: **DART 본문 사업보고서 자동 fetch 완료** — 한국 기업 개요 작성 시 source 6종 전수 점검 룰 첫 적용
   - **breakthrough**: 사업보고서 본문은 \`/report/viewer.do?rcpNo=X&dcmNo=Y&eleId=Z&offset=A&length=B&dtd=dart4.xsd\` URL 패턴으로 section별 fetch 가능 — \`mcp__company-data__web_fetch\`로 자동화
   - **회사개요·주주·임원·연구개발·매출처 정확값 5개 섹션 자동 추출** (총 7.9M chars, 148 nodes 식별)
-  - **주주 정확값 갱신**: (주)LS 48.46% (v1.3 48.48% 추정 → 정확값), 자기주식 261,509주 (FY25말, 37,230주 처분 후)
+  - **주주 정확값 갱신**: (주)LS 48.46% (v1.2 48.48% 추정 → 정확값), 자기주식 261,509주 (FY25말, 37,230주 처분 후)
   - **임원 전체 명단 신규**: 사내이사 4명 + 사외이사 5명 + 미등기임원 30+명 (등기여부·임기·학력·담당업무 전체)
-  - **공동 회장 표기 정정**: v1.3 "구자균·채대석 공동 회장" → **v1.3 단일 대표이사 회장 구자균 + 사내이사 채대석·김종우·오재석 3명**
+  - **공동 회장 표기 정정**: v1.2 "구자균·채대석 공동 회장" → **v1.3 단일 대표이사 회장 구자균 + 사내이사 채대석·김종우·오재석 3명**
   - **5% 매출처 정확값**: A사 (FY25 22.62%) = **LS ELECTRIC AMERICA INC. (전력인프라 부문 31.2%)** — 미국 자회사 통한 빅테크·IOU 매출 통로
-  - **R&D 정확값 연결 기준**: FY25 1,580억 (+12% YoY, v1.3 추정 1,100억보다 +44%), FY24 1,413억, FY23 1,470억 — chart7 정확값 갱신
+  - **R&D 정확값 연결 기준**: FY25 1,580억 (+12% YoY, v1.2 추정 1,100억보다 +44%), FY24 1,413억, FY23 1,470억 — chart7 정확값 갱신
   - **신규 발견 주요계약**: 2025.11 4,598억 북미 IOU 신재생 초고압변압기, 2024.12 5,610억 동해안-동서울 HVDC, 2025.07 GE버노바 HVDC MOU
   - **직원수 갱신**: FY24말 3,372 → **FY25.12.31 3,482명** (별도, 평균 근속 16.0년, 1인 평균 급여 9,500만원)
   - 산출물 = **총 11개 차트** (chart3 미생성, v1.4)
 
-- **v1.3 (2026-05-18 14:30)**: 사업보고서 + Sustainability Report detail parsing 보강
+- **v1.2 (2026-05-18 14:30)**: 사업보고서 + Sustainability Report detail parsing 보강
   - **DART 사업보고서 13년치 현금흐름표 자동 parsing 완료** → chart6 (현금흐름 OCF·ICF·CFF 12년) + chart8 (CapEx 유형·무형 12년) 생성
   - **LS-electric Sustainability Report 2024-2025 자동 web_fetch parsing 완료** → chart7 (R&D 투자, 2022-2024 확정) + 신용등급 AA-/A1 확정 + 임직원 3,372명 확정 + 공동 회장 (구자균·채대석) 확정 + R&D 센터 4개 거점 확정 + 특허 449건 (FY24말 환경친화 분야) 확정
   - **chart5 주주 구성 (1Q26 기준)** 시각화 완료 — 5개 주주 구분 (LS 48.48% / 국민연금 8.79% / 외국인 21.87% / 자기주식 0.1% / 기타 20.76%)
   - 산출물 = **총 11개 차트** (chart 1, 1b, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12) — v4.8 표준 12종 중 chart3 (제품·서비스 매트릭스 visual)만 미생성
-  - **데이터 confidence 진척**: v1.1 50% 시계열·정성 텍스트 → **v1.3 75% 시계열·정량값 모두 확정**
+  - **데이터 confidence 진척**: v1.1 50% 시계열·정성 텍스트 → **v1.2 75% 시계열·정량값 모두 확정**
 
 - **v1.4 (예정)**: 마지막 미세 보강
   - chart3 (제품·서비스 매트릭스 visual) — 마지막 12종 표준 차트
@@ -559,11 +543,6 @@ const md = `> 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사
   - ✅ \`dart_download_reports\` (MCP) = DART 정기공시 (감사보고서 + 첨부 ZIP)
   - ✅ **\`mcp__company-data__web_fetch\` + DART /report/viewer.do = DART 본문 사업보고서 section별 자동 fetch (v1.3 신규 발견)**
   - ✅ \`web_fetch\` = LS-electric IR (한글 URL 패턴), LS-electric Sustainability Report (CSR/ESG), Yahoo Finance v8, 임의 URL
-  - ✅ pdfplumber·openpyxl = PDF·Excel parse (annual report 50개·IR PDF 20개·CSR Report 170페이지·DART 본문 7.9M chars 자동 처리)
-  - **수동 다운로드 불필요. 완전 자동화 인프라 가동 — BT 첨부 가정은 잘못된 default**
-  - **신규 발견 룰** (메모리 저장): "기업 개요 첫 작성 시 source 6종 전수 점검" (\`feedback_company_overview_source_audit.md\`)
-`;
+  - ✅ pdfplumber·openpyxl = PDF·Excel parse (annual report 50개·IR P`;
 document.getElementById('content').innerHTML = marked.parse(md);
-</script>
-</body>
-</html>
+</script></body></html>

@@ -499,3 +499,22 @@
 > **데이터 소스**: SEC EDGAR FY11~FY25 10-K (15개) + 10-Q (47분기), Yahoo Finance v8 (MU 20년), Gartner 2026.01 memory market report, IDC DRAM/NAND market share, Micron FY25 10-K Item 1·8 (Business + Financial Statements).
 > **연계 참조**: `earnings-review/2026-Q1_MU_리뷰.md` (FY26 Q2 실적 리뷰 v2), `earnings-followup/2026-Q2_MU_팔로업.md` (FY26 Q3 팔로업 v6).
 > **차트 13종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2_사업부별 (FY23~25 4 BU), chart2_제품별 (12년 DRAM/NAND), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
+
+## Long Timeseries 보강 — 58분기 (14.5년)
+
+Micron은 fiscal year 8월말 마감. FY12 Q1 = Sep 2011, FY26 Q2 = Feb 2026. SKILL.md 60+분기 표준 대비 58분기 (96%) 달성. FY11 (4분기) 분기별 디테일은 10-K Item 7 추가 parse로 보강 가능.
+
+![MU 58분기 매출·OPM (Q1FY12~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17~18, 2차 슈퍼사이클 FY21~22, AI HBM 폭증 FY25~)](charts/MU_chart10_long_58분기시계열.png)
+
+*MU 58분기 매출·OPM (Q1FY12~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17~18, 2차 슈퍼사이클 FY21~22, AI HBM 폭증 FY25~)*
+
+![DRAM vs NAND 58분기 — DRAM 비중 65% → 81% (HBM 폭증 효과)](charts/MU_chart2_long_제품별_58분기.png)
+
+*DRAM vs NAND 58분기 — DRAM 비중 65% → 81% (HBM 폭증 효과)*
+
+---
+
+## Version Log
+
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 (15년) 도달 보강. SEC 8-K 232개 batch 추가, IR 62개 + 10-K 15개. **chart10_long·chart2_long_제품별 58분기 시계열 신규** — Q1FY12~Q2FY26 풀 커버. 부족: 8-K transcript 다운로드 (Motley Fool 0) → SEC 8-K exhibit 또는 별도 source.**
+
