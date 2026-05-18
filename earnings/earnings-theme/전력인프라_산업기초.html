@@ -19,8 +19,7 @@
   .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);
        padding:3px 10px;border-radius:3px;letter-spacing:0.05em}
   h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
-  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);
-     padding-bottom:6px}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
   h3{font-size:16.5px;margin:22px 0 10px 0;color:var(--ink)}
   h4{font-size:14.5px;margin:18px 0 8px 0;color:var(--accent2)}
   .meta{color:var(--muted);font-size:12px;margin-top:6px}
@@ -36,8 +35,7 @@
   pre code{background:transparent;color:var(--ink)}
   ul,ol{padding-left:22px}
   li{margin:4px 0}
-  img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;
-       margin:14px 0;display:block}
+  img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;margin:14px 0;display:block}
   hr{border:none;border-top:1px solid var(--line);margin:28px 0}
   strong{color:var(--accent)}
   em{color:var(--accent2)}
@@ -686,6 +684,958 @@
 <li><strong>FERC Order 1920(2024)</strong> — 미국 송전망 장기 계획 의무화. 그리드 capex 확정.</li>
 </ul>
 <hr />
+<h1 id="2-framework">2단계. 주가 사이클 — 정량 framework</h1>
+<blockquote>
+<p>1단계가 시간축 narrative라면, 2단계는 사이클의 정량 패턴 framework. 전력 인프라는 자본재 산업의 정수(精髓) — 7~15년 장기 사이클이 명확.</p>
+</blockquote>
+<h2 id="19852026">통합 주가 차트 (1985~2026, 인플레 조정·로그 스케일)</h2>
+<p><img alt="Stock Cycle" src="전력인프라_산업기초_stock_cycle.png" /></p>
+<blockquote>
+<p>본 차트는 정성적 normalized index로 시대별 패턴을 보여주는 framework용. 정확한 종가 데이터는 Bloomberg·Refinitiv·CIQ 등에서 별도 확인 필요.</p>
+</blockquote>
+<h2 id="capex-19702030">글로벌 그리드 CapEx 사이클 (1970~2030)</h2>
+<p><img alt="CapEx Cycle" src="전력인프라_산업기초_capex_cycle.png" /></p>
+<p>자료: IEA "Electricity Grids and Secure Energy Transitions"(2023), "World Energy Investment 2025"</p>
+<h2 id="6">사이클 식별 — 6차례 확인된 대형 사이클</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>기간</th>
+<th>길이</th>
+<th>트리거</th>
+<th>Peak / Trough</th>
+<th>진폭 (메이저 종목)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1차</strong></td>
+<td>1880–1920</td>
+<td>~40년</td>
+<td>도시화·전기화</td>
+<td>Peak 1929 / Trough 1933 (대공황)</td>
+<td>-85% (GE)</td>
+</tr>
+<tr>
+<td><strong>2차</strong></td>
+<td>1920–1945</td>
+<td>~25년</td>
+<td>가전 보급·뉴딜·WWII</td>
+<td>Peak 1929 / Trough 1932 / Recov 1945</td>
+<td>-90% → 회복</td>
+</tr>
+<tr>
+<td><strong>3차</strong></td>
+<td>1945–1973</td>
+<td>~28년</td>
+<td>전후 산업화·원전 등장</td>
+<td>안정 성장 (낮은 변동성)</td>
+<td>+500% (28년)</td>
+</tr>
+<tr>
+<td><strong>4차</strong></td>
+<td>1973–1985</td>
+<td>~12년</td>
+<td>오일쇼크·원전 붐</td>
+<td>1979 TMI·1986 체르노빌이 정점 끊음</td>
+<td>메이저 +200% → 정체</td>
+</tr>
+<tr>
+<td><strong>5차</strong></td>
+<td>1985–2000</td>
+<td>~15년</td>
+<td>자유화·민영화·가스 터빈 H-class</td>
+<td>GE 잭 웰치 시대 30x</td>
+<td>GE +3,000%, ABB +1,000%</td>
+</tr>
+<tr>
+<td><strong>6차</strong></td>
+<td>2000–2010</td>
+<td>~10년</td>
+<td>BRICs·중국 WTO·인프라 폭발</td>
+<td>2007 정점 → 2008 위기</td>
+<td>메이저 +200~500% → -50%</td>
+</tr>
+<tr>
+<td>(정체기)</td>
+<td>2010–2020</td>
+<td>~10년</td>
+<td>셰일·재생E·후쿠시마, 메이저 분사</td>
+<td>GE 2018 다우 퇴출</td>
+<td>GE -90%, 기타 +/-20%</td>
+</tr>
+<tr>
+<td><strong>7차</strong></td>
+<td>2020–</td>
+<td>진행중</td>
+<td>AI·전기화·재생E·reshoring</td>
+<td>2026년 정점 진입 추정</td>
+<td>Siemens Energy +2,000%, GE Vernova +600% (2023~26)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="framework">사이클 패턴 framework — 정량 규칙</h2>
+<h3 id="_1">길이</h3>
+<ul>
+<li><strong>자본재 본 사이클</strong>: 평균 12~15년 (산업의 lead time과 capa 구축 사이클 길이가 결정).</li>
+<li><strong>단주기 (재고·매크로 변동)</strong>: 3~5년 (반도체 사이클과 유사).</li>
+<li><strong>장사이클 (기술 패러다임 전환)</strong>: 25~40년 (도시화 → 가전 → 원전 → 자유화 → BRICs → AI).</li>
+</ul>
+<h3 id="_2">진폭</h3>
+<ul>
+<li><strong>성장기</strong>: 메이저 종목 +200~500% (10년), 사이클 챔피언 +1,000~3,000% (15~20년 — GE 1981-2001, Siemens Energy 2023-26).</li>
+<li><strong>침체기</strong>: 메이저 -30~50%. 위기 종목 -75~95% (GE 2017-18, ABB 2002-04, Westinghouse 1995-99).</li>
+</ul>
+<h3 id="_3">구조조정 트리거</h3>
+<p>전력 인프라 사이클의 침체기는 항상 <strong>외부 충격 + 내부 capa 과잉</strong> 이중 트리거. 1979 TMI(원전 사고) + 1980s 원전 capa 과잉, 2008 리먼 + 2007 신흥국 capa 과잉, 2011 후쿠시마 + 2010s 가스화력 capa 과잉.</p>
+<h3 id="transition">사이클 transition 시점</h3>
+<p>각 사이클의 마지막 2~3년은 항상 <strong>다음 사이클의 기술 씨앗</strong>이 등장. 1971 Intel 4004(다음 사이클 IT/디지털 트리거의 씨앗), 1996 GE H-class(자유화 후 가스 IPP 모델), 2008 셰일가스(다음 정체기의 가스 발전 base), <strong>2022 ChatGPT</strong>(현재 7차 슈퍼사이클 트리거).</p>
+<h2 id="1-chunk">1단계 chunk와의 매핑 표</h2>
+<table>
+<thead>
+<tr>
+<th>Chunk</th>
+<th>사이클 매핑</th>
+<th>정점 트리거</th>
+<th>종결 트리거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1 (1880–1920)</td>
+<td>1차 사이클 (도시화)</td>
+<td>1907 도시화 가속</td>
+<td>1914 WWI·1929 대공황</td>
+</tr>
+<tr>
+<td>C2 (1920–1973)</td>
+<td>2~3차 사이클 (가전·전후)</td>
+<td>1945 종전 후 인프라 capex</td>
+<td>1973 오일쇼크</td>
+</tr>
+<tr>
+<td>C3 (1973–2000)</td>
+<td>4~5차 사이클 (원전→자유화)</td>
+<td>1979 원전 정점·1996 가스터빈</td>
+<td>1986 체르노빌·2000 닷컴</td>
+</tr>
+<tr>
+<td>C4 (2000–2010)</td>
+<td>6차 사이클 (신흥국)</td>
+<td>2007 BRICs 정점</td>
+<td>2008 리먼</td>
+</tr>
+<tr>
+<td>C5 (2010–2020)</td>
+<td>정체기</td>
+<td>2014 셰일·재생E</td>
+<td>2018 GE 위기·2020 코로나</td>
+</tr>
+<tr>
+<td>C6 (2020– )</td>
+<td><strong>7차 슈퍼사이클 (진행중)</strong></td>
+<td>2022 ChatGPT·2022 IRA</td>
+<td>(미정 — AI capex reset risk)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>결론</strong>: 전력 인프라 사이클은 <strong>반도체보다 길고, 자동차보다 깊다</strong>. 반도체 = 7~10년 + 깊은 침체(메모리 -60%). 전력 인프라 = 10~15년 + 자본재 특유의 큰 진폭(상단 +1,000%, 하단 -90% 가능). 단, capa 구축 lead time 7~10년 때문에 한번 들어선 사이클 방향은 쉽게 바뀌지 않는다 — 이 점이 반도체·전자보다 <strong>예측 가능성이 높은 본질적 특성</strong>.</p>
+</blockquote>
+<hr />
+<h1 id="3">3단계. 비즈니스 구조 + 밸류체인</h1>
+<blockquote>
+<p>산업 안에서 누가 어떤 역할로 어떤 가치를 창출하고 어떻게 돈을 버는가의 정량 분석. 단순 레이어 매핑이 아닌 BM·진입장벽·마진까지 풀어낸다.</p>
+</blockquote>
+<h2 id="5">5 레이어 밸류체인 매핑</h2>
+<pre><code>[업스트림 — 핵심 소재·부품]
+   ↓
+[미드스트림 — T&amp;D / 발전기기 / 배전·자동화]
+   ↓
+[다운스트림 — EPC / 유틸리티 / 산업 end-user]
+   ↓
+[그리드 SW·디지털 — overlay]
+   ↓
+[ESS·전력반도체 — 차세대 layer]
+</code></pre>
+<h2 id="bm">레이어별 BM·진입장벽·마진 정량 분석</h2>
+<table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>핵심 부품·서비스</th>
+<th>대표 기업</th>
+<th>BM</th>
+<th>Capabilities</th>
+<th>진입장벽</th>
+<th>영업이익률</th>
+<th>CapEx/매출</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>업스트림 1: GOES 강판</strong></td>
+<td>Grain-oriented electrical steel (변압기 코어 핵심)</td>
+<td>POSCO(005490.KS), Nippon Steel(5401.T), Thyssenkrupp(TKA.DE), Baowu, Cleveland-Cliffs(CLF)</td>
+<td>특수강 + 장기 공급 계약</td>
+<td>결정 배향 노하우(secondary recrystallisation)</td>
+<td>수십년 R&amp;D + 일관 제철소 (단일 산업 진입 불가)</td>
+<td>8~15%</td>
+<td>10~15%</td>
+</tr>
+<tr>
+<td><strong>업스트림 2: 절연유·SF6 가스·구리</strong></td>
+<td>변압기 절연·차단기 SF6·도체</td>
+<td>Air Liquide(AI.PA), Linde(LIN), Solvay, Glencore (구리)</td>
+<td>화학·가스·원자재</td>
+<td>글로벌 공급망</td>
+<td>화학 라이센스·자원 권리</td>
+<td>10~18%</td>
+<td>8~12%</td>
+</tr>
+<tr>
+<td><strong>미드스트림 1: 변압기·차단기·HVDC (T&amp;D)</strong></td>
+<td>Power transformer (대형 500kV+), GIS·AIS 차단기, HVDC converter</td>
+<td><strong>Hitachi Energy(8001.T 자회사)</strong>, <strong>Siemens Energy(ENR.DE)</strong>, <strong>GE Vernova(GEV)</strong>, <strong>효성중공업(298040.KS)</strong>, <strong>HD현대일렉트릭(267260.KS)</strong>, <strong>LS일렉트릭(010120.KS)</strong>, <strong>Mitsubishi Electric(6503.T)</strong>, <strong>TBEA(600089.SS)</strong>, <strong>Xian XD(601179.SS)</strong></td>
+<td>대형 자본재 + 장기 서비스</td>
+<td>50~100년 누적 know-how, 글로벌 인증(IEEE·IEC)</td>
+<td>7~10년 capa 구축 lead time, 인증 5년+, 신뢰성 데이터 30년+</td>
+<td><strong>12~25%</strong> (lead time 길수록 ↑)</td>
+<td>5~8%</td>
+</tr>
+<tr>
+<td><strong>미드스트림 2: 발전 터빈</strong></td>
+<td>Heavy-duty gas turbine (200MW+), steam turbine, wind turbine</td>
+<td><strong>GE Vernova(GEV)</strong>, <strong>Siemens Energy(ENR.DE)</strong>, <strong>Mitsubishi Heavy Industries(7011.T)</strong> = <strong>글로벌 3사 ~72% 과점</strong> + Ansaldo·Doosan Enerbility</td>
+<td>대형 OEM + 30년 서비스 계약 (서비스가 매출의 50%+)</td>
+<td>가스터빈 ε(efficiency) &gt;60%, 항공우주급 야금</td>
+<td>R&amp;D 누적 $10B+, 신뢰성 30년 입증 데이터</td>
+<td><strong>15~25%</strong> (서비스 OPM 30%+)</td>
+<td>4~6%</td>
+</tr>
+<tr>
+<td><strong>미드스트림 3: 풍력 터빈</strong></td>
+<td>Onshore·offshore wind turbine</td>
+<td>Vestas(VWS.CO), Siemens Gamesa (Siemens Energy 산하), GE Vernova, 골드윈드(2208.HK), 시노마(0316.HK), Mingyang(601615.SS)</td>
+<td>OEM + LTSA</td>
+<td>블레이드·기어박스</td>
+<td>중국 빅3가 가격으로 도태시킨 시장</td>
+<td><strong>-5% ~ +5%</strong> (난항)</td>
+<td>8~12%</td>
+</tr>
+<tr>
+<td><strong>미드스트림 4: 배전·MV/LV 스위치기어·자동화</strong></td>
+<td>Switchgear (저·중압), motor control, drives, UPS, building automation</td>
+<td><strong>Schneider Electric(SU.PA)</strong>, <strong>Eaton(ETN)</strong>, <strong>ABB(ABBN.SW)</strong>, <strong>Siemens AG(SIE.DE)</strong> = <strong>4강 과점</strong> + Mitsubishi Electric, Rockwell(ROK), Honeywell(HON), Legrand(LR.PA)</td>
+<td>OEM + 채널 + SW</td>
+<td>광범위 SKU + 글로벌 서비스망</td>
+<td>1,000개+ 인증 + 거대 채널망</td>
+<td><strong>15~22%</strong></td>
+<td>4~6%</td>
+</tr>
+<tr>
+<td><strong>미드스트림 5: 전동기·모터·드라이브</strong></td>
+<td>산업용 모터, VFD(가변속드라이브), 로봇</td>
+<td><strong>ABB</strong>, <strong>Siemens AG</strong>, Nidec, WEG</td>
+<td>OEM + 효율 솔루션</td>
+<td>효율 IE5·자기 회로</td>
+<td>광범위 spec·인증</td>
+<td>13~20%</td>
+<td>4~6%</td>
+</tr>
+<tr>
+<td><strong>다운스트림 1: EPC</strong></td>
+<td>발전소·변전소 시공</td>
+<td>Bechtel, Fluor, 현대건설(000720.KS), 삼성E&amp;A(028050.KS), Saipem</td>
+<td>Project EPC</td>
+<td>대규모 프로젝트 관리</td>
+<td>트랙 레코드·금융 능력</td>
+<td><strong>3~7%</strong> (변동성 큼)</td>
+<td>1~3%</td>
+</tr>
+<tr>
+<td><strong>다운스트림 2: 유틸리티</strong></td>
+<td>전기 생산·판매·송배전 운영</td>
+<td>NextEra(NEE), Duke(DUK), EDF, Iberdrola(IBE.MC), 한전(015760.KS)</td>
+<td>Regulated rate base + IPP</td>
+<td>운영·자산</td>
+<td>규제 면허 + 지역 독점</td>
+<td>8~14% (ROE 8~11%)</td>
+<td>매출의 50%+</td>
+</tr>
+<tr>
+<td><strong>그리드 SW·디지털</strong></td>
+<td>DERMS·EMS·grid analytics·EV 충전 SW</td>
+<td>Schneider EcoStruxure, Siemens Spectrum Power, GE GridOS, Itron, <strong>Bidgely</strong>·<strong>AutoGrid</strong></td>
+<td>SaaS + project</td>
+<td>SW + grid know-how 결합</td>
+<td>신산업, 진입장벽 낮음</td>
+<td><strong>25~35%</strong> (SaaS)</td>
+<td>1~2%</td>
+</tr>
+<tr>
+<td><strong>차세대 1: ESS</strong></td>
+<td>Lithium-ion BESS, flow battery</td>
+<td>Tesla Megapack(TSLA), Fluence(FLNC), LG에너지솔루션(373220.KS), CATL(300750.SZ), Sungrow(300274.SZ)</td>
+<td>시스템 + 셀</td>
+<td>셀 + EMS + 안전</td>
+<td>셀 메이커 의존</td>
+<td>5~12%</td>
+<td>8~15%</td>
+</tr>
+<tr>
+<td><strong>차세대 2: 전력반도체 (SiC·GaN)</strong></td>
+<td>인버터·UPS·EV용 SiC</td>
+<td>Wolfspeed(WOLF), Infineon(IFX.DE), ON Semi(ON), STMicro(STM), Mitsubishi Electric, Rohm(6963.T)</td>
+<td>반도체 IDM</td>
+<td>wafer + 패키지</td>
+<td>반도체 fab 자본</td>
+<td>18~30% (호황)</td>
+<td>20%+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bm_1">BM 분석 — 산업의 구조가 어떻게 굳어졌는가</h2>
+<h3 id="1">1) 자본집약도 ≠ 마진 분리 구조</h3>
+<p>자본집약도(CapEx/매출)는 GOES 강판(10~15%)·풍력(8~12%)이 변압기·터빈 OEM(5~8%·4~6%)보다 높지만, <strong>마진은 거꾸로</strong>. 이유: GOES·풍력은 commodity화된 부품(가격경쟁), 변압기·터빈은 <strong>장기 lead time + 신뢰성 인증 + 서비스 매출</strong>(30년 LTSA)로 가격결정권 보유.</p>
+<h3 id="2-lead-time">2) Lead time이 곧 해자</h3>
+<p>대형 변압기 lead time 2.8~4년(2025). 한번 발주를 받으면 7년치 일감 예약(=ARPC 50배 수준의 미래 매출 lock-in). 이 lead time이 신규 진입자에게는 <strong>죽음의 골짜기</strong>. 효성중공업·HD현대일렉트릭·LS일렉트릭이 빅3에 도전 가능한 이유 = 1970년대부터 50년 누적된 한국 변압기 산업 기반. 신규 진입자는 똑같이 50년 기다려야 함.</p>
+<h3 id="3_1">3) 서비스 매출이 진짜 본진</h3>
+<p>가스 터빈은 OEM 매출 50% + 서비스 30% + 부품 20% 구조. 서비스 매출은 25~35년 LTSA(Long-Term Service Agreement)로 OPM 30%+. 이 때문에 GE Vernova·Siemens Energy·MHI 3사가 50년+ 누적 install base를 무기로 신규 진입자 차단.</p>
+<h3 id="4-ge">4) GE의 분사·전문화가 본질을 보여줌</h3>
+<p>2024년 GE가 GE Aerospace·GE Vernova·GE HealthCare 3사로 분사한 이유 = 종합 자본재 모델의 시대적 종결. <strong>각 사업의 자본 사이클·고객 사이클이 너무 달라</strong> 한 회사에 있으면 디스카운트. 시장이 이를 정확히 인식 — 2023년 분사 발표 후 GE Aerospace·GEV·GEHC 합산 시총이 분사 전 GE 시총의 3배.</p>
+<h2 id="_4">한국 기업의 밸류체인 위치 + 테마 직접성</h2>
+<table>
+<thead>
+<tr>
+<th>한국 기업</th>
+<th>주력 레이어</th>
+<th>글로벌 위치</th>
+<th>메가 트렌드 직접성</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>효성중공업</strong> (298040.KS)</td>
+<td>미드 1 (대형 변압기 — 765kV)</td>
+<td><strong>미국 765kV M/S 1위</strong> (멤피스 공장)</td>
+<td><strong>높음</strong></td>
+<td>AI DC + 트럼프 'Made in USA' 양수 동시 수혜</td>
+</tr>
+<tr>
+<td><strong>HD현대일렉트릭</strong> (267260.KS)</td>
+<td>미드 1 (변압기·중전기)</td>
+<td><strong>미국 고압 변압기 15~20%</strong></td>
+<td><strong>높음</strong></td>
+<td>OPM 20%+ 가격결정권. 북미 누적 수주 $1.9B</td>
+</tr>
+<tr>
+<td><strong>LS일렉트릭</strong> (010120.KS)</td>
+<td>미드 4 + 차세대 1 (배전·자동화·ESS)</td>
+<td>한국 1위, 미국 텍사스 공장 신설</td>
+<td><strong>높음</strong></td>
+<td>AI 데이터센터 배전기기 + ESS 양수</td>
+</tr>
+<tr>
+<td><strong>두산에너빌리티</strong> (034020.KS)</td>
+<td>미드 2 (가스 터빈)</td>
+<td>글로벌 4위 추정 (한국 표준원전 + 가스터빈)</td>
+<td>중간</td>
+<td>빅3 과점에 도전, 원전 SMR 양수</td>
+</tr>
+<tr>
+<td><strong>POSCO</strong> (005490.KS)</td>
+<td>업스트림 1 (GOES 강판)</td>
+<td>글로벌 빅5</td>
+<td><strong>높음</strong></td>
+<td>변압기 코어 핵심 소재</td>
+</tr>
+<tr>
+<td><strong>LG에너지솔루션</strong> (373220.KS)</td>
+<td>차세대 1 (BESS)</td>
+<td>글로벌 빅3 (셀)</td>
+<td><strong>높음</strong></td>
+<td>데이터센터·유틸리티 ESS</td>
+</tr>
+<tr>
+<td><strong>삼성E&amp;A</strong> (028050.KS)</td>
+<td>다운 1 (EPC)</td>
+<td>중동 강자</td>
+<td>중간</td>
+<td>발전·플랜트 EPC. 산업 메가 사이클의 후행 수혜</td>
+</tr>
+<tr>
+<td><strong>현대건설</strong> (000720.KS)</td>
+<td>다운 1 (EPC + 원전)</td>
+<td>한국 원전 EPC 1위</td>
+<td>중간</td>
+<td>원전 르네상스 수혜</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>한국 빅3 (효성중·HD현대일렉·LS일렉) 종합 평가</strong>: 미드 1 변압기에 70%+ 매출 집중 → 메가 트렌드 직접성 가장 높음. 미국 시장 의존도 30~50%·POSCO GOES 공급 안정·트럼프 'Made in USA' 정책 회피(멤피스·텍사스 공장)로 <strong>글로벌 빅3와 차별화된 정책 리스크 헷지</strong>. 단, 가스 터빈·HVDC 종합 솔루션은 빅3 독점 영역으로 진입 불가.</p>
+</blockquote>
+<hr />
+<h1 id="4-snapshot">4단계. 공급 구조 점검 — 현재 정량 snapshot</h1>
+<blockquote>
+<p>본 단계는 변압기·발전기기·배전을 핵심으로 산업의 현재 공급 구조를 정량으로 진단. 5단계 수요 점검과 묶여 4+5 종합 결론으로 이어진다.</p>
+</blockquote>
+<h2 id="_5">글로벌 변압기 + 가스 터빈 시장 점유율</h2>
+<p><img alt="Market Share 2025E" src="전력인프라_산업기초_market_share.png" /></p>
+<h2 id="lead-time-20192026">미국 변압기 lead time + 가격 추이 (2019~2026)</h2>
+<p><img alt="Lead time" src="전력인프라_산업기초_leadtime.png" /></p>
+<p>자료: pv magazine USA, Industrial Sage, Power Magazine, Wood Mackenzie (2025).</p>
+<h2 id="4-1-10633">4-1. 구조조정 이력 — 빅10→빅6+한국3+중국3 체제로</h2>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>구조조정 이벤트</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1988</strong></td>
+<td>ASEA + BBC 합병 → ABB</td>
+<td>유럽 빅2(BBC·ASEA)가 1개사로 통합. 매출 $15B 거대 메이커 출현</td>
+</tr>
+<tr>
+<td><strong>1995~99</strong></td>
+<td>Westinghouse 해체 — 가전(Black &amp; Decker)·금융·CBS 다각화 실패 → 1998 가스 터빈 사업 Siemens 매각·1999 원자력 BNFL 매각 (후일 2006 도시바로 매각)</td>
+<td>미국 빅2(GE·WH) → GE 단독 패권</td>
+</tr>
+<tr>
+<td><strong>2002~04</strong></td>
+<td>ABB 석면 소송 — 미국 자회사 Combustion Engineering 책임 → 거의 도산 → 자산 매각</td>
+<td>비핵심 사업 매각하며 회생</td>
+</tr>
+<tr>
+<td><strong>2017~22</strong></td>
+<td>Toshiba Westinghouse 부실 → 도시바 그룹 위기 → 2018 캐나다 Brookfield에 WH 매각</td>
+<td>일본 패권 약화 가속</td>
+</tr>
+<tr>
+<td><strong>2020</strong></td>
+<td>Siemens Energy 분사 (Siemens AG에서 분리 상장)</td>
+<td>발전·송전 사업 전문 회사로 분리</td>
+</tr>
+<tr>
+<td><strong>2020</strong></td>
+<td>ABB Power Grids → Hitachi에 80% 매각 → 2022 Hitachi Energy 사명 변경</td>
+<td>T&amp;D 패권의 동방 이전</td>
+</tr>
+<tr>
+<td><strong>2023~24</strong></td>
+<td>GE 3사 분사 (GE Aerospace·<strong>GE Vernova</strong>·GE HealthCare)</td>
+<td>100년 종합 자본재 모델 종결</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1990 시점 글로벌 대형 전력기기 회사 ~30사 → 2025 시점 빅 12사</strong>:
+- <strong>글로벌 빅6</strong>: Hitachi Energy, Siemens Energy, GE Vernova, Schneider Electric, Eaton, Mitsubishi Electric/MHI
+- <strong>한국 빅3</strong>: 효성중공업, HD현대일렉트릭, LS일렉트릭
+- <strong>중국 빅3</strong>: TBEA, Xian XD Electric, NR Electric</p>
+<h2 id="4-2-cr3-hhi">4-2. 공급 집중도 — 변압기 CR3 / HHI</h2>
+<h3 id="2025e">글로벌 변압기 (2025E)</h3>
+<table>
+<thead>
+<tr>
+<th>기업</th>
+<th>M/S (글로벌)</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hitachi Energy</td>
+<td>18%</td>
+<td>T&amp;D 글로벌 1위 (구 ABB Power Grids)</td>
+</tr>
+<tr>
+<td>Siemens Energy</td>
+<td>14%</td>
+<td>변압기·HVDC</td>
+</tr>
+<tr>
+<td>GE Vernova</td>
+<td>13%</td>
+<td>북미 강세</td>
+</tr>
+<tr>
+<td>Mitsubishi Electric</td>
+<td>8%</td>
+<td>일본 + 아시아</td>
+</tr>
+<tr>
+<td><strong>CR3 (Hitachi·Siemens·GE)</strong></td>
+<td><strong>~45%</strong></td>
+<td>(1990 시점 CR3는 ~25% 추정)</td>
+</tr>
+<tr>
+<td>HD현대일렉트릭</td>
+<td>6%</td>
+<td>미국 고압 15~20% 별도</td>
+</tr>
+<tr>
+<td>효성중공업</td>
+<td>5%</td>
+<td>미국 765kV 1위</td>
+</tr>
+<tr>
+<td>LS일렉트릭</td>
+<td>3%</td>
+<td>배전 중심</td>
+</tr>
+<tr>
+<td><strong>한국 빅3 합산</strong></td>
+<td><strong>14%</strong></td>
+<td>미국 변압기 수입의 30%+ 한국産</td>
+</tr>
+<tr>
+<td>중국 빅3 (TBEA·XD·NR)</td>
+<td>12%</td>
+<td>아시아·중남미·중앙아 진출</td>
+</tr>
+<tr>
+<td>기타</td>
+<td>21%</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>CR3 변화</strong>: 1990년 ~25% → 2025년 ~45% (글로벌). 단, 지역별 편차 큼: <strong>미국 765kV 변압기는 효성중공업 단독 1위</strong> — 멤피스가 미국 내 유일한 765kV 생산 공장.</p>
+<p><strong>HHI (Herfindahl-Hirschman Index)</strong>: 변압기 글로벌 ~750 (moderate concentration). 1990 ~250 (low concentration). 가스 터빈 ~2,000+ (high concentration — 빅3 과점).</p>
+<h3 id="heavy-duty-2025e">가스 터빈 (Heavy-Duty 2025E)</h3>
+<table>
+<thead>
+<tr>
+<th>기업</th>
+<th>M/S</th>
+<th>출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GE Vernova</td>
+<td>30~34%</td>
+<td>본인 자료 (글로벌 25–30% in heavy-duty)</td>
+</tr>
+<tr>
+<td>Siemens Energy</td>
+<td>24%</td>
+<td>GE 대비 0.7배</td>
+</tr>
+<tr>
+<td>Mitsubishi Power (MHI)</td>
+<td>14%</td>
+<td>2028년까지 sold-out</td>
+</tr>
+<tr>
+<td>Ansaldo Energia</td>
+<td>5%</td>
+<td>이탈리아</td>
+</tr>
+<tr>
+<td>Doosan Enerbility</td>
+<td>4%</td>
+<td>한국</td>
+</tr>
+<tr>
+<td>기타</td>
+<td>~21%</td>
+<td>중국·러시아</td>
+</tr>
+<tr>
+<td><strong>CR3</strong></td>
+<td><strong>~72%</strong></td>
+<td>글로벌 빅3 독점</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hvdc-converter-station-2025e">HVDC (Converter Station 2025E)</h3>
+<table>
+<thead>
+<tr>
+<th>기업</th>
+<th>M/S</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hitachi Energy</td>
+<td>25%</td>
+</tr>
+<tr>
+<td>Siemens Energy</td>
+<td>22%</td>
+</tr>
+<tr>
+<td>GE Vernova</td>
+<td>15%</td>
+</tr>
+<tr>
+<td><strong>CR3 (서방 빅3)</strong></td>
+<td><strong>62%</strong> (2025 order intake)</td>
+</tr>
+<tr>
+<td>중국 빅3 (NR Electric·C-EPRI·Xian XD)</td>
+<td>30~35% (중국 + 신흥국, 가격 20~30% 할인)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-3">4-3. 가격결정력 변화</h2>
+<h3 id="2019100">변압기 도매가 추이 (미국 시장 기준, 2019=100)</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>Price Index</th>
+<th>YoY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2019</td>
+<td>100</td>
+<td>-</td>
+</tr>
+<tr>
+<td>2020</td>
+<td>102</td>
+<td>+2%</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>108</td>
+<td>+6%</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>130</td>
+<td>+20%</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>155</td>
+<td>+19%</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>175</td>
+<td>+13%</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>190</td>
+<td>+9%</td>
+</tr>
+<tr>
+<td>2026E</td>
+<td>200</td>
+<td>+5%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>6년 누적 +100%</strong>. 2023~24년 매년 +13~19% — <strong>자본재로는 매우 이례적인 인플레이션 (반도체 메모리 호황기 ASP +30~50%에 가까운 수준)</strong>.</p>
+<h3 id="lead-time-20192026_1">Lead time 폭증 (2019~2026)</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>2019</th>
+<th>2025</th>
+<th>2026E</th>
+<th>증가율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>표준 변압기 (power transformer)</td>
+<td>50주</td>
+<td>128주</td>
+<td>144주</td>
+<td><strong>+188%</strong></td>
+</tr>
+<tr>
+<td>GSU (generator step-up)</td>
+<td>60주</td>
+<td>144주</td>
+<td>200주</td>
+<td><strong>+233%</strong></td>
+</tr>
+<tr>
+<td>대형 765kV 변압기</td>
+<td>80주</td>
+<td>200주</td>
+<td>240주</td>
+<td>+200%</td>
+</tr>
+</tbody>
+</table>
+<p>자료: pv magazine USA(2026.5.11), Wood Mackenzie. 정상 lead time = 12개월(52주). 2026년 = <strong>2.8~4년 lead time</strong> = 자본재 산업 역대 최장 수준.</p>
+<h2 id="4-4">4-4. 진입장벽 변화</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>1990</th>
+<th>2025</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 대형 전력기기 회사 수</td>
+<td>~30사</td>
+<td>12사</td>
+</tr>
+<tr>
+<td>CR3 (변압기)</td>
+<td>~25%</td>
+<td>~45%</td>
+</tr>
+<tr>
+<td>변압기 CapEx/매출</td>
+<td>4%</td>
+<td>6~8%</td>
+</tr>
+<tr>
+<td>신규 변압기 공장 건설 lead time</td>
+<td>18개월</td>
+<td>30~36개월 (공장 신축+인증 5년)</td>
+</tr>
+<tr>
+<td>765kV 생산 가능 회사 수 (글로벌)</td>
+<td>7~8사</td>
+<td><strong>5~6사</strong> (한국 효성중·HD현대일렉·일본 빅3·유럽 일부)</td>
+</tr>
+<tr>
+<td>GOES 강판 생산 가능 회사 수</td>
+<td>~15사</td>
+<td><strong>6사</strong> (Nippon Steel·POSCO·Thyssenkrupp·Baowu·Cleveland-Cliffs·SAIL)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>결론 (4단계)</strong>: 글로벌 전력기기 산업은 <strong>30년에 걸쳐 약자 도태·합병으로 빅 12사 체제로 수렴</strong> — CR3 25% → 45%. 미국 시장은 특수 (한국 빅3 + 멕시코 의존) — 미국 변압기 시장의 <strong>80%가 수입품</strong>, 그 중 한국이 30%+. GSU·HVDC 등 특수 영역은 더 과점화 (서방 빅3 ~60%). 진입장벽이 30년간 구조적으로 강화 — capa 구축 lead time 7~10년·인증 5년+·GOES 강판 6사 과점 등 3중 장벽.</p>
+</blockquote>
+<hr />
+<h1 id="5-snapshot">5단계. 수요 구조 점검 — 현재 정량 snapshot</h1>
+<blockquote>
+<p>4단계 공급 점검의 대칭 단계. 본 단계 fact가 4단계와 묶여 6 카테고리 매트릭스의 정량 input.</p>
+</blockquote>
+<h2 id="5-1-b2b-vs-b2c">5-1. 수요처 구성 (B2B vs B2C + 산업·지역)</h2>
+<h3 id="b2b-vs-b2c">B2B vs B2C</h3>
+<p><strong>B2B 95%+</strong> — 거의 모든 매출이 유틸리티·산업·EPC 발주. B2C 비중 미미(가정용 분전반·인버터 일부).</p>
+<h3 id="2025e_1">수요처 산업 구성 (2025E)</h3>
+<table>
+<thead>
+<tr>
+<th>수요처</th>
+<th>비중</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>유틸리티 / 그리드 운영</strong></td>
+<td>50%</td>
+<td>전 세계 송배전 신규·교체 수요</td>
+</tr>
+<tr>
+<td><strong>산업·자동화</strong></td>
+<td>20%</td>
+<td>제조업·광산·정유·화학</td>
+</tr>
+<tr>
+<td><strong>데이터센터 (AI + 일반)</strong></td>
+<td>12%</td>
+<td>2020년 4% → 2025년 12% (3배)</td>
+</tr>
+<tr>
+<td><strong>재생에너지 통합</strong></td>
+<td>8%</td>
+<td>풍력·태양광 그리드 연결</td>
+</tr>
+<tr>
+<td><strong>EV 충전 인프라</strong></td>
+<td>5%</td>
+<td>빠른 성장</td>
+</tr>
+<tr>
+<td><strong>상업·주거 빌딩 자동화</strong></td>
+<td>5%</td>
+<td>Schneider·Honeywell 강세</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capex-2025e">지역 구성 (글로벌 그리드 capex 기준, 2025E)</h3>
+<table>
+<thead>
+<tr>
+<th>지역</th>
+<th>비중</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>중국</strong></td>
+<td>35%</td>
+<td>단일 국가로는 압도적 1위</td>
+</tr>
+<tr>
+<td><strong>미국·캐나다</strong></td>
+<td>25%</td>
+<td>IRA + AI DC + 트럼프 reshoring</td>
+</tr>
+<tr>
+<td><strong>유럽 (서·동)</strong></td>
+<td>18%</td>
+<td>EU Green Deal + REPowerEU</td>
+</tr>
+<tr>
+<td><strong>인도</strong></td>
+<td>8%</td>
+<td>가장 빠른 성장 (전력 수요 CAGR 6.4%)</td>
+</tr>
+<tr>
+<td><strong>중동</strong></td>
+<td>5%</td>
+<td>사우디 비전 2030 등</td>
+</tr>
+<tr>
+<td><strong>기타</strong></td>
+<td>9%</td>
+<td>동남아·중남미·아프리카</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-2">5-2. 수요 집중도 — 상위 고객 비중</h2>
+<h3 id="b2b-hd">B2B 변압기 메이커의 상위 고객 (예시: HD현대일렉트릭)</h3>
+<ul>
+<li>미국 5대 유틸리티 (PG&amp;E·Duke·NextEra·Southern·Dominion) 합산 매출 <strong>15~25%</strong></li>
+<li>상위 10대 고객 합산 <strong>35~40%</strong></li>
+<li>데이터센터 (Hyperscaler 5: Microsoft·Google·AWS·Meta·Oracle) 직접·간접 매출 <strong>15~20%</strong> (2020년 5% 이하에서 폭증)</li>
+</ul>
+<p>전형적 capa 부족 시장 — 메이커가 고객을 선택하는 구조. 가격결정권 확보.</p>
+<h2 id="5-3">5-3. 수요 사이클 위치 — 슈퍼사이클 초·중반</h2>
+<h3 id="_6">장기 트렌드</h3>
+<p>글로벌 전력 수요 1990~2010 CAGR ~3.0% → 2010~2020 CAGR ~2.0% → <strong>2025~2030 CAGR 3.6%</strong> (IEA 전망, "지난 10년 평균의 1.5배").</p>
+<h3 id="_7">단기 사이클 위치</h3>
+<p>7차 슈퍼사이클 (2020~) — 4년차. 정점은 2027~2030년 추정. 사이클 길이 10~15년 기준 2030~2035년까지 호황 가능.</p>
+<h3 id="_8">사이클 주기 길이</h3>
+<p>자본재 본 사이클 12~15년. 현재 4년차 = <strong>사이클 초·중반</strong>. capa 확장 lead time이 7~10년이라 2027~2030년까지는 수급 타이트 지속.</p>
+<h2 id="5-4">5-4. 메가 트렌드 수요 비중</h2>
+<table>
+<thead>
+<tr>
+<th>메가 트렌드</th>
+<th>2020 비중</th>
+<th>2025E 비중</th>
+<th>2030E 비중</th>
+<th>수요 driver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 데이터센터</strong></td>
+<td>1%</td>
+<td>8%</td>
+<td>15~20%</td>
+<td>LLM 학습·추론 폭증, GPU 1대 = 가정 200가구분 전력</td>
+</tr>
+<tr>
+<td><strong>일반 데이터센터</strong></td>
+<td>3%</td>
+<td>4%</td>
+<td>5%</td>
+<td>클라우드 일반 워크로드</td>
+</tr>
+<tr>
+<td><strong>EV 충전 인프라</strong></td>
+<td>1%</td>
+<td>5%</td>
+<td>10%</td>
+<td>글로벌 EV 보급률 6% → 20%</td>
+</tr>
+<tr>
+<td><strong>재생E 통합</strong></td>
+<td>5%</td>
+<td>8%</td>
+<td>12%</td>
+<td>풍력·태양광 그리드 연결, 그리드 안정화</td>
+</tr>
+<tr>
+<td><strong>노후 그리드 교체</strong></td>
+<td>25%</td>
+<td>20%</td>
+<td>15%</td>
+<td>미국·유럽 50년 노후 인프라 교체</td>
+</tr>
+<tr>
+<td><strong>신흥국 산업화</strong></td>
+<td>25%</td>
+<td>18%</td>
+<td>15%</td>
+<td>인도·동남아·아프리카</td>
+</tr>
+<tr>
+<td><strong>기타 (산업 reshoring 등)</strong></td>
+<td>40%</td>
+<td>37%</td>
+<td>23%</td>
+<td>IRA·CHIPS Act</td>
+</tr>
+</tbody>
+</table>
+<p><strong>메가 트렌드 직접 수혜 비중 (AI DC + EV + 재생E)</strong> = 2020년 7% → 2025년 21% → 2030E 37~42%. <strong>3배 증가</strong>.</p>
+<h2 id="5-5">5-5. 대체재·보완재</h2>
+<h3 id="_9">대체재 (위협)</h3>
+<p>거의 없음. 전력은 모든 에너지의 종착점 — 1차 에너지(석탄·가스·원전·풍력·태양광)가 무엇이든 결국 전력으로 변환되어 그리드를 거친다. <strong>대체 가능한 것은 발전원(generation mix)이지 변압기·차단기 자체가 아님</strong>.</p>
+<h3 id="_10">보완재 (성장)</h3>
+<ul>
+<li><strong>ESS</strong> (BESS) — 풍력·태양광 출력 변동성 흡수. 변압기·차단기 추가 수요 동반.</li>
+<li><strong>AI 그리드 SW</strong> — DERMS·EMS — 그리드 운영 효율화. 변압기·차단기 신규 발주 보조.</li>
+<li><strong>HVDC + 해상풍력</strong> — 신재생 통합 시 HVDC 컨버터 추가 수요.</li>
+</ul>
+<h2 id="5-6">5-6. 가격탄력성</h2>
+<p><strong>매우 낮음 — 사회 인프라 + 자본재.</strong> 변압기 가격이 +50% 올라도 유틸리티는 발주를 멈출 수 없음 (대정전 위험). 2023~25년 변압기 가격 +60% 올랐음에도 lead time이 줄지 않은 것 = 가격탄력성 0에 가까운 증거. <strong>메이커 입장에서 P+Q 동시 상승 환경</strong>.</p>
+<h2 id="5-7-driver-20252030-iea-base-case">5-7. 수요 driver 분해 (2025~2030, IEA Base Case)</h2>
+<table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>2025~2030 누적 기여도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 데이터센터</td>
+<td>25%</td>
+<td>미국 데이터센터 전력 +130% by 2030</td>
+</tr>
+<tr>
+<td>EV 충전</td>
+<td>20%</td>
+<td>글로벌 EV 4배+, 전력 수요 +780 TWh</td>
+</tr>
+<tr>
+<td>재생E 통합 (풍력·태양광)</td>
+<td>18%</td>
+<td>그리드 연결 + ESS</td>
+</tr>
+<tr>
+<td>산업 reshorin</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </main>
 </body>
 </html>
