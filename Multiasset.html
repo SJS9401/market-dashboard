@@ -231,6 +231,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <span class="ctrl-label" style="margin-left:12px;">주기:</span>
     <button class="ctrl-btn active" id="v1-daily" onclick="setV1Interval('daily')">일봉</button>
     <button class="ctrl-btn" id="v1-weekly" onclick="setV1Interval('weekly')">주봉</button>
+    <button class="ctrl-btn" id="v1-monthly" onclick="setV1Interval('monthly')">월봉</button>
   </div>
   <div class="main">
     <div class="chart-info">
@@ -323,6 +324,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <span class="ctrl-label" style="margin-left:12px;">주기:</span>
     <button class="ctrl-btn active" id="v2-daily" onclick="setV2Interval('daily')">일봉</button>
     <button class="ctrl-btn" id="v2-weekly" onclick="setV2Interval('weekly')">주봉</button>
+    <button class="ctrl-btn" id="v2-monthly" onclick="setV2Interval('monthly')">월봉</button>
     <button class="expand-btn" id="v2-expand" onclick="toggleExpand()">전체차트 보기</button>
   </div>
   <div class="main">
@@ -1042,6 +1044,28 @@ function toWeekly(raw) {
   }
   if (week) weeks.push(week);
   return weeks;
+}
+function toMonthly(raw) {
+  if (!raw || !raw.length) return [];
+  const months = [];
+  let m = null;
+  for (const r of raw) {
+    const d = parseDate(r[0]);
+    const monKey = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2, '0');
+    if (!m || m.key !== monKey) {
+      if (m) months.push(m);
+      const first = new Date(d.getFullYear(), d.getMonth(), 1);
+      m = { key: monKey, x: first.getTime(), y: r[4], o: r[1], h: r[2], l: r[3], c: r[4], v: r[5] || 0 };
+    } else {
+      m.h = Math.max(m.h, r[2]);
+      m.l = Math.min(m.l, r[3]);
+      m.c = r[4];
+      m.y = r[4];
+      m.v += (r[5] || 0);
+    }
+  }
+  if (m) months.push(m);
+  return months;
 }
 function computeMA(data, period) {
   const out = [];
@@ -2621,7 +2645,7 @@ function selectMaButton(view, event) {
   // chart-badge 동적 업데이트 (주봉/일봉)
   const intervalForView = view === 'v1' ? v1Interval : v2Interval;
   const badgeEl = document.querySelector('#view-' + view + ' .chart-badge');
-  if (badgeEl) badgeEl.textContent = intervalForView === 'daily' ? '일봉' : '주봉';
+  if (badgeEl) badgeEl.textContent = intervalForView === 'monthly' ? '월봉' : (intervalForView === 'weekly' ? '주봉' : '일봉');
   if (metaEl) {
     const acMeta = MA_ASSET_CLASS[event.ac];
     const statusHTML = hasData ? '' : ' \u00B7 <span style="color:#F85149;">(' + event.asset + ' 데이터 미연결)</span>';
@@ -2779,7 +2803,7 @@ function renderMaChart(view, event) {
 
   // 일봉/주봉 분기 (view 별 interval state)
   const interval = view === 'v1' ? v1Interval : v2Interval;
-  const convert = interval === 'daily' ? toDaily : toWeekly;
+  const convert = interval === 'monthly' ? toMonthly : (interval === 'weekly' ? toWeekly : toDaily);
   const spxWeekly    = convert(spxRaw);
   const nasdaqWeekly = convert(nasdaqRaw);
   const benchWeekly  = convert(benchRaw);
@@ -3078,6 +3102,8 @@ function setV1Interval(interval) {
   v1Interval = interval;
   document.getElementById('v1-weekly').classList.toggle('active', interval === 'weekly');
   document.getElementById('v1-daily').classList.toggle('active', interval === 'daily');
+  const mBtn = document.getElementById('v1-monthly');
+  if (mBtn) mBtn.classList.toggle('active', interval === 'monthly');
   if (maSelection.v1) renderMaChart('v1', maSelection.v1);
 }
 
@@ -3293,6 +3319,8 @@ function setV2Scale(scale) {
 function setV2Interval(interval) {
   v2Interval = interval;
   document.getElementById('v2-daily').classList.toggle('active', interval === 'daily');
+  const v2mBtn = document.getElementById('v2-monthly');
+  if (v2mBtn) v2mBtn.classList.toggle('active', interval === 'monthly');
   document.getElementById('v2-weekly').classList.toggle('active', interval === 'weekly');
   if (maSelection.v2) renderMaChart('v2', maSelection.v2);
 }
