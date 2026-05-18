@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>전력 인프라 산업 기초 분석 (Industry Basic — Power Infrastructure)</title>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    line-height:1.65;font-size:14.5px}
+  main{max-width:1100px;margin:0 auto;padding:36px 44px;background:var(--paper);
+       border:1px solid var(--line);border-radius:6px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);
+       padding:3px 10px;border-radius:3px;letter-spacing:0.05em}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);
+     padding-bottom:6px}
+  h3{font-size:16.5px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14.5px;margin:18px 0 8px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  p{margin:8px 0 12px 0}
+  blockquote{margin:14px 0;padding:10px 16px;background:var(--highlight);
+       border-left:4px solid var(--accent2);color:#333;font-size:14px}
+  table{border-collapse:collapse;margin:14px 0;font-size:13px;width:100%}
+  th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  th{background:#f5f2ea;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fafaf7}
+  code{background:#f3f1ea;padding:1px 5px;border-radius:3px;font-size:12.5px;color:var(--danger)}
+  pre{background:#f3f1ea;padding:10px 14px;border-radius:4px;overflow-x:auto;font-size:12.5px}
+  pre code{background:transparent;color:var(--ink)}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;
+       margin:14px 0;display:block}
+  hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+  strong{color:var(--accent)}
+  em{color:var(--accent2)}
+</style>
+</head>
+<body>
+<main>
+<div class="header">
+  <span class="tag">INDUSTRY BASIC · POWER INFRA</span>
+  <h1>전력 인프라 산업 기초 분석</h1>
+  <div class="meta">Industry Basic — Power Infrastructure / Last updated: 2026-05-18</div>
+</div>
+<h1 id="industry-basic-power-infrastructure">전력 인프라 산업 기초 분석 (Industry Basic — Power Infrastructure)</h1>
+<blockquote>
+<p>본 문서는 셀사이드 init(데뷔) 자료 수준의 영구 reference 문서다. 산업의 본질·역사·구조를 처음 접하는 사람이 한 번에 이해할 수 있도록 구성했다. 분기 변동·단기 narrative는 다루지 않는다 (실적 분석·테마 분석 영역).</p>
+</blockquote>
+<hr />
+<h2 id="executive-summary-5">Executive Summary (5줄 이내)</h2>
+<ol>
+<li>전력 인프라는 1880년대 에디슨·테슬라·웨스팅하우스의 <strong>DC vs AC 전쟁</strong>에서 출발한 산업 — 100년 넘게 GE·Westinghouse·Siemens·BBC·ASEA 등 미·독·스위스 6강 체제가 유지되었고, 2025년 현재도 글로벌 변압기 빅3(Hitachi Energy·Siemens Energy·GE Vernova) + 한국·중국 추격자라는 과점 구조가 본질이다.</li>
+<li><strong>사이클의 정수</strong> — 전력 인프라는 7~15년 단위로 "신규 capex 사이클 → 과잉설비 → 자유화·구조조정" 패턴을 반복. 1970s 오일쇼크·원전 붐, 1990s 자유화·민영화 불황, 2000s 신흥국 호황, 2010s 정체기, <strong>2020s AI·전기화 슈퍼사이클</strong>.</li>
+<li><strong>2025년 현재 산업 위치 (4+5 종합 결론)</strong>: <strong>카테고리 A — 구조적 메가 병목</strong>. 미국 변압기 lead time 4년, GSU(발전기 승압) 144주(2.8년) — 수요(AI 데이터센터 + 전기차 + 재생E 통합)가 메가로 폭증하는데 공급(GOES 강판 단일 라인·변압기 capex 사이클 길이 7~10년)이 구조적으로 묶임. 향후 5~7년 P·Q 동반 상승.</li>
+<li><strong>밸류체인 위치별 마진 차별화</strong>: 발전 터빈(GE·Siemens·MHI 3사 과점, OPM 15–20%) &gt; T&amp;D 변압기 (CR3 40%, OPM 12–25%, <strong>한국 빅3가 미국 초고압에서 절대 강자</strong>) &gt; 배전·LV 스위치기어 (Schneider·Eaton·ABB·Siemens 4강, OPM 17–20%) &gt; EPC·유틸리티 (regulated, ROE 8–11%).</li>
+<li>한국은 <strong>변압기 직접성 최고</strong> (효성중공업 미국 765kV 1위·HD현대일렉트릭 미국 15–20% M/S·LS일렉트릭 배전기기 + ESS) — 미국 친 한국 정책 + 멤피스 공장 보유 + GOES 강판 공급(POSCO) 3중 이점. 단, 가스 터빈·HVDC·중전기 종합 솔루션은 직접성 낮음(글로벌 빅3 독점 영역).</li>
+</ol>
+<hr />
+<h2 id="1-pager-5">1-pager 요약 표 (5단계 핵심 결론)</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>핵심 결론</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 역사</strong></td>
+<td>6 chunk: ① 1880–1920 산업 탄생·DC/AC 전쟁·미·독·스 6강 형성 ② 1920–1973 전기화·그리드 통합·미국 GE/WH 빅2 ③ 1973–2000 오일쇼크→원전 붐→자유화 (ABB 합병·한국 진입·WH 몰락) ④ 2000–2010 신흥국 인프라 호황·중국 부상 ⑤ 2010–2020 셰일·재생E·정체기·분사(Siemens Energy 2020·GE Vernova 2024) ⑥ 2020–2026 AI·전기화 슈퍼사이클·한국 빅3 미국 수주 폭증</td>
+</tr>
+<tr>
+<td><strong>2. 사이클</strong></td>
+<td>자본재 장사이클 7~15년 + 매크로 사이클. 1970s 원전 사이클·1990s 자유화 불황·2000s 신흥국 사이클·2010s 정체기·<strong>2020s AI 슈퍼사이클</strong>. ABB·Siemens·GE 100년+ 데이터로 5~6차 대형 사이클 확인</td>
+</tr>
+<tr>
+<td><strong>3. BM/밸류체인</strong></td>
+<td>5 layer: 업스트림(GOES 강판·구리·차단용 가스 SF6 → POSCO·Nippon Steel·Thyssenkrupp / Air Liquide) → 미드스트림(T&amp;D 변압기·차단기·HVDC → Hitachi·Siemens·GE·한국 빅3 / 발전기기 → GE·Siemens·MHI 3사) → 다운스트림(EPC → Bechtel·현대건설·삼성E&amp;A / 유틸리티 → NextEra·EDF·한전). 영업이익률 5%(EPC) ~ 25%(발전 OEM·SaaS형 grid SW)</td>
+</tr>
+<tr>
+<td><strong>4. 공급 (1990 vs 2025)</strong></td>
+<td>글로벌 대형 전력기기 회사 1990 ~30개사 → 2025 6사 (Hitachi Energy·Siemens Energy·GE Vernova·Schneider·Eaton·Mitsubishi Electric) + 한국 3사 + 중국 3사. CR3(변압기) 1990 25% → 2025 30–40% (지역별 편차 큼, 미국 765kV 효성중 1위). GSU lead time 144주, 도매가 2023→2025 +60%</td>
+</tr>
+<tr>
+<td><strong>5. 수요 (2025)</strong></td>
+<td>유틸리티/그리드 50%, 산업·자동화 20%, 데이터센터 12% (2020년 4%에서 3배), 재생E 통합 8%, EV 충전 5%, 기타 5%. <strong>메가 트렌드 직접 수혜 비중 30%+</strong> (AI DC + EV + 재생E). B2B 95%+. 가격탄력성 매우 낮음 (사회 인프라). 2025–2030 글로벌 전력 수요 CAGR 3.6%, 그리드 capex 연 $300B → $600B 필요 (IEA)</td>
+</tr>
+<tr>
+<td><strong>4+5 종합</strong></td>
+<td><strong>카테고리 A: 구조적 메가 병목</strong> — 공급 매우 제한적(변압기 lead time 4년, GOES 강판 빅5 과점, GSU 시장 274% 수요 증가에 공급 미달), 수요 AI·재생E·EV 3중 메가 견인. 향후 5~7년 P+Q 동반 상승. 단, 1) 미·중 디커플링으로 중국 빅3(TBEA·Xian XD·NR Electric) 글로벌 진출 가속 → 미국·유럽 보호주의 강화, 2) AI capex 변곡점이 트리거</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="1-1880-2026">1단계. 역사 — 1880년부터 2026년까지</h1>
+<blockquote>
+<p><strong>layered framework</strong>: 각 chunk를 (a)매크로 배경 (b)패권자 (c)산업 변화 (d)사이클 단계 (e)대표 기업 주가 (f)규제 — 6 layer로 풀어낸다. 트리거 시점은 일반인 친화 비유로 풀이.</p>
+</blockquote>
+<h2 id="chunk-1-18801920-dc-vs-ac-6">Chunk 1. 1880–1920 — 산업의 탄생, DC vs AC 전쟁, 미·독·스위스 6강 형성</h2>
+<h3 id="a">(a) 매크로 배경</h3>
+<p>2차 산업혁명 절정기. 1865년 미국 남북전쟁 종료 후 도시화 폭주 — 뉴욕·시카고·런던·베를린 인구가 30년간 2~3배. 도시는 가스등(밤이면 매연·화재 위험)에서 안전한 광원을 갈구. 1873~96년 'Long Depression'(장기 불황)이라 부르는 디플레이션 시기지만 산업혁명 인프라 투자는 지속. 1914년 1차 세계대전 발발로 군수 산업 폭발 → 전기 모터·발전기 기술이 군수로 흡수. 1917년 러시아 혁명 → 전후 GOELRO(레닌 전기화 계획) 등장.</p>
+<blockquote>
+<p><strong>비유</strong>: 100년 전 도시 거주민에게 "밤에 책을 읽고 싶다"는 욕망은 곧 "가스등을 켜되 폭발 위험을 감수한다"는 의미. 에디슨이 1879년 발명한 백열전구 + 1882년 펄 스트리트 발전소는 인류 역사상 처음으로 "안전한 광원"을 제공 — 전기 산업의 출생증명서.</p>
+</blockquote>
+<h3 id="b">(b) 패권자</h3>
+<p><strong>미·독·스위스·스웨덴 6강 형성기</strong>. 미국: Edison Electric(1878·이후 1892 GE로 합병)·Westinghouse Electric(1886)·Stanley Electric. 독일: Siemens &amp; Halske(1847·전신선 사업으로 시작)·AEG(1883). 스위스: Brown Boveri &amp; Cie(BBC, 1891 바덴 창업). 스웨덴: ASEA(1883 베스테로스 창업). 프랑스: Compagnie Générale d'Électricité(CGE, 1898·후일 Alstom 모체)·Schneider(1836년 Le Creusot 제철소 → 1891년 전기 사업 진입). <strong>이 6강이 130년이 지난 2025년 현재까지 글로벌 패권 게임의 본진</strong>이다(WH·AEG·CGE는 합병·분사·도태됐으나 DNA는 살아남음).</p>
+<h3 id="c">(c) 산업 변화 (시대별 핵심 이벤트)</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1879년 10월</strong></td>
+<td>에디슨, 진공 백열전구 실용화(40시간 점등 성공)</td>
+<td>"전기를 제품으로" 첫 증명</td>
+</tr>
+<tr>
+<td><strong>1882년 9월</strong></td>
+<td>에디슨, 뉴욕 펄 스트리트 발전소 가동(110V DC, 약 800m 반경 85개 가구·400개 전구)</td>
+<td>세계 최초 중앙집중식 발전·송전. 산업의 출발선</td>
+</tr>
+<tr>
+<td><strong>1886년</strong></td>
+<td>Westinghouse, William Stanley의 변압기 기반 AC 시스템 상용화 — 매사추세츠 그레이트배링턴 시연</td>
+<td><strong>변압기 = 산업의 enabler</strong>. 발전소를 도시 외곽에 두고 고전압으로 송전 후 강압</td>
+</tr>
+<tr>
+<td><strong>1887년</strong></td>
+<td>Tesla, 다상(polyphase) 유도 모터 개발</td>
+<td>AC 모터의 결정적 진보 — 산업용 동력으로 확장</td>
+</tr>
+<tr>
+<td><strong>1888년 7월</strong></td>
+<td>Westinghouse, Tesla 다상 AC 특허 라이센스 (US patent)</td>
+<td>AC 진영 결정적 무기 확보</td>
+</tr>
+<tr>
+<td><strong>1888년~1893년</strong></td>
+<td>'War of Currents' — 에디슨 DC vs Westinghouse·Tesla AC</td>
+<td>전기의자(1890·AC를 위험하다고 PR)·코끼리 감전(1903·에디슨 측 PR 캠페인) 등 흑색 마케팅</td>
+</tr>
+<tr>
+<td><strong>1891년</strong></td>
+<td>독일 Frankfurt-Lauffen 175km AC 전력 전송 시연 — 3상 25kV</td>
+<td>AC 장거리 송전 결정적 증명. 유럽 진영 표준 결정</td>
+</tr>
+<tr>
+<td><strong>1893년</strong></td>
+<td>Westinghouse, 시카고 세계박람회 전기 공급 입찰에서 GE 대비 절반가에 낙찰 — Tesla AC 시스템으로 25만 개 전구 점등</td>
+<td>War of Currents 사실상 종결</td>
+</tr>
+<tr>
+<td><strong>1895~96년</strong></td>
+<td>Westinghouse·Tesla, 나이아가라 폭포 수력발전 — 11kV AC 생성, 26마일(42km) 떨어진 버펄로까지 송전</td>
+<td>AC 표준의 결정타 — 산업의 frequency 결정(미국 60Hz 표준)</td>
+</tr>
+<tr>
+<td><strong>1903년</strong></td>
+<td>GE 가스 충전 전구(Tungsten) 개발 → 1909 Coolidge 텅스텐 전구</td>
+<td>전구 효율 5배↑ — 전기 수요 폭증의 기술적 발화점</td>
+</tr>
+<tr>
+<td><strong>1908년</strong></td>
+<td>BBC, 8.5MW 증기터빈 생산 — 유럽 발전기기 패권 진입</td>
+<td>발전기기 시장에서 BBC vs GE·Siemens 경쟁 시작</td>
+</tr>
+<tr>
+<td><strong>1913년</strong></td>
+<td>GE, 미국 최초 100MW 증기터빈</td>
+<td>대용량 발전 시대</td>
+</tr>
+<tr>
+<td><strong>1917년</strong></td>
+<td>러시아 혁명 → 1920 레닌 GOELRO 계획(15년 내 30개 발전소 건설)</td>
+<td>사회주의권의 전기화 모델 — 향후 100년 인프라 투자 청사진</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>비유</strong>: DC vs AC 전쟁은 "USB-A vs USB-C"가 아니라 "마차 vs 기차" 수준의 표준 전쟁이었다. DC는 송전 손실 때문에 도시 한 블록 단위로만 가능 — "동네 빵집" 비즈니스. AC는 변압기로 고전압 송전 후 다시 강압 — "전국 체인" 가능. War of Currents가 끝나는 순간 미국 전 가구·전 공장이 동일 전기를 사용하는 토대가 깔린 것 — 100년 후 자동차 충전 표준 전쟁(Tesla NACS vs CCS·CHAdeMO)의 원형.</p>
+<p><strong>변압기가 산업의 핵심인 이유</strong>: 발전소에서 100km 떨어진 도시까지 전기를 보내려면 전압을 100~500배 올려야(고전압일수록 손실 ↓). 도착해서는 다시 220V로 낮춰야. 이 두 동작이 모두 <strong>변압기</strong>의 일. 변압기 없으면 전기 산업 자체가 불가능. 그래서 1880년대부터 2026년 현재까지 변압기는 항상 전력 인프라의 가장 중요한 단일 부품 — Hitachi Energy·Siemens Energy·GE Vernova·효성중공업·HD현대일렉트릭의 주력 매출이 모두 변압기인 이유다.</p>
+</blockquote>
+<h3 id="d">(d) 사이클 단계</h3>
+<p><strong>1차 capex 사이클 — 도시 전화(都市 電化, Electrification of cities) 사이클</strong>. 1880~1914 미국·유럽 주요 도시 발전소 보급. 일종의 '플랫폼 깔기' 단계. 1907년 미국 금융 panic, 1914년 1차 대전으로 잠시 정체했으나 전후 1920년대까지 이어짐.</p>
+<h3 id="e">(e) 대표 기업 주가</h3>
+<p>GE는 1892년 Edison General Electric + Thomson-Houston 합병으로 NYSE 상장(같은 해 다우존스 산업평균지수 12개 종목에 편입 — <strong>130년 후 2018년 다우에서 제거되기 전까지 최장수 종목</strong>). Westinghouse도 1880년대 사상장. 1893년 panic으로 양사 모두 일시 압박 (GE는 1893 J.P. Morgan 구제). 1900~1907 강세, 1907년 panic으로 조정, 1914 WWI 발발로 다시 압박, 전후 군수→소비 전환기 회복.</p>
+<h3 id="f-layer">(f) 규제 layer</h3>
+<ul>
+<li><strong>1907년 미국 'Regulated utility' 모델 정착</strong> — 새뮤얼 인설(Samuel Insull, Edison 비서 출신·시카고 Commonwealth Edison 회장)이 "독점 + 정부 가격 규제" 모델 제안. 위스콘신·뉴욕주 도입 → 미국 표준화. 이 모델이 100년간 미국 전력산업 골격(2000년대 자유화 이전까지).</li>
+<li><strong>1920년 미국 Federal Power Act</strong> — 연방 차원의 수력발전 면허 제도. 후일 FERC(Federal Energy Regulatory Commission)의 모체.</li>
+<li><strong>유럽은 국유화 트렌드</strong> — 1차 대전 후 전기를 국가 안보 자원으로 인식. 프랑스·영국·이탈리아 국유화 흐름.</li>
+</ul>
+<hr />
+<h2 id="chunk-2-19201973-2">Chunk 2. 1920–1973 — 전기화·그리드 통합, 미국 빅2 + 유럽 다극 패권의 황금기</h2>
+<h3 id="a_1">(a) 매크로 배경</h3>
+<p>1920년대 'Roaring Twenties' — 미국 GDP 1920→29년 +59%, 가전 보급(라디오·냉장고·세탁기). 1929 대공황 → 1933 뉴딜 정책에서 TVA(Tennessee Valley Authority) 설립 — 정부 주도 전력 인프라 투자가 케인즈주의의 핵심 처방. 1941~45 WWII → 군수 산업 폭발. 전후 1945~73년 '영광의 30년'(Trente Glorieuses) — 마샬 플랜·일본 부흥·유럽 통합·미국 패권 황금기, 안정적 4~5% GDP 성장. 1957년 소련 스푸트니크 충격, 1960년대 베트남전. 1971년 닉슨 쇼크(금본위제 폐지)로 마지막 chunk 종결 신호.</p>
+<blockquote>
+<p><strong>비유</strong>: 이 50년이 전력 산업의 "가전 보급기 = 산업의 황금기". 비유하자면 1990년대~2010년대 인터넷 보급기에 해당. 미국은 1920년 가구의 35%만 전기 사용 → 1956년 99% — "전기 안 들어오는 집"이 곧 후진성의 상징이 된 시기.</p>
+</blockquote>
+<h3 id="b_1">(b) 패권자</h3>
+<p><strong>미국 GE/Westinghouse 빅2가 글로벌 패권</strong>. 유럽: Siemens AG(독)·AEG(독)·BBC(스위스)·ASEA(스웨덴)·Alsthom(프, 1928년 Thomson-Houston Française + Alsacienne 합병)·English Electric(영, 1918) — 다극 체제로 유지. 일본: 메이지 시대 미국·독일 기술도입으로 시작 → 1875 도시바(Tokyo Shibaura Electric의 시초), 1910 히타치, 1921 미쓰비시전기 — 패전 후 점령기 GHQ 재벌해체 → 1950s 빠르게 재기. <strong>이 시기 글로벌 빅10 체제가 사실상 100년의 골격</strong>.</p>
+<h3 id="c_1">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1933년 5월</strong></td>
+<td>미국 TVA 설립 — 1934 노리스 댐 착공</td>
+<td>정부 주도 대규모 인프라 투자 모델 — 전 세계 모방</td>
+</tr>
+<tr>
+<td><strong>1935년</strong></td>
+<td>미국 PUHCA(Public Utility Holding Company Act) — 전력 지주회사 규제, 인설 제국 해체</td>
+<td>1907 인설 모델의 제도화 — 'natural monopoly' 가격 규제 강화</td>
+</tr>
+<tr>
+<td><strong>1936년</strong></td>
+<td>미국 Rural Electrification Act — 농촌 전기화. 1935년 농촌 보급률 10% → 1953년 90%</td>
+<td>변압기·소형 배전 폭발 — Schneider·Siemens·GE에 거대 수요</td>
+</tr>
+<tr>
+<td><strong>1939년</strong></td>
+<td>BBC, 세계 최초 산업용 가스터빈(Neuchâtel, 4MW) — 전기화학·정유 응용</td>
+<td>가스터빈 시대 개막. 이후 60년간 GE·Siemens·MHI(미쓰비시 중공업) 빅3 형성의 원점</td>
+</tr>
+<tr>
+<td><strong>1941~45년</strong></td>
+<td>WWII — 군수 수요. 미국 발전 capa 3년간 +50%</td>
+<td>모든 빅10 메이커 매출 폭증</td>
+</tr>
+<tr>
+<td><strong>1947년</strong></td>
+<td>Bell Labs 트랜지스터 발명(반도체 산업 출생) — 향후 전력반도체로 산업 연결</td>
+<td>전력 인프라와 반도체 산업의 70년 후 융합 단초</td>
+</tr>
+<tr>
+<td><strong>1948~</strong></td>
+<td>마샬 플랜 — 유럽 재건. ABB(당시 ASEA/BBC)·Siemens가 수혜</td>
+<td>유럽 메이커 부활</td>
+</tr>
+<tr>
+<td><strong>1954년 6월</strong></td>
+<td>소련 Obninsk 원자력발전소 가동(5MW)</td>
+<td>세계 최초 상용 원전 — 발전 기술 패러다임</td>
+</tr>
+<tr>
+<td><strong>1956년</strong></td>
+<td>GE 'Calder Hall'(영국) 60MW 마그녹스 원전 가동</td>
+<td>서방 최초 상용 원전</td>
+</tr>
+<tr>
+<td><strong>1957년</strong></td>
+<td>미국 Shippingport 60MW PWR(Westinghouse) 가동</td>
+<td>미국 원전 시대 개막</td>
+</tr>
+<tr>
+<td><strong>1960년대</strong></td>
+<td>GE BWR(비등수형)·Westinghouse PWR(가압수형) — 미국 원자로 양강 표준화</td>
+<td>향후 25년간 미국 원전 시장 양분</td>
+</tr>
+<tr>
+<td><strong>1970~73년</strong></td>
+<td>미국 NRC 설립(1974)·환경 규제 강화 시작</td>
+<td>원전 인허가 길어짐 — 다음 chunk 위기의 씨앗</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_1">(d) 사이클 단계</h3>
+<p><strong>2차 사이클 (1920~1945) → 3차 사이클 (1945~1973)</strong>. 2차는 대공황으로 1929~32년 폭락 후 뉴딜 인프라 투자로 회복 → WWII 군수 호황. 3차는 전후 도시화·가전 보급·산업화의 안정적 성장 사이클. 자유화 이전이라 큰 변동성 없이 연 6~8% 매출 성장.</p>
+<h3 id="e_1">(e) 대표 기업 주가</h3>
+<p>GE는 1929 대공황 -90%(다른 모든 종목과 함께), 이후 1939~45 WWII 군수로 회복. 1945~73년 28년간 연복리 12% 수준의 안정 상승 — "Nifty Fifty" 시기(1960s 후반~70s 초반)에 GE는 대표주. Westinghouse 동급. <strong>이 시기 GE·WH 주식 보유 = 미국 산업 경제 지분 보유</strong>. 일본 빅3(도시바·히타치·미쓰비시전기) 1955년 도쿄증권거래소 본격 거래 → 일본 고도성장과 동행.</p>
+<h3 id="f-layer_1">(f) 규제 layer</h3>
+<ul>
+<li><strong>1935 PUHCA, 1933 Glass-Steagall</strong> — 전력 지주회사 규제, 금융 분리. 이후 65년간 미국 전력산업의 골격.</li>
+<li><strong>1954 미국 Atomic Energy Act</strong> — 민간 원전 허용. GE·WH가 원자로 사업 진입.</li>
+<li><strong>유럽</strong>: 1946 영국 CEGB(중앙발전위) 국유화, 1946 프랑스 EDF 국유화 — 전기 = 국가 자산. 메이커는 국영 유틸리티 발주를 받는 모델.</li>
+<li><strong>일본</strong>: 1951 9전력 체제(도쿄전력·간사이전력 등 9개 지역 독점) — 국영이 아닌 지역 민영 독점. 메이커에는 안정적 발주 환경.</li>
+</ul>
+<hr />
+<h2 id="chunk-3-19732000">Chunk 3. 1973–2000 — 오일쇼크·원전 붐·자유화 (산업 구조 대격변)</h2>
+<h3 id="a_2">(a) 매크로 배경</h3>
+<p>1973·1979 두 차례 오일쇼크 → 석유 의존도 낮추기 위한 <strong>원전 붐</strong>. 1980 레이건·1979 대처 등장 — 신자유주의·민영화·자유화. 1985 플라자합의 → 엔화 강제 절상 → 일본 메이커 가격 경쟁력 약화. 1989 베를린 장벽 붕괴·1991 소련 해체 — 동구권 시장 개방. 1990 일본 버블 붕괴 시작. 1994 NAFTA·1995 WTO 출범으로 글로벌화 가속. 2000 닷컴 버블 → 2001 닷컴 붕괴·9·11.</p>
+<blockquote>
+<p><strong>비유</strong>: 이 27년이 전력 산업의 "산업 구조 대격변기". 자동차 산업으로 치면 1970s 일본차 미국 진출·1980s 도요타식 생산방식 도입에 해당하는 충격기. 패권자가 바뀌지는 않았지만(GE·Siemens·ABB는 살아남음), 영업 모델이 본질적으로 바뀜 — '국영 유틸리티 발주 받기' → '자유화된 발전사·산업체 입찰 따기'.</p>
+</blockquote>
+<h3 id="b_2">(b) 패권자</h3>
+<p><strong>미국 GE 단독 절정 + 유럽 ABB 합병으로 강해짐 + Westinghouse 몰락 시작</strong>. GE는 1981~2001년 잭 웰치 CEO 시대에 시가총액 $14B → $410B, <strong>세계 1위 기업</strong>. 유럽: <strong>1988년 ASEA(스웨덴) + BBC(스위스) 합병 = ABB 출범</strong> — Europe's largest heavy-electrical combine, 매출 $15B·종업원 16만 명. Siemens AG는 그룹 차원 확장. Westinghouse는 1980년대부터 가전·금융 다각화하다 1995 CBS 인수 → 1997 사명 변경 → 1999 BNFL(영국)에 원자력 부문 매각 → 사실상 해체. 일본: 도시바·히타치·미쓰비시전기 빅3 안정 — 1985 플라자합의 후 엔고로 가격 압박. 한국: <strong>1962 효성그룹 전기사업 진출, 1974 LG산전(현 LS일렉트릭) 설립, 1977 현대중공업 전기·전자 사업 시작</strong> — 진입자 위치.</p>
+<h3 id="c_2">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1973년 10월</strong></td>
+<td>1차 오일쇼크 — 유가 $3 → $12/배럴</td>
+<td>석유 의존 발전 위축 → 원전·석탄으로 회귀</td>
+</tr>
+<tr>
+<td><strong>1974년 4월</strong></td>
+<td>Westinghouse, 프랑스 EDF로부터 12기 원전 수주(+옵션 4기) — 역사상 최대 단일 원전 수주</td>
+<td>1970년대 원전 골든에이지 정점</td>
+</tr>
+<tr>
+<td><strong>1976년</strong></td>
+<td>프랑스 Messmer Plan — 향후 25년 내 80기 원전 건설. 1986년 전력의 70% 원전화 달성</td>
+<td>국가 단위 원전 표준화 모델 — 후일 한국 표준원전(APR1400)의 모델</td>
+</tr>
+<tr>
+<td><strong>1979년 3월</strong></td>
+<td>TMI(Three Mile Island) 사고 — 미국 원전 인허가 사실상 동결</td>
+<td>미국 원전 시장 30년 동결의 시작</td>
+</tr>
+<tr>
+<td><strong>1979년 2차 오일쇼크</strong></td>
+<td>유가 $14 → $35/배럴</td>
+<td>자원·산업 정책 대전환</td>
+</tr>
+<tr>
+<td><strong>1986년 4월</strong></td>
+<td>체르노빌 사고 — 유럽 원전 시장 위축. 독일 점진 폐쇄 결정</td>
+<td>글로벌 원전 산업 23년 동결의 결정타. 다음 사이클(2010s) 후쿠시마 재차 동결</td>
+</tr>
+<tr>
+<td><strong>1988년 1월</strong></td>
+<td>ASEA + BBC 합병 → ABB 출범. CEO Percy Barnevik</td>
+<td>유럽 패권 강화. 850 자회사·140국 동시 운영 모델</td>
+</tr>
+<tr>
+<td><strong>1989년</strong></td>
+<td>영국 CEGB 분할 민영화 — National Grid·National Power·PowerGen·12개 지역 배전사</td>
+<td>자유화 모델 첫 대규모 실험. 향후 30년 전 세계 자유화의 청사진</td>
+</tr>
+<tr>
+<td><strong>1992년 10월</strong></td>
+<td>미국 Energy Policy Act 1992 — 도매 전력시장 자유화 시작</td>
+<td>미국 전력 자유화 시동</td>
+</tr>
+<tr>
+<td><strong>1996년 12월</strong></td>
+<td>EU Electricity Directive 96/92/EC — 단계적 전력시장 자유화</td>
+<td>유럽 자유화 표준</td>
+</tr>
+<tr>
+<td><strong>1996년</strong></td>
+<td>GE H-class 가스 터빈 출시 — 효율 60% 돌파</td>
+<td>가스 터빈 시대의 신무기. 자유화로 IPP(독립발전사) 시장 폭발</td>
+</tr>
+<tr>
+<td><strong>1990년대 후반</strong></td>
+<td>Enron 등 신흥 트레이더 부상 — 발전 자산 + 트레이딩 결합</td>
+<td>미국 자유화 후유증의 씨앗 (2001 California 위기)</td>
+</tr>
+<tr>
+<td><strong>1999~2000년</strong></td>
+<td>Westinghouse 원자력 부문 매각 + 가스 터빈 사업 Siemens에 매각(1998) — <strong>빅2 미국 → 빅1 GE로 재편</strong></td>
+<td>미국 패권 약화. 다음 chunk에서 GE 단독 패권으로</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>비유</strong>: 1988 ABB 합병은 "유럽판 GE를 만들자"는 야심. 결과적으로 ABB는 미국 GE에 다소 못 미치는 2위 자리에 정착했지만, <strong>합병 자체가 유럽 전력 인프라 산업의 100년 골격을 만든 이벤트</strong>. 합병 후 ABB는 1990s에 850개 자회사를 16개 사업본부로 재편 — 후일 1999년 ABB Industry/T&amp;D/Automation·2000년 ABB 원자력 매각·2020년 ABB Power Grids(현 Hitachi Energy) 매각 등 대대적 사업 재편의 시작점.</p>
+<p><strong>Westinghouse 몰락의 교훈</strong>: 1980s 잭 웰치는 GE를 "전기로 만든 잡화점"으로 만들었고 살아남았다. WH는 똑같이 가전·금융·CBS 방송 다각화했지만 핵심 사업의 경쟁력을 잃었다 — 1995년 CBS 인수($5.4B), 1997년 사명 'CBS Corporation'으로 변경, 1999년 원자력 부문은 BNFL에 매각, 후일 2006년 Toshiba에 다시 매각($5.4B). <strong>'기존 산업 + 새 산업'을 동시에 잘하기 어렵다</strong>는 100년 교훈. (Toshiba도 2017년 WH 원전 부실로 그룹 위기. 결국 2018년 캐나다 Brookfield에 매각).</p>
+</blockquote>
+<h3 id="d_2">(d) 사이클 단계</h3>
+<p><strong>4차 사이클(1973~1985, 원전 + 오일쇼크 대응 capex) → 5차 사이클(1985~2000, 자유화 reset)</strong>. 4차는 1979 TMI·1986 체르노빌로 정점 끊김. 5차는 자유화에 따른 새 발전(가스 IPP) capex 사이클 — 1996 GE H-class 가스 터빈, 1990s 후반 미국·영국 가스화력 폭발.</p>
+<h3 id="e_2">(e) 대표 기업 주가</h3>
+<p><strong>GE는 1981~2001 잭 웰치 시대 시가총액 30배 → 세계 1위 기업</strong>. ABB 1988 출범 후 1990s에 전형적 conglomerate 디스카운트 받음. Siemens 안정. <strong>Westinghouse 1980s 후반부터 부진 → 1990s 후반 해체</strong>. 일본 빅3(도시바·히타치·미쓰비시전기)는 1985 플라자합의 후 엔고로 압박 → 1990 일본 버블 붕괴로 장기 침체. 한국 메이커는 1988~95년 1차 호황(올림픽·내수 인프라).</p>
+<h3 id="f-layer_2">(f) 규제 layer</h3>
+<ul>
+<li><strong>1978 미국 PURPA(Public Utility Regulatory Policies Act)</strong> — 비수직 통합 IPP 허용. 자유화의 씨앗.</li>
+<li><strong>1989 영국 Electricity Act</strong> — 발전·송전·배전 분리. 자유화 글로벌 표준의 원형.</li>
+<li><strong>1992 미국 EPACT(Energy Policy Act)</strong> — 도매 전력시장 개방.</li>
+<li><strong>1996 EU Electricity Directive</strong> — 회원국 단계적 자유화 의무.</li>
+<li><strong>세계은행 구조조정</strong> — 1986년 SAL(구조조정 차관)의 13% → 1992년 59%가 자유화 조건부. 1990s 신흥국 187B$ 외자가 전력 인프라에 유입 → 후일 Enron·AES 등 미국 IPP 글로벌 진출 기반.</li>
+<li><strong>1979 미국 NRC, 원전 사실상 동결</strong> — 1979~2012 미국 원전 신규 허가 0건. 다음 chunk(2010s 후쿠시마)에서 글로벌 동결 재발.</li>
+</ul>
+<hr />
+<h2 id="chunk-4-20002010">Chunk 4. 2000–2010 — 신흥국 인프라 호황·중국 부상</h2>
+<h3 id="a_3">(a) 매크로 배경</h3>
+<p>2001 닷컴 붕괴·9·11 → 미국 저금리 시대. <strong>2001년 12월 중국 WTO 가입</strong> — 세계 공장 시대 개막. BRICs(브라질·러시아·인도·중국) 부상이 글로벌 자본재 슈퍼사이클을 견인. 2003 이라크 전쟁, 2004 인도 IT 외주 폭발. 2008 글로벌 금융위기 → 2008~09년 일시 충격 후 중국 4조 위안 부양책으로 빠른 회복. 유가 2003 $30 → 2008 7월 $147 → 2008 12월 $30 — 한 사이클 안에 사상 최대 변동성.</p>
+<blockquote>
+<p><strong>비유</strong>: 2000년대는 전력 인프라의 "BRICs 황금기". 그동안 자유화·반세계화로 정체됐던 산업이 중국·인도·동남아·중동의 산업화 폭발로 두 번째 황금기를 맞이. 한국의 1970s 중화학공업 시대에 일본 메이커가 호황을 누린 것과 같은 패턴이 30년 후 중국에서 반복.</p>
+</blockquote>
+<h3 id="b_3">(b) 패권자</h3>
+<p><strong>ABB·Siemens·Schneider 유럽 빅3 vs GE + 일본 빅3</strong>. ABB는 2002~04년 석면 소송으로 거의 부도 직전(미국 자회사 Combustion Engineering의 석면 책임) → 2005 구조조정 완료 후 다시 부상. <strong>중국 부상이 이 chunk의 핵심 사건</strong> — 2004~07년 'transformer manufacturing boom' = 글로벌 변압기 생산의 50%+가 중국으로 이전. 중국 메이커 TBEA(1988 창립)·Xian XD Electric·NR Electric·Pinggao Electric — 내수 폭발 후 해외 진출 시동. <strong>한국 메이커 본격 부상</strong> — 효성중공업이 2005년 미국 멤피스 765kV 공장 인수(원래 ABB 공장)·LG산전이 2003년 LS그룹으로 분리(LG산전→LS산전→2008 LS일렉트릭)·현대중공업 전기·전자 사업 본격 글로벌 입찰 진입.</p>
+<h3 id="c_3">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2001년 12월</strong></td>
+<td>중국 WTO 가입 — 산업화 폭발</td>
+<td>글로벌 자본재 슈퍼사이클의 핵심 트리거</td>
+</tr>
+<tr>
+<td><strong>2002~04년</strong></td>
+<td>ABB 석면 소송 위기 — 미국 Combustion Engineering 책임</td>
+<td>ABB 거의 도산 직전, 잔여 자산 매각으로 회생</td>
+</tr>
+<tr>
+<td><strong>2003년 8월</strong></td>
+<td>미국 북동부 대정전(50M명, 8B$ 손실) — Ohio 송전선 sag로 8개주 정전</td>
+<td>미국 그리드 노후화 폭로 → 1차 grid 투자 사이클 시동</td>
+</tr>
+<tr>
+<td><strong>2004~07년</strong></td>
+<td>글로벌 'transformer manufacturing boom' — 중국이 글로벌 capa 50%+ 흡수</td>
+<td>변압기 산업 capa의 동방 이전</td>
+</tr>
+<tr>
+<td><strong>2005년</strong></td>
+<td>효성중공업, 미국 멤피스 변압기 공장 인수(ABB 공장) — <strong>미국 내 유일한 765kV 생산 능력 확보</strong></td>
+<td>한국 메이커 미국 진입의 결정적 발판</td>
+</tr>
+<tr>
+<td><strong>2008년 9월</strong></td>
+<td>리먼 브라더스 파산 → 글로벌 금융위기</td>
+<td>자본재 수요 일시 추락</td>
+</tr>
+<tr>
+<td><strong>2008년 11월</strong></td>
+<td>중국 4조 위안 부양책(4 trillion RMB stimulus) — 50%+를 인프라·전력에 투입</td>
+<td>V자 회복. 글로벌 자본재 메이커 수혜</td>
+</tr>
+<tr>
+<td><strong>2008년</strong></td>
+<td>미국 셰일가스 본격 증산 시작 — Marcellus·Bakken</td>
+<td>다음 chunk 가스 발전 사이클 트리거</td>
+</tr>
+<tr>
+<td><strong>2009년</strong></td>
+<td>미국 Recovery Act $787B — 'smart grid' $4.5B 포함</td>
+<td>smart grid 산업 본격화</td>
+</tr>
+<tr>
+<td><strong>2010년 4월</strong></td>
+<td>EU 20-20-20 정책(2020년까지 신재생 20%·효율 20%·CO2 20%↓) 정책 진전</td>
+<td>재생E 정책 강제화 — 후일 가스터빈 정체의 씨앗</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_3">(d) 사이클 단계</h3>
+<p><strong>6차 사이클 (2000~2010, 신흥국 인프라 호황)</strong> — 자본재 산업 전반의 슈퍼사이클. 변압기·고전압 케이블·발전 터빈 모두 호황. 2008~09년 짧은 침체 후 중국 부양으로 V자.</p>
+<h3 id="e_3">(e) 대표 기업 주가</h3>
+<p>ABB 2002~04년 석면 소송으로 거의 0원까지 폭락(스위스 상장 기준 90%+ 하락) → 2005~07년 10배 회복. Siemens AG 안정 상승. GE는 잭 웰치 후임 이멜트 CEO하 점진 약세. <strong>중국 메이커 TBEA(600089.SS)·Xian XD(601179.SS) 2007년 상하이 상장 후 폭등.</strong> 한국 효성그룹·LS그룹 2004~07년 본격 성장 시동.</p>
+<h3 id="f-layer_3">(f) 규제 layer</h3>
+<ul>
+<li><strong>2005 미국 EPACT 2005</strong> — 그리드 모더니제이션, 재생E 세제 혜택.</li>
+<li><strong>2007 EU 20-20-20</strong> — 재생E 정책 본격화.</li>
+<li><strong>2009 미국 Recovery Act</strong> — smart grid $4.5B 투자.</li>
+<li><strong>중국 정부 5개년 계획 연속 인프라 투자</strong> — 10차(2001~05)·11차(2006~10)에서 전력 인프라 핵심 사업화.</li>
+</ul>
+<hr />
+<h2 id="chunk-5-20102020-e-3">Chunk 5. 2010–2020 — 셰일·재생E·정체기, 분사로 향하는 글로벌 빅3</h2>
+<h3 id="a_4">(a) 매크로 배경</h3>
+<p>2010년대는 글로벌 매크로의 '뉴노멀' — 저금리·저성장·저인플레. 2011 일본 후쿠시마 → 글로벌 원전 재차 동결, 독일 'Energiewende'(2022까지 원전 완전 폐쇄 결정). 2014~16 유가 폭락($100 → $30). 2015 파리협정 → 재생E 본격 의무화. 2016 트럼프 1기 당선 → 보호무역. 2018 미·중 무역전쟁 시작. 2020 코로나 — 전 산업 일시 충격.</p>
+<blockquote>
+<p><strong>비유</strong>: 2010년대는 전력 인프라의 "긴 휴면기". 2000년대 신흥국 슈퍼사이클의 후폭풍으로 capa 과잉, 셰일가스 등장으로 가스 터빈 수요는 늘었지만 단위당 가격 하락, 재생E는 '큰 시장 + 작은 마진'(태양광·풍력 자체는 설치자 마진 적음·메이커는 중국이 장악)으로 메이저들에게 매력 부족. <strong>글로벌 빅3 모두 conglomerate 디스카운트</strong> → 분사·전문화의 흐름.</p>
+</blockquote>
+<h3 id="b_4">(b) 패권자</h3>
+<p><strong>미국 GE·유럽 Siemens·ABB 빅3가 conglomerate에서 전문 회사로 재편</strong>. 한국 메이커 본격 성장 — 2010~14년 중동 수주 사이클(사우디·UAE·이란 인프라). 중국 메이커 글로벌 진출 본격화 — TBEA가 브라질·인도·중앙아시아 HVDC 진출. 일본 빅3(도시바·히타치·미쓰비시) 상대적 위축, 미쓰비시 가스 터빈 사업은 호조. <strong>2020년 4월 Siemens Energy 분사 — Siemens AG에서 분리 상장(독일 DAX)</strong> = 글로벌 빅3 분사 시대 개막.</p>
+<h3 id="c_4">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2011년 3월</strong></td>
+<td>후쿠시마 원전 사고</td>
+<td>글로벌 원전 재차 동결. 독일 'Energiewende'·일본 원전 가동률 100%→0%</td>
+</tr>
+<tr>
+<td><strong>2014~16년</strong></td>
+<td>유가 $100 → $30 폭락</td>
+<td>산업·자본재 전반 위축. 셰일·중동·러시아 산업 위축</td>
+</tr>
+<tr>
+<td><strong>2015년 12월</strong></td>
+<td>파리협정 — 196개국 CO2 감축 합의</td>
+<td>재생E·전기화 정책 강제 — 향후 10년 메가 트렌드의 정책적 기반</td>
+</tr>
+<tr>
+<td><strong>2015년</strong></td>
+<td>미국 Clean Power Plan(오바마) → 2017 트럼프 폐기</td>
+<td>미국 환경 정책 좌우 진동 — 산업 예측성 저하</td>
+</tr>
+<tr>
+<td><strong>2016년 11월</strong></td>
+<td>트럼프 1기 당선 — '미국 우선주의'</td>
+<td>글로벌 자유무역 시대 종결 신호</td>
+</tr>
+<tr>
+<td><strong>2017년</strong></td>
+<td>Siemens, Gamesa(스페인 풍력) 인수 → Siemens Gamesa Renewable Energy 설립</td>
+<td>풍력 진입 — 후일 2022~24년 GAMESA 부실로 Siemens Energy 대형 손실</td>
+</tr>
+<tr>
+<td><strong>2018년</strong></td>
+<td>미·중 무역전쟁 본격 시작</td>
+<td>중국 메이커 미국 직접 진출 어려워짐</td>
+</tr>
+<tr>
+<td><strong>2018년 6월</strong></td>
+<td>GE 다우존스 산업평균지수에서 110년 만에 퇴출</td>
+<td>conglomerate 시대 종결의 상징</td>
+</tr>
+<tr>
+<td><strong>2018~19년</strong></td>
+<td>GE 가스 터빈 사업(GE Power) 대규모 손실 — 시가총액 90%↓</td>
+<td>가스터빈 정체기 본격화. GE 재편 시동</td>
+</tr>
+<tr>
+<td><strong>2019년 4월</strong></td>
+<td>GE Vernova 분사 발표(2024년 4월 분사 완료)</td>
+<td>발전·그리드·풍력 사업 분리 — 후일 슈퍼사이클의 직접 수혜 종목</td>
+</tr>
+<tr>
+<td><strong>2020년 4월</strong></td>
+<td>Siemens Energy AG 분사 — 독일 DAX 상장</td>
+<td>발전·송전·압축기 사업 분리</td>
+</tr>
+<tr>
+<td><strong>2020년 7월</strong></td>
+<td>ABB, Power Grids 사업부를 Hitachi에 80% 매각 ($11B) — Hitachi ABB Power Grids → 2022 Hitachi Energy 사명 변경</td>
+<td>변압기·HVDC 패권이 일본 Hitachi로 이전</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>비유</strong>: 2010년대 GE의 추락(시가총액 $500B 정점 → 2018년 $50B대로 추락)은 "100년 종합 자본재 기업 모델이 끝났다"는 상징. ABB·Siemens도 따라서 conglomerate 해체. 이 분사들은 결과적으로 <strong>2020s AI 슈퍼사이클의 직접 수혜</strong>가 될 종목들을 시장에 노출 — Siemens Energy·GE Vernova·Hitachi Energy는 모두 분사 후 슈퍼사이클 진입.</p>
+<p><strong>한국 메이커의 약진 토대</strong>: 2010~14년 중동 수주 사이클에서 효성중공업·현대중공업 전기·전자(2017 분사 → HD현대일렉트릭)·LS산전(현 LS일렉트릭)은 글로벌 변압기 시장 진출 경험 축적. 일본·유럽 빅3가 conglomerate 해체에 몰두할 때, 한국 메이커는 변압기 단일 사업에 집중하며 미국 시장 진입 준비 완료.</p>
+</blockquote>
+<h3 id="d_4">(d) 사이클 단계</h3>
+<p><strong>6차 사이클 후반부 ~ 7차 사이클 전(2010~2020, 정체기)</strong>. 자본재 산업 전반 약세. 글로벌 변압기 매출 연 +1~2% 수준 둔화. 가스 터빈 매출 2018~20 -30%(GE Power 부진).</p>
+<h3 id="e_4">(e) 대표 기업 주가</h3>
+<p><strong>GE 2017~18년 -75% 폭락</strong> → 다우 퇴출. ABB·Siemens 안정·약세. <strong>Siemens Energy 2020년 4월 분사 후 1년간 -50%</strong> (코로나 + GAMESA 부실 충격). Hitachi 안정. 한국 효성중공업·LS일렉트릭은 2010s 후반 부진(중동 수주 정체) → 2018~19 저점.</p>
+<h3 id="f-layer_4">(f) 규제 layer</h3>
+<ul>
+<li><strong>2011 후쿠시마 → 일본·독일 원전 폐쇄</strong>.</li>
+<li><strong>2015 파리협정 + 2018 IPCC 1.5도 보고서</strong> — 재생E 의무화 가속.</li>
+<li><strong>2020 EU Green Deal</strong> — €1T 그린 투자 계획.</li>
+<li><strong>2017 미국 트럼프 1기 — 파리협정 탈퇴(2020 발효), Clean Power Plan 폐기</strong> — 정책 진동.</li>
+<li><strong>2022 미국 IRA(Inflation Reduction Act, $370B 그린에너지 보조금)</strong> — 다음 chunk 슈퍼사이클의 결정적 정책 발화점.</li>
+</ul>
+<hr />
+<h2 id="chunk-6-20202026-ai-3">Chunk 6. 2020–2026 — AI·전기화 슈퍼사이클, 한국 빅3 미국 폭증</h2>
+<h3 id="a_5">(a) 매크로 배경</h3>
+<p>코로나 후폭풍 → 2021~22 인플레이션 폭발 → 2022~23 미국 금리 5%대로 급등. 2022 러·우 전쟁 → 유럽 가스 위기 → 유럽 LNG·풍력·원전 회귀. <strong>2022 11월 ChatGPT 출시 → AI 데이터센터 폭증</strong> — 미국 데이터센터 전력 수요 2024 175TWh → 2030 380TWh 전망(IEA Base Case). <strong>2025년 1월 트럼프 2기 출범 — 'America First' + 관세 부활 + 'Made in USA' 압박</strong>. 동시에 IRA·CHIPS Act는 유지 → 미국 reshoring 가속. 글로벌 전력 수요 2025~2030 연 3.6% 성장 (IEA, "지난 10년 평균의 1.5배").</p>
+<blockquote>
+<p><strong>비유</strong>: 2020년대는 전력 인프라의 "AI·전기화 동시 폭발기". 1차 산업혁명(증기), 2차(전기), 3차(컴퓨터), 4차(AI)에서 <strong>AI가 다시 전기의 시대를 가속</strong>시키는 역설. ChatGPT 1쿼리 = 구글 검색 10배 전기. AI 데이터센터 1개(100MW) = 10만 가구분 전력. 2026년 미국 전력 수요 성장률이 1960년대 이후 최고치.</p>
+</blockquote>
+<h3 id="b_5">(b) 패권자</h3>
+<p><strong>글로벌 빅3 = Hitachi Energy(T&amp;D) + Siemens Energy(발전+T&amp;D) + GE Vernova(발전+T&amp;D)</strong> — 분사 후 전문 회사로 부활. <strong>한국 빅3 = 효성중공업·HD현대일렉트릭·LS일렉트릭</strong> — 미국 765kV 변압기 시장 절대 강자. 효성중공업은 미국 멤피스 공장으로 <strong>미국 765kV 시장 점유율 1위</strong>, HD현대일렉트릭은 <strong>미국 고전압 변압기 시장 15~20%</strong>, LS일렉트릭은 배전기기 + ESS + 미국 텍사스 공장 신설. <strong>중국 빅3 = TBEA·Xian XD·NR Electric</strong> — 글로벌 HVDC·변압기 시장 진출 가속, 20~30% 가격 할인 무기. <strong>저전압·자동화 = Schneider Electric + Eaton + ABB + Siemens</strong> 4강.</p>
+<h3 id="c_5">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2022년 8월</strong></td>
+<td>미국 IRA($370B 그린에너지 보조금)</td>
+<td>향후 10년 전력 인프라 수요 트리거</td>
+</tr>
+<tr>
+<td><strong>2022년 11월</strong></td>
+<td>OpenAI ChatGPT 출시 → AI 데이터센터 폭증 시작</td>
+<td>산업의 결정적 트리거. 메가 트렌드 전환점</td>
+</tr>
+<tr>
+<td><strong>2023~25년</strong></td>
+<td>변압기 lead time 50주 → 144주 — GSU 시장 274% 수요 증가</td>
+<td>구조적 병목 형성. 가격 +60%</td>
+</tr>
+<tr>
+<td><strong>2024년 4월</strong></td>
+<td>GE Vernova(GEV) 분사 완료 — NYSE 상장</td>
+<td>글로벌 빅3 전문 회사 시대 완성</td>
+</tr>
+<tr>
+<td><strong>2024~25년</strong></td>
+<td>Hitachi Energy $6B 글로벌 확장 발표 (변압기 $1.5B 별도 — 핀란드·스페인·버지니아)</td>
+<td>빅3 capa 확장 본격화</td>
+</tr>
+<tr>
+<td><strong>2025년 1월</strong></td>
+<td>트럼프 2기 출범 — 관세 부활, 'Made in USA' 압박</td>
+<td>한국 멤피스 공장 가치 폭증 (효성중공업)</td>
+</tr>
+<tr>
+<td><strong>2025년</strong></td>
+<td>효성중공업 미국 수주잔고 <strong>13조 8500억원</strong> / HD현대일렉트릭 <strong>12조 4800억원</strong> / LS일렉트릭 4조 600억원 — 합산 30조원+</td>
+<td>한국 빅3의 미국 패권 굳히기</td>
+</tr>
+<tr>
+<td><strong>2025년</strong></td>
+<td>글로벌 변압기 시장 $24.8B → 2030 $33.5B(CAGR 6.22%) — power transformer 분야</td>
+<td>시장 자체가 메가 사이클</td>
+</tr>
+<tr>
+<td><strong>2025년</strong></td>
+<td>Siemens Energy 수주잔고 €136B(역사상 최대)</td>
+<td>슈퍼사이클의 정점 진입</td>
+</tr>
+<tr>
+<td><strong>2025년</strong></td>
+<td>가스 터빈 빅3(GE Vernova·Siemens Energy·Mitsubishi Power) 합산 글로벌 점유율 약 2/3 — Siemens 2024 100대 → 2025 194대 판매 2배</td>
+<td>가스 발전 재부상 — AI 데이터센터의 24/7 베이스로드</td>
+</tr>
+<tr>
+<td><strong>2025년</strong></td>
+<td>Mitsubishi Power 가스터빈 2028년까지 sold-out, GE Vernova 2026 50→80대/년 capa 확장</td>
+<td>발전기기 capa 한계</td>
+</tr>
+<tr>
+<td><strong>2026년 4월</strong></td>
+<td>IEA, AI 데이터센터 전력 수요 2030년 945TWh(2025 대비 2배) 전망</td>
+<td>메가 트렌드 정량 confirm</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>비유</strong>: 2026년 현재 전력 인프라 산업의 상태는 1995년 인터넷 인프라(Cisco·Nortel·라우터 메이커)와 닮은 슈퍼사이클 초입. 단, 인터넷 인프라는 5~7년 만에 끝났지만 전력 인프라는 <strong>수요 driver가 AI 1개가 아닌 AI + EV + 재생E + 산업 reshoring 4중</strong>으로 더 길게 갈 가능성. 그러나 동시에 <strong>공급 capex 사이클은 7~10년 lead time</strong> 산업이라 capa가 따라잡으면 갑작스러운 reset 위험도 존재.</p>
+<p><strong>한국 빅3가 미국 패권 잡은 결정적 3가지</strong>: ① 효성중공업이 2005년 인수한 멤피스 공장은 <strong>미국 내 유일 765kV 생산 능력</strong> — 트럼프 'Made in USA' 압박을 완벽 회피. ② HD현대일렉트릭은 영업이익률 20%+로 가격결정권 확보. ③ POSCO의 GOES 강판 공급으로 핵심 소재 안정 확보. 미국 변압기 시장의 80%가 수입품(주로 멕시코·한국)이라는 현실이 한국 빅3의 구조적 해자.</p>
+</blockquote>
+<h3 id="d_5">(d) 사이클 단계</h3>
+<p><strong>7차 사이클 (2020~ , AI·전기화 슈퍼사이클) — 정점 진입 중</strong>. 1차(1880s~1920s 도시화) → 2차(1920s~1970s 가전·산업화) → 3차(1970s 원전 + 자유화) → 4차(1980s~90s 자유화) → 5차(1990s~2010 신흥국) → 6차(2010s 정체) → <strong>7차(2020s AI·전기화)</strong>.</p>
+<h3 id="e_5">(e) 대표 기업 주가</h3>
+<ul>
+<li><strong>Siemens Energy</strong>: 2023년 €5 저점 → 2026년 5월 €100+ (20x). FY25 매출 €39B(+13.4%)·수주잔고 €136B 역사상 최대.</li>
+<li><strong>GE Vernova (GEV)</strong>: 2024년 4월 분사 후 $130 → 2026년 5월 $700+ (5x). FY25 매출 $36.8B·FCF $3.8B 사상 최고.</li>
+<li><strong>ABB</strong>: 2023~26 +100%.</li>
+<li><strong>Hitachi</strong>: 2023~26 +150%, Hitachi Energy 사업부 영업이익 폭증.</li>
+<li><strong>Schneider Electric (SU.PA)</strong>: 2023~26 +60%. 데이터센터 매출 비중 20%+.</li>
+<li><strong>Eaton (ETN)</strong>: 2023~26 +120%.</li>
+<li><strong>효성중공업</strong>: 2023년 4만원 → 2026년 5월 60만원+ (15x). 수주잔고 13.8조.</li>
+<li><strong>HD현대일렉트릭</strong>: 2023 4만원 → 2026 70만원+ (17x). 수주잔고 12.5조.</li>
+<li><strong>LS일렉트릭</strong>: 2023 5만원 → 2026 40만원+ (8x).</li>
+<li><strong>중국 TBEA·Xian XD</strong>: 2024~26 +200~300%.</li>
+</ul>
+<h3 id="f-layer_5">(f) 규제 layer</h3>
+<ul>
+<li><strong>2022 미국 IRA</strong> — $370B 보조금. 변압기·풍력·태양광 국내 생산 보조.</li>
+<li><strong>2022 미국 CHIPS Act</strong> — 반도체 공장(다 같이 전력 수요) 보조.</li>
+<li><strong>2025 트럼프 2기 관세</strong> — 변압기 25%+ 관세 검토 (한국 빅3는 멤피스·텍사스 공장으로 회피).</li>
+<li><strong>EU CBAM(탄소국경조정)</strong> — 2026~28 단계 시행. 중국 변압기 EU 진출 압박.</li>
+<li><strong>FERC Order 1920(2024)</strong> — 미국 송전망 장기 계획 의무화. 그리드 capex 확정.</li>
+</ul>
+<hr />
+</main>
+</body>
+</html>

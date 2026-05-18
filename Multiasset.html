@@ -196,6 +196,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .v3-glossary dl { display: grid; grid-template-columns: 160px 1fr; gap: 8px 18px; font-size: 12.5px; }
 .v3-glossary dt { color: #79c0ff; font-weight: 700; font-family: 'Menlo', monospace; }
 .v3-glossary dd { color: #c9d1d9; line-height: 1.65; }
+
+/* === Phase G: 시대별 그룹 (전체 사이클 탭 v1) === */
+.ma-era-group { padding: 8px 28px 6px; }
+.ma-era-group + .ma-era-group { border-top: 1px solid #21262d; margin-top: 2px; padding-top: 8px; }
+.ma-era-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 5px; flex-wrap: wrap; }
+.ma-era-label { font-size: 12px; font-weight: 700; color: #f0f6fc; letter-spacing: 0.02em; }
+.ma-era-range { font-size: 11px; color: #8b949e; font-family: 'Menlo', monospace; }
+.ma-era-desc { font-size: 11px; color: #6e7681; font-weight: 400; }
+.ma-era-buttons { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 0; }
 .v3-indicator { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 11px 14px; margin-top: 8px; border-left: 3px solid #58a6ff; }
 .v3-indicator-name { font-size: 13.5px; font-weight: 700; color: #58a6ff; margin-bottom: 5px; }
 .v3-indicator-body { font-size: 12.5px; color: #c9d1d9; line-height: 1.75; }
@@ -910,6 +919,29 @@ const MA_ASSET_CLASS = {
 };
 const MA_CLASS_ORDER = ["eq-gl", "eq-kr", "cm", "cr", "fx", "bd"];
 
+// Phase G: 전체 사이클 탭 — 시대별 그룹 분류 (변곡점 기반 6개)
+const MA_ERA_GROUPS = [
+  { id: 'classical',     label: '고전기',           range: '1900-1970', desc: '금본위제·양차세계대전' },
+  { id: 'stagflation',   label: '스태그플레이션',    range: '1970-1985', desc: 'Bretton Woods 종료·Oil shock 인플레' },
+  { id: 'disinflation',  label: '디스인플레·버블',   range: '1985-2000', desc: 'Volcker 후 Japan/Tech 광기' },
+  { id: 'globalization', label: '글로벌화·GFC',      range: '2000-2010', desc: 'China commodity supercycle·Subprime' },
+  { id: 'qe',            label: 'QE 시대',           range: '2010-2020', desc: '무한 양적완화·크립토 등장' },
+  { id: 'covid_ai',      label: 'COVID·AI 시대',     range: '2020-2026', desc: '무한 QE·디지털 전환·AI 혁명' },
+];
+
+function maEraGroup(event) {
+  // 수동 override (climax 시점이 era 시작 시점과 시대가 다른 case)
+  if (event.eraGroup) return event.eraGroup;
+  // 자동 — sortKey (YYYYMM) 기반
+  const key = maEraSortKey(event.era);
+  if (key < 197001) return 'classical';
+  if (key < 198501) return 'stagflation';
+  if (key < 200001) return 'disinflation';
+  if (key < 201001) return 'globalization';
+  if (key < 202001) return 'qe';
+  return 'covid_ai';
+}
+
 const MULTIASSET_EVENTS = [
   // === 주식·글로벌 (11) ===
   { id: "1907_panic",          ac: "eq-gl", era: "1907",       name: "US Equities Panic (Livermore)",    asset: "SPX_SHILLER",         mag: "~-45% climax bear",            rec: false },
@@ -919,7 +951,7 @@ const MULTIASSET_EVENTS = [
   { id: "1998_2000_nasdaq",    ac: "eq-gl", era: "1998-2000",  name: "Dot-com NASDAQ climax",            asset: "NASDAQ",      mag: "1500→5132 (3.4x)",        rec: true  },
   { id: "2018_tilray",         ac: "eq-gl", era: "2018",       name: "Tilray Cannabis climax",           asset: "TLRY",        mag: "$20→$300 (15x in 3개월)", rec: false },
   { id: "2020_covid_v",        ac: "eq-gl", era: "2020.03-06", name: "COVID V-recovery",                 asset: "SPX",         mag: "-34%→+40% in 2개월",      rec: false },
-  { id: "2020_21_tesla",       ac: "eq-gl", era: "2019-21",    name: "Tesla EV climax",                  asset: "TSLA",        mag: "$30→$300+ (10x)",         rec: true  },
+  { id: "2020_21_tesla",       ac: "eq-gl", era: "2019-21",    name: "Tesla EV climax",                  asset: "TSLA",        mag: "$30→$300+ (10x)",         rec: true,  eraGroup: "covid_ai" },
   { id: "2020_21_arkk",        ac: "eq-gl", era: "2020-21",    name: "ARKK/Zoom/Peloton",                asset: "ARKK",        mag: "ARKK 2x, Peloton 6x",          rec: false },
   { id: "2021_gamestop",       ac: "eq-gl", era: "2021.01-02", name: "GameStop short squeeze",           asset: "GME",         mag: "$20→$483 (24x in 2주)",   rec: false },
   { id: "2023_24_nvda",        ac: "eq-gl", era: "2023-24",    name: "NVDA AI 1차 climax",               asset: "NVDA",        mag: "$140→$1240 (8.8x)",       rec: true  },
@@ -941,7 +973,7 @@ const MULTIASSET_EVENTS = [
   { id: "1979_80_silver",      ac: "cm",    era: "1979-80",    name: "Silver Hunt corner",               asset: "SLV_MANUAL",    mag: "$5→$50 (10x)",            rec: true  },
   { id: "2003_07_supercycle",  ac: "cm",    era: "2003-07",    name: "China commodity supercycle",       asset: "BCOM",        mag: "Copper 5x, Crude 6x",          rec: false },
   { id: "2007_08_crude",       ac: "cm",    era: "2007-08",    name: "Crude $147 peak oil",              asset: "WTI",         mag: "$60→$147 (2.5x)",         rec: true  },
-  { id: "2008_11_gold_qe",     ac: "cm",    era: "2008-11",    name: "Gold $1920 QE climax",             asset: "GLD",         mag: "$700→$1920 (2.7x)",       rec: false },
+  { id: "2008_11_gold_qe",     ac: "cm",    era: "2008-11",    name: "Gold $1920 QE climax",             asset: "GLD",         mag: "$700→$1920 (2.7x)",       rec: false, eraGroup: "qe" },
   { id: "2010_11_silver_qe2",  ac: "cm",    era: "2010-11",    name: "Silver $50 QE2",                   asset: "SLV",         mag: "$17→$50 (3x)",            rec: false },
   { id: "2014_16_oil_crash",   ac: "cm",    era: "2014-16",    name: "Oil crash $26 (short)",            asset: "WTI",         mag: "$107→$26 (-75%)",         rec: false },
   { id: "2020_21_lumber",      ac: "cm",    era: "2020-21",    name: "Lumber supply chain",              asset: "LBR",         mag: "$260→$1733 (6.5x)",       rec: false },
@@ -2585,13 +2617,44 @@ function createMaBtn(event, view) {
   return btn;
 }
 
-// View 1 = 전체 사이클 — 시계열 정렬, no grouping
+// View 1 = 전체 사이클 — 시대별 그룹 + 그룹 내 시계열 정렬 (Phase G)
 function renderMaButtonsChrono(view) {
   const container = document.getElementById(view + '-ma-btns');
   if (!container) return;
   container.innerHTML = '';
-  const sorted = MULTIASSET_EVENTS.slice().sort((a, b) => maEraSortKey(a.era) - maEraSortKey(b.era));
-  sorted.forEach(e => container.appendChild(createMaBtn(e, view)));
+
+  // 그룹별 분류
+  const byGroup = {};
+  MULTIASSET_EVENTS.forEach(e => {
+    const g = maEraGroup(e);
+    if (!byGroup[g]) byGroup[g] = [];
+    byGroup[g].push(e);
+  });
+
+  // 정의된 시대 순서대로 그룹 row 생성
+  MA_ERA_GROUPS.forEach(grp => {
+    const items = byGroup[grp.id];
+    if (!items || items.length === 0) return;
+    items.sort((a, b) => maEraSortKey(a.era) - maEraSortKey(b.era));
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'ma-era-group';
+
+    const header = document.createElement('div');
+    header.className = 'ma-era-header';
+    header.innerHTML =
+      '<span class="ma-era-label">' + grp.label + '</span>' +
+      '<span class="ma-era-range">' + grp.range + '</span>' +
+      '<span class="ma-era-desc">· ' + grp.desc + '</span>';
+    groupEl.appendChild(header);
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'ma-era-buttons';
+    items.forEach(e => btnRow.appendChild(createMaBtn(e, view)));
+    groupEl.appendChild(btnRow);
+
+    container.appendChild(groupEl);
+  });
 }
 
 // View 2 = 개별 사이클 — 자산군별 grouping, row per asset class
