@@ -1,0 +1,514 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>LS ELECTRIC/정기공시 항목별 검색</title>
+<meta id="Viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	
+
+
+	
+<script type="text/javascript" src="/resource/js/jquery-3.3.1.min.js"></script>
+
+<link rel="stylesheet" href="/js/jquery-ui/jquery-ui.min.css">
+<script type="text/javascript" src="/js/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- 2011.11.01 ext 2.3 -->
+<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/js/ext-main/resources/css/ext-all-ie8.css" /><![endif]-->
+<script type="text/javascript" src="/js/ext-main/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="/js/ext-main/ext-all.js"></script>
+
+<!-- x-xeries js libraries  -->
+<script type="text/javascript" src="/js/xjs.js?ver=4"></script>
+
+<!-- application js libraries -->
+<script type="text/javascript" src="/js/jsval.js" ></script>
+
+<!-- 웹표준 추가 스크립트-->
+<script type="text/javascript" src="/js/jquery/gotop.js"></script>
+
+<!-- 웹표준화적용사항 위반으로 DSAB001L.jsp에서 헤드로 위치 이동 -->
+<style type="text/css">
+.checked-icon {background-image: url(/images/temp/add.gif);}
+.ui-autocomplete {max-height: 100px; overflow-y: auto; overflow-x: hidden;}
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {background: #eaeaea !important; border: none; color:#333;}
+</style>
+<!--end -->
+
+<!-- 추가 되는 js, css 시작 -->
+<link rel="stylesheet" href="/resource/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resource/css/slick.css">
+<link rel="stylesheet" href="/js/jsTree/default/style.css" />
+<link rel="stylesheet" href="/resource/css/bootstrap-datepicker3.css">
+<script type="text/javascript" src="/resource/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/resource/js/slick.min.js"></script>
+<script type="text/javascript" src="/js/jsTree/jstree.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datepicker.kr.min.js"></script>
+<script type="text/javascript" src="/js/idart/idart.js"></script><!-- idart용 -->
+<!-- 추가 되는 js, css 끝 -->
+
+<script type="text/javascript">
+function loadHistoryContents() {
+	xajax.initParameter();
+	xajax.blockUI = false;
+	xajax.simpleSend("/dsaf001/history.ax", function(html) {
+		$j("#wingWrap").html(html);
+	});
+}
+
+</script>
+<script type="text/javascript">
+(
+	function(){
+		var s=function(){
+				__flash__removeCallback=function(i,n){if(i)i[n]=null;
+			};window.setTimeout(s,10);
+		};s();
+	}
+)();
+</script>
+
+<script type="text/javascript">
+function otherGongsi(){
+	var f_select = document.getElementById("f_select");
+	var link = f_select.options[f_select.selectedIndex].value;
+	if(link != "f_slt_1"){
+		window.open(link);
+	}
+	if(link == "f_slt_1"){
+		alert("해외전자공시를 선택해주세요");
+	}
+}
+</script>
+
+
+	
+<link id="commonCss" rel="stylesheet" href="/css/common.css?ver=1.13" />
+<link id="userCssWeb" rel="stylesheet" href="/css/web.css?ver=21" />
+<link id="userCssTab" rel="stylesheet" href="/css/tablet.css?ver=11" />
+<link id="userCssMob" rel="stylesheet" href="/css/mobile.css?ver=13" />
+<link id="userCssFnt" rel="stylesheet" href="/css/fonts.css?ver=1.13" />
+
+<script type="text/javascript" src="/js/common.js?ver=7"></script>
+
+
+<!-- 추가 되는 js, css 끝 -->
+<script type="text/javascript">
+$j(document).ready(function() {	
+	initLayerNew('winCorpInfo');
+	
+	/*print 버튼 pc웹, 모바일 웹인 경우만 dispaly추가 2021-03-16*/
+	if(fn_isMobileApp() !="app"){
+		for(var i=1;i<=3;i++){
+			$j('#print_'+i).css('display','inline-block');
+		}
+	}
+	
+	/*모바일 앱/웹 높이 조정*/
+	if(fn_isMobileApp()=="app"){
+		//alert("앱");
+		for(var i=1;i<=3;i++){
+			if($j('#contents_'+i).attr('class')=="viewerWrap h01W"){
+				$j('#contents_'+i).attr('class','viewerWrap h01');
+			}else if($j('#contents_'+i).attr('class')=="viewerWrap h02W"){
+				$j('#contents_'+i).attr('class','viewerWrap h02');
+			}
+			
+			if($j('#wraps_'+i).attr('class')=="contentsWrap h01W"){
+				$j('#wraps_'+i).attr('class','contentsWrap h01');
+			}else if($j('#wraps_'+i).attr('class')=="contentsWrap h02W"){
+				$j('#wraps_'+i).attr('class','contentsWrap h02');
+			}	
+			
+			$j('#wraps_'+i).css('overflow','auto');
+			$j('#wraps_'+i).css('-webkit-overflow-scrolling','touch');
+		}	
+		
+
+	}else if(fn_isMobileApp()=="mobileweb"){
+		//alert("모바일 웹");			
+		for(var i=1;i<=5;i++){
+			if($j('#contents_'+i).attr('class')=="viewerWrap h01"){
+				$j('#contents_'+i).attr('class','viewerWrap h01W');
+			}else if($j('#contents_'+i).attr('class')=="viewerWrap h02"){
+				$j('#contents_'+i).attr('class','viewerWrap h02W');
+			}
+			
+			if($j('#wraps_'+i).attr('class')=="contentsWrap h01"){
+				$j('#wraps_'+i).attr('class','contentsWrap h01W');
+			}else if($j('#wraps_'+i).attr('class')=="contentsWrap h02"){
+				$j('#wraps_'+i).attr('class','contentsWrap h02W');
+			}		
+			
+			$j('#wraps_'+i).css('overflow','auto');
+			$j('#wraps_'+i).css('-webkit-overflow-scrolling','touch');
+		}				
+	}					
+				
+});
+
+/*print 기능 추가 2021-03-16*/
+function printDoc(idx) {
+	var printFrame;
+	printFrame = document.getElementById('naviIfrm_'+idx);
+	
+	var agent = navigator.userAgent.toLowerCase();
+	// * 참고: iframe쪽으로 포커스를 꼭 줘야 iframe내용만 출력할 수 있다.
+	if(agent.indexOf('trident') > -1){  // 익스플로러경우 iframe id를 바로 불려야 포커스 됨
+		if(idx==1){
+			naviIfrm_1.focus();
+		}else if(idx==2){
+			naviIfrm_2.focus();
+		}else if(idx==3){
+			naviIfrm_3.focus();
+		}else if(idx==4){
+			naviIfrm_4.focus();
+		}else{
+			naviIfrm_5.focus();
+		}
+	}else{
+		printFrame.focus(); // 그 외는 iframe id로 객체찾아서 포커스 줌
+	}
+	printFrame.contentWindow.print();
+}
+
+function changeTab(num) {
+	if ($j("#naviIfrm_"+num).attr("src") == "") {
+		$j("#naviIfrm_"+num).attr("src", $j("#url_"+num).val());
+	}
+	
+	$j("div[id^=contents_]").hide();
+	$j("#contents_"+num).show();
+	$j("div[id^=btnViewer_]").hide();
+	$j("#btnViewer_"+num).show();
+	$j("li[id^=naviTab_]").removeClass("on");
+	$j("#naviTab_"+num).addClass("on");
+}
+
+function fn_iframeLoaded(ifrm){
+}
+
+function goBookmark(to, from, toc) {
+	var param = "";
+	//bmTp(bookmarkType : 1(상세표만), 2(신규북마크))
+	//<![CDATA[
+	param += "&bmTp=1&bm1=" + to + "&bm2=" + from + "&bm3=" + toc;
+	var rcpNo = "20260514000847";
+	//]]>
+	if (rcpNo != null) {
+		openReportViewerParam(rcpNo, "", param);
+	}
+}
+
+function goBookmark2(atocId, text) {
+	var param = "";
+	//bmTp(bookmarkType : 1(상세표만), 2(신규북마크))
+	//<![CDATA[
+	param += "&bmTp=2&bm1=" + atocId + "&bm2=" + text;
+	var rcpNo = "20260514000847";
+	//]]>
+	if (rcpNo != null) {
+		openReportViewerParam(rcpNo, "", param);
+	}
+}
+
+</script>
+</head>
+
+<body style="overflow:hidden;">
+<!-- popCont -->
+<div class="popCont">
+	<!-- title -->
+	<div class="title">
+		<h3>정기공시 항목별 검색</h3>
+		<span class="img01"></span>
+	</div>
+
+	<!-- contWrap -->
+	<div class="contWrap">
+		
+		
+		<div class="titleFile">
+			
+				
+					
+				
+				
+				
+				
+			
+			
+			<a href="javascript:openCorpInfoNew('00105855', 'winCorpInfo', '/dsae001/selectPopup.ax');" title="엘에스일렉트릭 기업개황 새창" >
+				<span class="tagCom_kospi" title="유가증권시장">유</span>엘에스일렉트릭
+			</a>
+			
+		</div>
+		
+		<!-- tab -->
+		<div class="tabCompany">
+			<div class="tabWrap" id="naviTab">
+				<ul>
+				
+					
+						<li class="on" id="naviTab_1" style="width: 20%">
+							<a href="javascript:void(0);" onclick="changeTab(1)" class="ellipsis">사업의 내용</a>
+						</li>
+					
+				
+				</ul>
+			</div>
+		</div>
+		
+		<!-- viewerWrap -->
+		
+			
+				<div class="btnTRWrap" id="btnViewer_1" style="display: block;">
+					<a class="btnSG" href="javascript:void(0);" onclick="openReportViewer('20260514000847','');">
+						분기보고서(사업연도:2026) 보러가기
+					</a>
+					<span id="print_1" class="btnSG" href="javascript:void(0);" onclick="printDoc('1');">인쇄</span>
+				</div>
+			
+			
+				
+				
+				
+					<div class="viewerWrap h01" id="contents_1" style="display: block;">
+						<div class="contentsWrap h01" id="wraps_1">
+							<!-- viewWrap -->
+							<div class="viewWrap">
+								<div class="contWrap">
+									
+										
+											<iframe id="naviIfrm_1" frameborder="0" scrolling="auto" title="viewer_comp" style="width: 100%; height : 100%; margin: 0; padding: 0" title="show" onload="fn_iframeLoaded(this)"
+												src="/report/viewer.do?rcpNo=20260514000847&dcmNo=11378882&eleId=9&offset=110582&length=364396&dtd=dart4.xsd&displayImage=show"></iframe>
+										
+										
+									
+									<input id="url_1" type="hidden" value="/report/viewer.do?rcpNo=20260514000847&dcmNo=11378882&eleId=9&offset=110582&length=364396&dtd=dart4.xsd&displayImage=show" />
+								</div>
+							</div>
+						</div>
+					</div>
+				
+			
+		
+		
+		<!-- btnArea -->
+		<div class="btnArea">
+			<button class="btnLG" onclick="window.close();">닫기</button>
+		</div>
+	
+	</div>
+	<!-- //contWrap -->
+</div>
+<!-- layer popup wrap -->
+
+
+<script type="text/javascript">
+function openReportViewerEng(rcpNo, dcmNo){
+	var url = "/dsbh001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+
+	var size = getOpenSize(1024, 768);
+	window.open(url, rcpNo, size+",resizable=yes");
+	$j("#r_"+rcpNo).css("color","#cd0093");
+}
+
+var win_num = 1;
+function openReportViewer(rcpNo, dcmNo){
+	var url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, rcpNo+win_num, size+",resizable=yes");
+	win_num++;
+	if (dcmNo) {
+		$j("#r_"+rcpNo+dcmNo).css("color","#cd0093");
+	}else{
+		$j("#r_"+rcpNo).css("color","#cd0093");
+	}
+}
+
+function openReportViewerParam(rcpNo, dcmNo, params){
+	var url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+	if (params) {
+		//<![CDATA[
+		url += params;
+		//]]>
+	}
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, rcpNo+win_num, size+",resizable=yes");
+	win_num++;
+	if (dcmNo) {
+		$j("#r_"+rcpNo+dcmNo).css("color","#cd0093");
+	}else{
+		$j("#r_"+rcpNo).css("color","#cd0093");
+	}
+}
+
+function openReportListViewer(rcpNo, dcmNo, eleId){
+
+	var url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+		if(eleId) {
+			url += "&eleId=" + eleId;
+		}
+	}
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, rcpNo+win_num, size+",resizable=yes");
+	win_num++;
+	if (dcmNo) {
+		$j("#r_"+rcpNo+dcmNo).css("color","#cd0093");
+	}else{
+		$j("#r_"+rcpNo).css("color","#cd0093");
+	}
+}
+
+/*
+ * 통합검색용 문서뷰어 팝업 호출
+ * nrseo 2010. 10. 20
+ * 2016.09.30 jsp에 직접 명시 하여 미사용(DSAB007A.jsp)
+ * - a:visited 미작동으로 인한 조치
+ */
+function openReportViewerKeyword(rcpNo, dcmNo, keyword){
+	var url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+	//<![CDATA[
+	url += "&keyword=" + encodeURIComponent(keyword);
+	//]]>
+
+	var size = getOpenSize(1024, 768);
+	window.open(url, rcpNo+win_num, size+",resizable=yes");
+	win_num++;
+	if (dcmNo) {
+		$j("#r_"+rcpNo+dcmNo).css("color","#cd0093");
+	}else{
+		$j("#r_"+rcpNo).css("color","#cd0093");
+	}
+}
+
+/*
+ * 메인화면 전용
+ */
+function openReportViewerMain(rcpNo, dcmNo){
+	var url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, rcpNo+win_num, size+",resizable=yes");
+	win_num++;
+}
+
+/*
+ * 사용(xbrl 미리보기)
+ */
+function openXbrlViewer(rcpNo, dcmNo, lang){
+	var url = "";
+	if (lang == "en") url = "https://englishdart.fss.or.kr/dsbh002/main.do?rcpNo=" + rcpNo;
+	else url = "/dsaf002/main.do?rcpNo=" + rcpNo;
+	
+	if (dcmNo) {
+		//<![CDATA[
+		url += "&dcmNo=" + dcmNo;
+		//]]>
+	}
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, "_blank", size+",resizable=yes");
+}
+
+/*
+ * 사용(xbrl뷰어 열기 팝업(opendart link))
+ */
+function openXbrlViewerNew(opendartUrl, rcpNo, stat, preview) {
+	if (stat == "Y") {
+		var url = opendartUrl + "/xbrl/viewer/main.do?rcpNo=" + rcpNo;
+
+		var size = getOpenSize(1200, 810);
+		window.open( url, rcpNo+win_num, size+",resizable=yes" );
+		win_num++;
+	} else if (stat == "N") {
+		if (preview == "Y") {
+			openXbrlViewer(rcpNo, "", "");
+		} else {
+			alert( '문서 생성중 입니다.\n잠시 후 다시 조회 하시기 바랍니다.' );
+		}
+	} else {
+		alert( '생성된 문서가 없습니다.' );
+	}
+}
+
+//영문보기
+function openViewer(rcpNo, lang){
+	var url = "";
+	if (lang == "en") url = "https://englishdart.fss.or.kr/dsbh001/main.do?rcpNo=" + rcpNo;
+	else url = "/dsaf001/main.do?rcpNo=" + rcpNo;
+
+	var size = getOpenSize(1200, 810);
+	window.open(url, "_blank", size+",resizable=yes");
+}
+
+function openHelp(menu) {
+	var url = "/guide/main.jsp";
+	if (menu) {
+		url += "?menu=" + menu;
+	}
+	var size = getOpenSize(1100, 761);
+	var win = window.open(url, "DartGuide", size + ",resizable=yes,scrollbars=no");
+	if (win == null) {
+		alert("팝업차단을 해제하시기 바랍니다.");
+	} else {
+		win.focus();
+	}
+}
+
+</script>
+<form name="reportForm" method="post" action="/dsaf001/main.do">
+	<input type="hidden" name="rcpNo" />
+	<input type="hidden" name="dcmNo" />
+	<input type="hidden" name="keyword" />
+	<input type="submit" style="display:none;" />
+</form>
+</body>
+</html>

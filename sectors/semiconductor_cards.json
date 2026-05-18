@@ -37,6 +37,7 @@
         {
           "id": "pbr_band_samsung_sk",
           "title": "삼성전자 / SK하이닉스 12MF PBR 밴드",
+          "match_page": "삼성전자 12MF PBR 밴드",
           "page_clip": {
             "page": 26,
             "x0": 35,
@@ -498,6 +499,7 @@
         {
           "id": "samsung_perf_p25",
           "title": "삼성전자 사업부문별 실적 전망",
+          "match_page": "삼성전자 사업부문별 실적 전망",
           "page_full": 25,
           "embed_page": true
         }
@@ -511,6 +513,11 @@
         {
           "id": "sk_hynix_perf_p26",
           "title": "SK하이닉스 사업부문별 실적 전망",
+          "match_page": [
+            "SK하이닉스 사업부문별 실적 전망",
+            "SK하이닉스의 분기 및 연간 주요 가정",
+            "SK하이닉스의 분기"
+          ],
           "page_clip": {
             "page": 26,
             "x0": 35,
