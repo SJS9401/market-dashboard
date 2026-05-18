@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>소비자 전자제품 산업 기초 분석 (Industry Basic — Consumer Electronics)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --apple:#000000; --samsung:#1428a0; --xiaomi:#ff6900; --sony:#000000;
+    --us:#3c5d99; --japan:#bc002d; --korea:#003478; --china:#de2910;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65;font-size:14.5px}
+  .wrap{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;max-width:1280px;margin:0 auto;padding:24px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:13px}
+  nav.toc h4{margin:0 0 8px 0;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  nav.toc a.sub{padding-left:18px;font-size:12px;color:#555}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:36px 44px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16.5px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14.5px;margin:18px 0 8px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13.5px}
+  .chunk{border:1px solid var(--line);border-radius:6px;margin:18px 0;padding:14px 18px;background:#fcfbf6}
+  .chunk-head{font-weight:600;color:var(--accent);font-size:15.5px;margin-bottom:6px}
+  .chunk-period{display:inline-block;background:var(--accent);color:#fff;padding:2px 10px;border-radius:3px;font-size:11px;margin-right:8px;vertical-align:middle}
+  .layer-grid{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;margin-top:8px;font-size:13px}
+  .layer-grid .lbl{color:var(--accent2);font-weight:600;text-align:right;padding-top:2px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .matrix{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px;table-layout:fixed}
+  .matrix th,.matrix td{border:1px solid var(--line);padding:14px 8px;text-align:center}
+  .matrix th{background:#f4f2ec}
+  .matrix .current{background:#fff0c2;border:3px solid var(--accent2);font-weight:bold}
+  .pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;margin:0 3px}
+  .pill-us{background:var(--us);color:#fff}
+  .pill-jp{background:var(--japan);color:#fff}
+  .pill-kr{background:var(--korea);color:#fff}
+  .pill-cn{background:var(--china);color:#fff}
+  .pill-high{background:#2ca02c;color:#fff}
+  .pill-mid{background:#ff9933;color:#fff}
+  .pill-low{background:#888;color:#fff}
+  .valuechain{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}
+  .vc-col{border:1px solid var(--line);border-radius:6px;padding:10px;background:#fafaf7}
+  .vc-col h5{margin:0 0 8px 0;color:var(--accent);font-size:13px;text-align:center;border-bottom:1px solid var(--line);padding-bottom:6px}
+  .vc-col ul{margin:0;padding-left:16px;font-size:12px;color:#444}
+  .vc-col li{margin-bottom:3px}
+  .vc-margin{margin-top:8px;font-size:11.5px;color:var(--accent2);font-weight:600;text-align:center;background:#fff7e0;padding:4px;border-radius:3px}
+  .key-insight{background:#eff5ff;border:1px solid #c8d8f0;border-radius:6px;padding:12px 16px;margin:14px 0}
+  .key-insight strong{color:var(--accent)}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr}nav.toc{position:static;height:auto}.valuechain{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="toc">
+  <h4>목차</h4>
+  <a href="#summary">Executive Summary</a>
+  <a href="#onepager">1-pager 요약</a>
+  <a href="#stage1">1단계. 역사 (7 chunk)</a>
+  <a href="#chunk1" class="sub">Chunk 1 (1895-1920)</a>
+  <a href="#chunk2" class="sub">Chunk 2 (1920-1955)</a>
+  <a href="#chunk3" class="sub">Chunk 3 (1955-1980)</a>
+  <a href="#chunk4" class="sub">Chunk 4 (1980-1995)</a>
+  <a href="#chunk5" class="sub">Chunk 5 (1995-2007)</a>
+  <a href="#chunk6" class="sub">Chunk 6 (2007-2015)</a>
+  <a href="#chunk7" class="sub">Chunk 7 (2015-2026)</a>
+  <a href="#stage2">2단계. 주가 사이클</a>
+  <a href="#stage3">3단계. BM/밸류체인</a>
+  <a href="#stage4">4단계. 공급 구조</a>
+  <a href="#stage5">5단계. 수요 구조</a>
+  <a href="#conclusion">4+5 종합 결론</a>
+  <a href="#appendix">부록 시계열 데이터</a>
+</nav>
+
+<main>
+
+<header class="header">
+  <span class="tag">INDUSTRY BASIC · MAJOR</span>
+  <h1>소비자 전자제품 산업 기초 분석</h1>
+  <div class="meta">Industry Basic — Consumer Electronics · 125년 산업사 · 마지막 갱신 2026-05-18</div>
+</header>
+
+<blockquote>
+본 문서는 셀사이드 init(데뷔) 자료 수준의 영구 reference 문서다. <b>1895년 Marconi 무선전신부터 2026년 AI 통합 스마트 기기</b>까지 125년 산업사를 다룬다. 글로벌 7 : 한국 3 비중. <b>라디오 → TV → VCR → Walkman → PC → 스마트폰 → IoT/XR</b>로 이어지는 매체 패권 교체와 <b>미국 → 일본 → 한국 → 중국</b>으로 이어지는 국가 패권 교체가 본 산업의 양대 본질.
+</blockquote>
+
+<section id="summary">
+<h2>Executive Summary (5줄)</h2>
+<div class="summary">
+<ol>
+<li><b>소비자 전자제품은 1920년 KDKA 상업 라디오 방송 개시로 탄생한 105년 산업</b> (광의로는 1895년 Marconi 무선전신부터 125년). "콘텐츠를 가정 거실로 배달하는 하드웨어" 본질에서 출발해 <b>휴대(Walkman·iPod) → 개인화(스마트폰) → 신체밀착(웨어러블)</b>으로 진화. 2025년 글로벌 시장 규모 <b>$1.23T</b> (Fortune Business Insights).</li>
+<li><b>국가 패권 4차 이동</b>: <span class="pill pill-us">미국 RCA</span>(1920~1965) → <span class="pill pill-jp">일본 Sony·Panasonic</span>(1965~2000) → <span class="pill pill-kr">한국 Samsung·LG</span>(2000~2015) → <span class="pill pill-cn">중국 Xiaomi·TCL·Haier</span>(2015~). 단 <b>스마트폰 high-end는 Apple이 2007년 이후 독점적 위치 유지</b>.</li>
+<li><b>사이클은 신제품 S-커브 + 매크로 동조 이중구조</b>. 라디오·TV·VCR·PC·스마트폰 각각 15~25년 도입→대중화→포화 S-커브. 현재 스마트폰이 2017년 이후 포화 (글로벌 출하 13억대 plateau, 평균 교체주기 4년 도달), <b>다음 S-커브 후보는 AR/XR 스마트글래스</b> (2025년 +44.4% YoY, IDC).</li>
+<li><b>2025년 현재 산업 위치 = 카테고리 F + B + A 혼재</b>. (i) 스마트폰·TV·PC = <b>F(공급 과잉)</b> ASP 디플레이션, (ii) 웨어러블·AR/VR = <b>B(수요 견인)</b> 신성장, (iii) 부품(메모리·OLED·배터리) = <b>A(구조적 메가 병목)</b> CR3 80~95%.</li>
+<li><b>한국 기업 = 글로벌 빅3에 안착했으나 중국 추격에 노출</b>. 부품 layer (삼성디스플레이·LG디스플레이·LG이노텍·삼성SDI)가 한국 진정한 해자 — Apple·Tesla·Meta 등 글로벌 핵심 고객의 OLED·카메라모듈·배터리 공급망 장악.</li>
+</ol>
+</div>
+</section>
+
+<section id="onepager">
+<h2>1-pager 요약 표 (5단계 핵심 결론)</h2>
+<table>
+<tr><th style="width:14%">단계</th><th>핵심 결론</th></tr>
+<tr><td><b>1. 역사</b></td><td>7 chunk: ① 1895-1920 무선전신·라디오 형성 ② 1920-1955 라디오 황금기·TV 탄생(미국 패권) ③ 1955-1980 TV 대중화·일본 부상 ④ 1980-1995 일본 황금기(Walkman·VCR) ⑤ 1995-2007 디지털 전환·한국 부상 ⑥ 2007-2015 스마트폰 혁명·노키아 몰락 ⑦ 2015-2026 스마트폰 성숙·중국 확대·AI 통합</td></tr>
+<tr><td><b>2. 사이클</b></td><td>S-커브 5회 (라디오·TV·VCR·PC·스마트폰) + GDP 동조 침체. 현재 스마트폰 plateau + AR/XR 진입. Apple 2007-2025 200배+, Sony 1989 peak → 2002 -90%, Nokia 2007→2013 소멸</td></tr>
+<tr><td><b>3. BM/밸류체인</b></td><td>5 layer: 부품→ODM/EMS→브랜드 OEM→채널→서비스. <b>영업이익률 부품 5~25% / EMS 3~5% / 브랜드 5~25%(Apple 30%+) / 서비스 60%+</b> → Apple 모델 = 하드웨어+서비스 결합형 최고 수익성</td></tr>
+<tr><td><b>4. 공급</b></td><td>CR3 segment별: 스마트폰 47%, TV 39%, 백색가전 26%, PC 60%. 진입장벽 디자인·생태계·브랜드. <b>EMS 외주화로 진입 자체는 용이 → 점유율은 마케팅·OS로 결정</b></td></tr>
+<tr><td><b>5. 수요</b></td><td>B2C 90%+. 가격탄력성 segment별 분기. AI 폰 234M→400M+ (1년 +71%). 미국·유럽·한국·중국 포화·교체주기 4년+, <b>다음 driver는 AI on-device + XR</b></td></tr>
+<tr><td><b>4+5 종합</b></td><td><b>F(공급 과잉) + B(수요 견인) + A(부품 병목) 혼재</b>. 코어 카테고리(폰·TV·PC) F, 신성장(웨어러블·XR·AI) B, 부품(디스플레이·메모리·배터리) A. <b>한국·미국 진정한 alpha는 부품 layer</b></td></tr>
+</table>
+</section>
+
+<section id="stage1">
+<h2>1단계. 역사 — 1895년부터 2026년까지 (7 chunk × 6 layer)</h2>
+<p>라디오·TV·휴대폰·스마트폰 4개 신매체 도입이 chunk 경계를 결정. <b>매 신매체 도입 시점에 패권이 교체된다</b>는 게 본 산업의 핵심 패턴.</p>
+
+<div class="chart-card">
+<h4>차트 1. 신매체 S-커브 5회 + 다음 후보 (AR/XR)</h4>
+<canvas id="chartScurve" height="220"></canvas>
+<div class="src">출처: 1차 자료 종합 (Wikipedia·Statista·각사 IR)</div>
+</div>
+
+<article id="chunk1" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 1 · 1895-1920</span>무선전신·라디오 산업의 형성</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>19세기 말 전기 산업 형성 (1879 Edison·1882 Pearl Street). 1차 세계대전(1914-1918)이 무선통신 군사 수요 폭증 트리거</div>
+<div class="lbl">(b) 패권자</div><div><span class="pill pill-us">미국 RCA</span> + 영국 Marconi → 1919 American Marconi가 RCA에 흡수 (미국 단독)</div>
+<div class="lbl">(c) 산업 변화</div><div>1895 Marconi 무선전신 · 1901 대서양 횡단 · 1906 Fessenden 음성방송 · 1912 타이타닉 무선 구조 · <b>1919 RCA 설립 · 1920/11/2 KDKA 미국 최초 상업 라디오 방송 = 산업 공식 탄생</b></div>
+<div class="lbl">(d) 사이클</div><div>0차 산업 형성기</div>
+<div class="lbl">(e) 주가</div><div>RCA 1920년 NYSE 거래 시작 ($1~2 수준)</div>
+<div class="lbl">(f) 규제</div><div>1912 Radio Act (선박 무선 의무화)</div>
+</div>
+</article>
+
+<article id="chunk2" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 2 · 1920-1955</span>라디오 황금기, TV 탄생, 미국 패권 정점</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>광란의 20년대 → 대공황(1929-39) → WW2(1939-45) → 전후 호황. 라디오 보급률 1920 0% → 1940 82% → 1955 96%. 2차 대전이 트랜지스터(1947) 등 전자기술 트리거</div>
+<div class="lbl">(b) 패권자</div><div><span class="pill pill-us">미국 단독</span> — RCA·Zenith·Philco·GE·Westinghouse·Motorola. 1930-55 Philco가 라디오 1위 20년 유지 (전기콘센트형 라디오 1928 발명)</div>
+<div class="lbl">(c) 산업 변화</div><div>1922 WEAF 최초 유료 광고 · 1923-26 라디오 매출 7배 증가 ($50M→$366M) · <b>1929-33 대공황 라디오 -50%+, 600개 → 18개 제조사 통합</b> · 1939-45 WW2 군용 폭발 · <b>1948 TV 보급 시작 80만대 → 1950 750만대 → 1955 보급률 65%</b> · 1953 RCA NTSC 컬러 표준</div>
+<div class="lbl">(d) 사이클</div><div>1차 대공황 침체 → 전후 super-cycle (1946-55)</div>
+<div class="lbl">(e) 주가</div><div><b>RCA 사상 첫 super-cycle: 1920 $1 → 1929 $114 (114배) → 1932 $3 (-97%) → 1948 TV 진입 후 2차 상승</b></div>
+<div class="lbl">(f) 규제</div><div>1934 Communications Act (FCC 설립) · 1941 NTSC TV 표준 · 1948-52 FCC TV 라이센스 동결</div>
+</div>
+</article>
+
+<article id="chunk3" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 3 · 1955-1980</span>TV 대중화, 트랜지스터 혁명, 일본의 부상</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>전후 미국 호황 → 1973 1차 오일쇼크 → 스태그플레이션. 1954 트랜지스터 라디오 상용화 (TI Regency TR-1) — 가전 미니어처화 혁명</div>
+<div class="lbl">(b) 패권자</div><div><span class="pill pill-us">미국</span>→<span class="pill pill-jp">일본</span> 패권 이동 진행 중. 1955-70 미국 (RCA·Zenith) · <b>1970-80 일본 부상 (Sony·Panasonic·Sharp·Toshiba·Hitachi·NEC·Sanyo·JVC·Pioneer)</b>. 1980년 시점 미국 컬러 TV 시장 일본 50% 점유</div>
+<div class="lbl">(c) 산업 변화</div><div>1954 TI Regency TR-1 · 1955 Sony TR-55 일본 최초 트랜지스터 라디오 · <b>1957 Sony TR-63 세계 최초 포켓 라디오, 미국 수출 50만대</b> · 1965 Sony Trinitron 컬러 TV → 1968 미국 본격 진출 · <b>1975/5 Sony Betamax (가정용 VCR 시작)</b> · 1976/10 JVC VHS · <b>1979/7/1 Sony Walkman TPS-L2 출시 ¥33,000</b></div>
+<div class="lbl">(d) 사이클</div><div>미국 TV super-cycle 후반 (1955-73) → 1973 오일쇼크 침체 → 일본 가전 super-cycle 시작</div>
+<div class="lbl">(e) 주가</div><div>RCA 1965 peak → 1980 -50%, Zenith -70%. <b>Sony 1970 NYSE ADR 상장 → 1980년대 super-cycle 진입</b></div>
+<div class="lbl">(f) 규제</div><div>1962 All-Channel Receiver Act · 1977 ITC 일본 컬러 TV 덤핑 판정 (5사)</div>
+</div>
+</article>
+
+<article id="chunk4" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 4 · 1980-1995</span>일본 가전 황금기, Walkman·VCR·CD·게임기</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>미국 레이건노믹스 → <b>1985 Plaza Accord (엔/달러 240→120 1년 50% 절상)</b> → 일본 버블(1986-89) → 1990 일본 버블 붕괴 → 잃어버린 10년. 1989 Sony가 Columbia Pictures 인수 ($3.4B) — 일본 황금기 정점</div>
+<div class="lbl">(b) 패권자</div><div><span class="pill pill-jp">일본 단독 패권</span>. 1989 시점 미국 컬러 TV 일본 80%, VCR 95%, 카메라 90%. 한국(Samsung·LG) 추격 시작 — but OEM 수준. 미국 RCA·Zenith·Motorola 모두 무너짐</div>
+<div class="lbl">(c) 산업 변화</div><div>1979→1980s Walkman 폭발 (누적 2.5억대) · 1980 VCR 시장 (VHS 승리) · <b>1982/10 Sony·Philips CD 출시</b> · 1983/7 닌텐도 패미컴(NES) → 1985 미국 → <b>1987 미국 게임기 90% 점유</b> · 1985/9 Plaza Accord · 1986 도시바 노트북 T1100 · <b>1989/4 닌텐도 Game Boy (누적 1.18억대)</b> · 1991 Apple PowerBook · 1994/11 Sony PlayStation · 1995/7 Sony VAIO</div>
+<div class="lbl">(d) 사이클</div><div><b>일본 가전 super-cycle (1980-1989) 4종 동시 hit</b> — Walkman·VCR·CD·게임기. 1990 버블 붕괴 후유증 → 침체 진입</div>
+<div class="lbl">(e) 주가</div><div><b>Sony 1980 $0.5 → 1989 $24 (48배), Panasonic 13배. 닛케이225: 1989/12/29 38,915 peak → 2003 7,608 (-80%)</b></div>
+<div class="lbl">(f) 규제</div><div>1986 미·일 반도체 협정 · 1987 가전 무역 마찰 격화 · 1990s RoHS 환경 규제</div>
+</div>
+</article>
+
+<article id="chunk5" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 5 · 1995-2007</span>디지털 전환, LCD, 휴대폰, 한국 부상, 일본 몰락 시작</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>1995 Windows 95 → 1998 인터넷 대중화 → 2000 닷컴 버블 → 2001 9·11 → 2002 버블 붕괴 → 2003-2007 회복 → <b>2007/6 iPhone</b>. 한국 IMF(1997) 후 구조조정으로 Samsung·LG 글로벌 점프</div>
+<div class="lbl">(b) 패권자</div><div>일본 → 다국적 분기. <span class="pill pill-us">미국</span> 휴대폰 Nokia(핀란드) 패권 (40-50%), MP3 Apple iPod, PC Dell·HP. <span class="pill pill-kr">한국</span> LCD TV Samsung·LG 부상. 게임기 Sony PS2. 디지털 카메라 일본</div>
+<div class="lbl">(c) 산업 변화</div><div>1995 Windows 95 · 1996 DVD · <b>1997/12 한국 IMF 외환위기 (Samsung·LG 구조조정 트리거)</b> · 1998 Nokia 5110 글로벌 패권 시작 · 2000/3 Sony PS2 (누적 1.55억대) · <b>2001/10 Apple iPod 출시</b> · 2002 Samsung LCD TV 본격 진입 · 2003 Nokia 1100 (사상 최다 2.5억대) · 2004 LCD가 CRT 추월 · <b>2005/12 IBM PC 사업 Lenovo 매각</b> · 2006 삼성 보르도 LCD TV (Sony 추월) · <b>2007/1/9 Steve Jobs iPhone 발표 → 6/29 출시</b></div>
+<div class="lbl">(d) 사이클</div><div>1995-2000 디지털 1차 super-cycle → 2001 닷컴 침체 (-20%) → 2002-07 회복 + 신매체 5종 (LCD·DVD·MP3·디카·휴대폰) 폭발</div>
+<div class="lbl">(e) 주가</div><div><b>Apple 1997 $7 → 2007 $80 (11배), Nokia 1996 $5 → 2000 $60 (12배), Samsung 1998 ₩40,000 → 2007 ₩630,000 (16배), Sony 2000 $80 → 2003 $20 (-75%)</b></div>
+<div class="lbl">(f) 규제</div><div>1996 Telecommunications Act · 2003 RoHS · 2005 디지털 TV 전환 의무화</div>
+</div>
+</article>
+
+<article id="chunk6" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 6 · 2007-2015</span>스마트폰 혁명, 노키아 몰락, 한국 정점, 중국 진입</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>2007 iPhone → 2008 금융위기 → 2009 Android → 2010-15 스마트폰 폭발 (1.22억대 → 12.99억대 8년 10배). 노키아 2007 50% → 2013 소멸. 일본 가전 본격 몰락</div>
+<div class="lbl">(b) 패권자</div><div><span class="pill pill-us">미국 Apple</span> + <span class="pill pill-kr">한국 Samsung</span> 양강 + <span class="pill pill-cn">중국 점유율 확대</span>. 2014 빅5: Samsung 24% / Apple 15% / Huawei 6% / Lenovo+Motorola 8% / Xiaomi 5% / LG 5%</div>
+<div class="lbl">(c) 산업 변화</div><div>2007/6/29 iPhone 1세대 · <b>2008/7 App Store (스마트폰 플랫폼 모델)</b> · 2008/9 금융위기 (-15% 가전) · 2008/10 첫 Android 폰 · 2010/6 iPad · 2010/4 Xiaomi 설립 · 2011/4 Samsung Galaxy S II 글로벌 1위 · <b>2012/4 Sony·Panasonic·Sharp 신용등급 정크 (Fitch) — 일본 가전 공식 몰락</b> · 2013/9 MS Nokia 인수 $7.2B · 2014 Lenovo Motorola 인수 · <b>2014/9 Apple Watch 발표</b> · 2014/4 Sony VAIO 매각 · 2015 Huawei 1억대 돌파</div>
+<div class="lbl">(d) 사이클</div><div>스마트폰 super-cycle (2007-2017). 2008 금융위기 단기 충격 후 회복. 일본 가전 별도 침체</div>
+<div class="lbl">(e) 주가</div><div><b>Apple 2007 $25 → 2015 $100 (4배), Samsung ₩400,000 → ₩1,200,000 (3배), Nokia $40 → $2 (-95%), Sony $50 → $10 (-80%) → $30 회복</b></div>
+<div class="lbl">(f) 규제</div><div>2008-14 Apple vs Samsung 특허전쟁 · 2014 EU USB-C 권고 · 2015 Qualcomm 중국 반독점 $975M</div>
+</div>
+</article>
+
+<article id="chunk7" class="chunk">
+<div class="chunk-head"><span class="chunk-period">CHUNK 7 · 2015-2026</span>스마트폰 성숙, 중국 점유율 확대, 웨어러블·AR/XR 부상, AI 통합</div>
+<div class="layer-grid">
+<div class="lbl">(a) 매크로</div><div>2015-17 스마트폰 peak (15.6억대) → 2018+ plateau → 2020 코로나 가전 super-cycle → 2022 멀티플 충격 → 2023+ AI narrative. 2024 출하 12.4억대 (-21% vs peak)</div>
+<div class="lbl">(b) 패권자</div><div>Apple (high-end 독점) + Samsung (mid-high) + 중국 OEM 4사 (mid-low). Q1 2026 IDC: Samsung 19.7% / Apple 19.1% / Xiaomi 14.4% / Vivo 9.8% / OPPO 8.4% — 합계 71%. TV: Samsung·TCL 16% / Hisense 11% / LG 9%. 백색가전: Haier·Midea·Gree 26%</div>
+<div class="lbl">(c) 산업 변화</div><div>2017 스마트폰 peak · 2018/5 미·중 무역전쟁 · <b>2019/5 Huawei US Entity List (Android·반도체 차단)</b> · 2020/2 코로나 (재택 PC·게임기 super-cycle, PC +14% 2년 연속) · 2022 정상화 후유증 -10~15% · 2023/6 Apple Vision Pro 발표 (2024/2 출시) · <b>2023/9 Ray-Ban Meta 2세대 — 첫 mainstream 스마트 글래스 hit ($2.15B 매출, 2025)</b> · 2024/1 Galaxy S24 최초 AI 폰 · 2024/9 iPhone 16 Apple Intelligence · <b>2025 스마트 글래스 +44.4% YoY (IDC)</b> · 2026 (예고) Apple Glasses Q4 출시</div>
+<div class="lbl">(d) 사이클</div><div>스마트폰 plateau + 코로나 super-cycle (2020-21) + 정상화 (2022-23) + AI 회복 사이클 진입 (2024+). 웨어러블·XR 별도 super-cycle 초기 (2023+)</div>
+<div class="lbl">(e) 주가</div><div><b>Apple 2015 $100 → 2025 $260 (2.6배), Meta $100 → $750 (7.5배), Samsung ₩2,800,000 peak (2017) → ₩70,000 (액분 50배 후, -50% 사이클), Xiaomi HK$17 (2018 IPO) → HK$22</b></div>
+<div class="lbl">(f) 규제</div><div>2019 Huawei Entity List · 2022 EU USB-C 의무화 (2024 적용) · 2023 EU DMA (Apple App Store 사이드로드) · 2025 Trump 2기 관세</div>
+</div>
+</article>
+
+<div class="key-insight">
+<strong>1단계 핵심 관찰</strong>: (1) 신매체 도입 평균 15~25년 주기, 다음 신매체는 2030년대 초반 AI agent + XR 통합. (2) 신매체 도입 시 패권자 교체 거의 100% (chunk 2 라디오→TV만 예외). (3) 국가 패권 4단계 미국→일본→한국→중국, 평균 30~40년. (4) GDP 침체 시 가전 -10~15% 추가 충격. (5) 신매체 등장 시 기존 매체 5~10년 내 -80~90% 도태 (카메라·MP3·VCR 모두 스마트폰에 흡수).
+</div>
+
+</section>
+
+<section id="stage2">
+<h2>2단계. 주가 사이클 — 통합 view + 사이클 패턴</h2>
+<p>가전 산업 사이클 = (i) 신제품 S-커브 + (ii) GDP 동조 + (iii) 국가 패권 사이클 3중 구조.</p>
+
+<div class="chart-card">
+<h4>차트 2. 국가 패권 4차 이동 + Apple 미국 회복 — 대표 기업 주가</h4>
+<canvas id="chartHegemony" height="240"></canvas>
+<div class="src">출처: Yahoo Finance, 인플레이션 미조정 명목 주가 추세</div>
+</div>
+
+<h3>2-1. 사이클 1차원: 신제품 S-커브 (5회)</h3>
+<table>
+<tr><th>S-커브</th><th>도입</th><th>peak</th><th>누적 출하</th><th>도태 매체</th></tr>
+<tr><td>라디오</td><td>1920</td><td>1955 (보급률 96%)</td><td>미국 가정 1억대+</td><td>(없음)</td></tr>
+<tr><td>TV (CRT)</td><td>1948</td><td>1985 (보급률 98%)</td><td>글로벌 30억대</td><td>LCD(2010s)</td></tr>
+<tr><td>VCR</td><td>1975</td><td>1995 (보급률 85%)</td><td>글로벌 9억대</td><td>DVD(2005)→스트리밍</td></tr>
+<tr><td>Walkman/iPod</td><td>1979/2001</td><td>2008</td><td>Walkman 2.5억 + iPod 4억</td><td>스마트폰(2010s)</td></tr>
+<tr><td>PC</td><td>1981 (IBM PC)</td><td>2011 (3.65억대)</td><td>20억대+</td><td>스마트폰·태블릿</td></tr>
+<tr><td><b>스마트폰</b></td><td>2007</td><td>2017 (15.6억대)</td><td><b>100억대+</b></td><td>현재 plateau</td></tr>
+<tr><td>AR/XR (smart glasses)</td><td>2023</td><td>(예측) 2032</td><td>2025 +44.4% YoY</td><td>TBD</td></tr>
+</table>
+
+<h3>2-2. 사이클 2차원: GDP 동조 침체 (7회)</h3>
+<table>
+<tr><th>침체</th><th>가전 매출 충격</th><th>회복</th></tr>
+<tr><td>1929-33 대공황</td><td>-50%+ (라디오)</td><td>10년</td></tr>
+<tr><td>1973-75 오일쇼크</td><td>-10%</td><td>1~2년</td></tr>
+<tr><td>2001 닷컴 버블</td><td>-7%</td><td>2년</td></tr>
+<tr><td>2008-09 금융위기</td><td>-13% (글로벌)</td><td>1~2년</td></tr>
+<tr><td><b>2020 코로나</b></td><td><b>-5% but 가전 +12% (재택 boom)</b></td><td>즉시 super-cycle</td></tr>
+</table>
+
+<h3>2-3. 사이클 3차원: 국가 패권 사이클 (4회)</h3>
+<table>
+<tr><th>패권 국가</th><th>진입</th><th>peak</th><th>대표 기업 진폭</th></tr>
+<tr><td><span class="pill pill-us">미국</span></td><td>1920</td><td>1965</td><td>RCA 1920-29 114배 / 1965-85 -70%</td></tr>
+<tr><td><span class="pill pill-jp">일본</span></td><td>1965</td><td>1989</td><td><b>Sony 1980-89 48배 / 1989-2002 -90%</b></td></tr>
+<tr><td><span class="pill pill-kr">한국</span></td><td>1995</td><td>2017</td><td>Samsung 1998-2017 70배 / 2017-22 -30%</td></tr>
+<tr><td><span class="pill pill-cn">중국</span></td><td>2010</td><td>진행 중</td><td>Xiaomi 2018-24 1.3배</td></tr>
+<tr><td><span class="pill pill-us">미국(Apple 예외)</span></td><td>2007</td><td>진행 중</td><td><b>Apple 2007-2025 200배+ (분할 적용)</b></td></tr>
+</table>
+</section>
+
+<section id="stage3">
+<h2>3단계. 비즈니스 구조 + 밸류체인</h2>
+<p>광고·반도체와 다른 가전 산업의 특이성: (i) 부품·완제품 분리, (ii) ODM/EMS 위탁 생산, (iii) 브랜드+채널+서비스 결합형이 가장 강력 (Apple 모델).</p>
+
+<div class="valuechain">
+<div class="vc-col">
+<h5>(1) 부품</h5>
+<ul>
+<li>반도체</li><li>디스플레이</li><li>배터리</li><li>카메라모듈</li><li>이미지센서</li>
+</ul>
+<div class="vc-margin">OPM 5~25%<br/>CapEx $10B+</div>
+</div>
+<div class="vc-col">
+<h5>(2) ODM/EMS</h5>
+<ul>
+<li>Foxconn</li><li>Pegatron</li><li>Wistron</li><li>Compal·Quanta</li>
+</ul>
+<div class="vc-margin">OPM 3~5%<br/>박리다매</div>
+</div>
+<div class="vc-col">
+<h5>(3) 브랜드 OEM</h5>
+<ul>
+<li>Apple</li><li>Samsung</li><li>Xiaomi·Oppo·Vivo</li><li>Sony·LG</li>
+</ul>
+<div class="vc-margin">OPM 5~25%<br/>(Apple 30%+)</div>
+</div>
+<div class="vc-col">
+<h5>(4) 채널·리테일</h5>
+<ul>
+<li>Best Buy</li><li>Walmart</li><li>Apple Store</li><li>이마트·京东</li>
+</ul>
+<div class="vc-margin">OPM 2~5%<br/>유통 마진</div>
+</div>
+<div class="vc-col">
+<h5>(5) 서비스</h5>
+<ul>
+<li>App Store</li><li>iCloud</li><li>Galaxy Store</li><li>Apple Music·Pay</li>
+</ul>
+<div class="vc-margin">OPM 60~80%<br/>최고 마진</div>
+</div>
+</div>
+
+<div class="key-insight">
+<strong>핵심 관찰</strong>: <b>수직통합도가 영업이익률 결정</b>. Apple은 (3)+(5) 결합, OS(iOS) 독점, 서비스 매출 25% → 영업이익률 30%+. Samsung은 (1)+(3), 자체 OS 없음, 영업이익률 8~15%. <b>EMS는 부피 우위 박리다매</b> — Foxconn 매출 $200B+ but OPM 3% (iPhone 1대 $1,000 중 Foxconn 마진 $3~5).
+</div>
+
+<h3>한국 기업 위치 (Korea 비중 30%)</h3>
+<table>
+<tr><th>레이어</th><th>한국 기업</th><th>위치·해자</th><th>테마 직접성</th></tr>
+<tr><td>(1) 부품</td><td><b>삼성디스플레이</b> (OLED 글로벌 65%), <b>LG디스플레이</b> (대형 OLED 90%), <b>삼성SDI·LG에너지솔루션</b> (배터리 빅3), <b>LG이노텍</b> (Apple 카메라 75%), <b>SK하이닉스</b> (DRAM·HBM)</td><td><b>한국 진정한 해자</b>. Apple·Tesla·Meta·BMW 글로벌 핵심 고객 공급망 장악</td><td><span class="pill pill-high">높음</span></td></tr>
+<tr><td>(2) ODM/EMS</td><td>부재 — 대만·중국 독점</td><td>인건비 한계로 진입 안 함</td><td><span class="pill pill-low">없음</span></td></tr>
+<tr><td>(3) 브랜드 OEM</td><td><b>Samsung MX·VD·DA</b>, <b>LG H&A·HE·VS</b></td><td>Samsung 글로벌 빅3 유지, LG OLED TV·프리미엄 가전 강점. 중국 추격 노출</td><td><span class="pill pill-mid">중간</span></td></tr>
+<tr><td>(4) 채널</td><td>이마트·하이마트·쿠팡 (내수만)</td><td>글로벌 채널 없음</td><td><span class="pill pill-low">낮음</span></td></tr>
+<tr><td>(5) 서비스</td><td>Samsung Pay·Bixby — Apple 대비 10%</td><td>자체 OS 없어 Google 의존</td><td><span class="pill pill-low">낮음</span></td></tr>
+</table>
+</section>
+
+<section id="stage4">
+<h2>4단계. 공급 구조 — 현재 정량 snapshot</h2>
+
+<div class="chart-card">
+<h4>차트 3. 글로벌 스마트폰·TV CR3 추이 (2010 → 2025)</h4>
+<canvas id="chartCR3" height="220"></canvas>
+<div class="src">출처: IDC, Counterpoint, Omdia, TrendForce</div>
+</div>
+
+<h3>4-1. 구조조정 이력 (segment별)</h3>
+<table>
+<tr><th>segment</th><th>1990s 플레이어</th><th>2025 플레이어</th><th>주요 도태</th></tr>
+<tr><td>TV</td><td>30+ (RCA·Zenith·Motorola·Philco·Sony·Panasonic·Sharp·Toshiba·Philips 등)</td><td><b>5</b> (Samsung·TCL·Hisense·LG·Xiaomi)</td><td>RCA·Zenith·Philco·Motorola·Sharp·Philips 도태</td></tr>
+<tr><td>스마트폰</td><td>2007 5+ (Nokia·Samsung·Motorola·Sony Ericsson·LG·HTC)</td><td><b>5</b> (Samsung·Apple·Xiaomi·Oppo·Vivo)</td><td>Nokia·Motorola·HTC·BlackBerry·LG 도태</td></tr>
+<tr><td>PC</td><td>30+ (IBM·Compaq·HP·Dell·Gateway·도시바·NEC·Acer 등)</td><td><b>5</b> (Lenovo·HP·Dell·Apple·ASUS)</td><td>Compaq·Gateway·NEC·VAIO 도태</td></tr>
+<tr><td>백색가전</td><td>50+</td><td><b>10+</b> (Haier·Midea·Gree·LG·Samsung·Whirlpool·Electrolux·Bosch·GE·Daewoo)</td><td>GE 가전부문 Haier에 매각 (2016), Daewoo 분할</td></tr>
+<tr><td>디지털 카메라</td><td>15+</td><td><b>5</b> (시장 자체 -90%)</td><td>Olympus·Konica·Minolta·Casio·Kodak</td></tr>
+<tr><td>MP3</td><td>10+</td><td><b>0</b> (시장 도태)</td><td>iPod 2022 단종</td></tr>
+<tr><td>게임 콘솔</td><td>5+</td><td><b>3</b> (Sony·MS·Nintendo)</td><td>Atari·Sega</td></tr>
+<tr><td>VR/MR·웨어러블</td><td>신생</td><td><b>5+</b> (신규 형성)</td><td>도태 사례 없음</td></tr>
+</table>
+
+<h3>4-2. 공급 집중도 (CR3·HHI, 2025)</h3>
+<table>
+<tr><th>segment</th><th>CR3</th><th>HHI</th><th>시장 구조</th></tr>
+<tr><td>글로벌 스마트폰</td><td>47% (Samsung 19.7·Apple 19.1·Xiaomi 14.4)</td><td>~1,300</td><td>중집중</td></tr>
+<tr><td><b>고가 스마트폰 ($600+)</b></td><td><b>75%+ (Apple 50·Samsung 18·Huawei 7)</b></td><td>~3,000</td><td><b>고집중 (Apple 독과점)</b></td></tr>
+<tr><td>글로벌 TV</td><td>39% (Samsung·TCL 16·Hisense 11)</td><td>~700</td><td>중·저집중</td></tr>
+<tr><td><b>프리미엄 OLED TV</b></td><td><b>82% (LG 51·Samsung 31)</b></td><td>~3,800</td><td><b>고집중 (한국 양강)</b></td></tr>
+<tr><td>글로벌 PC</td><td>60% (Lenovo 25.2·HP 18.5·Dell 16.5)</td><td>~1,500</td><td>중집중</td></tr>
+<tr><td>백색가전</td><td>26% (Haier·Midea·Gree)</td><td>~500</td><td>저집중 (지역 분기)</td></tr>
+<tr><td>게임 콘솔</td><td>100% (Sony·MS·Nintendo)</td><td>~3,800</td><td>완전 과점</td></tr>
+<tr><td>VR/MR 헤드셋</td><td>100% (Meta 72)</td><td>~5,500</td><td>Meta 독과점</td></tr>
+<tr><td>스마트워치</td><td>60%+ (Apple 28)</td><td>~1,400</td><td>중집중</td></tr>
+</table>
+
+<div class="key-insight">
+<strong>관찰</strong>: 광고(CR3 55%·HHI 3,500)·반도체 메모리(CR3 95%) 대비 <b>가전은 CR3 30~60%로 낮음</b>. 진입장벽 약함. <b>고가·프리미엄 segment에서 집중도 급격 상승</b> — Apple 50% (고가폰), LG 51%·Samsung 31% (OLED TV), Sony·MS·Nintendo 100% (콘솔). 마진과 집중도 비례.
+</div>
+
+<h3>4-3. ASP 변화 (segment별 정반대 방향)</h3>
+<table>
+<tr><th>segment</th><th>2010 ASP</th><th>2024 ASP</th><th>변화</th></tr>
+<tr><td>iPhone ASP</td><td>$640</td><td>$1,000+ (Pro Max $1,200)</td><td><b>+56%</b></td></tr>
+<tr><td>Galaxy ASP</td><td>$300</td><td>$400</td><td>+33%</td></tr>
+<tr><td>글로벌 TV ASP</td><td>$700</td><td>$500</td><td><b>-29%</b></td></tr>
+<tr><td>OLED TV ASP</td><td>$4,000 (2012)</td><td>$2,000</td><td><b>-50%</b></td></tr>
+<tr><td>PC ASP (노트북)</td><td>$700</td><td>$850 (2025)</td><td>+21% (AI PC)</td></tr>
+</table>
+</section>
+
+<section id="stage5">
+<h2>5단계. 수요 구조 — 현재 정량 snapshot</h2>
+
+<div class="chart-card">
+<h4>차트 4. 글로벌 스마트폰 출하 시계열 + AI 폰 침투 (2014-2028E)</h4>
+<canvas id="chartSmartphone" height="220"></canvas>
+<div class="src">출처: IDC, market.us, Statista</div>
+</div>
+
+<h3>5-1. 수요처 구성 — 가전은 B2C 절대 우위 (~90%)</h3>
+<table>
+<tr><th>카테고리</th><th>B2C 비중</th><th>B2B 비중</th></tr>
+<tr><td>스마트폰</td><td>95%</td><td>5% (기업 단말)</td></tr>
+<tr><td>TV</td><td>95%</td><td>5% (호텔·디지털 사이니지)</td></tr>
+<tr><td><b>PC·노트북</b></td><td>60%</td><td><b>40% (비즈니스)</b></td></tr>
+<tr><td>백색가전</td><td>85%</td><td>15% (상업용)</td></tr>
+<tr><td>웨어러블</td><td>90%</td><td>10% (헬스케어)</td></tr>
+<tr><td>게임 콘솔</td><td>100%</td><td>0%</td></tr>
+</table>
+
+<h3>5-2. 지역별 수요 (B2C 분기)</h3>
+<table>
+<tr><th>지역</th><th>글로벌 스마트폰</th><th>가구 보급률</th></tr>
+<tr><td>중국</td><td>25% (3.1억대)</td><td>스마트폰 95% / TV 99%</td></tr>
+<tr><td>인도</td><td>12% (1.5억대)</td><td>스마트폰 75% / TV 80%</td></tr>
+<tr><td>미국</td><td>13% (1.6억대)</td><td>스마트폰 96% / TV 99%</td></tr>
+<tr><td>유럽</td><td>13% (1.6억대)</td><td>스마트폰 95%</td></tr>
+<tr><td>동남아</td><td>8%</td><td>스마트폰 80%</td></tr>
+<tr><td>한국</td><td>1%</td><td>스마트폰 97%</td></tr>
+</table>
+<p><b>핵심</b>: 미국·유럽·한국·중국·일본 = 포화. <b>인도·동남아·아프리카가 향후 10년 driver</b>.</p>
+
+<h3>5-3. 사이클 위치 (segment별)</h3>
+<table>
+<tr><th>segment</th><th>현재 위치</th><th>다음 변곡점</th></tr>
+<tr><td>스마트폰</td><td><b>포화·교체 4년+</b></td><td>AI 폰·6G·foldable</td></tr>
+<tr><td>TV</td><td>포화·ASP 하락</td><td>8K·Mini-LED·OLED</td></tr>
+<tr><td>PC</td><td>회복 (AI PC)</td><td>Copilot+ PC·Apple M-series</td></tr>
+<tr><td>백색가전</td><td>포화 (선진국) + 성장 (인도)</td><td>스마트·IoT 통합</td></tr>
+<tr><td><b>웨어러블</b></td><td>성장 초기</td><td>헬스케어·Apple Watch S10</td></tr>
+<tr><td><b>AR/XR</b></td><td>도입기</td><td>2024-30 폭발 예상</td></tr>
+<tr><td>게임 콘솔</td><td>9세대 후반</td><td>2027-28 10세대</td></tr>
+</table>
+
+<h3>5-4. 메가 트렌드 — AI가 최대 driver</h3>
+<table>
+<tr><th>메가 트렌드</th><th>2024</th><th>2025E</th><th>2028E</th></tr>
+<tr><td>AI 폰 출하 (백만대)</td><td>234</td><td>400+</td><td>912 (market.us)</td></tr>
+<tr><td>글로벌 스마트폰 중 AI 비중</td><td>19%</td><td>32%</td><td>70%</td></tr>
+<tr><td>스마트 글래스 YoY</td><td>(2024 100%+)</td><td>+44.4% (IDC)</td><td>CAGR 26.5% (~2030)</td></tr>
+<tr><td>Ray-Ban Meta 매출</td><td>~$1B (E)</td><td>$2.15B</td><td>(Apple Glasses 진입)</td></tr>
+</table>
+
+<h3>5-5. 대체재·보완재 — 스마트폰의 잠재 위협</h3>
+<table>
+<tr><th>카테고리</th><th>대체재</th><th>보완재</th></tr>
+<tr><td><b>스마트폰</b></td><td><b>(장기) AR 글래스·웨어러블·AI 디바이스</b></td><td>무선이어폰·스마트워치·태블릿</td></tr>
+<tr><td>TV</td><td>스마트폰·태블릿 (작은 화면)</td><td>사운드바·콘솔·스트리밍</td></tr>
+<tr><td>PC</td><td>스마트폰·태블릿·클라우드</td><td>모니터·키보드</td></tr>
+<tr><td>디지털 카메라</td><td><b>스마트폰 (도태 완료)</b></td><td>없음</td></tr>
+<tr><td>MP3</td><td><b>스마트폰 (도태 완료)</b></td><td>없음</td></tr>
+</table>
+<p><b>관찰</b>: 스마트폰이 거의 모든 카테고리의 대체재 — <b>but 스마트폰 자체가 AR/XR로 잠식될 가능성 (2030년+)</b>.</p>
+
+</section>
+
+<section id="conclusion">
+<h2>4+5 종합: 수급 매트릭스 현재 위치 결론</h2>
+
+<p>가전은 단일 산업 view 불가 — segment별 분기 분석 필수.</p>
+
+<table class="matrix">
+<tr><th></th><th>공급 제한</th><th>공급 적당</th><th>공급 감소</th><th>공급 증가</th></tr>
+<tr><th>수요 급증</th>
+<td class="current">A. 구조적 메가 병목<br/><b>부품 layer<br/>(OLED·메모리·배터리)</b></td>
+<td class="current">B. 수요 견인<br/><b>웨어러블·AR/XR·AI 폰</b></td>
+<td>(A 강화)</td>
+<td>D. 동반 확대</td>
+</tr>
+<tr><th>수요 일정</th>
+<td>E. 점진적 가격 상승</td>
+<td>중립</td>
+<td>C. 일시적 사이클 반등</td>
+<td class="current">F. 공급 과잉<br/><b>스마트폰·TV·PC·백색가전</b></td>
+</tr>
+<tr><th>수요 감소</th>
+<td>G. 구조조정</td>
+<td>(F 강화)</td>
+<td>(시장 축소)<br/><i>디카·MP3</i></td>
+<td>(디플레이션)</td>
+</tr>
+</table>
+
+<div class="key-insight">
+<strong>종합 결론</strong>: <b>카테고리 F (공급 과잉) + B (수요 견인) + A (부품 병목) 혼재</b>.<br/>
+(i) <b>코어 segment (스마트폰·TV·PC·백색가전) = F</b>: CR3 30~60%로 진입장벽 낮음, 4대 시장(미·유럽·한국·중국) 포화, ASP 정체·하락.<br/>
+(ii) <b>신성장 segment (웨어러블·AR/XR·AI 폰) = B</b>: 스마트 글래스 +44.4% YoY, Ray-Ban Meta $2.15B, AI 폰 234M→400M+ (1년 +71%).<br/>
+(iii) <b>부품 layer (디스플레이·메모리·배터리·카메라모듈) = A</b>: CR3 80~95%, CapEx $10B+ 진입장벽, AI·XR·EV 동시 수요 견인. <b>한국 기업의 진정한 alpha 영역</b>.
+</div>
+
+<h3>향후 5~7년 핵심 watch points</h3>
+<ol>
+<li><b>스마트 글래스 mainstream 진입 시점</b> — Ray-Ban Meta 누적 출하·Apple Glasses 2026 Q4 출시 후 반응</li>
+<li><b>AI 폰 mass adoption</b> — Galaxy AI·Apple Intelligence 사용성·교체주기 단축 효과</li>
+<li><b>중국 OEM 글로벌 확장 vs 미국 제재</b> — Trump 2기 관세·Huawei 부활 시도</li>
+<li><b>한국 부품사 글로벌 점유율 유지</b> — Samsung Display OLED·LG Display·삼성SDI·LG에너지솔루션·LG이노텍</li>
+<li><b>다음 신매체</b> — AR 글래스가 스마트폰 잠식 vs 보완재로 공존</li>
+</ol>
+
+</section>
+
+<section id="appendix">
+<h2>부록: 핵심 데이터 시계열</h2>
+
+<h3>글로벌 가전 시장 규모 (segment별, 2015→2025)</h3>
+<table>
+<tr><th>segment</th><th>2015</th><th>2020</th><th>2025</th><th>CAGR</th></tr>
+<tr><td>스마트폰 출하 (억대)</td><td>14.4</td><td>12.8 (코로나 충격)</td><td>12.4 (IDC E)</td><td>-1.5%</td></tr>
+<tr><td>TV 출하 (억대)</td><td>2.3</td><td>2.3</td><td>2.1</td><td>-0.9%</td></tr>
+<tr><td>PC 출하 (억대)</td><td>2.8</td><td>2.7</td><td>2.5</td><td>-1.1%</td></tr>
+<tr><td>백색가전 ($B)</td><td>$350B</td><td>$400B</td><td>$419B</td><td>+1.8%</td></tr>
+<tr><td><b>웨어러블 (억대)</b></td><td><b>0.8</b></td><td><b>4.5</b></td><td><b>5.5+</b></td><td><b>+21%</b></td></tr>
+<tr><td><b>AR/XR (만대)</b></td><td>(신생)</td><td>800</td><td>2,300+</td><td><b>+60%+</b></td></tr>
+<tr><td><b>합계 가전</b></td><td>$0.9T</td><td>$1.1T</td><td><b>$1.23T</b></td><td>+3.2%</td></tr>
+</table>
+
+<h3>한국 vs 일본 글로벌 점유율 (참고 — 패권 비교)</h3>
+<table>
+<tr><th>segment</th><th>일본 1989 (peak)</th><th>일본 2025</th><th>한국 2025</th></tr>
+<tr><td>TV</td><td>80%</td><td>8% (Sony·Sharp·Panasonic)</td><td><b>25% (Samsung·LG 합계)</b></td></tr>
+<tr><td>VCR/DVD</td><td>95%</td><td>5%</td><td>(시장 도태)</td></tr>
+<tr><td>디지털 카메라</td><td>90%</td><td>75% (Canon·Sony·Nikon)</td><td>(시장 -90% 축소)</td></tr>
+<tr><td>스마트폰</td><td>25% (피처폰)</td><td>1%</td><td><b>19.7% (Samsung)</b></td></tr>
+<tr><td>게임 콘솔</td><td>100%</td><td>70% (Sony·Nintendo)</td><td>0%</td></tr>
+</table>
+
+<h3>출처</h3>
+<ul style="font-size:12px;color:var(--muted)">
+<li>IDC, Counterpoint Research, Omdia, Gartner, TrendForce (출하·점유율)</li>
+<li>Statista, Fortune Business Insights, Grand View Research (시장 규모)</li>
+<li>Wikipedia, IEEE Spectrum, Britannica (역사 narrative)</li>
+<li>각사 IR (Samsung Electronics, LG Electronics, Apple, Sony)</li>
+<li>Crutchfield (Sony Walkman History), Al Jazeera (Japan tech decline)</li>
+</ul>
+</section>
+
+</main>
+</div>
+
+<script>
+// Chart 1. 신매체 S-커브 — 도입→peak 연도 → 출하량
+const ctxScurve = document.getElementById('chartScurve').getContext('2d');
+new Chart(ctxScurve, {
+  type: 'line',
+  data: {
+    labels: ['1920','1948','1960','1975','1985','1995','2001','2007','2017','2023','2030E'],
+    datasets: [
+      { label: '라디오 (보급률 %)', data: [10, 70, 95, 96, 95, 92, 85, 80, 75, 70, 65], borderColor:'#1f3a68', tension:0.3, fill:false},
+      { label: 'TV (보급률 %)', data: [0, 5, 65, 95, 98, 98, 97, 96, 95, 94, 92], borderColor:'#a8843f', tension:0.3, fill:false},
+      { label: 'PC (보급률 %)', data: [0, 0, 0, 0, 5, 25, 50, 70, 78, 80, 78], borderColor:'#2ca02c', tension:0.3, fill:false},
+      { label: '스마트폰 (보급률 %)', data: [0, 0, 0, 0, 0, 0, 0, 5, 78, 90, 95], borderColor:'#b03030', tension:0.3, fill:false},
+      { label: 'AR/XR (보급률 %)', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 15], borderColor:'#8a2be2', tension:0.3, borderDash:[5,5], fill:false},
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins:{legend:{position:'bottom'}, title:{display:true, text:'미국 가정 보급률 추정 (글로벌 비슷한 패턴, 5~10년 지연)'}},
+    scales:{y:{beginAtZero:true, max:100, title:{display:true,text:'보급률 (%)'}}}
+  }
+});
+
+// Chart 2. 국가 패권 — 대표 기업 주가 (정규화, 1980=100)
+const ctxHegemony = document.getElementById('chartHegemony').getContext('2d');
+new Chart(ctxHegemony, {
+  type: 'line',
+  data: {
+    labels: ['1980','1985','1989','1995','2000','2005','2007','2010','2015','2020','2025'],
+    datasets: [
+      { label: 'Sony', data: [100, 800, 4800, 3000, 4500, 1200, 5000, 3000, 3000, 4000, 2500], borderColor:'#bc002d', tension:0.2},
+      { label: 'Samsung Electronics', data: [50, 80, 120, 200, 800, 2000, 3000, 5000, 14000, 5000, 7000], borderColor:'#003478', tension:0.2},
+      { label: 'Apple', data: [100, 80, 60, 60, 250, 700, 2500, 4500, 9000, 12000, 26000], borderColor:'#000', tension:0.2, borderWidth:3},
+      { label: 'Nokia (참고)', data: [50, 80, 200, 500, 6000, 4000, 4000, 2500, 500, 600, 400], borderColor:'#0066b3', tension:0.2, borderDash:[5,5]}
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins:{legend:{position:'bottom'}, title:{display:true, text:'1980년 = 100 정규화 (명목 USD, 인플레이션 미조정)'}},
+    scales:{y:{type:'logarithmic', title:{display:true,text:'정규화 주가 (log scale)'}}}
+  }
+});
+
+// Chart 3. 글로벌 스마트폰·TV CR3
+const ctxCR3 = document.getElementById('chartCR3').getContext('2d');
+new Chart(ctxCR3, {
+  type: 'bar',
+  data: {
+    labels: ['2010','2014','2018','2022','2025'],
+    datasets: [
+      { label: '글로벌 스마트폰 CR3 (%)', data: [55, 55, 50, 48, 47], backgroundColor:'#1f3a68'},
+      { label: '글로벌 TV CR3 (%)', data: [50, 45, 42, 40, 39], backgroundColor:'#a8843f'},
+      { label: '글로벌 PC CR3 (%)', data: [50, 53, 55, 58, 60], backgroundColor:'#2ca02c'},
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins:{legend:{position:'bottom'}, title:{display:true, text:'스마트폰·TV는 진입 격화로 CR3 하락, PC는 통합 진행'}},
+    scales:{y:{beginAtZero:true, max:100, title:{display:true,text:'CR3 (%)'}}}
+  }
+});
+
+// Chart 4. 글로벌 스마트폰 출하 + AI 폰 침투
+const ctxSmartphone = document.getElementById('chartSmartphone').getContext('2d');
+new Chart(ctxSmartphone, {
+  type: 'bar',
+  data: {
+    labels: ['2014','2017 (peak)','2020','2022','2024','2025E','2028E'],
+    datasets: [
+      { label: '글로벌 스마트폰 출하 (억대)', data: [13.0, 15.6, 12.8, 12.0, 12.4, 12.6, 13.2], backgroundColor:'#1f3a68', yAxisID:'y'},
+      { label: 'AI 폰 비중 (%)', data: [0, 0, 0, 0, 19, 32, 70], borderColor:'#b03030', backgroundColor:'rgba(176,48,48,0.2)', type:'line', tension:0.3, yAxisID:'y1'},
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins:{legend:{position:'bottom'}, title:{display:true, text:'스마트폰 출하 plateau, AI 폰이 새로운 driver'}},
+    scales:{
+      y:{beginAtZero:true, position:'left', title:{display:true,text:'출하 (억대)'}, max:18},
+      y1:{beginAtZero:true, position:'right', title:{display:true,text:'AI 폰 비중 (%)'}, max:100, grid:{drawOnChartArea:false}}
+    }
+  }
+});
+</script>
+
+</body>
+</html>

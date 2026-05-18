@@ -12,7 +12,7 @@
 
 ## 섹터 T1 — 메인 (분기 주도 섹터)
 
-- **미국 빅테크** (Tesla(TSLA, industry=자동차|자율주행), Amazon(AMZN, industry=소비재|클라우드), Alphabet(GOOGL, industry=광고|클라우드), Meta(META, industry=광고), Microsoft(MSFT, industry=클라우드), Apple(AAPL, industry=소비재), Nvidia(NVDA, industry=반도체))
+- **미국 빅테크** (Tesla(TSLA, industry=자동차|자율주행), Amazon(AMZN, industry=이커머스|클라우드), Alphabet(GOOGL, industry=광고|클라우드), Meta(META, industry=광고), Microsoft(MSFT, industry=클라우드), Apple(AAPL, industry=소비자 전자제품), Nvidia(NVDA, industry=반도체))
 - **반도체** (삼성전자, SK하이닉스, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), Intel(INTC), AMD(AMD), ARM(ARM))
 
 ## 섹터 T2 — 주도 후보

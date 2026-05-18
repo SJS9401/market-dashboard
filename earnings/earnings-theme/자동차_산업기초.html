@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>자동차 산업 기초 (Major) — 2026.05.18</title>
+<style>
+  :root{
+    --bg:#fafaf7; --ink:#1a1a1a; --muted:#6b6b6b; --line:#e8e6e0;
+    --accent:#0a5d4a; --warn:#b04a1e; --hi:#1e4d8b; --soft:#f3efe6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system, "Segoe UI", "Noto Sans KR", system-ui, sans-serif;
+    background:var(--bg); color:var(--ink); margin:0; padding:0; line-height:1.7;}
+  .wrap{max-width:1100px; margin:0 auto; padding:32px 28px 80px;}
+  h1{font-size:28px; letter-spacing:-0.5px; margin:0 0 4px;}
+  .meta{color:var(--muted); font-size:13px; margin-bottom:32px; border-bottom:1px solid var(--line); padding-bottom:16px;}
+  .intro-quote{background:#fff8e8; border-left:3px solid #d4a23a; padding:10px 14px; margin:12px 0 24px; font-size:13.5px; color:#5a4a2a;}
+  h2{font-size:22px; margin:48px 0 8px; padding-bottom:6px; border-bottom:2px solid var(--accent); letter-spacing:-0.3px;}
+  h2:first-of-type{margin-top:24px;}
+  h3{font-size:17px; margin:28px 0 8px; color:var(--accent);}
+  h4{font-size:15px; margin:18px 0 6px; color:var(--hi);}
+  p{margin:8px 0 12px;}
+  blockquote{background:#f8f5ed; border-left:3px solid var(--accent); padding:8px 14px; margin:10px 0; font-size:13.5px; color:#3a3a3a;}
+  blockquote p{margin:4px 0;}
+  table{border-collapse:collapse; width:100%; margin:14px 0 18px; font-size:13.5px;}
+  th, td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--soft); font-weight:600;}
+  code{background:#f3efe6; padding:2px 5px; border-radius:3px; font-size:13px;}
+  pre{background:#2d2d2d; color:#f0f0f0; padding:12px 16px; border-radius:6px; overflow-x:auto; font-size:13px; line-height:1.5;}
+  pre code{background:none; color:inherit; padding:0;}
+  ul, ol{padding-left:22px; margin:8px 0 12px;}
+  li{margin:4px 0;}
+  img{max-width:100%; height:auto; display:block; margin:18px auto; border:1px solid var(--line); border-radius:6px; padding:6px; background:#fff;}
+  hr{border:0; border-top:1px solid var(--line); margin:36px 0;}
+  strong{color:var(--ink); font-weight:600;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .tag{display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; background:var(--soft); color:var(--accent); margin-left:6px;}
+  .toc{background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px 18px; margin:20px 0 28px;}
+  .toc a{color:var(--ink); text-decoration:none; display:block; padding:3px 0; font-size:13.5px;}
+  .toc a:hover{color:var(--accent); text-decoration:underline;}
+  .arrow-li{padding-left:14px; position:relative; margin:4px 0; font-size:13.5px;}
+  .arrow-li:before{content:"→"; position:absolute; left:0; color:var(--accent);}
+  .pill-A{background:#d93a3a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;}
+  .pill-B{background:#e8a23a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;}
+  .pill-F{background:#7a7a7a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>자동차 산업 기초 (Major) <span class="tag">v1.0 · industry-basic</span></h1>
+<div class="meta">
+  <strong>분석 단위:</strong> 대분류(major) · <strong>parent:</strong> – ·
+  <strong>sub_industries:</strong> 완성차(ICE·HEV·PHEV·BEV), 부품, 배터리, 자율주행, 자동차반도체, 모빌리티서비스 ·
+  <strong>최종 갱신:</strong> 2026-05-18 ·
+  <strong>출처 시점:</strong> Q1 2026 기준
+</div>
+
+<div class="intro-quote">
+본 문서는 셀사이드 init(데뷔) 자료 수준의 영구 reference 문서다. 내연기관(ICE)과 전기차(EV)를 모두 다루며, 두 패러다임의 비교·전환 동력을 분석 전반에 녹였다. 분기 변동·단기 narrative는 다루지 않는다 (실적 분석·테마 분석 영역).
+</div>
+
+<div class="toc">
+  <strong style="font-size:13px;">목차</strong>
+  <a href="#exec">Executive Summary + 1-pager</a>
+  <a href="#step1">1단계 · 자동차 산업사 (6 chunk × 6 layer, 1885–2026)</a>
+  <a href="#step2">2단계 · 주가 사이클 (이중 구조)</a>
+  <a href="#step3">3단계 · 비즈니스 구조 + 밸류체인 (8 layer)</a>
+  <a href="#step4">4단계 · 공급 구조 점검</a>
+  <a href="#step5">5단계 · 수요 구조 점검</a>
+  <a href="#summary">4+5 종합: 수급 매트릭스 결론</a>
+</div>
+
+<h2 id="exec">Executive Summary</h2>
+<ol>
+  <li>자동차는 1885년 벤츠 페이턴트 모터바겐으로 시작해 <strong>세상에서 가장 큰 단일 제조업 산업</strong>으로 성장 — 2025년 글로벌 판매 8,900만 대, 산업 매출 $3조+, 고용 5,000만 명.</li>
+  <li><strong>패권 이동의 역사</strong>: 미국(1908–1970) → 일본(1980–2000, lean 생산) → 글로벌 다강 시대(2000–2020) → <strong>중국·EV 시대(2020–현재, BYD·테슬라·중국 OEM 부상)</strong>.</li>
+  <li><strong>사이클 산업이자 동시에 패러다임 전환 산업</strong> — 7~10년 매크로 사이클 + 100년에 한 번 오는 파워트레인 전환(ICE→EV). 두 사이클이 겹치며 변동성·승자 교체 동시 발생.</li>
+  <li><strong>2026년 현재 (4+5 종합)</strong>: <span class="pill-F">F-수정형</span> <strong>이중 구조 (양극화)</strong>. ICE는 F(공급 과잉), EV는 B/A(수요 견인·메가 병목).</li>
+  <li>한국은 <strong>완성차 직접성 매우 높음</strong>(현대차그룹 글로벌 3위, 727만 대) + <strong>배터리 직접성 중간</strong>(LGES·SK On·삼성SDI 합산 15%) + <strong>자율주행·자동차반도체 직접성 낮음</strong>.</li>
+</ol>
+
+<h3>1-pager 요약 표 (5단계 핵심 결론)</h3>
+<table>
+<thead><tr><th>단계</th><th>핵심 결론</th></tr></thead>
+<tbody>
+<tr><td><strong>1. 역사</strong></td><td>6 chunk: ① 1885–1908 발명·태동 ② 1908–1945 포드주의·대량생산·전쟁 ③ 1945–1973 미국 황금기·GM 패권 ④ 1973–1990 일본 추격·오일쇼크·lean 혁명 ⑤ 1990–2010 글로벌화·중국 시장 개방 ⑥ 2010–2026 전기차·자율주행·중국 부상</td></tr>
+<tr><td><strong>2. 사이클</strong></td><td>이중 구조 — (a) 7~10년 매크로 사이클 (1973·1979·1990·2008·2020 5차례 글로벌 침체) (b) 30~40년 파워트레인 사이클 (1908 ICE 도래 → 2010s EV 전환)</td></tr>
+<tr><td><strong>3. BM/밸류체인</strong></td><td>8 layer: 소재 / 1차 부품(배터리·반도체) / Tier 1(모비스·보쉬) / Tier 2 / 완성차 OEM / 딜러·금융 / A/S·MRO / 모빌리티 서비스. 영업이익률 -5% ~ 25%</td></tr>
+<tr><td><strong>4. 공급 (2000 vs 2026)</strong></td><td>완성차 분산 (CR5 ~45%). 배터리 <strong>CR3 65% 중국 압도</strong> (CATL 39% + BYD 16% + LGES 9%). 자율주행 SoC <strong>CR3 85%</strong> (NVIDIA·Mobileye·Tesla).</td></tr>
+<tr><td><strong>5. 수요 (2025)</strong></td><td>글로벌 판매 8,900만 대 (중국 30%, 유럽 18%, 미국 16%, 인도 5%). <strong>EV 25%</strong> (1/4가 EV), 2030E 40%+. 메가 트렌드 수요 비중 40%+. 정부 정책 의존 극대.</td></tr>
+<tr><td><strong>4+5 종합</strong></td><td><span class="pill-F">F-수정형</span> <strong>이중 구조 (양극화)</strong> — ICE는 F(공급 과잉·정체), EV·배터리·자율주행은 <span class="pill-A">A</span>/<span class="pill-B">B</span>(메가 병목·수요 견인). 향후 5~7년 산업 reset 사이클</td></tr>
+</tbody>
+</table>
+
+<hr/>
+
+<h2 id="step1">1단계 · 자동차 산업사 (1885–2026, 6 chunk × 6 layer)</h2>
+
+<blockquote><p><strong>layered framework</strong>: 각 chunk를 (a)매크로 배경 (b)패권자 (c)산업 변화 (d)사이클 단계 (e)대표 기업 주가 (f)규제 — 6 layer로 풀어낸다. 트리거 시점은 일반인 친화 비유로 풀이.</p></blockquote>
+
+<h3>Chunk 1. 1885–1908 — 발명·태동기 (산업의 탄생)</h3>
+<h4>(a) 매크로 배경</h4>
+<p>19세기 후반은 <strong>제2차 산업혁명</strong> 절정기. 석유 정제(1859 미국 Drake 유정), 전기·통신(1870s 에디슨·벨), 강철 대량 생산(1856 Bessemer)의 3대 혁신 동시 발생. 1900년 뉴욕·런던 인구 350만·650만. 마차 분뇨가 도시 위생의 최대 골칫거리(뉴욕 1900년 일일 1,100톤). 자동차가 "탈마차 도시 솔루션"으로 주목.</p>
+<blockquote><p><strong>비유</strong>: 자동차의 탄생은 "도시가 말 분뇨에 질식해가던 시대의 위생 혁명". 우리가 지금 EV를 "탈ICE 솔루션"으로 보는 시각이, 100년 전엔 자동차 자체가 "탈말 솔루션"이었다는 데자뷔.</p></blockquote>
+
+<h4>(b) 패권자</h4>
+<p><strong>독일·프랑스 발명 주도, 미국 양산 잠재력 부상</strong>. 독일: Karl Benz, Daimler·Maybach. 프랑스: Panhard, Peugeot. 미국: Olds·Ford·Cadillac·Buick 등 군소 OEM 수백 개 난립.</p>
+
+<h4>(c) 산업 변화 (시대별 핵심 이벤트)</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>1885</td><td>Karl Benz 페이턴트 모터바겐 — 세계 최초 가솔린차</td><td>자동차 산업 공식 출발</td></tr>
+<tr><td>1888</td><td>Bertha Benz 106km 장거리 시운전</td><td>실용성 입증, 최초 마케팅</td></tr>
+<tr><td>1889</td><td>Daimler 4-stroke + 4-speed gearbox</td><td>현대 자동차 기본 구조 확립</td></tr>
+<tr><td>1903</td><td>Ford Motor Company 설립 ($28K 자본금)</td><td>100년 패권의 출발점</td></tr>
+<tr><td>1908.8.12</td><td><strong>Ford Model T 출시 ($850)</strong></td><td>자동차 = 부자 장난감 → 대중 상품</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>비유</strong>: 이 시기 자동차는 "마차 시대의 페이턴트 휴대폰". 1900년대 미국 자동차 가격 $2,000~$4,000 = 노동자 연봉 4~10배 (오늘날 $400K+). Model T 도래 전까지 자동차는 록펠러·밴더빌트의 액세서리.</p></blockquote>
+
+<h4>(d) 사이클 단계</h4>
+<p><strong>0차 사이클 — 산업 형성기</strong>. 1900년 미국 자동차 등록 8,000대 → 1908년 78,000대 (10배). 산업 표준·인프라(도로·주유소·정비) 부재.</p>
+
+<h4>(e) 대표 기업 주가</h4>
+<p>대부분 비상장. Ford 1956년에야 상장, GM(1908 창업) 1916년 상장.</p>
+
+<h4>(f) 규제 layer</h4>
+<ul>
+<li>규제 부재 시기 — 자동차 등록·면허·교통 신호 모두 미정비.</li>
+<li><strong>1865년 영국 Red Flag Act</strong>: 자동차 마차 앞에 깃발 든 사람이 걷는 속도만 허용 → 영국 자동차 산업 결정적 지연 (1896 폐지).</li>
+<li><strong>Selden 특허 분쟁</strong>: 1879 광역 특허, Ford가 1903–1911 소송 끝에 무력화 → 미국 자동차 산업 개방.</li>
+</ul>
+
+<h3>Chunk 2. 1908–1945 — 포드주의·대량생산·전쟁 동원</h3>
+<h4>(a) 매크로 배경</h4>
+<p>Model T 출시 → 1차대전(1914–18) → Roaring Twenties → 1929 대공황 → 2차대전(1939–45). <strong>자동차 산업이 매크로 사이클과 직접 연동되기 시작</strong>한 chunk. 미국 자동차 보유율(1,000명당) 1908년 1대 → 1929년 187대 → 1945년 233대.</p>
+<blockquote><p><strong>비유</strong>: 1908 Model T = "오늘날 iPhone 1세대 등장". Ford가 만든 건 자동차가 아니라 "자동차를 살 수 있는 중산층"이라는 새 시장 자체.</p></blockquote>
+
+<h4>(b) 패권자</h4>
+<p><strong>미국 단독 패권</strong>. 1929년 미국 글로벌 자동차 생산 85%. Big 3 형성: GM(1908, Sloan multibrand 전략), Ford, Chrysler(1925 창업). 일본은 Toyota(1937), Nissan(1933) 초기 단계.</p>
+
+<h4>(c) 산업 변화</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>1908</td><td>Ford Model T 출시 + GM 설립 (Buick·Olds·Oakland·Cadillac 통합)</td><td>대중 자동차 + 멀티브랜드 OEM 모델</td></tr>
+<tr><td>1913</td><td><strong>Ford Highland Park 이동식 조립 라인</strong></td><td>생산시간 12.5시간→1.5시간 (8배 단축)</td></tr>
+<tr><td>1914</td><td>Ford 5달러 일당·8시간 노동</td><td>노동자가 자기 만든 차 살 수 있는 임금</td></tr>
+<tr><td>1923</td><td>GM 점유율 Ford 추월 시작</td><td>Sloan 다양화 vs Ford 단일 모델 한계</td></tr>
+<tr><td>1927</td><td>Model T 단종 (총 1,500만 대)</td><td>Ford 패권 1차 정점·전환점</td></tr>
+<tr><td>1929–33</td><td><strong>대공황 — 미국 자동차 생산 530만→140만 대 (-74%)</strong></td><td>1차 자동차 산업 침체</td></tr>
+<tr><td>1937</td><td>Toyota Motor Corporation 설립</td><td>일본 미래 패권자 잉태</td></tr>
+<tr><td>1939–45</td><td>2차대전 — 자동차사 군용 차량·항공기 엔진 생산</td><td>산업 군수산업 전환</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>비유</strong>: Ford 이동식 조립 라인 = "도살장의 분해 라인을 거꾸로 한 것". 인류 산업 혁명의 가장 큰 productivity 점프(8배).</p></blockquote>
+
+<h4>(d) 사이클 단계</h4>
+<p><strong>1차 사이클 형성·정점·침체</strong>: 1908–28 성장기 → 1929–33 대공황 → 1934–41 회복 → 1942–45 전쟁 (생산 중단).</p>
+
+<h4>(e) 대표 기업 주가</h4>
+<p>GM 1916 상장, 1920s 상승 → 1929 폭락 (-90%). Chrysler 1925 상장. Ford는 1956년에야 상장.</p>
+
+<h4>(f) 규제 layer</h4>
+<ul>
+<li>1925 미국 도로 표지 표준화 (Route 66 등).</li>
+<li>1932 RFC: 대공황 중 GM·Chrysler 정부 신용 공여 — 첫 정부 직접 개입.</li>
+<li>1942 War Production Board: 자동차 생산 강제 중단, Ford Willow Run에서 B-24 폭격기 시간당 1대 생산 (1944).</li>
+</ul>
+
+<h3>Chunk 3. 1945–1973 — 미국 황금기, GM 패권, 유럽·일본 부활</h3>
+<h4>(a) 매크로 배경</h4>
+<p>전후 황금기 — 미국 GDP 1945년 $2.3T → 1973년 $6.6T (실질 2배). 베이비붐 8천만 명. 교외화·1956년 Interstate Highway Act(41,000마일). Marshall Plan으로 유럽 부활.</p>
+
+<h4>(b) 패권자</h4>
+<p><strong>미국 Big 3 절대 패권</strong>. 1950년 미국 글로벌 점유율 75%. GM 50% 점유 (Sloan multibrand 절정). VW Beetle 폭발적 인기. Toyota Corolla(1966) 글로벌 베스트셀러 등극.</p>
+
+<h4>(c) 산업 변화</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>1948</td><td>VW Beetle 양산 (1972년 1,500만 대 누적)</td><td>글로벌 베스트셀러</td></tr>
+<tr><td>1956</td><td><strong>Interstate Highway Act</strong></td><td>자동차 수요 영구 lift</td></tr>
+<tr><td>1956</td><td>Ford NYSE 상장</td><td>미국 자본시장 자동차주 비중 확대</td></tr>
+<tr><td>1960</td><td>미국 빅3 점유율 85% (역대 최대)</td><td>미국 패권 정점</td></tr>
+<tr><td>1964</td><td>Ford Mustang 출시 — Pony car 카테고리</td><td>마케팅 신화</td></tr>
+<tr><td>1966</td><td>Toyota Corolla 출시</td><td>일본 추격 출발점</td></tr>
+<tr><td>1968</td><td>Honda CVCC — 1970년 머스키법 최초 충족</td><td>일본 환경 기술 우위</td></tr>
+<tr><td>1970</td><td>미국 머스키법 (Clean Air Act 개정)</td><td>미국 빅3 기술 부담</td></tr>
+<tr><td>1973.10</td><td><strong>1차 오일쇼크 — OPEC 원유 4.5배</strong></td><td>미국 빅3 위기의 시작</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>비유</strong>: 이 chunk 자동차 = "거대한 디트로이트 가전제품". 길이 5.5m·8기통·연비 5km/L. 1960s 미국 차는 디자인·크기·옵션으로 경쟁, 연비·품질은 신경 안 씀.</p></blockquote>
+
+<h4>(d) 사이클 단계</h4>
+<p><strong>2차 사이클 — 전후 황금기 (1945–73)</strong>. 28년간 글로벌 자동차 생산 1,000만→3,900만 대 (4배). 본격 침체 없음.</p>
+
+<h4>(f) 규제 layer</h4>
+<ul>
+<li>1956 Interstate Highway Act — 자동차 수요 영구 lift.</li>
+<li>1966 National Traffic and Motor Vehicle Safety Act — NHTSA 설립. Ralph Nader "Unsafe at Any Speed"(1965) 책이 입법 추진력.</li>
+<li><strong>1970 Clean Air Act 개정 (머스키법)</strong>: 1975년부터 NOx·HC·CO 90% 저감. 일본·유럽이 앞서 적응 → 패권 이동의 결정적 배경.</li>
+<li>1970 EPA 설립.</li>
+<li><strong>1975 CAFE 도입 (Corporate Average Fuel Economy)</strong>: 1차 연비 규제.</li>
+</ul>
+
+<h3>Chunk 4. 1973–1990 — 오일쇼크, 일본 추격, Lean 혁명, 미국 Big 3 위기</h3>
+<h4>(a) 매크로 배경</h4>
+<p>1973 1차 오일쇼크 (OPEC 원유 4.5배) → 1979 2차 오일쇼크 (이란 혁명, 2.5배). 미국 스태그플레이션, Volcker shock 금리 20%(1980). 1985 플라자합의로 엔 240→120 (2배 절상).</p>
+<blockquote><p><strong>비유</strong>: 1973 오일쇼크는 자동차 산업의 "큰 빙하기". 연비 좋은 일본 소형차가 살아남고, 거대 공룡(미국 V8)이 멸종 위기. "포유류가 공룡 끝에 살아남는" 동물생태학 비유.</p></blockquote>
+
+<h4>(b) 패권자</h4>
+<p>1973–80: <strong>일본 미국 점유율 0%→17%</strong>. 1980 미국 베스트셀러 1위 Honda Civic·Toyota Corolla 진입. 1990 일본 글로벌 자동차 점유율 30%.</p>
+
+<h4>(c) 산업 변화</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>1973.10</td><td>1차 오일쇼크 — 가솔린 $0.36→$0.55</td><td>일본 소형차 폭증</td></tr>
+<tr><td>1975</td><td>CAFE 27.5mpg 의무 (1985까지)</td><td>미국 빅3 기술 부담</td></tr>
+<tr><td>1979</td><td>2차 오일쇼크 — 가솔린 $0.86→$1.19. Chrysler 파산 직전</td><td>미 정부 $1.5B 구제 보증</td></tr>
+<tr><td>1981</td><td>미·일 자율 수출 규제(VER) 168만 대 한도</td><td>일본 OEM 미국 현지 공장 가속</td></tr>
+<tr><td>1982</td><td>Honda Marysville(Ohio) — 일본 OEM 미국 첫 공장</td><td>글로벌 OEM 시대 출발</td></tr>
+<tr><td>1984</td><td>NUMMI 합작 (GM·Toyota) — 미국이 Toyota lean 학습</td><td>인사이트 이전</td></tr>
+<tr><td>1985</td><td><strong>플라자합의 — 엔/달러 240→120</strong></td><td>일본 OEM 현지화 가속</td></tr>
+<tr><td>1987</td><td>MIT IMVP "Lean 생산" 용어 정립</td><td>Toyota TPS 글로벌 학습</td></tr>
+<tr><td>1989</td><td>Toyota Lexus·Honda Acura·Nissan Infiniti</td><td>일본 럭셔리 진출</td></tr>
+<tr><td>1990</td><td>일본 자동차 글로벌 생산 1,350만 대 (미국 980만 추월)</td><td>일본 패권 정점</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>비유</strong>: Toyota Production System(TPS) = "재고를 빚으로 보는 회계". JIT + Jidoka(무결점) + Kanban 3대 축. 1980s 일본 차 1대 생산비 미국 차보다 $1,500 저렴 + 결함 4배 적음.</p></blockquote>
+
+<h4>(f) 규제 layer</h4>
+<ul>
+<li><strong>1985 플라자합의(Plaza Accord)</strong>: G5 합의로 달러 약세·엔·마르크 절상. 일본 OEM 미국 현지 공장 건설·고급화 전략 가속 결정적 트리거.</li>
+<li>1990 미국 Clean Air Act 개정: 1994년부터 Tier 1 배출가스 기준.</li>
+<li>1985 CAFE 27.5mpg 의무화 완성.</li>
+</ul>
+
+<h3>Chunk 5. 1990–2010 — 글로벌화·플랫폼 통합·중국 시장 개방, 일본 정점·후퇴, 한국 진입</h3>
+<h4>(a) 매크로 배경</h4>
+<p>1990–91 일본 자산 버블 붕괴 (닛케이 38,915p → 14,000p). 1995 WTO 출범. 1997 아시아 외환위기 (한국 자동차 산업 구조조정). 2001 중국 WTO 가입 — 거대 신규 시장 개방. 2008 글로벌 금융위기 → GM·Chrysler 파산. <strong>2009 중국 1,360만 대 — 미국 1,040만 대 추월, 글로벌 1위</strong>.</p>
+
+<h4>(b) 패권자</h4>
+<p>일본 정점 → 점진적 후퇴. Big 3 36%→27%. <strong>한국 진입</strong>: 현대(1967) + 1998 기아 인수. 2010 글로벌 다강 시대 (Toyota·GM·VW·현대기아·Ford 5강).</p>
+
+<h4>(c) 산업 변화 (선별)</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>1997</td><td><strong>Toyota Prius — 세계 최초 양산 하이브리드</strong></td><td>EV·전동화 진정한 출발점</td></tr>
+<tr><td>1998</td><td>DaimlerChrysler 합병 ($36B, 사상 최대 산업 M&A)</td><td>(2007 해소, 실패)</td></tr>
+<tr><td>1998</td><td>현대·기아 합병 (한국 외환위기 후)</td><td>한국 OEM 글로벌 5위 발판</td></tr>
+<tr><td>2001</td><td>중국 WTO 가입 — 외국 OEM 50:50 JV 의무</td><td>중국 시장 외국 OEM 본격 진입</td></tr>
+<tr><td>2003</td><td>Tesla Motors 설립</td><td>EV 미래 패권자 잉태</td></tr>
+<tr><td>2003</td><td>BYD Auto 설립</td><td>중국 EV 미래 패권자 잉태</td></tr>
+<tr><td>2007</td><td>Tesla Roadster — Li-ion 첫 양산 EV</td><td>EV 산업 형성 신호탄</td></tr>
+<tr><td>2008</td><td>금융위기 — 미국 자동차 판매 1,610만→1,040만 대 (-35%)</td><td>대형 사이클 침체</td></tr>
+<tr><td>2009.4–6</td><td><strong>Chrysler·GM 파산 보호, 미 정부 $80B 구제</strong></td><td>Big 3 정부 관리</td></tr>
+<tr><td>2009</td><td><strong>중국 글로벌 1위 자동차 시장 등극</strong> (1,360만 대)</td><td>중국 시대 본격 개막</td></tr>
+<tr><td>2010</td><td>Tesla Model S 발표 + IPO ($17/주)</td><td>EV 산업화 출발점</td></tr>
+</tbody>
+</table>
+
+<h4>(f) 규제 layer</h4>
+<ul>
+<li>2001 중국 WTO 가입 — 외국 OEM 50:50 JV 의무. 중국이 외국 OEM 기술 학습·이전 받은 결정적 기간.</li>
+<li>2007 미국 EISA — CAFE 2020까지 35mpg.</li>
+<li>2009 EU 95g/km CO2 규제 발표 (2021 시행).</li>
+<li>2009 미국 "Cash for Clunkers" — 노후차 폐차 시 $4,500 보조 ($3B 예산).</li>
+</ul>
+
+<h3>Chunk 6. 2010–2026 — 전기차·자율주행·중국 부상·미·중 디커플링</h3>
+<h4>(a) 매크로 배경</h4>
+<p>2010s 저금리·QE → 2017 글로벌 자동차 9,750만 대 정점. 2018 미·중 무역분쟁. 2020 코로나 -16%. 2021–23 반도체 부족. 2022 IRA. 2024 EU 중국 EV 관세. 2025–26 미국 신정부 EV 보조금 축소·관세 강화.</p>
+<blockquote><p><strong>비유</strong>: 이 chunk = "자동차 산업의 100년 만의 파워트레인 혁명 + 패권 재이동". 1908 ICE 도래 후 100여 년 만에 EV가 새 표준으로 등장. 마치 1980s 일본 추격을 2020s 중국·EV가 5배 큰 규모·2배 빠른 속도로 재현.</p></blockquote>
+
+<h4>(b) 패권자 — 2026년 현재</h4>
+<ul>
+<li>2010–18: GM 회복 + Toyota·VW 글로벌 1위 다툼. 현대기아 글로벌 5위.</li>
+<li>2018–22: <strong>Tesla 글로벌 EV 1위 (점유율 23–25%), 시총 $1T+(2021 정점)</strong>.</li>
+<li>2022–26: <strong>BYD 글로벌 EV 1위 등극</strong> (2025 BEV 226.5만 vs Tesla 164만). 전체 자동차 1위 Toyota 유지(1,036만 대), <strong>BYD 글로벌 자동차 2위 진입</strong> (460만 대), <strong>현대기아 글로벌 자동차 3위</strong>(727만 대, GM 추월).</li>
+</ul>
+
+<h4>(c) 산업 변화 (핵심 발췌)</h4>
+<table>
+<thead><tr><th>연도</th><th>이벤트</th><th>의미</th></tr></thead>
+<tbody>
+<tr><td>2010.6</td><td>Tesla IPO ($17/주, 시총 $1.7B)</td><td>EV 산업화 신호탄</td></tr>
+<tr><td>2012</td><td>Tesla Model S ($80K, 426km)</td><td>럭셔리 EV 첫 성공</td></tr>
+<tr><td>2014–16</td><td>VW 디젤게이트 ($30B+ 벌금)</td><td>디젤 시대 종말, EV 가속</td></tr>
+<tr><td>2017</td><td>Tesla Model 3 출시 ($35K 목표)</td><td>EV 대중화 출발</td></tr>
+<tr><td>2019</td><td>Tesla 상하이 기가팩토리</td><td>중국 진출, 가격 인하</td></tr>
+<tr><td>2020.6</td><td>Tesla 시총 Toyota 추월</td><td>자동차 평가 paradigm shift</td></tr>
+<tr><td>2021.11</td><td>Tesla 시총 $1.2T 정점</td><td>EV 평가 정점</td></tr>
+<tr><td>2022.8</td><td><strong>미국 IRA — EV 보조금 $7,500 + 배터리 미국 생산 의무</strong></td><td>미국 EV 산업정책 대전환</td></tr>
+<tr><td>2023</td><td>BYD 글로벌 BEV 판매 Tesla 추월 (4Q)</td><td>EV 패권 변화</td></tr>
+<tr><td>2024</td><td><strong>현대기아 글로벌 3위 등극</strong> (730만 대, GM 추월)</td><td>한국 OEM 사상 최고 위상</td></tr>
+<tr><td>2024.6</td><td>EU 중국 EV 관세 17–38%</td><td>EU·중국 무역 마찰 본격화</td></tr>
+<tr><td>2024</td><td>미국 중국 EV 관세 100% — 사실상 차단</td><td>디커플링 본격화</td></tr>
+<tr><td>2025</td><td>Waymo 연 1,400만 회 무인 자율주행 운행</td><td>로보택시 양산 진입</td></tr>
+<tr><td>2025.5</td><td>Tesla 누적 supervised FSD 100억 마일 (2026.5)</td><td>자율주행 데이터 격차</td></tr>
+<tr><td>2025</td><td><strong>글로벌 EV 판매 2,070만 대 (전체 25%)</strong></td><td>"1/4가 EV" 시대</td></tr>
+<tr><td>2025</td><td>CATL 글로벌 EV 배터리 점유율 39.2%</td><td>중국 배터리 패권 강화</td></tr>
+<tr><td>2026</td><td>Toyota 1위, BYD 2위, 현대기아 3위, VW 4위</td><td>중국 OEM 글로벌 빅3 진입</td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>비유</strong>: 자동차 산업은 가전화·소프트화·중국화의 3중 변화 동시 진행. 가전화 = ICE 부품 30,000→EV 15,000개, 소프트화 = SDV·자율주행이 차량 가치의 30%+, 중국화 = BYD·Geely·Chery 등 글로벌 빅10 진입.</p></blockquote>
+
+<h4>(f) 규제 layer (핵심)</h4>
+<ul>
+<li>2009 EU 95g/km CO2 (2021 시행) → 유럽 OEM EV 강제 전환.</li>
+<li>2017 영국·프랑스 2040년 ICE 판매 금지 (이후 2030–35로 단축).</li>
+<li><strong>2022 미국 IRA</strong>: EV 보조금 $7,500 + 배터리·미네랄 미국·FTA국 원산 의무. 한국 OEM 우대 효과.</li>
+<li>2024 EU 중국 EV 추가 관세 (BYD 17%, Geely 19%, SAIC 35%).</li>
+<li>2024 미국 중국 EV 관세 100%.</li>
+<li>2025–26 미국 신정부 IRA 일부 축소·관세 강화 → 글로벌 EV 정책 dispersion.</li>
+</ul>
+
+<hr/>
+
+<h2 id="step2">2단계 · 주가 사이클 (이중 구조)</h2>
+
+<h3>사이클 구조 — 2개의 주기 중첩</h3>
+
+<h4>① 7~10년 매크로 사이클 (단주기)</h4>
+<table>
+<thead><tr><th>침체 차수</th><th>시기</th><th>트리거</th><th>미국 자동차 판매 변동</th></tr></thead>
+<tbody>
+<tr><td>1차</td><td>1929–33</td><td>대공황</td><td>-74% (530만→140만)</td></tr>
+<tr><td>2차</td><td>1973–75</td><td>1차 오일쇼크</td><td>-23% YoY (1974)</td></tr>
+<tr><td>3차</td><td>1979–82</td><td>2차 오일쇼크 + Volcker shock</td><td>-27%</td></tr>
+<tr><td>4차</td><td>1990–91</td><td>1차 걸프전</td><td>-10%</td></tr>
+<tr><td>5차</td><td>2001</td><td>닷컴 + 9·11</td><td>-3%</td></tr>
+<tr><td>6차</td><td>2008–09</td><td><strong>글로벌 금융위기</strong></td><td>-35% (GM·Chrysler 파산)</td></tr>
+<tr><td>7차</td><td>2020</td><td>코로나</td><td>-16% (글로벌 8,800만→7,800만)</td></tr>
+</tbody>
+</table>
+
+<h4>② 30~40년 파워트레인 사이클 (장주기)</h4>
+<table>
+<thead><tr><th>파워트레인 사이클</th><th>시기</th><th>트리거</th><th>결과</th></tr></thead>
+<tbody>
+<tr><td>1차 ICE 도래</td><td>1885–1908</td><td>내연기관 발명·Model T</td><td>마차 산업 소멸 (1900 미국 마차사 11,500 → 1925 5사)</td></tr>
+<tr><td>1차 ICE 절정·고도화</td><td>1908–1973</td><td>대량생산·하이웨이</td><td>미국 Big 3 패권</td></tr>
+<tr><td>1차 ICE 성숙·일본 추격</td><td>1973–2010</td><td>오일쇼크·환경 규제</td><td>일본 lean 패권</td></tr>
+<tr><td><strong>2차 EV 도래</strong></td><td><strong>2010–2030E</strong></td><td>Tesla·중국 EV 정책·기후</td><td><strong>BYD·테슬라·중국 OEM 부상</strong></td></tr>
+</tbody>
+</table>
+<blockquote><p><strong>현재 위치</strong>: 2026년은 EV 파워트레인 사이클의 도래기 후반·도입기 초반. 글로벌 EV 침투율 25%. 2030년 40%+. <strong>글로벌 자동차 패권의 90년 만의 대전환기</strong>.</p></blockquote>
+
+<h3>1단계 chunk와 사이클 매핑 표</h3>
+<table>
+<thead><tr><th>Chunk</th><th>시기</th><th>매크로 사이클</th><th>파워트레인 사이클</th></tr></thead>
+<tbody>
+<tr><td>Chunk 1</td><td>1885–1908</td><td>0차 (형성기)</td><td>1차 ICE 도래기</td></tr>
+<tr><td>Chunk 2</td><td>1908–1945</td><td>1차 (대공황·전쟁)</td><td>1차 ICE 절정 진입</td></tr>
+<tr><td>Chunk 3</td><td>1945–1973</td><td>2차 (전후 황금기)</td><td>1차 ICE 절정</td></tr>
+<tr><td>Chunk 4</td><td>1973–1990</td><td>3차 (오일쇼크)</td><td>1차 ICE 성숙</td></tr>
+<tr><td>Chunk 5</td><td>1990–2010</td><td>4차 (글로벌화·금융위기)</td><td>1차 ICE 정점, 2차 EV 도래 신호</td></tr>
+<tr><td>Chunk 6</td><td>2010–2026</td><td>5차 (코로나·반도체)</td><td><strong>2차 EV 도래기 진행 중</strong></td></tr>
+</tbody>
+</table>
+
+<img src="자동차_global_sales_1950_2025.png" alt="글로벌 자동차 판매 1950–2025" />
+<p style="font-size:12.5px; color:var(--muted); text-align:center;">→ 출처: OICA·Statista·본 분석. 5차례 매크로 침체 + 2010년대 EV 도래 시점 강조</p>
+
+<img src="자동차_stock_cycle_1985_2026.png" alt="대표 자동차 OEM 주가 사이클 1985–2026" />
+<p style="font-size:12.5px; color:var(--muted); text-align:center;">→ 출처: Bloomberg·Yahoo Finance·본 분석. log scale. Tesla·BYD의 폭발적 상승 vs GM의 2009 파산·횡보 대비</p>
+
+<hr/>
+
+<h2 id="step3">3단계 · 비즈니스 구조 + 밸류체인 (8 layer)</h2>
+
+<blockquote><p>자동차 산업 매출 $3T 중 완성차 OEM 약 50% ($1.5T), 부품·소재 35% ($1.05T), 딜러·금융·A/S 15% ($450B). 반도체보다 layer 깊고 분산형.</p></blockquote>
+
+<h3>Layer 1. 소재 (Upstream)</h3>
+<table>
+<thead><tr><th>종류</th><th>대표 기업</th><th>BM</th><th>영업이익률</th></tr></thead>
+<tbody>
+<tr><td>철강·알루미늄</td><td>POSCO·ArcelorMittal·Alcoa·Novelis</td><td>고장력강·알루미늄 판재</td><td>5~12%</td></tr>
+<tr><td>리튬·니켈·코발트·구리</td><td>Albemarle·SQM·Glencore·CMOC</td><td>광산 채굴·정련</td><td>-5%~30%</td></tr>
+<tr><td>합성수지·고무</td><td>LG화학·SK이노·BASF·Bridgestone</td><td>플라스틱·타이어</td><td>5~15%</td></tr>
+</tbody>
+</table>
+
+<h3>Layer 2. 1차 핵심 부품 (ICE vs EV)</h3>
+
+<h4>(2-1) ICE 핵심 부품 — 구조적 축소</h4>
+<table>
+<thead><tr><th>종류</th><th>대표 기업</th><th>전망</th></tr></thead>
+<tbody>
+<tr><td>엔진·변속기</td><td>Aisin·ZF·Magna Powertrain·Borg-Warner</td><td>2030까지 -30~50%</td></tr>
+<tr><td>연료·배기</td><td>Faurecia·Tenneco·Eberspächer</td><td>구조적 축소</td></tr>
+</tbody>
+</table>
+
+<h4>(2-2) EV 핵심 부품 — 신생·고성장</h4>
+<table>
+<thead><tr><th>종류</th><th>대표 기업</th><th>진입장벽</th><th>OPM</th></tr></thead>
+<tbody>
+<tr><td>배터리 셀</td><td>CATL·BYD·LGES·SK On·삼성SDI·Panasonic</td><td>$5B+ Gigafactory CapEx</td><td>-5%~20%</td></tr>
+<tr><td>배터리 소재</td><td>Posco Future M·Umicore·BTR·Easpring</td><td>화학 IP·합성 노하우</td><td>5~15%</td></tr>
+<tr><td>자동차반도체 (MCU·전력)</td><td>Infineon·NXP·Renesas·STMicro·온세미</td><td>AEC-Q100, 25년+ 신뢰성</td><td>15~30%</td></tr>
+<tr><td>자율주행 SoC</td><td><strong>NVIDIA·Mobileye·Tesla·Qualcomm·화웨이</strong></td><td>AI 알고리즘·생태계</td><td><strong>30~60%</strong></td></tr>
+<tr><td>모터·인버터</td><td>Nidec·Bosch·BorgWarner·현대모비스·LG마그나</td><td>자기력·전력 변환</td><td>8~15%</td></tr>
+</tbody>
+</table>
+
+<h3>Layer 3–8 (요약)</h3>
+<table>
+<thead><tr><th>Layer</th><th>대표 기업</th><th>BM</th><th>OPM</th></tr></thead>
+<tbody>
+<tr><td>3. Tier 1 (System Integrator)</td><td>Bosch·Continental·Magna·Denso·<strong>현대모비스</strong></td><td>모듈·시스템 통합</td><td>4~8%</td></tr>
+<tr><td>4. Tier 2 (Specialist)</td><td>Adient·Faurecia·Bridgestone·<strong>만도·한온</strong></td><td>차체·시트·타이어·디스플레이</td><td>3~15%</td></tr>
+<tr><td>5. 완성차 OEM</td><td>Toyota·VW·<strong>현대기아</strong>·GM·Stellantis·BYD·Tesla</td><td>양산·딜러·금융 통합</td><td>5~25%</td></tr>
+<tr><td>6. 딜러·금융</td><td>AutoNation·Penske·OEM 금융사·<strong>현대캐피탈</strong></td><td>판매·할부</td><td>2~5%</td></tr>
+<tr><td>7. A/S·MRO·중고차</td><td>NAPA·O'Reilly·AutoZone·<strong>현대모비스 A/S</strong></td><td>부품·정비</td><td>8~20%</td></tr>
+<tr><td>8. 모빌리티 서비스</td><td>Uber·Lyft·DiDi·Waymo·Tesla·<strong>카카오모빌리티</strong></td><td>플랫폼·로보택시</td><td>적자~5%</td></tr>
+</tbody>
+</table>
+
+<h3>한국 기업 직접성 — Layer별</h3>
+<table>
+<thead><tr><th>Layer</th><th>한국 직접성</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>완성차 OEM (현대기아)</td><td><strong>매우 높음</strong></td><td>글로벌 3위, EV 전환 빠름</td></tr>
+<tr><td>배터리 셀 (LGES·SK On·삼성SDI)</td><td><strong>중간</strong></td><td>글로벌 15.3%, 중국에 잠식 중 (2023 18% → 2025 15%)</td></tr>
+<tr><td>배터리 소재 (양극재·분리막)</td><td>중간</td><td>양극재·분리막 강세, 음극재 약점</td></tr>
+<tr><td>Tier 1 (현대모비스·만도·한온)</td><td>높음</td><td>현대차그룹 종속도 80%+</td></tr>
+<tr><td>자동차반도체</td><td><strong>낮음</strong></td><td>자급률 5% 미만</td></tr>
+<tr><td>자율주행 SW/SoC</td><td><strong>매우 낮음</strong></td><td>NVIDIA·Tesla·Waymo 의존</td></tr>
+<tr><td>모빌리티 서비스</td><td>낮음</td><td>카카오모빌리티 등 국내 한정</td></tr>
+</tbody>
+</table>
+
+<hr/>
+
+<h2 id="step4">4단계 · 공급 구조 점검 (현재 정량 snapshot)</h2>
+
+<h3>① 글로벌 OEM 합산 변화 (1990 vs 2026)</h3>
+<table>
+<thead><tr><th>구분</th><th>1990</th><th>2008</th><th>2026 (현재)</th></tr></thead>
+<tbody>
+<tr><td>글로벌 메이저 OEM 수</td><td>약 25개</td><td>약 20개</td><td><strong>약 18개 + 중국 신생 EV 5개</strong></td></tr>
+<tr><td>OEM CR5</td><td>약 50%</td><td>약 50%</td><td>약 45% (분산화)</td></tr>
+<tr><td>OEM CR10</td><td>약 75%</td><td>약 75%</td><td>약 70%</td></tr>
+</tbody>
+</table>
+<blockquote><p>자동차 OEM은 반도체 메모리만큼 집중화되지 않음. <strong>그러나 segment별 집중화는 빠름</strong> — 특히 EV·배터리·자율주행.</p></blockquote>
+
+<h3>② 2025 글로벌 자동차 판매 Top 10</h3>
+<table>
+<thead><tr><th>순위</th><th>OEM</th><th>2025 판매 (만대)</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Toyota</td><td>1,036</td><td>7년 연속 1위</td></tr>
+<tr><td>2</td><td>BYD</td><td>460 (전체) / 226 (BEV)</td><td>글로벌 EV 1위 등극</td></tr>
+<tr><td>3</td><td><strong>Hyundai-Kia</strong></td><td><strong>727</strong></td><td>한국 OEM 사상 최고 위상</td></tr>
+<tr><td>4</td><td>VW Group</td><td>900 (추정)</td><td>EV 전환 비용 부담</td></tr>
+<tr><td>5</td><td>GM</td><td>550</td><td></td></tr>
+<tr><td>6</td><td>Stellantis</td><td>540</td><td></td></tr>
+<tr><td>7</td><td>Honda</td><td>380</td><td></td></tr>
+<tr><td>8</td><td>Ford</td><td>410</td><td></td></tr>
+<tr><td>9</td><td>Renault-Nissan-Mitsubishi</td><td>770 (합산)</td><td>동맹</td></tr>
+<tr><td>10</td><td>Tesla</td><td>178 (BEV)</td><td>BEV 글로벌 9%</td></tr>
+</tbody>
+</table>
+
+<h3>③ 배터리 — 빠른 집중화 (CR3 65%)</h3>
+<table>
+<thead><tr><th>순위</th><th>배터리사</th><th>2025 글로벌 M/S</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>CATL (중국)</strong></td><td><strong>39.2%</strong></td><td>압도적 1위, LFP·NCM 풀라인업</td></tr>
+<tr><td>2</td><td>BYD (중국, 내재화)</td><td>16.4%</td><td>LFP·Blade Battery</td></tr>
+<tr><td>3</td><td>LG에너지솔루션</td><td>9.2%</td><td>NCM 고급, GM·테슬라·현대기아 향</td></tr>
+<tr><td>4</td><td>CALB (중국)</td><td>5.3%</td><td>신흥</td></tr>
+<tr><td>5</td><td>Gotion (중국)</td><td>4.5%</td><td>VW 일부 출자</td></tr>
+<tr><td>6</td><td>SK On</td><td>3.7%</td><td>미국 IRA 의존</td></tr>
+<tr><td>7</td><td>Panasonic</td><td>3.7%</td><td>Tesla 향</td></tr>
+<tr><td>9</td><td>Samsung SDI</td><td>2.4%</td><td>BMW·Audi·Stellantis 향</td></tr>
+<tr><td colspan="2"><strong>CR3</strong></td><td><strong>64.8%</strong></td><td>중국 2사 + 한국 1사</td></tr>
+<tr><td colspan="2"><strong>중국 합산</strong></td><td><strong>~69%</strong></td><td></td></tr>
+<tr><td colspan="2"><strong>한국 3사 합산</strong></td><td><strong>15.3%</strong></td><td>2023 18% → 2025 15% (잠식)</td></tr>
+</tbody>
+</table>
+
+<img src="자동차_battery_market_share_2018_2025.png" alt="글로벌 EV 배터리 시장 점유율 2018-2025" />
+<p style="font-size:12.5px; color:var(--muted); text-align:center;">→ 출처: SNE Research·CnEVPost. 2018→2025 8년 추이. CATL 점진적 압도 + 한국 3사 잠식 가시화</p>
+
+<h3>④ 자율주행 SoC — 압도적 집중 (CR3 85%)</h3>
+<table>
+<thead><tr><th>기업</th><th>SoC</th><th>2025 점유</th></tr></thead>
+<tbody>
+<tr><td>NVIDIA Drive (Thor·Orin)</td><td>Mercedes·Volvo·현대·중국 OEM 다수</td><td>약 40%</td></tr>
+<tr><td>Mobileye (Intel 자회사)</td><td>BMW·Audi·Ford·Honda·GM</td><td>약 30%</td></tr>
+<tr><td>Tesla FSD HW3/4/5</td><td>Tesla 자체</td><td>약 15%</td></tr>
+<tr><td>Qualcomm Snapdragon Ride</td><td>GM·BMW·Volvo·Stellantis</td><td>약 10%</td></tr>
+<tr><td>화웨이</td><td>중국 OEM</td><td>약 5%</td></tr>
+</tbody>
+</table>
+
+<h3>⑤ 진입장벽 변화 — ICE 무너지고 EV에 새로 형성</h3>
+<table>
+<thead><tr><th>진입장벽</th><th>ICE 시대</th><th>EV 시대</th></tr></thead>
+<tbody>
+<tr><td>엔진·변속기 노하우</td><td>매우 높음 (50년+ R&D)</td><td><strong>무력화</strong> — EV에 엔진 없음</td></tr>
+<tr><td>신규 OEM 1공장 CapEx</td><td>$3–5B</td><td>$5–10B (배터리 포함)</td></tr>
+<tr><td>배터리 공장 1개</td><td>n/a</td><td><strong>$3–5B 신규 진입장벽</strong></td></tr>
+<tr><td>자율주행 SW</td><td>단순 ADAS</td><td><strong>수십억 마일 데이터 + AI 인재</strong></td></tr>
+<tr><td>글로벌 딜러망</td><td>50년+ 구축</td><td>직판(Tesla 모델) — 약화</td></tr>
+</tbody>
+</table>
+
+<hr/>
+
+<h2 id="step5">5단계 · 수요 구조 점검 (현재 정량 snapshot)</h2>
+
+<h3>① 수요처 구성 — B2C 80% + B2B 상용차 20%</h3>
+<p>글로벌 8,900만 대 = 승용차 7,100만 대 (B2C 80%, 법인 fleet 20%) + 상용차 1,800만 대 (트럭 600만, 픽업·LCV 800만, 버스 200만, 기타 200만).</p>
+
+<h3>② 지역별 분포 + EV 침투율 (2025)</h3>
+<table>
+<thead><tr><th>지역</th><th>판매 (만대)</th><th>비중</th><th>EV M/S</th></tr></thead>
+<tbody>
+<tr><td>중국</td><td>2,700</td><td>30%</td><td><strong>50%+</strong></td></tr>
+<tr><td>유럽 (EU+영국)</td><td>1,600</td><td>18%</td><td>25%+ (노르웨이 95%)</td></tr>
+<tr><td>미국</td><td>1,450</td><td>16%</td><td>9% (정체·후퇴)</td></tr>
+<tr><td>인도</td><td>450</td><td>5%</td><td>4%</td></tr>
+<tr><td>일본</td><td>460</td><td>5%</td><td>4% (가장 느림)</td></tr>
+<tr><td>기타</td><td>2,240</td><td>26%</td><td>다양</td></tr>
+<tr><td><strong>한국</strong></td><td>~170</td><td>2%</td><td><strong>18%</strong></td></tr>
+<tr><td><strong>글로벌 합산</strong></td><td><strong>8,900</strong></td><td><strong>100%</strong></td><td><strong>25%</strong></td></tr>
+</tbody>
+</table>
+
+<img src="자동차_ev_penetration_2020_2030.png" alt="지역별 EV 침투율 2020–2030E" />
+<p style="font-size:12.5px; color:var(--muted); text-align:center;">→ 출처: IEA·ICCT·Counterpoint Research. 중국 압도 / 미국 정체·후퇴 / 한국·유럽 가속 / 일본 가장 느림</p>
+
+<h3>③ 메가 트렌드 수요 비중 (2020 → 2030E)</h3>
+<table>
+<thead><tr><th>메가 트렌드</th><th>2020</th><th>2025</th><th>2030E</th></tr></thead>
+<tbody>
+<tr><td>전동화 (BEV+PHEV)</td><td>5%</td><td><strong>25%</strong></td><td>40~50%</td></tr>
+<tr><td>자율주행 (L2+ 채택)</td><td>10%</td><td>30%</td><td>60%+</td></tr>
+<tr><td>커넥티드 카</td><td>30%</td><td>60%</td><td>90%+</td></tr>
+<tr><td>모빌리티 서비스</td><td>미미</td><td>1%</td><td>5~10%</td></tr>
+<tr><td><strong>합산 직접 수혜</strong></td><td><strong>~20%</strong></td><td><strong>~40%</strong></td><td><strong>~70%</strong></td></tr>
+</tbody>
+</table>
+
+<h3>④ 가격탄력성 — 중간 (필수재이나 금융 조건 민감)</h3>
+<ul>
+<li>금리 1%p 상승 시 미국 신차 판매 -8~12% (할부 의존 70%+).</li>
+<li>신흥국 소득탄력성 1.5~2.0.</li>
+<li>럭셔리 (Ferrari·Porsche): 가격탄력성 매우 낮음.</li>
+<li>EV vs ICE 가격 차이가 EV 채택률 직접 결정 — Tesla·BYD 가격 인하가 글로벌 EV 변동성 trigger.</li>
+</ul>
+
+<h3>⑤ 정부 정책 영향 — 자동차는 정책 의존 가장 큰 산업</h3>
+<ul>
+<li>EV 보조금 (중국 NEV·미국 IRA·EU CO2·한국 EV 보조금) — EV 채택률 결정.</li>
+<li>CO2 규제 (EU Euro 7·미국 EPA·중국 5단계) — ICE 비용 압박, EV 가속.</li>
+<li>관세 (미국 25%/100% 중국 EV·EU 17–38%·미·EU 상호) — 글로벌 공급망 재편.</li>
+<li>원산지 규제 (미국 IRA·USMCA·EU CBAM) — 배터리·부품 현지화.</li>
+<li>자율주행 규제 (NHTSA·NTSB·EU UNECE WP.29) — 로보택시 상용화 속도.</li>
+</ul>
+
+<hr/>
+
+<h2 id="summary">4+5 종합: 수급 매트릭스 현재 위치 결론</h2>
+
+<blockquote><p>자동차 산업은 <strong>단일 카테고리로 분류 불가</strong>. 세그먼트별로 양극화된 이중 구조.</p></blockquote>
+
+<h3>Segment 1. ICE (전체 자동차의 75%)</h3>
+<p><span class="pill-F">F</span> <strong>공급 과잉 + 수요 정체</strong></p>
+<ul>
+<li>글로벌 ICE capacity utilization 70% 미만 (중국 50% 미만).</li>
+<li>중국 OEM EV 전환으로 ICE capacity stranded.</li>
+<li>ICE ASP 디플레이션 -1.5~-3% YoY 실질.</li>
+<li>VW·GM·Ford ICE OEM 공장 축소·폐쇄 신호 (2024–25 가속).</li>
+</ul>
+<p>→ 점진적으로 카테고리 G(구조조정 진행/완료)로 이동 중.</p>
+
+<h3>Segment 2. EV·배터리·자율주행 SW (전체 자동차의 25%, 빠른 확대)</h3>
+<p><span class="pill-B">B</span>/<span class="pill-A">A</span> <strong>수요 견인 + 공급 적당/제한</strong></p>
+<ul>
+<li>글로벌 EV 판매 +20~30% YoY 고성장.</li>
+<li>EV 침투율 25%→2030E 40~50%.</li>
+<li>배터리: CR3 65% 중국 압도, 한국 잠식.</li>
+<li>자율주행 SoC: CR3 85% (NVIDIA·Mobileye·Tesla) — <strong>카테고리 A 메가 병목</strong>.</li>
+</ul>
+
+<h3>통합 결론: 현재 자동차 산업 위치</h3>
+<pre><code>[4번 공급 fact 요약]
+ICE: 공급 과잉 (글로벌 utilization 70% 미만)
+EV: 공급 적당 + 배터리·자율주행 SoC 일부 병목
+완성차: 분산형 (CR5 ~45%)
+배터리: 빠른 집중화 (CR3 65%)
+자율주행 SoC: 압도적 집중 (CR3 85%)
+
+[5번 수요 fact 요약]
+글로벌 판매 정체 (8,900만 대, CAGR 0~2%)
+EV 25%→2030E 40~50% (고성장)
+자율주행 L2+ 30%→60% (고성장)
+메가 트렌드 직접 수혜 40%→70% (5년 내)
+정부 정책 의존도 매우 큼
+
+→ 현재 산업은 [F-수정형] 카테고리 위치 (이중 구조 양극화)
+→ 근거:
+   • ICE: F (공급 과잉 + 수요 정체) → G로 이동 中
+   • EV·배터리: B (수요 견인 + 공급 적당)
+   • 자율주행 SoC·자동차반도체: A (구조적 메가 병목)</code></pre>
+
+<h3>산업 전체 시사점</h3>
+<ol>
+<li><strong>자동차 산업은 향후 5~7년 산업 reset 사이클</strong>: 1980년대 일본 추격 + 1908년 ICE 도래의 복합 사례 (2배 빠른 속도·5배 큰 규모).</li>
+<li><strong>승자·패자가 명확히 갈리는 시기</strong>: ICE 의존도 높은 OEM 도태 위험 (VW·Stellantis·Nissan 자율조정 중), EV·SW·배터리 leader 가치 폭증 (Tesla·BYD·Xiaomi·NVIDIA).</li>
+<li><strong>한국 OEM(현대기아) 결정적 시기</strong>: 글로벌 3위 진입 + EV 전환 성공 시 향후 5년 한국 사상 최고 위상 가능. 단 배터리·자율주행·반도체 약점 보완 필요.</li>
+<li><strong>테마 분석에서 다룰 키워드</strong>: EV 가속·배터리 China dominance·자율주행 NVIDIA·SDV·로보택시·MaaS — 각각 별도 테마 분석으로 깊이.</li>
+<li><strong>분기 변동성 큼</strong>: 매크로 사이클(코로나·반도체·금리)에 따라 단기 변동성 매우 큼. 분기별 실적 분석에서 추가 다룸.</li>
+</ol>
+
+<hr/>
+
+<h2 id="appendix">부록 · 핵심 데이터 sheet</h2>
+<table>
+<thead><tr><th>항목</th><th>2010</th><th>2017 (정점)</th><th>2020 (코로나)</th><th>2025</th><th>2030E</th></tr></thead>
+<tbody>
+<tr><td>글로벌 자동차 판매 (만대)</td><td>7,500</td><td>9,750</td><td>7,800</td><td>8,900</td><td>9,000~9,500</td></tr>
+<tr><td>글로벌 EV 판매 (만대)</td><td>1.5</td><td>110</td><td>320</td><td>2,070</td><td>4,000~5,000</td></tr>
+<tr><td>EV 침투율</td><td>0.02%</td><td>1.1%</td><td>4.1%</td><td><strong>25%</strong></td><td>40~50%</td></tr>
+<tr><td>자동차 산업 매출 ($T)</td><td>1.5</td><td>2.5</td><td>2.0</td><td>3.0</td><td>3.5~4.0</td></tr>
+<tr><td>배터리 시장 ($B)</td><td>5</td><td>30</td><td>70</td><td>200+</td><td>400+</td></tr>
+<tr><td>자동차반도체 ($B)</td><td>25</td><td>35</td><td>38</td><td>60</td><td>100+</td></tr>
+<tr><td>자율주행 (L2+) 침투율</td><td>&lt;1%</td><td>10%</td><td>15%</td><td>30%</td><td>60%+</td></tr>
+<tr><td>글로벌 OEM 빅3</td><td>Toyota·VW·GM</td><td>Toyota·VW·GM</td><td>Toyota·VW·GM</td><td>Toyota·VW·<strong>현대기아</strong></td><td>Toyota·<strong>BYD</strong>·VW</td></tr>
+</tbody>
+</table>
+
+<h3>출처 및 참고 자료</h3>
+<ul>
+<li>OICA (International Organization of Motor Vehicle Manufacturers) — 글로벌 자동차 통계.</li>
+<li>SNE Research — 글로벌 EV 배터리 점유율 (2025).</li>
+<li>CnEVPost — 중국 EV·배터리 시장 동향.</li>
+<li>Counterpoint Research, ICCT — 글로벌 EV 침투율.</li>
+<li>한국자동차산업협회(KAMA)·통계청.</li>
+<li>Wikipedia·Britannica·Ford·Toyota·VW·현대차 공식 기록 (역사 데이터 교차 확인).</li>
+<li>자율주행: Waymo·Tesla 공식 발표 + CNBC·Motley Fool 2025–26.</li>
+</ul>
+
+<div class="meta" style="margin-top:48px;">
+  <strong>본 reference 문서</strong>는 자동차 산업의 본질·역사·구조 분석.
+  단기 narrative·키워드 분석은 <a href="#">테마 분석 모드</a>,
+  분기 실적 분석은 <a href="#">실적 프리뷰/리뷰/인뎁스 모드</a>,
+  개별 기업 심층 분석은 <a href="#">기업 분석 모드</a>로 연계.
+</div>
+
+</div>
+</body>
+</html>

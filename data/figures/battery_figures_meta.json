@@ -1,24 +1,13 @@
 {
   "sector": "battery",
-  "source_pdf": "Battery_Weekly_2026.5.4.pdf",
-  "generated_at": "2026-05-06T02:28:13Z",
+  "source_pdf": "Battery_Weekly_2026.5.11.pdf",
+  "generated_at": "2026-05-18T04:16:18Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
-  "matched_count": 66,
+  "matched_count": 59,
   "missing_ids": [],
   "figures": {
-    "ev_us_models_table": {
-      "title": "미국 전기차 모델별 판매량",
-      "type": "pdf_embed",
-      "page_idx": 12,
-      "page_num": 13,
-      "file": "pdf_pages/battery_ev_us_models_table.pdf",
-      "mediabox_pt": [
-        595.32,
-        841.92
-      ]
-    },
     "cellmaker_lges_perf": {
       "title": "LG에너지솔루션 실적 추이 및 전망",
       "type": "pdf_embed",
@@ -26,8 +15,8 @@
       "page_num": 27,
       "file": "pdf_pages/battery_cellmaker_lges_perf.pdf",
       "mediabox_pt": [
-        595.32,
-        841.92
+        519.5986585,
+        822.216
       ]
     },
     "cellmaker_sdi_perf": {
@@ -37,8 +26,8 @@
       "page_num": 28,
       "file": "pdf_pages/battery_cellmaker_sdi_perf.pdf",
       "mediabox_pt": [
-        595.32,
-        841.92
+        519.5986585,
+        822.216
       ]
     },
     "cellmaker_p29_combined": {
@@ -48,8 +37,8 @@
       "page_num": 29,
       "file": "pdf_pages/battery_cellmaker_p29_combined.pdf",
       "mediabox_pt": [
-        595.32,
-        841.92
+        519.5986585,
+        822.216
       ]
     },
     "summary_page1": {
@@ -59,8 +48,8 @@
       "page_num": 1,
       "file": "pdf_pages/battery_summary_page1.pdf",
       "mediabox_pt": [
-        595.32,
-        841.92
+        558.12,
+        841.9199829101562
       ]
     },
     "export_battery_total": {
@@ -266,84 +255,6 @@
       "page_idx": 10,
       "page_num": 11,
       "file": "pdf_pages/battery_ev_china_share.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        200.02592000000004
-      ]
-    },
-    "ev_uk_volume": {
-      "title": "영국 전기차 판매량 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "영국 전기차 판매량 추이",
-      "matched_fig_num": 16,
-      "page_idx": 10,
-      "page_num": 11,
-      "file": "pdf_pages/battery_ev_uk_volume.pdf",
-      "mediabox_pt": [
-        272.83,
-        200.90591999999998
-      ]
-    },
-    "ev_uk_share": {
-      "title": "영국 전기차 시장점유율 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "영국 전기차 시장점유율 추이",
-      "matched_fig_num": 17,
-      "page_idx": 10,
-      "page_num": 11,
-      "file": "pdf_pages/battery_ev_uk_share.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        199.90591999999998
-      ]
-    },
-    "ev_de_volume": {
-      "title": "독일 전기차 판매량 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "독일 전기차 판매량 추이",
-      "matched_fig_num": 18,
-      "page_idx": 10,
-      "page_num": 11,
-      "file": "pdf_pages/battery_ev_de_volume.pdf",
-      "mediabox_pt": [
-        272.83,
-        199.91592000000003
-      ]
-    },
-    "ev_de_share": {
-      "title": "독일 전기차 시장점유율 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "독일 전기차 시장점유율 추이",
-      "matched_fig_num": 19,
-      "page_idx": 10,
-      "page_num": 11,
-      "file": "pdf_pages/battery_ev_de_share.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        199.91592000000003
-      ]
-    },
-    "ev_fr_volume": {
-      "title": "프랑스 전기차 판매량 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "프랑스 전기차 판매량 추이",
-      "matched_fig_num": 20,
-      "page_idx": 11,
-      "page_num": 12,
-      "file": "pdf_pages/battery_ev_fr_volume.pdf",
-      "mediabox_pt": [
-        272.83,
-        200.02592000000004
-      ]
-    },
-    "ev_fr_share": {
-      "title": "프랑스 전기차 시장점유율 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "프랑스 전기차 시장점유율 추이",
-      "matched_fig_num": 21,
-      "page_idx": 11,
-      "page_num": 12,
-      "file": "pdf_pages/battery_ev_fr_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
         200.02592000000004

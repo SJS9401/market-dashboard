@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>자율주행 산업 기초 분석 (Industry Basic — Autonomous Driving)</title>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65;font-size:14.5px}
+  .wrap{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;max-width:1280px;margin:0 auto;padding:24px}
+  nav.toc{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:13px}
+  nav.toc h4{margin:0 0 8px 0;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  nav.toc a.sub{padding-left:18px;font-size:12px;color:#555}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:36px 44px;min-width:0;overflow-x:auto}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  main > h1{display:none}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16.5px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14.5px;margin:18px 0 8px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13.5px}
+  blockquote p{margin:4px 0}
+  strong{color:var(--accent)}
+  code{background:#f3f1ea;padding:1px 5px;border-radius:3px;font-size:13px;color:#7a3030}
+  hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a:hover{background:var(--highlight)}
+  ul,ol{padding-left:22px}
+  li{margin-bottom:3px}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr}nav.toc{position:static;max-height:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="toc">
+  <h4>목차</h4>
+  <a href="#executive-summary-5">Executive Summary</a>
+  <a href="#1-pager-5">1-pager 요약</a>
+  <a href="#1-1925-2026">1단계. 역사 (6 chunk)</a>
+  <a href="#chunk-1-1925-1980" class="sub">Chunk 1. 1925–1980</a>
+  <a href="#chunk-2-1984-2004" class="sub">Chunk 2. 1984–2004 CMU/Stanford</a>
+  <a href="#chunk-3-2004-2009-darpa-grand-challenge" class="sub">Chunk 3. 2004–2009 DARPA</a>
+  <a href="#chunk-4-2009-2018-google-tesla-uber-hype-peak" class="sub">Chunk 4. 2009–2018 Hype Peak</a>
+  <a href="#chunk-5-2018-2023-disillusionment" class="sub">Chunk 5. 2018–2023 Disillusionment</a>
+  <a href="#chunk-6-2024-2026-e2e-foundation-model-2-" class="sub">Chunk 6. 2024–2026 e2e 시대</a>
+  <a href="#2-">2단계. 주가 사이클</a>
+  <a href="#3-">3단계. BM·밸류체인</a>
+  <a href="#4-snapshot">4단계. 공급 구조</a>
+  <a href="#5-snapshot">5단계. 수요 구조</a>
+  <a href="#45-">4+5 종합 결론</a>
+  <a href="#uam-">부록. 모빌리티 확장 (UAM·수소·트럭)</a>
+  <a href="#-">메타·연계</a>
+</nav>
+<main>
+
+<div class="header">
+  <span class="tag">INDUSTRY BASIC — AUTONOMOUS DRIVING</span>
+  <h1>자율주행 산업 기초 분석</h1>
+  <div class="meta">parent_industry: 자동차 / industry_level: sub / last_updated: 2026-05-18</div>
+</div>
+
+<h1 id="industry-basic-autonomous-driving">자율주행 산업 기초 분석 (Industry Basic — Autonomous Driving)</h1>
+<blockquote>
+<p>본 문서는 셀사이드 init(데뷔) 자료 수준의 영구 reference 문서다. 자율주행 산업의 본질·역사·구조·공급·수요를 처음 접하는 사람이 한 번에 이해할 수 있도록 구성했다. 분기 변동·단기 narrative는 다루지 않는다(실적 분석·테마 분석 영역). 자동차 산업 전체 맥락은 <code>자동차_산업기초.md</code>를, 메가 트렌드 키워드 narrative(L4 로보택시·e2e FSD·SDV)는 <code>theme-analysis</code> 산출물을 참조한다. <strong>메가 트렌드 적합성: 충족 — 자율주행은 AI scaling laws × 데이터 플라이휠 × 전동화 SDV(Software-Defined Vehicle) 3중 융합 위에 형성된 5~20년 구조적 흐름.</strong></p>
+</blockquote>
+<hr />
+<h2 id="executive-summary-5">Executive Summary (5줄 이내)</h2>
+<ol>
+<li>자율주행은 1984년 카네기멜론대(CMU) NavLab 1호차로 시작해, <strong>2026년 현재 L4 상용 로보택시가 미·중에서 동시 가속</strong>되고 있는 산업 — Waymo 주당 50만 paid trip(2026.05), Apollo Go 누적 240M km·17M 주문(2025.10), Tesla Cybercab 양산 2026.04 개시.</li>
+<li><strong>패권 변동의 역사</strong>: 1980–2004 미국 학계 단독(CMU·Stanford·DARPA) → 2009–2018 미국 빅테크 압도(Google·Tesla·Uber) → 2019–2023 미·중 양강 + 다극화 → <strong>2024–2026 미·중 2강 + 한·EU 추격(Mobileye·Bosch·현대Motional)</strong> + 1세대 대형 실패(Cruise GM $10B 폐쇄 2024.12, Argo AI Ford·VW $2.7B 폐쇄 2022.10).</li>
+<li><strong>사이클: hype-disillusionment-revival 1차 사이클이 완료된 산업</strong> — 2009 Google 시작 → 2018 hype peak(Waymo $175B 평가) → 2022 disillusionment(Argo 폐쇄·Uber ATG 매각) → 2024–2026 revival(e2e foundation model·로보택시 unit profit 도달). 향후 5~7년이 본격 commercialization 사이클 진입.</li>
+<li><strong>2026년 현재 산업 위치(4+5 종합 결론)</strong>: <strong>카테고리 A — 구조적 메가 병목</strong>. 공급 측 SoC·HD맵·SW 스택은 5사 과점(NVIDIA·Mobileye·Tesla·Qualcomm·Huawei) + 로보택시 운영 5사 과점(Waymo·Apollo Go·Pony.ai·WeRide·Tesla). 수요 측은 ① ADAS L2 침투율 30%→50%+ ② L4 로보택시 fleet 폭증(2,500대→2030 100K+) ③ Cybercab 같은 신차종 출현 — P·Q 동반 상승 메가 견인.</li>
+<li><strong>한국 직접성: 완성차 중간</strong>(현대차 Motional L4 라스베가스 2026말 상용화) + <strong>SW/SoC 직접성 낮음</strong>(NVIDIA·Mobileye·Qualcomm 의존) + <strong>부품/센서 직접성 중간</strong>(HL클레무브·LG이노텍·만도·삼성하만 — Tier 1 글로벌 침투 진행 중).</li>
+</ol>
+<hr />
+<h2 id="1-pager-5">1-pager 요약 표 (5단계 핵심 결론)</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>핵심 결론</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 역사</strong></td>
+<td>6 chunk: ① 1925–1980 자동화 실험·꿈의 시대 ② 1984–2004 CMU/Stanford 학계 시대 ③ 2004–2009 DARPA Challenge 전환점 ④ 2009–2018 Google·Tesla·Uber 빅테크 폭증·hype peak ⑤ 2018–2023 첫 사이클 disillusionment·구조조정(Uber ATG·Argo·Cruise) ⑥ 2024–2026 e2e foundation model·로보택시 unit profit·미·중 2강 구도</td>
+</tr>
+<tr>
+<td><strong>2. 사이클</strong></td>
+<td>자율주행 사이클은 <strong>이중 구조</strong> — (a) hype-cycle 1차 (2009 Google → 2018 peak → 2022 trough → 2024 revival, 약 15년 사이클) (b) 매크로 자본시장 사이클(2021 SPAC 광풍 → 2022 폭락) 중첩. 향후 1차 commercialization 사이클은 2030년경 정점 예상</td>
+</tr>
+<tr>
+<td><strong>3. BM/밸류체인</strong></td>
+<td>8 layer: 센서(LiDAR·Radar·Camera) / SoC(NVIDIA·Mobileye·Tesla·Qualcomm·Huawei) / SW 스택(Waymo·Tesla FSD·Mobileye·Apollo·Pony) / HD맵(Here·TomTom·Mobileye REM) / 시뮬레이션(Applied Intuition·NVIDIA Omniverse) / 컴퓨팅 인프라(클라우드 학습) / OEM 통합 / 운영(로보택시 fleet operator). 영업이익률 -∞%(SW 스타트업) ~ 70%(NVIDIA Auto)</td>
+</tr>
+<tr>
+<td><strong>4. 공급 (2018 vs 2026)</strong></td>
+<td>SW 스택 글로벌 30개+ 스타트업 → <strong>5사 사실상 과점</strong> (Waymo·Tesla·Apollo·Pony.ai·WeRide). SoC → <strong>CR3 85%+</strong> (NVIDIA·Mobileye·Tesla 자체 + 중국 Huawei). LiDAR → <strong>중국 60%</strong>(Hesai 37% 단독) — 美 Luminar·Innoviz·Aeva 후퇴. Cruise·Argo·Aurora 1세대 대형 실패 후 살아남은 자가 가격결정력 보유</td>
+</tr>
+<tr>
+<td><strong>5. 수요 (2026E)</strong></td>
+<td>글로벌 신차 8,900만 대 중 <strong>L2 ADAS 침투율 ~35%</strong>(YoY +5%p), L3 1% 미만, <strong>L4 로보택시 fleet 글로벌 ~6K대</strong>(Waymo 2,500 + 중국 3K+ + 기타). 수요 driver: ① OEM 추가 sticker price($1.5K–3K BOM 마진) ② 로보택시 단위경제(per-mile $0.7 vs Uber $2.5) ③ 정부 안전·환경 규제. 메가 트렌드 수요 비중: 자동차 산업 총수요에서 자율주행 SW·HW BOM은 ~3% → 2030E 12%+</td>
+</tr>
+<tr>
+<td><strong>4+5 종합</strong></td>
+<td><strong>카테고리 A: 구조적 메가 병목</strong> — 공급 5사 과점(SW·SoC) + 수요 ADAS·L4·SDV 3중 견인. 단 위험: ① 안전 사고 1건이 산업 전체 후퇴(Cruise SF 2023.10 케이스) ② 미·중 디커플링으로 데이터·HW 분단 ③ Cybercab·신차종 vs 기존 차종 cannibalization. <strong>향후 5~7년 P+Q 동반 상승 가능하나, 변동성 매우 큰 메가 병목</strong>. 모빌리티 확장(UAM 2026 Joby Stage 4·수소 트럭 자율주행)은 부록 섹션 참조</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="1-1925-2026">1단계. 역사 — 1925년부터 2026년까지</h1>
+<blockquote>
+<p><strong>layered framework</strong>: 각 chunk를 (a)매크로 배경 (b)패권자 (c)산업 변화 (d)사이클 단계 (e)대표 기업 주가 (f)규제 — 6 layer로 풀어낸다. 트리거 시점은 일반인 친화 비유로 풀이.</p>
+</blockquote>
+<h2 id="chunk-1-19251980">Chunk 1. 1925–1980 — 자동화 실험·꿈의 시대 (산업 형성 이전)</h2>
+<h3 id="a">(a) 매크로 배경</h3>
+<p>자동차의 대량생산 시대(Ford T 1908) 직후부터 "차가 스스로 가는" 꿈은 존재. 1925년 무선조종 차량 'American Wonder'(NY 브로드웨이), 1939년 GM Futurama(뉴욕 만국박람회) — "1960년의 도시에는 자동 고속도로가 있을 것"이라는 비전 제시. 2차대전·냉전·우주 시대를 거치며 군사 무인차량(UGV) 개발이 산발적으로 진행. 1957년 RCA·General Motors가 네브래스카에 매립 인덕션 와이어로 차량 조향 실험. 산업이라기보다 "공학적 호기심" 단계.</p>
+<blockquote>
+<p><strong>비유</strong>: 이 시기는 자율주행이 산업이 아니라 "백투더퓨처의 하늘 나는 차" 같은 SF 비전. 실제 차량은 1초 앞도 못 보고 도로 좌표만 따라가는 "고급 슬롯카" 수준. 산업·시장이 형성될 기술 stack(컴퓨팅·센서·SW)이 아직 존재하지 않음.</p>
+</blockquote>
+<h3 id="b">(b) 패권자</h3>
+<p><strong>미국·일본 학계·연구소</strong>가 산발적 실험. American Wonder는 Houdini Radio Control이라는 회사. 1956년 GM Firebird II는 전자 안내 고속도로 비전. 일본 츠쿠바 기계공학연구소가 1977년 PVS(Personal Vehicle System) — 흰색 차선 영상 추적 시속 30km 자율주행 시연. <strong>상용화 의도는 0</strong>, 모두 R&amp;D·전시용.</p>
+<h3 id="c">(c) 산업 변화 — 시대별 핵심 이벤트</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1925.08</strong></td>
+<td>Houdini Radio Control의 'American Wonder' — 무선조종 차량 NY 브로드웨이 시연</td>
+<td>"운전자 없는 자동차" 컨셉의 시초. 단 무선 원격 조종이지 자율 X</td>
+</tr>
+<tr>
+<td><strong>1939</strong></td>
+<td>GM Futurama (NY 만국박람회) — 1960년의 자동 고속도로 비전</td>
+<td>대중에게 자율주행 미래상 각인</td>
+</tr>
+<tr>
+<td><strong>1956</strong></td>
+<td>GM Firebird II — 전자 안내 고속도로 컨셉카</td>
+<td>매립 와이어 + 차량 센서</td>
+</tr>
+<tr>
+<td><strong>1957</strong></td>
+<td>RCA + GM, Nebraska에서 인덕션 와이어 자동 조향 실험</td>
+<td>인프라 의존 자율주행(infrastructure-dependent) 패러다임</td>
+</tr>
+<tr>
+<td><strong>1969</strong></td>
+<td>John McCarthy(스탠퍼드, AI 창시자) "Computer-controlled cars" 논문</td>
+<td>차량 위 컴퓨터로 자율주행 — 패러다임 전환의 단초</td>
+</tr>
+<tr>
+<td><strong>1977</strong></td>
+<td>日 츠쿠바 기계공학연구소 PVS — 흰색 차선 카메라 추적 30km/h</td>
+<td><strong>세계 최초 본격적 비전 기반 자율주행 시도</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="d">(d) 사이클 단계</h3>
+<p><strong>Pre-cycle — 산업 형성 이전</strong>. 사이클이라 부를 만한 수요·공급 흐름 없음. 모두 정부·학계 R&amp;D 자금에 의존. 시장이라 부를 수 없는 상태.</p>
+<h3 id="e">(e) 대표 기업 주가</h3>
+<p>해당 없음. 자율주행 전용 상장사 부재. GM·Ford·일본 OEM 등 모기업 주가는 자동차 산업 cycle에 따라 변동하나, 자율주행 R&amp;D는 P&amp;L에 의미 있는 비중 차지 못함.</p>
+<h3 id="f-layer">(f) 규제 layer</h3>
+<p>규제 자체가 없음. 1949년 제네바 도로교통 협약(United Nations Geneva Convention on Road Traffic) — "운전자는 항상 자기 차량의 통제권을 가져야 한다" 조항이 향후 70년간 자율주행 법적 장벽으로 작용(2014년 개정으로 일부 완화).</p>
+<hr />
+<h2 id="chunk-2-19842004-cmustanford">Chunk 2. 1984–2004 — CMU·Stanford 학계 시대 (산업의 진짜 태동)</h2>
+<h3 id="a_1">(a) 매크로 배경</h3>
+<p>1980년대 미국 레이건 행정부의 SDI(Strategic Defense Initiative, 스타워즈) — 군사 R&amp;D 자금 폭증. 동시에 IBM PC(1981)·Intel 286/386(1982·1985) — 컴퓨터 산업의 데스크탑 혁명, 1990년대 후반 인터넷 붐과 함께 컴퓨팅 가격 급락. 1990년대 일본 거품경제 붕괴 후 자동차 산업 R&amp;D 보수화, 미국·유럽이 자율주행 R&amp;D 주도. 2001 9·11 이후 미국 국방부가 무인 차량 사이클을 본격 가동(이라크·아프간 전쟁의 IED 위협 대응).</p>
+<blockquote>
+<p><strong>비유</strong>: 1984년 CMU NavLab은 트럭 짐칸에 데스크탑 컴퓨터 5대를 싣고 시속 3km로 굴러갔다. <strong>"자율주행 = 군사 R&amp;D + 박사 학위 논문"</strong>의 시대. 산업·상용화 의도는 여전히 0. 단 이 시기에 LiDAR·컴퓨터 비전·확률적 SLAM 같은 모든 핵심 기술의 이론적 토대가 마련된다.</p>
+</blockquote>
+<h3 id="b_1">(b) 패권자</h3>
+<p><strong>미국 학계 단독 패권</strong>. Carnegie Mellon University(CMU, Pittsburgh) — Red Whittaker 교수의 Field Robotics Center가 NavLab 시리즈를 1984년부터 개발. Stanford University — Sebastian Thrun(향후 Google X 자율주행 책임자) 그룹. MIT·UC Berkeley도 일부 참여. 독일 BMW 동승의 Bundeswehr Universität München(Ernst Dickmanns)이 1986년 VaMP·1995년 시속 175km 자동주행 — 유럽의 단일 강자.</p>
+<h3 id="c_1">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1984</strong></td>
+<td>CMU NavLab 1 — 5대 데스크탑·LiDAR·카메라 탑재 트럭 자율주행 시작</td>
+<td>산업의 진짜 출발점</td>
+</tr>
+<tr>
+<td><strong>1986</strong></td>
+<td>Ernst Dickmanns(독일) VaMP — Mercedes 벤츠 500 SEL 기반 96km/h 자율주행</td>
+<td>유럽 학파 출발</td>
+</tr>
+<tr>
+<td><strong>1989</strong></td>
+<td>CMU ALVINN — <strong>세계 최초 신경망 기반 자율주행</strong> 시연(은닉층 1개, 30×32 픽셀 입력)</td>
+<td>AI/딥러닝 자율주행의 시조. 35년 후 Tesla FSD v12의 e2e와 동일 원리</td>
+</tr>
+<tr>
+<td><strong>1995.07</strong></td>
+<td>CMU "No Hands Across America" — Pittsburgh→San Diego 4,587km 중 98.2% 자율주행(조향만)</td>
+<td>대중적 화제 첫 사례</td>
+</tr>
+<tr>
+<td><strong>1995.11</strong></td>
+<td>Dickmanns VaMP, München→코펜하겐 1,758km autobahn 자율주행 평균 158km/h</td>
+<td>유럽 최고 기록</td>
+</tr>
+<tr>
+<td><strong>1996</strong></td>
+<td>유럽 PROMETHEUS 프로그램 마감 — DaimlerBenz·BMW·Volvo·Peugeot 등 OEM이 약 €749M 투자한 자율주행 R&amp;D 종료</td>
+<td>첫 OEM 산업화 시도 실패</td>
+</tr>
+<tr>
+<td><strong>2003</strong></td>
+<td>DARPA가 첫 Grand Challenge 발표 — 모하비 사막 자율주행 경주 상금 $1M</td>
+<td><strong>산업의 진짜 변곡점 트리거</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_1">(d) 사이클 단계</h3>
+<p><strong>Pre-commercialization R&amp;D 사이클</strong>. 1980·90년대 학계 R&amp;D 자금의 자율 사이클(미국 NSF·DARPA 예산 → CMU·Stanford → 논문). 1996년 PROMETHEUS 종료 후 잠시 침체기, 2003년 DARPA Grand Challenge 발표로 부활. 매출·수익 측면의 산업 사이클은 아직 0.</p>
+<h3 id="e_1">(e) 대표 기업 주가</h3>
+<p>여전히 자율주행 전용 상장사 부재. 단 Ford·GM·Mercedes·BMW 등 OEM이 R&amp;D 비용 일부 자율주행에 투입. 1990년대 후반 닷컴 버블 시기 일부 자율주행·로보틱스 스타트업(예: iRobot)이 자금을 모았으나 자율주행 직접성 낮음.</p>
+<h3 id="f-layer_1">(f) 규제 layer</h3>
+<p>여전히 1949 제네바 협약 체제. 단 미국 DARPA가 군용 무인 차량(UGV) R&amp;D 면제·우선 자금 조성. 2000년 미국 의회의 'Public Law 106-398' — 미군이 2015년까지 무인차량 비중 1/3 달성 목표 명시. 군사 수요가 향후 민간 시장의 종잣돈 역할.</p>
+<hr />
+<h2 id="chunk-3-20042009-darpa-grand-challenge">Chunk 3. 2004–2009 — DARPA Grand Challenge가 만든 진짜 시작</h2>
+<h3 id="a_2">(a) 매크로 배경</h3>
+<p>2003 이라크 전쟁 발발, 미군 IED 사망자 폭증. DARPA가 "민간 R&amp;D를 군사 무인차로" 연결할 매개 필요 → Grand Challenge. 동시에 2004 Google 상장(IPO), Tesla 창업(2003.07), Mobileye 창업(1999) → 향후 빅테크 산업화의 인력·자본 풀이 형성. 2007–2008 글로벌 금융위기로 자동차 산업이 전반적으로 위축되나, 자율주행은 위기와 무관한 R&amp;D 영역으로 오히려 인재가 유입.</p>
+<blockquote>
+<p><strong>비유</strong>: DARPA Grand Challenge는 자율주행에 있어 "달 착륙 경주"였다. 첫 회(2004) 모든 팀이 실패했지만, 2회(2005)에서 Stanford Stanley 팀(Thrun 지도)이 완주에 성공. <strong>이 경주에서 키워진 박사·엔지니어 약 300명</strong>이 그대로 Waymo·Cruise·Uber ATG·Argo AI 등으로 흩어진다. 자율주행 산업의 "DARPA 마피아".</p>
+</blockquote>
+<h3 id="b_2">(b) 패권자</h3>
+<p><strong>미국 학계가 산업화 트리거 형성</strong>. CMU(Red Whittaker) vs Stanford(Sebastian Thrun)의 라이벌 관계가 산업 형성의 동력. 2007 DARPA Urban Challenge 우승은 CMU Boss(GM 합작) — Chris Urmson(향후 Google 자율주행 책임자·Aurora 창업자)이 이끔. 일본·유럽은 이 시기 산업 참여 미약.</p>
+<h3 id="c_2">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2004.03</strong></td>
+<td>DARPA Grand Challenge 1차 — 모하비 사막 240km, 15팀 참가, <strong>모두 실패</strong> (최고 12km)</td>
+<td>산업이 아직 멀었다는 신호</td>
+</tr>
+<tr>
+<td><strong>2005.10</strong></td>
+<td>DARPA Grand Challenge 2차 — Stanford Stanley(Thrun) 6:54분에 완주, 우승</td>
+<td><strong>자율주행이 가능하다는 첫 증명</strong>. Velodyne LiDAR 첫 활용</td>
+</tr>
+<tr>
+<td><strong>2007.11</strong></td>
+<td>DARPA Urban Challenge — 도시 환경 60mi, CMU Boss 우승. Chris Urmson 책임</td>
+<td>도시 자율주행 가능성 첫 입증. Stanford Junior 2위, Virginia Tech VictorTango 3위</td>
+</tr>
+<tr>
+<td><strong>2007</strong></td>
+<td>Velodyne, 64ch 회전식 LiDAR HDL-64E 출시($75K)</td>
+<td>산업 표준 센서 정립</td>
+</tr>
+<tr>
+<td><strong>2008.10</strong></td>
+<td>Google Street View 차량 — Sebastian Thrun이 Google X에 영입(2007)</td>
+<td>Google이 향후 Waymo가 될 프로젝트 비밀 가동</td>
+</tr>
+<tr>
+<td><strong>2009.01</strong></td>
+<td>Google X 비밀 자율주행 프로젝트 출범 — 12개 도시 1,600km 비밀 주행 시작</td>
+<td><strong>빅테크 자율주행 시대 개막</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_2">(d) 사이클 단계</h3>
+<p><strong>1차 사이클 시작점</strong>. 2005·2007 DARPA 성공 이후 자율주행 R&amp;D 자금이 미국 IT·자동차 OEM·VC로 본격 유입. 단 매출·상품 단계 아직 0, 모두 R&amp;D 투자 단계.</p>
+<h3 id="e_2">(e) 대표 기업 주가</h3>
+<p>Velodyne(2007)·Mobileye(2007 EyeQ1 출시) 같은 부품 회사가 미상장 상태에서 매출 형성. Tesla 미상장(2010 IPO). Google(2004 IPO)이 자율주행 프로젝트 자체로 주가에 영향 미미.</p>
+<h3 id="f-layer_2">(f) 규제 layer</h3>
+<p>규제는 여전히 부재. 미국 50개 주 중 자율주행 시험 면허제도 도입한 주가 0(첫 도입은 2011년 네바다). 단 DARPA·DOT(교통부)가 V2I·V2V 같은 인프라 표준 논의 시작.</p>
+<hr />
+<h2 id="chunk-4-20092018-googleteslauber-hype-peak">Chunk 4. 2009–2018 — Google·Tesla·Uber 빅테크 폭증·hype peak</h2>
+<h3 id="a_3">(a) 매크로 배경</h3>
+<p>2009 글로벌 금융위기 직후 미국이 ZIRP(제로금리)·QE로 자본 비용 0에 수렴. 동시에 모바일·클라우드 혁명(iPhone 2007·AWS 2006)이 빅테크의 매출·이익 폭증을 가져옴 — Google·Apple·Amazon이 자율주행 R&amp;D에 수십억 달러를 던질 여유 확보. 2015·2016년 알파고 충격(딥마인드)·딥러닝 황금기로 AI 인재·자금이 자율주행으로 쏟아짐. 2017 EV 시대 본격화(Tesla Model 3 출시). 2018 Uber IPO 준비·SoftBank Vision Fund의 자율주행 베팅 — 산업의 hype peak.</p>
+<blockquote>
+<p><strong>비유</strong>: 이 시기 자율주행은 "차세대 인터넷 산업"으로 거론. 2015년 Morgan Stanley가 Tesla "robotaxi network" 가치를 시가총액 $200B로 평가하는 등 <strong>현실보다 narrative가 10배 큰 시기</strong>. 모든 OEM·빅테크가 "2020년까지 L5 상용화" 선언. 결과는 모두 실패.</p>
+</blockquote>
+<h3 id="b_3">(b) 패권자</h3>
+<p><strong>미국 빅테크 + Tesla + Uber 다강</strong>. Google(2016년 Waymo 분사), Tesla(2014 Autopilot 출시·2016 HW2 자체 SoC 로드맵), Uber ATG(2015 CMU 인력 40명 통째 영입·$1B 투자), Apple Project Titan(2014 시작). Mobileye(2014 NYSE 상장 → 2017 Intel $15.3B 인수). 중국 Baidu Apollo(2017 발표)·자율주행 스타트업 폭증.</p>
+<h3 id="c_3">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2010.10</strong></td>
+<td>Google이 자율주행 프로젝트 공개 — 7대 Prius·Lexus로 22만 km 비밀 주행 완료</td>
+<td>빅테크가 산업의 게임 룰을 바꿈</td>
+</tr>
+<tr>
+<td><strong>2012.05</strong></td>
+<td>네바다 자율주행 시험 면허 1호 — Google에 발급</td>
+<td>첫 규제 진입</td>
+</tr>
+<tr>
+<td><strong>2014.10</strong></td>
+<td>Tesla Autopilot 1세대 출시(Model S, HW1 — Mobileye EyeQ3 기반)</td>
+<td><strong>소비자 자율주행 첫 양산</strong>. 이후 Tesla vs Mobileye 분쟁의 단초</td>
+</tr>
+<tr>
+<td><strong>2014.08</strong></td>
+<td>Mobileye 뉴욕 IPO ($890M)</td>
+<td>자율주행 부품의 첫 대형 IPO</td>
+</tr>
+<tr>
+<td><strong>2015.02</strong></td>
+<td>Uber이 CMU 로보틱스 연구소에서 핵심 인력 40명 영입, Uber ATG 설립</td>
+<td>빅테크 자율주행 race 시작</td>
+</tr>
+<tr>
+<td><strong>2016.05</strong></td>
+<td>Tesla Model S Autopilot fatal accident(미주 Williston, FL) — 운전자 사망 첫 사례</td>
+<td>안전 논쟁의 출발</td>
+</tr>
+<tr>
+<td><strong>2016.07</strong></td>
+<td>Tesla, Mobileye와 결별 선언 — 자체 칩(HW2.0) 로드맵 발표</td>
+<td><strong>수직통합 vs 외주의 산업 패러다임 분기</strong></td>
+</tr>
+<tr>
+<td><strong>2016.12</strong></td>
+<td>Google X 자율주행 프로젝트가 Alphabet 자회사 Waymo로 분사</td>
+<td>본격 사업화 시작</td>
+</tr>
+<tr>
+<td><strong>2017.03</strong></td>
+<td>Intel, Mobileye $15.3B에 인수</td>
+<td>반도체·자율주행 융합의 신호탄</td>
+</tr>
+<tr>
+<td><strong>2017.04</strong></td>
+<td>Waymo, 피닉스에서 Early Rider 무료 시범 시작</td>
+<td>L4 로보택시 prelude</td>
+</tr>
+<tr>
+<td><strong>2018.03</strong></td>
+<td>Uber ATG 자율주행 차량, 애리조나 템페에서 보행자 Elaine Herzberg 사망 사고</td>
+<td><strong>산업 최초 자율차 보행자 사망</strong>. 안전 논쟁 폭발</td>
+</tr>
+<tr>
+<td><strong>2018.10</strong></td>
+<td>Waymo One — 피닉스에서 제한적 유료 로보택시 첫 가동(safety driver 동승)</td>
+<td><strong>첫 유료 로보택시 서비스</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_3">(d) 사이클 단계</h3>
+<p><strong>1차 사이클 hype peak</strong>. 2018 시점 Waymo 가치 $175B(Morgan Stanley 추정), Cruise $14.6B(SoftBank/Honda/GM 출자, 2018.05), Uber ATG $7.25B(Toyota·Denso·SoftBank 2019.04 합산). 자율주행 R&amp;D 펀딩 누적 $80B+. 매출은 여전히 0. <strong>"매출 없는 시가총액" — 산업 사이클 최정점.</strong></p>
+<h3 id="e_3">(e) 대표 기업 주가</h3>
+<ul>
+<li><strong>Tesla(TSLA)</strong>: 2010.06 IPO @ $17 → 2018 말 $60(분할 후 $1과 동등). Autopilot이 narrative 핵심.</li>
+<li><strong>Mobileye(MBLY)</strong>: 2014.08 IPO @ $25 → 2017.03 Intel 인수 $63.5(2.5배 4년 만).</li>
+<li><strong>Alphabet(GOOG)</strong>: 2018 시총 $750B+ — Waymo는 별도 평가, 본 chunk 말 분석가 SOTP $175B 평가.</li>
+<li><strong>GM(General Motors)</strong>: 2016.03 Cruise 인수($580M), 2018.05 SoftBank Vision Fund 출자 — Cruise $14.6B 평가로 GM 시가총액 자체에 자율주행 narrative 반영.</li>
+</ul>
+<h3 id="f-layer_3">(f) 규제 layer</h3>
+<ul>
+<li><strong>2011.06</strong> 네바다 — 자율주행 시험 면허 첫 제도화. 2012 캘리포니아·플로리다 잇따라.</li>
+<li><strong>2014</strong> UN 비엔나 도로교통 협약 개정 — "운전자 항상 통제권" 조항 완화 (자율 시스템 활성화 시 운전자 통제권 임시 위임 허용)</li>
+<li><strong>2016.09</strong> 미국 NHTSA, 자율주행 4단계(L0–L4) 가이드라인 첫 발표 — 산업 표준 형성</li>
+<li><strong>2017.07</strong> 미국 하원 SELF DRIVE Act 통과(상원 부결) — 자율주행 규제 통일 시도</li>
+<li><strong>2018.05</strong> 캘리포니아 — 무인 자율주행(safety driver 없이) 시험 허가 첫 발급. Waymo가 1호.</li>
+</ul>
+<hr />
+<h2 id="chunk-5-20182023-disillusionment">Chunk 5. 2018–2023 — 첫 사이클 disillusionment·구조조정</h2>
+<h3 id="a_4">(a) 매크로 배경</h3>
+<p>2020 COVID-19 팬데믹 → 일시적 로봇·자동화 narrative 부활. 2021 SPAC 광풍에서 자율주행 스타트업이 대거 상장 — Aurora(2021.11 SPAC, $13B 가치)·Embark(2021.11)·TuSimple(2021.04 IPO $8B) 등. 2022 인플레이션·연준 긴축으로 자본 비용 폭증 → 매출 없는 자율주행 SPAC주 80–95% 폭락. 2022.02 러시아 우크라이나 침공·2022 미·중 반도체 전쟁 본격화로 자율주행 SoC·LiDAR도 분단 흐름.</p>
+<blockquote>
+<p><strong>비유</strong>: 2018년의 "곧 L5"라는 약속이 2022년 "실제로는 5–10년 더"라는 현실 인정으로 바뀌는 시기. 시장은 "10년 뒤 거대 산업"을 "이번 분기 적자 $1B"로 다시 평가. <strong>닷컴 버블이 자율주행에 늦게 도착했다.</strong></p>
+</blockquote>
+<h3 id="b_4">(b) 패권자</h3>
+<p><strong>Waymo·Tesla 2강 + 중국 빠른 추격(Baidu·Pony.ai·WeRide)</strong>. 1세대 신규 진입자(Cruise·Argo·Aurora·Uber ATG)가 차례로 후퇴·해체. Mobileye는 Intel 산하에서 2022.10 NYSE 재상장 ($21B 평가, 1세대 hype peak 대비 1/3 수준). 한국은 현대차가 Aptiv와 50:50 JV Motional을 2020에 설립 — 이 chunk 후반에 본격 가동.</p>
+<h3 id="c_4">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2018.10</strong></td>
+<td>Waymo One 피닉스 유료 시범 시작 (safety driver 동승)</td>
+<td>매출 발생 첫 사례</td>
+</tr>
+<tr>
+<td><strong>2019</strong></td>
+<td>중국 Baidu Apollo Go 창사·우한 무료 시범 시작</td>
+<td>중국 자율주행 본격화</td>
+</tr>
+<tr>
+<td><strong>2020.03</strong></td>
+<td>Motional(현대차·Aptiv JV) 설립 — 보스턴 기반</td>
+<td><strong>현대차의 자율주행 본격 진입</strong></td>
+</tr>
+<tr>
+<td><strong>2020.10</strong></td>
+<td>Waymo, <strong>피닉스에서 safety driver 없는 무인 로보택시 첫 상용화</strong></td>
+<td>산업 최초 진정한 L4 서비스</td>
+</tr>
+<tr>
+<td><strong>2020.12</strong></td>
+<td>Uber ATG, Aurora에 매각($4B) — Uber가 SoftBank로부터 받았던 자율주행 베팅 청산</td>
+<td><strong>1세대 첫 대형 후퇴</strong></td>
+</tr>
+<tr>
+<td><strong>2021.04</strong></td>
+<td>TuSimple(자율 트럭) NASDAQ IPO @ $8B 가치 — 6개월 뒤 80% 폭락</td>
+<td>SPAC 시대 자율주행 버블 정점·붕괴</td>
+</tr>
+<tr>
+<td><strong>2021.11</strong></td>
+<td>Aurora, SPAC 합병 상장 $13B — 2년 뒤 $2B로 -85%</td>
+<td>hype-disillusionment 전환</td>
+</tr>
+<tr>
+<td><strong>2022.02</strong></td>
+<td>Tesla FSD Beta 누적 사용자 6만 명 — 미국 보급 첫 단계</td>
+<td>Tesla 데이터 우위 강화</td>
+</tr>
+<tr>
+<td><strong>2022.10</strong></td>
+<td><strong>Ford + VW, Argo AI 자율주행 JV 폐쇄</strong> — 약 $2.7B 손실 인식</td>
+<td><strong>1세대 두 번째 대형 후퇴</strong></td>
+</tr>
+<tr>
+<td><strong>2022.10</strong></td>
+<td>Mobileye(MBLY) NYSE 재상장 — $21B 평가(Intel 인수가 $15B 대비 +40%, 1차 IPO 대비 무난)</td>
+<td>자율주행 부품의 분리 상장</td>
+</tr>
+<tr>
+<td><strong>2023.07</strong></td>
+<td>Cruise, 샌프란시스코에서 24시간 무인 운영 권한 캘리포니아 PUC로부터 획득</td>
+<td>도시 L4의 정점</td>
+</tr>
+<tr>
+<td><strong>2023.10</strong></td>
+<td><strong>Cruise 자율주행 차량, 샌프란시스코 보행자 끌고 6m 끌고감 사고</strong> → 캘리포니아 면허 즉시 정지</td>
+<td><strong>산업 1차 사이클 정점 후 가장 큰 후퇴 이벤트</strong></td>
+</tr>
+<tr>
+<td><strong>2023.12</strong></td>
+<td>Cruise CEO Kyle Vogt 사임, GM이 Cruise 자금 50% 삭감</td>
+<td>Cruise 사실상 종말 시작</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_4">(d) 사이클 단계</h3>
+<p><strong>1차 사이클 disillusionment</strong>. 2018 hype peak → 2020 일시 회복(Waymo 무인 상용화·Tesla FSD beta) → 2021 SPAC 마지막 광풍 → 2022 자율주행 SPAC주 -80%부터 -95% 동시 폭락 → 2023 Cruise 사고로 산업 전체 회의론 정점. 매출은 여전히 미미 (Waymo One 연 수십만 trip 수준).</p>
+<h3 id="e_4">(e) 대표 기업 주가</h3>
+<ul>
+<li><strong>Aurora(AUR)</strong>: 2021.11 SPAC 상장 $10 → 2023말 $1 (-90%).</li>
+<li><strong>TuSimple(TSP)</strong>: 2021.04 IPO $40 → 2023 $0.5 (-99%) → 상장폐지.</li>
+<li><strong>Mobileye(MBLY)</strong>: 2022.10 재상장 $21 → 2023.07 $44 → 2023말 $40.</li>
+<li><strong>Tesla(TSLA)</strong>: 2021.11 sticker $400(분할조정) → 2023.01 $108 (-73%) → 2023말 $250 회복.</li>
+<li><strong>Cruise(GM 자회사)</strong>: 2018 $14.6B → 2021.01 $30B → 2023.10 사고 후 GM이 이미 자금 50% 삭감하기로.</li>
+</ul>
+<h3 id="f-layer_4">(f) 규제 layer</h3>
+<ul>
+<li><strong>2020.06</strong> 미국 NHTSA, Tesla Autopilot 관련 사망사고 41건 조사 개시</li>
+<li><strong>2021</strong> 캘리포니아 PUC, Cruise·Waymo에 SF 시내 무인 서비스 단계적 허가</li>
+<li><strong>2022.05</strong> 중국, 베이징·상하이·우한 자율주행 시험·상용화 시범구역 본격 확대</li>
+<li><strong>2023.08</strong> 캘리포니아 PUC, Cruise SF 24/7 무인 운영 승인(찬성 3, 반대 1) — 2개월 후 사고로 면허 정지</li>
+<li><strong>2023.10</strong> 캘리포니아 DMV, Cruise 면허 무기한 정지 — 산업에 큰 충격</li>
+</ul>
+<hr />
+<h2 id="chunk-6-20242026-e2e-foundation-model-unit-profit-2">Chunk 6. 2024–2026 — e2e foundation model·로보택시 unit profit·미·중 2강 (현재)</h2>
+<h3 id="a_5">(a) 매크로 배경</h3>
+<p>2023 ChatGPT 이후 생성형 AI 폭증, transformer 기반 foundation model이 자율주행의 SW 패러다임을 완전 재편 — 모듈형 SW(인지·예측·계획·제어 분리)에서 <strong>e2e(end-to-end) 단일 신경망</strong>으로 전환. NVIDIA Blackwell·AMD MI300·HBM 등 AI 인프라 폭증이 자율주행 학습 비용을 1/10로 압축. 동시에 미·중 디커플링이 자율주행 SoC·LiDAR·HD맵에서도 본격화 — 중국 SoC(Huawei·Horizon)·LiDAR(Hesai)이 미국 시장에서 배제되는 동시에 중국 시장도 미국 OEM에 점차 폐쇄. 2024 Tesla Robotaxi Day(10.10)·2025 Cybercab 발표가 시장의 새 narrative.</p>
+<blockquote>
+<p><strong>비유</strong>: 자율주행이 <strong>"학계의 박사 논문"에서 "AI 컴퍼니의 메가 프로젝트"로 변신</strong>한 시기. Tesla FSD v12(2024.03)의 e2e 모델은 "300만 줄 C++ 코드를 30만 줄 신경망 가중치로 대체" — 산업의 SW 패러다임이 완전히 뒤집힘. 동시에 Waymo가 마침내 unit-economic 흑자 진입 (Apollo Go도 우한에서 차당 수익성 도달, 2025).</p>
+</blockquote>
+<h3 id="b_5">(b) 패권자</h3>
+<p><strong>미·중 2강 + 한·EU 추격</strong>.
+- <strong>미국</strong>: Waymo(L4 로보택시 압도) + Tesla(L2/L3 차량 보급 + Cybercab 양산) + NVIDIA(SoC) + Mobileye(ADAS).
+- <strong>중국</strong>: Baidu Apollo Go(L4 로보택시) + Pony.ai/WeRide(L4 로보택시 next gen) + Huawei(SoC + L3 차량) + Hesai(LiDAR 세계 1위) + BYD/XPeng/Li Auto/ZEEKR(L2+/L3 차량).
+- <strong>한국</strong>: 현대차 Motional(L4 로보택시 라스베가스 2026말 상용화) + 삼성 하만·HL클레무브·LG이노텍·만도 등 Tier 1.
+- <strong>유럽</strong>: Mercedes(L3 첫 양산 — 2023말 Drive Pilot 미국·독일 승인), Bosch·ZF(Tier 1), Mobileye(이스라엘 본사·Intel 산하).</p>
+<h3 id="c_5">(c) 산업 변화</h3>
+<table>
+<thead>
+<tr>
+<th>연도</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2024.03</strong></td>
+<td>Tesla FSD v12 출시 — <strong>e2e foundation model 전환</strong> (코드 30만 줄 → 신경망)</td>
+<td>SW 패러다임 대전환</td>
+</tr>
+<tr>
+<td><strong>2024.06</strong></td>
+<td>Waymo, 서비스 면적 LA·피닉스·SF·오스틴 동시 확장. 주당 5만 paid trip 돌파</td>
+<td>L4 로보택시 본격 매출화</td>
+</tr>
+<tr>
+<td><strong>2024.10.10</strong></td>
+<td><strong>Tesla Robotaxi Day</strong> — Cybercab 컨셉카 공개(steering wheel 無, $30K, 2026 양산 약속)</td>
+<td>Tesla narrative 정점</td>
+</tr>
+<tr>
+<td><strong>2024.12</strong></td>
+<td><strong>GM, Cruise 자율주행 사업 완전 폐쇄 발표</strong> — $10B+ 누적 손실 인식, 사내 ADAS(Super Cruise)로 통합</td>
+<td><strong>1세대 가장 큰 실패</strong></td>
+</tr>
+<tr>
+<td><strong>2025.Q1</strong></td>
+<td>Waymo 주당 25만 trip 돌파. Apollo Go 우한 단위 흑자 첫 도달</td>
+<td>L4 unit economics 변곡점</td>
+</tr>
+<tr>
+<td><strong>2025.10</strong></td>
+<td>Apollo Go 누적 자율주행 240M km·17M 주문 발표</td>
+<td>중국 L4 압도적 운영 규모</td>
+</tr>
+<tr>
+<td><strong>2025.12</strong></td>
+<td>Waymo 주당 50만 paid trip — 1년 전 대비 10배</td>
+<td>메가 트렌드 입증</td>
+</tr>
+<tr>
+<td><strong>2026.02</strong></td>
+<td><strong>Tesla Cybercab 양산 개시</strong> (Giga Texas, 4월 mass production 본격화)</td>
+<td>신차종 출현</td>
+</tr>
+<tr>
+<td><strong>2026.03</strong></td>
+<td><strong>중국, Apollo Go 우한 100+대 동시 멈춤 사고 → 자율주행 신규 면허 발급 중단</strong></td>
+<td>중국 산업 일시 후퇴</td>
+</tr>
+<tr>
+<td><strong>2026.03</strong></td>
+<td><strong>Joby Aviation Stage 4 FAA 인증 통과</strong> — 미국 첫 상용 eVTOL 자격 임박</td>
+<td>UAM 확장 가속</td>
+</tr>
+<tr>
+<td><strong>2026.05</strong></td>
+<td>Waymo, 11개 도시 1,400 sqmi 서비스 확장 발표. 2026 내 20+ 도시(도쿄·런던 포함) 추가 발표</td>
+<td>글로벌 확장 본격화</td>
+</tr>
+<tr>
+<td><strong>2026.05</strong></td>
+<td>Tesla FSD v14.3.3 출시 — critical disengagement 사이 평균 <strong>1,454 miles</strong> (v13 217mi 대비 6.7배)</td>
+<td>e2e 성능 도약</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d_5">(d) 사이클 단계</h3>
+<p><strong>2차 사이클 revival·early commercialization</strong>. 1차 사이클(2009–2023)의 hype-disillusionment를 거쳐, 2024년부터 진짜 매출 사이클 진입. Waymo·Apollo Go가 unit economics 흑자에 도달하며 "산업이 진짜 돈을 번다"는 신호. 단 2026.03 중국 일시 면허 정지·미·중 분단 같은 정치 변수가 여전. <strong>본 commercialization 사이클이 2030년 1차 정점에 도달 가능성</strong> — Waymo 1M ride/주, Tesla Cybercab 누적 100K대 출하 시점.</p>
+<h3 id="e_5">(e) 대표 기업 주가</h3>
+<ul>
+<li><strong>Tesla(TSLA)</strong>: 2024.04 $150 → 2024.10 Robotaxi Day 직후 $230 → 2025.12 $480 → 2026.05 $380 (FSD v14 + Cybercab narrative + Optimus 결합).</li>
+<li><strong>Mobileye(MBLY)</strong>: 2024년 $30대 → 2025 $20 회귀(중국 SoC 경쟁) → 2026.05 $22 회복.</li>
+<li><strong>Alphabet(GOOG)</strong>: Waymo 가치가 SOTP 분석 기준 $200B+ (Tipranks·Morgan Stanley 2026.04). Alphabet 시총 $2.5T 중 Waymo는 8% 비중.</li>
+<li><strong>Aurora(AUR)</strong>: 2025 자율 트럭 텍사스 상용화 (Driverless 출범) → 주가 $5 → $10 회복, 시총 $15B.</li>
+<li><strong>Pony.ai(PONY) / WeRide(WRD)</strong>: 2024 NASDAQ IPO. 2025 주가 +200% 가까운 폭등 (China robotaxi narrative).</li>
+<li><strong>Hesai(HSAI)</strong>: LiDAR 글로벌 1위. 2025 주가 +180% (Q1 2025 시장 점유율 37%, 첫 흑자).</li>
+<li><strong>NVIDIA(NVDA)</strong>: Auto 매출 FY26 Q1 $567M(+72% YoY), FY26 전체 $5B 목표. 자율주행 narrative가 AI 인프라 narrative 보강.</li>
+</ul>
+<h3 id="f-layer_5">(f) 규제 layer</h3>
+<ul>
+<li><strong>2024.01</strong> 캘리포니아 PUC, Cruise 면허 영구 정지 확정</li>
+<li><strong>2024.02</strong> 미국 NHTSA, Tesla FSD 200만 대 리콜(SW 업데이트)</li>
+<li><strong>2024.04</strong> 중국 베이징·상하이·광저우·심천 4대 1선도시 모두 fully driverless 로보택시 상용 허가 (Pony.ai 첫 4도시 동시 운영)</li>
+<li><strong>2025.07</strong> EU AI Act 시행 — 자율주행은 "high-risk AI" 카테고리, 강도 높은 안전 평가 의무</li>
+<li><strong>2025.11</strong> UAE Abu Dhabi — Apollo Go·WeRide·Pony.ai 등 중국 로보택시에 fully driverless 유료 운영 허가</li>
+<li><strong>2026.03</strong> <strong>중국, 우한 Apollo Go 동시 멈춤 사고 → 신규 자율주행 면허 일시 발급 중단</strong> (대형 후퇴)</li>
+<li><strong>2026.05</strong> 미국 DOT, AV STEP(Autonomous Vehicle Safety, Transparency, and Evaluation Program) 시행 — 데이터 의무 공개</li>
+</ul>
+<hr />
+<h1 id="2">2단계. 주가 사이클</h1>
+<h2 id="2-1-view">2-1. 자율주행 산업 통합 주가 view</h2>
+<p>자율주행은 산업 형성 시점부터 상장사 부재 시기가 길었던 산업이다. 따라서 통합 주가 view는 <strong>3개 layer로 분리</strong>하여 본다:</p>
+<table>
+<thead>
+<tr>
+<th>layer</th>
+<th>대표 기업</th>
+<th>상장 시점</th>
+<th>자율주행 narrative 비중</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 부품·반도체</strong></td>
+<td>Mobileye(MBLY), NVIDIA(NVDA, Auto segment), Hesai(HSAI), Velodyne(VLDR, 2020.09 SPAC)</td>
+<td>2014~</td>
+<td>회사 매출 5~100%</td>
+</tr>
+<tr>
+<td><strong>B. 운영·SW 순수</strong></td>
+<td>Waymo(비상장, Alphabet), Pony.ai(PONY), WeRide(WRD), Aurora(AUR), TuSimple(상장폐지), Embark(상장폐지)</td>
+<td>2021~</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>C. OEM·플랫폼</strong></td>
+<td>Tesla(TSLA), 현대차(005380), GM, BYD, XPeng, Li Auto, NIO</td>
+<td>다양</td>
+<td>회사 narrative 일부</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>직접 통합 차트는 본 .md에 임베드하지 않음(자율주행 전용 ETF가 부재하며, 각 layer 사이클이 비대칭이라 단일 차트 통합이 misleading). 대신 layer별 사이클 패턴을 표로 정리.</p>
+</blockquote>
+<h2 id="2-2-1-20142023">2-2. 자율주행 1차 사이클(2014–2023) 패턴 정리</h2>
+<p>자율주행은 산업 사이클이라기보다 <strong>자본시장 narrative 사이클</strong>이 매출 사이클보다 먼저 형성된 산업이다. 1차 사이클의 정량 패턴:</p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>시기</th>
+<th>trigger</th>
+<th>대표 종목 진폭(고점 대비)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 형성기</strong></td>
+<td>2014–2016</td>
+<td>Mobileye IPO, Tesla Autopilot 출시, Google Waymo 분사</td>
+<td>MBLY +250%(IPO→Intel 인수)</td>
+</tr>
+<tr>
+<td><strong>② Hype 확장</strong></td>
+<td>2016–2018</td>
+<td>Uber ATG·Cruise GM·Aurora 등 빅 베팅, "2020 L5" narrative</td>
+<td>Tesla +200% / 자율주행 부품주 +100~300%</td>
+</tr>
+<tr>
+<td><strong>③ Hype peak</strong></td>
+<td>2018–2021</td>
+<td>Waymo $175B 평가, Aurora SPAC $13B, TuSimple IPO</td>
+<td>매출은 거의 0인데 시가총액 정점</td>
+</tr>
+<tr>
+<td><strong>④ Disillusionment</strong></td>
+<td>2021–2023</td>
+<td>Argo·Uber ATG 해체, Cruise 사고, 매출 약속 미달</td>
+<td>자율주행 순수 SPAC주 평균 -85%~-95%</td>
+</tr>
+<tr>
+<td><strong>⑤ 살아남은 자의 합성</strong></td>
+<td>2023–2024</td>
+<td>Waymo·Apollo Go·Tesla FSD 진짜 매출 가시화</td>
+<td>살아남은 종목만 회복</td>
+</tr>
+</tbody>
+</table>
+<p><strong>사이클 길이</strong>: 첫 hype 형성(2014)부터 disillusionment 저점(2023)까지 약 <strong>9년 1차 사이클</strong>. 매크로 자본시장 사이클(7~10년)과 거의 일치.</p>
+<p><strong>진폭</strong>: hype peak 대비 trough에서 -80~-95% 폭락. 반도체 메모리 1차 사이클(1985 진폭 -75%)이나 닷컴 버블(2000–2002 NASDAQ -78%)과 유사한 진폭. <strong>자율주행 1차 사이클의 본질 = 닷컴 버블이 자율주행에 늦게 도착했다.</strong></p>
+<p><strong>구조조정 트리거</strong>: 매출 약속 미달 + 자본 비용 상승 + 안전 사고 1건이 산업 전체에 영향을 미치는 비대칭 sensitivity(=Cruise 2023.10 SF 사고 → GM $10B 누적 손실 인식 → 2024.12 완전 폐쇄).</p>
+<h2 id="2-3-2-2024">2-3. 2차 사이클(2024–현재) 패턴 가설</h2>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>예상 시기</th>
+<th>trigger</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 진짜 매출 시작</strong></td>
+<td>2024</td>
+<td>Waymo unit profit, Tesla FSD v12 e2e</td>
+<td>진행 중</td>
+</tr>
+<tr>
+<td><strong>② 본격 확장</strong></td>
+<td>2025–2027</td>
+<td>Waymo 도시 20+ 확장, Cybercab 양산, Apollo Go 글로벌</td>
+<td>진행 중</td>
+</tr>
+<tr>
+<td><strong>③ Mainstream 침투</strong></td>
+<td>2028–2030</td>
+<td>ADAS L2 침투율 50%+, L4 로보택시 100K대 fleet</td>
+<td>[전망]</td>
+</tr>
+<tr>
+<td><strong>④ 다음 변곡점</strong></td>
+<td>2030+</td>
+<td>UAM·자율 트럭·자율 배송으로 확장 + 시장 reset</td>
+<td>[전망 시나리오]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2차 사이클 길이 가설</strong> [전망]: 2024 시작 → 2030년경 1차 정점 → 그 이후 재조정 — 1차 사이클(9년)과 유사한 약 <strong>6~8년</strong>. 단 1차와 달리 매출이 형성된 상태에서의 사이클이라 진폭은 작을 가능성이 높음(±60% 수준 전망).</p>
+<h2 id="2-4-chunk1-2">2-4. Chunk(1단계)와 사이클(2단계)의 매핑</h2>
+<table>
+<thead>
+<tr>
+<th>사이클 chunk</th>
+<th>1단계 chunk 매핑</th>
+<th>변곡점 일치 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-cycle (–2014)</td>
+<td>Chunk 1·2·3 (1925–2009)</td>
+<td>✓ DARPA Grand Challenge 산업 형성 변곡점</td>
+</tr>
+<tr>
+<td>1차 형성기 (2014–2018)</td>
+<td>Chunk 4 전반부 (2014–2018)</td>
+<td>✓ Mobileye IPO·Tesla Autopilot·Waymo 분사</td>
+</tr>
+<tr>
+<td>1차 hype peak (2018–2021)</td>
+<td>Chunk 4 후반·Chunk 5 전반</td>
+<td>✓ Argo AI·Aurora SPAC·TuSimple IPO</td>
+</tr>
+<tr>
+<td>1차 disillusionment (2021–2023)</td>
+<td>Chunk 5 후반 (2021–2023)</td>
+<td>✓ Argo 폐쇄·Cruise 사고</td>
+</tr>
+<tr>
+<td>2차 revival·early commercialization (2024–)</td>
+<td>Chunk 6 (2024–현재)</td>
+<td>✓ Tesla FSD v12·Waymo unit profit·Cybercab</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심 관찰</strong>: 자율주행은 chunk 경계가 자본시장 사이클 경계와 거의 1:1 일치한다 — 5 dimension(수요·기술·패권·사이클·규제) 중 <strong>기술 변곡점과 자본시장 narrative 변곡점이 강하게 동조</strong>하는 산업이기 때문. 반도체(7~10년 매크로 사이클)와는 다른 패턴.</p>
+<hr />
+<h1 id="3">3단계. 비즈니스 구조 + 밸류체인</h1>
+<h2 id="3-1-8-layer">3-1. 8 layer 밸류체인 매핑</h2>
+<table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>핵심 BM</th>
+<th>대표 capability</th>
+<th>진입장벽</th>
+<th>자본집약도</th>
+<th>영업이익률</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1. 센서(LiDAR·Radar·Camera)</strong></td>
+<td>하드웨어 판매, 차당 BOM $200–$3,000</td>
+<td>광학·반도체 패키징 + 양산 yield</td>
+<td>제조 노하우·OEM 동시 인증</td>
+<td>중(공장 $300M~$1B)</td>
+<td>5~25%(Hesai 2025 흑자, Luminar 적자)</td>
+</tr>
+<tr>
+<td><strong>L2. SoC(자율주행 컴퓨터)</strong></td>
+<td>차당 BOM $100–$1,500, 양산 후 30%+ GM</td>
+<td>7~3nm IC 설계 + 자동차 안전 등급(ASIL-D) + SW 생태계</td>
+<td>EUV 노드 + 자동차 인증 5+년</td>
+<td>매우 높음(개발 $1B+)</td>
+<td>-10~70%(NVIDIA Auto 70%+, Mobileye 20–30%)</td>
+</tr>
+<tr>
+<td><strong>L3. SW 스택(인지·예측·제어·운영체제)</strong></td>
+<td>차량당 라이선스 $500–$5,000(B2B), 로보택시 운영(B2C)</td>
+<td>데이터 플라이휠 + AI 인재 + 시뮬레이션 인프라</td>
+<td>데이터 + AI 자본 + 시간(5+년)</td>
+<td>매우 높음(클라우드 학습 $1B+/년)</td>
+<td>-∞~30%(Waymo·Tesla 적자, Mobileye SuperVision 20–30%)</td>
+</tr>
+<tr>
+<td><strong>L4. HD맵·로컬라이제이션</strong></td>
+<td>데이터 라이선스, 차량당 연 $50–$500</td>
+<td>글로벌 cm급 측량 + 실시간 업데이트</td>
+<td>데이터 누적·OEM 통합</td>
+<td>중(차량 fleet 인프라)</td>
+<td>5~20%(Here·TomTom·Mobileye REM)</td>
+</tr>
+<tr>
+<td><strong>L5. 시뮬레이션·툴체인</strong></td>
+<td>SaaS 라이선스, 연 $1M–$100M(고객당)</td>
+<td>물리 엔진 + AI agent + 안전 케이스</td>
+<td>알고리즘·고객 베이스</td>
+<td>낮음(SW only)</td>
+<td>20~40%(Applied Intuition $6B 가치, NVIDIA Omniverse)</td>
+</tr>
+<tr>
+<td><strong>L6. 컴퓨팅 인프라(클라우드 학습)</strong></td>
+<td>GPU·클라우드 라이선스</td>
+<td>hyperscaler 인프라</td>
+<td>자본 + 전력 + 부지</td>
+<td>매우 높음</td>
+<td>30~50% (AWS·Azure·GCP)</td>
+</tr>
+<tr>
+<td><strong>L7. OEM 통합(완성차)</strong></td>
+<td>차량 판매 + ADAS 옵션 $1,500–$15,000</td>
+<td>차량 엔지니어링 + 글로벌 sales·service network</td>
+<td>자본·생산·인증·브랜드</td>
+<td>매우 높음($5B+/공장)</td>
+<td>-5~15%(BYD 15%, Toyota 10%, EV 신생 적자)</td>
+</tr>
+<tr>
+<td><strong>L8. 로보택시 운영</strong></td>
+<td>per-ride revenue, 차량당 연 $50K–$100K(미국)·$15K–$30K(중국)</td>
+<td>fleet ops + city permit + 사용자 앱</td>
+<td>도시별 면허·운영·정비 인프라</td>
+<td>매우 높음(차량 cap + 오피스)</td>
+<td>-∞ → 0 → 일부 흑자(Apollo Go 우한 단위 수익 2025, Waymo 매크로 흑자 2026E [전망])</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>단순 layer 매핑은 "누가 뭐 한다"까지지만, BM 분석은 <strong>"왜 SoC와 SW가 자율주행의 진짜 병목인가"</strong>를 보여줌. → 두 layer 모두 진입장벽 매우 높고 영업이익률 polarization (승자 70%, 패자 -∞%) → 메가 트렌드 위 산업의 병목 + Moat 구조에 가장 부합.</p>
+</blockquote>
+<h2 id="3-2">3-2. 레이어별 주요 플레이어 정리(글로벌)</h2>
+<h3 id="l1-lidar-radar-camera">L1. 센서 (LiDAR / Radar / Camera)</h3>
+<p><strong>LiDAR</strong>:
+- <strong>중국 압도</strong>: Hesai(글로벌 1위, 2025 Q1 share 37%, 출하 195,818대), RoboSense(2위)
+- <strong>미국</strong>: Luminar(Volvo·Mercedes·NIO), Innoviz(BMW), Aeva(VW·Daimler 트럭), Cepton — <strong>대부분 적자 지속</strong>
+- <strong>일본·유럽</strong>: Continental(독일·기계식 LiDAR 후퇴), Valeo(자동차 LiDAR 1위 2017~2022, 점유율 잠식 중)
+- <strong>ASP 추이</strong>: 2017 $75K(Velodyne HDL-64E) → 2022 $1,000 → 2025 $500 미만 → 2028E $200 [전망]</p>
+<p><strong>Radar</strong>:
+- 전통 Tier 1 강세: Bosch(독일), Continental(독일), ZF(독일), Aptiv(미국·아일랜드), Denso(일본)
+- 4D 이미징 레이더 신규: Arbe(이스라엘), Vayyar, <strong>HL클레무브</strong>(한국·차세대 4D 레이더 양산화)</p>
+<p><strong>Camera 모듈</strong>:
+- LG이노텍(한국·Tesla 등 OEM 1차 공급), Samsung Electro-Mechanics(한국), Sunny Optical(중국), Magna(캐나다)</p>
+<h3 id="l2-soc">L2. SoC (자율주행 컴퓨터)</h3>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>대표 칩</th>
+<th>자동차 매출(직년)</th>
+<th>디자인 win</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NVIDIA</strong></td>
+<td>Drive Orin / Drive Thor(Blackwell 기반)</td>
+<td>FY26 Q1 $567M(+72% YoY), FY26 $5B 목표(가이던스)</td>
+<td>XPeng·Li Auto·ZEEKR·Hyper·Toyota·GM·Mercedes·BYD·NIO·Rivian·Zoox</td>
+</tr>
+<tr>
+<td><strong>Mobileye</strong></td>
+<td>EyeQ5/6/Ultra</td>
+<td>2025 $1,894M(+15% YoY), 미래 8년 파이프라인 $24.5B(YoY +42%)</td>
+<td>VW Group·BMW·포드·GM(일부)·중국 OEM 상위 10</td>
+</tr>
+<tr>
+<td><strong>Tesla</strong></td>
+<td>HW4(2023), AI5(개발 중)</td>
+<td>(Tesla 자체 — 별도 공시 없음, 차량당 BOM 가치)</td>
+<td>Tesla 전용(수직통합)</td>
+</tr>
+<tr>
+<td><strong>Qualcomm</strong></td>
+<td>Snapdragon Ride</td>
+<td>2025 Auto 매출 $2.7B(가이던스)</td>
+<td>BMW·Stellantis·GM·Renault·Mercedes</td>
+</tr>
+<tr>
+<td><strong>Huawei</strong></td>
+<td>MDC(Mobility Data Center)</td>
+<td>2024 추정 $1B+</td>
+<td>BYD·AITO·Chery·동풍·창안·Avatr</td>
+</tr>
+<tr>
+<td><strong>Horizon Robotics</strong>(중국)</td>
+<td>Journey5/6</td>
+<td>2024 매출 $300M+</td>
+<td>Li Auto·BYD·중국 OEM 다수</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>결론: 글로벌 자율주행 SoC는 NVIDIA·Mobileye·Tesla·Qualcomm·Huawei·Horizon 6사 사실상 독점</strong>. 신규 진입 거의 불가능(자동차 인증 5+년, SW 생태계, R&amp;D 자본).</p>
+<h3 id="l3-sw-os">L3. SW 스택 (인지·예측·제어 + 자율주행 OS)</h3>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>대표 제품</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Waymo</strong></td>
+<td>Waymo Driver</td>
+<td>L4, 미국 11도시 운영, 주당 50만 trip(2026.05)</td>
+</tr>
+<tr>
+<td><strong>Tesla</strong></td>
+<td>FSD(Supervised)</td>
+<td>L2(법적)/실질 L3, v14 1,454 mi/critical disengagement</td>
+</tr>
+<tr>
+<td><strong>Baidu Apollo</strong></td>
+<td>Apollo OS, Apollo Go</td>
+<td>중국 22도시 L4 운영, 누적 240M km</td>
+</tr>
+<tr>
+<td><strong>Pony.ai</strong></td>
+<td>PonyPilot+</td>
+<td>중국 4대 1선도시 L4, 2026 3,000대 목표</td>
+</tr>
+<tr>
+<td><strong>WeRide</strong></td>
+<td>WeRide One</td>
+<td>중국·UAE·홍콩·싱가포르 L4</td>
+</tr>
+<tr>
+<td><strong>Mobileye(SW)</strong></td>
+<td>SuperVision / Chauffeur / Drive</td>
+<td>17개 모델 2026 출시, Chauffeur 단일 프로그램 $1.5B 파이프라인</td>
+</tr>
+<tr>
+<td><strong>Aurora</strong></td>
+<td>Aurora Driver</td>
+<td>자율 트럭 미국 텍사스 상용화(2025)</td>
+</tr>
+<tr>
+<td><strong>현대 Motional</strong></td>
+<td>Motional Drive</td>
+<td>라스베가스 2026말 L4 상용화 예정</td>
+</tr>
+<tr>
+<td><strong>NVIDIA Drive(SW)</strong></td>
+<td>Drive Hyperion·DriveOS</td>
+<td>OEM 통합 SW 스택(고객 OEM 직접 개발)</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>결론: L4 SW 스택은 Waymo·Tesla·Apollo·Pony·WeRide 5사 사실상 과점</strong>. Cruise·Argo·Uber ATG 1세대 진입자는 모두 해체. 신규 진입 매우 어려움(데이터 + AI 자본 + 시간).</p>
+<h3 id="l4-hd">L4. HD맵·로컬라이제이션</h3>
+<ul>
+<li><strong>Here Technologies</strong>(독일·미국, BMW·Audi·Mercedes 컨소시엄 소유)</li>
+<li><strong>TomTom</strong>(네덜란드)</li>
+<li><strong>Mobileye REM</strong>(이스라엘, 크라우드소싱)</li>
+<li><strong>Apple Maps</strong>(자체), <strong>Google Maps</strong>(자체)</li>
+<li><strong>Baidu</strong>, <strong>AutoNavi(Alibaba)</strong>, <strong>Tencent Maps</strong>(중국)</li>
+</ul>
+<h3 id="l5">L5. 시뮬레이션·툴체인</h3>
+<ul>
+<li><strong>Applied Intuition</strong>(미국, 2024 시가 $6B+, 토요타·포드 등 다수 OEM)</li>
+<li><strong>NVIDIA Omniverse</strong>(시뮬레이션)</li>
+<li><strong>dSPACE</strong>(독일, 전통 강자)</li>
+<li><strong>Cognata</strong>(이스라엘)</li>
+<li><strong>Foretellix</strong>(이스라엘, AV 안전 검증)</li>
+</ul>
+<h2 id="3-3">3-3. 한국 기업 위치 + 테마 직접성</h2>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>레이어</th>
+<th>핵심 제품·매출</th>
+<th>테마 직접성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>현대차그룹(005380·000270)</strong></td>
+<td>L7·L8</td>
+<td>Motional 50% JV(Aptiv 50%, 보스턴), 라스베가스 L4 로보택시 2026말 상용화. IONIQ 5 robotaxi 양산</td>
+<td><strong>높음</strong>(L4 로보택시 본격 진입)</td>
+</tr>
+<tr>
+<td><strong>HL클레무브</strong></td>
+<td>L1·L3</td>
+<td>4D 이미징 레이더 + LiDAR + ADAS 통합 컨트롤러. 2026 매출 목표 2.4조원, 2030 4조원</td>
+<td><strong>중간</strong>(Tier 1 글로벌 침투 진행)</td>
+</tr>
+<tr>
+<td><strong>HL Mando(204320)</strong></td>
+<td>L1·L7</td>
+<td>브레이크·스티어링·서스펜션 + ADAS HW. Tesla 등 글로벌 OEM 공급</td>
+<td><strong>낮음</strong>(자율주행 직접성은 일부)</td>
+</tr>
+<tr>
+<td><strong>LG이노텍(011070)</strong></td>
+<td>L1</td>
+<td>카메라 모듈 1차(Tesla·NVIDIA 등). 자동차 카메라 글로벌 top 3</td>
+<td><strong>중간</strong>(센서 BOM)</td>
+</tr>
+<tr>
+<td><strong>삼성전자 / 삼성하만</strong></td>
+<td>L2·L3</td>
+<td>차량용 반도체(Exynos Auto), 하만 인포테인먼트·V2X. 2025 Tesla 차세대 SoC 파운드리 수주(Samsung S5N HBM2E + 2nm)</td>
+<td><strong>중간</strong>(파운드리·Tier 1)</td>
+</tr>
+<tr>
+<td><strong>LG전자(066570)</strong></td>
+<td>L3</td>
+<td>차량 인포테인먼트·SDV·디스플레이. Magna와 e-Powertrain JV(LG Magna)</td>
+<td><strong>낮음</strong>(자율주행 직접성 미미)</td>
+</tr>
+<tr>
+<td><strong>스트라드비전·서울로보틱스</strong></td>
+<td>L3</td>
+<td>비전 인지 SW·라이다 인지 SW 스타트업</td>
+<td><strong>중간</strong>(틈새 SW)</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>결론: 한국의 자율주행 직접성은 OEM(현대차 Motional) + 부품(HL클레무브·LG이노텍·만도)이 중간 수준</strong>. SW 스택·SoC 본진은 미·중·이스라엘에 의존. 메모리 산업처럼 글로벌 1위 capability는 없으나, Tier 1 부품에서 일부 niche 우위 보유.</p>
+<hr />
+<h1 id="4-snapshot">4단계. 공급 구조 점검 — 현재 정량 snapshot</h1>
+<h2 id="4-1">4-1. 구조조정 이력</h2>
+<p>자율주행 산업의 1차 사이클 구조조정은 <strong>2020년 Uber ATG 매각부터 2024년 12월 GM Cruise 폐쇄까지 약 4년 압축</strong>되어 진행됐다. 기존 자동차 산업의 구조조정(예: 2009 미국 OEM 파산)이 2~3년에 걸쳐 진행된 것 대비 매우 빠른 reset.</p>
+<table>
+<thead>
+<tr>
+<th>시기</th>
+<th>이벤트</th>
+<th>누적 손실(추정)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020.12</td>
+<td><strong>Uber ATG → Aurora 매각</strong> ($4B 거래, 실질 SoftBank·Toyota 손실 흡수)</td>
+<td>Uber·SoftBank·Toyota $7.25B 평가 → 회수 $4B 미만</td>
+</tr>
+<tr>
+<td>2022.10</td>
+<td><strong>Argo AI(Ford+VW) 완전 폐쇄</strong></td>
+<td>Ford $2.7B + VW $2B = $4.7B 손실</td>
+</tr>
+<tr>
+<td>2023.10</td>
+<td><strong>Cruise SF 사고 → 면허 정지</strong> (Cruise는 24개월 후 폐쇄)</td>
+<td>산업 신뢰 충격</td>
+</tr>
+<tr>
+<td>2024.12</td>
+<td><strong>GM Cruise 자율주행 사업 완전 폐쇄</strong></td>
+<td>GM $10B+ 누적 손실 인식</td>
+</tr>
+<tr>
+<td>2024–2025</td>
+<td>TuSimple(자율 트럭) 상장폐지, Embark 폐쇄, Zoox(Amazon 자회사) 일부 축소</td>
+<td>$5B+ 추가</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1차 사이클 누적 자본 손실 추정</strong>: $25B+ (Argo·Cruise·Uber ATG·TuSimple·Embark·Aurora 일부 + 기타 스타트업) → <strong>자율주행 1차 사이클의 학습비</strong>.</p>
+<h2 id="4-2-cr3hhi">4-2. 공급 집중도 (CR3·HHI)</h2>
+<h3 id="l2-soc_1">L2. SoC</h3>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>2018</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 자율주행 SoC 플레이어(매출 $100M+)</td>
+<td>8개+ (NVIDIA·Mobileye·Intel·Renesas·NXP·Qualcomm·Tesla·삼성 등)</td>
+<td><strong>6개 사실상 과점</strong> (NVIDIA·Mobileye·Tesla·Qualcomm·Huawei·Horizon)</td>
+</tr>
+<tr>
+<td>추정 CR3(매출 기준, 자율주행 SoC만)</td>
+<td>~50%</td>
+<td><strong>85%+</strong> (NVIDIA·Mobileye·Tesla 합산)</td>
+</tr>
+<tr>
+<td>HHI 지수(추정)</td>
+<td>~1,200 (적당 분산)</td>
+<td><strong>2,500+</strong> (강한 과점)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="l3-sw-l4">L3. SW 스택 (L4 로보택시 운영 기준)</h3>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>2018</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 L4 로보택시 운영 active 회사</td>
+<td>15개+ (Waymo·Cruise·Argo·Uber ATG·Aurora·Zoox·Pony·WeRide·Apollo·Yandex·Drive.ai·Roadstar·Mighty AI 등)</td>
+<td><strong>5개 사실상 과점</strong> (Waymo·Apollo Go·Pony.ai·WeRide·Tesla)</td>
+</tr>
+<tr>
+<td>CR3(주간 paid trip 기준)</td>
+<td>(매출 거의 0이라 의미 무)</td>
+<td><strong>95%+</strong> (Waymo·Apollo·Pony)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="l1-lidar">L1. LiDAR</h3>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>2018</th>
+<th>2025</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 자동차 LiDAR 출하 메이커(연 1만+대)</td>
+<td>5개 (Velodyne·Valeo·Quanergy·LeddarTech·기타)</td>
+<td><strong>3사 압도</strong> (Hesai 37%·RoboSense·Luminar) — 중국 60%</td>
+</tr>
+<tr>
+<td>추정 CR3</td>
+<td>~70%</td>
+<td><strong>75%+</strong> (중국 압도)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-3">4-3. 가격결정력 변화</h2>
+<ul>
+<li><strong>L2 SoC</strong>: 구조조정 전(2018) 약 -10%~10% margin → 구조조정 후(2026) NVIDIA Auto 70%+, Mobileye 20–30%. <strong>살아남은 자가 가격결정력 확보</strong>. Mobileye Chauffeur 단일 OEM 프로그램 8년 파이프라인 $1.5B → 차량당 단가 추정 ~$1,500.</li>
+<li><strong>L3 SW</strong>: SW 스택 자체는 아직 차량당 $500–$5,000 라이선스 모델(B2B), 로보택시는 per-ride pricing 형성 중(미국 Waymo $0.7/mi vs Uber $2.5/mi). <strong>L4 로보택시는 1차 hype 시기 가격 0 → 현재 commercialization 시작</strong>.</li>
+<li><strong>L1 LiDAR</strong>: 2017 $75K → 2026 &lt;$500 — <strong>-99% 가격 압축</strong> (학습곡선의 극단적 사례). 단 살아남은 Hesai이 흑자 도달 — Q→P 전환 진행 중.</li>
+</ul>
+<h2 id="4-4">4-4. 진입장벽 변화</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>2018</th>
+<th>2026</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L4 로보택시 SW 개발 누적 자본</strong></td>
+<td>$1–3B 추정</td>
+<td><strong>$10B+</strong> (Waymo 추정 $20B+)</td>
+</tr>
+<tr>
+<td><strong>자동차 SoC 인증·생태계 형성 기간</strong></td>
+<td>3년</td>
+<td><strong>5–7년</strong> (자동차 ASIL-D 안전 인증 + OEM 사이클)</td>
+</tr>
+<tr>
+<td><strong>데이터 자산</strong>(주행 km)</td>
+<td>수십만 km</td>
+<td><strong>수억–수십억 km</strong> (Tesla FSD 사용자 미국·중국 누적 ~10B mi 추정, Waymo 50M mi+, Apollo 240M km)</td>
+</tr>
+<tr>
+<td><strong>AI 인프라</strong>(클라우드 학습)</td>
+<td>수십 GPU</td>
+<td><strong>10K+ GPU</strong> (Tesla Dojo·Waymo TPU·NVIDIA Drive Constellation)</td>
+</tr>
+<tr>
+<td><strong>OEM·로보택시 운영 면허</strong></td>
+<td>일부 주(네바다·캘리포니아)</td>
+<td>도시별 면허 + 안전 데이터 의무화(미국 AV STEP, EU AI Act 2025.07) — <strong>규제 복잡도 5배 상승</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>결론: 1차 사이클을 살아남은 자가 단순 시장점유율이 아닌 누적 자산(데이터·자본·인재·인프라)에서 절대적 우위 확보</strong>. 신규 진입은 거의 불가능에 가깝다.</p>
+<hr />
+<h1 id="5-snapshot">5단계. 수요 구조 점검 — 현재 정량 snapshot</h1>
+<h2 id="5-1-b2b-vs-b2c">5-1. 수요처 구성 (B2B vs B2C, 산업·지역)</h2>
+<p>자율주행의 수요는 본질적으로 <strong>자동차 산업의 수요에 매여 있다</strong> — 전체 8,900만 대 신차 시장의 어느 부분에 자율주행 BOM·SW가 침투하는가의 문제. 다만 로보택시는 별도 수요(B2C 운송 시장에서 인간 운전자 대체).</p>
+<table>
+<thead>
+<tr>
+<th>수요 카테고리</th>
+<th>2026E 규모</th>
+<th>B2B/B2C</th>
+<th>지역 분포</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>신차 ADAS 옵션(L2/L2+/L3)</strong></td>
+<td>글로벌 신차 8,900만 대 중 침투 35% = <strong>3,100만 대</strong></td>
+<td>B2B(OEM 향 부품·SW)</td>
+<td>중국 35%, 미국 25%, EU 20%, 일·한 10%, 기타 10%</td>
+</tr>
+<tr>
+<td><strong>L4 로보택시 fleet(차량)</strong></td>
+<td>글로벌 <strong>~6,000대</strong>(Waymo 2,500 + 중국 ~3,000 + 기타)</td>
+<td>B2B(자체 운영) → B2C(승객)</td>
+<td>미 50%, 중 45%, 기타 5%</td>
+</tr>
+<tr>
+<td><strong>L4 로보택시 ride(주당)</strong></td>
+<td>Waymo 50만 + Apollo Go·Pony·WeRide 100만+ = <strong>연 7천만~1억 trip</strong></td>
+<td>B2C</td>
+<td>미·중 95%+</td>
+</tr>
+<tr>
+<td><strong>자율 트럭(상용차)</strong></td>
+<td>Aurora 텍사스 상용화, 글로벌 시범 ~1,000대</td>
+<td>B2B(물류)</td>
+<td>미 70%, 중 25%, 기타 5%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-2-b2bb2c">5-2. 수요 집중도 (B2B/B2C 분기)</h2>
+<h3 id="b2b-adassoclidar">B2B (ADAS·SoC·LiDAR 수요)</h3>
+<p>상위 5대 OEM이 글로벌 자율주행 BOM의 <strong>40~50% 차지</strong>:
+- BYD(중국, 2025 EV 판매 400만+) — Huawei·Horizon SoC, 자체 ADAS
+- Tesla(미국, 200만+) — 자체 HW4/AI5, FSD
+- VW Group(독일, 800만+) — Mobileye·Bosch
+- 현대차그룹(한국, 730만+) — Mobileye·NVIDIA·자체 ADAS
+- Toyota(일본, 1,000만+) — NVIDIA Drive Orin 통합</p>
+<h3 id="b2c">B2C (로보택시 수요)</h3>
+<p>지역 집중도 매우 높음:
+- <strong>미국</strong>: SF·LA·피닉스·오스틴 4개 도시가 Waymo 매출 80%+
+- <strong>중국</strong>: 베이징·상하이·광저우·심천·우한 5개 도시가 중국 로보택시 90%+
+- <strong>신흥국</strong>: UAE Abu Dhabi(2025 fully driverless 첫 허가, 중국 3사·Waymo·Pony 시범)·사우디 NEOM(시범)</p>
+<h2 id="5-3">5-3. 수요 사이클 위치</h2>
+<ul>
+<li><strong>장기 트렌드</strong>: 인류 모빌리티 패턴 — 자가용 → 공유 → 자율 공유의 100년 흐름. 2026 현재는 <strong>자율 공유 진입 초기</strong>(전체 운송 트립 중 ~0.001%).</li>
+<li><strong>단기 사이클</strong>: ADAS 침투율은 EV 채택과 강하게 동조(EV는 SDV 구조라 ADAS 침투율이 ICE 대비 2배). 따라서 EV 채택 사이클(2020–2030 메가 견인) 위에 ADAS·자율 사이클이 형성.</li>
+<li><strong>주기 길이</strong>: 자동차 산업 매크로 사이클(7~10년)과 다른 reform 사이클 — 매 reform 사이클에서 ADAS 침투율이 10%p 상승 가설(2018 ~25% → 2026 ~35% → 2034E ~50%+) [전망].</li>
+</ul>
+<h2 id="5-4">5-4. 메가 트렌드 수요 비중</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>2018</th>
+<th>2026</th>
+<th>2030E [전망]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 자동차 산업 매출 중 자율주행 SW·HW BOM 비중</td>
+<td>~1%</td>
+<td><strong>~3%</strong></td>
+<td><strong>12%+</strong></td>
+</tr>
+<tr>
+<td>자율주행 SW·HW 글로벌 매출 규모(추정)</td>
+<td>~$10B</td>
+<td><strong>~$60B</strong></td>
+<td><strong>$200B+</strong></td>
+</tr>
+<tr>
+<td>L4 로보택시 ride 매출</td>
+<td>&lt;$10M</td>
+<td><strong>~$2B</strong></td>
+<td><strong>~$30B+</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>메가 트렌드 적합성</strong>: 자율주행은 자동차 산업 매출의 ~3%지만, 향후 5~7년 내 12%+로 4배 확장 가능. 이는 메가 트렌드 카테고리의 정량 정의 충족.</p>
+<h2 id="5-5">5-5. 대체재·보완재</h2>
+<ul>
+<li><strong>대체재</strong>: 인간 운전 차량(여전히 글로벌 신차의 65%). 자전거·전동킥보드·대중교통(단거리 도시)·항공(장거리)</li>
+<li><strong>보완재</strong>: EV(SDV 구조라 ADAS 침투율 ICE 대비 2배), 5G·V2X 통신(V2I/V2V), HD맵, 클라우드 컴퓨팅(학습)</li>
+<li><strong>신규 보완재</strong>: 생성형 AI foundation model(e2e SW 패러다임), AI 인프라(NVIDIA Blackwell·HBM)</li>
+<li><strong>수요 잠식 vs 보완 효과</strong>: 로보택시는 인간 운전 Uber·Lyft·택시·렌터카 시장(글로벌 ~$300B)을 직접 잠식. ADAS는 OEM 옵션 sticker price 상승으로 자동차 산업 매출 자체 +.</li>
+</ul>
+<h2 id="5-6">5-6. 가격탄력성</h2>
+<ul>
+<li><strong>ADAS L2 옵션</strong>: 신차에 옵션으로 추가 — 가격탄력성 중간(Tesla FSD $8,000~$15,000 vs 차량가격 $40K → 매우 비싼 옵션, take-rate 12%; Mercedes Drive Pilot $2,500/년 구독 → 더 낮은 가격에 높은 take-rate). <strong>소비자가 가격에 민감.</strong></li>
+<li><strong>L4 로보택시 ride</strong>: per-mile 가격(Waymo $0.7 vs Uber $2.5)으로 인간 운전자 대비 60% 저렴 — <strong>가격탄력성 높음, 수요가 가격에 따라 폭증 가능</strong>. 단 현재 fleet 부족으로 공급 제한이 수요 &lt; 공급 결정 요소.</li>
+<li><strong>자율 트럭</strong>: B2B 물류는 ROI 기반 결정 — 트럭당 연 운영비 -$50K~-$100K 절감 시 채택. 가격탄력성 낮음(기능 차이 큼).</li>
+</ul>
+<h2 id="5-7-driver-2018-2026">5-7. 수요 driver 분해 (2018 → 2026)</h2>
+<table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>기여도 변화</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AI 기술 채택(e2e foundation model)</strong></td>
+<td>+30%p</td>
+<td>가장 큰 동인 — SW 스택 성능이 임계점 돌파</td>
+</tr>
+<tr>
+<td><strong>EV 침투(SDV 구조 채택)</strong></td>
+<td>+25%p</td>
+<td>ICE 대비 EV는 ADAS 침투율 2배</td>
+</tr>
+<tr>
+<td><strong>로보택시 fleet 확장</strong></td>
+<td>+15%p</td>
+<td>Waymo·Apollo Go·Pony·WeRide</td>
+</tr>
+<tr>
+<td><strong>정부 안전·환경 규제</strong></td>
+<td>+10%p</td>
+<td>EU AEB(자동 비상 제동) 의무화 2022, 중국 자율주행 시범구역</td>
+</tr>
+<tr>
+<td><strong>소비자 소득</strong></td>
+<td>+5%p</td>
+<td>신차 옵션 ASP 상승</td>
+</tr>
+<tr>
+<td><strong>인구·도시화</strong></td>
+<td>+5%p</td>
+<td>도시 공유 모빌리티 수요</td>
+</tr>
+<tr>
+<td><strong>기타</strong></td>
+<td>+10%p</td>
+<td>UAM·자율 배송·자율 트럭</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-8">5-8. 정부 정책 영향</h2>
+<p>자율주행은 <strong>정부 규제·표준이 산업 발전 속도의 1차 결정 요인</strong>인 산업.
+- <strong>미국</strong>: NHTSA(연방·안전)·캘리포니아 DMV·PUC(주·운영) 이중 구조. AV STEP 2026.05 데이터 의무 공개로 투명성·신뢰성 ↑.
+- <strong>EU</strong>: AI Act 2025.07 시행 — 자율주행 high-risk 카테고리. UNECE WP.29 통일 규제. Mercedes L3(2022) EU·UN 표준 채택.
+- <strong>중국</strong>: 베이징·상하이·광저우·심천·우한 5대 시범구역. 2026.03 우한 사고 후 신규 면허 발급 일시 중단 — 정부 sensitivity 매우 높음.
+- <strong>한국</strong>: 자율주행차법(2020 시행), 화성·세종·판교·강남 시범구역. 현대 Motional은 미국 라스베가스 우선 진출(한국 규제·도로 인프라 제약).</p>
+<h2 id="5-9-vs">5-9. 글로벌 vs 한국 수요 분리</h2>
+<ul>
+<li><strong>글로벌</strong>: ADAS 침투율 35%, L4 로보택시 fleet 6K대, 미·중 95% 집중</li>
+<li><strong>한국</strong>: ADAS 침투율 ~40% (신차의 ICE→EV 전환 빠름), 그러나 L4 로보택시 부재(국내 시범 사업만). 한국 OEM(현대차)은 미국 시장으로 우선 진출 — <strong>한국 자체 시장은 자율주행 수요 측면 minor</strong></li>
+</ul>
+<hr />
+<h1 id="45">4+5 종합: 수급 매트릭스 현재 위치 결론</h1>
+<h2 id="_1">결론 (사실 + 종합)</h2>
+<p><strong>[4번 공급 fact 요약]</strong>:
+- L2 SoC: 6개 사실상 과점(CR3 85%+), 1차 사이클 진입자 5+개 해체
+- L3 SW(L4 로보택시): 5개 사실상 과점(CR3 95%+), 매출은 형성 시작
+- L1 LiDAR: 중국 60% 압도(Hesai 37% 단독), 미국 진입자 후퇴
+- 진입장벽: 누적 자본 $10B+·인증 5–7년·데이터 수억 km·AI 인프라 10K+ GPU</p>
+<p><strong>[5번 수요 fact 요약]</strong>:
+- 글로벌 신차 ADAS 침투율 35% (YoY +5%p), 메가 트렌드 비중 3% → 2030E 12%+
+- L4 로보택시 fleet 6K대(2026) → 2030E 100K+ [전망]
+- 수요 driver: AI(+30%p) + EV·SDV(+25%p) + 로보택시(+15%p) 3중 견인
+- 가격탄력성: ADAS 중간, L4 로보택시 높음(per-mile 60% 저렴)
+- 미·중 95% 집중, 한국·EU·기타 minor</p>
+<p>→ <strong>현재 산업은 [A] 카테고리: 구조적 메가 병목</strong>
+→ <strong>근거</strong>: 공급 측은 1차 사이클 구조조정 후 5사 사실상 과점(높은 진입장벽), 수요 측은 AI·EV·로보택시 3중 메가 견인 + 침투율 35%→50%+ 가속 흐름. <strong>공급 제한 × 수요 급증 = A 구조적 메가 병목.</strong></p>
+<h2 id="a_6">단, A 카테고리의 위험·예외 명시</h2>
+<p>자율주행은 A 카테고리이지만, 일반적 A 카테고리(예: 반도체 메모리·CoWoS·HBM)와 다른 <strong>고유한 위험 3가지</strong>:</p>
+<ol>
+<li><strong>단일 안전 사고가 산업 전체 후퇴를 유발하는 비대칭 sensitivity</strong></li>
+<li>Cruise 2023.10 SF 사고 → GM $10B 전체 사업 폐쇄 → 산업 전체 신뢰 후퇴</li>
+<li>Apollo Go 2026.03 우한 100대 멈춤 → 중국 신규 면허 일시 중단</li>
+<li>
+<p><strong>→ 메가 트렌드 위지만 단기 변동성·테일 리스크 크다.</strong></p>
+</li>
+<li>
+<p><strong>미·중 디커플링으로 데이터·HW 분단</strong></p>
+</li>
+<li>미국 OEM이 중국 SoC(Huawei·Horizon) 채택 불가, 중국 OEM이 미국 SoC(NVIDIA H100급) 일부 제한</li>
+<li>LiDAR 시장도 중국 Hesai이 미국 시장 점차 제외 가능성 (안보 우려)</li>
+<li>
+<p><strong>→ "글로벌 1위" 자율주행 기업은 향후 미·중 별도 트랙으로 분리될 가능성</strong> [전망]</p>
+</li>
+<li>
+<p><strong>신차종(Cybercab) vs 기존 차종 cannibalization</strong></p>
+</li>
+<li>Tesla Cybercab($30K 양산 2026.04)은 기존 Tesla 차량 robotaxi fleet 가치를 일부 잠식</li>
+<li>Waymo의 Jaguar I-Pace fleet도 향후 Hyundai IONIQ 5(Motional 협력)·Zeekr RT(Waymo 협력)로 교체 진행 → 자율주행 차종 자체의 paradigm shift</li>
+</ol>
+<p><strong>→ A 카테고리이나 변동성 매우 크다. 메가 트렌드 위에 안전·정치·차종 paradigm 3중 변동성이 중첩.</strong></p>
+<hr />
+<h1 id="uam">부록: 모빌리티 확장 (UAM·수소·자율 트럭)</h1>
+<blockquote>
+<p>본 산업 기초 분석은 자율주행(자동차의 sub)이 중심이나, <strong>사용자 요구로 자동차 외 모빌리티로의 확장 가능성을 부록 섹션에서 약식으로 다룬다.</strong></p>
+</blockquote>
+<h2 id="a-uamevtol-urban-air-mobility">부록 A. UAM·eVTOL (Urban Air Mobility)</h2>
+<p>자율주행 SW 스택(인지·계획·제어)은 항공 자율 비행과 핵심 알고리즘이 일부 공유된다. 단 항공기는 충돌 회피·기상·관제 등 자율차 대비 도메인 추가 매우 큼.</p>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>진행 단계</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Joby Aviation(JOBY)</strong></td>
+<td>2026.03 FAA Stage 4 통과 → Stage 5 → <strong>2026말 미국 첫 상용 eVTOL</strong> 예정</td>
+<td>Delta Airlines·UAE Dubai 파트너십. 시속 200mph, 150mi 항속</td>
+</tr>
+<tr>
+<td><strong>Archer Aviation(ACHR)</strong></td>
+<td>FAA Stage 3, UAE Restricted Type Certificate 2026.05 합의</td>
+<td>미드나이트 항공기, UAE 우선 진출</td>
+</tr>
+<tr>
+<td><strong>Volocopter</strong>(독일)</td>
+<td>2024 디스크 진입(파산), 부분 회생 중</td>
+<td>도시 내 짧은 자율 비행</td>
+</tr>
+<tr>
+<td><strong>EHang(EH·중국)</strong></td>
+<td>중국 민간 항공국(CAAC) 인증 2024.04 — 세계 최초 자율 eVTOL 인증</td>
+<td>광저우 시범 운행</td>
+</tr>
+<tr>
+<td><strong>현대차(Supernal)</strong></td>
+<td>CES 2024 SA-2 컨셉 발표</td>
+<td>2028 상용화 목표 [전망]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>자율주행 산업과의 연결</strong>: 항공 자율 비행은 자동차 자율주행 대비 데이터·인증·인프라 차원이 추가. 다만 SW 인지·계획 코어 알고리즘 일부 공유 → NVIDIA·Mobileye 같은 SoC 회사가 항공도 진출 가능. 시장 규모 2030E $30B+ [전망] (자율주행 자동차 대비 1/10 수준).</p>
+<h2 id="b-long-haul-trucking">부록 B. 자율 트럭 (long-haul Trucking)</h2>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>단계</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Aurora(AUR)</strong></td>
+<td>2025 텍사스·뉴멕시코 driverless 상용화 — 산업 최초</td>
+<td>Volvo·Paccar 차량</td>
+</tr>
+<tr>
+<td><strong>Kodiak Robotics</strong></td>
+<td>미국 트럭 자율주행 시범</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Plus.ai</strong></td>
+<td>2024 미·중 분리 운영</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>TuSimple(상장폐지)</strong></td>
+<td>2024 폐쇄</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>시장 규모</strong>: 미국 long-haul trucking $800B/년 시장의 자율주행 침투. 자율 트럭 1대 = 인간 운전자 임금 $80K/년 절감 → 단위경제 매우 강함. 단 도시 진입·픽업·관리 등 차일드 작업은 여전히 인간 필요.</p>
+<h2 id="c_6">부록 C. 수소 자율주행</h2>
+<p>수소차는 트럭·버스·열차 등 long-haul 상용차 부문에서 BEV 대비 비교 우위(에너지 밀도). 자율주행과의 결합: <strong>자율 수소 트럭</strong> — Hyundai Xcient(수소 트럭 + 자율주행), Nikola(미국, 2024년 파산 후 회생) 등. 단 수소 인프라 미성숙·BEV의 빠른 발전으로 메인스트림 가능성 [전망: 향후 10년 minor].</p>
+<h2 id="d-sidewalk-robot">부록 D. 자율 라스트마일 배송 (Sidewalk Robot)</h2>
+<table>
+<thead>
+<tr>
+<th>회사</th>
+<th>현황</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Starship Technologies</strong>(에스토니아·미국)</td>
+<td>미국 대학가 누적 600만 배송</td>
+</tr>
+<tr>
+<td><strong>Nuro</strong>(미국)</td>
+<td>Domino Pizza·Uber Eats 파트너십, Toyota 1세대 차량 활용</td>
+</tr>
+<tr>
+<td><strong>Serve Robotics(SERV)</strong></td>
+<td>LA·SF·DC 배송 시범, Uber Eats 파트너</td>
+</tr>
+<tr>
+<td><strong>Cartken</strong>(미국)</td>
+<td>Mitsubishi 합작 일본 진출</td>
+</tr>
+</tbody>
+</table>
+<p>이 sub-segment는 자동차 자율주행과 별도 sub-industry로 분류 가능 — 본 산업 기초 분석에서는 부록 처리.</p>
+<hr />
+<h1 id="_2">메타·연계</h1>
+<h2 id="md">본 .md의 향후 활용</h2>
+<ul>
+<li><strong>테마 분석(theme-analysis)</strong>: 본 .md는 자율주행 테마 분석의 Step 0 자동 참조. 특히 4+5 종합 결론(카테고리 A, 단 위험 3개)이 Step 3 6 카테고리 분류 input으로 흘러감.</li>
+<li><strong>기업 분석(company-analysis)</strong>: 본 .md는 Tesla·Waymo(Alphabet)·Mobileye·NVIDIA·Hesai·Pony.ai·WeRide·Aurora·현대차·HL클레무브 등 자율주행 관련 종목 기업 분석의 자동 첨부.</li>
+<li><strong>자동차 산업 기초 분석(<code>자동차_산업기초.md</code>)</strong>: 본 .md는 자동차의 sub로, parent 산업 기초 분석과 cross-link.</li>
+</ul>
+<h2 id="_3">갱신 트리거</h2>
+<p>본 .md는 영구 reference 문서. 갱신 사유:
+1. 산업 narrative shift (예: e2e foundation model보다 더 큰 paradigm shift 등장)
+2. 1세대 살아남은 자(Waymo·Tesla·Mobileye·Apollo)에서 새 진입자가 의미 있는 점유율 확보
+3. 미·중 디커플링이 산업 구조를 완전 재편(예: 글로벌 1위가 2개 트랙으로 분리)
+4. UAM·자율 트럭·자율 배송 sub-industry가 자율주행 자동차 수준으로 성장</p>
+<p>분기 변동·단기 가이던스·실적은 본 .md에 반영 X (실적 분석·테마 분석 영역).</p>
+<hr />
+<p><strong>[Fact·Forecast 구분 표기 원칙 준수]</strong> Fact는 그대로, [전망] 태그는 본문에 명시. 모든 수치는 출처·시점 표기. Delta(2018→2026)는 1차 사이클 reset의 본질을 보여주므로 변화 중심 서술.</p>
+<h2 id="sources">Sources (출처)</h2>
+<ul>
+<li>Waymo 주당 ride 통계: <a href="https://electrek.co/2026/05/13/waymo-expands-coverage-1400-square-miles-11-cities/">Electrek 2026.05.13</a>, <a href="https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/">TechCrunch 2026.03.27</a></li>
+<li>Tesla FSD v14 통계: <a href="https://eletric-vehicles.com/tesla/tesla-fsd-v14-data-shows-major-improvement-in-miles-between-interventions/">Eletric-Vehicles 2026</a>, <a href="https://www.teslaoracle.com/2026/05/17/tesla-fsd-v14-3-3-2026-14-6-6-adds-a-new-fsd-intervention-free-live-streak-counter-video-release-notes/">Tesla Oracle 2026.05.17</a></li>
+<li>Tesla Cybercab 양산: <a href="https://eletric-vehicles.com/tesla/tesla-to-begin-cybercab-production-in-april-2026-as-robotaxi-service-prepares-expansion/">Eletric-Vehicles 2026.04</a></li>
+<li>Mobileye 매출·파이프라인: <a href="https://ir.mobileye.com/news-releases/news-release-details/mobileye-releases-fourth-quarter-and-full-year-2025-results-and">Mobileye Q4 2025 IR</a>, <a href="https://www.mobileye.com/news/mobileye-growth-pipeline-fueled-with-supervision-and-future-av-wins/">Mobileye Growth Pipeline</a></li>
+<li>NVIDIA Drive Thor·Auto: <a href="https://nvidianews.nvidia.com/news/nvidia-drive-powers-next-generation-transportation">NVIDIA Press</a>, <a href="https://www.globenewswire.com/news-release/2025/11/19/3190664/0/en/Next-Generation-Automotive-Computing-Market-2026-Nvidia-Leads-with-Drive-Platform-Orin-SoC-and-Next-Gen-Thor-Targeting-Level-4-ADAS-Performance-Global-Long-term-Forecast-to-2036.html">GlobeNewswire 2025.11</a></li>
+<li>China Robotaxi(Apollo Go·Pony·WeRide): <a href="https://autonews.gasgoo.com/articles/news/chinese-robotaxi-firms-an-inevitable-showdown-with-tesla-waymo-2032365544924106753">Gasgoo 2025</a>, <a href="https://fortune.com/2026/05/04/china-robotaxis-glitch-us-autonomous-vehicles-tesla-waymo-baidu-weride/">Fortune 2026.05</a></li>
+<li>Hesai LiDAR: <a href="https://www.marketsandmarkets.com/Market-Reports/lidar-sensor-automotive-market-34875060.html">MarketsandMarkets</a>, <a href="https://www.ainvest.com/news/hesai-infinity-eye-lidar-game-changer-autonomous-driving-risks-linger-2504/">AInvest Hesai 2026</a></li>
+<li>Hyundai Motional·IONIQ 5 Robotaxi: <a href="https://www.koreaherald.com/article/10653689">Korea Herald 2026</a>, <a href="https://www.hyundai.com/worldwide/en/newsroom/detail/0000001110">Hyundai Newsroom</a></li>
+<li>Mando·HL Klemove: <a href="https://www.prnewswire.com/news-releases/new-beginning-of-hl-klemove-a-company-specializing-in-autonomous-driving-301438672.html">PRNewswire HL Klemove</a></li>
+<li>Joby·Archer UAM: <a href="https://www.altitudesmagazine.com/joby-aviation-targets-late-2026-commercial-launch-faa-certification/">Altitudes Magazine 2026</a>, <a href="https://aviationweek.com/air-transport/aircraft-propulsion/archer-joby-advance-uae-commercial-launches-2026">Aviation Week 2026</a></li>
+<li>Cruise·Argo AI 폐쇄: <a href="https://www.npr.org/2024/12/11/g-s1-37700/gm-to-retreat-from-robotaxis-and-stop-funding-its-cruise-autonomous-vehicle-unit">NPR 2024.12</a>, <a href="https://techcrunch.com/2024/12/11/gm-is-giving-up-on-cruise-robotaxis-pivots-to-personal-autonomous-vehicles/">TechCrunch 2024.12</a></li>
+<li>TAM·시장 규모: <a href="https://www.grandviewresearch.com/industry-analysis/autonomous-vehicles-market">Grand View Research</a>, <a href="https://www.marketsandmarkets.com/blog/AT/near-autonomous-passenger-car-market">MarketsandMarkets 자율주행</a></li>
+</ul>
+</main>
+</div>
+</body>
+</html>
