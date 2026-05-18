@@ -344,4 +344,11 @@
 | 4/23 | Tesla (TSLA) | 자동차 | 발표 완료 AMC (Adj EPS $0.41 beat / GAAP EPS $0.13 miss, 매출 $22.39B +16% YoY, Auto GPM ex-credits 19.2% 헤드라인) |
 | 4/23 | SK하이닉스 | 반도체 | 발표 완료 (매출 52.6조, 영업이익 37.6조, OPM 72%, YoY +405%) |
 | 4/23 | Lockheed Martin (LMT) | 방산 | BMO (발표 완료, EPS $6.44 miss, 현금흐름 급감) |
+| 4/15 | ASML (ASML) | 반도체-소부장 | Q1 2026 발표 완료 (BMO CET 07:00, 매출 €8.8B, GM 53.0%, 순이익 €2.8B, EUV 수주 + High-NA ramp) |
+| 4/22 | Lam Research (LRCX) | 반도체-소부장 | Q3 FY2026 발표 완료 (AMC, 비GAAP EPS $1.47 vs 컨센 $1.36 +8.09% 비트, 메모리·HBM CAPEX 사이클 동조) |
+| 4/22 | Disco (6146.T) | 반도체-소부장 | FY2026 통산 발표 완료 (매출 ¥436.8B +11.1% YoY, 영업이익 ¥184.9B +10.9%, 순이익 ¥135.5B +9.4%, HBM dicing·grinding 수요 폭증) |
+| 4/23 | BE Semiconductor (BESI) | 반도체-소부장 | Q1 2026 발표 완료 (BMO CET 07:00, 매출 €184.9M +28.3% YoY, 주문 €269.7M +104.5% YoY 폭증, 순이익 €51.6M +63.8% YoY, HBM hybrid bonding 1위) |
+| 4/27 | Advantest (6857.T) | 반도체-소부장 | Q4 FY2026 발표 완료 (Q4 EPS ¥174.55 vs 컨센 ¥138.67 +25.9% 대폭 비트, Q4 매출 ¥328.07B vs ¥281.48B +16.6% 비트, HBM 테스트 1위 사이클 동조) |
+| 4/30 | Western Digital (WDC) | 반도체-스토리지 | Q3 FY2026 발표 완료 (AMC PT 13:30 / ET 16:30, HDD + Flash 데이터센터 스토리지 수요) |
+| 5/1 | Tokyo Electron (8035.T) | 반도체-소부장 | Q4 FY2026 발표 완료 (Q4 EPS ¥468.67 +21.23% 비트, Q4 매출 ¥711.8B +28.9% QoQ, 글로벌 빅5 일본 1위, 코터/디벨로퍼 EUV 패터닝) |
 | 4/23 | 현대차 | 자동차 | 발표 완료 (매출 45.9조 역대 최대, 영업이

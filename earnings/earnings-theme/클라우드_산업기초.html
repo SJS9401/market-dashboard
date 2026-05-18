@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>클라우드 산업 기초 (Major) — 2026.05.18</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --ink:#1a1a1a; --muted:#6b6b6b; --line:#e8e6e0;
+    --accent:#0a5d4a; --warn:#b04a1e; --hi:#1e4d8b; --soft:#f3efe6;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system, "Segoe UI", "Noto Sans KR", system-ui, sans-serif;
+    background:var(--bg); color:var(--ink); margin:0; padding:0; line-height:1.6;}
+  .wrap{max-width:1100px; margin:0 auto; padding:32px 28px 80px;}
+  h1{font-size:28px; letter-spacing:-0.5px; margin:0 0 4px;}
+  .meta{color:var(--muted); font-size:13px; margin-bottom:32px; border-bottom:1px solid var(--line); padding-bottom:16px;}
+  h2{font-size:22px; margin:48px 0 8px; padding-bottom:6px; border-bottom:2px solid var(--accent); letter-spacing:-0.3px;}
+  h3{font-size:17px; margin:28px 0 8px; color:var(--accent);}
+  h4{font-size:15px; margin:18px 0 6px;}
+  p{margin:8px 0 12px;}
+  table{border-collapse:collapse; width:100%; margin:14px 0 18px; font-size:13.5px;}
+  th, td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:var(--soft); font-weight:600;}
+  td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .tag{display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; background:var(--soft); color:var(--accent); margin-left:6px;}
+  .pill-A{background:#d93a3a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;}
+  .pill-B{background:#e8a23a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;}
+  .pill-D{background:#4a8bd9;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;}
+  .pill-E{background:#7a7a7a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;}
+  .chart-box{background:#fff; border:1px solid var(--line); border-radius:8px;
+    padding:16px 18px; margin:18px 0 24px; box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+  .chart-title{font-size:14px; font-weight:600; color:var(--accent); margin-bottom:8px;}
+  .chart-sub{font-size:11px; color:var(--muted); margin-bottom:10px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr;}}
+  .callout{background:#fff8e8; border-left:3px solid #d4a23a; padding:10px 14px; margin:12px 0; font-size:13.5px;}
+  .matrix-table{font-size:12.5px;}
+  .matrix-table td{padding:10px; text-align:center; height:60px;}
+  .matrix-A{background:#fde2e2;}
+  .matrix-B{background:#ffeacc;}
+  .matrix-D{background:#dfe9f7;}
+  .matrix-E{background:#ececec;}
+  .matrix-C{background:#fff5dc;}
+  .matrix-F{background:#e8d5d5;}
+  .matrix-G{background:#d3e0d3;}
+  .toc{background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px 18px; margin:20px 0 28px;}
+  .toc a{color:var(--ink); text-decoration:none; display:block; padding:3px 0; font-size:13.5px;}
+  .toc a:hover{color:var(--accent); text-decoration:underline;}
+  .ch1-card{display:grid; grid-template-columns:60px 1fr; gap:14px; background:#fff;
+    border:1px solid var(--line); border-radius:8px; padding:14px; margin:10px 0;}
+  .ch1-num{font-size:32px; font-weight:700; color:var(--accent); text-align:center;}
+  .ch1-body{font-size:13.5px;}
+  .ch1-title{font-weight:600; margin-bottom:4px;}
+  .small-table{font-size:12px;}
+  .small-table td, .small-table th{padding:5px 8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>클라우드 산업 기초 (Major) <span class="tag">v1.0 · industry-basic</span></h1>
+<div class="meta">
+  <strong>분석 단위:</strong> 대분류(major) · <strong>parent:</strong> – · <strong>sub_industries:</strong> IaaS, PaaS, SaaS, 데이터센터, 데이터플랫폼 ·
+  <strong>최종 갱신:</strong> 2026-05-18 ·
+  <strong>출처 시점:</strong> Q1 2026 기준 (별도 표기 없을 시)
+</div>
+
+<div class="toc">
+  <strong style="font-size:13px;">목차</strong>
+  <a href="#exec">Executive Summary</a>
+  <a href="#step1">1단계 · 클라우드 산업사 (7 chunk × 6 layer)</a>
+  <a href="#step2">2단계 · 주가 사이클</a>
+  <a href="#step3">3단계 · 비즈니스 구조 + 밸류체인</a>
+  <a href="#step4">4단계 · 공급 구조 점검</a>
+  <a href="#step5">5단계 · 수요 구조 점검</a>
+  <a href="#summary">4+5 종합: 수급 매트릭스 현재 위치</a>
+</div>
+
+<!-- =================== EXECUTIVE SUMMARY =================== -->
+<h2 id="exec">Executive Summary</h2>
+
+<ol>
+  <li><strong>클라우드는 "컴퓨팅을 전기처럼 소비"한다는 1960년대 timesharing 비전이, 2006년 AWS의 EC2/S3 출시로 비로소 상용 모델로 결정화된 산업이다.</strong> 산업의 본질은 자본집약 인프라 위에 종량제 API를 얹어, 고객의 IT CapEx를 자기네 OpEx로 환산하는 것.</li>
+  <li><strong>글로벌 IaaS 시장은 Big 3 (AWS·Azure·GCP)가 합계 ~63% 점유</strong>(Synergy Research Q1 2026; AWS 28%·Azure 21%·GCP 14%)하는 강한 과점. 공급 측 진입장벽은 <strong>자본·인재·생태계 lock-in의 3중 해자</strong>.</li>
+  <li>수요 측은 엔터프라이즈 IT 예산 → 클라우드로의 30년 대이동(secular shift)이 후반전에 진입한 상태에서, <strong>2022년 말 ChatGPT 등장 이후 'AI 워크로드'라는 새로운 수요 driver가 추가</strong>됐다. Big 4 하이퍼스케일러 2026년 CapEx 합계는 <strong>$725B (전년 +77%)</strong>으로 사상 최대.</li>
+  <li>2010~2021년은 <strong>'SaaS Golden Cycle'(BVP Cloud Index 10년 동안 ~10배)</strong>였고, 2022년 멀티플 충격(-51%)으로 1차 사이클 종료. 2023년 이후는 <strong>'AI 인프라 Capex 사이클'</strong>이라는 새로운 사이클의 초중반.</li>
+  <li><strong>현재 산업 위치 = 6 카테고리 매트릭스 中 'A. 구조적 메가 병목'</strong>. 공급 측은 데이터센터 0.5% 공실률(NoVA)·4년+ 그리드 대기·전력 인프라 병목, 수요 측은 AI 학습/추론 워크로드가 견인. 단, <strong>레이어별로 위치가 갈리며</strong>(IaaS/DC=A, SaaS=E~F).</li>
+</ol>
+
+<div class="chart-box">
+  <div class="chart-title">1-pager 요약 — 5단계 핵심 결론</div>
+  <table class="small-table">
+    <tr><th width="100">단계</th><th>핵심 결론</th></tr>
+    <tr><td>1. 역사</td><td>7 chunk: 1960s 메인프레임 → 1990s ASP 1차 실패 → 2000s SaaS·AWS 탄생 → 2010s 본격화 → 2016-2021 SaaS 골든 → 2022-2024 멀티플 충격·AI 진입 → 2025+ AI Capex 정점</td></tr>
+    <tr><td>2. 사이클</td><td>1차 사이클 = 2010-2021 SaaS Golden (EMCLOUD 10x), 2022 -51%로 종료. 2차 사이클 = 2023+ AI Capex 주도, 수혜자가 인프라 레이어로 이동</td></tr>
+    <tr><td>3. BM</td><td>5 레이어 (전력·DC·네트워킹 → IaaS → PaaS → SaaS → SI). IaaS는 자본·생태계 lock-in, SaaS는 가격결정력·해자 차별</td></tr>
+    <tr><td>4. 공급</td><td>IaaS CR3 ~63% (글로벌), 데이터센터 공실률 사상 최저(NoVA 0.5%), 그리드 대기 4년+, CapEx 진입장벽 $30B+/y</td></tr>
+    <tr><td>5. 수요</td><td>B2B 위주, 메가 트렌드 비중 시계열 상승 중(코로나→AI 2단계), AI 워크로드 비중이 컴퓨트 수요의 60%+ 차지 추정</td></tr>
+    <tr><td>4+5 종합</td><td><span class="pill-A">A</span> 인프라 레이어 = 구조적 메가 병목 / <span class="pill-E">E</span> SaaS = 점진적 가격 상승 / <span class="pill-A">A 극단</span> 데이터센터·전력</td></tr>
+  </table>
+</div>
+
+<!-- =================== 1단계: 역사 =================== -->
+<h2 id="step1">1단계 · 클라우드 산업사 — 7 chunk × 6 layer</h2>
+
+<p style="font-size:13px; color:var(--muted)">
+chunk = 수요·기술·패권·사이클·규제 5축 중 동시에 큰 변화가 발생한 시점. 클라우드 산업은 메인프레임 timesharing(1960s)부터 약 65년.
+</p>
+
+<div class="ch1-card"><div class="ch1-num">1</div><div class="ch1-body">
+  <div class="ch1-title">1960s ~ 1989 · 메인프레임 timesharing — "컴퓨팅을 전기처럼" 사상의 원형</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>미·소 냉전, NASA·국방 컴퓨팅 수요, 1970s 오일쇼크 → 자본효율성 의식</td></tr>
+    <tr><td>패권자</td><td><strong>IBM</strong> — System/360(1964)으로 메인프레임 표준 장악</td></tr>
+    <tr><td>산업 변화</td><td><strong>1961 John McCarthy MIT 연설</strong>: "Computing may someday be organized as a public utility". <strong>1964 CTSS·Multics</strong>. <strong>1969 ARPANET</strong></td></tr>
+    <tr><td>사이클</td><td>형성기 — 1970s 메인프레임 폭증 → 1980s PC·미니컴이 위협</td></tr>
+    <tr><td>주가</td><td>IBM 1970s 다우 최대 시총 → 1980s 후반 정체</td></tr>
+    <tr><td>규제</td><td><strong>1956 IBM 反독점 동의 명령</strong> — 하드웨어·SW 번들 강제 금지. 오픈 API 사상의 법적 토대</td></tr>
+  </table>
+  <div class="callout"><strong>일반인 풀이:</strong> "큰 컴퓨터에 전화선으로 접속, 시간 단위 사용료" 사상이 60년대에 이미 존재. AWS는 이 사상을 50년 뒤 인터넷으로 실현.</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">2</div><div class="ch1-body">
+  <div class="ch1-title">1990 ~ 1999 · 인터넷 탄생 + ASP 1차 실패</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>1991 소련 붕괴 → 미국 단극 + 인터넷 상용화. 1997 아시아 위기. 후반 닷컴 거품</td></tr>
+    <tr><td>패권자</td><td>인프라: <strong>Cisco·Sun·Oracle</strong>. ASP: USinternetworking·Corio (단명)</td></tr>
+    <tr><td>산업 변화</td><td>1994 WWW 일반 공개, 1996 Hotmail, 1998 Google IPO, <strong>1999 Salesforce 설립</strong> (No Software)</td></tr>
+    <tr><td>사이클</td><td>닷컴 거품 → 2000.3 NASDAQ 5048 peak</td></tr>
+    <tr><td>주가</td><td>Cisco 시총 1위(2000.3), ASP 종목 대부분 파산</td></tr>
+    <tr><td>규제</td><td>1996 미 통신법 개정, 1998 DMCA</td></tr>
+  </table>
+  <div class="callout"><strong>왜 실패했나:</strong> ① 대역폭 부족, ② 가상화 부재로 멀티테넌시 불가, ③ 결제·API 표준 미비. 사상은 옳았으나 인프라가 10년 일렀다.</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">3</div><div class="ch1-body">
+  <div class="ch1-title">2000 ~ 2008 · 가상화·SaaS 탄생·AWS 출범 — 클라우드 빅뱅 chunk</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>닷컴 붕괴 → zero rate, 9/11 → IT 보안, 2008 금융위기 → "IT는 OpEx" 의식 정착</td></tr>
+    <tr><td>패권자</td><td><strong>Salesforce(2004.6 NYSE)</strong>, <strong>VMware(2007 IPO)</strong>, <strong>AWS(2006 출범)</strong></td></tr>
+    <tr><td>산업 변화</td><td><strong>2001.3 VMware ESX 1.0</strong>, <strong>2003 Xen</strong> 오픈소스 hypervisor(AWS EC2 초기 hypervisor), <strong>2006.3 S3, 2006.8 EC2</strong>, 2004 Google MapReduce, 2007 Hadoop</td></tr>
+    <tr><td>사이클</td><td>SaaS·IaaS 형성기 진입 (사이클 무관)</td></tr>
+    <tr><td>주가</td><td>Salesforce IPO 후 5년간 5배. VMware IPO 첫날 +75%</td></tr>
+    <tr><td>규제</td><td>2002 SOX, 2008 PCI-DSS v1.2</td></tr>
+  </table>
+  <div class="callout"><strong>AWS 탄생의 진짜 이유 (Andy Jassy 회고):</strong> 사내 모든 프로젝트가 "DB·컴퓨트·스토리지 만드는 데 3개월" → 내부 인프라 추상화→API화 → 외부 판매. AWS는 처음부터 클라우드 사업이 목적이 아니라 <strong>내부 효율화의 부산물</strong>. 이게 10년간 경쟁자 없이 독주한 이유.</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">4</div><div class="ch1-body">
+  <div class="ch1-title">2009 ~ 2015 · 클라우드 본격화 — 모바일이 SaaS 폭발 트리거</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>QE 시대 본격화 (zero rate), 모바일 인터넷 폭발(iPhone 2007→), 중국 BAT 부상</td></tr>
+    <tr><td>패권자</td><td>IaaS: AWS 독주 → Azure 추격(Nadella 2014~ 클라우드 first). SaaS: <strong>Workday·ServiceNow·Veeva·HubSpot</strong> IPO</td></tr>
+    <tr><td>산업 변화</td><td>2009 NoSQL, 2011 OpenStack, <strong>2013 Docker, 2014 Kubernetes</strong>, 2014 AWS Lambda, 2015 IBM SoftLayer·Oracle Cloud(이미 늦음)</td></tr>
+    <tr><td>사이클</td><td>1차 클라우드 성장기 본격화 (BVP Cloud Index 2013 launch → 5년간 3배)</td></tr>
+    <tr><td>주가</td><td>AMZN 2014-15 +90%, MSFT 시총 2배. AWS 매출 첫 공개(2015 Q1, $5B 연환산)</td></tr>
+    <tr><td>규제</td><td>2013 Snowden → 데이터 주권 의식. 2015 Schrems I (EU-US Safe Harbor 무효)</td></tr>
+  </table>
+  <div class="callout"><strong>왜 AWS가 독주했나:</strong> Azure 2010·GCP 2011 GA → AWS(2006)보다 4-5년 늦음. 서비스 수·생태계가 해자라서 그 4-5년 격차가 누적 → IaaS M/S 50%대 (2014-2016 절정).</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">5</div><div class="ch1-body">
+  <div class="ch1-title">2016 ~ 2021 · SaaS Golden Cycle + 코로나 가속 — 1차 사이클 정점</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>2020.3 코로나19 → 디지털 전환 5년 가속. zero rate 재진입(2020-22)</td></tr>
+    <tr><td>패권자</td><td>IaaS 3강 공고화. SaaS: <strong>Snowflake(2020.9 IPO, 첫날 +112%)·Datadog·CrowdStrike·Zoom·Shopify·DocuSign·Cloudflare</strong></td></tr>
+    <tr><td>산업 변화</td><td>2017 K8s 사실상 표준, 2019 멀티클라우드 본격화, 2020-21 코로나 가속(Zoom·Shopify 4-10배), 2021 GitLab·HashiCorp·Confluent IPO</td></tr>
+    <tr><td>사이클</td><td><strong>1차 사이클 절정</strong>. BVP Cloud Index 2021.11 peak (2013 base 대비 ~10배). 평균 멀티플 34x EV/Revenue</td></tr>
+    <tr><td>주가</td><td>MSFT 시총 #1 회복, AMZN·GOOGL 2T 진입, NVDA 1T 첫 진입(2021), Snowflake 1년 만에 $100B 돌파</td></tr>
+    <tr><td>규제</td><td>2018.5 GDPR, 2018 미 CLOUD Act, 2019 중국 사이버보안법</td></tr>
+  </table>
+  <div class="callout"><strong>Golden Cycle 본질:</strong> ① zero rate → 30x 멀티플 정당화, ② 코로나 → 수요 일시 폭발, ③ Rule of 40 framework 정착. <strong>이 세 조건이 깨지면 멀티플도 깨진다</strong> → 다음 chunk.</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">6</div><div class="ch1-body">
+  <div class="ch1-title">2022 ~ 2024 · 멀티플 충격 + AI Capex 사이클 진입 — 사이클 교체기</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>2022.3 Fed 첫 인상 → 2023.7 5.25-5.50% 고점. 우크라이나 전쟁, <strong>2022.11 ChatGPT 출시</strong></td></tr>
+    <tr><td>패권자</td><td><strong>NVIDIA 패권자로 부상</strong> — H100(2022.10), 시총 $1T→$3T. 하이퍼스케일러는 NVIDIA 최대 고객으로 종속. OpenAI·Anthropic AI lab 부상</td></tr>
+    <tr><td>산업 변화</td><td>SaaS 멀티플 34x→26x. AI 워크로드 폭발 → DC·전력 부족. Microsoft OpenAI $13B 투자(2023)</td></tr>
+    <tr><td>사이클</td><td><strong>1차 사이클 종료</strong>(BVP Cloud Index 2022 -51.3% 사상 최대 단년 낙폭). <strong>2차 사이클 진입</strong>. 하이퍼스케일러 CapEx 2023 $200B → 2024 $260B</td></tr>
+    <tr><td>주가</td><td>2022 SaaSacre: Snowflake -65%, Shopify -75%, Zoom -65%. 2023+ AI 수혜: NVDA +240% (2023), Oracle 부활</td></tr>
+    <tr><td>규제</td><td>2022.10 미 對中 반도체 통제, 2024.3 EU AI Act 통과</td></tr>
+  </table>
+  <div class="callout"><strong>핵심 인식:</strong> SaaS는 죽지 않았지만 "성장률 25%+ 자동 30x 멀티플" 시대 종료. <strong>AI 인프라가 새 high-growth 카테고리</strong> → 자본·인재 SaaS → AI 인프라 이동.</div>
+</div></div>
+
+<div class="ch1-card"><div class="ch1-num">7</div><div class="ch1-body">
+  <div class="ch1-title">2025 ~ 현재 2026 · AI Capex 군비 정점 + 신규 진입자</div>
+  <table class="small-table">
+    <tr><th width="80">layer</th><th>내용</th></tr>
+    <tr><td>매크로</td><td>미 금리 4.25-4.50% 안정(2026), 미·중 갈등 지속, 한·일·중동 sovereign AI 정책 가속</td></tr>
+    <tr><td>패권자</td><td><strong>4강 체제 등장</strong>: AWS·Azure·GCP + <strong>Oracle</strong> (FY26 Q3 RPO $553B, +325% YoY, OCI IaaS +84%). Neocloud: <strong>CoreWeave(2026 IPO, CapEx $30B+)·Nebius·Lambda·Crusoe</strong></td></tr>
+    <tr><td>산업 변화</td><td><strong>2026 Big 4 CapEx 합계 $725B</strong> (전년 +77%, AI 75%): AMZN $200B, MSFT $190B, GOOGL $175-185B, META $115-135B. Neocloud 5개사 신규 commit $131B</td></tr>
+    <tr><td>사이클</td><td>2차 사이클 중반. Amazon FCF 2026 마이너스 가능성, MSFT FCF 절반 이상이 CapEx</td></tr>
+    <tr><td>주가</td><td>NVDA 시총 $4T 돌파, Oracle 시총 1년 +200% (OpenAI $300B 계약), CoreWeave IPO +150%</td></tr>
+    <tr><td>규제</td><td>2025 EU AI Act 시행, 미 對中 칩 통제 강화, 한국 CSAP</td></tr>
+  </table>
+  <div class="callout"><strong>핵심 인식:</strong> 산업이 명백히 <strong>공급 부족</strong>으로 진입 — DC 공실률 0.5%, 그리드 대기 4년+. 자본을 가진 자가 무조건 이긴다 → Capex 군비 가속, 자본 한계 노출되면서 Neocloud·Oracle 자본 책임 분담.</div>
+</div></div>
+
+<h3>1단계 chunk 흐름 narrative</h3>
+<p>
+사상 형성(1) → 인프라 미숙(2) → 인프라 완비·산업 빅뱅(3) → 산업 결정(4) → 1차 사이클 정점(5) → 사이클 교체(6) → 2차 사이클 정점/공급부족 진입(7).
+Chunk 1·2 = 25년 인큐베이션. Chunk 3·4 = 빅뱅 + 산업 결정. Chunk 5·6 = 1차 사이클(SaaS Golden). Chunk 7 = 2차 사이클 진행 중(수혜 SaaS→AI 인프라 이동).
+</p>
+
+<!-- =================== 2단계: 사이클 =================== -->
+<h2 id="step2">2단계 · 주가 사이클</h2>
+
+<div class="grid2">
+  <div class="chart-box">
+    <div class="chart-title">사이클 진폭 narrative (BVP Cloud Index 기준)</div>
+    <div class="chart-sub">1차 사이클 +1000% → -51% / 2차 사이클 진행</div>
+    <canvas id="cycleChart" height="220"></canvas>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">하이퍼스케일러 Big 4 CapEx 추이 ($B/y)</div>
+    <div class="chart-sub">출처: CreditSights, Tom's Hardware, 2026 분기 IR</div>
+    <canvas id="capexChart" height="220"></canvas>
+  </div>
+</div>
+
+<h3>2-1. 산업 대표 기업과 사이클상 위치</h3>
+<table>
+  <tr><th>레이어</th><th>대표 기업</th><th>상장일</th><th>산업 사이클상 위치</th></tr>
+  <tr><td>IaaS (하이퍼스케일러)</td><td>AMZN</td><td>1997.5</td><td>AWS 사업부로 산업 견인</td></tr>
+  <tr><td>IaaS·SaaS 양다리</td><td>MSFT</td><td>1986.3</td><td>Azure + M365 + GitHub</td></tr>
+  <tr><td>IaaS·광고</td><td>GOOGL</td><td>2004.8</td><td>GCP + Workspace</td></tr>
+  <tr><td>SaaS 1세대</td><td>CRM (Salesforce)</td><td>2004.6</td><td>Cloud SaaS 원조</td></tr>
+  <tr><td>SaaS 2세대 (workflow)</td><td>NOW (ServiceNow)</td><td>2012.6</td><td>엔터프라이즈 워크플로우</td></tr>
+  <tr><td>데이터 클라우드</td><td>SNOW (Snowflake)</td><td>2020.9</td><td>데이터 웨어하우스 SaaS</td></tr>
+  <tr><td>AI 인프라 신규</td><td>ORCL · CRWV</td><td>1986 / 2026.3</td><td>AI 인프라 전용</td></tr>
+</table>
+
+<h3>2-2. 클라우드 사이클 식별</h3>
+<table>
+  <tr><th>사이클</th><th>시작</th><th>Peak</th><th>Trough</th><th>길이</th><th>진폭</th><th>driver</th></tr>
+  <tr><td><strong>1차 (SaaS Golden)</strong></td><td>2010 (실질 2013 BVP launch)</td><td>2021.11</td><td>2022.12</td><td>~10년</td><td>+1000% → -51%</td><td>모바일·코로나·zero rate</td></tr>
+  <tr><td><strong>2차 (AI Capex)</strong></td><td>2023.1</td><td>진행 중</td><td>—</td><td>3년+</td><td>+120%+ (누적)</td><td>ChatGPT·LLM·AI Capex</td></tr>
+</table>
+
+<h3>2-3. 사이클 패턴 framework (잠정)</h3>
+<p>
+<strong>성장기 진폭:</strong> BVP Cloud Index 10년 +1000% (인플레 조정 +700%대). 개별 SaaS 종목 +1000-5000% 가능.<br/>
+<strong>침체기 진폭:</strong> -50% (BVP Index 2022 단년). 개별 종목 -60-80% 가능.<br/>
+<strong>구조조정 트리거:</strong> ① 금리 급등 (2022), ② 수요 일시 둔화, ③ 자본 회수 사이클 (현재 진행 중).<br/>
+<strong>패턴:</strong> SaaS는 통합·사모 흡수 압박, IaaS 본진은 통합 압박 없음 (자본·생태계 lock-in).
+</p>
+
+<h3>2-4. 1단계 chunk × 2단계 사이클 매핑</h3>
+<table class="small-table">
+  <tr><th>Chunk</th><th>시기</th><th>사이클 위치</th></tr>
+  <tr><td>1</td><td>1960s-1989</td><td>사이클 이전 (산업 미형성)</td></tr>
+  <tr><td>2</td><td>1990-1999</td><td>사이클 이전 (실패한 1차 시도)</td></tr>
+  <tr><td>3</td><td>2000-2008</td><td>1차 사이클 형성기</td></tr>
+  <tr><td>4</td><td>2009-2015</td><td>1차 사이클 성장기 1단계</td></tr>
+  <tr><td>5</td><td>2016-2021</td><td><strong>1차 사이클 정점</strong></td></tr>
+  <tr><td>6</td><td>2022-2024</td><td><strong>1차 침체 + 2차 형성</strong></td></tr>
+  <tr><td>7</td><td>2025-현재</td><td>2차 사이클 성장기</td></tr>
+</table>
+
+<!-- =================== 3단계: 비즈니스 구조 =================== -->
+<h2 id="step3">3단계 · 비즈니스 구조 + 밸류체인</h2>
+
+<h3>3-1. 5 레이어 밸류체인</h3>
+<div class="chart-box">
+  <pre style="font-family: 'Courier New', monospace; font-size:13px; margin:0; white-space:pre-wrap;">
+[업스트림 - 인프라 원자재]
+  ① 전력 / 토지 / 냉각  →  ② 데이터센터 (Colo / Hyperscale) →  ③ 네트워킹·서버·GPU·메모리
+                                        ↓
+[미드스트림 - 클라우드 인프라]
+  ④ IaaS (AWS·Azure·GCP·OCI / Neocloud) →  ⑤ PaaS (DB·미들웨어·AI 모델 API)
+                                        ↓
+[다운스트림 - 애플리케이션·서비스]
+  ⑥ SaaS (Salesforce·ServiceNow·Workday 등 수천 개)
+  ⑦ SI·MSP (Accenture·Deloitte·GS Cloud·삼성SDS)</pre>
+</div>
+
+<h3>3-2. 레이어별 BM·진입장벽·마진</h3>
+<table>
+  <tr><th>레이어</th><th>대표</th><th>BM</th><th>핵심 capabilities</th><th>진입장벽</th><th>OPM</th></tr>
+  <tr><td>① 전력·DC</td><td>Equinix·Digital Realty·Vertiv</td><td>DC 임대 + 인프라</td><td>입지·전력 확보·인허가</td><td>인허가·전력 확보 (4년+ 그리드 대기)</td><td>25-35% (REIT EBITDA 50%+)</td></tr>
+  <tr><td>② 서버·GPU·메모리</td><td>NVIDIA·AMD·Broadcom·SK하이닉스·마이크론</td><td>칩 판매 + 시스템</td><td>첨단 노드·HBM 패키징·SW</td><td>CUDA lock-in 15년+, HBM 3사 과점</td><td>NVDA 50%+, HBM 30%+</td></tr>
+  <tr><td>③ 네트워킹·광</td><td>Arista·Cisco·Juniper·Coherent</td><td>스위치·트랜시버</td><td>고대역폭 ASIC·광·NIC</td><td>NVLink·InfiniBand lock-in</td><td>30-40%</td></tr>
+  <tr><td>④ IaaS</td><td>AWS·Azure·GCP·OCI·CoreWeave</td><td>종량제 + 약정</td><td>DC·서비스 폭·SW 생태계</td><td><strong>자본 + 인재 + 생태계 3중 lock-in</strong></td><td>AWS 35-37%</td></tr>
+  <tr><td>⑤ PaaS</td><td>Databricks·Snowflake·MongoDB·OpenAI</td><td>consumption pricing</td><td>데이터 처리·분산·모델 품질</td><td>네트워크 효과 (데이터 lock-in)</td><td>-10~30%</td></tr>
+  <tr><td>⑥ SaaS</td><td>CRM·NOW·WDAY·SAP·ADBE</td><td>구독 (seat·tier)</td><td>도메인·UI·통합</td><td>workflow 전환비용</td><td><strong>GM 70-85%, OM 15-35%</strong></td></tr>
+  <tr><td>⑦ SI·MSP</td><td>Accenture·Deloitte·삼성SDS·LG CNS</td><td>프로젝트 fee + MSP</td><td>인재·관계·도메인</td><td>인재·관계 자본</td><td>8-15%</td></tr>
+</table>
+
+<h3>3-3. 레이어별 가치 풀 분포 (시총 합산 기반 추정)</h3>
+<div class="grid2">
+  <div class="chart-box">
+    <div class="chart-title">2026 글로벌 산업 가치 풀 분포</div>
+    <canvas id="valuePoolChart" height="240"></canvas>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">IaaS 시장점유율 (Synergy Research Q1 2026)</div>
+    <canvas id="iaasShareChart" height="240"></canvas>
+  </div>
+</div>
+
+<h3>3-4. BM 분석 핵심</h3>
+<div class="callout"><strong>IaaS = "Capital Moat" 모델:</strong> ① $30B+/y CapEx, ② SRE 수만 명 운영 인재, ③ 위에 쌓인 SaaS 수만 개 생태계 lock-in의 3중 lock-in. → 신규 진입·약자 도태 모두 거의 불가능 (이미 도태됨 — IBM SoftLayer·Verizon·HP Helion 2010s 중반 철수).</div>
+<div class="callout"><strong>SaaS = "Vertical Moat" 모델:</strong> 수직 산업·workflow 깊숙히 박힌 SaaS일수록 해자 강함 (ServiceNow·Veeva·Tyler). Horizontal SaaS는 가격 경쟁 격화. Rule of 40으로 차별화.</div>
+<div class="callout"><strong>데이터센터·전력 = "Real Asset" 모델:</strong> REIT 모델로 시작, AI 시대 전력 확보 능력이 단가보다 더 중요한 차별화 요소.</div>
+
+<h3>3-5. 한국 기업의 클라우드 산업 위치</h3>
+<table>
+  <tr><th>기업</th><th>레이어</th><th>주 영역</th><th>테마 직접성</th><th>최근 매출</th></tr>
+  <tr><td><strong>SK하이닉스</strong></td><td>② 인프라-HBM</td><td>HBM3/3E/4 글로벌 1위</td><td><strong>높음 (직접)</strong></td><td>HBM 매출 2024-25 +200%대</td></tr>
+  <tr><td><strong>삼성전자</strong></td><td>② 인프라-HBM·DRAM</td><td>HBM 2위, 서버 DRAM</td><td><strong>높음 (직접)</strong></td><td>DS 비중 50%+</td></tr>
+  <tr><td>삼성SDS</td><td>⑦ + ④</td><td>SDS Cloud + MSP</td><td>중간</td><td>매출 KRW 13.83T, 클라우드 2.32T (+23.5%)</td></tr>
+  <tr><td>네이버 클라우드</td><td>④ IaaS (한국 한정)</td><td>공공·금융, HyperCLOVA X</td><td>중간</td><td>엔터프라이즈 KRW 150.5B/Q (+18.8%)</td></tr>
+  <tr><td>NHN 클라우드</td><td>④ + GPUaaS</td><td>공공·게임·GPU 임대</td><td>중간</td><td>+20.2% (2025)</td></tr>
+  <tr><td>KT Cloud</td><td>④ IaaS</td><td>공공 + DC 임대</td><td>중간</td><td>KRW 250.1B (+0.4%)</td></tr>
+  <tr><td>두산에너빌리티·HD현대일렉트릭</td><td>① 전력 인프라</td><td>DC 전력·변압기·SMR</td><td>중간 (병목 수혜)</td><td>변압기 부문 폭증</td></tr>
+</table>
+
+<div class="callout"><strong>한국 구조적 위치:</strong> HBM(하이닉스·삼성)이 한국 클라우드 노출의 80%. 글로벌 메가 직접 수혜. 국내 IaaS는 sovereign·공공 영역 한정. AI 전력 인프라(변압기·SMR)는 신규 노출. 순수 SaaS는 사실상 부재.</div>
+
+<!-- =================== 4단계: 공급 구조 =================== -->
+<h2 id="step4">4단계 · 공급 구조 점검</h2>
+
+<h3>4-1. 구조조정 이력 (timeline)</h3>
+<table class="small-table">
+  <tr><th>시점</th><th>이벤트</th></tr>
+  <tr><td>2009</td><td>Sun Microsystems Oracle 인수 $7.4B</td></tr>
+  <tr><td>2013-2016</td><td>IBM SoftLayer 인수 → HP Helion 출시→철수 → Verizon Cloud 철수 → Rackspace IaaS 사실상 중단</td></tr>
+  <tr><td>2018-2020</td><td>Salesforce Tableau $15.7B · Slack $27.7B 인수, MSFT GitHub·LinkedIn $26B, NVIDIA Mellanox $6.9B</td></tr>
+  <tr><td>2022</td><td><strong>SaaSacre</strong> + Citrix·Coupa·Anaplan·Zendesk 사모 인수, Broadcom-VMware $61B 발표</td></tr>
+  <tr><td>2024-2025</td><td>Cisco-Splunk $28B, OpenAI MSFT $13B 누적, Oracle-OpenAI $300B 5년 계약 (2024.9)</td></tr>
+  <tr><td>2026</td><td>CoreWeave IPO (2026.3), Nebius 분리 상장, Neocloud 카테고리 본격</td></tr>
+</table>
+
+<h3>4-2. 공급 집중도 (CR3 / HHI)</h3>
+<div class="grid2">
+  <div class="chart-box">
+    <div class="chart-title">IaaS CR3 변화 (2015 → 2020 → 2026)</div>
+    <canvas id="cr3Chart" height="220"></canvas>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">IaaS 시장점유율 Delta (2020 vs 2026)</div>
+    <canvas id="shareDeltaChart" height="220"></canvas>
+  </div>
+</div>
+
+<table>
+  <tr><th>사업자</th><th>점유율 Q1 2026</th><th>Delta 2020→2026</th></tr>
+  <tr><td>AWS</td><td>28%</td><td>-4-5%p</td></tr>
+  <tr><td>Azure</td><td>21%</td><td>+6-7%p</td></tr>
+  <tr><td>GCP</td><td>14%</td><td>+5-6%p</td></tr>
+  <tr><td>Oracle</td><td>~4-5%</td><td>+3%p</td></tr>
+  <tr><td>Alibaba·기타 중국</td><td>~5%</td><td>정체</td></tr>
+  <tr><td><strong>CR3 (Big 3)</strong></td><td><strong>~63%</strong></td><td><strong>+7-8%p</strong></td></tr>
+</table>
+
+<p>HHI 약 1,400-1,500 (highly concentrated 영역 진입). 글로벌 클라우드 인프라 매출 Q1 2026 = <strong>$129B</strong>/Q (+35% YoY). Gartner 2026 public cloud end-user $850B (+21.3%).</p>
+
+<h3>4-3. 가격결정력</h3>
+<table>
+  <tr><th>레이어</th><th>가격 트렌드</th><th>비고</th></tr>
+  <tr><td>IaaS</td><td>가격 인하 종료(2024-), AI 인스턴스 사실상 가격 상승</td><td>2018년 이래 처음으로 공급자 쪽 가격결정력</td></tr>
+  <tr><td>SaaS</td><td>매년 5-10% 인상 기본 + AI Copilot 별도 패키지($30/seat 등)</td><td>AI 신규 매출 vector, 단가 +30-100%</td></tr>
+  <tr><td>DC·전력</td><td>임대 단가 2023-25 +30-40%, PJM 전력 +50%+</td><td>공급자 절대 우위</td></tr>
+</table>
+
+<h3>4-4. 진입장벽 변화</h3>
+<table>
+  <tr><th>지표</th><th>2015</th><th>2025</th><th>Delta</th></tr>
+  <tr><td>글로벌 IaaS 신규 진입</td><td>다수 시도</td><td>거의 0 (Neocloud GPU 임대만)</td><td>↓↓</td></tr>
+  <tr><td>IaaS CapEx ($B/y, Top 3 평균)</td><td>$5B</td><td><strong>$50-200B</strong></td><td>↑↑↑</td></tr>
+  <tr><td>신규 DC 그리드 연결 대기</td><td>6-12개월</td><td><strong>4년+</strong></td><td>↑↑↑</td></tr>
+  <tr><td>첨단 GPU 확보 leadtime</td><td>즉시</td><td>6-18개월</td><td>↑↑</td></tr>
+  <tr><td>AWS 글로벌 region 수</td><td>12</td><td>36+</td><td>격차 확대</td></tr>
+</table>
+
+<h3>4-5. 구조조정 전후 비교</h3>
+<table class="small-table">
+  <tr><th>구분</th><th>2015</th><th>2020</th><th>2026</th></tr>
+  <tr><td>의미 있는 IaaS 플레이어 수</td><td>8-10</td><td>5-6</td><td><strong>5</strong></td></tr>
+  <tr><td>CR3</td><td>~50%</td><td>~55%</td><td><strong>~63%</strong></td></tr>
+  <tr><td>합산 CapEx ($B/y)</td><td>~25</td><td>~125</td><td><strong>~725</strong></td></tr>
+  <tr><td>AI 비중 (CapEx 중)</td><td>~0%</td><td>~10%</td><td><strong>~75%</strong></td></tr>
+  <tr><td>전력 평균 대기</td><td>&lt;1년</td><td>1-2년</td><td><strong>4년+</strong></td></tr>
+</table>
+
+<!-- =================== 5단계: 수요 구조 =================== -->
+<h2 id="step5">5단계 · 수요 구조 점검</h2>
+
+<h3>5-1. 수요처 구성</h3>
+<p>B2B 95%+. 수직 분포: Tech·인터넷 30%, 금융 15%, 헬스케어 10%, 제조 10%, 소매 8%, 공공 10%, 통신 5%, 기타 12%. 지역: 북미 55-60%, 유럽 20%, 아·태 15%, 중국 5-8%.</p>
+
+<h3>5-2. 수요 집중도 (B2B)</h3>
+<p>IaaS는 표면적 분산이나 <strong>AI 워크로드 한정으로는 매출이 ~10개 고객(AI lab) 집중</strong>. OpenAI 단일이 Azure 매출 5-10% 차지 추정, Oracle-OpenAI $300B 단일 계약. SaaS는 카테고리별 상위 고객 집중도 낮음.</p>
+
+<h3>5-3. 수요 사이클 위치</h3>
+<p><strong>장기:</strong> 글로벌 IT → 클라우드 전환 secular 후반전(60-70% 진행). 2010 클라우드 비중 ~3% → 2026 ~17-20%.<br/>
+<strong>단기:</strong> 2020-21 코로나 polling → 2022-23 정상화 (AWS 38%→12%) → 2024-26 재가속 (AWS 19%, Azure 40%, GCP 63%). <strong>2026 = 재가속 1-2년차</strong>.</p>
+
+<h3>5-4. 메가 트렌드 수요 비중 (시계열)</h3>
+<div class="chart-box">
+  <div class="chart-title">클라우드 수요의 메가 트렌드 구성 변화 (2010 → 2020 → 2026)</div>
+  <canvas id="megaTrendChart" height="260"></canvas>
+</div>
+
+<h3>5-5. 대체재·보완재</h3>
+<table>
+  <tr><th>카테고리</th><th>대체재</th><th>보완재</th></tr>
+  <tr><td>IaaS</td><td>온프레미스 (sovereignty·latency·cost 사유 일부 회귀)</td><td>NVIDIA GPU·HBM</td></tr>
+  <tr><td>SaaS</td><td>자체 개발 (Build), 오픈소스</td><td>IaaS</td></tr>
+  <tr><td>AI 모델 API</td><td>오픈소스 모델 (Llama·Mistral) 자체 운영</td><td>IaaS GPU 시간</td></tr>
+</table>
+<p>온프레미스 회귀는 부분적 사실 (금융·국방·sovereign 일부)이나 전체 산업 비중 미미. <strong>클라우드 산업 대체재 위협은 무시 가능</strong>.</p>
+
+<h3>5-6. 가격탄력성</h3>
+<p>IaaS는 <strong>매우 낮음 (필수재)</strong> — 전환비용 막대. SaaS는 낮음~중간 (lock-in 깊이별). GPU 인스턴스 낮음 (AI lab 가격 후순위). Sovereign 낮음 (정책 의무화). <strong>산업 전반 P 인상 여력 큼</strong>.</p>
+
+<h3>5-7. 수요 driver 분해 (2026-2030 누적 성장의)</h3>
+<div class="chart-box">
+  <div class="chart-title">향후 5년 클라우드 수요 성장 driver 분해</div>
+  <canvas id="driverChart" height="240"></canvas>
+</div>
+
+<h3>5-8. 정부 정책</h3>
+<table>
+  <tr><th>정책</th><th>영향</th></tr>
+  <tr><td>EU GDPR / CLOUD Act / Schrems II</td><td>Sovereign Cloud 신 카테고리. Gartner 2026 sovereign IaaS $80B</td></tr>
+  <tr><td>미 對中 반도체 통제 (2022.10, 2023.10)</td><td>중국 향 첨단 GPU 차단 → 중국 자체 클라우드·칩 가속</td></tr>
+  <tr><td>EU AI Act (2024.3 통과)</td><td>고위험 AI 의무화 → 컴플라이언스 클라우드 수요</td></tr>
+  <tr><td>한국 CSAP·디지털플랫폼정부</td><td>국내 IaaS 공공 영역 보호. 정부 2030년까지 1만 시스템 클라우드-네이티브</td></tr>
+  <tr><td>각국 sovereign AI 펀드</td><td>정부 직접 자본 sovereign cloud·AI lab</td></tr>
+</table>
+
+<h3>5-9. 한국 vs 글로벌 수요</h3>
+<ul>
+  <li>국내 클라우드 시장 ~KRW 7T (2025, 글로벌의 1.5%)</li>
+  <li>한국 노출 = <strong>HBM 직접 + 국내 sovereign 정책 간접 + AI 전력 인프라 간접</strong> 3개 매핑</li>
+</ul>
+
+<!-- =================== 4+5 종합 =================== -->
+<h2 id="summary">4+5 종합 · 수급 매트릭스 현재 위치</h2>
+
+<div class="chart-box">
+  <div class="chart-title">6 카테고리 매트릭스 (수요 × 공급)</div>
+  <table class="matrix-table">
+    <tr><th></th><th>공급 제한</th><th>공급 적당</th><th>공급 감소</th><th>공급 증가</th></tr>
+    <tr><th>수요 급증</th>
+      <td class="matrix-A"><strong>A. 구조적 메가 병목</strong><br/><span style="font-size:10px">★ 인프라·IaaS·HBM·DC·전력 위치</span></td>
+      <td class="matrix-B">B. 수요 견인<br/><span style="font-size:10px">네트워킹·SI/MSP</span></td>
+      <td class="matrix-A">A 강화</td>
+      <td class="matrix-D">D. 동반 확대<br/><span style="font-size:10px">PaaS·데이터 클라우드</span></td>
+    </tr>
+    <tr><th>수요 일정</th>
+      <td class="matrix-E">E. 점진적 가격 상승<br/><span style="font-size:10px">SaaS (Rule of 40 충족)</span></td>
+      <td>중립<br/><span style="font-size:10px">일반 SaaS</span></td>
+      <td class="matrix-C">C. 일시적 반등</td>
+      <td class="matrix-F">F. 공급 과잉</td>
+    </tr>
+    <tr><th>수요 감소</th>
+      <td class="matrix-G">G. 구조조정</td><td>F 강화</td><td>시장 축소</td><td>디플레이션</td>
+    </tr>
+  </table>
+</div>
+
+<h3>레이어별 분화 결론</h3>
+<table>
+  <tr><th>레이어</th><th>위치</th><th>근거</th></tr>
+  <tr><td>① 전력·DC</td><td><span class="pill-A">A 극단</span></td><td>그리드 4년+, 공실률 0.5%, 단가 +30-50%</td></tr>
+  <tr><td>② HBM·GPU·서버</td><td><span class="pill-A">A 극단</span></td><td>NVIDIA H/B100 할당, HBM 3사 + 폭발</td></tr>
+  <tr><td>③ 네트워킹·광</td><td><span class="pill-B">B</span></td><td>InfiniBand·800G 광모듈 폭증</td></tr>
+  <tr><td>④ IaaS</td><td><span class="pill-A">A</span></td><td>CR3 ~63% + 수요 +35% YoY</td></tr>
+  <tr><td>⑤ PaaS</td><td><span class="pill-D">D</span></td><td>수요 강하나 신규 공급도 확장</td></tr>
+  <tr><td>⑥ SaaS</td><td><span class="pill-E">E ~ 중립</span></td><td>수요 일정 (성숙기), Rule of 40 충족만 가격 인상</td></tr>
+  <tr><td>⑦ SI/MSP</td><td><span class="pill-B">B</span></td><td>클라우드 마이그·AI 도입 컨설팅</td></tr>
+</table>
+
+<div class="callout">
+  <strong>핵심 메시지:</strong> 클라우드 산업은 산업 평균으로 보면 A이지만, <strong>레이어별로 위치가 갈리며 인프라 측이 극단적 A</strong>.
+  <br/>① AI Capex 메가의 최대 수혜 = ①②③ 인프라 (특히 ② HBM·GPU)
+  <br/>② IaaS는 강한 과점 + 수요 견인의 안정적 수혜 (CapEx 부담 동반)
+  <br/>③ SaaS는 'AI 기능 가격 인상' 수혜 정도, 가치 풀 비중 정체
+  <br/>→ 테마 분석에서 "AI 인프라 메가 안의 병목 후보 = 전력·HBM·GPU·DC" 매핑으로 흘러감
+</div>
+
+<h2>부록 · 출처</h2>
+<p style="font-size:12.5px; color:var(--muted)">
+Synergy Research Group (Q1 2026 cloud market share) · Gartner (2026 IT spend, public cloud forecast) · Statista, Precedence Research (SaaS market) · CBRE, JLL, Cushman & Wakefield (DC vacancy) · CreditSights, Futurum, Tom's Hardware (hyperscaler capex) · Bessemer Venture Partners (BVP Cloud Index) · SemiAnalysis, datagravity (Oracle/Neocloud) · 각사 IR (AWS·MSFT·GOOGL·META·ORCL·NVDA·CRM·NOW·SNOW) · 한국: KED Global, Samsung SDS·네이버·NHN·KT IR
+</p>
+
+</div>
+
+<script>
+const ink="#1a1a1a", accent="#0a5d4a", warn="#b04a1e", hi="#1e4d8b", muted="#6b6b6b";
+
+// 1. Cycle narrative (BVP Cloud Index conceptual)
+new Chart(document.getElementById('cycleChart'), {
+  type:'line',
+  data:{
+    labels:['2013','2015','2017','2019','2021.11','2022.12','2024','2026'],
+    datasets:[{
+      label:'BVP Cloud Index (개념)', data:[100,180,300,500,1000,490,750,920],
+      borderColor:accent, backgroundColor:'rgba(10,93,74,0.1)', fill:true, tension:0.3,
+      pointRadius:4
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>c.parsed.y+' (2013=100)'}}},
+    scales:{y:{title:{display:true,text:'Index (2013=100)'}}}
+  }
+});
+
+// 2. Hyperscaler CapEx
+new Chart(document.getElementById('capexChart'), {
+  type:'bar',
+  data:{
+    labels:['2020','2021','2022','2023','2024','2025','2026E'],
+    datasets:[{label:'AMZN', data:[40,55,60,55,75,125,200], backgroundColor:'#FF9900'},
+              {label:'MSFT', data:[20,25,28,30,55,80,190], backgroundColor:'#0078D4'},
+              {label:'GOOGL', data:[22,25,32,32,52,91,180], backgroundColor:'#4285F4'},
+              {label:'META', data:[15,19,32,28,39,72,125], backgroundColor:'#0668E1'}]
+  },
+  options:{
+    plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y+'B'}}},
+    scales:{y:{stacked:true,title:{display:true,text:'$B/y'}}, x:{stacked:true}}
+  }
+});
+
+// 3. Value pool
+new Chart(document.getElementById('valuePoolChart'), {
+  type:'doughnut',
+  data:{
+    labels:['인프라(① 전력·DC + ② 칩 + ③ 네트워크)','IaaS','PaaS','SaaS','SI/MSP'],
+    datasets:[{data:[35,30,10,22,3],
+      backgroundColor:['#0a5d4a','#1e4d8b','#4a8bd9','#b04a1e','#7a7a7a']}]
+  },
+  options:{plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}
+});
+
+// 4. IaaS share
+new Chart(document.getElementById('iaasShareChart'), {
+  type:'doughnut',
+  data:{
+    labels:['AWS 28%','Azure 21%','GCP 14%','Oracle ~4-5%','Alibaba·기타 중국 ~5%','기타 ~28%'],
+    datasets:[{data:[28,21,14,4.5,5,27.5],
+      backgroundColor:['#FF9900','#0078D4','#4285F4','#F80000','#FF6A00','#cccccc']}]
+  },
+  options:{plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}
+});
+
+// 5. CR3 evolution
+new Chart(document.getElementById('cr3Chart'), {
+  type:'bar',
+  data:{
+    labels:['2015','2020','2026'],
+    datasets:[{label:'CR3 (Big 3 합계)', data:[50,55,63],
+      backgroundColor:[ '#cccccc','#7a7a7a','#0a5d4a']}]
+  },
+  options:{
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'%'}}},
+    scales:{y:{title:{display:true,text:'% (CR3)'},max:80}}
+  }
+});
+
+// 6. Share Delta
+new Chart(document.getElementById('shareDeltaChart'), {
+  type:'bar',
+  data:{
+    labels:['AWS','Azure','GCP','Oracle'],
+    datasets:[
+      {label:'2020', data:[32,15,9,2], backgroundColor:'#cccccc'},
+      {label:'2026 Q1', data:[28,21,14,4.5], backgroundColor:'#0a5d4a'}
+    ]
+  },
+  options:{
+    plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+'%'}}},
+    scales:{y:{title:{display:true,text:'% (글로벌 IaaS)'}}}
+  }
+});
+
+// 7. Mega trend composition
+new Chart(document.getElementById('megaTrendChart'), {
+  type:'bar',
+  data:{
+    labels:['2010','2020','2026'],
+    datasets:[
+      {label:'디지털 전환 (기존 IT→클라우드)', data:[80,70,55], backgroundColor:'#7a7a7a'},
+      {label:'모바일·소셜·이커머스', data:[15,25,20], backgroundColor:'#4a8bd9'},
+      {label:'AI 학습·추론', data:[0,5,20], backgroundColor:'#b04a1e'},
+      {label:'데이터 분석·BI', data:[5,10,10], backgroundColor:'#0a5d4a'},
+      {label:'추론 효율화·agentic AI', data:[0,0,5], backgroundColor:'#d4a23a'}
+    ]
+  },
+  options:{
+    plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+'%'}}},
+    scales:{x:{stacked:true},y:{stacked:true,title:{display:true,text:'% (수요 driver 비중)'},max:100}}
+  }
+});
+
+// 8. Future driver decomposition
+new Chart(document.getElementById('driverChart'), {
+  type:'doughnut',
+  data:{
+    labels:['AI 학습·추론 신규','기존 비AI 클라우드 마이그(지속)','SaaS 침투율 상승','Sovereignty·로컬 클라우드','Edge·5G·IoT'],
+    datasets:[{data:[45,25,15,10,5],
+      backgroundColor:['#b04a1e','#0a5d4a','#1e4d8b','#d4a23a','#7a7a7a']}]
+  },
+  options:{plugins:{legend:{position:'bottom',labels:{font:{size:11}}},
+    tooltip:{callbacks:{label:c=>c.label+': '+c.parsed+'%'}}}}
+});
+</script>
+
+</body>
+</html>
