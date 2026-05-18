@@ -1,12 +1,25 @@
 {
   "sector": "semi",
-  "source_pdf": "Weekly_Roko_260504.pdf",
-  "generated_at": "2026-05-07T04:51:42Z",
+  "source_pdf": "Weekly_Roko_260511.pdf",
+  "generated_at": "2026-05-18T04:23:47Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
-  "matched_count": 57,
-  "missing_ids": [],
+  "matched_count": 45,
+  "missing_ids": [
+    "spot_ddr4_8gb",
+    "spot_ddr5_16gb",
+    "spot_tlc_512gb",
+    "spot_tlc_qlc_1tb",
+    "asp_dram_vendor",
+    "asp_nand_vendor",
+    "capex_dram_global",
+    "capex_nand_global",
+    "capex_dram_samsung",
+    "capex_nand_samsung",
+    "capex_dram_sk_hynix",
+    "capex_nand_sk_hynix"
+  ],
   "figures": {
     "samsung_perf_p25": {
       "title": "삼성전자 사업부문별 실적 전망",
@@ -15,7 +28,7 @@
       "page_num": 25,
       "file": "pdf_pages/semi_samsung_perf_p25.pdf",
       "mediabox_pt": [
-        528.732,
+        529.550426136,
         822.216
       ]
     },
@@ -35,8 +48,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "반도체 수출 금액",
       "matched_fig_num": 19,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_semi_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -48,8 +61,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "반도체 수출 중량",
       "matched_fig_num": 20,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_semi_weight.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -61,8 +74,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "반도체 수출 ASP",
       "matched_fig_num": 35,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_asp_semi.pdf",
       "mediabox_pt": [
         263.45,
@@ -74,8 +87,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "메모리 반도체 수출 금액",
       "matched_fig_num": 21,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_memory_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -87,8 +100,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "메모리 반도체 수출 중량",
       "matched_fig_num": 22,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_memory_weight.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -100,8 +113,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "메모리 반도체 수출 ASP",
       "matched_fig_num": 36,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_asp_memory.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -113,8 +126,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 수출 금액",
       "matched_fig_num": 23,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_dram_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -126,8 +139,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 수출 수량",
       "matched_fig_num": 24,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/semi_export_dram_qty.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -139,8 +152,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 수출 ASP",
       "matched_fig_num": 37,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_dram.pdf",
       "mediabox_pt": [
         263.45,
@@ -152,8 +165,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 모듈 수출 금액",
       "matched_fig_num": 25,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_dram_module_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -165,8 +178,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 모듈 수출 중량",
       "matched_fig_num": 26,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_dram_module_weight.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -178,8 +191,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "DRAM 모듈 수출 ASP",
       "matched_fig_num": 39,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_dram_module.pdf",
       "mediabox_pt": [
         263.45,
@@ -191,8 +204,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NAND 수출 금액",
       "matched_fig_num": 27,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_nand_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -204,8 +217,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NAND 수출 수량",
       "matched_fig_num": 28,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_nand_qty.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -217,8 +230,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NAND 수출 ASP",
       "matched_fig_num": 38,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_nand.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -230,8 +243,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "SSD 수출 금액",
       "matched_fig_num": 29,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_ssd_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -243,8 +256,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "SSD 수출 수량",
       "matched_fig_num": 30,
-      "page_idx": 12,
-      "page_num": 13,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/semi_export_ssd_qty.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -256,8 +269,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "SSD 수출 ASP",
       "matched_fig_num": 40,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_ssd.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -269,8 +282,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "MCP 수출 금액",
       "matched_fig_num": 31,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_export_mcp_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -282,8 +295,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "MCP 수출 수량",
       "matched_fig_num": 32,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_export_mcp_qty.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -295,8 +308,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "MCP 수출 ASP",
       "matched_fig_num": 41,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_mcp.pdf",
       "mediabox_pt": [
         263.45,
@@ -308,8 +321,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "시스템 반도체 수출 금액",
       "matched_fig_num": 33,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_export_system_amount.pdf",
       "mediabox_pt": [
         270.53,
@@ -321,8 +334,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "시스템 반도체 수출 중량",
       "matched_fig_num": 34,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/semi_export_system_weight.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -334,90 +347,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "시스템 반도체 수출 ASP",
       "matched_fig_num": 42,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/semi_asp_system.pdf",
       "mediabox_pt": [
         252.34000000000003,
         210.83592
-      ]
-    },
-    "spot_ddr4_8gb": {
-      "title": "DDR4 8Gb 현물가 vs 고정가",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "DDR4 8Gb 현물가 vs 고정가",
-      "matched_fig_num": 1,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_spot_ddr4_8gb.pdf",
-      "mediabox_pt": [
-        265.75,
-        200.91592000000014
-      ]
-    },
-    "spot_ddr5_16gb": {
-      "title": "DDR5 16Gb 현물가 vs 고정가",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "DDR5 16Gb 현물가 vs 고정가",
-      "matched_fig_num": 2,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_spot_ddr5_16gb.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        199.91592000000014
-      ]
-    },
-    "spot_tlc_512gb": {
-      "title": "TLC 512Gb 현물가격",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "TLC 512Gb 현물가격",
-      "matched_fig_num": 3,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_spot_tlc_512gb.pdf",
-      "mediabox_pt": [
-        265.75,
-        201.02591999999993
-      ]
-    },
-    "spot_tlc_qlc_1tb": {
-      "title": "TLC/QLC 1Tb 현물가격 추이",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "TLC/QLC 1Tb 현물가격 추이",
-      "matched_fig_num": 4,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_spot_tlc_qlc_1tb.pdf",
-      "mediabox_pt": [
-        257.1587921067978,
-        200.02591999999993
-      ]
-    },
-    "asp_dram_vendor": {
-      "title": "업체별 DRAM ASP 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "업체별 DRAM ASP 추이 및 전망",
-      "matched_fig_num": 5,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_asp_dram_vendor.pdf",
-      "mediabox_pt": [
-        265.75,
-        200.03192
-      ]
-    },
-    "asp_nand_vendor": {
-      "title": "업체별 NAND ASP 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "업체별 NAND ASP 추이 및 전망",
-      "matched_fig_num": 6,
-      "page_idx": 8,
-      "page_num": 9,
-      "file": "pdf_pages/semi_asp_nand_vendor.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        200.03192
       ]
     },
     "server_shipment": {
@@ -425,8 +360,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "서버 출하량 및 성장률 전망",
       "matched_fig_num": 79,
-      "page_idx": 21,
-      "page_num": 22,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/semi_server_shipment.pdf",
       "mediabox_pt": [
         263.45,
@@ -438,8 +373,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "OEM별 서버 출하량 추이 및 전망",
       "matched_fig_num": 80,
-      "page_idx": 21,
-      "page_num": 22,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/semi_server_oem_shipment.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -451,8 +386,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "서버용 DRAM 수요/공급 추이 및 전망",
       "matched_fig_num": 81,
-      "page_idx": 21,
-      "page_num": 22,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/semi_server_dram_demand_supply.pdf",
       "mediabox_pt": [
         263.45,
@@ -464,8 +399,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "서버용 DRAM 생산량 추이 및 전망",
       "matched_fig_num": 82,
-      "page_idx": 21,
-      "page_num": 22,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/semi_server_dram_production.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -477,8 +412,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "대만 주요 서버 OEM 업체들 월별 매출액 추이",
       "matched_fig_num": 83,
-      "page_idx": 21,
-      "page_num": 22,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/semi_taiwan_server_oem_revenue.pdf",
       "mediabox_pt": [
         371.59,
@@ -490,8 +425,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 스마트폰 출하량 추이 및 전망",
       "matched_fig_num": 84,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_smartphone_global.pdf",
       "mediabox_pt": [
         270.53,
@@ -503,8 +438,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "중국 스마트폰 월별 판매량 추이",
       "matched_fig_num": 85,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_smartphone_china.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -516,8 +451,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "미국 스마트폰 월별 판매량 추이",
       "matched_fig_num": 86,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_smartphone_us.pdf",
       "mediabox_pt": [
         270.53,
@@ -529,8 +464,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 스마트폰 월별 판매량 추이",
       "matched_fig_num": 87,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_smartphone_eu.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -542,8 +477,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "인도 월별 스마트폰 월별 판매량 추이",
       "matched_fig_num": 88,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_smartphone_india.pdf",
       "mediabox_pt": [
         270.53,
@@ -555,8 +490,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "Mediatek 월별 매출액 및 성장률 추이",
       "matched_fig_num": 89,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/semi_mediatek_revenue.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -568,8 +503,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 PC 출하량 추이 및 전망",
       "matched_fig_num": 90,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/semi_pc_global_shipment.pdf",
       "mediabox_pt": [
         263.45,
@@ -581,8 +516,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 노트북/데스크탑 성장률(YoY)",
       "matched_fig_num": 91,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/semi_pc_notebook_desktop_yoy.pdf",
       "mediabox_pt": [
         252.34000000000003,
@@ -594,8 +529,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "대만 마더보드 업체들 월별 매출액 및 성장률 추이",
       "matched_fig_num": 92,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/semi_taiwan_motherboard_revenue.pdf",
       "mediabox_pt": [
         371.59,
@@ -607,90 +542,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "대만 PC ODM 업체들 월별 매출액 및 성장률 추이",
       "matched_fig_num": 93,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/semi_taiwan_pc_odm_revenue.pdf",
       "mediabox_pt": [
         371.59,
         199.91192
-      ]
-    },
-    "capex_dram_global": {
-      "title": "글로벌 DRAM CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "글로벌 DRAM CAPEX 추이 및 전망",
-      "matched_fig_num": 7,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_dram_global.pdf",
-      "mediabox_pt": [
-        265.75,
-        200.91592000000014
-      ]
-    },
-    "capex_nand_global": {
-      "title": "글로벌 NAND CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "글로벌 NAND CAPEX 추이 및 전망",
-      "matched_fig_num": 8,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_nand_global.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        199.91592000000014
-      ]
-    },
-    "capex_dram_samsung": {
-      "title": "삼성전자 DRAM CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "삼성전자 DRAM CAPEX 추이 및 전망",
-      "matched_fig_num": 9,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_dram_samsung.pdf",
-      "mediabox_pt": [
-        265.75,
-        201.02591999999993
-      ]
-    },
-    "capex_nand_samsung": {
-      "title": "삼성전자 NAND CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "삼성전자 NAND CAPEX 추이 및 전망",
-      "matched_fig_num": 10,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_nand_samsung.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        200.02591999999993
-      ]
-    },
-    "capex_dram_sk_hynix": {
-      "title": "SK하이닉스 DRAM CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "SK하이닉스 DRAM CAPEX 추이 및 전망",
-      "matched_fig_num": 11,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_dram_sk_hynix.pdf",
-      "mediabox_pt": [
-        265.75,
-        200.03192
-      ]
-    },
-    "capex_nand_sk_hynix": {
-      "title": "SK하이닉스 NAND CAPEX 추이 및 전망",
-      "type": "pdf_embed_chart",
-      "matched_pdf_title": "SK하이닉스 NAND CAPEX 추이 및 전망",
-      "matched_fig_num": 12,
-      "page_idx": 9,
-      "page_num": 10,
-      "file": "pdf_pages/semi_capex_nand_sk_hynix.pdf",
-      "mediabox_pt": [
-        256.65999999999997,
-        200.03192
       ]
     },
     "capa_dram_global": {
@@ -698,8 +555,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 DRAM CAPA 추이 및 전망",
       "matched_fig_num": 13,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_dram_global.pdf",
       "mediabox_pt": [
         265.75,
@@ -711,8 +568,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 NAND CAPA 추이 및 전망",
       "matched_fig_num": 14,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_nand_global.pdf",
       "mediabox_pt": [
         256.65999999999997,
@@ -724,8 +581,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "삼성전자 DRAM CAPA 추이 및 전망",
       "matched_fig_num": 15,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_dram_samsung.pdf",
       "mediabox_pt": [
         265.75,
@@ -737,8 +594,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "삼성전자 NAND CAPA 추이 및 전망",
       "matched_fig_num": 16,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_nand_samsung.pdf",
       "mediabox_pt": [
         256.65999999999997,
@@ -750,8 +607,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "SK하이닉스 DRAM CAPA 추이 및 전망",
       "matched_fig_num": 17,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_dram_sk_hynix.pdf",
       "mediabox_pt": [
         265.75,
@@ -763,8 +620,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "SK하이닉스 NAND CAPA 추이 및 전망",
       "matched_fig_num": 18,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/semi_capa_nand_sk_hynix.pdf",
       "mediabox_pt": [
         256.65999999999997,
@@ -784,8 +641,8 @@
       ],
       "file": "pdf_pages/semi_pbr_band_samsung_sk.pdf",
       "mediabox_pt": [
-        537.8272261010809,
-        224.36999999999995
+        529.4304261359999,
+        290.0
       ]
     },
     "sk_hynix_perf_p26": {
@@ -801,7 +658,7 @@
       ],
       "file": "pdf_pages/semi_sk_hynix_perf_p26.pdf",
       "mediabox_pt": [
-        520.692,
+        526.84,
         370.0
       ]
     }
