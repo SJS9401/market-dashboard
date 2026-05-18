@@ -39,7 +39,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| INTC | Intel | CPU 사이클 — 데이터센터 Xeon, 파운드리(IFS) 18A, 한국 메모리 영향 (서버 DDR5 수요) |
+| INTC | Intel | DCAI $5.5B+ 가시화, ASIC 분기 매출·고객 공개, Foundry OM -50% 회복, PC TAM 2H -10~-15% 검증, AMD/ARM 점유율 |
 | AMD | AMD | CPU 사이클 — Zen5 EPYC 데이터센터 점유율, MI300X/MI350 AI 가속기 (HBM3E 직접 수요), Ryzen 클라이언트 |
 | ARM | ARM Holdings | CPU 아키텍처 라이선스 — 데이터센터 Neoverse(NVDA Grace·MS Cobalt·AMZN Graviton), 모바일 Cortex (퀄컴·MediaTek 핵심) |
 
