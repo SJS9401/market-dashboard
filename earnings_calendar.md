@@ -60,9 +60,9 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| SNDK | SanDisk | NAND 업황, SSD 수요 |
-| WDC | Western Digital | HDD + Flash, 데이터센터 스토리지 수요 |
-| STX | Seagate | HDD 본업, 클라우드 니어라인 HDD 사이클 |
+| SNDK | SanDisk | Q4 매출 $8B+GPM 80%, QLC Stargate Q4 매출 ramp, NBM 추가 계약·FY27 50%+ contracted, NVDA ICMS G3.5 채택, Datacenter $2B+ |
+| WDC | Western Digital | Q4 $3.80B Cloud 90%+, EPMR 40TB H2 cal 2026 ramp, HAMR 4-customer qualification 2027 ramp, UltraSMR 60% FY27, SanDisk 잔여 1.7M monetize |
+| STX | Seagate | Q4 $3.45B+GPM 48.5%, Mozaic 4 40TB Q4 본격 ramp, NVIDIA partnership 디테일, 자사주 본격화·Convertible $400M 상환, Mozaic 5 50TB 2027 qualification |
 
 ### 반도체 — 파운드리
 
