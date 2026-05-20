@@ -1810,44 +1810,45 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/19',cat:'경제지표',ev:'한국 4월 수입물가',note:'일본 PPI 동조 확인'},
-    {d:'05/19',cat:'경제지표',ev:'미 5월 NAHB 주택시장지수 (KST 23:00)',note:'선행지표'},
     {d:'05/20',cat:'정책',ev:'대미투자 1호 프로젝트 선정(5월중)',note:'한-미 $350B 후속 — LNG·원전 유력'},
-    {d:'05/22',cat:'경제지표',ev:'일본 4월 CPI (KST 08:30)',note:'컨센 근원 YoY 1.7% — 3.0%↑ 시 BOJ 압박 가속'},
-    {d:'05/22',cat:'정책',ev:'국민성장펀드 출시 (~6/11)',note:'6,000억원 규모, 3주간 판매'},
     {d:'05/20',cat:'방산',ev:'UAE 방산투자 후속 수주(5월?)',note:'한-UAE $65B 협정 후속'},
-    {d:'05/28',cat:'정책',ev:'한국은행 5월 금통위 — 신현송 신임 총재 첫 데뷔',note:'기준금리 결정 + 첫 통화정책 메시지'},
-    {d:'05/19',cat:'산업',ev:'구글 I/O 2026 (~5/20)',note:'차세대 제미나이·AI 에이전트'},
-    {d:'05/19',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'NET 5/19 17:30 CT (KST 5/20 07:30) — 5/12→5/15→5/19 재이연. SpaceX IPO 앞두고 기술력 검증'},
+    {d:'05/20',cat:'산업',ev:'구글 I/O 2026 마지막 날',note:'차세대 제미나이·AI 에이전트 — GOOGL 5/19 -2.51% 기대 일부 소진'},
     {d:'05/20',cat:'IPO',ev:'마키나락스 신규상장',note:'산업AI 솔루션'},
-    {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027 (KST 5/21 06:00)'},
-    {d:'05/20',cat:'산업',ev:'삼성전자 노조 파업 가처분 판결',note:'반도체 — 5/21~6/7 총파업 전제'},
-    {d:'05/21',cat:'산업',ev:'삼성전자 총파업 가능성 (~6/7)',note:'반도체 — 5/20 가처분 결과에 따라'},
-    {d:'05/22',cat:'시장구조',ev:'네이버 주주총회 (두나무 합병)',note:'합병완료 6/30'},
-    {d:'05/22',cat:'정책',ev:'국민성장펀드 출시 (~6/11)',note:'6,000억원, 밸류업 2.0 연계 — 정책 유동성'},
+    {d:'05/20',cat:'실적',ev:'엔비디아(NVDA) AMC',note:'AI 반도체 Q1 FY2027 (KST 5/21 06:00) — Q2 가이던스 컨센 $85~87B / 위스퍼 $90B'},
+    {d:'05/20',cat:'산업',ev:'스페이스X Starship V3 발사 Flight 12',note:'NET 5/20 18:30 EDT (KST 5/21 07:30) — Pad 2 첫 비행. SpaceX IPO 6/12 직전 기술력 검증'},
+    {d:'05/21',cat:'산업',ev:'삼성전자 NSEU 18일 총파업 시작 (~6/7)',note:'반도체 — 5/18 가처분 대부분 인용 후 강도 약화. JP모건 26년 영업이익 6~10% 하방'},
+    {d:'05/22',cat:'경제지표',ev:'일본 4월 CPI (KST 08:30)',note:'컨센 근원 YoY 1.7% — 3.0%↑ 시 BOJ 압박 가속. 미·일 채권 동조 직접 변수'},
+    {d:'05/22',cat:'정책',ev:'국민성장펀드 출시 (~6/11)',note:'6,000억원 규모, 3주간 판매. 정책 유동성'},
     {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날 + 메모리얼데이)',note:'한·미 양국 동시 휴장'},
-    {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'반도체 ASIC — AWS Trainium·MS Maia + 광 DSP'},
-    {d:'05/27',cat:'시장구조',ev:'삼성전자·SK하이닉스 2x 레버리지·인버스 ETF 16종 상장',note:'반도체 수급 — 5/27 최종 확정. 8개 운용사·16개 상품, 최대 5.3조 유입 추정'},
+    {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'AI 인프라 + 광통신 — 한국 오이솔루션·쏠리드 직접 영향'},
+    {d:'05/27',cat:'시장구조',ev:'삼성전자·SK하이닉스 2x 레버리지·인버스 ETF 16종 상장',note:'반도체 수급 — 최대 5.3조 유입 추정'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
-    {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐, 에이비엘'},
-    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/12'},
+    {d:'05/28',cat:'정책',ev:'한국은행 5월 금통위 — 신현송 신임 총재 첫 데뷔',note:'동결 우세. USD/KRW 1,510~1,540 시도 가능'},
+    {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐·에이비엘·지아이이노'},
+    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/11. 14~15개 교체 전망'},
+    {d:'06/01',cat:'산업',ev:'NVIDIA GTC Taipei (~6/4)',note:'젠슨황 키노트 6/1 — AI factory·Physical AI·Rubin 업데이트'},
     {d:'06/02',cat:'정책',ev:'미 FCC 주파수 경매 입찰 시작',note:'위성통신·우주'},
-    {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI'},
-    {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향'},
-    {d:'06/05',cat:'IPO',ev:'보스턴다이내믹스 IPO 의향 결정 (6월초~6/30)',note:'로봇 T1 — 머니투데이 5/8 "빠르면 다음달". SoftBank 풋옵션 시한 약 한 달 앞. 잔여지분 9.5%. 잠재 밸류 $28B~$85B+'},
+    {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI — 1,500개 전시업체'},
+    {d:'06/03',cat:'실적',ev:'브로드컴(AVGO) AMC',note:'AI 반도체 + 네트워크'},
+    {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향 — 금융·밸류업'},
+    {d:'06/05',cat:'IPO',ev:'피스피스스튜디오 신규상장',note:'컨템포러리 패션 마르디 메크르디'},
     {d:'06/05',cat:'학회',ev:'미국 당뇨학회 (~6/8)',note:'비만·MASH — 바이오'},
-    {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스'},
+    {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스 — 반도체 연관'},
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
-    {d:'06/11',cat:'IPO',ev:'져스텍 신규상장',note:''},
-    {d:'06/11',cat:'기타',ev:'북중미 월드컵 (~7/19)',note:'한국 경기 6/12·6/19·6/25'},
-    {d:'06/15',cat:'지정학',ev:'G7 정상회담 (~6/17)',note:'관세·우크라이나·중동·AI'},
-    {d:'06/15',cat:'IPO',ev:'스페이스X IPO 가격책정 주간',note:'우주 — 밸류에이션 $2T+'},
-    {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 우선협상대상자(6~7월)',note:'조선·방산'},
+    {d:'06/11',cat:'시장구조',ev:'코스닥 150 리밸런싱 적용',note:'5/30 발표분 실제 지수 반영'},
+    {d:'06/12',cat:'IPO',ev:'스페이스X 나스닥 상장 (티커 SPCX)',note:'우주 — 가격책정 6/11. 밸류 $1.75T+ 최대 $75B 조달. 블랙록 $10B 검토'},
+    {d:'06/12',cat:'기타',ev:'북중미 월드컵 (~7/19)',note:'한국 경기 6/12·6/19·6/25'},
+    {d:'06/15',cat:'지정학',ev:'G7 정상회담 (~6/17)',note:'관세·우크라이나·중동·AI 규제'},
+    {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 우선협상대상자(6~7월)',note:'조선·방산 — 한화오션·HD현대'},
     {d:'06/15',cat:'산업',ev:'누리호 발사',note:'우주'},
-    {d:'06/15',cat:'시장구조',ev:'SK하이닉스 미 ADR 상장(6~7월)',note:'반도체 T1'},
-    {d:'06/16',cat:'정책',ev:'일본은행(BOJ) 금리결정',note:'엔화·글로벌 유동성'},
+    {d:'06/15',cat:'시장구조',ev:'SK하이닉스 미 ADR 상장(6~7월)',note:'반도체 T1 — 외국인 수급 영향'},
+    {d:'06/16',cat:'정책',ev:'BOJ 통화정책회의 (~6/17)',note:'깜짝 인상 가능성 30%. USD/JPY 165 재진입 시 즉시 대응'},
     {d:'06/16',cat:'실적',ev:'오라클(ORCL) AMC',note:'Q4 FY2026 — Cloud·AI DB'},
-    {d:'06/18',cat:'정책',ev:'미 FOMC 금리결정 (한국시간 03시)',note:'신임 의장 체제 첫 FOMC'},
+    {d:'06/18',cat:'정책',ev:'미 FOMC 금리결정 (KST 03시) — 케빈 워시 신임 의장 첫 데뷔',note:'BOJ와 동시 결정 — carry unwind 변동성 정점'},
+    {d:'06/18',cat:'정책',ev:'대미투자 특별법 시행 + 한미전략투자공사 출범',note:'1호 대미투자 프로젝트 공식 발표 예상'},
+    {d:'06/19',cat:'IPO',ev:'레몬헬스케어 신규상장',note:'헬스케어 IT'},
+    {d:'06/29',cat:'IPO',ev:'스트라드비젼 신규상장',note:'자율주행 비전 인식 SW — 로봇 T1 자율주행 트랙'},
+    {d:'06/30',cat:'IPO',ev:'보스턴다이내믹스 IPO 의향 결정 (6월초~6/30)',note:'로봇 T1 — SoftBank 풋옵션 시한. 잠재 밸류 $28B~$85B+'},
     {d:'06/30',cat:'정책',ev:'원화 스테이블코인 입법 본격화',note:'정책 유동성'},
     {d:'06/30',cat:'시장구조',ev:'MSCI 선진국 관찰대상국 발표',note:'한국 증시 구조적'},
     {d:'06/30',cat:'산업',ev:'국내 SMR 1호·원전 2기 부지결정',note:'두산에너빌리티·한전기술'},
@@ -1855,7 +1856,8 @@ function setupScrollbar(col, mainId) {
     {d:'07/07',cat:'지정학',ev:'나토 정상회의 (~7/8, 튀르키에)',note:'지정학'},
     {d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
     {d:'07/30',cat:'산업',ev:'테슬라 옵티머스 V3 양산·공개 (~8월초)',note:'로봇 — 7월말~8월초'},
-    {d:'07/30',cat:'실적',ev:'BAE Systems (BA.)',note:'H1 2026 — 유럽 방산'},
+    {d:'07/30',cat:'정책',ev:'BOJ 통화정책회의 + Outlook Report (~7/31)',note:'메인 인상 후보일 (확률 50%) — 25bp 인상 0.75% → 1.00% 전망'},
+    {d:'08/18',cat:'시장구조',ev:'네이버·두나무 주주총회 (합병 주식교환)',note:'5/22→8/18 정정 연기. 주식교환 6/30→9/30 이연'},
     {d:'11/03',cat:'정책',ev:'미국 중간선거',note:'트럼프 레임덕'},
   ];
   const today=new Date();today.setHours(0,0,0,0);
@@ -1918,23 +1920,4 @@ setInterval(() => {
   const { curSlot, secsLeft } = getNextSlot();
   const timerEl = document.getElementById('refresh-timer');
   // Trigger refresh when new slot arrived
-  if (lastRefreshSlot >= 0 && curSlot !== lastRefreshSlot) {
-    lastRefreshSlot = curSlot;
-    refreshAllData();
-    return;
-  }
-  lastRefreshSlot = curSlot;
-  const m = Math.floor(secsLeft / 60), s = secsLeft % 60;
-  if (timerEl) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}, 1000);
-
-// ── INIT ──
-window.addEventListener('load',()=>{
-  setTimeout(async()=>{
-    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
-    setupScrollbar('kr', 'kospi');
-    setupScrollbar('us', 'ndx');
-    // Auto-refresh every 15 minutes
-    setInterval(refreshAllData, 15 * 60 * 1000);
-  },200);
-});
+  if (lastRefreshSlot >= 0 && curSlot 

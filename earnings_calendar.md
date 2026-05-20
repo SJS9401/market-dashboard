@@ -17,7 +17,7 @@
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
 | META | Meta | 광고 시장, AI CAPEX |
 | MSFT | Microsoft | 클라우드(Azure) CAPEX, AI 수익화 |
-| NVDA | Nvidia | AI 칩 수요, 데이터센터 CAPEX |
+| NVDA | Nvidia | Q1 FY27 매출 $78B+ 가이던스, Q2 가이던스 $92B+ Vera Rubin 시점, Networking 분기 $13B+ 지속, GPM 70%+ 정상화, Sovereign AI 메가딜 (Saudi/UAE/Japan/India) |
 | TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
 
 ### 소프트웨어/클라우드
@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-19 (자동 실행)**
+> **최종 갱신: 2026-05-20 (자동 실행)**
 
 ### 5월
 
@@ -204,7 +204,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 7/1 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정) |
+| 7/1 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
 | (~7/7) | 삼성전자 | 반도체 | 2Q26 잠정실적 — 과거 패턴 추정 (2025 Q2 잠정: 7/8) |
 | 7/14 | JPMorgan Chase (JPM) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
 | 7/14 | Bank of America (BAC) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
@@ -246,11 +246,11 @@
 | 7/30 | Huntington Ingalls (HII) | 조선 | Q2 2026 (확정 — 미국 해군 조선, 수주잔고) |
 | 7/30 | Constellation Energy (CEG) | 원전 | Q2 2026 (확정 — 원전 가동/수익성, 전력 가격) |
 | 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터) |
-| (~7/30) | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 미확정 추정 (TipRanks·MarketBeat, FY2026 연간은 5/8 완료) |
+| (~7/30) | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 미확정 추정 (TipRanks·MarketBeat·MarketChameleon 다수 소스 7/30 확인, FY2026 연간은 5/8 완료) |
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 한화에어로스페이스 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
-| (~7/30) | Bloom Energy (BE) | 전력 | Q2 2026, AMC — 과거 패턴 추정 (marketbeat 7/30 추정, Q1: 4/28) |
+| 7/30 | Bloom Energy (BE) | 전력 | Q2 2026, AMC — 확정 (TipRanks 7/30 AMC Confirmed, Q1: 4/28 발표 매출 $751.1M +130%) |
 | (~7/30) | Cameco (CCJ) | 원전 | Q2 2026 — 7/30 추정 (소스 다수 일치, Q1: 5/5) |
 
 ### 8월
@@ -258,7 +258,7 @@
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 8/4 | AMD (AMD) | 반도체-CPU | Q2 2026, AMC (확정, MarketBeat·Nasdaq) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
-| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026, HDD+Flash, 데이터센터 스토리지 수요 |
+| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026 (확정) — 가이던스: 매출 $3.65B±100M, GM 51~52%, EPS $3.25±0.15, Cloud 90%+ 수요 지속 |
 | 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q4 FY2026 (이전 Q1 FY2027 레이블 오류 수정), 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 |
 | 8/5 | Qualcomm (QCOM) | 반도체-모바일 | Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
 | 8/6 | Rheinmetall (RHM) | 방산 | H1 2026 결과 (확정, Rheinmetall IR — 장갑차·탄약·독일 재무장) |
