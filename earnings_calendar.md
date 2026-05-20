@@ -17,7 +17,7 @@
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
 | META | Meta | 광고 시장, AI CAPEX |
 | MSFT | Microsoft | 클라우드(Azure) CAPEX, AI 수익화 |
-| NVDA | Nvidia | Q1 FY27 매출 $78B+ 가이던스, Q2 가이던스 $92B+ Vera Rubin 시점, Networking 분기 $13B+ 지속, GPM 70%+ 정상화, Sovereign AI 메가딜 (Saudi/UAE/Japan/India) |
+| NVDA | Nvidia | Vera Rubin 시점·디테일, Q3 가이던스 $100B+ 진입, 자사주 분기 $20B+ 페이스, China H20/C200 재개, ACIE Sovereign AI 메가딜 verify |
 | TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
 
 ### 소프트웨어/클라우드
@@ -183,14 +183,13 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-20 (자동 실행)**
+> **최종 갱신: 2026-05-21 (자동 실행)**
 
 ### 5월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 5/20 | Nvidia (NVDA) | 반도체 | AMC, Q1 FY2027 (확정, 5:00pm ET) |
-| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (이전 5/21→5/27 업데이트, 다수 소스 5/27 확정. TipRanks만 5/21 혼재) |
+| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (확정, TipRanks·MarketBeat 일치) |
 | (5월중) | SK증권 | 금융 | 과거 패턴 추정 |
 
 ### 6월
@@ -282,6 +281,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 5/20 | Nvidia (NVDA) | 반도체 | AMC 발표 완료 (Q1 FY2027, 매출 $81.6B +85.2% YoY beat vs 컨센 $80.4B, EPS $2.39 +214.5% YoY beat vs $1.79, Data Center $75.2B +100% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회) |
 | 5/14 | Applied Materials (AMAT) | 반도체-소부장 | Q2 FY2026 발표 완료 (AMC, 매출 $7.91B +11.4% YoY 사상최고, GAAP EPS $3.51 vs 컨센 $2.71 대폭 비트, Q3 가이던스 $8.95B, 배당 +15% 9년 연속 인상, 주가 강세) |
 | 5/12 | Nextpower (NXT) | 전력 | Q4 FY2026 발표 완료 (AMC, 매출 $880.5M +beat vs $828.9M 컨센, adj EPS $1.05 beat vs $0.90, FY27 가이던스 $3.8~4.1B 상향, 주가 +8% AH) |
 | 5/12 | Oklo (OKLO) | 원전 | Q1 2026 발표 완료 (AMC, 순손실 $33.1M, EPS -$0.19 일치, 기록적 파이프라인, 현금 $2.5B, 주가 AH -3%) |
@@ -351,5 +351,4 @@
 | 4/23 | BE Semiconductor (BESI) | 반도체-소부장 | Q1 2026 발표 완료 (BMO CET 07:00, 매출 €184.9M +28.3% YoY, 주문 €269.7M +104.5% YoY 폭증, 순이익 €51.6M +63.8% YoY, HBM hybrid bonding 1위) |
 | 4/27 | Advantest (6857.T) | 반도체-소부장 | Q4 FY2026 발표 완료 (Q4 EPS ¥174.55 vs 컨센 ¥138.67 +25.9% 대폭 비트, Q4 매출 ¥328.07B vs ¥281.48B +16.6% 비트, HBM 테스트 1위 사이클 동조) |
 | 4/30 | Western Digital (WDC) | 반도체-스토리지 | Q3 FY2026 발표 완료 (AMC PT 13:30 / ET 16:30, HDD + Flash 데이터센터 스토리지 수요) |
-| 5/1 | Tokyo Electron (8035.T) | 반도체-소부장 | Q4 FY2026 발표 완료 (Q4 EPS ¥468.67 +21.23% 비트, Q4 매출 ¥711.8B +28.9% QoQ, 글로벌 빅5 일본 1위, 코터/디벨로퍼 EUV 패터닝) |
-| 4/23 | 현대차 | 자동차 | 발표 완료 (매출 45.9조 역대 최대, 영업이
+| 5/1 | Tokyo Electron (8035.T) | 반도체-소부장 | Q4 FY2026 발표 완료 (Q4 EPS ¥468.67 +21.23% 비트, Q4 매출 ¥711.8B +28.9% QoQ, 글로벌 빅5 일본 1위, 코터/
