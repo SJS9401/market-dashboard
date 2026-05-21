@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-21 (자동 실행)**
+> **최종 갱신: 2026-05-22 (자동 실행)**
 
 ### 5월
 
@@ -272,7 +272,8 @@
 | 8/12 | NuScale Power (SMR) | 원전 | Q2 2026 (확정, MarketBeat·Nasdaq — SMR 수주/인허가 진척, pre-revenue) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
 | (~8/12) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 과거 패턴 추정 (Q1: 2/11, Q2: 5/7 → ~3개월 간격, FY 9월 결산) |
-| 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — NAND 업황, SSD 데이터센터 수요, Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
+| 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결(Q3말 3+Q4초 2), Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
+| 8/26 | Nvidia (NVDA) | 반도체 | AMC, Q2 FY2027 (확정, TipRanks·MarketBeat) — Q1 FY2027 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 | (~8월중) | Oklo (OKLO) | 원전 | Q2 2026 — 미확정 추정 (Q1: 5/12) |
 
 ---
