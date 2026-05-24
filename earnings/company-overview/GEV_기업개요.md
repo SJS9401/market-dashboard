@@ -1,11 +1,11 @@
 > Ticker: **NYSE: GEV** / GE Vernova Inc.
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-19 KST (v1.1 추정 → 정확값 보강 — Sustainability Report + 13G filings + 8 분기 press 추가 fetch)
+> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.1 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
 > 적용 구조: v4.8 (6개 섹션, GEV 신규 분사로 historical 부족 명시)
 > 데이터: **2024.04.02 GE 분사 후 standalone (2년)** + Form 10 (FY22-23 legacy) + Yahoo 시계열 + Q1 2026 IR 통합
 > 출처: **GEV Form 10-K 2025 + 10-K 2024 (SEC EDGAR 자동 fetch, CIK 0001996810)**, **10-Q 7건 (Q1 2024-Q1 2026)**, **GEV Annual Report 2025 (8.6MB)**, **Form 10 Registration Statement 2024.03 (분사 historical)**, **GEV IR Q1 2026 press + presentation**, **Yahoo Finance GEV 5년 (2024.04 상장 이후)**
 
-# GE Vernova 기업 개요 (v1.1 — 전력 인프라 T1, 정확값 보강본)
+# GE Vernova 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
 
 ## ① 기업 분류
 
@@ -39,11 +39,27 @@
 
 (1) Primary / Secondary 분류
 
-→ **Primary: 글로벌 No.1 Power Generation (Gas Turbines) — Energy Transition 메가트렌드 직접 수혜**
-→ **Secondary: Electrification (Prolec GE 통합) + Wind (회복 진행 중)**
-→ 사업 구조: **Power (54%) + Wind (23%) + Electrification (23%)** (FY25 매출 비중)
+**Primary 분류: 턴어라운드 (분사 직후 2년차 + Wind 적자 정상화 중)**
 
-(2) Summary Box (4년 시계열, 2022 legacy → 2025 standalone)
+→ 2024.04.02 GE 분사, 분사 직전 (FY22) Adj EBITDA -275M (-0.9% margin) → FY25 +3,060M (+8.3%) = 2년만에 +9.2pp 점프 (전형적 턴어라운드 패턴)
+
+→ Wind segment FY25 OPM **-26.7% 적자** (Onshore 인도 감소 + Offshore contract losses + 관세) → 흑전 시점이 분류 재정의 핵심
+
+**Secondary 노트: 지속성장 (Gas Power + Electrification 글로벌 #1)**
+
+→ **Gas Power BU** — 100GW backlog (Q1 26말, 2026말 110GW 목표) — 데이터센터·LNG 발전 secular 수요 직접 수혜, OPM 16.3% (회복)
+
+→ **Electrification BU (Prolec GE 통합)** — OPM 17-19% (글로벌 ABB·Schneider 수준), 2026.02 $5.3B 인수로 가속
+
+**Entity 구조 (분사 후 2년)**
+
+→ **(1) Standalone history** — FY24·FY25 2년 (분사 후)
+
+→ **(2) Legacy history** — FY22·FY23 (GE Power + GE Renewable Energy 합산 기준, Form 10 disclosure)
+
+→ **(3) 3 segments** — Power (54%) + Wind (23%) + Electrification (23%)
+
+(2) Summary Box (4년 시계열 + 사이클 통계)
 
 | 지표 | 2022 (legacy) | 2023 (legacy) | 2024 (standalone) | 2025 (standalone) |
 |---|---|---|---|---|
@@ -54,45 +70,91 @@
 | Cash from Operations ($M) | — | — | 1,200 | **3,000** |
 | **Free Cash Flow ($M)** | — | — | — | **2,600** |
 
-**한국 3사 + 글로벌 피어 비교 (FY25 Margin)**:
-| 종목 | Op/EBITDA Margin (FY25) |
-|---|---|
-| HD현대일렉트릭 | 24.4% (OPM) |
-| **ABB** | **19.0% (Op EBITDA)** |
-| 효성중공업 | 12.5% (OPM) |
-| LS일렉트릭 | 8.6% (OPM) |
-| **GE Vernova** | **8.3% (Adj EBITDA)** — secular 진입 초기 |
+**📊 사이클 통계 (4년, FY22~FY25)**
 
-→ GEV는 Power + Wind + Electrification 3축이나, Wind 적자 mix 희석으로 Op Margin 낮음
+| 지표 | 값 |
+|---|---|
+| Revenue CAGR (4년) | **+7.4%** |
+| Adj EBITDA Margin 평균 | **4.0%** |
+| Adj EBITDA Margin 정점 | **8.3% (FY25, 진행 중)** |
+| Adj EBITDA Margin 저점 | **-0.9% (FY22, 분사 직전)** |
+| Adj EBITDA Margin range | **+9.2%pt** (4년 단조 우상향, 턴어라운드 정상화) |
+| 사이클 회수 (4년) | **0회** (분사 직후 단조 회복) |
+| 사이클 cutoff (±10%pt) | **미달 (-0.9pp 차이)** → 턴어라운드 잔여 + 지속성장 진입 boundary case |
+
+**한국 3사 + 글로벌 피어 OPM 비교 (FY25)**
+
+→ **HD현대일렉트릭** — 24.4% (OPM)
+
+→ **ABB** — 19.0% (Op EBITA)
+
+→ **Schneider** — 18.7% (Adj EBITA)
+
+→ **효성중공업** — 12.5% (OPM)
+
+→ **Hitachi Energy** — 12.0% (Adj EBITA)
+
+→ **LS일렉트릭** — 8.6% (OPM)
+
+→ **GE Vernova** — **8.3% (Adj EBITDA)** — secular 진입 초기, Wind 적자 mix 희석
 
 (3) 정량적 분류 근거
 
-→ **글로벌 No.1 Gas Power**: 100GW backlog (Q1 26말, 2026말 110GW 목표) — 데이터센터·LNG 발전 secular 수요 직접 수혜
-→ **Electrification segment 17-19% Margin**: ABB Electrification (23.6%)·Schneider 등 글로벌 피어 수준
+→ **글로벌 No.1 Gas Power** — 100GW backlog (Q1 26말, 2026말 110GW 목표) — 데이터센터·LNG 발전 secular 수요 직접 수혜
+
+→ **Electrification segment 17-19% Margin** — ABB Electrification (23.6%)·Schneider 등 글로벌 피어 수준 도달
+
+→ **Wind segment -26.7% 적자 (FY25)** — Onshore 인도 감소 + Offshore contract losses + 관세 영향, 흑전 시점이 분류 재정의 핵심 trigger
+
 → **2026.02.02 Prolec GE 100% 인수** ($5.3B) — 변압기 backlog +$5B 추가 → Electrification segment 가속
+
 → **Q1 2026: Orders $18.3B (+71% organic), Adj EBITDA Margin 9.6% (+390bp YoY)** — secular 사이클 본격 진입
-→ **FCF Q1 2026 $4.8B (4x YoY)** — 캐시 generation 가속
 
-(4) 산업 분류 & 분류 결정 논리
+→ **FCF Q1 2026 $4.8B (4x YoY)** — 캐시 generation 가속, 턴어라운드 본격 완료 시그널
 
-→ GICS: **20107010 Electrical Components & Equipment** (Industrials)
-→ Bloomberg: Industrial — Electrical Equipment
-→ **분류 결정 논리**: Power Generation 중심 + Electrification 자체 portfolio (Prolec GE 통합) + Wind 회복 = 글로벌 전기화 megatrend 3축 동시 수혜
+(4) 산업 분류
 
-(5) 적정 밸류에이션 방법
+→ **GICS** — 20107010 Electrical Components & Equipment (Industrials)
 
-→ **1차 — Forward PER**: 글로벌 피어 (ABB 30x · Schneider 28x) 대비 GEV 50x+ (secular 프리미엄)
-→ **2차 — EV/EBITDA**: GEV Adj EBITDA 가속 시 (FY25 $3.06B → FY28 $7-8B 가이던스), EV/EBITDA 25-30x 수준
-→ **3차 — SOTP**: Power (Gas 50x backlog × OEM) + Electrification (Prolec GE 통합) + Wind (회복 시점)
+→ **Bloomberg** — Industrial — Electrical Equipment
+
+→ **워치리스트 섹터** — T1 전력 인프라 (글로벌 피어 트랙)
+
+(5) 분류 결정 논리
+
+(1) **가장 매출 큰 사업부 기준** — Power 54% > Wind 23% = Electrification 23% → Gas Power가 driver, but Wind 적자가 그룹 OPM 희석
+
+(2) **사이클 vs 지속성장 vs 턴어라운드 sub-rule** — 4년 OPM range +9.2pp (cutoff ±10pp 근접 미달) + 분사 직전 적자 (-0.9%) → 분사 직후 정상화 (8.3%) = **턴어라운드 분류** 우선
+
+(3) **Boundary case 처리** — Gas + Electrification 지속성장 noise + Wind 적자 잔여 → Primary 턴어라운드 + Secondary 지속성장 표기
+
+(4) **글로벌 피어 대비** — GEV (8.3%, Wind drag) vs ABB (19%, 멀티 우위) vs HE (12%, Backlog 우위) vs Schneider (18.7%, EM+IA) → GEV는 Gas Power 우위·Margin 최하위 mix (Wind 흑전 시 분류 변경 가능성)
+
+(6) 적정 밸류에이션 방법
+
+→ **1차 — Forward EV/EBITDA + DCF** (턴어라운드 분류 기반): GEV Adj EBITDA 가속 시 (FY25 $3.06B → FY28 $7-8B 가이던스), EV/EBITDA 25-30x
+
+→ **2차 — Forward PER**: 글로벌 피어 (ABB 30x · Schneider 28x) 대비 GEV 50x+ (secular 프리미엄, 턴어라운드 reflection)
+
+→ **3차 — SOTP**: Power (Gas backlog × OEM) + Electrification (Prolec GE 통합) + Wind (회복 시점) → 3축 SOTP
+
 → **4차 — 사이클 매핑**: Capital Markets Day 2025 가이던스 (FY28 매출 $45B, Adj EBITDA Margin 14%) trajectory 확인
 
-(6) 분기 재평가 트리거
+→ **P/B 미사용 근거** — 신규 분사 + 자본 base 변동 큼 (Robotics 등 portfolio 진화 중) → P/B band 의미 작음
 
-→ ① Gas Power 100GW → 110GW backlog 달성 (YE 2026 목표)
-→ ② Adj EBITDA Margin 10%+ 진입 (Q1 26 9.6% → FY26 가이던스)
-→ ③ Wind segment 흑전 (현재 -26.7% 적자)
-→ ④ Prolec GE 통합 시너지 ($5B backlog 매출화)
-→ ⑤ FY26 가이던스 raise + capital allocation 추가 announcement
+(7) 분기 재평가 트리거
+
+→ ① **Gas Power 100GW → 110GW backlog 달성** (YE 2026 목표) → forward visibility 추가 확장
+
+→ ② **Adj EBITDA Margin 10%+ 진입** (Q1 26 9.6% → FY26 가이던스) → 턴어라운드 후반 완료 시그널
+
+→ ③ **Wind segment 흑전** (현재 -26.7% 적자) → 분류 재정의 핵심 trigger (턴어라운드 → 지속성장 전환)
+
+→ ④ **Prolec GE 통합 시너지 실현** ($5B backlog 매출화 + Electrification Margin expansion)
+
+→ ⑤ **FY26 가이던스 raise + capital allocation 추가 announcement** ($1.3B+ buyback 후속)
+
+→ ⑥ **Adj EBITDA Margin 14% (FY28 CMD 가이던스) trajectory 분기별 확인** — 도달 시 지속성장 분류 재평가
 
 ---
 
@@ -180,12 +242,21 @@
 
 (4) 주요 경쟁사
 
-| 사업부 | 글로벌 경쟁사 |
-|---|---|
-| Gas Power | Siemens Energy · Mitsubishi Power · Wartsila · Doosan |
-| Wind | Vestas · Siemens Gamesa · Goldwind · Envision · Mingyang |
-| Electrification (변압기) | ABB · Hitachi Energy · Schneider · 한국 3사 (효성·HD·LS) |
-| Nuclear (SMR) | NuScale · X-energy · Westinghouse · Holtec |
+**Gas Power**
+
+→ Siemens Energy · Mitsubishi Power · Wartsila · Doosan
+
+**Wind**
+
+→ Vestas · Siemens Gamesa · Goldwind · Envision · Mingyang
+
+**Electrification (변압기)**
+
+→ ABB · Hitachi Energy · Schneider · 한국 3사 (효성·HD·LS)
+
+**Nuclear (SMR)**
+
+→ NuScale · X-energy · Westinghouse · Holtec
 
 (5) 주요 매출처
 
@@ -353,6 +424,8 @@
 ---
 
 ## Version Log
+
+- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 턴어라운드 (분사 직후 2년 + Wind 적자 정상화 중, Adj EBITDA -0.9% → 8.3%) + Secondary 지속성장 (Gas Power + Electrification 글로벌 #1)**. 사이클 통계 Summary Box (Adj EBITDA Margin 평균 4.0%, 정점 8.3%, 저점 -0.9%, range +9.2pp 단조 회복, 사이클 회수 0회) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (EV/EBITDA+DCF 1차, PER 2차, SOTP 3차, 사이클 매핑 4차, P/B 미사용) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
 
 - **v1.0 (2026-05-19, 최종본)**: **Source 6종 전수 점검 + Phase 1 audit 보고 + 신규 분사사 historical 한계 명시**
   - **신규 상장사 default 적용** (메모리 룰 (4) SanDisk 사고 교훈) — "GEV는 2024.04 분사이므로 standalone 2년 historical이 default" 사용자에게 명시 후 작성

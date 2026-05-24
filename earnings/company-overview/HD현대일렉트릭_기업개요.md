@@ -1,21 +1,45 @@
 > 종목: HD현대일렉트릭 (267260.KS / 에이치디현대일렉트릭주식회사 / HD Hyundai Electric Co., Ltd.)
 > 섹터: 전력 인프라 (T1 메인)
-> 작성 시각: 2026-05-18 KST (v1.0 최종본 — Source 6종 전수 점검 룰 + DART 본문 9년치 일괄 fetch 적용)
+> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.1 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, OPM range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). Boundary case 명시 (사이클 vs 지속성장 강세). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준, chart3 제품 매트릭스 포함 완성)
 > 데이터: 9년 연결 연간(2017~2025, 분할상장 후 9년 모두 DART 본문 정확값) + 9분기(1Q24~1Q26P) 사업부별 + 20년 Yahoo 시가총액 시계열 + 1Q26 review 통합
 > 출처: **DART 본문 사업보고서 4개년 (2019/2022/2024/2025, rcpNo 20200330003384·20230314001160·20250320001309·20260316000940, /report/viewer.do 자동 fetch) — 요약재무·연구개발·주주·임원·매출처 모두 정확값**, DART 사업보고서 36건 (corp_code 01205851), **HD현대일렉트릭 IR PDF 28개 (2017.1Q~2026.1Q, hyundai-electric.com 자동 web_fetch)**, 11개 증권사 1Q26 review, **Yahoo Finance 267260.KS 20년 월간 시계열 자동 fetch**
 
-# HD현대일렉트릭 기업 개요 (v1.1 — 전력 인프라 T1, 연결현금흐름 정확값 보강)
+# HD현대일렉트릭 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬, Boundary case)
 
 ## ① 기업 분류
 
 (1) Primary / Secondary 분류
 
-→ **Primary: 전력 인프라 + 회전기기 — 한국 단일 산업 분류 No.1 변압기 + 글로벌 차단기 + 회전기 통합 제조사**
-→ **Secondary: AI 데이터센터 온사이트 발전 (HD현대 그룹 차원 패키지) + 신재생/ESS 일부**
-→ 사업 구조: 전력기기 (70%) + 회전기기 (14%) + 배전기기 (16%) = 3축 (FY25 연결 매출 비중, DART 본문 명시)
+**⚠️ Boundary Case 명시 — 사이클 vs 지속성장 양면 분석 필요**
 
-(2) Summary Box (9년 연결 시계열 통계, 2017.4 분할상장 후, DART 본문 9년치 확정값)
+분할 후 9년 OPM range -8.8%~24.4% = **+33pp (cutoff ±10pp의 3.3배 초과)** — 정량적으로는 강한 사이클 분류. 그러나 2022~2025 secular 가속 (OPM 6.3→24.4%, +18pp 4년 단조 우상향) + US 변압기 sweet spot + 글로벌 점유율 확대 = 지속성장 trajectory 진입.
+
+→ **양면 모두 표기**: 12년 시계열 패턴 (사이클) + 최근 4년 patterns (지속성장 강세) → **본 v1.4에서는 정량 룰 우선 적용 = Primary 사이클 + Secondary 지속성장 강세** (대안: Primary 지속성장 + Secondary 사이클 잔여)
+
+**Primary 분류: 사이클 (분할 후 9년 OPM range +33pp 초강세 사이클성)**
+
+→ 분할 후 9년 OPM -8.8%~24.4% (range +33pp, cutoff ±10pp의 3.3배) — 한국 3사 중 가장 강한 사이클 진폭
+
+→ 2018-2021 적자/BEP 4년 (PJT 손실 + 변압기 사이클 둔화) → 2022 흑전 → 2023-2025 secular 가속 = 사이클 1회 + secular 진입
+
+**Secondary 노트: 지속성장 강세 (US 변압기 sweet spot + AI 데이터센터 온사이트)**
+
+→ **US 변압기 sweet spot** — 알라바마+Texas+아틀란타 3개 거점, 글로벌 IOU 직수주 (Xcel·NextEra·Saudi 등) → 글로벌 점유율 빠른 확대
+
+→ **회전기기 (한국 3사 중 유일)** — 대형 발전기·전동기, AI 데이터센터 온사이트 발전 + LNG선·O&G용 → secular 차별화 segment
+
+**Entity 구조 (분할 후 9년)**
+
+→ **(1) 전력기기** — FY25 매출 28,352억 (70%) — 변압기·고압차단기·전력제어·ICT 솔루션
+
+→ **(2) 회전기기** — FY25 매출 5,887억 (14%) — 대형 발전기·전동기 (한국 3사 중 유일)
+
+→ **(3) 배전기기** — FY25 매출 6,556억 (16%) — 배전반·중저압차단기·ESS·신재생
+
+→ **(4) 종속회사 12개** — 알라바마·아틀란타·Texas (미국 3거점) + 헝가리·스위스·중국 연구소 + 양중법인 (중국)
+
+(2) Summary Box (9년 연결 시계열 + 사이클 통계)
 
 | 지표 | 9년 평균 (2017~2025) | 정점 | 저점 | 2025년 |
 |---|---|---|---|---|
@@ -23,42 +47,97 @@
 | OP (연결, 억원) | 2,167 | **9,953 (2025)** | -1,567 (2019) | **9,953** |
 | NI (지배, 억원) | 1,267 | **7,326 (2025)** | -2,643 (2019) | **7,326** |
 | OPM (연결, %) | 6.0% | **24.4% (2025)** | -8.8% (2019) | **24.4%** |
-| 매출 CAGR (9년 연결, 2018 annualized 기준) | **9.8%** | — | — | — |
-| 매출 CAGR (3년 연결, FY22→FY25) | **24.6%** | — | — | — |
-| 사이클 진폭 | OPM -8.8%~24.4% (9년 33pp 진폭) | — | — | — |
 
-**한국 3사 OPM 비교 (FY25 연결, 모두 DART 본문 확정값)**: **HD 24.4% > 효성 13.1% > LS 8.6%** — 한국 전력 인프라 3사 중 OPM 1위 + ROE 1위
+**📊 사이클 통계 (9년 연결, 분할 후)**
+
+| 지표 | 값 |
+|---|---|
+| 매출 CAGR (9년 연결) | **+9.8%** (annualized) |
+| 매출 CAGR (3년, FY22→FY25) | **+24.6%** (secular 가속) |
+| OPM 평균 | **6.0%** |
+| OPM 정점 | **24.4% (FY25)** |
+| OPM 저점 | **-8.8% (FY19, PJT 손실 + 사이클 저점)** |
+| OPM range | **+33.2%pt** (9년, cutoff ±10pp의 3.3배) |
+| 사이클 회수 (9년) | **1회** (FY17 흑자 → FY18-21 적자/BEP 4년 → FY22~ 흑전·secular) |
+| 사이클 cutoff (±10%pt) | **충족** (+33pp) → **사이클 분류**, 단 최근 4년 단조 우상향 secular 진입 |
+
+**한국 3사 + 글로벌 피어 OPM 비교 (FY25)**
+
+→ **HD현대일렉트릭** — **24.4% (OPM)** — 한국 최강 + 글로벌 OPM 1위 (ABB·Schneider 초과)
+
+→ **ABB** — 19.0% (Op EBITA)
+
+→ **Schneider** — 18.7% (Adj EBITA)
+
+→ **효성중공업** — 12.5% (OPM)
+
+→ **Hitachi Energy** — 12.0% (Adj EBITA)
+
+→ **LS일렉트릭** — 8.6% (OPM)
+
+→ **GE Vernova** — 8.3% (Adj EBITDA)
 
 (3) 정량적 분류 근거
 
 → **국내 초고압변압기 시장 점유율 1위 + 글로벌 점유율 빠른 확대** (북미 765kV 진출 가속)
+
 → **글로벌 매출 비중 약 77%** (FY25 연결 수출 31,473억 / 매출 40,795억) — 한국 3사 중 가장 높은 수출 비중
-→ **사업부 다각화**: 효성·LS와 달리 **회전기기 (대형 모터·발전기) 14% 비중 보유** — 데이터센터 온사이트 발전 + LNG선 신조 + O&G용 발전기 — 단독 차별화 segment
+
+→ **사업부 다각화** — 효성·LS와 달리 **회전기기 (대형 모터·발전기) 14% 비중 보유** — 데이터센터 온사이트 발전 + LNG선 신조 + O&G용 발전기 = 단독 차별화 segment
+
 → **단일 분기 사상 최대 매출 4Q25 11,632억원 (+42.6% YoY) 연결 기준** — 매출 + 마진 동시 가속
-→ 연결 9년 시계열: **2018년 분기점** (분할 후 첫 풀이어, 적자 시작) → **2019년 OPM -8.8% 저점** → **2022년 흑전·secular 진입** → **2025년 OPM 24.4% 정점**
 
-(4) 산업 분류 & 분류 결정 논리
+→ **연결 9년 시계열 사이클 패턴** — 2018년 분기점 (분할 후 첫 풀이어, 적자 시작) → 2019년 OPM -8.8% 저점 → 2022년 흑전·secular 진입 → 2025년 OPM 24.4% 정점
 
-→ 한국표준산업분류: **'전기변환장치 및 분배제어장치 제조업'** + **'발전기 및 전동기 제조업'**
-→ KRX 업종: 전기·전자
-→ FnGuide 섹터: 산업재 > 전력장비
-→ Bloomberg Industry Classification: Industrial — Electrical Components & Equipment
-→ **분류 결정 논리**: 정통 전력 인프라 + 회전기기 (대형 모터·발전기) 통합 = AI 데이터센터 온사이트 발전 직접 수혜 + 글로벌 송전 슈퍼사이클 직접 수혜 + HD현대 그룹 다른 자회사와 패키지 영업
+→ **사이클 진폭 +33pp** = 한국 3사 중 가장 강한 사이클성, 단 4년 secular 가속 (+18pp 단조 우상향)
 
-(5) 적정 밸류에이션 방법
+(4) 산업 분류
 
-→ **1차 — Forward PER** (12MF EPS): 글로벌 피어 (GE Vernova·Eaton) 평균 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행 (35~50배 적용 진입)
+→ **한국표준산업분류** — '전기변환장치 및 분배제어장치 제조업' + '발전기 및 전동기 제조업'
+
+→ **KRX 업종** — 전기·전자
+
+→ **FnGuide 섹터** — 산업재 > 전력장비
+
+→ **Bloomberg Industry Classification** — Industrial — Electrical Components & Equipment
+
+→ **워치리스트 섹터** — T1 전력 인프라
+
+(5) 분류 결정 논리
+
+(1) **가장 매출 큰 사업부 기준** — 전력기기 70% (OP 75%+ 기여) > 배전기기 16% > 회전기기 14% → 전력기기 사이클이 Primary driver
+
+(2) **사이클 vs 지속성장 sub-rule** — 9년 OPM range +33pp (cutoff ±10pp의 3.3배 초과) + 사이클 회수 1회 (FY18-FY21 4년 적자/BEP) → **사이클 분류 우선**
+
+(3) **Boundary case 처리** — Primary 사이클이나 FY22~FY25 4년 단조 우상향 (6.3→24.4%, +18pp) + US 변압기 sweet spot 진입 + 회전기기 AI 데이터센터 secular → Primary 사이클 + Secondary 지속성장 강세 표기 (또는 대안 Primary 지속성장 + Secondary 사이클 잔여)
+
+(4) **글로벌 피어 대비** — HD OPM 24.4% (글로벌 1위) vs ABB 19% / Schneider 18.7% / HE 12% / GEV 8.3% → HD는 한국 3사 + 글로벌 피어 모두 OPM 1위 (단일 분기 사이클 정점 위치 가능성)
+
+(6) 적정 밸류에이션 방법
+
+→ **1차 — Forward PER + 사이클 매핑** (Boundary 분류 기반): 12MF EPS 기준 + 글로벌 피어 (GE Vernova·Eaton) 평균 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행 (35~50배 적용 진입)
+
 → **2차 — EV/EBITDA**: 자회사·연결조정 효과 미세, OP 절대수익성 강함
-→ **3차 — P/B 밴드**: 자본 + 이익잉여금 가속으로 P/B 8~10배 상단 진입
-→ **4차 — 사이클 매핑**: 효성중공업·LS일렉트릭과의 OPM 갭, GEV Electrification (17.8%)·ABB Electrification (24%)과의 차별화 + HD 그룹사 시너지
 
-(6) 분기 재평가 트리거
+→ **3차 — P/B 밴드** (사이클 분류 기반): 자본 + 이익잉여금 가속 (FY19 -4,279억 → FY25 +13,227억) + ROE 36% → P/B 8~10배 상단 진입
 
-→ ① 북미 수주 비중 75%+ 도달 + 글로벌 변압기 가격 추가 상승
-→ ② OPM 정상화 trajectory (FY25 24.4% → FY27 25%+, 글로벌 피어 격차 reverse)
-→ ③ HD 그룹 AI 데이터센터 패키지 (중공업+인프라코어+일렉트릭) 누적 수주 1조원 도달
-→ ④ M&A·증설 (Texas 사업장 ramp-up, 알라바마 capa 확장, 울산 본사 capa 확장)
-→ ⑤ 셀사이드 컨센 다음 분기 추가 상향
+→ **4차 — 사이클 정점 위치 평가**: FY25 OPM 24.4% = 사이클 정점 위치 가능성, FY26~FY28 trajectory + 글로벌 변압기 가격 reversal 모니터링
+
+→ **단순 DCF 미사용 근거** — 사이클 정점 가능성으로 forward FCF 변동 큼 → multi-scenario 평가 권고
+
+(7) 분기 재평가 트리거
+
+→ ① **북미 수주 비중 75%+ 도달 + 글로벌 변압기 가격 추가 상승** → US sweet spot 확정
+
+→ ② **OPM 정상화 trajectory** (FY25 24.4% → FY27 25%+) → 글로벌 피어 격차 reverse + 사이클 정점 위치 재확인
+
+→ ③ **HD 그룹 AI 데이터센터 패키지 (중공업+인프라코어+일렉트릭) 누적 수주 1조원 도달** → 회전기기 secular 가속 확정
+
+→ ④ **M&A·증설 (capa expansion)** — Texas 사업장 ramp-up + 알라바마 capa 확장 + 울산 본사 capa 확장
+
+→ ⑤ **셀사이드 컨센 추가 상향** + Forward OPM 25%+ 유지 시그널
+
+→ ⑥ **변압기 가격 reversal risk 모니터링** (2030년까지 글로벌 capa 확장 시 ASP 하락 가능) — reversal 시그널 시 사이클 분류 재정의 (정점 도달 가능성)
 
 ---
 
@@ -196,13 +275,35 @@
 
 (4) 주요 경쟁사 (사업부별)
 
-| 사업부 | 한국 경쟁사 | 글로벌 경쟁사 |
-|---|---|---|
-| 초고압변압기 | 효성중공업·LS일렉트릭 (신규) | ABB Electrification·Hitachi Energy (글로벌 1위)·GEV (Prolec GE)·Schneider Electric·Siemens Energy |
-| GIS (가스절연개폐장치) | 효성중공업·LS일렉트릭 | ABB·Hitachi Energy·Siemens Energy·GEV |
-| 회전기 (Generator·Motor) | 두산에너빌리티 일부 | GEV·Siemens Energy·Mitsubishi Power·Wartsila |
-| 배전기 | 일진전기·LS일렉트릭 | ABB·Schneider·Eaton |
-| ESS/신재생 | 효성중공업·LG에너지솔루션 | Tesla·Fluence |
+**초고압변압기**
+
+→ 한국 경쟁사 — 효성중공업·LS일렉트릭 (신규)
+
+→ 글로벌 경쟁사 — ABB Electrification·Hitachi Energy (글로벌 1위)·GEV (Prolec GE)·Schneider Electric·Siemens Energy
+
+**GIS (가스절연개폐장치)**
+
+→ 한국 경쟁사 — 효성중공업·LS일렉트릭
+
+→ 글로벌 경쟁사 — ABB·Hitachi Energy·Siemens Energy·GEV
+
+**회전기 (Generator·Motor)**
+
+→ 한국 경쟁사 — 두산에너빌리티 일부
+
+→ 글로벌 경쟁사 — GEV·Siemens Energy·Mitsubishi Power·Wartsila
+
+**배전기**
+
+→ 한국 경쟁사 — 일진전기·LS일렉트릭
+
+→ 글로벌 경쟁사 — ABB·Schneider·Eaton
+
+**ESS/신재생**
+
+→ 한국 경쟁사 — 효성중공업·LG에너지솔루션
+
+→ 글로벌 경쟁사 — Tesla·Fluence
 
 (5) 주요 매출처 (FY25 연결 — DART 본문 사업보고서 5% 이상, 확정값)
 
@@ -444,6 +545,8 @@
 ---
 
 ## Version Log
+
+- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Boundary case 명시**: 정량 룰 우선 적용 = **Primary 사이클 (9년 OPM range +33pp 초강세, cutoff ±10pp의 3.3배 초과, 사이클 회수 1회) + Secondary 지속성장 강세 (US 변압기 sweet spot + AI 데이터센터 온사이트 + 4년 secular 가속 +18pp 단조 우상향)**. 대안: Primary 지속성장 + Secondary 사이클 잔여. 사이클 통계 Summary Box (OPM 평균 6.0%, 정점 24.4%, 저점 -8.8%, range +33pp 충족) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+사이클 매핑 1차, EV/EBITDA 2차, P/B 3차, 사이클 정점 평가 4차, DCF 미사용) + (7) 분기 재평가 트리거 6종 신설 (변압기 가격 reversal risk 포함). 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
 
 - **v1.0 (2026-05-18 21:30, 최종본)**: **Source 6종 전수 점검 룰 + DART 본문 9년치 일괄 fetch 첫 적용**
   - **수집 6 sources**:

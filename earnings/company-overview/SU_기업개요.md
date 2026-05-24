@@ -1,11 +1,11 @@
 > Ticker: **SU.PA** (Euronext Paris, primary) / **SBGSF** (US OTC ADR) / Schneider Electric SE
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-19 KST (v1.3 완본 — FY24 presentation + CMD 2025.12.11 3건 (press·strategy·finance) 추가 fetch, 9 IR docs 누적, ExCom·R&D·CapEx·Backlog·ROCE 정확값)
+> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
 > 적용 구조: v4.8 (6개 섹션 + 핵심 차트 3종)
 > 데이터: 12년 연간 (2014-2025E), Q1 2026 review 통합, 20년 Yahoo SU.PA 시계열
 > 출처: **기존 1Q26 review .md (이전 분기 작성 시 fetch한 정보)**, **공개 web search 데이터 (Q1 2026 release / FY24 results)**, **Yahoo Finance SU.PA + SBGSF**, **se.com IR page metadata**
 
-# Schneider Electric 기업 개요 (v1.3 — 완본 + CMD 2025 + FY24 Presentation 정확값)
+# Schneider Electric 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
 
 ## 📋 v1.3 신규 확정값 (FY24 Presentation + CMD 2025 직접 fetch)
 
@@ -158,11 +158,27 @@
 
 (1) Primary / Secondary 분류
 
-→ **Primary: 글로벌 No.1 Industrial Automation + Energy Management — Sustainability + Data Center secular 메가트렌드 양대 수혜**
-→ **Secondary: 디지털화 (AVEVA 인수) + AI Data Center (Motivair liquid cooling)**
-→ 사업 구조: **Energy Management (82%) + Industrial Automation (18%)** (FY24 매출 비중)
+**Primary 분류: 지속성장 (Secular) — Energy Management + Industrial Automation 글로벌 #1 / 4축 멀티 secular**
 
-(2) Summary Box (12년 연간 시계열, EUR €M)
+→ 12년 Adj EBITA Margin 14.0%~19.4% (range +5.4pp, 단조 우상향, downcycle 부재), 사이클 회수 0회
+
+→ EM (Data Center 24% · Buildings 30% · Industry 33% · Infrastructure 13%) 4축 end-market 모두 secular CAGR +5%+, EcoStruxure + AVEVA + Motivair digital flywheel
+
+**Secondary 노트: 일부 사이클 (Industrial Automation 18% 비중, 경기 민감)**
+
+→ **Industrial Automation BU** = FY24 매출 €7,022M, OPM 14.8% (-150bp YoY) — China·Discrete capex cycle 민감, 2024 일시 약세 후 Q1 26 +4.4% 회복
+
+→ **China 매출 18% 비중** = 중국 산업 capex 둔화 시 직접 영향
+
+**Entity 구조 (M&A 통합 + multi-hub)**
+
+→ **(1) Energy Management BU** — FY24 €31,131M (82%) — 4 end-market (Data Center·Buildings·Industry·Infrastructure)
+
+→ **(2) Industrial Automation BU** — FY24 €7,022M (18%) — AVEVA (industrial software) + Discrete + Process Auto
+
+→ **(3) Multi-Hub Governance** — 7 nationalities ExCom, 41% women, North America + Europe + China & East Asia + India 4 hub
+
+(2) Summary Box (12년 연간 시계열 + 사이클 통계, EUR €M)
 
 | 지표 | 12년 평균 (2014~2025E) | 정점 | 저점 | 2024 (확정) | 2025E |
 |---|---|---|---|---|---|
@@ -172,45 +188,91 @@
 | Net Income (€M) | 2,832 | 4,900E (2025E) | 1,407 (2015) | **4,271** | ~4,900 |
 | Free Cash Flow (€B) | 2-4 | 4.2+ (2024) | — | **4.2+** | — |
 
-**글로벌 피어 + 한국 3사 비교 (Adj EBITA Margin)**:
-| 종목 | Margin (latest) |
+**📊 사이클 통계 (12년, FY14~FY25E)**
+
+| 지표 | 값 |
 |---|---|
-| ABB | 19.0% (FY25) |
-| **Schneider Electric** | **18.6% (FY24) → 19.1-19.4% (FY26 가이던스)** |
-| HD현대일렉트릭 | 24.4% (FY25 OPM) |
-| 효성중공업 | 12.5% |
-| LS일렉트릭 | 8.6% |
-| GE Vernova | 8.3% (FY25 Adj EBITDA) |
+| Revenue CAGR (12년) | **+4.6%** |
+| Adj EBITA Margin 평균 | **16.7%** |
+| Adj EBITA Margin 정점 | **19.4%E (FY25E, 진행 중)** |
+| Adj EBITA Margin 저점 | **14.0% (FY16, 신흥국 사이클 저점)** |
+| Adj EBITA Margin range | **+5.4%pt** (12년) |
+| 사이클 회수 (12년) | **0회** (단조 우상향, 14→19.4%) |
+| 사이클 cutoff (±10%pt) | **미달** (+5.4pp) → **지속성장으로 분류** |
+
+**한국 3사 + 글로벌 피어 OPM 비교 (FY25 / FY24)**
+
+→ **HD현대일렉트릭** — 24.4% (FY25 OPM)
+
+→ **ABB** — 19.0% (FY25 Op EBITA)
+
+→ **Schneider Electric** — **18.6% (FY24 Adj EBITA) → 19.1-19.4% (FY26 가이던스)**
+
+→ **효성중공업** — 12.5% (FY25 OPM)
+
+→ **Hitachi Energy** — 12.0% (Adj EBITA)
+
+→ **LS일렉트릭** — 8.6% (FY25 OPM)
+
+→ **GE Vernova** — 8.3% (FY25 Adj EBITDA)
 
 (3) 정량적 분류 근거
 
-→ **글로벌 No.1 Industrial Automation + No.1 Energy Management 통합 — 매출 €38.15B (FY24)** = 글로벌 산업재 최상위
+→ **글로벌 No.1 Industrial Automation + No.1 Energy Management 통합** — 매출 €38.15B (FY24) = 글로벌 산업재 최상위
+
 → **TIME & Statista "World's Most Sustainable Company 2024"** + **Corporate Knights Global 100 2위 (2회 연속)** — ESG 글로벌 1위
-→ **Data Center · 전력 메가트렌드 핵심 수혜자**: Q1 26 organic +11.2% (ABB +11.2% + GEV +71% organic과 동조 = 글로벌 슈퍼사이클 3중 confirm)
+
+→ **Data Center 전력 메가트렌드 핵심 수혜자** — Q1 26 organic +11.2% (ABB +11.2% + GEV +71% organic과 동조 = 글로벌 슈퍼사이클 3중 confirm)
+
 → **AVEVA (industrial software) 100% 인수 완료 (2023)** — digital transformation 강점
+
 → **Motivair (liquid cooling) 인수 (2024)** — AI Data Center 솔루션 가속
 
-(4) 산업 분류 & 분류 결정 논리
+→ **단조 우상향 (12년 OPM 14→19.4%, downcycle 부재, range +5.4pp)** = 사이클 분류 조건 미충족, 지속성장 분류 확정
 
-→ Euronext: **CAC 40 component** (프랑스 대형주 지수)
-→ Bloomberg: Industrials — Electrical Components & Equipment
-→ ICB: 5010 Industrial Electrical Equipment
-→ **분류 결정 논리**: 글로벌 No.1 IA + EM 통합 + Sustainability leader + AI Data Center 가속 = 4축 secular 동시 수혜
+(4) 산업 분류
 
-(5) 적정 밸류에이션 방법
+→ **Euronext** — CAC 40 component (프랑스 대형주 지수) + Euro Stoxx 50
 
-→ **1차 — Forward PER**: 글로벌 피어 (ABB 30x, GEV 50x) 대비 SU 28-30x (premium quality)
-→ **2차 — EV/EBITDA**: Adj EBITDA €8B (2025E) × 18-20x = €145-160B EV
-→ **3차 — DCF**: 19% Adj EBITA Margin + 4% revenue growth + FCF €4B+
-→ **4차 — SOTP**: EM (premium for 19%+ margin) + IA (AVEVA 가치 별도)
+→ **Bloomberg Industry Classification** — Industrials — Electrical Components & Equipment
 
-(6) 분기 재평가 트리거
+→ **ICB** — 5010 Industrial Electrical Equipment
 
-→ ① H1 2026 결과 (7/30 발표) — Adj EBITA margin 19.5%+ 진입 + 가이던스 raise 여부
-→ ② Data Center 매출 비중 추가 확대 (Q1 26 high base 후 가속)
-→ ③ FX headwind 완화 (Q1 26 -€623M, FY -€750-850M est)
-→ ④ AVEVA ARR 성장 가속 (+12% → +15%+)
-→ ⑤ AI Data Center 솔루션 (Motivair) 매출 기여 본격화
+→ **워치리스트 섹터** — T1 전력 인프라 (글로벌 피어 트랙)
+
+(5) 분류 결정 논리
+
+(1) **가장 매출 큰 사업부 기준** — Energy Management 82% (Adj EBITA 22.1% margin) > IA 18% (14.8% margin) → EM이 driver, IA는 경기 민감 mix
+
+(2) **사이클 vs 지속성장 sub-rule** — 12년 Adj EBITA Margin range +5.4pp (cutoff ±10pp 미달) + downcycle 0회 (단조 우상향) → **지속성장 분류**
+
+(3) **Boundary case 처리** — IA 18% 경기 민감 + China 18% 매출 (둘 다 일부 사이클) → Primary 지속성장 + Secondary 일부 사이클 표기
+
+(4) **글로벌 피어 대비** — Schneider (18.7%, 4 end-market multi) vs ABB (19%, 3 BA) vs HE (12%, Backlog 우위) vs GEV (8.3%, Wind drag) → Schneider는 ABB와 OPM 동등 + Sustainability 우위 + Software 강점 (AVEVA)
+
+(6) 적정 밸류에이션 방법
+
+→ **1차 — Forward PER + EV/EBITDA** (지속성장 분류 기반): 글로벌 피어 (ABB 30x, GEV 50x) 대비 SU 28-30x (premium quality). Adj EBITDA €8B (2025E) × 18-20x = €145-160B EV
+
+→ **2차 — DCF (3-stage)**: 19% Adj EBITA Margin + 4-7% revenue growth + FCF €4B+ + 32년 연속 progressive dividend
+
+→ **3차 — SOTP**: EM (premium for 22% margin) + IA (AVEVA software value 별도) + Motivair (AI cooling) + ETAP·RIB Software
+
+→ **PBR 미사용 근거** — 지속성장 분류, downcycle 부재로 P/B band 의미 작음 (대신 ROCE 14.8% → CMD 2025 15-20% trajectory 활용)
+
+(7) 분기 재평가 트리거
+
+→ ① **H1 2026 결과 (7/30 발표)** — Adj EBITA margin 19.5%+ 진입 + 가이던스 raise 여부
+
+→ ② **Data Center 매출 비중 추가 확대** (Q1 26 high base 후 가속) → secular driver 재확인
+
+→ ③ **FX headwind 완화** (Q1 26 -€623M, FY -€750-850M est) → reported Margin expansion
+
+→ ④ **AVEVA ARR 성장 가속** (+12% → +15%+) → Software & Services 25% 비중 도달 (CMD 2030 target)
+
+→ ⑤ **AI Data Center 솔루션 (Motivair) 매출 기여 본격화** → liquid cooling 시장 점유율 확대
+
+→ ⑥ **CMD 2030 Adj EBITA Margin +250bp expansion 도달 trajectory** (18.7% → ~21%+) → secular re-rating + 글로벌 피어 ABB 갭 reverse
 
 ---
 
@@ -322,12 +384,21 @@
 
 (6) 주요 경쟁사
 
-| 사업부 | 글로벌 경쟁사 |
-|---|---|
-| Energy Management (배전·UPS·Buildings) | ABB Electrification · Eaton · Siemens Smart Infrastructure · GEV Electrification |
-| Power & Grid | ABB · Hitachi Energy · GEV · Siemens Energy · 한국 3사 (효성·HD·LS) |
-| Industrial Automation | Siemens · Rockwell · Emerson · Honeywell · ABB · Mitsubishi |
-| Industrial Software (AVEVA) | Siemens (Mendix) · GE Digital · Rockwell PTC · Aspen · Bentley |
+**Energy Management (배전·UPS·Buildings)**
+
+→ ABB Electrification · Eaton · Siemens Smart Infrastructure · GEV Electrification
+
+**Power & Grid**
+
+→ ABB · Hitachi Energy · GEV · Siemens Energy · 한국 3사 (효성·HD·LS)
+
+**Industrial Automation**
+
+→ Siemens · Rockwell · Emerson · Honeywell · ABB · Mitsubishi
+
+**Industrial Software (AVEVA)**
+
+→ Siemens (Mendix) · GE Digital · Rockwell PTC · Aspen · Bentley
 
 (7) 임직원·CAPA
 
@@ -491,6 +562,8 @@
 ---
 
 ## Version Log
+
+- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 지속성장 (Energy Management + Industrial Automation 글로벌 #1, 4축 멀티 secular, 12년 OPM range +5.4pp 단조 우상향, 사이클 회수 0회) + Secondary 일부 사이클 (IA 18% 경기 민감 + China 18%)**. 사이클 통계 Summary Box (Adj EBITA Margin 평균 16.7%, 정점 19.4%E, 저점 14.0%, range +5.4pp) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+EV/EBITDA 1차, DCF 2차, SOTP 3차, PBR 미사용) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
 
 - **v1.1 (2026-05-19, 정확값 보강)**: **사용자 지적 "스킬셋 기준으로 구하지 못한 자료가 뭐야?" 반영 → `mcp__workspace__web_fetch` 시도 안 한 것 발견**
   - **핵심 발견**: `mcp__company-data__web_fetch`는 403 차단됐으나 **`mcp__workspace__web_fetch`는 성공** (User-Agent 다름)

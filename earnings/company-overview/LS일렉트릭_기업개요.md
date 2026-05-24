@@ -1,11 +1,11 @@
 > 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사)
 > 섹터: 전력 인프라 (T1 메인)
-> 작성 시각: 2026-05-18 KST (v1.3 갱신)
+> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, OPM range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준)
 > 데이터: 12년 별도 연간(2014~2025) + 13분기 연결(1Q23~1Q26) 사업부별 + 20년 시가총액 (Yahoo 241개월) + 현금흐름·CapEx·R&D 12년 추이 + **DART 본문 사업보고서 회사개요/주주/임원/매출처/연구개발 정확값 (v1.3)** + 1Q26 review 통합
 > 출처: DART 사업보고서 12년치 (corp_code 00105855), **DART 본문 사업보고서 2025 (rcpNo=20260318001243, 본문 7.9M chars, dart3.fss /report/viewer.do 자동 fetch — v1.3 신규)**, 1Q26 분기보고서 (2026.05.14), LS ELECTRIC IR 분기경영실적 PDF 20개 (2020.4Q~2026.1Q, 자동 web_fetch), 12개 증권사 1Q26 review, Yahoo Finance 010120.KS 20년 월간 시계열 (자동 web_fetch), LS-electric Sustainability Report 2024-2025 (자동 web_fetch)
 
-# LS ELECTRIC 기업 개요 (v1.4 — 전력 인프라 T1, chart3 제품 매트릭스 보강)
+# LS ELECTRIC 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
 
 ![LS ELECTRIC 제품·서비스 매트릭스 (FY25 연결)](charts/LS일렉트릭_chart3_제품매트릭스.png)
 
@@ -16,56 +16,114 @@
 
 (1) Primary / Secondary 분류
 
-→ **Primary: 전력 인프라 + Smart Grid·자동화 통합 솔루션 — 한국 단일 산업 분류 No.1 종합 전력기기·자동화 기업**
-→ **Secondary: 신재생 + ESS + DC(직류) 전환 → 글로벌 전력 transformation 수혜**
-→ 사업 구조: 전력 (78%) + 자동화 (7%) + 자회사 (15%) = 3축 multi-segment (2025년 연결 매출 비중)
+**Primary 분류: 사이클 (한국 전력기기 후발, 12년 OPM range +4.8%pt — 약한 사이클성)**
 
-(2) Summary Box (12년 별도 시계열 통계)
+→ 12년 별도 OPM range 5.7%~10.5%, 2016년 저점 → 2022년 6.1% 재침체 → 2023년 secular 진입 (사이클 1회 + secular 가속)
+
+→ 한국 3사 중 후발 (효성·HD 대비 글로벌 점유율 낮음), 미국·중국 수주 사이클 의존성 노출
+
+**Secondary 노트: 지속성장 진입 중 (DC·자동화 secular)**
+
+→ **자동화 BU (PLC·HMI·서보·인버터)** = 한국 3사 중 유일 자동화 전 라인업 보유, OEM Semicon·자동차 수요 secular
+
+→ **DC 솔루션 (LVDC·MVDC·HVDC SST·SSCB)** + 빅테크 직수주 패키지 = 2023~2025 secular 사이클 본격 진입 (OPM 5.7→10.5% +4.8pp)
+
+**Entity 구조 (별도 vs 연결)**
+
+→ **(1) 별도** — FY25 매출 34,627억원 + OP 3,622억 (전력·자동화 본체)
+
+→ **(2) 연결** — FY25 매출 49,660억원 + OP 4,260억 (LS메탈·LS사우타·LS메카피온·미국 LS Energy·중국 양중법인·LS파워솔루션 등)
+
+→ **(3) 연결/별도 비율** — 매출 1.43배, OP 1.18배 (자회사 OPM 별도 < 본체)
+
+(2) Summary Box (12년 별도 시계열 + 사이클 통계)
 
 | 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | 2025년 |
 |---|---|---|---|---|
 | 매출 (별도, 억원) | 22,348 | 34,627 (2025) | 17,124 (2016) | **34,627** |
 | OP (별도, 억원) | 1,742 | 3,622 (2025) | 974 (2016) | **3,622** |
 | OPM (별도, %) | 8.0% | 10.5% (2025) | 5.7% (2016) | **10.5%** |
-| 매출 CAGR (12년 별도) | **6.0%** | — | — | — |
-| 매출 CAGR (3년 별도) | **23.0%** | — | — | — (FY22→FY25 가속) |
-| 사이클 진폭 | OPM 5.7%~10.5% (12년 약 1.8배 진폭) | — | — | — |
 
-**연결 vs 별도 차이** (FY25 기준):
-- 연결 매출 49,660억원 / 별도 34,627억원 → 연결/별도 = 1.43배 (자회사 LS메탈·LS사우타·LS메카피온·미국 LS Energy·중국 양중법인 등)
-- 연결 OP 4,260억원 / 별도 3,622억원 → 연결/별도 = 1.18배 (자회사 OP 마진 별도보다 낮음)
-- 1Q26 연결 매출 13,766억원 vs 별도 10,406억원 = 1.32배
+**📊 사이클 통계 (12년 별도 기준)**
+
+| 지표 | 값 |
+|---|---|
+| 매출 CAGR (12년) | **+6.0%** |
+| 매출 CAGR (3년, FY22→FY25) | **+23.0%** (secular 가속) |
+| OPM 평균 | **8.0%** |
+| OPM 정점 | **10.5% (2025)** |
+| OPM 저점 | **5.7% (2016)** |
+| OPM range | **+4.8%pt** (12년) |
+| 사이클 회수 (12년) | **1회** (2016 저점 → 2018 9.2% → 2020-22 6.1% 재침체 → 2023~ secular) |
+| 사이클 cutoff (±10%pt) | **미달** (+4.8pp), 약한 사이클 → **사이클 (한국 후발) + 지속성장 진입 중 boundary** |
+
+**연결 vs 별도 차이 (FY25 기준)**
+
+→ 연결 매출 49,660억원 / 별도 34,627억원 → 1.43배
+
+→ 연결 OP 4,260억원 / 별도 3,622억원 → 1.18배 (자회사 OPM 별도보다 낮음)
+
+→ 1Q26 연결 매출 13,766억원 / 별도 10,406억원 = 1.32배
 
 (3) 정량적 분류 근거
 
-→ **국내 전력기기 시장 점유율 1위** (배전반·중저압변압기·차단기 등). 효성중공업·HD현대일렉트릭과 함께 한국 전력 인프라 3대장
+→ **국내 전력기기 시장 점유율 1위** (배전반·중저압변압기·차단기). 효성·HD와 함께 한국 전력 인프라 3대장
+
 → **글로벌 매출 비중 약 60%** (FY25 추정) — 북미 빅테크 직수주 + 중동·동남아 PJT 비중 확대
-→ **사업부 다각화**: 효성·HD가 송전 중심 vs LS는 송전 + 배전 + 자동화 + ESS + DC 솔루션
+
+→ **사업부 다각화** — 효성·HD가 송전 중심 vs LS는 송전 + 배전 + 자동화 + ESS + DC 솔루션 (한국 3사 중 가장 다양한 portfolio)
+
 → **단일 분기 사상 최대 매출 1Q26 13,766억원 (+33% YoY) 연결 기준** — 한국 3사 중 1Q26 매출 성장률 최대
-→ 별도 12년 시계열 매출 CAGR 6.0% / 3년 (FY22→FY25) CAGR **23.0%** = secular 사이클 가속
 
-(4) 산업 분류 & 분류 결정 논리
+→ **별도 12년 시계열 매출 CAGR 6.0% / 3년 (FY22→FY25) CAGR 23.0%** = secular 사이클 가속
 
-→ 한국표준산업분류: **'전기변환장치 및 분배제어장치 제조업'** (소분류)
-→ KRX 업종: 전기·전자
-→ FnGuide 섹터: 산업재 > 전력장비
-→ Bloomberg Industry Classification: Industrial — Electrical Components & Equipment
-→ **분류 결정 논리**: 정통 전력 인프라 + 자동화·DC·ESS solution = secular 슈퍼사이클 (데이터센터·신재생·전기화) 직접 수혜 + 사이클성 (~7-10년 cycle)
+→ **사이클 진폭 비교** — LS (12년 +4.8pp) vs 효성 (8년 +11pp) vs HD (9년 +33pp) — LS가 가장 약한 진폭 (보수적 후발 mix)
 
-(5) 적정 밸류에이션 방법
+(4) 산업 분류
 
-→ **1차 — Forward PER** (12MF EPS): 글로벌 피어 (ABB·GEV·SU) 평균 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행
-→ **2차 — EV/EBITDA**: 자회사·연결조정 효과로 EBITDA가 OP보다 정확한 수익성 척도
-→ **3차 — P/B 밴드**: 자본 성장 추적 (별도 자본 12년 CAGR 7%)
-→ **4차 — 사이클 매핑**: 효성중공업·HD현대일렉트릭과의 멀티플 갭, ABB Electrification (24% OPM)·GEV Electrification (17.8%)과의 격차 축소 trajectory
+→ **한국표준산업분류** — '전기변환장치 및 분배제어장치 제조업' (소분류)
 
-(6) 분기 재평가 트리거
+→ **KRX 업종** — 전기·전자
 
-→ ① 빅테크 패키지 수주 정량 (X·A·B사 누적 1.5조→ 3조 도달 시)
-→ ② OPM 정상화 trajectory (FY25 8.6% → FY28 14%, 글로벌 피어 격차 축소)
-→ ③ DC(직류) 시장 본격 진입 (SST·SSCB 양산 수주 시점)
-→ ④ M&A·증설 (부산공장 ramp-up, MCM Engineering·Bastrop Campus 가동, LS파워솔루션 추가)
-→ ⑤ 셀사이드 컨센 다음 분기 추가 상향 (1Q26에 1차 +30% 상향, 2차 +10~15% 추가 상향)
+→ **FnGuide 섹터** — 산업재 > 전력장비
+
+→ **Bloomberg Industry Classification** — Industrial — Electrical Components & Equipment
+
+→ **워치리스트 섹터** — T1 전력 인프라
+
+(5) 분류 결정 논리
+
+(1) **가장 매출 큰 사업부 기준** — 전력 (78%) > 자회사·연결조정 (15%) > 자동화 (7%) → 전력기기 사이클이 Primary driver
+
+(2) **사이클 vs 지속성장 sub-rule** — 12년 OPM range +4.8pp (cutoff ±10pp 미달, 약한 사이클) + 사이클 회수 1회 (2016 저점) → **사이클 분류 유지, 단 secular 진입 가속으로 boundary**
+
+(3) **Boundary case 처리** — Primary 사이클이나 2023~2025 secular 가속 (OPM 5.7→10.5%) + 자동화·DC secular 노출 → Primary + Secondary 표기
+
+(4) **글로벌 피어 대비** — LS OPM 8.6% vs ABB Electrification 23.6% / HE 12.0% / Schneider 18.7% / GEV Electrification 17.8% → LS는 한국 3사 + 글로벌 피어 대비 OPM 최하위 (후발) but 가속 trajectory 최강 (3년 CAGR 23%)
+
+(6) 적정 밸류에이션 방법
+
+→ **1차 — Forward PER + EV/EBITDA** (사이클 진입 + secular 가속 boundary): 12MF EPS 기준 글로벌 피어 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행
+
+→ **2차 — P/B 밴드** (사이클 분류 기반): 별도 자본 12년 CAGR 7% trajectory + ROE 14.8% → P/B band 추적
+
+→ **3차 — 사이클 매핑** (Forward OPM trajectory): FY25 8.6% → FY28 14% 시 글로벌 피어 격차 축소 + multiple expansion
+
+→ **DCF/SOTP 미사용 근거** — 자회사 다수이나 OP 기여 mix 작음 (LS 본체 84% OP 기여) → SOTP 분해 효익 작음
+
+(7) 분기 재평가 트리거
+
+→ ① **빅테크 패키지 수주 정량** (X·A·B사 누적 1.5조 → 3조 도달 시) → 미국 매출 비중 50%+ 확정
+
+→ ② **OPM 정상화 trajectory** (FY25 8.6% → FY28 14%) → 글로벌 피어 격차 축소
+
+→ ③ **DC(직류) 시장 본격 진입** (SST·SSCB 양산 수주 시점, 2026~2027 trigger)
+
+→ ④ **M&A·증설 (capa expansion)** — 부산공장 ramp-up, MCM Engineering·Bastrop Campus 가동, LS파워솔루션 추가 증설
+
+→ ⑤ **셀사이드 컨센 추가 상향** (1Q26에 1차 +30% 상향, 2차 +10~15% 추가 상향 시그널)
+
+→ ⑥ **수주잔고 5.6조 → 8조 도달 시** — 향후 3년 매출 visibility 확보 (사이클 → secular 분류 전환 시그널)
 
 ---
 
@@ -210,14 +268,41 @@
 
 (4) 주요 경쟁사 (사업부별)
 
-| 사업부 | 한국 경쟁사 | 글로벌 경쟁사 |
-|---|---|---|
-| 초고압변압기 | 효성중공업·HD현대일렉트릭 | ABB Electrification·GEV Power Transmission (Prolec GE)·Hitachi Energy·Schneider Electric·Siemens Energy |
-| 배전반 | 일진전기·산일전기 | ABB·Schneider·Eaton (북미)·GEV Grid Systems Integration |
-| GIS (가스절연개폐장치) | 효성중공업·HD현대일렉트릭 | ABB Electrification·Hitachi Energy·Siemens Energy |
-| HVDC | 효성중공업 | Hitachi Energy (글로벌 1위)·GEV·ABB·Siemens Energy |
-| 자동화 | 현대일렉트릭 (일부)·국내 중소 | Schneider Electric (AVEVA)·Siemens·Rockwell·Mitsubishi Electric·OMRON |
-| ESS | 효성중공업·LG에너지솔루션 (배터리) | Tesla Energy·Fluence·Wartsila |
+**초고압변압기**
+
+→ 한국 경쟁사 — 효성중공업·HD현대일렉트릭
+
+→ 글로벌 경쟁사 — ABB Electrification·GEV Power Transmission (Prolec GE)·Hitachi Energy·Schneider Electric·Siemens Energy
+
+**배전반**
+
+→ 한국 경쟁사 — 일진전기·산일전기
+
+→ 글로벌 경쟁사 — ABB·Schneider·Eaton (북미)·GEV Grid Systems Integration
+
+**GIS (가스절연개폐장치)**
+
+→ 한국 경쟁사 — 효성중공업·HD현대일렉트릭
+
+→ 글로벌 경쟁사 — ABB Electrification·Hitachi Energy·Siemens Energy
+
+**HVDC**
+
+→ 한국 경쟁사 — 효성중공업
+
+→ 글로벌 경쟁사 — Hitachi Energy (글로벌 1위)·GEV·ABB·Siemens Energy
+
+**자동화**
+
+→ 한국 경쟁사 — 현대일렉트릭 (일부)·국내 중소
+
+→ 글로벌 경쟁사 — Schneider Electric (AVEVA)·Siemens·Rockwell·Mitsubishi Electric·OMRON
+
+**ESS**
+
+→ 한국 경쟁사 — 효성중공업·LG에너지솔루션 (배터리)
+
+→ 글로벌 경쟁사 — Tesla Energy·Fluence·Wartsila
 
 (5) 주요 매출처 (FY25 별도 — DART 본문 사업보고서 정확값, v1.3 확정)
 
@@ -494,6 +579,8 @@
   - chart9 주주환원 신규 (배당·FCF 12년)
   - 산출물 = **총 8개 차트** (chart 1, 1b, 2, 4, 9, 10, 11, 12)
 
+- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 사이클 (한국 후발, 12년 OPM range +4.8pp) + Secondary 지속성장 진입 중 (DC·자동화 secular)**. 사이클 통계 Summary Box (OPM 평균 8.0%, 정점 10.5%, 저점 5.7%, range +4.8pp, 사이클 회수 1회) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+EV/EBITDA 1차, P/B 2차, 사이클 매핑 3차) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
+
 - **v1.3 (2026-05-18 16:30)**: **DART 본문 사업보고서 자동 fetch 완료** — 한국 기업 개요 작성 시 source 6종 전수 점검 룰 첫 적용
   - **breakthrough**: 사업보고서 본문은 `/report/viewer.do?rcpNo=X&dcmNo=Y&eleId=Z&offset=A&length=B&dtd=dart4.xsd` URL 패턴으로 section별 fetch 가능 — `mcp__company-data__web_fetch`로 자동화
   - **회사개요·주주·임원·연구개발·매출처 정확값 5개 섹션 자동 추출** (총 7.9M chars, 148 nodes 식별)
@@ -507,22 +594,25 @@
   - 산출물 = **총 11개 차트** (chart3 미생성, v1.4)
 
 - **v1.2 (2026-05-18 14:30)**: 사업보고서 + Sustainability Report detail parsing 보강
-  - **DART 사업보고서 13년치 현금흐름표 자동 parsing 완료** → chart6 (현금흐름 OCF·ICF·CFF 12년) + chart8 (CapEx 유형·무형 12년) 생성
-  - **LS-electric Sustainability Report 2024-2025 자동 web_fetch parsing 완료** → chart7 (R&D 투자, 2022-2024 확정) + 신용등급 AA-/A1 확정 + 임직원 3,372명 확정 + 공동 회장 (구자균·채대석) 확정 + R&D 센터 4개 거점 확정 + 특허 449건 (FY24말 환경친화 분야) 확정
-  - **chart5 주주 구성 (1Q26 기준)** 시각화 완료 — 5개 주주 구분 (LS 48.48% / 국민연금 8.79% / 외국인 21.87% / 자기주식 0.1% / 기타 20.76%)
-  - 산출물 = **총 11개 차트** (chart 1, 1b, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12) — v4.8 표준 12종 중 chart3 (제품·서비스 매트릭스 visual)만 미생성
-  - **데이터 confidence 진척**: v1.1 50% 시계열·정성 텍스트 → **v1.2 75% 시계열·정량값 모두 확정**
+  - **DART 사업보고서 13년치 현금흐름표 자동 parsing 완료** → chart6 + chart8 생성
+  - **LS-electric Sustainability Report 2024-2025 자동 web_fetch parsing 완료** → chart7 + 신용등급 AA-/A1 확정 + 임직원 3,372명 확정 + R&D 센터 4개 거점 확정 + 특허 449건 확정
+  - **chart5 주주 구성 (1Q26 기준)** 시각화 완료
+  - 산출물 = **총 11개 차트**
 
-- **v1.4 (예정)**: 마지막 미세 보강
-  - chart3 (제품·서비스 매트릭스 visual) — 마지막 12종 표준 차트
-  - chart2·chart10 분기 13분기 → **49분기** 확장 (받은 20 IR PDFs 추가 활용)
-  - ESG 등급 정확값 (KCGS 통합·MSCI·Sustainalytics)
-  - DART 본문 III. 재무에 관한 사항 (이미 다운 가능, dcmNo=11141155, eleId=17, 7.2M chars) detail parse — 12년 시계열 별도 정확값 vs 연결 정확값 cross-check
+- **v1.1 (2026-05-18 05:30)**: 모든 source 자동화로 추가 보강
+  - LS-electric.com IR 분기경영실적 PDF 12개 자동 다운로드 (2020.4Q~2026.1Q)
+  - Yahoo Finance 010120.KS 20년 월간 시계열 자동 다운로드
+  - chart11·chart10 (13분기)·chart2·chart9 신규
+  - 산출물 = **총 8개 차트**
 
-- **자동화 인프라 진단** (v1.3 추가 확장 — source 6종 자동화 모두 검증 완료):
-  - ✅ `dart_download_reports` (MCP) = DART 정기공시 (감사보고서 + 첨부 ZIP)
-  - ✅ **`mcp__company-data__web_fetch` + DART /report/viewer.do = DART 본문 사업보고서 section별 자동 fetch (v1.3 신규 발견)**
-  - ✅ `web_fetch` = LS-electric IR (한글 URL 패턴), LS-electric Sustainability Report (CSR/ESG), Yahoo Finance v8, 임의 URL
-  - ✅ pdfplumber·openpyxl = PDF·Excel parse (annual report 50개·IR PDF 20개·CSR Report 170페이지·DART 본문 7.9M chars 자동 처리)
-  - **수동 다운로드 불필요. 완전 자동화 인프라 가동 — BT 첨부 가정은 잘못된 default**
-  - **신규 발견 룰** (메모리 저장): "기업 개요 첫 작성 시 source 6종 전수 점검" (`feedback_company_overview_source_audit.md`)
+- **v1.0 (2026-05-18 04:53)**: 신규 작성
+  - DART 사업보고서 12년치 batch 다운로드 완료
+  - 별도 기준 12년 매출·OP·NI·자본·자산 시계열 완성
+  - 6개 핵심 차트 생성
+
+- **자동화 인프라 진단** (v1.3 검증 완료):
+  - ✅ `dart_download_reports` (MCP) = DART 정기공시
+  - ✅ `mcp__company-data__web_fetch` + DART /report/viewer.do = DART 본문 사업보고서 section별 자동 fetch
+  - ✅ `web_fetch` = LS-electric IR, Sustainability Report, Yahoo Finance v8
+  - ✅ pdfplumber·openpyxl = PDF·Excel parse
+  - **수동 다운로드 불필요. 완전 자동화 인프라 가동**

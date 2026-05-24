@@ -1,21 +1,37 @@
 > Ticker: ABBNY (ADR OTC, 구 NYSE:ABB 2024.04 자진 상장폐지) / ABBN.SW (SIX Swiss Exchange) / ABB Ltd
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-19 KST (v1.3 누락 IR 추가 fetch — 38 IR PDFs + Integrated Report 2022 + 9 annual reports 누적)
+> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준)
 > 데이터: 12년 연결 연간(2014~2025) + 9분기(Q1 24~Q1 26) 사업부별 + 20년 Yahoo 시가총액 + Q1 2026 통합
 > 출처: **ABB Financial Report 2025 (142 페이지, IR /library 자동 fetch) — FY24-FY25 정확값**, **Form 20-F 2020/2021 (SEC filing, FY19-FY21 정확값)**, **ABB IR 분기 Earnings Presentation/Press/Financial PDFs (Q1 26 + Q4 25 + Q3 25 + Q2 25)**, **ABB Integrated Report 2024**, **Yahoo Finance ABBNY 20년 월간 시계열**, 1Q26 review 통합
 
-# ABB Ltd 기업 개요 (v1.3 — IR 38건 누락 추가 fetch 후 완본)
+# ABB Ltd 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
 
 ## ① 기업 분류
 
 (1) Primary / Secondary 분류
 
-→ **Primary: 글로벌 No.1 Electrification + Motion + Automation 통합 솔루션 — 전기화·자동화 메가트렌드 최대 수혜자**
-→ **Secondary: AI 데이터센터 전력 인프라 + 재생에너지 + 산업 디지털화**
-→ 사업 구조: **Electrification (52%) + Motion (23%) + Automation (24%) + Corporate (Robotics 분사 진행 중)** (FY25 연결 매출 비중)
+**Primary 분류: 지속성장 (Secular) — Electrification·Motion 글로벌 #1 / Energy Transition + Automation 메가트렌드 최대 수혜**
 
-(2) Summary Box (12년 연결 시계열 통계, 2020년 Power Grids 매각 이후 continuing operations 기준)
+→ FY20 Power Grids 매각 이후 continuing ops 5년 OPM 단조 우상향 (6.4→18.2%, downcycle 부재), 사이클 회수 0회
+
+→ Electrification BU OPM 23.6% (글로벌 최상위) + Motion 20.5% + ABB Way decentralized 운영으로 지속 마진 expansion
+
+**Secondary 노트: 일부 사이클 (Process Automation 일부) + 턴어라운드 잔여 (Robotics 분사 진행)**
+
+→ **Process Automation (Oil&Gas·Mining·Chemicals)** = capex cycle 의존, OPM 14% (전 사업부 최하위)
+
+→ **Robotics (2025.10 SoftBank 매각 발표)** = portfolio 단순화 진행, FY26 closing 예상
+
+**Entity 구조 (2020 Power Grids 매각 후 단순화)**
+
+→ **(1) Continuing ops** — Electrification (52%) + Motion (23%) + Automation (24%) 3 BA + Corporate <1%
+
+→ **(2) Discontinued ops** — Robotics (2025.10 분사 발표, SoftBank Group 매각)
+
+→ **(3) 분사 이력** — 2020.07 Power Grids → Hitachi 매각 ($7.6B, $5.1B 차익) → 2025.10 Robotics 분사 = portfolio 단순화 trajectory
+
+(2) Summary Box (12년 연결 시계열 + 사이클 통계, continuing ops 기준)
 
 | 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | 2025년 |
 |---|---|---|---|---|
@@ -24,40 +40,92 @@
 | Net Income (ABB, $M) | 2,917 | 5,146 (2020, divest gain) | 1,439 (2019) | **4,734** |
 | OPM (%) | 9.9% | **18.2% (2025)** | 6.4% (2018) | **18.2%** |
 | Op EBITA Margin (%, continuing) | — | **19.0% (2025)** | 11.1% (2020) | **19.0%** |
-| 12-year Revenue CAGR (legacy-to-continuing) | -1.5% | — | — | — |
-| Continuing ops Revenue CAGR (2020-2025) | **4.9%** | — | — | — |
 
-**한국 3사 vs 글로벌 피어 OPM 비교 (FY25)**: HD현대일렉트릭 24.4% > **ABB 18.2%** > Schneider Electric 17.5% > GE Vernova 11.4% > 효성중공업 12.5% > LS일렉트릭 8.6%
+**📊 사이클 통계 (continuing ops 5년, FY20~FY25)**
+
+| 지표 | 값 |
+|---|---|
+| Revenue CAGR (5년 continuing) | **+4.9%** |
+| Op EBITA Margin 평균 (5년) | **14.5%** |
+| Op EBITA Margin 정점 | **19.0% (FY25)** |
+| Op EBITA Margin 저점 | **11.1% (FY20, post-divest 정상화 phase)** |
+| Op EBITA Margin range | **+7.9%pt** (단조 우상향, downcycle 부재) |
+| 사이클 회수 (5년) | **0회** (continuing ops 단조 우상향) |
+| 사이클 cutoff (±10%pt) | **미달** (+7.9pp) → **지속성장으로 분류** |
+
+**한국 3사 + 글로벌 피어 OPM 비교 (FY25)**
+
+→ **HD현대일렉트릭** — 24.4% (OPM) — 한국 최강, US 변압기 sweet spot
+
+→ **ABB** — **19.0% (Op EBITA)** — 글로벌 3 BA 멀티
+
+→ **Schneider Electric** — 18.7% (Adj EBITA) — EM+IA 멀티
+
+→ **효성중공업** — 12.5% (OPM) — 한국 중견, 중공업+건설 mix
+
+→ **Hitachi Energy** — 12.0% (Adj EBITA) — Backlog $58B 압도적
+
+→ **LS일렉트릭** — 8.6% (OPM) — 한국 후발, 자동화 mix
+
+→ **GE Vernova** — 8.3% (Adj EBITDA) — Wind 적자 mix 희석
 
 (3) 정량적 분류 근거
 
-→ **글로벌 Electrification 시장 1위** (ABB Electrification BA: FY25 매출 ~$17.3B, Op EBITA $4,081M, **23.6% margin**)
-→ **140년 역사 (1883 Asea AB 설립 → 1988 Asea + BBC Brown Boveri 합병으로 현 ABB 출범)**
-→ **111,900 employees (FY25), 약 100개국 영업** (Europe 47% + Americas 25% + AMEA 28%)
+→ **글로벌 Electrification 시장 1위** — ABB Electrification BA FY25 매출 ~$17.3B, Op EBITA $4,081M, **23.6% margin** (글로벌 최상위)
+
+→ **140년 역사** — 1883 Asea AB 설립 → 1988 Asea + BBC Brown Boveri 합병으로 현 ABB 출범
+
+→ **111,900 employees (FY25)**, 약 100개국 영업 — Europe 47% + Americas 25% + AMEA 28%
+
 → **R&D 13.18억 달러 (FY25, 4.0% of revenue)** — 글로벌 산업재 최상위
-→ Operational EBITA Margin 19% = ABB Way 운영 모델 (decentralized + accountable)의 성과 = 한국 3사 (LS 8.6% / 효성 12.5%)에 대한 글로벌 benchmark
 
-(4) 산업 분류 & 분류 결정 논리
+→ **Op EBITA Margin 19%** = ABB Way 운영 모델 (decentralized + accountable)의 성과 = 한국 3사 (LS 8.6%·효성 12.5%·HD 24.4%)에 대한 글로벌 benchmark
 
-→ Bloomberg Industry Classification: **Industrials — Electrical Components & Equipment**
-→ GICS: **20107010 Electrical Components & Equipment** (Industrials Sector)
-→ FactSet: Industrial Electronics & Manufacturing
-→ **분류 결정 논리**: 전기화 (Electrification) + 산업 자동화 (Motion + Automation) 통합 = 글로벌 megatrends 5종 직접 수혜 (Energy Transition · AI Data Center · Reshoring · Decarbonization · Industrial Automation)
+→ **단조 우상향 (FY20-FY25 5년 OPM 11.1→19.0%, downcycle 부재)** = 사이클 분류 조건 미충족, 지속성장 분류 확정
 
-(5) 적정 밸류에이션 방법
+(4) 산업 분류
 
-→ **1차 — Forward PER** (12MF EPS): 글로벌 피어 (Schneider Electric 28x · Eaton 32x · GE Vernova 50x 등) reference. ABB 현재 PER 약 28-30x = 한국 3사 대비 프리미엄
-→ **2차 — EV/EBITDA**: 글로벌 산업재 표준
-→ **3차 — DCF (DCF + 3-stage)**: 19% Op EBITA Margin + Capital allocation discipline
-→ **4차 — SOTP**: Electrification (글로벌 1위 프리미엄) + Motion + Automation 분리 가치
+→ **Bloomberg Industry Classification** — Industrials — Electrical Components & Equipment
 
-(6) 분기 재평가 트리거
+→ **GICS** — 20107010 Electrical Components & Equipment (Industrials Sector)
 
-→ ① Order growth 25%+ 4분기 연속 (Q1 26 +24% 달성 = 데이터센터 narrative 1차 confirm)
-→ ② Op EBITA Margin 20%+ 진입 (FY25 19% → FY26 가이던스 19.5-20%)
-→ ③ Robotics divestment 완료 (FY26 expected) → SoftBank Group 분사 후 capital return
-→ ④ FY26 가이던스 raise (Q1 26에 reaffirmed, Q2 26 또는 H1 release 시점 raise 가능성 모니터링)
-→ ⑤ $2.0B 추가 share buyback 진행 + 추가 announcement 가능성
+→ **FactSet** — Industrial Electronics & Manufacturing
+
+→ **워치리스트 섹터** — T1 전력 인프라 (글로벌 피어 트랙)
+
+(5) 분류 결정 논리
+
+(1) **가장 매출 큰 사업부 기준** — Electrification 52% (Op EBITA 64% 기여) → Electrification driver가 그룹 가치 driver
+
+(2) **사이클 vs 지속성장 sub-rule** — continuing ops 5년 OPM range +7.9pp (cutoff ±10pp 미달) + downcycle 0회 (단조 우상향) → **지속성장 분류**
+
+(3) **Boundary case 처리** — Process Automation 사이클 일부 (capex 의존) + Robotics 분사 진행 (턴어라운드 잔여) → Primary + Secondary 표기
+
+(4) **글로벌 피어 대비** — ABB (19%, 3 BA) vs HE (12%, Backlog 우위) vs Schneider (18.7%, EM+IA) vs GEV (8.3%, Wind drag) → ABB는 Margin·Capital allocation 양대 우위
+
+(6) 적정 밸류에이션 방법
+
+→ **1차 — Forward PER + EV/EBITDA** (지속성장 분류 기반): 글로벌 피어 (Schneider 28x · Eaton 32x · GE Vernova 50x) reference. ABB 현재 PER 약 28-30x = 한국 3사 대비 프리미엄
+
+→ **2차 — DCF (3-stage)**: 19% Op EBITA Margin + Capital allocation discipline + R&D 4% 지속 → forward FCF DCF
+
+→ **3차 — SOTP**: Electrification (글로벌 1위 프리미엄) + Motion + Automation 분리 가치 + Robotics 매각 가치 계산
+
+→ **PBR 미사용 근거** — 지속성장 분류, downcycle 부재로 P/B band 의미 작음 (대신 ROE 28.4%·ROIC 활용)
+
+(7) 분기 재평가 트리거
+
+→ ① **Order growth 25%+ 4분기 연속** (Q1 26 +24% 달성 = 데이터센터 narrative 1차 confirm)
+
+→ ② **Op EBITA Margin 20%+ 진입** (FY25 19% → FY26 가이던스 19.5-20%) → secular re-rating 시그널
+
+→ ③ **Robotics divestment 완료** (FY26 expected) → SoftBank Group 매각 후 capital return announcement
+
+→ ④ **FY26 가이던스 raise** (Q1 26에 reaffirmed, Q2 26 또는 H1 release 시점 raise 가능성 모니터링)
+
+→ ⑤ **$2.0B 추가 share buyback 진행 + 추가 announcement** 가능성
+
+→ ⑥ **Electrification Op EBITA Margin 25%+ 도달 시** (현재 23.6%) → 글로벌 1위 프리미엄 추가 확장 시그널
 
 ---
 
@@ -203,13 +271,35 @@
 
 (4) 주요 경쟁사 (사업부별)
 
-| 사업부 | 글로벌 경쟁사 | 한국 경쟁사 |
-|---|---|---|
-| Electrification (배전·UPS·Smart Building) | Schneider Electric · Eaton · Siemens Energy · GE Vernova | LS일렉트릭 · HD현대일렉트릭 · 효성중공업 |
-| Power Grids 부문 (구 ABB) | **Hitachi Energy (2022~)** (구 ABB Power Grids) · GE Vernova · Siemens Energy | 한국 3사 |
-| Motion (Drives·Motors) | Siemens · Schneider · Mitsubishi Electric · WEG · Nidec | (한국 약함) |
-| Automation (Process·Discrete) | Emerson · Honeywell · Siemens · Yokogawa · Rockwell | (한국 약함) |
-| Robotics (분사 중) | FANUC · KUKA · Yaskawa · 두산로보틱스 | 두산로보틱스 |
+**Electrification (배전·UPS·Smart Building)**
+
+→ 글로벌 경쟁사 — Schneider Electric · Eaton · Siemens Energy · GE Vernova
+
+→ 한국 경쟁사 — LS일렉트릭 · HD현대일렉트릭 · 효성중공업
+
+**Power Grids 부문 (구 ABB, 2020 매각 후 자체 BU 없음)**
+
+→ 글로벌 경쟁사 — **Hitachi Energy (2022~ 100%)** (구 ABB Power Grids) · GE Vernova · Siemens Energy
+
+→ 한국 경쟁사 — 한국 3사 (효성·HD·LS)
+
+**Motion (Drives·Motors)**
+
+→ 글로벌 경쟁사 — Siemens · Schneider · Mitsubishi Electric · WEG · Nidec
+
+→ 한국 경쟁사 — (한국 약함)
+
+**Automation (Process·Discrete)**
+
+→ 글로벌 경쟁사 — Emerson · Honeywell · Siemens · Yokogawa · Rockwell
+
+→ 한국 경쟁사 — (한국 약함)
+
+**Robotics (분사 중, 2025.10 SoftBank 매각 발표)**
+
+→ 글로벌 경쟁사 — FANUC · KUKA · Yaskawa
+
+→ 한국 경쟁사 — 두산로보틱스
 
 (5) 주요 매출처 & 지역 분포 (FY25)
 
@@ -409,6 +499,8 @@
 ---
 
 ## Version Log
+
+- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 지속성장 (Electrification·Motion 글로벌 #1, continuing ops 5년 OPM range +7.9pp 단조 우상향, 사이클 회수 0회) + Secondary 일부 사이클 (Process Automation) + 턴어라운드 잔여 (Robotics 분사 진행)**. 사이클 통계 Summary Box (Op EBITA Margin 평균 14.5%, 정점 19.0%, 저점 11.1%, range +7.9pp) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+EV/EBITDA 1차, DCF 2차, SOTP 3차, PBR 미사용) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
 
 - **v1.3 (2026-05-19, 누락 IR 추가 fetch)**: **사용자 지적 "누락된 IR 자료 한번만 더 찾아봐" 반영 — 6건 추가 다운로드**
   - **추가 fetch (v1.2 → v1.3)**:
