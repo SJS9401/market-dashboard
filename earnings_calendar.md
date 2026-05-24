@@ -183,14 +183,13 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-26 (자동 실행)**
+> **최종 갱신: 2026-05-25 (자동 실행)**
 
 ### 5월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — 컨센 매출 $2.40B / non-GAAP EPS $0.79, AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (확정, TipRanks·MarketBeat 일치) |
-| (5월중) | SK증권 | 금융 | 과거 패턴 추정 |
 
 ### 6월
 
@@ -245,7 +244,7 @@
 | 7/30 | Huntington Ingalls (HII) | 조선 | Q2 2026 (확정 — 미국 해군 조선, 수주잔고) |
 | 7/30 | Constellation Energy (CEG) | 원전 | Q2 2026 (확정 — 원전 가동/수익성, 전력 가격) |
 | 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터) |
-| (~7/30) | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 미확정 추정 (TipRanks·MarketBeat·MarketChameleon 다수 소스 7/30 확인, FY2026 연간은 5/8 완료) |
+| 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (TipRanks·MarketBeat·Zacks 소스 7/30 일치, FY2026 연간은 5/8 완료) |
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 한화에어로스페이스 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
@@ -257,6 +256,7 @@
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 8/4 | AMD (AMD) | 반도체-CPU | Q2 2026, AMC (확정, MarketBeat·Nasdaq) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
+| 8/4 | Eaton (ETN) | 전력 | Q2 2026 (확정, Investing.com) — 전력 CAPEX·데이터센터 수요 (Q1: 5/5 매출 $7.5B 사상최고, 유기적 성장 가이던스 +8→+10% 상향, OPM 압박 주의) |
 | 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026 (확정) — 가이던스: 매출 $3.65B±100M, GM 51~52%, EPS $3.25±0.15, Cloud 90%+ 수요 지속 |
 | 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q4 FY2026 (이전 Q1 FY2027 레이블 오류 수정), 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 |
 | 8/5 | Qualcomm (QCOM) | 반도체-모바일 | Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
@@ -273,8 +273,9 @@
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
 | (~8/12) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 과거 패턴 추정 (Q1: 2/11, Q2: 5/7 → ~3개월 간격, FY 9월 결산) |
 | 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결(Q3말 3+Q4초 2), Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
+| 8/13 | Applied Materials (AMAT) | 반도체-소부장 | Q3 FY2026 (확정, MarketBeat·TipRanks) — Q2 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, 증착·식각 장비, HBM CAPEX 사이클 동조 |
+| 8/18 | Oklo (OKLO) | 원전 | Q2 2026, AMC — 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치, Q1: 5/12 순손실 $33.1M·EPS -$0.19, 현금 $2.5B 충분) |
 | 8/26 | Nvidia (NVDA) | 반도체 | AMC, Q2 FY2027 (확정, TipRanks·MarketBeat) — Q1 FY2027 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
-| (~8월중) | Oklo (OKLO) | 원전 | Q2 2026 — 미확정 추정 (Q1: 5/12) |
 
 ---
 
@@ -283,6 +284,7 @@
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC 발표 완료 (Q1 FY2027, 매출 $81.6B +85.2% YoY beat vs 컨센 $80.4B, EPS $2.39 +214.5% YoY beat vs $1.79, Data Center $75.2B +100% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회) |
+| (5월중) | SK증권 | 금융 | 1Q26 실적 — FnGuide 미등재, 정확한 발표일 미확인 (과거 패턴 추정 기간 경과) |
 | 5/14 | Applied Materials (AMAT) | 반도체-소부장 | Q2 FY2026 발표 완료 (AMC, 매출 $7.91B +11.4% YoY 사상최고, GAAP EPS $3.51 vs 컨센 $2.71 대폭 비트, Q3 가이던스 $8.95B, 배당 +15% 9년 연속 인상, 주가 강세) |
 | 5/12 | Nextpower (NXT) | 전력 | Q4 FY2026 발표 완료 (AMC, 매출 $880.5M +beat vs $828.9M 컨센, adj EPS $1.05 beat vs $0.90, FY27 가이던스 $3.8~4.1B 상향, 주가 +8% AH) |
 | 5/12 | Oklo (OKLO) | 원전 | Q1 2026 발표 완료 (AMC, 순손실 $33.1M, EPS -$0.19 일치, 기록적 파이프라인, 현금 $2.5B, 주가 AH -3%) |
