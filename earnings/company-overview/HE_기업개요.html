@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Hitachi Energy — 기업 개요 v1.4</title>
+<title>HE — 기업 개요 v1.5</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   body { background: #0f1419; color: #e6e6e6; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1280px; margin: 0 auto; padding: 40px 30px; line-height: 1.6; }
@@ -32,7 +32,7 @@
 > Ticker: **모회사 TYO:6501 (Hitachi Ltd) / ADR HTHIY** + **자회사 NSE:POWERINDIA (Hitachi Energy India Ltd)**
 > Entity: **Hitachi Energy Ltd.** (HQ: Zürich, Switzerland) — Hitachi Ltd 100% 자회사 (비상장 글로벌 본체) + Hitachi Energy India 75.43% 지분 (상장 자회사)
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어 (한국 3사·ABB·GEV·Schneider와 비교 가능)
-> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8 참조: Primary/Secondary = 사이클 vs 지속성장 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설))
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (사이클 변곡점 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션) + 다중 segment 글로벌 피어 하이브리드 (C) 룰 적용
 > 데이터: **5년 USD basis (FY21-FY25)** + **Hitachi Group FY24·FY25 segment 분해** + **HE India 분기 IR (Q4FY25·Q1FY26)** + **30년 6501.T + 3년 POWERINDIA 시계열**
 > 출처: **Hitachi Integrated Report 2025·2024 (11MB·5MB)**, **Hitachi Annual Securities Report FY2024 (39MB)**, **Hitachi FY2025 Annual·Q1·Q2·Q3 Press Releases**, **Hitachi Energy CFO IR Day Oct 2025 (Ismo Haka)**, **HE Sustainability Report 2025 (FY24 fiscal data)**, **HE India Q4FY25·Q1FY26 press release**, **HE Leadership Page (hitachienergy.com)**, **Hitachi Officers (hitachi.com)**, **Yahoo Finance 6501.T 30y + POWERINDIA.NS 3.3y + HTHIY ADR**
@@ -120,6 +120,19 @@
 | Orders ($B) | 12.4 | 16.9 | 23.8 | 27.9 | **35.0** |
 | **Order Backlog ($B, year-end)** | ~13 | ~18 | ~25 | 32.8 | **57.9** |
 
+```
+[Hitachi Energy 5년 손익·Backlog 시계열 (USD basis)]
+연도    매출    Adj EBITA  Margin  Orders  Backlog
+FY21     9.0     0.55      6.1%    12.4    ~13       ← 2020 ABB 인수 직후 정상화 phase (인수 baseline)
+FY22    10.0     0.71      7.1%    16.9    ~18       ← 사명 Hitachi Energy 변경 + Hitachi 100% 자회사 전환
+FY23    12.0     1.02      8.5%    23.8    ~25       ← 2024 MMP 본격 추진 (Schierenbeck CEO 부임)
+FY24    16.0     1.78     11.1%    27.9    32.8      ← 2024 MMP 초과 달성 (Margin 8-12% 상단 도달)
+FY25    19.8     2.55     12.0%    35.0    57.9      ← Service BU 신설 + AI HMAX + Backlog +33% YoY 폭증
+
+Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
+사이클 cutoff (±10%pt): 미달 → 지속성장 분류 (턴어라운드 잔여 + Energy Transition secular)
+```
+
 **한국 3사 + 글로벌 피어 비교 (FY25 Margin · USD basis 기준)**:
 
 - **HD현대일렉트릭**: 24.4% (OPM) — 한국 최강, US 변압기 sweet spot
@@ -203,29 +216,23 @@
 
 (6) 적정 밸류에이션 방법
 
-→ **1차 — Forward PER 또는 EV/EBITDA** (지속성장 기준): Hitachi Ltd 모회사 가치는 그룹 가치 합산, HE segment는 EV/EBITDA Multiple 평가
+→ **1차 — EV/EBITDA + SOTP** (지속성장 + 모회사 conglomerate 구조 기반): Hitachi Ltd = DSS + Energy + Mobility + CI segment별 multiple 분해, HE는 EV/EBITDA Multiple 적용 (Energy 비중 30%·OP 32% 우선 평가)
 
-→ **2차 — Sum-of-the-Parts (SOTP)**: Hitachi Ltd = DSS + Energy + Mobility + CI segment별 multiple 분해
+→ **2차 — Forward PER** (지속성장 보조): Hitachi 그룹 PER 25-30x, Energy segment pure-play 환산 시 ABB·Schneider 28-30x premium reference
 
-→ **3차 — Backlog 기반 Forward Revenue Multiple**: Backlog $57.9B + 신규 orders 연 $35B+ → Forward Revenue × Multiple
+→ **3차 — Backlog 기반 Forward Revenue Multiple**: Backlog $57.9B + 신규 orders 연 $35B+ → Forward Revenue × Multiple (Backlog visibility 5-6년 분류 핵심 근거)
 
-→ **PBR 미사용 근거** — 사이클 분류 미해당, downcycle 부재로 P/B band 의미 없음
+→ **PBR 미사용 근거** — 지속성장 분류, downcycle 부재로 P/B band 의미 없음
 
-→ **글로벌 피어 multiple 갭** — HE (Hitachi 그룹 multiple)는 ABB (Pure-play premium) 대비 conglomerate discount 적용 ↔ 단 Energy segment의 성장률·Backlog로 discount 축소 진행 중
+→ **삼성전자 대비**: 삼성전자는 PBR 사이클 단독, HE는 EV/EBITDA + SOTP (Hitachi 그룹 segment 분해) — 비상장 본체 conglomerate discount 적용. 단 Energy 성장률·Backlog로 discount 축소 trajectory
 
-(7) 분기 재평가 트리거
+(7) 분기 재평가 트리거 (**분류 변경 조건** — 실적 추적 변수는 6번 섹션)
 
-→ ① **Adj EBITA Margin 16% 도달 시** (2030 Ambition 하단) → secular re-rating + 글로벌 피어 (ABB) 갭 축소
+→ ① **4 분기 연속 Adj EBITA Margin range +10%pt 진폭 발생 시** → 지속성장 → **사이클 강등 재분류**
 
-→ ② **Backlog $70B 돌파 시** (Q1FY26 in 8.8 tn yen, Q4FY26-Q1FY27 가능성) → forward visibility 4년+ 확장
+→ ② **2024 MMP 실패 + Backlog 2 분기 연속 감소 시** → 지속성장 → **턴어라운드 retrace 재분류** (인수 직후 phase로 복귀)
 
-→ ③ **HVDC orders ±50% 변동 시** (Bhadla-Fatehpur 같은 mega project 위주) — 단일 분기 lumpy
-
-→ ④ **모회사 Hitachi Ltd capital allocation 변동** — HE IPO 시그널·Energy spin-off 검토 (현재 비상장 유지 방침이나 conglomerate discount 해소 옵션)
-
-→ ⑤ **인도 자회사 POWERINDIA 분기 Orders ±100% 변동** — HVDC 대형 lumpy 패턴
-
-→ ⑥ **Service & Digital revenue 비중 20% 도달 시** (현재 ~10%) — recurring revenue 모델 전환 가속 → secular pure-play 재평가
+→ ③ **Service & Digital revenue 비중 30%+ 도달 + 4 분기 연속 안정성 입증 시** → 지속성장 → **Pure secular 격상** (recurring revenue 모델 전환 완료, ABB·Schneider Premium 갭 reverse)
 
 ---
 
@@ -819,12 +826,7 @@
 
 ## Version Log
 
-- **v1.0** (2026-05-24) — 첫 작성. Source 6종 일괄 수집 (23개 자료) + Phase 1 audit + 14 차트 + Multi-segment 글로벌 피어 하이브리드 (C) 적용 + 한국 3사·ABB·GEV·Schneider cross-ref
-- **v1.1** (2026-05-24) — 가독성 개선 + 비즈니스 모델 보강 (비교 table → list, ③ 5 BU 30여개 제품 상세 풀이 + 경쟁사 + 매출처)
-- **v1.2** (2026-05-24) — HTML 다크 모드 스타일 교체 (삼성전자 .html 참고) + marked.js 동적 렌더링
-- **v1.3** (2026-05-24) — 한 줄 chain 분리 룰 (분류·시대·entity별 줄바꿈, 사명 변천사 4기 그룹화, manufacturing site 지역별 그룹)
-- **v1.4** (2026-05-24) — ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8 참조). Primary를 "사업 강점"이 아니라 **"지속성장 (Secular) — Energy Transition" 본질 분류로 정정**. (5) 적정 밸류에이션 + (6) 분기 재평가 트리거 6종 신설. Summary Box에 사이클 통계 (Margin range +5.9%pt, 사이클 회수 0회) 추가
-
+- **v1.5** (2026-05-25) — 핸드오프 표준 5가지 retrofit. 5년 손익 표 narrative annotation 추가 (ABB 인수·MMP·Service BU·HMAX 변곡점 marker), 밸류에이션에 삼성
 </script>
 <script>
 const text = document.getElementById("md-source").textContent;

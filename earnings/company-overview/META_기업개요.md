@@ -16,76 +16,75 @@
 
 ## 1. 기업 분류
 
-**Primary 분류**: 지속성장 (광고 플랫폼 독점) + 사이클 (CapEx → 마진 압축 → 회복)
+- **Primary 분류**: **지속성장(Compounder)** — 광고 플랫폼 독점 (FoA 매출 99%)
+- **Secondary 노트**: **사이클 (CapEx + Reality Labs 베팅 → 마진 압축 → 효율화 → 회복) 3회 명확** + AI 광고 monetization secular sub-cycle
 
-**Secondary 노트**: 글로벌 SNS 광고 독점 (DAP 3.56B, FY2025 광고 매출 ~$216B) + AI 인프라 + Reality Labs (메타버스 R&D 옵션). 12년간 OPM 변동성 큼 (20% → 50% → 25% → 41%) — Cambridge Analytica + 메타버스 베팅 + AI 인프라 슈퍼사이클의 3중 사이클.
+### ① 정량 근거
 
-### Summary Box (12년 평균)
+**📊 Summary Box (12년 평균, FY2014~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY2014→FY2025) | **+30.0%** |
+| 매출 CAGR (FY14→FY25) | **+30.0%** ($12.47B → ~$219.4B, 17.6배) |
 | OPM 평균 (12년) | **35.0%** |
-| OPM 정점 | **46.5% (Q1 2026 estimate, FY2025 ~46%)** |
-| OPM 저점 | 24.8% (2022, 메타버스 베팅 + 광고 위축) |
-| 사이클 주기 | ~3년 (성장 폭증 → 투자 폭증 → 효율화 → 다시) |
-| 사이클 회수 | 3회 (2018 Cambridge, 2022 메타버스 베팅, 2024+ AI) |
-| 누적 자본 (FY2014→FY2025) | $36.1B → $220.0B (+6배) |
+| **OPM 정점 평균** | **47.4%** (FY16·FY17·FY25 3회 평균) |
+| **OPM 저점 평균** | **29.4%** (FY19·FY22 2회 평균, Cambridge + 메타버스) |
+| **OPM range (12년)** | 24.8% ~ 49.7% = **24.9%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 정통 사이클성 |
+| 사이클 주기 | ~3년 (성장 폭증 → 투자 폭증 → 효율화) |
+| 사이클 회수 (12년) | 정점 3회 (FY16~17·FY21·FY25) / 압축 3회 (FY15·FY19·FY22) |
 
-![META 연간 매출 & OPM/NPM 추이](META_chart1_매출OPM.png)
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-### ① 정량 근거 (12년 매출·OP·OPM 시계열)
-
-| FY | 매출($B) | OP($B) | NI($B) | OPM(%) | NPM(%) | CapEx($B) |
-|----|---------|--------|--------|--------|--------|----------|
-| 2014 | 12.47 | 4.99 | 2.94 | 40.0 | 23.6 | 1.83 |
-| 2015 | 17.93 | 6.23 | 3.69 | 34.7 | 20.6 | 2.52 |
-| 2016 | 27.64 | 12.43 | 10.22 | 45.0 | 37.0 | 4.49 |
-| 2017 | 40.65 | 20.20 | 15.93 | 49.7 | 39.2 | 6.73 |
-| 2018 | 55.84 | 24.91 | 22.11 | 44.6 | 39.6 | 13.92 |
-| 2019 | 70.70 | 23.99 | 18.49 | 33.9 | 26.1 | 15.10 |
-| 2020 | 85.97 | 32.67 | 29.15 | 38.0 | 33.9 | 15.12 |
-| 2021 | 117.93 | 46.75 | 39.37 | 39.6 | 33.4 | 19.24 |
-| 2022 | 116.61 | 28.94 | 23.20 | 24.8 | 19.9 | 31.43 |
-| 2023 | 134.90 | 46.75 | 39.10 | 34.7 | 29.0 | 27.27 |
-| 2024 | 164.50 | 69.38 | 62.36 | 42.2 | 37.9 | 39.23 |
-| **2025** | **~219.4** | **~102.0** | **~81.0** | **~46.5** | **~36.9** | **~75.0** |
+| FY | 매출($B) | OP($B) | OPM(%) | NPM(%) | CapEx($B) | 사이클 이벤트 |
+|----|---------|--------|--------|--------|----------|------|
+| 2014 | 12.47 | 4.99 | 40.0 | 23.6 | 1.83 | WhatsApp $19B 인수 |
+| 2015 | 17.93 | 6.23 | **34.7** | 20.6 | 2.52 | **← 1차 압축 (Oculus 인수 + WhatsApp 비용)** |
+| 2016 | 27.64 | 12.43 | 45.0 | 37.0 | 4.49 | 모바일 광고 가속 |
+| 2017 | 40.65 | 20.20 | **49.7** | 39.2 | 6.73 | **← 1차 정점 (OPM 12년 최고)** |
+| 2018 | 55.84 | 24.91 | 44.6 | 39.6 | 13.92 | Cambridge Analytica 쇼크 (2018.03) |
+| 2019 | 70.70 | 23.99 | **33.9** | 26.1 | 15.10 | **← 2차 압축 (Cambridge 후폭풍)** |
+| 2020 | 85.97 | 32.67 | 38.0 | 33.9 | 15.12 | COVID 광고 가속 |
+| 2021 | 117.93 | 46.75 | **39.6** | 33.4 | 19.24 | **← 2차 정점 (광고 슈퍼사이클)** |
+| 2022 | 116.61 | 28.94 | **24.8** | 19.9 | 31.43 | **← 3차 압축 저점 (메타버스 베팅 + 광고 위축, OPM 12년 최저)** |
+| 2023 | 134.90 | 46.75 | 34.7 | 29.0 | 27.27 | **← Year of Efficiency (21K layoff)** |
+| 2024 | 164.50 | 69.38 | 42.2 | 37.9 | 39.23 | AI 광고 monetization 시작 |
+| **2025** | **~219.4** | **~102.0** | **~46.5** | **~36.9** | **~75.0** | **← 3차 정점 (AI 광고 ARR $30B + Muse Spark 출시)** |
 
 → (출처: Meta 10-K FY2014~FY2024, FY2025 10-K filed 2026-01-29)
 
-→ **3대 사이클 detection**: (1) **2018 Cambridge Analytica 쇼크** — OPM 49.7%→44.6%→33.9% (3년 압축). (2) **2022 메타버스 베팅 폭증** — OPM 39.6%→24.8% (-15pp), 광고 매크로 위축 + Reality Labs 적자 $13.7B. (3) **2023~2025 Year of Efficiency + AI 슈퍼사이클** — OPM 24.8%→34.7%→42.2%→46.5%. 정리해고 21,000명 (2022-2023) + 효율화 + AI monetization 가속.
+![META 연간 매출 & OPM/NPM 추이](META_chart1_매출OPM.png)
 
 ### ② 산업 분류
 
 - **GICS**: Communication Services > Interactive Media & Services (50203020)
-- **하위 산업 노출**:
-  - **Digital Advertising** (FoA 매출 99.1%, Q1 2026 광고 $55.0B = +33% YoY)
-  - **AI Foundation Models** (Llama 시리즈, 오픈소스 전략)
-  - **VR/AR Hardware** (Quest 시리즈, Ray-Ban Meta smart glasses — Reality Labs 매출 $2.1B FY2025)
-  - **AI Compute Infrastructure** (자체 GPU 클러스터 H100/H200 대량 보유)
-- **워치리스트 섹터/Tier**: Digital Ad (T1), AI Foundation (T1), AI Infrastructure (T1)
+- **하위 산업 노출 (FY25 매출 비중)**: Family of Apps 99.1% (광고 98.4% + Other 0.7%, Facebook/Instagram/WhatsApp/Threads) / Reality Labs 0.9% (Quest VR + Ray-Ban Meta AI 글래스)
+- **워치리스트 섹터/Tier**: T1 미국 빅테크 / Digital Ad + AI Foundation + VR/AR industry
+- **글로벌 피어**: GOOGL (광고+Cloud multi-stack), TikTok/ByteDance (광고 비공개), Snap/Pinterest/X (광고 second-tier)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-- 매출 측면: 광고 독점 + DAP +4% YoY 지속 성장 → 지속성장
-- 이익 측면: CapEx + Reality Labs 적자 사이클로 OPM 변동성 큼 → 부분 사이클
-- 단일 광고 매크로 노출 큼 (광고 매출 99% 비중)
-- → "지속성장 + 사이클" 혼합 분류 적정
+(1) **가장 매출 큰 사업부 기준** 적용 시 FoA 99% (광고 monetization 단일 동인) → "광고 플랫폼 = 지속성장" 일견 명확.
+(2) **단, OPM 변동성 sub-rule** 적용: **OPM range 24.9%pt = 사이클 cutoff 10%pt 큰 폭 초과** + **3회 사이클 detection** (FY15·FY19·FY22) → 정통 사이클성 인정. 단, 사이클 source가 단일 광고 macro가 아닌 **자체 베팅(CapEx + Reality Labs) → 효율화 → 회복**의 META 고유 패턴.
+(3) **Boundary case 처리**: Primary "지속성장 (광고 독점)" + Secondary "사이클 (CapEx·RL 베팅 3회 명확)". **AI 광고 ARR $30B+ (Value Optimization $20B + Partnership ads $10B, 2x YoY)** = 매출 비중 14% 도달, secular sub-cycle 진입.
+(4) **글로벌 피어 cross-reference**: **GOOGL vs META = multi-stack 광고+Cloud vs single-platform 광고+VR 베팅** — GOOGL OPM range 15.8%pt (Cloud 흡수), META 24.9%pt (RL 베팅 변동). **TikTok vs META = 글로벌 SNS 광고 경쟁자 #1**. 삼성전자 비교: 삼성 multi-segment 메모리 사이클 vs META single-platform 광고 + 베팅 사이클 (사이클 동인 source 차이).
 
-### ④ 적정 밸류에이션 방법
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위: PER (Forward 12M)** — 안정적 수익성. FY2025 EPS ~$31.6 (split 미반영), 시장 PER ~20x
-- **2순위: EV/EBITDA** — Reality Labs 적자 제외 normalized 수익력 평가
-- **3순위: FCF Yield** — 주주환원 적극 (FY2025 자사주 +배당 ~$53B)
+- **1순위 PER (Forward 12M)** — FoA 99% 안정 광고 매출 → PER 기반 합리. FY25 EPS ~$31.6, 시장 PER ~20x.
+- **2순위 EV/EBITDA (Reality Labs 적자 제외 normalized)** — RL FY25 적자 ~$17.7B 제외 시 정상화 OPM ~55%, multiple discount 보정. **META 고유의 "베팅 normalize" 평가 룰**.
+- **3순위 FCF Yield + 자본 환원** — 자사주 매입 FY25 약 $50B+ 정책. Q1 26 buyback $0 일시 중단 = CapEx 우선 시그널.
+- **PBR 부적합** — 자본 $220B vs 시가총액 $1.5T+ (PBR ~7배), 플랫폼 비즈니스로 의미 약함.
+- **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, META는 지속성장+사이클 → **PER + EV/EBITDA(RL 제외) 혼합** (베팅 사이클 normalize 차별화).
 
-### ⑤ 분기 재평가 트리거
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-- **Advertising 분기 성장률** (Q1 2026 +33% → 가속 지속 여부)
-- **DAP/ARPP 추이** (Q1 2026 DAP 3.56B +4%, ARPP ~$15.8 +25% YoY 추정)
-- **Reality Labs 매출/적자 전환점** (FY2025 적자 $17.7B → 2026 흑전 트리거?)
-- **CapEx 가이던스** (2024 $39B → 2025 $75B → 2026E $100B+)
-- **AI Llama 시장 점유율** (Open-source 전략의 monetization)
-- **EU DMA/DSA 컴플라이언스 비용**
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 DAP·ARPP 등은 §6 "기타 팩트"로 분리)
+
+- **Reality Labs 흑자전환 시** (FY25 적자 -$17.7B) → "사이클" Secondary 노트 → "지속성장 only" 격상 가능
+- **OPM 2개 분기 연속 35% 이하 압축 시** → "사이클성" 가중치 격상 (현재 ~46% 정점 trajectory)
+- **AI 광고 ARR 매출 비중 25%+ 도달 시** → "AI secular sub-cycle" 정식 분류 진입 (현재 14%)
+- **EU LPA + 청소년 법적 사안 material loss 확정 시** → 광고 매출 -α 분류 영향 (Susan 직접 시인)
+- **자사주 매입 재개 시** (Q1 26 $0 halt) → 자본 정책 변경, 사이클 동인 재해석
 
 ---
 

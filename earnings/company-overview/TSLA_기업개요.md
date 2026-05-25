@@ -6,69 +6,77 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-**Primary 분류:** **고성장 + 사이클**
+- **Primary 분류**: **고성장 + 사이클** (Auto OEM capacity ramp 사이클 + EV 수요 사이클)
+- **Secondary 노트**: **AI/Robotaxi/Optimus optionality** (FSD 1.28M 가입자, Robotaxi 3개 도시, Optimus 1M robots/yr factory) — Terminal 밸류는 별도 테마 분석에서 다룸
 
-> **Summary Box (12년 평균, FY14~FY25)**
-> - 매출 CAGR (FY14→FY25): **+36.4%/년** (3.2B → 94.8B, 약 30배)
-> - OPM 평균: **+1.2%** (FY14~FY19 적자 7년, FY20~FY25 흑자 6년)
-> - OPM 정점 평균 (FY21~FY23): **+12.7%** (반도체 부족·EV 수요 폭발기)
-> - OPM 저점 평균 (FY14~FY17): **−11.7%** (Model S/X/3 ramp 손실)
-> - 사이클 주기: 약 6~8년 (Model 출시→ramp→profitability 변곡)
-> - 사이클 회수: 2회 — 1차 적자 사이클 (FY14~FY19), 2차 흑자 정점→재침체 (FY20~FY25)
+### ① 정량 근거
 
-### ① 정량 근거 (12년 매출·OP·OPM 시계열)
+**📊 Summary Box (12년 평균, FY2014~FY2025):**
 
-![chart1 매출OPM](TSLA_chart1_매출OPM.png)
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (FY14→FY25) | **+36.4%** ($3.2B → $94.8B, 30배) |
+| OPM 평균 (12년) | **+1.2%** (적자 7년 + 흑자 5년) |
+| **OPM 정점 평균** | **+12.7%** (FY21·FY22·FY23 3회 평균) |
+| **OPM 저점 평균** | **−11.7%** (FY14~FY17 4회 평균, Model S/X/3 ramp 손실) |
+| **OPM range (12년)** | -17.7% ~ +16.8% = **34.5%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 |
+| 사이클 주기 | 약 6~8년 (Model 출시 → ramp → profitability 변곡) |
+| 사이클 회수 (12년) | 정점 1회 (FY22) / 저점 1회 (FY15) — 1차 적자 → 2차 흑자 정점 → 재침체 패턴 |
 
-| FY | Revenue ($M) | OP ($M) | OPM | Net ($M) | NPM | EPS(Diluted) |
-|----|-------------:|--------:|------:|---------:|------:|---------:|
-| FY14 | 3,198 | -187 | -5.8% | -294 | -9.2% | -$2.36 |
-| FY15 | 4,046 | -717 | -17.7% | -889 | -22.0% | -$6.93 |
-| FY16 | 7,000 | -667 | -9.5% | -675 | -9.6% | -$4.68 |
-| FY17 | 11,759 | -1,632 | -13.9% | -1,962 | -16.7% | -$11.83 |
-| FY18 | 21,461 | -388 | -1.8% | -976 | -4.5% | -$5.72 |
-| FY19 | 24,578 | -69 | -0.3% | -862 | -3.5% | -$4.92 |
-| **FY20** | 31,536 | **1,994** | **+6.3%** | 690 | +2.2% | $0.21 |
-| FY21 | 53,823 | 6,523 | +12.1% | 5,519 | +10.3% | $1.63 |
-| **FY22** | 81,462 | **13,656** | **+16.8%** | 12,556 | +15.4% | $3.62 |
-| FY23 | 96,773 | 8,891 | +9.2% | 14,997 | +15.5% | $4.30 |
-| FY24 | 97,690 | 7,076 | +7.2% | 7,091 | +7.3% | $2.04 |
-| FY25 | 94,827 | 4,355 | **+4.6%** | 3,794 | +4.0% | $1.08 |
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-> **사이클 변곡점 detection**
-> (1-1) FY20: 첫 연간 흑자 전환 — Model 3 ramp 완료 + 상하이 Gigafactory 가동
-> (1-2) FY22: OPM 16.8% 정점 — Model Y 글로벌 ramp + EV 수요 폭발 + 가격 인상
-> (1-3) FY23~FY25: OPM 16.8% → 9.2% → 7.2% → 4.6% 단조하락 — 가격 인하 + Cybertruck 부진 + 경쟁심화 + Auto 매출 역성장
+| FY | 매출($M) | OP($M) | OPM | NPM | EPS | 사이클 이벤트 |
+|----|---------:|-------:|-----:|----:|----:|------|
+| FY14 | 3,198 | -187 | -5.8% | -9.2% | -$2.36 | Model S 단일 |
+| FY15 | 4,046 | -717 | **-17.7%** | -22.0% | -$6.93 | **← Model X 출시 + ramp 손실 (OPM 12년 최저)** |
+| FY16 | 7,000 | -667 | -9.5% | -9.6% | -$4.68 | SolarCity 인수 $2.6B |
+| FY17 | 11,759 | -1,632 | -13.9% | -16.7% | -$11.83 | **← Model 3 ramp "production hell"** |
+| FY18 | 21,461 | -388 | -1.8% | -4.5% | -$5.72 | Model 3 ramp 진정 |
+| FY19 | 24,578 | -69 | -0.3% | -3.5% | -$4.92 | Shanghai Gigafactory 가동 시작 |
+| FY20 | 31,536 | 1,994 | **+6.3%** | +2.2% | $0.21 | **← 첫 연간 흑자 전환 (Model 3 ramp 완료)** |
+| FY21 | 53,823 | 6,523 | +12.1% | +10.3% | $1.63 | EV 수요 폭발 + 반도체 부족 → 가격 인상 |
+| FY22 | 81,462 | 13,656 | **+16.8%** | +15.4% | $3.62 | **← OPM 정점 (Model Y 글로벌 ramp + 가격 인상)** |
+| FY23 | 96,773 | 8,891 | 9.2% | +15.5% | $4.30 | **← 가격 인하 사이클 시작 (BYD 등 경쟁)** |
+| FY24 | 97,690 | 7,076 | 7.2% | +7.3% | $2.04 | Cybertruck 부진 + Auto 매출 -7% YoY |
+| FY25 | 94,827 | 4,355 | **+4.6%** | +4.0% | $1.08 | **← 재침체 저점 (Auto -10% YoY, 매출 사상 첫 -2.9% YoY)** |
+
+→ (출처: Tesla 10-K FY2014~FY2025, SEC EDGAR)
+
+![TSLA 매출·OPM 추이](TSLA_chart1_매출OPM.png)
 
 ### ② 산업 분류
 
-(1) 전통 분류: 자동차 (NAICS 336111 — Automobile Manufacturing)
-(2) Tesla 자체 분류: Auto OEM + Energy (Megapack/Powerwall) + AI/Robotics (FSD/Optimus/Dojo)
-(3) 워치리스트 industry 태그: **자동차|자율주행** (T1 미국 빅테크 그룹)
+- **GICS**: Consumer Discretionary > Automobile Manufacturers (25102010)
+- **하위 산업 노출 (FY25 매출 비중)**: Automotive 73% (Model 3/Y/X/S + Cybertruck + Semi) / Energy generation/storage 13% (Megapack + Powerwall) / Services & Other 14% (Insurance·Supercharging·FSD·Robotaxi)
+- **워치리스트 섹터/Tier**: T1 미국 빅테크 / 자동차 + 자율주행 industry (M7 멤버)
+- **글로벌 피어**: BYD (EV 중국 #1, 가격 경쟁), Toyota (ICE 전환), GM/Ford (Legacy OEM), Rivian/Lucid (EV 신생), Waymo (Robotaxi 경쟁)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-(1) **고성장**: 12년 CAGR 36.4%, 매출 3.2B→94.8B = 약 30배. FY21~FY22 OP 600%+ 점프.
-(2) **사이클**: 자동차 산업 특유의 capacity ramp 사이클 (FY14~FY19 적자 → FY20~FY22 흑자 정점 → FY23~ 재침체). EV 산업 자체의 BEV→ICE 대체 사이클 + 차세대 모델 출시 주기 (5~7년).
-(3) **혼합**: 단순 사이클 자동차 OEM이 아닌, Energy/AI 사업이 Auto 매출 역성장을 일부 상쇄 (FY24 Auto −7%/Energy +67%/Services +27%, FY25 Auto −10%/Energy +27%/Services +19%).
+(1) **가장 매출 큰 사업부 기준** 적용 시 Automotive 73% → "EV OEM = capacity ramp 사이클" 명확. 12년 CAGR +36.4%로 고성장 동시 보유.
+(2) **단, OPM 변동성 sub-rule** 적용: **OPM range 34.5%pt = 사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 + **2회 명확 cycle phase** (FY14~19 적자 ramp + FY20~22 흑자 정점 + FY23~25 재침체). 단순 사이클 OEM이 아닌 ramp + 가격 사이클 중첩.
+(3) **Boundary case 처리**: Primary "고성장 + 사이클" + Secondary "AI/Robotaxi/Optimus optionality". **Auto 매출 비중 65% 이하 + Services 비중 25%+ 도달 시** → "지속성장 + Optionality" 격상 가능 (현재 Auto 73%/Services 14%). Cybercab + Optimus 양산 시작 (2026 H2) 시 분류 영향.
+(4) **글로벌 피어 cross-reference**: **BYD vs TSLA = EV 중국 #1 vs 글로벌 #1** (BYD OPM ~6% steady vs TSLA OPM range 34.5%pt). **Toyota vs TSLA = ICE legacy vs EV new** (Toyota OPM 8~10% 안정). Robotaxi 차원: **Waymo vs TSLA = 5위 도시 vs 11+ 도시** 경쟁. 삼성전자 비교: 삼성 메모리 사이클 vs TSLA EV ramp 사이클 (사이클 source는 완전 다른 산업).
 
-### ④ 적정 밸류에이션 방법
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-(1) **단기 (12개월)**: PER 기준 (Auto 사업 흑자, 실적 변동성 큼 — 이익 가시성 낮음)
-(2) **중기 (3~5년)**: PSR + EV/EBITDA (사업부별 매출 다양화, Energy/Robotics 성장 가시화)
-(3) **장기 (Terminal)**: Optionality 가치 — FSD/Robotaxi/Optimus가 Tesla의 PER 100배+ 프리미엄의 핵심 (별도 테마 분석 통합 모드에서 다룸)
-(4) PBR은 부적합 — Tesla는 기술기업 성격으로 자본 회전율보다 자본효율(ROIC)이 핵심
+- **1순위 PSR + EV/EBITDA (중기 3~5년)** — 사업부별 매출 다양화 (Auto + Energy + Services), Energy/Robotics 성장 가시화. **Auto PSR ~5x + Energy PSR ~15x (high-growth) + Services PSR ~25x (FSD ARR)** SOTP.
+- **2순위 PER (단기 12M)** — Auto 사업 흑자, 그러나 실적 변동성 큼 (OPM 4~17% range) → 이익 가시성 낮음. FY25 EPS $1.08, PER ~250x (분류 cycle low 기준 정상 패턴).
+- **3순위 Terminal/Optionality** — **FSD/Robotaxi/Optimus가 TSLA PER 100배+ 프리미엄의 핵심** (별도 테마 분석 통합 모드에서 다룸). $225B+ commitments 추정.
+- **PBR 부적합** — Tesla 기술기업 성격, 자본 회전율보다 자본효율(ROIC) 핵심.
+- **삼성전자 비교**: 삼성은 multi-segment 사이클 → **PBR + PER 혼합**, TSLA는 고성장 + 사이클 + Optionality → **PSR + EV/EBITDA + Terminal 옵션 가치** (Optionality 별도 모드 차별화).
 
-### ⑤ 분기 재평가 트리거
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-- (1-1) 차량 인도 데이터 (분기 초 P&D press release 발표)
-- (1-2) Automotive GPM ex. 규제크레딧/리스 (가격 vs 원가 게이지)
-- (1-3) Energy 매출 / GPM (Megapack/Powerwall 성장률)
-- (1-4) FSD/Robotaxi 사용자 / 도시 출시 진행도
-- (1-5) Optimus 생산 시작 시점 (현재 가이던스: 2026년 말)
-- (1-6) Cybertruck 판매 정상화 / Model 2 출시 가이던스
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 인도·GPM 등은 §6 "기타 팩트"로 분리)
+
+- **Auto 매출 비중 65% 이하 + Services 비중 25%+ 도달 시** → "고성장 + 사이클" → "지속성장 + Optionality" Primary 격상 (현재 Auto 73%/Services 14%)
+- **Robotaxi/Optimus 매출 disclosure 시작 시** → "Optionality" → "수익 인식 사업" 격상 → 분류 자체 재설계
+- **OPM 2개 분기 연속 적자 진입 시** → "고성장" 분류 → "구조적 turnaround" 재분류 검토 (INTC 사례)
+- **FSD Unsupervised 고객 차량 도달 시 (Musk Q4 2026 guidance)** → "AI/Robotaxi optionality" Primary 격상 가능
+- **CEO Musk 거취 변동 시** → 분류 narrative 전체 재검토 (현재 2025 CEO Performance Award trigger 진행 중)
 
 ---
 

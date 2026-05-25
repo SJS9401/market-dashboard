@@ -13,79 +13,77 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-**Primary 분류**: 지속성장(Compounder) + 플랫폼 독점 (Search·YouTube·Android)
+- **Primary 분류**: **지속성장(Compounder)** — 검색 광고 90%+ 점유율 독점
+- **Secondary 노트**: **Cloud AI secular sub-cycle** (Cloud +63% YoY) + **Antitrust risk multiple cap** (DOJ Search 분리 명령 항소심)
 
-**Secondary 노트**: 글로벌 검색 광고 시장 90%+ 점유율 (안정성) + Google Cloud 가속 성장(2026 Q1 +63% YoY) + Other Bets 자율주행(Waymo) 옵션 가치. 12년 매출 CAGR 19.1%, OPM 변동 폭 작음 (20~36% 박스).
+### ① 정량 근거
 
-### Summary Box (12년 평균)
+**📊 Summary Box (12년 평균, FY2014~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY2014→FY2025) | **+18.0%** |
+| 매출 CAGR (FY14→FY25) | **+18.0%** ($66.0B → $402.8B, 6.1배) |
 | OPM 평균 (12년) | **26.4%** |
-| OPM 정점 | **35.9% (2025)** |
-| OPM 저점 | 20.1% (2018, EU 반독점 벌금) |
+| **OPM 정점 평균** | **33.9%** (FY24·FY25 2회 평균, AI 슈퍼사이클) |
+| **OPM 저점 평균** | **20.6%** (FY17·FY18 2회 평균, EU 반독점 벌금) |
+| **OPM range (12년)** | 20.1% ~ 35.9% = **15.8%pt** ← 사이클 cutoff 10%pt 초과하지만 동인이 일회성(EU 벌금) |
 | 사이클 주기 | ~4년 (CapEx → 마진 압축 → 회복) |
-| 사이클 회수 | 2회 (2017 GDPR/벌금, 2022 ChatGPT 쇼크) |
-| 누적 자본 (FY2014→FY2025) | $104.5B → $364.2B (+3.5배) |
+| 사이클 회수 (12년) | 정점 2회 (FY21·FY25) / 압축 2회 (FY17~18 EU 벌금, FY22 ChatGPT 쇼크) |
 
-![GOOGL 연간 매출 & OPM/NPM 추이](GOOGL_chart1_매출OPM.png)
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-### ① 정량 근거 (12년 매출·OP·OPM 시계열)
-
-| FY | 매출($B) | OP($B) | NI($B) | OPM(%) | NPM(%) | CapEx($B) |
-|----|---------|--------|--------|--------|--------|----------|
-| 2014 | 66.0 | 16.5 | 14.4 | 25.0 | 21.9 | 11.0 |
-| 2015 | 75.0 | 19.4 | 16.3 | 25.8 | 21.8 | 9.9 |
-| 2016 | 90.3 | 23.7 | 19.5 | 26.3 | 21.6 | 10.2 |
-| 2017 | 110.9 | 26.1 | 12.7 | 23.6 | 11.4 | 13.2 |
-| 2018 | 136.8 | 27.5 | 30.7 | 20.1 | 22.5 | 25.1 |
-| 2019 | 161.9 | 34.2 | 34.3 | 21.1 | 21.2 | 23.5 |
-| 2020 | 182.5 | 41.2 | 40.3 | 22.6 | 22.1 | 22.3 |
-| 2021 | 257.6 | 78.7 | 76.0 | 30.6 | 29.5 | 24.6 |
-| 2022 | 282.8 | 74.8 | 60.0 | 26.5 | 21.2 | 31.5 |
-| 2023 | 307.4 | 84.3 | 73.8 | 27.4 | 24.0 | 32.3 |
-| 2024 | 350.0 | 112.4 | 100.1 | 32.1 | 28.6 | 52.5 |
-| **2025** | **402.8** | **144.5** | **144.8** | **35.9** | **36.0** | **75.0** |
+| FY | 매출($B) | OP($B) | OPM(%) | NPM(%) | CapEx($B) | 사이클 이벤트 |
+|----|---------|--------|--------|--------|----------|------|
+| 2014 | 66.0 | 16.5 | 25.0 | 21.9 | 11.0 | baseline |
+| 2015 | 75.0 | 19.4 | 25.8 | 21.8 | 9.9 | Alphabet 형성 (2015.10) |
+| 2016 | 90.3 | 23.7 | 26.3 | 21.6 | 10.2 | YouTube +20% YoY |
+| 2017 | 110.9 | 26.1 | **23.6** | 11.4 | 13.2 | **← 1차 압축 (EU Shopping €2.42B 벌금)** |
+| 2018 | 136.8 | 27.5 | **20.1** | 22.5 | 25.1 | **← 압축 저점 (EU Android €4.34B 벌금, 12년 OPM 최저)** |
+| 2019 | 161.9 | 34.2 | 21.1 | 21.2 | 23.5 | 광고 회복 |
+| 2020 | 182.5 | 41.2 | 22.6 | 22.1 | 22.3 | COVID 광고 위축 후 회복 |
+| 2021 | 257.6 | 78.7 | **30.6** | 29.5 | 24.6 | **← 1차 정점 (COVID 광고 호황, +41% YoY)** |
+| 2022 | 282.8 | 74.8 | **26.5** | 21.2 | 31.5 | **← ChatGPT 쇼크 (2022.11) + AI 위협 우려** |
+| 2023 | 307.4 | 84.3 | 27.4 | 24.0 | 32.3 | Year of Efficiency, 12K layoff |
+| 2024 | 350.0 | 112.4 | 32.1 | 28.6 | 52.5 | **← Gemini 성공 + AI Overviews 출시** |
+| **2025** | **402.8** | **144.5** | **35.9** | **36.0** | **75.0** | **← AI 슈퍼사이클 정점 (Cloud +63% YoY, OPM 12년 최고)** |
 
 → (출처: Alphabet 10-K FY2015~FY2025, SEC EDGAR)
 
-→ 사이클 detection: (1) **2017 압축기** OPM 23.6% — EU Google Shopping 반독점 벌금 €2.42B 부담 + 트래픽 획득 비용(TAC) 증가. (2) **2018 추가 압축** OPM 20.1% — EU Android 반독점 벌금 €4.34B 추가 부담. (3) **2021 정점 회복** OPM 30.6% — COVID 광고 호황. (4) **2022 ChatGPT 쇼크** OPM 26.5% — AI 위협 우려, 비용 효율화 시작. (5) **2024-2025 슈퍼사이클** OPM 32~36% — Gemini AI 성공 + Google Cloud 가속.
+![GOOGL 연간 매출 & OPM/NPM 추이](GOOGL_chart1_매출OPM.png)
 
 ### ② 산업 분류
 
 - **GICS**: Communication Services > Interactive Media & Services (50203020)
-- **하위 산업 노출**:
-  - Digital Advertising (Google Services 매출 비중 81%, FY2025 기준 Search/YouTube/Network 합산 ~$275B)
-  - Cloud Infrastructure (Google Cloud, FY2025 매출 $60B, 글로벌 3위 GCP)
-  - Mobile OS (Android), Browser (Chrome), Video (YouTube)
-  - AI Foundation Models (Gemini, Imagen, Veo)
-  - Autonomous Vehicle (Waymo, Other Bets)
-- **워치리스트 섹터/Tier**: Cloud Infrastructure (T1 보조), Digital Ad (T1), AI Foundation (T1)
+- **하위 산업 노출 (FY25 매출 비중)**: Google Services 81% (Search/YouTube/Network/Subs+Devices) / Google Cloud 18% (GCP 글로벌 #3) / Other Bets 0.1% (Waymo) / Hedging -0.1%
+- **워치리스트 섹터/Tier**: T1 미국 빅테크 / Digital Ad + Cloud Infrastructure + AI Foundation industry
+- **글로벌 피어**: META (광고 single-platform), AWS/Azure (Cloud), Apple (검색 광고 default deal $20B/yr 수혜)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-- Alphabet의 매출 사이클은 광고 매크로에 영향 받지만, 90%+ 검색 점유율로 안정성 보장 → 지속성장
-- Cloud + AI 부문은 성장 사이클 (Cloud 5년 CAGR 35%+)
-- 단일 거시 노출 적음 (지역별 비중 분산)
-- OPM 변동 폭 작음(20~36%) → 사이클성 약함 → 지속성장 분류
+(1) **가장 매출 큰 사업부 기준** 적용 시 Google Services 81% (Search·YouTube·Subs·Network) → "광고 플랫폼 = 지속성장" 명확. 검색 90%+ 점유율로 사이클성 약화.
+(2) **단, Cloud 가속 sub-rule** 적용: Cloud 매출 비중 18%이지만 **+63% YoY 가속 (AI 인프라 사이클 진입)** → 지속성장 + Cloud secular sub-cycle 2층 구조. **백로그 $462B (24개월 50%+ 인식)** = 2-3년 매출 가시성.
+(3) **Boundary case 처리**: Primary "지속성장" + Secondary "Cloud AI secular + Antitrust multiple cap". **OPM range 15.8%pt = 사이클 cutoff 초과하지만 동인이 EU 벌금 일회성** → 정통 사이클성 아님. 단, DOJ Search 분리 명령 시 분류 자체 변경 가능.
+(4) **글로벌 피어 cross-reference**: **META vs GOOGL = single-platform 광고 vs multi-stack 광고+Cloud** — META OPM range 21.7%pt (Reality Labs 베팅), GOOGL 15.8%pt (Cloud 안정). **MSFT vs GOOGL = Cloud #2 vs Cloud #3 가속** (Azure +40% vs GCP +63% 가속률 1위). 삼성전자 비교: 삼성 multi-segment 사이클 vs GOOGL Services-Cloud-AI 3-stack secular.
 
-### ④ 적정 밸류에이션 방법
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위: PER (Forward 12M)** — 안정적 수익성 + 일관된 EPS 성장 (2025 EPS $11.95, +44% YoY, 시장 PER ~24x)
-- **2순위: EV/EBITDA sum-of-parts** — Google Services (steady cash cow, ~12x) + Google Cloud (high-growth, ~10x EV/Rev) + Other Bets (option value)
-- **3순위: PEG ratio** — Cloud 성장률 가속 시 valuation re-rating 가능
+- **1순위 PER (Forward 12M)** — Services 81% 안정 매출 + Cloud 18% 가속 → PER 기반 합리. 2025 EPS $11.95 (+44% YoY), 시장 PER ~24x.
+- **2순위 EV/EBITDA Sum-of-Parts** — Google Services (cash cow ~12x EV/EBITDA) + Google Cloud (high-growth ~10x EV/Rev) + Other Bets (option value Waymo) + Antitrust risk discount (-10~15% multiple).
+- **3순위 PEG ratio** — Cloud +63% 가속 + AI Overviews monetization 효과 → PER re-rating 동인.
+- **PBR 부적합** — Cloud 비중 확대 + 자사주 매입($60B+/년) + 자본 $364B vs 시가총액 $2.5T+.
+- **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, GOOGL은 지속성장 → **PER + SOTP** (Cloud secular + Antitrust discount 차별화).
 
-### ⑤ 분기 재평가 트리거
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-- Google Cloud 분기 성장률 (Q1 2026 +63% → 가속 지속 여부)
-- AI Overviews 검색 광고 monetization 효과 (Search 매출 +19% Q1 2026)
-- TPU 자체 칩 mass production rate
-- Other Bets Waymo 매출 본격화 시점
-- EU·미국 반독점 소송 (Search/AdTech) 진행 — 분사 명령 가능성
-- CapEx 가이던스 (2025 $75B → 2026 ~$100B+ 추정)
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 Cloud 성장률·CapEx 등은 §6 "기타 팩트"로 분리)
+
+- **DOJ Search 분리 명령 항소심 확정 시 (Q3-Q4 2026)** → "광고 단일 플랫폼 독점" 분류 무효화, **사업 분할 후 사이클성 종목으로 재분류 필수**
+- **Cloud 매출 비중 25%+ 도달 시** → "지속성장 + Cloud 비중 동등" 분류 격상 (현재 18%, FY26E 가능)
+- **Search 매출 YoY +10% 이하 둔화 시** → AI Overviews 효과 소진, "지속성장" 안정성 재검토
+- **자사주 매입 재개 시** (Q1 2026 buyback $0 → ?) → 자본 정책 변경 = "Cloud CapEx 우선" 분류 정당화 검증
+- **OPM 2개 분기 연속 30% 미만 하락 시** → "AI 슈퍼사이클 정점 통과" 시그널, 분류 재검토
 
 ---
 

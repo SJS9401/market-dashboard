@@ -51,6 +51,42 @@
 | FY24 | 245.12 | 109.43 | **44.6** | 36.0 | 44.5 | **← AI Copilot launch (2024.04) — 가속 시작** |
 | **FY25** | **281.70** | **130.51** | **46.3** | **34.3** | **65.0** | **← AI 슈퍼사이클 정점 OPM (12년 최고)** |
 
+→ (출처: Microsoft 10-K FY2014~FY2025, SEC EDGAR)
+
+![MSFT 연간 매출 & OPM/NPM 추이](MSFT_chart1_매출OPM.png)
+
+### ② 산업 분류
+
+- **GICS**: Information Technology > Systems Software (45103020)
+- **하위 산업 노출 (FY25 매출 비중)**: Intelligent Cloud (44%, Azure+Server) / Productivity & Business Processes (31%, M365·LinkedIn·Dynamics) / More Personal Computing (25%, Windows·Xbox·Search)
+- **워치리스트 섹터/Tier**: T1 미국 빅테크 / Cloud Infrastructure + AI Foundation industry
+- **글로벌 피어**: AWS (AMZN, Cloud #1) · Google Cloud (GOOGL, Cloud #3 가속) · CRM/NOW/ORCL (SaaS) · 삼성전자 multi-segment (참조)
+
+### ③ 분류 결정 논리 (4단계 sub-logic)
+
+(1) **가장 매출 큰 사업부 기준** 적용 시 Intelligent Cloud 44% → "Cloud growth = secular 지속성장" 명확.
+(2) **단, OPM 변동성 sub-rule** 적용: OPM range 26.9%pt이지만 **FY15 Nokia 일회성 -$7.5B 제외 시 FY16 23.7% → FY25 46.3% 단조 우상향** = 사이클이 아닌 **secular 마진 확장**. Cloud platform shift의 5년 단위 가속 — Win→Cloud(FY16-FY20) → Cloud→AI(FY24-).
+(3) **Boundary case 처리**: Primary "지속성장" + Secondary "Cloud/AI 가속 secular sub-cycle". **OPM range 사이클 cutoff 10%pt 초과하지만 동인이 일회성(Nokia) + 단조 우상향**으로 정통 사이클성 아님. **Azure 분기 성장률 +35% 박스 이탈 시(±10pp 변동)** → "사이클" 분류 검토 트리거.
+(4) **글로벌 피어 cross-reference**: **삼성전자 vs MSFT = 메모리 사이클 vs Cloud secular** — 삼성 DS 매출 비중 39% / OP 비중 57% (사이클성 압도), MSFT IC 매출 비중 44% / **OP 비중 약 50% (secular dominant)**. AMZN 대비: AMZN AWS 비중 18% / OP 57% (사이클 일부), **MSFT는 Cloud + SaaS + AI 3중 stack으로 가장 안정적 multi-platform** 차별화.
+
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
+
+- **1순위 PER (Forward 12M)** — 매출 multi-platform + OPM 안정 (FY25 EPS $13.00, 시장 PER ~32x). 매크로 사이클 노출 거의 zero.
+- **2순위 EV/EBITDA + Microsoft Cloud ARR** — Office 365 Commercial + Azure + Dynamics 365 + LinkedIn 합산 ARR FY25 $175B+ = recurring 매출 안정. FY25 ~25x.
+- **3순위 PEG ratio** — AI Business ARR +123% YoY 가속 시 PER re-rating 동인.
+- **PBR 부적합** — 자본 $327B vs 시가총액 $3.7T → PBR 11배, software 비즈니스로 의미 약함.
+- **삼성전자 비교**: 삼성은 PBR + PER 혼합(사이클 + 안정 BU), MSFT는 **PER 우선 + EV/EBITDA 보조** (secular 지속성장의 single-method).
+
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
+
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 Azure 성장률·CapEx 등은 §6 "기타 팩트"로 분리)
+
+- **Azure 분기 성장률이 2분기 연속 +25% 이하로 둔화 시** → Cloud secular 가속이 정통 사이클로 전환 검토 (현재 +35~40% CC 박스 유지)
+- **OPM 2분기 연속 -5%pt 압축 시 (40% 미만 하락)** → "지속성장" 분류 → "사이클 + 지속성장" 재분류 검토
+- **AI Business ARR 성장률 +50% 이하로 둔화 시** → "AI 가속 sub-cycle" 노트 제거 후 "Cloud 성숙기" 분류 검토
+- **OpenAI 파트너십 exclusivity 변경 시** → AI Foundation 차별화 narrative 변화, multiple 재평가
+- **자사주 매입 중단 시** → 자본 정책 변경 = OPM 사이클 검토 (현재 자사주 분기 약 $15B 지속)
+
 ---
 
 ## 2. 회사 개요

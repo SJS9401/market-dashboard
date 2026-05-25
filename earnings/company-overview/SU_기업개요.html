@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Schneider Electric — 기업 개요 v1.4</title>
+<title>SU — 기업 개요 v1.5</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   body { background: #0f1419; color: #e6e6e6; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1280px; margin: 0 auto; padding: 40px 30px; line-height: 1.6; }
@@ -31,7 +31,7 @@
 <script id="md-source" type="text/markdown">
 > Ticker: **SU.PA** (Euronext Paris, primary) / **SBGSF** (US OTC ADR) / Schneider Electric SE
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (코로나·CMD 2030 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션 + 핵심 차트 3종)
 > 데이터: 12년 연간 (2014-2025E), Q1 2026 review 통합, 20년 Yahoo SU.PA 시계열
 > 출처: **기존 1Q26 review .md (이전 분기 작성 시 fetch한 정보)**, **공개 web search 데이터 (Q1 2026 release / FY24 results)**, **Yahoo Finance SU.PA + SBGSF**, **se.com IR page metadata**
@@ -219,6 +219,26 @@
 | Net Income (€M) | 2,832 | 4,900E (2025E) | 1,407 (2015) | **4,271** | ~4,900 |
 | Free Cash Flow (€B) | 2-4 | 4.2+ (2024) | — | **4.2+** | — |
 
+```
+[Schneider Electric 12년 손익 시계열 (EUR €M, 주요 연도)]
+연도    매출       Adj EBITA  Margin   비고
+2014   24,939     3,581     14.4%    ← 정상 사이클 phase (Schneider 통합 운영 본격)
+2015   26,640     3,902     14.6%
+2016   24,693     3,450     14.0%    ← 신흥국 사이클 저점 (12년 Margin 최저)
+2017   24,743     3,640     14.7%
+2018   25,720     3,895     15.1%
+2019   27,158     4,193     15.4%    ← 디지털 전환 본격 (EcoStruxure 가속)
+2020   25,159     3,778     15.0%    ← 코로나 영향, 일시 둔화
+2021   28,905     4,815     16.7%    ← AVEVA 통합 phase + 코로나 회복
+2022   34,176     5,724     16.7%
+2023   35,902     6,407     17.8%    ← AVEVA 100% 인수 완료 (industrial software 강화)
+2024   38,150     7,100     18.6%    ← Olivier Blum 신임 CEO + Motivair 인수 (AI 데이터센터 cooling)
+2025E  42,500     8,100     19.4%    ← CMD 2030 strategy 발표 (Margin +250bp 누적 ambition)
+
+Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcycle 0회)
+사이클 cutoff (±10%pt): 미달 → 지속성장 분류 (4 end-market secular pure-play)
+```
+
 **📊 사이클 통계 (12년, FY14~FY25E)**
 
 | 지표 | 값 |
@@ -283,27 +303,23 @@
 
 (6) 적정 밸류에이션 방법
 
-→ **1차 — Forward PER + EV/EBITDA** (지속성장 분류 기반): 글로벌 피어 (ABB 30x, GEV 50x) 대비 SU 28-30x (premium quality). Adj EBITDA €8B (2025E) × 18-20x = €145-160B EV
+→ **1차 — Forward PER** (지속성장 글로벌 #1 pure-play): SU 28-30x (premium quality). 글로벌 피어 (ABB 30x · Eaton 32x · GEV 50x) reference, Schneider는 quality·sustainability·software premium 정당화
 
-→ **2차 — DCF (3-stage)**: 19% Adj EBITA Margin + 4-7% revenue growth + FCF €4B+ + 32년 연속 progressive dividend
+→ **2차 — EV/EBITDA + DCF (3-stage)**: 19% Adj EBITA Margin + 4-7% revenue growth + FCF €4B+ + 32년 연속 progressive dividend → forward EV/EBITDA 18-20x = €145-160B EV
 
 → **3차 — SOTP**: EM (premium for 22% margin) + IA (AVEVA software value 별도) + Motivair (AI cooling) + ETAP·RIB Software
 
 → **PBR 미사용 근거** — 지속성장 분류, downcycle 부재로 P/B band 의미 작음 (대신 ROCE 14.8% → CMD 2025 15-20% trajectory 활용)
 
-(7) 분기 재평가 트리거
+→ **삼성전자 대비**: 삼성전자는 PBR 단독 사이클, SU는 PER 단독 secular 글로벌 #1 (downcycle 부재) — Sustainability·Software 프리미엄 추가 정당화
 
-→ ① **H1 2026 결과 (7/30 발표)** — Adj EBITA margin 19.5%+ 진입 + 가이던스 raise 여부
+(7) 분기 재평가 트리거 (**분류 변경 조건** — 실적 추적 변수는 6번 섹션)
 
-→ ② **Data Center 매출 비중 추가 확대** (Q1 26 high base 후 가속) → secular driver 재확인
+→ ① **Industrial Automation segment Adj EBITA Margin range 4 분기 연속 +10%pt 진폭 발생 시** → 지속성장 → **사이클 비중 증가** (IA 18% 비중, Discrete capex 사이클 노출 확대)
 
-→ ③ **FX headwind 완화** (Q1 26 -€623M, FY -€750-850M est) → reported Margin expansion
+→ ② **China 매출 비중 25%+ 상승 시** (현재 18%) → 지정학 사이클 노출 → **분류 재검토** (US-China tension 시 reported Margin 변동성 확대)
 
-→ ④ **AVEVA ARR 성장 가속** (+12% → +15%+) → Software & Services 25% 비중 도달 (CMD 2030 target)
-
-→ ⑤ **AI Data Center 솔루션 (Motivair) 매출 기여 본격화** → liquid cooling 시장 점유율 확대
-
-→ ⑥ **CMD 2030 Adj EBITA Margin +250bp expansion 도달 trajectory** (18.7% → ~21%+) → secular re-rating + 글로벌 피어 ABB 갭 reverse
+→ ③ **EM + IA Lumada·AVEVA·Motivair·EcoStruxure 통합 비중 70%+ 도달 시 (Digital Flywheel CMD 2030 target) + Software & Services 25%+ 도달** → 지속성장 → **Pure SaaS secular 격상** (PER 35x+ premium 적용 가능)
 
 ---
 
@@ -586,20 +602,7 @@
 - [Schneider Electric Integrated Report 2024](https://www.se.com/ww/en/assets/564/document/511188/Integrated-report-2024.pdf)
 - [Schneider Q1 2026 Release](https://www.se.com/ww/en/assets/pdf/release-q1-revenues-2026)
 - [Schneider IR Quarterly Results](https://www.se.com/ww/en/about-us/investor-relations/financial-results/)
-- [Schneider Annual Reports Page](https://www.se.com/ww/en/about-us/investor-relations/regulatory-information/annual-reports/)
-
-**Data confidence: 85%** (URD 직접 fetch 가능 시 95%)
-
----
-
-## Version Log
-
-- **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 지속성장 (Energy Management + Industrial Automation 글로벌 #1, 4축 멀티 secular, 12년 OPM range +5.4pp 단조 우상향, 사이클 회수 0회) + Secondary 일부 사이클 (IA 18% 경기 민감 + China 18%)**. 사이클 통계 Summary Box (Adj EBITA Margin 평균 16.7%, 정점 19.4%E, 저점 14.0%, range +5.4pp) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+EV/EBITDA 1차, DCF 2차, SOTP 3차, PBR 미사용) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
-
-- **v1.1 (2026-05-19, 정확값 보강)**: **사용자 지적 "스킬셋 기준으로 구하지 못한 자료가 뭐야?" 반영 → `mcp__workspace__web_fetch` 시도 안 한 것 발견**
-  - **핵심 발견**: `mcp__company-data__web_fetch`는 403 차단됐으나 **`mcp__workspace__web_fetch`는 성공** (User-Agent 다름)
-  - **메모리 룰 갱신**: fetch 도구 fallback 룰 추가 (company-data → workspace → curl)
-  - **신규 정확값 (`wo
+- [Schneider Annual Reports Page](https://www.se.com/ww/en/about-us/investor-relations/regulatory-information/annual-rep
 </script>
 <script>
 const text = document.getElementById("md-source").textContent;

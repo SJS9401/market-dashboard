@@ -19,78 +19,77 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-### Primary: **고성장 + 사이클 + 꿈 (3중 분류)**
+- **Primary 분류**: **고성장 secular** — AI 컴퓨팅 인프라 사실상 독점 (CUDA lock-in + 80%+ GPU 점유율)
+- **Secondary 노트**: **3대 산업 사이클 detection** (모바일/크립토/AI) + **AI Datacenter Hyperscaler CapEx secular sub-cycle**
 
-- **고성장**: FY15~FY26 11년 CAGR 매출 ≈ +37%, FY24 이후 3년간 폭발 (FY24 +126%, FY25 +114%, FY26 +65%)
-- **사이클**: 3대 사이클 — 모바일/Tegra (FY13~FY16) → 크립토/Crypto-GPU (FY18~FY19, FY21~FY22) → AI (FY23 후반~) — 사이클별 매출 변동성 -40~+250%
-- **꿈**: AI 인프라 사실상 독점 (CUDA 생태계 lock-in, 80%+ GPU 시장 점유율) — Terminal 밸류는 "AI 컴퓨팅 = 새 산업혁명"의 한가운데 위치
+### ① 정량 근거
 
-### Summary Box (12년 평균, FY15~FY26)
+**📊 Summary Box (12년 평균, FY15~FY26):**
 
-| 지표 | 수치 | 비고 |
-|------|------|------|
-| 매출 CAGR | +37% | FY24~FY26 3년 +178% 가속 |
-| OPM 평균 | 31.5% | FY15 16% → FY26 60% |
-| GPM 평균 | 62.5% | FY15 54% → FY26 75% |
-| NPM 평균 | 28.5% | FY26 55.6% |
-| 사이클 회수 | 3회 | 모바일·크립토·AI |
-| ROE 평균 | 24.5% | FY26 ~82% (압도적) |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (FY15→FY26) | **+37%** ($4.68B → $215.94B, 46배) |
+| OPM 평균 (12년) | **31.5%** |
+| **OPM 정점 평균** | **59.0%** (FY24·FY25·FY26 3회 평균, AI 슈퍼사이클) |
+| **OPM 저점 평균** | **15.6%** (FY15·FY23 2회 평균, Tegra·크립토 후폭풍) |
+| **OPM range (12년)** | 14.9% ~ 62.4% = **47.5%pt** ← **사이클 cutoff 10%pt 압도적 초과** = 극심한 사이클성 |
+| 사이클 주기 | 약 3~5년 (산업 사이클별 변곡) |
+| 사이클 회수 (12년) | **3회 명확** — 모바일/Tegra (FY13~16) + 크립토 (FY18~19, FY21~22) + AI (FY23 후반~) |
 
-### ① 정량 근거 — 12년 매출·OPM·NPM 시계열
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-![chart1](charts/NVDA_chart1_매출OPM_12년.png)
-
-| FY | 매출 ($B) | YoY | OP ($B) | OPM | NPM |
-|----|-----------|-----|---------|-----|-----|
-| FY15 | 4.68 | +13% | 0.76 | 16.2% | 13.5% |
-| FY16 | 5.01 | +7% | 0.75 | 14.9% | 12.3% |
-| FY17 | 6.91 | +38% | 1.93 | 28.0% | 24.1% |
-| FY18 | 9.71 | +41% | 3.21 | 33.0% | 31.4% |
-| FY19 | 11.72 | +21% | 3.80 | 32.5% | 35.3% |
-| FY20 | 10.92 | -7% | 2.85 | 26.1% | 25.6% |
-| FY21 | 16.68 | +53% | 4.53 | 27.2% | 26.0% |
-| FY22 | 26.91 | +61% | 10.04 | 37.3% | 36.2% |
-| FY23 | 26.97 | +0.2% | 4.22 | 15.7% | 16.2% |
-| FY24 | 60.92 | +126% | 32.97 | 54.1% | 48.8% |
-| FY25 | 130.50 | +114% | 81.45 | 62.4% | 55.8% |
-| **FY26** | **215.94** | **+65%** | **130.39** | **60.4%** | **55.6%** |
+| FY | 매출 ($B) | YoY | OP ($B) | OPM(%) | NPM(%) | 사이클 이벤트 |
+|----|-----------|-----|---------|-----|-----|------|
+| FY15 | 4.68 | +13% | 0.76 | 16.2 | 13.5 | **← Tegra 모바일 (실패) + Gaming baseline** |
+| FY16 | 5.01 | +7% | 0.75 | **14.9** | 12.3 | **← Tegra 사이클 저점 (OPM 12년 최저)** |
+| FY17 | 6.91 | +38% | 1.93 | 28.0 | 24.1 | **← Pascal GPU 가속 + 1차 크립토 시작** |
+| FY18 | 9.71 | +41% | 3.21 | 33.0 | 31.4 | **← 1차 크립토 슈퍼사이클 정점** |
+| FY19 | 11.72 | +21% | 3.80 | **32.5** | 35.3 | **← 1차 크립토 후폭풍 시작** |
+| FY20 | 10.92 | **-7%** | 2.85 | 26.1 | 25.6 | **← 1차 크립토 압축 (매출 12년 첫 마이너스)** |
+| FY21 | 16.68 | +53% | 4.53 | 27.2 | 26.0 | COVID 클라우드 + RTX 30시리즈 |
+| FY22 | 26.91 | +61% | 10.04 | **37.3** | 36.2 | **← 2차 크립토 정점 (Ampere)** |
+| FY23 | 26.97 | +0.2% | 4.22 | **15.7** | 16.2 | **← 2차 크립토 압축 저점 + 재고 charges** |
+| FY24 | 60.92 | **+126%** | 32.97 | **54.1** | 48.8 | **← AI 슈퍼사이클 진입 (H100 폭증, ChatGPT 모멘텀)** |
+| FY25 | 130.50 | **+114%** | 81.45 | **62.4** | 55.8 | **← Hopper · H200 가속 (OPM 12년 최고)** |
+| **FY26** | **215.94** | **+65%** | **130.39** | **60.4** | **55.6** | **← Blackwell 양산 (Q1 H20 charge -bp 일회성)** |
 
 **Q4FY26 단일분기**: 매출 $68.13B (+73% YoY, +20% QoQ), GAAP OPM 65.0%, Net income $42.96B, EPS $1.76 (+98% YoY)
 
+![NVDA 매출·OPM 12년 추이](charts/NVDA_chart1_매출OPM_12년.png)
+
 ### ② 산업 분류
 
-- SEC 분류: **Semiconductors (SIC 3674)** — Fabless GPU·SoC·Networking
-- Reportable Segments (FY26 10-K):
-  - **Compute & Networking** (Data Center, Automotive, Robotics, Mellanox networking)
-  - **Graphics** (Gaming, Pro Visualization, OEM)
-- Market Platform (CFO Commentary 공시): Data Center · Gaming · Professional Visualization · Automotive · OEM & Other
+- **SEC 분류**: **Semiconductors (SIC 3674)** — Fabless GPU·SoC·Networking
+- **하위 산업 노출 (FY26 매출 비중)**: Data Center 92% (Compute $51B + Networking $11B InfiniBand·Spectrum-X) / Gaming 5% / Pro Viz 2% / Automotive 1%
+- **워치리스트 섹터/Tier**: **T1 미국 빅테크** (M7 멤버) **+ T1 반도체 겸함**
+- **글로벌 피어**: AMD (GPU 경쟁자 #2, MI300X) + Broadcom (Google TPU·Meta MTIA 위탁) + ASIC (AWS Trainium, Marvell) + Intel (Gaudi)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-NVIDIA는 외형상 사이클 반도체로 보이나, 본질은 **"AI 컴퓨팅 인프라 사실상 독점 사업자"**:
+(1) **가장 매출 큰 사업부 기준** 적용 시 Data Center 92% → "반도체 사이클" 외형. 그러나 12년 매출 CAGR +37%·FY24~26 3년간 +178% 가속 = 정통 사이클 반도체 아닌 **secular 고성장**.
+(2) **단, 사이클 동인 sub-rule** 적용: **OPM range 47.5%pt = 사이클 cutoff 압도적 초과** + **3회 명확 cycle detection** (모바일·크립토·AI) → 산업 사이클성 분명. 그러나 사이클 source가 메모리 같은 supply 사이클이 아닌 **시장 발견 (mobile → crypto → AI) demand 사이클**.
+(3) **Boundary case 처리**: Primary "고성장 secular" + Secondary "AI Datacenter Hyperscaler CapEx sub-cycle + ASIC 침투 risk". **AI Datacenter TAM 2026-2030 CAGR 30%+** + **NVDA 80%+ GPU 점유율 유지** 시 산업 성장률 추종 가능. **하이퍼스케일러 CapEx 사이클** (2026 $640B+, MSFT $190B + GOOGL $185B + AMZN $195B + META $135B) = 매출 가시성 2-3년.
+(4) **글로벌 피어 cross-reference**: **AMD vs NVDA = GPU 경쟁** (AMD MI300X 15% 점유율 vs NVDA 80%+). **Broadcom + ASIC vs NVDA = inference 시장 침투** (TPU·MTIA·Trainium $225B 백로그 + 합산). 삼성전자 비교: 삼성 메모리 supply 사이클 vs NVDA AI demand 사이클 (사이클 source 완전 다름) — **NVDA 사이클은 고객 산업 발견 패턴**, 삼성은 capacity supply 패턴.
 
-- **고성장 + 꿈** dominant: AI Datacenter TAM 2026~2030 CAGR 30%+, Compute spending H200·Blackwell·Rubin 세대별 +50~100% per gen. NVIDIA 시장점유율 80%+ 유지 시 자체 매출도 산업 성장률 추종 가능 — 향후 5~7년간 매출 $200B → $500B 시나리오 (셀사이드 평균 PT)
-- **사이클** secondary: 데이터센터 사이클은 메모리·HDD와 달리 supply가 아닌 "GPU 부족 → ASP 유지" 구조. but 하이퍼스케일러 CapEx 사이클은 존재 (2026 hyperscaler CapEx $640B+ 추정)
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-### ④ 적정 밸류에이션 방법
+- **1순위 EV/Sales (forward)** — 매출 폭증 사이클 (FY24~26 +178%) → PER 변동성 크고 EV/Sales가 정상화 빠름. **27배 → 18배 → 12배 빠르게 압축**, megacap secular 평균 진입.
+- **2순위 PER (forward 1년)** — FY27E EPS $9 기준 PER ~17배 (megacap 평균과 유사). **PEG ratio 0.2배** (FY24~27 EPS 4년 CAGR ~80% / PER 17배)로 저평가 시그널.
+- **3순위 EV/EBITDA + AI Datacenter TAM 추정** — Hopper·Blackwell·Rubin 세대별 +50~100% 매출 잠재.
+- **PBR 부적합** — 자본 $145B vs 시가총액 $4.5T → PBR 31배. **fabless + software (CUDA) 비즈니스로 자산 회전율 의미 없음**.
+- **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, NVDA는 고성장 secular → **EV/Sales + PEG** (fabless·software-driven 차별화).
 
-| 우선순위 | 방법 | 이유 |
-|---------|------|------|
-| 1st | **EV/Sales (forward)** | 매출 폭증 사이클 — PER로는 폭락 보이지만 EV/Sales는 27배 → 18배 → 12배 빠르게 정상화 |
-| 2nd | **PER (forward 1년)** | FY27E EPS $9 기준 PER ~17배 (megacap 평균과 유사) |
-| 3rd | **PEG ratio** | FY24~FY27 EPS 4년 CAGR ~80% — PEG 0.2배 매우 저평가 시그널 |
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-PBR은 자기자본 $145B vs 시가총액 $4.5T → PBR 31배. fabless·software-driven 비즈니스라 PBR 의미 약함.
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 Blackwell·ASIC 점유율 등은 §6 "기타 팩트"로 분리)
 
-### ⑤ 분기 재평가 트리거
-
-1. **Blackwell·Rubin ramp 차질** — TSMC 3nm·2nm capacity 또는 CoWoS 패키징 병목
-2. **하이퍼스케일러 CapEx 둔화** — 5대 고객 (MS·Meta·Google·Amazon·Oracle) digestion 신호
-3. **ASIC 침투** — Broadcom (Google TPU·Meta MTIA), AWS Trainium, Marvell 등 inference 시장 점유율
-4. **중국 노출 변동** — H20 ban·재허용·Nvidia C200/B30 시그널
-5. **GPM 추세** — Q1FY26 60.5% 일회성 (H20 charge) 이후 안정 73~75% 유지 여부
+- **NVDA GPU 점유율 70% 이하 하락 시** → "AI 독점" 본질 무효, "사이클 반도체"로 재분류 (현재 80%+, ASIC 침투가 변수)
+- **하이퍼스케일러 CapEx 2분기 연속 -10%+ 감소 시** → AI Datacenter secular 가속 종료, 사이클 반도체 재분류 검토 (현재 2026 +30%+ 가속)
+- **GPM 2분기 연속 70% 미만 하락 시** → "secular pricing power" 약화 시그널 (FY26 71.1% incl. H20 charge, FY27E ~74%)
+- **Networking/InfiniBand 매출 비중 25%+ 도달 시** → "GPU pure-play" → "AI Datacenter full-stack" 격상
+- **CUDA 생태계 도전 시그널** (PyTorch ROCm 채택 가속, OneAPI 표준화) → lock-in 약화 = 분류 본질 재검토
 
 ---
 

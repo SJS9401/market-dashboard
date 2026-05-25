@@ -13,72 +13,77 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-**Primary 분류**: 지속성장(Compounder) + 인프라 사이클(AWS·물류 CapEx)
+- **Primary 분류**: **multi-segment 지속성장(Compounder)** — Stores + AWS + Ads 3-stack
+- **Secondary 노트**: **인프라 사이클 (AWS CapEx → 마진 압축 → 회복) 2회 명확** + AI 인프라 secular sub-cycle (Trainium $225B 백로그)
 
-**Secondary 노트**: 매출 측면은 e커머스 + 클라우드의 지속성장 비즈니스이지만, 이익률은 fulfillment·AWS CapEx 사이클에 따라 변동성이 크다. 12년간 OPM은 0.2%(2014)→11.2%(2025)로 우상향했고, 그 안에서 2017·2022 두 차례 투자 사이클 압축을 거쳤다.
+### ① 정량 근거
 
-### Summary Box (12년 평균)
+**📊 Summary Box (12년 평균, FY2014~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY2014→FY2025) | **+19.5%** |
+| 매출 CAGR (FY14→FY25) | **+19.5%** ($89.0B → $716.9B, 8.1배) |
 | OPM 평균 (12년) | **5.6%** |
-| OPM 정점 | 11.2% (2025) |
-| OPM 저점 | 0.2% (2014) |
-| 사이클 주기 | 약 4~5년 (CapEx → 마진 압축 → 마진 회복) |
-| 사이클 회수 | 2회 명확 압축 (2017 / 2022) |
-| 누적 자본 (FY2014→FY2025) | $10.7B → $359.4B (+33배) |
+| **OPM 정점 평균** | **11.0%** (FY24·FY25 2회 평균, AI 슈퍼사이클) |
+| **OPM 저점 평균** | **1.3%** (FY14·FY22 2회 평균, 투자 사이클 압축) |
+| **OPM range (12년)** | 0.2% ~ 11.2% = **11.0%pt** ← **사이클 cutoff 10%pt 초과** = 정통 사이클성 (단, 단조 우상향 추세) |
+| 사이클 주기 | 약 4~5년 (CapEx → 마진 압축 → 회복) |
+| 사이클 회수 (12년) | 정점 2회 (FY20·FY24~25) / 압축 2회 명확 (FY17·FY22) |
 
-![AMZN 연간 매출 & OPM/NPM 추이](AMZN_chart1_매출OPM.png)
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-### ① 정량 근거 (12년 매출·OP·OPM 시계열)
-
-| FY | 매출($B) | OP($B) | NI($B) | OPM(%) | NPM(%) |
-|----|---------|--------|--------|--------|--------|
-| 2014 | 88.99 | 0.18 | (0.24) | 0.2 | (0.3) |
-| 2015 | 107.01 | 2.23 | 0.60 | 2.1 | 0.6 |
-| 2016 | 135.99 | 4.19 | 2.37 | 3.1 | 1.7 |
-| 2017 | 177.87 | 4.11 | 3.03 | 2.3 | 1.7 |
-| 2018 | 232.89 | 12.42 | 10.07 | 5.3 | 4.3 |
-| 2019 | 280.52 | 14.54 | 11.59 | 5.2 | 4.1 |
-| 2020 | 386.06 | 22.90 | 21.33 | 5.9 | 5.5 |
-| 2021 | 469.82 | 24.88 | 33.36 | 5.3 | 7.1 |
-| 2022 | 513.98 | 12.25 | (2.72) | 2.4 | (0.5) |
-| 2023 | 574.79 | 36.85 | 30.43 | 6.4 | 5.3 |
-| 2024 | 637.96 | 68.59 | 59.25 | 10.8 | 9.3 |
-| **2025** | **716.92** | **79.98** | **77.67** | **11.2** | **10.8** |
+| FY | 매출($B) | OP($B) | OPM(%) | NPM(%) | 사이클 이벤트 |
+|----|---------|--------|--------|--------|------|
+| 2014 | 88.99 | 0.18 | **0.2** | (0.3) | **← 12년 OPM 최저 (물류 인프라 폭증)** |
+| 2015 | 107.01 | 2.23 | 2.1 | 0.6 | AWS 매출 분기 disclosure 시작 |
+| 2016 | 135.99 | 4.19 | 3.1 | 1.7 | Prime Video 본격 |
+| 2017 | 177.87 | 4.11 | **2.3** | 1.7 | **← 1차 압축 (Whole Foods $13.7B 인수, fulfillment 폭증)** |
+| 2018 | 232.89 | 12.42 | 5.3 | 4.3 | AWS 가속 + 광고 사업 본격 |
+| 2019 | 280.52 | 14.54 | 5.2 | 4.1 | 1-Day shipping 폭증 |
+| 2020 | 386.06 | 22.90 | **5.9** | 5.5 | **← COVID 정점 (매출 +38% YoY)** |
+| 2021 | 469.82 | 24.88 | 5.3 | 7.1 | Prime Video 콘텐츠 + Andy Jassy CEO 취임 |
+| 2022 | 513.98 | 12.25 | **2.4** | (0.5) | **← 2차 압축 저점 (팬데믹 capex 후유증 + 인플레이션, 순손실)** |
+| 2023 | 574.79 | 36.85 | 6.4 | 5.3 | Year of Efficiency (27K layoff) |
+| 2024 | 637.96 | 68.59 | 10.8 | 9.3 | AWS +19% YoY, 광고 $56B |
+| **2025** | **716.92** | **79.98** | **11.2** | **10.8** | **← 슈퍼사이클 정점 (AWS +28% 15-quarter high + 광고 TTM $70B)** |
 
 → (출처: Amazon 10-K filings FY2014~FY2025, SEC EDGAR)
 
-→ 사이클 detection 패턴 — (1) **2014~2017 저마진기**: 물류 fulfillment 확장 + Prime Video 콘텐츠 투자. (2) **2018~2021 마진 확장기**: AWS 비중 상승 + 광고 사업 본격화. (3) **2022 압축기**: 팬데믹 capex 후유증 + 인플레이션. (4) **2023~2025 슈퍼사이클**: AWS 가속 + 광고 +24% + 물류 효율화 + AI 인프라 monetization.
+![AMZN 연간 매출 & OPM/NPM 추이](AMZN_chart1_매출OPM.png)
 
 ### ② 산업 분류
 
 - **GICS**: Consumer Discretionary > Broadline Retail (50203010)
-- **하위 산업 노출**: e-commerce (NA+Intl 약 82% 매출 비중), Cloud Infrastructure (AWS 18% 매출 비중, 그러나 OP의 57%), Digital Advertising (Q1 2026 광고 $17.2B, 연환산 ~$70B), Streaming Media (Prime Video, MGM)
-- **워치리스트 섹터/Tier**: Cloud Infrastructure (T1), e-commerce/Retail (T2 보조)
+- **하위 산업 노출 (FY25 매출 비중)**: North America Stores 57% + International Stores 22% (e-commerce 합산 79%) / AWS 18% (OP 비중 ~60%) / Other 1% / **광고 별도 분류: 매출 약 10%, OP 비중 ~20%**
+- **워치리스트 섹터/Tier**: T1 미국 빅테크 / Cloud Infrastructure + e-commerce + Digital Ad industry
+- **글로벌 피어**: MSFT Azure (Cloud), GOOGL Cloud (Cloud), Walmart/Costco (e-commerce + 그로서리), GOOGL+META (광고)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-- 매출은 명백한 지속성장(12년 19.5% CAGR), 단일 사이클 종목 아님
-- 이익은 **분기성 사이클** 존재 — 특히 AWS CapEx ($2024 $77.7B → 2025 $128.3B, +65%)이 단기 마진 압박 요인
-- AMZN은 매출 사이클(지속성장) + 이익 사이클(인프라 투자) 이중 구조 → "사이클 + 지속성장 혼합" 분류가 적정
+(1) **가장 매출 큰 사업부 기준** 적용 시 Stores 79% (e-commerce 단일 동인) → "e-commerce = 사이클 OEM 유사" 일견. 그러나 매출 12년 CAGR +19.5% 단조 우상향 = 지속성장 명확.
+(2) **단, 영업이익 비중 우선 sub-rule** 적용: **AWS OP 비중 ~60%** (매출 비중 18% 대비 3.3x 영업이익 효율) → **AWS가 사실상 P&L driver**. AWS 자체는 secular cloud 성장 + CapEx 사이클 동시 보유. Stores 사이클(fulfillment 효율)과 AWS 사이클(인프라 CapEx) 양면.
+(3) **Boundary case 처리**: Primary "multi-segment 지속성장" + Secondary "사이클 (인프라 CapEx 2회 명확)". **OPM range 11.0%pt = 사이클 cutoff 직선상**, 그러나 단조 우상향 추세 (FY14 0.2% → FY25 11.2%). **AWS 매출 비중 25%+ 도달 시 + 광고 매출 비중 15%+ 도달 시** → "지속성장 + Cloud/AI secular" Primary 격상 가능.
+(4) **글로벌 피어 cross-reference**: **AWS vs Azure vs GCP = Cloud 빅3** (AWS $150B run rate / Azure $95B / GCP $80B). **AWS 가속률 +28% (15-quarter high)** = Azure +40% / GCP +63% 동기화 사이클. 삼성전자 비교: 삼성 multi-segment 메모리 사이클 vs **AMZN multi-segment Stores + Cloud 동시 운영** (사이클 동인 source 분산).
 
-### ④ 적정 밸류에이션 방법
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위: EV/EBITDA + AWS PSR sum-of-parts** — AWS는 단독 평가 가능 (FY25 매출 $128.7B, 28% YoY)이고 retail은 GMV·FCF 기반
-- **2순위: PER (Forward 12M)** — 영업이익이 2024년부터 정상화되어 PER 의미 회복 (FY25 EPS $7.17, 현재가 기준 PER ~28x)
-- **PBR은 부적합** (서비스·플랫폼 비중 큼)
+- **1순위 EV/EBITDA + Sum-of-Parts** — Stores·AWS·Ads multi-segment 평가 필수. **AWS 단독 PSR ~7x** (FY25 매출 $128.7B × 7 = ~$900B) + Stores EV/EBITDA ~12x + 광고 PSR ~6x = SOTP.
+- **2순위 PER (Forward 12M)** — FY24부터 영업이익 정상화로 PER 의미 회복 (FY25 EPS $7.17, PER ~28x).
+- **3순위 FCF Yield** — Q1 26 TTM FCF $1.2B (-95% YoY) = CapEx 폭증 임팩트, **첫 자본 시험기 진입**. CapEx 정점 통과 후 회복 추정.
+- **PBR 부적합** — Stores·Cloud·플랫폼 비중 큼.
+- **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, AMZN은 multi-segment 지속성장 → **SOTP + EV/EBITDA** (AWS+Ads+Stores 다중 multiple 차별화).
 
-### ⑤ 분기 재평가 트리거
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-- AWS 분기 성장률 가속/감속 (28% 1Q26 → 다음 분기 가속 여부)
-- CapEx 가이던스 (FY26 회사 guidance 명시 안 함, 1Q26 $44.2B → 연간 환산 $176B+ 추정)
-- 광고 사업 성장률 (Q1 2026 +24%)
-- 북미·International 영업이익률 expansion 지속 여부 (2025 NA 6.9% / Intl 2.9%)
-- Anthropic 지분 평가이익 (2025 +$15.2B, 2026 Q1 +$16.8B — 비현금 일회성 OCI)
+> 분류 자체가 바뀔 조건 (실적 추적용 변수 AWS 성장률·광고 매출 등은 §6 "기타 팩트"로 분리)
+
+- **AWS 매출 비중 25%+ 도달 시 + OP 비중 65%+ 도달 시** → Primary "Cloud-led 지속성장"으로 격상 (현재 매출 18%/OP 60%)
+- **TTM FCF 2개 분기 연속 음수 진입 시** → "지속성장" 분류 → "사이클 + 인프라 CapEx 부담" 가중치 격상 (현재 +$1.2B 최저점)
+- **광고 매출 비중 15%+ 도달 시** → Primary "광고 multi-platform" Secondary 추가 (현재 ~10%)
+- **AWS 분기 성장률 +20% 이하로 둔화 시** → "AI secular sub-cycle 종료" 분류 검토 (현재 +28% 5분기 연속 가속)
+- **Anthropic 지분 평가이익 sustained 시** → 비현금 OCI but multiple 영향 (Q1 26 +$16.8B 일회성)
 
 ---
 

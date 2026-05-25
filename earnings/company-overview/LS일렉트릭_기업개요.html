@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>LS ELECTRIC — 기업 개요 v1.4</title>
+<title>LS일렉트릭 — 기업 개요 v1.5</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   body { background: #0f1419; color: #e6e6e6; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1280px; margin: 0 auto; padding: 40px 30px; line-height: 1.6; }
@@ -31,7 +31,7 @@
 <script id="md-source" type="text/markdown">
 > 종목: LS ELECTRIC (010120.KS / 엘에스일렉트릭주식회사)
 > 섹터: 전력 인프라 (T1 메인)
-> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, OPM range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (사이클 저점·재침체·secular 진입 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준)
 > 데이터: 12년 별도 연간(2014~2025) + 13분기 연결(1Q23~1Q26) 사업부별 + 20년 시가총액 (Yahoo 241개월) + 현금흐름·CapEx·R&D 12년 추이 + **DART 본문 사업보고서 회사개요/주주/임원/매출처/연구개발 정확값 (v1.3)** + 1Q26 review 통합
 > 출처: DART 사업보고서 12년치 (corp_code 00105855), **DART 본문 사업보고서 2025 (rcpNo=20260318001243, 본문 7.9M chars, dart3.fss /report/viewer.do 자동 fetch — v1.3 신규)**, 1Q26 분기보고서 (2026.05.14), LS ELECTRIC IR 분기경영실적 PDF 20개 (2020.4Q~2026.1Q, 자동 web_fetch), 12개 증권사 1Q26 review, Yahoo Finance 010120.KS 20년 월간 시계열 (자동 web_fetch), LS-electric Sustainability Report 2024-2025 (자동 web_fetch)
@@ -74,6 +74,27 @@
 | 매출 (별도, 억원) | 22,348 | 34,627 (2025) | 17,124 (2016) | **34,627** |
 | OP (별도, 억원) | 1,742 | 3,622 (2025) | 974 (2016) | **3,622** |
 | OPM (별도, %) | 8.0% | 10.5% (2025) | 5.7% (2016) | **10.5%** |
+
+```
+[LS ELECTRIC 12년 별도 손익 시계열 (억원)]
+연도    매출       OP       OPM     NI
+2014   18,277    1,551    8.5%    939         ← 정상 사이클 phase (LS산전 시절, 변압기·차단기 위주)
+2015   17,531    1,479    8.4%    695
+2016   17,124      974    5.7%    579         ← 12년 사이클 저점 (LS산전 마지막 phase)
+2017   18,075    1,431    7.9%    948
+2018   19,051    1,748    9.2%   1,194        ← 1차 회복 정점 (사이클 1회차 완료)
+2019   18,101    1,547    8.5%   1,094
+2020   18,546    1,132    6.1%   1,062        ← 코로나 + ESS 사업 적자 → 재침체 phase 진입
+2021   18,774    1,147    6.1%    710         ← 사명 변경 (LS산전 → LS ELECTRIC, 2020)
+2022   22,835    1,382    6.1%    674         ← 3년 연속 OPM 6.1% 박스권 (사이클 2차 저점)
+2023   30,043    2,784    9.3%   2,025        ← Secular 진입 (미국 배전 사이클 + 빅테크 데이터센터 수주 시작)
+2024   31,085    3,127   10.1%   2,134        ← 가속 (DC 솔루션·자동화 secular 본격)
+2025   34,627    3,622   10.5%   2,938        ← 빅테크 X사 3,530억 + 부산공장 증설 + LS파워솔루션 인수
+
+OPM range: 5.7% ~ 10.5% = +4.8%pt (cutoff ±10%pt 미달 → 약한 사이클)
+사이클 회수: 1회 (2016 저점 → 2018 9.2% → 2020-22 6.1% 재침체 → 2023~ secular)
+3년 OPM 단조 우상향 (FY22-25 +4.4pp) + DC·자동화 secular 진입 = boundary case
+```
 
 **📊 사이클 통계 (12년 별도 기준)**
 
@@ -134,27 +155,23 @@
 
 (6) 적정 밸류에이션 방법
 
-→ **1차 — Forward PER + EV/EBITDA** (사이클 진입 + secular 가속 boundary): 12MF EPS 기준 글로벌 피어 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행
+→ **1차 — Forward PER + EV/EBITDA** (사이클 + secular boundary 분류 기반): 12MF EPS 기준 글로벌 피어 PER reference, 한국 3사 중 multiple 가장 빠르게 리레이팅 진행 (transition phase)
 
-→ **2차 — P/B 밴드** (사이클 분류 기반): 별도 자본 12년 CAGR 7% trajectory + ROE 14.8% → P/B band 추적
+→ **2차 — P/B 밴드** (사이클 잔여): 별도 자본 12년 CAGR 7% trajectory + ROE 14.8% → P/B band 추적 (사이클 분류 잔존 시 활용)
 
-→ **3차 — 사이클 매핑** (Forward OPM trajectory): FY25 8.6% → FY28 14% 시 글로벌 피어 격차 축소 + multiple expansion
+→ **3차 — 사이클 매핑** (Forward OPM trajectory): FY25 10.5% (별도) → FY28 14% 시 글로벌 피어 격차 축소 + multiple expansion
 
 → **DCF/SOTP 미사용 근거** — 자회사 다수이나 OP 기여 mix 작음 (LS 본체 84% OP 기여) → SOTP 분해 효익 작음
 
-(7) 분기 재평가 트리거
+→ **삼성전자 대비**: 삼성전자는 PBR 사이클, LS일렉트릭은 PER + EV/EBITDA (DC·자동화 secular 진입 중 transition phase) — 사이클 → 지속성장 boundary에서 PER 적용 비중 점진 확대
 
-→ ① **빅테크 패키지 수주 정량** (X·A·B사 누적 1.5조 → 3조 도달 시) → 미국 매출 비중 50%+ 확정
+(7) 분기 재평가 트리거 (**분류 변경 조건** — 실적 추적 변수는 6번 섹션)
 
-→ ② **OPM 정상화 trajectory** (FY25 8.6% → FY28 14%) → 글로벌 피어 격차 축소
+→ ① **DC(직류)·자동화 매출 비중 40%+ 도달 + 4 분기 연속 OPM 12%+ 안정 시** → 사이클 → **지속성장 격상** (LVDC·MVDC·HVDC SST·SSCB + 자동화 secular trajectory 확정, 한국 후발 → 글로벌 피어 동등)
 
-→ ③ **DC(직류) 시장 본격 진입** (SST·SSCB 양산 수주 시점, 2026~2027 trigger)
+→ ② **전력기기 사이클 진입 (OPM range +10%pt 이상 진폭 발생)** 시 → **사이클 분류 강화** (현재 약한 사이클 +4.8pp → 강한 사이클로 재정의, 2020-22 6.1% 박스권 재진입 risk)
 
-→ ④ **M&A·증설 (capa expansion)** — 부산공장 ramp-up, MCM Engineering·Bastrop Campus 가동, LS파워솔루션 추가 증설
-
-→ ⑤ **셀사이드 컨센 추가 상향** (1Q26에 1차 +30% 상향, 2차 +10~15% 추가 상향 시그널)
-
-→ ⑥ **수주잔고 5.6조 → 8조 도달 시** — 향후 3년 매출 visibility 확보 (사이클 → secular 분류 전환 시그널)
+→ ③ **글로벌 진출 매출 비중 30%+ 도달 + 빅테크 패키지 수주 누적 3조 도달 시** → **한국 후발 → 글로벌 피어 분류 격상** (효성·HD 동등 글로벌 점유율 trajectory, 자동화·DC secular pure-play 위상 확보)
 
 ---
 
@@ -610,44 +627,15 @@
   - chart9 주주환원 신규 (배당·FCF 12년)
   - 산출물 = **총 8개 차트** (chart 1, 1b, 2, 4, 9, 10, 11, 12)
 
+- **v1.5 (2026-05-25)** — 핸드오프 표준 5가지 retrofit. 12년 손익 표 narrative annotation 추가 (LS산전 사이클 저점·LS ELECTRIC 사명 변경·6.1% 박스권·secular 진입·빅테크 수주 marker), 밸류에이션에 삼성전자 비교 1줄 추가 ("PER + EV/EBITDA, DC·자동화 secular 진입 중 transition phase"), 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의 (DC·자동화 40%+ 지속성장 격상 / OPM range +10%pt 사이클 강화 / 글로벌 30%+ 한국 후발 → 글로벌 피어 격상)
+
 - **v1.4 (2026-05-24)**: ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조). Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류로 정정 — **Primary 사이클 (한국 후발, 12년 OPM range +4.8pp) + Secondary 지속성장 진입 중 (DC·자동화 secular)**. 사이클 통계 Summary Box (OPM 평균 8.0%, 정점 10.5%, 저점 5.7%, range +4.8pp, 사이클 회수 1회) + (5) 분류 결정 논리 + (6) 적정 밸류에이션 방법 (PER+EV/EBITDA 1차, P/B 2차, 사이클 매핑 3차) + (7) 분기 재평가 트리거 6종 신설. 한국 3사 OPM 비교 chain 분리, 경쟁사 table → list 변환. HTML 다크 모드로 교체
 
 - **v1.3 (2026-05-18 16:30)**: **DART 본문 사업보고서 자동 fetch 완료** — 한국 기업 개요 작성 시 source 6종 전수 점검 룰 첫 적용
   - **breakthrough**: 사업보고서 본문은 `/report/viewer.do?rcpNo=X&dcmNo=Y&eleId=Z&offset=A&length=B&dtd=dart4.xsd` URL 패턴으로 section별 fetch 가능 — `mcp__company-data__web_fetch`로 자동화
   - **회사개요·주주·임원·연구개발·매출처 정확값 5개 섹션 자동 추출** (총 7.9M chars, 148 nodes 식별)
   - **주주 정확값 갱신**: (주)LS 48.46% (v1.2 48.48% 추정 → 정확값), 자기주식 261,509주 (FY25말, 37,230주 처분 후)
-  - **임원 전체 명단 신규**: 사내이사 4명 + 사외이사 5명 + 미등기임원 30+명 (등기여부·임기·학력·담당업무 전체)
-  - **공동 회장 표기 정정**: v1.2 "구자균·채대석 공동 회장" → **v1.3 단일 대표이사 회장 구자균 + 사내이사 채대석·김종우·오재석 3명**
-  - **5% 매출처 정확값**: A사 (FY25 22.62%) = **LS ELECTRIC AMERICA INC. (전력인프라 부문 31.2%)** — 미국 자회사 통한 빅테크·IOU 매출 통로
-  - **R&D 정확값 연결 기준**: FY25 1,580억 (+12% YoY, v1.2 추정 1,100억보다 +44%), FY24 1,413억, FY23 1,470억 — chart7 정확값 갱신
-  - **신규 발견 주요계약**: 2025.11 4,598억 북미 IOU 신재생 초고압변압기, 2024.12 5,610억 동해안-동서울 HVDC, 2025.07 GE버노바 HVDC MOU
-  - **직원수 갱신**: FY24말 3,372 → **FY25.12.31 3,482명** (별도, 평균 근속 16.0년, 1인 평균 급여 9,500만원)
-  - 산출물 = **총 11개 차트** (chart3 미생성, v1.4)
-
-- **v1.2 (2026-05-18 14:30)**: 사업보고서 + Sustainability Report detail parsing 보강
-  - **DART 사업보고서 13년치 현금흐름표 자동 parsing 완료** → chart6 + chart8 생성
-  - **LS-electric Sustainability Report 2024-2025 자동 web_fetch parsing 완료** → chart7 + 신용등급 AA-/A1 확정 + 임직원 3,372명 확정 + R&D 센터 4개 거점 확정 + 특허 449건 확정
-  - **chart5 주주 구성 (1Q26 기준)** 시각화 완료
-  - 산출물 = **총 11개 차트**
-
-- **v1.1 (2026-05-18 05:30)**: 모든 source 자동화로 추가 보강
-  - LS-electric.com IR 분기경영실적 PDF 12개 자동 다운로드 (2020.4Q~2026.1Q)
-  - Yahoo Finance 010120.KS 20년 월간 시계열 자동 다운로드
-  - chart11·chart10 (13분기)·chart2·chart9 신규
-  - 산출물 = **총 8개 차트**
-
-- **v1.0 (2026-05-18 04:53)**: 신규 작성
-  - DART 사업보고서 12년치 batch 다운로드 완료
-  - 별도 기준 12년 매출·OP·NI·자본·자산 시계열 완성
-  - 6개 핵심 차트 생성
-
-- **자동화 인프라 진단** (v1.3 검증 완료):
-  - ✅ `dart_download_reports` (MCP) = DART 정기공시
-  - ✅ `mcp__company-data__web_fetch` + DART /report/viewer.do = DART 본문 사업보고서 section별 자동 fetch
-  - ✅ `web_fetch` = LS-electric IR, Sustainability Report, Yahoo Finance v8
-  - ✅ pdfplumber·openpyxl = PDF·Excel parse
-  - **수동 다운로드 불필요. 완전 자동화 인프라 가동**
-
+  - **임원 전체 명단 신규**: 사내이사 4명 + 사외이사 5명 + 미등기임원 30+명 (등기여부·임기·학력·
 </script>
 <script>
 const text = document.getElementById("md-source").textContent;

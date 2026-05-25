@@ -1,4 +1,47 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>WDC — 기업 개요 v4.9</title><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script><style>body{{background:#0f1419;color:#e6e6e6;font-family:sans-serif;max-width:1280px;margin:0 auto;padding:40px;line-height:1.6}}h1{{color:#4ec9b0;border-bottom:2px solid #2d3748;padding-bottom:12px}}h2{{color:#76b9c4;border-left:4px solid #76b9c4;padding-left:12px}}h3{{color:#c5a572}}h4{{color:#c5a572}}table{{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}}th,td{{border:1px solid #3a4658;padding:6px 10px;text-align:right}}th{{background:#1f2937;color:#76b9c4}}td:first-child,th:first-child{{text-align:left}}img{{max-width:100%;background:#fff;padding:4px;border-radius:6px}}strong{{color:#f0b070}}blockquote{{border-left:4px solid #4ec9b0;padding:14px 18px;color:#b4c2ce;font-style:italic;background:#1a2330;margin:14px 0}}</style></head><body><div id="content">loading</div><script id="md" type="text/markdown">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>WDC — 기업 개요</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  body {
+    background: #0f1419;
+    color: #e6e6e6;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    line-height: 1.6;
+  }
+  h1 { color: #4ec9b0; border-bottom: 2px solid #2d3748; padding-bottom: 12px; font-size: 28px; }
+  h2 { color: #76b9c4; margin-top: 36px; border-left: 4px solid #76b9c4; padding-left: 12px; font-size: 22px; }
+  h3 { color: #c5a572; margin-top: 28px; font-size: 18px; }
+  h4 { color: #c5a572; font-size: 15px; }
+  table { border-collapse: collapse; margin: 16px 0; width: 100%; font-size: 13px; }
+  th, td { border: 1px solid #3a4658; padding: 6px 10px; text-align: right; }
+  th { background: #1f2937; color: #76b9c4; }
+  td:first-child, th:first-child { text-align: left; }
+  code { background: #1f2937; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #f0b070; }
+  img { max-width: 100%; margin: 12px 0; border-radius: 6px; background: #ffffff; padding: 4px; }
+  strong { color: #f0b070; }
+  blockquote {
+    border-left: 4px solid #4ec9b0;
+    padding: 14px 18px;
+    color: #b4c2ce;
+    font-style: italic;
+    background: #1a2330;
+    margin: 14px 0;
+  }
+  ul, ol { margin: 8px 0 8px 24px; }
+  li { margin: 4px 0; }
+  a { color: #76b9c4; }
+  hr { border: none; border-top: 1px solid #2d3748; margin: 28px 0; }
+</style>
+</head>
+<body>
+<div id="content">렌더링 중...</div>
+<script id="md-source" type="text/markdown">
 > 종목: 웨스턴 디지털 (Western Digital Corporation, NASDAQ: WDC)
 > 섹터: 반도체·스토리지 (HDD 전용 — Pureplay 전환 후)
 > 작성 시각: 2026-05-18 KST
@@ -372,4 +415,10 @@ OPM range: -18.9% ~ +21.8% = 40.7%pt (분사로 사이클 진폭 축소)
 → **AI Datacenter HDD 수요 지속** — colder storage 매출 secular 성장
 → **분사 후 배당·자사주 정책 발표** — FY26 framework 가능
 → **Seagate 점유율 격차 축소**
-</script><script>document.getElementById("content").innerHTML=marked.parse(document.getElementById("md").textContent);</script></body></html>
+</script>
+<script>
+const text = document.getElementById("md-source").textContent;
+marked.setOptions({ breaks: false, gfm: true });
+document.getElementById("content").innerHTML = marked.parse(text);
+</script>
+</body></html>

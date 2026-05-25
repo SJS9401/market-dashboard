@@ -795,8 +795,4 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 ## Version Log
 
-- **v1.0** (2026-05-24) — 첫 작성. Source 6종 일괄 수집 (23개 자료) + Phase 1 audit + 14 차트 + Multi-segment 글로벌 피어 하이브리드 (C) 적용 + 한국 3사·ABB·GEV·Schneider cross-ref
-- **v1.1** (2026-05-24) — 가독성 개선 + 비즈니스 모델 보강 (비교 table → list, ③ 5 BU 30여개 제품 상세 풀이 + 경쟁사 + 매출처)
-- **v1.2** (2026-05-24) — HTML 다크 모드 스타일 교체 (삼성전자 .html 참고) + marked.js 동적 렌더링
-- **v1.3** (2026-05-24) — 한 줄 chain 분리 룰 (분류·시대·entity별 줄바꿈, 사명 변천사 4기 그룹화, manufacturing site 지역별 그룹)
-- **v1.4** (2026-05-24) — ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8 참조). Primary를 "사업 강점"이 아니라 **"지속성장 (Secular) — Energy Transition" 본질 분류로 정정**. (5) 적정 밸류에이션 + (6) 분기 재평가 트리거 6종 신설. Summary Box에 사이클 통계 (Margin range +5.9%pt, 사이클 회수 0회) 추가
+- **v1.5** (2026-05-25) — 핸드오프 표준 5가지 retrofit. 5년 손익 표 narrative annotation 추가 (ABB 인수·MMP·Service BU·HMAX 변곡점 marker), 밸류에이션에 삼성
