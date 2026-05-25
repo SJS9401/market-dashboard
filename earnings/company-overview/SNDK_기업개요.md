@@ -20,58 +20,96 @@
 ---
 
 
-# Sandisk Corporation 기업 개요 (v4.8)
+# Sandisk Corporation 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 사이클** (Cyclical) — NAND Flash 전용 IDM (JV 기반)
+- **Secondary 노트: AI Enterprise SSD secular 폭발 진입** — Q3 FY26 매출 +251% YoY, Cloud segment +195% YoY, NBM 5개 계약
 
-→ **Primary: NAND Flash 메모리 전용 IDM (Joint Venture 기반)** — 매출 100% NAND, DRAM 없음
-→ **Secondary: Enterprise SSD (Cloud)** — FY25 Cloud segment +195% YoY 폭발 ($328M → $963M)
-→ **특이 구조**: 자체 fab 없음, **Kioxia와 Flash Ventures JV** (49.9% 지분, 7개 fab in Japan)
-→ **신규 상장**: 2025.02.21 Western Digital에서 분사하여 NASDAQ:SNDK로 신규 상장
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY14~FY25 12년 평균):**
 
-| 지표 | 12년 평균 (FY14~FY25) | 정점 | 저점 | FY25 |
-|---|---|---|---|---|
-| Revenue ($B) | 7.40 | 9.84 (FY21) | 5.56 (FY15) | **7.66** |
-| GAAP OP ($B) | 0.62 | 3.42 (FY18) | -1.55 (FY23) | **-0.50** |
-| GAAP OPM (%) | 7.7% | 36.2% (FY18) | -24.7% (FY23) | **-6.5%** |
-| Revenue CAGR (12년) | **1.3%** (저성장) | — | — | — |
-| 사이클 진폭 | FY18 정점→FY23 적자 (4년 만에 OPM 36%→-25%) | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **+1.3%** (저성장 — SSD 대체율 + NAND 사이클 진폭) |
+| GAAP OPM 평균 | **7.7%** |
+| OPM 정점 평균 | **36.2%** (FY18 — NAND 1차 슈퍼사이클) |
+| OPM 저점 평균 | **-15.6%** (FY23·FY25 — 메모리 다운사이클 적자, 그러나 FY26 폭발 회복) |
+| 사이클 주기 | 약 3년 (peak-to-peak), 진폭 OPM ±60%pt (NAND pureplay 최대) |
+| 사이클 회수 (12년) | 정점 2회 (FY18·FY26 진행 중) / 저점 2회 (FY16·FY23) |
 
-→ **순수 NAND 사이클 종속도 100%** — DRAM/HBM 노출 없어 사이클 진폭 가장 큼
+```
+[Sandisk GAAP OPM 시계열 (12년, WD Flash segment FY14~FY24 추정 + SNDK standalone FY25~)]
+FY     매출($B)  OP($B)   OPM     NPM
+FY14    6.30    0.50     7.9    7.0    ← NAND mid-cycle
+FY15    5.56    0.20     3.6    2.0    ← 다운사이클 mid-저점
+FY16    6.80    0.65     9.6    8.0    ← 회복 시작
+FY17    9.00    2.35    26.1   22.0   ← 1차 슈퍼사이클 시작
+FY18    9.45    3.42    36.2   32.0   ← 정점 1차 (NAND 슈퍼사이클)
+FY19    7.50    0.80    10.7    7.5   ← 다운사이클 진입
+FY20    7.30    0.50     6.8    5.0
+FY21    9.84    1.85    18.8   16.0   ← 코로나 IT 회복 2차 정점
+FY22    9.10    1.40    15.4   13.0
+FY23    6.30   -1.55   -24.7  -25.0   ← 메모리 다운사이클 저점 2차 (적자)
+FY24    6.61    0.05     0.8    1.5
+FY25    7.66   -0.50    -6.5   -6.0   ← 분사 직후, NAND 회복 초기 (FY26 폭발 직전)
+[FY26E  18~19   ~6.0   ~33+   ~27+]  ← AI Enterprise SSD 폭발 진입 (Q3 +251% YoY)
 
-(3) 정량적 분류 근거
+OPM range: -24.7% ~ +36.2% = 60.9%pt
+NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최대
+```
 
-→ **NAND 시장 점유율 (TrendForce 2025 4Q)**: **약 13~15%** — 글로벌 4위 (Samsung 35%·SK Hynix(Solidigm) 20%·Kioxia 17% 다음)
-→ **DRAM 매출**: $0 (없음)
-→ **HBM 매출**: $0 (없음)
-→ **AI 가속기 매출**: $0 (없음)
-→ **순수 NAND pureplay** = 마이크론·SK하이닉스·삼성보다 더 집중·더 변동성 높음
+![Sandisk 12년 매출 & OPM 추이 (Q3 FY26 폭발 변곡점)](charts/SNDK_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![Sandisk 12년 손익 4지표](charts/SNDK_chart1b_손익4지표_12년.png)
 
-→ **GICS Sector**: Information Technology — Semiconductors
-→ **Bloomberg Industry**: Semiconductor Equipment — Memory & Storage
-→ **분류 결정 논리**: NAND 단일 사이클 종속도 100%. **HBM·DRAM 노출이 없어 AI HBM 슈퍼사이클 직접 수혜 불가**. 단, AI 시대 enterprise SSD 수요 폭증 = Cloud segment 통해 간접 수혜
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체 NAND Flash 메모리** (단일 segment)
+- SEC SIC 분류: 3674 — Semiconductors
+- GICS Sector: Information Technology — Semiconductors
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·INTC·STX·WDC·AMD·ARM)
+- 글로벌 점유: **NAND 13~15%** (4위, Samsung 35%·SK하이닉스 20%·Kioxia 17% 다음), **DRAM 0%**, **HBM 0%**
 
-→ **1차 — P/B 밴드**: NAND 사이클 위치 판단
-→ **2차 — Forward P/E**: 분사 직후 multiple 형성 초기 단계
-→ **3차 — EV/EBITDA**: Flash Ventures JV 50% 부담 반영
-→ **4차 — Kioxia·마이크론 NAND 부문 비교 valuation**
-→ **5차 — Spin-off SOTP**: WD에서 받은 valuation discount 정상화 여부
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 NAND 100% → 단일 segment cyclical (NAND ASP 사이클 종속)
 
-→ ① NAND ASP 변동 (분기 +/-30% 이상)
-→ ② Cloud segment 매출 성장률 (FY25 +195% → FY26 추세)
-→ ③ Kioxia와 JV 협력 변화 (capacity expansion, 8번째 fab CY2025 가동)
-→ ④ enterprise SSD 점유율 변화 (Solidigm·Samsung 경쟁)
-→ ⑤ Kioxia IPO 이후 JV 재구조화 가능성
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - Q3 FY26 Cloud segment +195% YoY → AI Enterprise SSD secular 폭발
+   - NBM 5개 계약 (multi-year customer engagement + firm financial commitment) → 마이크론 SCA와 유사 가시성
+   - 다만 NAND ASP 사이클 종속도 100% (DRAM/HBM 사이클 동조)
+
+(3) **Boundary case 처리**: NAND 사이클 + AI Enterprise SSD secular 섞임 → **Primary 사이클 + Secondary AI SSD secular** 표기. Cloud segment 비중 50%+ 도달 시 Primary Secular 격상 검토
+
+(4) **글로벌 피어 cross-reference**:
+   - **WDC 대비**: 분사 모회사. WDC는 HDD 사업으로 분리됨. SNDK NAND pureplay
+   - **Samsung 대비**: NAND 35% 압도 점유 + DRAM/HBM mix → 사이클 흡수. SNDK pureplay → 사이클 진폭 더 큼
+   - **SK Hynix (Solidigm) 대비**: SK하이닉스 NAND 자체 + Solidigm 통합 → 4위. SNDK 4위와 점유율 비슷
+   - **Kioxia 대비**: JV Partner (Flash Ventures, 49.9% 지분). Kioxia IPO 후 JV 재구조화 가능성
+   - **STX 대비**: HDD vs NAND 콜드 스토리지 시장 경쟁. SNDK HBM·DRAM 없어 STX 대비 차별화 부재
+   - **SNDK 차별점**: 분사 직후 zero-debt + $6B 자사주 program + NBM 가시성 + 자체 fab 없음 (JV asset-light)
+
+### (4) 적정 밸류에이션 방법
+
+- **PBR** (사이클 기준) 우선 — 분사 후 자본 회복 추적, NAND 사이클 위치 판단의 핵심
+  - 사이클 정점 PBR 상한 (FY18·FY26E) vs 저점 PBR 하한 (FY23 적자) 밴드 활용
+- **Forward PER** 보조 — 분사 직후 multiple 형성 초기 단계 (분사 $35 → 시총 $165B+ 폭등)
+- **EV/EBITDA** — Flash Ventures JV 50% 부담 반영
+- **Kioxia·마이크론 NAND 부문 비교** — NAND pureplay valuation 비교
+- **Spin-off SOTP** — WD에서 받은 valuation discount 정상화 여부
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment) vs **Sandisk PBR 단독 우선** (NAND pure cycle). Cloud secular 강화 시 PER 비중 증가 예상
+
+### (5) 분기 재평가 트리거
+
+- **Cloud segment 매출 비중 50%+ 도달 시** → AI Enterprise SSD secular 우세 → Primary cyclical → Primary Secular 격상 후보
+- **NBM 계약 비중 50%+ 도달 시** → 다년 가격 가시성으로 사이클 변동성 축소 → cyclical 진폭 축소 재평가
+- **2개 분기 연속 OPM 25%+ 안정 시** → 사이클 변동성 약화 → 사이클 → 지속성장 transition 후보
+- **NAND 점유율 20% 돌파 시 (Solidigm·Kioxia 추격 성공)** → 시장 leadership 확대 → premium multiplier 정당화
+- **Kioxia IPO 이후 JV 재구조화** → Flash Ventures 지분 변동 시 segment 재정의 검토
+- **NAND ASP 분기 ±30% 이상 변동** → 다음 분기 사이클 direction 변경 시그널
 
 ---
 

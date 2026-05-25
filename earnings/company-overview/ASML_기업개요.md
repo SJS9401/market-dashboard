@@ -1,63 +1,96 @@
-# ASML Holding NV (NASDAQ: ASML / Euronext: ASML.AS) — 기업 개요 v2.0
+# ASML Holding NV (NASDAQ: ASML / Euronext: ASML.AS) — 기업 개요 v2.1
 
 > **본사**: Veldhoven, Netherlands | **상장**: NASDAQ ADR + Euronext Amsterdam | **회계**: EUR, US-GAAP (분기) / IFRS (annual)
 > **섹터**: 반도체 소부장 (워치리스트 T2) — 글로벌 lithography 장비 **독점 공급자**
 > **티커**: ASML (NASDAQ) | **SEC CIK**: 0000937966
-> **작성일**: 2026-05-24 (v2.0) | **데이터 cutoff**: FY2025 annual + 2026-Q1 quarterly
+> **작성일**: 2026-05-24 (v2.1 — 1번 섹션 표준화) | **데이터 cutoff**: FY2025 annual + 2026-Q1 quarterly
 
 ---
 
 ## 1. 기업 분류
 
-### Summary Box (FY2015~FY2025 11년)
+- **Primary 분류: Secular Growth** (Lithography 장비 단일 segment, AI·Moore's Law 종속)
+- **Secondary 노트: WFE Capex 사이클 + EUV Ramp 단계별 변동성 일부 섞임**
 
-| 항목 | 값 |
-|---|---|
-| Primary 분류 | **고성장 + 사이클 일부** (반도체 장비 종합) |
-| **11년 매출 CAGR** | **+17%** (€6.3B → €32.7B, **5.2배**) |
-| **11년 순이익 CAGR** | **+20%** (€1.4B → €9.6B, **6.9배**) |
-| 11년 GPM 평균 | **49.0%** (44.7% → 52.8%) |
-| 11년 OPM 평균 | **29.7%** (23.6% → 34.6%) |
-| 사이클 주기 | WFE Capex 사이클 + 첨단 노드 자본 사이클 (3~5년) |
+### ① 정량 근거
 
-### ① 정량 근거 — 11년 매출·마진 시계열
+**📊 Summary Box (FY2015~FY2025 11년 평균):**
 
-![ASML 11년 매출 & 마진](ASML_chart1_매출OPM.png)
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (11년) | **+17.9%** |
+| OPM 평균 | **29.7%** |
+| OPM 정점 평균 | **35.5%** (FY2021·FY2025 — EUV 본격 ramp + AI 가속) |
+| OPM 저점 평균 | **24.3%** (FY2015·FY2019 — pre-EUV, 메모리 다운사이클) |
+| 사이클 주기 | 약 3~4년 (WFE capex + 첨단 노드 ramp) |
+| 사이클 회수 (11년) | 정점 2회 / 저점 2회 (mid-cycle 폭 좁음) |
 
-→ FY2015 €6.3B → FY2025 €32.7B (**+419%, 11년 CAGR +17%**)
-→ GPM 46% → 52.8% (+6.8pp 향상). FY2021~FY2025 EUV mix 확대 + IBM service 비중 정착으로 margin lift
-→ **OPM 24% → 35% (+11pp)** — semi 장비 업계 최고 수준. NPM도 21% → 29%로 +8pp
+```
+[ASML OPM 시계열 (11년)]
+연도   매출(€B)  영업이익  순이익  OPM   NPM
+2015     6.3     1.57    1.39   24.9  22.1   ← pre-EUV, 사이클 저점 1차
+2016     6.9     1.76    1.56   25.6  22.7
+2017     9.0     2.44    2.07   27.2  23.1   ← NXE:3400B EUV 본격 ramp 시작
+2018    10.9     2.97    2.59   27.1  23.7   ← 최초 EUV 양산 (TSMC 7nm)
+2019    11.8     2.79    2.59   23.6  21.9   ← 메모리 다운사이클 영향, 사이클 저점 2차
+2020    14.0     3.86    3.55   27.6  25.4   ← COVID 회복 + EUV 확산
+2021    18.6     6.75    5.88   36.3  31.6   ← 메모리 슈퍼사이클 + EUV 본격, 사이클 정점 1차
+2022    21.2     6.50    5.62   30.7  26.6   ← 수요 cooling + GPM 압박
+2023    27.6     9.04    7.84   32.8  28.4   ← TSMC N3 ramp + AI 사이클 초기
+2024    28.3     9.02    7.57   31.9  26.8   ← China cycle 영향 + High-NA 첫 출하
+2025    32.7    11.30    9.61   34.6  29.4   ← AI 가속 + €38.8B backlog, 사이클 정점 2차
+
+OPM range: 23.6% ~ 36.3% = 12.7%pt
+사이클 진폭이 메모리 종목(±20%pt+)보다 좁아 secular 분류 우세 — 단 +/- 10%pt 변동은 분기 P&L에 직접 영향
+```
+
+![ASML 11년 매출 & 마진 (사이클 변곡점 annotation)](ASML_chart1_매출OPM.png)
 
 ![ASML 손익 4지표](ASML_chart1b_손익4지표.png)
 
-### ② 산업 분류 + 워치리스트 매핑
+(FY2010~FY2014 5년은 v3에서 옛 20-F 추출 후 확장 예정 → 16년 완성)
 
-→ **DART/SIC 분류**: 3559 — Special Industry Machinery (semiconductor equipment)
-→ **워치리스트 섹터**: T2 반도체 소부장 (피어: AMAT, LRCX, KLAC, BESI, Tokyo Electron, Advantest, Disco)
-→ **차별점**: 7개 반도체 장비 피어 중 유일한 **EUV lithography 독점 공급자** (TSMC·삼성·SK하이닉스·Intel의 첨단 노드 ramp에 단일 의존)
-→ **글로벌 점유**: WFE 시장 ~20% (단일 회사 최대), Litho 시장 ~95% (DUV+EUV 합계)
+### ② 산업 분류
+
+- 산업: **반도체 장비** (WFE — Wafer Fab Equipment)
+- SEC/SIC 분류: 3559 — Special Industry Machinery (Semiconductor Equipment)
+- 워치리스트 섹터: **T2 — 반도체 소부장** (피어: AMAT, LRCX, KLAC, BESI, Tokyo Electron, Advantest, Disco)
+- 글로벌 점유: WFE 시장 ~20% (단일 회사 최대), **Litho 시장 ~95%** (DUV+EUV 합산), **EUV 100% 독점**
 
 ### ③ 분류 결정 논리
 
-(1) **고성장 측면**: EUV → High-NA EUV → Hyper-NA 로드맵으로 ASP가 시스템당 단계적 상승 (NXE:3400B $170M → High-NA $370M+). FY2030 매출 €44~60B target = FY2025 대비 35~84% 추가 성장 여력
+(1) **가장 매출 큰 segment 기준** 적용 시 Lithography Systems (~75%) > IBM Service (~25%) → 일견 cyclical (장비 매출 변동성)
 
-(2) **사이클 측면**: WFE capex 사이클 (메모리 + Logic capex 동조). 다만 EUV는 capex 사이클 내에서도 첨단 노드 ramp 시점에 따라 매년 ASP·units 변동 → 분기 P&L 변동성 30~40%
+(2) **단, secular 변수 영향력 우선 sub-rule 적용**:
+   - EUV 독점 → Moore's Law 지속 시 매분기 신규 수요 — Logic·메모리 capex 사이클과 독립 영역 존재
+   - High-NA EUV (ASP +120%) → 차세대 ASP 단계적 lift = secular component
+   - IBM Service 25% → recurring revenue 사이클 buffer
+   - **결론: Secular 분류 우세, 사이클 component는 분기 변동성으로만 작용**
 
-(3) **혼합 분류 권장 이유**: 단순 사이클이 아닌 secular trend (Moore's Law 지속 → lithography intensity 증가) + capex 사이클 중첩. PER + EV/EBITDA + DCF 모두 적정
+(3) **Boundary case 처리**: Secular + WFE Capex 사이클 + 첨단 노드 ramp 단계별 변동성 모두 섞임 → **Primary Secular + Secondary 사이클 일부** 표기
+
+(4) **글로벌 피어 cross-reference**:
+   - **AMAT/LRCX/KLAC**: 전공정 장비 종합 → 순수 cyclical 분류. ASML 대비 EUV 독점 + Litho 95% 점유라는 secular component 부재
+   - **TEL/Disco**: 후공정·precision 장비 → cyclical
+   - **BESI**: HBM bonding 독점 → secular 일부 (small cap)
+   - **ASML 차별점: 반도체 장비 피어 중 유일한 EUV 독점** → secular premium 정당화
 
 ### ④ 적정 밸류에이션 방법
 
-→ **1순위**: 12MF PER (글로벌 semi 장비 평균 25~35x, ASML는 secular premium으로 30~45x)
-→ **2순위**: EV/EBITDA (15~20x band)
-→ **3순위**: DCF (FY2030 €50B 매출 target × OPM 30% = €15B EBIT 시나리오)
-→ PBR는 R&D 자산화/배당+자사주 환원 활발로 부적합
+- **PER** (Secular 기준) 우선 — Lithography 단일 사업 + EUV 독점 secular premium 반영
+  - 글로벌 semi 장비 평균 25~35x, ASML는 secular premium으로 **30~45x band**
+- **EV/EBITDA** 보조 — capex 부담 작아 EBITDA 변환율 높음 (FCF 87%) → 15~20x band
+- **DCF** 장기 검증 — FY2030 €44~60B 매출 target × OPM 30% = €15~18B EBIT 시나리오
+- **PBR 부적합**: R&D 비용처리 + €40B+ 11년 누적 자사주 환원으로 자본 인위적 축소 → 비교 의미 없음
+- **피어 차별화**: AMAT·LRCX PER 20~25x vs ASML 30~45x = secular premium **10~20x gap** (EUV 독점 + High-NA 우위)
 
 ### ⑤ 분기 재평가 트리거
 
-→ **TSMC/Intel/Samsung CapEx 가이던스** — 직전 5분기 ASML bookings의 70%+ 선행지표
-→ **EUV system 출하 (분기 units)** — 사이클 momentum 직접 측정
-→ **High-NA EUV order intake** — 차세대 ASP 견인 (€370M+/대)
-→ **China 비중** — 미·중 export control 영향 quarterly tracking
+- **High-NA EUV 매출 비중 30%+ 도달 시** → secular component 강화 → multiplier 한 단계 격상 후보 (FY2027~2028E 예상)
+- **IBM (Service) 비중 30%+ 도달 시** → recurring revenue 비중 확대 → cyclical 변동성 완화 → secular 분류 강화
+- **2개 분기 연속 OPM range가 5%pt 이내 안정 시** → cyclical component 약화 → Pure Secular로 transition 후보
+- **China 매출 0%로 normalize 후 3분기 연속 안정 시** → 지정학 변동성 제거 → 기준선 시나리오 안정화
+- **EUV system 출하 분기 units이 3분기 연속 정체 시** → 사이클 cooling 시그널 → Primary 사이클로 일시 재분류 후보
 
 ---
 

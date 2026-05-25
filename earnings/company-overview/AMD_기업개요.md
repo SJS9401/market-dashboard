@@ -15,57 +15,94 @@
 
 ---
 
-# AMD (Advanced Micro Devices) 기업 개요 (v4.8)
+# AMD (Advanced Micro Devices) 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 고성장 + secular** (Fabless CPU·GPU·AI accelerator)
+- **Secondary 노트: AI 인프라 GPU secular 본격 진입 + 사이클 일부 섞임** (Data Center 48%, MI300/MI350 ramp)
 
-→ **Primary: Fabless CPU + GPU + AI accelerator IDM** — FY25 매출 100% 반도체 (CPU·GPU·AI·FPGA)
-→ **Secondary: AI 인프라 GPU (MI300/MI350/MI355X)** — Data Center segment FY25 $16.64B = 전체의 48%, AI 가속기 매출 약 $7B 추정
-→ **Industry Classification**: GICS Semiconductors / Semiconductor Equipment / SIC 3674
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY2014~FY2025 12년 평균):**
 
-| 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | FY25 |
-|---|---|---|---|---|
-| Revenue ($B) | 14.10 | 34.64 (FY25) | 3.99 (FY15) | **34.64** |
-| GAAP OP ($B) | 0.94 | 3.65 (FY21) | -0.48 (FY15) | **2.74** |
-| GAAP OPM (%) | 4.4% | 22.2% (FY21) | -12.0% (FY15) | **7.9%** |
-| **Revenue CAGR (12년)** | **+18.5%** | — | — | — |
-| 사이클 진폭 | FY15 적자→FY21 정점→FY23 dip→FY25 회복 | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **+18.5%** (메모리·Intel과 정반대 high growth) |
+| GAAP OPM 평균 | **4.4%** (저점 적자 + Xilinx 무형자산 상각 영향 — Non-GAAP 기준 큰 폭 상위) |
+| OPM 정점 평균 | **21.5%** (FY18·FY21 — Zen·Ryzen 3차 cycle peak, 코로나 IT cycle peak) |
+| OPM 저점 평균 | **-7.5%** (FY15·FY16 — pre-Zen 시기 적자) |
+| 사이클 주기 | 약 3~4년 (CPU·GPU 사이클) + secular growth overlay |
+| 사이클 회수 (12년) | 정점 3회 (FY18·FY21·FY25 진행 중) / 저점 2회 (FY15·FY16) |
 
-→ **Revenue CAGR +18.5% — 메모리·Intel과 정반대**. Lisa Su turnaround + Xilinx 인수 + AI GPU 진입 효과
+```
+[AMD GAAP OPM 시계열 (12년)]
+연도   매출($B)  OP($B)   OPM    NPM
+2014    5.51   -0.16    -2.9   -7.3   ← pre-Zen 시기, 점유율 침체
+2015    3.99   -0.48   -12.0  -16.0   ← 사이클 저점 1차 (적자)
+2016    4.27   -0.37    -8.7  -11.7   ← Zen 출시 직전 (FY17 대반등 직전)
+2017    5.33    0.13     2.5    0.8   ← Ryzen·EPYC 출시 시작
+2018    6.48    0.45     6.9    5.2   ← 정점 1차 (Zen 1차 cycle)
+2019    6.73    0.63     9.4    5.6   ← Zen 2 launch
+2020    9.76    1.37    14.0   25.5   ← 코로나 + Ryzen·EPYC 폭증
+2021   16.43    3.65    22.2   19.2   ← 정점 2차 (코로나 IT cycle 정점)
+2022   23.60    1.26     5.3    5.6   ← Xilinx 인수 통합 (무형자산 상각)
+2023   22.68    0.40     1.8    3.7   ← Mid-cycle dip
+2024   25.79    1.90     7.4    6.4   ← MI300 출하 시작, AI GPU 진입
+2025   34.64    2.74     7.9   11.8   ← 정점 3차 진입 (AI GPU + 5세대 EPYC)
 
-(3) 정량적 분류 근거
+OPM range: -12.0% ~ +22.2% = 34.2%pt
+구조적 high growth (CAGR +18.5%) + 3대 메가 시장 (CPU·GPU·AI) secular 성장
+```
 
-→ **클라이언트 PC CPU 점유율 (Mercury Research 2025 4Q)**: **약 28% (vs Intel 72%)** — 5년 연속 점유율 상승
-→ **서버 CPU 점유율**: **약 35% (vs Intel 65%)** — 2018 1%→2025 35% 폭증
-→ **AI GPU 점유율**: **약 3% (vs NVIDIA 96%)** — MI300/MI350 양산 시작 후 niche 진입
-→ **FPGA 시장**: Xilinx 인수로 글로벌 1위 (vs Altera/Intel)
-→ **Fabless 모델**: TSMC + Samsung Foundry 위탁생산, 자체 fab 없음
+![AMD 12년 매출 & OPM 추이 (Lisa Su turnaround 변곡점)](charts/AMD_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![AMD 12년 손익 4지표](charts/AMD_chart1b_손익4지표_12년.png)
 
-→ **분류 결정 논리**: AI 시대 핵심 catalyst (Data Center GPU + 서버 CPU)
-→ **3대 메가 시장 동시 attack**: CPU (Intel 추격) + GPU (NVIDIA 추격) + AI accelerator (xPU 통합)
-→ **Xilinx 인수 (2022.02, $49B)** = AMD 사상 최대 메가딜, FPGA 추가
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체 Fabless CPU + GPU + AI accelerator + FPGA**
+- SEC SIC 분류: 3674 — Semiconductors
+- GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·INTC·STX·SanDisk·WDC·ARM·NVDA)
+- 글로벌 점유: **PC CPU 28%** (vs Intel 72%, 5년 상승), **서버 CPU 35%** (2018 1%→2025 35%), **AI GPU 3%** (vs NVIDIA 96%, 진입 단계), **FPGA 1위** (Xilinx 인수)
 
-→ **1차 — Forward P/E**: AI GPU TAM 성장 모델 적용
-→ **2차 — Sum-of-Parts**: Data Center + Client + Gaming + Embedded 분리 valuation
-→ **3차 — Data Center GPU vs NVIDIA 갭**: AMD P/E 50배 vs NVIDIA 60배 (FY26 forward)
-→ **4차 — Lisa Su premium**: CEO 신뢰도 (12년 100배 turnaround)
-→ **5차 — DCF**: AI workload secular 성장 (TAM 2028 $500B+ 추정)
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 Data Center 48% > Client 26% > Gaming 13% > Embedded 13% → multi-segment
 
-→ ① AI Data Center 매출 (MI300/MI350/MI355X 출하량)
-→ ② NVIDIA 점유율 격차 (현재 96% vs 3%, 5%pt 따라잡기 시 catalyst)
-→ ③ 서버 CPU 점유율 추세 (35% → 40% 가능성)
-→ ④ Embedded (Xilinx) 다운사이클 회복
-→ ⑤ ZT Systems 인수 효과 (2024.08 발표, $4.9B)
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - Data Center 48% 중 AI GPU $7B+ (MI300/MI350/MI355X) → AI 인프라 secular 압도
+   - 서버 CPU 점유율 1%→35% (5년) → CPU 시장 점유율 잠식 secular trend
+   - Lisa Su turnaround 12년 (시총 $3B → $290B+, 100배) → 구조적 high growth 명확
+   - 다만 PC·Gaming은 cyclical (FY22~23 dip 경험)
+
+(3) **Boundary case 처리**: Secular high growth + 일부 cyclical (PC·Gaming) 섞임 → **Primary 고성장 + secular + Secondary 사이클 일부** 표기. AI GPU 비중 30%+ 도달 시 Primary Secular 격상
+
+(4) **글로벌 피어 cross-reference**:
+   - **Intel 대비**: 동일 x86. AMD 점유율 잠식 + AI MI300/MI400 성공 vs Intel 미진. 멀티플 갭 5배+ (AMD PER 30~40x vs Intel PER N/A)
+   - **NVIDIA 대비**: AI GPU 96% 압도 vs AMD 3% 진입. 멀티플 갭 1.5~2배 (AMD PER 50배 vs NVIDIA 60배 FY26 forward)
+   - **ARM 대비**: ARM-based CPU (Apple Silicon, Qualcomm) → 모바일·일부 데이터센터 위협. AMD는 x86 진영
+   - **AMD 차별점**: Lisa Su 12년 turnaround track record + Xilinx 인수로 FPGA 추가 + ZT Systems 인수 ($4.9B, 2024) AI 시스템 통합
+
+### (4) 적정 밸류에이션 방법
+
+- **Forward PER** 우선 — AI GPU TAM 성장 모델 적용 (TAM 2028 $500B+ 추정)
+  - secular growth band 30~50x (정점) vs 사이클 dip 15~25x (저점)
+- **Sum-of-Parts** — Data Center + Client + Gaming + Embedded 분리 valuation. Data Center valuation 우위
+- **Data Center GPU vs NVIDIA 갭** — AMD PER 50배 vs NVIDIA 60배 (FY26 forward). AI GPU 점유율 5%pt 추격 시 멀티플 갭 축소
+- **Lisa Su premium** — CEO 신뢰도 (12년 100배 turnaround) → execution multiplier 정당화
+- **DCF** — AI workload secular 성장 모델
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment cyclical) vs **AMD PER 단독 우선** (secular growth) + Sum-of-Parts (Xilinx 무형자산 영향 분리)
+
+### (5) 분기 재평가 트리거
+
+- **AI Data Center 매출 비중 60%+ 도달 시** → AI 인프라 secular 압도 → Primary 고성장 → Pure Secular 격상 후보
+- **NVIDIA 점유율 격차 -5%pt 좁힘 시 (AMD 8%+)** → AI GPU secular leadership 진입 → multiplier 격상
+- **2개 분기 연속 OPM 15%+ 안정 시** → 사이클 변동성 약화 → 지속성장 정착 후보
+- **서버 CPU 점유율 40%+ 도달 시 (Intel 60% 이하)** → x86 leadership 본격 진입
+- **ZT Systems·Xilinx 시너지 본격화** → cross-sell + system 통합 가치 → premium 정당화
+- **PC/Gaming segment OPM 회복 (FY26)** → cyclical component 회복 → 전체 OPM 정상화
 
 ---
 

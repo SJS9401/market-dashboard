@@ -17,56 +17,95 @@
 
 ---
 
-# Western Digital Corporation 기업 개요 (v4.8)
+# Western Digital Corporation 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 사이클 + 구조적 전환 완료** — HDD Pureplay (분사 후), AI Cloud Storage secular 본격 진입
+- **Secondary 노트: AI 데이터센터 콜드 스토리지 secular** — Cloud 87.6%, hyperscaler 직접 거래 집중
 
-→ **Primary: HDD (Hard Disk Drive) Pureplay** — 분사 후 FY25 매출 100% HDD
-→ **Secondary: Datacenter Cloud Storage** — Cloud segment FY25 $8.34B = 전체의 87.6%, AI workload 콜드 스토리지 폭발 수혜
-→ **분사 전 (~FY24)**: HDD + NAND 통합 메모리·스토리지 종합 회사
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY14~FY25 12년 평균, FY25는 분사 후 HDD only):**
 
-| 지표 | FY14~FY24 (통합) 평균 | 정점 | 저점 | FY25 (HDD only) |
-|---|---|---|---|---|
-| Revenue ($B) | 16.6 | 20.65 (FY18) | 12.32 (FY23) | **9.52** |
-| GAAP OP ($B) | 0.45 | 2.43 (FY18) | -2.33 (FY23) | **2.08** |
-| GAAP OPM (%) | 2.9% | 11.8% (FY18) | -18.9% (FY23) | **21.8%** |
-| 사이클 진폭 | FY18 정점→FY23 적자→FY25 분사 후 HDD-only 회복 | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년, 분사 영향 포함) | **-3.5%** (마이너스 — SSD 잠식 + NAND 분사 효과) |
+| GAAP OPM 평균 (통합 시기) | **2.9%** (분사 전 NAND 손익 동조 영향) |
+| OPM 정점 평균 | **16.8%** (FY18 mini-peak·FY25 분사 후 정상화) |
+| OPM 저점 평균 | **-9.5%** (FY16·FY23 — NAND 다운사이클 동조 적자) |
+| 사이클 주기 | 약 4~5년 (peak-to-peak) + 분사 단절 효과 |
+| 사이클 회수 (12년) | 정점 2회 (FY18·FY25 진입) / 저점 2회 (FY16·FY23) |
 
-→ **분사 효과**: FY25 매출 절대 $9.52B로 축소 (분사 전 $13B+에서 NAND 분리), 하지만 OPM 21.8% (분사 전 평균 2.9% 대비 +18.9pp) — 마진 구조 본질적 개선
+```
+[WDC GAAP OPM 시계열 (12년 — FY14~FY24 HDD+NAND 통합, FY25 HDD only)]
+FY     매출($B)  OP($B)   OPM     NPM
+FY14   15.13    1.61    10.6    9.2    ← pre-NAND 통합 시대
+FY15   14.57    1.16     8.0    7.0    ← HGST 인수 완료
+FY16   12.99   -0.41    -3.2   -8.1    ← NAND 다운사이클 동조 (저점 1차)
+FY17   19.09    2.13    11.2    2.4    ← NAND 슈퍼사이클 spillover
+FY18   20.65    2.43    11.8   16.6    ← 정점 1차 (메모리 사이클 정점)
+FY19   16.57   -0.25    -1.5   -4.4    ← 다운사이클
+FY20   16.74    0.43     2.6   -1.5
+FY21   16.92    1.04     6.2    5.0
+FY22   18.79    2.13    11.4    7.0    ← 코로나 IT 사이클
+FY23   12.32   -2.33   -18.9  -13.5    ← 메모리 다운사이클 저점 2차 (적자)
+FY24   13.00    0.15     1.2   -3.2    ← 회복 초기
+FY25    9.52    2.08    21.8   17.0    ← SanDisk 분사 + HDD pureplay → OPM 정상화 (정점 2차 진입)
 
-(3) 정량적 분류 근거
+OPM range: -18.9% ~ +21.8% = 40.7%pt (분사로 사이클 진폭 축소)
+분사 전 (NAND 통합) cyclical 진폭 큼 → 분사 후 (HDD only) 마진 구조 본질적 개선
+```
 
-→ **HDD 시장 점유율 (TrendForce 2025 4Q)**: **약 38~42%** — 글로벌 2위 (Seagate 45% 1위, Toshiba 18% 3위)
-→ **글로벌 HDD 3사 oligopoly**: WDC + Seagate + Toshiba = 100%
-→ **Cloud (Datacenter HDD) 비중**: FY23 76% → FY24 80% → **FY25 88%** — 점진 집중화
-→ NAND/SSD 노출 없음 (분사 후), Flash 사업은 SanDisk로 완전 분리
+![WDC 12년 매출 & OPM 추이 (분사 변곡점)](charts/WDC_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![WDC 12년 손익 4지표](charts/WDC_chart1b_손익4지표_12년.png)
 
-→ **GICS Sector**: Information Technology — Technology Hardware, Storage & Peripherals
-→ **Bloomberg Industry**: Computer Storage & Peripherals
-→ **분류 결정 논리**: AI 시대 colder storage (학습·추론 데이터의 장기 저장) 수요 폭증. HDD는 SSD 대비 GB당 비용 5~10배 저렴 → **AI 데이터센터 콜드 스토리지 핵심**. 분사 후 hyperscaler 직접 거래 비중 증가
-→ **사이클 패턴**: HDD는 NAND/DRAM 메모리 사이클 대비 진폭 작음. 다만 hyperscaler CapEx 사이클에 종속
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체·스토리지 (HDD Pureplay)**
+- SEC SIC 분류: 3572 — Computer Storage Devices
+- GICS Sector: Information Technology — Technology Hardware, Storage & Peripherals
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·INTC·STX·SanDisk·AMD·ARM)
+- 글로벌 점유: **HDD 38~42%** (글로벌 2위, Seagate 45% / Toshiba 18% — 3사 oligopoly), **Cloud HDD 88% mix**, **NAND 0%** (분사 후 완전 분리)
 
-→ **1차 — Forward P/E**: 분사 후 HDD pureplay 정상화된 multiple (Seagate 비교)
-→ **2차 — EV/EBITDA**: HDD asset-light 모델 cash generation 평가
-→ **3차 — P/B 밴드**: 분사 직후 자본 구조 정상화 추적
-→ **4차 — DCF**: hyperscaler HDD 수요 secular (LTM 평균 $8~10B Cloud revenue)
-→ **5차 — Sum-of-Parts 비교**: 분사 전 통합 WDC $25B vs 분사 후 WDC ($15B+) + SanDisk ($165B) = $180B+ 분해 가치 정상화 추적
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 HDD 100% (분사 후) → 단일 segment cyclical
 
-→ ① Cloud segment 매출 증감 (FY25 +65% → FY26 추세)
-→ ② HDD ASP 변화 (per-TB 가격, 고용량 (>24TB) shift)
-→ ③ HAMR (Heat-Assisted Magnetic Recording) 양산 진척
-→ ④ Top 3 hyperscaler 고객 변동 (CapEx 사이클)
-→ ⑤ Seagate와 점유율 격차 (현재 -3~7%pt)
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - Cloud (Datacenter HDD) 비중 FY23 76% → FY25 88% → AI 콜드 스토리지 secular 본격화
+   - HDD/SSD GB당 비용 5~10배 저렴 → AI workload 데이터 폭증 시 unbeatable cost structure
+   - 분사 효과로 OPM 2.9% → 21.8% (+18.9pp) 구조적 개선 → 사이클 진폭 축소
+
+(3) **Boundary case 처리**: 전통적 HDD 사이클 + AI 콜드 스토리지 secular 전환 + 분사 효과 동시 → **Primary 사이클 + Secondary AI secular** 표기. HAMR 양산 본격화 시 Primary Secular 격상 검토 (STX와 동일 path)
+
+(4) **글로벌 피어 cross-reference**:
+   - **STX 대비**: 동일 HDD pureplay (40% vs 45%). STX HAMR 선행 (Mozaic 1M+ drives) → WDC HAMR 추격 단계. 멀티플 갭 1~2x
+   - **SanDisk 대비**: WDC가 NAND 분사한 모회사. SNDK NAND pureplay → WDC HDD pureplay. 두 회사 합산 $180B+ vs 통합 시기 $25B → spin-off 가치 unlocking
+   - **Toshiba 대비**: 3위 18%, 매각 가능성 거론 → WDC 점유율 추가 확대 catalyst
+   - **WDC 차별점**: 분사 직후 R&D 67% 감소 + CapEx 86% 감소 = capital-light → FCF margin 확장. Top 3 hyperscaler 합산 39% 집중도 매우 높음
+
+### (4) 적정 밸류에이션 방법
+
+- **Forward PER** 우선 — 분사 후 HDD pureplay 정상화된 multiple (STX 비교가 기준)
+  - 사이클 정점 PER 상한 (FY18·FY25) vs 저점 PER 부재 (적자) 밴드 활용
+- **EV/EBITDA** 보조 — HDD asset-light 모델 cash generation 평가 (capital-light 효과)
+- **PBR** — 분사 직후 자본 구조 정상화 추적 (FY25 부채 상환 + 자본 재축적 단계)
+- **DCF** — hyperscaler HDD 수요 secular (LTM 평균 $8~10B Cloud revenue)
+- **Sum-of-Parts 비교** — 분사 전 통합 WDC $25B vs 분사 후 WDC ($15B+) + SanDisk ($165B) = $180B+ value unlocking
+- **STX 직접 비교**: HDD 양강 점유율·마진 갭 추적. STX HAMR 선행 → WDC discount 1~2x
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 vs **WDC PER + EV/EBITDA 혼합** (asset-light cash machine)
+
+### (5) 분기 재평가 트리거
+
+- **Cloud segment 매출 비중 90%+ 도달 시** → AI 콜드 스토리지 secular 압도 → Primary cyclical → Primary Secular 격상 후보
+- **HAMR 양산 본격화 (STX 추격 성공)** → 차세대 ASP 정당화 → premium multiplier 정당화
+- **2개 분기 연속 OPM 25%+ 안정 시** → 사이클 변동성 약화 → 사이클 → 지속성장 transition 후보
+- **STX 점유율 격차 -2%pt 이내로 좁힘 시** → HDD leadership 회복 → 멀티플 갭 축소
+- **Toshiba 매각·이탈 시** → HDD 2사 duopoly → 가격결정력 강화
+- **Top 3 hyperscaler 고객 변동** → CapEx 사이클 direction 변경 시그널
+- **HDD ASP per-TB ±20% 이상 변동** → 다음 분기 사이클 direction 시그널
 
 ---
 

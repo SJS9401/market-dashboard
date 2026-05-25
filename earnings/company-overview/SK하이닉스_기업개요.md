@@ -5,53 +5,90 @@
 > 데이터: 12년 연간(2014~2025) + 50분기(4Q13~1Q26) 시계열
 > 출처: DART 사업보고서 2014~2025, SK하이닉스 IR 분기경영실적 50개, Yahoo Finance v8, IDC, Gartner
 
-# SK하이닉스 기업 개요 (v4.8)
+# SK하이닉스 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 사이클** (Cyclical) — 메모리 IDM (DRAM·NAND·HBM)
+- **Secondary 노트: AI HBM 인프라 secular 일부 섞임** (HBM 매출 비중 30%+ 도달로 secular 노출 확대)
 
-→ **Primary: 메모리 반도체 (DRAM·NAND·HBM)** — 매출 100% 반도체부문, 한국표준산업분류 '반도체 및 기타 전자 부품 제조업' 단일 segment
-→ **Secondary: AI 인프라 IDM** — 2025년 시스템 반도체(CIS) 사업 종료, "AI 메모리"로 전사 단일 사업 통합
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (12년 평균 2014~2025):**
 
-| 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | 2025년 |
-|---|---|---|---|---|
-| 매출 (조원) | 38.9 | 97.15 (2025) | 17.13 (2014) | **97.15** |
-| OP (조원) | 12.5 | 47.21 (2025) | -8.42 (2023) | **47.21** |
-| OPM (%) | 26.7% | 48.6% (2025) | -25.7% (2023) | **48.6%** |
-| 매출 CAGR (12년) | **15.6%** | — | — | — |
-| 사이클 진폭 | 적자→사상최고 사이의 진폭 매출 5.7배 / OP 무한대 | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **+15.6%** |
+| OPM 평균 | **26.7%** |
+| OPM 정점 평균 | **48.4%** (2018·2025 — 1차 메모리 슈퍼사이클·AI HBM 슈퍼사이클) |
+| OPM 저점 평균 | **-7.8%** (2019·2023 — 메모리 다운사이클 2회) |
+| 사이클 주기 | 약 3~4년 (peak-to-peak), 진폭 OPM ±70%pt |
+| 사이클 회수 (12년) | 정점 3회 / 저점 2회 (사이클 진폭 매우 큼) |
 
-(3) 정량적 분류 근거
+```
+[SK하이닉스 OPM 시계열 (12년)]
+연도   매출(조)  영업이익  순이익  OPM    NPM
+2014    17.1     5.11    4.20   29.8   24.5
+2015    18.8     5.34    4.32   28.4   23.0
+2016    17.2     3.28    2.96   19.1   17.2   ← 메모리 mid-cycle 저점
+2017    30.1    13.72   10.64   45.6   35.3   ← 1차 메모리 슈퍼사이클 시작
+2018    40.5    20.84   15.54   51.5   38.4   ← 정점 1차 (DRAM 슈퍼사이클)
+2019    27.0     2.71    2.02   10.1    7.5   ← 메모리 다운사이클 저점 1차
+2020    31.9     5.01    4.76   15.7   14.9   ← 회복 시작
+2021    43.0    12.41    9.62   28.9   22.4   ← 코로나 IT 사이클 정점
+2022    44.6     6.81    2.24   15.3    5.0   ← 수요 cooling
+2023    32.8    -8.42   -9.14  -25.7  -27.9   ← 메모리 다운사이클 저점 2차 (적자전환)
+2024    66.2    23.47   19.80   35.5   29.9   ← HBM 본격화 + 흑자 회복
+2025    97.2    47.21   42.95   48.6   44.2   ← AI HBM 슈퍼사이클 정점 2차
 
-→ **메모리 IDM (Integrated Device Manufacturer)**: 설계+양산+패키지 통합
-→ DRAM 점유율 (IDC 2025 3Q): **34.3%** — 글로벌 2위 (삼성전자 1위, 마이크론 3위)
-→ NAND 점유율 (IDC 2025 3Q): **19.7%** — 글로벌 4위 (Solidigm 통합 후)
-→ **HBM 점유율: 약 57~70%** (2025) — 글로벌 1위, 마이크론·삼성전자 추격
-→ 매출 100% 반도체 (단일 사업부) — 세계에서 가장 순수한 메모리 pureplay 대형주
+OPM range: -25.7% ~ +51.5% = 77.2%pt
+사이클 진폭 메모리 종목 typical (±20%pt+) 대비 2배+ — 가장 cyclical한 대형주
+```
 
-(4) 산업 분류 & 분류 결정 논리
+![SK하이닉스 12년 매출 & OPM (사이클 4회 detection)](charts/SK하이닉스_chart1_매출OPM_12년.png)
 
-→ 한국표준산업분류: **'반도체 및 기타 전자 부품 제조업'** (소분류)
-→ MSCI Sector: Information Technology — Semiconductors & Semiconductor Equipment
-→ Bloomberg Industry Classification: Semiconductor Equipment — Memory & Storage
-→ **분류 결정 논리**: 메모리 사이클 종속도 100%. **단, 2024년 이후 HBM 매출 비중 30%+ 도달로 'AI 인프라 secular' 노출도 확대** — 사이클성과 secular 성장 동력 공존
+![SK하이닉스 12년 손익 4지표](charts/SK하이닉스_chart1b_손익4지표_12년.png)
 
-(5) 적정 밸류에이션 방법
+### (2) 산업 분류
 
-→ **1차 — P/B 밴드** (자본총계 12년 성장 추적): 메모리 사이클 위치 판단의 핵심
-→ **2차 — Forward PER** (12MF EPS 기준): AI HBM secular 영향력 측정
-→ **3차 — EV/EBITDA**: CapEx 부담을 반영한 cash generation 평가
-→ **4차 — 사이클 매핑** (피크 vs 트로프 거리): 마이크론·삼성전자 vs SK하이닉스 멀티플 갭
+- 산업: **반도체 메모리** (DRAM·NAND·HBM IDM)
+- 한국표준산업분류: '반도체 및 기타 전자 부품 제조업' (소분류)
+- MSCI Sector: Information Technology — Semiconductors & Semiconductor Equipment
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·Micron·Intel·SanDisk·Seagate·WDC·AMD·ARM)
+- 글로벌 점유: **DRAM 34.3%** (글로벌 2위), **NAND 19.7%** (4위), **HBM 57~70%** (글로벌 1위)
 
-(6) 분기 재평가 트리거
+### (3) 분류 결정 논리
 
-→ ① HBM 점유율 변동 (마이크론·삼성전자 추격 vs SK하이닉스 우위 지속) — 2026 핵심
-→ ② DRAM/NAND ASP 변동 (분기 ASP +/-30% 이상 시)
-→ ③ CapEx 큰 폭 증감 (전년 대비 ±50% 이상)
-→ ④ M&A 등 자본배분 정책 변동 (자사주 매입소각, ADR 발행 등)
+(1) **가장 매출 큰 사업부 기준** 적용 시 메모리 반도체 100% → 단일 segment cyclical
+
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - HBM 매출 비중 30%+ 도달 (2024년~) → AI 인프라 secular 노출도 확대
+   - 다만 HBM도 결국 DRAM mix product → 메모리 ASP 사이클 종속 (완전 secular 아님)
+   - 결론: cyclical primary 유지 + secular 일부 노출은 Secondary 표기
+
+(3) **Boundary case 처리**: 사이클 + AI HBM secular 섞임 → **Primary 사이클 + Secondary HBM secular** 표기. HBM 비중이 50%+ 도달 시 분류 재검토
+
+(4) **글로벌 피어 cross-reference**:
+   - **삼성전자 대비**: 삼성전자는 DX/DS/SDC/Harman 종합 → 사이클 + 안정 사업부 흡수. SK하이닉스는 **순수 메모리 pureplay** → 사이클 진폭 더 큼
+   - **Micron 대비**: 동일 메모리 pureplay. 다만 SK하이닉스는 HBM 1위 (57~70%) vs Micron 후발 → HBM secular 노출도 SK하이닉스 우위
+   - **Solidigm (NAND) 통합**: 2025년부터 NAND 4위 → 사이클 buffer 증가
+
+### (4) 적정 밸류에이션 방법
+
+- **PBR** (사이클 기준) 우선 — 자본총계 12년 성장 (17조 → 117조, 7배) 추적이 사이클 위치 판단의 핵심
+  - 사이클 정점 PBR 상한 (FY2018·FY2025) vs 저점 PBR 하한 (FY2023 적자) 밴드 활용
+- **Forward PER** 보조 — 12MF EPS 기준, AI HBM secular 영향력 측정 (PBR 부재 시 cyclical 종목 valuation 보완)
+- **EV/EBITDA** — CapEx 부담 (FY2025 €26.1조원) 반영한 cash generation 평가
+- **사이클 매핑** — 마이크론·삼성전자 vs SK하이닉스 멀티플 갭 (HBM 우위로 SK하이닉스 premium 정당화)
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment) vs **SK하이닉스 PBR 단독 우선** (pure cycle). HBM secular 강화 시 PER 비중 증가 예상
+
+### (5) 분기 재평가 트리거
+
+- **HBM 매출 비중 50%+ 도달 시** → AI 인프라 secular 노출도 압도 → Primary cyclical → Secondary로 격하, Secular Primary로 재분류 후보
+- **2개 분기 연속 OPM range가 5%pt 이내로 안정 시** → 사이클 변동성 약화 → 사이클 → 지속성장 transition 후보 (현재 가능성 낮음)
+- **HBM 점유율 50% 이하 하락 시 (마이크론·삼성전자 추격 성공)** → secular premium 약화 → Pure Cyclical로 재분류
+- **Solidigm NAND 흑자 안정화 (2개 분기 연속)** → 사이클 buffer 강화 → cyclical 진폭 축소 재평가
+- **메모리 ASP 분기 ±30% 이상 변동** → 다음 분기 분류 변경 가능성 모니터링 (cycle direction 변경)
 
 ---
 

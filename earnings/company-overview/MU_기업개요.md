@@ -5,56 +5,92 @@
 > 데이터: 12년 연간 (FY14~FY25) + 직전 12분기 (FY23 Q3~FY26 Q2)
 > 출처: SEC EDGAR 10-K 15개 (FY11~FY25) + 10-Q 47개, Yahoo Finance v8 (MU 20년), Micron IR Quarterly Results, FY25 10-K Item 1·8
 
-# Micron Technology 기업 개요 (v4.8)
+# Micron Technology 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 사이클** (Cyclical) — 메모리 IDM (DRAM·NAND·HBM)
+- **Secondary 노트: AI HBM 인프라 secular 일부 섞임** — CMBU $13.52B = FY25 매출의 36%, 성장 동력
 
-→ **Primary: 메모리 반도체 (DRAM·NAND·HBM)** — FY25 매출 100% 반도체부문 (DRAM $28.58B + NAND $8.50B + NOR/Other $0.30B)
-→ **Secondary: AI 인프라 IDM** — FY25 CMBU (Cloud Memory + HBM) 사업부 $13.52B = 전체 매출의 36%, HBM이 매출 성장의 핵심 동력
-→ **Industry Classification**: GICS Semiconductors & Semiconductor Equipment / SIC 3674 (Semiconductors)
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY14~FY25 12년 평균):**
 
-| 지표 | 12년 평균 (FY14~FY25) | 정점 | 저점 | FY25 |
-|---|---|---|---|---|
-| Revenue ($B) | 23.1 | 37.38 (FY25) | 12.40 (FY16) | **37.38** |
-| Operating Income GAAP ($B) | 4.91 | 14.13 (FY18) | -5.75 (FY23) | **11.98** |
-| GAAP OPM (%) | 19.3% | 46.5% (FY18) | -37.0% (FY23) | **32.0%** |
-| Revenue CAGR (12년) | **7.0%** | — | — | — |
-| 사이클 진폭 | FY16 적자→FY18 $14B / FY23 적자→FY25 $12B | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **+7.0%** |
+| GAAP OPM 평균 | **19.3%** |
+| OPM 정점 평균 | **39.2%** (FY18·FY25 — 1차 슈퍼사이클·AI HBM 슈퍼사이클) |
+| OPM 저점 평균 | **-19.8%** (FY16·FY23 — 메모리 다운사이클 2회 적자) |
+| 사이클 주기 | 약 3년 (peak-to-peak), 진폭 OPM ±83%pt |
+| 사이클 회수 (12년) | 정점 4회 (FY14·FY18·FY22·FY25) / 저점 4회 (FY15·FY16·FY19·FY23) |
 
-(3) 정량적 분류 근거
+```
+[Micron GAAP OPM 시계열 (12년)]
+FY     매출($B)  OP($B)  OPM    NPM
+FY14    16.36    3.09   18.9   18.2   ← 사이클 1차 회복
+FY15    16.19    2.90   17.9   18.4
+FY16    12.40   -0.74   -6.0   -2.6   ← 메모리 다운사이클 저점 1차 (적자)
+FY17    20.32    5.86   28.8   24.6   ← 1차 슈퍼사이클 시작
+FY18    30.39   14.13   46.5   46.4   ← 정점 1차 (DRAM 슈퍼사이클)
+FY19    23.41    7.38   31.5   25.6
+FY20    21.44    2.96   13.8   12.2   ← 메모리 mid-cycle 저점
+FY21    27.71    5.79   20.9   20.2   ← 2차 회복
+FY22    30.76    8.93   29.0   28.2   ← 2차 정점 (코로나 IT)
+FY23    15.54   -5.75  -37.0  -38.5   ← 메모리 다운사이클 저점 2차 (적자전환)
+FY24    25.11    1.30    5.2    3.0   ← HBM 본격 진입, 흑자 회복
+FY25    37.38   11.98   32.0   23.2   ← AI HBM 슈퍼사이클 정점 3차
 
-→ **메모리 IDM (Integrated Device Manufacturer)**: Design + Fab + Assembly + Test
-→ DRAM 시장 점유율 (3Q26 추정): **약 22~25%** — 글로벌 3위 (삼성전자 1위, SK하이닉스 2위)
-→ NAND 시장 점유율 (3Q26 추정): **약 12~14%** — 글로벌 5위
-→ **HBM 점유율 (FY26 진입)**: **약 20%** — 1년 만에 0→20%, NVIDIA H200/B100 진입으로 급속 확대
-→ 매출 100% 메모리·스토리지 (단일 segment 아래 4 BU 운영)
-→ DRAM 매출 비중 FY25 **76.4%** — DRAM·HBM 사이클 동조 매우 강함
+OPM range: -37.0% ~ +46.5% = 83.5%pt
+사이클 진폭 매우 큼 — 메모리 pureplay typical cyclical
+```
 
-(4) 산업 분류 & 분류 결정 논리
+![Micron 12년 매출 & GAAP OPM 추이](charts/MU_chart1_매출OPM_12년.png)
 
-→ **GICS Sector**: Information Technology — Semiconductors
-→ **Bloomberg Industry**: Semiconductor Equipment — Memory & Storage
-→ **분류 결정 논리**: 메모리 사이클 종속도 100%. **단, FY24~FY25 HBM CMBU 폭발로 'AI infra secular' 노출도 급격히 확대** — 사이클 4회 (FY14~15, FY17~18, FY21~22, FY24~25) 명확
+![Micron 12년 손익 4지표](charts/MU_chart1b_손익4지표_12년.png)
 
-(5) 적정 밸류에이션 방법
+### (2) 산업 분류
 
-→ **1차 — P/B 밴드** (자본 12년 성장 추적): 메모리 사이클 위치 판단
-→ **2차 — Forward P/E** (Non-GAAP EPS 기준): AI HBM secular 영향력
-→ **3차 — EV/EBITDA**: CapEx 부담 반영한 cash generation 평가
-→ **4차 — DCF 시나리오**: AI HBM secular 성장 모델
-→ **5차 — 글로벌 메모리 3사 (Samsung·SK Hynix·Micron) 멀티플 갭 분석**
+- 산업: **반도체 메모리** (DRAM·NAND·HBM IDM)
+- SEC SIC 분류: 3674 — Semiconductors
+- GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·Intel·SanDisk·Seagate·WDC·AMD·ARM)
+- 글로벌 점유: **DRAM 22~25%** (3위), **NAND 12~14%** (5위), **HBM 20%** (1년 만에 0→20%)
 
-(6) 분기 재평가 트리거
+### (3) 분류 결정 논리
 
-→ ① HBM 점유율 변동 (SK하이닉스 70% vs MU 20% 따라잡기)
-→ ② DRAM/NAND ASP 변동 (분기 ASP +/-30% 이상)
-→ ③ CapEx 큰 폭 증감 (전년 대비 ±50% 이상)
-→ ④ Strategic Customer Agreement (SCA) 추가 체결 (5년 다년 계약, 가격 가시성)
-→ ⑤ CHIPS Act funding 변동 (Idaho·NY fab 보조금)
+(1) **가장 매출 큰 사업부 기준** 적용 시 DRAM 76.4% > NAND 22.7% > Other → 단일 segment cyclical (4 BU 모두 메모리 종속)
+
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - CMBU (Cloud Memory + HBM) FY25 매출 비중 36% → AI 인프라 secular 노출 본격화
+   - HBM 점유율 0% → 20% (1년 만에) → 추격형 secular 성장
+   - 다만 HBM도 DRAM mix product → 메모리 ASP 사이클 종속 (완전 secular 아님)
+
+(3) **Boundary case 처리**: 사이클 + AI HBM secular 섞임 → **Primary 사이클 + Secondary HBM secular** 표기. SCA (Strategic Customer Agreement, 5년 다년 계약) 비중 50%+ 도달 시 사이클 변동성 축소 가능
+
+(4) **글로벌 피어 cross-reference**:
+   - **삼성전자 대비**: 삼성전자는 multi-segment 종합 → 사이클 진폭 흡수. Micron은 **순수 메모리 pureplay** → 사이클 진폭 더 큼
+   - **SK하이닉스 대비**: 동일 메모리 pureplay. 다만 SK하이닉스 HBM 1위 (57~70%) vs Micron 후발 (20%) → SK하이닉스 secular premium 우위
+   - **Micron 차별점**: CHIPS Act funding 직접 수혜 (Idaho·NY fab) + SCA 계약 가시성 → US 정책 dependant
+
+### (4) 적정 밸류에이션 방법
+
+- **PBR** (사이클 기준) 우선 — 자본 12년 성장 ($11B → $35B+) 추적이 사이클 위치 판단의 핵심
+  - 사이클 정점 PBR 상한 (FY18·FY25) vs 저점 PBR 하한 (FY16·FY23 적자) 밴드 활용
+- **Forward PER** 보조 — Non-GAAP EPS 기준, AI HBM secular 영향력 측정
+- **EV/EBITDA** — CapEx 부담 ($14B+/year) 반영한 cash generation 평가
+- **DCF 시나리오** — AI HBM secular 성장 + SCA 가시성 모델
+- **메모리 3사 멀티플 갭** — Samsung·SK Hynix·Micron 비교. Micron HBM 후발 → 멀티플 discount, SCA 체결 시 갭 축소
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment) vs **Micron PBR 단독 우선** (pure cycle)
+
+### (5) 분기 재평가 트리거
+
+- **HBM CMBU 매출 비중 50%+ 도달 시** → AI 인프라 secular 우세 → Primary cyclical → Secondary로 격하, Secular Primary 재분류 후보
+- **SCA 계약 비중 50%+ 도달 시** → 다년 가격 가시성으로 사이클 변동성 축소 → cyclical 진폭 축소 재평가
+- **2개 분기 연속 OPM range가 5%pt 이내로 안정 시** → 사이클 → 지속성장 transition 후보 (현재 가능성 매우 낮음)
+- **HBM 점유율 35%+ 도달 시 (SK하이닉스 추격 성공)** → secular premium 확대 → multiplier 격상
+- **CHIPS Act funding 변동 (Idaho·NY fab)** → US 정책 의존도 변경, 지정학 분류 노출 검토
+- **메모리 ASP 분기 ±30% 이상 변동** → 다음 분기 사이클 direction 변경 시그널
 
 ---
 

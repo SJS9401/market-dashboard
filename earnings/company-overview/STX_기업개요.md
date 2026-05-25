@@ -16,56 +16,93 @@
 
 ---
 
-# Seagate Technology Holdings plc 기업 개요 (v4.8)
+# Seagate Technology Holdings plc 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 사이클 + 구조적 전환** — HDD Pureplay, SSD 잠식 후 AI 콜드 스토리지로 secular 회복 진입
+- **Secondary 노트: AI 인프라 secular (Mass Capacity Storage)** — FY25 Mass Capacity 84%, Mozaic HAMR 양산 성공으로 분류 격상 가능
 
-→ **Primary: HDD Pureplay 글로벌 1위** — FY25 매출 100% Storage (HDD 비중 85%+, SSD/Systems 일부)
-→ **Secondary: Mass Capacity Storage (AI 데이터센터 콜드 스토리지 수혜)** — FY25 Mass Capacity $7.65B = 전체의 84% (FY23 71%→FY25 84%)
-→ **Mozaic HAMR 기술 글로벌 선행** — 36TB drive 양산 + 5 CSP qualified
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY14~FY25 12년 평균):**
 
-| 지표 | 12년 평균 | 정점 | 저점 | FY25 |
-|---|---|---|---|---|
-| Revenue ($B) | 10.66 | 13.74 (FY14·15) | 6.55 (FY24) | **9.10** |
-| GAAP OP ($B) | 1.30 | 1.93 (FY14) | -0.16 (FY23) | **1.91** |
-| GAAP OPM (%) | 12.2% | 21.0% (FY25 Q1 추정) | -2.2% (FY23) | **21.0%** |
-| Revenue CAGR (12년) | **-3.5%** (마이너스) | — | — | — |
-| 사이클 진폭 | FY18 11.2 → FY23 7.4 → FY25 9.1 (회복) | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **-3.5%** (마이너스 — SSD 잠식, 단 FY24 trough 후 회복) |
+| GAAP OPM 평균 | **12.2%** |
+| OPM 정점 평균 | **18.5%** (FY14·FY26E — pre-SSD 시대·HAMR 재가속) |
+| OPM 저점 평균 | **-1.1%** (FY23·FY24 — 메모리 다운사이클 동조 적자) |
+| 사이클 주기 | 약 4~5년 (peak-to-peak), 동시에 secular SSD 잠식 trend |
+| 사이클 회수 (12년) | 정점 2회 (FY14·FY18 mini-peak) / 저점 2회 (FY23·FY24) → 3회 정점 진행 중 (FY26~) |
 
-→ **12년 매출 CAGR 마이너스** = SSD에 의해 일부 시장 잠식, 단 **AI 콜드 스토리지 secular 성장**으로 FY25 본격 회복
+```
+[Seagate GAAP OPM 시계열 (12년)]
+FY     매출($B)  OP($B)   OPM     NPM
+FY14   13.74    1.93    14.0   11.7   ← pre-SSD 시대 정점 1차
+FY15   13.74    1.78    13.0   11.3   ← 동일 수준 유지
+FY16   11.16    0.79     7.1    2.3   ← SSD 잠식 시작
+FY17   10.77    0.99     9.2    7.0
+FY18   11.18    1.55    13.9   11.0   ← 메모리 슈퍼사이클 spillover, mini peak
+FY19   10.39    1.20    11.6    9.9
+FY20   10.51    1.06    10.1    9.6
+FY21   10.68    1.27    11.9   10.4
+FY22   11.66    1.62    13.9   13.5   ← 코로나 IT 사이클
+FY23    7.38   -0.16    -2.2  -10.3   ← 메모리 다운사이클 저점 (적자)
+FY24    6.55    0.43     6.6    5.6   ← 회복 초기
+FY25    9.10    1.91    21.0   16.1   ← Mozaic HAMR 양산 본격화, 정점 2차 진입
 
-(3) 정량적 분류 근거
+OPM range: -2.2% ~ +21.0% = 23.2%pt
+사이클 + 구조적 전환 동시 진행 — HDD 시장 축소 + AI 콜드 스토리지 secular 전환
+```
 
-→ **HDD 시장 점유율 (TrendForce 2025 4Q)**: **약 45% — 글로벌 1위** (WDC 40% / Toshiba 15%)
-→ **글로벌 HDD 3사 oligopoly** (Seagate + WDC + Toshiba = 100%)
-→ **Mass Capacity 비중**: FY23 64% → FY24 75% → FY25 84% — 점진 집중
-→ **Data Center 80% (Q1 FY26)** — Hyperscaler 직접 거래
-→ NAND 비중 < 5% (SSD 사업 매우 작음)
+![Seagate 12년 매출 & OPM 추이 (Mozaic HAMR 변곡점)](charts/STX_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![Seagate 12년 손익 4지표](charts/STX_chart1b_손익4지표_12년.png)
 
-→ **GICS Sector**: Information Technology — Technology Hardware, Storage & Peripherals
-→ **분류 결정 논리**: HDD는 SSD 대비 GB당 비용 5~10배 저렴 → **AI 데이터센터 콜드 스토리지의 unbeatable cost structure**. AI workload data 폭증 (학습·추론용 비정형 데이터) + hyperscaler가 콜드 스토리지에 HDD 의존도 유지
-→ **사이클성**: 메모리(DRAM·NAND)보다 약함. hyperscaler CapEx 사이클·SSD 대체율에 종속
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체 스토리지 (HDD Pureplay)**
+- SEC SIC 분류: 3572 — Computer Storage Devices
+- GICS Sector: Information Technology — Technology Hardware, Storage & Peripherals
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·INTC·SanDisk·WDC·AMD·ARM)
+- 글로벌 점유: **HDD 45%** (글로벌 1위, WDC 40% / Toshiba 15% — 3사 oligopoly), **Mass Capacity 84% mix**, **HAMR 양산 글로벌 선행**
 
-→ **1차 — Forward P/E**: HAMR 양산 정상화 후 multiple re-rating
-→ **2차 — EV/EBITDA**: HDD asset-light 모델 cash generation 평가
-→ **3차 — FCF Yield**: 매우 높음 (capital return king)
-→ **4차 — WDC와 직접 비교**: HDD 양강 점유율·마진 갭
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 HDD 85%+ → 단일 segment cyclical (전통적 PC HDD 시장 축소 사이클)
 
-→ ① **Mozaic HAMR drives 출하량** — Q1 FY26 1M+ → CY2026 H1 8 CSP 완료 시점
-→ ② **Data center end market 비중** (현재 80%, 추세 모니터링)
-→ ③ HDD ASP per-TB 가격 (고용량 HDD shift)
-→ ④ WDC 점유율 격차 (현재 +5%pt)
-→ ⑤ Toshiba 동향 (3위, 매각 가능성 등)
+(2) **단, secular 변수 영향력 sub-rule 적용**:
+   - Mass Capacity 비중 FY23 64% → FY25 84% → AI 콜드 스토리지 secular 성장 본격화
+   - HDD/SSD GB당 비용 갭 5~10배 → AI workload 데이터 폭증 시 unbeatable cost structure
+   - Mozaic HAMR 양산 글로벌 선행 (Q1 FY26 1M+ drives) → 차세대 ASP 견인
+
+(3) **Boundary case 처리**: 전통적 HDD 사이클 + AI 콜드 스토리지 secular 전환 섞임 → **Primary 사이클 + Secondary AI secular** 표기. HAMR 비중 50%+ 도달 시 Primary Secular 격상 검토
+
+(4) **글로벌 피어 cross-reference**:
+   - **WDC 대비**: 동일 HDD pureplay (45% vs 40%). STX HAMR 선행 → STX premium. WDC SSD 비중 더 큼 (mixed business)
+   - **Toshiba 대비**: 3위 15%, 매각 가능성 거론 → STX 점유율 추가 확대 catalyst
+   - **NAND 종목 (SNDK·MU NAND) 대비**: HDD vs NAND 콜드 스토리지 시장 경쟁. HDD GB당 비용 우위 유지
+   - **STX 차별점**: Mass Capacity 84% concentrate + HAMR 글로벌 선행 + capital return king (FCF yield 높음)
+
+### (4) 적정 밸류에이션 방법
+
+- **Forward PER** 우선 — HAMR 양산 정상화 + AI 콜드 스토리지 secular 진입 후 multiple re-rating
+  - 사이클 정점 PER 상한 (FY18 mini-peak) vs 저점 PER 부재 (적자) 밴드 활용
+- **EV/EBITDA** 보조 — HDD asset-light 모델 cash generation 평가, 8~12x band
+- **FCF Yield** — capital return king (배당 + 자사주 매입 누적 환원 매우 높음), 5~8% yield
+- **WDC 직접 비교** — HDD 양강 점유율·마진 갭 추적. STX HAMR 선행으로 멀티플 premium 1~2x 정당화
+- **PBR 부적합**: 자사주 매입 누적으로 자본 인위적 축소 → 비교 의미 없음
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment) vs **Seagate PER + EV/EBITDA + FCF Yield 혼합** (asset-light cash machine)
+
+### (5) 분기 재평가 트리거
+
+- **Mozaic HAMR 출하 비중 50%+ 도달 시** → AI 콜드 스토리지 secular 우세 → Primary cyclical → Primary Secular 격상 후보
+- **Data center end market 비중 85%+ 도달 시** → hyperscaler 직접 의존 → AI 인프라 secular 노출도 확대
+- **2개 분기 연속 OPM 25%+ 안정 시** → 사이클 변동성 약화 → 사이클 → 지속성장 transition 후보
+- **WDC 점유율 격차 +10%pt 이상 확대 시** → HDD 시장 leadership 강화 → premium multiplier 정당화
+- **Toshiba 매각·이탈 시** → HDD 3사 oligopoly → 2사 duopoly → 가격결정력 강화
+- **HDD ASP per-TB ±20% 이상 변동** → 사이클 direction 변경 시그널
 
 ---
 

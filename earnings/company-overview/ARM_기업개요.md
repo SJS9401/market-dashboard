@@ -18,56 +18,93 @@
 
 ---
 
-# ARM Holdings plc 기업 개요 (v4.8)
+# ARM Holdings plc 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 지속성장 + Secular** (CPU IP Licensing pureplay — 반도체 산업의 운영체제)
+- **Secondary 노트: 사이클 영향 거의 부재** (royalty + licensing 안정 매출 구조, 모바일·DC·IoT 다층 TAM)
 
-→ **Primary: CPU IP Licensing pureplay** — 자체 칩 제조 zero, IP 라이선스 + 칩 판매당 royalty (per-chip fee) 수익 모델
-→ **Secondary: Edge AI + Cloud AI 인프라 standard** — 모바일 99% + 데이터센터 +37% YoY 점유율
-→ **Industry Classification**: GICS Semiconductors / SIC 7372 (Prepackaged Software) — 실제로는 fabless 중 fabless
+### (1) 정량 근거
 
-(2) Summary Box (7년 시계열 통계, ARM은 2023.09 IPO 후 history 짧음)
+**📊 Summary Box (FY20~FY26 7년 평균 — 2023.09 IPO 후 history 짧음):**
 
-| 지표 | 7년 평균 (FY20~FY26) | 정점 | 저점 | FY26 |
-|---|---|---|---|---|
-| Revenue ($B) | 3.07 | 4.92 (FY26) | 1.91 (FY20) | **4.92** |
-| Non-GAAP OP ($B) | 1.02 | 2.00 (FY26) | 0.51 (FY20) | **2.00** |
-| Non-GAAP OPM (%) | 31.4% | 40.7% (FY26) | 24.4% (FY23) | **40.7%** |
-| **Revenue CAGR (7년)** | **+17.0%** | — | — | — |
-| 사이클성 | 짙은 secular 성장, 사이클 진폭 작음 | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (7년) | **+17.0%** (메모리·HDD와 정반대 secular 성장) |
+| Non-GAAP OPM 평균 | **31.4%** (소프트웨어 수준 마진) |
+| OPM 정점 평균 | **40.7%** (FY26 — AI 채택 본격화 정점) |
+| OPM 저점 평균 | **24.4%** (FY23 — IPO 직전, 일시 마진 후퇴) |
+| 사이클 주기 | **N/A — Secular 성장** (royalty/licensing 안정 매출, 사이클 진폭 매우 작음) |
+| 사이클 회수 (7년) | 정점 1회 진행 중 (FY26~) / 저점 부재 (적자 history 0) |
 
-→ **Revenue CAGR +17.0% — 메모리·HDD와 정반대**. AI 시대 ARM IP의 secular 성장
+```
+[ARM Non-GAAP OPM 시계열 (7년)]
+FY     매출($B)  OP($B)   OPM     NPM
+FY20    1.91    0.51    26.7   18.5   ← 매출 base
+FY21    2.03    0.59    29.1   21.0
+FY22    2.70    0.99    36.7   25.0   ← Nvidia 인수 시도 (FTC 차단)
+FY23    2.68    0.65    24.4   18.0   ← IPO 직전 마진 후퇴 (일시)
+FY24    3.23    1.05    32.5   23.0   ← IPO 후 첫 standalone year
+FY25    4.00    1.41    35.3   28.0   ← AI 채택 본격화 시작
+FY26    4.92    2.00    40.7   30.0   ← Record, AI Inflection Point
 
-(3) 정량적 분류 근거
+OPM range: 24.4% ~ 40.7% = 16.3%pt
+사이클 진폭 매우 작음 (메모리 ±50%pt+ 대비 1/3) — 짙은 secular 성장
+적자 분기 history 0 (IPO 후 7년)
+```
 
-→ **모바일 CPU 점유율**: **99%** (Apple iPhone·Android 전체 ARM 기반)
-→ **데이터센터 CPU 점유율**: **약 15%** (FY24 9% → FY26 15%, NVIDIA Grace + AWS Graviton + Google Axion + Microsoft Cobalt)
-→ **전체 ARM-based chip shipments**: **30B units/year** (CY25, 누적 290B+)
-→ **ARMv9 비중**: CY25 25% (royalty rate ARMv8 대비 약 2x)
-→ **자체 fab 없음, 자체 칩 없음** — 100% IP licensing 모델
+![ARM 7년 매출 & OPM 추이 (secular 성장)](charts/ARM_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![ARM 7년 손익 4지표](charts/ARM_chart1b_손익4지표_12년.png)
 
-→ **분류 결정 논리**: ARM IP는 **반도체 산업의 운영체제**. 모든 CPU 설계 회사 (Apple Silicon·Qualcomm·NVIDIA·MediaTek·AMD 등)가 ARM ISA 기반 설계
-→ **사이클성 매우 약함**: 매출은 royalty + licensing 안정적, NAND/DRAM 같은 가격 변동 없음
-→ **AI 시대 secular 베네피셔리**: edge AI (스마트폰·IoT) + cloud AI (서버 CPU) 양면 수혜
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체 IP Licensing (Fabless 중 Fabless)**
+- SEC SIC 분류: 7372 — Prepackaged Software (실제로는 반도체 IP)
+- GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
+- 워치리스트 섹터: **T1 — 반도체** (피어: NVDA·AMD·INTC·MU·SK하이닉스·삼성전자·STX·SanDisk·WDC)
+- 글로벌 점유: **모바일 CPU 99%** (Apple iPhone·Android 전체), **데이터센터 CPU 15%** (FY24 9% → FY26 15%, NVDA Grace + AWS Graviton + Google Axion + Microsoft Cobalt 채택), **누적 chip shipments 290B+**, **ARMv9 비중 CY25 25%** (royalty rate ARMv8 대비 2x)
 
-→ **1차 — Forward P/E**: ARM 평균 100배+ (산업 최고급, secular 성장 multiple)
-→ **2차 — P/S**: ARM ~70배 (NVIDIA ~30배 대비도 비싼 multiple)
-→ **3차 — Royalty rate 변동 분석**: ARMv8 → ARMv9 royalty rate 2x → 향후 ARMv10 추가 2x
-→ **4차 — TAM expansion**: 모바일 → 데이터센터 → IoT/auto/edge AI 다층 확장
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 Royalty Revenue 45% + Licensing Revenue 55% → IP licensing 단일 segment
 
-→ ① **Data Center Royalty 성장률** (현재 +100%+ YoY, CY26 secular 지속 여부)
-→ ② **ARMv9 adoption rate** (CY25 25% → CY27 50% 목표)
-→ ③ **ARM Compute Subsystems (CSS) license 체결** — major customer 발표
-→ ④ **SoftBank 추가 매각** (현 88% → 점진 감소, 유동성 증가)
-→ ⑤ **Royalty rate 변동** (per-chip fee 인상 가능성)
+(2) **단, secular 성장 본질 sub-rule 적용**:
+   - ARM IP는 **반도체 산업의 운영체제** — 모든 CPU 설계 회사 (Apple·Qualcomm·NVDA·MediaTek·AMD) ARM ISA 기반
+   - 모바일 99% → 데이터센터 15% (FY24→FY26 2년 만에 +6%pt) → TAM 다층 확장
+   - ARMv9 royalty rate 2x → ARMv10 추가 2x (per-chip fee 단계적 상승)
+   - 사이클성 매우 약함: royalty + licensing 안정, NAND/DRAM 가격 변동 부재
+
+(3) **Boundary case 처리**: Secular growth + 사이클 영향 거의 부재 → **Primary 지속성장 + Secular** 단일 표기. 일반 cyclical 분류 부적합 (적자 history 0)
+
+(4) **글로벌 피어 cross-reference**:
+   - **NVIDIA 대비**: 동일 AI 인프라 수혜. ARM은 CPU IP, NVDA는 GPU 하드웨어. ARM IP가 NVDA Grace에도 들어감 (호환 관계)
+   - **Intel 대비**: 정반대. Intel x86 CPU vs ARM ARM-based CPU. ARM이 Apple Silicon·Cobalt·Graviton 통해 Intel 점유율 잠식
+   - **AMD 대비**: AMD x86 진영. ARM이 ARM 진영 (vs x86). ARM 데이터센터 진출이 AMD에도 위협
+   - **삼성전자/SK하이닉스 대비**: 반도체 hardware vs ARM IP licensing. 비교 불가
+   - **ARM 차별점**: 자체 fab·자체 칩 zero, **100% IP licensing 모델** + **소프트웨어 수준 마진** (OPM 40%+) + **per-chip royalty rate 단계적 상승** + SoftBank 88% 지분 (점진 매각 중)
+
+### (4) 적정 밸류에이션 방법
+
+- **Forward PER** 우선 — ARM 평균 **100배+** (산업 최고급, secular 성장 multiple)
+  - PER band: 정점 120~150x (FY26 AI inflection) vs 저점 70~90x (FY23 IPO 직전)
+- **P/S** 보조 — ARM ~70배 (NVIDIA ~30배 대비도 비싼 multiple). secular royalty growth 정당화
+- **Royalty rate 변동 분석** — ARMv8 → ARMv9 royalty rate 2x → ARMv10 추가 2x → multi-year EPS lift
+- **TAM expansion** — 모바일 → 데이터센터 → IoT/auto/edge AI 다층 확장. 각 layer per-chip royalty 모델
+- **PBR 부적합**: IP licensing 모델로 자본 구조 작음, FCF 우위
+- **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment cyclical) vs **ARM PER 단독 우선** (pure secular)
+- **NVIDIA 비교**: NVIDIA PER 60배 vs ARM PER 100배+ — ARM이 더 비싸지만 IP licensing 마진 우위 (OPM 40% vs NVIDIA 35%)
+
+### (5) 분기 재평가 트리거
+
+- **Data Center Royalty 성장률 +100% YoY 지속 시** → AI 인프라 ARM secular leadership → multiplier 격상 유지
+- **ARMv9 adoption rate 50%+ 도달 시 (CY27 목표)** → royalty rate 2x 본격화 → EPS 가속
+- **ARM Compute Subsystems (CSS) major customer 추가** → licensing 매출 가속
+- **2개 분기 연속 OPM 45%+ 도달 시** → secular margin power 입증 → premium multiplier 격상
+- **SoftBank 지분 50% 이하로 매각 진행** → 유동성 증가 + corporate governance 정상화 → multiplier 정당화
+- **per-chip royalty rate 인상 announce** → 모든 ARM-based 칩 EPS 즉시 lift
+- **ARM 자체 칩 진출 시 (NVDA 인수 시도 같은 strategic move)** → business model 변경 → 분류 재검토
 
 ---
 

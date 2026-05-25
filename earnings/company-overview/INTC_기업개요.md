@@ -5,59 +5,93 @@
 > 데이터: 12년 연간 (2014~2025) + 직전 12분기 (Q2 23~Q1 26)
 > 출처: SEC EDGAR 10-K 16개 (FY10~FY25) + 10-Q 46개, Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Results Deck 9개, FY25 10-K Item 1·8
 
-# Intel Corporation 기업 개요 (v4.8)
+# Intel Corporation 기업 개요 (v4.9 — 1번 섹션 표준화)
 
 ## ① 기업 분류
 
-(1) Primary / Secondary 분류
+- **Primary 분류: 구조적 Turnaround + Foundry 전환** — 사이클이 아닌 **구조적 침체** (12년 매출 CAGR 마이너스)
+- **Secondary 노트: Foundry Services 신규 진입** (Intel 18A 양산 시작, 14A 외부 고객 첫 노드)
 
-→ **Primary: CPU·반도체 IDM (Integrated Device Manufacturer)** — Intel Products + Intel Foundry 양분 구조 (FY25 9월 재편)
-→ **Secondary: Foundry Services (외부 고객 대상)** — Intel 18A 양산 시작 (RibbonFET + PowerVia 세계 최초), Intel 14A 외부 고객 첫 노드
-→ **현 상태: 구조조정 + Turnaround** — FY24 OP -$11.7B 역대 최대 적자, FY25 Lip-Bu Tan 신임 CEO 부임 후 정상화 초기
+### (1) 정량 근거
 
-(2) Summary Box (12년 시계열 통계)
+**📊 Summary Box (FY2014~FY2025 12년 평균):**
 
-| 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | 2025 |
-|---|---|---|---|---|
-| Revenue ($B) | 66.2 | 79.02 (2021) | 52.85 (2025) | **52.85** |
-| GAAP OP ($B) | 12.16 | 23.68 (2020) | -11.68 (2024) | **0.26** |
-| GAAP OPM (%) | 18.2% | 30.4% (2020) | -22.0% (2024) | **0.5%** |
-| Revenue CAGR (12년) | **-0.46%** (마이너스) | — | — | — |
-| 사이클 진폭 | 2020 정점→2024 적자→2025 회복 시작 | — | — | — |
+| 지표 | 값 |
+|------|-----|
+| 매출 CAGR (12년) | **-0.46%** (마이너스 — 구조적 침체) |
+| GAAP OPM 평균 | **18.2%** |
+| OPM 정점 평균 | **30.3%** (FY20·FY21 — 코로나 PC 사이클 정점) |
+| OPM 저점 평균 | **-16.9%** (FY24·FY25 추정 — Turnaround 적자) |
+| 사이클 주기 | N/A — secular 침체 (회복 시점 불확실) |
+| 사이클 회수 (12년) | 정점 1회 (FY20·21 mini-peak) / 저점 1회 진행 중 (FY24·25) |
 
-→ **12년 매출 CAGR 마이너스** = 메모리·NVIDIA 등 경쟁사와 정반대. 사이클성이 아닌 **구조적 침체** + 파운드리 전환 비용
+```
+[Intel GAAP OPM 시계열 (12년)]
+연도   매출($B)  OP($B)   OPM    NPM
+2014    55.87   15.35   27.5   21.2   ← PC·서버 CPU 절대 강자
+2015    55.36   14.00   25.3   20.9
+2016    59.39   12.88   21.7   17.4
+2017    62.76   18.05   28.8   15.0   ← 14nm peak
+2018    70.85   23.32   32.9   30.4   ← 사이클 정점 1차
+2019    71.97   21.97   30.5   29.3
+2020    77.87   23.68   30.4   26.8   ← 코로나 PC 사이클 정점, 매출 정점 2차
+2021    79.02   19.46   24.6   25.1   ← 매출 정점 3차 (이후 하락)
+2022    63.05   2.33    3.7   12.7    ← 14nm·10nm 지연, AMD 점유율 잠식
+2023    54.23   0.09    0.2   3.1     ← 매출 침체 본격화
+2024    53.10  -11.68  -22.0  -36.8   ← 역대 최대 적자, Foundry 분사 검토
+2025    52.85   0.26    0.5    N/A    ← Lip-Bu Tan CEO 부임 + 18A 양산 시작
 
-(3) 정량적 분류 근거
+OPM range: -22.0% ~ +32.9% = 54.9%pt
+사이클이 아닌 **구조적 침체** — AMD 추격 + AI 전환 실패 + Foundry 대규모 투자 동반
+```
 
-→ **글로벌 데이터센터 CPU 점유율**: x86 시장 약 65% (vs AMD 35%) — 5년 연속 점유율 하락
-→ **클라이언트 PC CPU 점유율**: 약 75% (vs AMD 25%)
-→ **Foundry 사업**: 매우 미미, 외부 고객 거의 없음 — Intel 14A부터 본격 외부 고객 유치 목표
-→ **AI 가속기 점유율**: 약 0% (NVIDIA 96% 압도) — Gaudi 3 출시했으나 매출 미미
-→ **HBM/메모리**: 사업 없음 (2018년 메모리 사업 매각 — Numonyx, Optane 등 종료)
+![Intel 12년 매출 & OPM 추이 (사이클 vs 구조적 침체)](charts/INTC_chart1_매출OPM_12년.png)
 
-(4) 산업 분류 & 분류 결정 논리
+![Intel 12년 손익 4지표](charts/INTC_chart1b_손익4지표_12년.png)
 
-→ **GICS Sector**: Information Technology — Semiconductors
-→ **분류 결정 논리**: 전통적 CPU 시장 절대 강자였으나 **AI 시대 진입 실패**. 메모리·AI 가속기·Foundry 모든 차세대 영역에서 후발. 사이클 회복이 아닌 **구조적 변환** 필요
-→ 1차 비교 그룹: AMD (x86 직접 경쟁), TSMC (Foundry 경쟁), NVIDIA (AI 압도)
-→ 2차 비교 그룹: ARM-based (Apple Silicon, Qualcomm Snapdragon), 하이퍼스케일러 자체 silicon (Google TPU, AWS Graviton)
+### (2) 산업 분류
 
-(5) 적정 밸류에이션 방법
+- 산업: **반도체 CPU + Foundry** (Intel Products + Intel Foundry)
+- SEC SIC 분류: 3674 — Semiconductors
+- GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
+- 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·SanDisk·STX·WDC·AMD·ARM)
+- 글로벌 점유: **DC CPU x86 65%** (vs AMD 35%, 5년 연속 하락), **PC CPU 75%**, **AI 가속기 0%**, **HBM/메모리 0%** (2018 매각)
 
-→ **1차 — P/B 밴드**: Turnaround 시점 자본 회복 추적, 현재 $90B 시총 vs $90B Equity = P/B ≈ 1.0
-→ **2차 — Sum-of-Parts**: Intel Products + Intel Foundry + Mobileye 80% + Altera 49% 잔여 + IMS 68% 분해 평가
-→ **3차 — EV/Sales**: CPU 사업 부분만 별도 평가
-→ **4차 — Catalysts 가중**: 18A 양산 진척, Foundry 외부 고객 확보, NVIDIA 파트너십 진척
+### (3) 분류 결정 논리
 
-(6) 분기 재평가 트리거
+(1) **가장 매출 큰 사업부 기준** 적용 시 Intel Products (CPU 대부분) > Intel Foundry → 일견 cyclical (PC·서버 CPU 사이클)
 
-→ ① Intel 18A 외부 고객 발표 (특히 Apple·NVIDIA·Microsoft 중 누구라도)
-→ ② Intel 14A 외부 foundry 고객 확정 (없으면 14A 중단·TSMC 의존 전환)
-→ ③ Foundry 분사·매각 가능성 (활성 거론 중)
-→ ④ Mobileye·Altera·IMS 추가 분사·매각
-→ ⑤ x86 CPU 시장 점유율 변동 (AMD 따라잡기)
-→ ⑥ AI accelerator (Gaudi 3) 매출 본격화 여부
-→ ⑦ Lip-Bu Tan CEO 100일·1년·2년 milestone 진척
+(2) **단, 구조적 변수 영향력 sub-rule 적용**:
+   - 12년 매출 CAGR **마이너스 0.46%** → 사이클이 아닌 **구조적 침체** (반도체 동종 NVDA +30%, MU +7%, AMD +20% 대비 압도적 underperform)
+   - AMD 점유율 잠식 (DC CPU 5년 연속) + AI 시대 진입 실패 (NVDA 96% 압도)
+   - Foundry 대규모 투자 ($100B+) — Turnaround 비용 부담 5년+
+
+(3) **Boundary case 처리**: 사이클 + 구조적 침체 + Turnaround 진행 중 → **Primary 구조적 Turnaround + Secondary Foundry 전환** 표기. 일반 cyclical로 분류 부적합 (recovery timing 불확실)
+
+(4) **글로벌 피어 cross-reference**:
+   - **AMD 대비**: 동일 x86 → AMD 점유율 잠식 + AI MI300/MI400 성공 vs Intel 미진. 멀티플 갭 5배+
+   - **TSMC 대비**: Foundry 경쟁. Intel 18A 양산 시작했으나 외부 고객 미확보 → 멀티플 50배 갭
+   - **NVIDIA 대비**: AI 인프라 절대 강자 vs Intel AI 점유율 0% → 두 회사 정반대 시나리오
+   - **Intel 차별점**: CHIPS Act funding 직접 수혜 (Ohio·NM·AZ fab) + 18A RibbonFET·PowerVia 세계 최초
+
+### (4) 적정 밸류에이션 방법
+
+- **PBR** (Turnaround 기준) 우선 — 자본 회복 추적이 핵심. 현재 시총 $90B vs Equity $90B = **PBR ≈ 1.0** (역사적 저점)
+  - Turnaround 성공 시 PBR 1.5~2.0x 복원 (intrinsic value 기준)
+- **Sum-of-Parts** — Intel Products + Intel Foundry + Mobileye 80% + Altera 49% 잔여 + IMS 68% 분해. 각 part 별도 가치
+- **EV/Sales** — CPU 사업만 별도 (Foundry 비용 제외) 평가, 통상 1~2x
+- **Catalysts 가중** — 18A 양산 진척, Foundry 외부 고객 확보, NVIDIA 파트너십 진척 발표 시점 점프
+- **PER 부적합** — 적자 또는 marginal EPS로 의미 없음
+- **AMD/TSMC 비교**: AMD PER 30~40x vs Intel PER N/A → Turnaround 성공 후 정상화 시 멀티플 reframe
+
+### (5) 분기 재평가 트리거
+
+- **Intel 18A 외부 대형 고객 발표 시 (Apple·NVIDIA·MSFT 중 하나)** → Foundry secular 분류 강화 → Primary Foundry로 전환 후보
+- **2개 분기 연속 OPM 5%+ 회복 시** → 구조적 침체 → 정상 cyclical로 분류 정상화 후보
+- **Foundry 분사·매각 announce 시** → Intel Products 단독 valuation → Primary 사이클로 재분류
+- **AMD DC CPU 점유율 50% 돌파 시** → Intel 구조적 침체 가속 → 더 심각한 분류 (declining) 검토
+- **Lip-Bu Tan CEO 1년·2년 milestone 달성/미달성** → Turnaround 진척 평가
+- **CHIPS Act funding 변동** → 미국 정책 의존도 변경, 지정학 노출 검토
 
 ---
 
