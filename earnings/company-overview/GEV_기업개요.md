@@ -1,6 +1,6 @@
 > Ticker: **NYSE: GEV** / GE Vernova Inc.
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.1 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (분사·Wind 적자·턴어라운드 마커), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션, GEV 신규 분사로 historical 부족 명시)
 > 데이터: **2024.04.02 GE 분사 후 standalone (2년)** + Form 10 (FY22-23 legacy) + Yahoo 시계열 + Q1 2026 IR 통합
 > 출처: **GEV Form 10-K 2025 + 10-K 2024 (SEC EDGAR 자동 fetch, CIK 0001996810)**, **10-Q 7건 (Q1 2024-Q1 2026)**, **GEV Annual Report 2025 (8.6MB)**, **Form 10 Registration Statement 2024.03 (분사 historical)**, **GEV IR Q1 2026 press + presentation**, **Yahoo Finance GEV 5년 (2024.04 상장 이후)**
@@ -69,6 +69,19 @@
 | Net Income (loss, $M) | -489 | -474 | 1,547 | **2,024** |
 | Cash from Operations ($M) | — | — | 1,200 | **3,000** |
 | **Free Cash Flow ($M)** | — | — | — | **2,600** |
+
+```
+[GE Vernova 4년 손익 시계열 (USD $M)]
+연도    매출      Adj EBITDA  Margin   Net Income
+2022   29,638    -275       -0.9%    -489          ← GE 분사 준비 phase (legacy, Wind 적자 본격)
+2023   33,240    1,183       3.6%    -474          ← Form 10 발간 (분사 직전 financials)
+2024   34,900    1,748       5.0%   1,547          ← 2024.04.02 GE로부터 분사 + NYSE 상장 (Scott Strazik CEO)
+2025   36,733    3,060       8.3%   2,024          ← 첫 standalone 풀이어 + Wind 적자 정상화 본격 + Gas Power 100GW backlog
+
+Adj EBITDA Margin range: -0.9% ~ 8.3% = +9.2%pt (4년 단조 우상향, 턴어라운드 정상화)
+사이클 cutoff (±10%pt): 근접 미달 → 턴어라운드 잔여 + 지속성장 진입 boundary
+Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 핵심 trigger)
+```
 
 **📊 사이클 통계 (4년, FY22~FY25)**
 

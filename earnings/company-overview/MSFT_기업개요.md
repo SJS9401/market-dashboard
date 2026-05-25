@@ -15,80 +15,41 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-**Primary 분류**: 지속성장(Compounder) + Cloud/AI 가속 사이클
+- **Primary 분류**: **지속성장(Compounder)** — SaaS·Cloud 다중 anchor
+- **Secondary 노트**: **Cloud/AI 가속 secular sub-cycle** (Azure +40% CC + AI ARR $37B +123% YoY) — 정통 사이클성 아닌 "5년 단위 platform shift" 가속 사이클
 
-**Secondary 노트**: Microsoft는 안정적 SaaS 매출(Office 365·Windows OEM) + Azure Cloud(고성장) + AI(폭발 성장, ARR $37B+ YoY 123%) 3-tier 구조. OPM 변동 폭 매우 작음 (28~46% 박스), 자본 효율성 극한.
+### ① 정량 근거
 
-### Summary Box (12년 평균)
+**📊 Summary Box (12년 평균, FY2014~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY2014→FY2025) | **+11.3%** |
+| 매출 CAGR (FY14→FY25) | **+11.3%** ($86.8B → $281.7B, 3.2배) |
 | OPM 평균 (12년) | **35.4%** |
-| OPM 정점 | **46.3% (FY25)** |
-| OPM 저점 | 19.4% (FY15, Nokia 손상차손) |
-| 사이클 주기 | ~5년 (Win8 → Cloud 전환 → AI) |
-| 사이클 회수 | 2회 (FY15 Nokia 손상, FY18 세제개혁 일회성) |
-| 누적 자본 (FY14→FY25) | $89.8B → $327.0B (+3.6배) |
+| **OPM 정점 평균** | **45.5%** (FY24·FY25 2회 평균) |
+| **OPM 저점 평균** | **21.6%** (FY15·FY16 2회 평균, Nokia 손상 + 전환기) |
+| **OPM range (12년)** | 19.4% ~ 46.3% = **26.9%pt** ← but 일회성(Nokia) 제외 시 단조 우상향 = **secular 성장** 진입 패턴 |
+| 사이클 주기 | ~5년 (platform shift: Win8 → Cloud → AI) |
+| 사이클 회수 (12년) | 정점 N/A — secular 우상향 / 압축 1회 (FY15 Nokia 일회성) |
 
-![MSFT 연간 매출 & OPM/NPM 추이](MSFT_chart1_매출OPM.png)
+**📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-### ① 정량 근거 (12년 매출·OP·OPM 시계열)
-
-| FY (Jul~Jun) | 매출($B) | OP($B) | NI($B) | OPM(%) | NPM(%) | CapEx($B) |
+| FY (Jul~Jun) | 매출($B) | OP($B) | OPM(%) | NPM(%) | CapEx($B) | 사이클 이벤트 |
 |---|---|---|---|---|---|---|
-| FY14 | 86.83 | 27.76 | 22.07 | 32.0 | 25.4 | 10.9 |
-| FY15 | 93.58 | 18.16 | 12.19 | 19.4 | 13.0 | 5.9 |
-| FY16 | 85.32 | 20.18 | 16.80 | 23.7 | 19.7 | 8.3 |
-| FY17 | 89.95 | 22.33 | 25.49 | 24.8 | 28.3 | 8.1 |
-| FY18 | 110.36 | 35.06 | 16.57 | 31.8 | 15.0 | 11.6 |
-| FY19 | 125.84 | 42.96 | 39.24 | 34.1 | 31.2 | 13.9 |
-| FY20 | 143.02 | 52.96 | 44.28 | 37.0 | 31.0 | 15.4 |
-| FY21 | 168.09 | 69.92 | 61.27 | 41.6 | 36.4 | 20.6 |
-| FY22 | 198.27 | 83.38 | 72.74 | 42.1 | 36.7 | 24.0 |
-| FY23 | 211.92 | 88.52 | 72.36 | 41.8 | 34.1 | 28.1 |
-| FY24 | 245.12 | 109.43 | 88.14 | 44.6 | 36.0 | 44.5 |
-| **FY25** | **281.70** | **130.51** | **96.64** | **46.3** | **34.3** | **65.0** |
-
-→ (출처: Microsoft 10-K FY2014~FY2025, SEC EDGAR)
-
-→ 사이클 detection: (1) **FY15 압축** OPM 19.4% — Nokia 인수($7.6B) 후 손상차손 $7.5B 1회성. (2) **FY16~17 안정** OPM 24% — Satya Nadella의 Cloud-first 전환. (3) **FY18 점프** OPM 31.8% — Office 365 가속 + Azure +91% YoY. (4) **FY19~22 마진 확장** OPM 34→42% — Cloud scale 효과. (5) **FY24~25 AI 슈퍼사이클** OPM 44~46% — Copilot + OpenAI 파트너십.
-
-### ② 산업 분류
-
-- **GICS**: Information Technology > Systems Software (45103020)
-- **하위 산업 노출**:
-  - Cloud Infrastructure (Azure, FY25 매출 약 $80B+)
-  - Productivity Software (Office 365, Microsoft 365 Copilot)
-  - Operating Systems (Windows, Surface)
-  - Gaming (Xbox + Activision Blizzard, 2023.10 $68.7B 인수 완료)
-  - Professional Network (LinkedIn, 2016.12 인수)
-  - Search/Advertising (Bing + Copilot Search)
-  - AI Foundation (OpenAI 49% economic interest)
-- **워치리스트 섹터/Tier**: Cloud Infrastructure (T1), AI Foundation (T1), Productivity SaaS (T2)
-
-### ③ 분류 결정 논리
-
-- 매출은 명백한 지속성장 (CAGR 11.3%), Cloud + AI 가속 sub-cycle 보유
-- OPM 변동 폭 매우 작음 (28~46%), 사이클성 거의 없음
-- 자본 효율성 극한 (FY25 ROE 30%+)
-- 사실상 매크로 사이클 노출 없는 안정 성장 = "지속성장 + Cloud 가속"
-
-### ④ 적정 밸류에이션 방법
-
-- **1순위: PER (Forward 12M)** — 일관된 EPS 성장 (FY25 EPS $13.00, +22% YoY, 시장 PER ~32x)
-- **2순위: EV/EBITDA** — FY25 ~25x, 빅테크 평균과 유사
-- **Microsoft Cloud ARR** (Office 365 Commercial + Azure + Dynamics 365 + LinkedIn) FY25 $175B+ → 강력한 recurring 수익
-
-### ⑤ 분기 재평가 트리거
-
-- **Azure 분기 성장률**: FY26Q3 +36% (가속 중). +30% 박스 유지 여부
-- **AI Business ARR**: FY26Q3 $37B (+123% YoY). $50B+ 도달 시점
-- **CapEx 가이던스**: FY25 $65B → FY26E ~$100B (AI 인프라)
-- **OpenAI 파트너십 변화**: GPT 매출 share, exclusivity 변경 가능성
-- **반독점 규제**: EU DMA, FTC Activision 인수 후속 감시
+| FY14 | 86.83 | 27.76 | 32.0 | 25.4 | 10.9 | Satya Nadella CEO 취임 (2014.02) |
+| FY15 | 93.58 | 18.16 | **19.4** | 13.0 | 5.9 | **← Nokia 손상차손 -$7.5B 일회성 (12년 OPM 최저)** |
+| FY16 | 85.32 | 20.18 | 23.7 | 19.7 | 8.3 | **← Cloud-first 전환 시작** |
+| FY17 | 89.95 | 22.33 | 24.8 | 28.3 | 8.1 | Azure 본격 ramp |
+| FY18 | 110.36 | 35.06 | **31.8** | 15.0 | 11.6 | **← 1차 점프 (Office 365 가속 + Azure +91% YoY)** |
+| FY19 | 125.84 | 42.96 | 34.1 | 31.2 | 13.9 | Cloud scale 효과 |
+| FY20 | 143.02 | 52.96 | 37.0 | 31.0 | 15.4 | COVID 클라우드 가속 |
+| FY21 | 168.09 | 69.92 | 41.6 | 36.4 | 20.6 | **← Cloud 슈퍼사이클 진입 (Azure +50%)** |
+| FY22 | 198.27 | 83.38 | 42.1 | 36.7 | 24.0 | **← 마진 안정화 (OPM 41~44% 박스)** |
+| FY23 | 211.92 | 88.52 | 41.8 | 34.1 | 28.1 | ChatGPT/OpenAI 파트너십 (2023.01 $10B) |
+| FY24 | 245.12 | 109.43 | **44.6** | 36.0 | 44.5 | **← AI Copilot launch (2024.04) — 가속 시작** |
+| **FY25** | **281.70** | **130.51** | **46.3** | **34.3** | **65.0** | **← AI 슈퍼사이클 정점 OPM (12년 최고)** |
 
 ---
 

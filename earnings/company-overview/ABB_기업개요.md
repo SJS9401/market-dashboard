@@ -1,6 +1,6 @@
 > Ticker: ABBNY (ADR OTC, 구 NYSE:ABB 2024.04 자진 상장폐지) / ABBN.SW (SIX Swiss Exchange) / ABB Ltd
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-24 KST (**v1.4** — v1.0~v1.3 + ① 기업 분류 룰셋 재정렬 (삼성전자·SK하이닉스 v4.8·HE v1.4 참조: Primary/Secondary = 사이클 vs 지속성장 vs 턴어라운드 본질 분류, Margin range·사이클 회수 통계, 적정 밸류에이션, 분기 재평가 트리거 6종 신설). 한 줄 chain 분리, 비교 table → list 변환. HTML 다크 모드로 교체)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (Power Grids 매각 변곡점·secular 진입 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준)
 > 데이터: 12년 연결 연간(2014~2025) + 9분기(Q1 24~Q1 26) 사업부별 + 20년 Yahoo 시가총액 + Q1 2026 통합
 > 출처: **ABB Financial Report 2025 (142 페이지, IR /library 자동 fetch) — FY24-FY25 정확값**, **Form 20-F 2020/2021 (SEC filing, FY19-FY21 정확값)**, **ABB IR 분기 Earnings Presentation/Press/Financial PDFs (Q1 26 + Q4 25 + Q3 25 + Q2 25)**, **ABB Integrated Report 2024**, **Yahoo Finance ABBNY 20년 월간 시계열**, 1Q26 review 통합
@@ -40,6 +40,27 @@
 | Net Income (ABB, $M) | 2,917 | 5,146 (2020, divest gain) | 1,439 (2019) | **4,734** |
 | OPM (%) | 9.9% | **18.2% (2025)** | 6.4% (2018) | **18.2%** |
 | Op EBITA Margin (%, continuing) | — | **19.0% (2025)** | 11.1% (2020) | **19.0%** |
+
+```
+[ABB 12년 손익 시계열 (USD $M, continuing ops 기준)]
+연도    매출      OP       OPM    Net Income
+2014   39,830   3,633    9.1%    2,594        ← Pre-Power Grids (4 BA 시절, mature 사이클)
+2015   35,481   3,243    9.1%    1,925        ← 신흥국 + 변압기 사이클 둔화
+2016   33,828   3,197    9.5%    1,899
+2017   34,312   3,325    9.7%    2,213
+2018   28,004   2,197    7.8%    2,173        ← Power Grids 매각 발표 (Hitachi 협상 시작)
+2019   27,978   2,107    7.5%    1,439        ← Ulrich Spiesshofer CEO 사임, Björn Rosengren 신임 CEO 교체
+2020   26,134   1,786    6.8%    5,146        ← Power Grids → Hitachi 매각 ($7.6B, $5.1B 매각차익) + 코로나
+2021   28,945   2,735    9.4%    4,546        ← Continuing ops 3 BA 정상화 phase 진입
+2022   29,446   3,337   11.3%    2,473        ← ABB Way decentralized 운영모델 본격 가동
+2023   32,235   4,030   12.5%    3,920        ← Secular 진입 (Electrification 가속)
+2024   30,583   4,735   15.5%    3,935        ← Margin 가속 (FY24-25 +6.7pp)
+2025   33,220   6,047   18.2%    4,734        ← Electrification BU 23.6% Margin + Robotics 분사 발표
+
+OPM range (12년 reported): 6.8% ~ 18.2% = +11.4%pt — 단, 6.8% 저점은 2020 Power Grids 매각·코로나 일회성
+Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (단조 우상향, downcycle 0회)
+사이클 cutoff (±10%pt, continuing 기준): 미달 → 지속성장 분류
+```
 
 **📊 사이클 통계 (continuing ops 5년, FY20~FY25)**
 
@@ -105,27 +126,23 @@
 
 (6) 적정 밸류에이션 방법
 
-→ **1차 — Forward PER + EV/EBITDA** (지속성장 분류 기반): 글로벌 피어 (Schneider 28x · Eaton 32x · GE Vernova 50x) reference. ABB 현재 PER 약 28-30x = 한국 3사 대비 프리미엄
+→ **1차 — Forward PER** (지속성장 pure-play 분류 기반): 글로벌 피어 (Schneider 28x · Eaton 32x · GE Vernova 50x) reference. ABB 현재 PER 약 28-30x = 한국 3사 대비 프리미엄, secular pure-play 적정 평가
 
-→ **2차 — DCF (3-stage)**: 19% Op EBITA Margin + Capital allocation discipline + R&D 4% 지속 → forward FCF DCF
+→ **2차 — EV/EBITDA + DCF (3-stage)**: 19% Op EBITA Margin + Capital allocation discipline + R&D 4% 지속 → forward FCF DCF, EV/EBITDA 18-22x
 
 → **3차 — SOTP**: Electrification (글로벌 1위 프리미엄) + Motion + Automation 분리 가치 + Robotics 매각 가치 계산
 
 → **PBR 미사용 근거** — 지속성장 분류, downcycle 부재로 P/B band 의미 작음 (대신 ROE 28.4%·ROIC 활용)
 
-(7) 분기 재평가 트리거
+→ **삼성전자 대비**: 삼성전자는 PBR 단독 사이클, ABB는 PER 단독 secular pure-play (downcycle 부재) — Power Grids 매각 후 portfolio 단순화로 PER 평가 적합
 
-→ ① **Order growth 25%+ 4분기 연속** (Q1 26 +24% 달성 = 데이터센터 narrative 1차 confirm)
+(7) 분기 재평가 트리거 (**분류 변경 조건** — 실적 추적 변수는 6번 섹션)
 
-→ ② **Op EBITA Margin 20%+ 진입** (FY25 19% → FY26 가이던스 19.5-20%) → secular re-rating 시그널
+→ ① **Electrification segment Op EBITA Margin range 4 분기 연속 +10%pt 진폭 발생 시** → 지속성장 → **사이클 재분류** (글로벌 1위 driver가 흔들리면 본질 분류 변경)
 
-→ ③ **Robotics divestment 완료** (FY26 expected) → SoftBank Group 매각 후 capital return announcement
+→ ② **Process Automation 매출 비중 30%+ 도달 시** (현재 24%) → Oil&Gas·Mining·Chemicals capex 사이클 노출 증가 → **사이클 비중 증가로 Primary 재검토**
 
-→ ④ **FY26 가이던스 raise** (Q1 26에 reaffirmed, Q2 26 또는 H1 release 시점 raise 가능성 모니터링)
-
-→ ⑤ **$2.0B 추가 share buyback 진행 + 추가 announcement** 가능성
-
-→ ⑥ **Electrification Op EBITA Margin 25%+ 도달 시** (현재 23.6%) → 글로벌 1위 프리미엄 추가 확장 시그널
+→ ③ **Robotics 분사 완료 + 4 → 3 segment 안정화 + Op EBITA Margin 20%+ 유지 4 분기** → 지속성장 → **Pure secular 격상** (Schneider·Eaton 동등 multiple 적용 가능)
 
 ---
 

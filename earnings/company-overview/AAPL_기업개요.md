@@ -49,86 +49,78 @@
 
 ---
 
-## 1. 기업 분류
+## 1. 기업 분류 (v4.8 retrofit)
 
-**Primary 분류**: **지속성장(Compounder) + 슈퍼 플랫폼**
+- **Primary 분류**: **지속성장(Compounder)** — 럭셔리 + 슈퍼 플랫폼
+- **Secondary 노트**: **iPhone 모델 사이클 + 중국 거시 사이클** (단, OPM range 7.9%pt로 사이클 cutoff 10%pt 미달 → "약한 사이클성" 영역)
 
-**Secondary 노트**: Apple은 단일 사이클이 아닌 "**스마트폰 슈퍼사이클(2007~)에 올라탄 프리미엄 하드웨어 + 고마진 서비스 플랫폼**" 구조다. 13년간 매출 CAGR +9.6%, OPM은 24~32% 밴드에서 안정적이며, 사이클이 있다면 **iPhone 모델 교체 주기 (2~3년)**와 **거시(중국 소비·환율) 동조** 두 가지에 한정된다. 사이클성 종목이라기보다는 "**brand·ecosystem·design 기반 광의의 럭셔리 + Services 부분 SaaS-like**" 분류가 적절.
+### ① 정량 근거
 
-### Summary Box (13년 평균)
+**📊 Summary Box (13년 평균, FY2013~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
 | 매출 CAGR (FY2013→FY2025) | **+7.6%** ($170.9B → $416.2B, 2.43배) |
 | OPM 평균 (13년) | **28.4%** |
-| OPM 정점 | 32.0% (FY2025) |
-| OPM 저점 | 24.1% (FY2020, COVID 영향) |
-| 사이클 주기 | iPhone 신모델 (2~3년) + 중국 macro (2~3년) |
-| 사이클 회수 | 3회 (FY16 Galaxy Note 7/iPhone SE 1세대 압축, FY19 미·중 무역분쟁, FY23 중국 매출 -9.9% / 인플레이션) |
-| 누적 자본 추이 | $123.5B (FY13) → $73.7B (FY25): **순환적 감소** (누적 자사주 매입 $700B+ 영향) |
-| Diluted Shares 감소 (split 조정 후) | FY13 6,122M → FY25 15,004M으로 외형 증가했으나, **7:1 split(2014) + 4:1 split(2020) 통상 환산 시 실 발행주식 -42%** |
+| **OPM 정점 평균** | **31.3%** (FY2015·FY2021·FY2022·FY2024·FY2025 5회 평균) |
+| **OPM 저점 평균** | **25.2%** (FY2019·FY2020 2회 평균) |
+| **OPM range (13년)** | 24.1% ~ 32.0% = **7.9%pt** ← **사이클 cutoff 10%pt 미달** = "약한 사이클성" |
+| 사이클 주기 | iPhone 신모델 (2~3년) + 중국 macro (3~5년) |
+| 사이클 회수 (13년) | 압축 3회 (FY16·FY19·FY23) / 정점 3회 (FY15·FY21~22·FY25) |
+
+**📊 손익 표 (13년, narrative annotation 직접 통합):**
+
+| FY | 매출($B) | OP($B) | NI($B) | OPM(%) | GPM(%) | 사이클 이벤트 |
+|----|---------|--------|--------|--------|--------|------|
+| 2013 | 170.91 | 49.00 | 37.04 | 28.7 | 37.6 | iPhone 5/5S baseline |
+| 2014 | 182.80 | 52.50 | 39.51 | 28.7 | 38.6 | iPhone 6 launch |
+| 2015 | 233.72 | 71.23 | 53.39 | **30.5** | 40.1 | **← 1차 슈퍼사이클 정점 (iPhone 6/6+, +28% YoY)** |
+| 2016 | 215.64 | 60.02 | 45.69 | 27.8 | 39.1 | **← 1차 압축 (iPhone SE/6S 부진, -7.7% YoY)** |
+| 2017 | 229.23 | 61.34 | 48.35 | 26.8 | 38.5 | iPhone 7/8/X 회복 (ASP +24%) |
+| 2018 | 265.60 | 70.90 | 59.53 | 26.7 | 38.3 | iPhone X 슈퍼사이클 |
+| 2019 | 260.17 | 63.93 | 55.26 | **24.6** | 37.8 | **← 2차 압축 저점 (미·중 무역분쟁, 13년 최저)** |
+| 2020 | 274.52 | 66.29 | 57.41 | **24.1** | 38.2 | **← COVID 압축 (13년 OPM 최저)** |
+| 2021 | 365.82 | 108.95 | 94.68 | 29.8 | 41.8 | **← iPhone 12 5G 슈퍼사이클 + Services +27%** |
+| 2022 | 394.33 | 119.44 | 99.80 | **30.3** | 43.3 | **← 메가사이클 정점 (사상 최고 매출)** |
+| 2023 | 383.29 | 114.30 | 96.99 | 29.8 | 44.1 | **← 3차 압축 (중국 -9.6%, 인플레이션, 매출 -2.8%)** |
+| 2024 | 391.04 | 123.22 | 93.74 | 31.5 | 46.2 | Apple Intelligence 발표 (2024.6) |
+| **2025** | **416.16** | **133.05** | **112.01** | **32.0** | **46.9** | **← iPhone 17 사이클 정점 + 사상 최고 OPM** |
+
+→ (출처: SEC EDGAR XBRL companyfacts, FY2013~FY2025 us-gaap concepts. FY18은 SalesRevenueNet→RevenueFromContractWithCustomerExcludingAssessedTax 전환 분기점)
 
 ![AAPL 연간 매출 & OPM/NPM 추이](AAPL_chart1_매출OPM.png)
-
-### ① 정량 근거 (13년 매출·OP·OPM 시계열)
-
-| FY | 매출($B) | OP($B) | NI($B) | OPM(%) | NPM(%) | GPM(%) |
-|----|---------|--------|--------|--------|--------|--------|
-| 2013 | 170.91 | 49.00 | 37.04 | 28.7 | 21.7 | 37.6 |
-| 2014 | 182.80 | 52.50 | 39.51 | 28.7 | 21.6 | 38.6 |
-| 2015 | 233.72 | 71.23 | 53.39 | 30.5 | 22.8 | 40.1 |
-| 2016 | 215.64 | 60.02 | 45.69 | 27.8 | 21.2 | 39.1 |
-| 2017 | 229.23 | 61.34 | 48.35 | 26.8 | 21.1 | 38.5 |
-| 2018 | 265.60 | 70.90 | 59.53 | 26.7 | 22.4 | 38.3 |
-| 2019 | 260.17 | 63.93 | 55.26 | 24.6 | 21.2 | 37.8 |
-| 2020 | 274.52 | 66.29 | 57.41 | 24.1 | 20.9 | 38.2 |
-| 2021 | 365.82 | 108.95 | 94.68 | 29.8 | 25.9 | 41.8 |
-| 2022 | 394.33 | 119.44 | 99.80 | 30.3 | 25.3 | 43.3 |
-| 2023 | 383.29 | 114.30 | 96.99 | 29.8 | 25.3 | 44.1 |
-| 2024 | 391.04 | 123.22 | 93.74 | 31.5 | 24.0 | 46.2 |
-| **2025** | **416.16** | **133.05** | **112.01** | **32.0** | **26.9** | **46.9** |
-
-→ (출처: SEC EDGAR XBRL companyfacts, FY2013~FY2025 us-gaap concepts: Revenues / OperatingIncomeLoss / NetIncomeLoss / GrossProfit. FY18은 SalesRevenueNet→RevenueFromContractWithCustomerExcludingAssessedTax 전환 분기점)
-
-→ **사이클 detection 패턴**:
-1. **FY2013~FY2015 슈퍼사이클 1차** — iPhone 5/5S/6/6+ 대형화 사이클. FY15 매출 +28% (역대 최대 YoY), OPM 30.5%까지 상승.
-2. **FY2016 첫 압축기** — iPhone SE 1세대(저가)/iPhone 6S 부진. 매출 -7.7%, OPM -2.7%p. 중국 +84% YoY 정점 후 둔화.
-3. **FY2017~FY2018 회복** — iPhone 7/8/X 슈퍼사이클. OPM 26~27% 안정. ASP +24%(iPhone X $999 도입).
-4. **FY2019 미·중 무역분쟁 + iPhone XS 부진** — 매출 -2.0%, OPM 24.6% 13년 최저. CEO Tim Cook "2019년 1월 가이던스 인하" 사건.
-5. **FY2020 COVID 회복 + iPhone 12 5G 슈퍼사이클** — 비대면 수요 + 5G 사이클 동시 진입.
-6. **FY2021~FY2022 메가사이클** — Apple 사상 최고 매출/이익, GPM 41~43% 진입. Services +27%(2021) / +14%(2022), iPhone +39%(2021) / +7%(2022).
-7. **FY2023 중국 + 환율 압축기** — Greater China -9.6% YoY, USD 강세, 매출 -2.8% YoY. 그러나 GPM 44.1%로 사상 최고 (Services 비중 상승).
-8. **FY2024~FY2025 회복 사이클** — Apple Intelligence 발표(2024.6), iPhone 16/17 cycle. FY25 OPM 32.0% 사상 최고. **FY26 Q1 매출 $143.8B (+15.6% YoY) — Apple 분기 사상 최고. FY26 Q2 $111.2B (+16.6% YoY)** — iPhone 17 슈퍼사이클 시그널.
 
 ### ② 산업 분류
 
 - **GICS**: Information Technology > Technology Hardware, Storage & Peripherals (45202030)
-- **하위 산업 노출**: 스마트폰(53%, iPhone), Services(26%, App Store/iCloud/Apple Music/Apple TV+/Apple Pay/Apple Care), PC(8%, Mac), Tablet(7%, iPad), Wearables/Home/Accessories(8%, Apple Watch/AirPods/HomePod/Beats)
+- **하위 산업 노출**: iPhone(53%, FY25 매출 기준), Services(26%, App Store/iCloud/Apple Music/Apple TV+/Apple Pay), Mac(8%), iPad(7%), Wearables(8%)
 - **워치리스트 섹터/Tier**: T1 미국 빅테크 / 소비자 전자제품 industry
-- **글로벌 피어**: Samsung Electronics(005930.KS, 스마트폰·반도체 통합), Xiaomi(1810.HK), Lenovo(0992.HK), Sony(6758.T) — 단 **프리미엄 스마트폰 점유율 80%+ Apple 독점적 위치** (Counterpoint 2025)
+- **글로벌 피어**: Samsung Electronics(스마트폰+반도체 multi-segment), Xiaomi, Sony — **프리미엄 스마트폰 점유율 80%+ Apple 독점** (Counterpoint 2025)
 
-### ③ 분류 결정 논리
+### ③ 분류 결정 논리 (4단계 sub-logic)
 
-- **매출은 명백한 지속성장** (13년 +7.6% CAGR, 단 사이클 종목 아님)
-- **이익은 매우 안정적인 구조** — 분기성 변동(iPhone 신모델 발표 분기 vs 비수기 분기)은 있으나 연간 OPM 24~32% 밴드에서 한 번도 이탈한 적 없음
-- **2가지 사이클 source**:
-  1. iPhone 신모델 사이클 (2~3년 주기 — 5G 도입, 카메라 혁신, AI 도입 등 굵직한 변곡점)
-  2. 거시 사이클 (중국 소비, USD 환율, 글로벌 GDP)
-- **분류 결론**: **지속성장(Compounder) + 슈퍼 플랫폼** — 매출 사이클성 약함, OPM 사이클성 약함. 그러나 단일 종목 거시 익스포저(중국 매출 15~20%)가 macro 변동 요인.
+(1) **가장 매출 큰 사업부 기준** 적용 시 iPhone 53% → "스마트폰 OEM = 약한 사이클" 일견. 그러나 Apple은 단일 모델 출시 사이클 + 프리미엄 lock-in으로 정통 OEM 사이클성 약화.
+(2) **단, Services 비중 우선 sub-rule 적용** — Services 26% 비중·**GPM 76%+** SaaS-like 안정 매출이 OPM 변동성을 흡수. FY25 Services $96B + GPM 76% = 영업이익 약 $73B 기여(전사 OP 55% 추정) → **이익 구조는 SaaS 본질에 가까움**.
+(3) **Boundary case 처리**: Primary "지속성장" + Secondary "iPhone 모델 사이클 + 중국 거시 동조". **OPM range 13년 7.9%pt = 사이클 cutoff 10%pt 미달** → 정통 사이클성 종목 아님. 단, Services 비중 30%+ 도달 시 "지속성장 only"로 격상 가능.
+(4) **글로벌 피어 cross-reference**: **삼성전자 vs AAPL = multi-segment 사이클 vs single-product (iPhone) 지속성장** — 삼성은 DS 메모리 사이클로 OPM range 21.7%pt, AAPL은 7.9%pt. Xiaomi/Sony는 hardware-only OEM (서비스 미비), AAPL은 hardware + Services 통합 ecosystem이 차별화.
 
-### ④ 적정 밸류에이션 방법
+### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위: PER (Forward 12M)** — Apple은 안정적 OPM·NPM·FCF로 PER 기반 가치평가가 가장 적합. 역사적 PER 12~35x 밴드, 5년 평균 ~30x, 현재(2026-05) ~30x (EPS TTM $8.18, 주가 $300)
-- **2순위: EV/FCF** — 자사주 매입($90B+/년) 영향으로 EPS 성장과 별개로 FCF 안정성 평가 가능
-- **3순위: SOTP** — Products (iPhone+Mac+iPad+Wearables) vs Services (App Store·iCloud·Apple Music 등) 별도 평가. **Services는 GPM 75% Software 비즈니스로 SaaS 멀티플(8-12x P/S) 적용 가능**, Products는 프리미엄 하드웨어 (15-20x PER)
-- **PBR은 부적합** (자사주 매입으로 BV 지속 감소 — FY13 $123.5B → FY25 $73.7B)
+- **1순위 PER (Forward 12M)** — Services 비중 26% + Hardware 비중 74%, 둘 다 안정 매출 → PER 기반이 합리. 역사적 PER 12~35x, 5년 평균 ~30x.
+- **2순위 SOTP (Sum-of-Parts)** — Services 부문은 **GPM 76%·SaaS-like**로 P/S 8~12x 멀티플 별도 적용, Hardware 부문은 프리미엄 OEM PER 15~20x 적용. 통합 평가 시 SOTP가 PER 단독 대비 +α 시그널.
+- **3순위 EV/FCF** — 자사주 매입 $90B+/년 영향으로 EPS 성장 + FCF 안정성 동시 평가.
+- **PBR 부적합** — 자사주 매입으로 BV 지속 감소 (FY13 $123.5B → FY25 $73.7B).
+- **삼성전자 비교**: 삼성은 사이클 → **PBR 우선 + PER 보조**, AAPL은 지속성장 → **PER 우선 + SOTP 보조** (서비스 SaaS 멀티플 차별화).
 
-### ⑤ 분기 재평가 트리거
+### ⑤ 분기 재평가 트리거 = 분류 변경 조건
 
-1. **iPhone 매출 YoY** — Apple 전체 매출의 53% (FY25). +5~10% 이상이면 cycle on, -5% 이하면 cycle off.
-2. **Greater China 매출 YoY** — 15.5% 비중, geopolitical risk + 중국 로컬 경쟁 (Huawei 부활) — FY23/FY24 -9.6% / +4.4% / FY25 +13.5% 회복 / **FY26 Q2 +28%** (iPhone 17 + 정부 보조금)
-2. **Services 성장률** — 26% 비중, GPM 75%+. 13~15% YoY 유지 시 OPM 안정성 결정 변수. FY25 +13.4%.
-3. **GPM** — 산업 평균 35~40% 대비 Apple 46% (FY25). Services 믹스 상승 시 GPM 추가 상승 여력. 47%+ 진입 여부.
+> 분류 자체가 바뀔 조건 (실적 추적용 변수는 §6 "기타 팩트"로 분리)
+
+- **Services 매출 비중 30%+ 도달 시** → "지속성장 only"로 격상 (현재 26%, FY25 +13.4% trajectory)
+- **OPM range 2개 분기 연속 5%pt 이내 안정 시** → "약한 사이클성" 노트도 제거 가능
+- **Greater China 매출 비중 10% 이하 하락 시** → 거시 사이클 source 1개 제거 (현재 ~15.5%)
+- **iPhone 매출 비중 40% 이하 하락 시** → "지속성장 only" 격상 (현재 53%, Services·Wearables 확대 시 도달 가능)
+- **CEO 승계 (Cook → Ternus 2026-09-01) 후 자본 정책 변경 시** → "지속성장" 분류 영향 검토 (Net Cash Neutral 폐기는 이미 분류 변경 트리거 충족 가능성)
 4. **Apple Intelligence (AI 기능) monetization** — 2024년 6월 발표, FY25 Q4부터 점진 도입. Services 부수 효과 + iPhone 교체 주기 단축 가능성.
 5. **자사주 매입 페이스** — FY25 $90.7B (Apple 사상 최대 + 사상 최대 자사주매입 기업), 2026.05 추가 $100B 승인. EPS 성장의 30~40% 기여.
 6. **신규 카테고리** — Apple Vision Pro(2024년 출시) 매출/판매대수 disclosure 여부, Apple Car 재가동 시그널.
