@@ -241,8 +241,16 @@
 (function tick(){const d=new Date(),f=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=`${d.getFullYear()}.${f(d.getMonth()+1)}.${f(d.getDate())} ${f(d.getHours())}:${f(d.getMinutes())}:${f(d.getSeconds())}`;setTimeout(tick,1000)})();
 
 // ── CORS fetch — parallel race with timeout ──
+// 2026-05-27: api.allorigins.win 500/522 fail + 야후 직접 CORS block 다수 발생.
+// codetabs + corsproxy.org 추가하여 4-tier race (야후 + 4 proxy = 총 5 endpoint).
 async function fetchJSON(url){
-  const urls=[url,'https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
+  const urls=[
+    url,
+    'https://corsproxy.io/?'+encodeURIComponent(url),
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(url),
+    'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(url),
+    'https://corsproxy.org/?'+encodeURIComponent(url)
+  ];
   const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),15000);
   try{
     const result=await Promise.any(urls.map(async u=>{const r=await fetch(u,{signal:ctrl.signal});if(!r.ok)throw 0;return r.json()}));
@@ -1815,15 +1823,13 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/22',cat:'경제지표',ev:'일본 4월 CPI (KST 08:30)',note:'컨센 근원 YoY 1.7% — 3.0%↑ 시 BOJ 압박 가속. 미·일 채권 동조 직접 변수. 한국 시초 직격'},
-    {d:'05/22',cat:'산업',ev:'삼성전자 NSEU 18일 총파업 진행 (~6/7)',note:'반도체 — 5/18 가처분 인용 후 강도 약화. JP모건 26년 OP 6~10% 하방'},
-    {d:'05/22',cat:'실적',ev:'NVDA 어닝 D+2 검증 (5/20 AMC)',note:'Q1 매출 $81.6B +85% YoY beat. 정규장 -1.74% sell-the-news. ARM +15.02% / MU +3.79% / SNDK +10.34% 회전 강세'},
-    {d:'05/22',cat:'정책',ev:'국민성장펀드 출시 (~6/11)',note:'6,000억원 규모, 3주간 판매. 정책 유동성'},
-    {d:'05/25',cat:'시장구조',ev:'휴장 (부처님오신날 + 메모리얼데이)',note:'한·미 양국 동시 휴장'},
-    {d:'05/27',cat:'실적',ev:'마벨테크놀로지(MRVL) AMC',note:'AI 인프라 + 광통신 — 한국 오이솔루션·쏠리드 직접 영향'},
+    {d:'05/27',cat:'실적',ev:'마벨(MRVL) Q1 FY2027 AMC',note:'AI 인프라 + 광통신 — 한국 오이솔루션·쏠리드 직접 영향. 컨센 EPS $0.80 / 매출 $2.40B'},
     {d:'05/27',cat:'시장구조',ev:'삼성전자·SK하이닉스 2x 레버리지·인버스 ETF 16종 상장',note:'반도체 수급 — 최대 5.3조 유입 추정'},
     {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
-    {d:'05/28',cat:'정책',ev:'한국은행 5월 금통위 — 신현송 신임 총재 첫 데뷔',note:'동결 우세. USD/KRW 1,510~1,540 시도 가능'},
+    {d:'05/28',cat:'정책',ev:'한국은행 5월 금통위 — 신현송 신임 총재 첫 데뷔',note:'동결 우세. 7월 첫 인상 전망 부상'},
+    {d:'05/29',cat:'경제지표',ev:'일본 도쿄 5월 CPI (KST 08:30)',note:'전국 CPI 선행. BOJ 6/16 변수'},
+    {d:'05/28',cat:'경제지표',ev:'미 4월 PCE (KST 21:30)',note:'컨센 3.9%. FOMC 6/17~18 D-20'},
+    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/11. 14~15개 교체 전망'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐·에이비엘·지아이이노'},
     {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/11. 14~15개 교체 전망'},
     {d:'06/01',cat:'산업',ev:'NVIDIA GTC Taipei (~6/4)',note:'젠슨황 키노트 6/1 — AI factory·Physical AI·Rubin 업데이트'},
@@ -1831,9 +1837,12 @@ function setupScrollbar(col, mainId) {
     {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI — 1,500개 전시업체'},
     {d:'06/03',cat:'실적',ev:'브로드컴(AVGO) AMC',note:'AI 반도체 + 네트워크'},
     {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향 — 금융·밸류업'},
-    {d:'06/05',cat:'IPO',ev:'피스피스스튜디오 신규상장',note:'컨템포러리 패션 마르디 메크르디'},
+    {d:'06/05',cat:'IPO',ev:'대신밸런스스팩20호 신규상장',note:'스팩 (SPAC), 공모가 2,000원'},
     {d:'06/05',cat:'학회',ev:'미국 당뇨학회 (~6/8)',note:'비만·MASH — 바이오'},
+    {d:'06/08',cat:'IPO',ev:'피스피스스튜디오 신규상장',note:'마르디 메크르디 — 6/5→6/8 변경, 시총 3,048억'},
     {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스 — 반도체 연관'},
+    {d:'06/10',cat:'경제지표',ev:'미 5월 CPI (KST 21:30)',note:'FOMC D-7~8. Fed dovish 검증'},
+    {d:'06/11',cat:'경제지표',ev:'미 5월 PPI (KST 21:30)',note:'CPI 동조 확인. FOMC D-6~7'},
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
     {d:'06/11',cat:'시장구조',ev:'코스닥 150 리밸런싱 적용',note:'5/30 발표분 실제 지수 반영'},
     {d:'06/12',cat:'IPO',ev:'스페이스X 나스닥 상장 (티커 SPCX)',note:'우주 — 가격책정 6/11. 밸류 $1.75T+ 최대 $75B 조달. 블랙록 $10B 검토'},
