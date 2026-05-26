@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SK하이닉스 기업분석 — 에이전트AI 테마</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --kr:#2ca02c; --us:#1f77b4; --tw:#d62728; --jp:#9467bd; --semi:#76b900; --power:#ff7f0e;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --sk:#ff6b00; --samsung:#1428a0; --micron:#0033a0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.sk{background:var(--sk)}
+  .header .tag.theme{background:var(--catD)}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .kr-highlight{background:#fff8d4 !important;color:#5a4a00 !important;font-weight:600}
+  .bottleneck-A{background:#ffe0e0 !important;border-left:3px solid var(--catA) !important}
+  .cat-D{background:#e8f5e0 !important;border-left:3px solid var(--catD) !important}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.B{background:#fff4e8;border:1px solid var(--catB);color:#7a4a00}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .moat-score{display:inline-block;background:var(--catA);color:#fff;padding:2px 10px;border-radius:12px;font-weight:bold;font-size:14px}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .changelog{background:#f5f0ff;border:1px solid var(--jp);border-radius:6px;padding:14px 18px;margin:18px 0}
+  .changelog h4{color:var(--jp);margin-top:0}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력 정리·포지셔닝</a>
+    <a href="#s2">2. 해자 (Moat) ★</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">4. 성장성 분석</a>
+    <a href="#s5">5. 통합 모드 Fact</a>
+    <a href="#s6">6. 구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag sk">SK하이닉스 000660</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <h1>SK하이닉스 — 에이전트AI 추론 인프라 다축 수혜주</h1>
+      <div class="meta">parent_industry: 반도체 · cross-ref: 전력 인프라 · last_updated 2026-05-26 · moat_strength: <b>4.4/5.0 (segment 가중)</b></div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame</b>: 에이전트AI 테마 분석(v3)의 16 segment 중 <b>SK하이닉스는 HBM #1 + DDR5 server #2 + eSSD #2 (3 segment 글로벌 Top 2)</b>. 단일 기업이 본 테마 반도체 측 핵심 segment 다수에서 글로벌 1-2위를 점유한 매우 예외적 위치. 본 분석은 그 해자 깊이를 정량·정성 검증.
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: 에이전트AI 추론 인프라(반도체+전력)에서 반도체 측 핵심 3 segment 모두 글로벌 Top 2. 본 테마 매출 노출 <b>60%+</b>.</li>
+          <li><b>해자 종합 (segment 가중)</b>: <span class="moat-score">4.4/5.0</span> (매우 강한 우위, segment별 강약 분명) — <b>HBM3E 5.0 (절대) / HBM4 NVIDIA 4.4 (majority) / HBM4 AMD 2.8 (Samsung 우위) / DDR5 4.2 (삼성 추격) / eSSD 4.0 (박빙 #2)</b>.</li>
+          <li><b>재무</b>: FY2025 매출 97.2조·OP 47.2조·OPM 48.6%. <b style="color:#b03030">★ 1Q26 매출 52.6조원 (분기 사상 첫 50조 돌파, +198% YoY), OP 37.6조원 (+405%), OPM 72% (창사 최고)</b> — 컨센서스 초과.</li>
+          <li><b>미래 (테마 v3 시간축 PQ)</b>: HBM Q +35-40% / DDR5 P 슈퍼사이클 (+30%) / eSSD P+Q 동반 폭증. <b>1Q26 OPM 72% 실증 + 회사 "향후 3년 수요 capa 훨씬 상회"</b> 가이던스로 2026 OPM 60%+ 가능성.</li>
+          <li><b>종합</b>: <span class="star">★★★ 최상위 주도주 후보</span>. 단 (a) HBM4 dual sourcing 본격화 (b) AMD HBM4 Samsung 이탈 (c) 메모리 사이클 cyclicality 3대 리스크.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 항목 1 -->
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + 기업 포지셔닝</h2>
+
+      <h3>1-1. 자동 참조 자료</h3>
+      <table>
+        <tr><th>참조</th><th>상태</th><th>활용</th></tr>
+        <tr><td><code>반도체_산업기초.md</code></td><td>✓ 2026-05-18</td><td>산업 본질·사이클·공급·수요 구조. 4+5 결론 <span class="pill A">(A) 구조적 메가 병목</span></td></tr>
+        <tr><td><code>전력 인프라_산업기초.md</code></td><td>✓ 2026-05-18</td><td>cross-ref. 데이터센터 전력 병목</td></tr>
+        <tr><td><code>에이전트AI_테마분석.md</code></td><td>✓ v3 2026-05-26</td><td>테마 narrative·6 카테고리·Moat 후보·시간축 PQ 직접 cross-ref</td></tr>
+        <tr><td><code>SK하이닉스_기업개요.md</code></td><td>✓ v4.9 2026-05-11</td><td>12년 시계열·50분기·사이클 detection·HBM 점유 fact</td></tr>
+        <tr><td>BT 첨부 (애널리스트)</td><td>9개 리포트</td><td>DS·MERITZ·Samsung·DB·Hanwha·KB·NH·Shinhan·Mirae Asset (2026-04-23~28)</td></tr>
+      </table>
+
+      <h3>1-2. SK하이닉스의 위치 (테마 v3 Moat 후보 #1)</h3>
+      <div class="chart-card">
+        <h4>SK하이닉스 본 테마 segment 글로벌 점유 (2025 Q3-Q4)</h4>
+        <canvas id="shareChart" height="200"></canvas>
+        <div class="src">→ HBM 전체 53% / DDR5 server 33% / eSSD (SK Group) 30.2% — 3 segment 모두 Top 2</div>
+      </div>
+      <h4>HBM 세대별 SK 위치</h4>
+      <table>
+        <tr><th>HBM 세대</th><th>SK 위치</th><th>핵심 fact</th></tr>
+        <tr class="kr-highlight"><td><b>HBM3E (현재 주력)</b></td><td>NVIDIA H100/H200/Blackwell <b>단독공급</b></td><td>단독공급 유지 (Blackwell 메인)</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 (NVIDIA Rubin, 2H26)</b></td><td>약 <b>2/3 (67%) majority</b>, 삼성·Micron 1/3</td><td>dual sourcing 구조</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 NVIDIA 11Gb/s test</b></td><td>10Gb/s 통과·11Gb/s 최적화 중</td><td>삼성 먼저 통과 (2026 Q1)</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 AMD (MI455X, 2H26)</b></td><td>미공식 (2-3순위)</td><td>Samsung preferred (2026.03 MoU)</td></tr>
+        <tr><td><b>HBM4E (2027 양산)</b></td><td>2H26 샘플, 2027 양산 목표</td><td>차세대 narrative 회복 시도</td></tr>
+      </table>
+
+      <h3>1-3. 사업부 구성 + 본 테마 연결</h3>
+      <table>
+        <tr><th>사업부</th><th>매출 비중 (1Q26)</th><th>본 테마 연결</th></tr>
+        <tr class="kr-highlight"><td><b>DRAM</b></td><td><b>80%</b></td><td>HBM (DRAM의 50%+) + DDR5 server + 모바일·PC + 일반 DRAM</td></tr>
+        <tr class="kr-highlight"><td><b>NAND</b> (Solidigm 포함)</td><td><b>18%</b></td><td>eSSD enterprise + 모바일·PC NAND</td></tr>
+        <tr><td>Others (Module·MCP)</td><td>2%</td><td>일부 데이터센터 모듈</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>본 테마 직접 매출 노출 분해 (전체 매출 100%)</h4>
+        <canvas id="exposureChart" height="200"></canvas>
+        <div class="src">→ HBM 40% + DDR5 server 15% + eSSD 8% = <b>본 테마 직접 ~63%</b>. 한국 기업 중 본 테마 가장 다축 수혜</div>
+      </div>
+    </section>
+
+    <!-- 항목 2 -->
+    <section id="s2">
+      <h2>항목 2. 비즈니스 모델 & 해자 (Moat) ★ 핵심</h2>
+
+      <h3>2-2. 해자 (Moat) 깊이 분석 — Segment별 평가 ★</h3>
+      <div class="narrative">
+        <b>분석 frame</b>: 본 테마 직접 노출 segment 6개(HBM3E·HBM4 NVIDIA·HBM4 AMD·HBM4E·DDR5 server·eSSD)별로 SK하이닉스 Moat를 5축 척도로 평가. 글로벌 peer (삼성·Micron)와 segment별 직접 비교. <b>CAPA는 segment별로 명시</b> (HBM CAPA·DRAM 절대 CAPA·NAND 절대 CAPA 분리).
+      </div>
+
+      <div class="chart-card">
+        <h4>Segment별 SK하이닉스 Moat 평균 점수 — 본 테마 가중 평균 <span class="moat-score">4.4 / 5.0</span></h4>
+        <canvas id="moatBySegment" height="220"></canvas>
+        <div class="src">→ HBM3E 5.0 (절대) / HBM4 NVIDIA 4.4 (majority) / HBM4 AMD 2.8 (Samsung 우위) / HBM4E 3.4 (양산 전) / DDR5 4.2 (삼성 추격) / eSSD 4.0 (박빙 #2)</div>
+      </div>
+
+      <h4>Segment 1. HBM3E (현재 주력, 매출 비중 ~25%)</h4>
+      <table>
+        <tr><th>축</th><th>SK하이닉스</th><th>삼성</th><th>Micron</th><th>핵심</th></tr>
+        <tr class="kr-highlight"><td>기술/특허</td><td><b>5</b></td><td>4</td><td>3</td><td>NVIDIA H100/H200/Blackwell 단독공급, MR-MUF</td></tr>
+        <tr class="kr-highlight"><td>HBM CAPA</td><td><b>5</b></td><td>4</td><td>3</td><td>현재 sold out, 알로케이션 우선권</td></tr>
+        <tr class="kr-highlight"><td>고객 lock-in</td><td><b>5</b></td><td>3</td><td>3</td><td>NVIDIA 단독 + AMD·Broadcom 메인</td></tr>
+        <tr class="kr-highlight"><td>규모 (HBM 점유)</td><td><b>5</b></td><td>4</td><td>3</td><td>53% (Q3 2025), HBM 전체 1위</td></tr>
+        <tr class="kr-highlight"><td>병목 포지셔닝</td><td><b>5</b></td><td>3</td><td>3</td><td>NVIDIA HBM 90% 공급</td></tr>
+        <tr class="kr-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td>3.6</td><td>3.0</td><td><b>SK 절대 우위</b></td></tr>
+      </table>
+
+      <h4>Segment 2. HBM4 (NVIDIA Rubin, 2H26~, 매출 비중 ~15%)</h4>
+      <table>
+        <tr><th>축</th><th>SK하이닉스</th><th>삼성</th><th>Micron</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>4</td><td><b>4</b></td><td>3</td><td>11Gb/s test 삼성 먼저 통과, SK 최적화 중</td></tr>
+        <tr class="kr-highlight"><td>HBM CAPA</td><td><b>5</b></td><td>4</td><td>3</td><td>2026 capa 25K wafer/월 확보</td></tr>
+        <tr><td>고객 lock-in</td><td>4</td><td>4</td><td>3</td><td>NVIDIA Rubin SK 2/3 majority + 삼성·Micron 1/3</td></tr>
+        <tr class="kr-highlight"><td>규모</td><td><b>5</b></td><td>4</td><td>3</td><td>NVIDIA Rubin 점유 67%</td></tr>
+        <tr><td>병목 포지셔닝</td><td>4</td><td>4</td><td>3</td><td>dual sourcing 구조</td></tr>
+        <tr class="kr-highlight"><td><b>평균</b></td><td><b>4.4</b></td><td>4.0</td><td>3.0</td><td><b>SK majority 유지</b></td></tr>
+      </table>
+
+      <h4>Segment 3. HBM4 (AMD MI455X, 2H26~, 매출 비중 ~5%)</h4>
+      <table>
+        <tr><th>축</th><th>SK하이닉스</th><th>삼성</th><th>Micron</th><th>핵심</th></tr>
+        <tr class="bottleneck-A"><td>기술/특허</td><td>3</td><td><b>4</b></td><td>3</td><td>Samsung HBM3E AMD 단독 → HBM4 우선 협력</td></tr>
+        <tr class="bottleneck-A"><td>HBM CAPA</td><td>4</td><td><b>5</b></td><td>3</td><td>알로케이션 Samsung 우위</td></tr>
+        <tr class="bottleneck-A"><td>고객 lock-in</td><td>2</td><td><b>5</b></td><td>2</td><td><b>Samsung preferred (2026.03 MoU)</b></td></tr>
+        <tr class="bottleneck-A"><td>규모</td><td>2</td><td><b>4</b></td><td>2</td><td>AMD 채택 비중 작음</td></tr>
+        <tr class="bottleneck-A"><td>병목 포지셔닝</td><td>3</td><td><b>4</b></td><td>2</td><td>Samsung 진입</td></tr>
+        <tr class="bottleneck-A"><td><b>평균</b></td><td><b>2.8</b></td><td><b>4.4</b></td><td>2.4</td><td><b>Samsung 우위, SK 열위</b></td></tr>
+      </table>
+
+      <h4>Segment 4. HBM4E (차세대, 2027 양산 목표)</h4>
+      <table>
+        <tr><th>축</th><th>SK하이닉스</th><th>삼성</th><th>Micron</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>4</td><td>4</td><td>3</td><td>SK 2H26 샘플, 삼성 추격</td></tr>
+        <tr><td>HBM CAPA</td><td>3</td><td>3</td><td>2</td><td>양산 미시작</td></tr>
+        <tr><td>고객 lock-in</td><td>3</td><td>3</td><td>2</td><td>NVIDIA 차세대 인증 대기</td></tr>
+        <tr><td>규모</td><td>3</td><td>3</td><td>2</td><td>양산 전</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>4</b></td><td>3</td><td>2</td><td>SK 양산 선두 시도</td></tr>
+        <tr><td><b>평균</b></td><td><b>3.4</b></td><td>3.2</td><td>2.2</td><td>양산 전, SK 일부 선두</td></tr>
+      </table>
+
+      <h4>Segment 5. DDR5 server (매출 비중 15%)</h4>
+      <table>
+        <tr><th>축</th><th>SK하이닉스</th><th>삼성</th><th>Micron</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>4</td><td><b>5</b></td><td>3</td><td>삼성 DRAM 종합 기술 1위</td></tr>
+        <tr class="bottleneck-A"><td><b>메모리 절대 CAPA</b></td><td>4</td><td><b>5</b></td><td>3</td><td><b>삼성 600-650K wafer/월 (#1), SK 450-500K (#2)</b></td></tr>
+        <tr><td>고객 lock-in</td><td>4</td><td><b>5</b></td><td>3</td><td>hyperscaler·OEM 분산</td></tr>
+        <tr><td>규모 (DRAM 점유)</td><td>4</td><td><b>5</b></td><td>3</td><td>삼성 42%, SK 33%, Micron 24%</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td><b>5</b></td><td>4</td><td>HBM squeeze 양면 수혜 (capa 2026 sold out)</td></tr>
+        <tr><td><b>평균</b></td><td><b>4.2</b></td><td><b>5.0</b></td><td>3.2</td><td><b>삼성 우위, SK 추격</b></td></tr>
+      </table>
+
+      <h4>Segment 6. eSSD enterprise (매출 비중 8%, Solidigm 포함)</h4>
+      <table>
+        <tr><th>축</th><th>SK Group</th><th>삼성</th><th>Micron·Kioxia</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>4</td><td><b>5</b></td><td>3</td><td>Solidigm 122TB KV cache 특화</td></tr>
+        <tr class="bottleneck-A"><td><b>NAND 절대 CAPA</b></td><td>3</td><td><b>5</b></td><td>3</td><td><b>삼성 800K wafer/월 (#1), SK Group 500K (#2)</b></td></tr>
+        <tr><td>고객 lock-in</td><td>4</td><td><b>5</b></td><td>3</td><td>hyperscaler 직접</td></tr>
+        <tr><td>규모 (eSSD 점유 Q4)</td><td>4</td><td><b>5</b></td><td>3</td><td>삼성 32.3% (#1), SK Group 30.2% (#2, +75% QoQ)</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td><b>5</b></td><td>3</td><td>KV cache offload 신규 수요</td></tr>
+        <tr><td><b>평균</b></td><td><b>4.0</b></td><td><b>5.0</b></td><td>3.0</td><td><b>삼성 1위, SK Group 박빙 #2</b></td></tr>
+      </table>
+
+      <h4>본 테마 가중 종합 (Moat × 매출 비중)</h4>
+      <table>
+        <tr><th>Segment</th><th>매출 비중</th><th>SK 평균 Moat</th><th>가중 기여</th><th>삼성 비교</th></tr>
+        <tr class="kr-highlight"><td>HBM3E</td><td>~25%</td><td><b>5.0</b></td><td>1.25</td><td>SK 절대 우위</td></tr>
+        <tr class="kr-highlight"><td>HBM4 (NVIDIA Rubin)</td><td>~15%</td><td><b>4.4</b></td><td>0.66</td><td>SK 우위</td></tr>
+        <tr class="bottleneck-A"><td>HBM4 (AMD MI455X)</td><td>~5%</td><td>2.8</td><td>0.14</td><td>Samsung 우위</td></tr>
+        <tr><td>HBM4E (미래)</td><td>양산 전</td><td>3.4</td><td>—</td><td>평가 보류</td></tr>
+        <tr><td>DDR5 server</td><td>15%</td><td>4.2</td><td>0.63</td><td>삼성 우위, SK 추격</td></tr>
+        <tr><td>eSSD enterprise</td><td>8%</td><td>4.0</td><td>0.32</td><td>삼성 1위, SK 박빙</td></tr>
+        <tr class="kr-highlight"><td><b>합계 (본 테마 직접 노출)</b></td><td><b>68%</b></td><td><b>가중 평균 4.4</b></td><td>3.00 / 68% × 5/5</td><td>—</td></tr>
+      </table>
+
+      <h4>핵심 종합 결론 — Segment별 강약 분명</h4>
+      <table>
+        <tr><th>구간</th><th>SK 포지셔닝</th></tr>
+        <tr class="kr-highlight"><td><b>HBM3E (현재 주력)</b></td><td><b>절대 우위 (5.0)</b> — NVIDIA 단독공급 + 모든 축 만점</td></tr>
+        <tr class="kr-highlight"><td><b>HBM4 NVIDIA Rubin</b></td><td><b>majority 우위 (4.4)</b> — 67% 점유 유지, 단 dual sourcing 진입</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 AMD MI455X</b></td><td><b>열위 (2.8)</b> — Samsung preferred MoU (2026.03)로 SK 진입 제한</td></tr>
+        <tr><td><b>HBM4E (2027)</b></td><td>평가 보류 (양산 전), SK 선두 시도</td></tr>
+        <tr><td><b>DDR5 server</b></td><td><b>추격 #2 (4.2)</b> — 메모리 절대 capa·DRAM 종합 기술은 <b>삼성 1위</b>, SK는 #2. 단 HBM squeeze 양면 수혜로 병목 포지셔닝은 동급</td></tr>
+        <tr><td><b>eSSD enterprise</b></td><td><b>박빙 #2 (4.0)</b> — NAND 절대 capa는 삼성 1위, SK Group이 Solidigm 통합으로 30.2% 점유 박빙 추격</td></tr>
+        <tr class="kr-highlight"><td><b>본 테마 가중 평균</b></td><td><b>4.4 / 5.0</b> — 매우 강한 우위 (단, segment별 강약 분명)</td></tr>
+      </table>
+
+      <h3>2-3. 글로벌 peer 비교</h3>
+      <table>
+        <tr><th>비교 항목</th><th>SK하이닉스</th><th>삼성전자 (DS)</th><th>Micron</th></tr>
+        <tr><td>HBM 전체 점유 (Q3 2025)</td><td><b>53%</b></td><td>35%</td><td>11%</td></tr>
+        <tr class="kr-highlight"><td><b>HBM3E 단독공급 (현재)</b></td><td>NVIDIA H100/H200/Blackwell <b>단독</b></td><td>부분 진입</td><td>일부 (Hopper)</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 양산 선두 (2026.02)</b></td><td>11Gb/s 최적화 중</td><td><b>업계 최초 양산 출하</b></td><td>1Q26 volume shipment</td></tr>
+        <tr><td>HBM4 NVIDIA Rubin 분배</td><td><b>2/3 (67%) majority</b></td><td>일부</td><td>일부</td></tr>
+        <tr class="bottleneck-A"><td><b>HBM4 AMD MI455X (2H26)</b></td><td>미공식</td><td><b>preferred (2026.03 MoU)</b></td><td>—</td></tr>
+        <tr><td>HBM4E (차세대)</td><td>2H26 샘플, <b>2027 양산 목표</b></td><td>—</td><td>—</td></tr>
+        <tr><td>DRAM 점유</td><td>33%</td><td><b>42%</b></td><td>24%</td></tr>
+        <tr><td>eSSD 점유 (Q4)</td><td>30.2% (SK Group)</td><td><b>32.3%</b></td><td>10%</td></tr>
+        <tr class="kr-highlight"><td><b>1Q26 OPM</b></td><td><b>72% (사상 최고)</b></td><td>40-45% 추정</td><td>30-35% 추정</td></tr>
+      </table>
+      <blockquote>SK는 <b>HBM3E 단독공급 + HBM 전체 1위 + 메모리 종합 #1 + 1Q26 OPM 72%</b>의 quadruple position. HBM4부터는 dual sourcing 구조이나 NVIDIA Rubin majority 2/3 유지 + HBM4E 2027 양산으로 차세대 narrative 회복 시도.</blockquote>
+
+      <h3>2-3. 병목 수혜 강도 정량화</h3>
+      <table>
+        <tr><th>Segment</th><th>카테고리</th><th>수혜 메커니즘</th><th>정량 (2026E·2027E)</th></tr>
+        <tr class="bottleneck-A"><td><b>HBM</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>HBM3E 단독 + HBM4 majority + Q 폭증</td><td>매출 <b>+35%·+25%</b>, OPM 60%+ 유지</td></tr>
+        <tr class="bottleneck-A"><td><b>레거시 DRAM (DDR5)</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>HBM 우선 생산 squeeze → P 슈퍼사이클</td><td>매출 <b>+30% P + 견조 Q (2026)</b></td></tr>
+        <tr class="cat-D"><td><b>eSSD (NAND)</b></td><td><span class="pill A">(A)</span> → <span class="pill D">(D) 동반 확대</span></td><td>KV cache offload 신규 수요 + Solidigm</td><td>매출 <b>+50%·+40%</b></td></tr>
+        <tr><td>모바일·PC DDR5</td><td>사이클 turn</td><td>AI 우선 capa squeeze + AI 폰 회복</td><td>+20-25% (2026)</td></tr>
+      </table>
+    </section>
+
+    <!-- 항목 3 -->
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 12년 매출+OPM 시계열 — 사이클 4회 detection</h3>
+      <div class="chart-card">
+        <h4>SK하이닉스 12년 매출 (바) + OPM (선) — 2018·2025 정점 2회, 2019·2023 저점 2회</h4>
+        <canvas id="cycleChart" height="240"></canvas>
+        <div class="src">→ 매출 17.1조원 (2014) → 97.2조원 (2025), CAGR +15.6%. OPM -25.7%~+51.5% 진폭 77.2%p</div>
+      </div>
+
+      <table>
+        <tr><th>연도</th><th>매출 (조원)</th><th>OP</th><th>OPM</th><th>사이클</th></tr>
+        <tr><td>2018</td><td>40.5</td><td>20.84</td><td><b>51.5%</b></td><td>정점 1차</td></tr>
+        <tr><td>2019</td><td>27.0</td><td>2.71</td><td>10.1%</td><td>저점 1차</td></tr>
+        <tr><td>2021</td><td>43.0</td><td>12.41</td><td>28.9%</td><td>코로나 정점</td></tr>
+        <tr class="bottleneck-A"><td>2023</td><td>32.8</td><td><b>-8.42</b></td><td><b>-25.7%</b></td><td>저점 2차 (적자)</td></tr>
+        <tr><td>2024</td><td>66.2</td><td>23.47</td><td>35.5%</td><td>회복 + HBM 본격화</td></tr>
+        <tr class="kr-highlight"><td><b>2025</b></td><td><b>97.2</b></td><td><b>47.21</b></td><td><b>48.6%</b></td><td><b>정점 2차 (AI HBM)</b></td></tr>
+      </table>
+
+      <h3 style="color:#b03030">★ 1Q26 분기 실적 — 사상 최고 갱신</h3>
+      <table>
+        <tr><th>항목</th><th>1Q26</th><th>YoY</th><th>컨센서스</th><th>비고</th></tr>
+        <tr class="kr-highlight"><td>매출</td><td><b>52.6조원</b></td><td><b>+198%</b></td><td>51.9조</td><td>분기 사상 첫 50조 돌파</td></tr>
+        <tr class="kr-highlight"><td>OP</td><td><b>37.6조원</b></td><td><b>+405%</b></td><td>36.4조</td><td>컨센 +3.4% beat</td></tr>
+        <tr class="kr-highlight"><td><b>OPM</b></td><td><b>72%</b></td><td>—</td><td>—</td><td><b>창사 이래 최고</b></td></tr>
+        <tr><td>회사 컨콜 가이던스</td><td colspan="4"><b>"향후 3년 수요가 공급 캐파 훨씬 상회"</b> → 2027까지 OPM 50%+ 지속 가능성 시사</td></tr>
+      </table>
+      <p>1Q26 단일 분기로 FY2024 매출 80% 도달. OPM 72%는 메모리 IDM 역대 최고. 단 <b>1Q26 OPM 72%는 정점 신호일 가능성</b>도 — 2027부터 HBM4 dual sourcing 압박 가시화.</p>
+
+      <h3>3-2. PQC 분해 — 일반 DRAM vs HBM vs eSSD</h3>
+      <table>
+        <tr><th>차원</th><th>일반 DRAM</th><th><b>HBM (트렌드)</b></th><th><b>eSSD (신규 트렌드)</b></th></tr>
+        <tr><td>P (ASP YoY)</td><td>사이클 ±50% (2025 +50%)</td><td><b>+20% YoY 6분기 연속 (HBM3E)</b></td><td>+30-50%</td></tr>
+        <tr><td>Q (출하 YoY)</td><td>+10-15%</td><td><b>+50-100% (HBM3E)</b> / +20-30% (HBM4 dual sourcing 반영)</td><td><b>+50-75% QoQ</b> (Q4)</td></tr>
+        <tr><td>C (원가)</td><td>wafer 효율 좋음</td><td>wafer 3x + TC본더 + MR-MUF</td><td>NAND wafer + 컨트롤러</td></tr>
+        <tr><td>매출 (P×Q)</td><td>사이클 ±60%</td><td><b>YoY +100~150% 지속</b></td><td>YoY +100%+</td></tr>
+        <tr class="kr-highlight"><td><b>마진 (OPM)</b></td><td>25-30% (정상)</td><td><b>60%+ (HBM3E), HBM4는 dual sourcing 경쟁으로 일부 압박</b></td><td>35-45% (회복)</td></tr>
+      </table>
+
+      <h4>1Q26 PQC 실측</h4>
+      <table>
+        <tr><th>차원</th><th>1Q26</th></tr>
+        <tr><td>DRAM ASP</td><td><b>+63~65% QoQ</b> (Bit -0~+0%)</td></tr>
+        <tr><td>NAND ASP</td><td><b>+73~74% QoQ</b> (Bit -11~-13%)</td></tr>
+        <tr><td>HBM 매출</td><td>YoY 2배+ (HBM3E 12단 + HBM4 12H 본격 출하 시작)</td></tr>
+      </table>
+
+      <h3>3-3. 재무 건전성</h3>
+      <table>
+        <tr><th>항목</th><th>2025 / 1Q26</th></tr>
+        <tr><td>자본총계</td><td><b>117조원 (2025)</b> → 145조원+ 추정 (1Q26 후)</td></tr>
+        <tr><td>부채비율</td><td>~50%</td></tr>
+        <tr><td>OCF</td><td>50조원+ (2025) / 1Q26 단독 20조원+ 추정</td></tr>
+        <tr><td>FCF</td><td>24조원+</td></tr>
+        <tr><td>CapEx</td><td>26.1조원 (2025) → 30조원+ (2026E 추정)</td></tr>
+        <tr><td>신용등급</td><td>국내 AA+ / Moody's Baa1 / S&P BBB+ / Fitch BBB</td></tr>
+        <tr><td>유상증자 가능성</td><td><b>매우 낮음</b></td></tr>
+      </table>
+
+      <h3>3-4. 피어 수익성 비교</h3>
+      <div class="chart-card">
+        <h4>메모리 IDM 글로벌 peer OPM 비교 (2025 vs 1Q26)</h4>
+        <canvas id="peerOpm" height="200"></canvas>
+        <div class="src">→ SK 1Q26 72% (글로벌 사상 최고). TSMC와 동급, 삼성·Micron 대비 25-40%p 우위</div>
+      </div>
+    </section>
+
+    <!-- 항목 4 -->
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률</h3>
+      <table>
+        <tr><th>기간</th><th>매출 CAGR</th><th>OP CAGR</th><th>비고</th></tr>
+        <tr><td>3년 (2022→2025)</td><td><b>+30%</b></td><td>+90% (회복)</td><td>AI HBM 슈퍼사이클</td></tr>
+        <tr><td>5년 (2020→2025)</td><td><b>+25%</b></td><td>+57%</td><td>피어 압도 (삼성DS +8%, Micron +12%)</td></tr>
+        <tr><td>12년 (2014→2025)</td><td>+15.6%</td><td>+20%</td><td>장기 안정 + 사이클 진폭</td></tr>
+      </table>
+
+      <h3>4-2. 미래 PQ 전망 — 테마 v3 시간축 PQ cross-ref</h3>
+
+      <h4>HBM ((A) 구조적 메가 병목)</h4>
+      <table>
+        <tr><th>차원</th><th>4Q (2Q25E~1Q26E)</th><th>2Y (2026·2027)</th><th>근거</th><th>출처</th></tr>
+        <tr><td>P</td><td>+5·+3·+2·0%</td><td>+5·-5%</td><td>HBM4 dual sourcing 경쟁 가격 압박 일부</td><td>테마 v3 Step 5 + TrendForce 2026-01-28·03-09</td></tr>
+        <tr><td>Q</td><td>+10·10·8·8%</td><td><b>+35·25%</b></td><td>NVIDIA Rubin·hyperscaler. 삼성·Micron 진입으로 SK 점유 일부 약화</td><td>테마 v3 Step 5 + 회사 1Q26 컨콜</td></tr>
+        <tr class="kr-highlight"><td><b>→ 매출</b></td><td>+15-18% YoY</td><td><b>+40% (2026)·+20% (2027)</b></td><td>HBM 단독</td><td>BT 첨부 9개 셀사이드 컨센 평균</td></tr>
+        <tr class="kr-highlight"><td><b>→ 마진</b></td><td>OPM 60-65%</td><td>55-60%</td><td>HBM4 dual sourcing + HBM4E 양산 (2027)</td><td>DS·Mirae Asset·Shinhan 셀사이드 추정</td></tr>
+      </table>
+
+      <h4>레거시 DRAM (DDR5 server) — (A) 구조적 메가 병목</h4>
+      <table>
+        <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th><th>출처</th></tr>
+        <tr class="kr-highlight"><td>P</td><td><b>+30·20·15·10%</b></td><td><b>+30·0%</b></td><td>HBM squeeze + 재고 정상화</td><td>테마 v3 Step 5 + Counterpoint DDR5 server</td></tr>
+        <tr><td>Q</td><td>+5·5·5·5%</td><td>+25·15%</td><td>AI 서버 + KV cache offload</td><td>테마 v3 Step 5</td></tr>
+        <tr class="kr-highlight"><td><b>→ 매출</b></td><td><b>+35-40% YoY</b></td><td>+60% (2026)</td><td>DDR5 P 슈퍼사이클</td><td>BT 첨부 9개 셀사이드 컨센 평균</td></tr>
+      </table>
+
+      <h4>eSSD — (A) → (D) 동반 확대</h4>
+      <table>
+        <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th><th>출처</th></tr>
+        <tr><td>P</td><td>+20·15·10·8%</td><td>+25·10%</td><td>NAND 사이클 + AI premium</td><td>테마 v3 Step 5 + TrendForce eSSD Q3-Q4 2025</td></tr>
+        <tr class="kr-highlight"><td>Q</td><td><b>+15·20·20·25%</b></td><td><b>+50·40%</b></td><td>KV cache·VectorDB</td><td>테마 v3 Step 5 + Solidigm IR 122TB</td></tr>
+        <tr class="kr-highlight"><td><b>→ 매출</b></td><td><b>+40-50%</b></td><td><b>+85% (2026)·+55% (2027)</b></td><td>SK Group 30% 점유</td><td>BT 첨부 셀사이드 (NH·Hanwha·KB)</td></tr>
+      </table>
+
+      <blockquote style="font-size:12px"><b>공통 출처</b>: (1) <code>에이전트AI_테마분석.md</code> v3 Step 5 시간축 PQ 표 — 16 segment 정량 framework / (2) BT 첨부 9개 셀사이드 1Q26 프리뷰 컨센서스 평균 / (3) SK하이닉스 1Q26 컨퍼런스콜 가이던스 ("향후 3년 수요 capa 훨씬 상회") / (4) TrendForce·Counterpoint 월간·분기 점유율 / (5) Micron·Samsung·NVIDIA 공시·PR.<br/>
+      <b>추정 method</b>: 셀사이드 컨센 평균 → 본 분석의 segment 가중 Moat (4.4)·HBM4 dual sourcing 진입 risk 반영하여 조정.</blockquote>
+
+      <h3>회사 전체 매출·OPM 전망</h3>
+      <div class="chart-card">
+        <h4>SK하이닉스 매출·OP·OPM 전망 (2024~2027E)</h4>
+        <canvas id="outlookChart" height="220"></canvas>
+        <div class="src">→ 2026E 매출 +55-75%·OP +90-120%·OPM 60-62%. 1Q26 OPM 72% 실증 + 회사 3년 수요 capa 초과 가이던스</div>
+      </div>
+
+      <table>
+        <tr><th>항목</th><th>2024</th><th>2025</th><th>1Q26 (분기)</th><th>2026E</th><th>2027E</th></tr>
+        <tr><td>매출 (조원)</td><td>66.2</td><td>97.2</td><td><b>52.6</b></td><td><b>150-170 (+55-75%)</b></td><td>175-195</td></tr>
+        <tr><td>OP (조원)</td><td>23.5</td><td>47.2</td><td><b>37.6</b></td><td><b>90-105 (+90-120%)</b></td><td>95-110</td></tr>
+        <tr class="kr-highlight"><td><b>OPM</b></td><td>35.5%</td><td>48.6%</td><td><b>72%</b></td><td><b>60-62%</b></td><td>52-56%</td></tr>
+      </table>
+
+      <blockquote><b>알 수 없음 시나리오</b>: 2027-2028 사이클 침체 진입 가능. AI capex 변곡점 + Micron·삼성 HBM4 capa 확대 + AMD HBM4 Samsung 우위 누적 영향이 trigger.</blockquote>
+
+      <h3>4-3. 피어 그룹 비교</h3>
+      <table>
+        <tr><th>기업</th><th>2025 매출 (USD B)</th><th>5년 CAGR</th><th>2025 OPM</th><th>1Q26 OPM</th><th>핵심 차이점</th></tr>
+        <tr class="kr-highlight"><td><b>SK하이닉스</b></td><td>~$70B</td><td><b>+25%</b></td><td><b>48.6%</b></td><td><b>72%</b></td><td>HBM 1위, HBM3E 단독, HBM4 majority</td></tr>
+        <tr><td>삼성전자 DS</td><td>~$80B</td><td>~+8%</td><td>~35%</td><td>40-45%</td><td>DS 다각화, HBM4 양산 선두 + AMD preferred</td></tr>
+        <tr><td>Micron</td><td>~$30B</td><td>+12%</td><td>25-30%</td><td>30-35%</td><td>HBM4 1Q26 진입, 미국 본토</td></tr>
+        <tr><td>Kioxia</td><td>~$15B</td><td>+5-8%</td><td>~15%</td><td>—</td><td>NAND only</td></tr>
+      </table>
+    </section>
+
+    <!-- 항목 5 -->
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <p style="color:var(--muted);font-size:13px">테마 분석 통합 모드가 Terminal 점유·마진·시총 추정 시 사용할 fact·raw data.</p>
+      <table>
+        <tr><th width="180">항목</th><th>Fact / Raw Data</th></tr>
+        <tr><td>현재 시장 점유 + 3-5년 추이</td><td>HBM 전체: 2022 ~50% → 2024 60% → 2025 Q3 53%. <b>HBM3E: NVIDIA H100/H200/Blackwell 단독</b>. <b>HBM4 NVIDIA Rubin: SK 2/3 (67%) + 삼성·Micron 1/3</b>. <b>HBM4 AMD MI455X: Samsung preferred</b>. DRAM: 33%. eSSD (SK Group): Q4 2025 30.2%</td></tr>
+        <tr><td>현재 CAPA + 증설</td><td>HBM wafer ~15K/월 (2025), 2026 25K+. <b>회사 1Q26 컨콜: 향후 3년 수요 capa 훨씬 상회</b>. CapEx 26.1조원 (2025) → 30조원+ (2026E)</td></tr>
+        <tr><td>사이클 마진 진폭 (12년)</td><td>OPM range -25.7% ~ +51.5% (77.2%pt). <b>1Q26 OPM 72% 신규 정점</b></td></tr>
+        <tr><td>기술 격차·R&D·IP</td><td>IP 21,859건 (2025.12). HBM4 11Gb/s test: 삼성 먼저 통과, SK 최적화 진행. HBM4E 2H26 샘플, 2027 양산. MR-MUF 기술 강점</td></tr>
+        <tr><td>고객 분포·집중도</td><td>HBM 상위 5: NVIDIA·AMD·Broadcom·MSFT·AWS. <b>NVIDIA HBM 전체 약 90% 공급</b>. <b>HBM4 NVIDIA majority 2/3 유지. AMD는 Samsung 우선</b>. 양면 risk</td></tr>
+        <tr><td>신규 수주·계약</td><td>2025.03 Solidigm 최종 종결. 2026까지 HBM·DRAM·NAND sold out. <b>HBM4 NVIDIA Rubin 2/3 확정</b>. <b>AMD HBM4 Samsung MoU 2026.03</b>. HBM4E 2027 양산 목표</td></tr>
+        <tr><td>자본·시총</td><td>자본 17조 → 117조 (12년 7배) → <b>145조원+ 추정 (1Q26 후)</b>. 시총 2025 정점 200조+ → 2026 1Q 추가 상승</td></tr>
+        <tr><td><b>1Q26 실적</b></td><td><b>매출 52.6조 (+198% YoY), OP 37.6조 (+405%), OPM 72%</b>, 컨센서스 초과</td></tr>
+      </table>
+    </section>
+
+    <!-- 항목 6 -->
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+      <p style="color:var(--muted);font-size:13px">단기 진입 시그널은 분기 실적 분석. 여기는 본질적 구조 변화 트리거만.</p>
+
+      <h3>상방 트리거 (해자 강화)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr><td>HBM4E 2027 양산 + NVIDIA 차세대 인증</td><td>2026 H2 샘플 → 2027 양산</td><td>차세대 narrative 회복</td></tr>
+        <tr><td>HBM4 NVIDIA Rubin 점유 70%+ 확정</td><td>2026 H2</td><td>SK majority 강화</td></tr>
+        <tr><td>Solidigm KV cache 점유 가속 (35%+)</td><td>2026 분기</td><td>eSSD 매출 가속</td></tr>
+        <tr><td>1Q26 OPM 72% 추가 분기 유지 (2Q26 70%+)</td><td>2Q26 어닝</td><td>실증 강화</td></tr>
+        <tr><td>CapEx 추가 확대 (30조원+)</td><td>2026 IR</td><td>2027+ Q 가시성</td></tr>
+        <tr><td>삼성 HBM4 yield 50% 정체</td><td>2026 H2</td><td>SK HBM4 majority 유지</td></tr>
+      </table>
+
+      <h3>하방 트리거 (해자 약화)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr><td><b>HBM4 NVIDIA dual sourcing 본격화</b></td><td>2026 H2 (진행 중)</td><td>SK 점유 67% 이하</td></tr>
+        <tr><td><b>AMD HBM4 Samsung preferred</b></td><td>2026.03 체결</td><td>SK AMD 지위 약화 (현실화)</td></tr>
+        <tr><td>삼성 HBM4 11Gb/s NVIDIA test 통과</td><td>2026 Q1 (진행 중)</td><td>SK HBM4 premium 약화</td></tr>
+        <tr><td>Micron HBM4 NVIDIA 점유 15%+</td><td>2026 H2</td><td>SK 점유 잠식</td></tr>
+        <tr><td>AI capex 변곡점 (hyperscaler -10%+)</td><td>2027</td><td>Q 가속 둔화</td></tr>
+        <tr><td>메모리 사이클 침체 (DRAM P -20%+)</td><td>2027-2028</td><td>OPM 30%대 reset</td></tr>
+        <tr><td>HBM4E NVIDIA 인증에서 삼성 우위</td><td>2027+</td><td>차세대 narrative 약화</td></tr>
+      </table>
+
+      <h3>모니터링 캘린더</h3>
+      <table>
+        <tr><th>시점</th><th>이벤트</th></tr>
+        <tr><td>분기 어닝콜 (Q1-Q4)</td><td>HBM 점유·CapEx 가이던스·고객 mix</td></tr>
+        <tr><td>NVIDIA GTC (3월)</td><td>Rubin·차세대 GPU 발표, HBM 사양</td></tr>
+        <tr><td>Hot Chips (8월)</td><td>차세대 메모리 기술 발표</td></tr>
+        <tr><td>삼성·Micron 분기 IR</td><td>HBM4 양산·NVIDIA 인증 진행</td></tr>
+        <tr><td>AMD MI455X 출하 시작</td><td>2H26 — Samsung 점유 확정</td></tr>
+        <tr><td>SK HBM4E 샘플 NVIDIA 인증</td><td>2H26</td></tr>
+        <tr><td>TSMC CoWoS capa 분기 update</td><td>패키징 병목 변화</td></tr>
+        <tr><td>TrendForce·Counterpoint 월간·분기 리포트</td><td>HBM·DDR5·eSSD 점유 추적</td></tr>
+      </table>
+    </section>
+
+    <!-- 종합 판단 -->
+    <section id="concl">
+      <h2>종합 판단</h2>
+
+      <h3>매트릭스 평가</h3>
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr class="kr-highlight"><td>상위 트렌드 적합성</td><td><b>★★★ 최상</b></td><td>에이전트AI 추론 인프라 = AI 메가 트렌드 핵심</td></tr>
+        <tr class="kr-highlight"><td>산업 위치</td><td><b>★★★ 최상</b></td><td>메모리 IDM 글로벌 #1 (1Q26 분기 첫 50조 돌파), HBM #1</td></tr>
+        <tr class="kr-highlight"><td><b>해자 강도</b></td><td><span class="moat-score">4.4 / 5.0 (segment 가중)</span></td><td>HBM3E 5.0 / HBM4 NVIDIA 4.4 / HBM4 AMD 2.8 / HBM4E 3.4 / DDR5 4.2 / eSSD 4.0 — segment별 강약 분명</td></tr>
+        <tr class="kr-highlight"><td>재무 건전성</td><td><b>★★★ 최상</b></td><td>자본 145조+, FCF 24조+, 신용 AA+</td></tr>
+        <tr class="kr-highlight"><td>성장 가시성 (2~3년)</td><td><b>★★★ 최상</b></td><td>2026 매출 +55-75%·OP +90-120%·OPM 60%+ (1Q26 72% 실증 + 회사 3년 수요 발표)</td></tr>
+        <tr><td>성장 지속성 (5~10년)</td><td><b>★★ 중상</b></td><td>HBM4 dual sourcing 누적 + 메모리 사이클 cyclicality</td></tr>
+      </table>
+
+      <h3>핵심 투자 포인트 3</h3>
+      <ol>
+        <li><b>본 테마 직접 노출 60%+</b> — 16 segment 중 3 segment 글로벌 Top 2 (HBM #1·DDR5 #2·eSSD #2). 한국 기업 중 본 테마 가장 다축 수혜</li>
+        <li><b>3중 슈퍼사이클 합치점 + 1Q26 OPM 72% 실증</b> — HBM3E 단독 + DDR5 P 슈퍼사이클 + eSSD 신규 driver. 1Q26 사상 최강 분기 실적이 thesis 증명</li>
+        <li><b>HBM 전체 #1 + NVIDIA HBM4 majority + HBM4E 차세대 양산 시도</b> — HBM3E 단독 + NVIDIA HBM 전체 90% 공급 + HBM4E 2027 양산 3중 backup</li>
+      </ol>
+
+      <h3>핵심 리스크 3</h3>
+      <ol>
+        <li><b>HBM4 dual sourcing 본격화</b> — 삼성 2026.02 양산 선두 + Micron 1Q26 진입 + AMD Samsung MoU. SK NVIDIA majority 2/3 유지하나 단독공급 신화 종료</li>
+        <li><b>메모리 사이클 cyclicality</b> — OPM 77.2%p 진폭. 2027-2028 침체 진입 가능. <b>1Q26 OPM 72%는 정점 신호일 수도</b></li>
+        <li><b>HBM4E NVIDIA 차세대 인증 경쟁</b> — 2027+ HBM4E·HBM5 단계에서 삼성·Micron 추격 시 narrative 추가 약화 가능</li>
+      </ol>
+
+      <h3>단기 vs 장기 view</h3>
+      <table>
+        <tr><th>시점</th><th>View</th></tr>
+        <tr class="kr-highlight"><td>1-2년 (2026-2027)</td><td><b>매우 강세</b> — 3중 슈퍼사이클 + 1Q26 OPM 72% 실증 + 회사 3년 수요 발표</td></tr>
+        <tr><td>3-5년 (2028-2030)</td><td><b>중상</b> — HBM4 dual sourcing 누적 + 메모리 사이클 침체 risk 가시화</td></tr>
+        <tr><td>5-10년 (2030+)</td><td><b>중상</b> — 메모리 패러다임 유지 시 강자 지속. 광·양자·뉴로모픽 등 새 패러다임 risk</td></tr>
+      </table>
+    </section>
+
+    <!-- 부록 -->
+    <section id="appx">
+      <h2>부록 — Cross-Reference & 출처</h2>
+      <div class="twocol">
+        <div>
+          <h4>A. Cross-Reference</h4>
+          <table>
+            <tr><th>방향</th><th>참조</th></tr>
+            <tr><td>산업기초</td><td>반도체 / 전력 인프라</td></tr>
+            <tr><td>테마분석</td><td>에이전트AI v3 (Moat 후보 #1, Step 5 시간축 PQ)</td></tr>
+            <tr><td>기업개요</td><td>SK하이닉스 v4.9</td></tr>
+            <tr><td>다음 단계</td><td>[테마 분석 통합 모드] 진입 시 주도주 #1로 흡수</td></tr>
+          </table>
+        </div>
+        <div>
+          <h4>B. 주요 출처</h4>
+          <ul>
+            <li>DART 사업보고서 2014~2025</li>
+            <li>SK하이닉스 IR 분기경영실적 50개</li>
+            <li>SK하이닉스 1Q26 컨퍼런스콜 (디일렉 2026-04)</li>
+            <li>TrendForce, Counterpoint, Astute Group — HBM·DDR5·eSSD 점유</li>
+            <li>TrendForce 2026-01-28·2026-03-09 — HBM4 분배</li>
+            <li>KED Global 2025-12-03·2026-03 — Samsung HBM4</li>
+            <li>AMD 공식 PR 2026-03-18 — Samsung HBM4 MoU</li>
+            <li>Micron 공식 PR — HBM4 1Q26 양산</li>
+            <li>BT 첨부 9개 셀사이드 (DS·MERITZ·Samsung·DB·Hanwha·KB·NH·Shinhan·Mirae Asset)</li>
+            <li>반도체_산업기초.md / 에이전트AI_테마분석.md v3</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="changelog">
+        <h4>C. 메타데이터 갱신 로그</h4>
+        <table>
+          <tr><th>버전</th><th>일자</th><th>변경 사항</th></tr>
+          <tr><td>v1</td><td>2026-05-26</td><td>1차 작성</td></tr>
+          <tr><td>v2</td><td>2026-05-26</td><td>HBM4 narrative 정정 (cross-check 반영)</td></tr>
+          <tr><td><b>v3</b></td><td><b>2026-05-26</b></td><td><b>Moat 분석 segment별 재구성</b> (single 5축 → 6 segment × 5축)</td></tr>
+        </table>
+
+        <h4 style="margin-top:18px">v1 → v3 변화 요약</h4>
+        <table>
+          <tr><th>항목</th><th>v1</th><th>v2</th><th>v3</th></tr>
+          <tr><td>HBM4 공급 구조</td><td>NVIDIA 단독공급</td><td>NVIDIA Rubin SK majority 2/3 + 삼성·Micron 1/3</td><td>(유지)</td></tr>
+          <tr><td>HBM4 양산 선두</td><td>SK 6개월 선두</td><td>삼성 업계 최초 양산 (2026.02)</td><td>(유지)</td></tr>
+          <tr><td>HBM4 NVIDIA 11Gb/s test</td><td>SK 통과 가정</td><td>삼성 먼저 통과, SK 최적화 중</td><td>(유지)</td></tr>
+          <tr><td>AMD HBM4</td><td>SK 메인 가정</td><td>Samsung preferred (MI455X, 2026.03 MoU)</td><td>(유지)</td></tr>
+          <tr><td>Micron HBM4</td><td>후발 (2026 H2)</td><td>1Q26 volume shipment 진입</td><td>(유지)</td></tr>
+          <tr><td>1Q26 실적</td><td>미반영</td><td>매출 52.6조·OP 37.6조·OPM 72%</td><td>(유지)</td></tr>
+          <tr><td>HBM4E narrative</td><td>미언급</td><td>SK 2H26 샘플, 2027 양산 목표</td><td>(유지)</td></tr>
+          <tr><td>2026 OPM 전망</td><td>52-55%</td><td>60-62% (상향)</td><td>(유지)</td></tr>
+          <tr class="kr-highlight"><td><b>Moat 분석 구조</b></td><td>single 5축 (5.0)</td><td>single 5축 (4.6)</td><td><b>6 segment × 5축 (HBM3E 5.0 / HBM4 NVIDIA 4.4 / HBM4 AMD 2.8 / HBM4E 3.4 / DDR5 4.2 / eSSD 4.0)</b></td></tr>
+          <tr class="kr-highlight"><td><b>Moat 종합 (가중 평균)</b></td><td>5.0 / 5.0</td><td>4.6 / 5.0</td><td><b>4.4 / 5.0 (segment 가중)</b></td></tr>
+          <tr class="kr-highlight"><td>CAPA 정의 모호성</td><td>본 테마 capa 가중 (모호)</td><td>(유지)</td><td><b>segment별 명시 (HBM CAPA·DRAM 절대 CAPA·NAND 절대 CAPA 분리)</b></td></tr>
+        </table>
+        <p style="font-size:12.5px;color:#444;margin:8px 0 0 0"><b>전체 thesis</b>: 한국 주도주 후보 #1 위치 <b>유지</b>. 단 segment별 강약이 분명해짐 — HBM3E 절대 우위, HBM4 NVIDIA majority, HBM4 AMD 열위, DDR5/eSSD는 삼성 우위·SK 추격 구조.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      ticker: <b>000660</b> · theme: <b>에이전트AI</b> · moat: <b>4.4/5.0 (segment 가중)</b> · trend revenue: <b>60%+</b> · last_updated: <b>2026-05-26</b><br/>
+      본 .md는 [테마 분석 통합 모드] 진입 시 주도주 #1 종목 섹션의 input으로 흡수됨.
+    </div>
+  </main>
+</div>
+
+<script>
+const ACC='#1f3a68', KR='#2ca02c', US='#1f77b4', JP='#9467bd', SEMI='#76b900', RD='#b03030', SK='#ff6b00', SAMSUNG='#1428a0';
+Chart.defaults.font.family='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+Chart.defaults.font.size=11.5;
+Chart.defaults.color='#333';
+
+new Chart(document.getElementById('shareChart'),{type:'bar',data:{labels:['HBM','DDR5 server (DRAM)','eSSD (SK Group)'],datasets:[{label:'SK하이닉스 글로벌 점유 (%)',data:[53,33,30.2],backgroundColor:SK},{label:'1위 점유 비교',data:[35,42,32.3],backgroundColor:'#aac1d8'}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom'}},scales:{x:{beginAtZero:true,max:70,title:{display:true,text:'%'}}}}});
+
+new Chart(document.getElementById('exposureChart'),{type:'doughnut',data:{labels:['HBM 40%','DDR5 server 15%','eSSD 8%','모바일·PC DDR5 15%','일반 NAND 10%','기타 12%'],datasets:[{data:[40,15,8,15,10,12],backgroundColor:[RD,SK,'#cc7a3a',US,'#aaa','#ccc']}]},options:{plugins:{legend:{position:'right'}}}});
+
+new Chart(document.getElementById('moatBySegment'),{type:'bar',data:{labels:['HBM3E (현재)','HBM4 NVIDIA','HBM4 AMD','HBM4E (미래)','DDR5 server','eSSD'],datasets:[{label:'SK하이닉스',data:[5.0,4.4,2.8,3.4,4.2,4.0],backgroundColor:SK},{label:'삼성',data:[3.6,4.0,4.4,3.2,5.0,5.0],backgroundColor:SAMSUNG},{label:'Micron',data:[3.0,3.0,2.4,2.2,3.2,3.0],backgroundColor:'#0033a0'}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:5,title:{display:true,text:'Moat 평균 점수 (5축 / 5점)'}}}}});
+
+new Chart(document.getElementById('cycleChart'),{type:'bar',data:{labels:['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{type:'line',label:'OPM (%)',data:[29.8,28.4,19.1,45.6,51.5,10.1,15.7,28.9,15.3,-25.7,35.5,48.6],borderColor:RD,backgroundColor:RD+'20',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:4,pointBackgroundColor:RD},{type:'bar',label:'매출 (조원)',data:[17.13,18.8,17.2,30.1,40.5,27.0,31.9,43.0,44.6,32.8,66.2,97.2],backgroundColor:SK,yAxisID:'y',order:1}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'매출 (조원)'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:-30,max:60}}}});
+
+new Chart(document.getElementById('peerOpm'),{type:'bar',data:{labels:['SK하이닉스','삼성전자 DS','Micron','Kioxia','TSMC (참고)'],datasets:[{label:'2025 OPM (%)',data:[48.6,35,27.5,15,45],backgroundColor:'#aac1d8'},{label:'1Q26 OPM (%)',data:[72,42,32,15,48],backgroundColor:[SK,SAMSUNG,'#0033a0','#9467bd','#d62728']}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'%'}}}}});
+
+new Chart(document.getElementById('outlookChart'),{type:'bar',data:{labels:['2024','2025','2026E','2027E'],datasets:[{type:'line',label:'OPM (%)',data:[35.5,48.6,61,54],borderColor:'#000',backgroundColor:'#00000020',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:5,pointBackgroundColor:'#000'},{type:'bar',label:'매출 (조원)',data:[66.2,97.2,160,185],backgroundColor:[SK,SK,'#ffae66','#ffae66'],yAxisID:'y',order:1},{type:'bar',label:'OP (조원)',data:[23.47,47.21,95,100],backgroundColor:[RD,RD,'#e89999','#e89999'],yAxisID:'y',order:2}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'조원'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:0,max:80}}}});
+</script>
+</body>
+</html>

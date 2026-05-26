@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>에이전트AI 테마 분석 (v3)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --kr:#2ca02c; --us:#1f77b4; --tw:#d62728; --jp:#9467bd; --semi:#76b900; --power:#ff7f0e;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1480px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  nav.toc a.sub{padding-left:18px;font-size:11.5px;color:#555}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.semi{background:var(--semi)}
+  .header .tag.power{background:var(--power)}
+  .header .tag.v3{background:var(--catA)}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:36px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h3.semi{color:var(--semi);border-left:4px solid var(--semi);padding-left:10px}
+  h3.power{color:var(--power);border-left:4px solid var(--power);padding-left:10px}
+  h3.new{color:var(--catA);border-left:4px solid var(--catA);padding-left:10px}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .bottleneck-A{background:#ffe0e0 !important;border-left:3px solid var(--catA) !important}
+  .cat-D{background:#e8f5e0 !important;border-left:3px solid var(--catD) !important}
+  .cat-B{background:#fff4e8 !important;border-left:3px solid var(--catB) !important}
+  .kr-highlight{background:#fff8d4 !important;color:#5a4a00 !important;font-weight:600}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.B{background:#fff4e8;border:1px solid var(--catB);color:#7a4a00}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .axis-card{background:#f7f5ee;border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:14px 0}
+  .axis-card.semi{border-left:5px solid var(--semi)}
+  .axis-card.power{border-left:5px solid var(--power)}
+  .axis-card .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .new-section{background:#fff8e6;border:2px solid var(--catA);border-radius:6px;padding:12px 16px;margin:18px 0}
+  .new-section .badge{display:inline-block;background:var(--catA);color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;margin-bottom:6px}
+  .smr-layer{background:#f5f0ff;border:1px dashed var(--jp);border-radius:5px;padding:10px 14px;margin:10px 0}
+  .smr-layer .badge{display:inline-block;background:var(--jp);color:#fff;font-size:11px;padding:2px 8px;border-radius:3px;letter-spacing:0.05em;margin-bottom:6px}
+  .tam-table{font-size:11.5px}
+  .tam-table th,.tam-table td{padding:6px 7px}
+  .tam-table .pq{font-family:'SF Mono','Consolas',monospace;font-size:11px;white-space:nowrap}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#conv">표기 컨벤션</a>
+    <a href="#onepager">1-pager 요약</a>
+    <a href="#s0">Step 0. 산업기초</a>
+    <a href="#s1">Step 1. 정의·트렌드</a>
+    <a href="#s2">Step 2. 병목 역추적</a>
+    <a href="#s3">Step 3. 병목 인뎁스 ★</a>
+    <a href="#s3" class="sub">3-2. 반도체</a>
+    <a href="#s3" class="sub">3-3. 전력</a>
+    <a href="#s3" class="sub">3-4. 카테고리</a>
+    <a href="#s4">Step 4. 통합 Moat</a>
+    <a href="#s4" class="sub">4-2. SMR 4 layer ★</a>
+    <a href="#s5">Step 5. 16 Segment TAM</a>
+    <a href="#s5" class="sub">5-1. 반도체 시간축</a>
+    <a href="#s5" class="sub">5-2. 전력 시간축</a>
+    <a href="#s6">Step 6. 주도 섹터</a>
+    <a href="#s7">Step 7. 리스크</a>
+    <a href="#s8">Step 8. 트래킹 지표</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">THEME ANALYSIS · 1차 v3</span>
+      <span class="tag v3">피드백 9건 누적</span>
+      <span class="tag semi">반도체</span>
+      <span class="tag power">전력</span>
+      <h1>에이전트AI 테마 분석 (v4)</h1>
+      <div class="meta">narrative: 에이전트AI · 병목: 추론 인프라 (반도체 + 전력) · last_updated 2026-05-26 (v4) · parent_industry: 반도체 / cross-ref: 전력 인프라</div>
+    </div>
+
+    <div class="narrative">
+      <b>본 테마 frame</b>: 에이전트AI는 narrative-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 <b>추론 인프라</b>에 집중되고, 추론 인프라는 <b>반도체 + 전력</b> 두 축. HBM은 이미 시장이 반영했고 <b>신규 병목은 레거시 메모리·광통신·CPU·CoWoS + ★ v4 800VDC 전환 (NVIDIA Kyber Ultra 660kW)</b>로 확장.
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary (v4)</strong>
+        <ol>
+          <li><b>에이전트AI</b> = LLM이 multi-step reasoning + tool calls + 컨텍스트 유지로 자율 작업 실행.</li>
+          <li><b>수요 충격</b>: 에이전트 1건 = chat 대비 토큰 <b>20-30배</b> (코딩 1000배).</li>
+          <li><b>병목 = 추론 인프라 두 축</b>: ① 반도체(HBM·<b>레거시 메모리·광통신·CPU</b>·추론 GPU·CoWoS·후공정) ② 전력(데이터센터 전력·UHV 변압기·SMR·<b>가스터빈</b>·액랭 + <b style="color:#b03030">★ v4 800VDC 전환</b>).</li>
+          <li>병목 분류: <span class="star">★ (A) 구조적 메가 병목 + (D) 동반 확대 hybrid</span>. <b style="color:#b03030">v4 800VDC = (D)</b>.</li>
+          <li><b>글로벌 트렌드 관통 + Moat 기업</b>: SK하이닉스(HBM #1·DDR5 #2·eSSD #2), 한미반도체(TC본더 #1), 효성중공업(미국 765kV UHV #1), <b>두산에너빌리티 (SMR forging 글로벌 5사 중 1)</b>, 오이솔루션(1.6T·ITLA 국산화), <b style="color:#b03030">★ LS ELECTRIC (DC 분야 한국 선도, UL 1500V DC MCCB 최초)</b> 등.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="conv">
+      <h2>표기 컨벤션 — 카테고리 풀이 일괄</h2>
+      <table>
+        <tr><th>표기</th><th>풀이 (전체 분류명)</th></tr>
+        <tr><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>공급 제한 + 수요 급증. ASP 강한 상승 + Q 점진. 다년간 지속</td></tr>
+        <tr><td><span class="pill B">(B) 수요 견인</span></td><td>공급 적당 + 수요 폭증. 새 capa 가동 시 완화</td></tr>
+        <tr><td>(C) 사이클 반등</td><td>일시 공급 축소 + 수요 일정</td></tr>
+        <tr><td><span class="pill D">(D) 동반 확대</span></td><td>공급 확대 + 수요 폭증. 신규 시장 형성기. ASP 안정 + Q 폭증</td></tr>
+        <tr><td>(E) 점진적 가격 상승</td><td>공급 제한 + 수요 일정</td></tr>
+        <tr><td>(F) 공급 과잉</td><td>공급 과잉 + 수요 일정/감소</td></tr>
+        <tr><td>(G) 구조조정</td><td>공급 축소 + 수요 감소</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:12px">본 .html 본문에서 카테고리는 항상 풀어쓴 형태로 표시 (예: "(A) 구조적 메가 병목").</p>
+    </section>
+
+    <section id="onepager">
+      <h2>1-pager 요약 표</h2>
+      <table>
+        <tr><th width="180">단계</th><th>핵심 결론</th></tr>
+        <tr><td><b>Step 0. 산업기초</b></td><td>✓ 반도체_산업기초.md / ✓ 전력 인프라_산업기초.md (둘 다 (A) 구조적 메가 병목)</td></tr>
+        <tr><td><b>Step 1. 정의·트렌드</b></td><td>AI 메가 트렌드 안의 에이전트 narrative</td></tr>
+        <tr><td><b>Step 2. 병목 역추적</b></td><td>에이전트 = 토큰 20-30x → 추론 인프라 동시 병목</td></tr>
+        <tr class="bottleneck-A"><td><b>Step 3. 병목 인뎁스 (★)</b></td><td>반도체: HBM(이미 반영) + <b>레거시 메모리·광통신·CPU·CoWoS(신규)</b> / 전력: 전력 485→950 TWh·변압기 128주·<b>가스터빈 3사 capa 25-35%</b>·SMR 22 GW</td></tr>
+        <tr><td><b>Step 4. 통합 Moat view</b></td><td>segment별 글로벌 강자 1-5위에 한국 다수. <b>SMR 4 layer 확장 (본체·사업자·부품·EPC) → 두산에너빌리티 forging 글로벌 5사 중 1, 현대건설 EPC</b></td></tr>
+        <tr><td><b>Step 5. 16 Segment 시간축 PQ</b></td><td>각 segment P/Q 4분기 + 연간(2026·2027) + 변동 근거. 한국 접근 TAM <b>$215-260B+</b> (SMR 부품·EPC 포함)</td></tr>
+        <tr><td><b>Step 6. 주도 섹터</b></td><td><span class="star">★★★ 매우 높음</span> — 16 segment 중 <b>9 segment 한국 글로벌 Top 5</b></td></tr>
+      </table>
+    </section>
+
+    <section id="s0">
+      <h2>Step 0. 산업 기초 분석 자동 참조</h2>
+      <table>
+        <tr><th>참조</th><th>상태</th><th>활용</th></tr>
+        <tr><td><code>반도체_산업기초.md</code></td><td>✓ 2026-05-18</td><td>반도체 측 직접 기반 (4+5 결론 = <span class="pill A">(A) 구조적 메가 병목</span>)</td></tr>
+        <tr><td><code>전력 인프라_산업기초.md</code></td><td>✓ 2026-05-18</td><td>전력 측 직접 기반 (4+5 결론 = <span class="pill A">(A) 구조적 메가 병목</span>) — 변압기 4년·GSU 144주</td></tr>
+      </table>
+    </section>
+
+    <section id="s1">
+      <h2>Step 1. 테마 키워드 정의 + 상위 트렌드</h2>
+      <table>
+        <tr><th>요소</th><th>단순 chat</th><th>에이전트AI</th></tr>
+        <tr><td>입출력 구조</td><td>1 요청 → 1 응답</td><td>지시 → multi-step plan → tool call → ... → 자체 종료</td></tr>
+        <tr><td>도구 사용</td><td>❌</td><td>✓ (브라우저·코드·API·DB)</td></tr>
+        <tr><td>평균 turn</td><td>1</td><td>10~100+ (코딩 1000+)</td></tr>
+      </table>
+      <div class="narrative">
+        <b>시장 view</b>: 1단(학습) = 칩 쇼티지. <b>2단(에이전트+추론) = 칩 + 전력 + 메모리/네트워크/CPU 동시 쇼티지</b>. HBM narrative는 이미 시장 반영, 다음은 KV cache offload·광통신·CPU로 이동.
+      </div>
+    </section>
+
+    <section id="s2">
+      <h2>Step 2. 상위 산업 병목 역추적</h2>
+      <div class="chart-card">
+        <h4>에이전트 vs Chat — 토큰 사용량 (log scale)</h4>
+        <canvas id="tokenChart" height="180"></canvas>
+        <div class="src">→ chat 1x / 단순 에이전트 20-30x / 코딩 에이전트 500-1000x. Source: Stanford·NVIDIA</div>
+      </div>
+      <h4>3대 메커니즘 + 신규 병목</h4>
+      <table>
+        <tr><th>메커니즘</th><th>내용</th><th>토큰 증폭</th><th>신규 병목</th></tr>
+        <tr><td>① 컨텍스트 스노볼링</td><td>O(n²) 누적</td><td>30 step = 900배</td><td><b>HBM + DDR5·eSSD KV cache offload</b></td></tr>
+        <tr><td>② Tool call overhead</td><td>웹·코드·DB 결과 컨텍스트 포함</td><td>+1-10K/call</td><td><b>CPU + 광통신 throughput</b></td></tr>
+        <tr><td>③ 재시도·자기평가</td><td>실패 시 다른 trajectory</td><td>+50-200%</td><td>전 인프라 증폭</td></tr>
+      </table>
+      <h4>본 테마 = 병목 파생형</h4>
+      <table>
+        <tr><th>인프라 축</th><th>산업기초 4+5 결론</th><th>에이전트 충격 후</th></tr>
+        <tr><td>반도체</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td><b>(A) 강화 + 병목 확산</b> — HBM에서 레거시 메모리·광통신·CPU·CoWoS로</td></tr>
+        <tr><td>전력</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td><b>(A) 격화</b> — 미국 본토 capa 부족 + 가스터빈 capa 부족 노출</td></tr>
+      </table>
+    </section>
+
+    <section id="s3">
+      <h2>Step 3. 테마 밸류체인 + 병목 구간 인뎁스 ★</h2>
+      <p style="color:var(--muted);font-size:13px"><b>본 step은 절대 요약 X</b>. 반도체 측 = HBM 비중 축소 + 4 신규 병목 중심.</p>
+
+      <div class="axis-card semi">
+        <div class="label">AXIS 1 / 반도체 인프라 — 7 sub</div>
+        <h3 class="semi">3-2. 반도체 인프라 측 병목 인뎁스</h3>
+      </div>
+
+      <h3>3-2-1. HBM — 이미 시장 반영한 1단 병목 (축소)</h3>
+      <div class="chart-card">
+        <h4>HBM 시장 점유율 (2025 Q3) — 이미 합의 반영</h4>
+        <canvas id="hbmChart" height="170"></canvas>
+        <div class="src">→ SK 53% / 삼성 35% / Micron 11%. TAM $35B→$100B CAGR 40%</div>
+      </div>
+      <p><b>포지셔닝</b>: HBM은 2024-25 충분히 반영. <b>새 알파는 4 신규 병목</b>.</p>
+
+      <div class="new-section">
+        <span class="badge">★ 신규 병목 #1</span>
+        <h3 class="new">3-2-2. 레거시 메모리 (DDR5 server + eSSD) — KV cache offload</h3>
+      </div>
+      <p><b>메커니즘</b>: 토큰 폭증 → KV cache 폭발 → HBM 부족 → <b>NVIDIA Dynamo·vLLM이 DDR5·eSSD로 offload</b>. 레거시 메모리가 "추론 active 메모리"로 격상.</p>
+      <blockquote>비유: HBM = 책상 위 책 (가장 빠름), DDR5 = 책장 책, eSSD = 도서관 책. 에이전트는 매번 100권 못 들어서 → DDR5/eSSD가 "확장 메모리".</blockquote>
+
+      <div class="twocol">
+        <div class="chart-card">
+          <h4>DDR5 server 가격 추이 ($)</h4>
+          <canvas id="ddr5Chart" height="180"></canvas>
+          <div class="src">→ Samsung 32GB $149 → $239 (9월 +60%). DRAM YTD +50%, Q4 +30%</div>
+        </div>
+        <div class="chart-card">
+          <h4>eSSD Top 5 분기 매출 ($B)</h4>
+          <canvas id="essdChart" height="180"></canvas>
+          <div class="src">→ Q3 $6.54B → Q4 +50% QoQ. SK Group +75% QoQ로 30.2%</div>
+        </div>
+      </div>
+      <p><b>병목 카테고리</b>: DDR5 = <span class="pill A">(A) 구조적 메가 병목</span> / eSSD = <span class="pill A">(A) 구조적 메가 병목 → (D) 동반 확대</span></p>
+
+      <div class="new-section">
+        <span class="badge">★ 신규 병목 #2</span>
+        <h3 class="new">3-2-3. 광통신 — AI 클러스터 GPU 통신 병목</h3>
+      </div>
+      <p><b>메커니즘</b>: GB200 NVL72 (72 GPU NVLink) → 수만 GPU 클러스터 → <b>광통신 throughput이 성능 결정</b>.</p>
+      <div class="twocol">
+        <div class="chart-card">
+          <h4>800G/1.6T 트랜시버 시장</h4>
+          <canvas id="opticalChart" height="180"></canvas>
+          <div class="src">→ Datacom optical $16B+ (2025), 800G +60% YoY</div>
+        </div>
+        <div class="chart-card">
+          <h4>EML laser 점유 (1.6T 핵심)</h4>
+          <canvas id="emlChart" height="180"></canvas>
+          <div class="src">→ Lumentum 50-60%, 200G/lane 유일 양산</div>
+        </div>
+      </div>
+      <p><b>병목 카테고리</b>: <span class="pill A">(A) 구조적 메가 병목</span></p>
+
+      <div class="new-section">
+        <span class="badge">★ 신규 병목 #3</span>
+        <h3 class="new">3-2-4. CPU (서버) — host CPU 부담 증가</h3>
+      </div>
+      <p>AI 서버 = GPU 8장 + host CPU 2장. 에이전트는 tool call·컨텍스트 관리로 CPU 비례 증가. Grace·GB200처럼 ARM CPU와 GPU 직접 결합도 표준화.</p>
+      <div class="chart-card">
+        <h4>서버 CPU 글로벌 점유 추이</h4>
+        <canvas id="cpuChart" height="180"></canvas>
+        <div class="src">→ Intel 71% (역대 최저) / AMD 28.8% (역대 최고) / ARM 13-15%. Source: Mercury Research</div>
+      </div>
+      <p><b>병목 카테고리</b>: <span class="pill B">(B) 수요 견인</span> → <span class="pill A">(A) 구조적 메가 병목 진입</span></p>
+
+      <h3>3-2-5. 추론 GPU + ASIC</h3>
+      <div class="chart-card">
+        <h4>NVIDIA Blackwell 추론 효율</h4>
+        <canvas id="blackwellChart" height="180"></canvas>
+        <div class="src">→ Hopper $0.20 → Blackwell $0.10 → NVFP4 $0.05 → Rubin -10x. Jevons 우세</div>
+      </div>
+
+      <h3>3-2-6. CoWoS·첨단 패키징</h3>
+      <div class="chart-card">
+        <h4>TSMC CoWoS Capa (K wafer/월)</h4>
+        <canvas id="cowosChart" height="180"></canvas>
+        <div class="src">→ 38K → 75K → 130K. TSMC 85% 단독</div>
+      </div>
+
+      <h3>3-2-7. 첨단 노드 wafer</h3>
+      <p>TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM. Intel 18A 양산. <span class="pill A">(A) 구조적 메가 병목</span></p>
+
+      <div class="axis-card power">
+        <div class="label">AXIS 2 / 전력 인프라 — 8 sub</div>
+        <h3 class="power">3-3. 전력 인프라 측 병목 인뎁스</h3>
+      </div>
+
+      <h3>3-3-1. AI rack 전력 폭증</h3>
+      <table>
+        <tr><th>구분</th><th>전력</th></tr>
+        <tr><td>일반 데이터센터 rack</td><td>15-25 kW</td></tr>
+        <tr class="bottleneck-A"><td><b>GB200 NVL72 rack (72 GPU)</b></td><td><b>~130 kW</b> (5-10x)</td></tr>
+        <tr><td>AI 데이터센터 단지</td><td>100-500 MW</td></tr>
+        <tr><td>hyperscaler 신규 캠퍼스</td><td>1-2 GW</td></tr>
+      </table>
+
+      <h3>3-3-2. 글로벌 데이터센터 전력 수요 (IEA)</h3>
+      <div class="chart-card">
+        <h4>글로벌 데이터센터 전력 forecast (TWh)</h4>
+        <canvas id="ieaChart" height="180"></canvas>
+        <div class="src">→ 485 TWh(2025) → 950 TWh(2030, x2). 미국 +240 TWh (+130%)</div>
+      </div>
+
+      <h3>3-3-3. 변압기 병목 — Lead time 128주 ★</h3>
+      <div class="chart-card">
+        <h4>변압기 평균 lead time (주)</h4>
+        <canvas id="trafoLead" height="180"></canvas>
+        <div class="src">→ 2019 24주 → 2025 128주 → 2030E 60주. 5x 폭증 후 완화. Source: Powermag</div>
+      </div>
+      <p><b>병목 카테고리</b>: <span class="pill A">(A) 구조적 메가 병목</span></p>
+
+      <div class="new-section">
+        <span class="badge">★ 전력 신규 부각</span>
+        <h3 class="new">3-3-4. 가스 터빈 — 단기 데이터센터 backbone</h3>
+      </div>
+      <p>원자력(SMR) 2030+까지 못 들어옴 + 재생E 24/7 부족 → 단기 (2025-30) AI 데이터센터 전력 backbone은 천연가스. 3사 (GE·Siemens·Mitsubishi) 글로벌 capa 2/3.</p>
+      <div class="chart-card">
+        <h4>가스터빈 3사 1Q25 신규 주문 (GW)</h4>
+        <canvas id="gasturbineChart" height="180"></canvas>
+        <div class="src">→ GE 7 + Siemens 14 YTD (60% DC) + Mitsubishi 7. 3사 capa 2026부터 25-35% 확대</div>
+      </div>
+      <p><b>병목 카테고리</b>: <span class="pill A">(A) 구조적 메가 병목</span> — lead time 2-3년, 3사 과점</p>
+
+      <h3>3-3-5. SMR — 2030+ 동반 확대</h3>
+      <div class="chart-card">
+        <h4>SMR Big Tech Mega Deals (MW)</h4>
+        <canvas id="smrChart" height="170"></canvas>
+        <div class="src">→ Amazon·Microsoft·Google 합 4 GW+. 글로벌 22 GW. Big Tech $10B+. 첫 commercial 2030</div>
+      </div>
+      <p><b>SMR 밸류체인 4 layer ★ (v3 확장)</b>: 본체 개발사 + 사업자/유틸리티 + <b>부품 OEM (두산에너빌리티)</b> + <b>EPC (현대건설)</b>. Step 4-2에서 상세.</p>
+      <p><b>병목 카테고리</b>: <span class="pill D">(D) 동반 확대</span></p>
+
+      <h3>3-3-6. 액랭 (Liquid Cooling)</h3>
+      <div class="chart-card">
+        <h4>액랭 시장 ($B)</h4>
+        <canvas id="liquidCool" height="180"></canvas>
+        <div class="src">→ $5.52B (2025) → $18.79B (2031), CAGR 22.65%. Vertiv 11.3% / Schneider 11%</div>
+      </div>
+      <p><b>병목 카테고리</b>: <span class="pill D">(D) 동반 확대</span></p>
+
+      <h3>3-3-7. UPS·스위치기어·HVDC·케이블</h3>
+      <table>
+        <tr><th>부문</th><th>글로벌 강자 (한국 포함)</th></tr>
+        <tr><td>UPS</td><td>Eaton, Schneider, Vertiv</td></tr>
+        <tr><td>스위치기어·GIS</td><td>ABB, Siemens, Schneider, <b>LS ELECTRIC</b></td></tr>
+        <tr><td>HVDC</td><td>Hitachi, Siemens, GE, ABB, <b>효성·HD현대일렉</b></td></tr>
+        <tr><td>케이블</td><td>Prysmian, Nexans, NKT, <b>LS·LS전선·대한전선</b></td></tr>
+      </table>
+
+      <h3>3-3-8. 데이터센터 from-scratch lead time</h3>
+      <table>
+        <tr><th>단계</th><th>Lead time</th></tr>
+        <tr><td>NVIDIA GPU 발주</td><td>6개월</td></tr>
+        <tr><td>부지 선정</td><td>12개월</td></tr>
+        <tr><td>전력 인입 신청</td><td>12-24개월</td></tr>
+        <tr class="bottleneck-A"><td><b>변압기 발주→납품 ★</b></td><td><b>24-36개월</b></td></tr>
+        <tr><td>발전 capa (PPA·SMR·가스터빈)</td><td>24-60개월</td></tr>
+        <tr><td>데이터센터 건설 + 액랭 + UPS</td><td>18-24개월 (병렬)</td></tr>
+        <tr class="bottleneck-A"><td colspan="2"><b>전체 from-scratch: 3-5년 (변압기·전력 critical path)</b></td></tr>
+      </table>
+
+      <h3>3-4. 본 테마 병목 카테고리 분류 결론 ★ (전체 분류명 풀이 일괄)</h3>
+      <table>
+        <tr><th>Sub-segment</th><th>카테고리</th><th>핵심 근거</th></tr>
+        <tr class="bottleneck-A"><td>HBM</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>CR3 95%+, 단 이미 시장 반영</td></tr>
+        <tr class="bottleneck-A"><td><b>레거시 DRAM (DDR5 server)</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>HBM 우선 생산 squeeze + AI 추론. P +50% YTD</td></tr>
+        <tr class="cat-D"><td><b>eSSD (NAND)</b></td><td><span class="pill A">(A) 구조적 메가 병목</span> → <span class="pill D">(D) 동반 확대</span></td><td>KV cache offload 신규 수요 + 공급 확대</td></tr>
+        <tr class="bottleneck-A"><td><b>광통신 (800G/1.6T·EML)</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>EML/DSP 1-2사 과점</td></tr>
+        <tr class="cat-B"><td><b>CPU (server)</b></td><td><span class="pill B">(B) 수요 견인</span> → <span class="pill A">(A) 구조적 메가 병목 진입</span></td><td>AMD·ARM 공급 확대, 첨단 노드 wafer 제약</td></tr>
+        <tr class="bottleneck-A"><td>추론 GPU·ASIC</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>NVIDIA 80%+, 첨단 노드 한정</td></tr>
+        <tr class="bottleneck-A"><td>CoWoS·첨단 패키징</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>TSMC 85%, 2026 capa 확대해도 부족</td></tr>
+        <tr class="bottleneck-A"><td>첨단 노드 wafer</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>TSMC 3/2nm 90%+</td></tr>
+        <tr class="bottleneck-A"><td><b>변압기·UHV</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>lead time 128주, 2027-28까지 relief 없음</td></tr>
+        <tr class="bottleneck-A"><td><b>가스터빈</b></td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>3사 과점, lead time 2-3년</td></tr>
+        <tr class="bottleneck-A"><td>스위치기어·HVDC·케이블</td><td><span class="pill A">(A) 구조적 메가 병목</span></td><td>글로벌 capa 부족</td></tr>
+        <tr class="cat-B"><td>UPS</td><td><span class="pill B">(B) 수요 견인</span></td><td>공급 적당</td></tr>
+        <tr class="cat-D"><td><b>SMR</b></td><td><span class="pill D">(D) 동반 확대</span></td><td>신규 시장 형성, 2030+</td></tr>
+        <tr class="cat-D"><td><b>액랭</b></td><td><span class="pill D">(D) 동반 확대</span></td><td>신규 시장, CAGR 22%+</td></tr>
+      </table>
+      <p><b>전체 결론</b>: <span class="star">★ (A) 구조적 메가 병목 + (D) 동반 확대 hybrid</span></p>
+    </section>
+
+    <section id="s4">
+      <h2>Step 4. Moat 기업 — Segment별 글로벌 통합 view ★</h2>
+      <div class="narrative">
+        <b>본 step은 글로벌·한국 분할 X</b>. 주도주 = 글로벌 트렌드 관통 + 글로벌 시장 내 Moat 보유 기업. segment별 글로벌 1-5위에 한국 기업도 포함. 🇰🇷 = 한국.
+      </div>
+
+      <h3 class="semi">4-1. 반도체 인프라 — Segment별 글로벌 Moat</h3>
+
+      <h4>HBM</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유 (Q3 2025)</th><th>Moat</th></tr>
+        <tr class="kr-highlight"><td>1</td><td><b>SK하이닉스</b></td><td>🇰🇷</td><td>53%</td><td>HBM3E·HBM4 NVIDIA 단독</td></tr>
+        <tr class="kr-highlight"><td>2</td><td><b>삼성전자</b></td><td>🇰🇷</td><td>35%</td><td>HBM3E 12단 추격</td></tr>
+        <tr><td>3</td><td>Micron</td><td>🇺🇸</td><td>11%</td><td>미국 본토</td></tr>
+      </table>
+
+      <h4>레거시 DRAM (DDR5 server)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr class="kr-highlight"><td>1</td><td><b>삼성전자</b></td><td>🇰🇷</td><td>~42%</td><td>DRAM 종합 1위</td></tr>
+        <tr class="kr-highlight"><td>2</td><td><b>SK하이닉스</b></td><td>🇰🇷</td><td>~33%</td><td>capa 2026까지 sold out</td></tr>
+        <tr><td>3</td><td>Micron</td><td>🇺🇸</td><td>~24%</td><td>추격</td></tr>
+      </table>
+
+      <h4>eSSD (NAND·KV cache offload)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유 (Q4 2025)</th><th>Moat</th></tr>
+        <tr class="kr-highlight"><td>1</td><td><b>삼성전자</b></td><td>🇰🇷</td><td>32.3%</td><td>서버 SSD 50%</td></tr>
+        <tr class="kr-highlight"><td>2</td><td><b>SK Group (SK하이닉스 + Solidigm)</b></td><td>🇰🇷</td><td><b>30.2%</b></td><td>122TB eSSD, Q4 +75% QoQ</td></tr>
+        <tr><td>3</td><td>Kioxia</td><td>🇯🇵</td><td>~15%</td><td>NAND 전문</td></tr>
+        <tr><td>4</td><td>WD/SanDisk</td><td>🇺🇸</td><td>~13%</td><td>NAND</td></tr>
+        <tr><td>5</td><td>Micron</td><td>🇺🇸</td><td>~10%</td><td>SLC SSD 개발</td></tr>
+      </table>
+
+      <h4>광통신 트랜시버 (800G/1.6T)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td>Innolight</td><td>🇨🇳</td><td>NVIDIA 800G 50%+</td><td>1.6T 우위, $3.3B 매출</td></tr>
+        <tr><td>2</td><td>Eoptolink</td><td>🇨🇳</td><td>두 자릿수</td><td>데이터센터</td></tr>
+        <tr><td>3</td><td>Coherent</td><td>🇺🇸</td><td>두 자릿수</td><td>DSP+EML</td></tr>
+        <tr class="kr-highlight"><td>4</td><td><b>오이솔루션</b></td><td>🇰🇷</td><td>한국 1위 + 일부 글로벌</td><td>1.6T OSFP·ITLA 국산화</td></tr>
+      </table>
+
+      <h4>광통신 핵심 부품 (EML laser·DSP)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td>Lumentum</td><td>🇺🇸</td><td>EML 50-60%</td><td>1.6T 핵심 (200G/lane)</td></tr>
+        <tr><td>2</td><td>Coherent</td><td>🇺🇸</td><td>EML+DSP</td><td>종합</td></tr>
+        <tr><td>3</td><td>Broadcom</td><td>🇺🇸</td><td>DSP+Tomahawk</td><td>ASIC 통합</td></tr>
+        <tr><td>4</td><td>Marvell</td><td>🇺🇸</td><td>DSP·SerDes</td><td>ASIC 협력</td></tr>
+      </table>
+
+      <h4>서버 CPU</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유 (Q4 2025)</th><th>Moat</th></tr>
+        <tr><td>1</td><td>Intel</td><td>🇺🇸</td><td><b>71%</b> (역대 최저)</td><td>Xeon 6·18A 회복</td></tr>
+        <tr><td>2</td><td>AMD</td><td>🇺🇸</td><td><b>28.8%</b> (역대 최고)</td><td>EPYC 5th Gen</td></tr>
+        <tr><td>3</td><td>ARM (Grace·Ampere·Graviton)</td><td>🇺🇸</td><td>13-15%</td><td>Grace Blackwell</td></tr>
+      </table>
+
+      <h4>추론 GPU·ASIC</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td><b>NVIDIA</b></td><td>🇺🇸</td><td><b>추론 80%+</b></td><td>CUDA·NVLink·Dynamo</td></tr>
+        <tr><td>2</td><td>AMD</td><td>🇺🇸</td><td>5-10%</td><td>MI300X·MI350·MI400</td></tr>
+        <tr><td>3</td><td>Broadcom ASIC (TPU·MTIA)</td><td>🇺🇸</td><td>hyperscaler 30%+</td><td>Google·Meta</td></tr>
+      </table>
+
+      <h4>CoWoS·첨단 패키징 + 첨단 노드</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td><b>TSMC</b></td><td>🇹🇼</td><td>CoWoS 85% / 3·2nm 90%+</td><td>EUV+CoWoS+R&D</td></tr>
+        <tr class="kr-highlight"><td>2</td><td>삼성전자 (파운드리)</td><td>🇰🇷</td><td>파운드리 #2 (7%)</td><td>추격자</td></tr>
+        <tr><td>3</td><td>Intel Foundry</td><td>🇺🇸</td><td>18A Fab 52 양산</td><td>본토</td></tr>
+      </table>
+
+      <h4>후공정 장비</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr class="kr-highlight"><td>1</td><td><b>한미반도체</b></td><td>🇰🇷</td><td>TC본더 글로벌 1위</td><td>HBM 12·16-stack 핵심</td></tr>
+        <tr><td>2</td><td>KLA</td><td>🇺🇸</td><td>검사 1위</td><td>첨단 노드</td></tr>
+        <tr><td>3</td><td>Camtek</td><td>🇮🇱</td><td>검사</td><td>HBM</td></tr>
+        <tr class="kr-highlight"><td>4</td><td><b>이오테크닉스</b></td><td>🇰🇷</td><td>레이저 강자</td><td>HBM 후공정</td></tr>
+        <tr class="kr-highlight"><td>5</td><td><b>HPSP</b></td><td>🇰🇷</td><td>고압수소 어닐링 단독</td><td>첨단 노드</td></tr>
+      </table>
+
+      <h4>전공정 장비</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td>ASML</td><td>🇪🇺(NL)</td><td>EUV 100%</td><td>노광 절대 독점</td></tr>
+        <tr><td>2</td><td>Applied Materials</td><td>🇺🇸</td><td>증착·식각 1위</td><td>종합</td></tr>
+        <tr><td>3</td><td>Lam Research</td><td>🇺🇸</td><td>식각·증착</td><td>메모리</td></tr>
+        <tr><td>4</td><td>Tokyo Electron</td><td>🇯🇵</td><td>코터·디벨로퍼 단독</td><td>EUV 종속</td></tr>
+        <tr><td>5</td><td>KLA</td><td>🇺🇸</td><td>검사 1위</td><td>첨단 노드</td></tr>
+      </table>
+
+      <h3 class="power">4-2. 전력 인프라 — Segment별 글로벌 Moat</h3>
+
+      <h4>UHV 변압기 (북미)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유/특기</th><th>Moat</th></tr>
+        <tr><td>1</td><td>Hitachi Energy</td><td>🇯🇵/🇨🇭</td><td>글로벌 1위</td><td>lead time 30개월+</td></tr>
+        <tr><td>2</td><td>GE Vernova</td><td>🇺🇸</td><td>미국 본토 strongest</td><td>본토+IRA</td></tr>
+        <tr><td>3</td><td>Siemens Energy</td><td>🇪🇺(DE)</td><td>유럽·글로벌</td><td>종합</td></tr>
+        <tr class="kr-highlight"><td>4</td><td><b>효성중공업</b></td><td>🇰🇷</td><td>미국 <b>765kV 1위</b>, capa 2배</td><td>UHV·POSCO GOES</td></tr>
+        <tr class="kr-highlight"><td>5</td><td><b>HD현대일렉트릭</b></td><td>🇰🇷</td><td>미국 M/S 15-20%</td><td>UHV+회전기기</td></tr>
+      </table>
+
+      <h4>스위치기어·GIS</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+        <tr><td>1</td><td>Schneider Electric</td><td>🇪🇺(FR)</td><td>1위</td><td>종합</td></tr>
+        <tr><td>2</td><td>Eaton</td><td>🇺🇸</td><td>1-2위</td><td>UPS+스위치기어</td></tr>
+        <tr><td>3</td><td>ABB</td><td>🇪🇺(CH)</td><td>메이저</td><td>산업·전력</td></tr>
+        <tr><td>4</td><td>Siemens</td><td>🇪🇺(DE)</td><td>메이저</td><td>종합</td></tr>
+        <tr class="kr-highlight"><td>5</td><td><b>LS ELECTRIC</b></td><td>🇰🇷</td><td>국내 1위, <b>글로벌 7-8위</b> + ★ <b>DC 분야 한국 선도</b></td><td>스위치기어+UHV + <b>UL 인증 1500V DC MCCB 최초 데이터센터용</b> (SemiAnalysis 2026-05-26)</td></tr>
+      </table>
+
+      <h4>★ 800VDC 전환 — HVDC Power Rack · SST · SSCB · DC busway (v4 신규)</h4>
+      <table>
+        <tr><th>#</th><th>기업</th><th>국적</th><th>역할</th><th>Moat</th></tr>
+        <tr><td>1</td><td><b>NVIDIA</b></td><td>🇺🇸</td><td>spec 자체 정의</td><td>800V monopolar reference, Vera Rubin·Kyber·Kyber Ultra 660kW</td></tr>
+        <tr><td>2</td><td><b>Delta</b></td><td>🇹🇼</td><td>Power Rack BoM 1위</td><td>110kW PSU shelf, 80kW BBU, 2.4MW In-Row CDU</td></tr>
+        <tr><td>3</td><td><b>DG Matrix</b></td><td>🇺🇸 (ABB-backed)</td><td>SST 선도 스타트업</td><td>NVIDIA MGX 유일 SST, Infineon SiC, Q2 2026 UL</td></tr>
+        <tr><td>4</td><td><b>ABB</b></td><td>🇪🇺(CH)</td><td>Incumbent</td><td>Emax 2 1500V DC, SACE Infinitus solid-state (NVIDIA 협업)</td></tr>
+        <tr><td>5</td><td><b>Eaton</b></td><td>🇺🇸</td><td>Incumbent</td><td>Resilient Power Systems 2025-08 인수</td></tr>
+        <tr><td>6</td><td><b>Wolfspeed</b></td><td>🇺🇸</td><td>핵심 반도체</td><td>10kV SiC MOSFET 2026-03 상용화, MV 정류 게이트키퍼</td></tr>
+        <tr><td>7</td><td>Infineon</td><td>🇪🇺(DE)</td><td>핵심 반도체</td><td>BBU 4kW PPC → 12kW @ 99.5%, SST용 SiC</td></tr>
+        <tr><td>8</td><td>TE Connectivity</td><td>🇺🇸</td><td>busbar</td><td>Power Rack 표준 busbar</td></tr>
+        <tr><td>9</td><td>Amperesand·Heron Power·Novos Power</td><td>🇺🇸</td><td>SST 스타트업</td><td>12개월 $320M+ 자본 유입</td></tr>
+        <tr class="kr-highlight"><td>10</td><td><b>LS ELECTRIC</b></td><td>🇰🇷</td><td>★ <b>한국 선도</b></td><td><b>UL 인증 1500V DC MCCB 최초 데이터센터용</b>, DistribuTECH 2026 DC 전력장비 전시</td></tr>
+        <tr><td>11</td><td>Hyperscaler 공저</td><td>🇺🇸</td><td>표준화</td><td>Google·Meta·MSFT·AMZN <b>OCP Diablo 400</b> (2025-05 v0.5.2)</td></tr>
+      </table>
+      <blockquote style="font-size:12.5px"><b>800VDC 차세대 architecture</b>의 한국 직접 노출: <b>LS ELECTRIC만 본문 명시</b> (SemiAnalysis 2026-05-26). DC MCCB·DC busway·SSCB 분야 초기 진입 권리 확보.</blockquote>
+
+      <h4>HVDC / 가스 터빈 / 케이블 / 액랭</h4>
+      <table>
+        <tr><th>부문</th><th>글로벌 1-3위</th><th>한국 기업</th></tr>
+        <tr><td>HVDC</td><td>Hitachi · Siemens Energy · GE Vernova · ABB</td><td><b>효성중공업·HD현대일렉트릭</b></td></tr>
+        <tr><td>가스 터빈</td><td>GE Vernova · Siemens Energy · Mitsubishi Power (3사 capa 2/3)</td><td>—</td></tr>
+        <tr><td>케이블</td><td>Prysmian · Nexans · NKT</td><td><b>LS·LS전선·대한전선</b></td></tr>
+        <tr><td>액랭</td><td>Vertiv 11.3% · Schneider 11% · Rittal·Stulz·Boyd</td><td>—</td></tr>
+      </table>
+
+      <div class="new-section">
+        <span class="badge">★ v3 신규 — SMR 4 layer 확장</span>
+        <h3 class="new">SMR (Small Modular Reactor) — 4 layer 통합 view</h3>
+        <p style="font-size:13px;color:#666">기존 분석에서 SMR을 "본체 + 사업자"로만 정의했던 부분을 4 layer로 확장. <b>한국 기업 두산에너빌리티 (글로벌 forging 5사 중 1), 현대건설 (Holtec 협력 EPC) 신규 포함</b>.</p>
+      </div>
+
+      <div class="smr-layer">
+        <span class="badge">Layer 1. SMR 본체 개발사</span>
+        <table>
+          <tr><th>#</th><th>기업</th><th>국적</th><th>특기</th></tr>
+          <tr><td>1</td><td>NuScale</td><td>🇺🇸</td><td>NRC 인허가 선두</td></tr>
+          <tr><td>2</td><td>Kairos Power</td><td>🇺🇸</td><td>Google 500 MW PPA, molten salt</td></tr>
+          <tr><td>3</td><td>X-Energy</td><td>🇺🇸</td><td>Amazon 협력, TRISO</td></tr>
+          <tr><td>4</td><td>TerraPower (Bill Gates)</td><td>🇺🇸</td><td>Natrium, sodium 냉각</td></tr>
+          <tr><td>5</td><td>Holtec</td><td>🇺🇸</td><td>SMR-300, 폴란드</td></tr>
+          <tr><td>6</td><td>Rolls-Royce SMR</td><td>🇬🇧</td><td>영국 정부 지원</td></tr>
+        </table>
+      </div>
+
+      <div class="smr-layer">
+        <span class="badge">Layer 2. 사업자·유틸리티 (PPA 직접 수혜)</span>
+        <table>
+          <tr><th>#</th><th>기업</th><th>국적</th><th>주요 거래</th></tr>
+          <tr><td>1</td><td>Constellation</td><td>🇺🇸</td><td>MSFT TMI 837 MW restart</td></tr>
+          <tr><td>2</td><td>Talen Energy</td><td>🇺🇸</td><td>AWS Susquehanna 1.92 GW</td></tr>
+          <tr><td>3</td><td>Vistra</td><td>🇺🇸</td><td>기존 원전 + SMR 통합</td></tr>
+          <tr><td>4</td><td>Energy Northwest</td><td>🇺🇸</td><td>Amazon X-Energy 협력</td></tr>
+        </table>
+      </div>
+
+      <div class="smr-layer">
+        <span class="badge">★ Layer 3. SMR 부품 OEM (forging·압력용기·증기발생기) — 신규</span>
+        <table>
+          <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+          <tr class="kr-highlight"><td>1</td><td><b>두산에너빌리티</b></td><td>🇰🇷</td><td><b>글로벌 5-6사 중 1</b></td><td><b>NuScale Power Module 핵심 forging 단독 공급, X-Energy 협력 (2024)</b>. 모든 SMR 양산이 forging capa에 의존</td></tr>
+          <tr><td>2</td><td>Japan Steel Works (JSW)</td><td>🇯🇵</td><td>글로벌 메이저</td><td>원자로 압력용기</td></tr>
+          <tr><td>3</td><td>Sheffield Forgemasters</td><td>🇬🇧</td><td>영국 메이저</td><td>Rolls-Royce SMR 협력</td></tr>
+          <tr><td>4</td><td>China First Heavy Industries</td><td>🇨🇳</td><td>중국 내수</td><td>중국 SMR</td></tr>
+          <tr><td>5</td><td>Mitsubishi Heavy Industries</td><td>🇯🇵</td><td>일본 메이저</td><td>일본 SMR</td></tr>
+        </table>
+      </div>
+
+      <div class="smr-layer">
+        <span class="badge">★ Layer 4. EPC 시공 — 신규</span>
+        <table>
+          <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
+          <tr><td>1</td><td>Bechtel</td><td>🇺🇸</td><td>글로벌 1위 EPC</td><td>NuScale·X-Energy 협력</td></tr>
+          <tr><td>2</td><td>Fluor</td><td>🇺🇸</td><td>NuScale 주요 EPC</td><td>NuScale 지분 보유</td></tr>
+          <tr><td>3</td><td>Worley</td><td>🇦🇺</td><td>글로벌 메이저</td><td>engineering</td></tr>
+          <tr class="kr-highlight"><td>4</td><td><b>현대건설</b></td><td>🇰🇷</td><td>한국+글로벌 진출</td><td><b>Holtec SMR-300 협력 (한·미·폴란드)</b>, 한국 차세대 원전</td></tr>
+          <tr><td>5</td><td>삼성E&A·대우건설·DL이앤씨</td><td>🇰🇷</td><td>한국 시장</td><td>한국 SMR EPC 후보</td></tr>
+        </table>
+      </div>
+
+      <h3>4-3. 다음 [기업 분석 모드] 우선 권장</h3>
+      <table>
+        <tr><th>우선</th><th>기업</th><th>Segment 글로벌 위치</th><th>분석 가치</th></tr>
+        <tr class="kr-highlight"><td>1</td><td><b>SK하이닉스</b></td><td>HBM #1 + DDR5 #2 + eSSD #2 (3 segment Top 2)</td><td>메모리 종합 Moat</td></tr>
+        <tr class="kr-highlight"><td>2</td><td><b>한미반도체</b></td><td>TC본더 글로벌 #1</td><td>단일 segment 1위</td></tr>
+        <tr class="kr-highlight"><td>3</td><td><b>삼성전자</b></td><td>DRAM #1 + eSSD #1 + HBM #2 + 파운드리 #2</td><td>multi-axis</td></tr>
+        <tr class="kr-highlight"><td>4</td><td><b>효성중공업</b></td><td>UHV 변압기 미국 #1 + HVDC</td><td>미국 1위</td></tr>
+        <tr class="kr-highlight"><td>5</td><td><b>HD현대일렉트릭</b></td><td>UHV 미국 15-20% + 회전기기</td><td>변압기+발전</td></tr>
+        <tr class="kr-highlight"><td>6</td><td><b>LS ELECTRIC</b></td><td>스위치기어 글로벌 7-8 + UHV</td><td>스위치기어+UHV</td></tr>
+        <tr class="kr-highlight"><td>7</td><td><b>오이솔루션</b></td><td>1.6T·ITLA 국산화</td><td>광통신</td></tr>
+        <tr class="kr-highlight"><td>8</td><td><b>두산에너빌리티</b> ★ 신규</td><td><b>SMR forging 글로벌 5사 중 1</b></td><td>NuScale·X-Energy 부품 단독</td></tr>
+        <tr class="kr-highlight"><td>9</td><td><b>현대건설</b> ★ 신규</td><td>SMR EPC Holtec 협력</td><td>한·미·폴란드 SMR 진입</td></tr>
+        <tr><td>10</td><td>NVIDIA·TSMC·Hitachi Energy·Innolight·GE Vernova</td><td>글로벌 1-2위</td><td>별도</td></tr>
+      </table>
+    </section>
+
+    <section id="s5">
+      <h2>Step 5. 시장 규모 — 16 Segment 시간축 PQ 분해 ★</h2>
+      <div class="narrative">
+        <b>v3 신구조 (피드백 #7·#8)</b>: 각 segment 별 <b>P 분기 (2Q25E~1Q26E) + P 연간 (2026E·2027E) + Q 분기 + Q 연간 + 변동 근거</b> 분리. 컴팩트 표기로 개별 기업 매출·OP 모델 추정에 직접 활용 가능.
+      </div>
+
+      <h3 class="semi">5-1. 반도체 8 Segment</h3>
+      <table class="tam-table">
+        <tr><th>#</th><th>Segment</th><th>TAM (2025→2028E)</th><th>P 4Q (2Q25E~1Q26E)</th><th>P 2Y (2026·2027)</th><th>Q 4Q</th><th>Q 2Y</th><th>근거 (P / Q)</th><th>글로벌 1-5위</th></tr>
+        <tr>
+          <td>1</td><td><b>HBM</b></td>
+          <td>$35B → $100B (CAGR 40%)</td>
+          <td class="pq">+5·+3·+2·0%</td>
+          <td class="pq">+8·0%</td>
+          <td class="pq">+10·10·8·8%</td>
+          <td class="pq">+40·30%</td>
+          <td><b>P</b>: HBM4 mix↑·신규 capa로 둔화 / <b>Q</b>: NVIDIA Rubin·hyperscaler allocation</td>
+          <td><b>SK·삼성</b>·Micron</td>
+        </tr>
+        <tr>
+          <td>2</td><td><b>레거시 DRAM (DDR5)</b></td>
+          <td>$60B → $120B+ (25%+)</td>
+          <td class="pq">+30·20·15·10%</td>
+          <td class="pq">+30·0%</td>
+          <td class="pq">+5·5·5·5%</td>
+          <td class="pq">+25·15%</td>
+          <td><b>P</b>: HBM squeeze·재고 정상화 / <b>Q</b>: AI 서버 + KV cache offload</td>
+          <td><b>삼성·SK</b>·Micron</td>
+        </tr>
+        <tr>
+          <td>3</td><td><b>eSSD</b></td>
+          <td>$25-30B → $60B+ (30%+)</td>
+          <td class="pq">+20·15·10·8%</td>
+          <td class="pq">+25·10%</td>
+          <td class="pq">+15·20·20·25%</td>
+          <td class="pq">+50·40%</td>
+          <td><b>P</b>: NAND 사이클 + AI premium / <b>Q</b>: KV cache·VectorDB·체크포인트</td>
+          <td><b>삼성·SK Group</b>·Kioxia·WD·Micron</td>
+        </tr>
+        <tr>
+          <td>4</td><td><b>추론 GPU·ASIC</b></td>
+          <td>$100B → $250B+ (30%+)</td>
+          <td class="pq">+5·+3·+3·+3%</td>
+          <td class="pq">+5·+3%</td>
+          <td class="pq">+20·25·25·20%</td>
+          <td class="pq">+35·25%</td>
+          <td><b>P</b>: Blackwell→Rubin 노드 transition / <b>Q</b>: hyperscaler capex $700B·에이전트 추론</td>
+          <td>NVIDIA·AMD·Broadcom ASIC</td>
+        </tr>
+        <tr>
+          <td>5</td><td><b>광통신</b></td>
+          <td>$16B → $35B+ (30%+)</td>
+          <td class="pq">+3·+5·+8·+10%</td>
+          <td class="pq">+15·+8%</td>
+          <td class="pq">+20·25·30·35%</td>
+          <td class="pq">+60·40%</td>
+          <td><b>P</b>: 1.6T mix↑·EML 부족 / <b>Q</b>: 800G +60%·1.6T 2026</td>
+          <td>Innolight·Eoptolink·Coherent·Lumentum·<b>오이솔루션</b></td>
+        </tr>
+        <tr>
+          <td>6</td><td><b>서버 CPU</b></td>
+          <td>$25-30B → $50B+ (15-20%)</td>
+          <td class="pq">+5·+5·+5·+5%</td>
+          <td class="pq">+10·+8%</td>
+          <td class="pq">+10·12·12·15%</td>
+          <td class="pq">+25·20%</td>
+          <td><b>P</b>: AMD EPYC premium·ARM share↑ / <b>Q</b>: AI 서버 1대당 CPU 2장</td>
+          <td>Intel·AMD·ARM (한국 ❌)</td>
+        </tr>
+        <tr>
+          <td>7</td><td><b>CoWoS·첨단 패키징</b></td>
+          <td>$5-7B → $15-20B+ (30%+)</td>
+          <td class="pq">+5·+5·+5·+5%</td>
+          <td class="pq">+10·+5%</td>
+          <td class="pq">+25·25·25·25%</td>
+          <td class="pq">+60·40%</td>
+          <td><b>P</b>: TSMC capa 부족 premium / <b>Q</b>: capa 75K→130K wafer/월</td>
+          <td>TSMC·Amkor·Intel·삼성 — <b>한미·이오 (장비)</b></td>
+        </tr>
+        <tr>
+          <td>8</td><td><b>첨단 노드 wafer</b></td>
+          <td>$50B+ → $100B+ (25%+)</td>
+          <td class="pq">+3·+3·+5·+5%</td>
+          <td class="pq">+12·+10%</td>
+          <td class="pq">+10·15·15·15%</td>
+          <td class="pq">+30·25%</td>
+          <td><b>P</b>: 노드 transition (3→2nm) +10-15% / <b>Q</b>: Apple·NVIDIA·AMD 동시 수요</td>
+          <td>TSMC·<b>삼성</b>·Intel</td>
+        </tr>
+      </table>
+
+      <h3 class="power">5-2. 전력 8 Segment</h3>
+      <table class="tam-table">
+        <tr><th>#</th><th>Segment</th><th>TAM</th><th>P 4Q (2Q25E~1Q26E)</th><th>P 2Y (2026·2027)</th><th>Q 4Q</th><th>Q 2Y</th><th>근거 (P / Q)</th><th>글로벌 1-5위</th></tr>
+        <tr>
+          <td>1</td><td><b>변압기 (UHV+일반)</b></td>
+          <td>$40B → $80B+ (12-15%)</td>
+          <td class="pq">+8·+8·+5·+5%</td>
+          <td class="pq">+15·+10%</td>
+          <td class="pq">+8·8·10·10%</td>
+          <td class="pq">+25·20%</td>
+          <td><b>P</b>: GOES·인력·lead time 128주 / <b>Q</b>: 한국 3사 capa 2배 (2027-28부터)</td>
+          <td>Hitachi·GE·Siemens·<b>효성·HD현대일렉</b></td>
+        </tr>
+        <tr>
+          <td>2</td><td><b>스위치기어·GIS</b></td>
+          <td>$50B+ → $80B+ (8-12%)</td>
+          <td class="pq">+3·+3·+3·+3%</td>
+          <td class="pq">+5·+3%</td>
+          <td class="pq">+8·10·10·12%</td>
+          <td class="pq">+18·15%</td>
+          <td><b>P</b>: 안정 / <b>Q</b>: 데이터센터 + 그리드 노후화</td>
+          <td>Schneider·Eaton·ABB·Siemens·<b>LS ELECTRIC</b></td>
+        </tr>
+        <tr>
+          <td>3</td><td><b>HVDC</b></td>
+          <td>$15B+ → $40B+ (20%+)</td>
+          <td class="pq">+5·+5·+8·+8%</td>
+          <td class="pq">+12·+10%</td>
+          <td class="pq">+15·18·20·22%</td>
+          <td class="pq">+30·25%</td>
+          <td><b>P</b>: 대규모 프로젝트 단가↑ / <b>Q</b>: 재생E 통합·해상풍력</td>
+          <td>Hitachi·Siemens·GE·ABB·<b>효성·HD</b></td>
+        </tr>
+        <tr>
+          <td>4</td><td><b>케이블 (초고압·해상)</b></td>
+          <td>$30B+ → $50B+ (12-15%)</td>
+          <td class="pq">+5·+5·+5·+8%</td>
+          <td class="pq">+10·+8%</td>
+          <td class="pq">+10·12·15·15%</td>
+          <td class="pq">+25·20%</td>
+          <td><b>P</b>: 동·해상 premium / <b>Q</b>: 해상풍력 + DC 인입</td>
+          <td>Prysmian·Nexans·NKT·<b>LS·LS전선·대한전선</b></td>
+        </tr>
+        <tr>
+          <td>5</td><td><b>UPS+ESS</b></td>
+          <td>$15+$20B → $30+$50B</td>
+          <td class="pq">UPS +2·+2·+2·+3% / ESS +5·+5·+5·+5%</td>
+          <td class="pq">UPS +5·+3% / ESS +10·+8%</td>
+          <td class="pq">UPS +12·15·15·15% / ESS +20·25·25·25%</td>
+          <td class="pq">UPS +20·15% / ESS +50·35%</td>
+          <td><b>P</b>: UPS 안정·ESS 배터리↓ premium / <b>Q</b>: DC + 재생E 통합</td>
+          <td>Schneider·Eaton·Vertiv (UPS) / LG·삼성SDI·CATL (ESS)</td>
+        </tr>
+        <tr>
+          <td>6</td><td><b>액랭</b></td>
+          <td>$5.52B → $18.79B (22.65%)</td>
+          <td class="pq">+2·+2·+3·+3%</td>
+          <td class="pq">+5·+5%</td>
+          <td class="pq">+25·30·30·30%</td>
+          <td class="pq">+60·50%</td>
+          <td><b>P</b>: 안정·CAGR premium / <b>Q</b>: GB200 130 kW rack 필수</td>
+          <td>Vertiv·Schneider·Rittal·Stulz·Boyd</td>
+        </tr>
+        <tr>
+          <td>7</td><td><b>가스 터빈</b></td>
+          <td>$50B → $80B+ (10-15%)</td>
+          <td class="pq">+8·+8·+5·+5%</td>
+          <td class="pq">+15·+10%</td>
+          <td class="pq">+15·18·20·22%</td>
+          <td class="pq">+30·25%</td>
+          <td><b>P</b>: 3사 과점·premium / <b>Q</b>: 1Q25 28 GW·capa 25-35%↑</td>
+          <td>GE·Siemens·Mitsubishi (3사 capa 2/3)</td>
+        </tr>
+        <tr>
+          <td>8</td><td><b>원자력+SMR ★ 4 layer</b></td>
+          <td>$10B+ commit → $30B+ (2035)</td>
+          <td class="pq">PPA 기반</td>
+          <td class="pq">n/a</td>
+          <td class="pq">개발사 2028+ / <b>부품 (두산) 2025-27 가시화</b></td>
+          <td class="pq">부품·EPC +25·20%</td>
+          <td><b>P</b>: PPA 고정 / <b>Q</b>: 22 GW 개발, Big Tech $10B+. <b>두산 부품 Q 2025-27 가시화</b></td>
+          <td>(본체) NuScale·Kairos·X-Energy·TerraPower·Holtec·Rolls-Royce / (사업자) Constellation·Talen·Vistra / (부품) <b>두산에너빌리티</b>·JSW·Sheffield / (EPC) Bechtel·Fluor·<b>현대건설</b></td>
+        </tr>
+      </table>
+
+      <h3>5-3. 한국 접근 가능 TAM 합산 (2028E)</h3>
+      <table>
+        <tr><th>Segment</th><th>한국 접근 TAM</th><th>주요 한국 점유</th></tr>
+        <tr><td>HBM</td><td>$50-60B</td><td>SK·삼성 합 88%</td></tr>
+        <tr><td>레거시 DRAM</td><td>$90B+</td><td>삼성·SK 합 75%</td></tr>
+        <tr><td>eSSD</td><td>$35-40B</td><td>삼성·SK Group 합 62%</td></tr>
+        <tr><td>광통신</td><td>$1-2B</td><td>오이솔루션</td></tr>
+        <tr><td>후공정 장비</td><td>$5-8B</td><td>한미·이오·HPSP</td></tr>
+        <tr><td>변압기 (북미 수출)</td><td>$12-16B</td><td>효성·HD·LS·제룡 합 15-20%</td></tr>
+        <tr><td>스위치기어</td><td>$5-8B</td><td>LS ELECTRIC</td></tr>
+        <tr><td>HVDC</td><td>$2-4B</td><td>효성·HD</td></tr>
+        <tr><td>케이블</td><td>$5-7B</td><td>LS·대한</td></tr>
+        <tr><td>ESS</td><td>$5-7B</td><td>LG에너지·삼성SDI 일부</td></tr>
+        <tr class="kr-highlight"><td><b>SMR forging ★ 신규</b></td><td><b>$3-5B</b></td><td><b>두산에너빌리티 (글로벌 5사 중 1, 점유 20%+ 추정)</b></td></tr>
+        <tr class="kr-highlight"><td><b>SMR EPC ★ 신규</b></td><td><b>$2-4B</b></td><td><b>현대건설·삼성E&A</b></td></tr>
+        <tr class="bottleneck-A"><td><b>합계</b></td><td><b>$215-260B+</b></td><td>한국 실제 점유 <b>$95-115B+</b> (10-15%)</td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>Step 6. 산업 유형 + 주도 섹터 가능성</h2>
+      <table>
+        <tr><th>항목</th><th>결론</th></tr>
+        <tr><td>산업 유형</td><td><b>메가 트렌드</b> (AI 슈퍼사이클 2단)</td></tr>
+        <tr><td>단계</td><td>초기-중기 (2024-25 narrative → 2026-2030+ Q 폭발)</td></tr>
+        <tr><td>글로벌 트렌드 관통 + 한국 Moat</td><td>★★★ — 16 segment 중 <b>9 segment 한국 글로벌 Top 5</b> (SMR 부품 추가)</td></tr>
+        <tr class="bottleneck-A"><td><b>주도 섹터 가능성</b></td><td><span class="star">★★★ 매우 높음</span></td></tr>
+      </table>
+    </section>
+
+    <section id="s7">
+      <h2>Step 7. 리스크 팩터</h2>
+      <table>
+        <tr><th>리스크</th><th>확률</th><th>임팩트</th><th>시그널</th></tr>
+        <tr><td>에이전트 narrative 약화</td><td>25%</td><td>매우 큼</td><td>Anthropic·OpenAI ARR 정체</td></tr>
+        <tr><td>AI capex 변곡점</td><td>25%</td><td>큼 (12-18개월 침체)</td><td>hyperscaler capex 가이던스 하향</td></tr>
+        <tr><td>추론 효율 급격 개선</td><td>50% (진행)</td><td>양면</td><td>2027-28 변곡점</td></tr>
+        <tr><td><b>메모리 가격 reset</b></td><td>20%</td><td>큼</td><td>DRAM YoY 둔화</td></tr>
+        <tr><td>미·중 디커플링 강화</td><td>30%</td><td>중</td><td>추가 수출규제</td></tr>
+        <tr><td><b>광통신 CPO 빠른 채택</b></td><td>30%</td><td>중</td><td>NVIDIA CPO 전환</td></tr>
+        <tr><td>변압기·가스터빈 capa 글로벌 경쟁</td><td>15%</td><td>중 (5-7년 후)</td><td>인도·동남아 진입</td></tr>
+        <tr><td>원자력 정치 risk (SMR 인허가)</td><td>20%</td><td>중</td><td>NRC·정부 지연</td></tr>
+        <tr><td>에이전트 안전성 사고</td><td>30%</td><td>중-큼</td><td>대규모 사고</td></tr>
+      </table>
+    </section>
+
+    <section id="s8">
+      <h2>Step 8. 트래킹 지표 + 모멘텀 이벤트</h2>
+      <div class="twocol">
+        <div>
+          <h4>수요 측</h4>
+          <ul>
+            <li>Anthropic·OpenAI API 매출 (분기)</li>
+            <li>Cursor·Devin·Manus ARR</li>
+            <li>Token consumption per agent (Stanford)</li>
+            <li>GitHub Copilot·Cursor 활성 사용자</li>
+          </ul>
+          <h4>반도체 측</h4>
+          <ul>
+            <li>NVIDIA 데이터센터 segment, Blackwell allocation</li>
+            <li>TSMC CoWoS capa expansion</li>
+            <li>HBM 가격 (TrendForce)</li>
+            <li><b>DDR5 server 가격 (DRAMeXchange)</b> ★</li>
+            <li><b>eSSD Top 5 분기 매출 (TrendForce)</b> ★</li>
+            <li><b>800G/1.6T shipment (Cignal AI)</b> ★</li>
+            <li><b>서버 CPU 점유 (Mercury Research)</b> ★</li>
+          </ul>
+        </div>
+        <div>
+          <h4>전력 측</h4>
+          <ul>
+            <li>변압기 lead time (Powermag·Nikkei)</li>
+            <li>한국 변압기 3사 분기 수주·수주잔고</li>
+            <li><b>가스터빈 3사 신규 주문 (GE·Siemens·Mitsubishi)</b> ★</li>
+            <li>SMR 신규 PPA</li>
+            <li><b>두산에너빌리티 SMR 부품 수주</b> ★ 신규</li>
+            <li><b>현대건설 Holtec 협력 진행</b> ★ 신규</li>
+            <li>IEA 데이터센터 전력 / hyperscaler capex</li>
+          </ul>
+          <h4>상방·하방</h4>
+          <ul>
+            <li><b>상방</b>: 에이전트 ARR hockey stick / SMR mega deal / 가스터빈 mega 계약 / HBM4 양산 + 가격 +30% / DDR5 추가 인상 / 한국 변압기 수주잔고 50조 / 1.6T 본격 양산 / <b>두산 SMR forging mega 계약 ★</b></li>
+            <li><b>하방</b>: 모델 plateau / NVIDIA 가이던스 하향 / hyperscaler capex 하향 / 효율 너무 빨라 수요 reset / 메모리 가격 둔화 / SMR 인허가 지연</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="appx">
+      <h2>부록 — Cross-Reference & 출처</h2>
+      <div class="twocol">
+        <div>
+          <h4>Cross-Reference</h4>
+          <table>
+            <tr><th>방향</th><th>참조</th></tr>
+            <tr><td>Step 0 자동</td><td>반도체_산업기초.md ✓ / 전력 인프라_산업기초.md ✓</td></tr>
+            <tr><td>다음 단계</td><td>[기업 분석 모드] 우선 9개 (SK하이닉스·한미·삼성·효성·HD·LS·오이솔루션·<b>두산에너빌리티·현대건설</b>)</td></tr>
+            <tr><td>형제자매</td><td>HBM·온디바이스AI·추론최적화·AI데이터센터전력</td></tr>
+            <tr><td>통합 모드</td><td>기업 분석 N개 완료 후 [테마 분석 통합 모드]</td></tr>
+          </table>
+        </div>
+        <div>
+          <h4>주요 출처</h4>
+          <ul>
+            <li>Stanford Digital Economy Lab — 에이전트 토큰</li>
+            <li>TrendForce, Counterpoint — HBM·DDR5·eSSD</li>
+            <li>Cignal AI — 광통신</li>
+            <li>Mercury Research, Hardware Times — CPU</li>
+            <li>IEA "Energy and AI" 2025</li>
+            <li>Powermag, Nikkei — 변압기</li>
+            <li>GE Vernova 8-K, Siemens Energy IR — 가스터빈</li>
+            <li>Talen 8-K, Constellation·Kairos PR — SMR</li>
+            <li><b>두산에너빌리티 IR·X-Energy 협력</b>, <b>현대건설·Holtec PR</b></li>
+            <li>Mordor Intelligence, GMInsights — 액랭</li>
+            <li>Korea Times, Seoul Economic Daily, KED — 한국 3사</li>
+            <li>전자신문, 뉴시스, 메리츠 — 오이솔루션</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <b>v4 변경사항</b>: ★ 800VDC 전환 (HVDC Power Rack·SST·SSCB·DC busway) 신규 segment 추가 — SemiAnalysis 2026-05-26 Part 1 기반. LS ELECTRIC narrative 재평가 (DC 분야 한국 선도, UL 1500V DC MCCB 최초). 17 segment 중 한국 글로벌 Top 5 = 10개 (v3 9개 → +1). v1-v3 변경: (5) 카테고리 풀이 일괄 강화 / (6) HTML 4-3 중복 제거 / (7) Step 5 시간축 PQ (4Q+2Y) / (8) P·Q 변동 근거 컴팩트 / (9) SMR 4 layer 확장 (두산·현대건설 포함)<br/>
+      theme_keyword: <b>에이전트AI</b> · bottleneck_category: <b>(A) 구조적 메가 병목 + (D) 동반 확대 hybrid</b> · last_updated: <b>2026-05-26</b>
+    </div>
+  </main>
+</div>
+
+<script>
+const ACC='#1f3a68', ACC2='#a8843f', KR='#2ca02c', US='#1f77b4', TW='#d62728', JP='#9467bd', CN='#cc0033', SEMI='#76b900', POW='#ff7f0e', RD='#b03030';
+Chart.defaults.font.family='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+Chart.defaults.font.size=11;
+Chart.defaults.color='#333';
+
+new Chart(document.getElementById('tokenChart'),{type:'bar',data:{labels:['단순 chat','에이전트 (단순)','에이전트 (코딩)'],datasets:[{label:'토큰 사용량 (chat=1)',data:[1,25,750],backgroundColor:[ACC,POW,RD]}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{type:'logarithmic',title:{display:true,text:'배수 (log)'}}}}});
+
+new Chart(document.getElementById('hbmChart'),{type:'doughnut',data:{labels:['SK하이닉스 53%','삼성 35%','Micron 11%'],datasets:[{data:[53,35,11],backgroundColor:[KR,'#3d6abf','#cc7a3a']}]},options:{plugins:{legend:{position:'right'}}}});
+
+new Chart(document.getElementById('ddr5Chart'),{type:'line',data:{labels:['2025-01','2025-04','2025-09','2025-12','2026-03E','2026-06E'],datasets:[{label:'Samsung 32GB DDR5 ($)',data:[149,165,239,290,348,400],borderColor:RD,backgroundColor:RD+'20',tension:0.3,fill:'origin'},{label:'DRAM index (2025-01=100)',data:[100,115,150,165,190,210],borderColor:POW,tension:0.3,borderDash:[5,5]}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'$ / Index'}}}}});
+
+new Chart(document.getElementById('essdChart'),{type:'bar',data:{labels:['Q1 2025','Q2','Q3','Q4'],datasets:[{label:'eSSD Top 5 매출 ($B)',data:[3.8,4.6,6.54,9.8],backgroundColor:['#aac1d8','#aac1d8',SEMI,RD]}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'USD Billion'}}}}});
+
+new Chart(document.getElementById('opticalChart'),{type:'line',data:{labels:['2024','2025','2026E','2027E','2028E'],datasets:[{label:'Datacom TAM ($B)',data:[10,16,22,28,35],borderColor:POW,backgroundColor:POW+'30',tension:0.3,fill:'origin'},{label:'800G (M units)',data:[2,3.2,4.5,6,8],borderColor:US,tension:0.3,yAxisID:'y2'},{label:'1.6T (M units)',data:[0,0.1,1,3,6],borderColor:RD,tension:0.3,yAxisID:'y2'}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'USD Billion'}},y2:{position:'right',title:{display:true,text:'M units'},grid:{drawOnChartArea:false}}}}});
+
+new Chart(document.getElementById('emlChart'),{type:'doughnut',data:{labels:['Lumentum 55%','Coherent 25%','기타 20%'],datasets:[{data:[55,25,20],backgroundColor:[RD,POW,'#aaa']}]},options:{plugins:{legend:{position:'right'}}}});
+
+new Chart(document.getElementById('cpuChart'),{type:'bar',data:{labels:['Q3 2023','Q4 2023','Q3 2024','Q3 2025','Q4 2025'],datasets:[{label:'Intel Xeon (%)',data:[82,80,78,72.2,71],backgroundColor:'#aac1d8'},{label:'AMD EPYC (%)',data:[18,20,22,27.8,28.8],backgroundColor:RD},{label:'ARM (%)',data:[6,8,10,12,14],backgroundColor:SEMI}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'%'}}}}});
+
+new Chart(document.getElementById('blackwellChart'),{type:'bar',data:{labels:['Hopper H100','Blackwell B200','+ NVFP4','Blackwell Ultra B300','Rubin (2026)'],datasets:[{label:'Cost per M tokens ($)',data:[0.20,0.10,0.05,0.02,0.005],backgroundColor:[RD,POW,POW,SEMI,'#5a8c00']}]},options:{plugins:{legend:{display:false}},scales:{y:{type:'logarithmic',title:{display:true,text:'$ (log)'}}}}});
+
+new Chart(document.getElementById('cowosChart'),{type:'bar',data:{labels:['2024 말','2025','2026E'],datasets:[{label:'CoWoS Capa (K wafer/월)',data:[38,75,130],backgroundColor:['#aac1d8',SEMI,'#5a8c00']}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'K wafer/월'}}}}});
+
+new Chart(document.getElementById('ieaChart'),{type:'line',data:{labels:['2024','2025','2027E','2030E','2035E'],datasets:[{label:'글로벌 DC (TWh)',data:[460,485,650,950,1193],borderColor:POW,backgroundColor:POW+'30',tension:0.3,fill:'origin'},{label:'AI DC',data:[100,150,300,600,800],borderColor:RD,backgroundColor:RD+'20',tension:0.3,fill:'-1'}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'TWh'}}}}});
+
+new Chart(document.getElementById('trafoLead'),{type:'bar',data:{labels:['2019','2021','2023','2025','2027E','2030E'],datasets:[{label:'변압기 lead time (주)',data:[24,48,80,128,100,60],backgroundColor:['#aac1d8','#aac1d8',POW,RD,POW,SEMI]}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'주'}}}}});
+
+new Chart(document.getElementById('gasturbineChart'),{type:'bar',data:{labels:['GE Vernova','Siemens (YTD)','Mitsubishi'],datasets:[{label:'1Q25 신규 주문 (GW)',data:[7,14,7],backgroundColor:[US,JP,RD]}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'GW'}}}}});
+
+new Chart(document.getElementById('smrChart'),{type:'bar',data:{labels:['Amazon-Talen','Amazon-Energy NW','Microsoft-Constellation','Google-Kairos'],datasets:[{label:'committed MW',data:[1920,960,837,500],backgroundColor:[US,US,KR,RD]}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'MW'}}}}});
+
+
+new Chart(document.getElementById('liquidCool'),{type:'line',data:{labels:['2025','2026','2028','2029','2031'],datasets:[{label:'액랭 시장 ($B)',data:[5.52,7.2,11.5,14.0,18.79],borderColor:SEMI,backgroundColor:SEMI+'30',tension:0.3,fill:'origin'}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'USD Billion'}}}}});
+</script>
+</body>
+</html>
