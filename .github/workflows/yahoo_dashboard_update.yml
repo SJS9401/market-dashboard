@@ -1,0 +1,69 @@
+# Yahoo Dashboard Cache Update (CORS proxy 의존성 제거)
+# ----------------------------------------------------------
+# dashboard.html 가 야후에서 직접 fetch 하던 12개 symbol 을
+# GitHub Actions 가 매일 yfinance 로 fetch → data/yahoo_dashboard.json commit.
+# dashboard.html getData() 는 JSON cache 우선, fail 시 야후/proxy fallback.
+#
+# 사고 배경 (2026-05-27):
+#   - 야후 query1.finance.yahoo.com 가 sjs9401.github.io origin 에 503 차단
+#   - corsproxy.io / api.allorigins.win 도 fragile (오늘 다운, 내일 부활)
+#   - 사이트 카드 로딩 멈춤 사고 재발 방지
+#
+# 스케줄 (us_breadth_update 와 동일 패턴):
+#   - 21:30 UTC = 한국 06:30 (1차)
+#   - 22:30 UTC = 한국 07:30 (2차 — 1차 fail retry)
+#   - 02:30 UTC = 한국 11:30 (3차 안전망)
+#   - workflow_dispatch: 수동 실행
+# ----------------------------------------------------------
+
+name: Yahoo Dashboard Update
+
+on:
+  schedule:
+    - cron: '30 21 * * *'   # 06:30 KST — 1차
+    - cron: '30 22 * * *'   # 07:30 KST — 2차
+    - cron: '30 2 * * *'    # 11:30 KST — 3차 안전망
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yahoo-dashboard-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas
+
+      - name: Fetch yahoo data
+        run: |
+          python yahoo_dashboard_backfill.py
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/yahoo_dashboard.json)" ]; then
+            git add data/yahoo_dashboard.json
+            git commit -m "chore(data): yahoo_dashboard.json 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+            echo "committed"
+          else
+            echo "no changes"
+          fi

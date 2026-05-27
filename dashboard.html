@@ -258,8 +258,30 @@ async function fetchJSON(url){
   }catch(e){clearTimeout(tid);throw new Error('fetch failed')}
 }
 
+// ── Yahoo Dashboard Cache (GitHub Actions daily commit, CORS-free) ──
+// 2026-05-27: 야후 query1 가 sjs9401.github.io origin 503 차단 사고 후 신설.
+// GitHub Actions (yahoo_dashboard_update.yml) 가 매일 yfinance 로 fetch → data/yahoo_dashboard.json
+// dashboard 는 이 JSON 우선 사용. 없거나 stale 한 symbol 만 야후/proxy fallback.
+let _yahooCacheJson = null;
+async function fetchYahooCache(){
+  if (_yahooCacheJson !== null) return _yahooCacheJson;
+  try{
+    const r = await fetch('./data/yahoo_dashboard.json?_t=' + Date.now());
+    if (!r.ok) throw 0;
+    _yahooCacheJson = await r.json();
+  }catch(e){ _yahooCacheJson = {data:{}}; }
+  return _yahooCacheJson;
+}
+
 // ── Yahoo Finance ──
 async function getData(sym,range){
+  // 1) Self-hosted JSON cache 먼저 시도 (no CORS, instant)
+  const cache = await fetchYahooCache();
+  if (cache.data && cache.data[sym] && Array.isArray(cache.data[sym].candles) && cache.data[sym].candles.length > 0) {
+    const rec = cache.data[sym];
+    return { candles: rec.candles, price: rec.price, prev: rec.prev };
+  }
+  // 2) Fallback: 야후 직접 + CORS proxy race (fetchJSON)
   const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=1d&includePrePost=false&_t=${Date.now()}`;
   const json=await fetchJSON(url);const res=json.chart.result[0];
   const ts=res.timestamp,q=res.indicators.quote[0],m=res.meta;const candles=[];
