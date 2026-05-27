@@ -1991,8 +1991,9 @@ const INDICATOR_JSONS = [
   { url: './data/kr_putcall.json',       field: 'generated_at' },
 ];
 // 모든 KST cron times sorted — 다음 가까운 trigger 까지 카운트다운.
+// (yml 변경 시 sync 필요. 현재 us_breadth + yahoo_dashboard 가 06:00 추가 — 2026-05-28)
 const INDICATOR_CRON_KST = [
-  { h: 6,  m: 30 }, { h: 7,  m: 30 }, { h: 9,  m: 35 },
+  { h: 6,  m: 0  }, { h: 6,  m: 30 }, { h: 7,  m: 30 }, { h: 9,  m: 35 },
   { h: 11, m: 30 }, { h: 12, m: 5  }, { h: 19, m: 0  },
   { h: 20, m: 0  }, { h: 22, m: 0  }, { h: 22, m: 30 },
 ];

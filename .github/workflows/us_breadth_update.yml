@@ -23,9 +23,10 @@ name: US Breadth Update
 
 on:
   schedule:
-    - cron: '30 21 * * *'   # 06:30 KST — 1차 (BT 데일리 프리뷰 07:20 직전)
-    - cron: '30 22 * * *'   # 07:30 KST — 2차 (1차 fail retry)
-    - cron: '30 2 * * *'    # 11:30 KST — 3차 안전망
+    - cron: '0 21 * * *'    # 06:00 KST — 1차 (BT 데일리 프리뷰 07:10~15 시작 전 안정적 갱신, 2026-05-28 추가)
+    - cron: '30 21 * * *'   # 06:30 KST — 2차 (기존 1차, 1차 fail retry)
+    - cron: '30 22 * * *'   # 07:30 KST — 3차 (1·2차 모두 fail 시 후행 보완)
+    - cron: '30 2 * * *'    # 11:30 KST — 4차 안전망
   workflow_dispatch:        # 수동 실행
 
 permissions:

@@ -183,20 +183,14 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-05-27 (자동 실행)**
-
-### 5월
-
-| 날짜 | 종목명(티커) | 산업 | 비고 |
-|------|------------|------|------|
-| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC, Q1 FY2027 — 컨센 매출 $2.40B / non-GAAP EPS $0.79, AWS 트레이니움·MS Maia ASIC, 광통신 사이클 (확정, TipRanks·MarketBeat 일치) |
+> **최종 갱신: 2026-05-28 (자동 실행)**
 
 ### 6월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (확정, Broadcom 공식 발표, 2:00 PM PT / 5:00 PM ET 컨퍼런스콜) |
-| 6/10 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 (MarketBeat·marketchameleon·public.com 다수 소스 일치, 공식 8-K 미확인 — 재확인 권장) |
+| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 컨센 매출 $22.08B / AI 수익 ~$10.7B, 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (확정, Broadcom 공식 발표, 2:00 PM PT / 5:00 PM ET 컨퍼런스콜) |
+| 6/16 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 — 가이던스 매출 +18~20% CC·비GAAP EPS $1.96~2.00, FY27 가이던스 $90B 상향 (확정, Zacks·Nasdaq·MarketBeat·WallStreetZen 다수 소스 일치, 6/10→6/16 정정) |
 
 ### 7월
 
@@ -283,6 +277,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC 발표 완료 (Q1 FY2027, 매출 $2.418B +28% YoY beat vs 컨센 $2.41B, non-GAAP EPS $0.80 beat vs $0.75, Q2 가이던스 ~$2.7B +35% YoY, FY2027 매출 ~$11B·FY2028 ~$15B 상향, AWS 트레이니움·MS Maia ASIC, 광통신 사이클) |
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC 발표 완료 (Q1 FY2027, 매출 $81.6B +85.2% YoY beat vs 컨센 $80.4B, EPS $2.39 +214.5% YoY beat vs $1.79, Data Center $75.2B +100% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회) |
 | (5월중) | SK증권 | 금융 | 1Q26 실적 — FnGuide 미등재, 정확한 발표일 미확인 (과거 패턴 추정 기간 경과) |
 | 5/14 | Applied Materials (AMAT) | 반도체-소부장 | Q2 FY2026 발표 완료 (AMC, 매출 $7.91B +11.4% YoY 사상최고, GAAP EPS $3.51 vs 컨센 $2.71 대폭 비트, Q3 가이던스 $8.95B, 배당 +15% 9년 연속 인상, 주가 강세) |

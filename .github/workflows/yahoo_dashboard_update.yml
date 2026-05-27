@@ -20,9 +20,10 @@ name: Yahoo Dashboard Update
 
 on:
   schedule:
-    - cron: '30 21 * * *'   # 06:30 KST — 1차
-    - cron: '30 22 * * *'   # 07:30 KST — 2차
-    - cron: '30 2 * * *'    # 11:30 KST — 3차 안전망
+    - cron: '0 21 * * *'    # 06:00 KST — 1차 (BT 데일리 프리뷰 07:10~15 직전 안정 갱신, 2026-05-28 추가)
+    - cron: '30 21 * * *'   # 06:30 KST — 2차 (기존 1차)
+    - cron: '30 22 * * *'   # 07:30 KST — 3차
+    - cron: '30 2 * * *'    # 11:30 KST — 4차 안전망
   workflow_dispatch:
 
 permissions:
