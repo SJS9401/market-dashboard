@@ -355,7 +355,12 @@ function isOnGraphic(id, time, mouseY) {
   const data = chartDataMap[id][time];
   if (data == null) return false;
 
-  const pad = 4;
+  // 2026-05-27 옵션 D — tooltip 풀림 방지 UX 강화.
+  // subscribeCrosshairMove 가 호출된 시점 = 마우스가 차트 영역 안 + param.time 유효
+  // → chart container 안에서 Y 가 약간 벗어나도 sticky 한 hover 유지.
+  // chart container 높이의 30% 까지 hit area 확장 — 마우스 hover 안정성 우선.
+  const chartH = (ci.el && ci.el.clientHeight) ? ci.el.clientHeight : 200;
+  const pad = Math.max(20, chartH * 0.3);
 
   // ── Candlestick branch ──
   if (data.high != null && data.low != null && ci.series) {
@@ -380,8 +385,8 @@ function isOnGraphic(id, time, mouseY) {
   }
   if (values.length === 0) return false;
 
-  // (1) Narrow line-tolerance band around each value Y
-  const tolPx = 14;
+  // (1) Narrow line-tolerance band around each value Y — pad 와 동일하게 확장
+  const tolPx = pad;
   for (const v of values) {
     try {
       const y = series.priceToCoordinate(v);
@@ -522,7 +527,11 @@ function createChart(id, col, opts = {}) {
           try {
             allCharts[cid].series.setMarkers([{
               time: param.time,
-              position: 'inBar',
+              // 'aboveBar': 가격축 영향 없음. 'inBar' 사용 시 lightweight-charts 가
+              // area series 의 baseline(0) 까지 priceScale 자동 확장 → 캔들 압축 →
+              // 마우스 약간만 움직여도 hit area 벗어나 툴팁 풀리는 사고 회피
+              // (2026-05-27 옵션 A). X축 정렬 검증 anchor 역할은 그대로 유지.
+              position: 'aboveBar',
               color: 'rgb(210,175,100)',
               shape: 'circle',
               size: 0.5
