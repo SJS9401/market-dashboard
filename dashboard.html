@@ -45,6 +45,10 @@
   .bar-count input:focus { border-color: #58a6ff; }
   .bar-count span { font-size: 10px; color: #8b949e; }
   .refresh-timer { font-size: 11px; color: #8b949e; background: #21262d; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+  .refresh-timer .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 6px; vertical-align: middle; }
+  .refresh-timer .dot.ok    { background: #3fb950; }  /* 24h 이내 — 정상 */
+  .refresh-timer .dot.warn  { background: #d29922; }  /* 24~48h — 주의 */
+  .refresh-timer .dot.stale { background: #f85149; }  /* 48h+ — cron fail 의심 */
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .series-toggle { display: flex; gap: 2px; margin-left: auto; }
@@ -118,7 +122,7 @@
 <body>
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
-<div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer">갱신 15:00</span><div class="time" id="clock"></div></div></div>
+<div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
 <div class="main">
   <!-- LEFT: 한국 -->
   <div class="col" id="col-kr">
@@ -1968,9 +1972,89 @@ setInterval(() => {
     return;
   }
   lastRefreshSlot = curSlot;
-  const m = Math.floor(secsLeft / 60), s = secsLeft % 60;
-  if (timerEl) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  // 형식: 차트 hh:mm:ss 후 (2026-05-27 변경)
+  const h = Math.floor(secsLeft / 3600);
+  const m = Math.floor((secsLeft % 3600) / 60);
+  const s = secsLeft % 60;
+  if (timerEl) timerEl.textContent = `차트 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} 후`;
 }, 1000);
+
+// ── 지표 갱신 카운트다운 + 색상 코드 (2026-05-27 신설) ──
+// 시장폭 데이터 며칠 안 갱신 사고 인지용 health monitor.
+// 가장 stale 한 JSON 의 last update 기준 색상 + 다음 KST cron 까지 카운트다운.
+const INDICATOR_JSONS = [
+  { url: './data/us_breadth.json',       field: 'meta.updated' },
+  { url: './data/yahoo_dashboard.json',  field: 'meta.updated' },
+  { url: './data/kr_breadth.json',       field: 'generated_at' },
+  { url: './data/kr_export.json',        field: 'generated_at' },
+  { url: './data/kr_vkospi.json',        field: 'generated_at' },
+  { url: './data/kr_putcall.json',       field: 'generated_at' },
+];
+// 모든 KST cron times sorted — 다음 가까운 trigger 까지 카운트다운.
+const INDICATOR_CRON_KST = [
+  { h: 6,  m: 30 }, { h: 7,  m: 30 }, { h: 9,  m: 35 },
+  { h: 11, m: 30 }, { h: 12, m: 5  }, { h: 19, m: 0  },
+  { h: 20, m: 0  }, { h: 22, m: 0  }, { h: 22, m: 30 },
+];
+let _indicatorOldest = null;
+async function fetchIndicatorMeta() {
+  let oldest = null;
+  for (const item of INDICATOR_JSONS) {
+    try {
+      const r = await fetch(item.url + '?_t=' + Date.now());
+      if (!r.ok) continue;
+      const d = await r.json();
+      const value = item.field === 'meta.updated' ? (d.meta && d.meta.updated) : d[item.field];
+      if (!value) continue;
+      const t = new Date(value);
+      if (isNaN(t.getTime())) continue;
+      if (!oldest || t < oldest) oldest = t;
+    } catch(_) {}
+  }
+  _indicatorOldest = oldest;
+}
+function getNextIndicatorCronSecsLeft() {
+  const now = new Date();
+  const curH = now.getHours(), curM = now.getMinutes();
+  for (const t of INDICATOR_CRON_KST) {
+    if (t.h > curH || (t.h === curH && t.m > curM)) {
+      const target = new Date(now); target.setHours(t.h, t.m, 0, 0);
+      return Math.max(0, Math.floor((target - now) / 1000));
+    }
+  }
+  const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(INDICATOR_CRON_KST[0].h, INDICATOR_CRON_KST[0].m, 0, 0);
+  return Math.max(0, Math.floor((tomorrow - now) / 1000));
+}
+function getIndicatorDotClass() {
+  if (!_indicatorOldest) return 'warn';
+  const ageHours = (Date.now() - _indicatorOldest.getTime()) / (3600 * 1000);
+  if (ageHours <= 24) return 'ok';
+  if (ageHours <= 48) return 'warn';
+  return 'stale';
+}
+setInterval(() => {
+  const dataEl = document.getElementById('refresh-timer-data');
+  if (!dataEl) return;
+  const secsLeft = getNextIndicatorCronSecsLeft();
+  const h = Math.floor(secsLeft / 3600);
+  const m = Math.floor((secsLeft % 3600) / 60);
+  const s = secsLeft % 60;
+  const dotClass = getIndicatorDotClass();
+  const dotEl = dataEl.querySelector('.dot');
+  if (dotEl) {
+    dotEl.classList.remove('ok','warn','stale');
+    dotEl.classList.add(dotClass);
+  }
+  const text = `지표 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} 후 `;
+  if (dataEl.firstChild && dataEl.firstChild.nodeType === Node.TEXT_NODE) {
+    dataEl.firstChild.nodeValue = text;
+  } else {
+    dataEl.insertBefore(document.createTextNode(text), dataEl.firstChild);
+  }
+}, 1000);
+fetchIndicatorMeta();
+setInterval(fetchIndicatorMeta, 5 * 60 * 1000);
 
 // ── INIT ──
 window.addEventListener('load',()=>{
@@ -1985,4 +2069,3 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                
