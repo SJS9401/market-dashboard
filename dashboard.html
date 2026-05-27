@@ -325,10 +325,12 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  // minimumWidth 50: matches label width (~45-50px for 8000.00, 26000.00). If labels grow longer
-  // (e.g. 6-digit prices), lightweight-charts auto-expands -- this is a minimum, not a fixed cap.
-  // Result: right padding inside price-scale matches left padding (~14px) of MA legend.
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:50},
+  // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
+  // - 50 이면 라벨 짧은 차트 (MDD -1.68, ADR 67.62) 가 50px, 라벨 긴 차트 (나스닥 26589.73) 가 자동 확장 → plot area width 다름 → marker 의 같은 time index 라도 X 픽셀 misalign.
+  // - 60 으로 키워 가장 긴 라벨 (26589.73 = 8자, ~55px) 도 자동 확장 없이 fit → 모든 차트 same priceScale width → X 정렬 일치.
+  // scaleMargins.top 0.12 (2026-05-27): 캔들 위 12% 공간 확보. setMarkers([{position:'aboveBar'}]) 시
+  // lightweight-charts 가 marker 공간 위해 priceScale 자동 확장하던 사고 회피 — marker 가 미리 확보된 margin 안에 들어감.
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
   handleScale:false,handleScroll:false
 });
 
