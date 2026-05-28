@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마켓 대시보드</title>
 <!-- 브라우저 cache 영구 차단 (2026-05-28). GitHub Pages max-age=600 override.
-     매 새로고침 시 fresh download. JSON/JS 자산은 별도라 영향 작음. -->
+     dashboard.html 매 새로고침 시 fresh download. JSON/JS 자산은 별도라 영향 작음. -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -50,6 +50,10 @@
   .bar-count input:focus { border-color: #58a6ff; }
   .bar-count span { font-size: 10px; color: #8b949e; }
   .refresh-timer { font-size: 11px; color: #8b949e; background: #21262d; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+  .refresh-timer .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 6px; vertical-align: middle; }
+  .refresh-timer .dot.ok    { background: #3fb950; }  /* 24h 이내 — 정상 */
+  .refresh-timer .dot.warn  { background: #d29922; }  /* 24~48h — 주의 */
+  .refresh-timer .dot.stale { background: #f85149; }  /* 48h+ — cron fail 의심 */
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .series-toggle { display: flex; gap: 2px; margin-left: auto; }
@@ -123,7 +127,7 @@
 <body>
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
-<div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer">갱신 15:00</span><div class="time" id="clock"></div></div></div>
+<div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
 <div class="main">
   <!-- LEFT: 한국 -->
   <div class="col" id="col-kr">
@@ -246,8 +250,16 @@
 (function tick(){const d=new Date(),f=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=`${d.getFullYear()}.${f(d.getMonth()+1)}.${f(d.getDate())} ${f(d.getHours())}:${f(d.getMinutes())}:${f(d.getSeconds())}`;setTimeout(tick,1000)})();
 
 // ── CORS fetch — parallel race with timeout ──
+// 2026-05-27: api.allorigins.win 500/522 fail + 야후 직접 CORS block 다수 발생.
+// codetabs + corsproxy.org 추가하여 4-tier race (야후 + 4 proxy = 총 5 endpoint).
 async function fetchJSON(url){
-  const urls=[url,'https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)];
+  const urls=[
+    url,
+    'https://corsproxy.io/?'+encodeURIComponent(url),
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(url),
+    'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(url),
+    'https://corsproxy.org/?'+encodeURIComponent(url)
+  ];
   const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),15000);
   try{
     const result=await Promise.any(urls.map(async u=>{const r=await fetch(u,{signal:ctrl.signal});if(!r.ok)throw 0;return r.json()}));
@@ -255,8 +267,30 @@ async function fetchJSON(url){
   }catch(e){clearTimeout(tid);throw new Error('fetch failed')}
 }
 
+// ── Yahoo Dashboard Cache (GitHub Actions daily commit, CORS-free) ──
+// 2026-05-27: 야후 query1 가 sjs9401.github.io origin 503 차단 사고 후 신설.
+// GitHub Actions (yahoo_dashboard_update.yml) 가 매일 yfinance 로 fetch → data/yahoo_dashboard.json
+// dashboard 는 이 JSON 우선 사용. 없거나 stale 한 symbol 만 야후/proxy fallback.
+let _yahooCacheJson = null;
+async function fetchYahooCache(){
+  if (_yahooCacheJson !== null) return _yahooCacheJson;
+  try{
+    const r = await fetch('./data/yahoo_dashboard.json?_t=' + Date.now());
+    if (!r.ok) throw 0;
+    _yahooCacheJson = await r.json();
+  }catch(e){ _yahooCacheJson = {data:{}}; }
+  return _yahooCacheJson;
+}
+
 // ── Yahoo Finance ──
 async function getData(sym,range){
+  // 1) Self-hosted JSON cache 먼저 시도 (no CORS, instant)
+  const cache = await fetchYahooCache();
+  if (cache.data && cache.data[sym] && Array.isArray(cache.data[sym].candles) && cache.data[sym].candles.length > 0) {
+    const rec = cache.data[sym];
+    return { candles: rec.candles, price: rec.price, prev: rec.prev };
+  }
+  // 2) Fallback: 야후 직접 + CORS proxy race (fetchJSON)
   const url=`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${range}&interval=1d&includePrePost=false&_t=${Date.now()}`;
   const json=await fetchJSON(url);const res=json.chart.result[0];
   const ts=res.timestamp,q=res.indicators.quote[0],m=res.meta;const candles=[];
@@ -300,10 +334,12 @@ const CHART_OPTS = (bg='#161b22') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
   grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
-  // minimumWidth 50: matches label width (~45-50px for 8000.00, 26000.00). If labels grow longer
-  // (e.g. 6-digit prices), lightweight-charts auto-expands -- this is a minimum, not a fixed cap.
-  // Result: right padding inside price-scale matches left padding (~14px) of MA legend.
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:50},
+  // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
+  // - 50 이면 라벨 짧은 차트 (MDD -1.68, ADR 67.62) 가 50px, 라벨 긴 차트 (나스닥 26589.73) 가 자동 확장 → plot area width 다름 → marker 의 같은 time index 라도 X 픽셀 misalign.
+  // - 60 으로 키워 가장 긴 라벨 (26589.73 = 8자, ~55px) 도 자동 확장 없이 fit → 모든 차트 same priceScale width → X 정렬 일치.
+  // scaleMargins.top 0.12 (2026-05-27): 캔들 위 12% 공간 확보. setMarkers([{position:'aboveBar'}]) 시
+  // lightweight-charts 가 marker 공간 위해 priceScale 자동 확장하던 사고 회피 — marker 가 미리 확보된 margin 안에 들어감.
+  rightPriceScale:{borderColor:'#21262d',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
   handleScale:false,handleScroll:false
 });
 
@@ -330,7 +366,12 @@ function isOnGraphic(id, time, mouseY) {
   const data = chartDataMap[id][time];
   if (data == null) return false;
 
-  const pad = 4;
+  // 2026-05-27 옵션 D — tooltip 풀림 방지 UX 강화.
+  // subscribeCrosshairMove 가 호출된 시점 = 마우스가 차트 영역 안 + param.time 유효
+  // → chart container 안에서 Y 가 약간 벗어나도 sticky 한 hover 유지.
+  // chart container 높이의 30% 까지 hit area 확장 — 마우스 hover 안정성 우선.
+  const chartH = (ci.el && ci.el.clientHeight) ? ci.el.clientHeight : 200;
+  const pad = Math.max(20, chartH * 0.3);
 
   // ── Candlestick branch ──
   if (data.high != null && data.low != null && ci.series) {
@@ -355,8 +396,8 @@ function isOnGraphic(id, time, mouseY) {
   }
   if (values.length === 0) return false;
 
-  // (1) Narrow line-tolerance band around each value Y
-  const tolPx = 14;
+  // (1) Narrow line-tolerance band around each value Y — pad 와 동일하게 확장
+  const tolPx = pad;
   for (const v of values) {
     try {
       const y = series.priceToCoordinate(v);
@@ -497,7 +538,11 @@ function createChart(id, col, opts = {}) {
           try {
             allCharts[cid].series.setMarkers([{
               time: param.time,
-              position: 'inBar',
+              // 'aboveBar': 가격축 영향 없음. 'inBar' 사용 시 lightweight-charts 가
+              // area series 의 baseline(0) 까지 priceScale 자동 확장 → 캔들 압축 →
+              // 마우스 약간만 움직여도 hit area 벗어나 툴팁 풀리는 사고 회피
+              // (2026-05-27 옵션 A). X축 정렬 검증 anchor 역할은 그대로 유지.
+              position: 'aboveBar',
               color: 'rgb(210,175,100)',
               shape: 'circle',
               size: 0.5
@@ -1820,29 +1865,28 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:'05/27',cat:'실적',ev:'마벨(MRVL) Q1 FY2027 AMC',note:'AI 인프라 + 광통신 — 한국 오이솔루션·쏠리드 직접 영향. 컨센 EPS $0.80 / 매출 $2.40B'},
-    {d:'05/27',cat:'시장구조',ev:'삼성전자·SK하이닉스 2x 레버리지·인버스 ETF 16종 상장',note:'반도체 수급 — 최대 5.3조 유입 추정'},
-    {d:'05/27',cat:'학회',ev:'EASL 유럽 간 학회 (~5/30)',note:'한미약품 간 질환 2상'},
-    {d:'05/28',cat:'정책',ev:'한국은행 5월 금통위 — 신현송 신임 총재 첫 데뷔',note:'동결 우세. 7월 첫 인상 전망 부상'},
-    {d:'05/29',cat:'경제지표',ev:'일본 도쿄 5월 CPI (KST 08:30)',note:'전국 CPI 선행. BOJ 6/16 변수'},
-    {d:'05/28',cat:'경제지표',ev:'미 4월 PCE (KST 21:30)',note:'컨센 3.9%. FOMC 6/17~18 D-20'},
-    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/11. 14~15개 교체 전망'},
+    {d:'05/29',cat:'경제지표',ev:'일본 도쿄 5월 CPI (KST 08:30)',note:'전국 CPI 선행. BOJ 6/16 변수. 3.0% 이하 시 7월 인상 메인 유지'},
     {d:'05/29',cat:'학회',ev:'ASCO 미국 종양 학회 (~6/2)',note:'ADC — 리가켐·에이비엘·지아이이노'},
-    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'리밸런싱 적용 6/11. 14~15개 교체 전망'},
+    {d:'05/29',cat:'경제지표',ev:'미 미시간대 5월 소비심리 확정 (KST 23:00)',note:'인플레 기대치'},
+    {d:'05/30',cat:'시장구조',ev:'코스닥 150 구성종목 변경 발표',note:'5/22 확정. 6/12 마감 후 지수 반영, 6/15 효력. 16개 종목 교체 (역대 최대)'},
+    {d:'06/01',cat:'경제지표',ev:'한국 5월 월간 잠정 수출입 (KST 09:00)',note:'반도체·자동차 — 4월 잠정 +48% YoY 후속'},
     {d:'06/01',cat:'산업',ev:'NVIDIA GTC Taipei (~6/4)',note:'젠슨황 키노트 6/1 — AI factory·Physical AI·Rubin 업데이트'},
+    {d:'06/01',cat:'산업',ev:'엔비디아 코리아 파트너 나이트 (대만 현지, 저녁)',note:'SK·삼성·현대·네이버·LG·두산로보틱스 총집결 첫 사례'},
     {d:'06/02',cat:'정책',ev:'미 FCC 주파수 경매 입찰 시작',note:'위성통신·우주'},
     {d:'06/02',cat:'산업',ev:'컴퓨텍스 2026 대만 (~6/5)',note:'반도체·AI — 1,500개 전시업체'},
-    {d:'06/03',cat:'실적',ev:'브로드컴(AVGO) AMC',note:'AI 반도체 + 네트워크'},
+    {d:'06/03',cat:'실적',ev:'브로드컴(AVGO) AMC',note:'AI 반도체 + 네트워크 — HBM 발주처'},
     {d:'06/03',cat:'정치',ev:'한국 지방선거',note:'민주당 후보 당선 시 정책 방향 — 금융·밸류업'},
     {d:'06/05',cat:'IPO',ev:'대신밸런스스팩20호 신규상장',note:'스팩 (SPAC), 공모가 2,000원'},
+    {d:'06/05',cat:'산업',ev:'젠슨황 전격 방한 (6/5 전후)',note:'약 7개월 만 — SK·삼성·LG·네이버 회동, HBM4·피지컬 AI'},
     {d:'06/05',cat:'학회',ev:'미국 당뇨학회 (~6/8)',note:'비만·MASH — 바이오'},
-    {d:'06/08',cat:'IPO',ev:'피스피스스튜디오 신규상장',note:'마르디 메크르디 — 6/5→6/8 변경, 시총 3,048억'},
+    {d:'06/08',cat:'IPO',ev:'피스피스스튜디오 신규상장',note:'마르디 메크르디 — 패션, 시총 3,048억'},
     {d:'06/08',cat:'산업',ev:'애플 WWDC 2026 (~6/12)',note:'AI 인텔리전스 — 반도체 연관'},
     {d:'06/10',cat:'경제지표',ev:'미 5월 CPI (KST 21:30)',note:'FOMC D-7~8. Fed dovish 검증'},
     {d:'06/11',cat:'경제지표',ev:'미 5월 PPI (KST 21:30)',note:'CPI 동조 확인. FOMC D-6~7'},
+    {d:'06/11',cat:'경제지표',ev:'한국 6월 1~10일 수출입 (KST 09:00)',note:'반도체·자동차 6월 초 모멘텀'},
     {d:'06/11',cat:'시장구조',ev:'선물옵션 동시만기일',note:''},
-    {d:'06/11',cat:'시장구조',ev:'코스닥 150 리밸런싱 적용',note:'5/30 발표분 실제 지수 반영'},
-    {d:'06/12',cat:'IPO',ev:'스페이스X 나스닥 상장 (티커 SPCX)',note:'우주 — 가격책정 6/11. 밸류 $1.75T+ 최대 $75B 조달. 블랙록 $10B 검토'},
+    {d:'06/12',cat:'시장구조',ev:'코스닥 150 리밸런싱 적용 (마감 후)',note:'16개 종목 교체 - 6/15 효력'},
+    {d:'06/12',cat:'IPO',ev:'스페이스X 나스닥 상장 (티커 SPCX)',note:'우주 — 가격책정 6/11. 밸류 $1.75T+ 최대 $75B 조달. Mega IPO 1차'},
     {d:'06/12',cat:'기타',ev:'북중미 월드컵 (~7/19)',note:'한국 경기 6/12·6/19·6/25'},
     {d:'06/15',cat:'지정학',ev:'G7 정상회담 (~6/17)',note:'관세·우크라이나·중동·AI 규제'},
     {d:'06/15',cat:'산업',ev:'캐나다 60조 잠수함 우선협상대상자(6~7월)',note:'조선·방산 — 한화오션·HD현대'},
@@ -1932,9 +1976,90 @@ setInterval(() => {
     return;
   }
   lastRefreshSlot = curSlot;
-  const m = Math.floor(secsLeft / 60), s = secsLeft % 60;
-  if (timerEl) timerEl.textContent = `갱신 ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  // 형식: 차트 hh:mm:ss 후 (2026-05-27 변경)
+  const h = Math.floor(secsLeft / 3600);
+  const m = Math.floor((secsLeft % 3600) / 60);
+  const s = secsLeft % 60;
+  if (timerEl) timerEl.textContent = `차트 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} 후`;
 }, 1000);
+
+// ── 지표 갱신 카운트다운 + 색상 코드 (2026-05-27 신설) ──
+// 시장폭 데이터 며칠 안 갱신 사고 인지용 health monitor.
+// 가장 stale 한 JSON 의 last update 기준 색상 + 다음 KST cron 까지 카운트다운.
+const INDICATOR_JSONS = [
+  { url: './data/us_breadth.json',       field: 'meta.updated' },
+  { url: './data/yahoo_dashboard.json',  field: 'meta.updated' },
+  { url: './data/kr_breadth.json',       field: 'generated_at' },
+  { url: './data/kr_export.json',        field: 'generated_at' },
+  { url: './data/kr_vkospi.json',        field: 'generated_at' },
+  { url: './data/kr_putcall.json',       field: 'generated_at' },
+];
+// 모든 KST cron times sorted — 다음 가까운 trigger 까지 카운트다운.
+// (yml 변경 시 sync 필요. 현재 us_breadth + yahoo_dashboard 가 06:00 추가 — 2026-05-28)
+const INDICATOR_CRON_KST = [
+  { h: 6,  m: 0  }, { h: 6,  m: 30 }, { h: 7,  m: 30 }, { h: 9,  m: 35 },
+  { h: 11, m: 30 }, { h: 12, m: 5  }, { h: 19, m: 0  },
+  { h: 20, m: 0  }, { h: 22, m: 0  }, { h: 22, m: 30 },
+];
+let _indicatorOldest = null;
+async function fetchIndicatorMeta() {
+  let oldest = null;
+  for (const item of INDICATOR_JSONS) {
+    try {
+      const r = await fetch(item.url + '?_t=' + Date.now());
+      if (!r.ok) continue;
+      const d = await r.json();
+      const value = item.field === 'meta.updated' ? (d.meta && d.meta.updated) : d[item.field];
+      if (!value) continue;
+      const t = new Date(value);
+      if (isNaN(t.getTime())) continue;
+      if (!oldest || t < oldest) oldest = t;
+    } catch(_) {}
+  }
+  _indicatorOldest = oldest;
+}
+function getNextIndicatorCronSecsLeft() {
+  const now = new Date();
+  const curH = now.getHours(), curM = now.getMinutes();
+  for (const t of INDICATOR_CRON_KST) {
+    if (t.h > curH || (t.h === curH && t.m > curM)) {
+      const target = new Date(now); target.setHours(t.h, t.m, 0, 0);
+      return Math.max(0, Math.floor((target - now) / 1000));
+    }
+  }
+  const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(INDICATOR_CRON_KST[0].h, INDICATOR_CRON_KST[0].m, 0, 0);
+  return Math.max(0, Math.floor((tomorrow - now) / 1000));
+}
+function getIndicatorDotClass() {
+  if (!_indicatorOldest) return 'warn';
+  const ageHours = (Date.now() - _indicatorOldest.getTime()) / (3600 * 1000);
+  if (ageHours <= 24) return 'ok';
+  if (ageHours <= 48) return 'warn';
+  return 'stale';
+}
+setInterval(() => {
+  const dataEl = document.getElementById('refresh-timer-data');
+  if (!dataEl) return;
+  const secsLeft = getNextIndicatorCronSecsLeft();
+  const h = Math.floor(secsLeft / 3600);
+  const m = Math.floor((secsLeft % 3600) / 60);
+  const s = secsLeft % 60;
+  const dotClass = getIndicatorDotClass();
+  const dotEl = dataEl.querySelector('.dot');
+  if (dotEl) {
+    dotEl.classList.remove('ok','warn','stale');
+    dotEl.classList.add(dotClass);
+  }
+  const text = `지표 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} 후 `;
+  if (dataEl.firstChild && dataEl.firstChild.nodeType === Node.TEXT_NODE) {
+    dataEl.firstChild.nodeValue = text;
+  } else {
+    dataEl.insertBefore(document.createTextNode(text), dataEl.firstChild);
+  }
+}, 1000);
+fetchIndicatorMeta();
+setInterval(fetchIndicatorMeta, 5 * 60 * 1000);
 
 // ── INIT ──
 window.addEventListener('load',()=>{
@@ -1949,4 +2074,4 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                   
+             
