@@ -187,12 +187,14 @@
     var cfgs = json.meta.cycles;
 
     // ───── 메인 오버레이 차트 ─────
-    function mkIdx(arr, base) {
-      return arr.map(function(d){ return {x: d.days, y: d.close / base * 100, dateLabel: d.date, raw: d.close}; });
+    function mkIdx(arr, base, mddArr) {
+      var mddMap = {};
+      if (mddArr) mddArr.forEach(function(m){ mddMap[m.days] = m.mdd; });
+      return arr.map(function(d){ return {x: d.days, y: d.close / base * 100, dateLabel: d.date, raw: d.close, mdd: mddMap[d.days]}; });
     }
-    var d3jeo  = mkIdx(json.series_3jeo,  cfgs['3jeo'].base);
-    var dchina = mkIdx(json.series_china, cfgs['china'].base);
-    var dnow   = mkIdx(json.series_now,   cfgs['now'].base);
+    var d3jeo  = mkIdx(json.series_3jeo,  cfgs['3jeo'].base,  json.mdd_3jeo);
+    var dchina = mkIdx(json.series_china, cfgs['china'].base, json.mdd_china);
+    var dnow   = mkIdx(json.series_now,   cfgs['now'].base,   json.mdd_now);
     function peakPoint(base, peak) {
       return [{x: peak.days, y: peak.close / base * 100, dateLabel: peak.date, raw: peak.close}];
     }
@@ -235,7 +237,8 @@
                 label: function(item){
                   var d = item.raw;
                   if (d.dateLabel === undefined) return '';
-                  return ' ' + item.dataset.label + ': ' + d.y.toFixed(1) + ' (' + d.raw.toLocaleString() + 'pt, ' + d.dateLabel + ')';
+                  var mddStr = (d.mdd !== undefined && d.mdd !== null) ? ' · MDD ' + d.mdd.toFixed(2) + '%' : '';
+                  return ' ' + item.dataset.label + ': ' + d.y.toFixed(1) + ' (' + d.raw.toLocaleString() + 'pt, ' + d.dateLabel + mddStr + ')';
                 }
               }
             }
