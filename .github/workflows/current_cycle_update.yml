@@ -1,0 +1,59 @@
+# Current Cycle Update — Current_cycle.html 데일리 자동 빌드
+# ----------------------------------------------------------
+# data/kospi_historical.json (정적) + data/yahoo_dashboard.json (daily) merge
+#   → build_current_cycle.py 가 3사이클 데이터 + MDD 재계산
+#   → Current_cycle.html 재생성 + commit/push
+#
+# 사이트 반영: GitHub Pages 가 자동 deploy.
+#
+# 스케줄 (yahoo_dashboard_update.yml 직후 trigger):
+#   - yahoo update: 06:00/06:30/07:30/11:30 KST
+#   - current cycle: 06:45/07:45/11:45 KST (yahoo update 후 15분)
+#   - workflow_dispatch: 수동 실행
+# ----------------------------------------------------------
+
+name: Current Cycle Update
+
+on:
+  schedule:
+    - cron: '45 21 * * *'   # 06:45 KST — yahoo 1차 직후
+    - cron: '45 22 * * *'   # 07:45 KST — yahoo 3차 직후
+    - cron: '45 2 * * *'    # 11:45 KST — yahoo 4차 직후 (안전망)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: current-cycle-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build Current_cycle.html
+        run: |
+          python build_current_cycle.py
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain Current_cycle.html)" ]; then
+            git add Current_cycle.html
+            git commit -m "chore(current-cycle): Current_cycle.html 자동 갱신 ($(date -u +%Y-%m-%dT%H:%MZ))"
+            git push
+          else
+            echo "no changes — skip commit"
+          fi
