@@ -428,8 +428,11 @@
         document.getElementById(key+'-ai-range').textContent =
           d.ai_series[0].date + ' ~ ' + d.ai_series[d.ai_series.length-1].date;
 
-        var dotData = d.dotcom_series.map(function(x){ return {x: x.days, y: x.close, dateLabel: x.date}; });
-        var aiData  = d.ai_series.map(function(x){    return {x: x.days, y: x.close, dateLabel: x.date}; });
+        // 각 종목 시작점=100으로 indexed (KB증권 그림 53/54 양식)
+        var dotBase = d.dotcom_series[0].close;
+        var aiBase  = d.ai_series[0].close;
+        var dotData = d.dotcom_series.map(function(x){ return {x: x.days, y: x.close / dotBase * 100, dateLabel: x.date, raw: x.close}; });
+        var aiData  = d.ai_series.map(function(x){    return {x: x.days, y: x.close / aiBase  * 100, dateLabel: x.date, raw: x.close}; });
 
         var xMax = Math.max(
           d.dotcom_series[d.dotcom_series.length-1].days,
@@ -441,10 +444,10 @@
           data: { datasets: [
             {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
              backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
-             pointRadius: 0, tension: 0, yAxisID: 'y'},
+             pointRadius: 0, tension: 0},
             {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
              backgroundColor: 'transparent', borderWidth: 2,
-             pointRadius: 0, tension: 0, yAxisID: 'y1'}
+             pointRadius: 0, tension: 0}
           ]},
           options: {
             animation: false, responsive: true, maintainAspectRatio: false,
@@ -456,21 +459,20 @@
                 callbacks: {
                   title: function(items){ return 'cycle_day = ' + items[0].parsed.x; },
                   label: function(item){
-                    return ' ' + item.dataset.label + ': $' + item.raw.y.toFixed(2) + ' (' + item.raw.dateLabel + ')';
+                    var pct = item.raw.y - 100;
+                    var pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+                    return ' ' + item.dataset.label + ': ' + item.raw.y.toFixed(1) + ' (' + pctStr + ', $' + item.raw.raw.toFixed(2) + ', ' + item.raw.dateLabel + ')';
                   }
                 }
               }
             },
             scales: {
               x: { type: 'linear', min: 0, max: xMax,
-                   title: { display: true, text: 'Cycle day (anchor부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
+                   title: { display: true, text: 'Cycle day (각 종목 시작점부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
                    ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
-              y:  { type: 'logarithmic', position: 'left',
-                    title: { display: true, text: d.dotcom_sym + ' ($)', color: d.dotcom_color, font: {size: 10} },
-                    ticks: { color: d.dotcom_color, font: {size: 10} }, grid: { color: '#1f242d' } },
-              y1: { type: 'logarithmic', position: 'right',
-                    title: { display: true, text: d.ai_sym + ' ($)', color: d.ai_color, font: {size: 10} },
-                    ticks: { color: d.ai_color, font: {size: 10} }, grid: { drawOnChartArea: false } }
+              y:  { type: 'logarithmic',
+                    title: { display: true, text: '인덱스 (시작점 = 100, Log)', color: '#cbd5e1', font: {size: 10} },
+                    ticks: { color: '#cbd5e1', font: {size: 10} }, grid: { color: '#1f242d' } }
             }
           }
         });
