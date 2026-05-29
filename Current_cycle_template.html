@@ -214,32 +214,53 @@
 <script>
 (function(){
   try {
-    // 크로스헤어 plugin (모든 차트 공통)
+    // 크로스헤어 plugin v2: 마우스 좌표 독립 추적 (선 위 아니어도 항상 표시)
     var crosshairPlugin = {
       id: 'crosshair',
+      afterInit: function(chart) {
+        var canvas = chart.canvas;
+        chart._crosshair = { x: null, y: null };
+        chart._crosshairMove = function(e) {
+          var rect = canvas.getBoundingClientRect();
+          chart._crosshair.x = e.clientX - rect.left;
+          chart._crosshair.y = e.clientY - rect.top;
+          chart.draw();
+        };
+        chart._crosshairLeave = function() {
+          chart._crosshair.x = null;
+          chart._crosshair.y = null;
+          chart.draw();
+        };
+        canvas.addEventListener('mousemove', chart._crosshairMove);
+        canvas.addEventListener('mouseleave', chart._crosshairLeave);
+      },
+      beforeDestroy: function(chart) {
+        if (chart._crosshairMove) chart.canvas.removeEventListener('mousemove', chart._crosshairMove);
+        if (chart._crosshairLeave) chart.canvas.removeEventListener('mouseleave', chart._crosshairLeave);
+      },
       afterDatasetsDraw: function(chart) {
-        var tooltip = chart.tooltip;
-        if (!tooltip || !tooltip._active || tooltip._active.length === 0) return;
-        var ctx = chart.ctx;
+        var ch = chart._crosshair;
+        if (!ch || ch.x === null) return;
         var area = chart.chartArea;
-        var active = tooltip._active[0];
-        var x = active.element.x;
-        var y = active.element.y;
-        if (x < area.left || x > area.right) return;
+        if (ch.x < area.left || ch.x > area.right) return;
+        if (ch.y < area.top || ch.y > area.bottom) return;
+        var ctx = chart.ctx;
         ctx.save();
         ctx.strokeStyle = 'rgba(203, 213, 225, 0.45)';
         ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         // vertical
-        ctx.beginPath(); ctx.moveTo(x, area.top); ctx.lineTo(x, area.bottom); ctx.stroke();
-        // horizontal (only if y is inside area)
-        if (y >= area.top && y <= area.bottom) {
-          ctx.beginPath(); ctx.moveTo(area.left, y); ctx.lineTo(area.right, y); ctx.stroke();
-        }
+        ctx.beginPath(); ctx.moveTo(ch.x, area.top); ctx.lineTo(ch.x, area.bottom); ctx.stroke();
+        // horizontal
+        ctx.beginPath(); ctx.moveTo(area.left, ch.y); ctx.lineTo(area.right, ch.y); ctx.stroke();
         ctx.restore();
       }
     };
     Chart.register(crosshairPlugin);
+
+    // 전역 default: tooltip은 선/element 위에 hover 시에만 표시
+    Chart.defaults.plugins.tooltip.intersect = true;
+    Chart.defaults.plugins.tooltip.mode = 'nearest';
 
     var json = JSON.parse(document.getElementById('kdata').textContent);
     var cd = json.meta.cycle_day_today;
