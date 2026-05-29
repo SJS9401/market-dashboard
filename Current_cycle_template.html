@@ -51,6 +51,12 @@
   .pairCard .meta { font-size: 11.5px; color: #9ca3af; margin-bottom: 8px; line-height: 1.6; }
   .pairCard .meta b { color: #e5e7eb; font-weight: 600; }
   .pairBox { position: relative; height: 360px; margin-top: 6px; }
+  .pairCardWide { background: #15181f; border: 1px solid #262a33; border-radius: 12px;
+                  padding: 16px 22px; margin-bottom: 18px; }
+  .pairCardWide h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .pairCardWide .meta { font-size: 11.5px; color: #9ca3af; margin-bottom: 8px; line-height: 1.6; }
+  .pairCardWide .meta b { color: #e5e7eb; font-weight: 600; }
+  .pairBoxWide { position: relative; height: 480px; margin-top: 6px; }
   @media (max-width: 900px) { .pairGroup { grid-template-columns: 1fr; } }
   /* nav tab-bar (dashboard 공통 스타일) */
   .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; margin: 0; }
@@ -165,6 +171,15 @@
       </div>
       <div class="pairBox"><canvas id="pair-second-canvas"></canvas></div>
     </div>
+  </div>
+
+  <div class="pairCardWide" id="pair-qcom-mu-custom" style="display:none;">
+    <h3>QCOM(1997-12-01) vs MU(2024-06-11) — 정점 직전 가속 구간 매칭</h3>
+    <div class="meta">
+      <b>QCOM:</b> <span id="qcm-dot-range">-</span> · <b>MU:</b> <span id="qcm-ai-range">-</span> ·
+      <span style="color:#9ca3af;">사용자 지정 anchor — 정점 도달 직전 본격 상승 시작 시점 매칭</span>
+    </div>
+    <div class="pairBoxWide"><canvas id="pair-qcom-mu-custom-canvas"></canvas></div>
   </div>
 
   <div class="card">
@@ -443,7 +458,78 @@
       document.getElementById('dotcom-ai-title').style.display = '';
       document.getElementById('dotcom-ai-wrap').style.display = '';
 
-      [['first', 'pair-first-canvas'], ['second', 'pair-second-canvas']].forEach(function(p){
+      // 풀폭 카드용 별도 처리 — 차트 옵션 동일하지만 xMax 자동
+      function renderPair(key, canvasId, isWide) {
+        var d = json.dotcom_ai[key];
+        if (!d) return;
+
+        document.getElementById(key+'-dot') && (document.getElementById(key+'-dot').textContent = d.dotcom_sym);
+        document.getElementById(key+'-ai')  && (document.getElementById(key+'-ai').textContent = d.ai_sym);
+        var dotRangeEl = document.getElementById(key+'-dot-range') || document.getElementById('qcm-dot-range');
+        var aiRangeEl  = document.getElementById(key+'-ai-range')  || document.getElementById('qcm-ai-range');
+        if (dotRangeEl) dotRangeEl.textContent = d.dotcom_series[0].date + ' ~ ' + d.dotcom_series[d.dotcom_series.length-1].date;
+        if (aiRangeEl)  aiRangeEl.textContent  = d.ai_series[0].date + ' ~ ' + d.ai_series[d.ai_series.length-1].date;
+
+        var dotBase = d.dotcom_series[0].close;
+        var aiBase  = d.ai_series[0].close;
+        var dotData = d.dotcom_series.map(function(x){ return {x: x.days, y: x.close / dotBase * 100, dateLabel: x.date, raw: x.close}; });
+        var aiData  = d.ai_series.map(function(x){    return {x: x.days, y: x.close / aiBase  * 100, dateLabel: x.date, raw: x.close}; });
+
+        var xMax = d.ai_series[d.ai_series.length-1].days + 365;
+
+        new Chart(document.getElementById(canvasId).getContext('2d'), {
+          type: 'line',
+          data: { datasets: [
+            {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
+             backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
+             pointRadius: 0, tension: 0},
+            {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
+             backgroundColor: 'transparent', borderWidth: 2,
+             pointRadius: 0, tension: 0}
+          ]},
+          options: {
+            animation: false, responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'nearest', axis: 'x', intersect: false },
+            plugins: {
+              legend: { display: true, position: 'top', align: 'end',
+                        labels: { color: '#cbd5e1', font: {size: 11}, boxWidth: 18 } },
+              tooltip: {
+                callbacks: {
+                  title: function(items){ return 'cycle_day = ' + items[0].parsed.x; },
+                  label: function(item){
+                    var pct = item.raw.y - 100;
+                    var pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+                    return ' ' + item.dataset.label + ': ' + item.raw.y.toFixed(1) + ' (' + pctStr + ', $' + item.raw.raw.toFixed(2) + ', ' + item.raw.dateLabel + ')';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { type: 'linear', min: 0, max: xMax,
+                   title: { display: true, text: 'Cycle day (각 종목 시작점부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
+                   ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
+              y:  { type: 'logarithmic',
+                    title: { display: true, text: '인덱스 (시작점 = 100, Log)', color: '#cbd5e1', font: {size: 10} },
+                    ticks: { color: '#cbd5e1', font: {size: 10} }, grid: { color: '#1f242d' } }
+            }
+          }
+        });
+      }
+
+      // 1차/2차 카드는 일반 grid
+      ['first', 'second'].forEach(function(k){
+        if (!json.dotcom_ai[k]) return;
+        renderPair(k, 'pair-' + k + '-canvas', false);
+      });
+
+      // qcom_mu_custom 풀폭 카드
+      if (json.dotcom_ai['qcom_mu_custom']) {
+        document.getElementById('pair-qcom-mu-custom').style.display = '';
+        renderPair('qcom_mu_custom', 'pair-qcom-mu-custom-canvas', true);
+      }
+
+      // 더 이상 forEach 안 씀 — 기존 코드는 그대로 두고 short-circuit
+      if (false) [['first', 'pair-first-canvas'], ['second', 'pair-second-canvas']].forEach(function(p){
         var key = p[0], canvasId = p[1];
         var d = json.dotcom_ai[key];
         if (!d) return;

@@ -51,6 +51,12 @@ DOTCOM_AI_ANCHORS = {
                'dotcom_anchor': date(1995, 1, 3), 'dotcom_end': date(2001, 12, 31),
                'ai_anchor':     date(2021, 7, 1),
                'label': '2차 주도주', 'dotcom_color': '#fbbf24', 'ai_color': '#ef4444'},
+    # 사용자 정의 anchor (정점 직전 가속 시작점 매칭)
+    'qcom_mu_custom': {'dotcom_sym': 'QCOM', 'ai_sym': 'MU',
+               'dotcom_anchor': date(1997, 12, 1), 'dotcom_end': date(2001, 12, 31),
+               'ai_anchor':     date(2024, 6, 11),
+               'label': 'QCOM(1997-12-01) vs MU(2024-06-11)',
+               'dotcom_color': '#fbbf24', 'ai_color': '#ef4444'},
 }
 
 CYCLES = {
