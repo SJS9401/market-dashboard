@@ -199,6 +199,33 @@
 <script>
 (function(){
   try {
+    // 크로스헤어 plugin (모든 차트 공통)
+    var crosshairPlugin = {
+      id: 'crosshair',
+      afterDatasetsDraw: function(chart) {
+        var tooltip = chart.tooltip;
+        if (!tooltip || !tooltip._active || tooltip._active.length === 0) return;
+        var ctx = chart.ctx;
+        var area = chart.chartArea;
+        var active = tooltip._active[0];
+        var x = active.element.x;
+        var y = active.element.y;
+        if (x < area.left || x > area.right) return;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(203, 213, 225, 0.45)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        // vertical
+        ctx.beginPath(); ctx.moveTo(x, area.top); ctx.lineTo(x, area.bottom); ctx.stroke();
+        // horizontal (only if y is inside area)
+        if (y >= area.top && y <= area.bottom) {
+          ctx.beginPath(); ctx.moveTo(area.left, y); ctx.lineTo(area.right, y); ctx.stroke();
+        }
+        ctx.restore();
+      }
+    };
+    Chart.register(crosshairPlugin);
+
     var json = JSON.parse(document.getElementById('kdata').textContent);
     var cd = json.meta.cycle_day_today;
     document.getElementById('cd').textContent = cd.toLocaleString();
@@ -434,10 +461,9 @@
         var dotData = d.dotcom_series.map(function(x){ return {x: x.days, y: x.close / dotBase * 100, dateLabel: x.date, raw: x.close}; });
         var aiData  = d.ai_series.map(function(x){    return {x: x.days, y: x.close / aiBase  * 100, dateLabel: x.date, raw: x.close}; });
 
-        var xMax = Math.max(
-          d.dotcom_series[d.dotcom_series.length-1].days,
-          d.ai_series[d.ai_series.length-1].days
-        ) + 50;
+        // KB증권 양식: 두 시간축이 비슷한 위치에서 끝나도록 (AI 사이클 + 약간 여유)
+        // AI 끝 + 약 1년(365일) 여유 — KB 그림처럼 NVDA가 X축 우측 끝에 근접
+        var xMax = d.ai_series[d.ai_series.length-1].days + 365;
 
         new Chart(document.getElementById(canvasId).getContext('2d'), {
           type: 'line',
