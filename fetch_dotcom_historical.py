@@ -97,4 +97,6 @@ def main():
     print(f"\n[OK] Written: {OUT_PATH} ({os.path.getsize(OUT_PATH):,} bytes)")
 
 
-if __name_
+
+if __name__ == "__main__":
+    main()
