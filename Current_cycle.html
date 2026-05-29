@@ -569,17 +569,17 @@
     }
 
     // ───── 종목 vs Nasdaq 카드 ─────
-    function renderNasdaqPair(key, canvasId, rangeElId) {
+    function renderNasdaqPair(key, canvasId, rangeElId, xMaxOverride) {
       var d = json.nasdaq_pairs && json.nasdaq_pairs[key];
       if (!d) return;
       var ssBase = d.stock_series[0].close;
       var idxBase = d.index_series[0].close;
       var stockData = d.stock_series.map(function(x){ return {x: x.days, y: x.close / ssBase * 100, dateLabel: x.date, raw: x.close}; });
       var indexData = d.index_series.map(function(x){ return {x: x.days, y: x.close / idxBase * 100, dateLabel: x.date, raw: x.close}; });
-      var xMax = Math.max(
+      var xMax = xMaxOverride || (Math.max(
         d.stock_series[d.stock_series.length-1].days,
         d.index_series[d.index_series.length-1].days
-      ) + 50;
+      ) + 50);
 
       document.getElementById(rangeElId).textContent =
         d.stock_series[0].date + ' ~ ' + d.stock_series[d.stock_series.length-1].date;
@@ -623,13 +623,20 @@
     }
 
     if (json.nasdaq_pairs) {
-      if (json.nasdaq_pairs['qcom_vs_ixic_dotcom']) {
+      // QCOM 카드의 cycle_day 범위를 두 카드 공통 X축으로 사용
+      var qc = json.nasdaq_pairs['qcom_vs_ixic_dotcom'];
+      var commonXMax = qc ? (Math.max(
+        qc.stock_series[qc.stock_series.length-1].days,
+        qc.index_series[qc.index_series.length-1].days
+      ) + 50) : null;
+
+      if (qc) {
         document.getElementById('pair-qcom-vs-ixic-dotcom').style.display = '';
-        renderNasdaqPair('qcom_vs_ixic_dotcom', 'pair-qcom-vs-ixic-dotcom-canvas', 'qix-range');
+        renderNasdaqPair('qcom_vs_ixic_dotcom', 'pair-qcom-vs-ixic-dotcom-canvas', 'qix-range', commonXMax);
       }
       if (json.nasdaq_pairs['mu_vs_ixic_now']) {
         document.getElementById('pair-mu-vs-ixic-now').style.display = '';
-        renderNasdaqPair('mu_vs_ixic_now', 'pair-mu-vs-ixic-now-canvas', 'mix-range');
+        renderNasdaqPair('mu_vs_ixic_now', 'pair-mu-vs-ixic-now-canvas', 'mix-range', commonXMax);
       }
     }
 
