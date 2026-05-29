@@ -44,6 +44,14 @@
   .cycleCard .head .mddVal { color: #fb7185; font-weight: 600; }
   .priceBox { position: relative; height: 280px; margin-top: 6px; }
   .mddBox   { position: relative; height: 140px; margin-top: -4px; }
+  /* 닷컴 vs AI 카드 */
+  .pairGroup { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .pairCard { background: #15181f; border: 1px solid #262a33; border-radius: 12px; padding: 16px 20px; }
+  .pairCard h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .pairCard .meta { font-size: 11.5px; color: #9ca3af; margin-bottom: 8px; line-height: 1.6; }
+  .pairCard .meta b { color: #e5e7eb; font-weight: 600; }
+  .pairBox { position: relative; height: 360px; margin-top: 6px; }
+  @media (max-width: 900px) { .pairGroup { grid-template-columns: 1fr; } }
   /* nav tab-bar (dashboard 공통 스타일) */
   .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; margin: 0; }
   .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
@@ -139,6 +147,24 @@
       <thead><tr><th>사이클</th><th>일자</th><th>코스피 (pt)</th><th>시작 대비</th><th>정점 진척도</th></tr></thead>
       <tbody></tbody>
     </table>
+  </div>
+
+  <h2 id="dotcom-ai-title" style="display:none;">닷컴 vs AI 주도주 비교 (KB증권 그림 53/54)</h2>
+  <div id="dotcom-ai-wrap" class="pairGroup" style="display:none; margin-bottom: 18px;">
+    <div class="pairCard" id="pair-first">
+      <h3>1차 주도주 — <span id="first-dot">CSCO</span> vs <span id="first-ai">NVDA</span></h3>
+      <div class="meta">
+        <b>닷컴:</b> <span id="first-dot-range">-</span> · <b>AI:</b> <span id="first-ai-range">-</span> · 정렬: 닷컴 1995-01 ↔ AI 2021-07
+      </div>
+      <div class="pairBox"><canvas id="pair-first-canvas"></canvas></div>
+    </div>
+    <div class="pairCard" id="pair-second">
+      <h3>2차 주도주 — <span id="second-dot">QCOM</span> vs <span id="second-ai">MU</span></h3>
+      <div class="meta">
+        <b>닷컴:</b> <span id="second-dot-range">-</span> · <b>AI:</b> <span id="second-ai-range">-</span> · 정렬: 닷컴 1995-01 ↔ AI 2021-07
+      </div>
+      <div class="pairBox"><canvas id="pair-second-canvas"></canvas></div>
+    </div>
   </div>
 
   <div class="card">
@@ -384,6 +410,72 @@
         }
       });
     });
+
+    // ───── 닷컴 vs AI 카드 (있을 때만) ─────
+    if (json.dotcom_ai) {
+      document.getElementById('dotcom-ai-title').style.display = '';
+      document.getElementById('dotcom-ai-wrap').style.display = '';
+
+      [['first', 'pair-first-canvas'], ['second', 'pair-second-canvas']].forEach(function(p){
+        var key = p[0], canvasId = p[1];
+        var d = json.dotcom_ai[key];
+        if (!d) return;
+
+        document.getElementById(key+'-dot').textContent = d.dotcom_sym;
+        document.getElementById(key+'-ai').textContent  = d.ai_sym;
+        document.getElementById(key+'-dot-range').textContent =
+          d.dotcom_series[0].date + ' ~ ' + d.dotcom_series[d.dotcom_series.length-1].date;
+        document.getElementById(key+'-ai-range').textContent =
+          d.ai_series[0].date + ' ~ ' + d.ai_series[d.ai_series.length-1].date;
+
+        var dotData = d.dotcom_series.map(function(x){ return {x: x.days, y: x.close, dateLabel: x.date}; });
+        var aiData  = d.ai_series.map(function(x){    return {x: x.days, y: x.close, dateLabel: x.date}; });
+
+        var xMax = Math.max(
+          d.dotcom_series[d.dotcom_series.length-1].days,
+          d.ai_series[d.ai_series.length-1].days
+        ) + 50;
+
+        new Chart(document.getElementById(canvasId).getContext('2d'), {
+          type: 'line',
+          data: { datasets: [
+            {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
+             backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
+             pointRadius: 0, tension: 0, yAxisID: 'y'},
+            {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
+             backgroundColor: 'transparent', borderWidth: 2,
+             pointRadius: 0, tension: 0, yAxisID: 'y1'}
+          ]},
+          options: {
+            animation: false, responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'nearest', axis: 'x', intersect: false },
+            plugins: {
+              legend: { display: true, position: 'top', align: 'end',
+                        labels: { color: '#cbd5e1', font: {size: 11}, boxWidth: 18 } },
+              tooltip: {
+                callbacks: {
+                  title: function(items){ return 'cycle_day = ' + items[0].parsed.x; },
+                  label: function(item){
+                    return ' ' + item.dataset.label + ': $' + item.raw.y.toFixed(2) + ' (' + item.raw.dateLabel + ')';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { type: 'linear', min: 0, max: xMax,
+                   title: { display: true, text: 'Cycle day (anchor부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
+                   ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
+              y:  { type: 'logarithmic', position: 'left',
+                    title: { display: true, text: d.dotcom_sym + ' ($)', color: d.dotcom_color, font: {size: 10} },
+                    ticks: { color: d.dotcom_color, font: {size: 10} }, grid: { color: '#1f242d' } },
+              y1: { type: 'logarithmic', position: 'right',
+                    title: { display: true, text: d.ai_sym + ' ($)', color: d.ai_color, font: {size: 10} },
+                    ticks: { color: d.ai_color, font: {size: 10} }, grid: { drawOnChartArea: false } }
+            }
+          }
+        });
+      });
+    }
 
   } catch(e) {
     document.getElementById('err').textContent = 'JS error: ' + e.message;

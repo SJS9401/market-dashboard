@@ -37,8 +37,21 @@ from datetime import datetime, timezone, timedelta, date
 ROOT = os.path.dirname(os.path.abspath(__file__))
 HIST_PATH = os.path.join(ROOT, 'data', 'kospi_historical.json')
 YAHOO_PATH = os.path.join(ROOT, 'data', 'yahoo_dashboard.json')
+DOTCOM_PATH = os.path.join(ROOT, 'data', 'dotcom_historical.json')
 TEMPLATE_PATH = os.path.join(ROOT, 'Current_cycle_template.html')
 OUTPUT_PATH = os.path.join(ROOT, 'Current_cycle.html')
+
+# 닷컴 vs AI 카드 정렬 (KB증권 그림 53/54 기준)
+DOTCOM_AI_ANCHORS = {
+    'first':  {'dotcom_sym': 'CSCO', 'ai_sym': 'NVDA',
+               'dotcom_anchor': date(1995, 1, 3), 'dotcom_end': date(2001, 12, 31),
+               'ai_anchor':     date(2021, 7, 1),
+               'label': '1차 주도주', 'dotcom_color': '#9ca3af', 'ai_color': '#f87171'},
+    'second': {'dotcom_sym': 'QCOM', 'ai_sym': 'MU',
+               'dotcom_anchor': date(1995, 1, 3), 'dotcom_end': date(2001, 12, 31),
+               'ai_anchor':     date(2021, 7, 1),
+               'label': '2차 주도주', 'dotcom_color': '#fbbf24', 'ai_color': '#ef4444'},
+}
 
 CYCLES = {
     '3jeo': {
@@ -137,6 +150,83 @@ def get_peak(series):
 
 
 # ─────────────────────────────────────────────────────────────────────
+# 닷컴 vs AI 데이터 빌드
+# ─────────────────────────────────────────────────────────────────────
+
+def load_dotcom():
+    """dotcom_historical.json → {symbol: [[date, close], ...]} 반환. 없으면 None."""
+    if not os.path.exists(DOTCOM_PATH):
+        print(f"  [INFO] dotcom historical 없음 ({DOTCOM_PATH}) — 닷컴 vs AI 카드 skip")
+        return None
+    with open(DOTCOM_PATH, encoding='utf-8') as f:
+        d = json.load(f)
+    return d.get('data', {})
+
+
+def load_ai_yahoo(yahoo_data, sym, anchor):
+    """yahoo_dashboard.json 의 sym candle → [[date, close], ...] (anchor 이후만)."""
+    candles = yahoo_data.get('data', {}).get(sym, {}).get('candles', [])
+    out = []
+    for c in candles:
+        d = datetime.strptime(c['time'], '%Y-%m-%d').date()
+        if d >= anchor:
+            out.append([d.strftime('%Y-%m-%d'), round(float(c['close']), 4)])
+    return out
+
+
+def build_pair_series(rows, anchor, end=None):
+    """[[date, close], ...] → [{days, date, close}, ...] (anchor 이후만)."""
+    out = []
+    for r in rows:
+        d = datetime.strptime(r[0], '%Y-%m-%d').date()
+        if d < anchor:
+            continue
+        if end and d > end:
+            continue
+        out.append({'days': (d - anchor).days, 'date': r[0], 'close': r[1]})
+    return out
+
+
+def build_dotcom_ai_payload(yahoo_data):
+    """닷컴 vs AI 카드 2개의 payload 생성. dotcom 데이터 없으면 None."""
+    dotcom = load_dotcom()
+    if dotcom is None:
+        return None
+
+    result = {}
+    for key, cfg in DOTCOM_AI_ANCHORS.items():
+        dot_rows = dotcom.get(cfg['dotcom_sym'])
+        if not dot_rows:
+            print(f"  [WARN] {cfg['dotcom_sym']} 데이터 없음 — {key} skip")
+            continue
+        ai_rows = load_ai_yahoo(yahoo_data, cfg['ai_sym'], cfg['ai_anchor'])
+        if not ai_rows:
+            print(f"  [WARN] {cfg['ai_sym']} yahoo 데이터 없음 — {key} skip")
+            continue
+
+        dot_series = build_pair_series(dot_rows, cfg['dotcom_anchor'], cfg['dotcom_end'])
+        ai_series  = build_pair_series(ai_rows,  cfg['ai_anchor'])
+
+        result[key] = {
+            'label': cfg['label'],
+            'dotcom_sym': cfg['dotcom_sym'],
+            'dotcom_anchor': cfg['dotcom_anchor'].strftime('%Y-%m-%d'),
+            'dotcom_end': cfg['dotcom_end'].strftime('%Y-%m-%d'),
+            'dotcom_color': cfg['dotcom_color'],
+            'dotcom_series': dot_series,
+            'ai_sym': cfg['ai_sym'],
+            'ai_anchor': cfg['ai_anchor'].strftime('%Y-%m-%d'),
+            'ai_end': ai_series[-1]['date'] if ai_series else None,
+            'ai_color': cfg['ai_color'],
+            'ai_series': ai_series,
+        }
+        print(f"  [{key}] {cfg['dotcom_sym']} {len(dot_series)}일 ({dot_series[0]['date']}~{dot_series[-1]['date']}) "
+              f"vs {cfg['ai_sym']} {len(ai_series)}일 ({ai_series[0]['date']}~{ai_series[-1]['date']})")
+
+    return result if result else None
+
+
+# ─────────────────────────────────────────────────────────────────────
 # 메인 빌드
 # ─────────────────────────────────────────────────────────────────────
 
@@ -147,6 +237,12 @@ def main():
 
     # 1) 데이터 로드
     data, hist_last, latest = load_kospi_data()
+
+    # 1b) yahoo cache full load (NVDA, MU 용)
+    yahoo_data = {}
+    if os.path.exists(YAHOO_PATH):
+        with open(YAHOO_PATH, encoding='utf-8') as f:
+            yahoo_data = json.load(f)
 
     # 2) 사이클 시리즈 + MDD
     series = {}
@@ -204,6 +300,10 @@ def main():
         },
     }
 
+    # 4) 닷컴 vs AI 카드 데이터
+    print("\n[닷컴 vs AI 카드]")
+    dotcom_ai = build_dotcom_ai_payload(yahoo_data)
+
     payload = {
         'series_3jeo': series['3jeo'],
         'series_china': series['china'],
@@ -211,6 +311,7 @@ def main():
         'mdd_3jeo': mdd_data['3jeo'],
         'mdd_china': mdd_data['china'],
         'mdd_now': mdd_data['now'],
+        'dotcom_ai': dotcom_ai,
         'meta': meta,
     }
 

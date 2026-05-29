@@ -1,0 +1,53 @@
+# Fetch Dotcom Historical (1회 trigger 전용)
+# ----------------------------------------------------------
+# CSCO + QCOM 1994-12-30 ~ 2002-06-30 historical 을 yfinance 로 1회 fetch.
+# 결과: data/dotcom_historical.json — Current_cycle.html "닷컴 vs AI" 카드 입력.
+#
+# 사용:
+#   - workflow_dispatch 로 수동 실행 (1회)
+#   - 추가 종목 비교 (INTC, ORCL 등) 늘릴 때만 재실행
+#   - cron 없음 — 정적 데이터
+# ----------------------------------------------------------
+
+name: Fetch Dotcom Historical
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas
+
+      - name: Fetch dotcom historical
+        run: |
+          python fetch_dotcom_historical.py
+
+      - name: Commit + push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/dotcom_historical.json)" ]; then
+            git add data/dotcom_historical.json
+            git commit -m "chore(data): dotcom_historical.json (CSCO+QCOM) 1회 fetch"
+            git push
+          else
+            echo "no changes"
+          fi
