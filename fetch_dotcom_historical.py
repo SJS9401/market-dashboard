@@ -32,8 +32,8 @@ DATA_DIR = os.path.join(THIS_DIR, "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 OUT_PATH = os.path.join(DATA_DIR, "dotcom_historical.json")
 
-# 닷컴 시기 1차/2차 주도주 (KB증권 그림 53/54 기준)
-SYMBOLS = ["CSCO", "QCOM"]
+# 닷컴 시기 1차/2차 주도주 (KB증권 그림 53/54 기준) + Nasdaq Composite
+SYMBOLS = ["CSCO", "QCOM", "^IXIC"]
 
 # Period: 1994-12-30 (1995 직전 거래일) ~ 2002-06-30 (정점 후 충분한 약세장 cover)
 START = "1994-12-30"
@@ -97,5 +97,4 @@ def main():
     print(f"\n[OK] Written: {OUT_PATH} ({os.path.getsize(OUT_PATH):,} bytes)")
 
 
-if __name__ == "__main__":
-    main()
+if __name_

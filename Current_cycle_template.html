@@ -182,6 +182,24 @@
     <div class="pairBoxWide"><canvas id="pair-qcom-mu-custom-canvas"></canvas></div>
   </div>
 
+  <div class="pairCardWide" id="pair-qcom-vs-ixic-dotcom" style="display:none;">
+    <h3>QCOM vs Nasdaq Composite (닷컴 시기, 1997-12-01 시작)</h3>
+    <div class="meta">
+      <b>QCOM / ^IXIC:</b> <span id="qix-range">-</span> ·
+      <span style="color:#9ca3af;">종목 대비 지수 outperform 정도</span>
+    </div>
+    <div class="pairBoxWide"><canvas id="pair-qcom-vs-ixic-dotcom-canvas"></canvas></div>
+  </div>
+
+  <div class="pairCardWide" id="pair-mu-vs-ixic-now" style="display:none;">
+    <h3>MU vs Nasdaq Composite (현재, 2024-06-11 시작)</h3>
+    <div class="meta">
+      <b>MU / ^IXIC:</b> <span id="mix-range">-</span> ·
+      <span style="color:#9ca3af;">종목 대비 지수 outperform 정도 (매일 갱신)</span>
+    </div>
+    <div class="pairBoxWide"><canvas id="pair-mu-vs-ixic-now-canvas"></canvas></div>
+  </div>
+
   <div class="card">
     <h3 style="margin:0 0 10px; font-size:15px;">해석</h3>
     <div class="note">
@@ -548,6 +566,75 @@
         document.getElementById('pair-qcom-mu-custom').style.display = '';
         renderPair('qcom_mu_custom', 'pair-qcom-mu-custom-canvas', true);
       }
+    }
+
+    // ───── 종목 vs Nasdaq 카드 ─────
+    function renderNasdaqPair(key, canvasId, rangeElId) {
+      var d = json.nasdaq_pairs && json.nasdaq_pairs[key];
+      if (!d) return;
+      var ssBase = d.stock_series[0].close;
+      var idxBase = d.index_series[0].close;
+      var stockData = d.stock_series.map(function(x){ return {x: x.days, y: x.close / ssBase * 100, dateLabel: x.date, raw: x.close}; });
+      var indexData = d.index_series.map(function(x){ return {x: x.days, y: x.close / idxBase * 100, dateLabel: x.date, raw: x.close}; });
+      var xMax = Math.max(
+        d.stock_series[d.stock_series.length-1].days,
+        d.index_series[d.index_series.length-1].days
+      ) + 50;
+
+      document.getElementById(rangeElId).textContent =
+        d.stock_series[0].date + ' ~ ' + d.stock_series[d.stock_series.length-1].date;
+
+      new Chart(document.getElementById(canvasId).getContext('2d'), {
+        type: 'line',
+        data: { datasets: [
+          {label: d.stock_sym + ' (종목)', data: stockData, borderColor: d.stock_color,
+           backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0},
+          {label: d.index_sym + ' (지수)', data: indexData, borderColor: d.index_color,
+           backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
+           pointRadius: 0, tension: 0}
+        ]},
+        options: {
+          animation: false, responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'nearest', axis: 'x', intersect: false },
+          plugins: {
+            legend: { display: true, position: 'top', align: 'end',
+                      labels: { color: '#cbd5e1', font: {size: 11}, boxWidth: 18 } },
+            tooltip: {
+              callbacks: {
+                title: function(items){ return 'cycle_day = ' + items[0].parsed.x; },
+                label: function(item){
+                  var pct = item.raw.y - 100;
+                  var pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+                  return ' ' + item.dataset.label + ': ' + item.raw.y.toFixed(1) + ' (' + pctStr + ', $' + item.raw.raw.toFixed(2) + ', ' + item.raw.dateLabel + ')';
+                }
+              }
+            }
+          },
+          scales: {
+            x: { type: 'linear', min: 0, max: xMax,
+                 title: { display: true, text: 'Cycle day (anchor부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
+                 ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
+            y:  { type: 'logarithmic',
+                  title: { display: true, text: '인덱스 (시작점 = 100, Log)', color: '#cbd5e1', font: {size: 10} },
+                  ticks: { color: '#cbd5e1', font: {size: 10} }, grid: { color: '#1f242d' } }
+          }
+        }
+      });
+    }
+
+    if (json.nasdaq_pairs) {
+      if (json.nasdaq_pairs['qcom_vs_ixic_dotcom']) {
+        document.getElementById('pair-qcom-vs-ixic-dotcom').style.display = '';
+        renderNasdaqPair('qcom_vs_ixic_dotcom', 'pair-qcom-vs-ixic-dotcom-canvas', 'qix-range');
+      }
+      if (json.nasdaq_pairs['mu_vs_ixic_now']) {
+        document.getElementById('pair-mu-vs-ixic-now').style.display = '';
+        renderNasdaqPair('mu_vs_ixic_now', 'pair-mu-vs-ixic-now-canvas', 'mix-range');
+      }
+    }
+
+    // dotcom_ai 블록 닫기용 더미
+    if (false) {
 
       // 더 이상 forEach 안 씀 — 기존 코드는 그대로 두고 short-circuit
       if (false) [['first', 'pair-first-canvas'], ['second', 'pair-second-canvas']].forEach(function(p){

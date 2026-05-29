@@ -59,6 +59,22 @@ DOTCOM_AI_ANCHORS = {
                'dotcom_color': '#fbbf24', 'ai_color': '#ef4444'},
 }
 
+# 종목 vs 지수 비교 카드 (같은 시기 종목 + 나스닥 인덱스화)
+NASDAQ_PAIR_ANCHORS = {
+    'qcom_vs_ixic_dotcom': {
+        'stock_sym': 'QCOM', 'stock_source': 'dotcom', 'stock_color': '#fbbf24',
+        'index_sym': '^IXIC', 'index_source': 'dotcom', 'index_color': '#a78bfa',
+        'anchor': date(1997, 12, 1), 'end': date(2001, 12, 31),
+        'label': 'QCOM vs Nasdaq Composite (닷컴 시기)',
+    },
+    'mu_vs_ixic_now': {
+        'stock_sym': 'MU', 'stock_source': 'yahoo', 'stock_color': '#ef4444',
+        'index_sym': '^IXIC', 'index_source': 'yahoo', 'index_color': '#a78bfa',
+        'anchor': date(2024, 6, 11), 'end': None,
+        'label': 'MU vs Nasdaq Composite (현재)',
+    },
+}
+
 CYCLES = {
     '3jeo': {
         'anchor': date(1985, 5, 20),
@@ -232,6 +248,56 @@ def build_dotcom_ai_payload(yahoo_data):
     return result if result else None
 
 
+def build_nasdaq_pairs_payload(yahoo_data):
+    """종목 vs Nasdaq 카드 payload. source(dotcom/yahoo)별로 데이터 추출."""
+    dotcom = load_dotcom()
+    result = {}
+    for key, cfg in NASDAQ_PAIR_ANCHORS.items():
+        end = cfg['end']
+        # stock 시리즈
+        if cfg['stock_source'] == 'dotcom':
+            if not dotcom or cfg['stock_sym'] not in dotcom:
+                print(f"  [WARN] {cfg['stock_sym']} dotcom 데이터 없음 — {key} skip")
+                continue
+            stock_rows = dotcom[cfg['stock_sym']]
+        else:
+            stock_rows = load_ai_yahoo(yahoo_data, cfg['stock_sym'], cfg['anchor'])
+            if not stock_rows:
+                print(f"  [WARN] {cfg['stock_sym']} yahoo 데이터 없음 — {key} skip")
+                continue
+        # index 시리즈
+        if cfg['index_source'] == 'dotcom':
+            if not dotcom or cfg['index_sym'] not in dotcom:
+                print(f"  [WARN] {cfg['index_sym']} dotcom 데이터 없음 — {key} skip")
+                continue
+            index_rows = dotcom[cfg['index_sym']]
+        else:
+            index_rows = load_ai_yahoo(yahoo_data, cfg['index_sym'], cfg['anchor'])
+            if not index_rows:
+                print(f"  [WARN] {cfg['index_sym']} yahoo 데이터 없음 — {key} skip")
+                continue
+
+        stock_series = build_pair_series(stock_rows, cfg['anchor'], end)
+        index_series = build_pair_series(index_rows, cfg['anchor'], end)
+        if not stock_series or not index_series:
+            continue
+
+        result[key] = {
+            'label': cfg['label'],
+            'anchor': cfg['anchor'].strftime('%Y-%m-%d'),
+            'end': end.strftime('%Y-%m-%d') if end else stock_series[-1]['date'],
+            'stock_sym': cfg['stock_sym'],
+            'stock_color': cfg['stock_color'],
+            'stock_series': stock_series,
+            'index_sym': cfg['index_sym'],
+            'index_color': cfg['index_color'],
+            'index_series': index_series,
+        }
+        print(f"  [{key}] {cfg['stock_sym']} {len(stock_series)}일 vs {cfg['index_sym']} {len(index_series)}일")
+
+    return result if result else None
+
+
 # ─────────────────────────────────────────────────────────────────────
 # 메인 빌드
 # ─────────────────────────────────────────────────────────────────────
@@ -310,6 +376,10 @@ def main():
     print("\n[닷컴 vs AI 카드]")
     dotcom_ai = build_dotcom_ai_payload(yahoo_data)
 
+    # 4b) 종목 vs Nasdaq 카드
+    print("\n[종목 vs Nasdaq 카드]")
+    nasdaq_pairs = build_nasdaq_pairs_payload(yahoo_data)
+
     payload = {
         'series_3jeo': series['3jeo'],
         'series_china': series['china'],
@@ -318,6 +388,7 @@ def main():
         'mdd_china': mdd_data['china'],
         'mdd_now': mdd_data['now'],
         'dotcom_ai': dotcom_ai,
+        'nasdaq_pairs': nasdaq_pairs,
         'meta': meta,
     }
 
