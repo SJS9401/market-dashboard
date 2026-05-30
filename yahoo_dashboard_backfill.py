@@ -67,6 +67,7 @@ SYMBOLS = [
     "148070.KS",    # KOSEF (KOSPI 200 채권)
     "NVDA",         # AI 1차 주도주 (vs 닷컴 CSCO) — Current_cycle 카드
     "MU",           # AI 2차 주도주 (vs 닷컴 QCOM) — Current_cycle 카드
+    "000660.KS",    # SK하이닉스 — 한국 AI 메모리 주도주, MU와 같은 anchor (2024-06-11)
 ]
 
 

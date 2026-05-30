@@ -516,16 +516,24 @@
 
         var xMax = d.ai_series[d.ai_series.length-1].days + 365;
 
+        var datasets = [
+          {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
+           backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
+           pointRadius: 0, tension: 0},
+          {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
+           backgroundColor: 'transparent', borderWidth: 2,
+           pointRadius: 0, tension: 0}
+        ];
+        if (d.extra_series && d.extra_series.length) {
+          var exBase = d.extra_series[0].close;
+          var exData = d.extra_series.map(function(x){ return {x: x.days, y: x.close / exBase * 100, dateLabel: x.date, raw: x.close}; });
+          datasets.push({label: (d.extra_label || d.extra_sym) + ' (KR)', data: exData, borderColor: d.extra_color,
+            backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0});
+        }
+
         new Chart(document.getElementById(canvasId).getContext('2d'), {
           type: 'line',
-          data: { datasets: [
-            {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
-             backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
-             pointRadius: 0, tension: 0},
-            {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
-             backgroundColor: 'transparent', borderWidth: 2,
-             pointRadius: 0, tension: 0}
-          ]},
+          data: { datasets: datasets },
           options: {
             animation: false, responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'nearest', axis: 'x', intersect: false },
@@ -584,15 +592,31 @@
       document.getElementById(rangeElId).textContent =
         d.stock_series[0].date + ' ~ ' + d.stock_series[d.stock_series.length-1].date;
 
+      var datasets = [
+        {label: d.stock_sym + ' (US 종목)', data: stockData, borderColor: d.stock_color,
+         backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0},
+        {label: d.index_sym + ' (US 지수)', data: indexData, borderColor: d.index_color,
+         backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
+         pointRadius: 0, tension: 0}
+      ];
+      // stock2 (한국 종목, 예: SK하이닉스)
+      if (d.stock2_series && d.stock2_series.length) {
+        var s2Base = d.stock2_series[0].close;
+        var s2Data = d.stock2_series.map(function(x){ return {x: x.days, y: x.close / s2Base * 100, dateLabel: x.date, raw: x.close}; });
+        datasets.push({label: (d.stock2_label || d.stock2_sym) + ' (KR 종목)', data: s2Data, borderColor: d.stock2_color,
+          backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0});
+      }
+      // index2 (한국 지수, 예: KOSPI)
+      if (d.index2_series && d.index2_series.length) {
+        var i2Base = d.index2_series[0].close;
+        var i2Data = d.index2_series.map(function(x){ return {x: x.days, y: x.close / i2Base * 100, dateLabel: x.date, raw: x.close}; });
+        datasets.push({label: (d.index2_label || d.index2_sym) + ' (KR 지수)', data: i2Data, borderColor: d.index2_color,
+          backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3], pointRadius: 0, tension: 0});
+      }
+
       new Chart(document.getElementById(canvasId).getContext('2d'), {
         type: 'line',
-        data: { datasets: [
-          {label: d.stock_sym + ' (종목)', data: stockData, borderColor: d.stock_color,
-           backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0},
-          {label: d.index_sym + ' (지수)', data: indexData, borderColor: d.index_color,
-           backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
-           pointRadius: 0, tension: 0}
-        ]},
+        data: { datasets: datasets },
         options: {
           animation: false, responsive: true, maintainAspectRatio: false,
           interaction: { mode: 'nearest', axis: 'x', intersect: false },

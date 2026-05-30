@@ -56,7 +56,10 @@ DOTCOM_AI_ANCHORS = {
                'dotcom_anchor': date(1997, 12, 1), 'dotcom_end': date(2001, 12, 31),
                'ai_anchor':     date(2024, 6, 11),
                'label': 'QCOM(1997-12-01) vs MU(2024-06-11)',
-               'dotcom_color': '#fbbf24', 'ai_color': '#ef4444'},
+               'dotcom_color': '#fbbf24', 'ai_color': '#ef4444',
+               # 한국 AI 메모리 주도주 (같은 anchor)
+               'extra_sym': '000660.KS', 'extra_label': 'SK하이닉스',
+               'extra_anchor': date(2024, 6, 11), 'extra_color': '#22d3ee'},
 }
 
 # 종목 vs 지수 비교 카드 (같은 시기 종목 + 나스닥 인덱스화)
@@ -72,6 +75,9 @@ NASDAQ_PAIR_ANCHORS = {
         'index_sym': '^IXIC', 'index_source': 'yahoo', 'index_color': '#a78bfa',
         'anchor': date(2024, 6, 11), 'end': None,
         'label': 'MU vs Nasdaq Composite (현재)',
+        # 한국 측 종목 + 지수 (legend on/off로 구분)
+        'stock2_sym': '000660.KS', 'stock2_label': 'SK하이닉스', 'stock2_source': 'yahoo', 'stock2_color': '#22d3ee',
+        'index2_sym': '^KS11', 'index2_label': 'KOSPI', 'index2_source': 'yahoo', 'index2_color': '#86efac',
     },
 }
 
@@ -242,6 +248,17 @@ def build_dotcom_ai_payload(yahoo_data):
             'ai_color': cfg['ai_color'],
             'ai_series': ai_series,
         }
+        # extra series (예: SK하이닉스) — yahoo cache에서 추출, anchor 별도
+        if cfg.get('extra_sym'):
+            extra_rows = load_ai_yahoo(yahoo_data, cfg['extra_sym'], cfg['extra_anchor'])
+            if extra_rows:
+                extra_series = build_pair_series(extra_rows, cfg['extra_anchor'])
+                result[key]['extra_sym'] = cfg['extra_sym']
+                result[key]['extra_label'] = cfg.get('extra_label', cfg['extra_sym'])
+                result[key]['extra_anchor'] = cfg['extra_anchor'].strftime('%Y-%m-%d')
+                result[key]['extra_color'] = cfg['extra_color']
+                result[key]['extra_series'] = extra_series
+                print(f"    [+extra] {cfg['extra_sym']} {len(extra_series)}일")
         print(f"  [{key}] {cfg['dotcom_sym']} {len(dot_series)}일 ({dot_series[0]['date']}~{dot_series[-1]['date']}) "
               f"vs {cfg['ai_sym']} {len(ai_series)}일 ({ai_series[0]['date']}~{ai_series[-1]['date']})")
 
@@ -293,6 +310,26 @@ def build_nasdaq_pairs_payload(yahoo_data):
             'index_color': cfg['index_color'],
             'index_series': index_series,
         }
+        # stock2/index2 (한국 종목/지수 추가) — legend on/off로 구분
+        for slot, label_key in [('stock2', 'stock2_label'), ('index2', 'index2_label')]:
+            sym_key = slot + '_sym'
+            src_key = slot + '_source'
+            color_key = slot + '_color'
+            if not cfg.get(sym_key): continue
+            if cfg[src_key] == 'dotcom':
+                rows = (dotcom or {}).get(cfg[sym_key])
+            else:
+                rows = load_ai_yahoo(yahoo_data, cfg[sym_key], cfg['anchor'])
+            if not rows:
+                print(f"  [WARN] {key}: {cfg[sym_key]} 없음 — {slot} skip")
+                continue
+            s2 = build_pair_series(rows, cfg['anchor'], end)
+            if not s2: continue
+            result[key][sym_key] = cfg[sym_key]
+            result[key][slot+'_label'] = cfg.get(label_key, cfg[sym_key])
+            result[key][color_key] = cfg[color_key]
+            result[key][slot+'_series'] = s2
+            print(f"    [+{slot}] {cfg[sym_key]} {len(s2)}일")
         print(f"  [{key}] {cfg['stock_sym']} {len(stock_series)}일 vs {cfg['index_sym']} {len(index_series)}일")
 
     return result if result else None
