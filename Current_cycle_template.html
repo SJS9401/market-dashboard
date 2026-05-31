@@ -519,16 +519,29 @@
         var datasets = [
           {label: d.dotcom_sym + ' (닷컴)', data: dotData, borderColor: d.dotcom_color,
            backgroundColor: 'transparent', borderWidth: 1.6, borderDash: [4, 3],
-           pointRadius: 0, tension: 0},
+           pointRadius: 0, tension: 0, yAxisID: 'y'},
           {label: d.ai_sym + ' (AI)', data: aiData, borderColor: d.ai_color,
            backgroundColor: 'transparent', borderWidth: 2,
-           pointRadius: 0, tension: 0}
+           pointRadius: 0, tension: 0, yAxisID: 'y'}
         ];
         if (d.extra_series && d.extra_series.length) {
           var exBase = d.extra_series[0].close;
           var exData = d.extra_series.map(function(x){ return {x: x.days, y: x.close / exBase * 100, dateLabel: x.date, raw: x.close}; });
           datasets.push({label: (d.extra_label || d.extra_sym) + ' (KR)', data: exData, borderColor: d.extra_color,
-            backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0});
+            backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, tension: 0, yAxisID: 'y'});
+        }
+        // 우측 축 — 지수들
+        var hasIndices = d.indices && d.indices.length;
+        if (hasIndices) {
+          d.indices.forEach(function(idx){
+            if (!idx.series || !idx.series.length) return;
+            var ib = idx.series[0].close;
+            var iData = idx.series.map(function(x){ return {x: x.days, y: x.close / ib * 100, dateLabel: x.date, raw: x.close}; });
+            datasets.push({label: idx.label, data: iData, borderColor: idx.color,
+              backgroundColor: 'transparent', borderWidth: 1.4,
+              borderDash: (idx.dash && idx.dash.length) ? idx.dash : undefined,
+              pointRadius: 0, tension: 0, yAxisID: 'y1'});
+          });
         }
 
         new Chart(document.getElementById(canvasId).getContext('2d'), {
@@ -551,14 +564,23 @@
                 }
               }
             },
-            scales: {
-              x: { type: 'linear', min: 0, max: xMax,
-                   title: { display: true, text: 'Cycle day (각 종목 시작점부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
-                   ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
-              y:  { type: 'logarithmic',
-                    title: { display: true, text: '인덱스 (시작점 = 100, Log)', color: '#cbd5e1', font: {size: 10} },
-                    ticks: { color: '#cbd5e1', font: {size: 10} }, grid: { color: '#1f242d' } }
-            }
+            scales: (function(){
+              var s = {
+                x: { type: 'linear', min: 0, max: xMax,
+                     title: { display: true, text: 'Cycle day (각 종목 시작점부터 캘린더 일수)', color: '#9ca3af', font: {size: 10} },
+                     ticks: { color: '#9ca3af', font: {size: 10} }, grid: { color: '#1f242d' } },
+                y:  { type: 'logarithmic', position: 'left',
+                      title: { display: true, text: '종목 인덱스 (시작=100, Log)', color: '#cbd5e1', font: {size: 10} },
+                      ticks: { color: '#cbd5e1', font: {size: 10} }, grid: { color: '#1f242d' } }
+              };
+              if (hasIndices) {
+                s.y1 = { type: 'logarithmic', position: 'right',
+                         title: { display: true, text: '지수 인덱스 (시작=100, Log)', color: '#a78bfa', font: {size: 10} },
+                         ticks: { color: '#a78bfa', font: {size: 10} },
+                         grid: { drawOnChartArea: false } };
+              }
+              return s;
+            })()
           }
         });
       }

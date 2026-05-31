@@ -59,7 +59,18 @@ DOTCOM_AI_ANCHORS = {
                'dotcom_color': '#fbbf24', 'ai_color': '#ef4444',
                # 한국 AI 메모리 주도주 (같은 anchor)
                'extra_sym': '000660.KS', 'extra_label': 'SK하이닉스',
-               'extra_anchor': date(2024, 6, 11), 'extra_color': '#22d3ee'},
+               'extra_anchor': date(2024, 6, 11), 'extra_color': '#22d3ee',
+               # 지수들 — 우측 축 (각 시기 anchor의 나스닥/코스피)
+               'indices': [
+                   {'sym': '^IXIC', 'source': 'dotcom', 'anchor': date(1997,12,1), 'end': date(2001,12,31),
+                    'label': 'Nasdaq (닷컴)', 'color': '#a78bfa', 'dash': [4,3]},
+                   {'sym': '^KS11', 'source': 'kospi_hist', 'anchor': date(1997,12,1), 'end': date(2001,12,31),
+                    'label': 'KOSPI (닷컴)', 'color': '#86efac', 'dash': [4,3]},
+                   {'sym': '^IXIC', 'source': 'yahoo', 'anchor': date(2024,6,11),
+                    'label': 'Nasdaq (현재)', 'color': '#c4b5fd', 'dash': []},
+                   {'sym': '^KS11', 'source': 'yahoo', 'anchor': date(2024,6,11),
+                    'label': 'KOSPI (현재)', 'color': '#bbf7d0', 'dash': []},
+               ]},
 }
 
 # 종목 vs 지수 비교 카드 (같은 시기 종목 + 나스닥 인덱스화)
@@ -259,6 +270,36 @@ def build_dotcom_ai_payload(yahoo_data):
                 result[key]['extra_color'] = cfg['extra_color']
                 result[key]['extra_series'] = extra_series
                 print(f"    [+extra] {cfg['extra_sym']} {len(extra_series)}일")
+
+        # indices (우측 축에 표시할 지수들)
+        if cfg.get('indices'):
+            indices_payload = []
+            for idx in cfg['indices']:
+                if idx['source'] == 'dotcom':
+                    rows = (dotcom or {}).get(idx['sym'])
+                elif idx['source'] == 'kospi_hist':
+                    # data/kospi_historical.json — ^KS11 1985~ 데이터
+                    rows = None
+                    if os.path.exists(HIST_PATH):
+                        with open(HIST_PATH, encoding='utf-8') as hf:
+                            hk = json.load(hf)
+                        rows = hk.get('data')
+                else:  # yahoo
+                    rows = load_ai_yahoo(yahoo_data, idx['sym'], idx['anchor'])
+                if not rows:
+                    print(f"    [WARN] {idx['sym']} ({idx['source']}) 데이터 없음")
+                    continue
+                idx_series = build_pair_series(rows, idx['anchor'], idx.get('end'))
+                if not idx_series: continue
+                indices_payload.append({
+                    'sym': idx['sym'], 'label': idx['label'], 'color': idx['color'],
+                    'dash': idx.get('dash', []),
+                    'anchor': idx['anchor'].strftime('%Y-%m-%d'),
+                    'series': idx_series,
+                })
+                print(f"    [+index] {idx['label']} {len(idx_series)}일")
+            if indices_payload:
+                result[key]['indices'] = indices_payload
         print(f"  [{key}] {cfg['dotcom_sym']} {len(dot_series)}일 ({dot_series[0]['date']}~{dot_series[-1]['date']}) "
               f"vs {cfg['ai_sym']} {len(ai_series)}일 ({ai_series[0]['date']}~{ai_series[-1]['date']})")
 
