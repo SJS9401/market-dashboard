@@ -29,6 +29,8 @@ analyst_reports_attached:
 
 > **본 분석 frame**: 에이전트AI 테마 분석(v3)의 16 segment 중 **SK하이닉스는 HBM #1 + DDR5 server #2 + eSSD #2 (3 segment 글로벌 Top 2)**. 단일 기업이 본 테마 반도체 측 핵심 segment 다수에서 글로벌 1-2위를 점유한 매우 예외적 위치. 본 분석은 그 해자 깊이를 정량·정성 검증.
 
+> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+
 ---
 
 ## Executive Summary

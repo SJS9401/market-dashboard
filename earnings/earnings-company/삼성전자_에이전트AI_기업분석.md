@@ -29,6 +29,8 @@ analyst_reports_attached:
 
 > **본 분석 frame**: 에이전트AI 테마 분석(v4)의 17 segment 중 **삼성전자는 DDR5 server #1 + eSSD #1 + HBM4 AMD preferred + HBM4 NVIDIA 양산 선두 + 파운드리 #2**. SK하이닉스가 본 테마 **집중형 (HBM 중심)** 주도주라면, **삼성전자는 분산형 (DDR5·eSSD 절대 우위 + HBM4 차세대 + 파운드리)** 주도주. DS 사업부만 보면 본 테마 가장 다축, 전체 매출 기준 DX 다각화 buffer로 본 테마 직접 노출은 **~22%** (SK 60%+ 대비 분산).
 
+> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+
 ---
 
 ## Executive Summary (5줄)

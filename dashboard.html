@@ -1994,9 +1994,15 @@ const INDICATOR_JSONS = [
 // 모든 KST cron times sorted — 다음 가까운 trigger 까지 카운트다운.
 // (yml 변경 시 sync 필요. 현재 us_breadth + yahoo_dashboard 가 06:00 추가 — 2026-05-28)
 const INDICATOR_CRON_KST = [
-  { h: 6,  m: 0  }, { h: 6,  m: 30 }, { h: 7,  m: 30 }, { h: 9,  m: 35 },
-  { h: 11, m: 30 }, { h: 12, m: 5  }, { h: 19, m: 0  },
-  { h: 20, m: 0  }, { h: 22, m: 0  }, { h: 22, m: 30 },
+  // yahoo_dashboard + us_breadth (옵션 B, 2026-06-02): 정각 회피 + 10분 간격
+  { h: 6,  m: 5  }, { h: 6,  m: 15 }, { h: 6,  m: 25 }, { h: 6,  m: 35 },
+  { h: 7,  m: 35 },                                       // 후행 (기존 07:30 → 07:35)
+  // kr_export
+  { h: 9,  m: 35 }, { h: 12, m: 5  },
+  // yahoo_dashboard + us_breadth 안전망 (기존 11:30 → 11:35)
+  { h: 11, m: 35 },
+  // krx_kr_indicators (vkospi/putcall), krx_kr_breadth
+  { h: 19, m: 0  }, { h: 20, m: 0  }, { h: 22, m: 0  }, { h: 22, m: 30 },
 ];
 let _indicatorOldest = null;
 async function fetchIndicatorMeta() {

@@ -26,6 +26,8 @@ narrative_shift_log:
 
 > **본 테마의 분석 frame**: 에이전트AI는 narrative-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 **추론 인프라**에 집중되고, 추론 인프라는 **반도체 + 전력** 두 축. HBM은 이미 시장이 반영했고 **신규 병목은 레거시 메모리·광통신·CPU·CoWoS**로 이동.
 
+> **점유율·CAPA 표기 기준**: 본 분석(테마/기업 분석 공통)의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group 등 메모리 시장 분석 표준 metric). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서는 다루지 않음.
+
 ---
 
 ## 표기 컨벤션

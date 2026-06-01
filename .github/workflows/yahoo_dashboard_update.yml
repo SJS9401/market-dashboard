@@ -20,10 +20,16 @@ name: Yahoo Dashboard Update
 
 on:
   schedule:
-    - cron: '0 21 * * *'    # 06:00 KST — 1차 (BT 데일리 프리뷰 07:10~15 직전 안정 갱신, 2026-05-28 추가)
-    - cron: '30 21 * * *'   # 06:30 KST — 2차 (기존 1차)
-    - cron: '30 22 * * *'   # 07:30 KST — 3차
-    - cron: '30 2 * * *'    # 11:30 KST — 4차 안전망
+    # 옵션 B (2026-06-02): GitHub Actions cron 정각 (`:00`, `:30`) skip 사고 후 정각 회피 + 10분 간격 4단계.
+    # 6/2 새벽 06:00·06:30 cron 모두 skip 으로 ^IXIC 6/1 데이터 14h 누락.
+    # GitHub Actions docs: "scheduled workflows may be delayed during periods of high loads ... start of every hour."
+    # 데일리 프리뷰 07:10~15 전 4번 시도 → 최소 1번은 success.
+    - cron: '5 21 * * *'    # 06:05 KST — 1차
+    - cron: '15 21 * * *'   # 06:15 KST — 2차
+    - cron: '25 21 * * *'   # 06:25 KST — 3차
+    - cron: '35 21 * * *'   # 06:35 KST — 4차
+    - cron: '35 22 * * *'   # 07:35 KST — 5차 (1-4차 모두 fail 시 후행)
+    - cron: '35 2 * * *'    # 11:35 KST — 6차 안전망
   workflow_dispatch:
 
 permissions:
