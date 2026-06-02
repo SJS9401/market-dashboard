@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>인텔(INTC) 기업분석 — 에이전트AI 테마</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --kr:#2ca02c; --us:#1f77b4; --jp:#9467bd; --semi:#76b900;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --intel:#0071c5; --amd:#ed1c24; --nvidia:#76b900; --arm:#0091bd; --tsmc:#cc0000;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.intel{background:var(--intel)}
+  .header .tag.theme{background:var(--catD)}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .intel-highlight{background:#cce5f5 !important;color:#003a6b !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  .bottleneck-A{background:#ffe0e0 !important;border-left:3px solid var(--catA) !important}
+  .cat-D{background:#e8f5e0 !important;border-left:3px solid var(--catD) !important}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .moat-score{display:inline-block;background:var(--intel);color:#fff;padding:2px 10px;border-radius:12px;font-weight:bold;font-size:14px}
+  .caveat{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:10px 14px;margin:12px 0;font-size:13px;color:#664d00}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력 정리·포지셔닝</a>
+    <a href="#s2">2. 해자 (Moat) ★</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#peer">메모리 3사 vs 인텔</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag intel">인텔 INTC</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <h1>인텔 — Turnaround 종목 (본 테마 직접 수혜자 X, Foundry 18A catch-up만 positive)</h1>
+      <div class="meta">parent_industry: 반도체 · cross-ref: 전력 인프라 · last_updated 2026-06-02 · moat_strength: <b>2.8/5.0 (segment 가중)</b></div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame</b>: 메모리 3사 (SK 4.4 / 삼성 4.3 / Micron 4.0) 사이클 정점 수혜와 정반대 — <b>인텔은 본 테마 핵심 segment에서 점유 가속 잠식 + AI 가속기 사실상 부재 + Foundry 18A catch-up 시작</b>. 본 테마 직접 수혜자가 아닌 <b>Turnaround 종목 (risk-reward 게임)</b>이 frame.
+    </div>
+
+    <div class="narrative" style="background:#eef3fa;border:1px dashed #1f3a68;color:#1a3a68;font-style:normal">
+      <b>점유율·CAPA 표기 기준</b>: 본 분석의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·IDC·Mercury Research). <b>CAPA는 wafer 기준</b> (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+    </div>
+
+    <div class="caveat">
+      <b>⚠ 최근 ★ 신규 위협 (2026-06-01 Computex/GTC Taipei)</b>: NVIDIA Jensen Huang keynote + Microsoft 공식 발표 — <b>"N1/N1X" Arm-based PC 칩 협력</b>. Qualcomm 단독이던 Windows on Arm에 NVIDIA 진입 = Intel client CPU 추가 위협. "New era of PC" narrative. Intel CCG $32.1B (60.7% 매출) 직접 영향.
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: x86 CPU #1이지만 <b>DC server CPU 점유 1년 만에 64.4%→54.9% (-9.5%p, Q1 2026 IDC)</b>. AMD 27.4% / <b>ARM 17.7% (1년 전 11.5%→17.7%, +6.2%p 가장 빠른 +)</b>. AI 가속기 ~0% (NVIDIA 96% 압도). <b>★ Intel Foundry 18A 양산 + Microsoft Maia 3 "Griffin" 첫 외부 대형 고객 확정 (2026-01)</b> — 유일한 명확한 positive.</li>
+          <li><b>해자 종합 (segment 가중)</b>: <span class="moat-score">2.8/5.0</span> — 메모리 3사 4.0+ 대비 1.5p 낮음. AI 가속기 1.5 (부재) / x86 server 3.0 / x86 client 4.2 (단 위협 가속) / <b>Intel Foundry 18A 4.0 / 미국 본토 지정학 4.8</b> / Mobileye 4.0 (별도 트렌드).</li>
+          <li><b>재무 (구조적 침체 + Turnaround 초기)</b>: <b>FY25 매출 $52.85B (-0.5% YoY) / OP $0.26B / OPM 0.5%</b> (2018 정점 $79B 대비 -33%, 12년 매출 CAGR <b>-0.46% 마이너스</b>). <b>Q1 2026 매출 $13.6B (+7%) / Non-GAAP EPS $0.29 (beat $0.01 컨센 28x) / GAAP EPS $(0.73)</b> (restructuring $2.1B). DCAI <b>+22% YoY ($5.1B)</b>, Foundry <b>+16% ($5.4B)</b>, CCG +1% ($7.7B). 신용등급 A2/BBB+/BBB+ (2024-10 동반 하향).</li>
+          <li><b>미래</b>: <b>★ Intel Foundry 14A 외부 고객 확보 성패가 회사 운명</b>. 18A: Microsoft Maia 3 + Amazon Xeon 6 + DoD $3B 확정. NVIDIA·Broadcom 테스트 단계. Turnaround 성공 시 PBR 1.0 → 1.5~2.0, 실패 시 Foundry 분사·매물화.</li>
+          <li><b>종합</b>: <span class="star">★ Turnaround risk-reward 종목 (메모리 3사 같은 주도주 X)</span>. (a) DC CPU 점유 지속 잠식 (b) NVIDIA+ARM 협력 확대 (c) AI 가속기 완전 부재 3대 risk. 단 (1) Foundry 18A Microsoft 확보 + 14A ramp (2) NVIDIA $5B 지분 인수 시너지 (3) Lip-Bu Tan Turnaround가 optionality.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + 기업 포지셔닝</h2>
+
+      <h3>1-1. 자동 참조</h3>
+      <table>
+        <tr><th>참조</th><th>상태</th><th>활용</th></tr>
+        <tr><td><code>반도체_산업기초.md</code></td><td>✓ 2026-05-18</td><td>(A) 구조적 메가 병목 — 단 인텔은 병목 잠식자 측</td></tr>
+        <tr><td><code>전력 인프라_산업기초.md</code></td><td>✓ 2026-05-18</td><td>cross-ref</td></tr>
+        <tr><td><code>에이전트AI_테마분석.md</code></td><td>✓ v4 2026-05-26</td><td>17 segment, CPU 병목 segment 위치</td></tr>
+        <tr><td><code>INTC_기업개요.md</code></td><td>✓ v4.9 2026-05-18</td><td>SEC 10-K 16개·10-Q 46개·Intel IR Quarterly 기반</td></tr>
+        <tr><td>BT 첨부</td><td>Q1 2026 8-K + GTC Taipei keynote 2026-06-01</td><td>최신 fact</td></tr>
+      </table>
+
+      <h3>1-2. Segment별 위치</h3>
+      <div class="chart-card">
+        <h4>인텔 본 테마 segment 글로벌 점유 (Q1 2026, 매출 기준)</h4>
+        <canvas id="shareChart" height="220"></canvas>
+        <div class="src">→ DC CPU 64.4%→54.9% (-9.5%p YoY) / Client CPU ~75% / AI 가속기 ~0% / Foundry &lt;1% / 미국 본토 첨단 #1</div>
+      </div>
+
+      <h3>1-3. 사업부 구성 (FY25)</h3>
+      <table>
+        <tr><th>Segment</th><th>FY25 매출</th><th>YoY</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr class="intel-highlight"><td><b>CCG</b> (Client Computing, PC Core)</td><td><b>$32.1B</b></td><td>+6%</td><td>AI PC (간접)</td><td><b>60.7%</b></td></tr>
+        <tr class="intel-highlight"><td><b>DCAI</b> (Data Center & AI)</td><td><b>$13.05B</b></td><td>+2%</td><td>★ 본 테마 직접 (CPU)</td><td><b>24.7%</b></td></tr>
+        <tr class="intel-highlight"><td><b>Intel Foundry</b></td><td><b>$13.86B</b></td><td>-21%</td><td>★ 본 테마 인프라</td><td><b>26.2%</b></td></tr>
+        <tr><td>All Other (Mobileye·IMS·Altera 분사 전)</td><td>$3.5B</td><td>-37%</td><td>Mobileye = 자율주행 별도</td><td>6.6%</td></tr>
+        <tr><td>Intersegment 조정</td><td>-$9.66B</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td><b>Total</b></td><td><b>$52.85B</b></td><td><b>-0.5%</b></td><td></td><td>100%</td></tr>
+      </table>
+      <p><b>본 테마 직접 매출 노출 ≈ 30%</b> (DCAI 100% + Foundry 외부 매출 일부 + CCG AI PC 일부) — SK 60%+·Micron 70%·삼성 22% 대비 중간, 단 <b>점유 잠식 + AI 가속기 부재로 실질 수혜 미미</b>.</p>
+    </section>
+
+    <section id="s2">
+      <h2>항목 2. 비즈니스 모델 & 해자 (Moat) — Segment별</h2>
+
+      <h3>2-1. 비즈니스 모델 — 핵심 차별점</h3>
+      <ul>
+        <li><b>x86 server CPU (Xeon 6 Granite Rapids + Sierra Forest)</b> — DCAI 핵심. AMD EPYC·ARM Neoverse 양면 압박</li>
+        <li><b>x86 client CPU (Core Ultra Panther Lake, 18A)</b> — CCG 핵심. 2025-10 첫 18A 제품. <b>★ NVIDIA+MSFT N1/N1X 신규 위협</b></li>
+        <li><b>AI 가속기 (Gaudi 3, Habana)</b> — 5nm, 8 MME + 64 TPC. "2x perf/$" 차별화 시도, 단 NVIDIA CUDA 압도</li>
+        <li><b>★ Intel Foundry 18A</b> — RibbonFET + PowerVia 세계 최초. <b>Microsoft Maia 3 "Griffin" + Amazon Xeon 6 + DoD Secure Enclave $3B</b> 확정</li>
+        <li><b>미국 본토 지정학</b> — CHIPS Act $7.86B 확정 (단일 최대). Ohio·AZ·NM fab. Germany·Poland 취소</li>
+        <li><b>Mobileye (79.9% 자회사)</b> — 자율주행 ADAS, 본 에이전트AI와 별도 트렌드</li>
+      </ul>
+
+      <h3>2-2. Moat 종류별 Segment 평가 (메모리 3사와 mirror 구조)</h3>
+
+      <h4>Segment 1. x86 server CPU (Xeon, DC)</h4>
+      <table>
+        <tr><th>축</th><th>인텔</th><th>AMD</th><th>ARM (Graviton·Cobalt·Axion)</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>3</td><td><b>4</b></td><td>4</td><td>AMD Zen 4/5 우위, ARM Neoverse 효율</td></tr>
+        <tr><td>메모리 절대 CAPA</td><td><b>5</b> (IDM)</td><td>3 (TSMC dep)</td><td>3 (TSMC dep)</td><td>인텔 유일 IDM 양면</td></tr>
+        <tr><td>고객 lock-in</td><td>3 (잠식)</td><td><b>4</b></td><td>4 (hyperscaler 자체 ARM)</td><td>x86 ecosystem 약화</td></tr>
+        <tr><td>규모 (server CPU 매출)</td><td><b>4</b> ($13B DCAI)</td><td>4 (~$13B)</td><td>4 (자체 chip)</td><td>인텔 단일 #1</td></tr>
+        <tr><td>병목 포지셔닝</td><td>2 (잠식자)</td><td>4 (+)</td><td><b>5</b> (가장 빠른 +)</td><td>ARM +6.2%p YoY</td></tr>
+        <tr class="intel-highlight"><td><b>평균</b></td><td><b>3.4</b></td><td><b>3.8</b></td><td><b>4.0</b></td><td><b>ARM·AMD 우위, Intel 후발</b></td></tr>
+      </table>
+
+      <h4>Segment 2. x86 client CPU (PC, Core) — ★ N1/N1X 신규 위협</h4>
+      <table>
+        <tr><th>축</th><th>인텔</th><th>AMD</th><th>ARM (Qualcomm + ★ NVIDIA N1/N1X)</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>4</b> (18A 첫)</td><td>4</td><td>3 (NVIDIA 신규)</td><td>인텔 18A Panther Lake</td></tr>
+        <tr><td>CAPA</td><td><b>5</b></td><td>3</td><td>3</td><td>인텔 자체 fab</td></tr>
+        <tr><td>고객 lock-in</td><td><b>4</b> (Windows + x86 75%)</td><td>3</td><td>2 (ARM ecosystem 미숙)</td><td>x86 절대 (단 weakening)</td></tr>
+        <tr><td>규모</td><td><b>5</b> ($32.1B CCG)</td><td>3</td><td>2 (시장 진입 초기)</td><td>인텔 매출 압도</td></tr>
+        <tr><td>병목 포지셔닝</td><td>3 (위협 진행)</td><td>3</td><td><b>4</b> (★ NVIDIA+MSFT 신규)</td><td>★ 2026-06-01 Computex 발표</td></tr>
+        <tr class="intel-highlight"><td><b>평균</b></td><td><b>4.2</b></td><td><b>3.2</b></td><td><b>2.8</b></td><td><b>인텔 client 아직 강함, 단 위협 가속</b></td></tr>
+      </table>
+
+      <h4>Segment 3. AI 가속기 (Gaudi 3, GPU)</h4>
+      <table>
+        <tr><th>축</th><th>인텔</th><th>NVIDIA</th><th>AMD (MI300/400)</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td>2</td><td><b>5</b></td><td>4</td><td>NVIDIA CUDA 압도</td></tr>
+        <tr><td>CAPA</td><td>3 (자체 fab)</td><td><b>5</b></td><td>3 (TSMC)</td><td>NVIDIA 우선</td></tr>
+        <tr><td>고객 lock-in</td><td>1 (점유 ~0%)</td><td><b>5</b> (96%)</td><td>3 (4%)</td><td>CUDA lock-in 절대</td></tr>
+        <tr><td>규모</td><td>1 (매출 미미)</td><td><b>5</b> ($200B+ DC)</td><td>3 ($5B+ MI)</td><td>인텔 부재</td></tr>
+        <tr><td>병목 포지셔닝</td><td>1 (병목 외)</td><td><b>5</b> (병목)</td><td>3 (alt)</td><td>인텔 거의 부재</td></tr>
+        <tr class="warning-highlight"><td><b>평균</b></td><td><b>1.6</b></td><td><b>5.0</b></td><td><b>3.2</b></td><td><b>인텔 사실상 부재, NVIDIA 절대</b></td></tr>
+      </table>
+
+      <h4>Segment 4. Intel Foundry 18A (★ 주요 catch-up)</h4>
+      <table>
+        <tr><th>축</th><th>Intel 18A</th><th>TSMC N2</th><th>삼성 2GAP</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>4</b> (RibbonFET + PowerVia 세계 최초)</td><td>4</td><td>3</td><td>Intel 기술 동급</td></tr>
+        <tr><td>CAPA</td><td>3 (양산 시작)</td><td><b>5</b></td><td>3</td><td>TSMC 압도</td></tr>
+        <tr><td>고객 lock-in</td><td>3 (Microsoft Maia 3 ★)</td><td><b>5</b> (Apple·NVIDIA·AMD)</td><td>3</td><td>Intel 첫 외부 대형</td></tr>
+        <tr><td>규모</td><td>2 ($13.86B 내부 큼)</td><td><b>5</b> ($90B+)</td><td>3 (~$15B)</td><td>TSMC 격차 큼</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>4</b> (미국 본토 지정학)</td><td>4 (지정학 risk)</td><td>3</td><td>Intel 본 segment catch-up</td></tr>
+        <tr class="intel-highlight"><td><b>평균</b></td><td><b>3.2</b></td><td><b>4.6</b></td><td><b>3.0</b></td><td><b>TSMC 압도, Intel 18A catch-up 시작</b></td></tr>
+      </table>
+
+      <h4>Segment 5. 미국 본토 지정학 (CHIPS Act + 첨단 공정)</h4>
+      <table>
+        <tr><th>축</th><th>인텔</th><th>마이크론</th><th>TSMC AZ</th><th>삼성 TX</th></tr>
+        <tr><td>기술/특허</td><td><b>5</b> (18A)</td><td>3 (메모리)</td><td><b>5</b> (N4P)</td><td>4</td></tr>
+        <tr><td>CAPA</td><td><b>5</b></td><td>4</td><td>3 (AZ만)</td><td>2</td></tr>
+        <tr><td>고객 lock-in</td><td>4 (MSFT·AMZN·DoD)</td><td><b>5</b> (메모리 유일)</td><td>4</td><td>3</td></tr>
+        <tr><td>규모 (CHIPS Act 보조)</td><td><b>5</b> ($7.86B 최대)</td><td>4 ($6.1B)</td><td>4 ($6.6B)</td><td>3 ($4.7B)</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td>4</td><td>4</td><td>3</td></tr>
+        <tr class="intel-highlight"><td><b>평균</b></td><td><b>4.8</b></td><td><b>4.0</b></td><td><b>4.0</b></td><td><b>3.0</b></td></tr>
+      </table>
+      <p>→ <b>인텔 미국 본토 지정학 4.8 = 단일 최상</b>. CHIPS Act $7.86B 단일 최대 + 첨단 공정 18A + Ohio·AZ·NM fab. Trump 행정부 onshore narrative 수혜.</p>
+
+      <div class="chart-card">
+        <h4>인텔 본 테마 Moat 평균 점수 (segment별)</h4>
+        <canvas id="moatBySegment" height="240"></canvas>
+        <div class="src">→ Foundry 18A·미국 본토 = Catch-up positive / x86 client = 4.2 buoyant (단 N1/N1X 위협) / AI 가속기 1.6 부재</div>
+      </div>
+
+      <h3>2-3. 병목 수혜 강도 정량화</h3>
+      <table>
+        <tr><th>병목</th><th>인텔 수혜 메커니즘</th><th>카테고리</th><th>정량 추정</th></tr>
+        <tr><td>CPU 절대 수요 ↑</td><td>Xeon 6 매출 +22% (Q1 2026 $5.1B)</td><td><span class="pill A">(A)</span></td><td>점유 잠식이 매출 +를 상쇄</td></tr>
+        <tr class="warning-highlight"><td>AI 가속기 ↑</td><td>Gaudi 3 매출 미미</td><td><span class="pill A">(A)</span></td><td><b>수혜 거의 없음 — NVIDIA 96%</b></td></tr>
+        <tr><td>AI PC ↑</td><td>Core Ultra Panther Lake</td><td><span class="pill D">(D)</span></td><td>일부 수혜, 단 N1/N1X 위협</td></tr>
+        <tr class="intel-highlight"><td><b>★ Foundry 첨단 공정 ↑</b></td><td>Microsoft Maia 3 + Amazon + DoD</td><td><span class="pill A">(A)</span></td><td><b>유일한 명확한 + — 18A ramp 2026-28</b></td></tr>
+        <tr><td>미국 본토 지정학 ↑</td><td>CHIPS Act $7.86B + 단일 최대 fab</td><td><span class="pill A">(A)</span></td><td>valuation premium (매출 직접 아님)</td></tr>
+      </table>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 실적 추이 — 12년 사이클 + 12분기 (기업개요 v4.9)</h3>
+      <div class="chart-card">
+        <h4>인텔 12년 매출·OPM 추이 (2014~2025) — 정점 → 침체 → Turnaround 초기</h4>
+        <canvas id="cycleChart" height="240"></canvas>
+        <div class="src">→ 매출 2018·2020·2021 정점 → 2024 -22% 적자 → 2025 0.5% 흑자전환. <b>12년 매출 CAGR -0.46% (마이너스)</b> = 사이클 아닌 secular decline</div>
+      </div>
+
+      <h3 style="color:#b03030">★ Q1 2026 분기 실적 (Turnaround 초기)</h3>
+      <table>
+        <tr><th>항목</th><th>Q1 2026 (CY)</th><th>YoY</th><th>비고</th></tr>
+        <tr class="intel-highlight"><td>매출</td><td><b>$13.6B</b></td><td><b>+7%</b></td><td>7개 분기 만에 의미 있는 +</td></tr>
+        <tr><td>Intel Products</td><td>$12.8B</td><td>+9%</td><td>CCG + DCAI 합산</td></tr>
+        <tr><td>GAAP OPM</td><td>0.5%</td><td>+3%p</td><td>흑자 ($0.07B OP)</td></tr>
+        <tr class="warning-highlight"><td>GAAP EPS</td><td><b>$(0.73)</b></td><td>n/a</td><td>restructuring charge $2.1B 차지</td></tr>
+        <tr class="intel-highlight"><td><b>Non-GAAP EPS</b></td><td><b>$0.29</b></td><td>beat $0.01 컨센 28x</td><td>정상 회복</td></tr>
+        <tr class="intel-highlight"><td><b>DCAI 매출</b></td><td><b>$5.1B</b></td><td><b>+22% YoY</b></td><td><b>★ 가장 빠른 segment</b></td></tr>
+        <tr class="intel-highlight"><td><b>Intel Foundry 매출</b></td><td><b>$5.4B</b></td><td><b>+16% YoY</b></td><td>18A 양산 ramp (MSFT Maia 3)</td></tr>
+        <tr><td>CCG 매출</td><td>$7.7B</td><td>+1%</td><td>PC 시장 정체 (AI PC 약함)</td></tr>
+      </table>
+
+      <h3>3-2. 사업부별 PQC 분해 — Q1 2026 fact</h3>
+      <table>
+        <tr><th>차원</th><th>CCG (PC)</th><th>DCAI (server)</th><th>Intel Foundry</th></tr>
+        <tr><td>P (ASP 변화)</td><td>+5% (Core Ultra)</td><td>+10% (Xeon 6)</td><td>양산 가격 normal</td></tr>
+        <tr><td>Q (출하량 변화)</td><td>-4% (PC 정체)</td><td>+10% (시장 +19% 대비 -9%p underperform)</td><td>+16% (18A ramp)</td></tr>
+        <tr><td>매출 (P×Q)</td><td>$7.7B (+1%)</td><td>$5.1B (+22%)</td><td>$5.4B (+16%)</td></tr>
+        <tr><td>OPM</td><td>~10-12%</td><td>~5-8%</td><td>약 -25% (대규모 적자 지속)</td></tr>
+      </table>
+      <p>→ <b>DCAI +22% YoY는 본 테마 수혜 신호이지만 동시에 점유율 가속 잠식 진행</b>. 시장 성장 +19% 대비 미미한 outperform — AMD EPYC +57% YoY로 인텔 추월.</p>
+
+      <h3>3-3. 재무 건전성 (기업개요 v4.9 fact)</h3>
+      <table>
+        <tr><th>항목</th><th>FY24 / FY25 / Q1 2026</th></tr>
+        <tr><td>자본총계</td><td>$99.4B → $90.3B (FY24→FY25)</td></tr>
+        <tr><td>OCF</td><td>$8.3B (FY24) / $8.7B (FY25) — 정점 대비 -72%</td></tr>
+        <tr><td>FCF</td><td>-$15B (FY24) / +$0.5B (FY25) — Lip-Bu Tan 후 회복</td></tr>
+        <tr class="intel-highlight"><td><b>CapEx</b></td><td><b>$24B (FY24) → $8.2B (FY25, -66%)</b> — Ohio 슬로우다운, Germany·Poland 취소</td></tr>
+        <tr><td>Cash + ST Inv</td><td>$22.5B (FY25말)</td></tr>
+        <tr><td>Debt / Debt-Equity</td><td>~$80B / 1.13</td></tr>
+        <tr class="warning-highlight"><td><b>신용등급 (★ 2024-10 동반 하향)</b></td><td>Moody's A2 (←A1) / S&P BBB+ (←A) / Fitch BBB+ — 메모리 3사 회복 흐름과 반대</td></tr>
+        <tr class="intel-highlight"><td><b>CHIPS Act</b></td><td><b>$7.86B 확정 (2024-11)</b> — 미국 단일 최대 ($3B은 DoD Secure Enclave 차감)</td></tr>
+        <tr><td>배당 / 자사주</td><td>2024-08 배당 중단 / 2022 이후 자사주 매입 중단</td></tr>
+        <tr><td>직원 수</td><td>약 99,500명 (FY25말, -24K YoY) — 15-20% 구조조정</td></tr>
+        <tr><td>발행주식수 / 시총</td><td>약 4.6B 주 / 약 $100B (2026-05, 2020 정점 $290B 대비 -66%)</td></tr>
+        <tr><td>CEO / CFO</td><td><b>Lip-Bu Tan (2025-03-18~, 前 Cadence)</b> / David Zinsner (2022.01~, 前 Micron CFO)</td></tr>
+      </table>
+      <blockquote><b>주요 자본 movement 2025</b>: Altera 51% 분사 (2025-09-12, Silver Lake $4.46B) + <b>★ NVIDIA $5B 지분 인수 (2025-09-18, 4% 지분)</b> 주가 +35% 급등. Mobileye 79.9% 자회사 유지 — SOTP 별도 계산.</blockquote>
+
+      <h3>3-4. 피어 수익성 비교 (Non-GAAP OPM 통일)</h3>
+      <div class="chart-card">
+        <h4>메이저 반도체 글로벌 peer 1Q26 OPM (Non-GAAP)</h4>
+        <canvas id="peerOpm" height="200"></canvas>
+        <div class="src">→ <b>인텔만 OPM 한자릿수</b> = 메모리 3사·NVIDIA·AMD·TSMC와 완전 분리된 위치. Turnaround 진척 시 회복 가능</div>
+      </div>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률 (12년 CAGR)</h3>
+      <table>
+        <tr><th>기업</th><th>12년 매출 CAGR</th><th>비고</th></tr>
+        <tr class="warning-highlight"><td><b>인텔</b></td><td><b>-0.46% (마이너스)</b></td><td>구조적 침체</td></tr>
+        <tr><td>NVIDIA</td><td>+30%+</td><td>AI secular</td></tr>
+        <tr><td>TSMC</td><td>+15%+</td><td>Foundry 메가</td></tr>
+        <tr><td>AMD</td><td>+20%+</td><td>점유 + AI MI</td></tr>
+        <tr><td>SK하이닉스</td><td>+12%+</td><td>HBM 메가</td></tr>
+        <tr><td>마이크론</td><td>+7%+</td><td>메모리 사이클 + HBM</td></tr>
+      </table>
+      <p>→ <b>인텔만 12년 마이너스 CAGR</b> — 반도체 동종 중 압도적 underperform.</p>
+
+      <h3>4-2. 향후 PQC 전망 (4Q + 2Y)</h3>
+
+      <h4>CCG (Client CPU) — <span class="pill D">(D)</span> 위협 진행</h4>
+      <table>
+        <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th><th>출처</th></tr>
+        <tr><td>P</td><td>+5·5·3·3%</td><td>+5·0%</td><td>Core Ultra premium</td><td>Intel IR Q1 26</td></tr>
+        <tr><td>Q</td><td>-3·0·+5·+10%</td><td>+10·15%</td><td>AI PC 침투 (단 N1/N1X 위협)</td><td>IDC PC</td></tr>
+        <tr class="intel-highlight"><td><b>→ 매출</b></td><td><b>+5-10% YoY</b></td><td><b>+15-25% (2Y)</b></td><td>위협 진행, 18A leverage</td><td>9개 셀사이드 컨센</td></tr>
+      </table>
+
+      <h4>DCAI (Server + AI 가속기) — <span class="pill A">(A)</span> 구조적 메가 병목 (단 후발)</h4>
+      <table>
+        <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th><th>출처</th></tr>
+        <tr><td>P</td><td>+10·10·5·5%</td><td>+5·0%</td><td>Xeon 6 premium</td><td>Intel IR</td></tr>
+        <tr><td>Q</td><td>+10·15·15·15%</td><td>+25·15%</td><td>시장 강함, 점유 잠식</td><td>IDC server CPU</td></tr>
+        <tr class="intel-highlight"><td><b>→ 매출</b></td><td><b>+22-30%</b></td><td><b>+30-40% (2026)</b></td><td>DCAI 가장 빠른 성장</td><td>컨센·테마 v4</td></tr>
+      </table>
+
+      <h4>Intel Foundry — <span class="pill A">(A)</span> catch-up 시작</h4>
+      <table>
+        <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th><th>출처</th></tr>
+        <tr><td>P</td><td>normal</td><td>normal</td><td>양산 단가 안정</td><td>Intel IR</td></tr>
+        <tr><td>Q</td><td>+15·20·25·30%</td><td>+60·80%</td><td>★ 18A ramp + MSFT Maia 3 + Amazon + DoD</td><td>테마 v4 + 외부 고객</td></tr>
+        <tr class="intel-highlight"><td><b>→ 매출</b></td><td><b>+15-30%</b></td><td><b>+100% (2026)·+80% (2027)</b></td><td>18A 외부 본격 양산</td><td>컨센</td></tr>
+        <tr><td>OPM</td><td>-25% → -15%</td><td>-10% → +5%</td><td>양산 효율 + 외부 비중 +</td><td>—</td></tr>
+      </table>
+
+      <h4>회사 전체 매출·OPM 전망</h4>
+      <div class="chart-card">
+        <h4>인텔 매출·OP·OPM 전망 (FY24-FY27E)</h4>
+        <canvas id="outlookChart" height="240"></canvas>
+        <div class="src">→ FY25 0.5% → FY26E ~5-8% → FY27E ~10-15% (단 14A 외부 고객 확보 시나리오)</div>
+      </div>
+
+      <blockquote><b>알 수 없음 시나리오</b>: 14A 외부 대형 고객 (Apple·NVIDIA·Qualcomm 중 1+) 확보 시 → Foundry 분사 가능 + 별도 valuation. 미확보 시 14A 중단 + Foundry 매물화 + 인텔 CPU 단독 회사로 축소.</blockquote>
+
+      <h3>4-3. 피어 그룹 비교</h3>
+      <table>
+        <tr><th>기업</th><th>FY25 매출</th><th>5년 CAGR</th><th>FY25 OPM</th><th>1Q26 OPM</th><th>핵심 차이</th></tr>
+        <tr class="warning-highlight"><td><b>인텔</b></td><td>$52.85B</td><td><b>-7%/년</b></td><td>0.5%</td><td>1%</td><td>Turnaround, x86 잠식, Foundry catch-up</td></tr>
+        <tr><td>AMD</td><td>~$25B</td><td>+25%+</td><td>25%+</td><td>30%+</td><td>x86 server + AI MI 양면</td></tr>
+        <tr><td>NVIDIA</td><td>~$130B+</td><td>+50%+</td><td>60%+</td><td>65%+</td><td>AI 가속기 96%</td></tr>
+        <tr><td>TSMC</td><td>~$90B+</td><td>+20%</td><td>45%+</td><td>50%+</td><td>Foundry 압도, 18A 동급 단 규모 격차</td></tr>
+        <tr><td>ARM Holdings</td><td>~$5B</td><td>+25%+</td><td>30%+</td><td>35%+</td><td>라이선스, 모든 ARM CPU 수혜</td></tr>
+      </table>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>Fact / Raw Data</th></tr>
+        <tr><td>현재 시장 점유 + 추이</td><td>DC CPU x86: 64.4% → <b>54.9% (-9.5%p YoY, Q1 2026)</b>. PC CPU: ~75% (안정, N1/N1X 위협). AI 가속기: ~0%. Foundry: &lt;1%</td></tr>
+        <tr><td>현재 CAPA + 증설</td><td>Arizona Fab 52 양산, Ohio (슬로우다운, 2027~), NM Fab 9 패키징. <b>CHIPS Act $7.86B 확정</b>. Germany·Poland 취소. CapEx FY24 $24B → FY25 $8.2B (-66%)</td></tr>
+        <tr><td>사이클 마진 진폭 (12년)</td><td>OPM -22.0% (FY24) ~ +32.9% (FY18) = <b>54.9%p</b>. 단 사이클 아닌 secular decline</td></tr>
+        <tr><td>기술 격차·R&D·IP</td><td><b>Intel 18A 양산 시작 (2025-10)</b> — RibbonFET + PowerVia 세계 최초. <b>14A (2027-2028) 외부 고객 의존</b>. R&D/Revenue FY24 31% → FY25 26%</td></tr>
+        <tr class="intel-highlight"><td><b>★ 18A 외부 고객</b></td><td>Microsoft Maia 3 (Griffin), Amazon Xeon 6 custom + AI fabric, DoD $3B Secure Enclave 확정. Broadcom·NVIDIA 테스트 단계. Tata·AMD 협상</td></tr>
+        <tr class="intel-highlight"><td><b>★ 신규 수주·계약</b></td><td><b>Microsoft Maia 3 멀티년 (2026-01)</b> + <b>NVIDIA $5B 지분 인수 (2025-09-18, 4% 지분, +35%)</b> + Altera 51% 매각 (2025-09-12, $4.46B)</td></tr>
+        <tr><td>자본·시총</td><td>자본 $90.3B (FY25), 시총 약 $100B (2026-05, 2020 정점 $290B 대비 -66%), PBR 약 1.0 (역사적 저점)</td></tr>
+        <tr class="intel-highlight"><td><b>Q1 2026 실적 (★)</b></td><td>매출 $13.6B (+7%) / Intel Products $12.8B (+9%) / <b>DCAI $5.1B (+22%)</b> / Foundry $5.4B (+16%) / CCG $7.7B (+1%) / <b>Non-GAAP EPS $0.29 (beat $0.01 컨센 28x)</b> / GAAP EPS $(0.73) (restructuring $2.1B)</td></tr>
+        <tr class="warning-highlight"><td><b>★ 2026-06-01 GTC Taipei</b></td><td><b>NVIDIA + MSFT "N1/N1X" Arm-based PC 칩</b> Computex 발표 — Windows on Arm 본격화. <b>"new era of PC"</b> narrative. Intel client CPU 추가 위협</td></tr>
+        <tr><td>Lip-Bu Tan Turnaround 1년 차</td><td>15-20% 인력 감축 / CapEx -66% / Germany·Poland 취소 / Costa Rica 통합 / Altera 51% 매각 / NVIDIA 시너지 / 18A 양산 / Microsoft Maia 3 확보. <b>첫 1년 평가 = 비용 절감 + Foundry 외부 고객 확보 성공</b></td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h3>상방 트리거 (Turnaround 가속)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr class="intel-highlight"><td><b>18A 외부 대형 추가 고객 (NVIDIA·Apple·Qualcomm 중 1+)</b></td><td>2026 H2 - 2027</td><td>Foundry secular 강화, PBR 1.5+ 가능</td></tr>
+        <tr class="intel-highlight"><td><b>14A 외부 대형 고객 확보</b></td><td>2027-2028</td><td><b>Foundry 사업 미래 결정 (실패 시 매물화)</b></td></tr>
+        <tr><td>DCAI 매출 5분기 연속 +20%+</td><td>2026 분기별</td><td>점유 잠식 stop 시그널</td></tr>
+        <tr><td>AMD DC CPU 점유 정체 (현 27% 동결)</td><td>2026 H2</td><td>x86 ecosystem 안정화</td></tr>
+        <tr><td>Lip-Bu Tan 2년 milestone 달성</td><td>2027-03</td><td>Turnaround 가속 실증</td></tr>
+        <tr><td>CHIPS Act 추가 라운드</td><td>2026-2027</td><td>미국 정책 신뢰 지속</td></tr>
+        <tr><td>NVIDIA 추가 시너지 (joint product·foundry)</td><td>2026 H2</td><td>$5B 지분 효과 확대</td></tr>
+      </table>
+
+      <h3>하방 트리거 (구조적 침체 가속)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr class="warning-highlight"><td><b>★ NVIDIA + MSFT N1/N1X 본격 출시</b></td><td>2026 Q3-Q4</td><td>client CPU 점유 잠식 가속 (Windows on Arm 본격)</td></tr>
+        <tr class="warning-highlight"><td>AMD DC CPU 점유 30% 돌파</td><td>2026 H2</td><td>인텔 server CPU secular 침체</td></tr>
+        <tr><td>18A yield 악화 발표</td><td>2026 분기별</td><td>Foundry 외부 고객 신뢰 흔들림</td></tr>
+        <tr class="warning-highlight"><td><b>14A 외부 고객 미확보 + 14A 중단</b></td><td>2027-2028</td><td>Foundry 분사·매물화 + 인텔 단독 CPU 회사로 축소</td></tr>
+        <tr><td>AI 가속기 매출 정체 (Gaudi 5 후에도)</td><td>2026-2027</td><td>NVIDIA·AMD 압도 영구화</td></tr>
+        <tr><td>Lip-Bu Tan 사임 또는 board 갈등</td><td>2027 H1</td><td>Pat Gelsinger 사임 재발 risk</td></tr>
+      </table>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단</h2>
+
+      <h3>매트릭스 평가</h3>
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr><td>상위 트렌드 적합성</td><td>★ 후발</td><td>본 테마 핵심 segment 점유 잠식·부재</td></tr>
+        <tr><td>산업 위치</td><td>★★ 약</td><td>x86 #1이지만 secular decline, AI 가속기 ~0%, Foundry catch-up</td></tr>
+        <tr><td>해자 강도 (Moat)</td><td>★★ 2.8/5.0</td><td>메모리 3사 4.0+ 대비 1.5p 낮음</td></tr>
+        <tr><td>재무 건전성</td><td>★★ 중</td><td>자본 $90B, FCF 회복 초기, 신용 하향, 배당 중단</td></tr>
+        <tr><td>성장 가시성 (2-3년)</td><td>★★ 중</td><td>DCAI +22% / Foundry +16% (Q1 2026), 단 점유 잠식 동시</td></tr>
+        <tr class="intel-highlight"><td><b>Turnaround 가능성</b></td><td><b>★★★ 가능</b></td><td>Lip-Bu Tan 비용 절감 가속, MSFT Maia 3 확보, NVIDIA 시너지</td></tr>
+      </table>
+
+      <h3>핵심 투자 포인트 3</h3>
+      <ol>
+        <li><b>★ Intel Foundry 18A 첫 외부 대형 고객 확보 (Microsoft Maia 3 "Griffin")</b> — 첫 미국 본토 hyperscaler 첨단 AI 칩 양산. Amazon Xeon 6 + DoD $3B 추가. 14A 외부 고객 ramp이 회사 운명 결정.</li>
+        <li><b>★ Lip-Bu Tan Turnaround 1년 차 트랙 record</b> — CapEx -66% / 15-20% 구조조정 / Germany·Poland 취소 / Altera 51% 매각 / NVIDIA $5B 지분 / 18A 양산. <b>분기 흑자 회복</b> (Q1 2026 Non-GAAP EPS $0.29 beat $0.01 컨센 28x).</li>
+        <li><b>미국 본토 지정학 + CHIPS Act $7.86B</b> — 마이크론과 함께 미국 본토 첨단 공정 메이저. Trump 행정부 onshore narrative 수혜. valuation premium narrative.</li>
+      </ol>
+
+      <h3>핵심 리스크 3</h3>
+      <ol>
+        <li><b>x86 server CPU 점유율 가속 잠식</b> — Q1 2026 IDC: Intel 64.4%→<b>54.9% (-9.5%p YoY)</b>, AMD +3.3%p, <b>ARM +6.2%p (가장 빠른 +)</b>. AMD EPYC + ARM Neoverse 양면 압박. ARM 점유 17.7% = 1년 만에 거의 2배.</li>
+        <li><b>★ NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 (Computex 2026-06-01 발표)</b> — Windows on Arm 본격화 → client CPU 점유 75%에 추가 위협. Jensen Huang "new era of PC" narrative. Qualcomm 단독에서 NVIDIA 진입으로 ARM PC 신뢰성 가속.</li>
+        <li><b>AI 가속기 완전 부재 + Gaudi 매출 미미</b> — NVIDIA 96% + AMD 4% 압도. Habana Labs 인수 ($2B, 2019) 이후 7년에도 의미 있는 매출 부재. CUDA ecosystem lock-in 절대.</li>
+      </ol>
+    </section>
+
+    <section id="peer">
+      <h2>메모리 3사 vs 인텔 — 본 테마 포지셔닝 비교</h2>
+      <div class="chart-card">
+        <h4>본 테마 Moat 비교 (segment 가중 평균)</h4>
+        <canvas id="threeWayPlusIntel" height="240"></canvas>
+        <div class="src">→ SK 4.4 · Micron 4.0 · 삼성 4.3 = 메모리 3사 (주도주 후보) / <b>Intel 2.8 = Turnaround 종목 (수혜자가 아닌 잠식당하는 측)</b></div>
+      </div>
+
+      <table>
+        <tr><th>구분</th><th>SK하이닉스</th><th>삼성전자</th><th>마이크론</th><th><b>인텔</b></th></tr>
+        <tr><td>본 테마 직접 노출</td><td>60%+</td><td>~22% (DX buffer)</td><td>~70% (메모리 pure)</td><td><b>~30% (DCAI+Foundry 일부)</b></td></tr>
+        <tr><td>Moat 종합 (가중)</td><td><b>4.4</b></td><td><b>4.3</b></td><td><b>4.0</b></td><td><b>2.8</b></td></tr>
+        <tr><td>본 테마 narrative</td><td>HBM 집중</td><td>차세대 + 분산</td><td>미국 본토 + 가속</td><td><b>Turnaround + Foundry catch-up</b></td></tr>
+        <tr><td>FY25 매출 성장</td><td>+25%+</td><td>+5%</td><td>+49%</td><td><b>-0.5%</b></td></tr>
+        <tr><td>1Q26 OPM (Non-GAAP)</td><td><b>72%</b></td><td>~25% (DS)</td><td><b>69%</b></td><td><b>1%</b></td></tr>
+        <tr><td>12년 매출 CAGR</td><td>+12%</td><td>+5%</td><td>+7%</td><td><b>-0.46% (마이너스)</b></td></tr>
+        <tr><td>본 테마 분류</td><td>★★★ 주도주</td><td>★★★ 주도주</td><td>★★★ 주도주</td><td><b>★ Turnaround risk</b></td></tr>
+      </table>
+    </section>
+
+    <section id="appx">
+      <h2>부록</h2>
+
+      <div style="background:#f5f0ff;border:1px solid var(--jp);border-radius:6px;padding:14px 18px;margin:18px 0">
+        <h4 style="color:var(--jp);margin-top:0">A. 메타데이터 갱신 로그</h4>
+        <table>
+          <tr><th>버전</th><th>일자</th><th>변경 사항</th></tr>
+          <tr class="intel-highlight"><td><b>v1</b></td><td><b>2026-06-02</b></td><td>1차 작성 — 메모리 3사 mirror 구조 + Turnaround narrative. <b>★ GTC Taipei 2026-06-01 NVIDIA+MSFT N1/N1X Arm-based PC 칩 발표 신규 반영</b>. Microsoft Maia 3 "Griffin" 18A 확정 (2026-01) 반영. Q1 2026 실적 (DCAI +22% / Foundry +16%) + IDC 점유 (Intel 54.9% / AMD 27.4% / ARM 17.7%) 반영</td></tr>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const ACC='#1f3a68', KR='#2ca02c', US='#1f77b4', JP='#9467bd', SEMI='#76b900', RD='#b03030', SK='#ff6b00', SAMSUNG='#1428a0', MICRON='#17becf', INTEL='#0071c5', AMD='#ed1c24', NVIDIA='#76b900', ARM='#0091bd', TSMC='#cc0000';
+
+new Chart(document.getElementById('shareChart'),{type:'bar',data:{labels:['DC CPU x86 (Q1 2026)','PC CPU x86','AI 가속기','Foundry (제3자)','미국 본토 첨단'],datasets:[{label:'인텔 점유',data:[54.9,75,0.5,1,100],backgroundColor:INTEL},{label:'경쟁자 1위',data:[27.4,22,96,60,0],backgroundColor:'#aac1d8'}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom'},title:{display:true,text:'본 테마 segment 점유 (매출 기준, %)',font:{size:13}}},scales:{x:{beginAtZero:true,max:100,title:{display:true,text:'%'}}}}});
+
+new Chart(document.getElementById('moatBySegment'),{type:'bar',data:{labels:['x86 server','x86 client','AI 가속기','Foundry 18A','미국 본토 ★','Mobileye'],datasets:[{label:'인텔',data:[3.4,4.2,1.6,3.2,4.8,4.0],backgroundColor:INTEL},{label:'AMD (참고)',data:[3.8,3.2,3.2,null,null,null],backgroundColor:AMD},{label:'NVIDIA (참고)',data:[null,null,5.0,null,null,null],backgroundColor:NVIDIA},{label:'ARM (참고)',data:[4.0,2.8,null,null,null,null],backgroundColor:ARM},{label:'TSMC (참고)',data:[null,null,null,4.6,4.0,null],backgroundColor:TSMC}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:5,title:{display:true,text:'Moat 평균 점수'}}}}});
+
+new Chart(document.getElementById('cycleChart'),{type:'bar',data:{labels:['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','1Q26'],datasets:[{type:'line',label:'OPM (%)',data:[27.5,25.3,21.7,28.8,32.9,30.5,30.4,24.6,3.7,0.2,-22.0,0.5,1.0],borderColor:RD,backgroundColor:RD+'20',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:4,pointBackgroundColor:RD},{type:'bar',label:'매출 ($B)',data:[55.87,55.36,59.39,62.76,70.85,71.97,77.87,79.02,63.05,54.23,53.10,52.85,13.6],backgroundColor:INTEL,yAxisID:'y',order:1}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'매출 ($B)'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:-30,max:40}}}});
+
+new Chart(document.getElementById('peerOpm'),{type:'bar',data:{labels:['NVIDIA','SK하이닉스','마이크론','TSMC','AMD','삼성 DS','인텔'],datasets:[{label:'1Q26 Non-GAAP OPM (%)',data:[65,72,69,50,30,25,1],backgroundColor:[NVIDIA,SK,MICRON,TSMC,AMD,SAMSUNG,INTEL]}]},options:{plugins:{legend:{display:false},title:{display:true,text:'반도체 글로벌 peer 1Q26 OPM — 인텔만 한자릿수',font:{size:12}}},scales:{y:{title:{display:true,text:'OPM (%)'},beginAtZero:true,max:80}}}});
+
+new Chart(document.getElementById('outlookChart'),{type:'bar',data:{labels:['FY24','FY25','FY26E','FY27E'],datasets:[{type:'line',label:'OPM (%)',data:[-22.0,0.5,6.5,12.5],borderColor:'#000',backgroundColor:'#00000020',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:5,pointBackgroundColor:'#000'},{type:'bar',label:'매출 ($B)',data:[53.10,52.85,60,70],backgroundColor:[INTEL,INTEL,'#5577ee','#5577ee'],yAxisID:'y',order:1},{type:'bar',label:'OP ($B)',data:[-11.68,0.26,4,8.5],backgroundColor:[RD,RD,'#e89999','#e89999'],yAxisID:'y',order:2}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'$B'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:-30,max:30}}}});
+
+new Chart(document.getElementById('threeWayPlusIntel'),{type:'bar',data:{labels:['SK하이닉스','삼성전자','마이크론','인텔'],datasets:[{label:'본 테마 Moat 종합',data:[4.4,4.3,4.0,2.8],backgroundColor:[SK,SAMSUNG,MICRON,INTEL]}]},options:{plugins:{legend:{display:false},title:{display:true,text:'본 테마 Moat 가중 평균 — 메모리 3사 vs 인텔',font:{size:13}}},scales:{y:{beginAtZero:true,max:5,title:{display:true,text:'Moat'}}}}});
+</script>
+
+</body>
+</html>

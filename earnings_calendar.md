@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-02 (자동 실행)**
+> **최종 갱신: 2026-06-03 (자동 실행)**
 
 ### 6월
 
@@ -236,7 +236,6 @@
 | 7/30 | Amazon (AMZN) | 빅테크 | Q2 2026, AMC (확정) |
 | 7/30 | BAE Systems (BA.) | 방산 | H1 2026 결과 (확정, BAE 공식 IR — 2026-05-08 확인) |
 | 7/30 | Huntington Ingalls (HII) | 조선 | Q2 2026 (확정 — 미국 해군 조선, 수주잔고) |
-| 7/30 | Constellation Energy (CEG) | 원전 | Q2 2026 (확정 — 원전 가동/수익성, 전력 가격) |
 | 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터) |
 | 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (TipRanks·MarketBeat·Zacks 소스 7/30 일치, FY2026 연간은 5/8 완료) |
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
@@ -254,18 +253,20 @@
 | 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026 (확정) — 가이던스: 매출 $3.65B±100M, GM 51~52%, EPS $3.25±0.15, Cloud 90%+ 수요 지속 |
 | 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q4 FY2026 (이전 Q1 FY2027 레이블 오류 수정), 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 |
 | 8/5 | Qualcomm (QCOM) | 반도체-모바일 | Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
+| 8/5 | Nextracker (NXT) | 전력 | Q1 FY2027 (확정, MarketBeat — 태양광 트래커, FY27 가이던스 $3.8~4.1B, Q4 FY26 5/12 완료) |
 | 8/6 | Rheinmetall (RHM) | 방산 | H1 2026 결과 (확정, Rheinmetall IR — 장갑차·탄약·독일 재무장) |
+| 8/6 | Constellation Energy (CEG) | 원전 | Q2 2026 (확정, MarketBeat·public.com — 원전 가동/수익성, 전력 가격. 이전 7/30 오류 정정) |
 | (~8/6) | 셀트리온 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/6) |
 | (~8/6) | 에이피알 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/6) |
 | (~8/7) | HD현대중공업 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
 | (~8/7) | 미래에셋증권 | 금융 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
 | (~8/7) | 한국항공우주 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
+| (~8/7) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 과거 패턴 추정 (Q3 FY25: 8/6, Q2 FY26: 5/7, FY 9월 결산) |
 | (~8/8) | 한국전력 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/8) |
 | 8/10 | Palantir (PLTR) | 소프트웨어 | Q2 2026, AMC (확정, TipRanks — AI 소프트웨어 수주, 미국 상업부문 성장세) |
 | 8/12 | Vistra (VST) | 원전 | Q2 2026, BMO (확정 — 원전+가스 발전, 전력 가격) |
 | 8/12 | NuScale Power (SMR) | 원전 | Q2 2026 (확정, MarketBeat·Nasdaq — SMR 수주/인허가 진척, pre-revenue) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
-| (~8/12) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 과거 패턴 추정 (Q1: 2/11, Q2: 5/7 → ~3개월 간격, FY 9월 결산) |
 | 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결(Q3말 3+Q4초 2), Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
 | 8/13 | Applied Materials (AMAT) | 반도체-소부장 | Q3 FY2026 (확정, MarketBeat·TipRanks) — Q2 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, 증착·식각 장비, HBM CAPEX 사이클 동조 |
 | 8/18 | Oklo (OKLO) | 원전 | Q2 2026, AMC — 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치, Q1: 5/12 순손실 $33.1M·EPS -$0.19, 현금 $2.5B 충분) |
