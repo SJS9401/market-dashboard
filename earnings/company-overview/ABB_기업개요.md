@@ -6,6 +6,8 @@
 > 출처: **ABB Financial Report 2025 (142 페이지, IR /library 자동 fetch) — FY24-FY25 정확값**, **Form 20-F 2020/2021 (SEC filing, FY19-FY21 정확값)**, **ABB IR 분기 Earnings Presentation/Press/Financial PDFs (Q1 26 + Q4 25 + Q3 25 + Q2 25)**, **ABB Integrated Report 2024**, **Yahoo Finance ABBNY 20년 월간 시계열**, 1Q26 review 통합
 
 # ABB Ltd 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 
@@ -210,7 +212,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 - 2021-2022 자동화·전기화 전환 본격화
 - **2023-2025 secular 사이클** — 데이터센터 + 전기화 narrative
 - **2024.04 NYSE delisting → ABBNY (OTC ADR)** = ABB 자진 → 유동성 SIX/Nasdaq Stockholm 중심
-- **2025-2026 시가총액 사상 최대치** ($120B+ 추정, ABBN.SW 기준)
+- **2025-2026 시가총액 사상 최대치** — 작성 시점 $120B+ 추정 → **2026-05-29 ATH $194B** [Source: companiesmarketcap.com, ABBN.SW 기준] = +62% 추가 멜팅. 전력 인프라 secular 정점
 
 (4) 주요 연혁
 

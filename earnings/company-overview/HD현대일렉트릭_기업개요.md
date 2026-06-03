@@ -6,6 +6,8 @@
 > 출처: **DART 본문 사업보고서 4개년 (2019/2022/2024/2025, rcpNo 20200330003384·20230314001160·20250320001309·20260316000940, /report/viewer.do 자동 fetch) — 요약재무·연구개발·주주·임원·매출처 모두 정확값**, DART 사업보고서 36건 (corp_code 01205851), **HD현대일렉트릭 IR PDF 28개 (2017.1Q~2026.1Q, hyundai-electric.com 자동 web_fetch)**, 11개 증권사 1Q26 review, **Yahoo Finance 267260.KS 20년 월간 시계열 자동 fetch**
 
 # HD현대일렉트릭 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬, Boundary case)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 

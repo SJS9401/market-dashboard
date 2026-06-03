@@ -1,4 +1,6 @@
 # GOOGL (Alphabet Inc.) — 기업 개요 리포트 v1.0
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **작성일**: 2026-05-19
 **대상 기업**: Alphabet Inc. (NASDAQ: GOOGL Class A, GOOG Class C, CIK 0001652044)
@@ -72,7 +74,7 @@
 - **1순위 PER (Forward 12M)** — Services 81% 안정 매출 + Cloud 18% 가속 → PER 기반 합리. 2025 EPS $11.95 (+44% YoY), 시장 PER ~24x.
 - **2순위 EV/EBITDA Sum-of-Parts** — Google Services (cash cow ~12x EV/EBITDA) + Google Cloud (high-growth ~10x EV/Rev) + Other Bets (option value Waymo) + Antitrust risk discount (-10~15% multiple).
 - **3순위 PEG ratio** — Cloud +63% 가속 + AI Overviews monetization 효과 → PER re-rating 동인.
-- **PBR 부적합** — Cloud 비중 확대 + 자사주 매입($60B+/년) + 자본 $364B vs 시가총액 $2.5T+.
+- **PBR 부적합** — Cloud 비중 확대 + 자사주 매입($60B+/년) + 자본 $364B vs 시가총액 (작성 시점 $2.5T+ → **2026-06-03 현재 $4.63T, 글로벌 #2, +85%** [Source: companiesmarketcap.com]).
 - **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, GOOGL은 지속성장 → **PER + SOTP** (Cloud secular + Antitrust discount 차별화).
 
 ### ⑤ 분기 재평가 트리거 = 분류 변경 조건

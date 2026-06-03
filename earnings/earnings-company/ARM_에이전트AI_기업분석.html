@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ARM Holdings 기업분석 — 에이전트AI 테마</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --arm:#0091bd; --intel:#0071c5; --amd:#ed1c24; --nvidia:#76b900; --tsmc:#cc0000;
+    --sk:#ff6b00; --samsung:#1428a0; --micron:#17becf;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.arm{background:var(--arm)}
+  .header .tag.theme{background:var(--catD)}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .arm-highlight{background:#cce5ee !important;color:#003a4a !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  .bottleneck-A{background:#ffe0e0 !important;border-left:3px solid var(--catA) !important}
+  .cat-D{background:#e8f5e0 !important;border-left:3px solid var(--catD) !important}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .moat-score{display:inline-block;background:var(--arm);color:#fff;padding:2px 10px;border-radius:12px;font-weight:bold;font-size:14px}
+  .caveat{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:10px 14px;margin:12px 0;font-size:13px;color:#664d00}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력·포지셔닝</a>
+    <a href="#s2">2. 해자 (Moat) ★</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#peer">메모리 3사·인텔 vs ARM</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag arm">ARM Holdings</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <h1>ARM Holdings — 반도체 산업의 운영체제 (chipless IP + AGI CPU 자체 칩 진입)</h1>
+      <div class="meta">parent_industry: 반도체 · cross-ref: 전력 인프라 · last_updated 2026-06-02 · moat_strength: <b>4.1/5.0 (segment 가중)</b></div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame</b>: chipless IP 모델로 <b>모든 ARM 기반 칩에서 royalty 동시 수혜</b> + <b>★ AGI CPU 자체 칩 진입 (2026-03-24)</b> + <b>★ N1/N1X client CPU TAM 폭증 (2026-06-01)</b>. 메모리 3사 (SK 4.4 / 삼성 4.3 / Micron 4.0)와 본 테마 수혜 <b>동급 위치 (Moat 4.1)</b>. 단 비즈니스 모델 chipless → 팹리스로 변화 진행 = <b>라이선시(NVIDIA·AWS·MSFT·Google)와 잠재 경쟁 risk + PER 100x+ 이미 가격 반영</b>.
+    </div>
+
+    <div class="narrative" style="background:#eef3fa;border:1px dashed #1f3a68;color:#1a3a68;font-style:normal">
+      <b>점유율·CAPA 표기 기준</b>: 본 분석의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·IDC·Mercury Research). ARM은 IP 회사로 <b>자체 CAPA 부재</b> — TSMC 등 양산 capa에 의존, CapEx ~$0 (R&D만).
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: 반도체 산업의 운영체제 — <b>모바일 CPU IP 99%</b> + <b>DC CPU FY24 9% → FY26 15%, 하이퍼스케일러 ~50% 도달</b> + 누적 chip shipments <b>290B+</b>. 본 테마 직접 수혜 4가지 메커니즘: <b>(1) ARM 라이선시 4종 (NVIDIA Grace·AWS Graviton·MSFT Cobalt·Google Axion) royalty 동시 수혜, (2) ARMv9 royalty rate 2x (CY25 25% → 장기 60-70%), (3) CSS chip ASP 10%+ rate (사상 최고, royalty 20%), (4) AGI CPU 자체 칩 (★ 2026-03-24, Meta+Oracle+ByteDance $2B+ committed)</b>.</li>
+          <li><b>해자 종합 (segment 가중)</b>: <span class="moat-score">4.1/5.0</span> — 메모리 3사 4.0+ 동급, 인텔 2.8보다 1.3p 높음. 모바일 IP 4.5 (독점(monopoly)) / DC IP 4.5 / ARMv9 royalty 4.5 / CSS 4.0 / AGI CPU 3.5 (신규, 라이선시 경쟁 risk) / N1/N1X 4.0.</li>
+          <li><b>재무 (record + Secular)</b>: <b>FY26 매출 $4.92B (+23%, 3년 연속 +20%+) / Non-GAAP OPM 40.7% (record) / 적자 분기 history 0</b>. <b>Q4 FY26 매출 $1.49B (+20%) / Royalty $671M (+11%) / License $819M (+29%) / Non-GAAP EPS $0.60 (beat $0.58) / Data center royalty 2x YoY</b>. <b>SoftBank 88% 보유</b>, 2026 YTD 주가 <b>+84%</b>.</li>
+          <li><b>미래</b>: <b>★ AGI CPU 2026 H2 ship + 2028+ material revenue</b> ($2B+ committed). N1/N1X client 본격화. ARMv9 비중 25% → 60-70%. CSS 가속. <b>단 PER 100x+ 이미 가격 반영, sharp 상방 여력 어려움</b>.</li>
+          <li><b>종합</b>: <span class="star">★★★ 본 테마 직접 수혜 메가 종목 (메모리 3사 + NVIDIA + TSMC와 동급)</span>. (a) AGI CPU 라이선시 경쟁 risk (b) PER 100x+ 가격 반영 (c) RISC-V + Apple architecture license royalty 회피 3대 risk. (1) Royalty rate 2x 프리미엄 (2) Stargate $400B 인프라 (3) 비즈니스 모델 확장이 positive optionality.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + 기업 포지셔닝</h2>
+
+      <h3>1-1. 자동 참조</h3>
+      <table>
+        <tr><th>참조</th><th>상태</th><th>활용</th></tr>
+        <tr><td><code>반도체_산업기초.md</code></td><td>✓ 2026-05-18</td><td>(A) 구조적 메가 병목 — ARM IP 표준 레이어</td></tr>
+        <tr><td><code>전력 인프라_산업기초.md</code></td><td>✓ 2026-05-18</td><td>cross-ref</td></tr>
+        <tr><td><code>에이전트AI_테마분석.md</code></td><td>✓ v4 2026-05-26</td><td>17 segment 모든 곳에서 ARM royalty 수혜</td></tr>
+        <tr><td><code>ARM_기업개요.md</code></td><td>✓ v4.9 2026-05-18</td><td>SEC EDGAR 20-F·6-K 기반</td></tr>
+        <tr><td>인텔 분석 v2 (2026-06-02)</td><td>cross-ref</td><td>ARM 라이선시 4종 매핑 (Grace·Graviton·Cobalt·Axion)</td></tr>
+        <tr><td>BT 첨부</td><td>Q4 FY26 IR + AGI CPU launch + GTC Taipei N1/N1X</td><td>최신 fact</td></tr>
+      </table>
+
+      <h3>1-2. ARM Segment별 점유</h3>
+      <div class="chart-card">
+        <h4>ARM 본 테마 segment별 점유 (매출 기준)</h4>
+        <canvas id="shareChart" height="240"></canvas>
+        <div class="src">→ <b>ARM은 IP 업계 사실상 독점(monopoly)</b> — 모든 segment에서 ARM이 1위. 짙은 파랑 = ARM 현재 / 옅은 파랑 = ARM의 장기 target / 잠재 도달치. 모바일 IP 99% (사실상 ceiling) / DC CPU 15% → 장기 30%+ (하이퍼스케일러 50%→70%) / ARMv9 비중 25% → 장기 60-70% (ARM 가이던스) / CSS 20% royalty 비중 → 장기 35%+</div>
+      </div>
+
+      <h3>1-3. 매출 구성 (FY26)</h3>
+      <table>
+        <tr><th>구분</th><th>FY26 매출</th><th>YoY (Q4)</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr class="arm-highlight"><td><b>License & Other</b></td><td><b>$2.94B</b></td><td>+29%</td><td>★ CSS·ARMv9·AGI CPU 라이선스</td><td><b>60%</b></td></tr>
+        <tr class="arm-highlight"><td><b>Royalty</b></td><td><b>$1.98B</b></td><td>+11%</td><td>★ 모든 ARM 칩 출하당</td><td><b>40%</b></td></tr>
+        <tr><td><b>Total</b></td><td><b>$4.92B</b></td><td><b>+23%</b></td><td>본 테마 직접 노출 ~85%</td><td>100%</td></tr>
+      </table>
+      <p><b>본 테마 직접 노출 ≈ 85%</b> = 모바일 (on-device AI agent) + 데이터센터 (server CPU) + AI 가속기 (NVIDIA Grace 등 host CPU). <b>SK 60% / Micron 70% / 인텔 30% 대비 가장 높은 본 테마 노출</b>.</p>
+    </section>
+    <section id="s2-0" style="background:#f9f7f0;padding:18px 22px;border-left:4px solid #b06c00;margin:18px 0;border-radius:0 6px 6px 0">
+      <h3 style="color:#b06c00">★ 2-0. 에이전트AI 테마 logical flow — 왜 ARM가 부각받는가</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 narrative → ARM 위치 매핑)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 <b>토큰 20-30x</b> (Stanford/NVIDIA 실측, 테마 v4)</li>
+        <li>각 추론 단계·도구 호출·검색·메모리 갱신·tool execution = <b>연산(GPU/CPU) + 메모리(HBM/DRAM/SSD) + 스토리지(HDD) + IP(ARM) 모든 layer 부하 폭증</b></li>
+        <li>agent는 stateful → 과거 trace·long-context 보존 필요 = secular 누적</li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — ARM는 어디 위치?</h4>
+      <table>
+        <tr><th>Layer</th><th>데이터/연산 유형</th><th>매체·아이템</th><th>본 테마 수혜 종목</th></tr>
+        <tr><td><b>Hot (microsec)</b></td><td>KV cache, activation, 모델 가중치(active)</td><td><b>HBM</b></td><td><b>SK·삼성·Micron (HBM)</b></td></tr>
+        <tr><td><b>Warm (msec)</b></td><td>모델 가중치(off-package), 활성 dataset</td><td><b>DRAM·SSD</b></td><td>메모리 3사 (DRAM) + SNDK·Solidigm (eSSD)</td></tr>
+        <tr><td><b>Warm-Cold (sec)</b></td><td>검색 코퍼스, 벡터 DB, 최근 로그</td><td><b>eSSD QLC·HBF</b></td><td>SNDK (122TB QLC, HBF)</td></tr>
+        <tr><td><b>Cold (수초~분)</b></td><td>학습 데이터셋, 체크포인트, 보관 로그</td><td><b>HDD nearline</b></td><td>WDC·Seagate</td></tr>
+        <tr><td><b>Compute (CPU)</b></td><td>server CPU + host CPU + client CPU</td><td><b>x86·ARM</b></td><td>Intel·AMD·ARM 라이선시</td></tr>
+        <tr><td><b>Compute (GPU·AI)</b></td><td>training·inference 가속</td><td><b>GPU·ASIC</b></td><td>NVIDIA·AMD·ARM</td></tr>
+        <tr><td><b>IP layer</b></td><td>모든 chip 상위 설계</td><td><b>ARM IP</b></td><td>ARM Holdings (royalty 광범위)</td></tr>
+      </table>
+
+      <p>→ <b>ARM 위치: <b>IP layer (전체)</b> — 모든 ARM 기반 chip royalty 광범위</b></p>
+
+      <h4>3단계: 왜 ARM IP가 본 테마에서 부각받는가? — 3가지 본질적 이유</h4>
+      <ol>
+        <li><b>모든 ARM chip royalty 동시 수혜</b> = NVIDIA Grace + AWS Graviton + MSFT Cobalt + Google Axion 4종 hyperscaler ARM 칩이 모두 ARM IP → ARM은 chip 1개 출하당 royalty 수금</li>
+        <li><b>ARMv9 rate ARMv8 대비 2x + CSS rate chip ASP 10%+</b> = 자동 매출 + (CY25 25% → 60-70%)</li>
+        <li><b>AGI CPU 자체 칩 진입 (2026-03-24)</b> = 35년 첫 자체 칩 (Meta+Oracle+ByteDance $2B+ committed) = 비즈니스 모델 chipless → 팹리스 확장</li>
+      </ol>
+
+      <h4>4단계: 왜 ARM이 광범위 수혜 종목인가?</h4>
+      <ul>
+        <li><b>모바일 CPU IP 99%</b> (Apple·Qualcomm·MediaTek·Samsung 모두 ARM)</li>
+        <li><b>DC CPU 점유 FY24 9% → FY26 15% (하이퍼스케일러 ~50%)</b></li>
+        <li><b>누적 chip shipments 290B+</b> = 매 chip 출하당 royalty</li>
+        <li><b>Q4 FY26 Data center royalty 2x YoY</b> + N1/N1X (2026-06-01) client CPU TAM 폭증</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>본 테마 모든 segment에서 royalty 동시 수혜 (메모리 3사·NVIDIA·TSMC와 함께 메가 종목)</b>. Moat 4.1 (메모리 동급). 단 PER 100x+ 이미 가격 반영 + AGI CPU 진입으로 라이선시 경쟁 risk + RISC-V·Apple architecture license royalty 회피 3대 risk.</p>
+    </section>
+
+
+    <section id="s2">
+      <h2>항목 2. 비즈니스 모델 & 해자 (Moat) — Segment별</h2>
+
+      <h3>2-1. 비즈니스 모델 — chipless IP licensor (가장 상위 layer)</h3>
+      <table>
+        <tr><th>Layer</th><th>회사</th><th>ARM과 관계</th></tr>
+        <tr class="arm-highlight"><td><b>(1) IP licensor (chipless)</b></td><td><b>ARM Holdings</b></td><td>ARM 본업</td></tr>
+        <tr><td>(2) 팹리스 (chip designer)</td><td>NVIDIA, AMD, Qualcomm, AWS Annapurna, Apple, MSFT, Google</td><td>ARM 라이선시 (royalty 지급)</td></tr>
+        <tr><td>(3) Foundry (양산)</td><td>TSMC, 삼성 Foundry, Intel Foundry</td><td>ARM 라이선시 칩 양산</td></tr>
+      </table>
+
+      <h4>라이선스 모델 2종</h4>
+      <ul>
+        <li><b>Per-core 라이선스</b>: ARM Cortex/Neoverse 코어 IP 그대로 사용 (정상 royalty rate) — NVIDIA Grace, AWS Graviton, MSFT Cobalt, Google Axion (server) / Qualcomm Snapdragon (대부분 모바일)</li>
+        <li><b>Architecture 라이선스</b>: ARM ISA만 받아 코어 자체 설계 (royalty rate 낮음, 정상의 ~1/3) — <b>Apple M·A 시리즈 / Qualcomm Snapdragon X (Nuvia 인수)</b></li>
+      </ul>
+
+      <h4>★ AGI CPU — 비즈니스 모델 확장 (chipless → 팹리스 진입)</h4>
+      <div class="caveat">
+        <b>2026-03-24 발표</b>: ARM 35년 역사상 첫 자체 칩. <b>136 Neoverse V3 코어 / TSMC 3nm / 300W TDP</b> (AMD EPYC 500W·Intel Xeon 500W 대비 <b>power efficiency 강점</b>). <b>Meta = co-developed lead customer + Oracle + ByteDance — $2B+ committed orders</b>. 2026 H2 volume ship, 2028+ material revenue. <b>SoftBank Ampere 인수 영향 + Stargate $400B 인프라</b> 스토리(narrative).<br/>
+        <b>잠재 risk</b>: NVIDIA·AWS·MSFT·Google 등 기존 라이선시와 server CPU 시장 잠재 경쟁.
+      </div>
+
+      <h3>2-2. Moat 종류별 Segment 평가</h3>
+
+      <h4>Segment 1. 모바일 CPU IP (Cortex)</h4>
+      <table>
+        <tr><th>축</th><th>ARM</th><th>RISC-V</th><th>x86</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>5</b></td><td>3 (오픈)</td><td>2 (모바일 부재)</td><td>ARM 독점(monopoly)</td></tr>
+        <tr><td>점유</td><td><b>5</b> (99%)</td><td>1</td><td>1</td><td>ARM 절대</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td><b>5</b></td><td>2</td><td>1</td><td>Apple+Qualcomm+Android 전체</td></tr>
+        <tr><td>규모</td><td><b>5</b></td><td>1</td><td>1</td><td>ARM 단일</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td>2</td><td>1</td><td>on-device agent 수혜</td></tr>
+        <tr class="arm-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>1.8</b></td><td><b>1.2</b></td><td><b>ARM 거의 독점(monopoly)</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 모바일 CPU IP에서 ARM이 독점인가?</b><br>
+        <b>인과 사슬</b>: ARM Cortex 시리즈 = 모바일 chip 표준 → Apple·Qualcomm·MediaTek·Samsung·중국 SoC 모두 ARM IP → 점유 99% → on-device AI agent (LLM phone) 수혜 추가<br>
+        <b>추가 동력 1 — 모바일 chip 99% 점유 = 절대 독점</b>: ARM 외 alternative 사실상 없음 (RISC-V IoT만)<br>
+        <b>추가 동력 2 — Apple Silicon (M·A 시리즈) 포함</b>: Apple도 ARM architecture license = royalty 지급<br>
+        <b>추가 동력 3 — on-device AI agent narrative</b>: Apple Intelligence·Galaxy AI LLM phone 폭증 = 모바일 chip ASP +·royalty rate +<br>
+        <b>ARM 위치의 특별함</b>: 본 segment Moat 5.0 완전 독점. 모바일 chip 시장 자체가 ARM 매출
+      </blockquote>
+
+      <h4>Segment 2. 데이터센터 CPU IP (Neoverse V/N)</h4>
+      <table>
+        <tr><th>축</th><th>ARM</th><th>x86 (Intel·AMD)</th><th>RISC-V</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>5</b> (Neoverse V3/N2)</td><td>4</td><td>3</td><td>ARM 표준</td></tr>
+        <tr><td>점유</td><td><b>4</b> (15%, 하이퍼스케일러 50%)</td><td>4</td><td>1</td><td>ARM 빠른 +</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td><b>5</b> (NVDA·AWS·MSFT·Google)</td><td>3 (잠식)</td><td>1</td><td>라이선시 4종</td></tr>
+        <tr><td>규모</td><td><b>4</b> (DC royalty 2x YoY)</td><td>4</td><td>1</td><td>ARM 빠른 +</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b> (가장 빠른 + segment)</td><td>2 (잠식자)</td><td>1</td><td>본 테마 수혜</td></tr>
+        <tr class="arm-highlight"><td><b>평균</b></td><td><b>4.6</b></td><td><b>3.4</b></td><td><b>1.4</b></td><td><b>ARM 장기 추세(secular) +, x86 정체</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 DC CPU IP가 본 테마 핵심인가?</b><br>
+        <b>인과 사슬</b>: 에이전트 AI = host CPU 부담 폭증 + power efficiency·TCO 요구 → 하이퍼스케일러 4종 (AWS·Google·MSFT·NVIDIA Grace) 모두 ARM Neoverse 기반 → DC ARM 점유 15% (하이퍼스케일러 50%+) → ARM 본 테마 최대 수혜<br>
+        <b>추가 동력 1 — ★ 하이퍼스케일러 자체 ARM chip 4종 = Intel 잠식</b>: AWS·Google·MSFT·NVIDIA Grace 모두 ARM Neoverse 라이선스 = royalty 4배 leverage<br>
+        <b>추가 동력 2 — Neoverse V3/N2 = data center 표준화</b>: data center 매출 Q4 FY26 2x YoY 가속<br>
+        <b>추가 동력 3 — Intel Xeon 점유 64%→54.9% (-9.5%p YoY)</b>: x86 잠식 = ARM 매출로 직접 전환<br>
+        <b>ARM 위치의 특별함</b>: 본 segment가 ARM 본 테마 핵심 leg. royalty 모델로 4종 라이선시 매출 모두 ARM royalty
+      </blockquote>
+
+      <h4>Segment 3. CSS (Compute Subsystems) — ★ 사상 최고 rate</h4>
+      <table>
+        <tr><th>축</th><th>ARM CSS</th><th>일반 ARM IP</th><th>x86</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>5</b> (chiplet subsystem)</td><td>4</td><td>3</td><td>CSS 신규</td></tr>
+        <tr><td>점유</td><td><b>4</b> (royalty 20% 비중)</td><td>5</td><td>4</td><td>CSS 빠른 +</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td><b>4</b> (chip 시간 단축)</td><td>4</td><td>3</td><td>CSS 락인(lock-in)</td></tr>
+        <tr><td>규모</td><td><b>4</b> (chip ASP 10%+ rate)</td><td>5</td><td>3</td><td>사상 최고 rate</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>4</b> (chip 설계 가속)</td><td>4</td><td>3</td><td>본 테마 enabler</td></tr>
+        <tr class="arm-highlight"><td><b>평균</b></td><td><b>4.2</b></td><td><b>4.4</b></td><td><b>3.2</b></td><td><b>CSS 신규 + 사상 최고 rate</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 CSS (Compute Subsystems)가 본 테마에서 부각받는가?</b><br>
+        <b>인과 사슬</b>: chiplet 시대 = chip 설계 복잡도 폭증 → ARM CSS = chiplet subsystem 통째 제공 → 라이선시 chip 설계 시간 단축 + ASP 10%+ royalty rate (사상 최고) → 매출 leverage 추가<br>
+        <b>추가 동력 1 — ★ CSS chip ASP 10%+ royalty rate (사상 최고)</b>: 일반 ARM IP royalty rate (1-3%) 대비 3-10배 = 매출 leverage 극대<br>
+        <b>추가 동력 2 — chiplet 시대 = CSS 채택 가속</b>: AGI CPU·hyperscaler ASIC 모두 CSS 채택 시도<br>
+        <b>추가 동력 3 — Royalty 비중 20%로 빠른 +</b>: 일반 IP에서 CSS로 매출 mix shift = ARM 평균 royalty rate 자동 상승<br>
+        <b>ARM 위치의 특별함</b>: CSS는 ARM 매출 mix shift driver. 일반 IP royalty 대비 3-10배 rate으로 long-term ARPU + driver
+      </blockquote>
+
+      <h4>Segment 4. AGI CPU (★ 자체 칩 신규)</h4>
+      <table>
+        <tr><th>축</th><th>ARM AGI CPU</th><th>NVIDIA Grace</th><th>AWS Graviton</th><th>AMD EPYC</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>4</b> (136 Neoverse V3)</td><td>4</td><td>4</td><td><b>5</b></td><td>AGI CPU 신규</td></tr>
+        <tr><td>CAPA</td><td>3 (TSMC dep)</td><td>4</td><td>4</td><td>4</td><td>동급</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>3 (Meta·Oracle·ByteDance)</td><td><b>5</b></td><td><b>5</b></td><td>4</td><td>AGI CPU 후발</td></tr>
+        <tr><td>규모</td><td>2 ($2B committed, 2028+ material)</td><td><b>5</b></td><td>4</td><td>4</td><td>AGI CPU 초기</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>4</b> (power efficiency 300W)</td><td>5</td><td>4</td><td>4</td><td>차별화</td></tr>
+        <tr class="warning-highlight"><td><b>평균</b></td><td><b>3.2</b></td><td><b>4.6</b></td><td><b>4.2</b></td><td><b>4.2</b></td><td><b>AGI CPU 신규, 라이선시와 경쟁 risk</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 AGI CPU (자체 chip)가 ARM thesis 양날의 검인가?</b><br>
+        <b>인과 사슬</b>: ARM 자체 AGI CPU (136 Neoverse V3 cores) 출시 → Meta·Oracle·ByteDance committed → 단 NVIDIA Grace·AWS Graviton·AMD EPYC 라이선시와 경쟁 → 자기잠식 risk vs 매출 leverage 양면<br>
+        <b>추가 동력 1 — Meta·Oracle·ByteDance $2B+ committed (2028+ material)</b>: 초기이지만 hyperscaler 직접 수주 = 진입 chance<br>
+        <b>추가 동력 2 — power efficiency 300W = NVIDIA Grace 대안</b>: 자체 chip이 라이선시 chip 대비 efficiency 우위 = market segment 가능<br>
+        <b>추가 동력 3 — ★ 라이선시와 경쟁 risk = 사업 모델 ambiguity</b>: ARM = IP supplier vs 자체 chip = 사업 모델 충돌 = long-term risk<br>
+        <b>ARM 위치의 한계</b>: 본 segment Moat 3.2 가장 약함. 라이선시 경쟁 risk와 매출 leverage trade-off
+      </blockquote>
+
+      <h4>Segment 5. ARMv9 Royalty Rate (★ 프리미엄 pricing)</h4>
+      <table>
+        <tr><th>축</th><th>ARMv9</th><th>ARMv8</th><th>RISC-V</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>5</b> (SVE2, CCA)</td><td>4</td><td>3</td><td>ARMv9 차세대</td></tr>
+        <tr><td>채택 비중</td><td><b>4</b> (CY25 25%, 장기 60-70%)</td><td>4 (감소)</td><td>1</td><td>ARMv9 가속</td></tr>
+        <tr><td>Royalty rate</td><td><b>5</b> (ARMv8 2x)</td><td>3</td><td>2</td><td>ARMv9 프리미엄</td></tr>
+        <tr><td>규모 (royalty +)</td><td><b>5</b> (자동 매출 +)</td><td>3</td><td>1</td><td>ARMv9 driver</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td>3</td><td>1</td><td>ARMv9 표준</td></tr>
+        <tr class="arm-highlight"><td><b>평균</b></td><td><b>4.8</b></td><td><b>3.4</b></td><td><b>1.6</b></td><td><b>ARMv9 자동 매출 + driver</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 ARMv9 Royalty Rate가 본 테마에서 자동 매출 + driver인가?</b><br>
+        <b>인과 사슬</b>: ARMv9 = SVE2 + CCA (confidential computing) 차세대 → 모든 신규 chip ARMv9 채택 → royalty rate ARMv8 대비 2배 → 채택 25% (CY25) → 장기 60-70% = ARM 매출 자동 +<br>
+        <b>추가 동력 1 — ★ ARMv9 royalty rate 2배 (ARMv8 대비)</b>: 같은 chip 매출에서 ARM royalty 2배 = 자동 leverage<br>
+        <b>추가 동력 2 — 채택 25% → 60-70% (장기)</b>: 모든 신규 chip ARMv9 표준 = 자동 mix shift<br>
+        <b>추가 동력 3 — SVE2 + CCA = AI agent 필수 기능</b>: vector instruction + confidential computing = AI agent 표준 = 가속<br>
+        <b>ARM 위치의 특별함</b>: 본 segment는 chip volume 동일해도 매출 2배 = ARM Royalty 모델의 핵심 leverage
+      </blockquote>
+
+      <h4>Segment 6. N1/N1X 협력 (★ NVIDIA + MSFT, 2026-06-01)</h4>
+      <table>
+        <tr><th>축</th><th>ARM (royalty)</th><th>NVIDIA</th><th>Qualcomm Snapdragon X</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>4</b> (Cortex X·Neoverse)</td><td>4</td><td>3 (Nuvia architecture)</td><td>ARM IP 표준</td></tr>
+        <tr><td>점유</td><td><b>4</b> (PC ARM TAM 폭증)</td><td>3 (신규)</td><td>2 (약화)</td><td>ARM 전체 +</td></tr>
+        <tr><td>Royalty rate</td><td><b>4</b> (정상 rate)</td><td>—</td><td>3 (architecture, 낮음)</td><td>NVIDIA = 정상</td></tr>
+        <tr><td>규모</td><td><b>3</b> (2026 H2 출하)</td><td>3</td><td>2</td><td>초기</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b> (모든 ARM PC 수혜)</td><td>4</td><td>2</td><td>본 테마 +</td></tr>
+        <tr class="arm-highlight"><td><b>평균</b></td><td><b>4.0</b></td><td><b>3.6</b></td><td><b>2.4</b></td><td><b>ARM N1/N1X 직접 수혜</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 N1/N1X (NVIDIA + MSFT) 협력이 ARM 신규 driver인가?</b><br>
+        <b>인과 사슬</b>: ★ 2026-06-01 NVIDIA Jensen Computex 발표 → NVIDIA ARM PC chip (N1/N1X) + Microsoft Windows on ARM 지원 + Qualcomm Nuvia 단독 위치 약화 → ARM PC TAM 폭증 + N1/N1X royalty rate = per-core 정상 rate<br>
+        <b>추가 동력 1 — ★ NVIDIA N1/N1X royalty = 정상 per-core rate</b>: Qualcomm Snapdragon X (Nuvia architecture license, 낮은 rate)와 달리 NVIDIA는 standard royalty 지급 = 매출 leverage<br>
+        <b>추가 동력 2 — Microsoft Windows on ARM 본격 지원</b>: PC OS 호환성 확보 = ARM PC market take-off<br>
+        <b>추가 동력 3 — ARM PC market 전체 + → 모든 ARM PC chip royalty 수혜</b>: Apple·Qualcomm·NVIDIA 3사 동시 + = 광범위 수혜<br>
+        <b>ARM 위치의 특별함</b>: 본 segment는 ARM 차세대 driver. NVIDIA N1/N1X 추가로 PC market에서 x86 잠식 가속 = ARM royalty 추가 leg
+      </blockquote>
+
+      <div class="chart-card">
+        <h4>ARM 본 테마 Moat 평균 점수 (segment별)</h4>
+        <canvas id="moatBySegment" height="240"></canvas>
+        <div class="src">→ 모바일 IP 5.0 (독점(monopoly)) / DC IP 4.6 / ARMv9 4.8 / CSS 4.2 / N1/N1X 4.0 / AGI CPU 3.2 (신규·라이선시 경쟁 risk). 옅은 파랑 = 각 segment 최강 경쟁자 (모바일은 RISC-V, DC는 x86, AGI CPU는 NVIDIA Grace 등). <b>대부분 segment에서 ARM이 압도적 1위</b>, AGI CPU만 ARM이 후발</div>
+      </div>
+
+      <h3>2-3. 병목 수혜 강도 정량화 (본 테마 직접 메커니즘)</h3>
+      <table>
+        <tr><th>본 테마 병목</th><th>ARM 수혜 메커니즘</th><th>정량 추정</th></tr>
+        <tr class="arm-highlight"><td>AI 가속기 ↑ (NVIDIA·AMD)</td><td>NVIDIA Grace = ARM Neoverse V2 → royalty</td><td>데이터센터 royalty 2x YoY (Q4 FY26)</td></tr>
+        <tr class="arm-highlight"><td>서버 CPU ↑</td><td>AWS Graviton + MSFT Cobalt + Google Axion = ARM Neoverse → royalty</td><td>하이퍼스케일러 ARM 50%+</td></tr>
+        <tr class="arm-highlight"><td>AI PC ↑</td><td>Qualcomm Snapdragon X + <b>★ NVIDIA N1/N1X</b> = ARM 라이선스 → royalty</td><td>client CPU TAM 폭증 (2026 H2)</td></tr>
+        <tr><td>모바일 agent ↑</td><td>Apple A·M + Qualcomm + MediaTek = ARM ISA</td><td>99% 점유 안정</td></tr>
+        <tr class="arm-highlight"><td><b>ARMv9 채택 ↑</b></td><td>royalty rate 2x 프리미엄</td><td>CY25 25% → 60-70% (자동 매출 +)</td></tr>
+        <tr class="arm-highlight"><td><b>CSS 채택 ↑</b></td><td>chip ASP 10%+ rate</td><td>royalty 20% → 30%+ 가능</td></tr>
+        <tr class="arm-highlight"><td><b>★ AGI CPU 매출</b></td><td>자체 칩 매출 ($2B+ committed)</td><td>2026 H2 ship, 2028+ material</td></tr>
+      </table>
+
+      <h4>vs 메모리 3사 비즈니스 모델 차이</h4>
+      <table>
+        <tr><th>차원</th><th>메모리 3사 (SK·삼성·Micron)</th><th>ARM Holdings</th></tr>
+        <tr><td>공급 제약</td><td>★ wafer capa 병목 (HBM = 가격 ↑)</td><td>IP 무제한 라이선스</td></tr>
+        <tr><td>가격 결정력</td><td>★ ASP YoY +30~115% (1Q26)</td><td>Royalty rate 고정 (CSS·ARMv9 단계적 상승)</td></tr>
+        <tr><td>수익 시점</td><td>즉시 (출하 → 매출)</td><td>지연 (chip 출하 → 6-12개월)</td></tr>
+        <tr><td>CAPEX 필요</td><td>$15-25B/년</td><td>~$0 (R&D만)</td></tr>
+        <tr><td>사이클 진폭</td><td>OPM 70%+ ↔ -37% (큰 swing)</td><td>OPM 24-41% (안정)</td></tr>
+        <tr><td>대체 가능성</td><td>메모리 3사 외 사실상 없음</td><td>RISC-V + Apple·Qualcomm Nuvia architecture license</td></tr>
+        <tr><td>수익 비유</td><td>"wafer 1장 = $5K-50K"</td><td>"chip 1개 = $0.10-1.00"</td></tr>
+      </table>
+      <p><b>핵심 차이</b>: 메모리는 <span class="pill A">(A)</span> 구조적 메가 병목 (공급 제한 + ASP 직접 폭등), ARM은 <span class="pill D">(D)</span> 동반 확대 (공급 무제한 + 수량 +, 가격 점진).</p>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 7년 장기 추세(secular) 성장 (FY20-FY26)</h3>
+      <div class="chart-card">
+        <h4>ARM 7년 매출·Non-GAAP OPM 추이 (FY20-FY26)</h4>
+        <canvas id="cycleChart" height="240"></canvas>
+        <div class="src">→ 매출 7년 CAGR +17% / Non-GAAP OPM range 24.4-40.7% (메모리 진폭 1/3) / 적자 분기 history 0 / 3년 연속 +20%+ 성장</div>
+      </div>
+
+      <h3 style="color:#003a4a">★ Q4 FY26 분기 실적 (record, 2026-05-06 IR)</h3>
+      <table>
+        <tr><th>항목</th><th>Q4 FY26 (2026-01~03)</th><th>YoY</th><th>비고</th></tr>
+        <tr class="arm-highlight"><td><b>Total Revenue</b></td><td><b>$1.49B</b></td><td><b>+20%</b></td><td>record (3분기 연속 $1B+)</td></tr>
+        <tr class="arm-highlight"><td><b>License & Other</b></td><td><b>$819M</b></td><td><b>+29%</b></td><td>CSS·AGI CPU 라이선스 가속</td></tr>
+        <tr class="arm-highlight"><td><b>Royalty</b></td><td><b>$671M</b></td><td><b>+11%</b></td><td>ARMv9·CSS 자동 +</td></tr>
+        <tr class="arm-highlight"><td><b>Data Center Royalty</b></td><td><b>2x YoY</b></td><td>record</td><td>NVIDIA Grace·Graviton·Cobalt·Axion 채택</td></tr>
+        <tr class="arm-highlight"><td><b>Non-GAAP EPS</b></td><td><b>$0.60</b></td><td>beat $0.58</td><td>record</td></tr>
+        <tr><td>Non-GAAP OPM</td><td>~40%+</td><td>정점</td><td>software 수준</td></tr>
+      </table>
+
+      <h3>3-2. PQC 분해 — Royalty + Licensing 모델</h3>
+      <table>
+        <tr><th>차원</th><th>Royalty (40%)</th><th>Licensing (60%)</th></tr>
+        <tr><td>P (per-unit rate)</td><td>ARMv8 → ARMv9 (2x) / CSS (10%+ ASP)</td><td>Subscription / multi-year fee</td></tr>
+        <tr><td>Q (chip 출하)</td><td>DC chip +50%+ / 모바일 일정 / IoT +</td><td>License 신규 + 갱신</td></tr>
+        <tr><td>매출 (P×Q)</td><td>$1.98B (+11%)</td><td>$2.94B (+29%)</td></tr>
+        <tr><td>마진</td><td>매우 높음 (CapEx ~0)</td><td>동일 (IP 한계비용 0)</td></tr>
+      </table>
+      <blockquote><b>Royalty 시차 효과</b>: Royalty 11%는 chip 출하의 후행 지표 (6-12개월 지연). 1Q26 chip 출하 → 3Q26-4Q26 royalty 매출 인식. <b>장기 royalty +가 더 강할 가능성</b> (ARMv9 비중 25% → 60-70% 단계적 + AGI CPU 2028+).</blockquote>
+
+      <h3>3-3. 재무 건전성</h3>
+      <table>
+        <tr><th>항목</th><th>FY26</th></tr>
+        <tr><td>자본총계</td><td>매우 강함 (CapEx 부담 없음)</td></tr>
+        <tr class="arm-highlight"><td><b>OCF / FCF</b></td><td>매출 대비 매우 높음 (software 수준)</td></tr>
+        <tr class="arm-highlight"><td><b>CapEx</b></td><td><b>거의 없음 (R&D만)</b> — 메모리 3사 $15-25B 대비 0에 가까움</td></tr>
+        <tr><td>Debt / Cash</td><td>Debt 거의 없음 / Cash 강함</td></tr>
+        <tr><td>Dividend / 자사주</td><td>IPO 후 미실시 (성장 투자 우선)</td></tr>
+        <tr class="arm-highlight"><td><b>★ SoftBank 보유</b></td><td><b>88%</b> (점진 매각 중) — Stargate $400B 인프라 funding 압박</td></tr>
+        <tr><td>CEO / CFO</td><td><b>Rene Haas (2022.02~)</b>, 前 NVIDIA·Tessera / Jason Child (2023.09 IPO 직전 부임)</td></tr>
+        <tr><td>발행주식수 / 시총</td><td>약 1.07B 주 / <b>2026 YTD 주가 +84%</b></td></tr>
+      </table>
+
+      <h3>3-4. 피어 수익성 비교 (Non-GAAP OPM)</h3>
+      <div class="chart-card">
+        <h4>반도체 글로벌 peer 1Q26 OPM</h4>
+        <canvas id="peerOpm" height="200"></canvas>
+        <div class="src">→ ARM OPM 40%+ = software 수준 안정 마진. 메모리 사이클 정점에는 미달, 단 사이클 진폭 매우 작음 — 장기 추세(secular) 수익</div>
+      </div>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률</h3>
+      <table>
+        <tr><th>기업</th><th>7년 매출 CAGR</th><th>비고</th></tr>
+        <tr class="arm-highlight"><td><b>ARM</b></td><td><b>+17%</b></td><td>장기 추세(secular) IP licensing</td></tr>
+        <tr><td>NVIDIA</td><td>+50%+</td><td>AI 가속기 폭증</td></tr>
+        <tr><td>TSMC</td><td>+15%+</td><td>Foundry 메가</td></tr>
+        <tr><td>SK하이닉스</td><td>+12%+</td><td>HBM 메가</td></tr>
+        <tr><td>AMD</td><td>+20%+</td><td>x86 + AI</td></tr>
+        <tr><td>Micron</td><td>+7%+</td><td>메모리 사이클 + HBM</td></tr>
+        <tr class="warning-highlight"><td><b>인텔</b></td><td><b>-0.46%</b></td><td>구조적 침체</td></tr>
+      </table>
+
+      <h3>4-2. 향후 매출·OPM 전망</h3>
+      <div class="chart-card">
+        <h4>ARM 매출·OP·OPM 전망 (FY24-FY28E)</h4>
+        <canvas id="outlookChart" height="240"></canvas>
+        <div class="src">→ FY26 OPM 40.7% → FY28E 45%+ (AGI CPU + ARMv9 60% + CSS 30% 가속)</div>
+      </div>
+
+      <blockquote><b>알 수 없음 시나리오</b>: AGI CPU가 NVIDIA Grace·AWS Graviton·MSFT Cobalt·Google Axion과 server CPU 시장 경쟁 → <b>라이선시가 ARM 라이선스 재협상 또는 RISC-V 대안 검토 가능성</b>. 단기 영향 미미, 2028+ 잠재 risk.</blockquote>
+
+      <h3>4-3. 피어 그룹 비교</h3>
+      <table>
+        <tr><th>기업</th><th>FY 매출</th><th>5년 CAGR</th><th>1Q26 OPM</th><th>PER (2026)</th><th>핵심 차이</th></tr>
+        <tr class="arm-highlight"><td><b>ARM</b></td><td>$4.92B</td><td>+25%+</td><td>~40%+</td><td><b>~100x+</b></td><td>chipless IP, royalty 광범위</td></tr>
+        <tr><td>NVIDIA</td><td>~$130B+</td><td>+50%+</td><td>65%+</td><td>~50x</td><td>AI 가속기 단일 우위</td></tr>
+        <tr><td>TSMC</td><td>~$90B+</td><td>+20%</td><td>50%+</td><td>~25x</td><td>Foundry 압도</td></tr>
+        <tr><td>SK하이닉스</td><td>97.15조원</td><td>+25%+</td><td>72%</td><td>~10x</td><td>HBM 사이클</td></tr>
+        <tr><td>AMD</td><td>~$25B</td><td>+25%+</td><td>30%+</td><td>~45x</td><td>x86 + AI MI</td></tr>
+        <tr><td>Micron</td><td>$37.38B</td><td>+7%+</td><td>69%</td><td>~15x</td><td>HBM + 미국 본토</td></tr>
+      </table>
+      <p>→ <b>ARM PER 100x+ = 광범위 노출과 안정성에 대한 프리미엄</b>. 단 sharp 상방 여력 어려움 (이미 가격 반영).</p>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>Fact / Raw Data</th></tr>
+        <tr><td>현재 시장 점유 + 추이</td><td>모바일 99% (Apple·Qualcomm·MediaTek·Samsung). <b>DC CPU FY24 9%→FY26 15%, 하이퍼스케일러 ~50%</b> (Q1 2026 IDC 17.7%, +6.2%p YoY). 누적 chip shipments <b>290B+</b></td></tr>
+        <tr class="arm-highlight"><td><b>★ ARM 라이선시 4종 (DC)</b></td><td>NVIDIA Grace (Neoverse V2) + AWS Graviton 4/5 (50%+ AWS) + MSFT Cobalt 100 (N2) + Google Axion (V2) — 모두 TSMC 양산</td></tr>
+        <tr><td>현재 CAPA</td><td>ARM은 IP 회사, 자체 CAPA 부재. TSMC 등 양산 capa 의존. <b>CapEx ~$0</b></td></tr>
+        <tr><td>사이클 마진 진폭 (7년)</td><td>OPM 24.4% (FY23) ~ 40.7% (FY26) = <b>16.3%p</b> (메모리 진폭 1/3). 적자 분기 0</td></tr>
+        <tr><td>기술 격차·R&D·IP</td><td><b>ARMv9 (SVE2, CCA)</b> royalty 2x. <b>CSS</b> chip ASP 10%+ rate. <b>AGI CPU (136 Neoverse V3, TSMC 3nm)</b> 자체 칩</td></tr>
+        <tr class="arm-highlight"><td><b>★ 신규 수주</b></td><td><b>AGI CPU $2B+ committed (Meta+Oracle+ByteDance, 2026-03-24)</b> + <b>★ N1/N1X (2026-06-01 Computex)</b> + CSS 라이선스 가속</td></tr>
+        <tr><td>자본·시총</td><td>SoftBank 88% 보유, <b>2026 YTD 주가 +84%</b>, PER 100x+</td></tr>
+        <tr class="arm-highlight"><td><b>Q4 FY26 실적 (★)</b></td><td>매출 $1.49B (+20%) / Royalty $671M (+11%) / License $819M (+29%) / <b>Non-GAAP EPS $0.60 (beat $0.58)</b> / Data center royalty 2x YoY</td></tr>
+        <tr><td>FY26 전체</td><td>매출 $4.92B (+23%) / Non-GAAP OPM 40.7% record / 3년 연속 +20%+ 성장</td></tr>
+        <tr><td>ARMv9 비중</td><td>CY25 <b>25%</b> → 장기 target <b>60-70%</b> (royalty rate 2x 자동 +)</td></tr>
+        <tr><td>CSS 비중</td><td>royalty 약 <b>20%</b>, ASP <b>10%+ rate</b> (사상 최고)</td></tr>
+        <tr><td>AGI CPU 일정</td><td><b>2026 H2 volume 출하 / 2028+ material revenue</b> ($2B+ committed)</td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h3>상방 트리거 (수혜 가속)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr class="arm-highlight"><td><b>★ AGI CPU $2B → $5B+ 추가 committed</b></td><td>2026 H2 - 2027</td><td>비즈니스 모델 확장 실증, FY28+ 매출 +50%+</td></tr>
+        <tr class="arm-highlight"><td><b>★ N1/N1X 본격 출하 (2026 H2)</b></td><td>2026 Q3-Q4</td><td>client CPU TAM 폭증, royalty +30%+</td></tr>
+        <tr class="arm-highlight"><td>ARMv9 비중 25% → 40%+ 도달</td><td>2026-2027</td><td>royalty rate 2x 자동 매출 + 가속</td></tr>
+        <tr><td>CSS 채택 라이선시 추가 확보</td><td>2026 분기별</td><td>chip ASP 10%+ rate 적용 chip 확대</td></tr>
+        <tr class="arm-highlight"><td><b>NVIDIA Kyber Ultra (660kW/rack)</b></td><td>2026 H2 - 2027</td><td>Grace CPU 비중 ↑, ARM royalty 가속</td></tr>
+        <tr class="arm-highlight"><td><b>AWS Graviton 5 (192-core) 양산</b></td><td>2026 H2</td><td>AWS 자체 compute 50%+→60%+, ARM royalty +</td></tr>
+        <tr><td>Stargate 인프라 본격 capex 집행</td><td>2026-2030</td><td>$400B + 인프라, ARM IP 핵심 supplier</td></tr>
+        <tr><td>데이터센터 royalty 추가 2x+</td><td>FY27</td><td>데이터센터 비중 가속</td></tr>
+      </table>
+
+      <h3>하방 트리거 (수혜 약화)</h3>
+      <table>
+        <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
+        <tr class="warning-highlight"><td><b>★ AGI CPU 진입 = 라이선시 라이선스 재협상 또는 RISC-V 검토</b></td><td>2027-2028</td><td>NVIDIA·AWS·MSFT·Google이 ARM 의존도 축소 risk</td></tr>
+        <tr><td>RISC-V 하이퍼스케일러 채택 본격화</td><td>2027+</td><td>중국 디커플링·임베디드 → server·client 단계적 진입</td></tr>
+        <tr><td>Apple·Qualcomm Nuvia가 architecture license만 사용</td><td>지속</td><td>정상 royalty rate 회피 (rate 낮음)</td></tr>
+        <tr class="warning-highlight"><td><b>PER 100x+ 밸류에이션 압축(multiple compression)</b></td><td>2026 H2</td><td>macro / AI capex 둔화 시</td></tr>
+        <tr><td>SoftBank 매각 압박</td><td>분기별</td><td>88% 보유, Stargate funding 위해 매각 가능</td></tr>
+        <tr><td>AGI CPU 라이선시 경쟁 risk actual</td><td>2028+</td><td>server CPU 시장 직접 경쟁</td></tr>
+        <tr><td>NVIDIA·AMD가 자체 ARM 대안 (자체 ISA)</td><td>장기</td><td>RISC-V 또는 자체 ISA로 royalty 회피</td></tr>
+      </table>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단</h2>
+
+      <h3>매트릭스 평가</h3>
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr><td>상위 트렌드 적합성</td><td>★★★ 최상위</td><td>본 테마 모든 segment royalty 수혜</td></tr>
+        <tr><td>산업 위치</td><td>★★★ 최상위</td><td>반도체 산업의 운영체제</td></tr>
+        <tr><td>해자 강도 (Moat)</td><td>★★★ 4.1/5.0</td><td>메모리 3사 4.0+ 동급, 인텔 2.8 대비 +1.3</td></tr>
+        <tr><td>재무 건전성</td><td>★★★ 최상위</td><td>OPM 40.7% record / 적자 history 0 / CapEx ~$0</td></tr>
+        <tr><td>성장 가시성 (2~3년)</td><td>★★★ 최상위</td><td>3년 연속 +20%+ / AGI CPU 추가 / FY28+ +40%+ 가능</td></tr>
+        <tr class="warning-highlight"><td><b>밸류에이션 risk</b></td><td><b>★★ PER 100x+ 가격 반영</b></td><td>sharp 상방 여력 어려움, 밸류에이션 압축(multiple compression) risk</td></tr>
+      </table>
+
+      <h3>핵심 투자 포인트 3</h3>
+      <ol>
+        <li><b>★ Royalty 4종 매핑 — chipless IP 광범위 수혜</b> — NVIDIA Grace + AWS Graviton 4/5 + MSFT Cobalt + Google Axion 모두 ARM Neoverse IP·TSMC 양산. 1Q26 IDC server CPU 17.7% (+6.2%p YoY) = 4종 합산, <b>모든 chip에서 royalty 동시 수혜</b>. Q4 FY26 데이터센터 royalty <b>2x YoY</b>로 실증.</li>
+        <li><b>★ ARMv9 + CSS royalty rate 프리미엄</b> — ARMv9 royalty rate ARMv8 대비 <b>2x</b>, CY25 25% → 장기 60-70%. <b>CSS Chip ASP 10%+ rate (사상 최고)</b>, royalty 20% 비중 가속. ARMv9·CSS 채택 확대만으로 매출 +30%+ 자동 발생.</li>
+        <li><b>★ AGI CPU 비즈니스 모델 확장 (2026-03-24)</b> — ARM 35년 첫 자체 칩. 136 Neoverse V3 / TSMC 3nm / 300W TDP (AMD·Intel 500W 대비 power efficiency). <b>Meta + Oracle + ByteDance $2B+ committed</b>, 2026 H2 ship, 2028+ material. SoftBank Stargate $400B + Ampere 인수 시너지.</li>
+      </ol>
+
+      <h3>핵심 리스크 3</h3>
+      <ol>
+        <li><b>★ AGI CPU 진입 = 라이선시와 잠재 경쟁 risk</b> — ARM이 자체 server CPU 진입하면 NVIDIA Grace·AWS Graviton·MSFT Cobalt·Google Axion과 직접 경쟁. <b>라이선시가 ARM 의존도 축소 시도 (라이선스 재협상 또는 RISC-V 대안 검토) 가능성</b>. 단기 미미하지만 2028+ 본격화 risk.</li>
+        <li><b>PER 100x+ 이미 highly valued</b> — 모든 + 가격 반영. 메모리 3사 PER 10-15x, NVIDIA 50x, TSMC 25x 대비 명확한 프리미엄. macro risk / AI capex 둔화 / 밸류에이션 압축(multiple compression) 시 주가 하락 폭 클 risk.</li>
+        <li><b>RISC-V 부상 + architecture license 회피</b> — 중국 RISC-V 가속, Apple·Qualcomm Nuvia가 architecture license만 받아 정상 royalty rate 회피. <b>장기 ARM IP 표준성 약화 risk</b>. 단기 5년은 ARM 표준 견고.</li>
+      </ol>
+    </section>
+
+    <section id="peer">
+      <h2>메모리 3사·인텔 vs ARM — 본 테마 포지셔닝 비교</h2>
+      <div class="chart-card">
+        <h4>본 테마 Moat 비교 (segment 가중 평균)</h4>
+        <canvas id="moatCompare" height="240"></canvas>
+        <div class="src">→ SK 4.4 · 삼성 4.3 · <b>ARM 4.1</b> · Micron 4.0 = 본 테마 직접 수혜자 / 인텔 2.8 = 사업 전환(Turnaround) risk-reward 종목</div>
+      </div>
+
+      <table>
+        <tr><th>구분</th><th>SK하이닉스</th><th>삼성전자</th><th>마이크론</th><th><b>ARM</b></th><th>인텔</th></tr>
+        <tr><td>본 테마 직접 노출</td><td>60%+</td><td>~22% (DX buffer)</td><td>~70%</td><td><b>~85% (royalty 광범위)</b></td><td>~30%</td></tr>
+        <tr><td>Moat 종합 (가중)</td><td><b>4.4</b></td><td><b>4.3</b></td><td><b>4.0</b></td><td><b>4.1</b></td><td><b>2.8</b></td></tr>
+        <tr><td>본 테마 스토리(narrative)</td><td>HBM 집중</td><td>차세대 + 분산</td><td>미국 본토 + 가속</td><td><b>chipless IP + AGI CPU 진입</b></td><td>사업 전환(Turnaround) + Foundry</td></tr>
+        <tr><td>FY 매출 성장</td><td>+25%+</td><td>+5%</td><td>+49%</td><td><b>+23% (3년 연속 +20%+)</b></td><td>-0.5%</td></tr>
+        <tr><td>1Q26 OPM (Non-GAAP)</td><td><b>72%</b></td><td>~25%</td><td><b>69%</b></td><td><b>~40%+ (안정)</b></td><td>1%</td></tr>
+        <tr><td>CapEx 부담</td><td>높음 ($15B+)</td><td>높음</td><td>높음 ($25B+)</td><td><b>~$0 (R&D만)</b></td><td>$8B+</td></tr>
+        <tr><td>PER (2026)</td><td>~10x</td><td>~15x</td><td>~15x</td><td><b>~100x+</b></td><td>N/A (적자)</td></tr>
+        <tr><td>본 테마 분류</td><td>★★★ 주도주</td><td>★★★ 주도주</td><td>★★★ 주도주</td><td><b>★★★ 주도주 (밸류에이션 risk)</b></td><td>★ 사업 전환(Turnaround) risk</td></tr>
+      </table>
+
+      <blockquote><b>핵심 결론</b>: ARM = 본 테마 직접 수혜 측면에서 <b>메모리 3사와 동급 위치 (Moat 4.1)</b>. 단 <b>비즈니스 모델이 capital-light + 장기 추세(secular) (CapEx ~$0, 사이클 진폭 1/3)</b>이라 메모리 사이클 sharp 상방 여력 어렵지만 <b>안정적 +25% 성장 가시성</b>. PER 100x+ 이미 반영이 큰 risk.</blockquote>
+    </section>
+
+    <section id="appx">
+      <h2>부록</h2>
+
+      <div style="background:#f5f0ff;border:1px solid var(--arm);border-radius:6px;padding:14px 18px;margin:18px 0">
+        <h4 style="color:var(--arm);margin-top:0">A. 메타데이터 갱신 로그</h4>
+        <table>
+          <tr><th>버전</th><th>일자</th><th>변경 사항</th></tr>
+          <tr class="arm-highlight"><td><b>v1</b></td><td><b>2026-06-02</b></td><td>1차 작성 — 산업 기초 + 테마 v4 + ARM_기업개요 v4.9 자동 참조. <b>★ AGI CPU (2026-03-24) — ARM 35년 첫 자체 칩</b> + <b>★ Q4 FY26 record (2026-05-06)</b> + <b>★ N1/N1X (2026-06-01)</b> + <b>★ ARMv9 royalty 2x + CSS 10%+ rate</b> 신규 fact 반영. Stargate $400B 스토리(narrative) + SoftBank Ampere 시너지. 메모리 3사·인텔과 비교 (Moat 4.1, 메모리 동급·인텔 +1.3). 균형 frame: 수혜 (royalty 4종·ARMv9·CSS·AGI CPU·N1/N1X) + 밸류에이션 risk (PER 100x+·AGI CPU 라이선시 경쟁·RISC-V·Apple architecture license)</td></tr>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const ACC='#1f3a68', KR='#2ca02c', US='#1f77b4', JP='#9467bd', SEMI='#76b900', RD='#b03030', SK='#ff6b00', SAMSUNG='#1428a0', MICRON='#17becf', INTEL='#0071c5', AMD='#ed1c24', NVIDIA='#76b900', ARM='#0091bd', TSMC='#cc0000';
+
+new Chart(document.getElementById('shareChart'),{type:'bar',data:{labels:['모바일 IP','DC CPU (FY26)','ARMv9 비중 (CY25)','CSS royalty 비중','hyperscaler 내 ARM'],datasets:[{label:'ARM 현재',data:[99,15,25,20,50],backgroundColor:ARM},{label:'장기 target (잠재 도달치)',data:[100,30,67,35,70],backgroundColor:'#aac1d8'}]},options:{indexAxis:'y',plugins:{legend:{position:'bottom'},title:{display:true,text:'ARM 본 테마 segment 점유·비중 (%) — ARM은 IP 업계 사실상 monopoly, 모든 segment에서 ARM이 1위',font:{size:12}}},scales:{x:{beginAtZero:true,max:100,title:{display:true,text:'%'}}}}});
+
+new Chart(document.getElementById('moatBySegment'),{type:'bar',data:{labels:['모바일 IP','DC IP (Neoverse)','CSS','AGI CPU ★','ARMv9 royalty','N1/N1X'],datasets:[{label:'ARM',data:[5.0,4.6,4.2,3.2,4.8,4.0],backgroundColor:ARM},{label:'최강 경쟁자 (참고용 — RISC-V/x86/NVIDIA Grace 등)',data:[1.2,3.4,3.2,4.6,3.4,3.6],backgroundColor:'#aac1d8'}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,max:5,title:{display:true,text:'Moat 평균 점수'}}}}});
+
+new Chart(document.getElementById('cycleChart'),{type:'bar',data:{labels:['FY20','FY21','FY22','FY23','FY24','FY25','FY26'],datasets:[{type:'line',label:'Non-GAAP OPM (%)',data:[26.7,29.1,36.7,24.4,32.5,35.3,40.7],borderColor:RD,backgroundColor:RD+'20',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:4,pointBackgroundColor:RD},{type:'bar',label:'매출 ($B)',data:[1.91,2.03,2.70,2.68,3.23,4.00,4.92],backgroundColor:ARM,yAxisID:'y',order:1}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'매출 ($B)'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:0,max:50}}}});
+
+new Chart(document.getElementById('peerOpm'),{type:'bar',data:{labels:['NVIDIA','SK하이닉스','마이크론','TSMC','ARM','AMD','삼성 DS','인텔'],datasets:[{label:'1Q26 Non-GAAP OPM (%)',data:[65,72,69,50,40,30,65.7,1],backgroundColor:[NVIDIA,SK,MICRON,TSMC,ARM,AMD,SAMSUNG,INTEL]}]},options:{plugins:{legend:{display:false},title:{display:true,text:'반도체 글로벌 peer 1Q26 OPM',font:{size:12}}},scales:{y:{title:{display:true,text:'OPM (%)'},beginAtZero:true,max:80}}}});
+
+new Chart(document.getElementById('outlookChart'),{type:'bar',data:{labels:['FY24','FY25','FY26','FY27E','FY28E'],datasets:[{type:'line',label:'OPM (%)',data:[32.5,35.3,40.7,43,45],borderColor:'#000',backgroundColor:'#00000020',tension:0.3,yAxisID:'y2',order:0,borderWidth:3,pointRadius:5,pointBackgroundColor:'#000'},{type:'bar',label:'매출 ($B)',data:[3.23,4.00,4.92,6.5,9.5],backgroundColor:[ARM,ARM,ARM,'#5577ee','#5577ee'],yAxisID:'y',order:1},{type:'bar',label:'OP ($B)',data:[1.05,1.41,2.00,2.8,4.5],backgroundColor:[RD,RD,RD,'#e89999','#e89999'],yAxisID:'y',order:2}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'$B'}},y2:{position:'right',title:{display:true,text:'OPM (%)'},grid:{drawOnChartArea:false},min:20,max:50}}}});
+
+new Chart(document.getElementById('moatCompare'),{type:'bar',data:{labels:['SK하이닉스','삼성전자','ARM','마이크론','인텔'],datasets:[{label:'본 테마 Moat 종합',data:[4.4,4.3,4.1,4.0,2.8],backgroundColor:[SK,SAMSUNG,ARM,MICRON,INTEL]}]},options:{plugins:{legend:{display:false},title:{display:true,text:'본 테마 Moat 가중 평균 — 5개사 비교',font:{size:13}}},scales:{y:{beginAtZero:true,max:5,title:{display:true,text:'Moat'}}}}});
+</script>
+
+</body>
+</html>

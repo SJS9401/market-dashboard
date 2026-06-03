@@ -6,6 +6,8 @@
 > 출처: SEC EDGAR 10-K 16개 (FY10~FY25) + 10-Q 46개, Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Results Deck 9개, FY25 10-K Item 1·8
 
 # Intel Corporation 기업 개요 (v4.9 — 1번 섹션 표준화)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 
@@ -76,8 +78,9 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 ### (4) 적정 밸류에이션 방법
 
-- **PBR** (Turnaround 기준) 우선 — 자본 회복 추적이 핵심. 현재 시총 $90B vs Equity $90B = **PBR ≈ 1.0** (역사적 저점)
-  - Turnaround 성공 시 PBR 1.5~2.0x 복원 (intrinsic value 기준)
+- **PBR** (Turnaround 기준) 우선 — 자본 회복 추적이 핵심.
+  - 작성 시점 (May 2026 초): 시총 $90~100B vs Equity $90B = **PBR ≈ 1.0** (역사적 저점)
+  - **2026-06-03 현재: 시총 $538B (+200% YTD, 글로벌 #24)** — Lip-Bu Tan turnaround 본격 가속 + NVIDIA $5B 지분 파트너십 + 18A 양산 가시화로 PBR ~6x로 멜팅. Turnaround 성공 narrative 정착 중
 - **Sum-of-Parts** — Intel Products + Intel Foundry + Mobileye 80% + Altera 49% 잔여 + IMS 68% 분해. 각 part 별도 가치
 - **EV/Sales** — CPU 사업만 별도 (Foundry 비용 제외) 평가, 통상 1~2x
 - **Catalysts 가중** — 18A 양산 진척, Foundry 외부 고객 확보, NVIDIA 파트너십 진척 발표 시점 점프
@@ -162,7 +165,8 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 - **2024.12.01 Pat Gelsinger 사임 발표** ($24, 시총 $105B)
 - **2025.03.18 Lip-Bu Tan CEO 취임** ($22, 시총 $95B)
 - **2025.09.18 NVIDIA $5B 지분 인수 발표** (4% 지분, 시너지 파트너십) — 주가 +35% 급등
-- **2026-05 현재 약 $22 (시총 $100B)** — 회복 초기
+- 2026-05 작성 시점: 약 $22 (시총 $100B) — 회복 초기
+- **2026-06-03 ATH 갱신: 시총 $538B (+200% YTD, 글로벌 #24)** [Source: companiesmarketcap.com] — Lip-Bu Tan turnaround 가속 + NVIDIA $5B 지분 시너지 + 18A 양산 가시화 + AI 가속기 시장 reframe
 
 (4) 회사 연혁 (주요 마일스톤)
 

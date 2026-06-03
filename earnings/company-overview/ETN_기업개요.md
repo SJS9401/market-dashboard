@@ -7,6 +7,8 @@
 > 출처: **SEC EDGAR 168건 (10-K 13건 + 10-Q 30+건 + 8-K 100+건)**, **Eaton Q1 2026 Earnings Release (May 5, 2026)**, **Sustainability Report 2024 (4.3MB)**, **Yahoo Finance ETN monthly 25y**
 
 # Eaton Corporation 기업 개요 (v1.0 — 전력 인프라 T2 / 글로벌 피어 / Mobility 분사 진행 중)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 
@@ -200,7 +202,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → **1차 — Forward PER (지속성장 분류 표준)** : FY25 EPS $10.45 (GAAP) / Adj EPS ~$11.86 (추정) → FY26F Adj EPS $13.05-$13.50 midpoint $13.28 → P/E 22-25x (글로벌 전력 인프라 premium peer range), 데이터센터 secular premium 더해질 경우 28-32x도 가능
 
-→ **2차 — EV/EBITDA (자본구조 비교)** : Net debt $9.3B + Equity 시총 $130B (May 2026 추정) → EV/EBITDA 25-30x (peer premium 적용 시)
+→ **2차 — EV/EBITDA (자본구조 비교)** : Net debt $9.3B + Equity 시총 $130B (May 2026 작성 시점) → **2026-05-22 ATH $156B** [Source: companiesmarketcap.com] → EV/EBITDA 25-30x (peer premium 적용 시)
 
 → **3차 — DCF (장기 secular 산업)** : Segment OP $6.7B + 2030 target Mid-Single-Digit growth + WACC 7-8% + Terminal multiple 18-22x — Backlog +44% visibility로 DCF 신뢰성 높음
 

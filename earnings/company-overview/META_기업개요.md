@@ -1,4 +1,6 @@
 # META (Meta Platforms, Inc.) — 기업 개요 리포트 v1.0
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **작성일**: 2026-05-19
 **대상 기업**: Meta Platforms, Inc. (NASDAQ: META, CIK 0001326801)

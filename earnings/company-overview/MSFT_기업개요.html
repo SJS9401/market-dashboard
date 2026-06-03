@@ -1,57 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>MSFT — 기업 개요 (v4.8 retrofit, dark standard)</title>
+<html lang="ko"><head><meta charset="UTF-8"><title>MSFT — 기업 개요</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-  body {
-    background: #0f1419;
-    color: #e6e6e6;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 40px 30px;
-    line-height: 1.6;
-  }
-  h1 { color: #4ec9b0; border-bottom: 2px solid #2d3748; padding-bottom: 12px; font-size: 28px; }
-  h2 { color: #76b9c4; margin-top: 36px; border-left: 4px solid #76b9c4; padding-left: 12px; font-size: 22px; }
-  h3 { color: #c5a572; margin-top: 28px; font-size: 18px; }
-  h4 { color: #c5a572; font-size: 15px; }
-  table {
-    border-collapse: collapse;
-    margin: 16px 0;
-    width: 100%;
-    font-size: 13px;
-  }
-  th, td {
-    border: 1px solid #3a4658;
-    padding: 6px 10px;
-    text-align: right;
-  }
-  th { background: #1f2937; color: #76b9c4; }
-  td:first-child, th:first-child { text-align: left; }
-  code { background: #1f2937; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #f0b070; }
-  img { max-width: 100%; margin: 12px 0; border-radius: 6px; background: #ffffff; padding: 4px; }
-  strong { color: #f0b070; }
-  blockquote {
-    border-left: 4px solid #4ec9b0;
-    padding: 14px 18px;
-    color: #b4c2ce;
-    font-style: italic;
-    background: #1a2330;
-    margin: 14px 0;
-  }
-  ul, ol { margin: 8px 0 8px 24px; }
-  li { margin: 4px 0; }
-  a { color: #76b9c4; }
-  hr { border: none; border-top: 1px solid #2d3748; margin: 28px 0; }
-</style>
-</head>
-<body>
-<div id="content">렌더링 중...</div>
+  body { background:#0f1419; color:#e6e6e6;
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    max-width:1280px; margin:0 auto; padding:40px 30px; line-height:1.6; }
+  h1 { color:#4ec9b0; border-bottom:2px solid #2d3748; padding-bottom:12px; font-size:28px; }
+  h2 { color:#76b9c4; margin-top:36px; border-left:4px solid #76b9c4; padding-left:12px; font-size:22px; }
+  h3 { color:#c5a572; margin-top:28px; font-size:18px; }
+  h4 { color:#c5a572; font-size:15px; }
+  table { border-collapse:collapse; margin:16px 0; width:100%; font-size:13px; }
+  th, td { border:1px solid #3a4658; padding:6px 10px; text-align:right; }
+  th { background:#1f2937; color:#76b9c4; }
+  td:first-child, th:first-child { text-align:left; }
+  code { background:#1f2937; padding:2px 6px; border-radius:3px; font-size:13px; color:#f0b070; }
+  img { max-width:100%; margin:12px 0; border-radius:6px; background:#ffffff; padding:4px; }
+  strong { color:#f0b070; }
+  blockquote { border-left:4px solid #4ec9b0; padding:14px 18px; color:#b4c2ce; font-style:italic; background:#1a2330; margin:14px 0; }
+  ul, ol { margin:8px 0 8px 24px; }
+  li { margin:4px 0; }
+  a { color:#76b9c4; }
+  hr { border:none; border-top:1px solid #2d3748; margin:28px 0; }
+</style></head>
+<body><div id="content">렌더링 중...</div>
 <script id="md-source" type="text/markdown">
 # MSFT (Microsoft Corporation) — 기업 개요 리포트 v1.0
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **작성일**: 2026-05-19
 **대상 기업**: Microsoft Corporation (NASDAQ: MSFT, CIK 0000789019)
@@ -574,11 +549,41 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
   - FY15Q4, FY16Q4, FY17Q4, FY18Q4, FY19Q4, FY20Q4, FY21Q4, FY22Q4, FY23Q1, FY23Q2, FY23Q3, FY23Q4, FY24 Q1-Q4, FY25 Q1-Q4, FY26 Q1-Q3
 - **Yahoo Finance v8**: MSFT 월간 OHLC ~305개 (2000-01~2025-05, 25년)
 - **Q3 FY26 Press Release**: https://www.sec.gov/Archives/edgar/data/789019/000119312526191457/msft-ex99_1.htm
-- **Q2 FY26 Press Release**: https://www.sec.gov/Archives/edgar/data/789019/000119312526027198/msft-ex99_
+- **Q2 FY26 Press Release**: https://www.sec.gov/Archives/edgar/data/789019/000119312526027198/msft-ex99_1.htm
+
+### ❌ 누락 / ⚠️ 추정 데이터
+
+- **FY15Q1~FY23Q3 비-Q4 분기 IR HTM**: 일부만 다운로드 (Q4만 우선). 모두 SEC EDGAR에서 fetch 가능 (URL 패턴 정리됨).
+- **Azure absolute $ revenue**: FY25Q1 (2024.10)부터만 공식 disclosure. 이전 분기는 YoY% 만 공시 → AWS·GCP 비교로 추정.
+- **Other Bets · OpenAI 매출 contribution**: 일부 estimate.
+- **Activision 통합 후 Gaming 매출 분해**: 일부 추정.
+
+### 🔗 핵심 검증 URL
+
+- Microsoft IR: https://www.microsoft.com/en-us/investor/
+- Earnings: https://www.microsoft.com/en-us/investor/earnings/
+- SEC EDGAR Microsoft: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000789019
+- FY26Q3 Press Release Page: https://www.microsoft.com/en-us/investor/earnings/fy-2026-q3/press-release-webcast
+
+### MSFT IR URL 패턴 (작업용)
+
+- **SEC 8-K Ex99.1 (2024+)**: `https://www.sec.gov/Archives/edgar/data/789019/{accession_clean}/msft-ex99_1.htm`
+- **SEC 8-K Ex99.1 (2011~2023)**: `https://www.sec.gov/Archives/edgar/data/789019/{accession_clean}/d{prefix}dex991.htm` (prefix = 8-K 파일명 d{prefix}d8k.htm에서 추출)
+- **Microsoft IR direct**: `https://www.microsoft.com/en-us/investor/earnings/fy-{YYYY}-q{N}/press-release-webcast`
+
+---
+
+## Version Log
+
+**v1.0 (2026-05-19)**:
+- 최초 작성. 12년 회계연도 (FY2014~FY2025) + 20분기 IR press release (FY15Q4~FY26Q3) 시계열
+- AMZN/GOOGL 검증 패턴 적용: SEC EDGAR (10-K/10-Q/8-K 229개) + SEC 8-K Ex991 HTM 20개 + Yahoo Finance 25년
+- **MSFT 회계연도 (7월~6월) 특이성** 명시 — 분기 표기 FY{Y}Q{N} 통일
+- 15종 차트 임베드 (chart1, chart1b, chart2 segment, chart3 Azure 35Q, chart4-14)
+- FY26Q3 AI Business ARR $37B (+123%) 반영
+- OpenAI 49% economic interest + Activision $68.7B 인수 후 통합 분석
+- 잔여 보완 후보 (v1.1): (1) 비-Q4 분기 IR HTM 모두 batch (40+ 추가), (2) Azure absolute $ 시계열 정밀화, (3) AI ARR 분기별 product mix 분해
+
 </script>
-<script>
-const text = document.getElementById("md-source").textContent;
-marked.setOptions({ breaks: false, gfm: true });
-document.getElementById("content").innerHTML = marked.parse(text);
-</script>
+<script>const text=document.getElementById("md-source").textContent;marked.setOptions({breaks:false,gfm:true});document.getElementById("content").innerHTML=marked.parse(text);</script>
 </body></html>

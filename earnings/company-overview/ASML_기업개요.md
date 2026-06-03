@@ -4,6 +4,8 @@
 > **섹터**: 반도체 소부장 (워치리스트 T2) — 글로벌 lithography 장비 **독점 공급자**
 > **티커**: ASML (NASDAQ) | **SEC CIK**: 0000937966
 > **작성일**: 2026-05-24 (v2.1 — 1번 섹션 표준화) | **데이터 cutoff**: FY2025 annual + 2026-Q1 quarterly
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ---
 
@@ -129,8 +131,13 @@ OPM range: 23.6% ~ 36.3% = 12.7%pt
 
 ![ASML 시가총액 21년](ASML_chart11_시가총액20년.png)
 
-→ 2005년 시총 ~$8B → 2021-09 ATH ~$640B (80배 성장)
-→ 핵심 모멘텀: 2017 EUV 본격 ramp (NXE:3400B), 2021 EUV 모멘텀 + AI 사이클 초기, 2024-07 ATH (AI 가속 + 6사 narrative 정점)
+→ 2005년 시총 ~$10B → **2026-06-03 ATH $660B (66배 성장)** [Source: companiesmarketcap.com, 2026-06]
+→ 핵심 모멘텀 milestone:
+   - 2017: EUV 본격 ramp 시작 (NXE:3400B 양산)
+   - 2021-09: 1차 mini-peak ~$400B (메모리 슈퍼사이클 + EUV 모멘텀)
+   - 2024-07: 2차 mid-peak ~$440B (AI 사이클 초기 + 6사 narrative 정점)
+   - **2026-06: ATH $660B** (AI 인프라 폭증 + Tata Electronics partnership + High-NA ramp 가시화)
+→ 1년 누적 +122.5% (2025-06 → 2026-06). ASML = 글로벌 시총 #20위, 반도체 #5위
 
 ### ④ 주요 연혁
 

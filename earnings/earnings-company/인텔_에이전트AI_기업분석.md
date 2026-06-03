@@ -31,19 +31,19 @@ notes:
 
 # 인텔(INTC) 기업 분석 — 에이전트AI 테마
 
-> **본 분석 frame**: 에이전트AI 테마 분석(v4)의 17 segment 중 **인텔은 본 테마 핵심 segment에서 점유율 가속 잠식 진행 중 + Intel Foundry 18A 첫 외부 대형 고객 확보로 한 줄기 positive narrative**. **메모리 3사(SK 4.4 / 삼성 4.3 / Micron 4.0)와 정반대 케이스 — 본 테마 직접 수혜자가 아닌 Turnaround 종목**. SK = HBM 집중 / 삼성 = 분산 + 차세대 / Micron = 후발 + 미국 지정학 / **Intel = x86 잠식 위협 + Foundry catch-up**가 핵심 narrative.
+> **본 분석 frame**: 에이전트AI 테마 분석(v4)의 17 segment 중 **인텔은 본 테마 핵심 segment에서 점유율 가속 잠식 진행 중 + Intel Foundry 18A 첫 외부 대형 고객 확보로 한 줄기 positive 스토리(narrative)**. **메모리 3사(SK 4.4 / 삼성 4.3 / Micron 4.0)와 정반대 케이스 — 본 테마 직접 수혜자가 아닌 사업 전환(Turnaround) 종목**. SK = HBM 집중 / 삼성 = 분산 + 차세대 / Micron = 후발 + 미국 지정학 / **Intel = x86 잠식 위협 + Foundry catch-up**가 핵심 스토리(narrative).
 
-> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·IDC·Mercury Research). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·IDC·Mercury Research). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
 
 ---
 
 ## Executive Summary (5줄)
 
-1. **위치**: x86 CPU 글로벌 #1이지만 **DC server CPU 점유 1년 만에 64.4%→54.9% (-9.5%p)** (Q1 2026 IDC), AMD 24.1%→27.4%·**ARM 11.5%→17.7% (+6.2%p)**. AI 가속기 점유 ~0% (NVIDIA 96% 압도). **★ 2026-06-01 NVIDIA Jensen Huang Computex/GTC Taipei keynote에서 NVIDIA + Microsoft "N1/N1X" Arm-based PC 칩 발표 = client CPU 추가 위협**. Intel Foundry 18A 양산 시작 + Microsoft Maia 3 "Griffin" 첫 외부 대형 고객 확정 (★ 2026-01) — 유일한 positive narrative.
+1. **위치**: x86 CPU 글로벌 #1이지만 **DC server CPU 점유 1년 만에 64.4%→54.9% (-9.5%p)** (Q1 2026 IDC), AMD 24.1%→27.4%·**ARM 11.5%→17.7% (+6.2%p)**. **★ ARM 17.7% 합산 내역 = NVIDIA Grace (GB200 NVL72 rack host CPU) + AWS Graviton 4/5 + MSFT Cobalt + Google Axion** — 모두 ARM Neoverse V2/N2 IP 기반, TSMC 양산. **NVIDIA AI rack 표준화 = 인텔 Xeon이 통합 unit에서 빠지는 구조**. AI 가속기 점유 ~0% (NVIDIA 96% 압도). **★ 2026-06-01 GTC Taipei NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 발표 = client CPU도 추가 위협** (server에 이은 client 진입). Intel Foundry 18A 양산 + Microsoft Maia 3 "Griffin" 첫 외부 대형 고객 확정 (★ 2026-01) — 유일한 positive 스토리(narrative).
 2. **해자 종합 (segment 가중)**: <strong>2.8 / 5.0</strong> (메모리 3사 4.0+ 대비 1.5p 낮음) — Intel Foundry 18A 4.0 / 미국 본토 지정학 4.5 / Mobileye 4.0이 buoyant, x86 server·client 3.0 / **AI 가속기 1.5 (사실상 부재)** 추격형 mix. 메모리 3사 가중 평균보다 명확히 낮음.
-3. **재무 (구조적 침체 + Turnaround 초기)**: **FY25 매출 $52.85B (-0.5% YoY) / OP $0.26B / OPM 0.5% / NPM 15.3%** (2018 정점 $79B 대비 -33%, 12년 매출 CAGR **-0.46% 마이너스**). **Q1 2026 매출 $13.6B (+7% YoY) / GAAP EPS $(0.73) / Non-GAAP EPS $0.29** (restructuring $2.1B 차지). **DCAI +22% YoY ($5.1B) 가장 빠른 segment**, Intel Foundry +16% ($5.4B), CCG +1% ($7.7B). **신용등급 A2 / BBB+ / BBB+** (2024-10 동반 하향, 메모리 3사 회복 흐름과 반대).
-4. **미래**: **★ Intel Foundry는 14A 외부 고객 확보 성패에 회사 전체 운명**. 18A는 Microsoft Maia 3 (Griffin) + Amazon Xeon 6 + DoD ($3B) 확보. NVIDIA·Broadcom 테스트 단계 (미확정). x86 client CPU는 NVIDIA+MSFT N1/N1X 협력으로 추가 위협. **Turnaround 성공 시 PBR 1.0 → 1.5~2.0 복원**, 실패 시 Foundry 분사·매각·매물화 시나리오.
-5. **종합 판단**: <span class="star">★ Turnaround risk-reward 종목 (메모리 3사 같은 주도주 X)</span>. 본 테마 직접 수혜 측면에서는 후발·역방향. **(a) DC CPU 점유율 지속 잠식, (b) NVIDIA+ARM 협력 확대, (c) AI 가속기 완전 부재** 3대 구조적 risk. 단 **(1) Intel Foundry 18A Microsoft 확보 + 14A 외부 고객 ramp, (2) NVIDIA $5B 지분 인수 시너지, (3) Lip-Bu Tan CEO Turnaround**가 positive optionality.
+3. **재무 (구조적 침체 + 사업 전환(Turnaround) 초기)**: **FY25 매출 $52.85B (-0.5% YoY) / OP $0.26B / OPM 0.5% / NPM 15.3%** (2018 정점 $79B 대비 -33%, 12년 매출 CAGR **-0.46% 마이너스**). **Q1 2026 매출 $13.6B (+7% YoY) / GAAP EPS $(0.73) / Non-GAAP EPS $0.29** (restructuring $2.1B 차지). **DCAI +22% YoY ($5.1B) 가장 빠른 segment**, Intel Foundry +16% ($5.4B), CCG +1% ($7.7B). **신용등급 A2 / BBB+ / BBB+** (2024-10 동반 하향, 메모리 3사 회복 흐름과 반대).
+4. **미래**: **★ Intel Foundry는 14A 외부 고객 확보 성패에 회사 전체 운명**. 18A는 Microsoft Maia 3 (Griffin) + Amazon Xeon 6 + DoD ($3B) 확보. NVIDIA·Broadcom 테스트 단계 (미확정). x86 client CPU는 NVIDIA+MSFT N1/N1X 협력으로 추가 위협. **사업 전환(Turnaround) 성공 시 PBR 1.0 → 1.5~2.0 복원**, 실패 시 Foundry 분사·매각·매물화 시나리오.
+5. **종합 판단**: <span class="star">★ 사업 전환(Turnaround) risk-reward 종목 (메모리 3사 같은 주도주 X)</span>. 본 테마 직접 수혜 측면에서는 후발·역방향. **(a) NVIDIA Grace 통합 rack 표준화 + ARM 라이선시 4종 (Grace·Graviton·Cobalt·Axion)의 server CPU 점유 잠식 가속, (b) NVIDIA+MSFT N1/N1X client CPU 진입, (c) AI 가속기 완전 부재** 3대 구조적 risk. 단 **(1) Intel Foundry 18A Microsoft 확보 + 14A 외부 고객 ramp, (2) NVIDIA $5B 지분 인수 시너지 (역설적), (3) Lip-Bu Tan CEO 사업 전환(Turnaround)**가 positive optionality. <b>본 테마는 GPU·HBM·메모리 비중 ↑ + ARM 기반 host CPU 통합 = 인텔 x86이 양면 잠식되는 구조</b>이므로, 인텔에게는 장기 추세(secular) headwind.
 
 ---
 
@@ -56,7 +56,7 @@ notes:
   - CPU 병목 = NVIDIA Grace + ARM Neoverse (Cobalt·Axion·Graviton) + AMD EPYC가 leader
   - Foundry 병목 = TSMC가 압도, Intel 18A는 후발 추격
 - **한국 접근 가능 TAM (2028E)**: $216-262B+ (인텔은 미국이라 한국 TAM 무관)
-- **Intel의 본 테마 frame**: 메모리 3사 사이클 정점 수혜와 정반대 — **본 테마 위협 + Foundry Turnaround 종목**
+- **Intel의 본 테마 frame**: 메모리 3사 사이클 정점 수혜와 정반대 — **본 테마 위협 + Foundry 사업 전환(Turnaround) 종목**
 
 ## 1-2. 인텔의 위치 (테마 v4 Moat 후보 — segment별)
 
@@ -93,6 +93,50 @@ notes:
 
 ---
 
+## ★ 2-0. 에이전트AI 테마 logical flow — 왜 인텔가 부각받는가
+
+> **정성적 인과 사슬** (테마 v4 narrative → 인텔 위치 매핑)
+
+### 1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질
+- 에이전트 1건 = chat 1턴 대비 **토큰 20-30x** (Stanford/NVIDIA 실측, 테마 v4)
+- 각 추론 단계·도구 호출·검색·메모리 갱신·tool execution = **연산(GPU/CPU) + 메모리(HBM/DRAM/SSD) + 스토리지(HDD) + IP(ARM) 모든 layer 부하 폭증**
+- agent는 stateful → 과거 trace·long-context 보존 필요 = secular 누적
+
+### 2단계: AI 인프라 layer별 분담 — 인텔는 어디 위치?
+
+| Layer | 데이터/연산 유형 | 매체·아이템 | 본 테마 수혜 종목 |
+|---|---|---|---|
+| **Hot (microsec)** | KV cache, activation, 모델 가중치(active) | **HBM** | **SK·삼성·Micron (HBM)** |
+| **Warm (msec)** | 모델 가중치(off-package), 활성 dataset | **DRAM·SSD** | 메모리 3사 (DRAM) + SNDK·Solidigm (eSSD) |
+| **Warm-Cold (sec)** | 검색 코퍼스, 벡터 DB, 최근 로그 | **eSSD QLC·HBF** | SNDK (122TB QLC, HBF) |
+| **Cold (수초~분)** | 학습 데이터셋, 체크포인트, 보관 로그 | **HDD nearline** | WDC·Seagate |
+| **Compute (CPU)** | server CPU + host CPU + client CPU | **x86·ARM** | Intel·AMD·ARM 라이선시 |
+| **Compute (GPU·AI)** | training·inference 가속 | **GPU·ASIC** | NVIDIA·AMD·ARM |
+| **IP layer** | 모든 chip 상위 설계 | **ARM IP** | ARM Holdings (royalty 광범위) |
+
+
+→ **인텔 위치: **Compute (CPU) 잠식당하는 측** — 본 테마 역방향 위치**
+
+### 3단계: 왜 인텔이 본 테마에서 점유율 잠식당하는가? — 3가지 본질적 이유
+
+1. **NVIDIA AI rack 표준화 (GB200 NVL72 = GPU 72 + Grace CPU 36)** → 과거 Intel Xeon이 들어가던 host CPU 자리를 NVIDIA Grace (ARM)가 통합 판매로 가져감
+2. **ARM 라이선시 4종 (Grace·Graviton·Cobalt·Axion)** = hyperscaler 자체 ARM 칩 직접 운영 = x86 ecosystem 회피
+3. **NVIDIA + MSFT N1/N1X (2026-06-01 Computex)** = client CPU도 ARM 추가 위협 (server에 이은 client 진입)
+
+### 4단계: 왜 인텔이 위협받는 위치인가? — 본 테마 직접 수혜자 아닌 Turnaround
+
+- **DC server CPU 점유 64.4% → 54.9% (-9.5%p YoY)** (Q1 2026 IDC) = ARM +6.2%p가 가장 큰 잠식자
+- **AI 가속기 점유 ~0%** (NVIDIA 96% 압도, Gaudi 매출 미미)
+- **Intel Foundry 18A + Microsoft Maia 3 Griffin** = 유일한 positive narrative (catch-up)
+- **CHIPS Act $7.86B + 미국 본토 첨단 공정** = 지정학 우위
+
+### 5단계: 본 분석 frame 결론
+
+**본 테마 직접 수혜자가 아닌 Turnaround risk-reward 종목**. Moat 2.8 (메모리 3사 4.0+ 대비 1.5p 낮음). Lip-Bu Tan CEO 1년 차 비용 절감 + Foundry 외부 고객 확보가 thesis 지탱.
+
+---
+
+
 # 항목 2. 비즈니스 모델 & 해자 (Moat) — Segment별
 
 ## 2-1. 비즈니스 모델 — 핵심 차별점
@@ -101,24 +145,40 @@ notes:
 - **Xeon 6 (Granite Rapids P-core + Sierra Forest E-core)** 양산 — 2024-2025
 - **Diamond Rapids (next-gen Xeon)** 2026-2027 예정
 - **AMD EPYC 5세대 (Turin)** 대비 단일 코어 성능·power efficiency 모두 후발
-- ARM server CPU (AWS Graviton 4/5, MSFT Cobalt, Google Axion) 점유 17.7% (YoY +620bp)
+
+#### ★ Server CPU 잠식 메커니즘 — ARM 라이선시 4종 매핑 (1Q26 ARM 점유 17.7%의 합산)
+
+| 칩 | 설계자 (팹리스) | IP | 양산 | 하이퍼스케일러 / use case |
+|---|---|---|---|---|
+| **NVIDIA Grace** | NVIDIA | ARM Neoverse V2 | TSMC | **★ GB200 NVL72 rack host CPU (GPU 2개당 1개)** — AI rack 표준 unit |
+| **AWS Graviton 4** | Annapurna Labs (AWS 자회사) | ARM Neoverse V2 | TSMC | AWS 자체 CPU compute **50%+** (10만+ 클라우드 고객) |
+| **AWS Graviton 5** (개발 중) | Annapurna Labs | ARM Neoverse (next-gen) | TSMC | 192-core 차세대 |
+| **MSFT Cobalt 100** | Microsoft | ARM Neoverse N2 | TSMC | Azure 자체 ARM 인스턴스 |
+| **Google Axion** | Google | ARM Neoverse V2 | TSMC | GCP 자체 ARM 인스턴스 |
+| **합산 점유 (1Q26 IDC)** | — | — | — | **17.7% (1년 전 11.5%→17.7%, +6.2%p)** |
+
+→ **핵심 메커니즘 1 — NVIDIA AI rack 표준화**: GB200 NVL72 한 랙 = GPU 72 + **Grace CPU 36** + NVLink switch 9 + 액체냉각 + 130kW 전원이 통합 unit으로 hyperscaler에 배달. 과거 hyperscaler가 NVIDIA GPU와 Intel Xeon을 따로 사서 조립하던 구조에서, **NVIDIA가 host CPU(Grace, ARM)까지 통합 판매** → 인텔 Xeon이 AI rack에서 빠지는 구조. 2026년 Kyber Ultra (660kW/rack) 등장 시 더 가속.
+
+→ **핵심 메커니즘 2 — Hyperscaler 자체 ARM 칩**: AWS·MSFT·Google이 자체 ARM 기반 server CPU 설계 + TSMC 양산 → x86 생태계 직접 회피. AWS Graviton만 자체 클라우드 CPU compute의 50%+ 차지 (10만+ 고객, 4th gen 96 코어, 5th gen 192 코어 개발 중). 인텔 매출 직접 잠식.
+
+→ **결과**: ARM 서버 CPU 점유 1년 만에 11.5%→17.7% (+6.2%p YoY, 가장 빠른 +). AMD EPYC도 +3.3%p 잠식. **인텔 64.4%→54.9% (-9.5%p)** = ARM + AMD 양면 압박의 총합.
 
 ### x86 client CPU (PC, Core) — CCG 핵심
 - **Intel Core Ultra Series 3 "Panther Lake" (Intel 18A)** — 2025-10 첫 18A 제품
 - AMD Ryzen 점유 ~22%, ARM Qualcomm ~3%
 - **★ 2026-06-01 NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 Computex Taipei 발표 = client CPU 추가 위협**
-- "New era of PC" narrative — Windows on Arm 본격화
+- "New era of PC" 스토리(narrative) — Windows on Arm 본격화
 
 ### AI 가속기 (Gaudi 3) — DCAI 후순위
 - **Habana Labs 인수 ($2B, 2019)** → Gaudi 1/2/3 출시
 - Gaudi 3: 5nm process, 8 MME + 64 TPC, FP32/TF32/BF16/FP16/FP8 지원
 - "2x performance per dollar vs popular GPU systems" 차별화 시도
-- 단 NVIDIA CUDA ecosystem 압도 — 실 매출 매우 미미 (Gaudi 3 ramp 2024-2025, 매출 가시화 부진)
+- 단 NVIDIA CUDA 생태계 압도 — 실 매출 매우 미미 (Gaudi 3 ramp 2024-2025, 매출 가시화 부진)
 
-### Intel Foundry 18A — Turnaround 핵심
+### Intel Foundry 18A — 사업 전환(Turnaround) 핵심
 - **18A 양산 시작 (2025-10)** — RibbonFET (GAAFET) + PowerVia (backside power delivery) **세계 최초**
 - **첫 18A 제품**: Intel Core Ultra Series 3 (Panther Lake, CCG) + Clearwater Forest (DCAI Xeon)
-- **★ 외부 대형 고객 확보 (2026-01)**: Microsoft Maia 3 ("Griffin") AI 가속기 18A/18A-P 노드 멀티년 계약 — **첫 미국 본토 hyperscaler 첨단 AI 칩 양산**
+- **★ 외부 대형 고객 확보 (2026-01)**: Microsoft Maia 3 ("Griffin") AI 가속기 18A/18A-P 노드 멀티년 계약 — **첫 미국 본토 하이퍼스케일러 첨단 AI 칩 양산**
 - Amazon: Xeon 6 custom (Intel 3) + AI fabric chip 18A 확보
 - DoD: $3B Secure Enclave 프로그램
 - Broadcom·NVIDIA: 테스트 단계 (미확정)
@@ -143,58 +203,118 @@ notes:
 |---|---|---|---|---|
 | 기술/특허 | 3 | **4** | 4 | AMD Zen 4/5 단일 코어 성능 우위, ARM Neoverse 효율 강점 |
 | 메모리 절대 CAPA | **5** (IDM, 자체 fab) | 3 (TSMC dep) | 3 (TSMC dep) | 인텔 유일 IDM (양면) |
-| 고객 lock-in | 3 (점유 가속 잠식) | **4** | 4 (hyperscaler 자체 ARM) | x86 ecosystem 점유 약화 |
+| 고객 락인(lock-in) | 3 (점유 가속 잠식) | **4** | 4 (하이퍼스케일러 자체 ARM) | x86 생태계 점유 약화 |
 | 규모 (server CPU 매출) | **4** ($13B DCAI) | 4 (~$13B) | 4 (자체 chip) | 인텔 단일 기업 #1 유지 |
 | 병목 포지셔닝 | 2 (CPU 병목 잠식자) | 4 (AMD 점유 +) | **5** (가장 빠른 +) | ARM 가장 빠른 성장 (+6.2%p YoY) |
 | **평균** | **3.4** | **3.8** | **4.0** | **ARM·AMD 우위, Intel 후발 가속** |
+
+> **★ 정성: 왜 x86 server CPU에서 Intel이 잠식당하는가? (역방향)**
+> 
+> **인과 사슬**: 에이전트 AI = host CPU 부담 폭증 → 하이퍼스케일러는 power efficiency·TCO 우위 ARM Neoverse 자체 chip (Graviton·Cobalt·Axion) 가속 + AMD EPYC 점유 +3.3%p YoY → Intel Xeon 점유 64% → 54.9% (-9.5%p YoY) 잠식
+> 
+> **추가 동력 1 — ARM 자체 chip 4종 (Graviton·Cobalt·Axion·Grace) 가속**: AWS·Microsoft·Google 모두 자체 ARM chip 채택 = Intel 시장 외부 잠식
+> **추가 동력 2 — AMD EPYC 5세대·6세대 Meta lead**: Meta 6세대 EPYC lead customer = 하이퍼스케일러가 AMD로 이탈
+> **추가 동력 3 — Intel Xeon GNR/CLF Lake-AP 출시도 잠식 못 막음**: 신제품도 ARM·AMD 잠식 가속을 막지 못함
+> 
+> **Intel 위치의 한계**: 본 테마에서 Intel은 잠식당하는 측 (역방향 narrative). 본 segment Moat 3.4로 ARM·AMD에 후발
 
 ### Segment 2. x86 client CPU (PC, Core)
 | 축 | 인텔 | AMD | ARM (Qualcomm·NVIDIA N1/N1X ★) | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | **4** (18A 첫 양산) | 4 | 3 (NVIDIA 신규 진입) | 인텔 18A Panther Lake 시작 |
 | CAPA | **5** | 3 | 3 | 인텔 자체 fab |
-| 고객 lock-in | **4** (Windows + x86 75%) | 3 | 2 (ARM ecosystem 미숙) | x86 절대 강함 (단 weakening) |
+| 고객 락인(lock-in) | **4** (Windows + x86 75%) | 3 | 2 (ARM 생태계 미숙) | x86 절대 강함 (단 weakening) |
 | 규모 (client CPU) | **5** ($32.1B CCG) | 3 | 2 (시장 진입 초기) | 인텔 압도적 매출 |
 | 병목 포지셔닝 | 3 (위협 진행 중) | 3 | **4** (NVIDIA+MSFT 협력 신규 위협) | ★ 2026-06-01 NVIDIA Jensen Computex 발표 |
 | **평균** | **4.2** | **3.2** | **2.8** | **인텔 client CPU 아직 강함, 단 위협 가속** |
 
+> **★ 정성: 왜 x86 client CPU에서 Intel이 아직 우위인가? (단 약화 진행)**
+> 
+> **인과 사슬**: x86 client CPU 점유 75%+ Windows + 생태계 lock-in 유지 → 단 Apple Silicon (ARM) PC 점유 5%+ + NVIDIA N1/N1X Computex 발표 (2026-06-01) = 신규 위협 가속
+> 
+> **추가 동력 1 — Intel 18A Panther Lake 양산 시작**: 첫 18A 양산 client CPU로 client 시장 방어 시도
+> **추가 동력 2 — ★ NVIDIA N1/N1X (2026-06-01 Computex 발표) + MSFT 협력**: NVIDIA가 ARM PC chip 출시 + Microsoft Windows on ARM 지원 = 위협 가속
+> **추가 동력 3 — AI PC narrative (Copilot+)**: 신규 카테고리이지만 Qualcomm Snapdragon X·Apple M 시리즈 강점 = Intel 시장 일부 이탈
+> 
+> **Intel 위치의 특별함**: 매출 $32.1B CCG로 절대 매출 큼. 단 secular 위협 가속 = thesis 약화 진행
+
 ### Segment 3. AI 가속기 (Gaudi 3, GPU)
 | 축 | 인텔 | NVIDIA | AMD (MI300/400) | 핵심 |
 |---|---|---|---|---|
-| 기술/특허 | 2 | **5** | 4 | NVIDIA CUDA ecosystem 압도 |
+| 기술/특허 | 2 | **5** | 4 | NVIDIA CUDA 생태계 압도 |
 | CAPA | 3 (자체 fab) | **5** (TSMC capacity) | 3 (TSMC) | NVIDIA 알로케이션 우선 |
-| 고객 lock-in | 1 (실 점유 ~0%) | **5** (96%) | 3 (4%) | CUDA lock-in 절대 |
+| 고객 락인(lock-in) | 1 (실 점유 ~0%) | **5** (96%) | 3 (4%) | CUDA 락인(lock-in) 절대 |
 | 규모 | 1 (매출 미미) | **5** ($200B+ DC) | 3 ($5B+ MI) | 인텔 단위 미미 |
 | 병목 포지셔닝 | 1 (병목 외) | **5** (병목 자체) | 3 (병목 alt) | 인텔 본 segment 거의 부재 |
 | **평균** | **1.6** | **5.0** | **3.2** | **인텔 사실상 부재, NVIDIA 절대 우위** |
+
+> **★ 정성: 왜 AI 가속기에서 Intel이 거의 부재인가?**
+> 
+> **인과 사슬**: NVIDIA CUDA 생태계 절대 lock-in (96% 점유) + AMD MI300/MI400 NVIDIA 대안 #1 (4% → 18%) → Intel Gaudi 3 매출 미미 (~0% 실 점유) → 본 segment에서 Intel thesis 부재
+> 
+> **추가 동력 1 — Intel Gaudi 3 → Falcon Shores 전환 실패**: 차세대 AI 가속기 roadmap 혼란 + Pat Gelsinger 시기 결정 잘못
+> **추가 동력 2 — CUDA 생태계 절대 락인**: 모든 AI 모델·라이브러리·도구 CUDA 의존 = Intel·AMD 모두 진입 어려움
+> **추가 동력 3 — 신 CEO Lip-Bu Tan turnaround 시도**: AI 가속기 사업 재편 시도이지만 시장 진입 격차 너무 큼
+> 
+> **Intel 위치의 한계**: 본 segment Moat 1.6으로 가장 약함. 본 테마 핵심 segment 부재 = thesis 핵심 weakness
 
 ### Segment 4. Intel Foundry 18A (★ 주요 catch-up)
 | 축 | 인텔 18A | TSMC N2 | 삼성 2GAP | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | **4** (RibbonFET + PowerVia 세계 최초) | 4 | 3 | Intel 18A 기술적으로 동급 |
 | CAPA | 3 (양산 시작, scale-up 중) | **5** | 3 | TSMC 압도 |
-| 고객 lock-in | 3 (Microsoft Maia 3 확보 ★) | **5** (Apple·NVIDIA·AMD·Qualcomm) | 3 | 인텔 첫 외부 대형 |
+| 고객 락인(lock-in) | 3 (Microsoft Maia 3 확보 ★) | **5** (Apple·NVIDIA·AMD·Qualcomm) | 3 | 인텔 첫 외부 대형 |
 | 규모 (Foundry 매출) | 2 ($13.86B, 내부 비중 큼) | **5** ($90B+) | 3 (~$15B) | TSMC 격차 큼 |
 | 병목 포지셔닝 | **4** (미국 본토 지정학 + AI 인프라) | 4 (지정학 risk) | 3 | 인텔 본 segment 핵심 catch-up |
 | **평균** | **3.2** | **4.6** | **3.0** | **TSMC 압도, Intel 18A catch-up 시작, 삼성 약함** |
+
+> **★ 정성: 왜 Intel Foundry 18A가 본 테마에서 catch-up인가?**
+> 
+> **인과 사슬**: 에이전트 AI = 첨단 노드 가속기·CPU 폭증 + 미·중 디커플링 → TSMC CoWoS·N2 절대 우위인데 지정학 risk → Intel 18A RibbonFET + PowerVia 세계 최초 + ★ Microsoft Maia 3 첫 외부 대형 고객 확보 → Intel turnaround 핵심 leg
+> 
+> **추가 동력 1 — ★ Microsoft Maia 3 18A 첫 외부 대형 고객**: Intel Foundry 첫 hyperscaler ASIC 확보 = customer credibility 누적
+> **추가 동력 2 — RibbonFET + PowerVia 세계 최초 양산**: 기술적 우위 일부 (GAA + Backside Power Delivery)
+> **추가 동력 3 — CHIPS Act $7.86B 보조 + 미국 본토 첨단 fab #1**: 정책 환경에서 Intel Foundry 유일 alternative
+> 
+> **Intel 위치의 특별함**: TSMC 압도 우위이지만 Intel 18A catch-up + 미국 본토 지정학 + Microsoft 첫 확보로 turnaround 핵심 leg
 
 ### Segment 5. 미국 본토 지정학 (CHIPS Act + 첨단 공정)
 | 축 | 인텔 | 마이크론 | TSMC AZ | 삼성 TX | 핵심 |
 |---|---|---|---|---|---|
 | 기술/특허 (첨단 노드) | **5** (18A 양산) | 3 (메모리만) | **5** (N4P AZ) | 4 | Intel·TSMC 첨단 공정 동급 |
 | CAPA | **5** (단일 최대) | 4 | 3 (AZ만) | 2 | Intel 미국 본토 단일 최대 |
-| 고객 lock-in | 4 (Microsoft·Amazon·DoD 확보) | **5** (메모리 미국 유일) | 4 (Apple·NVIDIA) | 3 | Intel + Micron 양강 |
+| 고객 락인(lock-in) | 4 (Microsoft·Amazon·DoD 확보) | **5** (메모리 미국 유일) | 4 (Apple·NVIDIA) | 3 | Intel + Micron 양강 |
 | 규모 (CHIPS Act 보조) | **5** ($7.86B 최대) | 4 ($6.1B) | 4 ($6.6B) | 3 ($4.7B) | Intel 단일 최대 |
 | 병목 포지셔닝 | **5** (미국 본토 첨단 + 양산) | 4 (메모리 본토 유일) | 4 | 3 | Intel 미국 본토 첨단 #1 |
 | **평균** | **4.8** | **4.0** | **4.0** | **3.0** | **Intel 미국 본토 지정학 최상 우위** |
+
+> **★ 정성: 왜 미국 본토 지정학에서 Intel이 최상 우위인가?**
+> 
+> **인과 사슬**: AI 인프라 전략 자산화 → 미·중 디커플링 + CHIPS Act → Intel 미국 본토 첨단 공정 (18A) + 단일 최대 CAPA + CHIPS Act $7.86B 단일 최대 → 미국 본토 첨단 fab #1
+> 
+> **추가 동력 1 — ★ CHIPS Act $7.86B 단일 최대**: TSMC AZ $6.6B + Micron $6.1B 대비 단일 최대 = 정책 우선순위 #1
+> **추가 동력 2 — Microsoft Maia 3 + Amazon + DoD 첫 확보**: Intel Foundry 미국 정부·hyperscaler 신뢰 누적
+> **추가 동력 3 — 미국 본토 첨단 공정 양산 (18A) #1**: TSMC AZ는 N4P (구세대), Intel 18A는 첨단 노드 양산 = 첨단 fab #1
+> 
+> **Intel 위치의 특별함**: 본 segment Moat 4.8로 Intel thesis 핵심 leg. 단 매출 비중 5%로 thesis 전체 영향 제한
 
 ### Segment 6. Mobileye (자율주행 ADAS) — 별도 trend
 | 축 | Mobileye | NVIDIA Drive | Tesla FSD | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | **4** (EyeQ 6세대) | 4 | **4** | Mobileye 약 50+ OEM Tier 1 |
 | 규모 | **4** (~$2B 매출) | 4 | 3 (Tesla 단독) | Mobileye 글로벌 #1 ADAS supplier |
-| 고객 lock-in | **4** | 4 | 3 | Mobileye 50+ OEM |
+| 고객 락인(lock-in) | **4** | 4 | 3 | Mobileye 50+ OEM |
 | **평균** | **4.0** | 4.0 | 3.3 | **Mobileye 자율주행 강함, 단 본 에이전트AI 테마와 분리** |
+
+> **★ 정성: 왜 Mobileye가 본 테마와 분리되는가?**
+> 
+> **인과 사슬**: Mobileye = ADAS·자율주행 글로벌 #1 (50+ OEM) → 별도 trend (자율주행 테마) = 본 에이전트 AI 테마와 다른 secular → Intel 보유이지만 본 thesis 직접 기여 작음
+> 
+> **추가 동력 1 — Mobileye EyeQ 6세대 + 50+ OEM Tier 1 supplier**: ADAS 시장 글로벌 #1, 자율주행 별도 thesis
+> **추가 동력 2 — Intel 매출 비중 ~10% (자율주행 trend)**: 본 에이전트 AI thesis와 분리, 별도 optionality
+> **추가 동력 3 — NVIDIA Drive·Tesla FSD 경쟁이지만 OEM 분산 supplier 1위**: Mobileye 자체 thesis는 강하나 본 에이전트 AI와 무관
+> 
+> **Intel 위치의 특별함**: 본 segment는 별도 자율주행 thesis로 평가 필요. 본 에이전트 AI thesis에는 미반영
 
 ### Segment 가중 평균 (Moat 종합)
 - DCAI x86 server (3.4) × 25% + CCG client (4.2) × 35% + AI 가속기 (1.6) × 5% + Foundry 18A (3.2) × 20% + 미국 본토 지정학 (4.8) × 10% + Mobileye (4.0) × 5% = **약 3.5**
@@ -210,7 +330,7 @@ notes:
 | **AI 가속기 ↑** | Gaudi 3 매출 매우 미미 | (A) | **수혜 거의 없음 — NVIDIA·AMD 압도** |
 | **AI PC ↑** | Core Ultra Panther Lake (18A) 출시 | (D) 동반 확대 | client CPU 일부 수혜 (단 AMD·NVIDIA N1/N1X 위협) |
 | **★ Foundry 첨단 공정 ↑** | Microsoft Maia 3 + Amazon + DoD 외부 고객 확보 | (A) 구조적 메가 병목 | **유일한 명확한 positive — 18A 매출 ramp 2026-2028** |
-| **미국 본토 지정학 ↑** | CHIPS Act $7.86B + 단일 최대 미국 fab | (A) | 매출 직접 아님, valuation premium |
+| **미국 본토 지정학 ↑** | CHIPS Act $7.86B + 단일 최대 미국 fab | (A) | 매출 직접 아님, valuation 프리미엄 |
 
 → **본 테마 직접 수혜 = Intel Foundry 18A 외부 고객 ramp이 유일하게 명확**. CPU 매출은 점유율 잠식으로 시장 성장에 미달, AI 가속기는 사실상 부재.
 
@@ -235,10 +355,10 @@ notes:
 **핵심 관찰**:
 - **OPM range -22.0% ~ +32.9% = 54.9%p** (메모리 3사 진폭과 비교: SK 77.2%p / 삼성 21.7%p / Micron 83.5%p)
 - **단 사이클이 아닌 구조적 침체** — 매출 12년 CAGR **-0.46%** (마이너스)
-- 2021 정점 $79B → 2025 $52.85B (-33%) — 사이클 반등 아닌 secular decline
+- 2021 정점 $79B → 2025 $52.85B (-33%) — 사이클 반등 아닌 장기 추세(secular) decline
 - **메모리 3사 사이클 정점 leverage와 정반대 — 인텔은 정점에서 침체로 진행**
 
-### Q1 2026 분기 실적 (구조적 침체 + Turnaround 초기)
+### Q1 2026 분기 실적 (구조적 침체 + 사업 전환(Turnaround) 초기)
 
 | 항목 | Q1 2026 (CY) | YoY | 비고 |
 |---|---|---|---|
@@ -261,7 +381,7 @@ notes:
 
 | 차원 | CCG (PC) | DCAI (server) | Intel Foundry |
 |---|---|---|---|
-| **P (ASP 변화)** | +5% (Core Ultra premium) | +10% (Xeon 6 premium) | 양산 가격 normal |
+| **P (ASP 변화)** | +5% (Core Ultra 프리미엄) | +10% (Xeon 6 프리미엄) | 양산 가격 normal |
 | **Q (출하량 변화)** | -4% (PC 시장 정체) | +10% (서버 시장 +19% 대비 -9%p underperform) | +16% (18A ramp 시작) |
 | **매출 (P×Q)** | $7.7B (+1%) | $5.1B (+22%) | $5.4B (+16%) |
 | **마진 (OPM)** | 약 10-12% (정상화) | 약 5-8% (회복 초기) | 약 -25% (대규모 적자 지속) |
@@ -307,7 +427,7 @@ notes:
 | SK하이닉스 | 66.2조원 | 25%+ | **72%** | HBM 사이클 정점 |
 | Micron | $37.38B | 32% | 69% | HBM 가속 회복 + 미국 본토 |
 
-→ **인텔만 OPM 한자릿수** = 메모리 3사·NVIDIA·AMD·TSMC와 완전 분리된 위치. Turnaround 진척 시 OPM 회복 가능, 실패 시 침체 지속.
+→ **인텔만 OPM 한자릿수** = 메모리 3사·NVIDIA·AMD·TSMC와 완전 분리된 위치. 사업 전환(Turnaround) 진척 시 OPM 회복 가능, 실패 시 침체 지속.
 
 ---
 
@@ -318,7 +438,7 @@ notes:
 | 기업 | 12년 매출 CAGR | 비고 |
 |---|---|---|
 | **인텔** | **-0.46% (마이너스)** | 구조적 침체 |
-| NVIDIA | +30%+ | AI secular |
+| NVIDIA | +30%+ | AI 장기 추세(secular) |
 | TSMC | +15%+ | Foundry 메가 |
 | AMD | +20%+ | 점유 + AI MI |
 | SK하이닉스 | +12%+ | HBM 메가 |
@@ -332,14 +452,14 @@ notes:
 ### CCG (Client CPU) — (D) 동반 확대 (위협 진행)
 | 차원 | 4Q | 2Y | 근거 | 출처 |
 |---|---|---|---|---|
-| P | +5·5·3·3% | +5·0% | Core Ultra premium | Intel IR Q1 26 |
+| P | +5·5·3·3% | +5·0% | Core Ultra 프리미엄 | Intel IR Q1 26 |
 | Q | -3·0·+5·+10% | +10·15% | AI PC 침투 (단 N1/N1X 위협) | IDC PC 전망 |
 | **→ 매출** | **+5-10% YoY** | **+15-25% (2Y)** | 위협 진행 중이지만 18A leverage | 9개 셀사이드 컨센 |
 
 ### DCAI (Server CPU + AI 가속기) — (A) 구조적 메가 병목 (단 인텔 후발)
 | 차원 | 4Q | 2Y | 근거 | 출처 |
 |---|---|---|---|---|
-| P | +10·10·5·5% | +5·0% | Xeon 6 premium 유지 | Intel IR Q1 26 |
+| P | +10·10·5·5% | +5·0% | Xeon 6 프리미엄 유지 | Intel IR Q1 26 |
 | Q | +10·15·15·15% | +25·15% | 시장 성장 강함, 단 점유 잠식 | IDC server CPU |
 | **→ 매출** | **+22-30% YoY** | **+30-40% (2Y, 2026)** | DCAI 가장 빠른 성장 segment | 컨센·테마 v4 |
 
@@ -372,7 +492,7 @@ notes:
 
 | 기업 | FY25 매출 | 5년 CAGR | FY25 OPM | 1Q26 OPM | 핵심 차이 |
 |---|---|---|---|---|---|
-| **인텔** | $52.85B | **-7%/년** | 0.5% | 1% | Turnaround, x86 잠식, Foundry catch-up |
+| **인텔** | $52.85B | **-7%/년** | 0.5% | 1% | 사업 전환(Turnaround), x86 잠식, Foundry catch-up |
 | AMD | ~$25B | +25%+ | 25%+ | 30%+ | x86 server 점유 + AI MI 양면 |
 | NVIDIA | ~$130B+ | +50%+ | 60%+ | 65%+ | AI 가속기 절대 96% |
 | TSMC | ~$90B+ | +20% | 45%+ | 50%+ | Foundry 압도, 인텔 기술 동급 단 규모 격차 |
@@ -388,14 +508,14 @@ notes:
 |---|---|
 | **현재 시장 점유 + 추이** | DC CPU x86: 64.4% → **54.9% (-9.5%p YoY, Q1 2026)**. PC CPU: ~75% (안정, 단 N1/N1X 위협). AI 가속기: ~0% (Habana Gaudi 매출 미미). Foundry: <1% (TSMC ~60% 압도) |
 | **현재 CAPA + 증설** | Arizona Fab 52 (양산), Ohio (슬로우다운, 2027~), New Mexico Fab 9 (패키징), Ireland·Israel. **CHIPS Act $7.86B 확정**. Germany·Poland 취소 (2025-08). CapEx FY24 $24B → FY25 $8.2B (-66%) |
-| **사이클 마진 진폭 (12년)** | OPM -22.0% (FY24) ~ +32.9% (FY18) = **54.9%p**. 단 사이클이 아닌 secular decline (매출 12년 CAGR -0.46%) |
+| **사이클 마진 진폭 (12년)** | OPM -22.0% (FY24) ~ +32.9% (FY18) = **54.9%p**. 단 사이클이 아닌 장기 추세(secular) decline (매출 12년 CAGR -0.46%) |
 | **기술 격차·R&D·IP** | **Intel 18A 양산 시작 (2025-10)** — RibbonFET + PowerVia 세계 최초. **14A (2027-2028) 외부 고객 의존**. R&D/Revenue FY24 31% (사상 최고, 매출 줄어 비율 상승) → FY25 26% |
 | **고객 분포·집중도** | **★ 18A 외부 고객**: Microsoft Maia 3 (Griffin), Amazon Xeon 6 custom + AI fabric, DoD $3B Secure Enclave 확정. Broadcom·NVIDIA 테스트 단계. Tata·AMD 협상 |
 | **신규 수주·계약** | **Microsoft Maia 3 멀티년 (2026-01)** + **NVIDIA $5B 지분 인수 (2025-09)** + Altera 51% 매각 (2025-09, $4.46B) |
 | **자본·시총** | 자본 $90.3B (FY25), **시총 약 $100B (2026-05, 2020 정점 $290B 대비 -66%)**, PBR 약 1.0 (역사적 저점) |
 | **Q1 2026 실적 (★)** | 매출 $13.6B (+7%) / Intel Products $12.8B (+9%) / **DCAI $5.1B (+22%)** / Foundry $5.4B (+16%) / CCG $7.7B (+1%) / Non-GAAP EPS $0.29 (beat $0.01 컨센서스 28x) / GAAP EPS $(0.73) (restructuring $2.1B 차지) |
-| **★ 2026-06-01 GTC Taipei** | NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 Computex 발표 — Windows on Arm 본격화. **"new era of PC"** narrative. Intel client CPU 추가 위협 |
-| **Lip-Bu Tan Turnaround 진척** | 1년 차 (2025-03~2026-03): 15-20% 인력 감축 / CapEx -66% / Germany·Poland 취소 / Costa Rica 통합 / Altera 51% 매각 / NVIDIA 시너지 / 18A 양산 시작 / Microsoft Maia 3 확보. **첫 1년 평가 = 비용 절감 가속 + Foundry 외부 고객 확보 성공** |
+| **★ 2026-06-01 GTC Taipei** | NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 Computex 발표 — Windows on Arm 본격화. **"new era of PC"** 스토리(narrative). Intel client CPU 추가 위협 |
+| **Lip-Bu Tan 사업 전환(Turnaround) 진척** | 1년 차 (2025-03~2026-03): 15-20% 인력 감축 / CapEx -66% / Germany·Poland 취소 / Costa Rica 통합 / Altera 51% 매각 / NVIDIA 시너지 / 18A 양산 시작 / Microsoft Maia 3 확보. **첫 1년 평가 = 비용 절감 가속 + Foundry 외부 고객 확보 성공** |
 
 ---
 
@@ -405,11 +525,11 @@ notes:
 
 | 트리거 | 시점 | 영향 |
 |---|---|---|
-| **18A 외부 대형 추가 고객 확보 (NVIDIA·Apple·Qualcomm 중 1+)** | 2026 H2 - 2027 | Foundry secular narrative 강화, PBR 1.5+ 가능 |
+| **18A 외부 대형 추가 고객 확보 (NVIDIA·Apple·Qualcomm 중 1+)** | 2026 H2 - 2027 | Foundry 장기 추세(secular) 스토리(narrative) 강화, PBR 1.5+ 가능 |
 | **14A 외부 대형 고객 확보** | 2027-2028 | Foundry 사업 미래 유지 (실패 시 Foundry 분사·매물화) |
 | **DCAI 매출 5분기 연속 +20%+** | 2026 분기별 | 점유율 잠식 stop 시그널 |
-| **AMD DC CPU 점유 정체 (현 27%에서 동결)** | 2026 H2 | x86 ecosystem 안정화 |
-| **Lip-Bu Tan 2년 milestone 달성** | 2027-03 | Turnaround 가속 실증 |
+| **AMD DC CPU 점유 정체 (현 27%에서 동결)** | 2026 H2 | x86 생태계 안정화 |
+| **Lip-Bu Tan 2년 milestone 달성** | 2027-03 | 사업 전환(Turnaround) 가속 실증 |
 | **CHIPS Act 추가 라운드** | 2026-2027 | 미국 정책 신뢰 지속 |
 | **NVIDIA 추가 시너지 (joint product·foundry 협력)** | 2026 H2 | $5B 지분 인수 효과 확대 |
 
@@ -418,7 +538,9 @@ notes:
 | 트리거 | 시점 | 영향 |
 |---|---|---|
 | **★ NVIDIA + MSFT N1/N1X PC 본격 출시 (2026 H2)** | 2026 Q3-Q4 | client CPU 점유 잠식 가속 (Windows on Arm 본격) |
-| **AMD DC CPU 점유 30% 돌파** | 2026 H2 | 인텔 server CPU secular 침체 |
+| **★ NVIDIA Kyber Ultra (660kW/rack) 본격 출하** | 2026 H2 - 2027 | GB200 NVL72 (130kW)의 5배 더 큰 rack 표준화 → NVIDIA Grace host CPU 비중 추가 ↑ → 인텔 Xeon AI rack에서 추가 배제 |
+| **★ AWS Graviton 5 (192-core) 출시** | 2026 H2 | AWS 자체 CPU compute 비중 50%+ → 60%+ 가능, 인텔 Xeon AWS 매출 직접 잠식 |
+| **AMD DC CPU 점유 30% 돌파** | 2026 H2 | 인텔 server CPU 장기 추세(secular) 침체 |
 | **18A yield rate 악화 발표** | 2026 분기별 | Foundry 외부 고객 신뢰 흔들림 |
 | **14A 외부 고객 미확보 + 14A 중단 발표** | 2027-2028 | Foundry 분사·매물화 + 인텔 단독 CPU 회사로 축소 |
 | **AI 가속기 매출 정체 (Gaudi 5 출시 후에도 매출 미미)** | 2026-2027 | NVIDIA·AMD 압도 영구화 |
@@ -446,27 +568,41 @@ notes:
 | 차원 | 평가 | 근거 |
 |---|---|---|
 | 상위 트렌드 적합성 | ★ 후발 | 본 테마 핵심 segment (CPU·AI 가속기)에서 점유 가속 잠식 또는 부재 |
-| 산업 위치 | ★★ 약 | x86 #1이지만 secular decline, AI 가속기 ~0%, Foundry 미국 본토 catch-up |
+| 산업 위치 | ★★ 약 | x86 #1이지만 장기 추세(secular) decline, AI 가속기 ~0%, Foundry 미국 본토 catch-up |
 | 해자 강도 (Moat 종합) | ★★ 2.8/5.0 | 메모리 3사 4.0+ 대비 1.5p 낮음. AI 가속기 1.5 / x86 서버 3.0 / Foundry 18A 4.0 |
 | 재무 건전성 | ★★ 중 | 자본 $90B 유지, FCF 회복 초기, 신용등급 2024-10 동반 하향, 배당 중단 |
 | 성장 가시성 (2~3년) | ★★ 중 | DCAI +22% / Foundry +16% (Q1 2026), 단 점유 잠식 동시 진행. FY26E 매출 +13% 추정 |
-| **Turnaround 가능성** | **★★★ 가능** | Lip-Bu Tan 1년 차 비용 절감 가속, Microsoft Maia 3 확보, NVIDIA 시너지 |
+| **사업 전환(Turnaround) 가능성** | **★★★ 가능** | Lip-Bu Tan 1년 차 비용 절감 가속, Microsoft Maia 3 확보, NVIDIA 시너지 |
 
 ## 핵심 투자 포인트 3
 
-1. **★ Intel Foundry 18A 첫 외부 대형 고객 확보 (Microsoft Maia 3 "Griffin")** — 첫 미국 본토 hyperscaler 첨단 AI 칩 양산. Amazon Xeon 6 + DoD Secure Enclave $3B 추가 확보. 14A 외부 고객 ramp이 회사 운명 결정.
-2. **★ Lip-Bu Tan Turnaround 1년 차 트랙 record** — CapEx -66% / 15-20% 구조조정 / Germany·Poland 취소 / Altera 51% 매각 / NVIDIA $5B 지분 인수 / 18A 양산 시작. 1년 만에 분기 흑자 회복 (Q1 2026 Non-GAAP EPS $0.29 vs 컨센 $0.01).
-3. **미국 본토 지정학 + CHIPS Act $7.86B** — 마이크론과 함께 미국 본토 첨단 공정 메이저. Trump 행정부 onshore narrative 수혜. 단 매출 직접 + 보다는 valuation premium narrative.
+1. **★ Intel Foundry 18A 첫 외부 대형 고객 확보 (Microsoft Maia 3 "Griffin")** — 첫 미국 본토 하이퍼스케일러 첨단 AI 칩 양산. Amazon Xeon 6 + DoD Secure Enclave $3B 추가 확보. 14A 외부 고객 ramp이 회사 운명 결정.
+2. **★ Lip-Bu Tan 사업 전환(Turnaround) 1년 차 트랙 record** — CapEx -66% / 15-20% 구조조정 / Germany·Poland 취소 / Altera 51% 매각 / NVIDIA $5B 지분 인수 / 18A 양산 시작. 1년 만에 분기 흑자 회복 (Q1 2026 Non-GAAP EPS $0.29 vs 컨센 $0.01).
+3. **미국 본토 지정학 + CHIPS Act $7.86B** — 마이크론과 함께 미국 본토 첨단 공정 메이저. Trump 행정부 onshore 스토리(narrative) 수혜. 단 매출 직접 + 보다는 valuation 프리미엄 스토리(narrative).
 
 ## 핵심 리스크 3
 
-1. **x86 server CPU 점유율 가속 잠식** — Q1 2026 IDC 데이터: Intel 64.4%→54.9% (-9.5%p YoY), AMD +3.3%p, **ARM +6.2%p (가장 빠른 +)**. AMD EPYC + ARM Neoverse 양면 압박. ARM 점유 17.7% = 1년 만에 거의 2배.
-2. **★ NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 (Computex 2026-06-01 발표)** — Windows on Arm 본격화 → client CPU 점유 75%에 추가 위협. Jensen Huang "new era of PC" narrative. Qualcomm 단독에서 NVIDIA 진입으로 ARM PC 신뢰성 가속.
-3. **AI 가속기 완전 부재 + Gaudi 매출 미미** — NVIDIA 96% + AMD 4% 압도. Habana Labs 인수 ($2B, 2019) 이후 7년에도 의미 있는 매출 부재. CUDA ecosystem lock-in 절대. AI 가속기 시장은 인텔이 영구 회복 불가능 시나리오.
+1. **x86 server CPU 점유율 가속 잠식 — NVIDIA AI rack 표준화가 핵심 동력** — Q1 2026 IDC: Intel 64.4%→54.9% (-9.5%p YoY), AMD +3.3%p, **ARM +6.2%p (가장 빠른 +)**. **ARM 17.7% = NVIDIA Grace + AWS Graviton 4 + MSFT Cobalt + Google Axion 합산** (모두 ARM Neoverse V2/N2 IP 기반, TSMC 양산). **★ NVIDIA GB200 NVL72 rack에서 host CPU = Grace 36개 (GPU 2개당 1개) 통합 판매 = 인텔 Xeon이 AI rack 자체에서 빠지는 구조**. 2026 H2 Kyber Ultra (660kW/rack) 본격 출하 시 가속.
+2. **★ NVIDIA + MSFT "N1/N1X" Arm-based PC 칩 (Computex 2026-06-01 발표)** — Windows on Arm 본격화 → client CPU 점유 75%에 추가 위협. Jensen Huang "new era of PC" 스토리(narrative). Qualcomm 단독에서 NVIDIA 진입으로 ARM PC 신뢰성 가속.
+3. **AI 가속기 완전 부재 + Gaudi 매출 미미** — NVIDIA 96% + AMD 4% 압도. Habana Labs 인수 ($2B, 2019) 이후 7년에도 의미 있는 매출 부재. CUDA 생태계 락인(lock-in) 절대. AI 가속기 시장은 인텔이 영구 회복 불가능 시나리오.
 
 ---
 
 ## 부록: 변경 이력 (Changelog)
+
+### v2 (2026-06-02) — ARM 라이선시 매핑 + NVIDIA Grace 스토리(narrative) 보강
+
+**보강 배경**: 사용자 소크라테스 모드 대화 — "에이전트AI로 CPU 비중 ↑" narrative에서 CPU가 client인지 server인지 구분, NVIDIA가 이미 server CPU(Grace, ARM 기반)에 진입한 사실을 명확화. ARM 비즈니스 모델(IP 라이선스, chipless)과 NVIDIA 통합 rack 메커니즘 매핑.
+
+**추가 fact**:
+1. **ARM 라이선시 4종 매핑 표** (1Q26 ARM 점유 17.7%의 합산 내역):
+   - NVIDIA Grace (Neoverse V2, GB200 NVL72 host CPU)
+   - AWS Graviton 4 (Neoverse V2, 50%+ AWS compute) + Graviton 5 (192-core) 개발 중
+   - MSFT Cobalt 100 (Neoverse N2)
+   - Google Axion (Neoverse V2)
+2. **NVIDIA AI rack 표준화 메커니즘**: GB200 NVL72 = GPU 72 + Grace 36 + NVLink + 액체냉각 + 130kW 통합 unit → Intel Xeon이 AI rack에서 빠지는 구조. 2026 H2 Kyber Ultra (660kW/rack) 등장 시 가속
+3. **하방 트리거 추가**: NVIDIA Kyber Ultra 출하 + AWS Graviton 5 (192-core)
+4. Executive Summary·핵심 리스크 narrative에 NVIDIA Grace + ARM 라이선시 매핑 명시
 
 ### v1 (2026-06-02) — 1차 작성
 - 산업 기초 + 테마 v4 + INTC 기업개요 v4.9 자동 참조
@@ -474,5 +610,20 @@ notes:
 - ★ Microsoft Maia 3 "Griffin" Intel 18A 양산 확정 (2026-01) 반영
 - Q1 2026 실적 (매출 $13.6B / DCAI +22% / Foundry +16%) 반영
 - IDC Q1 2026 점유 데이터 (Intel 54.9% / AMD 27.4% / ARM 17.7%) 반영
-- 메모리 3사와 mirror 구조 + Turnaround narrative 강조 (메모리 3사 4.0+ 대비 Moat 2.8)
+- 메모리 3사와 mirror 구조 + 사업 전환(Turnaround) 스토리(narrative) 강조 (메모리 3사 4.0+ 대비 Moat 2.8)
 - 본 테마 직접 수혜 = Intel Foundry 18A만 유일하게 명확
+
+---
+
+## ★ v2 fact-check 정정 (2026-06-02) — 사용자 피드백 반영
+
+**핵심 정정**:
+1. **삼성 DS 1Q26 OPM**: "~25%" → **65.7%** (DS 매출 81.7조원 / OP 53.7조원, 메모리 사이클 정점 record, SK 72%·Micron 69%와 동급)
+2. **삼성 전사 1Q26 OPM**: 42.7% (매출 133.9조원 / OP 57.2조원), DX 흡수 효과
+3. **SK FY25 매출**: 97.15조원 (+44% YoY)
+4. **SK 1Q26 매출**: 52.6조원 alone (+60% Q/Q, +198% YoY)
+5. **SK HBM 점유 Q1 2026**: 52% (TrendForce) — 단 시점·자료에 따라 50-62% 범위
+6. **AMD OpenAI 6GW MI450 deal 시점**: 2025-10 발표 (2026-Q1 X)
+7. **Micron HBM 점유**: Q1 2026 5-10% (TrendForce), 2026 H2 추정치 20% 도달 (Astute Group)
+
+**영향**: 본 분석의 peer 비교 차트에서 삼성 DS OPM 25 → 65.7으로 일괄 정정. 스토리(narrative) "삼성 = DX 분산 흡수"는 부정확 → "삼성 DS는 record, 전사 OPM은 DX 흡수"로 정정.

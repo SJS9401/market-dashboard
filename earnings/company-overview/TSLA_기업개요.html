@@ -1,61 +1,36 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>TSLA — 기업 개요 (v4.8 retrofit, dark standard)</title>
+<html lang="ko"><head><meta charset="UTF-8"><title>TSLA — 기업 개요</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-  body {
-    background: #0f1419;
-    color: #e6e6e6;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 40px 30px;
-    line-height: 1.6;
-  }
-  h1 { color: #4ec9b0; border-bottom: 2px solid #2d3748; padding-bottom: 12px; font-size: 28px; }
-  h2 { color: #76b9c4; margin-top: 36px; border-left: 4px solid #76b9c4; padding-left: 12px; font-size: 22px; }
-  h3 { color: #c5a572; margin-top: 28px; font-size: 18px; }
-  h4 { color: #c5a572; font-size: 15px; }
-  table {
-    border-collapse: collapse;
-    margin: 16px 0;
-    width: 100%;
-    font-size: 13px;
-  }
-  th, td {
-    border: 1px solid #3a4658;
-    padding: 6px 10px;
-    text-align: right;
-  }
-  th { background: #1f2937; color: #76b9c4; }
-  td:first-child, th:first-child { text-align: left; }
-  code { background: #1f2937; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #f0b070; }
-  img { max-width: 100%; margin: 12px 0; border-radius: 6px; background: #ffffff; padding: 4px; }
-  strong { color: #f0b070; }
-  blockquote {
-    border-left: 4px solid #4ec9b0;
-    padding: 14px 18px;
-    color: #b4c2ce;
-    font-style: italic;
-    background: #1a2330;
-    margin: 14px 0;
-  }
-  ul, ol { margin: 8px 0 8px 24px; }
-  li { margin: 4px 0; }
-  a { color: #76b9c4; }
-  hr { border: none; border-top: 1px solid #2d3748; margin: 28px 0; }
-</style>
-</head>
-<body>
-<div id="content">렌더링 중...</div>
+  body { background:#0f1419; color:#e6e6e6;
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    max-width:1280px; margin:0 auto; padding:40px 30px; line-height:1.6; }
+  h1 { color:#4ec9b0; border-bottom:2px solid #2d3748; padding-bottom:12px; font-size:28px; }
+  h2 { color:#76b9c4; margin-top:36px; border-left:4px solid #76b9c4; padding-left:12px; font-size:22px; }
+  h3 { color:#c5a572; margin-top:28px; font-size:18px; }
+  h4 { color:#c5a572; font-size:15px; }
+  table { border-collapse:collapse; margin:16px 0; width:100%; font-size:13px; }
+  th, td { border:1px solid #3a4658; padding:6px 10px; text-align:right; }
+  th { background:#1f2937; color:#76b9c4; }
+  td:first-child, th:first-child { text-align:left; }
+  code { background:#1f2937; padding:2px 6px; border-radius:3px; font-size:13px; color:#f0b070; }
+  img { max-width:100%; margin:12px 0; border-radius:6px; background:#ffffff; padding:4px; }
+  strong { color:#f0b070; }
+  blockquote { border-left:4px solid #4ec9b0; padding:14px 18px; color:#b4c2ce; font-style:italic; background:#1a2330; margin:14px 0; }
+  ul, ol { margin:8px 0 8px 24px; }
+  li { margin:4px 0; }
+  a { color:#76b9c4; }
+  hr { border:none; border-top:1px solid #2d3748; margin:28px 0; }
+</style></head>
+<body><div id="content">렌더링 중...</div>
 <script id="md-source" type="text/markdown">
 # Tesla, Inc. (TSLA) — 기업 개요
 
 > **버전 v5.1** · 작성일 2026-05-19 · 종목 분류 T1 (미국 빅테크) · industry=자동차|자율주행
 > 데이터 소스: SEC 10-K 16건 (FY10~FY25), 10-Q 48건 (FY10Q2~FY26Q1), 8-K 174건, DEF 14A 11건 (2025-09-17 머스크 보상안 + 운영 milestone 상세), Tesla IR Update Letter 8건 (Q3 2023 ~ Q1 2026), Yahoo Finance monthly 16년+
 > **시계열 깊이**: 12년 연간 (FY14~FY25) + 64분기 (FY10Q2~FY26Q1, 16년) + 모델별 인도 33분기 + Energy GWh 18 entry + Supercharger 15 entry + FSD subs 5분기 + Regional 매출 12년 + **EV credits 9분기 + Region별 차량 인도 8년 + Segment GPM 5년 + 머스크 12 운영 milestones 정확치 + OBBBA/IRA 영향 narrative**
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ---
 
@@ -777,11 +752,37 @@
 - **R&D 세부 분류 narrative** — FSD AI 39% / 차량 24% / Optimus 19% / Energy 12% / 기타 6% (추정)
 - **FY25 CF 정정** — OCF $14,747M, CapEx $8,527M, FCF $6,220M (이전 v4.9 추정치 정정)
 - **차트 추가 4종**: chart17 Regional매출 / chart18 FSDdeferred / chart19 Musk2025보상안 / chart20 차종Timeline (총 23종)
-- **데이터 소스**: SEC 10-K 16건 + 10-Q 48건 + 8-K 174건 + DEF 14A 11건 + 
+- **데이터 소스**: SEC 10-K 16건 + 10-Q 48건 + 8-K 174건 + DEF 14A 11건 + IR letter 8건 (Q3 2023 추가) + Yahoo 16년+
+
+### v4.9 (2026-05-19, 7대 보완 완료)
+
+- **데이터 소스 확장**: 10-K 11→16건 (FY10~FY25 풀), 10-Q 31→48건 (FY10Q2~FY26Q1), IR Update Letter 5→7건 (Q3 2024 추가)
+- **시계열 확장**: 41분기 → **64분기** (FY10Q2 ~ FY26Q1, 16년)
+- **신규 데이터셋**:
+  - 차량 모델별 인도 시계열 33분기 (Model S/X vs 3/Y vs Other)
+  - Energy Storage GWh 시계열 18 entry (분기 11 + 연간 7)
+  - Supercharger sites/connectors 시계열 15 entry
+  - FSD Active Subscriptions 5분기 (Q1 2025 첫 disclose 이후)
+- **FY26Q1 정확 수치 반영**: 매출 $22,387M, OP $941M (OPM 4.2%), Net $477M, GPM 21.1%, FCF $1,444M, 인도 358k, Storage 8.8 GWh, FSD subs 1.28M
+- **차트 추가 4종**: chart13 모델별인도 / chart14 EnergyGWh / chart15 Supercharger / chart16 FSDsubs (총 19종)
+
+### v4.8 (2026-05-19, 초안)
+
+- 신규 작성. 12년 손익 시계열 (FY14~FY25) + 41분기 시계열 (FY16Q1~FY26Q1) + 16종 차트
+- 데이터 소스: SEC 10-K 11건, 10-Q 31건, 8-K 174건, DEF 14A 11건, Tesla IR Update Letter 5건, Yahoo Finance 16년+
+- 잔여 보완 후보 7종 → v4.9에서 통합 반영
+
+### 잔여 보완 후보 (v5.2에서)
+
+- (1) **분기별 P&D press release 36건 batch parse** — FY11~FY17 Model S/X 정확 분기 인도. 현 시계열 hardcode 검증 + 옛 분기 (FY11Q1~FY15Q4) 모델별 정밀 정량화
+- (2) **Tesla earnings call transcript** parsing — Motley Fool auto-listing 0건이라 수동 검색. FY23~FY25 8개 분기 conference call narrative 추출
+- (3) **머스크 시총 milestone vesting timing 시나리오** — 12 tranche 각각 가정 (예: 5년 / 7년 / 10년) 별 dilution + 누적 보상 가치 동적 시뮬레이션
+- (4) **Tesla AI compute (Cortex) CapEx 분리** — FY24~FY26 AI cluster CapEx 비중 정확 (Auto/Energy/Service capacity와 분리). H100·B200·B300 chip 수량 추정 통합
+- (5) **분기별 영업비용 분류 (R&D / SG&A / Restructuring)** — 64분기 시계열. 현재 연 단위만 정리됨
+- (6) **인구 통계 + Cybertruck 지역별 인도** — Cybertruck Q별 인도 (FY23Q4 이후 11분기)
+- (7) **Tesla Insurance 매출 분리** — Services 매출 중 보험 비중 + UBI premium 누적
+- (8) **Robotaxi 운영 도시 timeline** (Austin 2025-06 → Dallas/Houston 2026-04 → 다음 도시) — 연구 발표 + 정부 인허가 timeline 추적
+
 </script>
-<script>
-const text = document.getElementById("md-source").textContent;
-marked.setOptions({ breaks: false, gfm: true });
-document.getElementById("content").innerHTML = marked.parse(text);
-</script>
+<script>const text=document.getElementById("md-source").textContent;marked.setOptions({breaks:false,gfm:true});document.getElementById("content").innerHTML=marked.parse(text);</script>
 </body></html>

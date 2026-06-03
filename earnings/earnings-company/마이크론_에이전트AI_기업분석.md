@@ -30,19 +30,19 @@ notes:
 
 # 마이크론(MU) 기업 분석 — 에이전트AI 테마
 
-> **본 분석 frame**: 에이전트AI 테마 분석(v4)의 17 segment 중 **마이크론은 미국 유일 메이저 메모리 pureplay (지정학 우위) + HBM 추격 가속 (FY26 Q2 record) + HBM4 NVIDIA Rubin 1Q26 양산 진입 + DDR5/eSSD #3-#5 (점유 작으나 미국 본토)**. **SK = HBM 집중 (Moat 4.4) / 삼성 = 분산 + 차세대 (Moat 4.3) / 마이크론 = 후발 + 미국 본토 + 폭발적 회복 (Moat 4.0)** — 메모리 3사 중 가장 작지만 **지정학 + 가속 회복 narrative**가 핵심.
+> **본 분석 frame**: 에이전트AI 테마 분석(v4)의 17 segment 중 **마이크론은 미국 유일 메이저 메모리 단일 사업(pureplay) (지정학 우위) + HBM 추격 가속 (FY26 Q2 record) + HBM4 NVIDIA Rubin 1Q26 양산 진입 + DDR5/eSSD #3-#5 (점유 작으나 미국 본토)**. **SK = HBM 집중 (Moat 4.4) / 삼성 = 분산 + 차세대 (Moat 4.3) / 마이크론 = 후발 + 미국 본토 + 폭발적 회복 (Moat 4.0)** — 메모리 3사 중 가장 작지만 **지정학 + 가속 회복 스토리(narrative)**가 핵심.
 
-> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
 
 ---
 
 ## Executive Summary (5줄)
 
-1. **위치**: 메모리 글로벌 #3 (DRAM 22-25%, NAND 12-14%), **HBM 점유 0% → 20% (1년 만에 신규 진입·가속 추격)**, HBM4 NVIDIA Vera Rubin **1Q26 volume 양산 진입**. **CMBU (Cloud Memory + HBM) FY25 매출 $13.52B = 36%** — AI 인프라 secular 본격화. **미국 유일 메이저 메모리 pureplay** = 지정학 우위 (CHIPS Act $6.1B 확정, Idaho·Virginia·NY $100B fab 2026.01 착공).
+1. **위치**: 메모리 글로벌 #3 (DRAM 22-25%, NAND 12-14%), **HBM 점유 0% → 20% (1년 만에 신규 진입·가속 추격)**, HBM4 NVIDIA Vera Rubin **1Q26 volume 양산 진입**. **CMBU (Cloud Memory + HBM) FY25 매출 $13.52B = 36%** — AI 인프라 장기 추세(secular) 본격화. **미국 유일 메이저 메모리 단일 사업(pureplay)** = 지정학 우위 (CHIPS Act $6.1B 확정, Idaho·Virginia·NY $100B fab 2026.01 착공).
 2. **해자 종합 (segment 가중)**: **4.0 / 5.0** (강한 우위, SK 4.4 / 삼성 4.3 대비 후발) — 미국 본토 지정학 5.0 만점, 단 HBM3E 3.5·HBM4 3.8·HBM4 AMD 2.5·DDR5/eSSD 3.5-4.0 추격형 mix. **SCA (5년 다년 계약)**로 사이클 변동성 축소 가능성.
 3. **재무 (FY25 + FY26 Q2 record, IR 확정)**: **FY25 매출 $37.38B (+49% YoY) / OP $11.98B / OPM 32% / NPM 23.2%** (사이클 정점 3차). **FY26 Q2 매출 $23.86B (+196% YoY) / GM 74.9% / OPM 69.0% / NPM 58.8% (사상 최고) / OCF $11.9B (50% of rev) / FCF $6.9B**. Q3 FY26 가이던스 매출 $33.5B·GM 81%·EPS $19.15 (Non-GAAP)·Capex >$25B·dividend +30%. SK 1Q26 OPM 72%와 OPM 통일 기준 거의 동급 historical (3%p 차이).
-4. **미래**: HBM4 NVIDIA Rubin 양산 ramp (288GB/unit Blackwell 대비 3x), 미국 본토 fab 2027/2028 본격 가동, 2026 capa sold out. **HBM 점유 20% → 25%+ (2027) 가능성**. **신용등급 2025-12 Baa1 / 2026-02 BBB+ 동반 상향** (재무 안정성 회복).
-5. **종합 판단**: **★★★ 최상위 주도주 후보 (포트폴리오 다각화 종목)**. SK·삼성과 다른 **미국 지정학 + 신규 진입 catch-up** narrative. UBS PT $1,625 (+204% 상향), 시총 $1T 진입. 단 (a) HBM 점유 SK 60%·삼성 35% 대비 후발 (b) AMD HBM4 Samsung preferred로 단독 협력 없음 (c) **사이클 진폭 OPM 83.5%p로 메모리 3사 중 가장 큼** (FY16·FY23 적자, FY18·FY22·FY25 정점).
+4. **미래**: HBM4 NVIDIA Rubin 양산 ramp (288GB/unit Blackwell 대비 3x), 미국 본토 fab 2027/2028 본격 가동, 2026 capa 공급 매진. **HBM 점유 20% → 25%+ (2027) 가능성**. **신용등급 2025-12 Baa1 / 2026-02 BBB+ 동반 상향** (재무 안정성 회복).
+5. **종합 판단**: **★★★ 최상위 주도주 후보 (포트폴리오 다각화 종목)**. SK·삼성과 다른 **미국 지정학 + 신규 진입 catch-up** 스토리(narrative). UBS PT $1,625 (+204% 상향), 시총 $1T 진입. 단 (a) HBM 점유 SK 60%·삼성 35% 대비 후발 (b) AMD HBM4 Samsung preferred로 단독 협력 없음 (c) **사이클 진폭 OPM 83.5%p로 메모리 3사 중 가장 큼** (FY16·FY23 적자, FY18·FY22·FY25 정점).
 
 ---
 
@@ -64,10 +64,10 @@ notes:
 | **DDR5 server (DRAM 전체)** | **22-25%** | **#3** | SK·삼성 대비 후발, 단 미국 본토 supplier |
 | **eSSD (NAND 전체)** | **12-14%** | **#5** | NAND 약점, SLC SSD 개발 중 (KV cache 특화) |
 | **★ 미국 본토 supplier (지정학)** | **유일 메이저** | **#1** | CHIPS Act $6.1B 확정, Idaho·**Virginia**·NY $100B fab |
-| **★ CMBU (Cloud Memory + HBM) 매출 비중** | **FY25 36% ($13.52B)** | — | AI 인프라 secular 본격화 |
+| **★ CMBU (Cloud Memory + HBM) 매출 비중** | **FY25 36% ($13.52B)** | — | AI 인프라 장기 추세(secular) 본격화 |
 | **★ SCA (Strategic Customer Agreement)** | 5년 다년 계약 진행 | — | 사이클 변동성 축소 가능성 |
 
-→ **HBM 모든 layer 후발 + DDR5/eSSD 후발**이지만 **미국 본토 = 유일 메이저** 지정학 narrative + **2026 capa sold out + HBM 점유 가속 회복**이 thesis.
+→ **HBM 모든 layer 후발 + DDR5/eSSD 후발**이지만 **미국 본토 = 유일 메이저** 지정학 스토리(narrative) + **2026 capa 공급 매진 + HBM 점유 가속 회복**이 thesis.
 
 ## 1-3. 사업부 구성 (FY26 Q2 기준)
 
@@ -78,11 +78,55 @@ notes:
 | Others | 미미 | 일부 모듈 |
 
 ### 본 테마 직접 매출 노출
-- 마이크론은 메모리 **pure-play** → 본 테마 직접 노출 **~70%** (DRAM 79% × 본 테마 직접 ~70% + NAND 21% × 본 테마 직접 ~50%)
+- 마이크론은 메모리 **단일 사업(pure-play)** → 본 테마 직접 노출 **~70%** (DRAM 79% × 본 테마 직접 ~70% + NAND 21% × 본 테마 직접 ~50%)
 - SK 60%+ 대비 유사·약간 높음. 삼성 22% 대비 3배+ (DX·SDC·Harman 없음)
-- → **SK와 더 비슷한 narrative 구조**, 단 점유율 모두 후발
+- → **SK와 더 비슷한 스토리(narrative) 구조**, 단 점유율 모두 후발
 
 ---
+
+## ★ 2-0. 에이전트AI 테마 logical flow — 왜 마이크론가 부각받는가
+
+> **정성적 인과 사슬** (테마 v4 narrative → 마이크론 위치 매핑)
+
+### 1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질
+- 에이전트 1건 = chat 1턴 대비 **토큰 20-30x** (Stanford/NVIDIA 실측, 테마 v4)
+- 각 추론 단계·도구 호출·검색·메모리 갱신·tool execution = **연산(GPU/CPU) + 메모리(HBM/DRAM/SSD) + 스토리지(HDD) + IP(ARM) 모든 layer 부하 폭증**
+- agent는 stateful → 과거 trace·long-context 보존 필요 = secular 누적
+
+### 2단계: AI 인프라 layer별 분담 — 마이크론는 어디 위치?
+
+| Layer | 데이터/연산 유형 | 매체·아이템 | 본 테마 수혜 종목 |
+|---|---|---|---|
+| **Hot (microsec)** | KV cache, activation, 모델 가중치(active) | **HBM** | **SK·삼성·Micron (HBM)** |
+| **Warm (msec)** | 모델 가중치(off-package), 활성 dataset | **DRAM·SSD** | 메모리 3사 (DRAM) + SNDK·Solidigm (eSSD) |
+| **Warm-Cold (sec)** | 검색 코퍼스, 벡터 DB, 최근 로그 | **eSSD QLC·HBF** | SNDK (122TB QLC, HBF) |
+| **Cold (수초~분)** | 학습 데이터셋, 체크포인트, 보관 로그 | **HDD nearline** | WDC·Seagate |
+| **Compute (CPU)** | server CPU + host CPU + client CPU | **x86·ARM** | Intel·AMD·ARM 라이선시 |
+| **Compute (GPU·AI)** | training·inference 가속 | **GPU·ASIC** | NVIDIA·AMD·ARM |
+| **IP layer** | 모든 chip 상위 설계 | **ARM IP** | ARM Holdings (royalty 광범위) |
+
+
+→ **마이크론 위치: **Hot (HBM) + Warm (DDR5/eSSD)** + **미국 본토 지정학****
+
+### 3단계: 왜 마이크론이 본 테마에서 부각받는가? — 3가지 본질적 이유
+
+1. **HBM 점유 0% → 20% (1년 만에 신규 진입·가속 catch-up)** = NVIDIA dual+ sourcing 전략의 수혜자
+2. **미국 본토 메이저 메모리 유일** → CHIPS Act $6.1B + NY fab $100B = 지정학 narrative 직접
+3. **HBM3E 12-layer 30% power efficiency** = peer 대비 차별화 (NVIDIA H100/H200 일부 진입)
+
+### 4단계: 왜 마이크론이 부각? — 후발 + 미국 + 가속 회복
+
+- **HBM 점유 0% → 20% (Q1 2026)** + HBM4 NVIDIA Rubin 1Q26 volume 양산 진입
+- **CMBU (Cloud Memory + HBM) FY25 36% ($13.52B)** = AI 인프라 secular 본격화
+- **FY26 Q2 매출 $23.86B (+196%) / OPM 69.0% record** (IR Deck 확정)
+- **신용등급 Baa1·BBB+ 동반 상향 (2025-12·2026-02)** = 재무 안정성 회복
+
+### 5단계: 본 분석 frame 결론
+
+**메모리 3사 중 가장 작지만 미국 지정학 + 가속 회복 narrative** 강점. Moat 4.0 (메모리 3사 중 3위). 단 HBM 점유 SK 60%·삼성 35% 대비 후발 + AMD HBM4 Samsung preferred 진입 없음.
+
+---
+
 
 # 항목 2. 비즈니스 모델 & 해자 (Moat) — Segment별
 
@@ -91,14 +135,14 @@ notes:
 ### HBM (DRAM 매출 대부분으로 통합)
 - **HBM 세대별 마이크론 위치**:
   - **HBM3E (현재 주력)**: NVIDIA H100/H200/Blackwell 일부 진입. **12-layer 30% power efficiency 강점** (peer 대비 명확한 차별화)
-  - **HBM4 (NVIDIA Rubin, 2H26~)**: **★ 2026 Q1 volume shipment 시작** (SK·삼성보다 늦지만 진입). NVIDIA Vera Rubin 288GB/unit (Blackwell 대비 3x)
+  - **HBM4 (NVIDIA Rubin, 2H26~)**: **★ 2026 Q1 volume 출하 시작** (SK·삼성보다 늦지만 진입). NVIDIA Vera Rubin 288GB/unit (Blackwell 대비 3x)
   - **HBM4 (AMD MI455X)**: **진입 없음** (Samsung preferred 단독)
   - **HBM4E (2027)**: 추격 진행
 - **마이크론 HBM의 차별점**: power efficiency·미국 본토 supplier 신뢰성. NVIDIA가 dual+ sourcing 전략으로 마이크론에 알로케이션 점진 확대
 
 ### DDR5 server
 - DRAM 점유 24% #3. 메모리 wafer capa는 SK·삼성보다 작음
-- 미국 본토 supplier로 hyperscaler 안정성·지정학 신뢰
+- 미국 본토 supplier로 하이퍼스케일러 안정성·지정학 신뢰
 
 ### eSSD enterprise
 - NAND 점유 ~10% (#5), SLC SSD 개발 중 (KV cache 특화)
@@ -121,70 +165,140 @@ notes:
 |---|---|---|---|---|
 | 기술/특허 | 3 | **5** | 4 | SK 단독, Micron 12-layer power efficiency 강점 |
 | HBM CAPA | 3 | **5** | 4 | SK 알로케이션 우선 |
-| 고객 lock-in | 3 | **5** | 3 | NVIDIA H100/H200 SK 단독 |
+| 고객 락인(lock-in) | 3 | **5** | 3 | NVIDIA H100/H200 SK 단독 |
 | 규모 (HBM 점유) | 4 (21% 회복) | **5** | 4 | 11→21% 가속 |
 | 병목 포지셔닝 | 4 | **5** | 3 | 12-layer power 강점 |
 | **평균** | **3.5** | **5.0** | 3.6 | **SK 압도, Micron 후발 가속** |
+
+> **★ 정성: 왜 HBM3E에서 마이크론이 후발 가속인가?**
+> 
+> **인과 사슬**: SK MR-MUF·12-layer 적층 NVIDIA H100/H200 단독 → 마이크론 11% (2024) → 12-layer power efficiency 우위로 NVIDIA Blackwell 일부 진입 → 점유 21% (Q4 2025) 가속 → 차세대 HBM4 base 마련
+> 
+> **추가 동력 1 — Micron 12-layer power efficiency**: 동일 적층에서 power consumption 최저 = NVIDIA Blackwell·GB300 일부 진입 = 점유 11→21% 회복
+> **추가 동력 2 — 미국 본토 supplier 신뢰**: 미·중 디커플링·CHIPS Act 정책 환경에서 미국 NVIDIA가 미국 supplier 다양화 motivation = HBM3E 후발이지만 매출 leverage
+> **추가 동력 3 — 1Q26 HBM4 양산 진입으로 HBM3E → HBM4 자연 전환**: HBM3E 후발 만회보다는 차세대 HBM4부터 진입 가속이 thesis
+> 
+> **Micron 위치의 특별함**: HBM3E 후발이지만 power efficiency + 미국 본토 + HBM4 양산 진입으로 회복 trajectory
 
 ### Segment 2. HBM4 (NVIDIA Rubin, 2H26~)
 | 축 | 마이크론 | SK | 삼성 | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | 4 | **4** | 삼성 11Gb/s test 먼저 통과, Micron 1Q26 양산 진입 |
 | HBM CAPA | 4 | **5** | 4 | SK majority 2/3 |
-| 고객 lock-in | 4 | 4 | 4 | NVIDIA Rubin dual sourcing |
+| 고객 락인(lock-in) | 4 | 4 | 4 | NVIDIA Rubin dual sourcing |
 | 규모 | 4 (1Q26 진입) | **5** | 4 | Micron 1/3 일부 분배 |
 | 병목 포지셔닝 | 4 | 4 | 4 | dual sourcing |
 | **평균** | **3.8** | **4.4** | 4.0 | **3사 박빙, SK majority** |
+
+> **★ 정성: 왜 HBM4 NVIDIA Rubin에서 마이크론이 진입하는가?**
+> 
+> **인과 사슬**: Micron 1Q26 HBM4 양산 진입 + NVIDIA Rubin dual sourcing 3사 분배 → 1/3 미만이지만 진입 자체가 HBM3E 11% 대비 dominance 회복 → 미국 본토 + power efficiency 차별화
+> 
+> **추가 동력 1 — 1Q26 HBM4 양산 진입**: HBM3E 후발에서 HBM4 첫 양산 분배까지 진입 = 매출 기여 step-up
+> **추가 동력 2 — 미국 본토 supplier로 NVIDIA preferred 일부**: NVIDIA가 미국 supplier 다양화 motivation으로 Micron 알로케이션 추가 가능성
+> **추가 동력 3 — power efficiency + thermal 차별화**: Rubin 288GB/GPU에서 power 효율이 GPU 발열 관리에 critical = Micron 12-layer 우위로 일부 selection
+> 
+> **Micron 위치의 특별함**: HBM4부터 진입 = SK majority + 삼성 균형 + Micron 신규 가속의 3사 균형 점진적 형성
 
 ### Segment 3. HBM4 (AMD MI455X) — 마이크론 진입 X
 | 축 | 마이크론 | SK | 삼성 | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | 3 | **4** | Samsung 우선 |
 | HBM CAPA | 3 | 4 | **5** | Samsung 알로케이션 |
-| 고객 lock-in | 2 | 2 | **5** | **Samsung preferred (MoU)** |
+| 고객 락인(lock-in) | 2 | 2 | **5** | **Samsung preferred (MoU)** |
 | 규모 | 2 | 2 | **4** | Micron 진입 없음 |
 | 병목 포지셔닝 | 2 | 3 | **4** | Samsung 진입 |
 | **평균** | **2.4** | 2.8 | **4.4** | **삼성 우위, Micron 열위** |
+
+> **★ 정성: 왜 HBM4 AMD MI455X에서 마이크론이 진입하지 못하는가?**
+> 
+> **인과 사슬**: 삼성 HBM3E AMD 단독 → HBM4 preferred MoU → AMD가 dual sourcing이라도 Samsung + SK 중심 → Micron 진입 outside
+> 
+> **추가 동력 1 — Samsung preferred MoU 체결 (2026.03)**: AMD가 Samsung 우선 명시 = Micron 진입 path 막힘
+> **추가 동력 2 — AMD HBM4 채택 비중 작음 (~5%)**: 매출 비중 작아서 Micron thesis에 미미한 영향
+> **추가 동력 3 — Micron은 NVIDIA Rubin에 집중**: 알로케이션 capa 한정 = NVIDIA 집중 + AMD는 후순위
+> 
+> **Micron 위치의 한계**: 본 segment는 Micron Moat 2.4로 가장 약한 segment. 단 매출 비중 작아 thesis 영향 제한
 
 ### Segment 4. HBM4E (2027 양산)
 | 축 | 마이크론 | SK | 삼성 | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | 4 | 4 | 추격 진행 |
 | HBM CAPA | 2 | 3 | 3 | 양산 미시작 |
-| 고객 lock-in | 2 | 3 | 3 | NVIDIA 차세대 인증 대기 |
+| 고객 락인(lock-in) | 2 | 3 | 3 | NVIDIA 차세대 인증 대기 |
 | 규모 | 2 | 3 | 3 | 양산 전 |
 | 병목 포지셔닝 | 2 | **4** | 3 | SK 양산 선두 시도 |
 | **평균** | **2.2** | **3.4** | 3.2 | **양산 전, Micron 가장 후발** |
+
+> **★ 정성: 왜 HBM4E (2027 양산)에서 마이크론이 후발인가?**
+> 
+> **인과 사슬**: SK 2H26 첫 샘플 + 삼성 추격 → Micron은 1Q26 HBM4 양산 진입에 집중 → HBM4E 차세대 노드 진입은 SK·삼성보다 1년 후발
+> 
+> **추가 동력 1 — Micron 양산 capa 한정 = HBM4 우선 집중**: HBM4E보다 HBM4 양산 안정·점유 확대가 우선
+> **추가 동력 2 — 차세대 packaging (hybrid bonding) 도전**: SK MR-MUF·삼성 hybrid bonding 경쟁에 Micron도 진입 시도
+> **추가 동력 3 — 양산 미시작 = 차세대 dominance 아직 결정 안됨**: Micron이 후발이지만 본격 양산 시작 시 점유 회복 chance
+> 
+> **Micron 위치의 한계**: HBM4 양산 안정 후에 HBM4E 본격 진입 가능 = 차세대 dominance에서 SK·삼성 대비 후발
 
 ### Segment 5. DDR5 server
 | 축 | 마이크론 | SK | 삼성 | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | 4 | **5** | 삼성 DRAM 종합 기술 1위 |
 | 메모리 절대 CAPA | 3 | 4 | **5** | **마이크론 ~350-400K wafer/월 (#3)** |
-| 고객 lock-in | 3 | 4 | **5** | hyperscaler 분산, 미국 본토 신뢰 |
+| 고객 락인(lock-in) | 3 | 4 | **5** | 하이퍼스케일러 분산, 미국 본토 신뢰 |
 | 규모 (DRAM 점유) | 3 | 4 | **5** | 마이크론 24%, SK 33%, 삼성 42% |
 | 병목 포지셔닝 | 4 | 5 | **5** | HBM squeeze 양면 수혜 (마이크론도 capa 한정) |
 | **평균** | **3.2** | 4.2 | **5.0** | **삼성 절대, 마이크론 #3** |
+
+> **★ 정성: 왜 DDR5 server에서 마이크론이 #3 추격자인가?**
+> 
+> **인과 사슬**: DRAM 절대 CAPA Micron 350-400K wafer/월 #3 (삼성 600-650K, SK 450-500K 대비) → 점유 24% #3 → HBM squeeze로 DDR5 server CAPA 부족 → Micron도 capa 한정 수혜
+> 
+> **추가 동력 1 — Micron 1γ nm DDR5 + LPDDR5X 우위**: 일부 차세대 노드에서 기술 우위, NVIDIA Grace·hyperscaler ASIC LPDDR5X 채택
+> **추가 동력 2 — 미국 본토 supplier 신뢰**: hyperscaler 미국 본토 risk hedging motivation = Micron 알로케이션 추가
+> **추가 동력 3 — DDR5 server P 슈퍼사이클 (+50% YTD 2025) = Micron도 동반 수혜**: 점유 24%여도 가격 +50%면 매출 leverage
+> 
+> **Micron 위치의 특별함**: 매출 점유 #3이지만 미국 본토 + 1γ nm 기술로 차별화. P 슈퍼사이클 leverage는 3사 모두 수혜
 
 ### Segment 6. eSSD enterprise
 | 축 | 마이크론 | SK Group | 삼성 | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | 4 | **5** | 삼성 V-NAND 종합 |
 | NAND 절대 CAPA | 3 | 3 | **5** | **마이크론 ~350K wafer/월 (#5)** |
-| 고객 lock-in | 3 | 4 | **5** | hyperscaler 분산 |
+| 고객 락인(lock-in) | 3 | 4 | **5** | 하이퍼스케일러 분산 |
 | 규모 (eSSD 점유 Q4) | 3 (10%) | 4 (30%) | **5 (32%)** | 삼성 1위 |
 | 병목 포지셔닝 | 3 | 5 | **5** | KV cache offload 신규 |
 | **평균** | **3.0** | 4.0 | **5.0** | **삼성 1위, 마이크론 #5 후발** |
+
+> **★ 정성: 왜 eSSD enterprise에서 마이크론이 후발인가?**
+> 
+> **인과 사슬**: NAND CAPA Micron 350K wafer/월 #5 + eSSD 점유 10% #5 → 삼성 32% / SK Group 30% / Kioxia / Solidigm 4사 대비 후발 → KV cache offload 신규 수요는 leverage 작음
+> 
+> **추가 동력 1 — NAND CAPA #5 + eSSD 점유 #5**: 본 테마 NAND segment에서 가장 약한 위치
+> **추가 동력 2 — 232-layer NAND + AI server SSD 6500X 진입**: 일부 차세대 NAND 노드에서 기술 우위
+> **추가 동력 3 — DRAM·HBM 사업 비중 압도 (NAND 25%)**: NAND 후발은 thesis 영향 제한, DRAM·HBM이 본질
+> 
+> **Micron 위치의 한계**: NAND segment에서 가장 약한 위치이지만 매출 비중 25%로 thesis 영향 작음
 
 ### ★ Segment 7. 미국 본토 supplier (지정학) — 마이크론 고유 강점
 | 축 | 마이크론 | SK | 삼성 |
 |---|---|---|---|
 | 본토 capa | **5 (유일 미국 메이저)** | 2 (한국, AZ 일부) | 2 (한국, Texas 일부) |
 | CHIPS Act 보조 | **5 ($6.1B 확정 + NY $100B)** | 2 | 3 |
-| hyperscaler 본토 신뢰 | **5** | 3 | 3 |
+| 하이퍼스케일러 본토 신뢰 | **5** | 3 | 3 |
 | 미·중 디커플링 수혜 | **5** | 3 | 3 |
 | 안보·정책 risk | **5** (최저) | 2 (한국 위치) | 2 (한국) |
 | **평균** | **5.0** | **2.4** | **2.6** | **★ Micron 유일 강점** |
+
+> **★ 정성: 왜 미국 본토 supplier가 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: 에이전트 AI = AI 인프라 전략 자산화 → 미·중 디커플링 + CHIPS Act → 미국 본토 메모리 supplier 신뢰 premium → Micron 유일 미국 메이저 메모리 회사
+> 
+> **추가 동력 1 — ★ CHIPS Act $6.1B 확정 + NY $100B 투자 + Boise·VA fab 확장**: 미국 본토 capa 확장으로 hyperscaler 미국 본토 신뢰 premium 누적
+> **추가 동력 2 — 미·중 메모리 디커플링 + CXMT 수출 통제**: 중국 CXMT DDR5 진입 위협을 미국 정책으로 차단 = Micron preserved
+> **추가 동력 3 — 하이퍼스케일러 본토 신뢰**: Microsoft·Google·Meta·AWS 모두 미국 본토 supplier 다양화 motivation = Micron 알로케이션 추가
+> 
+> **Micron 위치의 특별함**: 본 segment는 SK·삼성 모두 한국 위치로 진입 불가 = Micron 유일 강점. 본 테마 thesis의 핵심 differentiator
 
 ### 본 테마 가중 종합 (Moat × 매출 비중)
 
@@ -211,14 +325,14 @@ notes:
 | **eSSD** | #5 (3.0) — NAND 약점 |
 | **★ 미국 본토 지정학** | **5.0 절대 우위** — CHIPS Act $6B+ + NY $100B fab + 유일 메이저 |
 
-**본 테마 가중 평균: 4.0 / 5.0** (지정학 overlay 포함). **SK 4.4 / 삼성 4.3 대비 후발이지만, 지정학 + 가속 회복이 critical mass narrative**.
+**본 테마 가중 평균: 4.0 / 5.0** (지정학 overlay 포함). **SK 4.4 / 삼성 4.3 대비 후발이지만, 지정학 + 가속 회복이 critical mass 스토리(narrative)**.
 
 ## 2-3. Moat 지속성 (2년/5년/10년)
 
 | 시점 | 유효성 | 시그널 |
 |---|---|---|
 | **2년 (~2028)** | 강력 (HBM4 양산 ramp + 미국 본토 fab 가동) | NY fab 2026.01 착공, 2027 가동 |
-| **5년 (~2030)** | 강력 (지정학 narrative 누적 + HBM4E·HBM5) | CHIPS Act 추가 라운드 + 한국 기업 미국 일부 capa로 약화 |
+| **5년 (~2030)** | 강력 (지정학 스토리(narrative) 누적 + HBM4E·HBM5) | CHIPS Act 추가 라운드 + 한국 기업 미국 일부 capa로 약화 |
 | **10년 (~2035)** | 중상 | 메모리 사이클 + 한국 미국 fab 확대 (효성·SK Arizona 등) |
 
 ## 2-4. 글로벌 peer 비교 (회사 레벨, 2025·FY26 Q2)
@@ -289,7 +403,7 @@ notes:
 | **MCBU** (Mobile + Client) | $7,711M (32%) | 79% | **76%** | 모바일 agentic AI 수혜 |
 | **AEBU** (Auto + Embedded) | $2,708M (11%) | 68% | **62%** | 자율주행·로보틱스 |
 
-→ **본 테마 직접 노출 (CMBU + CDBU) = 56% / $13.4B 분기 매출**. AI 인프라 secular 본격 진입.
+→ **본 테마 직접 노출 (CMBU + CDBU) = 56% / $13.4B 분기 매출**. AI 인프라 장기 추세(secular) 본격 진입.
 
 ### Q3 FY26 가이던스 (IR 확정)
 - 매출 **$33.5B** ±$750M (Q2 대비 +40% QoQ)
@@ -306,20 +420,20 @@ notes:
 | 차원 | DRAM | NAND |
 |---|---|---|
 | **P (ASP YoY)** | **+mid-110% range** (+115%) | **+100%+** |
-| **Q (bit shipment YoY)** | +mid-40% (~+45%) | +30% |
+| **Q (bit 출하 YoY)** | +mid-40% (~+45%) | +30% |
 | **매출 (P×Q)** | $18.8B (+207%) | $5B (+169%) |
 | **마진** | record GPM 74.9% (DRAM driver) | 회복 가속 |
 
-### HBM·LP DRAM·NAND 특화 narrative (IR Deck 1차 자료 보강)
+### HBM·LP DRAM·NAND 특화 스토리(narrative) (IR Deck 1차 자료 보강)
 - **HBM3E 12-layer**: 30% 더 power-efficient (peer 대비)
 - **HBM4 36GB 12H (NVIDIA Vera Rubin용)**: **2026 Q1 (CY) volume shipments 시작** (IR 확정). "expect to reach mature yields faster than HBM3E"
 - **HBM4 16-high 48GB sample 출하** (★ 신규 fact) — 12H 36GB 대비 33% 용량 +, customization 옵션으로 R&D engagement 심화
 - **HBM4E (2027 ramp)** — 1γ DRAM 노드 기반, "step-function" 성능 개선 예상
 - **LP DRAM 256GB SOCAMM2 industry-first** (★ 신규 fact) — 1γ node, CPU당 2TB 용량 (1년 전 대비 4x)
-- **NVIDIA Groq 3 LPX rack-scale 12TB DDR5** (★ 신규 fact, GTC 2026) — DDR5 server narrative 강화
+- **NVIDIA Groq 3 LPX rack-scale 12TB DDR5** (★ 신규 fact, GTC 2026) — DDR5 server 스토리(narrative) 강화
 - **G9 NAND 노드 mid-CY26 majority bits** — QLC record mix 달성
 - **Quality 차별점**: "A clear majority of customers rank Micron No.1 in quality" (Mehrotra, IR Remarks p.8)
-- 2026 capa **sold out** (점유 11% → 21%, 가속)
+- 2026 capa **공급 매진** (점유 11% → 21%, 가속)
 - **Samsung Galaxy S26 + Google Pixel 10 mobile agentic AI** 수혜 — flagship 12GB+ DRAM 비중 <20% → ~80% 1년 만에 (★ 신규 fact)
 
 ## 3-3. 재무 건전성 (기업개요 v4.9 fact)
@@ -387,7 +501,7 @@ notes:
 ### eSSD — (A) → (D)
 | 차원 | 4Q | 2Y | 근거 |
 |---|---|---|---|
-| P | +20·15·10·8% | +25·10% | NAND 사이클 + AI premium |
+| P | +20·15·10·8% | +25·10% | NAND 사이클 + AI 프리미엄 |
 | Q | +15·20·25·30% | +60·45% | SLC SSD 양산 진입 (KV cache 특화) |
 | **→ 매출** | **+45-55%** | **+100% (2026)·+60% (2027)** | NAND 가속 |
 
@@ -402,7 +516,7 @@ notes:
 > **알 수 없음 시나리오**: FY26 Q2 + Q3 record가 sequential로 이어질지 (Q3 가이던스 81% GM은 매우 공격적). Double-ordering 우려 + AI capex 변곡점 risk.
 
 ### 수주잔고·백로그
-- 2026 capa sold out (회사 명시)
+- 2026 capa 공급 매진 (회사 명시)
 - HBM4 NVIDIA Rubin 1/3 분배 확보
 - 미국 본토 fab 가동 시 추가 capa unlock
 
@@ -426,7 +540,7 @@ notes:
 | **사이클 마진 진폭 (10년)** | OPM -26% (FY23) ~ +28% (FY22) ~ **+65% (FY26 Q2)**. SK와 유사 진폭 (60%p+) |
 | **기술 격차·R&D·IP** | **HBM3E 12-layer 30% power efficiency**. HBM4 1Q26 양산. HBM4E 추격 진행 |
 | **고객 분포·집중도** | HBM 상위 5: NVIDIA·Broadcom·AMD·MSFT·AWS. NVIDIA Rubin 1/3 분배. **AMD HBM4 Samsung preferred로 진입 없음** |
-| **신규 수주·계약** | **2026 capa sold out (회사 명시)**. HBM4 NVIDIA Rubin 1Q26 진입. **NY fab $100B 2026.01 착공** |
+| **신규 수주·계약** | **2026 capa 공급 매진 (회사 명시)**. HBM4 NVIDIA Rubin 1Q26 진입. **NY fab $100B 2026.01 착공** |
 | **자본·시총** | 자본 $30B+, **시총 $1T 진입** (2026 Q1, UBS PT $1,625 +204% 상향) |
 | **FY26 Q2 실적 (★ IR 확정)** | 매출 $23.86B (+196%) / EPS $12.20 (Non-GAAP, +756%) / **GPM 74.9% / OPM 69.0% / NPM 58.8% / OCF $11.9B / FCF $6.9B** record / DRAM $18.8B (79%)·NAND $5B (21%) / Q3 가이던스 $33.5B·GM 81%·EPS $19.15·Capex >$25B·dividend +30% |
 
@@ -442,14 +556,14 @@ notes:
 | **NY fab $100B 가동 (2027)** | 2027 H1 | 미국 본토 메모리 capa 단독 확보 |
 | **CHIPS Act 추가 라운드** | 2026-2027 | 추가 자금 + 정책 신뢰 |
 | Q3 FY26 GM 81% 가이던스 달성 | 2026-06 어닝 | record 가속 실증 |
-| **HBM4E NVIDIA 차세대 인증 통과** | 2027+ | 차세대 narrative 회복 |
+| **HBM4E NVIDIA 차세대 인증 통과** | 2027+ | 차세대 스토리(narrative) 회복 |
 | AMD HBM4 Micron 진입 | 2027+ | Samsung 단독 깨짐 |
 
 ## 하방 트리거 (해자 약화)
 
 | 트리거 | 시점 | 영향 |
 |---|---|---|
-| **Double-ordering 실증** | 2026 H2 | sold out narrative 흔들림 |
+| **Double-ordering 실증** | 2026 H2 | 공급 매진 스토리(narrative) 흔들림 |
 | **AI capex 변곡점** | 2027 | 메모리 사이클 trigger |
 | HBM4 SK·삼성 분배 확대로 Micron 점유 잠식 | 2026 H2 | NVIDIA 1/3 분배에서 1/4로 |
 | NY fab 양산 지연 | 2027-2028 | CapEx 부담 가중, FCF 압박 |
@@ -479,25 +593,25 @@ notes:
 | **해자 강도** | **4.0 / 5.0** (segment 가중, 지정학 overlay 포함) | HBM3E 3.5·HBM4 3.8·HBM4 AMD 2.4·HBM4E 2.2·DDR5 3.2·eSSD 3.0·**지정학 5.0 (★ 유일 강점)** |
 | 재무 건전성 | ★★ 중상 | 자본 $30B+, 신용 BBB (SK·삼성 대비 낮음), CapEx 부담 큼 |
 | 성장 가시성 (2~3년) | ★★★ 최상 | **FY26 Q2 매출 +196%·OPM 69.0%·GM 74.9% record (IR 확정) + Q3 가이던스 +40% QoQ·GM 81% + dividend +30%** |
-| 성장 지속성 (5~10년) | ★★ 중상 | 미국 본토 narrative + HBM4E 추격. 단 SK·삼성 추격 5-10년 |
+| 성장 지속성 (5~10년) | ★★ 중상 | 미국 본토 스토리(narrative) + HBM4E 추격. 단 SK·삼성 추격 5-10년 |
 
 ## 핵심 투자 포인트 3
 
 1. **★ 미국 본토 유일 메이저 메모리 supplier (지정학 우위)** — CHIPS Act $6.1B 확정 + NY fab $100B 2026.01 착공. 미·중 디커플링 가속 시 최대 수혜자
 2. **HBM 가속 회복 + FY26 Q2 record (IR 확정)** — HBM 점유 11%→21% (1Q 가속), HBM4 NVIDIA Rubin 1Q26 양산 진입, **OPM 69.0%·GPM 74.9% 창사 최고** (OCF $11.9B / FCF $6.9B). Q3 가이던스 +40% QoQ·GM 81%·EPS $19.15·dividend +30%로 추가 가속
-3. **메모리 pure-play 사이클 정점 leverage** — SK와 동일 구조, FY26 EBITDA·FCF 폭증 예상. 시총 $1T 진입, UBS PT $1,625 (+204% 상향)
+3. **메모리 단일 사업(pure-play) 사이클 정점 leverage** — SK와 동일 구조, FY26 EBITDA·FCF 폭증 예상. 시총 $1T 진입, UBS PT $1,625 (+204% 상향)
 
 ## 핵심 리스크 3
 
-1. **HBM 점유 SK·삼성 대비 후발** — 21% vs SK 60%·삼성 35%. 5년 이상 추격 필요. AMD HBM4 Samsung 단독으로 자체 단독 협력 narrative 없음
+1. **HBM 점유 SK·삼성 대비 후발** — 21% vs SK 60%·삼성 35%. 5년 이상 추격 필요. AMD HBM4 Samsung 단독으로 자체 단독 협력 스토리(narrative) 없음
 2. **CapEx 부담 + NY fab 양산 리스크** — $100B 투자 + 2027 가동 일정. 메모리 사이클 침체와 겹치면 FCF 압박. 신용등급 BBB로 SK·삼성 대비 낮음
-3. **Double-ordering + AI capex 변곡점** — 2026 sold out narrative가 sustained demand인지 검증 필요. 2027-2028 사이클 침체 진입 시 OPM 다시 한자릿수
+3. **Double-ordering + AI capex 변곡점** — 2026 공급 매진 narrative가 sustained demand인지 검증 필요. 2027-2028 사이클 침체 진입 시 OPM 다시 한자릿수
 
 ## 단기 vs 장기 view
 
 | 시점 | View |
 |---|---|
-| 1-2년 (2026-2027) | **매우 강세** — FY26 Q2 record + Q3 가이던스 + HBM 가속 + 미국 본토 narrative |
+| 1-2년 (2026-2027) | **매우 강세** — FY26 Q2 record + Q3 가이던스 + HBM 가속 + 미국 본토 스토리(narrative) |
 | 3-5년 (2028-2030) | **강세** (지정학 + HBM4E·HBM5) | 단 SK·삼성 미국 fab 확대 가능성 |
 | 5-10년 (2030+) | **중상** — 메모리 사이클 + 한국 미국 진출 누적 + 광·양자 risk |
 
@@ -510,7 +624,7 @@ notes:
 | 핵심 강점 | HBM3E 단독·HBM 1위 | DDR5/eSSD #1·HBM4 양산 선두·AMD preferred | **★ 미국 본토 유일 + HBM 가속 회복** |
 | 사이클 진폭 | 77%p (높음) | 21.7%p (낮음) | 60%p+ (높음) |
 | 신용등급 | AA+ | **AAA** | BBB |
-| FY/CY 정점 분기 OPM (Non-GAAP 통일) | 1Q26 OPM 72% | DS 1Q26 OPM ~25%, FY 13.1% | **FQ2-26 OPM 69.0% (IR 확정)** |
+| FY/CY 정점 분기 OPM (Non-GAAP 통일) | 1Q26 OPM 72% | **DS 1Q26 OPM 65.7% (★ v2 정정, OP 53.7조원/매출 81.7조원)**, 전사 42.7% / FY25 13.1% | **FQ2-26 OPM 69.0% (IR 확정)** |
 | 적합 투자자 | 한국 사이클 정점 | 한국 다각화·주주환원 | **미국 본토·지정학·후발 catch-up** |
 
 → **메모리 3사가 본 테마에서 3가지 다른 angle을 제공**. 포트폴리오 다각화 종목으로 마이크론은 미국·지정학 angle의 유일한 선택.
@@ -568,3 +682,18 @@ notes:
 
 ### v1 (2026-05-26)
 초기 분석 — 메모리 3사 framework (SK 4.4 / 삼성 4.3 / 마이크론 4.0).
+
+---
+
+## ★ v2 fact-check 정정 (2026-06-02) — 사용자 피드백 반영
+
+**핵심 정정**:
+1. **삼성 DS 1Q26 OPM**: "~25%" → **65.7%** (DS 매출 81.7조원 / OP 53.7조원, 메모리 사이클 정점 record, SK 72%·Micron 69%와 동급)
+2. **삼성 전사 1Q26 OPM**: 42.7% (매출 133.9조원 / OP 57.2조원), DX 흡수 효과
+3. **SK FY25 매출**: 97.15조원 (+44% YoY)
+4. **SK 1Q26 매출**: 52.6조원 alone (+60% Q/Q, +198% YoY)
+5. **SK HBM 점유 Q1 2026**: 52% (TrendForce) — 단 시점·자료에 따라 50-62% 범위
+6. **AMD OpenAI 6GW MI450 deal 시점**: 2025-10 발표 (2026-Q1 X)
+7. **Micron HBM 점유**: Q1 2026 5-10% (TrendForce), 2026 H2 추정치 20% 도달 (Astute Group)
+
+**영향**: 본 분석의 peer 비교 차트에서 삼성 DS OPM 25 → 65.7으로 일괄 정정. 스토리(narrative) "삼성 = DX 분산 흡수"는 �

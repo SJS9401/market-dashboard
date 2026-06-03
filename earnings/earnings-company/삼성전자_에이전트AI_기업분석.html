@@ -94,7 +94,7 @@
     </div>
 
     <div class="narrative" style="background:#eef3fa;border:1px dashed #1f3a68;color:#1a3a68;font-style:normal">
-      <b>점유율·CAPA 표기 기준</b>: 본 분석의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·Astute Group). <b>CAPA는 wafer 기준</b> (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+      <b>점유율·CAPA 표기 기준</b>: 본 분석의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·Astute Group). <b>CAPA는 wafer 기준</b> (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
     </div>
 
     <section id="sum">
@@ -160,6 +160,50 @@
     </section>
 
     <!-- 항목 2 -->
+    <section id="s2-0" style="background:#f9f7f0;padding:18px 22px;border-left:4px solid #b06c00;margin:18px 0;border-radius:0 6px 6px 0">
+      <h3 style="color:#b06c00">★ 2-0. 에이전트AI 테마 logical flow — 왜 삼성전자가 부각받는가</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 narrative → 삼성전자 위치 매핑)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 <b>토큰 20-30x</b> (Stanford/NVIDIA 실측, 테마 v4)</li>
+        <li>각 추론 단계·도구 호출·검색·메모리 갱신·tool execution = <b>연산(GPU/CPU) + 메모리(HBM/DRAM/SSD) + 스토리지(HDD) + IP(ARM) 모든 layer 부하 폭증</b></li>
+        <li>agent는 stateful → 과거 trace·long-context 보존 필요 = secular 누적</li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — 삼성전자는 어디 위치?</h4>
+      <table>
+        <tr><th>Layer</th><th>데이터/연산 유형</th><th>매체·아이템</th><th>본 테마 수혜 종목</th></tr>
+        <tr><td><b>Hot (microsec)</b></td><td>KV cache, activation, 모델 가중치(active)</td><td><b>HBM</b></td><td><b>SK·삼성·Micron (HBM)</b></td></tr>
+        <tr><td><b>Warm (msec)</b></td><td>모델 가중치(off-package), 활성 dataset</td><td><b>DRAM·SSD</b></td><td>메모리 3사 (DRAM) + SNDK·Solidigm (eSSD)</td></tr>
+        <tr><td><b>Warm-Cold (sec)</b></td><td>검색 코퍼스, 벡터 DB, 최근 로그</td><td><b>eSSD QLC·HBF</b></td><td>SNDK (122TB QLC, HBF)</td></tr>
+        <tr><td><b>Cold (수초~분)</b></td><td>학습 데이터셋, 체크포인트, 보관 로그</td><td><b>HDD nearline</b></td><td>WDC·Seagate</td></tr>
+        <tr><td><b>Compute (CPU)</b></td><td>server CPU + host CPU + client CPU</td><td><b>x86·ARM</b></td><td>Intel·AMD·ARM 라이선시</td></tr>
+        <tr><td><b>Compute (GPU·AI)</b></td><td>training·inference 가속</td><td><b>GPU·ASIC</b></td><td>NVIDIA·AMD·ARM</td></tr>
+        <tr><td><b>IP layer</b></td><td>모든 chip 상위 설계</td><td><b>ARM IP</b></td><td>ARM Holdings (royalty 광범위)</td></tr>
+      </table>
+
+      <p>→ <b>삼성전자 위치: <b>Hot (HBM4 차세대) + Warm (DDR5/eSSD 절대 CAPA)</b> 분산</b></p>
+
+      <h4>3단계: 왜 삼성이 본 테마에서 부각받는가? — 3가지 본질적 이유</h4>
+      <ol>
+        <li><b>HBM4 양산 선두 + AMD MI455X preferred (MoU)</b> → SK가 HBM3E 단독에서 HBM4 dual sourcing으로 가는 흐름의 수혜자</li>
+        <li><b>DRAM·NAND 절대 CAPA #1</b> (600-650K + 800K wafer/월) → DDR5·eSSD 폭증 시 알로케이션 유연성</li>
+        <li><b>파운드리 (TSMC #2)</b> = 본 테마 차세대 노드 양산 capa (Tesla 22조 수주 등)</li>
+      </ol>
+
+      <h4>4단계: 왜 삼성이 부각? — 분산형 + 차세대 우위</h4>
+      <ul>
+        <li><b>DDR5 server #1 + eSSD #1 + HBM4 AMD preferred + HBM4 NVIDIA 양산 선두 + 파운드리 #2</b></li>
+        <li>DS 사업부만 보면 본 테마 가장 다축, 단 DX 다각화로 전사 직접 노출 ~22%</li>
+        <li><b>1Q26 DS OPM 65.7% record</b> (메모리 사업부, SK 72%·Micron 69% 동급)</li>
+        <li>전사 OPM 42.7% (DX·SDC·Harman 분산 buffer)</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>HBM 집중형 SK와 다른 분산형 주도주</b>. HBM4 차세대·DDR5/eSSD 절대 우위·AMD preferred·파운드리 4축. Moat 4.3 (SK 다음). 단 HBM3E 추격 부진 + 파운드리 적자가 risk.</p>
+    </section>
+
     <section id="s2">
       <h2>항목 2. 비즈니스 모델 & 해자 (Moat) ★ 핵심</h2>
 
@@ -179,77 +223,140 @@
         <tr><th>축</th><th>삼성</th><th>SK</th><th>Micron</th><th>핵심</th></tr>
         <tr><td>기술/특허</td><td>3</td><td><b>5</b></td><td>3</td><td>SK 단독공급, 삼성 12단 일부 통과</td></tr>
         <tr><td>HBM CAPA</td><td>4</td><td>5</td><td>3</td><td>SK 알로케이션 우선</td></tr>
-        <tr><td>고객 lock-in</td><td>3</td><td><b>5</b></td><td>3</td><td>NVIDIA H100/H200 SK 단독</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>3</td><td><b>5</b></td><td>3</td><td>NVIDIA H100/H200 SK 단독</td></tr>
         <tr><td>규모 (HBM 점유)</td><td>4</td><td><b>5</b></td><td>3</td><td>35% vs SK 53%</td></tr>
         <tr><td>병목 포지셔닝</td><td>4</td><td><b>5</b></td><td>3</td><td>NVIDIA 90% SK</td></tr>
         <tr><td><b>평균</b></td><td><b>3.6</b></td><td><b>5.0</b></td><td>3.0</td><td>SK 절대 우위, 삼성 후발 추격</td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 HBM3E에서 삼성이 후발인가?</b><br>
+        <b>인과 사슬</b>: HBM3E 12단은 SK MR-MUF 기술 우위 → NVIDIA H100/H200 인증 SK 단독 → 삼성은 12단 통과 지연 + NVIDIA Blackwell 일부만 진입 → 삼성 HBM3E 점유 35% (SK 53% 대비 후발)<br>
+        <b>추가 동력 1 — 삼성 HBM3E 12단 NVIDIA 인증 지연</b>: NVIDIA 발열·yield 이슈로 12단 인증 거절 반복 → 8단 일부만 진입 = HBM3E 매출 SK 대비 약 60-70% 수준<br>
+        <b>추가 동력 2 — AMD MI300X·MI350X에 삼성 단독공급</b>: HBM3E AMD 단독공급 위치 = HBM3E 패배 후 HBM4 AMD preferred로 연결<br>
+        <b>추가 동력 3 — 삼성 1c nm DRAM 양산 안정화 (2026)</b>: 차세대 노드 양산 안정 = HBM4 양산 선두 가능 base<br>
+        <b>삼성 위치의 특별함</b>: HBM3E 후발이지만 HBM4 양산 선두 + AMD preferred로 dominance 회복 시도
+      </blockquote>
 
       <h4>Segment 2. HBM4 (NVIDIA Rubin, 2H26~)</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>SK</th><th>Micron</th><th>핵심</th></tr>
         <tr class="samsung-highlight"><td>기술/특허</td><td><b>4</b></td><td>4</td><td>3</td><td>★ <b>2026.02 업계 최초 양산 + 11Gb/s test 먼저 통과</b></td></tr>
         <tr><td>HBM CAPA</td><td>4</td><td><b>5</b></td><td>3</td><td>SK majority 2/3</td></tr>
-        <tr><td>고객 lock-in</td><td>4</td><td>4</td><td>3</td><td>dual sourcing</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>4</td><td>4</td><td>3</td><td>dual sourcing</td></tr>
         <tr><td>규모</td><td>4</td><td><b>5</b></td><td>3</td><td>NVIDIA Rubin 1/3</td></tr>
         <tr><td>병목 포지셔닝</td><td>4</td><td>4</td><td>3</td><td>dual sourcing</td></tr>
         <tr><td><b>평균</b></td><td><b>4.0</b></td><td><b>4.4</b></td><td>3.0</td><td>삼성 양산 선두·SK majority 균형</td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 HBM4 NVIDIA Rubin에서 삼성이 균형 잡는가?</b><br>
+        <b>인과 사슬</b>: 삼성 2026.02 HBM4 업계 최초 양산 + 11Gb/s test 먼저 통과 → NVIDIA Rubin dual sourcing 진입 → SK majority 2/3 + 삼성 1/3 알로케이션 → HBM3E 후발 만회<br>
+        <b>추가 동력 1 — ★ 11Gb/s test 먼저 통과</b>: HBM4 핵심 속도 시험에서 삼성이 SK보다 먼저 통과 = NVIDIA preferred 일부 회복<br>
+        <b>추가 동력 2 — 1c nm DRAM + hybrid bonding</b>: 차세대 적층 기술에서 SK MR-MUF에 도전 = HBM4 후속 세대 dominance 가능성<br>
+        <b>추가 동력 3 — Rubin 288GB/GPU = HBM4 시장 폭증</b>: GPU당 HBM4 적층 수 증가로 분배 비중도 확대 = 1/3이라도 매출 크기 의미<br>
+        <b>삼성 위치의 특별함</b>: HBM3E 후발 → HBM4 양산 선두로 분위기 전환. 단 SK majority 2/3로 dominance 미완
+      </blockquote>
 
       <h4>★ Segment 3. HBM4 (AMD MI455X, 2H26~) — 삼성 우위</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>SK</th><th>Micron</th><th>핵심</th></tr>
         <tr class="samsung-highlight"><td>기술/특허</td><td><b>4</b></td><td>3</td><td>3</td><td>Samsung HBM3E AMD 단독 → HBM4 우선</td></tr>
         <tr class="samsung-highlight"><td>HBM CAPA</td><td><b>5</b></td><td>4</td><td>3</td><td>알로케이션 Samsung 우위</td></tr>
-        <tr class="samsung-highlight"><td>고객 lock-in</td><td><b>5</b></td><td>2</td><td>2</td><td><b>Samsung preferred (2026.03 MoU)</b></td></tr>
+        <tr class="samsung-highlight"><td>고객 락인(lock-in)</td><td><b>5</b></td><td>2</td><td>2</td><td><b>Samsung preferred (2026.03 MoU)</b></td></tr>
         <tr class="samsung-highlight"><td>규모</td><td><b>4</b></td><td>2</td><td>2</td><td>AMD 작으나 SK 대비 우위</td></tr>
         <tr class="samsung-highlight"><td>병목 포지셔닝</td><td><b>4</b></td><td>3</td><td>2</td><td>Samsung 진입</td></tr>
         <tr class="samsung-highlight"><td><b>평균</b></td><td><b>4.4</b></td><td>2.8</td><td>2.4</td><td><b>★ Samsung 우위 (SK·Micron 열위)</b></td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 HBM4 AMD MI455X에서 삼성이 우위인가?</b><br>
+        <b>인과 사슬</b>: 삼성 HBM3E AMD 단독공급 (MI300X·MI350X) → 신뢰관계 누적 → HBM4 우선 협력 → 2026.03 Samsung preferred MoU 체결 → HBM3E 패배의 만회 segment<br>
+        <b>추가 동력 1 — ★ 2026.03 Samsung preferred MoU</b>: AMD가 공식적으로 Samsung을 HBM4 preferred supplier 지정 = SK majority NVIDIA 집중에 대한 alternative diversification<br>
+        <b>추가 동력 2 — 삼성 HBM4 양산 capa 우위 + 1c nm</b>: AMD MI455X 양산 시점 알로케이션 우선 = 가격 결정력 확보<br>
+        <b>추가 동력 3 — AMD AI 가속기 점유 9% → 18% (2026E) 가속</b>: AMD 자체 성장이 삼성 HBM4 매출에 직접 leverage<br>
+        <b>삼성 위치의 특별함</b>: HBM3E 약점을 HBM4 AMD로 만회 + AMD 자체 점유 가속으로 매출 leverage. 단 AMD 시장 자체가 NVIDIA 대비 작음 (~5%)
+      </blockquote>
 
       <h4>Segment 4. HBM4E (2027 양산 목표)</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>SK</th><th>Micron</th><th>핵심</th></tr>
         <tr><td>기술/특허</td><td>4</td><td>4</td><td>3</td><td>SK 2H26 샘플, 삼성 추격</td></tr>
         <tr><td>HBM CAPA</td><td>3</td><td>3</td><td>2</td><td>양산 미시작</td></tr>
-        <tr><td>고객 lock-in</td><td>3</td><td>3</td><td>2</td><td>NVIDIA 차세대 인증 대기</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>3</td><td>3</td><td>2</td><td>NVIDIA 차세대 인증 대기</td></tr>
         <tr><td>규모</td><td>3</td><td>3</td><td>2</td><td>양산 전</td></tr>
         <tr><td>병목 포지셔닝</td><td>3</td><td><b>4</b></td><td>2</td><td>SK 양산 선두 시도</td></tr>
         <tr><td><b>평균</b></td><td><b>3.2</b></td><td><b>3.4</b></td><td>2.2</td><td>양산 전, SK·삼성 박빙</td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 HBM4E (2027 양산)에서 삼성이 SK와 박빙인가?</b><br>
+        <b>인과 사슬</b>: SK 2H26 첫 샘플로 약간 앞섬 → 삼성 hybrid bonding·1c nm 차세대 기술로 추격 → 16-layer 적층 + 차세대 packaging 경쟁 → NVIDIA Rubin Ultra/Feynman 인증 경쟁<br>
+        <b>추가 동력 1 — 삼성 hybrid bonding 도전 vs SK MR-MUF 진화</b>: 16층 이상 적층에서 hybrid bonding 우위 가능성 = 삼성 차세대 dominance 회복 chance<br>
+        <b>추가 동력 2 — 1c nm DRAM 양산 안정 (2026~)</b>: 차세대 노드에서 삼성이 SK 추격·역전 시도<br>
+        <b>추가 동력 3 — 양산 미시작 = 점유 미확정 + dominance 경쟁 열림</b>: 현 시점 미양산이므로 차세대 시장 dominance 경쟁 fully open<br>
+        <b>삼성 위치의 특별함</b>: HBM3E 후발 → HBM4 양산 선두 → HBM4E 박빙 → 차세대 dominance 가능성 회복 trajectory
+      </blockquote>
 
       <h4>★ Segment 5. DDR5 server — 삼성 우위</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>SK</th><th>Micron</th><th>핵심</th></tr>
         <tr class="samsung-highlight"><td>기술/특허</td><td><b>5</b></td><td>4</td><td>3</td><td><b>삼성 DRAM 종합 기술 1위</b></td></tr>
         <tr class="samsung-highlight"><td><b>메모리 절대 CAPA</b></td><td><b>5</b></td><td>4</td><td>3</td><td><b>삼성 600-650K wafer/월 (#1), SK 450-500K (#2)</b></td></tr>
-        <tr class="samsung-highlight"><td>고객 lock-in</td><td><b>5</b></td><td>4</td><td>3</td><td>hyperscaler·OEM 분산</td></tr>
+        <tr class="samsung-highlight"><td>고객 락인(lock-in)</td><td><b>5</b></td><td>4</td><td>3</td><td>하이퍼스케일러·OEM 분산</td></tr>
         <tr class="samsung-highlight"><td>규모 (DRAM 점유)</td><td><b>5</b></td><td>4</td><td>3</td><td><b>삼성 42%, SK 33%, Micron 24%</b></td></tr>
-        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td><b>5</b></td><td>4</td><td>HBM squeeze 양면 (둘 다 sold out)</td></tr>
+        <tr><td>병목 포지셔닝</td><td><b>5</b></td><td><b>5</b></td><td>4</td><td>HBM squeeze 양면 (둘 다 공급 매진)</td></tr>
         <tr class="samsung-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td>4.2</td><td>3.2</td><td><b>★ 삼성 절대 우위</b></td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 DDR5 server에서 삼성이 절대 우위인가?</b><br>
+        <b>인과 사슬</b>: 삼성 DRAM 기술 1위 + 메모리 절대 CAPA 600-650K wafer/월 #1 → HBM squeeze로 DDR5 server CAPA 부족 → 알로케이션 결정력 최강 → KV cache offload 신규 수요 → DDR5 P 슈퍼사이클 가장 큰 수혜<br>
+        <b>추가 동력 1 — ★ 메모리 절대 CAPA #1 (600-650K wafer/월)</b>: SK 450-500K 대비 30%+ CAPA 우위 = 알로케이션 유연성·가격 결정력 절대 우위<br>
+        <b>추가 동력 2 — DDR5 server 가격 +50% YTD 2025 + Q4 +30% + 2026 1H +20%</b>: P 슈퍼사이클 driver, 삼성 매출 점유 42% (1위)로 절대 leverage<br>
+        <b>추가 동력 3 — KV cache offload narrative (NVIDIA Dynamo·vLLM)</b>: 일반 DRAM이 "추론 active 메모리"로 격상 = DDR5 server 수요 secular 추가<br>
+        <b>삼성 위치의 특별함</b>: 메모리 절대 CAPA #1 + DRAM 기술 1위 = DDR5 server 절대 우위. <b>DS OPM 65.7% record는 본 segment 우위로부터</b>
+      </blockquote>
 
       <h4>★ Segment 6. eSSD enterprise — 삼성 우위</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>SK Group</th><th>Micron·Kioxia</th><th>핵심</th></tr>
         <tr class="samsung-highlight"><td>기술/특허</td><td><b>5</b></td><td>4</td><td>3</td><td>V-NAND 8-stack, 서버 SSD 50%</td></tr>
         <tr class="samsung-highlight"><td><b>NAND 절대 CAPA</b></td><td><b>5</b></td><td>3</td><td>3</td><td><b>삼성 800K wafer/월 (#1), SK Group 500K (#2)</b></td></tr>
-        <tr class="samsung-highlight"><td>고객 lock-in</td><td><b>5</b></td><td>4</td><td>3</td><td>hyperscaler 직접</td></tr>
+        <tr class="samsung-highlight"><td>고객 락인(lock-in)</td><td><b>5</b></td><td>4</td><td>3</td><td>하이퍼스케일러 직접</td></tr>
         <tr class="samsung-highlight"><td>규모 (eSSD Q4)</td><td><b>5</b></td><td>4</td><td>3</td><td><b>삼성 32.3% (#1), SK Group 30.2% (#2)</b></td></tr>
         <tr><td>병목 포지셔닝</td><td><b>5</b></td><td><b>5</b></td><td>3</td><td>KV cache offload 신규 수요</td></tr>
         <tr class="samsung-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td>4.0</td><td>3.0</td><td><b>★ 삼성 1위, SK Group 박빙</b></td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 eSSD enterprise에서 삼성이 절대 1위인가?</b><br>
+        <b>인과 사슬</b>: 삼성 NAND 절대 CAPA 800K wafer/월 #1 + V-NAND 8-stack 기술 우위 → 하이퍼스케일러 직접 공급 → eSSD 점유 32.3% (#1) → KV cache offload·vector DB·체크포인트 수요 폭증 직접 수혜<br>
+        <b>추가 동력 1 — ★ NAND 절대 CAPA #1 (800K wafer/월)</b>: SK Group 500K 대비 60% CAPA 우위 = NAND 사이클 정점에서 알로케이션 결정력 최강<br>
+        <b>추가 동력 2 — V-NAND 8-stack + 서버 SSD 50% 점유</b>: 메모리 기술 종합 우위, 하이퍼스케일러 직접 공급<br>
+        <b>추가 동력 3 — eSSD 점유 32.3% #1 + SK Group 30.2% 박빙이지만 CAPA로 유지</b>: 점유 박빙이지만 CAPA 차이로 알로케이션 유연성 절대 우위<br>
+        <b>삼성 위치의 특별함</b>: NAND CAPA + 기술 + 점유 트리플 1위. 본 테마 NAND 측 최대 수혜자
+      </blockquote>
 
       <h4>Segment 7. 파운드리 (삼성 고유)</h4>
       <table>
         <tr><th>축</th><th>삼성</th><th>TSMC</th><th>Intel Foundry</th><th>핵심</th></tr>
         <tr><td>기술/특허</td><td>3</td><td><b>5</b></td><td>3</td><td>TSMC EUV·CoWoS·yield 절대</td></tr>
         <tr><td>파운드리 CAPA</td><td>3</td><td><b>5</b></td><td>3</td><td>TSMC 90%+, 삼성 7%</td></tr>
-        <tr><td>고객 lock-in</td><td>3</td><td><b>5</b></td><td>3</td><td>Apple·NVIDIA·AMD TSMC 단독</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>3</td><td><b>5</b></td><td>3</td><td>Apple·NVIDIA·AMD TSMC 단독</td></tr>
         <tr><td>규모 (점유)</td><td>3</td><td><b>5</b></td><td>2</td><td>7% vs 90%+</td></tr>
         <tr><td>병목 포지셔닝</td><td>3</td><td><b>5</b></td><td>3</td><td>TSMC CoWoS 85%</td></tr>
         <tr><td><b>평균</b></td><td><b>3.2</b></td><td><b>5.0</b></td><td>2.8</td><td>TSMC 절대, 삼성 추격 #2 + Tesla 22조 수주 신규</td></tr>
       </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 파운드리가 본 테마에서 부각받는가?</b><br>
+        <b>인과 사슬</b>: 에이전트 AI = 가속기 chip 폭증 (NVIDIA·AMD·hyperscaler ASIC) → TSMC CoWoS 85% 단독 = 파운드리 absolute bottleneck → 삼성 SF2/SF1.4P 차세대 노드 진입 + Tesla 22조 수주로 진입 → 삼성 고유 segment<br>
+        <b>추가 동력 1 — ★ Tesla 22조 수주 (2025)</b>: 삼성 파운드리 매출 turnaround 핵심 trigger, 차세대 hyperscaler ASIC 진입 가능성<br>
+        <b>추가 동력 2 — TSMC CoWoS 85% 단독 + HBM4 자체 공급</b>: TSMC HBM 진입 risk = 삼성·SK·Micron 모두 위협이지만, 삼성은 IDM 통합으로 차별화<br>
+        <b>추가 동력 3 — SF2 (2nm) + SF1.4P → 차세대 AI ASIC 진입</b>: NVIDIA·Apple·AMD TSMC 단독에 대한 alternative diversification 수요 = 삼성 파운드리 trough → 회복 시도<br>
+        <b>삼성 위치의 특별함</b>: 메모리 1위 + 파운드리 #2 = IDM 종합 모델 + 차세대 AI ASIC 진입. 단 TSMC 절대 우위 + 점유 7%로 매우 후발
+      </blockquote>
 
       <h4>본 테마 가중 종합 (Moat × DS 매출 비중)</h4>
       <table>
@@ -360,7 +467,7 @@
       <h4>eSSD — (A) → (D) 동반 확대 ★</h4>
       <table>
         <tr><th>차원</th><th>4Q</th><th>2Y</th><th>근거</th></tr>
-        <tr><td>P</td><td>+20·15·10·8%</td><td>+25·10%</td><td>NAND 사이클 + AI premium</td></tr>
+        <tr><td>P</td><td>+20·15·10·8%</td><td>+25·10%</td><td>NAND 사이클 + AI 프리미엄</td></tr>
         <tr><td>Q</td><td>+15·20·20·25%</td><td>+50·40%</td><td>KV cache·VectorDB</td></tr>
         <tr class="samsung-highlight"><td><b>→ 매출</b></td><td><b>+40-50%</b></td><td><b>+85% (2026)·+55% (2027)</b></td><td>삼성 #1 직접</td></tr>
       </table>
@@ -398,7 +505,7 @@
         <tr><td>현재 CAPA + 증설</td><td><b>DRAM 600-650K wafer/월 #1, NAND 800K #1</b>, HBM ~12-15K (2025). 2026 HBM4 capa 20K+. CapEx 2025 50조 → 2026E 55조+</td></tr>
         <tr><td>사이클 마진 진폭 (12년)</td><td>OPM 2.5~24.2% (21.7%p) — SK 77.2%p의 1/4</td></tr>
         <tr><td>기술 격차·R&D·IP</td><td>R&D 35조+ (2025, 매출 10%+). <b>1c DRAM HBM4용 yield 50% (개선 중)</b>. HBM4E 2027 양산 추격. 3nm GAA 세계 최초 (2022). 2nm Texas 양산</td></tr>
-        <tr><td>고객사 분포·집중도</td><td>HBM 상위 5: NVIDIA·AMD·Broadcom·MSFT·AWS. <b>NVIDIA Rubin 1/3 + AMD MI455X preferred 단독</b>. DDR5/eSSD hyperscaler·OEM 분산</td></tr>
+        <tr><td>고객사 분포·집중도</td><td>HBM 상위 5: NVIDIA·AMD·Broadcom·MSFT·AWS. <b>NVIDIA Rubin 1/3 + AMD MI455X preferred 단독</b>. DDR5/eSSD 하이퍼스케일러·OEM 분산</td></tr>
         <tr><td>신규 수주·계약</td><td><b>2025 Tesla 22조 파운드리 수주</b>. <b>2026.03 AMD HBM4 MoU</b>. <b>2024-11 자사주 10조 + 2025-02 3조 소각</b></td></tr>
         <tr><td>자본·시총</td><td>자본 430조+, 시총 ~500조+ (2025말). 자사주 매입·소각 활발</td></tr>
         <tr><td>1Q26 컨센 (20개 평균)</td><td>매출 75-80조, OP 7-9조, OPM 10-12%, DS OP 5-6조 (DS OPM 20%+)</td></tr>
@@ -414,7 +521,7 @@
         <tr><th>트리거</th><th>시점</th><th>영향</th></tr>
         <tr class="samsung-highlight"><td><b>1c DRAM HBM4용 yield 70%+ 도달</b></td><td>2026 H2</td><td>HBM4 양산 ramp 가속, SK majority 압박</td></tr>
         <tr><td>HBM4 NVIDIA Rubin 분배 1/2 확보</td><td>2026 H2-2027</td><td>SK majority 잠식</td></tr>
-        <tr><td>AMD HBM4 단독 유지 + MI500급 후속</td><td>2027</td><td>삼성 유일 narrative 강화</td></tr>
+        <tr><td>AMD HBM4 단독 유지 + MI500급 후속</td><td>2027</td><td>삼성 유일 스토리(narrative) 강화</td></tr>
         <tr><td>파운드리 Tesla·AMD 수주 확대</td><td>2026-2027</td><td>파운드리 적자→흑자 turning point</td></tr>
         <tr><td>자사주 추가 매입·소각</td><td>분기 IR</td><td>주주환원 가속</td></tr>
       </table>
@@ -496,10 +603,10 @@
         <tr><td>2026 OPM 전망</td><td>60-62% (사상 최고)</td><td>18-20% (회복)</td></tr>
         <tr><td>주주환원</td><td>미미</td><td><b>10조 매입 + 3조 소각</b></td></tr>
         <tr><td>재무 등급</td><td>AA+</td><td><b>AAA</b></td></tr>
-        <tr><td>핵심 narrative</td><td>HBM3E 단독·HBM 전체 1위</td><td>DDR5/eSSD #1 + HBM4 양산 선두 + AMD preferred + 파운드리</td></tr>
+        <tr><td>핵심 스토리(narrative)</td><td>HBM3E 단독·HBM 전체 1위</td><td>DDR5/eSSD #1 + HBM4 양산 선두 + AMD preferred + 파운드리</td></tr>
         <tr><td>적합 투자자</td><td>사이클 정점 leverage 추구</td><td>안정·다각화·주주환원 추구</td></tr>
       </table>
-      <p><b>→ 포트폴리오에서 두 종목은 보완재 성격</b> (substitute가 아닌 complement). SK가 사이클 정점 leverage라면 삼성은 다각화·차세대 narrative.</p>
+      <p><b>→ 포트폴리오에서 두 종목은 보완재 성격</b> (substitute가 아닌 complement). SK가 사이클 정점 leverage라면 삼성은 다각화·차세대 스토리(narrative).</p>
     </section>
 
     <!-- 부록 -->

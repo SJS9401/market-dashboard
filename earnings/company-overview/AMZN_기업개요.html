@@ -1,57 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>AMZN — 기업 개요 (v4.8 retrofit, dark standard)</title>
+<html lang="ko"><head><meta charset="UTF-8"><title>AMZN — 기업 개요</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-  body {
-    background: #0f1419;
-    color: #e6e6e6;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 40px 30px;
-    line-height: 1.6;
-  }
-  h1 { color: #4ec9b0; border-bottom: 2px solid #2d3748; padding-bottom: 12px; font-size: 28px; }
-  h2 { color: #76b9c4; margin-top: 36px; border-left: 4px solid #76b9c4; padding-left: 12px; font-size: 22px; }
-  h3 { color: #c5a572; margin-top: 28px; font-size: 18px; }
-  h4 { color: #c5a572; font-size: 15px; }
-  table {
-    border-collapse: collapse;
-    margin: 16px 0;
-    width: 100%;
-    font-size: 13px;
-  }
-  th, td {
-    border: 1px solid #3a4658;
-    padding: 6px 10px;
-    text-align: right;
-  }
-  th { background: #1f2937; color: #76b9c4; }
-  td:first-child, th:first-child { text-align: left; }
-  code { background: #1f2937; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #f0b070; }
-  img { max-width: 100%; margin: 12px 0; border-radius: 6px; background: #ffffff; padding: 4px; }
-  strong { color: #f0b070; }
-  blockquote {
-    border-left: 4px solid #4ec9b0;
-    padding: 14px 18px;
-    color: #b4c2ce;
-    font-style: italic;
-    background: #1a2330;
-    margin: 14px 0;
-  }
-  ul, ol { margin: 8px 0 8px 24px; }
-  li { margin: 4px 0; }
-  a { color: #76b9c4; }
-  hr { border: none; border-top: 1px solid #2d3748; margin: 28px 0; }
-</style>
-</head>
-<body>
-<div id="content">렌더링 중...</div>
+  body { background:#0f1419; color:#e6e6e6;
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    max-width:1280px; margin:0 auto; padding:40px 30px; line-height:1.6; }
+  h1 { color:#4ec9b0; border-bottom:2px solid #2d3748; padding-bottom:12px; font-size:28px; }
+  h2 { color:#76b9c4; margin-top:36px; border-left:4px solid #76b9c4; padding-left:12px; font-size:22px; }
+  h3 { color:#c5a572; margin-top:28px; font-size:18px; }
+  h4 { color:#c5a572; font-size:15px; }
+  table { border-collapse:collapse; margin:16px 0; width:100%; font-size:13px; }
+  th, td { border:1px solid #3a4658; padding:6px 10px; text-align:right; }
+  th { background:#1f2937; color:#76b9c4; }
+  td:first-child, th:first-child { text-align:left; }
+  code { background:#1f2937; padding:2px 6px; border-radius:3px; font-size:13px; color:#f0b070; }
+  img { max-width:100%; margin:12px 0; border-radius:6px; background:#ffffff; padding:4px; }
+  strong { color:#f0b070; }
+  blockquote { border-left:4px solid #4ec9b0; padding:14px 18px; color:#b4c2ce; font-style:italic; background:#1a2330; margin:14px 0; }
+  ul, ol { margin:8px 0 8px 24px; }
+  li { margin:4px 0; }
+  a { color:#76b9c4; }
+  hr { border:none; border-top:1px solid #2d3748; margin:28px 0; }
+</style></head>
+<body><div id="content">렌더링 중...</div>
 <script id="md-source" type="text/markdown">
 # AMZN (Amazon.com, Inc.) — 기업 개요 리포트 v1.2
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **작성일**: 2026-05-19
 **대상 기업**: Amazon.com, Inc. (NASDAQ: AMZN, CIK 0001018724)
@@ -745,11 +720,36 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 - 14종 차트 임베드 (chart1, chart1b, chart2_AWS/NA/Intl, chart4-12)
 
 **v1.2 (2026-05-19 갱신, IR 장기 시계열 보강)**:
-- BT 피드백: v1.1의 IR 자료가 단기 (2022 이�
+- BT 피드백: v1.1의 IR 자료가 단기 (2022 이후 위주, ~5년)였음. 장기 시계열로 확장.
+- **추가 작업**:
+  - SEC 8-K 149개 batch 다운로드 (Item 2.02 = earnings release 식별)
+  - SEC 8-K Exhibit 99.1 HTM 35개 다운로드 (Q4 2014~Q3 2021 + 누락 분기)
+  - IR PDF 추가 다운로드 (Q4 2019, Q1 2020)
+  - **총 47개 IR earnings release** 확보 → **45분기 연속 시계열 (~11.5년)**
+- **추가 데이터**:
+  - 11년 연간 product breakdown (2015~2025) — 양식 변경 매핑 명시
+  - 35분기 stacked chart (Q3 2017~Q1 2026) — Q4 holiday spike + AWS 가속 시각화
+  - AWS 분기 매출 45분기 + YoY% (Q1 2015~Q1 2026)
+  - 사이클 단계별 AWS 성장률 분석 (초기/안정/COVID/둔화/AI 재가속)
+- 신규 차트 3개 추가 (chart3 11년 연간 stack, chart14 35분기 stack, chart15 AWS 45분기 장기)
+
+**v1.1 (2026-05-19 갱신, IR 자료 보강)**:
+- BT 요청으로 **Amazon IR Earnings Release PDF 12개 추가 다운로드·parse**
+- 추가 데이터 통합:
+  - 7개 product 카테고리별 매출 시계열 (Online stores / Physical / 3P seller / Advertising / Subscription / AWS / Other) — IR Supplemental Financial Information page (4Q20~1Q26, 21분기)
+  - AWS 분기 OPM 정확치 (24.0% ~ 39.5% 변동) + AWS TTM OPM 추이 (37.0% → 35.2%)
+  - Q1 2026 TTM 8개 지표 (Revenue/OP/NI/CashFlow/CapEx/FCF/EPS/AWS 등)
+  - **Custom silicon (Trainium/Graviton/Nitro) $20B+ annualized run rate** — IR-only 신규 공시
+  - **OpenAI 2GW Trainium commitment + Anthropic 5GW** — Q1 2026 어닝 발표
+  - 2.1M+ AI 칩 출하 (TTM)
+  - WW paid units +15% (COVID 이후 최고)
+  - Q1 2026 $53.4B 장기채 발행 (현금 $104.7B 도달)
+  - Stock-based awards 추이 (283M → 195M, dilution 압력 완화)
+  - Project Hail Mary $615M 박스오피스
+  - Amazon Leo (위성) Delta Airlines 계약
+- 신규 차트 4개 추가 (chart3 제품별 매출, chart3b 고성장 서비스, chart10b 분기 시계열 확장, chart13 AWS TTM)
+- 잔여 보완 후보 (v1.2): (1) 2022 Q2 product breakdown 추정치 정밀화, (2) AWS sub-services revenue mix 정량화, (3) Anthropic 추가 라운드 진행 시 분석 갱신
+
 </script>
-<script>
-const text = document.getElementById("md-source").textContent;
-marked.setOptions({ breaks: false, gfm: true });
-document.getElementById("content").innerHTML = marked.parse(text);
-</script>
+<script>const text=document.getElementById("md-source").textContent;marked.setOptions({breaks:false,gfm:true});document.getElementById("content").innerHTML=marked.parse(text);</script>
 </body></html>

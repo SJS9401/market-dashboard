@@ -108,15 +108,15 @@
       <span class="tag semi">반도체</span>
       <span class="tag power">전력</span>
       <h1>에이전트AI 테마 분석 (v4)</h1>
-      <div class="meta">narrative: 에이전트AI · 병목: 추론 인프라 (반도체 + 전력) · last_updated 2026-05-26 (v4) · parent_industry: 반도체 / cross-ref: 전력 인프라</div>
+      <div class="meta">스토리(narrative): 에이전트AI · 병목: 추론 인프라 (반도체 + 전력) · last_updated 2026-05-26 (v4) · parent_industry: 반도체 / cross-ref: 전력 인프라</div>
     </div>
 
     <div class="narrative">
-      <b>본 테마 frame</b>: 에이전트AI는 narrative-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 <b>추론 인프라</b>에 집중되고, 추론 인프라는 <b>반도체 + 전력</b> 두 축. HBM은 이미 시장이 반영했고 <b>신규 병목은 레거시 메모리·광통신·CPU·CoWoS + ★ v4 800VDC 전환 (NVIDIA Kyber Ultra 660kW)</b>로 확장.
+      <b>본 테마 frame</b>: 에이전트AI는 스토리(narrative)-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 <b>추론 인프라</b>에 집중되고, 추론 인프라는 <b>반도체 + 전력</b> 두 축. HBM은 이미 시장이 반영했고 <b>신규 병목은 레거시 메모리·광통신·CPU·CoWoS + ★ v4 800VDC 전환 (NVIDIA Kyber Ultra 660kW)</b>로 확장.
     </div>
 
     <div class="narrative" style="background:#eef3fa;border:1px dashed var(--accent);color:#1a3a68;font-style:normal">
-      <b>점유율·CAPA 표기 기준</b>: 본 분석(테마/기업 분석 공통)의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·Astute Group 등 메모리 시장 표준 metric). <b>CAPA는 wafer 기준</b> (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+      <b>점유율·CAPA 표기 기준</b>: 본 분석(테마/기업 분석 공통)의 모든 % 점유율은 <b>매출 기준</b> (TrendForce·Counterpoint·Astute Group 등 메모리 시장 표준 metric). <b>CAPA는 wafer 기준</b> (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
     </div>
 
     <section id="sum">
@@ -152,7 +152,7 @@
       <table>
         <tr><th width="180">단계</th><th>핵심 결론</th></tr>
         <tr><td><b>Step 0. 산업기초</b></td><td>✓ 반도체_산업기초.md / ✓ 전력 인프라_산업기초.md (둘 다 (A) 구조적 메가 병목)</td></tr>
-        <tr><td><b>Step 1. 정의·트렌드</b></td><td>AI 메가 트렌드 안의 에이전트 narrative</td></tr>
+        <tr><td><b>Step 1. 정의·트렌드</b></td><td>AI 메가 트렌드 안의 에이전트 스토리(narrative)</td></tr>
         <tr><td><b>Step 2. 병목 역추적</b></td><td>에이전트 = 토큰 20-30x → 추론 인프라 동시 병목</td></tr>
         <tr class="bottleneck-A"><td><b>Step 3. 병목 인뎁스 (★)</b></td><td>반도체: HBM(이미 반영) + <b>레거시 메모리·광통신·CPU·CoWoS(신규)</b> / 전력: 전력 485→950 TWh·변압기 128주·<b>가스터빈 3사 capa 25-35%</b>·SMR 22 GW</td></tr>
         <tr><td><b>Step 4. 통합 Moat view</b></td><td>segment별 글로벌 강자 1-5위에 한국 다수. <b>SMR 4 layer 확장 (본체·사업자·부품·EPC) → 두산에너빌리티 forging 글로벌 5사 중 1, 현대건설 EPC</b></td></tr>
@@ -174,7 +174,7 @@
       <h2>Step 1. 테마 키워드 정의 + 상위 트렌드</h2>
       <table>
         <tr><th>요소</th><th>단순 chat</th><th>에이전트AI</th></tr>
-        <tr><td>입출력 구조</td><td>1 요청 → 1 응답</td><td>지시 → multi-step plan → tool call → ... → 자체 종료</td></tr>
+        <tr><td>입출력 구조</td><td>1 요청 → 1 응답</td><td>지시 → multi-step plan → 도구 호출(tool call) → ... → 자체 종료</td></tr>
         <tr><td>도구 사용</td><td>❌</td><td>✓ (브라우저·코드·API·DB)</td></tr>
         <tr><td>평균 turn</td><td>1</td><td>10~100+ (코딩 1000+)</td></tr>
       </table>
@@ -266,7 +266,7 @@
         <span class="badge">★ 신규 병목 #3</span>
         <h3 class="new">3-2-4. CPU (서버) — host CPU 부담 증가</h3>
       </div>
-      <p>AI 서버 = GPU 8장 + host CPU 2장. 에이전트는 tool call·컨텍스트 관리로 CPU 비례 증가. Grace·GB200처럼 ARM CPU와 GPU 직접 결합도 표준화.</p>
+      <p>AI 서버 = GPU 8장 + host CPU 2장. 에이전트는 도구 호출(tool call)·컨텍스트 관리로 CPU 비례 증가. Grace·GB200처럼 ARM CPU와 GPU 직접 결합도 표준화.</p>
       <div class="chart-card">
         <h4>서버 CPU 글로벌 점유 추이</h4>
         <canvas id="cpuChart" height="180"></canvas>
@@ -302,7 +302,7 @@
         <tr><td>일반 데이터센터 rack</td><td>15-25 kW</td></tr>
         <tr class="bottleneck-A"><td><b>GB200 NVL72 rack (72 GPU)</b></td><td><b>~130 kW</b> (5-10x)</td></tr>
         <tr><td>AI 데이터센터 단지</td><td>100-500 MW</td></tr>
-        <tr><td>hyperscaler 신규 캠퍼스</td><td>1-2 GW</td></tr>
+        <tr><td>하이퍼스케일러 신규 캠퍼스</td><td>1-2 GW</td></tr>
       </table>
 
       <h3>3-3-2. 글로벌 데이터센터 전력 수요 (IEA)</h3>
@@ -411,7 +411,7 @@
       <table>
         <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
         <tr class="kr-highlight"><td>1</td><td><b>삼성전자</b></td><td>🇰🇷</td><td>~42%</td><td>DRAM 종합 1위</td></tr>
-        <tr class="kr-highlight"><td>2</td><td><b>SK하이닉스</b></td><td>🇰🇷</td><td>~33%</td><td>capa 2026까지 sold out</td></tr>
+        <tr class="kr-highlight"><td>2</td><td><b>SK하이닉스</b></td><td>🇰🇷</td><td>~33%</td><td>capa 2026까지 공급 매진</td></tr>
         <tr><td>3</td><td>Micron</td><td>🇺🇸</td><td>~24%</td><td>추격</td></tr>
       </table>
 
@@ -456,7 +456,7 @@
         <tr><th>#</th><th>기업</th><th>국적</th><th>점유</th><th>Moat</th></tr>
         <tr><td>1</td><td><b>NVIDIA</b></td><td>🇺🇸</td><td><b>추론 80%+</b></td><td>CUDA·NVLink·Dynamo</td></tr>
         <tr><td>2</td><td>AMD</td><td>🇺🇸</td><td>5-10%</td><td>MI300X·MI350·MI400</td></tr>
-        <tr><td>3</td><td>Broadcom ASIC (TPU·MTIA)</td><td>🇺🇸</td><td>hyperscaler 30%+</td><td>Google·Meta</td></tr>
+        <tr><td>3</td><td>Broadcom ASIC (TPU·MTIA)</td><td>🇺🇸</td><td>하이퍼스케일러 30%+</td><td>Google·Meta</td></tr>
       </table>
 
       <h4>CoWoS·첨단 패키징 + 첨단 노드</h4>
@@ -621,7 +621,7 @@
           <td class="pq">+8·0%</td>
           <td class="pq">+10·10·8·8%</td>
           <td class="pq">+40·30%</td>
-          <td><b>P</b>: HBM4 mix↑·신규 capa로 둔화 / <b>Q</b>: NVIDIA Rubin·hyperscaler allocation</td>
+          <td><b>P</b>: HBM4 mix↑·신규 capa로 둔화 / <b>Q</b>: NVIDIA Rubin·하이퍼스케일러 allocation</td>
           <td><b>SK·삼성</b>·Micron</td>
         </tr>
         <tr>
@@ -641,7 +641,7 @@
           <td class="pq">+25·10%</td>
           <td class="pq">+15·20·20·25%</td>
           <td class="pq">+50·40%</td>
-          <td><b>P</b>: NAND 사이클 + AI premium / <b>Q</b>: KV cache·VectorDB·체크포인트</td>
+          <td><b>P</b>: NAND 사이클 + AI 프리미엄 / <b>Q</b>: KV cache·VectorDB·체크포인트</td>
           <td><b>삼성·SK Group</b>·Kioxia·WD·Micron</td>
         </tr>
         <tr>
@@ -651,7 +651,7 @@
           <td class="pq">+5·+3%</td>
           <td class="pq">+20·25·25·20%</td>
           <td class="pq">+35·25%</td>
-          <td><b>P</b>: Blackwell→Rubin 노드 transition / <b>Q</b>: hyperscaler capex $700B·에이전트 추론</td>
+          <td><b>P</b>: Blackwell→Rubin 노드 transition / <b>Q</b>: 하이퍼스케일러 capex $700B·에이전트 추론</td>
           <td>NVIDIA·AMD·Broadcom ASIC</td>
         </tr>
         <tr>
@@ -671,7 +671,7 @@
           <td class="pq">+10·+8%</td>
           <td class="pq">+10·12·12·15%</td>
           <td class="pq">+25·20%</td>
-          <td><b>P</b>: AMD EPYC premium·ARM share↑ / <b>Q</b>: AI 서버 1대당 CPU 2장</td>
+          <td><b>P</b>: AMD EPYC 프리미엄·ARM share↑ / <b>Q</b>: AI 서버 1대당 CPU 2장</td>
           <td>Intel·AMD·ARM (한국 ❌)</td>
         </tr>
         <tr>
@@ -681,7 +681,7 @@
           <td class="pq">+10·+5%</td>
           <td class="pq">+25·25·25·25%</td>
           <td class="pq">+60·40%</td>
-          <td><b>P</b>: TSMC capa 부족 premium / <b>Q</b>: capa 75K→130K wafer/월</td>
+          <td><b>P</b>: TSMC capa 부족 프리미엄 / <b>Q</b>: capa 75K→130K wafer/월</td>
           <td>TSMC·Amkor·Intel·삼성 — <b>한미·이오 (장비)</b></td>
         </tr>
         <tr>
@@ -736,7 +736,7 @@
           <td class="pq">+10·+8%</td>
           <td class="pq">+10·12·15·15%</td>
           <td class="pq">+25·20%</td>
-          <td><b>P</b>: 동·해상 premium / <b>Q</b>: 해상풍력 + DC 인입</td>
+          <td><b>P</b>: 동·해상 프리미엄 / <b>Q</b>: 해상풍력 + DC 인입</td>
           <td>Prysmian·Nexans·NKT·<b>LS·LS전선·대한전선</b></td>
         </tr>
         <tr>
@@ -746,7 +746,7 @@
           <td class="pq">UPS +5·+3% / ESS +10·+8%</td>
           <td class="pq">UPS +12·15·15·15% / ESS +20·25·25·25%</td>
           <td class="pq">UPS +20·15% / ESS +50·35%</td>
-          <td><b>P</b>: UPS 안정·ESS 배터리↓ premium / <b>Q</b>: DC + 재생E 통합</td>
+          <td><b>P</b>: UPS 안정·ESS 배터리↓ 프리미엄 / <b>Q</b>: DC + 재생E 통합</td>
           <td>Schneider·Eaton·Vertiv (UPS) / LG·삼성SDI·CATL (ESS)</td>
         </tr>
         <tr>
@@ -756,7 +756,7 @@
           <td class="pq">+5·+5%</td>
           <td class="pq">+25·30·30·30%</td>
           <td class="pq">+60·50%</td>
-          <td><b>P</b>: 안정·CAGR premium / <b>Q</b>: GB200 130 kW rack 필수</td>
+          <td><b>P</b>: 안정·CAGR 프리미엄 / <b>Q</b>: GB200 130 kW rack 필수</td>
           <td>Vertiv·Schneider·Rittal·Stulz·Boyd</td>
         </tr>
         <tr>
@@ -766,7 +766,7 @@
           <td class="pq">+15·+10%</td>
           <td class="pq">+15·18·20·22%</td>
           <td class="pq">+30·25%</td>
-          <td><b>P</b>: 3사 과점·premium / <b>Q</b>: 1Q25 28 GW·capa 25-35%↑</td>
+          <td><b>P</b>: 3사 과점·프리미엄 / <b>Q</b>: 1Q25 28 GW·capa 25-35%↑</td>
           <td>GE·Siemens·Mitsubishi (3사 capa 2/3)</td>
         </tr>
         <tr>
@@ -805,7 +805,7 @@
       <table>
         <tr><th>항목</th><th>결론</th></tr>
         <tr><td>산업 유형</td><td><b>메가 트렌드</b> (AI 슈퍼사이클 2단)</td></tr>
-        <tr><td>단계</td><td>초기-중기 (2024-25 narrative → 2026-2030+ Q 폭발)</td></tr>
+        <tr><td>단계</td><td>초기-중기 (2024-25 스토리(narrative) → 2026-2030+ Q 폭발)</td></tr>
         <tr><td>글로벌 트렌드 관통 + 한국 Moat</td><td>★★★ — 16 segment 중 <b>9 segment 한국 글로벌 Top 5</b> (SMR 부품 추가)</td></tr>
         <tr class="bottleneck-A"><td><b>주도 섹터 가능성</b></td><td><span class="star">★★★ 매우 높음</span></td></tr>
       </table>
@@ -815,8 +815,8 @@
       <h2>Step 7. 리스크 팩터</h2>
       <table>
         <tr><th>리스크</th><th>확률</th><th>임팩트</th><th>시그널</th></tr>
-        <tr><td>에이전트 narrative 약화</td><td>25%</td><td>매우 큼</td><td>Anthropic·OpenAI ARR 정체</td></tr>
-        <tr><td>AI capex 변곡점</td><td>25%</td><td>큼 (12-18개월 침체)</td><td>hyperscaler capex 가이던스 하향</td></tr>
+        <tr><td>에이전트 스토리(narrative) 약화</td><td>25%</td><td>매우 큼</td><td>Anthropic·OpenAI ARR 정체</td></tr>
+        <tr><td>AI capex 변곡점</td><td>25%</td><td>큼 (12-18개월 침체)</td><td>하이퍼스케일러 capex 가이던스 하향</td></tr>
         <tr><td>추론 효율 급격 개선</td><td>50% (진행)</td><td>양면</td><td>2027-28 변곡점</td></tr>
         <tr><td><b>메모리 가격 reset</b></td><td>20%</td><td>큼</td><td>DRAM YoY 둔화</td></tr>
         <tr><td>미·중 디커플링 강화</td><td>30%</td><td>중</td><td>추가 수출규제</td></tr>
@@ -845,7 +845,7 @@
             <li>HBM 가격 (TrendForce)</li>
             <li><b>DDR5 server 가격 (DRAMeXchange)</b> ★</li>
             <li><b>eSSD Top 5 분기 매출 (TrendForce)</b> ★</li>
-            <li><b>800G/1.6T shipment (Cignal AI)</b> ★</li>
+            <li><b>800G/1.6T 출하 (Cignal AI)</b> ★</li>
             <li><b>서버 CPU 점유 (Mercury Research)</b> ★</li>
           </ul>
         </div>
@@ -858,12 +858,12 @@
             <li>SMR 신규 PPA</li>
             <li><b>두산에너빌리티 SMR 부품 수주</b> ★ 신규</li>
             <li><b>현대건설 Holtec 협력 진행</b> ★ 신규</li>
-            <li>IEA 데이터센터 전력 / hyperscaler capex</li>
+            <li>IEA 데이터센터 전력 / 하이퍼스케일러 capex</li>
           </ul>
           <h4>상방·하방</h4>
           <ul>
-            <li><b>상방</b>: 에이전트 ARR hockey stick / SMR mega deal / 가스터빈 mega 계약 / HBM4 양산 + 가격 +30% / DDR5 추가 인상 / 한국 변압기 수주잔고 50조 / 1.6T 본격 양산 / <b>두산 SMR forging mega 계약 ★</b></li>
-            <li><b>하방</b>: 모델 plateau / NVIDIA 가이던스 하향 / hyperscaler capex 하향 / 효율 너무 빨라 수요 reset / 메모리 가격 둔화 / SMR 인허가 지연</li>
+            <li><b>상방</b>: 에이전트 ARR hockey stick / SMR 대형 계약(mega deal) / 가스터빈 mega 계약 / HBM4 양산 + 가격 +30% / DDR5 추가 인상 / 한국 변압기 수주잔고 50조 / 1.6T 본격 양산 / <b>두산 SMR forging mega 계약 ★</b></li>
+            <li><b>하방</b>: 모델 plateau / NVIDIA 가이던스 하향 / 하이퍼스케일러 capex 하향 / 효율 너무 빨라 수요 reset / 메모리 가격 둔화 / SMR 인허가 지연</li>
           </ul>
         </div>
       </div>
@@ -903,7 +903,7 @@
     </section>
 
     <div class="footer">
-      <b>v4 변경사항</b>: ★ 800VDC 전환 (HVDC Power Rack·SST·SSCB·DC busway) 신규 segment 추가 — SemiAnalysis 2026-05-26 Part 1 기반. LS ELECTRIC narrative 재평가 (DC 분야 한국 선도, UL 1500V DC MCCB 최초). 17 segment 중 한국 글로벌 Top 5 = 10개 (v3 9개 → +1). v1-v3 변경: (5) 카테고리 풀이 일괄 강화 / (6) HTML 4-3 중복 제거 / (7) Step 5 시간축 PQ (4Q+2Y) / (8) P·Q 변동 근거 컴팩트 / (9) SMR 4 layer 확장 (두산·현대건설 포함)<br/>
+      <b>v4 변경사항</b>: ★ 800VDC 전환 (HVDC Power Rack·SST·SSCB·DC busway) 신규 segment 추가 — SemiAnalysis 2026-05-26 Part 1 기반. LS ELECTRIC 스토리(narrative) 재평가 (DC 분야 한국 선도, UL 1500V DC MCCB 최초). 17 segment 중 한국 글로벌 Top 5 = 10개 (v3 9개 → +1). v1-v3 변경: (5) 카테고리 풀이 일괄 강화 / (6) HTML 4-3 중복 제거 / (7) Step 5 시간축 PQ (4Q+2Y) / (8) P·Q 변동 근거 컴팩트 / (9) SMR 4 layer 확장 (두산·현대건설 포함)<br/>
       theme_keyword: <b>에이전트AI</b> · bottleneck_category: <b>(A) 구조적 메가 병목 + (D) 동반 확대 hybrid</b> · last_updated: <b>2026-05-26</b>
     </div>
   </main>

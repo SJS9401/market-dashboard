@@ -183,13 +183,12 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-03 (자동 실행)**
+> **최종 갱신: 2026-06-04 (자동 실행)**
 
 ### 6월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q2 FY2026 — 컨센 매출 $22.08B / AI 수익 ~$10.7B, 메타 MTIA·구글 TPU ASIC, AI 네트워킹 (확정, Broadcom 공식 발표, 2:00 PM PT / 5:00 PM ET 컨퍼런스콜) |
 | 6/10 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 — 가이던스 매출 +18~20% CC·비GAAP EPS $1.96~2.00, FY27 가이던스 $90B 상향 (확정, 6/1 재확인 — eciks.org 5/26 "Q4 2026 Earnings Date: June 10, 2026" 명시·MarketBeat·역사 패턴(FY25: 6/9, FY24: 6/10, FY23: 6/12) 모두 6/10 일치. 이전 TipRanks 6/16은 오류로 정정) |
 | 6/24 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정, Micron 공식 발표 + Investing.com 5/30 재확인, KST 6/25 새벽 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
 
@@ -209,6 +208,8 @@
 | 7/16 | ABB (ABB) | 전력 | Q2 2026 (공식 IR 확정 — 변압기·차단기·GIS, 산업 사이클 cue) |
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
+| 7/22 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (7/22 확정 — 다수 소스 일치, Q1: 4/23 역사 패턴. 이전 7/29 오류 정정) |
+| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (7/22 확정 — 다수 소스 일치. 이전 7/28 오류 정정) |
 | (~7/22) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/22) |
 | 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
@@ -220,9 +221,7 @@
 | (~7/28) | 삼성SDI | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/28) |
 | (~7/28) | 현대건설 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/28) |
 | 7/28 | RTX (RTX) | 방산 | BMO, Q2 2026 (확정 — 방산+항공엔진, 수주잔고) |
-| 7/28 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (확정, TipRanks 5/26 재확인 — 7/28 확정, 소스 혼재 해소) |
 | 7/28 | Microsoft (MSFT) | 빅테크 | Q4 FY2026, AMC (확정, Microsoft 공식 발표 2026-04-08) |
-| 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 — TipRanks 확정 7/29 (5/19 재업데이트, 이전 7/22 추정 소스 오류 정정) |
 | 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
 | 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
@@ -272,12 +271,19 @@
 | 8/18 | Oklo (OKLO) | 원전 | Q2 2026, AMC — 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치, Q1: 5/12 순손실 $33.1M·EPS -$0.19, 현금 $2.5B 충분) |
 | 8/26 | Nvidia (NVDA) | 반도체 | AMC, Q2 FY2027 (확정, TipRanks·MarketBeat) — Q1 FY2027 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 
+### 9월
+
+| 날짜 | 종목명(티커) | 산업 | 비고 |
+|------|------------|------|------|
+| 9/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q3 FY2026 (확정, TipRanks·Investing.com — Q2 매출 $22.2B +48% YoY, Q3 가이던스 ~$29.4B, 메타 MTIA·구글 TPU ASIC) |
+
 ---
 
 ## 아카이브 (발표 완료)
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC 발표 완료 (Q2 FY2026, 매출 $22.2B +48% YoY, 비GAAP EPS $2.44, AI 반도체 매출 레코드, 자유현금흐름 $14.5B, Q3 가이던스 ~$29.4B. 메타 MTIA·구글 TPU ASIC 가속) |
 | 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC 발표 완료 (Q1 FY2027, 매출 $2.418B +28% YoY beat vs 컨센 $2.41B, non-GAAP EPS $0.80 beat vs $0.75, Q2 가이던스 ~$2.7B +35% YoY, FY2027 매출 ~$11B·FY2028 ~$15B 상향, AWS 트레이니움·MS Maia ASIC, 광통신 사이클) |
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC 발표 완료 (Q1 FY2027, 매출 $81.6B +85.2% YoY beat vs 컨센 $80.4B, EPS $2.39 +214.5% YoY beat vs $1.79, Data Center $75.2B +100% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회) |
 | (5월중) | SK증권 | 금융 | 1Q26 실적 — FnGuide 미등재, 정확한 발표일 미확인 (과거 패턴 추정 기간 경과) |

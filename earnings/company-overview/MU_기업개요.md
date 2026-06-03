@@ -6,6 +6,8 @@
 > 출처: SEC EDGAR 10-K 15개 (FY11~FY25) + 10-Q 47개, Yahoo Finance v8 (MU 20년), Micron IR Quarterly Results, FY25 10-K Item 1·8
 
 # Micron Technology 기업 개요 (v4.9 — 1번 섹션 표준화)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 
@@ -159,7 +161,8 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 - 2023-06 적자 -$5.8B 발표 ($63, 시총 $69B)
 - 2024-03 HBM3E 8단 NVIDIA 본격 출하 발표 ($120, 시총 $132B)
 - **2026-03-18 FY26 Q2 매출 $23.86B (사상최대), Non-GAAP EPS $12.20 (사상최대 Beat) → 폭락 -30% (GPM 피크 시그널)**
-- **2026-05 현재 약 $542 (시총 $602B), 6주 평균 PT $267 → $517 (+94%) 상향**
+- 2026-05 작성 시점: 약 $542 (시총 $602B), 6주 평균 PT $267 → $517 (+94%) 상향
+- **2026-06-03 ATH 갱신: 시총 $1.20T (글로벌 #12) [Source: companiesmarketcap.com]** — 메모리 슈퍼사이클 정점 진입 + HBM3E/HBM4 NVIDIA·AMD 공급 본격 + SCA 다년 계약 확대 + Idaho/NY fab CHIPS Act funding gains
 
 (4) 회사 연혁 (주요 마일스톤)
 

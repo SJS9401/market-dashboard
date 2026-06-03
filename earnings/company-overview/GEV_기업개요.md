@@ -6,6 +6,8 @@
 > 출처: **GEV Form 10-K 2025 + 10-K 2024 (SEC EDGAR 자동 fetch, CIK 0001996810)**, **10-Q 7건 (Q1 2024-Q1 2026)**, **GEV Annual Report 2025 (8.6MB)**, **Form 10 Registration Statement 2024.03 (분사 historical)**, **GEV IR Q1 2026 press + presentation**, **Yahoo Finance GEV 5년 (2024.04 상장 이후)**
 
 # GE Vernova 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 
@@ -196,7 +198,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 ![GE Vernova Market Cap Trend](charts/GEV_chart11_market_cap_5y.png)
 
-→ **2024.04.02 분사 직후 시가총액 ~$40B → 2026.05 시가총액 ~$200B+ (5배+ 폭등)** — 한국 3사 대비 더 가파른 secular 수혜
+→ **2024.04.02 분사 직후 시가총액 ~$40B → 2026.05 시가총액 ~$200B+ → 2026-05-08 ATH $266.5B (6.7배 폭등)** [Source: companiesmarketcap.com] — 한국 3사 대비 더 가파른 secular 수혜, AI 데이터센터 전력 인프라 수요 폭증 가속
 
 (4) 주요 연혁
 

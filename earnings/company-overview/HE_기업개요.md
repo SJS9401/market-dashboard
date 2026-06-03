@@ -7,6 +7,8 @@
 > 출처: **Hitachi Integrated Report 2025·2024 (11MB·5MB)**, **Hitachi Annual Securities Report FY2024 (39MB)**, **Hitachi FY2025 Annual·Q1·Q2·Q3 Press Releases**, **Hitachi Energy CFO IR Day Oct 2025 (Ismo Haka)**, **HE Sustainability Report 2025 (FY24 fiscal data)**, **HE India Q4FY25·Q1FY26 press release**, **HE Leadership Page (hitachienergy.com)**, **Hitachi Officers (hitachi.com)**, **Yahoo Finance 6501.T 30y + POWERINDIA.NS 3.3y + HTHIY ADR**
 
 # Hitachi Energy 기업 개요 (v1.0 — 전력 인프라 T1 / 비상장 글로벌 자회사 + 인도 상장 자회사 + 모회사 segment 분해)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 

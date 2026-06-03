@@ -6,6 +6,8 @@
 > 출처: DART 사업보고서 2014~2025, SK하이닉스 IR 분기경영실적 50개, Yahoo Finance v8, IDC, Gartner
 
 # SK하이닉스 기업 개요 (v4.9 — 1번 섹션 표준화)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 

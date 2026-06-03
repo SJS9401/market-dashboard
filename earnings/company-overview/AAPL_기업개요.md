@@ -1,4 +1,6 @@
 # AAPL (Apple Inc.) — 기업 개요 리포트 v1.4 (FINAL)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **작성일**: 2026-05-19 (v1.0 → v1.1 → v1.2 → v1.3 → **v1.4 FINAL 보완: 78분기 = 19.5년, iPhone 1세대 launch 시점부터 풀 커버**)
 **대상 기업**: Apple Inc. (NASDAQ: AAPL, CIK 0000320193)

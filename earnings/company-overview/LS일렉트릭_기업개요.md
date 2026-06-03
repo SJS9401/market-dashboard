@@ -6,6 +6,8 @@
 > 출처: DART 사업보고서 12년치 (corp_code 00105855), **DART 본문 사업보고서 2025 (rcpNo=20260318001243, 본문 7.9M chars, dart3.fss /report/viewer.do 자동 fetch — v1.3 신규)**, 1Q26 분기보고서 (2026.05.14), LS ELECTRIC IR 분기경영실적 PDF 20개 (2020.4Q~2026.1Q, 자동 web_fetch), 12개 증권사 1Q26 review, Yahoo Finance 010120.KS 20년 월간 시계열 (자동 web_fetch), LS-electric Sustainability Report 2024-2025 (자동 web_fetch)
 
 # LS ELECTRIC 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ![LS ELECTRIC 제품·서비스 매트릭스 (FY25 연결)](charts/LS일렉트릭_chart3_제품매트릭스.png)
 

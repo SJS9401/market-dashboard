@@ -29,7 +29,7 @@ analyst_reports_attached:
 
 > **본 분석 frame**: 에이전트AI 테마 분석(v3)의 16 segment 중 **SK하이닉스는 HBM #1 + DDR5 server #2 + eSSD #2 (3 segment 글로벌 Top 2)**. 단일 기업이 본 테마 반도체 측 핵심 segment 다수에서 글로벌 1-2위를 점유한 매우 예외적 위치. 본 분석은 그 해자 깊이를 정량·정성 검증.
 
-> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
+> **점유율·CAPA 표기 기준**: 본 분석의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서 다루지 않음.
 
 ---
 
@@ -67,7 +67,7 @@ analyst_reports_attached:
 | **HBM3E (현재 주력)** | NVIDIA H100/H200/Blackwell 단독 | **#1** | 단독공급 유지 |
 | **HBM4 (NVIDIA Rubin)** | **약 2/3 (67%) majority** | **#1** | 삼성·Micron 1/3 dual sourcing |
 | **HBM4 (AMD MI455X)** | 미공식 (2-3순위) | — | Samsung preferred (2026.03 MoU) |
-| **레거시 DRAM (DDR5 server)** | ~33% | **#2** | capa 2026 sold out |
+| **레거시 DRAM (DDR5 server)** | ~33% | **#2** | capa 2026 공급 매진 |
 | **eSSD (SK Group)** | **30.2%** (Q4) | **#2** | Q4 +75% QoQ, Solidigm 통합 |
 
 → **HBM 전체 1위 + NVIDIA Rubin HBM4 majority 유지 + DDR5/eSSD Top 2**. 단일 기업으로 본 테마 다축 포지셔닝 유일.
@@ -96,6 +96,50 @@ analyst_reports_attached:
 
 ---
 
+## ★ 2-0. 에이전트AI 테마 logical flow — 왜 SK하이닉스가 부각받는가
+
+> **정성적 인과 사슬** (테마 v4 narrative → SK하이닉스 위치 매핑)
+
+### 1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질
+- 에이전트 1건 = chat 1턴 대비 **토큰 20-30x** (Stanford/NVIDIA 실측, 테마 v4)
+- 각 추론 단계·도구 호출·검색·메모리 갱신·tool execution = **연산(GPU/CPU) + 메모리(HBM/DRAM/SSD) + 스토리지(HDD) + IP(ARM) 모든 layer 부하 폭증**
+- agent는 stateful → 과거 trace·long-context 보존 필요 = secular 누적
+
+### 2단계: AI 인프라 layer별 분담 — SK하이닉스는 어디 위치?
+
+| Layer | 데이터/연산 유형 | 매체·아이템 | 본 테마 수혜 종목 |
+|---|---|---|---|
+| **Hot (microsec)** | KV cache, activation, 모델 가중치(active) | **HBM** | **SK·삼성·Micron (HBM)** |
+| **Warm (msec)** | 모델 가중치(off-package), 활성 dataset | **DRAM·SSD** | 메모리 3사 (DRAM) + SNDK·Solidigm (eSSD) |
+| **Warm-Cold (sec)** | 검색 코퍼스, 벡터 DB, 최근 로그 | **eSSD QLC·HBF** | SNDK (122TB QLC, HBF) |
+| **Cold (수초~분)** | 학습 데이터셋, 체크포인트, 보관 로그 | **HDD nearline** | WDC·Seagate |
+| **Compute (CPU)** | server CPU + host CPU + client CPU | **x86·ARM** | Intel·AMD·ARM 라이선시 |
+| **Compute (GPU·AI)** | training·inference 가속 | **GPU·ASIC** | NVIDIA·AMD·ARM |
+| **IP layer** | 모든 chip 상위 설계 | **ARM IP** | ARM Holdings (royalty 광범위) |
+
+
+→ **SK하이닉스 위치: **Hot (HBM)** — 본 테마의 가장 강한 병목**
+
+### 3단계: 왜 HBM이 본 테마에서 부각받는가? — 3가지 본질적 이유
+
+1. **에이전트 1건 = 토큰 20-30x (chat 대비)** → KV cache·activation 폭증 → **HBM bandwidth가 추론 throughput 결정**
+2. **NVIDIA GB200/Rubin/Kyber rack = HBM 표준 unit** → AI 가속기 BOM의 30-40% 비중 = HBM 가격이 AI 인프라 cost 직접 결정
+3. **HBM은 CAPA 병목** → wafer 1장당 3x bit 소비 (일반 DRAM 대비) + EUV 양산 한정 = 신규 진입 어려움 = 가격 결정력 절대
+
+### 4단계: 왜 SK하이닉스가 부각? — HBM 절대 #1 위치
+
+- **HBM 글로벌 점유 53-62% #1** (NVIDIA H100/H200/Blackwell 단독 공급)
+- **HBM4 NVIDIA Rubin 2/3 majority** 유지 (2026 H2~)
+- **DDR5 server #2, eSSD #2 (Solidigm 포함)** = 본 테마 3개 segment Top 2
+- **1Q26 OPM 72% record** = 메모리 사이클 정점 + HBM premium 동시 실증
+
+### 5단계: 본 분석 frame 결론
+
+**메모리 3사 중 HBM에 가장 집중된 hot layer 주도주**. 본 테마 매출 노출 60%+, Moat 4.4 (메모리 3사 중 최상). 단 HBM4 dual sourcing 본격화로 dominance 약간 약화 가능성.
+
+---
+
+
 # 항목 2. 비즈니스 모델 & 해자 (Moat) — ★ 핵심
 
 ## 2-1. 비즈니스 모델 (본 테마 사업부 중심)
@@ -114,7 +158,7 @@ analyst_reports_attached:
 
 ### DDR5 server (15% 매출)
 - HBM 우선 생산 squeeze + AI 서버 메인 메모리 수요 폭증
-- DRAM 가격 YTD +50% (2025), capa 2026 sold out
+- DRAM 가격 YTD +50% (2025), capa 2026 공급 매진
 - **2026 P 슈퍼사이클 driver**
 
 ### eSSD enterprise (8% 매출, Solidigm 포함)
@@ -134,28 +178,48 @@ analyst_reports_attached:
 | 축 | SK하이닉스 | 삼성 | Micron | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | **5** | 4 | 3 | NVIDIA H100/H200/Blackwell 단독공급, MR-MUF |
-| HBM CAPA | **5** | 4 | 3 | 현재 sold out, 알로케이션 우선권 |
-| 고객 lock-in | **5** | 3 | 3 | NVIDIA 단독 + AMD·Broadcom 메인 |
+| HBM CAPA | **5** | 4 | 3 | 현재 공급 매진, 알로케이션 우선권 |
+| 고객 락인(lock-in) | **5** | 3 | 3 | NVIDIA 단독 + AMD·Broadcom 메인 |
 | 규모 (HBM 점유) | **5** | 4 | 3 | 53% (Q3 2025), HBM 전체 1위 |
 | 병목 포지셔닝 | **5** | 3 | 3 | NVIDIA HBM 90% 공급 |
 | **평균** | **5.0** | 3.6 | 3.0 | **SK 절대 우위** |
+
+> **★ 정성: 왜 HBM3E가 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: 에이전트 토큰 20-30x → KV cache·activation 폭증 → HBM bandwidth가 추론 throughput 결정 → NVIDIA H100/H200/Blackwell 모두 HBM3E 필수 → SK 단독공급 = 가격·알로케이션 절대 결정력
+> 
+> **추가 동력 1 — NVIDIA 단독공급 lock-in**: NVIDIA AI 가속기 BOM의 30-40%가 HBM, SK MR-MUF 공정 + 12-stack 적층 기술이 NVIDIA 인증 통과 = 알로케이션 우선권 = 가격 결정력 절대
+> **추가 동력 2 — CAPA 병목 영구화**: HBM은 일반 DRAM 대비 wafer 1장당 bit 3x 소비 + EUV 양산 한정 = 신규 진입 어려움 = SK 현재 sold out
+> **추가 동력 3 — AMD·Broadcom 메인 supplier**: NVIDIA 외에도 AMD MI300/350·Broadcom AI ASIC도 SK HBM 사용 = HBM 전체 점유 53-62% 압도
+> 
+> **SK 위치의 특별함**: HBM 글로벌 점유 #1 (Q2 62% peak), NVIDIA HBM 90% 공급 = **AI 가속기 시장 절대 lock-in**
 
 ### Segment 2. HBM4 (NVIDIA Rubin, 2H26~, 매출 비중 ~15%)
 | 축 | SK하이닉스 | 삼성 | Micron | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 4 | **4** | 3 | 11Gb/s test 삼성 먼저 통과, SK 최적화 중 |
 | HBM CAPA | **5** | 4 | 3 | 2026 capa 25K wafer/월 확보 |
-| 고객 lock-in | 4 | 4 | 3 | NVIDIA Rubin SK 2/3 majority + 삼성·Micron 1/3 |
+| 고객 락인(lock-in) | 4 | 4 | 3 | NVIDIA Rubin SK 2/3 majority + 삼성·Micron 1/3 |
 | 규모 | **5** | 4 | 3 | NVIDIA Rubin 점유 67% |
 | 병목 포지셔닝 | 4 | 4 | 3 | dual sourcing 구조 |
 | **평균** | **4.4** | 4.0 | 3.0 | **SK majority 유지** |
+
+> **★ 정성: 왜 HBM4 NVIDIA Rubin이 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: NVIDIA Rubin (2026 H2~) = HBM3E → HBM4 세대 전환 → HBM4는 12-layer 표준화 + 11Gb/s speed + 데이터 처리량 1.5x → AI 가속기 차세대 BOM 핵심 → SK 2/3 majority + 삼성·Micron 1/3 dual sourcing
+> 
+> **추가 동력 1 — Rubin 288GB/GPU (Blackwell 대비 3x)**: NVIDIA가 GPU당 HBM4 적층 수를 늘리면서 단가 + 알로케이션 모두 NVIDIA Rubin이 HBM 시장 최대 driver
+> **추가 동력 2 — SK 2/3 majority 확보**: dual sourcing이지만 SK가 majority share 유지 = 매출 안정성 + 가격 결정력 일부 유지
+> **추가 동력 3 — HBM4 capa 2026 25K wafer/월 확보**: SK가 미리 capa 증설로 알로케이션 우선권 선점
+> 
+> **SK 위치의 특별함**: HBM3E 단독에서 HBM4 majority로 dominance 유지. 단 삼성 11Gb/s test 먼저 통과 + Micron 1Q26 양산 진입으로 점진적 시장 분담
 
 ### Segment 3. HBM4 (AMD MI455X, 2H26~, 매출 비중 ~5%)
 | 축 | SK하이닉스 | 삼성 | Micron | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 3 | **4** | 3 | Samsung HBM3E AMD 단독 → HBM4 우선 협력 |
 | HBM CAPA | 4 | **5** | 3 | 알로케이션 Samsung 우위 |
-| 고객 lock-in | 2 | **5** | 2 | **Samsung preferred (2026.03 MoU)** |
+| 고객 락인(lock-in) | 2 | **5** | 2 | **Samsung preferred (2026.03 MoU)** |
 | 규모 | 2 | **4** | 2 | AMD 채택 비중 작음 |
 | 병목 포지셔닝 | 3 | **4** | 2 | Samsung 진입 |
 | **평균** | **2.8** | **4.4** | 2.4 | **Samsung 우위, SK 열위** |
@@ -165,30 +229,60 @@ analyst_reports_attached:
 |---|---|---|---|---|
 | 기술/특허 | 4 | 4 | 3 | SK 2H26 샘플, 삼성 추격 |
 | HBM CAPA | 3 | 3 | 2 | 양산 미시작 |
-| 고객 lock-in | 3 | 3 | 2 | NVIDIA 차세대 인증 대기 |
+| 고객 락인(lock-in) | 3 | 3 | 2 | NVIDIA 차세대 인증 대기 |
 | 규모 | 3 | 3 | 2 | 양산 전 |
 | 병목 포지셔닝 | **4** | 3 | 2 | SK 양산 선두 시도 |
 | **평균** | **3.4** | 3.2 | 2.2 | **양산 전, SK 일부 선두** |
+
+> **★ 정성: 왜 HBM4E (2027 양산)가 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: NVIDIA 차세대 GPU (Rubin Ultra·Feynman) 2027~ = HBM4E 필수 → SK 2H26 샘플 → 2027 양산 목표 → 차세대 dominance 선점 시도
+> 
+> **추가 동력 1 — SK 2H26 첫 샘플 + 2027 양산 선두 시도**: HBM3E 단독공급 경험 + MR-MUF 공정 누적 = HBM4E 차세대도 선두 가능
+> **추가 동력 2 — 양산 미시작 = 점유 미확정**: 현재 모든 메이커가 양산 전 단계 = 차세대 dominance 경쟁 열려있음
+> **추가 동력 3 — 16-layer 적층 + 차세대 packaging**: SK MR-MUF 진화·삼성 hybrid bonding 경쟁 → 차세대 기술 path 선점이 dominance 결정
+> 
+> **SK 위치의 특별함**: 양산 전이지만 SK가 첫 샘플 + 2027 본격 양산 = 차세대 dominance 선점 가능성. 단 dual sourcing 시대 진입으로 HBM3E 단독공급 수준 우위는 어려움
 
 ### Segment 5. DDR5 server (메모리 절대 capa 비교 포함, 매출 비중 15%)
 | 축 | SK하이닉스 | 삼성 | Micron | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 4 | **5** | 3 | 삼성 DRAM 종합 기술 1위 |
 | 메모리 절대 CAPA | 4 | **5** | 3 | **삼성 600-650K wafer/월 (#1), SK 450-500K (#2)** |
-| 고객 lock-in | 4 | **5** | 3 | hyperscaler·OEM 분산 |
+| 고객 락인(lock-in) | 4 | **5** | 3 | 하이퍼스케일러·OEM 분산 |
 | 규모 (DRAM 점유) | 4 | **5** | 3 | 삼성 42%, SK 33%, Micron 24% |
-| 병목 포지셔닝 | **5** | **5** | 4 | HBM squeeze 양면 수혜 (capa 2026 sold out) |
+| 병목 포지셔닝 | **5** | **5** | 4 | HBM squeeze 양면 수혜 (capa 2026 공급 매진) |
 | **평균** | **4.2** | **5.0** | 3.2 | **삼성 우위, SK 추격** |
+
+> **★ 정성: 왜 DDR5 server가 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: HBM 우선 생산 → 일반 DRAM wafer squeeze → DDR5 server CAPA 부족 → AI server 메인 메모리 수요 폭증 (KV cache offload + 일반 추론) → DDR5 P 슈퍼사이클 (+30% YTD 2025)
+> 
+> **추가 동력 1 — KV cache offload narrative**: NVIDIA Dynamo·vLLM이 KV cache를 HBM에서 DDR5로 offload → 일반 DRAM이 "추론 active 메모리"로 격상
+> **추가 동력 2 — 메모리 절대 CAPA 우위는 삼성 (600-650K wafer/월 #1)**: SK는 450-500K #2로 추격, 알로케이션 유연성에서 삼성 대비 약함
+> **추가 동력 3 — DDR5 server 가격 +50% YTD (2025) + Q4 +30% + 2026 1H +20%**: P 슈퍼사이클 driver
+> 
+> **SK 위치의 특별함**: DDR5 점유 33% #2, capa 2026 sold out. 삼성 절대 capa 우위는 어렵지만 본 테마 직접 수혜자
 
 ### Segment 6. eSSD enterprise (메모리 절대 capa 비교 포함, 매출 비중 8%)
 | 축 | SK Group | 삼성 | Micron·Kioxia | 핵심 |
 |---|---|---|---|---|
 | 기술/특허 | 4 | **5** | 3 | Solidigm 122TB KV cache 특화 |
 | NAND 절대 CAPA | 3 | **5** | 3 | **삼성 800K wafer/월 (#1), SK Group 500K (#2)** |
-| 고객 lock-in | 4 | **5** | 3 | hyperscaler 직접 |
+| 고객 락인(lock-in) | 4 | **5** | 3 | 하이퍼스케일러 직접 |
 | 규모 (eSSD 점유 Q4) | 4 | **5** | 3 | 삼성 32.3% (#1), SK Group 30.2% (#2, +75% QoQ) |
 | 병목 포지셔닝 | **5** | **5** | 3 | KV cache offload 신규 수요 |
 | **평균** | **4.0** | **5.0** | 3.0 | **삼성 1위, SK Group 박빙 #2** |
+
+> **★ 정성: 왜 eSSD enterprise가 본 테마에서 부각받는가?**
+> 
+> **인과 사슬**: 에이전트 학습 데이터셋·KV cache offload·vector DB·체크포인트 폭증 → enterprise SSD 수요 폭증 → SK Group (Solidigm 포함) 점유 30.2% #2 → 본 테마 direct
+> 
+> **추가 동력 1 — Solidigm 122TB QLC SSD = KV cache offload 특화**: AI inference에서 HBM 부족분을 NAND로 offload하는 narrative 직접 수혜
+> **추가 동력 2 — eSSD 점유 Samsung 32.3% / SK Group 30.2%로 박빙 #2**: Q4 2025 SK Group +75% QoQ로 가속 (Solidigm 통합 효과)
+> **추가 동력 3 — NAND 절대 CAPA 삼성 우위 (800K wafer/월 #1, SK Group 500K #2)**: 사이클 정점에서 알로케이션 유연성 삼성 우위
+> 
+> **SK 위치의 특별함**: NAND 절대 CAPA는 삼성 다음 #2이지만 Solidigm 통합으로 eSSD 점유 박빙 #2 + AI inference 특화 narrative
 
 ### 본 테마 가중 종합 (Moat × 매출 비중)
 
@@ -239,7 +333,7 @@ analyst_reports_attached:
 |---|---|---|---|
 | HBM 전체 점유 (Q3 2025) | **53%** | 35% | 11% |
 | **HBM3E 단독공급 (현재)** | NVIDIA H100/H200/Blackwell **단독** | 부분 진입 | 일부 (Hopper) |
-| **HBM4 양산 선두 (2026.02)** | 11Gb/s 최적화 중 | **업계 최초 양산 출하** | 1Q26 volume shipment |
+| **HBM4 양산 선두 (2026.02)** | 11Gb/s 최적화 중 | **업계 최초 양산 출하** | 1Q26 volume 출하 |
 | **HBM4 NVIDIA Rubin 분배** | **2/3 (67%) majority** | 일부 | 일부 |
 | **HBM4 AMD (MI455X, 2H26)** | 미공식 | **preferred (2026.03 MoU)** | — |
 | **HBM4E (차세대)** | 2H26 샘플, **2027 양산 목표** | — | — |
@@ -247,9 +341,9 @@ analyst_reports_attached:
 | eSSD 점유 (Q4) | 30.2% (SK Group) | **32.3%** | 10% |
 | Solidigm 통합 | ✓ (2025.03) | ❌ | — |
 | **1Q26 OPM** | **72% (사상 최고)** | 40-45% 추정 | 30-35% 추정 |
-| pure-play 여부 | 메모리 pure | DS 다각화 | 메모리 pure |
+| 단일 사업(pure-play) 여부 | 메모리 pure | DS 다각화 | 메모리 pure |
 
-> **포지셔닝 결론**: SK하이닉스는 **HBM3E 단독공급 + HBM 전체 1위 + 메모리 종합 #1 + 1Q26 OPM 72%**의 quadruple position. HBM4부터는 dual sourcing 구조이나 NVIDIA Rubin majority 2/3 유지 + HBM4E 2027 양산으로 차세대 narrative 회복 시도.
+> **포지셔닝 결론**: SK하이닉스는 **HBM3E 단독공급 + HBM 전체 1위 + 메모리 종합 #1 + 1Q26 OPM 72%**의 quadruple position. HBM4부터는 dual sourcing 구조이나 NVIDIA Rubin majority 2/3 유지 + HBM4E 2027 양산으로 차세대 스토리(narrative) 회복 시도.
 
 ## 2-3. 병목 수혜 강도 정량화
 
@@ -372,7 +466,7 @@ analyst_reports_attached:
 | 차원 | 4Q (2Q25E~1Q26E) | 2Y (2026·2027) | 근거 | 출처 |
 |---|---|---|---|---|
 | **P** | +5·+3·+2·0% | +5·-5% | HBM4 dual sourcing 경쟁 가격 압박 일부 | 테마 v3 Step 5 + TrendForce 2026-01-28·03-09 |
-| **Q** | +10·10·8·8% | **+35·25%** | NVIDIA Rubin·hyperscaler allocation. 삼성·Micron 진입으로 SK 점유 일부 약화 | 테마 v3 Step 5 + 회사 1Q26 컨콜 (디일렉) |
+| **Q** | +10·10·8·8% | **+35·25%** | NVIDIA Rubin·하이퍼스케일러 allocation. 삼성·Micron 진입으로 SK 점유 일부 약화 | 테마 v3 Step 5 + 회사 1Q26 컨콜 (디일렉) |
 | **→ 매출** | **+15-18% YoY** | **+40% (2026)·+20% (2027)** | HBM 단독 매출 | BT 첨부 9개 셀사이드 컨센서스 평균 |
 | **→ 마진** | **OPM 60-65%** | 55-60% | HBM4 dual sourcing + HBM4E 양산 (2027) | DS·Mirae Asset·Shinhan 셀사이드 추정 |
 
@@ -386,7 +480,7 @@ analyst_reports_attached:
 ### eSSD — (A) → (D) 동반 확대
 | 차원 | 4Q | 2Y | 근거 | 출처 |
 |---|---|---|---|---|
-| P | +20·15·10·8% | +25·10% | NAND 사이클 + AI premium | 테마 v3 Step 5 + TrendForce eSSD Q3-Q4 2025 |
+| P | +20·15·10·8% | +25·10% | NAND 사이클 + AI 프리미엄 | 테마 v3 Step 5 + TrendForce eSSD Q3-Q4 2025 |
 | Q | +15·20·20·25% | +50·40% | KV cache·VectorDB | 테마 v3 Step 5 + Solidigm IR (122TB 양산) |
 | **→ 매출** | **+40-50% YoY** | +85% (2026)·+55% (2027) | SK Group 30% 점유 | BT 첨부 9개 셀사이드 컨센서스 (NH·Hanwha·KB) |
 
@@ -413,7 +507,7 @@ analyst_reports_attached:
 
 | 시그널 | 현재 상태 | 임팩트 |
 |---|---|---|
-| Micron HBM4 NVIDIA 인증 | 1Q26 volume shipment 시작 | 중-큼 — SK 단독공급 신화 종료 |
+| Micron HBM4 NVIDIA 인증 | 1Q26 volume 출하 시작 | 중-큼 — SK 단독공급 신화 종료 |
 | 삼성 HBM4 NVIDIA 인증 | 2026.02 업계 최초 양산 출하 | 큼 — HBM4부터 dual sourcing |
 | AMD HBM4 Samsung MoU (2026.03) | MI455X preferred supplier | 큼 — SK AMD 지위 약화 |
 | TSMC CoWoS capa | 75K → 130K (2026) | 양면 |
@@ -441,7 +535,7 @@ analyst_reports_attached:
 | **사이클 마진 진폭 (12년)** | OPM range -25.7% ~ +51.5% (77.2%p). **1Q26 OPM 72% 신규 정점**. 정점 평균 48.4% → 72% 상향 |
 | **기술 격차·R&D·IP** | IP 21,859건 (2025.12). HBM4 11Gb/s test: 삼성 먼저 통과, SK 최적화 진행. HBM4E 2H26 샘플, 2027 양산. MR-MUF 기술 강점 유지 |
 | **고객사 분포·집중도** | HBM 상위 5: NVIDIA·AMD·Broadcom·MSFT·AWS. NVIDIA HBM 전체 약 90% 공급 (SK 기준). HBM4 NVIDIA majority 2/3 유지. AMD는 Samsung 우선. 양면 risk |
-| **신규 수주·계약** | 2025.03 Solidigm 최종 종결. 2026까지 HBM·DRAM·NAND sold out. HBM4 NVIDIA Rubin 2/3 확정. AMD HBM4 Samsung MoU 2026.03. HBM4E 2027 양산 목표 |
+| **신규 수주·계약** | 2025.03 Solidigm 최종 종결. 2026까지 HBM·DRAM·NAND 공급 매진. HBM4 NVIDIA Rubin 2/3 확정. AMD HBM4 Samsung MoU 2026.03. HBM4E 2027 양산 목표 |
 | **자본·시총** | 자본 17조 → 117조 (12년 7배) → **145조원+ 추정 (1Q26 후)**. 시총 2025 정점 200조+ → 2026 1Q 추가 상승 |
 | **1Q26 실적** | 매출 52.6조 (+198% YoY), OP 37.6조 (+405%), OPM 72%, 컨센서스 초과 |
 
@@ -455,7 +549,7 @@ analyst_reports_attached:
 
 | 트리거 | 시점 | 영향 |
 |---|---|---|
-| HBM4E 2027 양산 + NVIDIA 차세대 인증 | 2026 H2 샘플 → 2027 양산 | 차세대 narrative 회복 |
+| HBM4E 2027 양산 + NVIDIA 차세대 인증 | 2026 H2 샘플 → 2027 양산 | 차세대 스토리(narrative) 회복 |
 | HBM4 NVIDIA Rubin 점유 70%+ 확정 | 2026 H2 | SK majority 강화 |
 | Solidigm KV cache 점유 가속 (35%+) | 2026 분기 | eSSD 매출 추가 가속 |
 | 1Q26 OPM 72% 추가 분기 유지 (2Q26 70%+) | 2Q26 어닝 | 실증 강화 |
@@ -468,11 +562,11 @@ analyst_reports_attached:
 |---|---|---|
 | **HBM4 NVIDIA dual sourcing 본격화** | 2026 H2 (진행 중) | SK 점유 67% 이하 |
 | **AMD HBM4 Samsung preferred** | 2026.03 체결 | SK AMD 지위 약화 (현실화) |
-| 삼성 HBM4 11Gb/s NVIDIA test 통과 | 2026 Q1 (진행 중) | SK HBM4 premium 약화 |
+| 삼성 HBM4 11Gb/s NVIDIA test 통과 | 2026 Q1 (진행 중) | SK HBM4 프리미엄 약화 |
 | Micron HBM4 NVIDIA 점유 15%+ | 2026 H2 | SK 점유 잠식 |
 | AI capex 변곡점 (hyperscaler -10%+) | 2027 | Q 가속 둔화 |
 | 메모리 사이클 침체 (DRAM P -20%+) | 2027-2028 | OPM 30%대 reset |
-| HBM4E NVIDIA 인증에서 삼성 우위 | 2027+ | 차세대 narrative 약화 |
+| HBM4E NVIDIA 인증에서 삼성 우위 | 2027+ | 차세대 스토리(narrative) 약화 |
 
 ## 모니터링 캘린더
 
@@ -488,7 +582,7 @@ analyst_reports_attached:
 | TSMC CoWoS capa 분기 update | 패키징 병목 변화 |
 | TrendForce·Counterpoint 월간·분기 점유 리포트 | HBM·DDR5·eSSD 점유 추적 |
 
-> 분기 실적 분석이 본 트리거의 현재 상태를 점검. narrative shift 감지 시 본 .md 갱신.
+> 분기 실적 분석이 본 트리거의 현재 상태를 점검. 스토리(narrative) shift 감지 시 본 .md 갱신.
 
 ---
 
@@ -515,7 +609,7 @@ analyst_reports_attached:
 
 1. **HBM4 dual sourcing 본격화** — 삼성 2026.02 양산 선두 + Micron 1Q26 진입 + AMD Samsung MoU. SK NVIDIA majority 2/3는 유지하나 단독공급 신화 종료
 2. **메모리 사이클 cyclicality** — OPM 77.2%p 진폭. 2027-2028 침체 진입 가능. 1Q26 OPM 72%는 정점 신호일 수도
-3. **HBM4E NVIDIA 차세대 인증 경쟁** — 2027+ HBM4E·HBM5 단계에서 삼성·Micron 추격 시 narrative 추가 약화 가능
+3. **HBM4E NVIDIA 차세대 인증 경쟁** — 2027+ HBM4E·HBM5 단계에서 삼성·Micron 추격 시 스토리(narrative) 추가 약화 가능
 
 ## 단기 vs 장기 view
 
@@ -557,7 +651,7 @@ analyst_reports_attached:
 | 버전 | 일자 | 변경 사항 |
 |---|---|---|
 | v1 | 2026-05-26 | 1차 작성 |
-| v2 | 2026-05-26 | HBM4 narrative 정정 (cross-check 반영) |
+| v2 | 2026-05-26 | HBM4 스토리(narrative) 정정 (cross-check 반영) |
 | **v3** | **2026-05-26** | **Moat 분석 segment별 재구성** (single 5축 → 6 segment × 5축) |
 
 ### v1 → v3 변화 요약
@@ -568,9 +662,9 @@ analyst_reports_attached:
 | HBM4 양산 선두 | SK 6개월 선두 | 삼성 업계 최초 양산 (2026.02) | (유지) |
 | HBM4 NVIDIA 11Gb/s test | SK 통과 가정 | 삼성 먼저 통과, SK 최적화 중 | (유지) |
 | AMD HBM4 | SK 메인 가정 | Samsung preferred (MI455X, 2026.03 MoU) | (유지) |
-| Micron HBM4 | 후발 (2026 H2) | 1Q26 volume shipment 진입 | (유지) |
+| Micron HBM4 | 후발 (2026 H2) | 1Q26 volume 출하 진입 | (유지) |
 | 1Q26 실적 | 미반영 | 매출 52.6조·OP 37.6조·OPM 72% | (유지) |
-| HBM4E narrative | 미언급 | SK 2H26 샘플, 2027 양산 목표 | (유지) |
+| HBM4E 스토리(narrative) | 미언급 | SK 2H26 샘플, 2027 양산 목표 | (유지) |
 | 2026 OPM 전망 | 52-55% | 60-62% (상향) | (유지) |
 | **Moat 분석 구조** | single 5축 단일 점수 (5.0) | single 5축 (4.6) | **6 segment × 5축 (HBM3E 5.0 / HBM4 NVIDIA 4.4 / HBM4 AMD 2.8 / HBM4E 3.4 / DDR5 4.2 / eSSD 4.0)** |
 | **Moat 종합 (가중 평균)** | 5.0 / 5.0 | 4.6 / 5.0 | **4.4 / 5.0 (segment 가중)** |
@@ -581,3 +675,7 @@ analyst_reports_attached:
 ---
 
 **End of SK하이닉스_에이전트AI_기업분석.md**
+
+---
+
+## ★ v2 fact-check 정

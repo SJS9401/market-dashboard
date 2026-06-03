@@ -24,9 +24,9 @@ narrative_shift_log:
 
 # 에이전트AI 테마 분석 (v4)
 
-> **본 테마의 분석 frame**: 에이전트AI는 narrative-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 **추론 인프라**에 집중되고, 추론 인프라는 **반도체 + 전력** 두 축. HBM은 이미 시장이 반영했고 **신규 병목은 레거시 메모리·광통신·CPU·CoWoS**로 이동.
+> **본 테마의 분석 frame**: 에이전트AI는 스토리(narrative)-driven 키워드. 그 narrative가 가져오는 충격(토큰 N배 폭증)이 **추론 인프라**에 집중되고, 추론 인프라는 **반도체 + 전력** 두 축. HBM은 이미 시장이 반영했고 **신규 병목은 레거시 메모리·광통신·CPU·CoWoS**로 이동.
 
-> **점유율·CAPA 표기 기준**: 본 분석(테마/기업 분석 공통)의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group 등 메모리 시장 분석 표준 metric). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit shipment 기준 점유는 분기 변동성이 커서 본 분석에서는 다루지 않음.
+> **점유율·CAPA 표기 기준**: 본 분석(테마/기업 분석 공통)의 모든 % 점유율은 **매출 기준** (TrendForce·Counterpoint·Astute Group 등 메모리 시장 분석 표준 metric). **CAPA는 wafer 기준** (산업 통계, K wafer/월). bit 출하 기준 점유는 분기 변동성이 커서 본 분석에서는 다루지 않음.
 
 ---
 
@@ -61,7 +61,7 @@ narrative_shift_log:
 | 단계 | 핵심 결론 |
 |---|---|
 | **Step 0. 산업기초 참조** | ✓ 반도체_산업기초.md (2026-05-18) / ✓ 전력 인프라_산업기초.md (2026-05-18) — 둘 다 **(A) 구조적 메가 병목** |
-| **Step 1. 정의·트렌드** | AI 메가 트렌드 안의 에이전트 narrative. 형제자매: HBM·온디바이스AI·추론최적화·AI데이터센터전력 |
+| **Step 1. 정의·트렌드** | AI 메가 트렌드 안의 에이전트 스토리(narrative). 형제자매: HBM·온디바이스AI·추론최적화·AI데이터센터전력 |
 | **Step 2. 병목 역추적** | 에이전트 = 토큰 20-30x → 추론 인프라 동시 병목 → 병목 파생형 |
 | **Step 3. 병목 인뎁스 (★)** | 반도체: HBM(이미 반영) + **레거시 메모리·광통신·CPU·CoWoS(신규)** / 전력: 데이터센터 전력·변압기 128주·**가스터빈 3사 capa 25-35% 확대**·SMR 22 GW |
 | **Step 4. 통합 Moat view** | segment별 글로벌 강자 1-5위에 한국 다수. SMR은 4 layer (본체·사업자·부품·EPC)로 확장 → **두산 forging 글로벌 5사 중 1, 현대건설 EPC** |
@@ -85,7 +85,7 @@ narrative_shift_log:
 
 | 요소 | 단순 chat | 에이전트AI |
 |---|---|---|
-| 입출력 구조 | 1 요청 → 1 응답 | 지시 → multi-step plan → tool call → ... → 자체 종료 |
+| 입출력 구조 | 1 요청 → 1 응답 | 지시 → multi-step plan → 도구 호출(tool call) → ... → 자체 종료 |
 | 도구 사용 | ❌ | ✓ (브라우저·코드·API·DB) |
 | 평균 turn | 1 | 10~100+ (코딩 1000+) |
 
@@ -147,8 +147,8 @@ narrative_shift_log:
 
 | Layer | 역할 | 대표 플레이어 | 본 분석 깊이 |
 |---|---|---|---|
-| (1) 모델·SW | LLM·에이전트 framework | Anthropic·OpenAI·Google·Meta·xAI / LangChain·MCP·Agent SDK | narrative driver — 깊이 X |
-| (2) Agentic SaaS | 응용 | Cursor·Devin·Manus·Salesforce·ServiceNow·Replit·Copilot Studio | narrative driver — 깊이 X |
+| (1) 모델·SW | LLM·에이전트 framework | Anthropic·OpenAI·Google·Meta·xAI / LangChain·MCP·Agent SDK | 스토리(narrative) driver — 깊이 X |
+| (2) Agentic SaaS | 응용 | Cursor·Devin·Manus·Salesforce·ServiceNow·Replit·Copilot Studio | 스토리(narrative) driver — 깊이 X |
 | (3) **반도체 인프라** | 추론 capa | 7개 sub-layer | ★ 인뎁스 |
 | (4) **전력 인프라** | 데이터센터 전력 | 8개 sub-layer | ★ 인뎁스 |
 
@@ -160,7 +160,7 @@ narrative_shift_log:
 |---|---|
 | 점유 (2025 Q3) | SK 53%, 삼성 35%, Micron 11% |
 | TAM | $35B (2025) → $100B (2028E), CAGR 40% |
-| narrative 단계 | **이미 합의 반영** |
+| 스토리(narrative) 단계 | **이미 합의 반영** |
 
 > 새 알파는 다음 4개 신규 병목.
 
@@ -177,7 +177,7 @@ narrative_shift_log:
 | 2026 1H 추가 | +20% |
 | HBM의 wafer 소비 (DRAM 대비) | 3x per GB → 일반 DRAM squeeze |
 | AI의 2026 DRAM 생산 소비 | 20%+ |
-| SK하이닉스 capa | 2026까지 sold out |
+| SK하이닉스 capa | 2026까지 공급 매진 |
 
 **병목 카테고리**: **(A) 구조적 메가 병목**
 
@@ -200,8 +200,8 @@ narrative_shift_log:
 | 항목 | 수치 |
 |---|---|
 | Datacom optical (2025) | $16B+ (+60% YoY) |
-| 800G 모듈 shipment | +60% YoY |
-| 1.6T 본격 양산 | 2026 (100만개 미만, NVIDIA·hyperscaler 한정) |
+| 800G 모듈 출하 | +60% YoY |
+| 1.6T 본격 양산 | 2026 (100만개 미만, NVIDIA·하이퍼스케일러 한정) |
 | Innolight 2024 매출 | $3.3B (+123%) |
 | Innolight NVIDIA 800G 점유 | 50%+ |
 | Lumentum 200G/lane EML 점유 | 50-60% (1.6T 핵심) |
@@ -210,7 +210,7 @@ narrative_shift_log:
 
 ### 3-2-4. CPU (서버) ★
 
-**메커니즘**: AI 서버 = GPU 8장 + host CPU 2장. 에이전트는 tool call·컨텍스트 관리 부담 비례 증가. Grace·GB200처럼 ARM CPU와 GPU 직접 결합도 표준화.
+**메커니즘**: AI 서버 = GPU 8장 + host CPU 2장. 에이전트는 도구 호출(tool call)·컨텍스트 관리 부담 비례 증가. Grace·GB200처럼 ARM CPU와 GPU 직접 결합도 표준화.
 
 | 점유 (Q4 2025) | 수치 |
 |---|---|
@@ -228,7 +228,7 @@ narrative_shift_log:
 |---|---|---|---|
 | **NVIDIA** | Blackwell B100/B200/B300, Rubin (2026) | 추론 80%+ | CUDA 17년 |
 | AMD | MI300X·MI350·MI400 | 5-10% | NVIDIA 외 유일 |
-| Broadcom 디자인 ASIC | TPU·MTIA | hyperscaler 30%+ | Google·Meta |
+| Broadcom 디자인 ASIC | TPU·MTIA | 하이퍼스케일러 30%+ | Google·Meta |
 
 **Blackwell 효율**: Hopper 대비 token cost 15x↓, throughput/MW 10x. Rubin (2026) 추가 10x. **Jevons 우세** (token cost 90% 감소에도 NVIDIA 매출 폭증)
 
@@ -256,7 +256,7 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 | 일반 데이터센터 rack | 15-25 kW |
 | **GB200 NVL72 rack** | **~130 kW** (5-10x) |
 | AI 데이터센터 단지 | 100-500 MW |
-| hyperscaler 신규 캠퍼스 | 1-2 GW |
+| 하이퍼스케일러 신규 캠퍼스 | 1-2 GW |
 
 ### 3-3-2. 글로벌 데이터센터 전력 수요 (IEA)
 
@@ -410,7 +410,7 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 | # | 기업 | 국적 | 점유 | Moat |
 |---|---|---|---|---|
 | 1 | **삼성전자** | 🇰🇷 | ~42% | DRAM 종합 1위 |
-| 2 | **SK하이닉스** | 🇰🇷 | ~33% | capa 2026까지 sold out |
+| 2 | **SK하이닉스** | 🇰🇷 | ~33% | capa 2026까지 공급 매진 |
 | 3 | Micron | 🇺🇸 | ~24% | 추격 |
 
 ### eSSD
@@ -450,7 +450,7 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 |---|---|---|---|---|
 | 1 | **NVIDIA** | 🇺🇸 | 추론 80%+ | CUDA·NVLink·Dynamo |
 | 2 | AMD | 🇺🇸 | 5-10% | MI300X·MI350·MI400 |
-| 3 | Broadcom ASIC | 🇺🇸 | hyperscaler 30%+ | Google·Meta |
+| 3 | Broadcom ASIC | 🇺🇸 | 하이퍼스케일러 30%+ | Google·Meta |
 
 ### CoWoS·첨단 패키징 + 첨단 노드 wafer
 | # | 기업 | 국적 | 점유 | Moat |
@@ -609,13 +609,13 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 
 | # | Segment | TAM (2025→2028E) | **P 4Q (2Q25E~1Q26E)** | **P 2Y (2026·2027)** | **Q 4Q** | **Q 2Y** | **근거 (P / Q)** | 글로벌 1-5위 |
 |---|---|---|---|---|---|---|---|---|
-| 1 | HBM | $35B → $100B (CAGR 40%) | +5·+3·+2·0% | +8·0% | +10·10·8·8% | +40·30% | **P**: HBM4 mix↑·신규 capa로 둔화 / **Q**: NVIDIA Rubin·hyperscaler allocation | SK·삼성·Micron |
+| 1 | HBM | $35B → $100B (CAGR 40%) | +5·+3·+2·0% | +8·0% | +10·10·8·8% | +40·30% | **P**: HBM4 mix↑·신규 capa로 둔화 / **Q**: NVIDIA Rubin·하이퍼스케일러 allocation | SK·삼성·Micron |
 | 2 | 레거시 DRAM (DDR5) | $60B → $120B+ (25%+) | +30·20·15·10% | +30·0% | +5·5·5·5% | +25·15% | **P**: HBM squeeze·재고 정상화 / **Q**: AI 서버 + KV cache offload | 삼성·SK·Micron |
-| 3 | eSSD | $25-30B → $60B+ (30%+) | +20·15·10·8% | +25·10% | +15·20·20·25% | +50·40% | **P**: NAND 사이클 + AI premium / **Q**: KV cache offload·VectorDB·체크포인트 | 삼성·SK Group·Kioxia·WD·Micron |
-| 4 | 추론 GPU·ASIC | $100B → $250B+ (30%+) | +5·+3·+3·+3% | +5·+3% | +20·25·25·20% | +35·25% | **P**: Blackwell→Rubin 노드 transition / **Q**: hyperscaler capex $700B·에이전트 추론 | NVIDIA·AMD·Broadcom ASIC |
-| 5 | 광통신 (트랜시버) | $16B → $35B+ (30%+) | +3·+5·+8·+10% | +15·+8% | +20·25·30·35% | +60·40% | **P**: 1.6T mix↑·EML 부족 / **Q**: 800G shipment +60%·1.6T 본격 2026 | Innolight·Eoptolink·Coherent·Lumentum·오이솔루션 |
-| 6 | 서버 CPU | $25-30B → $50B+ (15-20%) | +5·+5·+5·+5% | +10·+8% | +10·12·12·15% | +25·20% | **P**: AMD EPYC premium·ARM share↑ / **Q**: AI 서버 1대당 CPU 2장·ARM 확장 | Intel·AMD·ARM |
-| 7 | CoWoS·첨단 패키징 | $5-7B → $15-20B+ (30%+) | +5·+5·+5·+5% | +10·+5% | +25·25·25·25% | +60·40% | **P**: TSMC 가격·capa 부족 premium / **Q**: capa 75K→130K wafer/월 | TSMC·Amkor·Intel·삼성 진입 — 한미·이오 (장비) |
+| 3 | eSSD | $25-30B → $60B+ (30%+) | +20·15·10·8% | +25·10% | +15·20·20·25% | +50·40% | **P**: NAND 사이클 + AI 프리미엄 / **Q**: KV cache offload·VectorDB·체크포인트 | 삼성·SK Group·Kioxia·WD·Micron |
+| 4 | 추론 GPU·ASIC | $100B → $250B+ (30%+) | +5·+3·+3·+3% | +5·+3% | +20·25·25·20% | +35·25% | **P**: Blackwell→Rubin 노드 transition / **Q**: 하이퍼스케일러 capex $700B·에이전트 추론 | NVIDIA·AMD·Broadcom ASIC |
+| 5 | 광통신 (트랜시버) | $16B → $35B+ (30%+) | +3·+5·+8·+10% | +15·+8% | +20·25·30·35% | +60·40% | **P**: 1.6T mix↑·EML 부족 / **Q**: 800G 출하 +60%·1.6T 본격 2026 | Innolight·Eoptolink·Coherent·Lumentum·오이솔루션 |
+| 6 | 서버 CPU | $25-30B → $50B+ (15-20%) | +5·+5·+5·+5% | +10·+8% | +10·12·12·15% | +25·20% | **P**: AMD EPYC 프리미엄·ARM share↑ / **Q**: AI 서버 1대당 CPU 2장·ARM 확장 | Intel·AMD·ARM |
+| 7 | CoWoS·첨단 패키징 | $5-7B → $15-20B+ (30%+) | +5·+5·+5·+5% | +10·+5% | +25·25·25·25% | +60·40% | **P**: TSMC 가격·capa 부족 프리미엄 / **Q**: capa 75K→130K wafer/월 | TSMC·Amkor·Intel·삼성 진입 — 한미·이오 (장비) |
 | 8 | 첨단 노드 wafer | $50B+ → $100B+ (25%+) | +3·+3·+5·+5% | +12·+10% | +10·15·15·15% | +30·25% | **P**: 노드 transition (3→2nm) +10-15% / **Q**: Apple·NVIDIA·AMD 동시 수요 | TSMC·삼성·Intel |
 
 ## 5-2. 전력 8 Segment
@@ -625,12 +625,12 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 | 1 | 변압기 (UHV+일반) | $40B → $80B+ (12-15%) | +8·+8·+5·+5% | +15·+10% | +8·8·10·10% | +25·20% | **P**: GOES 강판·인력·lead time 128주 / **Q**: 한국 3사 capa 2배 확대 (2027-28부터) | Hitachi·GE·Siemens·효성·HD현대일렉 |
 | 2 | 스위치기어·GIS | $50B+ → $80B+ (8-12%) | +3·+3·+3·+3% | +5·+3% | +8·10·10·12% | +18·15% | **P**: 안정 / **Q**: 데이터센터 + 그리드 노후화 교체 | Schneider·Eaton·ABB·Siemens·LS ELECTRIC |
 | 3 | HVDC | $15B+ → $40B+ (20%+) | +5·+5·+8·+8% | +12·+10% | +15·18·20·22% | +30·25% | **P**: 대규모 프로젝트 단가↑ / **Q**: 재생E 통합·해상풍력 | Hitachi·Siemens·GE·ABB·효성·HD |
-| 4 | 케이블 (초고압·해상) | $30B+ → $50B+ (12-15%) | +5·+5·+5·+8% | +10·+8% | +10·12·15·15% | +25·20% | **P**: 동·알루미늄 + 해상풍력 premium / **Q**: 해상풍력 + DC 인입 | Prysmian·Nexans·NKT·LS·LS전선·대한전선 |
-| 5 | UPS+ESS | $15+$20B → $30+$50B (15%·25%) | +2·+2·+2·+3% (UPS) / +5·+5·+5·+5% (ESS) | +5·+3% / +10·+8% | +12·15·15·15% (UPS) / +20·25·25·25% (ESS) | +20·15% / +50·35% | **P**: 안정 (UPS), ESS 배터리 가격↓·시스템 premium / **Q**: DC + 재생E 통합 | Schneider·Eaton·Vertiv (UPS) / LG·Samsung·CATL (ESS) |
-| 6 | 액랭 | $5.52B → $18.79B (22.65%) | +2·+2·+3·+3% | +5·+5% | +25·30·30·30% | +60·50% | **P**: 안정·CAGR premium / **Q**: GB200 130 kW rack 필수, hyperscaler 전환 가속 | Vertiv·Schneider·Rittal·Stulz·Boyd |
-| 7 | 가스 터빈 | $50B → $80B+ (10-15%) | +8·+8·+5·+5% | +15·+10% | +15·18·20·22% | +30·25% | **P**: 3사 과점·premium / **Q**: GE 7+Siemens 14+Mitsubishi 7 = 28 GW (1Q25)·capa 25-35%↑ | GE·Siemens·Mitsubishi |
+| 4 | 케이블 (초고압·해상) | $30B+ → $50B+ (12-15%) | +5·+5·+5·+8% | +10·+8% | +10·12·15·15% | +25·20% | **P**: 동·알루미늄 + 해상풍력 프리미엄 / **Q**: 해상풍력 + DC 인입 | Prysmian·Nexans·NKT·LS·LS전선·대한전선 |
+| 5 | UPS+ESS | $15+$20B → $30+$50B (15%·25%) | +2·+2·+2·+3% (UPS) / +5·+5·+5·+5% (ESS) | +5·+3% / +10·+8% | +12·15·15·15% (UPS) / +20·25·25·25% (ESS) | +20·15% / +50·35% | **P**: 안정 (UPS), ESS 배터리 가격↓·시스템 프리미엄 / **Q**: DC + 재생E 통합 | Schneider·Eaton·Vertiv (UPS) / LG·Samsung·CATL (ESS) |
+| 6 | 액랭 | $5.52B → $18.79B (22.65%) | +2·+2·+3·+3% | +5·+5% | +25·30·30·30% | +60·50% | **P**: 안정·CAGR 프리미엄 / **Q**: GB200 130 kW rack 필수, 하이퍼스케일러 전환 가속 | Vertiv·Schneider·Rittal·Stulz·Boyd |
+| 7 | 가스 터빈 | $50B → $80B+ (10-15%) | +8·+8·+5·+5% | +15·+10% | +15·18·20·22% | +30·25% | **P**: 3사 과점·프리미엄 / **Q**: GE 7+Siemens 14+Mitsubishi 7 = 28 GW (1Q25)·capa 25-35%↑ | GE·Siemens·Mitsubishi |
 | 8 | **원자력+SMR** (★ 4 layer 통합) | $10B+ commit → $30B+ (2035) | n/a (PPA 기반) | n/a | (개발사) 본격 매출 2028+ / (부품) **두산 즉시 매출 +20%/yr** / (EPC) 단계별 | (부품·EPC) +25·20% | **P**: PPA 고정 / **Q**: 22 GW 개발 중, Big Tech $10B+. **부품 (두산) Q는 2025-27부터 가시화** | (본체) NuScale·Kairos·X-Energy·TerraPower·Holtec·Rolls-Royce / (사업자) Constellation·Talen·Vistra / (부품) **두산에너빌리티**·JSW·Sheffield / (EPC) Bechtel·Fluor·**현대건설** |
-| **9** | **★ 800VDC 전환 (HVDC Power Rack·SST·SSCB·DC busway)** | **사이드카 $11B (2028) / SST $13B (2030)** | (D) 동반 확대 | Power Rack ASP $500K/MW (기존 AC $40k의 10x), SST $1-1.5M/MW | n/a | 2030 39GW 누적 | **P**: 신규 architecture premium / **Q**: 2027/2028 Kyber 인플렉션부터 본격, NEC 2029 부분/2032 완전 | NVIDIA·Delta·DG Matrix·ABB·Eaton·Wolfspeed·Infineon·TE Connectivity / **LS ELECTRIC (한국 선도, UL 1500V DC MCCB 최초)** |
+| **9** | **★ 800VDC 전환 (HVDC Power Rack·SST·SSCB·DC busway)** | **사이드카 $11B (2028) / SST $13B (2030)** | (D) 동반 확대 | Power Rack ASP $500K/MW (기존 AC $40k의 10x), SST $1-1.5M/MW | n/a | 2030 39GW 누적 | **P**: 신규 architecture 프리미엄 / **Q**: 2027/2028 Kyber 인플렉션부터 본격, NEC 2029 부분/2032 완전 | NVIDIA·Delta·DG Matrix·ABB·Eaton·Wolfspeed·Infineon·TE Connectivity / **LS ELECTRIC (한국 선도, UL 1500V DC MCCB 최초)** |
 
 ## 5-3. 한국 접근 가능 TAM 합산 (2028E)
 
@@ -658,7 +658,7 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 | 항목 | 결론 |
 |---|---|
 | 산업 유형 | **메가 트렌드** (AI 슈퍼사이클 2단) |
-| 단계 | 초기-중기 (2024-25 narrative → 2026-2030+ Q 폭발) |
+| 단계 | 초기-중기 (2024-25 스토리(narrative) → 2026-2030+ Q 폭발) |
 | 글로벌 트렌드 관통 + 한국 Moat | ★★★ — 17 segment 중 **10 segment 한국 글로벌 Top 5** (SMR 부품 + 800VDC LS ELECTRIC 추가), 5 segment Top 2 |
 | **주도 섹터 가능성** | **★★★ 매우 높음** |
 
@@ -668,8 +668,8 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 
 | 리스크 | 확률 | 임팩트 | 시그널 |
 |---|---|---|---|
-| 에이전트 narrative 약화 | 25% | 매우 큼 | Anthropic·OpenAI ARR 정체 |
-| AI capex 변곡점 | 25% | 큼 (12-18개월 침체) | hyperscaler capex 가이던스 하향 |
+| 에이전트 스토리(narrative) 약화 | 25% | 매우 큼 | Anthropic·OpenAI ARR 정체 |
+| AI capex 변곡점 | 25% | 큼 (12-18개월 침체) | 하이퍼스케일러 capex 가이던스 하향 |
 | 추론 효율 급격 개선 | 50% (진행) | 양면 (Jevons vs reset) | 2027-28 확인 |
 | 메모리 가격 하락 reset | 20% | 큼 | DRAM YoY 둔화 |
 | 미·중 디커플링 강화 | 30% | 중 | 추가 수출규제 |
@@ -686,7 +686,7 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 - Anthropic·OpenAI API 매출 (분기), Cursor·Devin·Manus ARR, Token consumption per agent (Stanford), GitHub Copilot·Cursor 활성 사용자
 
 ## 반도체 측
-- NVIDIA 데이터센터 segment, NVIDIA Blackwell allocation, TSMC CoWoS capa expansion, HBM 가격 (TrendForce), **DDR5 server 가격 (DRAMeXchange) ★**, **eSSD Top 5 분기 매출 (TrendForce) ★**, **800G/1.6T 트랜시버 shipment (Cignal AI) ★**, **서버 CPU 점유 (Mercury Research) ★**, HBM4 양산, 삼성 HBM3E 12단 NVIDIA 인증
+- NVIDIA 데이터센터 segment, NVIDIA Blackwell allocation, TSMC CoWoS capa expansion, HBM 가격 (TrendForce), **DDR5 server 가격 (DRAMeXchange) ★**, **eSSD Top 5 분기 매출 (TrendForce) ★**, **800G/1.6T 트랜시버 출하 (Cignal AI) ★**, **서버 CPU 점유 (Mercury Research) ★**, HBM4 양산, 삼성 HBM3E 12단 NVIDIA 인증
 
 ## 전력 측
-- 변압기 lead time (Powermag·Nikkei), 한국 변압기 3사 분기 수주, 3사 수주잔고, **가스터빈 3사 분기 신규 주문 (GE·Siemens·Mitsubishi) ★**, SMR 신규 PPA (Constellation·Talen·Vistra·Kairos), **두산에너빌리티 SMR 부품 수주 ★**, **현대건설 Holtec 협력 진행 ★**, IEA 데이터센터 전력, hyperscaler 분기 capex
+- 변압기 lead time (Powermag·Nikkei), 한국 변압기 3사 분기 수주, 3사 수주잔고, **가스터빈 3사 분기 신규 주문 (GE·Siemens·Mitsubishi) ★**, SMR 신규 PPA (Constellation·Talen·Vistra·Kairos), **두산에너빌리티 SMR 부품 수주 ★**, **현대건설 Holtec 협력 진행 ★**, IEA 데이터센터 전력, 하이퍼스케일러 분기 capex

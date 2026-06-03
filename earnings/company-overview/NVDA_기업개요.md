@@ -1,4 +1,6 @@
 # NVIDIA Corporation (NVDA) — 기업 개요
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 **버전**: v4.8 | **작성일**: 2026-05-19 | **회계연도**: 2월 시작 ~ 1월 마감 (NVIDIA fiscal year, FY26 = 2025-02~2026-01)
 **현재 분기**: Q1 FY2027 (실적 발표 예정 2026-05-21)

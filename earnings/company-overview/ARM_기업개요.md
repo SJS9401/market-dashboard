@@ -19,6 +19,8 @@
 ---
 
 # ARM Holdings plc 기업 개요 (v4.9 — 1번 섹션 표준화)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## ① 기업 분류
 

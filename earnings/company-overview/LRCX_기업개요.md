@@ -4,6 +4,8 @@
 > **섹터**: 반도체 소부장 (워치리스트 T2) — **글로벌 #2 WFE 장비 회사** (Etch + Deposition + Clean)
 > **티커**: LRCX (NASDAQ) | **SEC CIK**: 0000707549
 > **작성일**: 2026-05-25 (v1.0) | **데이터 cutoff**: FY2025 annual + FY26 Q3 quarterly (March 2026)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ---
 
@@ -133,9 +135,14 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 ![Lam Research 시가총액 21년](LRCX_chart11_시가총액20년.png)
 
-→ 2005년 시총 ~$3B → 2024-07 ATH ~$400B (130배+ 성장)
-→ 핵심 모멘텀: 2018 1차 슈퍼사이클 ($30B+), 2021 코로나 IT 사이클 ($110B), 2024-07 AI 가속 + ATH ($400B+)
-→ ADR 가격: $1.96 (2005) → $305 (2026-05 현재) — 1주당 약 156배
+→ 2005년 시총 ~$3B → **2026-05-26 ATH $416B (139배 성장)** [Source: companiesmarketcap.com / stockanalysis.com, 2026-06]
+→ 핵심 모멘텀 milestone:
+   - 2018: 1차 슈퍼사이클 정점 ~$30B (3D NAND ramp + 메모리 슈퍼사이클)
+   - 2021-12: 2차 정점 ~$110B (코로나 IT 사이클)
+   - 2024-07: 3차 mid-peak ~$143B (post-split, AI 사이클 가속 시작)
+   - **2026-05-26: ATH $416B** (주가 $322.68, AI 인프라 + 3D NAND 256L ramp + HBM stacking 가속)
+→ 주가 (post-2024 10:1 split 기준): $1.96 (2005) → **$318 (2026-05 현재) — 1주당 162배 성장**
+→ 최근 30일 +15.8% / 1년 +85.07% 누적
 
 ### ④ 주요 연혁
 

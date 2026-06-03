@@ -6,6 +6,8 @@
 > 출처: **기존 1Q26 review .md (이전 분기 작성 시 fetch한 정보)**, **공개 web search 데이터 (Q1 2026 release / FY24 results)**, **Yahoo Finance SU.PA + SBGSF**, **se.com IR page metadata**
 
 # Schneider Electric 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ## 📋 v1.3 신규 확정값 (FY24 Presentation + CMD 2025 직접 fetch)
 

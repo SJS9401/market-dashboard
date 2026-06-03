@@ -3,6 +3,8 @@
 > **버전 v5.1** · 작성일 2026-05-19 · 종목 분류 T1 (미국 빅테크) · industry=자동차|자율주행
 > 데이터 소스: SEC 10-K 16건 (FY10~FY25), 10-Q 48건 (FY10Q2~FY26Q1), 8-K 174건, DEF 14A 11건 (2025-09-17 머스크 보상안 + 운영 milestone 상세), Tesla IR Update Letter 8건 (Q3 2023 ~ Q1 2026), Yahoo Finance monthly 16년+
 > **시계열 깊이**: 12년 연간 (FY14~FY25) + 64분기 (FY10Q2~FY26Q1, 16년) + 모델별 인도 33분기 + Energy GWh 18 entry + Supercharger 15 entry + FSD subs 5분기 + Regional 매출 12년 + **EV credits 9분기 + Region별 차량 인도 8년 + Segment GPM 5년 + 머스크 12 운영 milestones 정확치 + OBBBA/IRA 영향 narrative**
+> **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
+
 
 ---
 
