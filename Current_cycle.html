@@ -7,6 +7,8 @@
 <meta http-equiv="Expires" content="0">
 <title>3개 사이클 비교 — 3저호황 / 중국 중후장대 / 현재 (2026-05-28)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 <style>
   body { font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif; margin: 0; background: #0e1014; color: #e5e7eb; }
   .wrap { max-width: 1280px; margin: 24px auto; padding: 0 20px 40px; }
@@ -290,6 +292,20 @@
     // 전역 default: tooltip은 선/element 위에 hover 시에만 표시
     Chart.defaults.plugins.tooltip.intersect = true;
     Chart.defaults.plugins.tooltip.mode = 'nearest';
+
+    // 드래그 zoom 전역 default
+    Chart.defaults.plugins.zoom = {
+      zoom: {
+        drag: {
+          enabled: true,
+          backgroundColor: 'rgba(31, 111, 235, 0.18)',
+          borderColor: 'rgba(31, 111, 235, 0.65)',
+          borderWidth: 1,
+          threshold: 6
+        },
+        mode: 'x'
+      }
+    };
 
     var json = JSON.parse(document.getElementById('kdata').textContent);
     var cd = json.meta.cycle_day_today;
@@ -836,6 +852,27 @@
         if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
         parent.appendChild(wrap);
         refreshActive();
+      });
+
+      // ───── 모든 Chart instance에 드래그 방향 감지 적용 ─────
+      // 우측 드래그(plugin 기본) = 영역 확대 / 좌측 드래그 = resetZoom
+      Object.values(Chart.instances || {}).forEach(function(chart){
+        var canvas = chart.canvas;
+        if (!canvas || canvas._zoomDirBound) return;
+        canvas._zoomDirBound = true;
+        canvas.addEventListener('mousedown', function(e){
+          chart._zoomDownX = e.offsetX;
+        });
+        canvas.addEventListener('mouseup', function(e){
+          if (chart._zoomDownX == null) return;
+          var dx = e.offsetX - chart._zoomDownX;
+          chart._zoomDownX = null;
+          if (dx < -6) {
+            // 좌측 드래그 — plugin이 줌한 직후 resetZoom으로 덮어씀
+            setTimeout(function(){ try { chart.resetZoom(); } catch(_){} }, 30);
+          }
+        });
+        // 드래그 진행 중에는 crosshair 그리지 않음 (선택 영역 박스만 보이도록)
       });
     }, 200);
 
