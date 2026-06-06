@@ -293,17 +293,25 @@
     Chart.defaults.plugins.tooltip.intersect = true;
     Chart.defaults.plugins.tooltip.mode = 'nearest';
 
-    // 드래그 zoom 전역 default
+    // 드래그 zoom 전역 default — plugin v2는 모든 sub-options 명시 필요
     Chart.defaults.plugins.zoom = {
+      pan: { enabled: false, mode: 'x' },
       zoom: {
+        wheel: { enabled: false },
         drag: {
           enabled: true,
           backgroundColor: 'rgba(31, 111, 235, 0.18)',
           borderColor: 'rgba(31, 111, 235, 0.65)',
           borderWidth: 1,
-          threshold: 6
+          threshold: 6,
+          drawTime: 'beforeDatasetsDraw'
         },
+        pinch: { enabled: false },
         mode: 'x'
+      },
+      limits: {
+        x: { min: 'original', max: 'original' },
+        y: { min: 'original', max: 'original' }
       }
     };
 
