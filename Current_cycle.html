@@ -777,6 +777,12 @@
         var chart = Chart.getChart(id);
         if (!chart) return;
 
+        // legend가 우상단에 있으면 토글과 겹치므로 왼쪽 정렬로 이동
+        if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.display !== false) {
+          chart.options.plugins.legend.align = 'start';
+          chart.update();
+        }
+
         // 토글 버튼 생성
         var wrap = document.createElement('div');
         wrap.className = 'scaleToggleWrap';
