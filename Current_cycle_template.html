@@ -57,6 +57,17 @@
   .pairCardWide .meta { font-size: 11.5px; color: #9ca3af; margin-bottom: 8px; line-height: 1.6; }
   .pairCardWide .meta b { color: #e5e7eb; font-weight: 600; }
   .pairBoxWide { position: relative; height: 480px; margin-top: 6px; }
+  /* Log/Linear 토글 버튼 (모든 가격 차트 공통) */
+  .scaleToggle {
+    position: absolute; top: 6px; right: 8px; z-index: 10;
+    background: #1a1d24; color: #cbd5e1; border: 1px solid #303642;
+    border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s; font-family: inherit;
+  }
+  .scaleToggle:hover { background: #262a33; color: #f0f6fc; border-color: #1f6feb; }
+  .scaleToggle.active { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+  .scaleToggleWrap { position: absolute; top: 6px; right: 8px; z-index: 10; display: flex; gap: 2px; }
+  .scaleToggleWrap .scaleToggle { position: static; }
   @media (max-width: 900px) { .pairGroup { grid-template-columns: 1fr; } }
   /* nav tab-bar (dashboard 공통 스타일) */
   .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; margin: 0; }
@@ -751,6 +762,76 @@
         });
       });
     }
+
+    // ───── 모든 가격 차트에 Log/Linear 토글 버튼 동적 삽입 ─────
+    // (메인 오버레이는 이미 Indexed/Log 토글 있음. MDD 차트는 음수영역이라 제외.)
+    var scaleToggleTargets = [
+      'p-3jeo', 'p-china', 'p-now',
+      'pair-first-canvas', 'pair-second-canvas', 'pair-qcom-mu-custom-canvas',
+      'pair-qcom-vs-ixic-dotcom-canvas', 'pair-mu-vs-ixic-now-canvas'
+    ];
+    setTimeout(function(){
+      scaleToggleTargets.forEach(function(id){
+        var canvas = document.getElementById(id);
+        if (!canvas) return;
+        var chart = Chart.getChart(id);
+        if (!chart) return;
+
+        // 토글 버튼 생성
+        var wrap = document.createElement('div');
+        wrap.className = 'scaleToggleWrap';
+
+        function makeBtn(label, type) {
+          var b = document.createElement('button');
+          b.className = 'scaleToggle';
+          b.textContent = label;
+          b.dataset.type = type;
+          return b;
+        }
+        var bLog = makeBtn('Log', 'logarithmic');
+        var bLin = makeBtn('Linear', 'linear');
+
+        function refreshActive() {
+          var cur = chart.options.scales.y.type;
+          if (cur === 'logarithmic') {
+            bLog.classList.add('active'); bLin.classList.remove('active');
+          } else {
+            bLin.classList.add('active'); bLog.classList.remove('active');
+          }
+          // 우측 축(y1)이 있으면 같이
+          if (chart.options.scales.y1) {
+            chart.options.scales.y1.type = chart.options.scales.y.type;
+          }
+        }
+
+        function setScale(type) {
+          chart.options.scales.y.type = type;
+          if (chart.options.scales.y1) chart.options.scales.y1.type = type;
+          // log → linear 전환 시 explicit min/max 제거 (자동 조정)
+          if (type === 'linear') {
+            chart.options.scales.y.min = undefined;
+            chart.options.scales.y.max = undefined;
+            if (chart.options.scales.y1) {
+              chart.options.scales.y1.min = undefined;
+              chart.options.scales.y1.max = undefined;
+            }
+          }
+          chart.update();
+          refreshActive();
+        }
+
+        bLog.onclick = function(){ setScale('logarithmic'); };
+        bLin.onclick = function(){ setScale('linear'); };
+        wrap.appendChild(bLog);
+        wrap.appendChild(bLin);
+
+        // 부모 컨테이너에 absolute 배치
+        var parent = canvas.parentNode;
+        if (getComputedStyle(parent).position === 'static') parent.style.position = 'relative';
+        parent.appendChild(wrap);
+        refreshActive();
+      });
+    }, 200);
 
   } catch(e) {
     document.getElementById('err').textContent = 'JS error: ' + e.message;
