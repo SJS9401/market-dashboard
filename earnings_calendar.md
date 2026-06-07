@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-05 (자동 실행)**
+> **최종 갱신: 2026-06-07 (자동 실행)**
 
 ### 6월
 
@@ -208,8 +208,8 @@
 | 7/16 | ABB (ABB) | 전력 | Q2 2026 (공식 IR 확정 — 변압기·차단기·GIS, 산업 사이클 cue) |
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
-| 7/22 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (7/22 확정 — 다수 소스 일치, Q1: 4/23 역사 패턴. 이전 7/29 오류 정정) |
-| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (7/22 확정 — 다수 소스 일치. 이전 7/28 오류 정정) |
+| 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (확정 — TipRanks·Finbox·Investing.com 다수 소스 7/29 Confirmed, 6/7 재확인. 이전 7/22 정정) |
+| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (7/22 다수 소스 — 단, TipRanks 7/28 표시. 미공식 확정, 재확인 권장) |
 | (~7/22) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/22) |
 | 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
@@ -269,6 +269,7 @@
 | 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결(Q3말 3+Q4초 2), Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
 | 8/13 | Applied Materials (AMAT) | 반도체-소부장 | Q3 FY2026 (확정, MarketBeat·TipRanks) — Q2 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, 증착·식각 장비, HBM CAPEX 사이클 동조 |
 | 8/18 | Oklo (OKLO) | 원전 | Q2 2026, AMC — 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치, Q1: 5/12 순손실 $33.1M·EPS -$0.19, 현금 $2.5B 충분) |
+| 8/20 | Marvell Technology (MRVL) | 반도체-ASIC | Q2 FY2027, AMC (확정, TipRanks·MarketBeat — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
 | 8/26 | Nvidia (NVDA) | 반도체 | AMC, Q2 FY2027 (확정, TipRanks·MarketBeat) — Q1 FY2027 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 
 ### 9월
