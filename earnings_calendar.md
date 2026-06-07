@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-07 (자동 실행)**
+> **최종 갱신: 2026-06-08 (자동 실행)**
 
 ### 6월
 
@@ -200,7 +200,7 @@
 | 7/14 | JPMorgan Chase (JPM) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
 | 7/14 | Bank of America (BAC) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
 | 7/14 | Goldman Sachs (GS) | 금융 | BMO, Q2 2026 (공식 확정, 7:30am ET, 콜 9:30am ET) |
-| 7/14 | Citigroup (C) | 금융 | BMO, Q2 2026 (소스 간 7/14 다수 확인, 재확인 권장) |
+| 7/14 | Citigroup (C) | 금융 | BMO, Q2 2026 (공식 확정, 6/8 재확인) |
 | 7/15 | Morgan Stanley (MS) | 금융 | BMO, Q2 2026 (공식 확정, 7:30am ET, 콜 8:30am ET) |
 | 7/15 | ASML (ASML) | 반도체-소부장 | BMO, Q2 2026 (확정 — EUV 장비 수주 동향, High-NA ramp) |
 | 7/16 | TSMC (TSM) | 반도체-파운드리 | Q2 2026 (확정, TSMC 공식 IR — 파운드리 가동률, N3·N2 ramp) |
@@ -209,9 +209,10 @@
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
 | 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (확정 — TipRanks·Finbox·Investing.com 다수 소스 7/29 Confirmed, 6/7 재확인. 이전 7/22 정정) |
-| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (7/22 다수 소스 — 단, TipRanks 7/28 표시. 미공식 확정, 재확인 권장) |
+| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (확정, 6/8 재확인 — Catacal·다수 소스 7/22 일치) |
 | (~7/22) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/22) |
 | 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
+| 7/23 | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026, AMC (확정, TipRanks·MarketBeat·Investing.com 6/8 재확인 — FY 6월 결산, 검사·계측 장비, 첨단 노드 수율 cue) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
 | (~7/24) | 현대로템 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
 | (~7/24) | 삼성중공업 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
@@ -227,7 +228,6 @@
 | 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
 | 7/29 | ARM (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
 | (~7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 — Investing.com 7/23 표시 (패턴 대비 앞당겨질 가능성. 2025 Q2 콜: 7/31, 2024: 7/31, 2023: 7/27. 삼성 IR 공식 미공시) |
-| (~7/29) | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026 — 과거 패턴 추정 (FY 6월 결산, Q3 4/29 발표, Q4 FY25: 7/31) |
 | (~7/29) | Ford (F) | 자동차 | Q2 2026, AMC — 미확정 추정 (wallstreethorizon, Q1: 4/29) |
 | (~7/29) | 에코프로비엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
 | (~7/29) | 두산에너빌리티 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
