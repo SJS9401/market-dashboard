@@ -842,6 +842,26 @@
 
       // ───── 모든 Chart instance에 자체 드래그 zoom 구현 ─────
       // 우측 드래그 = X축 확대, 좌측 드래그 = 전체 리셋
+      // 사이클별 디테일 카드는 가격/MDD 차트가 페어 — 같은 cycle에 zoom/reset 동기화
+      var syncPairs = {
+        'p-3jeo': 'm-3jeo', 'm-3jeo': 'p-3jeo',
+        'p-china': 'm-china', 'm-china': 'p-china',
+        'p-now': 'm-now', 'm-now': 'p-now'
+      };
+      function applyXRange(chart, minVal, maxVal) {
+        chart.options.scales.x.min = minVal;
+        chart.options.scales.x.max = maxVal;
+        chart.update('none');
+        var pairId = syncPairs[chart.canvas.id];
+        if (pairId) {
+          var pair = Chart.getChart(pairId);
+          if (pair) {
+            pair.options.scales.x.min = minVal;
+            pair.options.scales.x.max = maxVal;
+            pair.update('none');
+          }
+        }
+      }
       Object.values(Chart.instances || {}).forEach(function(chart){
         var canvas = chart.canvas;
         if (!canvas || canvas._dragZoomBound) return;
@@ -891,16 +911,12 @@
           var dx = endPx - dragStartPx;
           if (overlay) { overlay.remove(); overlay = null; }
           if (dx > 8) {
-            // 우측 드래그 → 확대
+            // 우측 드래그 → 확대 (페어 차트도 동기화)
             var endVal = chart.scales.x.getValueForPixel(endPx);
-            chart.options.scales.x.min = dragStartVal;
-            chart.options.scales.x.max = endVal;
-            chart.update('none');
+            applyXRange(chart, dragStartVal, endVal);
           } else if (dx < -8) {
-            // 좌측 드래그 → 리셋
-            chart.options.scales.x.min = chart._origXMin;
-            chart.options.scales.x.max = chart._origXMax;
-            chart.update('none');
+            // 좌측 드래그 → 리셋 (페어 차트도 동기화)
+            applyXRange(chart, chart._origXMin, chart._origXMax);
           }
           dragStartPx = null;
         }
