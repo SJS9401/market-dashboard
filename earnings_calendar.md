@@ -183,7 +183,7 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-08 (자동 실행)**
+> **최종 갱신: 2026-06-09 (자동 실행)**
 
 ### 6월
 
@@ -210,7 +210,7 @@
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
 | 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (확정 — TipRanks·Finbox·Investing.com 다수 소스 7/29 Confirmed, 6/7 재확인. 이전 7/22 정정) |
 | 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (확정, 6/8 재확인 — Catacal·다수 소스 7/22 일치) |
-| (~7/22) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/22) |
+| (~7/29) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — Investing.com 7/29 표시 (과거 패턴 Q1: 4/22 기준 ~7/22 대비 1주 후행, WebSearch 추정) |
 | 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
 | 7/23 | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026, AMC (확정, TipRanks·MarketBeat·Investing.com 6/8 재확인 — FY 6월 결산, 검사·계측 장비, 첨단 노드 수율 cue) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
