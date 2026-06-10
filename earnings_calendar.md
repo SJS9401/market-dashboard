@@ -183,14 +183,13 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-10 (자동 실행)**
+> **최종 갱신: 2026-06-11 (자동 실행)**
 
 ### 6월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/10 | Oracle (ORCL) | 소프트웨어 | AMC, Q4 FY2026 — 가이던스 매출 +18~20% CC·비GAAP EPS $1.96~2.00, FY27 가이던스 $90B 상향 (확정, 6/1 재확인 — eciks.org 5/26 "Q4 2026 Earnings Date: June 10, 2026" 명시·MarketBeat·역사 패턴(FY25: 6/9, FY24: 6/10, FY23: 6/12) 모두 6/10 일치. 이전 TipRanks 6/16은 오류로 정정) |
-| 6/24 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정, Micron 공식 발표 + Investing.com 5/30 재확인, KST 6/25 새벽 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
+| 6/24 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정, Micron 공식 발표 + 6/11 재확인, KST 6/25 새벽 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
 
 ### 7월
 
@@ -284,6 +283,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 6/10 | Oracle (ORCL) | 소프트웨어 | AMC 발표 완료 (Q4 FY2026 — 매출 $19.2B +21% YoY record, Cloud $9.9B +47% (IaaS $5.8B +93%, SaaS $4.1B +10%), GAAP EPS $1.45 +21%, 비GAAP EPS $2.11 +24% vs 가이던스 $2.00 상회. RPO $638B (Q4 +$85B 역대 최대 단분기 증가). FY2026 연간 매출 $67.4B +17%, Cloud $34B +39%. FY27 가이던스: 매출 $90B 재확인·비GAAP EPS $8.05 상향, Q1 FY27 Cloud Revenue +57~64% CC 전망) |
 | 6/3 | Broadcom (AVGO) | 반도체-ASIC | AMC 발표 완료 (Q2 FY2026, 매출 $22.2B +48% YoY, 비GAAP EPS $2.44, AI 반도체 매출 레코드, 자유현금흐름 $14.5B, Q3 가이던스 ~$29.4B. 메타 MTIA·구글 TPU ASIC 가속) |
 | 5/27 | Marvell Technology (MRVL) | 반도체-ASIC | AMC 발표 완료 (Q1 FY2027, 매출 $2.418B +28% YoY beat vs 컨센 $2.41B, non-GAAP EPS $0.80 beat vs $0.75, Q2 가이던스 ~$2.7B +35% YoY, FY2027 매출 ~$11B·FY2028 ~$15B 상향, AWS 트레이니움·MS Maia ASIC, 광통신 사이클) |
 | 5/20 | Nvidia (NVDA) | 반도체 | AMC 발표 완료 (Q1 FY2027, 매출 $81.6B +85.2% YoY beat vs 컨센 $80.4B, EPS $2.39 +214.5% YoY beat vs $1.79, Data Center $75.2B +100% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회) |
