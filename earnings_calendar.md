@@ -183,13 +183,14 @@
 
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
-> **최종 갱신: 2026-06-11 (자동 실행)**
+> **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
+> **최종 갱신: 2026-06-20 (자동 실행)**
 
 ### 6월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/24 | Micron (MU) | 반도체 | AMC, Q3 FY2026 (확정, Micron 공식 발표 + 6/11 재확인, KST 6/25 새벽 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
+| 6/25 | Micron (MU) | 반도체 | AMC→KST (6/24 ET), Q3 FY2026 (확정, Micron 공식 발표 — KST 새벽 05:30, 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
 
 ### 7월
 
@@ -207,12 +208,12 @@
 | 7/16 | ABB (ABB) | 전력 | Q2 2026 (공식 IR 확정 — 변압기·차단기·GIS, 산업 사이클 cue) |
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
-| 7/22 | Alphabet (GOOGL) | 빅테크 | Q2 2026, AMC (확정, 6/8 재확인 — Catacal·다수 소스 7/22 일치) |
-| 7/29 | Tesla (TSLA) | 자동차 | AMC, Q2 2026 (확정 — TipRanks·Finbox·Investing.com 다수 소스 7/29 Confirmed, 6/7 재확인. 이전 7/22 정정) |
-| (~7/29) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — Investing.com 7/29 표시 (과거 패턴 Q1: 4/22 기준 ~7/22 대비 1주 후행, WebSearch 추정) |
-| 7/23 | Intel (INTC) | 반도체-CPU | Q2 2026, AMC (확정, TipRanks·MarketBeat — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
-| 7/23 | KLA Corporation (KLAC) | 반도체-소부장 | Q4 FY2026, AMC (확정, TipRanks·MarketBeat·Investing.com 6/8 재확인 — FY 6월 결산, 검사·계측 장비, 첨단 노드 수율 cue) |
+| 7/23 | Tesla (TSLA) | 자동차 | AMC→KST (7/22 ET), Q2 2026 (TipRanks·Unusual Whales Confirmed) |
+| 7/23 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (다수 소스 7/23 ET — 765kV·HVDC·AI DC, 한국 전력 인프라 멀티플 reference. 6/20 정정) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
+| (~7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 — Investing.com 7/23 표시 (패턴 대비 앞당겨질 가능성. 2025 Q2 콜: 7/31, 2024: 7/31, 2023: 7/27. 삼성 IR 공식 미공시) |
+| 7/24 | Intel (INTC) | 반도체-CPU | AMC→KST (7/23 ET), Q2 2026 (확정 — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
+| 7/24 | KLA Corporation (KLAC) | 반도체-소부장 | AMC→KST (7/23 ET), Q4 FY2026 (확정 — FY 6월 결산, 검사·계측 장비, 첨단 노드 수율 cue) |
 | (~7/24) | 현대로템 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
 | (~7/24) | 삼성중공업 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
 | (~7/27) | 한화오션 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/27) |
@@ -221,38 +222,38 @@
 | (~7/28) | 삼성SDI | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/28) |
 | (~7/28) | 현대건설 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/28) |
 | 7/28 | RTX (RTX) | 방산 | BMO, Q2 2026 (확정 — 방산+항공엔진, 수주잔고) |
-| 7/28 | Microsoft (MSFT) | 빅테크 | Q4 FY2026, AMC (확정, Microsoft 공식 발표 2026-04-08) |
-| 7/29 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (확정 — 765kV·HVDC·AI DC, 한국 전력 인프라 주 멀티플 reference) |
+| 7/29 | Microsoft (MSFT) | 빅테크 | AMC→KST (7/28 ET), Q4 FY2026 (확정, Microsoft 공식 발표 2026-04-08) |
+| 7/29 | Alphabet (GOOGL) | 빅테크 | AMC→KST (7/28 ET), Q2 2026 (TipRanks Confirmed, 6/20 갱신) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
-| 7/29 | Meta (META) | 빅테크 | Q2 2026, AMC — 7/29 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치) |
-| 7/29 | ARM (ARM) | 반도체-CPU | Q1 FY2027 (확정, ARM 공식 IR — 데이터센터 Neoverse·모바일 Cortex 라이선스 성장세) |
-| (~7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 — Investing.com 7/23 표시 (패턴 대비 앞당겨질 가능성. 2025 Q2 콜: 7/31, 2024: 7/31, 2023: 7/27. 삼성 IR 공식 미공시) |
-| (~7/29) | Ford (F) | 자동차 | Q2 2026, AMC — 미확정 추정 (wallstreethorizon, Q1: 4/29) |
+| (~7/29) | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 — Investing.com 7/29 표시 (과거 패턴 Q1: 4/22, WebSearch 추정) |
 | (~7/29) | 에코프로비엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
 | (~7/29) | 두산에너빌리티 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
-| 7/30 | Apple (AAPL) | 빅테크 | Q3 FY2026 (확정, Apple IR) |
-| 7/30 | Amazon (AMZN) | 빅테크 | Q2 2026, AMC (확정) |
-| 7/30 | BAE Systems (BA.) | 방산 | H1 2026 결과 (확정, BAE 공식 IR — 2026-05-08 확인) |
-| 7/30 | Huntington Ingalls (HII) | 조선 | Q2 2026 (확정 — 미국 해군 조선, 수주잔고) |
-| 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터) |
-| 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (TipRanks·MarketBeat·Zacks 소스 7/30 일치, FY2026 연간은 5/8 완료) |
+| 7/30 | Meta (META) | 빅테크 | AMC→KST (7/29 ET), Q2 2026 (TipRanks·MarketBeat·Nasdaq Confirmed) |
+| 7/30 | ARM (ARM) | 반도체-CPU | AMC→KST (7/29 ET), Q1 FY2027 (확정, ARM 공식 IR — Neoverse·Cortex 라이선스 성장세) |
+| 7/30 | BAE Systems (BA.) | 방산 | H1 2026 결과 (확정, BAE 공식 IR — 런던시간 오전, KST 동일) |
+| 7/30 | Huntington Ingalls (HII) | 조선 | BMO, Q2 2026 (확정 — 미국 해군 조선, 수주잔고) |
+| 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터, 파리 오전 KST 동일) |
+| 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (도쿄 오후, KST 동일. TipRanks·MarketBeat·Zacks 일치) |
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
-| 7/30 | Bloom Energy (BE) | 전력 | Q2 2026, AMC — 확정 (TipRanks 7/30 AMC Confirmed, Q1: 4/28 발표 매출 $751.1M +130%) |
-| 7/31 | Cameco (CCJ) | 원전 | BMO, Q2 2026 (확정, Cameco 공식 발표 — Q1: 5/5) |
+| (~7/30) | Ford (F) | 자동차 | AMC→KST (~7/29 ET), Q2 2026 — 미확정 추정 (wallstreethorizon) |
+| 7/31 | Apple (AAPL) | 빅테크 | AMC→KST (7/30 ET), Q3 FY2026 (확정, Apple IR) |
+| 7/31 | Amazon (AMZN) | 빅테크 | AMC→KST (7/30 ET), Q2 2026 (확정) |
+| 7/31 | Bloom Energy (BE) | 전력 | AMC→KST (7/30 ET), Q2 2026 (확정, TipRanks) |
+| 7/31 | Cameco (CCJ) | 원전 | BMO, Q2 2026 (확정, Cameco 공식 발표) |
 
 ### 8월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 8/4 | AMD (AMD) | 반도체-CPU | Q2 2026, AMC (확정, MarketBeat·Nasdaq) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
-| 8/4 | Eaton (ETN) | 전력 | Q2 2026 (확정, Investing.com) — 전력 CAPEX·데이터센터 수요 (Q1: 5/5 매출 $7.5B 사상최고, 유기적 성장 가이던스 +8→+10% 상향, OPM 압박 주의) |
-| 8/5 | Western Digital (WDC) | 반도체-스토리지 | Q4 FY2026 (확정) — 가이던스: 매출 $3.65B±100M, GM 51~52%, EPS $3.25±0.15, Cloud 90%+ 수요 지속 |
-| 8/5 | Lam Research (LRCX) | 반도체-소부장 | Q4 FY2026 (이전 Q1 FY2027 레이블 오류 수정), 식각·증착, 메모리 노출 최대 — HBM·DRAM 양산 사이클 |
-| 8/5 | Qualcomm (QCOM) | 반도체-모바일 | Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
-| 8/5 | Nextracker (NXT) | 전력 | Q1 FY2027 (확정, MarketBeat — 태양광 트래커, FY27 가이던스 $3.8~4.1B, Q4 FY26 5/12 완료) |
-| 8/6 | Rheinmetall (RHM) | 방산 | H1 2026 결과 (확정, Rheinmetall IR — 장갑차·탄약·독일 재무장) |
-| 8/6 | Constellation Energy (CEG) | 원전 | Q2 2026 (확정, MarketBeat·public.com — 원전 가동/수익성, 전력 가격. 이전 7/30 오류 정정) |
+| 8/4 | Eaton (ETN) | 전력 | BMO, Q2 2026 (확정, Investing.com) — 전력 CAPEX·데이터센터 수요 (Q1: 5/5 매출 $7.5B 사상최고, 유기적 성장 가이던스 +8→+10% 상향, OPM 압박 주의) |
+| 8/5 | AMD (AMD) | 반도체-CPU | AMC→KST (8/4 ET), Q2 2026 (확정, MarketBeat·Nasdaq) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
+| 8/6 | Western Digital (WDC) | 반도체-스토리지 | AMC→KST (8/5 ET), Q4 FY2026 (확정) — 가이던스: 매출 $3.65B±100M, GM 51~52%, EPS $3.25±0.15, Cloud 90%+ 수요 지속 |
+| 8/6 | Lam Research (LRCX) | 반도체-소부장 | AMC→KST (8/5 ET), Q4 FY2026 (확정) — 식각·증착, 메모리 노출 최대, HBM·DRAM 양산 사이클 |
+| 8/6 | Qualcomm (QCOM) | 반도체-모바일 | AMC→KST (8/5 ET), Q3 FY2026 (확정) — 갤럭시·스냅드래곤, 자동차 AP 모멘텀 |
+| 8/6 | Nextracker (NXT) | 전력 | AMC→KST (8/5 ET), Q1 FY2027 (확정, MarketBeat — 태양광 트래커, FY27 가이던스 $3.8~4.1B) |
+| 8/6 | Rheinmetall (RHM) | 방산 | H1 2026 결과 (확정, Rheinmetall IR — 장갑차·탄약·독일 재무장, 독일 오전 KST 동일) |
+| 8/7 | Constellation Energy (CEG) | 원전 | AMC→KST (8/6 ET), Q2 2026 (확정 — 원전 가동/수익성, 전력 가격. 이전 7/30 오류 정정) |
 | (~8/6) | 셀트리온 | 제약/바이오 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/6) |
 | (~8/6) | 에이피알 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/6) |
 | (~8/7) | HD현대중공업 | 조선 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
@@ -261,21 +262,21 @@
 | (~8/7) | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) — 과거 패턴 추정 (Q3 FY25: 8/6, Q2 FY26: 5/7, FY 9월 결산) |
 | (~8/7) | 한화에어로스페이스 | 방산 | 2Q26 실적 — Investing.com 8/7 표시, 과거 패턴 (Q1: 4/30) 대비 +1주 후행 (이전 ~7/30 정정) |
 | (~8/8) | 한국전력 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/8) |
-| 8/10 | Palantir (PLTR) | 소프트웨어 | Q2 2026, AMC (확정, TipRanks — AI 소프트웨어 수주, 미국 상업부문 성장세) |
-| 8/12 | Vistra (VST) | 원전 | Q2 2026, BMO (확정 — 원전+가스 발전, 전력 가격) |
-| 8/12 | NuScale Power (SMR) | 원전 | Q2 2026 (확정, MarketBeat·Nasdaq — SMR 수주/인허가 진척, pre-revenue) |
+| 8/11 | Palantir (PLTR) | 소프트웨어 | AMC→KST (8/10 ET), Q2 2026 (확정 — AI 소프트웨어 수주, 미국 상업부문 성장세) |
+| 8/12 | Vistra (VST) | 원전 | BMO, Q2 2026 (확정 — 원전+가스 발전, 전력 가격) |
+| 8/13 | NuScale Power (SMR) | 원전 | AMC→KST (8/12 ET), Q2 2026 (확정, MarketBeat·Nasdaq — SMR 수주/인허가 진척, pre-revenue) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
-| 8/13 | SanDisk (SNDK) | 반도체-스토리지 | Q4 FY2026 (확정, TipRanks AMC) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결(Q3말 3+Q4초 2), Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
-| 8/13 | Applied Materials (AMAT) | 반도체-소부장 | Q3 FY2026 (확정, MarketBeat·TipRanks) — Q2 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, 증착·식각 장비, HBM CAPEX 사이클 동조 |
-| 8/18 | Oklo (OKLO) | 원전 | Q2 2026, AMC — 확정 (TipRanks·MarketBeat·Nasdaq 다수 소스 일치, Q1: 5/12 순손실 $33.1M·EPS -$0.19, 현금 $2.5B 충분) |
-| 8/20 | Marvell Technology (MRVL) | 반도체-ASIC | Q2 FY2027, AMC (확정, TipRanks·MarketBeat — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
-| 8/26 | Nvidia (NVDA) | 반도체 | AMC, Q2 FY2027 (확정, TipRanks·MarketBeat) — Q1 FY2027 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
+| 8/14 | SanDisk (SNDK) | 반도체-스토리지 | AMC→KST (8/13 ET), Q4 FY2026 (확정) — Q3 실제 $5.95B +251% YoY 대폭 초과, Datacenter $1.47B +233% QoQ, NBM 계약 5개 체결, Q4 가이던스 $7.75-8.25B·GM 79~81%·EPS $30-33 |
+| 8/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC→KST (8/13 ET), Q3 FY2026 (확정) — Q3 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, HBM CAPEX 사이클 동조 |
+| 8/19 | Oklo (OKLO) | 원전 | AMC→KST (8/18 ET), Q2 2026 (확정 — SMR 규제 진척, 현금 $2.5B) |
+| 8/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC→KST (8/20 ET), Q2 FY2027 (확정 — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
+| 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 
 ### 9월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 9/3 | Broadcom (AVGO) | 반도체-ASIC | AMC, Q3 FY2026 (확정, TipRanks·Investing.com — Q2 매출 $22.2B +48% YoY, Q3 가이던스 ~$29.4B, 메타 MTIA·구글 TPU ASIC) |
+| 9/4 | Broadcom (AVGO) | 반도체-ASIC | AMC→KST (9/3 ET), Q3 FY2026 (확정 — Q2 매출 $22.2B +48% YoY, Q3 가이던스 ~$29.4B, 메타 MTIA·구글 TPU ASIC) |
 
 ---
 

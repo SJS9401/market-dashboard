@@ -235,6 +235,10 @@
       <a href="https://alphasquare.co.kr/home/insight?code=SNDK" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=alphasquare.co.kr&sz=32" alt=""><span class="link-label">알파스퀘어</span></a>
       <a href="https://www.ig.com/en/indices/markets-indices/weekend-us-tech-100-e1" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=ig.com&sz=32" alt=""><span class="link-label">위켄드 나스닥100</span></a>
       <a href="https://www.ig.com/en/indices/markets-indices/weekend-oil---us-crude" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=ig.com&sz=32" alt=""><span class="link-label">위켄드 오일</span></a>
+      <a href="https://www.binance.com/en/futures/EWYUSDT?utm_source=internal&amp;utm_medium=homepage&amp;utm_campaign=trading_dashboard" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=binance.com&sz=32" alt=""><span class="link-label">EWY USDT</span></a>
+      <span class="link-spacer"></span>
+      <a href="https://www.binance.com/en/futures/SAMSUNGUSDT" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=binance.com&sz=32" alt=""><span class="link-label">삼성전자 USDT</span></a>
+      <a href="https://www.binance.com/en/futures/SKHYNIXUSDT" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=binance.com&sz=32" alt=""><span class="link-label">SK하이닉스 USDT</span></a>
       <a href="https://kr.investing.com/economic-calendar" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=investing.com&sz=32" alt=""><span class="link-label">인베스팅닷컴 캘린더</span></a>
       <a href="https://comp.fnguide.com/SVO2/ASP/SVD_comp_calendar.asp?pGB=1&amp;gicode=A005930&amp;gcd=&amp;gnm=&amp;curdt=&amp;ctp=&amp;cID=&amp;MenuYn=Y&amp;ReportGB=&amp;NewMenuID=701&amp;stkGb=701" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=fnguide.com&amp;sz=32" alt=""><span class="link-label">컴퍼니가이드 캘린더</span></a>
       <a href="https://www.38.co.kr/html/fund/index.htm?o=nw" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=38.co.kr&sz=32" alt=""><span class="link-label">38커뮤니케이션</span></a>
@@ -1902,6 +1906,7 @@ function setupScrollbar(col, mainId) {
     {d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
     {d:'07/30',cat:'산업',ev:'테슬라 옵티머스 V3 양산·공개 (~8월초)',note:'로봇 — 7월말~8월초'},
     {d:'07/30',cat:'정책',ev:'BOJ 통화정책회의 + Outlook Report (~7/31)',note:'메인 인상 후보일 — 6월 인상 시 추가 인상 경로 확인'},
+    {d:'08/17',cat:'지정학',ev:'미·이란 60일 최종협상 시한 (D+60)',note:'이란전 T1 — 밴스 부통령 6/18(현지)·KST 6/19 03:25 카운트다운 개시. 호르무즈 60일 무료통행 만료. 결렬 시 봉쇄 재개·유가 재급등. 8/12 CPI·BOJ Outlook·3Q 재고피크 중첩=시나리오C'},
     {d:'08/18',cat:'시장구조',ev:'네이버·두나무 주주총회 (합병 주식교환)',note:'5/22→8/18 정정 연기. 주식교환 6/30→9/30 이연'},
     {d:'09/01',cat:'IPO',ev:'오픈AI 나스닥 상장 (예상, Q4 fallback)',note:'Mega IPO 2차 유동성 흡수 리스크 — 5/22 S-1 confidential 완료'},
     {d:'10/15',cat:'IPO',ev:'앤트로픽 IPO (예상, 4Q 광범위)',note:'Mega IPO 3차 유동성 흡수 리스크'},
@@ -2043,31 +2048,4 @@ function getIndicatorDotClass() {
 }
 setInterval(() => {
   const dataEl = document.getElementById('refresh-timer-data');
-  if (!dataEl) return;
-  const secsLeft = getNextIndicatorCronSecsLeft();
-  const h = Math.floor(secsLeft / 3600);
-  const m = Math.floor((secsLeft % 3600) / 60);
-  const s = secsLeft % 60;
-  const dotClass = getIndicatorDotClass();
-  const dotEl = dataEl.querySelector('.dot');
-  if (dotEl) {
-    dotEl.classList.remove('ok','warn','stale');
-    dotEl.classList.add(dotClass);
-  }
-  const text = `지표 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} 후 `;
-  if (dataEl.firstChild && dataEl.firstChild.nodeType === Node.TEXT_NODE) {
-    dataEl.firstChild.nodeValue = text;
-  } else {
-    dataEl.insertBefore(document.createTextNode(text), dataEl.firstChild);
-  }
-}, 1000);
-fetchIndicatorMeta();
-setInterval(fetchIndicatorMeta, 5 * 60 * 1000);
-
-// ── INIT ──
-window.addEventListener('load',()=>{
-  setTimeout(async()=>{
-    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
-    setupScrollbar('kr', 'kospi');
-    setupScrollbar('us', 'ndx');
-    // Auto-refresh every 15 minute
+  if (!dataEl) 
