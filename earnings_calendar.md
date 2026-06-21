@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-06-20 (자동 실행)**
+> **최종 갱신: 2026-06-21 (자동 실행)**
 
 ### 6월
 
@@ -209,7 +209,7 @@
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
 | 7/23 | Tesla (TSLA) | 자동차 | AMC→KST (7/22 ET), Q2 2026 (TipRanks·Unusual Whales Confirmed) |
-| 7/23 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (다수 소스 7/23 ET — 765kV·HVDC·AI DC, 한국 전력 인프라 멀티플 reference. 6/20 정정) |
+| 7/22 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (GEV 공식 IR 확정 — 웹캐스트 7/22 7:30am EDT. 765kV·HVDC·AI DC, 한국 전력 인프라 멀티플 reference. 6/21 정정) |
 | (~7/23) | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/23) |
 | (~7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 — Investing.com 7/23 표시 (패턴 대비 앞당겨질 가능성. 2025 Q2 콜: 7/31, 2024: 7/31, 2023: 7/27. 삼성 IR 공식 미공시) |
 | 7/24 | Intel (INTC) | 반도체-CPU | AMC→KST (7/23 ET), Q2 2026 (확정 — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
