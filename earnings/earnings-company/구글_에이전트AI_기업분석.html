@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Google (Alphabet) 기업분석 — 에이전트AI 테마 (빅테크 macro layer)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --google:#4285f4; --gcp:#1a73e8; --gemini:#ea4335;
+    --tpu:#34a853; --anthropic:#cc785c;
+    --nvda:#76b900; --broadcom:#cc0000; --msft:#00a4ef;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.google{background:var(--google)}
+  .header .tag.theme{background:var(--catD)}
+  .header .tag.macro{background:#666}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .google-highlight{background:#e3f0fc !important;color:#0d3a78 !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .mapping-card{background:#e8f0fc;border:1px solid #b0d0e8;border-radius:6px;padding:14px;margin:14px 0}
+  .mapping-card h4{margin-top:0;color:#0d3a78}
+  .differentiator{background:#fff5e6;border-left:4px solid #ea8a3a;padding:10px 16px;margin:14px 0;font-size:13px}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력·포지셔닝</a>
+    <a href="#s2-0">★ 2-0. logical flow</a>
+    <a href="#s2">2. AI 사업부 + CAPEX</a>
+    <a href="#s2-mapping">★ 10·11개사 발주 mapping</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#peer">빅테크 4사 비교</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag google">Google (Alphabet)</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <span class="tag macro">★ Macro Layer</span>
+      <h1>Google — NVIDIA 의존도 최저 빅테크 (★ TPU 6세대 + Gemini + Anthropic + Broadcom 위탁)</h1>
+      <div class="meta">parent_industry: 빅테크 (수요 측) · role: macro_layer_component · last_updated 2026-06-21 · AI 직접 노출 ~35%</div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame (★ MSFT 동일 빅테크 frame, 차별점은 TPU·Anthropic)</b>: Google은 본 테마의 <b>고객 (수요 측)</b> + ★ <b>TPU 6세대 (Trillium) 자체 양산 성공 = NVIDIA monopoly의 가장 강력한 alternative</b>. MSFT (OpenAI 독점 + Maia)와 차별: (a) ★ <b>TPU 6세대 (Trillium) + 7세대 (Ironwood) 자체 양산</b> — Google 10년 자체 칩 trajectory 정점 (b) ★ <b>Broadcom 위탁 생산 (Broadcom 매출 ~30% 추정)</b> (c) ★ <b>Anthropic $3B+ 투자 (vs MSFT-OpenAI)</b> (d) ★ <b>Gemini + DeepMind 자체</b> = OpenAI 의존 없는 AI Foundation (e) ★ <b>Axion ARM CPU + GCP</b> = NVIDIA 의존도 최저 빅테크. <b>★ Q1 2026 GCP $20.03B (+63% YoY) 11분기 만의 가속 + Backlog "nearly all-time high" + CY26 CapEx ~$100B + Gemini App 350M+ paid subscriptions</b>.
+    </div>
+
+    <div class="differentiator">
+      <b>★ Google의 핵심 차별점 (MSFT vs Google)</b>:<br>
+      • MSFT = OpenAI 독점 ($13B+) + Maia (Intel 18A) + Cobalt (TSMC) — NVIDIA 의존 강함<br>
+      • <b>Google = ★ TPU 자체 양산 + Anthropic $3B + Gemini + Axion + Broadcom — NVIDIA 의존 최저</b><br>
+      • Google이 ★ <b>NVIDIA monopoly 4대 위협 catalyst 중 #2 (TPU 가장 성숙한 ASIC) + Broadcom 단독 thesis driver</b>
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: Search 광고 #1 (90%+) + Cloud #3 (★ 성장률 #1 +63%) + AI Foundation 자체 #2 (Gemini) + ★ <b>TPU 6세대 (Trillium) + 7세대 (Ironwood) 자체 양산 = hyperscaler ASIC 가장 성숙</b>. Gemini App <b>350M+ paid subs</b>.</li>
+          <li><b>AI 사업부</b>: GCP $20.03B Q1 2026 (+63% YoY 11분기 만의 가속) + Gemini App 350M+ + AI Overviews +19% + Vertex AI. ★ <b>AI ARR 추정 ~$30B+</b> (MSFT $37B 다음 #2).</li>
+          <li><b>★ Google 차별 strategic angle</b>: ★ TPU Trillium·Ironwood (NVIDIA alt #1) + Broadcom 위탁 (매출 ~30% Google) + ★ Anthropic $3B+ (vs MSFT-OpenAI) + ★ Axion ARM CPU + Gemini 자체 = <b>NVIDIA 의존도 최저 빅테크</b>.</li>
+          <li><b>CapEx</b>: FY24 $52.5B → FY25 $75B → ★ <b>CY26 ~$100B+</b> (MSFT $190B 대비 작지만 ★ TPU 효율성 우위).</li>
+          <li><b>종합 (macro layer)</b>: <span class="star">★★★ AI 수요 측 #2 + NVIDIA 의존도 최저</span>. ★ Broadcom thesis driver 단독 + Anthropic Foundation 양강. (a) DOJ Antitrust (Search 분리) (b) Search vs AI Overviews monetization 전환 (c) Network ads -4% 정체.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + Google 위치</h2>
+
+      <h3>1-1. 산업·테마 컨텍스트</h3>
+      <ul>
+        <li><b>반도체 산업기초</b>: Google은 수요 측 driver — 단 ★ TPU 자체 chip으로 NVIDIA 의존도 가장 낮은 빅테크</li>
+        <li><b>에이전트AI 테마 v4</b>: Google은 수요 driver + ★ <b>TPU Trillium·Ironwood 양산으로 NVIDIA AI 가속기 segment에 위협 catalyst 제공</b></li>
+        <li><b>NVIDIA 기업분석</b>: Google TPU = NVIDIA monopoly 4대 위협 catalyst 중 #2 (가장 성숙한 ASIC)</li>
+        <li><b>MSFT 기업분석 (peer)</b>: MSFT OpenAI 독점 + Maia vs Google TPU + Gemini + Anthropic = strategic angle 정반대</li>
+      </ul>
+
+      <h3>1-2. Google 위치 (수요 측 + TPU 자체 chip)</h3>
+      <table>
+        <tr><th>Segment</th><th>글로벌 위치</th><th>비고</th></tr>
+        <tr><td>Search 광고</td><td><b>글로벌 #1 (90%+)</b></td><td>Q1 2026 +11% YoY (AI Overviews +19%)</td></tr>
+        <tr class="google-highlight"><td><b>AI Cloud (GCP)</b></td><td><b>글로벌 #3</b></td><td><b>★ Q1 2026 $20.03B (+63% YoY) — 11분기 만의 가속</b></td></tr>
+        <tr><td>★ AI Foundation (Gemini)</td><td><b>자체 #2 (OpenAI·Anthropic 동급)</b></td><td>Pro·Ultra·Flash·Nano 다중 tier</td></tr>
+        <tr><td>★ AI Foundation 투자 (Anthropic)</td><td><b>$3B+ 누적</b></td><td>OpenAI 다음 #2 투자</td></tr>
+        <tr class="google-highlight"><td><b>★ Gemini App</b></td><td><b>350M+ paid subscriptions</b></td><td>M365 Copilot 20M+ 대비 17x</td></tr>
+        <tr class="google-highlight"><td><b>★ TPU (Trillium v6 + Ironwood v7)</b></td><td><b>★ hyperscaler ASIC 가장 성숙</b></td><td>NVIDIA AI 가속기 점유 위협 #1</td></tr>
+        <tr class="google-highlight"><td><b>★ Broadcom 위탁 생산</b></td><td><b>★ Broadcom 매출 ~30% 추정</b></td><td>Google 단일 deal</td></tr>
+        <tr><td>★ Axion ARM CPU</td><td><b>자체 ARM Neoverse 양산</b></td><td>Intel Xeon 잠식</td></tr>
+        <tr><td>CY26 CapEx</td><td><b>~$100B+</b></td><td>MSFT $190B 대비 작지만 TPU 효율성</td></tr>
+        <tr><td>YouTube</td><td>글로벌 #1 동영상</td><td>Q1 2026 +16% YoY</td></tr>
+        <tr><td>Waymo (자율주행)</td><td>Other Bets 단독</td><td>본 테마 외</td></tr>
+      </table>
+
+      <h3>1-3. 사업부 구성 (Q1 2026)</h3>
+      <table>
+        <tr><th>Segment</th><th>Q1 2026</th><th>YoY</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr><td>Google Services (Search·YouTube·Network·Subs)</td><td>~$77B</td><td>+11%</td><td>부분 (AI Overviews + Gemini App + Workspace AI)</td><td>78%</td></tr>
+        <tr class="google-highlight"><td><b>Google Cloud (GCP + Workspace + AI Solutions)</b></td><td><b>$20.03B</b></td><td><b>★ +63% (11분기 만의 가속)</b></td><td>★ 본 테마 직접</td><td>20%</td></tr>
+        <tr><td>Other Bets (Waymo)</td><td>~$0.6B</td><td>—</td><td>자율주행 (별도)</td><td>0.6%</td></tr>
+        <tr><td><b>Total</b></td><td><b>~$99B</b></td><td><b>+15%</b></td><td>—</td><td>100%</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>Google 사업부별 매출 (Q1 2026)</h4>
+        <canvas id="segmentChart" height="220"></canvas>
+        <div class="src">→ Google Cloud +63% (11분기 만의 가속) + Backlog "nearly all-time high"</div>
+      </div>
+
+      <h3 id="s2-0">★ 2-0. 에이전트AI 테마 logical flow — 왜 Google이 부각받는가 (수요 측 + 자체 chip)</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 → Google 위치 — 수요 측 + NVIDIA 의존도 최저)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 토큰 20-30x</li>
+        <li>★ <b>Sundar Pichai Q1 2026</b>: <i>"We're in a unique position with full-stack AI — TPU + Gemini + GCP + DeepMind 4-layer integration"</i></li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — Google은 어디</h4>
+      <table>
+        <tr><th>Layer</th><th>9·10개사 (공급)</th><th><b>Google (수요 측 + 자체 chip)</b></th></tr>
+        <tr><td>Hot (HBM)</td><td>SK·삼성·Micron</td><td>★ TPU에 HBM 직접 (Broadcom 통한)</td></tr>
+        <tr><td>Warm (DRAM·SSD)</td><td>메모리 3사 + SNDK·Solidigm</td><td>GCP DRAM·eSSD 직접</td></tr>
+        <tr><td>Cold (HDD nearline)</td><td>WDC·Seagate</td><td>GCP cold storage 직접</td></tr>
+        <tr><td>Compute (CPU)</td><td>Intel·AMD·ARM</td><td>★ <b>Axion ARM CPU (자체) + EPYC + Xeon</b></td></tr>
+        <tr class="google-highlight"><td><b>★ Compute (GPU·AI)</b></td><td>NVIDIA·AMD·ASIC</td><td><b>★ TPU Trillium·Ironwood 자체 (NVIDIA 의존도 최저) + NVIDIA 일부 (GCP 고객용)</b></td></tr>
+        <tr class="google-highlight"><td><b>★ IP layer</b></td><td>ARM + NVIDIA</td><td><b>★ ARM Neoverse 라이선시 (Axion) + Gemini 자체 (CUDA 의존 X)</b></td></tr>
+      </table>
+      <p>→ <b>★ Google = NVIDIA 의존도 가장 낮은 빅테크 — TPU 자체 6세대 + Axion 자체 ARM + Gemini 자체 모델 풀스택</b></p>
+
+      <h4>3단계: 왜 Google이 본 테마에서 부각받는가? — 4가지 본질적 이유</h4>
+      <ol>
+        <li>★ <b>TPU 6세대 (Trillium) + 7세대 (Ironwood) 자체 양산</b> — Google 2016 TPU v1 → 10년 trajectory 정점. NVIDIA AI 가속기 위협 #1</li>
+        <li>★ <b>GCP +63% YoY Q1 2026 (11분기 만의 가속)</b> + Backlog "nearly all-time high"</li>
+        <li>★ <b>Anthropic $3B+ 투자 + Gemini 자체</b> = OpenAI 의존 없는 AI Foundation 다축</li>
+        <li>★ <b>Broadcom 위탁 생산</b> — Broadcom 매출 ~30% Google = Broadcom thesis driver 단독</li>
+      </ol>
+
+      <h4>4단계: 왜 Google이 부각? — NVIDIA 의존도 최저 + 풀스택</h4>
+      <ul>
+        <li>★ TPU full trajectory (v1 2016 → v7 Ironwood 2026): hyperscaler ASIC 10년 누적</li>
+        <li>★ Anthropic $3B+ = Claude 사용처 GCP TPU (NVIDIA GPU 대신)</li>
+        <li>★ Gemini App 350M+ paid subs = MSFT M365 Copilot 20M+ 대비 17x</li>
+        <li>★ DeepMind 자체 R&D — AlphaFold·AlphaGo·Gemini 핵심</li>
+        <li>★ Sundar "compute constrained" = Azure CFO 동일 시그널</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>본 테마 수요 측 #2 + ★ NVIDIA monopoly 위협 catalyst 가장 강한 hyperscaler</b>. AI ARR 추정 ~$30B+ (MSFT 다음). CY26 CapEx ~$100B (MSFT $190B 대비 작지만 TPU 효율성). ★ TPU + Gemini + Anthropic + Axion 풀스택. ★ <b>Broadcom 단독 thesis driver</b>. <b>통합 모드 macro layer에서 NVIDIA 위협 evidence 핵심 component</b>.</p>
+    </section>
+
+    <section id="s2">
+      <h2>항목 2. AI 사업부 + CAPEX + 10·11개사 발주 mapping ★</h2>
+
+      <h3>2-1. AI 사업부 분석 (GCP + Gemini + TPU)</h3>
+
+      <h4>Google Cloud (GCP) — $20.03B Q1 2026 (+63% YoY)</h4>
+      <ul>
+        <li>★ <b>11분기 만의 가속</b> (Q1 2024 +29% 저점 → Q1 2026 +63%)</li>
+        <li>AI Solutions segment 가속 (★ Anthropic + AI 스타트업 GCP 사용)</li>
+        <li>★ <b>Backlog "nearly all-time high"</b> (Sundar Q1 2026)</li>
+        <li>고객: Spotify, Snap, Wayfair, McDonald's, Walmart, PayPal, ★ <b>Anthropic</b></li>
+      </ul>
+
+      <h4>Gemini (AI Foundation 자체)</h4>
+      <ul>
+        <li><b>Gemini App 350M+ paid subscriptions</b></li>
+        <li>Gemini Pro·Ultra·Flash·Nano 다중 tier</li>
+        <li>AI Overviews +19% YoY (Search 직접 monetization)</li>
+        <li>DeepMind 자체 R&D</li>
+      </ul>
+
+      <h4>★ TPU (Trillium v6 + Ironwood v7) — NVIDIA alternative #1</h4>
+      <ul>
+        <li><b>TPU 진화</b>: v1 (2016) → v2/v3/v4/v5 → v6 (Trillium 2024) → ★ v7 (Ironwood 2026)</li>
+        <li>Google 자체 학습 (Gemini) + Anthropic 학습 (Claude)</li>
+        <li>★ <b>NVIDIA monopoly 4대 위협 catalyst 중 #2</b> (Google TPU 가장 성숙한 ASIC)</li>
+      </ul>
+
+      <h4>Axion CPU (ARM Neoverse)</h4>
+      <ul>
+        <li>Google 자체 ARM CPU (MSFT Cobalt와 동일 strategy)</li>
+        <li>Intel Xeon 잠식의 일부</li>
+      </ul>
+
+      <h3>2-2. CAPEX trajectory 분해</h3>
+      <table>
+        <tr><th>분기/연</th><th>CapEx ($B)</th><th>YoY</th><th>비고</th></tr>
+        <tr><td>FY22</td><td>31.5</td><td>—</td><td>ChatGPT 쇼크 후 시작</td></tr>
+        <tr><td>FY23</td><td>32.3</td><td>+2%</td><td>Year of Efficiency</td></tr>
+        <tr><td>FY24</td><td>52.5</td><td>+63%</td><td>★ Gemini + AI Overviews launch</td></tr>
+        <tr><td>FY25</td><td>75.0</td><td>+43%</td><td>AI 슈퍼사이클 진입</td></tr>
+        <tr class="google-highlight"><td><b>Q1 2026</b></td><td><b>~22</b></td><td><b>+40%+</b></td><td>annualized ~$88B+</td></tr>
+        <tr class="google-highlight"><td><b>★ CY26 (가이던스)</b></td><td><b>~$100B+</b></td><td><b>+33%</b></td><td>TPU + DC + Backlog</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>Google CapEx 추이 (FY22~CY26E)</h4>
+        <canvas id="capexChart" height="220"></canvas>
+        <div class="src">→ CapEx 효율성: TPU 자체 chip = NVIDIA GPU 대비 cost per FLOP 낮음</div>
+      </div>
+
+      <h4>CapEx 구성 + MSFT 비교</h4>
+      <ul>
+        <li><b>TPU 자체 양산 비중 큼</b> (NVIDIA GPU 발주 대비 낮음)</li>
+        <li>2/3 short-lived (TPU·Axion·EPYC·GPU), 1/3 long-lived (DC·전력)</li>
+        <li>★ <b>CapEx 효율성</b>: TPU 자체 chip = NVIDIA GPU ($25-30K/unit) 대비 cost per FLOP 낮음</li>
+        <li><b>MSFT CY26 $190B vs Google CY26 ~$100B</b>: MSFT 1.9x 큼. 단 Google ★ TPU 효율성 = 실질 AI compute capacity 격차 작음 가능성</li>
+      </ul>
+
+      <h3 id="s2-mapping">2-3. ★ 10·11개사 thesis와 직접 connection mapping (Google 특별 angle)</h3>
+
+      <div class="mapping-card">
+        <h4>발주 mapping (Google → 10·11개사)</h4>
+        <table>
+          <tr><th>종목</th><th>Google 발주 형태</th><th>정량 추정</th><th>본 테마 driver 영향</th></tr>
+          <tr><td>NVIDIA (Blackwell·Rubin)</td><td>GCP 고객용 일부 (자체 TPU 우선)</td><td><b>~$5-10B/년 (CY26)</b> ★ MSFT의 1/3-1/6</td><td>NVIDIA DC 매출 ~3-5%</td></tr>
+          <tr class="google-highlight"><td><b>★ Broadcom (TPU 위탁)</b></td><td><b>★ TPU 자체 chip 설계·생산 위탁</b></td><td><b>★ Broadcom 매출 ~30% 추정</b></td><td><b>★ Broadcom 단독 thesis driver</b></td></tr>
+          <tr><td>SK하이닉스 (HBM)</td><td>TPU에 HBM + GCP DRAM</td><td>TPU HBM (Broadcom 통한 간접)</td><td>SK HBM driver</td></tr>
+          <tr><td>삼성전자 (HBM·DRAM)</td><td>TPU HBM + GCP DRAM</td><td>간접 + 직접</td><td>삼성 DRAM CAPA driver</td></tr>
+          <tr><td>Micron (HBM·DDR5)</td><td>TPU HBM + GCP DRAM</td><td>간접 + 직접</td><td>Micron driver</td></tr>
+          <tr><td>AMD (EPYC + MI300)</td><td>GCP server CPU + 일부 MI300</td><td>EPYC 일부</td><td>AMD EPYC driver</td></tr>
+          <tr><td>Intel (Xeon)</td><td>GCP server CPU 일부 (잠식 중)</td><td>Xeon legacy</td><td>Intel Xeon legacy</td></tr>
+          <tr class="google-highlight"><td><b>★ ARM (Axion + TPU)</b></td><td><b>★ 자체 Axion + TPU 모두 ARM 기반</b></td><td>ARM royalty 직접</td><td><b>★ ARM DC royalty 2x driver</b></td></tr>
+          <tr><td>SanDisk (eSSD)</td><td>GCP storage tier</td><td>direct</td><td>SNDK NBM 일부</td></tr>
+          <tr><td>WDC (HDD nearline)</td><td>GCP cold storage</td><td>#2-3 hyperscaler</td><td>WDC nearline driver</td></tr>
+          <tr><td>Seagate (HDD nearline)</td><td>GCP cold storage</td><td>Mozaic 3+ qualified 5 CSP 일부</td><td>STX nearline driver</td></tr>
+          <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협</b></td><td><b>★ TPU = NVIDIA alternative 가장 성숙</b></td><td>NVIDIA 80% → 75-78% 위협</td><td><b>★ NVIDIA 4대 위협 #2</b></td></tr>
+        </table>
+        <p><b>★ Google 차별 특징</b>:</p>
+        <ul>
+          <li>★ NVIDIA 발주가 빅테크 중 가장 작음 (TPU 자체 우선)</li>
+          <li>★ Broadcom 단독 driver (TPU 위탁)</li>
+          <li>★ ARM royalty driver (Axion + TPU 모두 ARM)</li>
+          <li>★ NVIDIA monopoly 위협 catalyst의 가장 강한 source</li>
+        </ul>
+      </div>
+
+      <h3>2-4. ★ AI Foundation 다축 strategy (vs MSFT OpenAI 독점)</h3>
+      <table>
+        <tr><th>Model</th><th>Google 위치</th><th>차별점</th></tr>
+        <tr class="google-highlight"><td><b>★ Gemini (자체)</b></td><td>★ Pro·Ultra·Flash·Nano, <b>350M+ paid subs</b></td><td>OpenAI 의존 없음</td></tr>
+        <tr class="google-highlight"><td><b>★ Anthropic (Claude)</b></td><td>★ $3B+ 투자, Anthropic GCP 사용</td><td>Claude 사용처 = TPU</td></tr>
+        <tr><td>Llama·Mistral·Qwen</td><td>GCP에 open source 호스팅</td><td>multi-model</td></tr>
+      </table>
+      <p>→ <b>★ Google AI Foundation 차별</b>: MSFT OpenAI 독점 ($13B+ 49% economic interest) → exclusivity risk vs ★ <b>Google 자체 Gemini + Anthropic + open source 다축 = OpenAI 의존도 0</b>. ★ MSFT-OpenAI 양강 구도</p>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 12년 매출·OPM·CapEx (AI 슈퍼사이클 변곡점)</h3>
+      <div class="chart-card">
+        <h4>Google 12년 매출 + OPM + CapEx (FY14~CY26E)</h4>
+        <canvas id="cycleChart" height="280"></canvas>
+        <div class="src">→ FY24 Gemini launch → FY25 OPM 33% + CapEx $75B → CY26 ~$100B+ (TPU + DC + Backlog)</div>
+      </div>
+
+      <h3>3-2. AI 사업부 PQC 분해</h3>
+      <table>
+        <tr><th>차원</th><th>GCP (AI infra)</th><th>Gemini App</th><th>AI Overviews</th></tr>
+        <tr><td>P (단가)</td><td>컴퓨트·token</td><td>$20/월 (Pro·Ultra)</td><td>광고 클릭</td></tr>
+        <tr class="google-highlight"><td><b>Q (출하)</b></td><td><b>★ +63% YoY 가속</b></td><td><b>350M+ paid subs</b></td><td>Search 통합</td></tr>
+        <tr class="google-highlight"><td><b>C (원가)</b></td><td><b>★ TPU 효율성 (NVIDIA GPU 대비 cost 낮음)</b></td><td>TPU + DC</td><td>Search 인프라</td></tr>
+        <tr><td>매출 (Q1 2026)</td><td>$20.03B (+63%)</td><td>~$5B+ 추정</td><td>Search +19%</td></tr>
+        <tr><td>마진</td><td>Cloud OPM 점진 회복 (FY25 ~14%)</td><td>—</td><td>Search OPM ~50%</td></tr>
+      </table>
+
+      <h3>3-3. 재무 건전성 + 자본 환원</h3>
+      <ul>
+        <li>현금 $100B+ vs 부채 $30B (매우 안정)</li>
+        <li>OCF FY25 $147.5B (사상 최대) / FCF $72.5B (CapEx 폭증으로 정체)</li>
+        <li>★ <b>2024 첫 배당 시작 + 20:1 액면분할</b></li>
+        <li>자사주 매입: Q1 2026 $0 (★ 일시 중단 — CapEx 우선)</li>
+        <li>★ <b>AI CapEx 우선</b> = NVIDIA·MSFT와 동일 패턴</li>
+      </ul>
+
+      <h3>3-4. 수익성 트렌드</h3>
+      <ul>
+        <li><b>OPM 추이</b>: FY18 20.1% (EU 벌금) → FY21 30.6% 정점 → FY22 26.5% 압축 → FY25 ~33% (회복 + AI)</li>
+        <li><b>Google Cloud OPM</b>: FY24 8% → FY25 ~14% (★ 흑자 전환·확대)</li>
+        <li><b>Search OPM</b>: 안정 50%+ (AI Overviews monetization로 +)</li>
+        <li>★ <b>Cloud OPM 회복 trajectory</b> = AI 사업부 수익화 정량 입증</li>
+      </ul>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률</h3>
+      <ul>
+        <li>3년 (FY22→FY25): 매출 CAGR <b>+12%</b></li>
+        <li>5년 (FY20→FY25): <b>+17%</b></li>
+        <li>12년 (FY13→FY25): <b>+18%</b></li>
+      </ul>
+      <p>→ MSFT +12.4% 대비 약간 우위. GCP +63% 가속으로 추가 가속 가능</p>
+
+      <h3>4-2. 향후 성장 가시성</h3>
+      <table>
+        <tr><th>차원</th><th>전망</th><th>근거</th></tr>
+        <tr><td>P 전망</td><td>GCP compute 안정, Gemini $20/월</td><td>TPU 효율성</td></tr>
+        <tr class="google-highlight"><td><b>Q 전망</b></td><td>★ GCP +63% → +50%+ 지속 가능</td><td>Backlog "nearly all-time high"</td></tr>
+        <tr class="google-highlight"><td><b>C 전망</b></td><td>★ TPU 효율성 우위</td><td>NVIDIA 의존 빅테크 대비</td></tr>
+        <tr class="google-highlight"><td><b>→ 매출 성장</b></td><td>FY26 ~$460B (+15%) / FY27 ~$520B (+13%)</td><td>GCP 가속 + Search AI</td></tr>
+        <tr><td>→ 마진</td><td>OPM 33-35% + Cloud OPM 15%+</td><td>Cloud 흑자 확대</td></tr>
+      </table>
+
+      <h4>구조적 + vs 저해 risk</h4>
+      <div class="twocol">
+        <div>
+          <b>구조적 +</b>
+          <ul>
+            <li>★ GCP +63% (11분기 만의 가속)</li>
+            <li>★ Gemini App 350M+ paid</li>
+            <li>★ TPU 효율성 (NVIDIA 의존 최저)</li>
+            <li>★ Anthropic + Gemini 다축</li>
+            <li>★ Backlog "nearly all-time high"</li>
+          </ul>
+        </div>
+        <div>
+          <b>저해 risk</b>
+          <ul>
+            <li>★ <b>DOJ Antitrust</b> (Search 분리 명령)</li>
+            <li>Search vs AI Overviews monetization 전환</li>
+            <li>Network ads -4% 정체</li>
+            <li>AI CapEx 폭증 FCF 압박</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="peer">
+      <h2>빅테크 4사 비교 (★ macro layer baseline)</h2>
+      <table>
+        <tr><th>빅테크</th><th>매출 CAGR (3년)</th><th>AI ARR</th><th>CY26 CapEx</th><th>strategic angle</th></tr>
+        <tr><td>MSFT</td><td>+12.4%</td><td>$37B (+123%)</td><td>$190B</td><td>OpenAI 독점 + Maia + Cobalt</td></tr>
+        <tr class="google-highlight"><td><b>Google</b></td><td>+12%</td><td>~$30B+ 추정</td><td>~$100B</td><td><b>★ TPU + Gemini + Anthropic + Broadcom + Axion (NVIDIA 의존도 최저)</b></td></tr>
+        <tr><td>AWS</td><td>+10%</td><td>~$25B+</td><td>$195B</td><td>Trainium 2 + Anthropic $11B + Graviton</td></tr>
+        <tr><td>Meta</td><td>+20%</td><td>$20B+</td><td>$135B</td><td>Llama + MTIA + AMD MI450 6GW</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>빅테크 4사 NVIDIA 의존도 비교 (정성)</h4>
+        <canvas id="nvdaDep" height="220"></canvas>
+        <div class="src">→ ★ Google이 NVIDIA 의존도 가장 낮은 빅테크 (TPU 자체 chip + Gemini + Anthropic)</div>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>정리</th></tr>
+        <tr class="google-highlight"><td><b>★ CY26 CapEx</b></td><td><b>~$100B+ (Q1 2026 $22B annualized $88B+)</b></td></tr>
+        <tr class="google-highlight"><td><b>★ AI ARR 추정</b></td><td><b>~$30B+ (MSFT 다음 #2)</b></td></tr>
+        <tr class="google-highlight"><td><b>★ GCP 성장</b></td><td><b>+63% YoY Q1 2026</b> — 11분기 만의 가속</td></tr>
+        <tr class="google-highlight"><td><b>★ Backlog</b></td><td><b>"nearly all-time high"</b> (Sundar Q1 2026)</td></tr>
+        <tr><td>Gemini App</td><td><b>350M+ paid subscriptions</b></td></tr>
+        <tr><td>AI Foundation</td><td>Gemini (자체) + ★ <b>Anthropic $3B+ 투자</b> + open source 다축</td></tr>
+        <tr class="google-highlight"><td><b>★ TPU 자체 chip</b></td><td><b>★ Trillium (v6) + Ironwood (v7), Broadcom 위탁</b></td></tr>
+        <tr class="google-highlight"><td><b>★ Broadcom 단독 deal</b></td><td><b>★ Broadcom 매출 ~30% Google deal</b></td></tr>
+        <tr><td>Axion CPU (ARM Neoverse)</td><td>자체 ARM chip, TSMC 양산</td></tr>
+        <tr><td>NVIDIA 발주 추정</td><td>$5-10B/년 — ★ NVIDIA 의존도 최저</td></tr>
+        <tr><td>HBM·HDD 발주</td><td>TPU HBM 직접 + GCP cold storage</td></tr>
+        <tr><td>Cloud OPM</td><td>FY24 8% → FY25 ~14% (흑자 확대)</td></tr>
+        <tr><td>시총</td><td>~$2.2T (2026-06)</td></tr>
+        <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협 catalyst</b></td><td><b>★ TPU 6세대 = NVIDIA alternative 가장 성숙</b></td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h4>상방 트리거</h4>
+      <ul>
+        <li>★ GCP +65%+ YoY 가속 지속 (Q2 2026)</li>
+        <li>★ CY26 CapEx $100B+ 페이스 유지 + FY27 가이드</li>
+        <li>★ <b>TPU 7세대 Ironwood 본격 양산</b> (2026 H2)</li>
+        <li>★ Anthropic Claude GCP 사용 확대</li>
+        <li>★ Gemini App 500M+ paid (Q4 2026)</li>
+        <li>Cloud OPM 18%+ 도달</li>
+      </ul>
+
+      <h4>하방 트리거</h4>
+      <ul>
+        <li>★ <b>DOJ Antitrust 판결</b> (Search 분리 명령)</li>
+        <li>GCP +50% 이하 둔화</li>
+        <li>AI Overviews monetization risk</li>
+        <li>TPU 7세대 yield issue</li>
+        <li>AI CapEx 가이던스 cut</li>
+      </ul>
+
+      <h4>모니터링 캘린더</h4>
+      <ul>
+        <li><b>Q2 2026 실적</b> (2026-07-22): GCP 가속 + CapEx + Gemini subs</li>
+        <li><b>Google Cloud Next 2026</b> (4월): TPU + Gemini 발표</li>
+        <li>DOJ 판결 진행 (Search 분리 명령 항소심)</li>
+        <li>Anthropic 추가 deal 발표</li>
+      </ul>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단 (macro layer component)</h2>
+
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr><td>AI 수요 측 #2</td><td>★★★</td><td>AI ARR ~$30B+, GCP +63% 가속</td></tr>
+        <tr class="google-highlight"><td><b>★ NVIDIA 의존도 최저</b></td><td>★★★</td><td>TPU 자체 + Gemini + Anthropic</td></tr>
+        <tr><td>AI 사업부 강도</td><td>★★★</td><td>GCP 11분기 만의 가속 + Gemini 350M+</td></tr>
+        <tr><td>재무 건전성</td><td>★★★</td><td>OCF $147B, OPM 33%, Cloud 흑자 확대</td></tr>
+        <tr class="google-highlight"><td><b>★ Macro layer 가치</b></td><td>★★★</td><td>TPU = NVIDIA 위협 evidence + Broadcom thesis driver</td></tr>
+      </table>
+
+      <h4>핵심 투자 포인트 3</h4>
+      <ol>
+        <li><b>★ NVIDIA 의존도 가장 낮은 hyperscaler + TPU 6세대 자체 양산</b>: 2016 TPU v1 → 2026 Trillium·Ironwood 10년 trajectory. NVIDIA monopoly 4대 위협 catalyst 중 #2. ★ Broadcom 매출 ~30% Google deal = Broadcom thesis driver 단독.</li>
+        <li><b>★ GCP +63% YoY (11분기 만의 가속) + Backlog "nearly all-time high"</b>: Q1 2026 $20B, AWS·Azure 추격 가속. Cloud OPM 흑자 확대 (FY24 8% → FY25 14%) = AI 사업부 수익화 정량 입증.</li>
+        <li><b>★ Gemini App 350M+ paid + Anthropic $3B+ + Gemini 자체</b>: MSFT-OpenAI 양강 구도. OpenAI 의존 없는 AI Foundation 다축. ★ Anthropic Claude 사용처 = GCP TPU.</li>
+      </ol>
+
+      <h4>핵심 리스크 3</h4>
+      <ol>
+        <li><b>★ DOJ Antitrust (Search 분리 명령)</b>: 항소심 진행 중. 분리 strucutre 변경 시 multiple cap + Search 광고 model 변경 risk.</li>
+        <li><b>Search 광고 vs AI Overviews monetization 전환</b>: AI Overviews +19% YoY이지만 ★ Search 광고 cannibalization risk.</li>
+        <li><b>Network ads -4% 정체 + AI CapEx 폭증 FCF 압박</b>: Q1 2026 자사주 $0 = CapEx 우선, FCF 압박.</li>
+      </ol>
+
+      <p>→ <b>종합 (macro layer)</b>: <span class="star">★★★ AI 수요 측 #2 + ★ NVIDIA 의존도 최저 빅테크 + Broadcom thesis 단독 driver</span>. <b>통합 모드 macro layer에서 NVIDIA 위협 evidence + TPU·Broadcom·Anthropic 풀스택 alternative narrative의 핵심 component</b>.</p>
+    </section>
+
+    <section id="appx">
+      <h2>향후 관찰 포인트</h2>
+      <ol>
+        <li>Q2 2026 실적 (2026-07-22): GCP +65%+ + Gemini 400M+ + Backlog</li>
+        <li>TPU 7세대 Ironwood 본격 양산 (2026 H2) — Broadcom driver</li>
+        <li>DOJ Search 분리 판결 (항소심)</li>
+        <li>CY26 CapEx $100B+ 페이스 검증 + FY27 가이드</li>
+        <li>Anthropic 추가 GCP 사용 deal</li>
+        <li>Cloud OPM 18%+ 도달</li>
+        <li>AI Overviews → Search 광고 monetization 전환</li>
+        <li>Gemini Pro 3·Ultra + multimodal 가속</li>
+      </ol>
+
+      <div class="footer">
+        Google (Alphabet) 에이전트AI 기업분석 v1 — 2026-06-21<br>
+        ★ 빅테크 frame (수요 측, macro layer single 종목 component) + Google 차별 angle (TPU·Anthropic·NVIDIA 의존도 최저)<br>
+        Auto-references: 반도체_산업기초.md (2026-05-18), 에이전트AI_테마분석.md (v4), GOOGL_기업개요.md (v1.0), 2026-Q1_GOOGL_리뷰.md, 엔비디아_에이전트AI_기업분석.md (NVIDIA 위협 매핑), 마이크로소프트_에이전트AI_기업분석.md (peer)
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Chart 1: 사업부별 (Q1 2026)
+new Chart(document.getElementById('segmentChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Google Services (Search·YT·Network·Subs)', 'Google Cloud (GCP·AI)', 'Other Bets (Waymo)'],
+    datasets: [{
+      data: [77, 20.03, 0.6],
+      backgroundColor: ['#4285f4', '#34a853', '#a0a0a0'],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {position: 'right', labels: {font: {size: 12}}},
+      title: {display: false}
+    }
+  }
+});
+
+// Chart 2: CapEx 추이
+new Chart(document.getElementById('capexChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'Q1 2026', 'CY26 (E)'],
+    datasets: [
+      {label: 'CapEx ($B)', data: [31.5, 32.3, 52.5, 75.0, 22, 100], backgroundColor: ['#a0a0a0', '#a0a0a0', '#4285f4', '#4285f4', '#34a853', '#1a73e8']}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, title: {display: true, text: 'CapEx ($B)'}}},
+    plugins: {legend: {display: false}, title: {display: false}}
+  }
+});
+
+// Chart 3: 12년 매출 + OPM + CapEx
+new Chart(document.getElementById('cycleChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY14','FY15','FY16','FY17','FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25','CY26E'],
+    datasets: [
+      {label: '매출 ($B)', data: [66.0,75.0,90.3,110.9,136.8,161.9,182.5,257.6,282.8,307.4,350.0,402.8,460], backgroundColor: '#4285f4', yAxisID: 'y', order: 3},
+      {label: 'CapEx ($B)', data: [11.0,9.9,10.2,13.2,25.1,23.5,22.3,24.6,31.5,32.3,52.5,75.0,100], backgroundColor: '#a8843f', yAxisID: 'y', order: 2},
+      {label: 'OPM (%)', data: [25.0,25.8,26.3,23.6,20.1,21.1,22.6,30.6,26.5,27.4,32.1,33.0,null], borderColor: '#ea4335', backgroundColor: '#ea4335', type: 'line', yAxisID: 'y1', tension: 0.3, order: 1}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {beginAtZero: true, position: 'left', title: {display: true, text: '$B'}},
+      y1: {beginAtZero: false, position: 'right', title: {display: true, text: 'OPM (%)'}, grid: {drawOnChartArea: false}, min: 0, max: 40}
+    },
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+
+// Chart 4: 빅테크 4사 NVIDIA 의존도
+new Chart(document.getElementById('nvdaDep'), {
+  type: 'bar',
+  data: {
+    labels: ['MSFT', 'AWS', 'Meta', 'Google'],
+    datasets: [
+      {label: 'NVIDIA 발주 추정 ($B/년)', data: [35, 30, 20, 7.5], backgroundColor: ['#00a4ef', '#ff9900', '#0668e1', '#34a853']}
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {x: {beginAtZero: true, title: {display: true, text: 'NVIDIA 발주 ($B/년 추정)'}}},
+    plugins: {legend: {display: false}, title: {display: false}}
+  }
+});
+</script>
+</body>
+</html>

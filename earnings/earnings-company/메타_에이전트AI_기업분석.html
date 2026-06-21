@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Meta 기업분석 — 에이전트AI 테마 (빅테크 macro layer)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --meta:#0668e1; --llama:#7b68ee; --rl:#cc785c;
+    --amd:#ed1c24; --nvda:#76b900; --broadcom:#cc0000;
+    --msft:#00a4ef; --google:#4285f4; --aws:#ff9900;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.meta{background:var(--meta)}
+  .header .tag.theme{background:var(--catD)}
+  .header .tag.macro{background:#666}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta-info{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .meta-highlight{background:#e1ecfc !important;color:#0a3478 !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .mapping-card{background:#e1ecfc;border:1px solid #6a90c5;border-radius:6px;padding:14px;margin:14px 0}
+  .mapping-card h4{margin-top:0;color:#0a3478}
+  .differentiator{background:#e1ecfc;border-left:4px solid #0668e1;padding:10px 16px;margin:14px 0;font-size:13px}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력·포지셔닝</a>
+    <a href="#s2-0">★ 2-0. logical flow</a>
+    <a href="#s2">2. AI 사업부 + CAPEX</a>
+    <a href="#s2-mapping">★ 10·11개사 발주 mapping</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#peer">빅테크 4사 비교</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag meta">Meta Platforms</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <span class="tag macro">★ Macro Layer</span>
+      <h1>Meta — Cloud X + Llama open + ★ AMD MI450 6GW 단독 driver (빅테크 4사 중 가장 다른 angle)</h1>
+      <div class="meta-info">parent_industry: 빅테크 (수요 측, 자체 인프라 only) · role: macro_layer_component · last_updated 2026-06-21 · AI 직접 노출 ~20%</div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame (★ MSFT·Google·AWS와 가장 다른 빅테크 angle)</b>: Meta는 본 테마의 <b>고객 (수요 측, 자체 인프라 only)</b>. ★ <b>Cloud 사업 없음</b> = MSFT/Google/AWS와 본질 차이. 광고 99%+ 사업 + AI 광고 ARR + Reality Labs 별도 베팅. <b>★ 차별 strategic angle</b>: (a) ★ <b>Llama open source</b> — OpenAI/Anthropic 폐쇄 정반대 (b) ★ <b>AMD MI450 6GW mega deal (2025-10)</b> — Meta가 AMD 최대 단일 hyperscaler 고객 + 6th Gen EPYC lead customer (c) ★ <b>MTIA Broadcom 위탁</b> — Google TPU와 같은 모델 (d) ★ <b>Reality Labs</b> (VR/AR/Meta AI 글래스) — 본 테마 외 별도 베팅 (e) ★ <b>AI 광고 ARR $30B (2x YoY)</b> = ★ AI = 광고 efficiency monetization 중심. <b>★ DAP 3.56B (글로벌 인구 44%) + FY25 매출 $219.4B (+34%) + CapEx FY26E ~$100B + Reality Labs 누적 적자 $72B</b>.
+    </div>
+
+    <div class="differentiator">
+      <b>★ Meta의 핵심 차별점 (빅테크 4사 중 가장 다른 angle)</b>:<br>
+      • MSFT = OpenAI 독점 + Maia + Cobalt + <b>Cloud #2</b> ($95B)<br>
+      • Google = Gemini+Anthropic + TPU + Broadcom + <b>Cloud #3</b> ($80B)<br>
+      • AWS = Anthropic+OpenAI + Trainium + Graviton + <b>Cloud #1</b> ($137B)<br>
+      • <b>Meta = ★ Cloud X (자체 인프라만) + ★ Llama open source + ★ AMD MI450 6GW (AMD 최대 고객) + MTIA Broadcom + Reality Labs</b><br>
+      • Meta가 ★ <b>AMD thesis 단독 driver + NVIDIA monopoly 위협 catalyst #1 evidence + Broadcom 추가 driver + Llama 생태계 영향력</b>
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: 글로벌 #1 광고 플랫폼 (FoA 99%) + ★ <b>DAP 3.56B (글로벌 44%)</b> + ★ <b>Llama open source (유일 빅테크)</b> + ★ Reality Labs 별도 베팅. ★ <b>Cloud 사업 없음</b> (자체 인프라만).</li>
+          <li><b>AI 사업부</b>: ★ <b>AI 광고 ARR $30B (Value Opt $20B + Partnership $10B, 2x YoY)</b> + Llama 4 + Meta Superintelligence Labs + Ray-Ban Meta 글래스. ★ <b>AI = 광고 efficiency monetization 중심</b>.</li>
+          <li><b>★ Meta 차별 strategic angle (빅테크 4사 중 가장 다름)</b>: ★ <b>Cloud X</b> + ★ <b>AMD MI450 6GW</b> (AMD 최대 단일 + 6th Gen EPYC lead = ★ AMD 단독 driver) + ★ <b>Llama open source</b> + ★ MTIA Broadcom 위탁 + Reality Labs.</li>
+          <li><b>CapEx</b>: FY25 $75B → ★ <b>FY26E ~$100B+</b>. ★ 빅테크 4사 중 가장 작음. 단 ★ Cloud 외부 판매 X = 100% 자체 사용 = ★ CapEx efficiency 다른 의미.</li>
+          <li><b>종합 (macro layer)</b>: <span class="star">★★★ 빅테크 4사 중 가장 다른 angle + AMD·Llama·Broadcom 단독 driver + AI 광고 monetization 단독 case</span>. (a) Reality Labs 적자 누적 $72B (b) Llama monetization X (c) AI 광고 ROI 검증.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + Meta 위치</h2>
+
+      <h3>1-1. 산업·테마 컨텍스트</h3>
+      <ul>
+        <li><b>반도체 산업기초</b>: Meta는 수요 측 driver — ★ Cloud 사업 없음 = 자체 인프라만 = ★ AMD/MTIA 자체 chip 가장 적극적 빅테크</li>
+        <li><b>에이전트AI 테마 v4</b>: ★ Llama open source = AI Foundation 오픈소스 유일 + AMD MI450 = NVIDIA 위협 #1</li>
+        <li><b>NVIDIA 기업분석</b>: ★ <b>Meta 6GW MI450 = NVIDIA monopoly 위협 catalyst #1 (AMD MI400)</b></li>
+        <li><b>AMD 기업분석</b>: ★ <b>Meta 6GW MI450 + 6th Gen EPYC lead = AMD thesis 단독 driver</b></li>
+        <li><b>MSFT/Google/AWS 기업분석 (peer)</b>: 4가지 AI Foundation strategy 양상 — OpenAI 독점 vs Gemini+Anthropic vs Anthropic+OpenAI vs ★ <b>Llama open source</b></li>
+      </ul>
+
+      <h3>1-2. Meta 위치 (수요 측 + Cloud X + AMD·Llama 단독)</h3>
+      <table>
+        <tr><th>Segment</th><th>글로벌 위치</th><th>비고</th></tr>
+        <tr><td>광고 플랫폼 (FoA)</td><td>글로벌 #1</td><td>FoA 99% 매출</td></tr>
+        <tr class="meta-highlight"><td><b>DAP (일일 활성 사용자)</b></td><td><b>3.56B (글로벌 44%)</b></td><td>Q1 2026</td></tr>
+        <tr class="meta-highlight"><td><b>★ AI Foundation 전략</b></td><td><b>★ Llama open source (유일 빅테크)</b></td><td>OpenAI/Anthropic 폐쇄 정반대</td></tr>
+        <tr><td>Llama 시리즈</td><td>★ Llama 4 (2025) + Meta Superintelligence Labs</td><td>open source 표준</td></tr>
+        <tr class="meta-highlight"><td><b>★ AI 광고 ARR</b></td><td><b>★ $30B (2x YoY)</b></td><td>Value Opt $20B + Partnership $10B</td></tr>
+        <tr class="meta-highlight"><td><b>★ AMD MI450 6GW mega deal</b></td><td><b>★ AMD 최대 단일 hyperscaler 고객</b></td><td>2025-10 발표, AMD thesis 단독 driver</td></tr>
+        <tr class="meta-highlight"><td><b>★ 6th Gen EPYC lead customer</b></td><td><b>★ AMD 6세대 EPYC lead</b></td><td>Meta 단일</td></tr>
+        <tr><td>★ MTIA (자체 ASIC)</td><td>Broadcom 위탁 (Google TPU 모델)</td><td>Broadcom 추가 driver</td></tr>
+        <tr class="meta-highlight"><td><b>★ Cloud 사업</b></td><td><b>★ 없음 (자체 인프라만)</b></td><td>MSFT/Google/AWS와 본질 차이</td></tr>
+        <tr><td>Reality Labs (VR/AR)</td><td>글로벌 #1 VR + Ray-Ban Meta</td><td>FY25 적자 -$17.7B (누적 $72B)</td></tr>
+        <tr><td>CY26 CapEx</td><td><b>~$100B+</b></td><td>빅테크 4사 중 가장 작음</td></tr>
+        <tr><td>시총</td><td>~$1.5T</td><td>M7 멤버</td></tr>
+      </table>
+
+      <h3>1-3. 사업부 구성 (Q1 2026)</h3>
+      <table>
+        <tr><th>Segment</th><th>Q1 2026 ($M)</th><th>YoY</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr class="meta-highlight"><td><b>★ Family of Apps (광고 99%)</b></td><td>~$45B</td><td>+16%</td><td>★ AI 광고 ARR + Llama 통합</td><td><b>99.1%</b></td></tr>
+        <tr><td>Advertising</td><td>~$44B</td><td>+16%</td><td>★ AI Value Opt $20B + Partnership $10B</td><td>98.4%</td></tr>
+        <tr><td>FoA Other revenue</td><td>$885M</td><td><b>+74%</b></td><td>WhatsApp + Threads + AI subs</td><td>0.7%</td></tr>
+        <tr><td>Reality Labs</td><td>$402M</td><td>-2%</td><td>Quest + Ray-Ban Meta AI 글래스</td><td>0.9%</td></tr>
+        <tr><td><b>Total</b></td><td>~$45.4B</td><td>+15%</td><td>—</td><td>100%</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>Meta 사업부별 매출 (Q1 2026)</h4>
+        <canvas id="segmentChart" height="220"></canvas>
+        <div class="src">→ FoA 99.1% 광고 (★ AI 광고 ARR $30B = 매출 비중 14%) / Reality Labs 0.9% 별도 베팅</div>
+      </div>
+
+      <h3 id="s2-0">★ 2-0. 에이전트AI 테마 logical flow — 왜 Meta가 부각받는가</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 → Meta 위치 — 수요 측 + AMD·Llama·Broadcom 단독 driver + Cloud X)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 토큰 20-30x</li>
+        <li>★ <b>Mark Zuckerberg Q1 2026</b>: <i>"AI is the most exciting opportunity I've worked on — Llama open source + Meta AI + AI glasses + Reality Labs full-stack"</i></li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — Meta는 어디</h4>
+      <table>
+        <tr><th>Layer</th><th>9·10개사 (공급)</th><th><b>Meta (수요 측 + 자체 인프라 only)</b></th></tr>
+        <tr><td>Hot (HBM)</td><td>SK·삼성·Micron</td><td>★ AMD MI450 HBM4 + NVIDIA GPU HBM</td></tr>
+        <tr><td>Warm (DRAM·SSD)</td><td>메모리 3사 + SNDK·Solidigm</td><td>Meta 자체 DC DRAM·eSSD (Cloud 외부 X)</td></tr>
+        <tr><td>Cold (HDD nearline)</td><td>WDC·Seagate</td><td>Meta 자체 cold storage (Llama 학습)</td></tr>
+        <tr><td>Compute (CPU)</td><td>Intel·AMD·ARM</td><td>★ <b>EPYC (★ 6th Gen Meta lead) + Xeon (자체 ARM CPU 없음)</b></td></tr>
+        <tr class="meta-highlight"><td><b>★ Compute (GPU·AI)</b></td><td>NVIDIA·AMD·ASIC</td><td><b>★ AMD MI450 6GW (최대 단일) + NVIDIA GPU + MTIA (Broadcom)</b></td></tr>
+        <tr><td>IP layer</td><td>ARM + NVIDIA</td><td>★ Llama open source = OpenAI/Anthropic 폐쇄 정반대</td></tr>
+      </table>
+      <p>→ <b>★ Meta 위치: Cloud 없는 자체 인프라 + AMD MI450 6GW (NVIDIA 의존 분산 가장 적극) + Llama open + MTIA + Reality Labs</b></p>
+
+      <h4>3단계: 왜 Meta가 본 테마에서 부각받는가? — 5가지 본질적 이유</h4>
+      <ol>
+        <li>★ <b>AMD MI450 6GW mega deal (2025-10)</b> = AMD 최대 단일 hyperscaler 고객 → ★ <b>AMD thesis 단독 driver</b></li>
+        <li>★ <b>Llama open source = AI Foundation 오픈소스 유일</b> → OpenAI/Anthropic 폐쇄 정반대</li>
+        <li>★ <b>AI 광고 ARR $30B (2x YoY)</b> = ★ AI = 광고 efficiency monetization 중심</li>
+        <li>★ <b>MTIA Broadcom 위탁</b> = Broadcom 추가 thesis driver</li>
+        <li>★ <b>Reality Labs + Ray-Ban Meta + Llama AI 글래스</b> = 차세대 AI 디바이스 entry point</li>
+      </ol>
+
+      <h4>4단계: 왜 Meta가 부각? — AMD·Llama·Broadcom 단독 driver</h4>
+      <ul>
+        <li>★ 6GW MI450 = AMD 최대 단일 mega deal (AMD 12GW 중 절반)</li>
+        <li>★ Llama 4 + Meta Superintelligence Labs = open source 표준</li>
+        <li>★ Ray-Ban Meta + Llama 통합 = 차세대 AI 디바이스 entry</li>
+        <li>★ AI 광고 Value Opt $20B + Partnership $10B = 광고 efficiency revolution</li>
+        <li>★ Zuckerberg founder-led 베팅 강도</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>본 테마 수요 측 #4 (Cloud X) + ★ AMD·Llama·Broadcom 단독 driver + Reality Labs 별도 베팅</b>. AI ARR (광고) ~$30B (빅테크 #4). CY26 CapEx ~$100B = ★ 빅테크 4사 중 가장 작음 (Cloud 없으므로). ★ <b>AMD MI450 6GW = AMD thesis 단독 driver + NVIDIA monopoly 위협 catalyst #1</b>. <b>통합 모드 macro layer에서 AMD·Llama·Broadcom evidence + AI 광고 monetization 단독 case</b>.</p>
+    </section>
+
+    <section id="s2">
+      <h2>항목 2. AI 사업부 + CAPEX + 10·11개사 발주 mapping ★</h2>
+
+      <h3>2-1. AI 사업부 분석</h3>
+
+      <h4>★ AI 광고 ARR $30B (FY25, 2x YoY)</h4>
+      <ul>
+        <li><b>Value Optimization ads ARR $20B</b> — Meta Advantage+ AI 자동 최적화</li>
+        <li><b>Partnership ads ARR $10B</b> — 광고주 측 AI 통합</li>
+        <li><b>AI = 광고 efficiency monetization 중심</b> (Cloud 매출 없음)</li>
+        <li>★ Meta 광고 사업의 ★ <b>structural moat</b> = 3.56B DAP × AI 광고 효율</li>
+      </ul>
+
+      <h4>Llama (오픈소스 AI Foundation)</h4>
+      <ul>
+        <li>Llama 1 (2023.02) → 2 (07) → 3 (2024.04) → ★ <b>4 (2025)</b></li>
+        <li>★ <b>open source = OpenAI/Anthropic 폐쇄 정반대</b></li>
+        <li>★ Hugging Face·AI 스타트업 대다수 Llama base = ★ open source 표준</li>
+        <li>★ Meta Superintelligence Labs (2025 설립) = AGI 베팅</li>
+      </ul>
+
+      <h4>Meta AI (챗봇 + Reality Labs 통합)</h4>
+      <ul>
+        <li>Meta AI 챗봇 — WhatsApp·Messenger·Instagram·Facebook 통합</li>
+        <li>★ Ray-Ban Meta 글래스 + Llama AI = 차세대 AI 디바이스 entry</li>
+        <li>Quest 4 VR + Meta AI 통합</li>
+      </ul>
+
+      <h4>★ AMD MI450 6GW mega deal (2025-10)</h4>
+      <ul>
+        <li>★ <b>Meta가 AMD 최대 단일 hyperscaler 고객</b></li>
+        <li>AMD 12GW MI450 deal 중 6GW = Meta 단일 (OpenAI 6GW와 양분)</li>
+        <li>★ ★ NVIDIA 의존도 분산 가장 적극적 빅테크</li>
+        <li>2H 2026 ramp 예정</li>
+      </ul>
+
+      <h4>★ 6th Gen EPYC lead customer (2026-Q1)</h4>
+      <ul>
+        <li>★ Meta = AMD 6세대 EPYC lead customer</li>
+        <li>AMD EPYC 점유 24% → 27% (+3.3%p YoY) 가속의 ★ 핵심 catalyst</li>
+      </ul>
+
+      <h4>★ MTIA (자체 ASIC) — Broadcom 위탁</h4>
+      <ul>
+        <li>Meta Training and Inference Accelerator</li>
+        <li>★ Broadcom 위탁 (Google TPU와 같은 모델)</li>
+        <li>★ Broadcom 추가 thesis driver</li>
+      </ul>
+
+      <h3>2-2. CAPEX trajectory 분해 (★ 빅테크 4사 중 가장 작음)</h3>
+      <table>
+        <tr><th>분기/연</th><th>CapEx ($B)</th><th>YoY</th><th>비고</th></tr>
+        <tr><td>FY22</td><td>31.4</td><td>—</td><td>메타버스 베팅 정점</td></tr>
+        <tr><td>FY23</td><td>27.3</td><td>-13%</td><td>Year of Efficiency</td></tr>
+        <tr><td>FY24</td><td>39.2</td><td>+44%</td><td>AI Llama + RL 가속</td></tr>
+        <tr><td>FY25</td><td>75.0</td><td>+91%</td><td>★ AI 슈퍼사이클</td></tr>
+        <tr class="meta-highlight"><td><b>Q1 2026</b></td><td><b>$19.0B</b></td><td>—</td><td>annualized ~$76B+</td></tr>
+        <tr class="meta-highlight"><td><b>★ FY26E (Zuckerberg)</b></td><td><b>~$100B+</b></td><td><b>+33%</b></td><td>Llama 5 + AMD MI450 ramp + RL</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>Meta CapEx 추이 (FY22~FY26E)</h4>
+        <canvas id="capexChart" height="220"></canvas>
+        <div class="src">→ 빅테크 4사 중 가장 작음 (Cloud 외부 판매 X, 100% 자체 사용 = CapEx efficiency 다른 의미)</div>
+      </div>
+
+      <h4>CapEx 구성 + MSFT·Google·AWS 비교</h4>
+      <ul>
+        <li>★ <b>Cloud 외부 판매 없이 100% 자체 사용</b> (MSFT/Google/AWS와 본질 차이)</li>
+        <li>2/3 short-lived (★ AMD MI450 + NVIDIA + MTIA + EPYC), 1/3 long-lived</li>
+        <li><b>★ AMD MI450 비중 본격화 (2H 2026~)</b>: NVIDIA 의존 분산 가속</li>
+        <li><b>MSFT $190B / Google $100B / AWS $195B / ★ Meta $100B (가장 작음)</b></li>
+      </ul>
+
+      <h3 id="s2-mapping">2-3. ★ 10·11개사 thesis와 직접 connection mapping (Meta 특별 angle)</h3>
+
+      <div class="mapping-card">
+        <h4>발주 mapping (Meta → 10·11개사)</h4>
+        <table>
+          <tr><th>종목</th><th>Meta 발주</th><th>정량 추정</th><th>본 테마 driver 영향</th></tr>
+          <tr><td>NVIDIA (Blackwell·Rubin)</td><td>자체 DC GPU (NVIDIA 우선)</td><td><b>~$20-25B/년 (MSFT/AWS의 60-70%)</b></td><td>NVIDIA DC 매출 ~10-12%</td></tr>
+          <tr class="meta-highlight"><td><b>★ AMD (MI450 6GW + 6th Gen EPYC)</b></td><td><b>★ AMD 최대 단일 hyperscaler 고객</b></td><td><b>★ $5B+/년 (2027~)</b></td><td><b>★ AMD thesis 단독 driver</b></td></tr>
+          <tr class="meta-highlight"><td><b>★ Broadcom (MTIA 위탁)</b></td><td><b>★ MTIA 자체 chip 설계·생산 위탁</b></td><td>Google TPU와 별도</td><td>★ Broadcom 추가 thesis driver</td></tr>
+          <tr><td>SK하이닉스 (HBM)</td><td>NVIDIA GPU HBM + ★ AMD MI450 HBM4 + MTIA HBM</td><td>간접 + 직접</td><td>SK HBM driver (★ AMD MI450 driver)</td></tr>
+          <tr><td>★ 삼성전자 (HBM AMD)</td><td>★ AMD MI455X Samsung preferred HBM4 + DRAM</td><td>★ 삼성 HBM4 AMD driver</td><td>★ 삼성 HBM4 AMD MoU driver</td></tr>
+          <tr><td>Micron (HBM·DDR5)</td><td>NVIDIA GPU + AMD HBM 일부 + DRAM</td><td>간접 + 직접</td><td>Micron driver</td></tr>
+          <tr class="meta-highlight"><td><b>★ AMD EPYC (6th Gen)</b></td><td><b>★ Meta 6세대 EPYC lead customer</b></td><td>EPYC 점유 가속 driver</td><td><b>★ AMD EPYC thesis 단독 driver</b></td></tr>
+          <tr><td>Intel (Xeon)</td><td>자체 DC server CPU legacy (잠식 중)</td><td>Xeon legacy</td><td>Intel legacy + 잠식 가속</td></tr>
+          <tr><td>ARM</td><td>자체 ARM CPU 없음 (다른 빅테크와 다름)</td><td>ARM royalty 작음</td><td>ARM driver 약함 (4사 중 가장 약)</td></tr>
+          <tr><td>SanDisk (eSSD)</td><td>Meta DC storage tier</td><td>direct</td><td>SNDK NBM 일부</td></tr>
+          <tr><td>WDC (HDD nearline)</td><td>Meta cold storage (Llama 학습)</td><td>direct (#3-4)</td><td>WDC nearline driver</td></tr>
+          <tr><td>Seagate (HDD nearline)</td><td>Meta cold storage</td><td>direct</td><td>STX driver</td></tr>
+          <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협</b></td><td><b>★ AMD MI450 6GW = NVIDIA 위협 #1</b></td><td>NVIDIA 80% → 75-78% 위협</td><td><b>★ NVIDIA 4대 위협 #1</b></td></tr>
+        </table>
+        <p><b>★ Meta 차별 특징</b>:</p>
+        <ul>
+          <li>★ <b>AMD 단독 driver</b> (MI450 6GW + 6th Gen EPYC lead = 빅테크 4사 중 AMD 가장 적극)</li>
+          <li>★ NVIDIA 발주 작음 ($20-25B vs MSFT/AWS $30-40B)</li>
+          <li>★ MTIA Broadcom 위탁 = Broadcom 추가 driver</li>
+          <li>★ 자체 ARM CPU 없음 = ARM driver 약함</li>
+          <li>★ Llama open source = AI Foundation 다른 strategy</li>
+        </ul>
+      </div>
+
+      <h3>2-4. ★ AI Foundation strategy (Llama open source = 유일)</h3>
+      <table>
+        <tr><th>빅테크</th><th>AI Foundation</th><th>차별점</th></tr>
+        <tr><td>MSFT</td><td>OpenAI 독점 ($13B+)</td><td>폐쇄형, 49% economic interest</td></tr>
+        <tr><td>Google</td><td>Gemini 자체 + Anthropic $3B</td><td>폐쇄형 자체 + 투자</td></tr>
+        <tr><td>AWS</td><td>Anthropic $8B (최대) + OpenAI 2GW</td><td>폐쇄형 양면 투자</td></tr>
+        <tr class="meta-highlight"><td><b>★ Meta</b></td><td><b>★ Llama open source (유일)</b></td><td><b>★ open source 표준 strategy</b></td></tr>
+      </table>
+      <p>→ ★ <b>Meta는 AI Foundation 완전히 다른 strategy</b> = open source ecosystem 확장. ★ Llama가 Hugging Face·AI 스타트업 대다수 base = ★ <b>AI 생태계 영향력 = 폐쇄형 매출보다 더 큰 가치</b></p>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 12년 매출·OPM·CapEx (AI 광고 + 메타버스 사이클)</h3>
+      <div class="chart-card">
+        <h4>Meta 12년 매출 + OPM + CapEx + Reality Labs 적자 (FY14~FY26E)</h4>
+        <canvas id="cycleChart" height="280"></canvas>
+        <div class="src">→ FY22 메타버스 베팅 압축 → FY25 AI 광고 ARR $30B 정점 회복 → FY26 CapEx $100B (Llama 5 + AMD MI450 + RL)</div>
+      </div>
+
+      <h3>3-2. AI PQC 분해</h3>
+      <table>
+        <tr><th>차원</th><th>AI 광고 (FoA)</th><th>Reality Labs</th><th>Llama (open source)</th></tr>
+        <tr><td>P (단가)</td><td>CPM·CPC 안정</td><td>Quest $300-500, RB Meta $300</td><td>매출 X</td></tr>
+        <tr class="meta-highlight"><td><b>Q (출하)</b></td><td>DAP 3.56B + AI 광고 ARR $30B</td><td>Quest+RB Meta 출하</td><td>Llama 다운로드 무료</td></tr>
+        <tr><td>C (원가)</td><td>★ AI 인프라 (AMD MI450 + NVIDIA + MTIA)</td><td>하드웨어 BOM 손실</td><td>학습 비용 자체 흡수</td></tr>
+        <tr><td>매출</td><td>$215B+ FY25</td><td>$1.6B FY25 (적자)</td><td>매출 X</td></tr>
+        <tr class="meta-highlight"><td><b>마진</b></td><td>★ <b>OPM 50%+ (FoA 단독)</b></td><td>★ -$17.7B 적자</td><td>★ open source = 매출 X</td></tr>
+      </table>
+
+      <h3>3-3. 재무 건전성 + 자본 환원</h3>
+      <ul>
+        <li>현금 $80B+ vs 부채 $30B (매우 안정)</li>
+        <li>OCF Q1 2026 $32.2B / FCF $13.2B (연환산 $130B+)</li>
+        <li>★ <b>2024 첫 배당 시작</b> (3월)</li>
+        <li>자사주 매입 FY25 ~$50B+ → Q1 2026 일시 중단 (★ CapEx 우선)</li>
+        <li>★ <b>Reality Labs 누적 적자 $72B (2019-2025)</b> = Zuckerberg founder-led 베팅</li>
+      </ul>
+
+      <h3>3-4. 수익성 트렌드</h3>
+      <ul>
+        <li><b>OPM 추이</b>: FY17 49.7% (정점) → FY22 24.8% (메타버스 저점) → FY25 46.5% (회복 + AI)</li>
+        <li><b>★ FoA 단독 OPM 50%+</b> (Reality Labs 적자 제외 normalized 시 55%+)</li>
+        <li>★ <b>12년 사이클 진폭 24.9%pt</b> = 빅테크 4사 중 가장 큼</li>
+        <li>★ <b>AI 광고 monetization으로 OPM 회복 trajectory</b> (FY22 25% → FY25 46.5%)</li>
+      </ul>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률</h3>
+      <ul>
+        <li>3년 (FY22→FY25): 매출 CAGR <b>★ +24% (빅테크 4사 #1)</b></li>
+        <li>5년 (FY20→FY25): +21%</li>
+        <li>12년 (FY13→FY25): <b>★ +30% (빅테크 4사 #1)</b></li>
+      </ul>
+      <p>→ ★ <b>Meta 매출 CAGR = 빅테크 4사 #1</b> (MSFT/Google/AMZN +12% 대비 2x)</p>
+
+      <h3>4-2. 향후 성장 가시성</h3>
+      <table>
+        <tr><th>차원</th><th>전망</th><th>근거</th></tr>
+        <tr><td>P 전망</td><td>CPM·CPC 안정</td><td>AI 광고 효율 향상</td></tr>
+        <tr class="meta-highlight"><td><b>Q 전망</b></td><td>★ DAP 3.56B → 3.7B+, AI 광고 ARR $50B+ 가능</td><td>Llama 5 + AMD MI450 ramp</td></tr>
+        <tr><td>C 전망</td><td>★ AI CapEx 폭증 ($100B+) but 자체 효율</td><td>AMD MI450 + MTIA 효율</td></tr>
+        <tr class="meta-highlight"><td><b>→ 매출 성장</b></td><td>FY26 ~$260B (+18%) / FY27 ~$300B (+15%)</td><td>AI 광고 + Llama + RL</td></tr>
+        <tr><td>→ 마진</td><td>OPM 45-48% (RL 적자 흡수)</td><td>FoA OPM 50%+</td></tr>
+      </table>
+
+      <h4>구조적 + vs 저해 risk</h4>
+      <div class="twocol">
+        <div>
+          <b>구조적 +</b>
+          <ul>
+            <li>★ AI 광고 ARR $30B 2x YoY</li>
+            <li>★ DAP 3.56B (글로벌 44%)</li>
+            <li>★ AMD MI450 6GW = NVIDIA 분산</li>
+            <li>★ Llama open source ecosystem</li>
+            <li>★ Reality Labs + Ray-Ban Meta AI</li>
+          </ul>
+        </div>
+        <div>
+          <b>저해 risk</b>
+          <ul>
+            <li>★ Reality Labs 적자 $72B (FY25 -$17.7B 진행)</li>
+            <li>★ Llama monetization X</li>
+            <li>AI 광고 ROI 검증 risk</li>
+            <li>AMD MI450 ramp risk (2H 2026)</li>
+            <li>Antitrust (FTC 분리 가능성)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="peer">
+      <h2>빅테크 4사 비교 (★ macro layer baseline)</h2>
+      <table>
+        <tr><th>빅테크</th><th>매출 CAGR (3년)</th><th>AI ARR</th><th>CY26 CapEx</th><th>Cloud 매출</th><th>strategic angle</th></tr>
+        <tr><td>MSFT</td><td>+12.4%</td><td>$37B (+123%)</td><td>$190B</td><td>Azure $95B</td><td>OpenAI 독점 + Maia + Cobalt</td></tr>
+        <tr><td>Google</td><td>+12%</td><td>~$30B+</td><td>$100B</td><td>GCP $80B</td><td>TPU + Anthropic + Broadcom</td></tr>
+        <tr><td>AWS</td><td>+12% (AWS +28%)</td><td>~$25B+</td><td>$195B (#1)</td><td>$137B (#1)</td><td>Anthropic + OpenAI + Trainium + Graviton</td></tr>
+        <tr class="meta-highlight"><td><b>★ Meta</b></td><td><b>★ +24% (#1)</b></td><td><b>★ $30B (광고 ARR)</b></td><td><b>~$100B (가장 작음)</b></td><td><b>★ 없음 (자체만)</b></td><td><b>★ Llama open + AMD MI450 6GW + MTIA + RL (가장 다른)</b></td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>빅테크 4사 AI Foundation strategy 비교</h4>
+        <canvas id="aiFoundation" height="220"></canvas>
+        <div class="src">→ ★ Meta = Llama open source 유일. MSFT(OpenAI 독점) / Google(Gemini+Anthropic) / AWS(Anthropic+OpenAI) 모두 폐쇄형</div>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>정리</th></tr>
+        <tr class="meta-highlight"><td><b>★ CY26 CapEx</b></td><td><b>~$100B+</b> — 빅테크 4사 중 가장 작음</td></tr>
+        <tr class="meta-highlight"><td><b>★ AI 광고 ARR (FY25)</b></td><td><b>★ $30B (Value Opt $20B + Partnership $10B, 2x YoY)</b></td></tr>
+        <tr><td>DAP</td><td><b>3.56B (글로벌 44%)</b> Q1 2026</td></tr>
+        <tr class="meta-highlight"><td><b>★ AMD MI450 6GW mega deal</b></td><td><b>★ AMD 최대 단일 고객 (2025-10)</b></td></tr>
+        <tr class="meta-highlight"><td><b>★ 6th Gen EPYC lead customer</b></td><td><b>★ AMD 6세대 EPYC lead (2026-Q1)</b></td></tr>
+        <tr class="meta-highlight"><td><b>★ Llama open source</b></td><td><b>★ Llama 4 (2025) + Meta Superintelligence Labs</b></td></tr>
+        <tr class="meta-highlight"><td><b>★ MTIA (Broadcom 위탁)</b></td><td>Google TPU와 같은 모델</td></tr>
+        <tr class="meta-highlight"><td><b>★ Cloud 사업</b></td><td><b>★ 없음 (자체 인프라만)</b></td></tr>
+        <tr><td>Reality Labs</td><td>Quest + Ray-Ban Meta, FY25 적자 -$17.7B (누적 $72B)</td></tr>
+        <tr><td>FY25 매출</td><td>$219.4B (+34%)</td></tr>
+        <tr><td>FY25 OPM</td><td>~46.5%</td></tr>
+        <tr><td>NVIDIA 발주 추정</td><td>$20-25B/년 (MSFT/AWS의 60-70%)</td></tr>
+        <tr><td>시총</td><td>~$1.5T (2026-06)</td></tr>
+        <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협 catalyst</b></td><td><b>★ AMD MI450 6GW = NVIDIA 위협 #1</b></td></tr>
+        <tr class="meta-highlight"><td><b>★ AMD thesis 단독 driver</b></td><td><b>★ MI450 + 6th Gen EPYC lead 모두 Meta</b></td></tr>
+        <tr><td>★ Broadcom 추가 driver</td><td>MTIA 위탁 (Google과 함께)</td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h4>상방 트리거</h4>
+      <ul>
+        <li>★ <b>AMD MI450 6GW ramp 본격화</b> (2H 2026)</li>
+        <li>★ AI 광고 ARR $50B+ 도달 (Q4 2026)</li>
+        <li>★ Llama 5 출시 + open source 영향력 확대</li>
+        <li>★ Ray-Ban Meta 글래스 100M+ 출하 (FY27)</li>
+        <li>★ Reality Labs 적자 -$15B 이하 축소</li>
+        <li>★ AMD 6th Gen EPYC + MI450 동시 ramp</li>
+      </ul>
+
+      <h4>하방 트리거</h4>
+      <ul>
+        <li>★ Reality Labs 적자 -$20B 초과 (FY26)</li>
+        <li>★ AMD MI450 yield/ramp 지연</li>
+        <li>AI 광고 ARR 둔화 (Value Opt 효율 검증 실패)</li>
+        <li>DAP 3.6B 미달</li>
+        <li>Antitrust (FTC 분리) 진전</li>
+      </ul>
+
+      <h4>모니터링 캘린더</h4>
+      <ul>
+        <li><b>Q2 2026 실적</b> (2026-07-30): AI 광고 ARR + CapEx + RL</li>
+        <li><b>Meta Connect 2026</b> (9월): Llama 5 + Quest 5 + Ray-Ban Meta</li>
+        <li>★ AMD MI450 ramp 본격화 (2H 2026)</li>
+        <li>★ AMD Q3 FY26 실적: Meta MI450 6GW deal 정량 진행</li>
+      </ul>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단 (macro layer component)</h2>
+
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr><td>AI 수요 측 #4 (Cloud X)</td><td>★★</td><td>광고 ARR $30B, Cloud 매출 없음</td></tr>
+        <tr class="meta-highlight"><td><b>★ AMD·Llama·Broadcom 단독 driver</b></td><td>★★★</td><td>AMD MI450 + 6th Gen + MTIA + Llama open</td></tr>
+        <tr><td>AI 사업부 강도</td><td>★★★</td><td>AI 광고 ARR $30B + Llama 4 + AI 글래스</td></tr>
+        <tr class="warning-highlight"><td>재무 건전성</td><td>★★</td><td>OPM 46.5% (RL 적자), OCF $130B+</td></tr>
+        <tr class="meta-highlight"><td><b>★ Macro layer 가치</b></td><td>★★★</td><td>AMD 단독 driver + NVIDIA 위협 #1 + Broadcom 추가 + Llama 생태계</td></tr>
+      </table>
+
+      <h4>핵심 투자 포인트 3</h4>
+      <ol>
+        <li><b>★ AMD MI450 6GW + 6th Gen EPYC lead = AMD thesis 단독 driver</b>: Meta = AMD 최대 단일 hyperscaler 고객 (12GW 중 6GW). NVIDIA 의존 분산 가장 적극. ★ <b>NVIDIA monopoly 위협 catalyst #1 evidence</b>.</li>
+        <li><b>★ AI 광고 ARR $30B (2x YoY) + Llama open source + DAP 3.56B = 광고 AI monetization 단독 case</b>: MSFT/Google/AWS Cloud 매출 중심 vs Meta는 광고 efficiency. ★ Llama = AI 생태계 영향력.</li>
+        <li><b>★ MTIA (Broadcom 위탁) + Reality Labs (별도 베팅)</b>: Google TPU와 같은 Broadcom 위탁 = ★ Broadcom 추가 driver. Ray-Ban Meta + Llama AI = 차세대 디바이스 entry.</li>
+      </ol>
+
+      <h4>핵심 리스크 3</h4>
+      <ol>
+        <li><b>★ Reality Labs 누적 적자 $72B + FY25 -$17.7B</b>: Zuckerberg founder-led 베팅. 흑전 미명.</li>
+        <li><b>★ Llama open source = 매출 직접 X</b>: AI Foundation 매출 OpenAI/Anthropic 대비 직접 매출 없음. monetization 간접 (광고 효율).</li>
+        <li><b>AMD MI450 ramp risk (2H 2026)</b>: 6GW deal 양산 안정성. yield issue 또는 NVIDIA Rubin 우위 유지 시 AMD thesis 약화.</li>
+      </ol>
+
+      <p>→ <b>종합 (macro layer)</b>: <span class="star">★★★ 빅테크 4사 중 가장 다른 angle (Cloud X + AMD 단독 + Llama open) + AI 광고 monetization 단독 case</span>. <b>통합 모드 macro layer에서 ★ AMD thesis 단독 driver + NVIDIA 위협 catalyst #1 evidence + Broadcom 추가 + Llama open source 영향력 핵심 component</b>.</p>
+    </section>
+
+    <section id="appx">
+      <h2>향후 관찰 포인트</h2>
+      <ol>
+        <li>Q2 2026 실적 (2026-07-30): AI 광고 ARR $35B+ + CapEx $25B+ + RL</li>
+        <li>★ AMD MI450 6GW ramp 본격화 (2H 2026)</li>
+        <li>Llama 5 출시 + Meta Superintelligence Labs</li>
+        <li>★ Ray-Ban Meta 글래스 출하 가속 (Llama 통합)</li>
+        <li>CapEx FY26 $100B+ 페이스 + FY27 가이드</li>
+        <li>Reality Labs 적자 trajectory</li>
+        <li>★ AMD Q3 FY26: Meta MI450 deal 정량 진행</li>
+        <li>FTC Antitrust 진전</li>
+      </ol>
+
+      <div class="footer">
+        Meta 에이전트AI 기업분석 v1 — 2026-06-21<br>
+        ★ 빅테크 frame (수요 측, macro layer single 종목 component) + Meta 차별 angle (Cloud X + Llama open + AMD MI450 단독 + RL)<br>
+        Auto-references: 반도체_산업기초.md, 에이전트AI_테마분석.md (v4), META_기업개요.md (v1.0), 2026-Q1_META_리뷰.md, 엔비디아·AMD·MSFT·Google·AWS 기업분석 (peer mapping)
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Chart 1: 사업부별 (Q1 2026)
+new Chart(document.getElementById('segmentChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Family of Apps (광고)', 'Reality Labs (VR/AR)'],
+    datasets: [{
+      data: [45, 0.4],
+      backgroundColor: ['#0668e1', '#cc785c'],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {position: 'right', labels: {font: {size: 12}}},
+      title: {display: false}
+    }
+  }
+});
+
+// Chart 2: CapEx 추이
+new Chart(document.getElementById('capexChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'Q1 2026', 'FY26E'],
+    datasets: [
+      {label: 'CapEx ($B)', data: [31.4, 27.3, 39.2, 75.0, 19, 100], backgroundColor: ['#a0a0a0', '#a0a0a0', '#0668e1', '#0668e1', '#7b68ee', '#0668e1']}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, title: {display: true, text: 'CapEx ($B)'}}},
+    plugins: {legend: {display: false}, title: {display: false}}
+  }
+});
+
+// Chart 3: 12년 매출 + OPM + CapEx + RL 적자
+new Chart(document.getElementById('cycleChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY14','FY17','FY20','FY22','FY23','FY24','FY25','FY26E'],
+    datasets: [
+      {label: '매출 ($B)', data: [12.47,40.65,85.97,116.61,134.90,164.50,219.4,260], backgroundColor: '#0668e1', yAxisID: 'y', order: 3},
+      {label: 'CapEx ($B)', data: [1.83,6.73,15.12,31.43,27.27,39.23,75.0,100], backgroundColor: '#a8843f', yAxisID: 'y', order: 2},
+      {label: 'OPM (%)', data: [40.0,49.7,38.0,24.8,34.7,42.2,46.5,null], borderColor: '#7b68ee', backgroundColor: '#7b68ee', type: 'line', yAxisID: 'y1', tension: 0.3, order: 1}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {beginAtZero: true, position: 'left', title: {display: true, text: '$B'}},
+      y1: {beginAtZero: false, position: 'right', title: {display: true, text: 'OPM (%)'}, grid: {drawOnChartArea: false}, min: 20, max: 55}
+    },
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+
+// Chart 4: 빅테크 4사 AI Foundation
+new Chart(document.getElementById('aiFoundation'), {
+  type: 'bar',
+  data: {
+    labels: ['MSFT', 'Google', 'AWS', 'Meta'],
+    datasets: [
+      {label: '폐쇄형 투자 ($B)', data: [13, 3, 8, 0], backgroundColor: '#00a4ef'},
+      {label: '★ open source (Meta)', data: [0, 0, 0, 1], backgroundColor: '#7b68ee'}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, title: {display: true, text: '$B (폐쇄형) / 표준 표시 (open)'}}},
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+</script>
+</body>
+</html>

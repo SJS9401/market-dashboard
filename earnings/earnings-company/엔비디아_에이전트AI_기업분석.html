@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NVIDIA 기업분석 — 에이전트AI 테마</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --nvda:#76b900; --amd:#ed1c24; --intel:#0071c5; --broadcom:#cc0000;
+    --google:#4285f4; --meta:#0668e1; --msft:#00a4ef; --aws:#ff9900;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.nvda{background:var(--nvda);color:#fff}
+  .header .tag.theme{background:var(--catD)}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .nvda-highlight{background:#e8f5d8 !important;color:#3a5a18 !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  .bottleneck-A{background:#ffe0e0 !important;border-left:3px solid var(--catA) !important}
+  .cat-D{background:#e8f5e0 !important;border-left:3px solid var(--catD) !important}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .moat-score{display:inline-block;background:var(--nvda);color:#fff;padding:2px 10px;border-radius:12px;font-weight:bold;font-size:14px}
+  .caveat{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:10px 14px;margin:12px 0;font-size:13px;color:#664d00}
+  .threat-card{background:#fff5f5;border:1px solid #f5b0b0;border-radius:6px;padding:14px;margin:14px 0}
+  .threat-card h4{margin-top:0;color:#7a0000}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력·포지셔닝</a>
+    <a href="#s2">2. 해자 (Moat) ★</a>
+    <a href="#s2-threat">★ Monopoly 위협 매핑</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag nvda">NVIDIA</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <h1>NVIDIA — 본 테마 needle-mover (★ AI DC GPU 80%+ monopoly + CUDA lock-in + 자본 정책 게임 체인저)</h1>
+      <div class="meta">parent_industry: 반도체 · cross-ref: 전력 인프라 · last_updated 2026-06-21 · moat_strength: <b>4.8/5.0 (★ 9개사 중 최상)</b></div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame (★ 9개사와 다름)</b>: 에이전트AI 테마 분석(v4)의 17 segment 중 <b>NVIDIA는 추론 GPU 80%+ 절대 monopoly + CUDA 생태계 lock-in + Networking 통합 stack</b>. 9개사와 달리 NVIDIA는 본 테마의 <b>needle-mover + 9개사 thesis 모두의 driver</b>. <b>Moat 평가가 아닌 Monopoly 지속 가능성 + 약화 신호 매핑이 본질적 frame</b>. Segment 대부분 4.5-5.0 (절대 우위) — 핵심 분석은 <b>위협 catalyst 매핑</b> (AMD MI400 + 하이퍼스케일러 ASIC + CUDA 대체 + 중국 통제). <b>★ Q1 FY27 매출 $81.6B record (+85% YoY) + 자본 정책 게임 체인저 (배당 25배 인상 + $80B buyback) + Hyperscale/ACIE 50/50 다각화 안착</b>.
+    </div>
+
+    <div class="narrative" style="background:#eef3fa;border:1px dashed #1f3a68;color:#1a3a68;font-style:normal">
+      <b>점유율 표기 기준</b>: 본 분석의 모든 % 점유율은 <b>매출 또는 unit shipment 기준</b> (TrendForce·IDC·Mercury Research). AI Datacenter GPU <b>NVIDIA 80%+ (FY26)</b> / AMD MI300/350 <b>4-15%</b> / Intel Gaudi/Gold <b>&lt;1%</b> / 하이퍼스케일러 자체 ASIC <b>~5-8%</b> (Google TPU + Meta MTIA + AWS Trainium + MSFT Maia). 모든 매출 단위 USD billion (FY27 = 2026-02 ~ 2027-01).
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: AI Datacenter GPU <b>80%+ 절대 monopoly</b> + CUDA 생태계 lock-in + Networking (NVLink·InfiniBand·Spectrum-X) 통합. Data Center 92% (FY26). ★ <b>Q1 FY27 record</b>: 매출 $81.6B (+85% YoY), DC $75.2B (+92%), <b>Networking $14.8B (+199% YoY)</b>. 시총 $5.7T (글로벌 #1).</li>
+          <li><b>해자 종합 (segment 가중)</b>: <span class="moat-score">4.8/5.0</span> — DC GPU <b>5.0</b> / CUDA <b>5.0</b> / Networking <b>5.0</b> / Grace 4.5 / DPU 4.5 / Pro Viz 4.5 / ACIE 4.5. <b>★ 9개사 중 최상</b> (SK 4.4, ARM 4.1, STX 4.1). 단 <b>monopoly 지속 가능성은 분기 검증 필요</b>.</li>
+          <li><b>재무 (AI 슈퍼사이클 정점)</b>: <b>FY26 $215.94B (+65%) / OPM 60.4% / NI $120B</b>. <b>Q1 FY27 $81.6B record / GAAP GPM 74.9% / EPS $1.87 / 9분기 연속 컨센 비트</b>. Q2 가이던스 $91.0B mid (+89% YoY).</li>
+          <li><b>미래</b>: ★ <b>Vera Rubin (HBM4 288GB, 3x Blackwell)</b> 2H 2026 + Kyber rack 660kW (800VDC). ★ <b>자본 정책 게임 체인저</b>: 배당 $0.01 → $0.25 (25배), $80B buyback 추가. Hyperscaler 2026 CapEx $640B+ (MSFT $190B + GOOGL $185B + AMZN $195B + META $135B).</li>
+          <li><b>종합</b>: <span class="star">★★★ 본 테마 needle-mover + 9개사 thesis 모두의 driver</span>. (a) AMD MI400 4% → 18% (b) 하이퍼스케일러 ASIC $225B+ 백로그 (c) CUDA 대체 (d) 중국 통제 — <b>★ 4대 monopoly 위협 catalyst</b>. 단기 2-3년 thesis 강고, 장기 5년+ 위협 누적 가능.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + 기업 포지셔닝</h2>
+
+      <h3>1-1. 산업·테마 컨텍스트</h3>
+      <ul>
+        <li><b>반도체 산업기초</b>: (A) 구조적 메가 병목 → NVIDIA는 AI DC GPU 절대 monopoly + 9개사 thesis 모두의 driver</li>
+        <li><b>에이전트AI 테마 v4</b>: 17 segment 중 GPU·Networking·Grace CPU·DPU·Pro Viz·ACIE segment에서 NVIDIA가 절대 우위</li>
+        <li><b>9개사 thesis와의 관계</b>: 메모리 3사 → Rubin HBM4 dual sourcing driver / HDD → cold storage 폭증 driver / Intel·AMD → Grace ARM 잠식 / ARM → Grace + N1/N1X royalty / AMD → 대안 #1</li>
+      </ul>
+
+      <h3>1-2. NVIDIA 위치 (테마 v4 needle-mover)</h3>
+      <table>
+        <tr><th>Segment</th><th>글로벌 점유 (FY26)</th><th>순위</th><th>비고</th></tr>
+        <tr class="nvda-highlight"><td><b>AI Data Center GPU</b></td><td><b>80%+</b></td><td><b>#1</b></td><td>CUDA + Hopper·Blackwell·Rubin</td></tr>
+        <tr class="nvda-highlight"><td><b>★ CUDA software stack</b></td><td><b>사실상 독점</b></td><td><b>#1</b></td><td>모든 AI 모델·라이브러리·도구 의존</td></tr>
+        <tr class="nvda-highlight"><td><b>★ Networking (InfiniBand·NVLink·Spectrum-X)</b></td><td><b>압도적 #1</b></td><td><b>#1</b></td><td>Mellanox 통합, Q1 FY27 +199% YoY</td></tr>
+        <tr><td>Grace CPU (ARM Neoverse)</td><td>신규 진입 가속</td><td>—</td><td>Intel Xeon 잠식, ARM 13-15% DC</td></tr>
+        <tr><td>DPU/SmartNIC (BlueField)</td><td><b>압도적 #1</b></td><td><b>#1</b></td><td>AMD Pensando 대비 단독 우위</td></tr>
+        <tr><td>Pro Visualization (Omniverse)</td><td><b>#1</b></td><td><b>#1</b></td><td>디지털 트윈 +159% YoY</td></tr>
+        <tr><td>★ Sovereign AI (ACIE)</td><td><b>#1 글로벌 신 framework</b></td><td>—</td><td>AI Clouds + Industrial + Enterprise 다각화</td></tr>
+        <tr class="warning-highlight"><td><b>위협</b>: 하이퍼스케일러 ASIC</td><td>~5-8%</td><td>—</td><td>Google TPU + Meta MTIA + AWS Trainium + MSFT Maia + Broadcom</td></tr>
+        <tr><td>GPU alternative: AMD MI300/350/400</td><td>4-15% (2026E 18%)</td><td>#2</td><td>NVIDIA 대안 #1</td></tr>
+      </table>
+
+      <h3>1-3. 사업부 구성 (Q1 FY27 신 framework)</h3>
+      <table>
+        <tr><th>Market Platform</th><th>Sub-market</th><th>Q1 FY27 매출</th><th>YoY</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr class="nvda-highlight"><td><b>Data Center</b></td><td><b>Hyperscale</b></td><td><b>$37.87B</b></td><td><b>+115%</b></td><td>★ 본 테마 직접 (5대 hyperscaler)</td><td><b>46%</b></td></tr>
+        <tr class="nvda-highlight"><td><b>Data Center</b></td><td><b>ACIE</b></td><td><b>$37.38B</b></td><td><b>+74%</b></td><td>★ Sovereign AI + Industrial + Enterprise</td><td><b>46%</b></td></tr>
+        <tr><td><b>Data Center</b></td><td>(소계)</td><td><b>$75.25B</b></td><td><b>+92%</b></td><td>—</td><td><b>92%</b></td></tr>
+        <tr><td>Edge Computing</td><td>—</td><td>$6.37B</td><td>+29%</td><td>PC·콘솔·AI-RAN·로봇·Auto (★ agentic+물리 AI)</td><td>8%</td></tr>
+        <tr><td><b>Total</b></td><td></td><td><b>$81.62B</b></td><td><b>+85%</b></td><td>—</td><td>100%</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>NVIDIA 사업부별 매출 (Q1 FY27, 신 framework)</h4>
+        <canvas id="segmentChart" height="220"></canvas>
+        <div class="src">→ ★ Hyperscale/ACIE 50/50 다각화 안착 = hyperscaler 의존도 risk hedging</div>
+      </div>
+
+      <h3 id="s2-0">★ 2-0. 에이전트AI 테마 logical flow — 왜 NVIDIA가 부각받는가</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 narrative → NVIDIA 위치 매핑)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증의 본질</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 <b>토큰 20-30x</b> (Stanford/NVIDIA 실측)</li>
+        <li>각 단계 = 연산 + 메모리 + 스토리지 + IP 모든 layer 부하 폭증</li>
+        <li>★ <b>NVIDIA Jensen GTC 2026-03</b>: <i>"Agentic AI is the next industrial revolution — every chip, every datacenter, every workflow must be re-architected"</i></li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — NVIDIA는 어디?</h4>
+      <table>
+        <tr><th>Layer</th><th>데이터/연산</th><th>매체</th><th>본 테마 종목</th></tr>
+        <tr><td>Hot (microsec)</td><td>KV cache, activation</td><td>HBM</td><td>SK·삼성·Micron</td></tr>
+        <tr><td>Warm (msec)</td><td>모델 가중치</td><td>DRAM·SSD</td><td>메모리 3사 + SNDK·Solidigm</td></tr>
+        <tr><td>Warm-Cold (sec)</td><td>검색 코퍼스</td><td>eSSD QLC·HBF</td><td>SNDK (HBF)</td></tr>
+        <tr><td>Cold (수초~분)</td><td>학습 데이터셋, 체크포인트, agent trace</td><td>HDD nearline</td><td>WDC + Seagate</td></tr>
+        <tr><td>Compute (CPU)</td><td>server·host·client CPU</td><td>x86·ARM</td><td>Intel·AMD·<b>NVIDIA Grace</b></td></tr>
+        <tr class="nvda-highlight"><td><b>★ Compute (GPU·AI)</b></td><td><b>training·inference 가속</b></td><td><b>GPU·ASIC</b></td><td><b>★ NVIDIA (80%+) · AMD · 하이퍼스케일러 ASIC</b></td></tr>
+        <tr class="nvda-highlight"><td><b>★ IP layer</b></td><td><b>chip 설계 + 네트워킹 stack</b></td><td><b>ARM IP + NVLink·CUDA</b></td><td><b>ARM + ★ NVIDIA (CUDA + NVLink + Spectrum)</b></td></tr>
+      </table>
+      <p>→ <b>NVIDIA 위치: 본 테마 7개 layer 중 4개에 직접 진입한 유일 종목 (Compute GPU + Networking + Grace CPU + CUDA/IP)</b></p>
+
+      <h4>3단계: 왜 NVIDIA가 절대 needle-mover인가? — 4가지 본질적 이유</h4>
+      <ol>
+        <li><b>AI DC GPU 80%+ + CUDA lock-in</b> → 모든 AI 모델·라이브러리 CUDA 의존 → 단기 dominance 유지</li>
+        <li><b>Networking 통합 stack (NVLink·InfiniBand·Spectrum-X)</b> → AI cluster 통신 필수 → Q1 FY27 +199% YoY 폭증</li>
+        <li><b>Hyperscaler CapEx 2026 $640B+의 30-40% NVIDIA</b> → 매출 가시성 2-3년 + 9개사 driver</li>
+        <li><b>Vera Rubin (HBM4 288GB) 2H 2026 + Kyber rack 800VDC</b> → 차세대 platform 자체를 정의</li>
+      </ol>
+
+      <h4>4단계: 왜 NVIDIA가 부각? — Monopoly의 광범위·깊이·지속성</h4>
+      <ul>
+        <li>★ 본 테마 7개 layer 중 4개 직접 진입 (9개사 중 가장 광범위)</li>
+        <li>★ Q1 FY27 $81.6B record + 9분기 연속 컨센 비트 = secular 정점 검증</li>
+        <li>★ Hyperscale/ACIE 50/50 다각화 안착 = hyperscaler risk hedging</li>
+        <li>★ 자본 정책 게임 체인저 = 성장+자본환원 hybrid 진입</li>
+        <li>★ Vera Rubin + Kyber rack 800VDC = 차세대 platform 자체 정의</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>본 테마 needle-mover + 9개사 thesis 모두의 driver</b>. 본 테마 매출 노출 95% (9개사 중 최고), Moat 4.8 (9개사 중 최상). <b>단 monopoly 지속 가능성은 분기마다 검증 필요</b> — 4대 위협 catalyst (AMD + hyperscaler ASIC + CUDA 대체 + 중국 통제). 단기 2-3년 thesis 강고, 장기 5년+ 위협 누적 가능.</p>
+    </section>
+
+    <section id="s2">
+      <h2>항목 2. 비즈니스 모델 & 해자 (Moat) — ★ 핵심</h2>
+
+      <h3>2-1. 비즈니스 모델</h3>
+      <ul>
+        <li><b>Data Center (92%)</b>:
+          <ul>
+            <li><b>GPU (Hopper · Blackwell · Rubin)</b>: AI 가속기 → hyperscaler·sovereign·enterprise 시스템+chip 판매</li>
+            <li><b>Networking (NVLink·InfiniBand·Spectrum-X·BlueField)</b>: Mellanox 통합 (2020 $6.9B)</li>
+            <li><b>Grace CPU (ARM Neoverse)</b>: NVIDIA 자체 CPU, Vera 256 차세대</li>
+            <li><b>CUDA + AI Enterprise license + DGX Cloud + NIM</b>: 소프트웨어 lock-in</li>
+          </ul>
+        </li>
+        <li><b>GPU 세대별 NVIDIA 위치</b>:
+          <ul>
+            <li>Hopper (H100/H200, 2023-2025): AI 폭증 production</li>
+            <li>★ Blackwell (B200/300, 2025 H2 - 2026): HBM3E 192GB/GPU, 양산 본격화</li>
+            <li>★ Rubin (2026 H2~): <b>HBM4 288GB/GPU (3x Blackwell)</b>, Vera ARM CPU 통합, Kyber rack 660kW (800VDC)</li>
+            <li>Rubin Ultra (2027): HBM4E</li>
+          </ul>
+        </li>
+        <li><b>★ 가격 결정력</b>: GAAP GPM 74.9% (Q1 FY27) — <b>9개사 중 최상</b> (SK 50%, AMD 55%)</li>
+        <li><b>고객</b>: hyperscaler Top 5 (MSFT·AWS·Google·Meta·Oracle) ~50% + Sovereign + Industrial + Neocloud (CoreWeave·Lambda·Nebius)</li>
+      </ul>
+
+      <h3>2-2. 해자 (Moat) 깊이 분석 — Segment별 평가 ★</h3>
+      <p><b>분석 frame ★ 9개사와 다름</b>: Moat 점수 거의 모두 5.0이라 점수 차이 의미 없음. 각 segment에서 monopoly 광범위·깊이·지속 가능성 + 위협 매핑이 본질.</p>
+
+      <h4>Segment 1. AI Data Center GPU (Hopper·Blackwell·Rubin) — ★ 절대 monopoly</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA</th><th>AMD (MI300/400)</th><th>Intel (Gaudi/Gold)</th><th>하이퍼스케일러 ASIC</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (CUDA + 5세대 GPU)</td><td>4 (CDNA 5)</td><td>2</td><td>3 (Google TPU 6세대)</td><td>NVIDIA CUDA 압도</td></tr>
+        <tr class="nvda-highlight"><td>CAPA (TSMC)</td><td><b>5</b> (우선 알로케이션)</td><td>3</td><td>3 (자체 fab)</td><td>3</td><td>NVIDIA 우선</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (CUDA + 80%+)</td><td>3 (4% → 18% 2026E)</td><td>1 (~0%)</td><td>3 (자체 사용)</td><td>CUDA 절대</td></tr>
+        <tr class="nvda-highlight"><td>규모 (DC GPU 매출)</td><td><b>5</b> ($75.2B Q1 FY27)</td><td>3 (Q1 $4.2B run-rate $17B)</td><td>1</td><td>3 ($225B+ 백로그)</td><td>NVIDIA 압도</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (본 테마 본질)</td><td>3 (대안 #1)</td><td>1</td><td>3 (점진 침투)</td><td>NVIDIA 절대</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>3.2</b></td><td><b>1.4</b></td><td><b>3.0</b></td><td><b>★ NVIDIA 절대 monopoly</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 AI DC GPU가 NVIDIA monopoly의 본질인가?</b><br>
+        <b>인과 사슬</b>: AI training·inference = NVIDIA GPU + CUDA 사실상 표준 → 모든 AI 모델 (GPT·Claude·Gemini·Llama·Grok) CUDA 의존 → hyperscaler·sovereign·enterprise 모두 NVIDIA stack 우선 → DC GPU 80%+ 유지 → Hopper → Blackwell → Rubin 세대 전환마다 ★ ASP·매출 step-up<br>
+        <b>추가 동력 1 — ★ Blackwell ramp Q1 FY27 본격화</b>: DC $75.2B (+92% YoY), Hyperscale·ACIE 50/50<br>
+        <b>추가 동력 2 — ★ Vera Rubin (HBM4 288GB, 3x Blackwell) 2H 2026</b>: 차세대 platform + Kyber rack 660kW (800VDC) = AI 인프라 architecture 자체 정의<br>
+        <b>추가 동력 3 — ★ Hyperscaler CapEx 2026 $640B+의 30-40% NVIDIA</b>: MSFT $190B + GOOGL $185B + AMZN $195B + META $135B<br>
+        <b>monopoly 위협 매핑</b>: (a) AMD MI400 4% → 18% (b) hyperscaler ASIC $225B+ 백로그 (c) CUDA 대체 (d) 중국 통제<br>
+        <b>NVIDIA 위치의 본질</b>: 본 segment Moat 5.0 절대 monopoly. 단기 2-3년 강고. 장기 5년+ 위협 누적 → 80% → 70-75% 시나리오 가능 (단 절대 매출은 시장 성장으로 +)
+      </blockquote>
+
+      <h4>Segment 2. CUDA software stack — ★ 절대 lock-in (진짜 moat)</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA CUDA</th><th>AMD ROCm</th><th>OpenAI Triton</th><th>Intel oneAPI</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (20년+ 누적)</td><td>3 (catch-up)</td><td>3 (open source)</td><td>2</td><td>CUDA 압도</td></tr>
+        <tr class="nvda-highlight"><td>생태계</td><td><b>5</b> (모든 모델·라이브러리)</td><td>3 (PyTorch ROCm 일부)</td><td>3 (학습 일부)</td><td>1</td><td>사실상 표준</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (전환 비용 극대)</td><td>3</td><td>3</td><td>1</td><td>절대 lock-in</td></tr>
+        <tr class="nvda-highlight"><td>규모 (개발자)</td><td><b>5</b> (~5M+)</td><td>3</td><td>2</td><td>1</td><td>NVIDIA 단독</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b></td><td>3</td><td>3 (open source 위협)</td><td>1</td><td>NVIDIA 절대</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>3.0</b></td><td><b>2.8</b></td><td><b>1.2</b></td><td><b>★ CUDA 절대 lock-in</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 CUDA가 NVIDIA monopoly의 진짜 moat인가?</b><br>
+        <b>인과 사슬</b>: GPU hardware는 모방 가능 (AMD MI400, hyperscaler ASIC) → 단 CUDA + 라이브러리 + 도구 + 개발자 생태계는 20년+ 누적 = ★ 대체 비용이 hardware보다 훨씬 큼 → 모든 AI 모델 CUDA optimized → 전환 비용 = 매몰 비용 + 개발자 재교육 + 성능 손실 → ★ NVIDIA hardware의 진짜 moat = software<br>
+        <b>추가 동력 1 — ★ 5M+ CUDA 개발자 + cuDNN, cuBLAS, TensorRT, NIM, Triton inference</b><br>
+        <b>추가 동력 2 — AI Enterprise license + DGX Cloud + Omniverse</b>: 소프트웨어 매출 + lock-in 강화<br>
+        <b>추가 동력 3 — ★ 대체 framework도 NVIDIA 우선 지원</b>: Triton·Mojo도 NVIDIA hardware best 성능 = paradox<br>
+        <b>CUDA 위협 매핑</b>: AMD ROCm 6.0 가속, OpenAI Triton (open source), 하이퍼스케일러 자체 stack (JAX/XLA·PyTorch 2.0·Neuron)<br>
+        <b>NVIDIA 위치의 본질</b>: 본 segment Moat 5.0. <b>★ CUDA가 진짜 monopoly의 본질</b> — hardware 모방 가능, software는 20년 누적. 5년 장기 위협에도 단기 dominance 유지
+      </blockquote>
+
+      <h4>Segment 3. Networking (NVLink·InfiniBand·Spectrum-X) — ★ 신규 폭증</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA</th><th>Broadcom</th><th>Marvell</th><th>Arista</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (Mellanox 2020)</td><td>4 (스위치 칩)</td><td>3 (DSP·SerDes)</td><td>3</td><td>NVIDIA 통합</td></tr>
+        <tr class="nvda-highlight"><td>CAPA</td><td><b>5</b></td><td>4</td><td>3</td><td>3</td><td>TSMC 우선</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (NVIDIA GPU 통합)</td><td>4</td><td>3</td><td>3</td><td>NVIDIA stack</td></tr>
+        <tr class="nvda-highlight"><td>규모</td><td><b>5</b> ($14.8B, +199% YoY)</td><td>4</td><td>3</td><td>3</td><td>NVIDIA 폭증</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (★ 폭증 segment)</td><td>4 (alternative)</td><td>3</td><td>3</td><td>NVIDIA driver</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>3.8</b></td><td><b>3.0</b></td><td><b>3.0</b></td><td><b>★ Networking 폭증</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 Networking이 NVIDIA의 새로운 needle-mover인가?</b><br>
+        <b>인과 사슬</b>: AI training·inference cluster = 수천~수만 GPU 동시 연결 → ★ NVLink (GPU 간) + InfiniBand (rack 간) + Spectrum-X (DC 전체) 통합 필수 → Mellanox 2020 인수 → ★ Q1 FY27 Networking $14.8B (+199% YoY) = DC 매출의 20% 신규 driver<br>
+        <b>추가 동력 1 — ★ Mellanox 통합 ($6.9B, 2020)</b>: InfiniBand·Spectrum 통합 stack = AI cluster 표준<br>
+        <b>추가 동력 2 — ★ NVLink Fusion + NVLink C2C (Grace + Blackwell)</b>: GPU-CPU-DPU 통합 = 경쟁사 모방 불가<br>
+        <b>추가 동력 3 — ★ Kyber rack (800VDC)</b>: 차세대 DC rack spec 자체 정의 (NVIDIA reference)<br>
+        <b>Networking 위협</b>: Broadcom + Arista UEC consortium (2024), Marvell 광통신 양면 공급<br>
+        <b>NVIDIA 위치의 본질</b>: Moat 5.0. ★ Networking이 NVIDIA의 새로운 needle-mover — DC 50% (Hopper·Blackwell) → DC 70% (Rubin + Networking) trajectory
+      </blockquote>
+
+      <h4>Segment 4. Grace CPU (ARM Neoverse) — ★ Intel Xeon 잠식</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA Grace</th><th>Intel Xeon</th><th>AMD EPYC</th><th>AWS Graviton</th><th>핵심</th></tr>
+        <tr><td>기술/특허</td><td><b>4</b> (ARM Neoverse V2 + NVLink C2C)</td><td>4 (Xeon 6)</td><td><b>5</b> (Zen 5)</td><td>4</td><td>AMD 단일 코어 우위</td></tr>
+        <tr><td>CAPA</td><td>4 (TSMC)</td><td>5 (IDM)</td><td>3 (TSMC)</td><td>4</td><td>Intel IDM</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (GB200 rack 표준)</td><td>3 (잠식)</td><td>4 (Meta lead)</td><td>4 (AWS 자체)</td><td>NVIDIA stack</td></tr>
+        <tr><td>규모</td><td>3 ($5B+ run-rate)</td><td>5 ($13B DCAI)</td><td>4 (~$16B)</td><td>4</td><td>Intel 매출 #1</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (GB200·Rubin rack 표준)</td><td>2 (잠식자)</td><td>4 (+)</td><td>4</td><td>NVIDIA 신규</td></tr>
+        <tr><td><b>평균</b></td><td><b>4.2</b></td><td><b>3.4</b></td><td><b>4.0</b></td><td><b>4.0</b></td><td>NVIDIA 신규 + Intel 잠식</td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 Grace CPU가 NVIDIA의 새로운 leverage인가?</b><br>
+        <b>인과 사슬</b>: AI 가속기 + host CPU 통합 architecture 필수 → ★ NVIDIA Grace (ARM Neoverse V2) + NVLink C2C → GB200 NVL72 rack 표준 통합 → Intel Xeon 시장 일부 잠식 + ARM 라이선시 4종 중 가장 강력한 위치<br>
+        <b>추가 동력 1 — ★ GB200 NVL72 rack 표준 통합</b>: NVIDIA stack monopoly 강화<br>
+        <b>추가 동력 2 — ★ Vera 256 (Rubin 통합 CPU) 2H 2026~</b>: 256 ARM Neoverse cores<br>
+        <b>추가 동력 3 — ★ N1/N1X PC chip (2026-06-01 Computex 발표)</b>: MSFT Windows on ARM = Intel·AMD client CPU 위협<br>
+        <b>NVIDIA Grace 위치의 본질</b>: Moat 4.2. ★ Intel Xeon 잠식 + ARM 라이선시 가장 강력
+      </blockquote>
+
+      <h4>Segment 5. DPU/SmartNIC (BlueField) — 압도 우위</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA BlueField</th><th>AMD Pensando</th><th>Marvell</th><th>Intel IPU</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (BlueField 3)</td><td>4</td><td>3</td><td>2</td><td>NVIDIA 압도</td></tr>
+        <tr class="nvda-highlight"><td>규모</td><td><b>5</b> (DC 광범위)</td><td>3</td><td>3</td><td>1</td><td>NVIDIA 단독</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (DOCA stack)</td><td>3</td><td>3</td><td>1</td><td>NVIDIA 표준</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (AI cluster 필수)</td><td>4</td><td>3</td><td>1</td><td>NVIDIA 절대</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>3.5</b></td><td><b>3.0</b></td><td><b>1.2</b></td><td><b>★ NVIDIA 압도</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 DPU/BlueField가 본 테마에서 부각받는가?</b><br>
+        <b>인과 사슬</b>: AI cluster = 수천 GPU 통신 + RDMA + storage offload + security 동시 → DPU 필수 → ★ NVIDIA BlueField 3 + DOCA software stack = AMD Pensando 대비 압도 우위<br>
+        <b>추가 동력 1 — DOCA software stack (BlueField 표준)</b><br>
+        <b>추가 동력 2 — NVIDIA GPU + DPU 통합 stack = 경쟁사 모방 불가</b><br>
+        <b>추가 동력 3 — Spectrum-X + BlueField + NVLink 통합 = AI cluster 전체 stack monopoly</b><br>
+        <b>NVIDIA 위치의 본질</b>: 본 segment Moat 5.0. AMD Pensando 3.5 vs NVIDIA 5.0 = 명확한 격차
+      </blockquote>
+
+      <h4>Segment 6. Pro Visualization (Omniverse) — 디지털 트윈</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA Omniverse</th><th>Autodesk·Dassault</th><th>Unreal·Unity</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (Omniverse + USD)</td><td>4 (CAD 강자)</td><td>3 (게임 엔진)</td><td>NVIDIA 신규</td></tr>
+        <tr><td>규모</td><td>4 ($1.32B Q4 FY26, +159% YoY)</td><td>4 (CAD)</td><td>3</td><td>NVIDIA 폭증</td></tr>
+        <tr><td>고객 락인(lock-in)</td><td>4 (디지털 트윈 표준)</td><td>4</td><td>3</td><td>신규</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (★ 물리 AI driver)</td><td>3</td><td>3</td><td>NVIDIA</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>4.5</b></td><td><b>3.8</b></td><td><b>3.0</b></td><td><b>NVIDIA 디지털 트윈</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 Pro Viz (Omniverse)가 NVIDIA의 신규 driver인가?</b><br>
+        <b>인과 사슬</b>: 물리 AI (로봇·자율주행·산업 자동화) = ★ 시뮬레이션 + 디지털 트윈 필수 → Omniverse + USD 표준 → Q4 FY26 $1.32B (+159% YoY) → ★ 물리 AI 시대 enabler<br>
+        <b>추가 동력 1 — Tesla·Hyundai·BYD·Mercedes 디지털 트윈 채택</b><br>
+        <b>추가 동력 2 — Apple Vision Pro·Meta Quest 공간 컴퓨팅</b><br>
+        <b>추가 동력 3 — ★ Isaac + GR00T humanoid foundation model</b><br>
+        <b>NVIDIA 위치의 특별함</b>: Moat 4.5 = 신규 segment NVIDIA 단독 정의
+      </blockquote>
+
+      <h4>Segment 7. ★ ACIE (AI Clouds + Industrial + Enterprise) — 다각화 신 framework</h4>
+      <table>
+        <tr><th>축</th><th>NVIDIA ACIE</th><th>AMD</th><th>hyperscaler in-house</th><th>핵심</th></tr>
+        <tr class="nvda-highlight"><td>기술/특허</td><td><b>5</b> (NVIDIA stack 통합)</td><td>3 (MI400)</td><td>3 (자체 ASIC)</td><td>NVIDIA 표준</td></tr>
+        <tr class="nvda-highlight"><td>규모</td><td><b>5</b> ($37.4B Q1 FY27, +74% YoY)</td><td>3</td><td>3</td><td>NVIDIA 절대</td></tr>
+        <tr class="nvda-highlight"><td>고객 락인(lock-in)</td><td><b>5</b> (Sovereign + 산업 + enterprise)</td><td>3</td><td>3</td><td>NVIDIA 단독</td></tr>
+        <tr class="nvda-highlight"><td>병목 포지셔닝</td><td><b>5</b> (★ 다각화 driver)</td><td>3</td><td>3</td><td>NVIDIA</td></tr>
+        <tr class="nvda-highlight"><td><b>평균</b></td><td><b>5.0</b></td><td><b>3.0</b></td><td><b>3.0</b></td><td><b>★ ACIE 단독 framework</b></td></tr>
+      </table>
+
+      <blockquote>
+        <b>★ 정성: 왜 ACIE가 NVIDIA의 hyperscaler 의존도 분산인가?</b><br>
+        <b>인과 사슬</b>: hyperscaler Top 5 의존도 risk → ★ Sovereign AI (국가·정부) + Industrial (Tesla·Hyundai 등) + Enterprise + Neocloud (CoreWeave·Lambda·Nebius) 다각화 → Q1 FY27 ACIE $37.4B (+74% YoY) = DC 50% = ★ Hyperscale 의존도 50% 안착<br>
+        <b>추가 동력 1 — ★ Sovereign AI 메가딜 (UK·Germany·UAE·KSA·Japan·France·Korea)</b><br>
+        <b>추가 동력 2 — ★ Neocloud 폭증 (CoreWeave·Lambda·Nebius)</b>: 직접 투자 + GPU 공급 (Equity 평가차익 $15.9B)<br>
+        <b>추가 동력 3 — Industrial AI (Tesla·Hyundai·BYD)</b><br>
+        <b>NVIDIA 위치의 본질</b>: Moat 5.0 = NVIDIA 단독 정의 framework. ★ hyperscaler 의존도 50% 안착 = risk diversification
+      </blockquote>
+
+      <div class="chart-card">
+        <h4>NVIDIA 본 테마 Moat 평균 점수 (segment별)</h4>
+        <canvas id="moatBySegment" height="240"></canvas>
+        <div class="src">→ DC GPU 5.0 / CUDA 5.0 / Networking 5.0 / DPU 5.0 / ACIE 5.0 / Pro Viz 4.5 / Grace CPU 4.2. <b>★ 9개사 중 최상 (SK 4.4, ARM 4.1, STX 4.1)</b></div>
+      </div>
+    </section>
+
+    <section id="s2-threat">
+      <h2>★ 2-3. Monopoly 위협 catalyst 매핑 — 본 분석 frame의 본질</h2>
+
+      <div class="threat-card">
+        <h4>위협 1. AMD MI400 alternative — 점유 4% → 18% (2026E)</h4>
+        <table>
+          <tr><th>차원</th><th>NVIDIA</th><th>AMD</th><th>차이</th></tr>
+          <tr><td>GPU 점유 (Q1 FY27)</td><td>80%+</td><td>4-15% (2026E 18%)</td><td>NVIDIA 5-20x</td></tr>
+          <tr><td>핵심 trigger</td><td>—</td><td>★ Meta 6GW + OpenAI 6GW = 12GW MI450 deal</td><td>hyperscaler diversification</td></tr>
+          <tr><td>Hardware 격차</td><td>Hopper·Blackwell·Rubin</td><td>MI300X·MI355X·MI450</td><td>1세대 lag</td></tr>
+          <tr><td>Software 격차</td><td>CUDA (20년 누적)</td><td>ROCm 6.0</td><td>격차 큼</td></tr>
+          <tr class="warning-highlight"><td><b>threat 평가</b></td><td><b>★ 단기 thesis 안정 (2-3년)</b></td><td colspan="2"><b>장기 5년+ NVIDIA 점유 80% → 70-75% 가능</b></td></tr>
+        </table>
+      </div>
+
+      <div class="threat-card">
+        <h4>위협 2. 하이퍼스케일러 자체 ASIC — Google TPU + Meta MTIA + AWS Trainium + MSFT Maia</h4>
+        <table>
+          <tr><th>회사</th><th>ASIC</th><th>점유 / 백로그</th><th>핵심</th></tr>
+          <tr><td><b>Google</b></td><td>TPU 6세대</td><td>DC 추론 ~30%+ (Google 내)</td><td>가장 성숙한 ASIC</td></tr>
+          <tr><td><b>Meta</b></td><td>MTIA 2</td><td>일부 inference (Broadcom 위탁)</td><td>자체 stack</td></tr>
+          <tr><td><b>AWS</b></td><td>Trainium 2 + Inferentia</td><td>AWS 일부 (Anthropic Claude)</td><td>$11B+ deal</td></tr>
+          <tr><td><b>MSFT</b></td><td>Maia 100</td><td>초기 (Intel Foundry 18A)</td><td>가장 후발</td></tr>
+          <tr class="warning-highlight"><td><b>합 백로그</b></td><td>—</td><td><b>$225B+ (5년)</b></td><td>NVIDIA 점유 8-10%pt 잠식 가능</td></tr>
+        </table>
+        <p><b>threat 평가</b>: hyperscaler가 일부 inference를 자체 ASIC으로 이전 → NVIDIA 점유 80% → 75-78%. ★ training은 여전히 dominant (CUDA + Networking 필수)</p>
+      </div>
+
+      <div class="threat-card">
+        <h4>위협 3. CUDA 대체 — ROCm + OpenAI Triton + Mojo</h4>
+        <table>
+          <tr><th>대체</th><th>진행도</th><th>NVIDIA 영향</th></tr>
+          <tr><td>AMD ROCm 6.0</td><td>PyTorch ROCm 일부 + MI300X deployment</td><td>점진</td></tr>
+          <tr><td>OpenAI Triton (open source)</td><td>GPU agnostic 컴파일러</td><td>가속화 시 lock-in 약화</td></tr>
+          <tr><td>Modular Mojo</td><td>Python superset, hardware agnostic</td><td>신규</td></tr>
+          <tr><td>Google JAX/XLA</td><td>TPU 최적화 + GPU 지원</td><td>TPU 강화</td></tr>
+        </table>
+        <p><b>threat 평가</b>: 5년 장기 위협 누적 가능. 단 단기 2-3년 CUDA dominance 유지</p>
+      </div>
+
+      <div class="threat-card">
+        <h4>위협 4. 중국 수출 통제 — H20 $0 (Q1 FY27)</h4>
+        <ul>
+          <li><b>현재</b>: H20 China shipment 전무 (Q1 FY26 $4.6B → Q1 FY27 $0)</li>
+          <li><b>upside optionality</b>: 향후 재개 시 분기 $4-5B 추가 가능 (현재 가이던스 미포함)</li>
+          <li><b>downside</b>: 추가 통제 강화 시 Blackwell도 영향</li>
+        </ul>
+        <p><b>threat 평가</b>: 단기 down, 장기 upside optionality</p>
+      </div>
+
+      <h3>통합 위협 score (5년 시점)</h3>
+      <table>
+        <tr><th>위협</th><th>단기 (2-3년)</th><th>장기 (5년+)</th><th>NVIDIA 대응</th></tr>
+        <tr><td>AMD MI400</td><td>점유 80% → 75-78%</td><td>점유 70-75% 가능</td><td>Rubin + Vera + Kyber rack</td></tr>
+        <tr><td>Hyperscaler ASIC</td><td>점유 75-78% (-3-5%pt)</td><td>점유 70-72% (-8-10%pt)</td><td>ACIE 다각화 + Sovereign AI</td></tr>
+        <tr><td>CUDA 대체</td><td>dominance 유지</td><td>일부 잠식</td><td>CUDA + AI Enterprise + DGX Cloud</td></tr>
+        <tr><td>중국 통제</td><td>$0 (베이스라인)</td><td>upside optionality</td><td>다운그레이드 전략</td></tr>
+        <tr class="nvda-highlight"><td><b>종합</b></td><td><b>★ thesis 강고</b></td><td><b>★ 점진 약화 가능</b></td><td><b>monopoly 광범위로 buffer</b></td></tr>
+      </table>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 12년 매출·OPM (AI 슈퍼사이클 변곡점)</h3>
+      <div class="chart-card">
+        <h4>NVIDIA 12년 매출 + OPM (FY15~Q2 FY27 가이던스)</h4>
+        <canvas id="cycleChart" height="260"></canvas>
+        <div class="src">→ FY24 AI 슈퍼사이클 진입 (H100·ChatGPT) → FY25 정점 OPM 62.4% → FY26·FY27 Blackwell·Rubin secular 정점 지속</div>
+      </div>
+
+      <table>
+        <tr><th>FY</th><th>매출 ($B)</th><th>YoY</th><th>OPM</th><th>EPS ($)</th><th>사이클</th></tr>
+        <tr><td>FY15</td><td>4.68</td><td>+13%</td><td>16.2%</td><td>—</td><td>Tegra + Gaming baseline</td></tr>
+        <tr><td>FY18</td><td>9.71</td><td>+41%</td><td>33.0%</td><td>—</td><td>1차 크립토 정점</td></tr>
+        <tr><td>FY22</td><td>26.91</td><td>+61%</td><td>37.3%</td><td>—</td><td>2차 크립토 정점</td></tr>
+        <tr class="warning-highlight"><td>FY23</td><td>26.97</td><td>+0.2%</td><td><b>15.7%</b></td><td>—</td><td>2차 크립토 저점</td></tr>
+        <tr class="nvda-highlight"><td><b>FY24</b></td><td><b>60.92</b></td><td><b>+126%</b></td><td><b>54.1%</b></td><td>—</td><td><b>★ AI 슈퍼사이클 진입</b></td></tr>
+        <tr class="nvda-highlight"><td><b>FY25</b></td><td><b>130.50</b></td><td><b>+114%</b></td><td><b>62.4%</b></td><td>—</td><td><b>Hopper·H200 가속</b></td></tr>
+        <tr class="nvda-highlight"><td><b>FY26</b></td><td><b>215.94</b></td><td><b>+65%</b></td><td><b>60.4%</b></td><td>—</td><td><b>★ Blackwell 양산</b></td></tr>
+        <tr class="nvda-highlight"><td><b>Q1 FY27</b></td><td><b>81.62</b></td><td><b>+85%</b></td><td><b>65.6%</b></td><td><b>2.39</b></td><td><b>★ Blackwell ramp record</b></td></tr>
+        <tr class="nvda-highlight"><td><b>Q2 FY27 (G)</b></td><td><b>91.0</b></td><td><b>+89%</b></td><td>—</td><td>—</td><td><b>★ Vera Rubin 시그널</b></td></tr>
+      </table>
+
+      <p>→ <b>OPM range (12년): 14.9% ~ 62.4% = 47.5%pt</b> (demand 사이클 source). 단 ★ FY24-26 AI secular 진입 후 60%+ 정점 유지 가능성.</p>
+
+      <h3>3-2. PQC 분해 — Hyperscale vs ACIE (신 framework)</h3>
+      <table>
+        <tr><th>차원</th><th>Hyperscale</th><th>ACIE</th><th>비교</th></tr>
+        <tr><td><b>P (GPU ASP)</b></td><td>$25-30K (Blackwell B200)</td><td>$35-45K (Rubin premium)</td><td>ACIE 다양화</td></tr>
+        <tr><td><b>Q (출하)</b></td><td>hyperscaler 5사 ~50%</td><td>sovereign + industrial + neocloud 50%</td><td>50/50 안착</td></tr>
+        <tr><td><b>C</b></td><td>TSMC + HBM3E/HBM4 + R&D</td><td>동일</td><td>—</td></tr>
+        <tr class="nvda-highlight"><td><b>매출 (Q1 FY27)</b></td><td><b>$37.87B (+115% YoY)</b></td><td><b>$37.38B (+74% YoY)</b></td><td>50/50 다각화</td></tr>
+        <tr class="nvda-highlight"><td><b>마진 (GPM)</b></td><td>~75%</td><td>~75%</td><td>동급</td></tr>
+      </table>
+
+      <h3>3-3. 재무 건전성 & 자본 환원 게임 체인저</h3>
+      <ul>
+        <li><b>부채비율</b>: 무부채에 가까운 cash positive (FY26 현금 $35B+ vs 부채 ~$10B)</li>
+        <li><b>OCF/FCF</b>: FY26 OCF $80B+ / FCF $70B+ (FCF margin <b>32%</b>)</li>
+        <li><b>자사주 매입</b>: FY25 $33.7B → FY26 $60B → ★ <b>$80B 추가 authorization</b> = FY27 ~$100B 가능</li>
+        <li><b>★ 자본 정책 게임 체인저 (5/18 결의)</b>:
+          <ul>
+            <li>분기 배당 <b>$0.01 → $0.25 (25배 인상)</b></li>
+            <li><b>$80B 자사주 추가 authorization</b> (시총 $5.7T의 1.4%)</li>
+            <li>→ "고성장 secular" → "고성장 + 자본환원" hybrid 진입 (Apple-like)</li>
+          </ul>
+        </li>
+        <li><b>CAPEX 부담</b>: fabless이라 CAPEX 매출의 3-5%만</li>
+      </ul>
+
+      <div class="chart-card">
+        <h4>NVIDIA 자사주 매입 + 배당 추이 (FY23~FY27E)</h4>
+        <canvas id="capitalReturn" height="220"></canvas>
+        <div class="src">→ ★ 5/18 결의: 배당 25배 + $80B buyback 추가. FY27 자본환원 ~$100B 페이스</div>
+      </div>
+
+      <h3>3-4. 수익성 트렌드 — 9개사 중 최상</h3>
+      <ul>
+        <li><b>GPM 추이</b>: FY23 56% → FY24 73% → FY25 73% → FY26 71% (Q1 H20 charge) → Q1 FY27 <b>75% record</b></li>
+        <li><b>OPM 추이</b>: FY23 15.7% → FY24 54.1% → FY25 62.4% → FY26 60.4%</li>
+        <li><b>NPM 추이</b>: FY23 16.2% → FY26 55.6%</li>
+        <li><b>vs 9개사</b>: ★ NVIDIA GPM 75% = <b>9개사 중 최상</b> (SK ~50%, AMD 55%)</li>
+        <li><b>vs Apple·MSFT</b>: NVIDIA GPM 75% &gt; MSFT 70% &gt; Apple 46% (소프트웨어 회사 GPM 수준)</li>
+      </ul>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률 (CAGR)</h3>
+      <ul>
+        <li>3년 (FY23→FY26): 매출 CAGR <b>+100%</b> (AI 슈퍼사이클)</li>
+        <li>5년 (FY21→FY26): <b>+67%</b></li>
+        <li>12년 (FY15→FY26): <b>+37%</b></li>
+      </ul>
+      <p>→ <b>9개사 어느 누구도 비교 불가</b> (메모리 3사 CAGR -2 ~ +10%). ★ FY24-26 3년 +178%.</p>
+
+      <h3>4-2. 향후 성장 가시성 — 미래 PQC 전망</h3>
+      <table>
+        <tr><th>차원</th><th>전망</th><th>근거</th><th>6 카테고리</th></tr>
+        <tr><td><b>P 전망</b></td><td>★ Rubin ASP step-up (Blackwell 대비 +50%)</td><td>HBM4 288GB/GPU, 3x capacity</td><td>(A) 절대 monopoly</td></tr>
+        <tr><td><b>Q 전망</b></td><td>★ DC 출하 +50% YoY 지속</td><td>Vera Rubin ramp + Kyber rack</td><td>(A) 폭증</td></tr>
+        <tr><td><b>C 전망</b></td><td>TSMC 2nm + HBM4 + 인플레 일부 압박</td><td>GPM ~73-75% 유지</td><td>—</td></tr>
+        <tr class="nvda-highlight"><td><b>→ 매출 성장</b></td><td><b>FY27 ~$320B (+50%) / FY28 ~$420B (+30%)</b></td><td>Hyperscaler $640B+ CapEx의 30-40%</td><td>★ secular</td></tr>
+        <tr class="nvda-highlight"><td><b>→ 마진</b></td><td><b>GPM ~73-75% 유지</b></td><td>AI Enterprise + DGX Cloud</td><td>★ secular pricing power</td></tr>
+      </table>
+
+      <h4>수주잔고/백로그</h4>
+      <ul>
+        <li>★ <b>Sovereign AI 메가딜</b> (UK·Germany·UAE·KSA·Japan·France·Korea): 5년 $50B+</li>
+        <li>★ <b>Hyperscaler CapEx 2026 $640B+</b>: MSFT $190B + GOOGL $185B + AMZN $195B + META $135B</li>
+        <li>★ <b>Neocloud (CoreWeave·Nebius·Lambda)</b>: 직접 투자 + GPU 공급</li>
+        <li>★ <b>Industrial AI (Tesla·Hyundai·BYD)</b>: 자율주행 + 디지털 트윈</li>
+      </ul>
+
+      <h4>구조적 + vs 저해 risk</h4>
+      <div class="twocol">
+        <div>
+          <b>구조적 +</b>
+          <ul>
+            <li>에이전트 AI = 토큰 20-30x 폭증</li>
+            <li>Vera Rubin + Kyber rack 800VDC = 차세대 platform 정의</li>
+            <li>자본 정책 게임 체인저 = 성장+자본환원 hybrid</li>
+            <li>Hyperscale/ACIE 50/50 다각화 = risk hedging</li>
+          </ul>
+        </div>
+        <div>
+          <b>저해 risk (★ 4대 monopoly 위협)</b>
+          <ul>
+            <li>AMD MI400 (4% → 18%)</li>
+            <li>하이퍼스케일러 ASIC ($225B+ 백로그)</li>
+            <li>CUDA 대체 (ROCm + Triton + Mojo)</li>
+            <li>중국 수출 통제 + 추가 강화 risk</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>4-3. 피어 그룹 비교</h3>
+      <table>
+        <tr><th>기업</th><th>매출 CAGR (3년)</th><th>GAAP GPM</th><th>핵심 차이점</th></tr>
+        <tr class="nvda-highlight"><td><b>NVIDIA</b></td><td><b>+100%</b></td><td><b>75%</b></td><td><b>★ AI DC GPU 80%+ monopoly + CUDA lock-in + Networking 통합 + 자본 정책 게임 체인저</b></td></tr>
+        <tr><td>AMD</td><td>+35%</td><td>55%</td><td>NVIDIA 대안 #1 (4% → 18%), Meta + OpenAI 12GW</td></tr>
+        <tr><td>Intel</td><td>+5%</td><td>35%</td><td>Turnaround 시작, AI 부재</td></tr>
+        <tr><td>Broadcom</td><td>+20%</td><td>78%</td><td>ASIC 위탁 (Google TPU + Meta MTIA), Networking</td></tr>
+        <tr><td>Apple</td><td>+2%</td><td>46%</td><td>자본 환원 king (NVIDIA follow 시도)</td></tr>
+        <tr><td>MSFT</td><td>+15%</td><td>70%</td><td>Azure + Copilot + Maia ASIC</td></tr>
+      </table>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>정리</th></tr>
+        <tr><td><b>현재 시장 점유율</b></td><td>AI DC GPU <b>80%+</b>, Networking 압도 #1, Grace CPU 신규, DPU 압도 #1</td></tr>
+        <tr><td>CAPA + 발표 증설</td><td>fabless, TSMC 의존. CAPEX 매출의 3-5%</td></tr>
+        <tr><td>현재 사업부별 마진</td><td>GPM 75% (Q1 FY27) / Hyperscale·ACIE 모두 ~75%</td></tr>
+        <tr><td>사이클 진폭</td><td>OPM 12년 ±47.5pt (demand 사이클)</td></tr>
+        <tr class="nvda-highlight"><td><b>기술 격차</b></td><td>★ CUDA 20년 누적 + Mellanox Networking + Vera Rubin (HBM4 288GB) + Kyber rack 800VDC</td></tr>
+        <tr><td>R&D 강도</td><td>FY26 ~$15B (매출의 7%)</td></tr>
+        <tr><td>핵심 특허</td><td>CUDA + NVLink + Tensor Cores + TensorRT</td></tr>
+        <tr><td>고객사 분포</td><td>hyperscaler Top 5 ~50% + Sovereign + Industrial + Neocloud</td></tr>
+        <tr class="nvda-highlight"><td><b>신규 수주</b></td><td>★ Sovereign AI $50B+ (5년), Hyperscaler 2026 $640B+, Neocloud 직접 투자</td></tr>
+        <tr class="nvda-highlight"><td><b>자본 환원 누적</b></td><td>FY25 $33.7B → FY26 $60B → ★ <b>$80B 추가 + 배당 25배 인상</b></td></tr>
+        <tr><td>현재 EV/EBITDA·PER·FCF Yield</td><td>(분기 실적 분석에서 cross-ref)</td></tr>
+        <tr class="warning-highlight"><td><b>★ 4대 monopoly 위협 catalyst</b></td><td>(1) AMD 4% → 18% (2) hyperscaler ASIC $225B+ (3) CUDA 대체 (4) 중국 통제</td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h4>상방 트리거</h4>
+      <ul>
+        <li>★ <b>Vera Rubin (HBM4 288GB) 양산 시작</b> (2H 2026)</li>
+        <li>★ <b>Kyber rack 660kW (800VDC) 출시</b> (2H 2026)</li>
+        <li>★ Sovereign AI 메가딜 발표 가속</li>
+        <li>★ Networking +200%+ YoY 지속</li>
+        <li>★ 자사주 매입 $80B 가속 + 배당 인상 추가</li>
+        <li>Hyperscaler 2027 CapEx 가이던스 +30%+</li>
+      </ul>
+
+      <h4>하방 트리거</h4>
+      <ul>
+        <li>★ <b>AMD MI450 ramp + 점유 18%+ 도달</b> (NVIDIA 80% → 75-78% jam)</li>
+        <li>★ <b>하이퍼스케일러 ASIC 점유 10%+</b> (TPU·MTIA·Trainium·Maia 합)</li>
+        <li>★ <b>CUDA 대체 가속 시그널</b> (PyTorch ROCm 본격 채택, OpenAI Triton 표준화)</li>
+        <li>중국 통제 추가 강화 (Blackwell 영향)</li>
+        <li>Hyperscaler CapEx 가이던스 cut 시그널</li>
+      </ul>
+
+      <h4>모니터링 캘린더</h4>
+      <ul>
+        <li><b>Q2 FY27 실적</b> (2026-08-27): Vera Rubin 시점·디테일 + 자본환원 update</li>
+        <li><b>GTC 2026 추가 발표</b>: Rubin Ultra (HBM4E) roadmap</li>
+        <li><b>Computex 2027</b>: N2/N3 PC chip roadmap</li>
+        <li>AMD Q3 FY26 실적: MI450 ramp 비교</li>
+        <li>Google·Meta·MSFT·AWS 분기 ASIC commentary</li>
+      </ul>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단</h2>
+
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr><td>메가 트렌드 적합성</td><td>★★★</td><td>본 테마 needle-mover, 9개사 thesis 모두 driver</td></tr>
+        <tr><td>산업 위치</td><td>★★★</td><td>AI DC GPU 80%+ + CUDA lock-in + Networking 통합</td></tr>
+        <tr class="nvda-highlight"><td><b>해자 강도</b></td><td><b>4.8 / 5.0</b></td><td>9개사 중 최상</td></tr>
+        <tr><td>재무 건전성</td><td>★★★</td><td>FCF margin 32%, 자본 환원 게임 체인저</td></tr>
+        <tr><td>성장 가시성</td><td>★★★</td><td>Hyperscaler $640B+ CapEx + Sovereign AI</td></tr>
+        <tr class="warning-highlight"><td><b>★ Monopoly 지속 가능성</b></td><td>★★ (단기 강고, 장기 위협 누적)</td><td>4대 catalyst 분기 검증 필요</td></tr>
+      </table>
+
+      <h4>핵심 투자 포인트 3</h4>
+      <ol>
+        <li><b>★ AI DC GPU 80%+ monopoly + CUDA lock-in + Networking 통합 stack</b> — 본 테마 needle-mover. ★ Q1 FY27 $81.6B record + 9분기 연속 컨센 비트. Vera Rubin (HBM4 288GB) + Kyber rack 800VDC = 차세대 platform 자체 정의.</li>
+        <li><b>★ 자본 정책 게임 체인저 (5/18 결의)</b>: 배당 25배 인상 + $80B buyback authorization = "고성장 secular" → "고성장 + 자본환원" hybrid (Apple-like). FY27 자본환원 ~$100B 페이스.</li>
+        <li><b>★ Hyperscale·ACIE 50/50 다각화 안착</b> — Sovereign AI ($50B+ 백로그) + Industrial + Neocloud (CoreWeave·Nebius 직접 투자) = hyperscaler 의존도 risk hedging. Q1 FY27 ACIE +74% YoY.</li>
+      </ol>
+
+      <h4>핵심 리스크 3 (★ 4대 monopoly 위협 catalyst 중 우선 3개)</h4>
+      <ol>
+        <li><b>AMD MI400 alternative 점유 가속</b>: 4% → 18% (2026E), Meta + OpenAI 12GW MI450 mega deal = NVIDIA 점유 80% → 75-78% jam 가능. 단기 thesis 안정, 장기 5년+ 점진 약화 가능.</li>
+        <li><b>하이퍼스케일러 자체 ASIC 침투</b>: Google TPU + Meta MTIA + AWS Trainium + MSFT Maia + Broadcom 위탁 합 $225B+ 백로그. inference workload 이전 → NVIDIA 점유 70-75% 가능 (5년+).</li>
+        <li><b>CUDA 대체 가속화 (장기)</b>: AMD ROCm + OpenAI Triton + Mojo. 단기 dominance 유지, 5년+ 일부 잠식. ★ CUDA = software lock-in = 진짜 moat의 본질.</li>
+      </ol>
+
+      <p>→ <b>종합</b>: <span class="star">★★★ 본 테마 needle-mover + 9개사 thesis 모두의 driver + 9개사 중 Moat 최상</span>. 단기 2-3년 thesis 강고, 장기 5년+ monopoly 약화 catalyst 누적 가능 — <b>분기마다 4대 catalyst 검증 필요</b>.</p>
+    </section>
+
+    <section id="appx">
+      <h2>향후 관찰 포인트</h2>
+      <ol>
+        <li>Vera Rubin (HBM4 288GB) 양산 시점 (2H 2026) — ASP step-up + Kyber rack 출시</li>
+        <li>AMD MI450 ramp + 점유 18%+ 도달 여부 (FY27 H2)</li>
+        <li>하이퍼스케일러 ASIC 점유 합산 (Google TPU + Meta MTIA + AWS Trainium + MSFT Maia)</li>
+        <li>CUDA 대체 가속 시그널 (PyTorch ROCm 본격 채택, OpenAI Triton 표준화)</li>
+        <li>자사주 매입 + 배당 인상 추가 발표</li>
+        <li>중국 수출 통제 변화 (H20 재개 + Blackwell 영향)</li>
+        <li>Sovereign AI 메가딜 신규 발표 (Korea·France·Japan 등)</li>
+        <li>Q2 FY27 실적 (2026-08-27): Vera Rubin 시점·디테일</li>
+      </ol>
+
+      <div class="footer">
+        NVIDIA 에이전트AI 기업분석 v1 — 2026-06-21<br>
+        Auto-references: 반도체_산업기초.md (2026-05-18), 에이전트AI_테마분석.md (v4, 2026-05-26), NVDA_기업개요.md (v4.8, 2026-05-19), 2026-Q1_NVDA_리뷰.md (Q1 FY27)
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Chart 1: 사업부별 매출 (Q1 FY27)
+new Chart(document.getElementById('segmentChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['DC Hyperscale', 'DC ACIE', 'Edge Computing'],
+    datasets: [{
+      data: [37.87, 37.38, 6.37],
+      backgroundColor: ['#76b900', '#a8c878', '#cfdfa0'],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {position: 'right', labels: {font: {size: 12}}},
+      title: {display: false}
+    }
+  }
+});
+
+// Chart 2: Moat segment별
+new Chart(document.getElementById('moatBySegment'), {
+  type: 'bar',
+  data: {
+    labels: ['DC GPU ★', 'CUDA ★', 'Networking ★', 'DPU', 'ACIE ★', 'Pro Viz', 'Grace CPU'],
+    datasets: [
+      {label: 'NVIDIA', data: [5.0, 5.0, 5.0, 5.0, 5.0, 4.5, 4.2], backgroundColor: '#76b900'},
+      {label: '최강 경쟁자', data: [3.2, 3.0, 3.8, 3.5, 3.0, 3.8, 4.2], backgroundColor: '#a0a0a0'}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, max: 5, ticks: {stepSize: 1}}},
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+
+// Chart 3: 12년 매출 + OPM (AI 슈퍼사이클 변곡점)
+new Chart(document.getElementById('cycleChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY15','FY16','FY17','FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25','FY26','Q1FY27','Q2FY27(G)'],
+    datasets: [
+      {label: '매출 ($B, 분기)', data: [null,null,null,null,null,null,null,null,null,null,null,null,81.62,91.0], backgroundColor: '#a8c878', yAxisID: 'y', order: 2},
+      {label: '매출 ($B, 연간)', data: [4.68,5.01,6.91,9.71,11.72,10.92,16.68,26.91,26.97,60.92,130.50,215.94,null,null], backgroundColor: '#76b900', yAxisID: 'y', order: 2},
+      {label: 'OPM (%)', data: [16.2,14.9,28.0,33.0,32.5,26.1,27.2,37.3,15.7,54.1,62.4,60.4,65.6,null], borderColor: '#a8843f', backgroundColor: '#a8843f', type: 'line', yAxisID: 'y1', tension: 0.3, order: 1}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {beginAtZero: true, position: 'left', title: {display: true, text: '매출 ($B)'}},
+      y1: {beginAtZero: false, position: 'right', title: {display: true, text: 'OPM (%)'}, grid: {drawOnChartArea: false}, min: 0, max: 70}
+    },
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+
+// Chart 4: 자본 환원 (FY23~FY27E)
+new Chart(document.getElementById('capitalReturn'), {
+  type: 'bar',
+  data: {
+    labels: ['FY23','FY24','FY25','FY26','FY27E (Post 5/18 결의)'],
+    datasets: [
+      {label: '배당 ($M)', data: [400, 400, 400, 400, 6500], backgroundColor: '#76b900', stack: 'a'},
+      {label: '자사주 매입 ($B → M)', data: [10070, 9533, 33706, 60000, 100000], backgroundColor: '#a8843f', stack: 'a'}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: {stacked: true},
+      y: {stacked: true, beginAtZero: true, title: {display: true, text: '$M (annual)'}}
+    },
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+</script>
+</body>
+</html>

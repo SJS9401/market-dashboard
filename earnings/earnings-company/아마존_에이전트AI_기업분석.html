@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Amazon (AWS) 기업분석 — 에이전트AI 테마 (빅테크 macro layer)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#fafaf7; --paper:#ffffff; --ink:#1a1a1a; --muted:#666; --accent:#1f3a68;
+    --accent2:#a8843f; --line:#e3e1da; --highlight:#fff8e6; --danger:#b03030;
+    --catA:#b03030; --catB:#cc7a3a; --catD:#2ca02c;
+    --amzn:#ff9900; --aws:#232f3e; --trainium:#7b68ee; --anthropic:#cc785c;
+    --nvda:#76b900; --broadcom:#cc0000; --msft:#00a4ef; --google:#4285f4; --meta:#0668e1;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:14px}
+  .wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;max-width:1380px;margin:0 auto;padding:20px}
+  nav.toc{position:sticky;top:16px;align-self:start;height:calc(100vh - 32px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 12px;font-size:12.5px}
+  nav.toc h4{margin:0 0 8px 0;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 6px;border-radius:4px;border-left:2px solid transparent}
+  nav.toc a:hover{background:#f3f1ea;border-left-color:var(--accent)}
+  main{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:32px 38px;min-width:0}
+  .header{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:28px}
+  .header .tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:3px 10px;border-radius:3px;letter-spacing:0.05em;margin-right:4px}
+  .header .tag.amzn{background:var(--amzn);color:#232f3e}
+  .header .tag.theme{background:var(--catD)}
+  .header .tag.macro{background:#666}
+  h1{font-size:26px;margin:10px 0 4px 0;color:var(--accent);letter-spacing:-0.02em}
+  h2{font-size:20px;margin:34px 0 14px 0;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 10px 0;color:var(--ink)}
+  h4{font-size:14px;margin:16px 0 6px 0;color:var(--accent2)}
+  .meta{color:var(--muted);font-size:12px;margin-top:6px}
+  .summary{background:var(--highlight);border-left:4px solid var(--accent2);padding:14px 18px;margin:18px 0;border-radius:0 4px 4px 0}
+  .summary ol{margin:6px 0 0 18px;padding:0}
+  .summary ol li{margin-bottom:6px}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#f4f2ec;color:var(--accent);font-weight:600}
+  tr:nth-child(2n) td{background:#fbfaf6}
+  .star{color:#b06c00;font-weight:bold}
+  .aws-highlight{background:#fff2dc !important;color:#5a3a00 !important;font-weight:600}
+  .warning-highlight{background:#ffe0e0 !important;color:#7a0000 !important;font-weight:600}
+  blockquote{margin:14px 0;padding:10px 16px;background:#f7f5ee;border-left:4px solid var(--accent2);border-radius:0 4px 4px 0;color:#3a3a3a;font-size:13px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+  .chart-card h4{margin-top:0}
+  .chart-card .src{font-size:11px;color:var(--muted);margin-top:6px;text-align:right}
+  canvas{max-width:100%}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;margin-right:3px}
+  .pill.A{background:#ffe0e0;border:1px solid var(--catA);color:#7a0000}
+  .pill.D{background:#e8f5e0;border:1px solid var(--catD);color:#1a5a1a}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .narrative{background:#f0ebd8;border:1px dashed var(--accent2);padding:12px 16px;margin:14px 0;border-radius:4px;font-style:italic;color:#444;font-size:13px}
+  .mapping-card{background:#fff5e6;border:1px solid #ea8a3a;border-radius:6px;padding:14px;margin:14px 0}
+  .mapping-card h4{margin-top:0;color:#5a3a00}
+  .differentiator{background:#fff5e6;border-left:4px solid #ff9900;padding:10px 16px;margin:14px 0;font-size:13px}
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:relative;height:auto;max-height:none;top:0}
+    .twocol{grid-template-columns:1fr}
+    main{padding:20px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contents</h4>
+    <a href="#sum">Executive Summary</a>
+    <a href="#s1">1. 입력·포지셔닝</a>
+    <a href="#s2-0">★ 2-0. logical flow</a>
+    <a href="#s2">2. AI 사업부 + CAPEX</a>
+    <a href="#s2-mapping">★ 10·11개사 발주 mapping</a>
+    <a href="#s3">3. 재무 분석</a>
+    <a href="#s4">성장성</a>
+    <a href="#peer">빅테크 4사 비교</a>
+    <a href="#s5">통합 모드 Fact</a>
+    <a href="#s6">구조적 트리거</a>
+    <a href="#concl">종합 판단</a>
+    <a href="#appx">부록</a>
+  </nav>
+  <main>
+    <div class="header">
+      <span class="tag">COMPANY ANALYSIS</span>
+      <span class="tag amzn">Amazon (AWS)</span>
+      <span class="tag theme">에이전트AI 테마</span>
+      <span class="tag macro">★ Macro Layer</span>
+      <h1>Amazon (AWS) — Cloud 절대 #1 + AI Foundation 양면 (★ Anthropic $8B + OpenAI 2GW Trainium)</h1>
+      <div class="meta">parent_industry: 빅테크 (수요 측, AWS-driven) · role: macro_layer_component · last_updated 2026-06-21 · AI 직접 노출 ~25%</div>
+    </div>
+
+    <div class="narrative">
+      <b>본 분석 frame (★ MSFT·Google과 동일 빅테크 frame, 차별점은 Cloud 절대 #1 + AI Foundation 양면)</b>: Amazon은 본 테마의 <b>고객 (수요 측, AWS-driven)</b>. ★ <b>AWS = 글로벌 Cloud 절대 #1 ($137B TTM vs Azure $95B vs GCP $80B)</b>. MSFT (OpenAI 독점)·Google (TPU + Anthropic)과 차별: (a) ★ <b>Cloud 절대 #1</b> = 9·10개사 thesis 수요 측 driver 단연 최대 (b) ★ <b>Anthropic 누적 $8B 투자 (Google과 양면)</b> — Claude 학습 Trainium (c) ★ <b>OpenAI 2GW Trainium 계약 (Q1 2026 신규)</b> — MSFT-OpenAI 독점 깨는 evidence (d) ★ <b>Graviton (자체 ARM CPU)</b> = MSFT Cobalt·Google Axion보다 trajectory 길음, 가장 성숙 (e) ★ <b>Trainium 2 + Inferentia 2 양산</b> + Anthropic·OpenAI Foundation 양면. <b>★ Q1 2026 AWS +28% YoY (15분기 최고) + CapEx TTM $147B (+67% YoY 빅테크 #1) + Anthropic 평가이익 $16.8B (Q1 일회성) + AWS TTM OPM 35.2%</b>.
+    </div>
+
+    <div class="differentiator">
+      <b>★ AWS의 핵심 차별점 (MSFT vs Google vs AWS)</b>:<br>
+      • MSFT = OpenAI 독점 ($13B+) + Maia (Intel 18A) + Cobalt — Cloud #2 ($95B)<br>
+      • Google = Gemini 자체 + Anthropic $3B + TPU + Broadcom — Cloud #3 ($80B)<br>
+      • <b>AWS = ★ Cloud 절대 #1 ($137B) + Anthropic $8B (Google의 2.7x) + OpenAI 2GW Trainium 신규 + Graviton ARM 가장 성숙</b><br>
+      • AWS가 ★ <b>AI Foundation 양면 다축 + MSFT-OpenAI 독점 깨는 가장 강한 evidence + Cloud 매출 베이스 단연 #1</b>
+    </div>
+
+    <section id="sum">
+      <div class="summary">
+        <strong>Executive Summary</strong>
+        <ol>
+          <li><b>위치</b>: ★ <b>AWS = 글로벌 Cloud 절대 #1</b> ($137B TTM) + 전 세계 #1 e-commerce + 광고 #3 (TTM $70B+). ★ <b>Q1 2026 매출 $181.5B (+17%) + AWS +28% (15분기 최고) + Anthropic 평가차익 $16.8B + OpenAI 2GW Trainium deal (신규)</b>.</li>
+          <li><b>AI 사업부 구성</b>: AWS (AI infra + Bedrock + SageMaker + Nova) + ★ Anthropic Claude ($8B 투자) + ★ OpenAI 2GW Trainium (신규) + Amazon Nova + Alexa AI.</li>
+          <li><b>★ AWS 차별 strategic angle</b>: ★ <b>Cloud 절대 #1 매출</b> ($137B vs $95B/$80B) + ★ <b>Anthropic $8B + OpenAI 2GW</b> (AI Foundation 양면) + ★ <b>Trainium 2 + Graviton 자체 ASIC</b> + Trainium 백로그 $225B+ (NVIDIA 4대 위협 #3).</li>
+          <li><b>CapEx</b>: ★ <b>TTM $147B (+67% YoY 빅테크 #1)</b> + ★ <b>FY26 ~$195B</b> (MSFT $190B + Google $100B 위). 단 AWS TTM OPM 35.2% (전년 -2.3%pt).</li>
+          <li><b>종합 (macro layer)</b>: <span class="star">★★★ AI 수요 측 #1-2 + Cloud 절대 #1 + AI Foundation 양면 다축</span>. (a) AWS OPM 압박 (b) Trainium 2 yield (c) TTM FCF $1.2B 자본 시험기.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="s1">
+      <h2>항목 1. 입력 정리 + AWS·Amazon 위치</h2>
+
+      <h3>1-1. 산업·테마 컨텍스트</h3>
+      <ul>
+        <li><b>반도체 산업기초</b>: AMZN(AWS)은 수요 측 driver — ★ Cloud 절대 #1이라 9·10개사 thesis 수요 측 driver 단연 최대</li>
+        <li><b>에이전트AI 테마 v4</b>: AWS는 수요 driver + ★ Trainium 2 + Inferentia 2 자체 ASIC NVIDIA 위협 + Anthropic Claude 학습 deal</li>
+        <li><b>NVIDIA 기업분석</b>: AWS Trainium = NVIDIA monopoly 4대 위협 catalyst 중 #3 (Google TPU 다음)</li>
+        <li><b>MSFT 기업분석 (peer)</b>: MSFT OpenAI 독점 vs ★ <b>AWS Anthropic ($8B) + OpenAI 2GW (신규)</b> = MSFT 독점 깨는 evidence</li>
+        <li><b>Google 기업분석 (peer)</b>: Google Anthropic $3B vs ★ <b>AWS Anthropic $8B (2.7x)</b> = Anthropic 최대 투자자</li>
+      </ul>
+
+      <h3>1-2. AWS·Amazon 위치</h3>
+      <table>
+        <tr><th>Segment</th><th>글로벌 위치</th><th>비고</th></tr>
+        <tr class="aws-highlight"><td><b>★ AWS (Cloud)</b></td><td><b>★ 글로벌 절대 #1</b></td><td>★ $137B TTM Q1 2026 (Azure $95B / GCP $80B 압도)</td></tr>
+        <tr class="aws-highlight"><td><b>★ AWS 성장</b></td><td><b>★ Q1 2026 +28% YoY</b></td><td>15분기 최고, 5분기 연속 가속</td></tr>
+        <tr class="aws-highlight"><td><b>★ Anthropic 누적 투자</b></td><td><b>★ $8B (Google $3B의 2.7x)</b></td><td>Claude 학습 = Trainium</td></tr>
+        <tr class="aws-highlight"><td><b>★ OpenAI 2GW Trainium 계약</b></td><td><b>★ Q1 2026 신규 deal</b></td><td>★ MSFT 독점 깨는 evidence</td></tr>
+        <tr><td>★ Trainium 2 + Inferentia 2</td><td>자체 ASIC, GA (2024)</td><td>Anthropic Claude + OpenAI 학습</td></tr>
+        <tr class="aws-highlight"><td><b>★ Graviton (ARM Neoverse)</b></td><td><b>★ 가장 성숙한 자체 ARM CPU</b></td><td>AWS 인스턴스 50%+ ARM</td></tr>
+        <tr><td>Amazon Nova (자체 모델)</td><td>자체 multimodal</td><td>Bedrock 통합</td></tr>
+        <tr class="aws-highlight"><td><b>CY26 CapEx (TTM)</b></td><td><b>★ $147B (+67% YoY 빅테크 #1)</b></td><td>FY26 가이던스 ~$195B</td></tr>
+        <tr><td>e-commerce</td><td>글로벌 #1</td><td>Stores 79% 매출 비중</td></tr>
+        <tr><td>광고 (Advertising)</td><td>★ 글로벌 #3 (Google·Meta 다음)</td><td>TTM $70B+</td></tr>
+        <tr><td>Alexa·Echo</td><td>글로벌 #1 voice</td><td>AI 통합 가속</td></tr>
+      </table>
+
+      <h3>1-3. 사업부 구성 (Q1 2026)</h3>
+      <table>
+        <tr><th>Segment</th><th>Q1 2026</th><th>YoY</th><th>본 테마 연결</th><th>비중</th></tr>
+        <tr class="aws-highlight"><td><b>★ AWS</b></td><td><b>$29.27B</b></td><td><b>★ +28% (15분기 최고)</b></td><td>★ 본 테마 직접</td><td>16%</td></tr>
+        <tr><td>North America Stores</td><td>~$93B</td><td>+12%</td><td>부분 (광고 + Alexa)</td><td>51%</td></tr>
+        <tr><td>International Stores</td><td>~$36B</td><td>+10%</td><td>부분</td><td>20%</td></tr>
+        <tr><td>Advertising (별도)</td><td>~$15B</td><td>+20%</td><td>부분 (AI 광고)</td><td>8%</td></tr>
+        <tr><td>Other</td><td>~$8B</td><td>—</td><td>Alexa·Echo·Devices</td><td>5%</td></tr>
+        <tr><td><b>Total</b></td><td><b>~$181.5B</b></td><td><b>+17%</b></td><td>—</td><td>100%</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>Amazon 사업부별 매출 (Q1 2026)</h4>
+        <canvas id="segmentChart" height="220"></canvas>
+        <div class="src">→ AWS 16% (TTM 18%) but OP 비중 ~60% (3.3x leverage). AWS가 P&L driver</div>
+      </div>
+
+      <h3 id="s2-0">★ 2-0. 에이전트AI 테마 logical flow — 왜 AWS가 부각받는가</h3>
+      <blockquote><b>정성적 인과 사슬</b> (테마 v4 → AWS 위치 — 수요 측 + Cloud 절대 #1 + Foundation 다축)</blockquote>
+
+      <h4>1단계: 에이전트 AI = 데이터·연산·메모리 폭증</h4>
+      <ul>
+        <li>에이전트 1건 = chat 1턴 대비 토큰 20-30x</li>
+        <li>★ <b>Andy Jassy Q1 2026</b>: <i>"AI represents the largest opportunity I've seen since cloud — we're investing in capacity and Trainium for the next decade"</i></li>
+      </ul>
+
+      <h4>2단계: AI 인프라 layer별 분담 — AWS는 어디</h4>
+      <table>
+        <tr><th>Layer</th><th>9·10개사 (공급)</th><th><b>AWS (수요 측 + Cloud 절대 #1)</b></th></tr>
+        <tr><td>Hot (HBM)</td><td>SK·삼성·Micron</td><td>★ Trainium HBM + AWS-hosted NVIDIA HBM</td></tr>
+        <tr><td>Warm (DRAM·SSD)</td><td>메모리 3사 + SNDK·Solidigm</td><td><b>★ AWS 글로벌 #1 Cloud DRAM·eSSD 최대</b></td></tr>
+        <tr><td>Cold (HDD nearline)</td><td>WDC·Seagate</td><td><b>★ AWS S3 Glacier exabyte 최대</b></td></tr>
+        <tr><td>Compute (CPU)</td><td>Intel·AMD·ARM</td><td>★ <b>Graviton ARM (가장 성숙한 자체) + EPYC + Xeon</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ Compute (GPU·AI)</b></td><td>NVIDIA·AMD·ASIC</td><td><b>★ Trainium 2 + Inferentia 2 자체 + NVIDIA GPU (AWS-hosted 최대) + AMD MI300 일부</b></td></tr>
+        <tr><td>IP layer</td><td>ARM + NVIDIA</td><td>★ ARM Neoverse (Graviton) + AI Foundation 다축</td></tr>
+      </table>
+      <p>→ <b>★ AWS = Cloud 절대 #1 + Foundation 다축 (Anthropic·OpenAI·Nova) + Trainium·Graviton 자체 = 빅테크 #1 수요 측 driver</b></p>
+
+      <h4>3단계: 왜 AWS가 본 테마에서 부각받는가? — 5가지 본질적 이유</h4>
+      <ol>
+        <li>★ <b>Cloud 절대 #1 매출 ($137B TTM)</b> = MSFT Azure ($95B) · Google GCP ($80B) 압도</li>
+        <li>★ <b>AWS +28% YoY (15분기 최고 가속)</b> = Cloud 사이클 정점 미도래</li>
+        <li>★ <b>Anthropic $8B + OpenAI 2GW Trainium (신규)</b> = AI Foundation 양면 다축</li>
+        <li>★ <b>Trainium 2 + Inferentia 2 자체 ASIC</b> = NVIDIA 4대 위협 catalyst #3</li>
+        <li>★ <b>Graviton ARM CPU (가장 성숙)</b> = AWS 인스턴스 50%+ ARM</li>
+      </ol>
+
+      <h4>4단계: 왜 AWS가 부각? — Cloud 절대 #1 + AI Foundation 양면</h4>
+      <ul>
+        <li>★ AWS Cloud 매출 $137B = MSFT·Google 합과 동급 ($95B + $80B = $175B)</li>
+        <li>★ Anthropic $8B (Google $3B의 2.7x) + OpenAI 2GW 신규: MSFT-OpenAI 독점 깨는 evidence</li>
+        <li>★ Trainium 2 + Inferentia 2 + Graviton 풀스택 자체 ASIC</li>
+        <li>★ CapEx TTM $147B (+67% YoY 빅테크 #1) = AI 인프라 사이클 정점 미도래 정량</li>
+        <li>★ Anthropic 평가이익 $16.8B (Q1) = NVIDIA Equity 평가차익 $15.9B와 동급</li>
+      </ul>
+
+      <h4>5단계: 본 분석 frame 결론</h4>
+      <p><b>본 테마 수요 측 #1-2 + ★ Cloud 절대 #1 + AI Foundation 양면 다축</b>. AI ARR 추정 ~$25B+ (MSFT $37B / Google $30B+ 다음 #3). CY26 CapEx ~$195B = ★ <b>빅테크 #1</b>. ★ <b>OpenAI 2GW Trainium 계약 = MSFT-OpenAI 독점 깨는 가장 강한 evidence</b>. <b>통합 모드 macro layer에서 Cloud 절대 #1 매출 baseline + AI Foundation 다축 evidence</b>.</p>
+    </section>
+
+    <section id="s2">
+      <h2>항목 2. AI 사업부 + CAPEX + 10·11개사 발주 mapping ★</h2>
+
+      <h3>2-1. AI 사업부 분석</h3>
+
+      <h4>AWS — Cloud 절대 #1 ($137B TTM)</h4>
+      <ul>
+        <li>★ <b>AWS +28% YoY Q1 2026 (15분기 최고)</b> — 5분기 연속 가속</li>
+        <li>AWS TTM OPM 35.2% (전년 37.5% -2.3%pt = AI 인프라 비용 흡수)</li>
+        <li>고객: ★ Anthropic (Claude 학습) + OpenAI (2GW Trainium) + Apple·Netflix·NASDAQ</li>
+      </ul>
+
+      <h4>★ Anthropic 파트너십 ($8B 누적 투자)</h4>
+      <ul>
+        <li>2023 $4B 1차 + 2024 $4B 2차 = <b>누적 $8B (Google $3B의 2.7x)</b></li>
+        <li>Anthropic Claude 학습 = ★ <b>Trainium 사용</b> (NVIDIA GPU 대신)</li>
+        <li>Q1 2026 Anthropic 평가차익 $16.8B (일회성, OCI 반영)</li>
+      </ul>
+
+      <h4>★ OpenAI 2GW Trainium 계약 (Q1 2026 신규)</h4>
+      <ul>
+        <li>★ <b>MSFT 독점 깨는 evidence</b> — OpenAI가 AWS Trainium도 사용</li>
+        <li>MSFT-OpenAI 49% economic interest 유지하면서 인프라 다각화</li>
+        <li>AWS 입장 = ★ <b>MSFT 독점 깨는 가장 강한 시그널</b></li>
+      </ul>
+
+      <h4>★ Trainium 2 + Inferentia 2 자체 ASIC</h4>
+      <ul>
+        <li>★ Trainium 2 GA (2024) — Anthropic Claude 학습 + 신규 OpenAI 2GW</li>
+        <li>Inferentia 2 — 추론 가속</li>
+        <li>★ <b>Trainium 백로그 $225B+</b></li>
+        <li>★ NVIDIA monopoly 4대 위협 catalyst 중 #3</li>
+      </ul>
+
+      <h4>★ Graviton (자체 ARM CPU)</h4>
+      <ul>
+        <li><b>가장 성숙한 자체 ARM CPU</b> (MSFT Cobalt·Google Axion 대비 trajectory 길음)</li>
+        <li>AWS 인스턴스 50%+ ARM 사용</li>
+        <li>ARM Neoverse 기반 = ARM royalty driver</li>
+      </ul>
+
+      <h3>2-2. CAPEX trajectory 분해</h3>
+      <table>
+        <tr><th>분기/연</th><th>CapEx ($B)</th><th>YoY</th><th>비고</th></tr>
+        <tr><td>FY22</td><td>63.6</td><td>—</td><td>팬데믹 capex 후</td></tr>
+        <tr><td>FY23</td><td>52.7</td><td>-17%</td><td>Year of Efficiency</td></tr>
+        <tr><td>FY24</td><td>77.7</td><td>+47%</td><td>AWS AI 진입</td></tr>
+        <tr><td>FY25</td><td>105.0</td><td>+35%</td><td>AI 슈퍼사이클</td></tr>
+        <tr class="aws-highlight"><td><b>TTM Q1 2026</b></td><td><b>★ $147.30B</b></td><td><b>★ +67% YoY</b></td><td>★ <b>빅테크 #1</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ CY26 (가이던스)</b></td><td><b>~$195B</b></td><td><b>+30%</b></td><td>MSFT $190B + Google $100B 위</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>AWS CapEx 추이 (FY22~CY26E)</h4>
+        <canvas id="capexChart" height="220"></canvas>
+        <div class="src">→ ★ TTM $147B (빅테크 #1). CY26 $195B = MSFT $190B + Google $100B 위</div>
+      </div>
+
+      <h3 id="s2-mapping">2-3. ★ 10·11개사 thesis와 직접 connection mapping (AWS 특별 angle)</h3>
+
+      <div class="mapping-card">
+        <h4>발주 mapping (AWS → 10·11개사)</h4>
+        <table>
+          <tr><th>종목</th><th>AWS 발주</th><th>정량 추정</th><th>본 테마 driver 영향</th></tr>
+          <tr class="aws-highlight"><td><b>★ NVIDIA</b></td><td>★ AWS-hosted NVIDIA 인스턴스 #1 hyperscaler</td><td><b>~$30-40B/년 (MSFT 동급)</b></td><td>NVIDIA DC 매출 ~15-20%</td></tr>
+          <tr class="aws-highlight"><td><b>★ Anthropic</b></td><td><b>★ $8B 투자 + Trainium 학습</b></td><td>Anthropic 최대 투자자</td><td>Anthropic Claude → AWS Trainium</td></tr>
+          <tr class="aws-highlight"><td><b>★ OpenAI (Q1 2026 신규)</b></td><td><b>★ 2GW Trainium 계약</b></td><td>OpenAI MSFT 외 신규</td><td>★ MSFT 독점 깨는 evidence</td></tr>
+          <tr><td>Broadcom (Trainium 위탁?)</td><td>Trainium 일부 설계 위탁 가능성</td><td>Google TPU와 별도</td><td>추가 Broadcom driver</td></tr>
+          <tr><td>SK하이닉스 (HBM)</td><td>Trainium HBM + AWS-hosted NVIDIA HBM</td><td>간접 + 직접</td><td>SK HBM driver</td></tr>
+          <tr><td>삼성전자 (HBM·DRAM)</td><td>Trainium HBM + AWS DRAM</td><td>간접 + 직접</td><td>삼성 DRAM driver</td></tr>
+          <tr><td>Micron (HBM·DDR5)</td><td>Trainium HBM + AWS DRAM</td><td>간접 + 직접</td><td>Micron driver</td></tr>
+          <tr><td>AMD (EPYC + MI300)</td><td>EPYC AWS + MI300 일부</td><td>EPYC + MI300</td><td>AMD driver</td></tr>
+          <tr><td>Intel (Xeon)</td><td>AWS server CPU 일부 (점진 잠식)</td><td>Xeon legacy</td><td>Intel legacy</td></tr>
+          <tr class="aws-highlight"><td><b>★ ARM (Graviton)</b></td><td><b>★ 가장 성숙한 자체 ARM</b></td><td>AWS 인스턴스 50%+</td><td><b>★ ARM DC royalty 최대 driver</b></td></tr>
+          <tr><td>SanDisk (eSSD)</td><td>AWS S3 storage tier</td><td>direct</td><td>SNDK NBM 일부</td></tr>
+          <tr class="aws-highlight"><td><b>★ WDC (HDD nearline)</b></td><td><b>★ AWS S3 Glacier exabyte 최대</b></td><td>AWS Cloud #1</td><td>WDC nearline 절대 driver</td></tr>
+          <tr><td>★ Seagate (HDD nearline)</td><td>AWS S3 cold storage</td><td>Mozaic 3+ qualified 5 CSP 일부</td><td>STX driver</td></tr>
+          <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협</b></td><td><b>★ Trainium = NVIDIA alt #3</b></td><td>NVIDIA 80% → 점진 위협</td><td>NVIDIA 4대 위협 #3</td></tr>
+        </table>
+        <p><b>★ AWS 특별 특징</b>:</p>
+        <ul>
+          <li>★ NVIDIA 발주 MSFT와 동급 ($30-40B/년) — AWS-hosted NVIDIA 인스턴스 글로벌 #1</li>
+          <li>★ Anthropic $8B 최대 투자자 + OpenAI 2GW 신규 deal = AI Foundation 양면</li>
+          <li>★ Graviton ARM CPU 가장 성숙 = ARM royalty 최대 driver</li>
+          <li>★ WDC·STX HDD nearline 최대 발주 (S3 Glacier 글로벌 #1)</li>
+          <li>★ Trainium = NVIDIA 위협 catalyst #3</li>
+        </ul>
+      </div>
+
+      <h3>2-4. ★ AI Foundation 양면 strategy (vs MSFT OpenAI 독점 + Google Anthropic+Gemini)</h3>
+      <table>
+        <tr><th>Model</th><th>AWS 위치</th><th>차별점</th></tr>
+        <tr class="aws-highlight"><td><b>★ Anthropic (Claude)</b></td><td>★ <b>$8B 최대 투자자 (Google $3B의 2.7x)</b></td><td>Claude 학습 = ★ Trainium</td></tr>
+        <tr class="aws-highlight"><td><b>★ OpenAI (2GW Trainium)</b></td><td>★ <b>Q1 2026 신규 deal</b></td><td>★ MSFT 독점 깨는 evidence</td></tr>
+        <tr><td>Amazon Nova (자체)</td><td>multimodal foundation</td><td>Bedrock 통합</td></tr>
+        <tr><td>Llama·Mistral·Cohere·AI21</td><td>Bedrock multi-model</td><td>open source 다축</td></tr>
+      </table>
+      <p>→ <b>★ AWS AI Foundation 차별</b>: MSFT OpenAI 독점 → exclusivity risk vs Google Gemini+Anthropic+Llama vs ★ <b>AWS = Anthropic 최대 + OpenAI 신규 + Nova + Bedrock multi-model = AI Foundation 양면 + 다축</b>. ★ <b>OpenAI도 AWS Trainium 사용 = MSFT-OpenAI 독점 본질적 weakening evidence</b></p>
+    </section>
+
+    <section id="s3">
+      <h2>항목 3. 재무 분석</h2>
+
+      <h3>3-1. 12년 매출·OPM·CapEx·AWS (multi-segment + AI 슈퍼사이클)</h3>
+      <div class="chart-card">
+        <h4>Amazon 12년 매출 + OPM + CapEx + AWS (FY14~CY26E)</h4>
+        <canvas id="cycleChart" height="280"></canvas>
+        <div class="src">→ AWS 매출 +28.6% CAGR 11년 (FY15 이후). FY25 AWS OPM 35%+, FY26 CapEx $195B (빅테크 #1)</div>
+      </div>
+
+      <h3>3-2. AWS PQC 분해</h3>
+      <table>
+        <tr><th>차원</th><th>AWS Compute (NVIDIA + Trainium)</th><th>AWS Storage (S3 + Glacier)</th><th>AWS Database·Bedrock</th></tr>
+        <tr><td>P (단가)</td><td>GPU·CPU hour</td><td>$/GB/월</td><td>API·token</td></tr>
+        <tr class="aws-highlight"><td><b>Q (출하)</b></td><td><b>★ +28% YoY 폭증</b></td><td>exabyte 폭증</td><td>Bedrock 폭증</td></tr>
+        <tr><td>C (원가)</td><td>NVIDIA + Trainium + DC</td><td>HDD·SSD + DC</td><td>GPU + Foundation 라이선스</td></tr>
+        <tr><td>매출</td><td>AWS의 60%+</td><td>AWS의 20%</td><td>AWS의 10%+</td></tr>
+        <tr class="warning-highlight"><td><b>마진</b></td><td><b>★ AWS OPM 35.2% (전년 -2.3%pt)</b></td><td>안정 ~40%</td><td>Bedrock 성장</td></tr>
+      </table>
+
+      <h3>3-3. 재무 건전성 + 자본 환원</h3>
+      <ul>
+        <li>현금 $100B+ vs 부채 $130B (AWS DC + Stores 인프라)</li>
+        <li>OCF FY25 ~$130B / FCF ~$15B (★ CapEx 폭증으로 -95% YoY)</li>
+        <li>★ <b>TTM FCF $1.2B (Q1 2026) = "첫 자본 시험기 진입"</b></li>
+        <li>배당 미시작 (NVDA·MSFT·Google 대비) — CapEx 우선</li>
+        <li>자사주 매입: 거의 없음</li>
+        <li>★ <b>AWS-driven CapEx 우선</b> = 자본 환원 후순위</li>
+      </ul>
+
+      <h3>3-4. 수익성 트렌드</h3>
+      <ul>
+        <li><b>OPM 추이</b>: FY14 0.2% (최저) → FY20 5.9% (COVID) → FY22 2.4% (압축) → FY25 11.2% (★ AWS leverage)</li>
+        <li><b>AWS OPM</b>: FY24 36.5% → FY25 37%+ → Q1 2026 35.2% (-2.3%pt = ★ AI 인프라 비용)</li>
+        <li><b>★ AWS OP 비중 ~60%</b> (매출 18% 대비 3.3x leverage) = AWS가 P&L driver</li>
+        <li>★ <b>AWS OPM 압박 trajectory</b>: AI CapEx 폭증으로 35% → 30%대 가능</li>
+      </ul>
+    </section>
+
+    <section id="s4">
+      <h2>항목 4. 성장성 분석</h2>
+
+      <h3>4-1. 과거 성장률</h3>
+      <ul>
+        <li>3년 (FY22→FY25): 매출 CAGR <b>+12%</b> / AWS CAGR <b>+17%</b></li>
+        <li>5년 (FY20→FY25): <b>+13%</b> / AWS <b>+25%+</b></li>
+        <li>12년 (FY13→FY25): <b>+19.5%</b> / AWS <b>+28.6% (11년)</b></li>
+      </ul>
+      <p>→ AWS 단일 segment +28.6% CAGR 11년 = 빅테크 #1 단일 segment 성장률</p>
+
+      <h3>4-2. 향후 성장 가시성</h3>
+      <table>
+        <tr><th>차원</th><th>전망</th><th>근거</th></tr>
+        <tr><td>P 전망</td><td>AWS compute 안정, Bedrock 가속</td><td>Trainium 효율성</td></tr>
+        <tr class="aws-highlight"><td><b>Q 전망</b></td><td>★ AWS +28% → +25%+ 지속 가능</td><td>Anthropic + OpenAI 2GW</td></tr>
+        <tr class="warning-highlight"><td><b>C 전망</b></td><td>★ AWS OPM 35% → 30%대 압박 가능</td><td>AI 인프라 비용</td></tr>
+        <tr><td>→ 매출 성장</td><td>FY26 ~$800B (+12%) / FY27 ~$880B (+10%)</td><td>AWS + 광고 + Stores</td></tr>
+        <tr class="aws-highlight"><td><b>→ AWS 성장</b></td><td>FY26 ~$160B+ (+25%) / FY27 ~$190B+ (+18%)</td><td>가속 + 신규 deal</td></tr>
+      </table>
+
+      <h4>구조적 + vs 저해 risk</h4>
+      <div class="twocol">
+        <div>
+          <b>구조적 +</b>
+          <ul>
+            <li>★ AWS +28% (15분기 최고)</li>
+            <li>★ Anthropic $8B + OpenAI 2GW</li>
+            <li>★ Trainium·Graviton 자체 ASIC</li>
+            <li>★ Cloud 절대 #1 매출</li>
+            <li>★ CapEx $147B = 정점 미도래</li>
+          </ul>
+        </div>
+        <div>
+          <b>저해 risk</b>
+          <ul>
+            <li>★ AWS OPM 35% → 30%대 압박</li>
+            <li>★ Trainium 2 yield/ramp risk</li>
+            <li>e-commerce cycle (인프라 CapEx)</li>
+            <li>★ TTM FCF -95% YoY = 자본 시험기</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="peer">
+      <h2>빅테크 4사 비교 (★ macro layer baseline)</h2>
+      <table>
+        <tr><th>빅테크</th><th>매출 CAGR (3년)</th><th>AI ARR</th><th>CY26 CapEx</th><th>Cloud 매출</th><th>strategic angle</th></tr>
+        <tr><td>MSFT</td><td>+12.4%</td><td>$37B (+123%)</td><td>$190B</td><td>Azure $95B</td><td>OpenAI 독점 + Maia + Cobalt</td></tr>
+        <tr><td>Google</td><td>+12%</td><td>~$30B+</td><td>$100B</td><td>GCP $80B</td><td>TPU + Anthropic + Broadcom</td></tr>
+        <tr class="aws-highlight"><td><b>AWS</b></td><td>+12% (AWS +28%)</td><td>~$25B+</td><td><b>★ $195B (#1)</b></td><td><b>★ $137B (#1)</b></td><td><b>★ Anthropic $8B + OpenAI 2GW + Trainium + Graviton (Cloud 절대 #1)</b></td></tr>
+        <tr><td>Meta</td><td>+20%</td><td>$20B+</td><td>$135B</td><td>자체 인프라</td><td>Llama + MTIA + AMD MI450</td></tr>
+      </table>
+
+      <div class="chart-card">
+        <h4>빅테크 4사 Cloud 매출 + CapEx 비교 (CY26 추정)</h4>
+        <canvas id="peerCompare" height="220"></canvas>
+        <div class="src">→ ★ AWS = Cloud 매출 + CapEx 모두 빅테크 #1</div>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2>항목 5. 통합 모드 입력용 Fact 정리</h2>
+      <table>
+        <tr><th>항목</th><th>정리</th></tr>
+        <tr class="aws-highlight"><td><b>★ CY26 CapEx</b></td><td><b>★ ~$195B (TTM Q1 2026 $147B, 빅테크 #1)</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ AWS 매출</b></td><td><b>★ TTM $137.05B (+23% YoY) — Cloud 절대 #1</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ AWS 성장</b></td><td><b>★ Q1 2026 +28% (15분기 최고)</b></td></tr>
+        <tr><td>AI ARR 추정</td><td>~$25B+ (MSFT $37B / Google $30B+ 다음 #3)</td></tr>
+        <tr class="aws-highlight"><td><b>★ Anthropic 누적 투자</b></td><td><b>★ $8B (Google $3B의 2.7x) — Anthropic 최대 투자자</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ OpenAI 2GW Trainium 계약</b></td><td><b>★ Q1 2026 신규 — MSFT 독점 깨는 evidence</b></td></tr>
+        <tr class="aws-highlight"><td><b>★ Anthropic 평가차익</b></td><td><b>★ Q1 2026 $16.8B 일회성</b></td></tr>
+        <tr><td>★ Trainium 2 + Inferentia 2</td><td>★ GA (2024), Anthropic + OpenAI 학습</td></tr>
+        <tr class="aws-highlight"><td><b>★ Graviton ARM CPU</b></td><td><b>★ 가장 성숙한 자체 ARM (AWS 50%+)</b></td></tr>
+        <tr class="warning-highlight"><td>AWS TTM OPM</td><td>35.2% (전년 37.5% -2.3%pt)</td></tr>
+        <tr><td>NVIDIA 발주 추정</td><td>$30-40B/년 (MSFT 동급, AWS-hosted #1)</td></tr>
+        <tr><td>시총</td><td>~$2.3T (2026-06)</td></tr>
+        <tr class="warning-highlight"><td><b>★ NVIDIA monopoly 위협</b></td><td><b>★ Trainium = NVIDIA alt #3</b></td></tr>
+      </table>
+    </section>
+
+    <section id="s6">
+      <h2>항목 6. 구조적 트리거 모니터링</h2>
+
+      <h4>상방 트리거</h4>
+      <ul>
+        <li>★ AWS +30%+ YoY 가속 (Q2 2026)</li>
+        <li>★ CY26 CapEx $195B 페이스 + FY27 가이드</li>
+        <li>★ <b>Trainium 2 ramp 본격화 + Trainium 3 발표</b></li>
+        <li>★ Anthropic Claude → AWS Trainium 확대</li>
+        <li>★ <b>OpenAI Trainium 2GW → 추가 GW 확장</b></li>
+        <li>★ Bedrock 매출 disclosure 시작</li>
+        <li>Graviton 인스턴스 60%+</li>
+      </ul>
+
+      <h4>하방 트리거</h4>
+      <ul>
+        <li>AWS +25% 이하 둔화</li>
+        <li>★ AWS OPM 30% 이하</li>
+        <li>★ Trainium 2 yield issue</li>
+        <li>TTM FCF 음수 진입</li>
+        <li>Anthropic·OpenAI 파트너십 변경</li>
+      </ul>
+
+      <h4>모니터링 캘린더</h4>
+      <ul>
+        <li><b>Q2 2026 실적</b> (2026-07-31): AWS 가속 + Trainium + CapEx</li>
+        <li><b>AWS re:Invent 2026</b> (12월): Trainium 3 + Graviton 5 + Bedrock</li>
+        <li>Anthropic Claude 추가 deal</li>
+        <li>OpenAI Trainium deal 확장</li>
+      </ul>
+    </section>
+
+    <section id="concl">
+      <h2>종합 판단 (macro layer component)</h2>
+
+      <table>
+        <tr><th>차원</th><th>평가</th><th>근거</th></tr>
+        <tr class="aws-highlight"><td><b>AI 수요 측 #1-2</b></td><td>★★★</td><td>Cloud 절대 #1 + CapEx 빅테크 #1</td></tr>
+        <tr class="aws-highlight"><td><b>★ Foundation 다축</b></td><td>★★★</td><td>Anthropic $8B (최대) + OpenAI 2GW (신규)</td></tr>
+        <tr><td>AI 사업부 강도</td><td>★★★</td><td>AWS +28% 15분기 최고 + Trainium·Graviton</td></tr>
+        <tr class="warning-highlight"><td>재무 건전성</td><td>★★</td><td>AWS OPM 35% 압박, TTM FCF 시험기</td></tr>
+        <tr class="aws-highlight"><td><b>★ Macro layer 가치</b></td><td>★★★</td><td>Cloud 절대 #1 baseline + MSFT-OpenAI 독점 깨는 evidence</td></tr>
+      </table>
+
+      <h4>핵심 투자 포인트 3</h4>
+      <ol>
+        <li><b>★ Cloud 절대 #1 + CapEx 빅테크 #1</b>: AWS $137B TTM (Azure $95B / GCP $80B 압도) + CY26 CapEx $195B. AWS +28% (15분기 최고) + AWS OP 비중 ~60% = P&L driver.</li>
+        <li><b>★ Anthropic $8B + OpenAI 2GW Trainium (신규) = AI Foundation 양면 다축</b>: Anthropic 최대 투자자 (Google $3B의 2.7x) + ★ OpenAI 2GW Trainium 신규 = ★ <b>MSFT-OpenAI 독점 깨는 가장 강한 evidence</b>. Anthropic 평가차익 $16.8B (NVDA Equity $15.9B 동급).</li>
+        <li><b>★ Trainium 2 + Graviton 자체 ASIC</b>: NVIDIA 4대 위협 catalyst 중 #3 + Graviton 가장 성숙한 ARM 자체 (AWS 인스턴스 50%+). NVIDIA 의존도 분산 + ARM royalty 최대 driver.</li>
+      </ol>
+
+      <h4>핵심 리스크 3</h4>
+      <ol>
+        <li><b>AWS OPM 35% → 30%대 압박</b>: 전년 37.5% → Q1 35.2% -2.3%pt. AI CapEx 흡수 한계 시 30%대 가능.</li>
+        <li><b>Trainium 2 yield/ramp risk</b>: 자체 ASIC 양산 안정성 + Anthropic·OpenAI 학습 deployment 안정성.</li>
+        <li><b>TTM FCF $1.2B (-95% YoY) = 첫 자본 시험기</b>: CapEx 폭증으로 FCF 압박. 자사주·배당 후순위 = 자본 환원 thesis 약함.</li>
+      </ol>
+
+      <p>→ <b>종합 (macro layer)</b>: <span class="star">★★★ AI 수요 측 #1-2 + Cloud 절대 #1 + AI Foundation 양면 다축</span>. <b>통합 모드 macro layer에서 Cloud 절대 #1 baseline + MSFT-OpenAI 독점 깨는 가장 강한 evidence + Trainium NVIDIA 위협 catalyst + Graviton ARM driver 핵심 component</b>.</p>
+    </section>
+
+    <section id="appx">
+      <h2>향후 관찰 포인트</h2>
+      <ol>
+        <li>Q2 2026 실적 (2026-07-31): AWS +30%+ + CapEx + Trainium ramp</li>
+        <li>★ OpenAI Trainium deal 2GW → 확장 (MSFT 독점 본격 weakening)</li>
+        <li>Trainium 3 발표 (AWS re:Invent 12월)</li>
+        <li>CY26 CapEx $195B 페이스 + FY27 가이드</li>
+        <li>AWS OPM 30% 진입 여부</li>
+        <li>Anthropic Claude 4.0·5.0 + AWS Trainium 확대</li>
+        <li>Bedrock 매출 disclosure 시작</li>
+        <li>TTM FCF 회복 trajectory</li>
+      </ol>
+
+      <div class="footer">
+        Amazon (AWS) 에이전트AI 기업분석 v1 — 2026-06-21<br>
+        ★ 빅테크 frame (수요 측, macro layer single 종목 component) + AWS 차별 angle (Cloud 절대 #1 + AI Foundation 양면)<br>
+        Auto-references: 반도체_산업기초.md, 에이전트AI_테마분석.md (v4), AMZN_기업개요.md (v1.2), 2026-Q1_AMZN_리뷰.md, 엔비디아·마이크로소프트·구글 기업분석 (peer mapping)
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// Chart 1: 사업부별 (Q1 2026)
+new Chart(document.getElementById('segmentChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['NA Stores', 'International Stores', '★ AWS', 'Advertising', 'Other'],
+    datasets: [{
+      data: [93, 36, 29.27, 15, 8],
+      backgroundColor: ['#ff9900', '#ffc266', '#232f3e', '#7b68ee', '#a0a0a0'],
+      borderColor: '#fff',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {position: 'right', labels: {font: {size: 12}}},
+      title: {display: false}
+    }
+  }
+});
+
+// Chart 2: CapEx 추이
+new Chart(document.getElementById('capexChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY22', 'FY23', 'FY24', 'FY25', 'TTM Q1 2026', 'CY26 (E)'],
+    datasets: [
+      {label: 'CapEx ($B)', data: [63.6, 52.7, 77.7, 105.0, 147.3, 195], backgroundColor: ['#a0a0a0', '#a0a0a0', '#ff9900', '#ff9900', '#232f3e', '#7b68ee']}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, title: {display: true, text: 'CapEx ($B)'}}},
+    plugins: {legend: {display: false}, title: {display: false}}
+  }
+});
+
+// Chart 3: 12년 매출 + OPM + AWS
+new Chart(document.getElementById('cycleChart'), {
+  type: 'bar',
+  data: {
+    labels: ['FY14','FY18','FY20','FY22','FY23','FY24','FY25','CY26E'],
+    datasets: [
+      {label: '매출 ($B)', data: [89.0,232.9,386.1,514.0,574.8,638.0,716.9,800], backgroundColor: '#ff9900', yAxisID: 'y', order: 3},
+      {label: 'AWS ($B)', data: [null,25,45,80,91,108,128.7,160], backgroundColor: '#232f3e', yAxisID: 'y', order: 2},
+      {label: 'OPM (%)', data: [0.2,5.3,5.9,2.4,6.4,10.8,11.2,null], borderColor: '#7b68ee', backgroundColor: '#7b68ee', type: 'line', yAxisID: 'y1', tension: 0.3, order: 1}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {beginAtZero: true, position: 'left', title: {display: true, text: '$B'}},
+      y1: {beginAtZero: false, position: 'right', title: {display: true, text: 'OPM (%)'}, grid: {drawOnChartArea: false}, min: 0, max: 15}
+    },
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+
+// Chart 4: 빅테크 4사 Cloud + CapEx 비교
+new Chart(document.getElementById('peerCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['MSFT', 'Google', 'AWS', 'Meta'],
+    datasets: [
+      {label: 'Cloud 매출 ($B, TTM/추정)', data: [95, 80, 137, 0], backgroundColor: '#00a4ef'},
+      {label: 'CY26 CapEx ($B)', data: [190, 100, 195, 135], backgroundColor: '#ff9900'}
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {y: {beginAtZero: true, title: {display: true, text: '$B'}}},
+    plugins: {legend: {position: 'top'}, title: {display: false}}
+  }
+});
+</script>
+</body>
+</html>
