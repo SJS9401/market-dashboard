@@ -944,5 +944,115 @@ new Chart(document.getElementById('smrChart'),{type:'bar',data:{labels:['Amazon-
 
 new Chart(document.getElementById('liquidCool'),{type:'line',data:{labels:['2025','2026','2028','2029','2031'],datasets:[{label:'액랭 시장 ($B)',data:[5.52,7.2,11.5,14.0,18.79],borderColor:SEMI,backgroundColor:SEMI+'30',tension:0.3,fill:'origin'}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'USD Billion'}}}}});
 </script>
+
+<!-- ★ Step 9 통합본 (v5, 2026-06-21) -->
+<section style="margin-top:48px;padding-top:24px;border-top:3px double #1f3a68;background:#fff8e6;padding:20px;border-radius:6px">
+<h2 style="color:#1f3a68;border-bottom:2px solid #1f3a68;padding-bottom:6px">★ Step 9. 통합본 (v5 — 2026-06-21)</h2>
+
+<p><b>본 통합본 frame</b>: 14개사 기업 분석 (반도체 10 + 빅테크 4) 완료 후 통합. <b>수요 측 빅테크 4사 macro layer</b>를 baseline, <b>공급 측 반도체 10개사 thesis</b>를 cross-validation. <b>3년 (peak) / 5년 (normalize) dual horizon Terminal 시나리오</b>.</p>
+
+<h3>9-1. 통합 narrative — 4사 macro 신호 수렴</h3>
+<ul>
+<li>★ <b>빅테크 4사 CY26 CapEx 합산 ~$585B</b> (FY25 $258B 대비 +127%)</li>
+<li>★ <b>빅테크 4사 AI ARR 합산 ~$122B (2x YoY)</b>: MSFT $37B + Google $30B+ + AWS $25B+ + Meta $30B</li>
+<li>★ <b>4사 commentary 수렴</b>: "remain constrained at least through 2026" (MSFT) / "compute constrained" (Google) / "largest opportunity since cloud" (AWS) / "most exciting opportunity" (Meta)</li>
+<li>★ <b>AI Foundation 4가지 strategy</b>: MSFT(OpenAI 독점) vs Google(Gemini+Anthropic+TPU) vs AWS(Anthropic+OpenAI+Trainium) vs Meta(Llama open+AMD)</li>
+</ul>
+
+<div style="background:#fff;border:1px solid #e3e1da;border-radius:6px;padding:14px;margin:16px 0">
+<h4>★ 4사 CapEx 합산 trajectory (FY23~CY30E)</h4>
+<canvas id="step9_capex_traj" height="240"></canvas>
+<p style="font-size:11px;color:#666;text-align:right">→ peak 시점 2027 H2 ~ 2028 H1 (4사 평균 CapEx 성장률 +11% 둔화 진입 시그널)</p>
+</div>
+
+<h3>9-2. Peak (2028) + Normalize (2030) 시나리오</h3>
+
+<table>
+<tr><th>시나리오</th><th>normalize 깊이 (peak 대비)</th><th>4사 합 CapEx (2030)</th></tr>
+<tr><td>낙관</td><td>-5% (메가 트렌드 영구 base)</td><td>~$745B</td></tr>
+<tr><td>중립</td><td>-15% (secular base 강함)</td><td>~$670B</td></tr>
+<tr><td>비관</td><td>-30% (메모리 사이클 패턴)</td><td>~$550B</td></tr>
+</table>
+
+<div style="background:#fff;border:1px solid #e3e1da;border-radius:6px;padding:14px;margin:16px 0">
+<h4>★ 빅테크 4사 AI ARR 합산 ~$122B (2x YoY)</h4>
+<canvas id="step9_ai_arr" height="180"></canvas>
+</div>
+
+<h3>9-3. Long-run multiple anchor (14개사)</h3>
+
+<table>
+<tr><th>종목</th><th>PER</th><th>EV/EBITDA</th><th>근거</th></tr>
+<tr style="background:#e8f5d8"><td><b>NVIDIA</b></td><td>22x</td><td>18x</td><td>secular monopoly + GPM 75% + 자본환원, monopoly 위협 -5x discount</td></tr>
+<tr><td>SK하이닉스</td><td>8x</td><td>5x</td><td>메모리 사이클 정점 평균 + HBM premium +2x</td></tr>
+<tr><td>삼성전자</td><td>10x</td><td>6x</td><td>DRAM+파운드리 multi-segment discount</td></tr>
+<tr style="background:#fdd"><td><b>AMD</b></td><td>30x</td><td>20x</td><td>NVIDIA 대안 + Lisa Su track record</td></tr>
+<tr><td>ARM</td><td>40x</td><td>30x</td><td>chipless IP + royalty 영구, PEG 0.6x</td></tr>
+<tr><td>Seagate</td><td>15x</td><td>10x</td><td>HDD pure + HAMR + 자본환원</td></tr>
+<tr><td>WDC</td><td>12x</td><td>8x</td><td>HDD #1 + 분사 premium</td></tr>
+<tr><td>SanDisk</td><td>10x</td><td>6x</td><td>NAND pure 사이클 진폭 큼</td></tr>
+<tr><td>Micron</td><td>10x</td><td>6x</td><td>HBM 후발 + 미국 본토</td></tr>
+<tr><td>Intel</td><td>15x</td><td>8x</td><td>Foundry 18A turnaround anchor</td></tr>
+<tr style="background:#e0f0fa"><td>MSFT</td><td>30x</td><td>22x</td><td>secular compounder + AI ARR + RPO</td></tr>
+<tr style="background:#e3f0fc"><td>Google</td><td>22x</td><td>15x</td><td>secular + DOJ -3-5x</td></tr>
+<tr style="background:#fff2dc"><td>AWS</td><td>35x</td><td>20x</td><td>Cloud 절대 #1 + Foundation 양면</td></tr>
+<tr style="background:#e1ecfc"><td>Meta</td><td>25x</td><td>18x</td><td>광고+Llama+AMD 단독, RL 적자 -5x</td></tr>
+</table>
+
+<h3>9-4. Terminal 시총 시나리오</h3>
+
+<div style="background:#fff;border:1px solid #e3e1da;border-radius:6px;padding:14px;margin:16px 0">
+<h4>★ 3년 Peak (2028) 성장 배수 — 14개사</h4>
+<canvas id="step9_terminal_3y" height="280"></canvas>
+<p style="font-size:11px;color:#666;text-align:right">→ 2.0x+ 종목: SK하이닉스 3.0x · AMD 2.6x · 삼성 2.5x · Meta 2.2x · Intel 2.1x · SanDisk 2.0x</p>
+</div>
+
+<div style="background:#fff;border:1px solid #e3e1da;border-radius:6px;padding:14px;margin:16px 0">
+<h4>★ 5년 Normalize (2030) 성장 배수 — 시나리오별</h4>
+<canvas id="step9_terminal_5y" height="280"></canvas>
+<p style="font-size:11px;color:#666;text-align:right">→ 낙관 2.0x+ secular survivor: Meta 2.5x · SK 2.4x · AMD 2.3x · 삼성 2.2x · Intel 2.0x</p>
+</div>
+
+<h3>9-5·9-6. 한국 + 미국 주도주 결론</h3>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div style="background:#e8f5d8;padding:14px;border-radius:6px">
+<h4 style="color:#3a5a18">★ 한국 주도주 (1순위)</h4>
+<ul>
+<li><b>SK하이닉스</b> — HBM 정점 + DDR5 + eSSD (3 segment Top 2). 3년 3.0x</li>
+<li><b>삼성전자</b> — HBM4 AMD MoU + 메모리 CAPA #1 + 파운드리. 3년 2.5x</li>
+</ul>
+</div>
+<div style="background:#fdd;padding:14px;border-radius:6px">
+<h4 style="color:#7a0000">★ 미국 주도주 (1순위)</h4>
+<ul>
+<li><b>AMD</b> — Meta·OpenAI 12GW MI450 + EPYC 가속. 3년 2.6x · 5년 낙관 2.3x</li>
+<li><b>Meta</b> — AI 광고 ARR + AMD 단독 + Llama. 3년 2.2x · 5년 낙관 2.5x</li>
+</ul>
+</div>
+</div>
+
+<div style="background:#fff3cd;border:1px solid #ffc107;padding:14px;margin:16px 0;border-radius:6px">
+<h4 style="color:#664d00">★ NVIDIA monopoly 4대 위협 catalyst (5년 risk)</h4>
+<ol>
+<li><b>#1 AMD MI400</b>: 점유 80% → 70-75% — Meta 6GW + OpenAI 6GW = 12GW</li>
+<li><b>#2 하이퍼스케일러 ASIC</b>: -8-10%pt — Google TPU + Meta MTIA + AWS Trainium + MSFT Maia 합 $225B+ 백로그</li>
+<li><b>#3 CUDA 대체</b>: 일부 잠식 — ROCm·Triton·Mojo (장기)</li>
+<li><b>#4 중국 통제</b>: upside optionality — H20 $0 baseline</li>
+</ol>
+</div>
+
+</section>
+
+<script>
+new Chart(document.getElementById('step9_capex_traj'),{type:'bar',data:{labels:['FY23','FY24','FY25','CY26E','CY27E','CY28E (peak)','CY29E','CY30E (normalize)'],datasets:[{label:'MSFT ($B)',data:[28.1,44.5,65.0,190,220,240,255,260],backgroundColor:'#00a4ef',stack:'a'},{label:'Google',data:[32.3,52.5,75.0,100,125,145,160,165],backgroundColor:'#4285f4',stack:'a'},{label:'AWS',data:[52.7,77.7,105.0,195,240,270,285,290],backgroundColor:'#ff9900',stack:'a'},{label:'Meta',data:[27.3,39.2,75.0,100,120,130,130,130],backgroundColor:'#0668e1',stack:'a'}]},options:{plugins:{legend:{position:'bottom'},title:{display:false}},scales:{x:{stacked:true},y:{stacked:true,title:{display:true,text:'$B (annual)'}}}}});
+
+new Chart(document.getElementById('step9_terminal_3y'),{type:'bar',data:{labels:['SK하이닉스','AMD','삼성전자','Meta','Intel','SanDisk','Micron','AWS','Google','WDC','MSFT','NVIDIA','Seagate','ARM'],datasets:[{label:'3년 Peak 성장 배수',data:[3.0,2.6,2.5,2.2,2.1,2.0,1.5,1.39,1.32,1.3,1.22,1.09,1.05,0.8],backgroundColor:['#b03030','#b03030','#b03030','#cc7a3a','#cc7a3a','#cc7a3a','#2ca02c','#2ca02c','#2ca02c','#2ca02c','#aaa','#aaa','#aaa','#aaa']}]},options:{indexAxis:'y',plugins:{legend:{display:false},title:{display:false}},scales:{x:{title:{display:true,text:'배수 (Terminal/현재)'},beginAtZero:true}}}});
+
+new Chart(document.getElementById('step9_terminal_5y'),{type:'bar',data:{labels:['Meta','SK하이닉스','AMD','삼성전자','Intel','AWS','Google','MSFT','Micron','WDC','SanDisk','Seagate','ARM','NVIDIA'],datasets:[{label:'5년 낙관',data:[2.5,2.4,2.3,2.2,2.0,1.52,1.45,1.38,1.4,1.36,1.2,1.04,1.0,0.96],backgroundColor:'#2ca02c'},{label:'5년 중립',data:[1.87,1.75,1.7,1.7,1.3,1.17,1.14,1.08,1.0,1.04,0.8,0.84,0.8,0.79],backgroundColor:'#cc7a3a'},{label:'5년 비관',data:[1.2,1.25,1.2,1.2,0.67,0.87,0.82,0.81,0.69,0.72,0.48,0.6,0.6,0.61],backgroundColor:'#b03030'}]},options:{plugins:{legend:{position:'bottom'},title:{display:false}},scales:{y:{title:{display:true,text:'배수'},beginAtZero:true}}}});
+
+new Chart(document.getElementById('step9_ai_arr'),{type:'bar',data:{labels:['MSFT','Google','Meta','AWS'],datasets:[{label:'AI ARR FY26 ($B)',data:[37,30,30,25],backgroundColor:['#00a4ef','#4285f4','#0668e1','#ff9900']}]},options:{plugins:{legend:{display:false},title:{display:false}},scales:{y:{title:{display:true,text:'$B'}}}}});
+</script>
+
 </body>
 </html>

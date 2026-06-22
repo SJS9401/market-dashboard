@@ -8,9 +8,26 @@ status: active
 sunset_date: null
 sunset_reason: null
 bottleneck_category: A+D hybrid — 구조적 메가 병목 (A) + 동반 확대 (D)
-active_companies: 미정 — 1차 분석 단계
+active_companies:
+  dominant:    # 현재 테마 패권 보유 (Moat 4.0+, 점유 #1-2 또는 기술 리더)
+    - {ticker: "NVDA", name: "NVIDIA", country: US, moat: 4.8, theme_relevance: high}
+    - {ticker: "000660", name: "SK하이닉스", country: KR, moat: 4.4, theme_relevance: high}
+    - {ticker: "005930", name: "삼성전자", country: KR, moat: 4.3, theme_relevance: high}
+    - {ticker: "ARM", name: "ARM Holdings", country: UK_JP, moat: 4.1, theme_relevance: high}
+    - {ticker: "STX", name: "Seagate", country: US, moat: 4.1, theme_relevance: high}
+    - {ticker: "WDC", name: "Western Digital", country: US, moat: 4.0, theme_relevance: high}
+    - {ticker: "SNDK", name: "SanDisk", country: US, moat: 4.0, theme_relevance: high}
+    - {ticker: "MU", name: "Micron", country: US, moat: 4.0, theme_relevance: high}
+  challenger:  # 패권 도전 중 (Moat 3.8-4.0, 빠른 성장)
+    - {ticker: "AMD", name: "AMD", country: US, moat: 3.8, theme_relevance: high}
+    - {ticker: "INTC", name: "Intel", country: US, moat: 2.8, theme_relevance: high}
+  macro_layer:  # 수요 측 빅테크 (4사, CapEx + AI ARR baseline)
+    - {ticker: "MSFT", name: "Microsoft", country: US, role: macro_demand, ai_arr_FY26: "$37B", capex_CY26: "$190B"}
+    - {ticker: "GOOGL", name: "Google (Alphabet)", country: US, role: macro_demand, ai_arr_FY26: "$30B+", capex_CY26: "$100B"}
+    - {ticker: "AMZN", name: "Amazon (AWS)", country: US, role: macro_demand, ai_arr_FY26: "$25B+", capex_CY26: "$195B"}
+    - {ticker: "META", name: "Meta", country: US, role: macro_demand, ai_arr_FY26: "$30B", capex_CY26: "$100B"}
 sunset_companies: []
-last_updated: 2026-05-26 (v4)
+last_updated: 2026-06-21 (v5 — Step 9 통합본 + 14개사 분류)
 last_theme_review_date: null
 narrative_shift_log:
   - {date: 2024-Q4, event: "Anthropic Claude 3.5 Computer Use 공개 — 에이전트 진입 신호탄"}
@@ -20,6 +37,11 @@ narrative_shift_log:
   - {date: 2025-Q4, event: "Big Tech 2026 capex $700B 합의"}
   - {date: 2026-Q2, event: "★ NVIDIA Kyber Ultra 660kW/rack 발표 (GB200 NVL72 130kW의 5x) — 48V→800V DC 전환 물리적 강제"}
   - {date: 2026-Q2, event: "★ SemiAnalysis '800VDC Revolution Part 1' 발행 (2026-05-26) — HVDC Power Rack·SST narrative 본격화. OCP Diablo 400 표준 형성"}
+  - {date: 2026-Q1, event: "★ AWS OpenAI 2GW Trainium 신규 deal — MSFT-OpenAI 독점 깨는 evidence"}
+  - {date: 2026-Q1, event: "★ NVIDIA 자본 정책 게임 체인저 (배당 25배 + $80B buyback) — secular + 자본환원 hybrid 진입"}
+  - {date: 2026-Q1, event: "★ 4사 macro layer 합산 CapEx $585B (FY25 $258B 대비 +127%) — AI 인프라 사이클 정점 미도래 정량 시그널"}
+  - {date: 2026-Q1, event: "★ Meta MI450 6GW + 6th Gen EPYC lead = AMD thesis 단독 driver"}
+  - {date: 2026-Q2, event: "★ v5 (2026-06-21): 14개사 기업 분석 통합본 작성 — 반도체 10 + 빅테크 4 + Terminal 시나리오 3년/5년 dual horizon"}
 ---
 
 # 에이전트AI 테마 분석 (v4)
@@ -658,6 +680,681 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 | 항목 | 결론 |
 |---|---|
 | 산업 유형 | **메가 트렌드** (AI 슈퍼사이클 2단) |
+| 단계 | 초기-중기 (2024-25 narrative → 2026-2030+ Q 폭발) |
+| 글로벌 트렌드 관통 + 한국 Moat | ★★★ — 17 segment 중 10 segment 한국 글로벌 Top 5 |
+| **주도 섹터 가능성** | **★★★ 매우 높음** |
+
+---
+
+# Step 7. 리스크 팩터
+
+| 리스크 | 확률 | 임팩트 | 시그널 |
+|---|---|---|---|
+| 에이전트 narrative 약화 | 25% | 매우 큼 | Anthropic·OpenAI ARR 정체 |
+| AI capex 변곡점 | 25% | 큼 (12-18개월) | 하이퍼스케일러 capex 가이던스 하향 |
+| 추론 효율 급격 개선 | 50% (진행) | 양면 (Jevons vs reset) | 2027-28 확인 |
+| 메모리 가격 하락 reset | 20% | 큼 | DRAM YoY 둔화 |
+| 미·중 디커플링 강화 | 30% | 중 | 추가 수출규제 |
+| 광통신 CPO 빠른 채택 | 30% | 중 | NVIDIA CPO 전환 |
+| 변압기·가스터빈 capa 글로벌 경쟁 | 15% | 중 (5-7년 후) | 인도·동남아 진입 |
+| 원자력 정치 risk (SMR 인허가) | 20% | 중 | NRC·정부 지연 |
+| 에이전트 안전성 사고 | 30% | 중-큼 | 대규모 사고 |
+
+---
+
+# Step 8. 트래킹 지표
+
+## 수요 측 (에이전트 채택)
+- Anthropic·OpenAI API 매출, Cursor·Devin·Manus ARR, Token consumption per agent
+
+## 반도체 측
+- NVIDIA 데이터센터, Blackwell allocation, TSMC CoWoS capa, HBM 가격, DDR5 server, eSSD Top 5, 800G/1.6T 트랜시버, 서버 CPU 점유, HBM4 양산
+
+## 전력 측
+- 변압기 lead time, 한국 변압기 3사 분기 수주, 가스터빈 3사 주문, SMR PPA, 두산 SMR 부품, 현대건설 Holtec, IEA 데이터센터 전력, 하이퍼스케일러 분기 capex
+
+---
+
+# ★ Step 9. 통합본 (v5 — 2026-06-21)
+
+> **본 통합본 frame**: 14개사 기업 분석 (반도체 10 + 빅테크 4) 완료 후 통합. **수요 측 빅테크 4사 (MSFT·Google·AWS·Meta) macro layer**를 baseline, **공급 측 반도체 10개사 thesis**를 cross-validation. **3년 (peak) / 5년 (normalize) dual horizon Terminal 시나리오**. ★ peak 시점은 사전 가정 X — 4사 macro 분석 결과로 도출.
+
+> **분석된 14개사**: 반도체 10 = SK·삼성·Micron·ARM·STX·SNDK·WDC·AMD·Intel·NVIDIA / 빅테크 4 = MSFT·Google·AWS·Meta
+
+---
+
+## 9-1. 통합 narrative — 4사 macro 신호 수렴
+
+**1단계: 산업 기초 (반도체·전력 — 사이클·secular 양면)**
+- 반도체: 메모리 4-5년 단주기 + 매크로 7-10년 장주기 중첩. CR3 95%+ + EUV 양산 한정
+- 전력: 변압기 lead time 128주 + ★ AI DC 폭증으로 신규 segment (800VDC)
+- 본 테마 = 사이클 정점 + secular AI 진입 양면 hybrid
+
+**2단계: 에이전트 AI 테마 narrative**
+- 에이전트 1건 = chat 1턴 대비 **토큰 20-30x** → 추론 인프라 폭증
+- 17 segment 병목 ((A) 구조적 메가 병목 + (D) 동반 확대 hybrid)
+- 한국 접근 가능 TAM 2028E $216-262B+
+
+**3단계: ★ 수요 측 4사 macro layer (v5 신규)**
+- ★ **빅테크 4사 CY26 CapEx 합산 ~$585B** (FY25 $258B 대비 +127%)
+- ★ **빅테크 4사 AI ARR 합산 ~$122B (2x YoY)**: MSFT $37B + Google $30B+ + AWS $25B+ + Meta $30B
+- ★ **AI Foundation 4가지 strategy**:
+  - MSFT = OpenAI 독점 + Maia + Cobalt
+  - Google = Gemini + Anthropic + ★ TPU (Broadcom) + Axion
+  - AWS = ★ Anthropic $8B 최대 + ★ OpenAI 2GW Trainium 신규 + Graviton
+  - Meta = ★ Llama open + ★ AMD MI450 6GW + MTIA + RL
+- ★ **4사 commentary 수렴**: "constrained through 2026" (MSFT) / "compute constrained" (Google) / "largest opportunity" (AWS) / "most exciting" (Meta) = ★ AI 인프라 사이클 정점 미도래
+
+**4단계: ★ 공급 측 14개사 thesis cross-validation**
+
+| layer | 종목 | Moat | 4사 macro 신호 evidence |
+|---|---|---|---|
+| Hot (HBM) | SK하이닉스 | **4.4** | 4사 NVIDIA Blackwell·Rubin 발주 → SK HBM3E·HBM4 majority |
+| Hot (HBM) | 삼성전자 | 4.3 | ★ Meta 6GW MI450 = 삼성 HBM4 preferred MoU (2026.03) |
+| Hot+Warm | Micron | 4.0 | ★ MSFT/AWS 미국 본토 + 1Q26 HBM4 진입 |
+| Compute (GPU) | **NVIDIA** | **4.8** | 4사 모두 NVIDIA #1 발주 (MSFT·AWS $30-40B/년) |
+| Compute (GPU) | AMD | 3.8 | ★ Meta 6GW + OpenAI 6GW = 12GW MI450 mega deal |
+| Compute (CPU) | Intel | 2.8 | ★ MSFT Maia (Intel Foundry 18A 첫 외부 대형) |
+| IP | ARM | 4.1 | ★ Cobalt·Axion·Graviton 모두 ARM = DC royalty 2x YoY |
+| Warm-Cold | SanDisk | 4.0 | 4사 eSSD + KV cache offload |
+| Cold (HDD) | WDC | 4.0 | ★ AWS S3 #1 + MSFT Azure exabyte = nearline 52% sold out |
+| Cold (HDD) | Seagate | 4.1 | ★ 5 CSP qualified on Mozaic 3+ |
+
+**5단계: ★ NVIDIA monopoly 4대 위협 catalyst — 빅테크 macro evidence**
+
+| 위협 | 단기 (2-3년) | 장기 (5년+) | 4사 evidence |
+|---|---|---|---|
+| **#1 AMD MI400** | 4%→18% | NVIDIA 70-75% jam | ★ Meta 6GW + OpenAI 6GW = 12GW |
+| **#2 Hyperscaler ASIC** | -3-5%pt | -8-10%pt | TPU + MTIA + Trainium + Maia = $225B+ |
+| **#3 CUDA 대체** | dominance | 일부 잠식 | ROCm + Triton + Mojo |
+| **#4 중국 통제** | $0 | upside | H20 $0 (Q1 FY27) |
+
+→ ★ **단기 2-3년 thesis 강고, 장기 5년+ monopoly 점진 약화 가능**
+
+---
+
+## 9-2. Terminal 밸류 시나리오 — 3년 Peak / 5년 Normalize
+
+### 9-2-1. 4사 CapEx trajectory + peak/normalize 도출
+
+| 연도 | MSFT | Google | AWS | Meta | **4사 합** | YoY |
+|---|---|---|---|---|---|---|
+| FY23 | 28.1 | 32.3 | 52.7 | 27.3 | 140.4 | — |
+| FY24 | 44.5 | 52.5 | 77.7 | 39.2 | 213.9 | +52% |
+| FY25 | 65 | 75 | 105 | 75 | **320** | +50% |
+| **CY26E** | **190** | **100** | **195** | **100** | **★ 585** | **+83%** |
+| CY27E | 220 | 125 | 240 | 120 | 705 | +20% |
+| **CY28E (peak)** | 240 | 145 | 270 | 130 | **★ 785** | +11% |
+| CY29E | 255 | 160 | 285 | 130 | 830 | +6% |
+| **CY30E (normalize)** | 260 | 165 | 290 | 130 | **★ 845** | +2% |
+
+**★ Peak 시점**: 2027 H2 ~ 2028 H1
+
+**★ Normalize 시나리오 (2030)**:
+- 낙관 -5% (메가 트렌드 영구) = $745B
+- 중립 -15% (secular 강함) = $670B
+- 비관 -30% (메모리 사이클) = $550B
+
+### 9-2-2. 3년 Peak (2028) — 14개사 정점 leverage
+
+| 종목 | Moat | Peak thesis | Peak 매출 |
+|---|---|---|---|
+| **NVIDIA** | 4.8 | Vera Rubin + Kyber rack 정점 | FY28 ~$420B (+30%) |
+| **SK하이닉스** | 4.4 | HBM3E + HBM4 majority + DDR5 정점 | 130-150조원 |
+| **삼성전자** | 4.3 | ★ HBM4 AMD driver + 메모리 CAPA #1 | DS $200B+ |
+| **AMD** | 3.8 | ★ MI450 6GW + 12GW + EPYC 30%+ | $80B+ |
+| **ARM** | 4.1 | ★ 4사 ARM CPU + ARMv9 2x rate | $7-8B |
+| **Seagate** | 4.1 | ★ Mozaic 4·5 + FY27 build-to-order | $15B+ |
+| **WDC** | 4.0 | nearline 52% + 분사 + EPMR 가속 | $15B+ |
+| **SanDisk** | 4.0 | NAND 정점 + HBF + $42B NBM | $20B+ |
+| **Micron** | 4.0 | HBM 21% + 미국 본토 | $50B+ |
+| **Intel** | 2.8 | ★ Foundry 18A turnaround | $80-90B |
+| **MSFT** | macro | AI ARR $75B+, Copilot 50M+ | $400B+ |
+| **Google** | macro | GCP +40%+, Gemini 600M+, TPU 7 | $600B+ |
+| **AWS** | macro | AWS $230B+, Trainium 3 | 전체 $1T+ |
+| **Meta** | macro | AI 광고 $80B+, Llama 6, MI450 ramp | $350B+ |
+
+### 9-2-3. 5년 Normalize (2030) — 14개사 secular survivor
+
+| 종목 | 낙관 | 중립 | 비관 | secular buffer |
+|---|---|---|---|---|
+| NVIDIA | monopoly 80% | 75% | 70% | ★★★ CUDA 20년 |
+| SK하이닉스 | HBM #1 53%+ | majority 50% | HBM4E dual | ★★★ |
+| 삼성전자 | HBM4 AMD + 메모리 #1 | 메모리 #1 (HBM #2) | HBM3E 후발 실패 | ★★ |
+| AMD | AI 가속기 25-30% | 20% | NVIDIA Rubin Ultra 회복 | ★★ |
+| ARM | DC 30%+, AGI 본격 | DC 25% | 라이선시 자기잠식 | ★★★ royalty 영구 |
+| WDC+STX | Mozaic 5/6 + EPMR | 안정 | SSD 일부 잠식 | ★★★ GB당 5-10x |
+| SanDisk | HBF + 차세대 | NAND 보통 | 침체 -50% | ★★ |
+| Micron | HBM 25%+ + 본토 영구 | HBM 21% | HBM 후발 실패 | ★★ |
+| Intel | Foundry 18A + 14A | 회복 초기 | TSMC 압도 | ★ |
+| MSFT | AI ARR $100B+ | $80B | exclusivity weakening | ★★★ |
+| Google | GCP +30% + TPU 8 | +20% | DOJ Search 분리 | ★★★ |
+| AWS | AWS +25% | +20% | OPM 30% 진입 | ★★★ Cloud #1 |
+| Meta | AI 광고 $150B+ | $100B | RL -$30B+ | ★★ |
+
+---
+
+## 9-3. ★ Long-run multiple anchor
+
+| 종목 | PER | EV/EBITDA | EV/Sales | 근거 |
+|---|---|---|---|---|
+| **NVIDIA** | 22x | 18x | 10x | secular monopoly + GPM 75%. 위협 -5x |
+| **SK하이닉스** | 8x | 5x | 2.5x | 메모리 사이클 평균 + HBM +2x |
+| **삼성전자** | 10x | 6x | 2.5x | DRAM+파운드리 multi discount |
+| **AMD** | 30x | 20x | 8x | NVIDIA 대안 + Lisa Su track |
+| **ARM** | 40x | 30x | 20x | chipless IP + royalty 영구 |
+| **Seagate** | 15x | 10x | 3x | HDD pure + HAMR + 자본환원 |
+| **WDC** | 12x | 8x | 2.5x | HDD #1 + 분사 premium |
+| **SanDisk** | 10x | 6x | 2x | NAND pure 진폭 큼 |
+| **Micron** | 10x | 6x | 2.5x | HBM 후발 + 미국 본토 |
+| **Intel** | 15x | 8x | 2x | Foundry 18A turnaround |
+| **MSFT** | 30x | 22x | 9x | secular Apple-like |
+| **Google** | 22x | 15x | 6x | secular + DOJ -3-5x |
+| **AWS** | 35x | 20x | 3.5x | Cloud #1 + Foundation 양면 |
+| **Meta** | 25x | 18x | 8x | 광고+Llama+AMD, RL -5x |
+
+---
+
+## 9-4. ★ Terminal 시총 시나리오별 결과
+
+### 3년 Peak (2028) 성장 배수
+
+| 종목 | 현재 시총 | Peak OP | PER | 3년 시총 | **배수** |
+|---|---|---|---|---|---|
+| NVIDIA | $5.7T | $280B+ | 22x | $6.2T | 1.09x |
+| **SK하이닉스** | 200조 | 70-80조 | 8x | 560-640조 | **★ 3.0x** |
+| **삼성전자** | 500조 | 120-130조 | 10x | 1,200-1,300조 | **★ 2.5x** |
+| **AMD** | $290B | $25B+ | 30x | $750B | **★ 2.6x** |
+| ARM | $200B | $4B+ | 40x | $160B | 0.8x |
+| Seagate | $50B | $3-4B | 15x | $45-60B | 1.05x |
+| WDC | $25B | $2.5-3B | 12x | $30-36B | 1.3x |
+| **SanDisk** | $25B | $5B+ | 10x | $50B | **★ 2.0x** |
+| Micron | $130B | $20B+ | 10x | $200B | 1.5x |
+| **Intel** | $90B | $10-15B | 15x | $150-225B | **★ 2.1x** |
+| MSFT | $3.7T | $150B+ | 30x | $4.5T | 1.22x |
+| Google | $2.2T | $130B+ | 22x | $2.9T | 1.32x |
+| AWS | $2.3T | 전체 $90B | 35x | $3.2T | 1.39x |
+| **Meta** | $1.5T | $130B+ | 25x | $3.3T | **★ 2.2x** |
+
+### 5년 Normalize (2030) 시나리오별 배수
+
+| 종목 | 5년 낙관 | 5년 중립 | 5년 비관 |
+|---|---|---|---|
+| NVIDIA | 0.96x | 0.79x | 0.61x |
+| **SK하이닉스** | ★ 2.4x | 1.75x | 1.25x |
+| **삼성전자** | ★ 2.2x | 1.7x | 1.2x |
+| **AMD** | ★ 2.3x | 1.7x | 1.2x |
+| ARM | 1.0x | 0.8x | 0.6x |
+| Seagate | 1.04x | 0.84x | 0.6x |
+| WDC | 1.36x | 1.04x | 0.72x |
+| SanDisk | 1.2x | 0.8x | 0.48x |
+| Micron | 1.4x | 1.0x | 0.69x |
+| **Intel** | ★ 2.0x | 1.3x | 0.67x |
+| MSFT | 1.38x | 1.08x | 0.81x |
+| Google | 1.45x | 1.14x | 0.82x |
+| AWS | 1.52x | 1.17x | 0.87x |
+| **Meta** | ★ 2.5x | 1.87x | 1.2x |
+
+### 시나리오별 BT 핵심 결론
+
+**★ 3년 Peak 최대 leverage (2.0x+)**: SK 3.0x · AMD 2.6x · 삼성 2.5x · Meta 2.2x · Intel 2.1x · SanDisk 2.0x
+
+**★ 5년 Normalize secular survivor 낙관 (2.0x+)**: Meta 2.5x · SK 2.4x · AMD 2.3x · 삼성 2.2x · Intel 2.0x
+
+**★ 비관 시나리오 살아남는 종목 (1.2x+)**: 삼성·SK·AMD·Meta 1.2x+ / 빅테크 (0.8x+ 안정)
+
+**★ Terminal 한계 종목**: NVIDIA 3년 1.09x = 가격 반영, 5년 비관 0.61x = monopoly 위협 본격화 risk. ARM 3년 0.8x · 5년 1.0x = royalty 영구지만 valuation 한계
+
+---
+
+## 9-5. 메타데이터 갱신 (v5 dominant/challenger/macro_layer 분기)
+
+- **dominant (8)**: NVIDIA, SK, 삼성, ARM, Seagate, WDC, SanDisk, Micron (Moat 4.0+)
+- **challenger (2)**: AMD, Intel (Moat 3.8-2.8, 빠른 성장 또는 turnaround)
+- **macro_layer (4)**: MSFT, Google, AWS, Meta (수요 측 baseline)
+
+(상세는 file frontmatter active_companies)
+
+---
+
+## 9-6. 워치리스트 자동 등록
+
+### T1 반도체 (10개사)
+```
+NVIDIA (NVDA, industry=반도체|AI 인프라)
+SK하이닉스 (industry=반도체|메모리)
+삼성전자 (industry=반도체|메모리|파운드리)
+ARM (ARM, industry=반도체|IP)
+Seagate (STX, industry=반도체|스토리지)
+Micron (MU, industry=반도체|메모리)
+SanDisk (SNDK, industry=반도체|메모리)
+WDC (WDC, industry=반도체|스토리지)
+AMD (AMD, industry=반도체|AI 인프라)
+Intel (INTC, industry=반도체|AI 인프라|파운드리)
+```
+
+### T1 미국 빅테크 (4개사, macro layer)
+```
+Microsoft (MSFT, industry=빅테크|클라우드|AI)
+Google (GOOGL, industry=빅테크|클라우드|AI 광고|자율주행)
+Amazon (AMZN, industry=빅테크|클라우드|소비재|AI)
+Meta (META, industry=빅테크|광고|AI|VR/AR)
+```
+
+### 한국 주도주 후보 워치리스트
+
+| 우선 | 종목 | T분류 | 본 테마 thesis |
+|---|---|---|---|
+| 1 | SK하이닉스 | T1 메모리 | HBM 정점 + DDR5 + eSSD |
+| 2 | 삼성전자 | T1 메모리·파운드리 | HBM4 AMD MoU + CAPA #1 |
+| 3 | 한미반도체 | T2 반도체 후공정 | TC본더 글로벌 #1 |
+| 4 | 효성중공업 | T1 전력 | UHV 변압기 미국 #1 |
+| 5 | HD현대일렉트릭 | T1 전력 | UHV 미국 15-20% |
+| 6 | LS ELECTRIC | T1 전력 | 스위치기어 + 800VDC 한국 선도 |
+| 7 | 오이솔루션 | T2 광통신 | 1.6T·ITLA 국산화 |
+| 8 | 두산에너빌리티 | T1 SMR | SMR forging 5사 중 1 |
+| 9 | 현대건설 | T1 SMR | SMR EPC Holtec 협력 |
+
+---
+
+# Step 9 통합본 — 핵심 결론 종합
+
+## A. valuation thesis 결론
+
+**3년 Peak (2028)**: ★ SK 3.0x / AMD 2.6x / 삼성 2.5x / Meta 2.2x / Intel 2.1x / SanDisk 2.0x = 6 종목 정점 leverage
+
+**5년 Normalize (2030)** 낙관: Meta 2.5x / SK 2.4x / AMD 2.3x / 삼성 2.2x / Intel 2.0x = 5 종목 secular survivor
+
+## B. 한국 주도주 결론
+
+**★ 1순위: SK하이닉스 + 삼성전자** — HBM 정점 + 메모리 CAPA + HBM4 AMD MoU + NVIDIA 단독
+
+## C. 미국 주도주 결론
+
+**★ 1순위: AMD + Meta** — NVIDIA 대안 #1 (AMD) + AMD 단독 driver (Meta). ★ Meta·OpenAI 12GW MI450 핵심 catalyst
+
+**★ 2순위: NVIDIA** — 본 테마 needle-mover지만 단기 1.09x = 가격 반영. long-term holdings로 monopoly 지속
+
+## D. ★ 4사 macro layer 핵심 시그널 (분기 트래킹)
+
+- 4사 CY26 CapEx 합산 $585B + peak 2027 H2 ~ 2028 H1 = secular 정점 미도래
+- AI ARR 합산 $122B (2x YoY)
+- "constrained through 2026" 4사 commentary 수렴
+- NVIDIA Q1 FY27 record + 9분기 연속 컨센 beat
+
+## E. ★ NVIDIA monopoly 위협 catalyst (5년 risk)
+
+| 위협 | 점유 영향 | macro evidence |
+|---|---|---|
+| #1 AMD MI400 | 80% → 70-75% | Meta 6GW + OpenAI 6GW = 12GW |
+| #2 Hyperscaler ASIC | -8-10%pt | TPU+MTIA+Trainium+Maia = $225B+ |
+| #3 CUDA 대체 | 일부 잠식 | ROCm·Triton·Mojo (장기) |
+| #4 중국 통제 | upside | H20 $0 |
+
+---
+
+## v5 changelog
+
+**v5 (2026-06-21)**: Step 9 통합본 append
+- 14개사 기업 분석 완료 (반도체 10 + 빅테크 4)
+- 4사 macro layer baseline + peak/normalize 도출 (peak 2027 H2 ~ 2028 H1)
+- 3년 peak / 5년 normalize dual horizon Terminal 시나리오
+- 14개사별 Long-run multiple anchor + Terminal 시총 시나리오별
+- 한국: SK·삼성 / 미국: AMD·Meta
+- ★ NVIDIA monopoly 4대 위협 catalyst macro evidence
+- 메타데이터: active_companies dominant 8 / challenger 2 / macro_layer 4
+- 워치리스트: 반도체 10 + 빅테크 4 + 한국 주도주 9
+
+# Step 6. 산업 유형 + 주도 섹터 가능성
+
+| 항목 | 결론 |
+|---|---|
+| 산업 유형 | **메가 트렌드** (AI 슈퍼사이클 2단) |
+| 단계 | 초기-중기 (2024-25 narrative → 2026-2030+ Q 폭발) |
+| 글로벌 트렌드 관통 + 한국 Moat | ★★★ — 17 segment 중 10 segment 한국 글로벌 Top 5 |
+| **주도 섹터 가능성** | **★★★ 매우 높음** |
+
+---
+
+# Step 7. 리스크 팩터
+
+| 리스크 | 확률 | 임팩트 | 시그널 |
+|---|---|---|---|
+| 에이전트 narrative 약화 | 25% | 매우 큼 | Anthropic·OpenAI ARR 정체 |
+| AI capex 변곡점 | 25% | 큼 (12-18개월) | 하이퍼스케일러 capex 가이던스 하향 |
+| 추론 효율 급격 개선 | 50% (진행) | 양면 (Jevons vs reset) | 2027-28 확인 |
+| 메모리 가격 하락 reset | 20% | 큼 | DRAM YoY 둔화 |
+| 미·중 디커플링 강화 | 30% | 중 | 추가 수출규제 |
+| 광통신 CPO 빠른 채택 | 30% | 중 | NVIDIA CPO 전환 |
+| 변압기·가스터빈 capa 글로벌 경쟁 | 15% | 중 (5-7년 후) | 인도·동남아 진입 |
+| 원자력 정치 risk (SMR 인허가) | 20% | 중 | NRC·정부 지연 |
+| 에이전트 안전성 사고 | 30% | 중-큼 | 대규모 사고 |
+
+---
+
+# Step 8. 트래킹 지표
+
+## 수요 측 (에이전트 채택)
+- Anthropic·OpenAI API 매출, Cursor·Devin·Manus ARR, Token consumption per agent
+
+## 반도체 측
+- NVIDIA 데이터센터, Blackwell allocation, TSMC CoWoS capa, HBM 가격, DDR5 server 가격, eSSD Top 5, 800G/1.6T 트랜시버, 서버 CPU 점유, HBM4 양산, 삼성 HBM3E 12단 NVIDIA 인증
+
+## 전력 측
+- 변압기 lead time, 한국 변압기 3사 분기 수주, 가스터빈 3사 주문, SMR PPA, 두산 SMR 부품, 현대건설 Holtec, IEA 데이터센터 전력, 하이퍼스케일러 분기 capex
+
+---
+
+# ★ Step 9. 통합본 (v5 — 2026-06-21)
+
+> **본 통합본 frame**: 14개사 기업 분석 (반도체 10 + 빅테크 4) 완료 후 통합. **수요 측 빅테크 4사 (MSFT·Google·AWS·Meta) macro layer**를 baseline, **공급 측 반도체 10개사 thesis**를 cross-validation. **3년 (peak) / 5년 (normalize) dual horizon Terminal 시나리오**. ★ peak 시점은 사전 가정 X — 4사 macro 분석 결과로 도출.
+
+> **분석된 14개사**: 반도체 10 = SK·삼성·Micron·ARM·STX·SNDK·WDC·AMD·Intel·NVIDIA / 빅테크 4 = MSFT·Google·AWS·Meta
+
+---
+
+## 9-1. 통합 narrative (산업기초 → 14개사 thesis flow)
+
+**1단계: 산업 기초 (반도체·전력 — 사이클·secular 양면)**
+- 반도체: 메모리 4-5년 단주기 + 매크로 7-10년 장주기 중첩. CR3 95%+ 과점 + EUV 양산 한정 = 진입 장벽 영구. ★ 본 테마는 사이클 정점 + secular AI 진입 양면 hybrid
+- 전력: 변압기·가스터빈 lead time 128주 = 공급 절제 누적. ★ AI DC 전력 폭증으로 신규 segment (800VDC) 등장
+
+**2단계: 에이전트 AI 테마 narrative**
+- 에이전트 1건 = chat 1턴 대비 **토큰 20-30x** → 추론 인프라 폭증
+- 17 segment 병목 (반도체 8 + 전력 9)
+- (A) 구조적 메가 병목 + (D) 동반 확대 hybrid
+- 한국 접근 가능 TAM 2028E $216-262B+
+
+**3단계: ★ 수요 측 4사 macro layer (v5 신규)**
+- ★ **빅테크 4사 CY26 CapEx 합산 ~$585B** (FY25 $258B 대비 +127%)
+- ★ **빅테크 4사 AI ARR 합산 ~$122B (2x YoY)**
+- ★ **AI Foundation 4가지 strategy 양상**:
+  - MSFT = OpenAI 독점 + Maia + Cobalt
+  - Google = Gemini + Anthropic + ★ TPU (Broadcom) + Axion
+  - AWS = ★ Anthropic $8B + ★ OpenAI 2GW Trainium + Graviton
+  - Meta = ★ Llama open + ★ AMD MI450 6GW + MTIA + RL
+- ★ **4사 공통 commentary 수렴**: "constrained through 2026" (MSFT) / "compute constrained" (Google) / "largest opportunity" (AWS) / "most exciting" (Meta)
+- → ★ **AI 인프라 사이클 정점 미도래 가장 강한 정량 시그널**
+
+**4단계: ★ 공급 측 14개사 thesis cross-validation**
+
+| layer | 종목 | Moat | 4사 macro 신호 evidence |
+|---|---|---|---|
+| Hot (HBM) | SK하이닉스 | **4.4** | 4사 모두 NVIDIA Blackwell·Rubin 발주 → SK HBM3E·HBM4 majority |
+| Hot (HBM) | 삼성전자 | 4.3 | ★ Meta 6GW MI450 = 삼성 HBM4 preferred (2026.03 MoU) |
+| Hot+Warm | Micron | 4.0 | ★ MSFT/AWS 미국 본토 supplier + 1Q26 HBM4 진입 |
+| Compute (GPU) | **NVIDIA** | **4.8** | 4사 모두 NVIDIA #1 발주 (MSFT·AWS $30-40B/년) |
+| Compute (GPU) | AMD | 3.8 | ★ Meta 6GW + OpenAI 6GW = 12GW MI450 mega deal |
+| Compute (CPU) | Intel | 2.8 | ★ MSFT Maia (Intel Foundry 18A 첫 외부 대형) = turnaround leg |
+| IP | ARM | 4.1 | ★ Cobalt·Axion·Graviton 모두 ARM = DC royalty 2x YoY |
+| Warm-Cold | SanDisk | 4.0 | 4사 데이터센터 eSSD + KV cache offload 직접 발주 |
+| Cold (HDD) | WDC | 4.0 | ★ AWS S3 Glacier #1 + MSFT Azure exabyte = nearline 52% sold out |
+| Cold (HDD) | Seagate | 4.1 | ★ 5 CSP qualified on Mozaic 3+ |
+
+**5단계: ★ NVIDIA monopoly 4대 위협 catalyst — 빅테크 macro evidence**
+
+| 위협 | 단기 (2-3년) | 장기 (5년+) | 4사 evidence |
+|---|---|---|---|
+| **#1 AMD MI400** | 4%→18% | NVIDIA 70-75% jam | ★ Meta 6GW + OpenAI 6GW = 12GW |
+| **#2 하이퍼스케일러 ASIC** | -3-5%pt | -8-10%pt | Google TPU + Meta MTIA + AWS Trainium + MSFT Maia = $225B+ |
+| **#3 CUDA 대체** | dominance 유지 | 일부 잠식 | ROCm + Triton + Mojo |
+| **#4 중국 통제** | $0 baseline | upside | H20 $0 (Q1 FY27) |
+
+→ ★ **단기 2-3년 thesis 강고, 장기 5년+ monopoly 점진 약화 가능**
+
+---
+
+## 9-2. Terminal 밸류 시나리오 — 3년 (peak) / 5년 (normalize)
+
+### 9-2-1. 4사 CapEx trajectory + peak/normalize 도출
+
+| 연도 | MSFT | Google | AWS | Meta | **4사 합** | YoY |
+|---|---|---|---|---|---|---|
+| FY23 | 28.1 | 32.3 | 52.7 | 27.3 | 140.4 | — |
+| FY24 | 44.5 | 52.5 | 77.7 | 39.2 | 213.9 | +52% |
+| FY25 | 65 | 75 | 105 | 75 | **320** | +50% |
+| **CY26E** | **190** | **100** | **195** | **100** | **★ 585** | **+83%** |
+| CY27E | 220 | 125 | 240 | 120 | 705 | +20% |
+| **CY28E (peak)** | 240 | 145 | 270 | 130 | **★ 785** | +11% |
+| CY29E | 255 | 160 | 285 | 130 | 830 | +6% |
+| **CY30E (normalize)** | 260 | 165 | 290 | 130 | **★ 845** | +2% |
+
+**★ Peak 시점**: 2027 H2 ~ 2028 H1 (4사 평균 CapEx +11% 둔화 진입 시그널)
+
+**★ Normalize 시나리오 (2030)**:
+- 낙관 -5% (메가 트렌드 영구) = $745B
+- 중립 -15% (secular 강함) = $670B
+- 비관 -30% (메모리 사이클) = $550B
+
+### 9-2-2. 3년 Peak (2028) — 14개사 정점 leverage
+
+| 종목 | Moat | Peak thesis | Peak OPM/GPM | Peak 매출 |
+|---|---|---|---|---|
+| **NVIDIA** | 4.8 | Vera Rubin + Kyber rack 정점 | GPM 73-75% | FY28 ~$420B (+30%) |
+| **SK하이닉스** | 4.4 | HBM3E + HBM4 majority + DDR5 정점 | OPM 60%+ | 130-150조원 |
+| **삼성전자** | 4.3 | ★ HBM4 AMD MI455X driver + 메모리 CAPA #1 | DS OPM 50%+ | DS $200B+ |
+| **AMD** | 3.8 | ★ MI450 6GW + 12GW + EPYC 30%+ | OPM 25-30% | $80B+ |
+| **ARM** | 4.1 | ★ 4사 모두 ARM CPU + AGI + ARMv9 2x rate | OPM 50%+ | $7-8B (FY28) |
+| **Seagate** | 4.1 | ★ HAMR Mozaic 4·5 + FY27 build-to-order | GPM 50%+ | $15B+ |
+| **WDC** | 4.0 | nearline 52% + 분사 + UltraSMR/EPMR 가속 | GPM 50%+ | $15B+ |
+| **SanDisk** | 4.0 | NAND 정점 + HBF + $42B NBM | OPM 70%+ | $20B+ |
+| **Micron** | 4.0 | HBM 21% + 미국 본토 premium | OPM 50%+ | $50B+ |
+| **Intel** | 2.8 | ★ Foundry 18A turnaround (MSFT Maia·DoD·AMZN) | OPM 10-15% | $80-90B |
+| **MSFT** | macro | AI ARR $75B+, Azure +35%+, Copilot 50M+ | OPM 47-50% | $400B+ |
+| **Google** | macro | GCP +40%+, Gemini 600M+, TPU 7 정점 | OPM 35%+ | $600B+ |
+| **AWS** | macro | AWS $230B+ (+30%), Trainium 3, Anthropic+OpenAI | AWS OPM 35%+ | $1T+ |
+| **Meta** | macro | AI 광고 ARR $80B+, Llama 6, AMD MI450 본격 | OPM 48%+ | $350B+ |
+
+### 9-2-3. 5년 Normalize (2030) — 14개사 secular survivor
+
+| 종목 | 낙관 thesis | 중립 thesis | 비관 thesis | secular buffer |
+|---|---|---|---|---|
+| NVIDIA | monopoly 80% | 75% (alt 침투) | 70% (MI500 경쟁) | ★★★ CUDA 20년 |
+| SK하이닉스 | HBM #1 53%+ | majority 50% | HBM4E dual sourcing | ★★★ HBM4E |
+| 삼성전자 | HBM4 AMD + 메모리 #1 | 메모리 #1 (HBM #2) | HBM3E 후발 만회 실패 | ★★ DRAM CAPA |
+| AMD | AI 가속기 25-30% | 20% | NVIDIA Rubin Ultra 회복 | ★★ NVIDIA 대안 |
+| ARM | DC 30%+, AGI 본격 | DC 25% | 라이선시 자기잠식 | ★★★ royalty 영구 |
+| WDC+STX | Mozaic 5/6 + EPMR 정점 | 안정 | SSD 일부 잠식 | ★★★ GB당 5-10x |
+| SanDisk | HBF + NAND 차세대 | NAND 보통 | 침체 -50% | ★★ 진폭 ±61pt |
+| Micron | HBM 25%+ + 본토 영구 | HBM 21% | HBM 후발 실패 | ★★ 본토 secular |
+| Intel | Foundry 18A + 14A | 회복 초기 | TSMC 압도 | ★ Foundry turnaround |
+| MSFT | AI ARR $100B+, OpenAI 분산 | $80B + 갱신 | exclusivity weakening | ★★★ Azure+Copilot |
+| Google | GCP +30% + TPU 8 | +20% + TPU 7 | DOJ Search 분리 | ★★★ TPU+Gemini+Anthropic |
+| AWS | AWS +25% + Trainium 3 | +20% 안정 | OPM 30% 진입 | ★★★ Cloud #1 |
+| Meta | AI 광고 $150B+ + RB 100M+ | $100B + Llama | RL -$30B+ + Llama 약화 | ★★ 광고 단독 |
+
+---
+
+## 9-3. ★ Long-run multiple anchor (14개사)
+
+| 종목 | PER | EV/EBITDA | EV/Sales | 근거 |
+|---|---|---|---|---|
+| **NVIDIA** | 22x | 18x | 10x | secular monopoly + GPM 75% + 자본환원. monopoly 위협 -5x |
+| **SK하이닉스** | 8x | 5x | 2.5x | 메모리 사이클 평균 + HBM premium +2x |
+| **삼성전자** | 10x | 6x | 2.5x | DRAM+파운드리 multi discount |
+| **AMD** | 30x | 20x | 8x | NVIDIA 대안 + Lisa Su track |
+| **ARM** | 40x | 30x | 20x | chipless IP + royalty 영구, PEG 0.6x |
+| **Seagate** | 15x | 10x | 3x | HDD pure + HAMR + 자본환원 |
+| **WDC** | 12x | 8x | 2.5x | HDD #1 + 분사 premium |
+| **SanDisk** | 10x | 6x | 2x | NAND pure 사이클 진폭 큼 |
+| **Micron** | 10x | 6x | 2.5x | HBM 후발 + 미국 본토 |
+| **Intel** | 15x | 8x | 2x | Foundry 18A turnaround anchor |
+| **MSFT** | 30x | 22x | 9x | secular compounder Apple-like |
+| **Google** | 22x | 15x | 6x | secular + DOJ -3-5x |
+| **AWS** | 35x | 20x | 3.5x | Cloud 절대 #1 + Foundation 양면 |
+| **Meta** | 25x | 18x | 8x | 광고+Llama+AMD, RL 적자 -5x |
+
+---
+
+## 9-4. ★ Terminal 시총 시나리오별 결과
+
+### 3년 Peak (2028) 성장 배수
+
+| 종목 | 현재 시총 | Peak OP (2028E) | PER | **3년 시총** | **배수** |
+|---|---|---|---|---|---|
+| NVIDIA | $5.7T | $280B+ | 22x | $6.2T | 1.09x |
+| **SK하이닉스** | 200조 | 70-80조 | 8x | 560-640조 | **★ 3.0x** |
+| **삼성전자** | 500조 | 120-130조 | 10x | 1,200-1,300조 | **★ 2.5x** |
+| **AMD** | $290B | $25B+ | 30x | $750B | **★ 2.6x** |
+| ARM | $200B | $4B+ | 40x | $160B | 0.8x |
+| Seagate | $50B | $3-4B | 15x | $45-60B | 1.05x |
+| WDC | $25B | $2.5-3B | 12x | $30-36B | 1.3x |
+| **SanDisk** | $25B | $5B+ | 10x | $50B | **★ 2.0x** |
+| Micron | $130B | $20B+ | 10x | $200B | 1.5x |
+| **Intel** | $90B | $10-15B | 15x | $150-225B | **★ 2.1x** |
+| MSFT | $3.7T | $150B+ | 30x | $4.5T | 1.22x |
+| Google | $2.2T | $130B+ | 22x | $2.9T | 1.32x |
+| AWS | $2.3T | 전체 $90B | 35x | $3.2T | 1.39x |
+| **Meta** | $1.5T | $130B+ | 25x | $3.3T | **★ 2.2x** |
+
+### 5년 Normalize (2030) 시나리오별
+
+| 종목 | 5년 낙관 | 5년 중립 | 5년 비관 |
+|---|---|---|---|
+| NVIDIA | 0.96x | 0.79x | 0.61x |
+| **SK하이닉스** | ★ 2.4x | 1.75x | 1.25x |
+| **삼성전자** | ★ 2.2x | 1.7x | 1.2x |
+| **AMD** | ★ 2.3x | 1.7x | 1.2x |
+| ARM | 1.0x | 0.8x | 0.6x |
+| Seagate | 1.04x | 0.84x | 0.6x |
+| WDC | 1.36x | 1.04x | 0.72x |
+| SanDisk | 1.2x | 0.8x | 0.48x |
+| Micron | 1.4x | 1.0x | 0.69x |
+| **Intel** | ★ 2.0x | 1.3x | 0.67x |
+| MSFT | 1.38x | 1.08x | 0.81x |
+| Google | 1.45x | 1.14x | 0.82x |
+| AWS | 1.52x | 1.17x | 0.87x |
+| **Meta** | ★ 2.5x | 1.87x | 1.2x |
+
+### 시나리오별 BT 핵심 결론
+
+**★ 3년 Peak 최대 leverage (2.0x+)**:
+- SK하이닉스 3.0x · AMD 2.6x · 삼성 2.5x · Meta 2.2x · Intel 2.1x · SanDisk 2.0x
+
+**★ 5년 Normalize secular survivor (낙관 2.0x+)**:
+- Meta 2.5x · SK 2.4x · AMD 2.3x · 삼성 2.2x · Intel 2.0x
+
+**★ 비관 시나리오 살아남는 종목 (1.2x+)**:
+- 삼성 1.2x · SK 1.25x · AMD 1.2x · Meta 1.2x · 빅테크 (0.8x+ 안정)
+
+**★ Terminal 한계 종목**:
+- NVIDIA: 3년 1.09x = 이미 가격 반영. 5년 비관 0.61x = monopoly 위협 본격화 risk
+- ARM: 3년 0.8x · 5년 1.0x = royalty 영구이지만 valuation 한계
+
+---
+
+## 9-5. 메타데이터 갱신 (v5 active_companies dominant/challenger/macro_layer 분기)
+
+> ★ v5 — 14개사 분석 완료 후 active_companies 분기:
+> - **dominant (8)**: NVIDIA, SK, 삼성, ARM, Seagate, WDC, SanDisk, Micron (Moat 4.0+, 점유 Top 2 또는 기술 리더)
+> - **challenger (2)**: AMD, Intel (Moat 3.8-2.8, 빠른 성장 또는 turnaround)
+> - **macro_layer (4)**: MSFT, Google, AWS, Meta (수요 측 baseline)
+
+### narrative_shift_log v5 추가
+
+- 2026-Q1: ★ AWS OpenAI 2GW Trainium 신규 = MSFT-OpenAI 독점 깨는 evidence
+- 2026-Q1: ★ NVIDIA 자본 정책 게임 체인저 (배당 25배 + $80B buyback)
+- 2026-Q1: ★ 4사 macro CapEx 합산 $585B (+127% vs FY25) = 사이클 정점 미도래
+- 2026-Q1: ★ Meta MI450 6GW + 6th Gen EPYC lead = AMD thesis 단독 driver
+- 2026-Q2: ★ NVIDIA Q1 FY27 record + 9분기 연속 컨센 beat
+- 2026-Q2: ★ v5 14개사 통합본 + 3년/5년 Terminal 시나리오
+
+---
+
+## 9-6. 워치리스트 자동 등록
+
+### T1 반도체 (10개사)
+
+```
+NVIDIA (NVDA, industry=반도체|AI 인프라)
+SK하이닉스 (industry=반도체|메모리)
+삼성전자 (industry=반도체|메모리|파운드리)
+ARM (ARM, industry=반도체|IP)
+Seagate (STX, industry=반도체|스토리지)
+Micron (MU, industry=반도체|메모리)
+SanDisk (SNDK, industry=반도체|메모리)
+WDC (WDC, industry=반도체|스토리지)
+AMD (AMD, industry=반도체|AI 인프라)
+Intel (INTC, industry=반도체|AI 인프라|파운드리)
+```
+
+### T1 미국 빅테크 (4개사, macro layer)
+
+```
+Microsoft (MSFT, industry=빅테크|클라우드|AI)
+Google (GOOGL, industry=빅테크|클라우드|AI 광고|자율주행)
+Amazon (AMZN, industry=빅테크|클라우드|소비재|AI)
+Meta (META, industry=빅테크|광고|AI|VR/AR)
+```
+
+### 한국 주도주 후보 워치리스트 (산업기초 + 본 테마 후보)
+
+| 우선 | 종목 | T분류 | 본 테마 thesis |
+|---|---|---|---|
+| 1 | SK하이닉스 | T1 메모리 | HBM 정점 + DDR5 + eSSD |
+| 2 | 삼성전자 | T1 메모리·파운드리 | HBM4 AMD MoU + CAPA #1 + Tesla 22조 |
+| 3 | 한미반도체 | T2 반도체 후공정 | TC본더 글로벌 #1 |
+| 4 | 효성중공업 | T1 전력 | UHV 변압기 미국 #1 |
+| 5 | HD현대일렉트릭 | T1 전력 | UHV 미국 15-20% |
+| 6 | LS ELECTRIC | T1 전력 | 스위치기어 + 800VDC 한국 선도 |
+| 7 | 오이솔루션 | T2 광통신 | 1.6T·ITLA 국산화 |
+| 8 | 두산에너빌리티 | T1 SMR | SMR forging 5사 중 1 |
+| 9 | 현대건설 | T1 SMR | SMR EPC Holtec 협력 |
+
+---
+
+# Step 9 통합본 — 핵심 결론 종합
+
+## A. valuation thesis 결론 (3년 vs 5년)
+
+**3년 Peak (2028)**: ★ SK하이닉스 3.0x / AMD 2.6x / 삼성 2.5x / Meta 2.2x / Intel 2.1x / SanDisk 2.0x = 정점 leverage 6 종목
+
+**5년 Normalize (2030)** 낙관: Meta 2.5x / SK 2.4x / AMD 2.3x / 삼성 2.2x / Intel 2.0x = secular survivor 5 종목
+
+## B. 한국 주도주 결론
+
+**★ 1순위: SK하이닉스 + 삼성전자** — HBM 정점 + 메모리 CAPA + HBM4 AMD MoU (삼성) + NVIDIA 단독 (SK)
+
+## C. 미국 주도주 결론
+
+**★ 1순위: AMD + Meta** — NVIDIA 대안 #1 (AMD) + AMD 단독 driver (Meta) 양강. ★ Meta·OpenAI 12GW MI450 핵심 catalyst
+
+**★ 2순위: NVIDIA** — 본 테마 needle-mover지만 단기 1.09x = 이미 가격 반영. long-term holdings로 monopoly 지속 가능성
+
+## D. ★ 4사 macro layer 핵심 시그널 (분기 트래킹)
+
+- 4사 CY26 CapEx 합산 $585B + peak 시점 2027 H2 ~ 2028 H1 = secular 정점 미도래
+- AI ARR 합산 $122B (2x YoY)
+- "constrained through 2026" 4사 commentary 수렴
+- NVIDIA Q1 FY27 record + 9분기 연속 컨센 beat
+
+## E. ★ NVIDIA monopoly 위협 catalyst (5년 risk)
+
+| 위협 | 5년+ 점유 영향 | macro evidence |
+|---|---|---|
+| #1 AMD MI400 | 80% → 70-75% | Meta 6GW + OpenAI 6GW = 12GW |
+| #2 하이퍼스케일러 ASIC | -8-10%pt | TPU+MTIA+Trainium+Maia = $225B+ |
+| #3 CUDA 대체 | 일부 잠식 | ROCm·Triton·Mojo (장기) |
+| #4 중국 통제 | upside | H20 $0 baseline |
+
+---
+
+## v5 changelog
+
+**v5 (2026-06-21)**: Step 9 통합본 append
+- 14개사 기업 분석 완료 (반도체 10 + 빅테크 4)
+- 4사 macro layer baseline + peak/normalize 도출 (peak 2027 H2 ~ 2028 H1)
+- 3년 peak (2028) / 5년 normalize (2030) dual horizon Terminal 시나리오
+- 14개사별 Long-run multiple anchor + Terminal 시총 시나리오별
+- 한국 주도주: SK·삼성 / 미국 주도주: AMD·Meta
+- ★ NVIDIA monopoly 4대 위협 catalyst macro evidence
+- 메타데이터: active_companies dominant 8 / challenger 2 / macro_layer 4
+- 워치리스트 자동 등록: 반도체 10 + 빅테크 4 + 한국 주도주 9
+ Step 6. 산업 유형 + 주도 섹터 가능성
+
+| 항목 | 결론 |
+|---|---|
+| 산업 유형 | **메가 트렌드** (AI 슈퍼사이클 2단) |
 | 단계 | 초기-중기 (2024-25 스토리(narrative) → 2026-2030+ Q 폭발) |
 | 글로벌 트렌드 관통 + 한국 Moat | ★★★ — 17 segment 중 **10 segment 한국 글로벌 Top 5** (SMR 부품 + 800VDC LS ELECTRIC 추가), 5 segment Top 2 |
 | **주도 섹터 가능성** | **★★★ 매우 높음** |
@@ -690,3 +1387,438 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 
 ## 전력 측
 - 변압기 lead time (Powermag·Nikkei), 한국 변압기 3사 분기 수주, 3사 수주잔고, **가스터빈 3사 분기 신규 주문 (GE·Siemens·Mitsubishi) ★**, SMR 신규 PPA (Constellation·Talen·Vistra·Kairos), **두산에너빌리티 SMR 부품 수주 ★**, **현대건설 Holtec 협력 진행 ★**, IEA 데이터센터 전력, 하이퍼스케일러 분기 capex
+
+---
+
+# Step 9. 통합본 (v4 → v5 add-on, 2026-06-21)
+
+> **본 통합본 frame**: 14개사 기업 분석 (반도체 10 + 빅테크 4) 완료 후 통합. **수요 측 빅테크 4사 (MSFT·Google·AWS·Meta) macro layer**를 baseline으로, **공급 측 반도체 10개사 thesis**를 cross-validation. **3년 (peak) / 5년 (normalize) dual horizon Terminal 시나리오**.
+
+> **본 분석 frame 핵심**: peak 시점은 사전 가정 X — ★ 빅테크 4사 macro 분석 결과로 도출. 사이클 위치 axis (3년 = peak·근접 가시성 / 5년 = normalize 후 정상 trajectory). 4사 CapEx 합산 + AI ARR 합산 → peak/normalize 시점·깊이 도출 → 14개사 thesis 시나리오별 검증.
+
+> **분석된 14개사 reference**:
+> - **반도체 10개사**: SK하이닉스, 삼성전자, Micron, ARM, Seagate, SanDisk, WDC, AMD, Intel, NVIDIA
+> - **빅테크 4사 (macro layer)**: MSFT, Google, AWS, Meta
+
+---
+
+## 9-1. 통합 narrative (산업기초 → 14개사 thesis flow)
+
+### 1단계: 산업 기초 (반도체·전력 인프라 = 사이클 산업이지만 본 테마는 사이클·secular 양면)
+
+- **반도체 산업기초** (v1, 2026-05-18): 메모리 4-5년 단주기 + 매크로 7-10년 장주기 중첩. CR3 95%+ 과점 + EUV 양산 한정 = 진입 장벽 영구. ★ **본 테마는 사이클 정점 + secular AI 진입 양면 hybrid**
+- **전력 인프라 산업기초** (v1, 2026-05-18): 변압기·가스터빈 lead time 128주 = 공급 절제 누적. ★ AI DC 전력 폭증으로 신규 segment (800VDC) 등장
+
+### 2단계: 에이전트 AI 테마 narrative (v4 1차 분석 종합)
+
+- **에이전트 1건 = chat 1턴 대비 토큰 20-30x** (Stanford·NVIDIA 실측) → 추론 인프라 폭증
+- **17 segment 병목**: 반도체 8 (HBM·DDR5·eSSD·GPU·광통신·CPU·CoWoS·wafer) + 전력 9 (변압기·스위치기어·HVDC·케이블·UPS·액랭·가스터빈·SMR·★ 800VDC) + 한국 핵심 비중 (10 segment 글로벌 Top 5)
+- **병목 카테고리**: **(A) 구조적 메가 병목 + (D) 동반 확대 hybrid**
+- **한국 접근 가능 TAM 2028E $216-262B+**
+
+### 3단계: ★ 수요 측 4사 macro layer (★ v5 신규)
+
+- ★ **빅테크 4사 CY26 CapEx 합산 ~$585B (FY25 $258B 대비 +127%)**: MSFT $190B + Google $100B + AWS $195B + Meta $100B
+- ★ **빅테크 4사 AI ARR 합산 ~$122B (2x YoY)**: MSFT $37B (+123%) + Google $30B+ + AWS $25B+ + Meta $30B
+- ★ **AI Foundation 4가지 strategy 양상**:
+  - MSFT = OpenAI 독점 ($13B+) + Maia (Intel Foundry 18A) + Cobalt
+  - Google = Gemini 자체 + Anthropic $3B + ★ TPU (Broadcom 위탁) + Axion
+  - AWS = ★ Anthropic $8B (최대) + ★ OpenAI 2GW Trainium (신규) + Graviton (가장 성숙)
+  - Meta = ★ Llama open source (유일) + ★ AMD MI450 6GW (AMD 최대 단일) + MTIA (Broadcom)
+- ★ **공통 시그널** (4사 모두 동일 commentary 수렴):
+  - MSFT (Amy Hood): *"remain constrained at least through 2026"*
+  - Google (Sundar): *"compute constrained"*
+  - AWS (Andy Jassy): *"AI represents the largest opportunity since cloud"*
+  - Meta (Zuckerberg): *"AI is the most exciting opportunity I've worked on"*
+- → ★ **AI 인프라 사이클 정점 미도래의 가장 강한 정량 시그널**
+
+### 4단계: ★ 공급 측 14개사 thesis cross-validation (반도체 10 + NVIDIA)
+
+> 빅테크 4사 macro 신호 → 반도체 10개사·NVIDIA thesis 검증. ★ Moat 4.8 (NVIDIA) → SK 4.4 → 삼성 4.3 → ARM 4.1 → STX 4.1 → Micron/SNDK/WDC 4.0 → AMD 3.8 → Intel 2.8.
+
+| layer | 종목 | Moat | 본 테마 수요 driver evidence (4사 macro 신호) |
+|---|---|---|---|
+| **Hot (HBM)** | SK하이닉스 | **4.4** | 4사 모두 NVIDIA Blackwell·Rubin 발주 → SK HBM3E·HBM4 majority driver |
+| **Hot (HBM)** | 삼성전자 | 4.3 | ★ Meta 6GW MI450 = AMD MI455X Samsung preferred HBM4 (2026.03 MoU) driver |
+| **Hot+Warm** | Micron | 4.0 | ★ MSFT/AWS 미국 본토 supplier 신뢰 + 1Q26 HBM4 양산 진입 |
+| **Compute (GPU)** | **NVIDIA** | **4.8** | 4사 모두 NVIDIA #1 발주 ($30-40B/년 MSFT·AWS, $20-25B Meta, $5-10B Google) |
+| **Compute (GPU)** | AMD | 3.8 | ★ Meta MI450 6GW (단독) + OpenAI 6GW + AWS MI300 일부 = 12GW MI450 mega deal |
+| **Compute (CPU)** | Intel | 2.8 | ★ MSFT Maia ASIC (Intel Foundry 18A 첫 외부 대형) = Foundry turnaround leg |
+| **IP layer** | ARM | 4.1 | ★ 4사 모두 ARM Neoverse 자체 CPU (Cobalt·Axion·Graviton — Meta만 없음) = ARM DC royalty 2x YoY driver |
+| **Warm-Cold** | SanDisk | 4.0 | 4사 데이터센터 eSSD + KV cache offload 직접 발주 |
+| **Cold (HDD)** | WDC | 4.0 | ★ AWS S3 Glacier 글로벌 #1 + MSFT Azure exabyte 발주 = nearline 52% sold out driver |
+| **Cold (HDD)** | Seagate | 4.1 | ★ 5 CSP qualified on Mozaic 3+ = AWS·MSFT·Google·Meta·Oracle = HAMR 양산 선행 |
+
+### 5단계: ★ NVIDIA monopoly 4대 위협 catalyst — 빅테크 4사 macro evidence
+
+| 위협 | 단기 (2-3년) | 장기 (5년+) | 4사 evidence |
+|---|---|---|---|
+| **#1 AMD MI400** | 점유 4%→18% (2026E) | 점유 70-75% NVIDIA jam 가능 | ★ Meta 6GW + OpenAI 6GW = 12GW mega deal |
+| **#2 하이퍼스케일러 ASIC** | -3-5%pt | -8-10%pt | ★ Google TPU (가장 성숙) + Meta MTIA + AWS Trainium + MSFT Maia 합 $225B+ 백로그 |
+| **#3 CUDA 대체** | dominance 유지 | 일부 잠식 | ROCm + OpenAI Triton + Mojo (장기) |
+| **#4 중국 통제** | $0 baseline | upside optionality | H20 $0 (Q1 FY27) → 재개 시 분기 $4-5B upside |
+
+→ ★ **단기 2-3년 thesis 강고, 장기 5년+ monopoly 점진 약화 가능**
+
+---
+
+## 9-2. Terminal 밸류 시나리오 — 3년 (peak) / 5년 (normalize) dual horizon
+
+### 9-2-1. ★ 4사 macro layer baseline — peak 시점·normalize 깊이 도출
+
+#### 4사 CapEx 합산 trajectory
+
+| 연도 | MSFT | Google | AWS | Meta | **4사 합** | YoY | 비고 |
+|---|---|---|---|---|---|---|---|
+| FY23 | 28.1 | 32.3 | 52.7 | 27.3 | 140.4 | — | AI 진입 시작 |
+| FY24 | 44.5 | 52.5 | 77.7 | 39.2 | 213.9 | +52% | ★ AI Copilot/Llama/Gemini launch |
+| FY25 | 65.0 | 75.0 | 105.0 | 75.0 | **320.0** | **+50%** | ★ AI 슈퍼사이클 본격 |
+| **CY26E** | **190** | **100** | **195** | **100** | **★ ~585B** | **+83%** | ★ Hyperscaler $640B 컨센과 일치 (4사 합 91%) |
+| **CY27E** | **220** | **125** | **240** | **120** | **★ ~705B** | **+20%** | 가속 둔화이지만 +20% 성장 지속 |
+| **CY28E** | **240** | **145** | **270** | **130** | **★ ~785B** | **+11%** | **★ peak 도달 가능성 (4사 평균 +11% = 둔화 진입 시그널)** |
+| CY29E | 255 | 160 | 285 | 130 | ~830B | +6% | normalize 진입 시작 |
+| CY30E | 260 | 165 | 290 | 130 | ~845B | +2% | normalize 안정화 |
+
+#### ★ Peak 시점 도출 (4사 macro 신호 기반)
+
+| 신호 | 시점 | 의미 |
+|---|---|---|
+| **★ "remain constrained through 2026"** (MSFT Amy Hood) | 2026 전체 | 공급 제약 천장 = 수요 압도 |
+| **★ "second half 2026 acceleration"** (MSFT) | 2H 2026 | 가속 지속 |
+| **★ AWS +28% (15분기 최고)** | Q1 2026 | 5분기 연속 가속 |
+| **★ Google GCP +63% (11분기 만 가속)** | Q1 2026 | 가속 진입 |
+| **★ MSFT RPO $627B (+99% YoY) = 2-3년 가시성** | Q1 2026 | 매출 가시성 2-3년 sector best |
+| **★ AWS OpenAI 2GW Trainium 신규** | Q1 2026 | 추가 수요 driver |
+| **CY26 CapEx 가이던스 4사 모두 +20-30% upside** | 2026 | peak 도달 미명 |
+| **NVIDIA Q1 FY27 매출 +85% YoY record + 9분기 연속 컨센 beat** | Q1 FY27 | secular 정점 미도래 |
+
+→ ★ **Peak 시점: 2027 H2 ~ 2028 H1 (3년 시점)** — 4사 평균 CapEx 성장률 +11% 둔화 진입 시점
+
+#### ★ Normalize 시나리오 (5년 시점, 2030)
+
+| 시나리오 | normalize 깊이 (peak 대비) | 4사 합 CapEx (2030) | 사이클 평균 vs 메가 트렌드 비교 |
+|---|---|---|---|
+| **★ 낙관** | -5% (메가 트렌드 영구 base) | ~$745B (vs peak $785B) | AI agent + edge AI + 신규 industrial AI 영구 수요 |
+| **★ 중립** | -15% (secular base 강함) | ~$670B | 사이클 진폭 작음, AI 인프라 base 영구 |
+| **★ 비관** | -30% (메모리 사이클 패턴) | ~$550B | 메모리 사이클 (FY22 → FY23 -37%) 패턴 적용 |
+
+### 9-2-2. ★ 3년 시점 (peak, 2028) — 14개사 정점 leverage 시나리오
+
+| 종목 | Moat | 3년 시점 (peak) thesis | P 시나리오 | Q 시나리오 | 정점 OPM/GPM | 매출 trajectory |
+|---|---|---|---|---|---|---|
+| **NVIDIA** | 4.8 | ★ Vera Rubin + Kyber rack 양산 정점 | (A) ASP step-up (Blackwell 대비 +50%) | DC 출하 +50% YoY | GPM 73-75% 유지 | FY28 ~$420B (+30% YoY) |
+| **SK하이닉스** | 4.4 | HBM3E + HBM4 majority + DDR5 정점 | (A) ASP 강한 상승 | HBM CAPA 매진 | OPM 60%+ | $130-150조원 (+30%) |
+| **삼성전자** | 4.3 | ★ HBM4 AMD MI455X driver + 메모리 절대 CAPA #1 | (A) HBM premium | DRAM·HBM 전 segment 폭증 | DS OPM 50%+ | DS $200B+ |
+| **AMD** | 3.8 | ★ MI450 6GW + 12GW total deal + EPYC 점유 30%+ | (D) 안정 ASP + Q 폭증 | AI 가속기 점유 25-30% | OPM 25-30% | $80B+ (CY28) |
+| **ARM** | 4.1 | ★ 4사 모두 ARM CPU + AGI CPU + ARMv9 royalty rate 2x | (E) 점진 상승 | royalty volume +40% | OPM 50%+ | $7-8B (FY28) |
+| **Seagate** | 4.1 | ★ HAMR Mozaic 4·5 + FY27 build-to-order | (A) ASP 안정 | Exabyte +47% 지속 | GPM 50%+ | $15B+ (FY28) |
+| **WDC** | 4.0 | nearline 52% + 분사 + UltraSMR/EPMR 가속 | (A) ASP 안정 | exabyte +30% | GPM 50%+ | $15B+ (FY28) |
+| **SanDisk** | 4.0 | NAND 정점 + HBF 양산 + $42B NBM | (A) ASP 정점 +200%+ | NAND 폭증 | OPM 70%+ | $20B+ (FY28) |
+| **Micron** | 4.0 | HBM 21% 가속 + DDR5 #3 + 미국 본토 premium | (A) HBM·DDR5 ASP 강상승 | 점진 | OPM 50%+ | $50B+ (FY28) |
+| **AMD** (중복 정리) | — | — | — | — | — | — |
+| **Intel** | 2.8 | ★ Foundry 18A turnaround (MSFT Maia + Microsoft·Amazon·DoD 확보) | (C) Xeon 정상화 + Foundry 성장 | Foundry 점진 ramp | OPM 회복 10-15% | $80-90B (CY28) |
+| **MSFT** | macro | AI ARR $75B+, Azure +35%+ 지속, M365 Copilot 50M+ | (A) Azure 안정 P | AI ARR 가속 | OPM 47-50% | $400B+ (FY28) |
+| **Google** | macro | GCP +40%+, Gemini App 600M+, TPU 7세대 양산 정점 | (A) 안정 | GCP 폭증 | OPM 35%+ | $600B+ (FY28) |
+| **AWS** | macro | AWS $230B+ (+30%), Trainium 3, Anthropic +OpenAI 양면 | (A) 안정 | Cloud #1 폭증 | AWS OPM 35%+ | $1T+ (CY28 전체) |
+| **Meta** | macro | AI 광고 ARR $80B+, Llama 6, AMD MI450 ramp 본격 | (A) 광고 efficiency | DAP 3.8B | OPM 48%+ | $350B+ (CY28) |
+
+### 9-2-3. ★ 5년 시점 (normalize, 2030) — 14개사 secular 생존 시나리오
+
+> **5년 시점 핵심 질문**: Peak (2028) 후 normalize 시점에 **누가 살아남고 누가 점유 잃는지** = secular thesis 본질.
+
+| 종목 | 5년 시점 thesis (낙관) | 5년 시점 thesis (중립) | 5년 시점 thesis (비관) | secular buffer 강도 |
+|---|---|---|---|---|
+| **NVIDIA** | monopoly 유지 80% | 점유 75% (AMD/ASIC 침투) | 점유 70% + AMD MI500/Rubin Ultra 경쟁 | ★★★ (CUDA lock-in 20년) |
+| **SK하이닉스** | HBM #1 유지 53%+ | HBM majority 50% | HBM4E dual sourcing 본격 | ★★★ (HBM4E + 차세대 packaging) |
+| **삼성전자** | HBM4 AMD majority + 메모리 #1 | 메모리 #1 유지 (HBM #2) | HBM3E 후발 만회 실패 | ★★ (DRAM CAPA + 파운드리) |
+| **NVIDIA Grace + ARM** | ARM DC 30%+, AGI CPU 본격 매출 | ARM DC 25% | ARM 라이선시 자기잠식 | ★★★ (royalty 모델 영구) |
+| **AMD** | AI 가속기 25-30% 유지 | AI 가속기 20% | NVIDIA Rubin Ultra 우위 회복 | ★★ (NVIDIA 대안 #1 차별화) |
+| **WDC + STX (HDD 양강)** | Mozaic 5/6 + EPMR 차세대 정점 | nearline 사이클 안정 | SSD 일부 잠식 (장기) | ★★★ (HDD vs SSD 가격 5-10x 영구) |
+| **SanDisk** | HBF 양산 + NAND 차세대 | NAND 사이클 보통 | NAND 사이클 침체 (-50% 매출) | ★★ (NAND 단일사업 진폭 ±61pt) |
+| **Micron** | HBM 25%+ + 미국 본토 영구 premium | HBM 21% 유지 | HBM 후발 가속 실패 | ★★ (미국 본토 secular 영구) |
+| **Intel** | Foundry 18A 양산 + 14A 진입 | Foundry trough → 회복 초기 | TSMC 압도, Intel 18A 양산 실패 | ★ (Foundry 18A turnaround) |
+| **MSFT** | AI ARR $100B+ + OpenAI 의존 분산 | AI ARR $80B + OpenAI 갱신 | OpenAI exclusivity weakening | ★★★ (Azure + Copilot + Maia) |
+| **Google** | GCP +30% 지속 + TPU 8세대 | GCP +20% + TPU 7세대 안정 | DOJ Search 분리 명령 진전 | ★★★ (TPU + Gemini + Anthropic + Broadcom) |
+| **AWS** | AWS +25%+ 지속 + Trainium 3 + Anthropic Claude 5 | AWS +20% + 안정 | AWS OPM 30% 진입 (마진 압박) | ★★★ (Cloud 절대 #1) |
+| **Meta** | AI 광고 ARR $150B+ + RB Meta 100M+ | AI 광고 ARR $100B + Llama 영향력 | Reality Labs 적자 -$30B+ + Llama 약화 | ★★ (광고 monetization 단독) |
+
+---
+
+## 9-3. ★ 멀티플 적정성 — Long-run anchor
+
+> **본 모드 frame**: 단기 forward P/E·EV/EBITDA·EV/Sales는 다루지 않음 (분기 실적 분석 영역). ★ **산업 성숙기 Long-run anchor 멀티플 1개씩 결정**.
+
+### 9-3-1. 14개사 Long-run anchor 멀티플 결정 논거
+
+| 종목 | Long-run PER anchor | EV/EBITDA anchor | EV/Sales anchor | 근거 (산업 성숙기 평균 + 글로벌 peer + ROE·ROIC) |
+|---|---|---|---|---|
+| **NVIDIA** | **22x** | **18x** | **10x** | secular monopoly + GPM 75% + FCF margin 32% + 자본 환원 게임 체인저. Apple-like compounder transition. 단 monopoly 위협 catalyst -5x discount |
+| **SK하이닉스** | **8x** | **5x** | **2.5x** | 메모리 사이클 정점 평균 (P/E 6-12x range). HBM premium +2x. AI secular base +1x |
+| **삼성전자** | **10x** | **6x** | **2.5x** | DRAM #1 + 파운드리 #2 + HBM4 AMD MoU. 사이클 평균 12x. multi-segment discount |
+| **AMD** | **30x** | **20x** | **8x** | NVIDIA 대안 + Lisa Su turnaround track record. 성장 secular premium. 단 사이클 risk -5x |
+| **ARM** | **40x** | **30x** | **20x** | chipless IP + royalty model 영구. PEG ratio 0.6x. CSS·ARMv9 driver. 단 AGI CPU 라이선시 경쟁 -5x |
+| **Seagate** | **15x** | **10x** | **3x** | HDD pure-play + HAMR 선두 + 자본 환원 king. sustainable 사이클 정점 |
+| **WDC** | **12x** | **8x** | **2.5x** | HDD #1 + 분사 1년차. sustainable 사이클이지만 분사 premium 약간 |
+| **SanDisk** | **10x** | **6x** | **2x** | NAND pure-play 정점. 사이클 진폭 큼 (±61pt). 보수적 anchor |
+| **Micron** | **10x** | **6x** | **2.5x** | HBM 후발 + 미국 본토 premium. SK 대비 약간 우위 anchor |
+| **Intel** | **15x** | **8x** | **2x** | Foundry 18A turnaround anchor. 회복 시점 기준. 실패 시 5x risk |
+| **MSFT** | **30x** | **22x** | **9x** | secular compounder + AI ARR + RPO + Cloud #2 + 자본 환원. Apple-like |
+| **Google** | **22x** | **15x** | **6x** | secular compounder. 단 DOJ Antitrust -3-5x discount + AI Overviews monetization risk |
+| **AWS (Amazon)** | **35x** | **20x** | **3.5x** | Cloud 절대 #1 + Foundation 양면 + Trainium. multi-segment SOTP (Stores + AWS + Ads) |
+| **Meta** | **25x** | **18x** | **8x** | 광고 #1 + Llama + AMD 단독 + DAP 3.56B. Reality Labs 적자 -5x discount |
+
+### 9-3-2. 멀티플 anchor 종합 결론
+
+**메모리 사이클 종목 (SK·삼성·Micron·SanDisk)**: Long-run PER 8-10x = 사이클 정점 평균. HBM secular premium +1-2x로 보정.
+
+**HDD 사이클 종목 (WDC·STX)**: PER 12-15x = HDD pure-play + 자본 환원 base.
+
+**Compute secular 종목 (NVIDIA·AMD·ARM·Intel)**: PER 22-40x = secular growth premium. ARM 가장 높음 (royalty model), Intel 가장 낮음 (turnaround).
+
+**빅테크 macro layer (MSFT·Google·AWS·Meta)**: PER 22-35x = secular compounder. AWS Cloud #1으로 가장 높음, Google DOJ로 가장 낮음.
+
+---
+
+## 9-4. ★ Terminal 시총 시나리오별 결과 (14개사)
+
+> ★ **현재 시총 대비 성장 배수**가 핵심 결론. 종목별 (Terminal 영업이익 × 멀티플 = Terminal 시총).
+
+### 9-4-1. 3년 시점 (peak, 2028) — Terminal 시총
+
+| 종목 | 현재 시총 ($T·조원) | Peak OP (2028E) | Long-run PER | **3년 Terminal 시총** | **현재 대비 배수** |
+|---|---|---|---|---|---|
+| **NVIDIA** | $5.7T | $280B+ (FY28) | 22x | **$6.2T** | **1.09x** (제한적, monopoly 위협 catalyst 일부 반영됨) |
+| **SK하이닉스** | 200조원 (~$140B) | 70-80조원 | 8x | **560-640조원** (~$400-460B) | **2.8-3.2x** ★ 메모리 사이클 정점 |
+| **삼성전자** | 500조원 (~$350B) | DS 90-100조원 + 모바일 30조 = 120-130조원 | 10x | **1,200-1,300조원** (~$840-910B) | **2.4-2.6x** ★ 메모리 + 파운드리 + HBM4 AMD |
+| **AMD** | $290B | $25B+ (CY28) | 30x | **$750B** | **2.6x** ★ Meta·OpenAI 12GW + EPYC 가속 |
+| **ARM** | $200B | $4B+ (FY28) | 40x | **$160B** | **0.8x** (이미 가격 반영, 단 royalty rate +) |
+| **Seagate** | $50B | $3-4B (FY28) | 15x | **$45-60B** | **0.9-1.2x** (현재 가격 적정 — HAMR premium 일부) |
+| **WDC** | $25B | $2.5-3B (FY28) | 12x | **$30-36B** | **1.2-1.4x** (분사 1년차 가격 반영 부족) |
+| **SanDisk** | $25B | $5B+ peak (FY28) | 10x | **$50B** | **2.0x** ★ NAND 사이클 + HBF |
+| **Micron** | $130B | $20B+ (FY28) | 10x | **$200B** | **1.5x** ★ HBM 가속 |
+| **Intel** | $90B | $10-15B (Foundry 회복 시) | 15x | **$150-225B** | **1.7-2.5x** ★ Turnaround 성공 시 |
+| **MSFT** | $3.7T | $150B+ (FY28) | 30x | **$4.5T** | **1.22x** secular compounder |
+| **Google** | $2.2T | $130B+ (FY28) | 22x | **$2.9T** | **1.32x** AI 광고 + Cloud + TPU |
+| **AWS** | $2.3T | AWS $60B + 전체 $90B (CY28) | 35x | **$3.2T** | **1.39x** Cloud 절대 #1 |
+| **Meta** | $1.5T | $130B+ (CY28) | 25x | **$3.3T** | **2.2x** ★ AI 광고 ARR 폭증 |
+
+### 9-4-2. 5년 시점 (normalize, 2030) — Terminal 시총
+
+| 종목 | 5년 시점 Normalize OP (낙관) | Long-run PER | 5년 낙관 시총 | 5년 중립 시총 | 5년 비관 시총 |
+|---|---|---|---|---|---|
+| **NVIDIA** | $250B | 22x | $5.5T | $4.5T | $3.5T |
+| **SK하이닉스** | 60조원 | 8x | 480조원 | 350조원 | 250조원 |
+| **삼성전자** | 110조원 | 10x | 1,100조원 | 850조원 | 600조원 |
+| **AMD** | $22B | 30x | $660B | $500B | $350B |
+| **ARM** | $5B | 40x | $200B | $160B | $120B |
+| **Seagate** | $3.5B | 15x | $52B | $42B | $30B |
+| **WDC** | $2.8B | 12x | $34B | $26B | $18B |
+| **SanDisk** | $3B (normalize) | 10x | $30B | $20B | $12B |
+| **Micron** | $18B | 10x | $180B | $130B | $90B |
+| **Intel** | $12B | 15x | $180B | $120B | $60B (Foundry 실패) |
+| **MSFT** | $170B | 30x | **$5.1T** | $4.0T | $3.0T |
+| **Google** | $145B | 22x | **$3.2T** | $2.5T | $1.8T (DOJ 진전) |
+| **AWS** | $100B (전체) | 35x | **$3.5T** | $2.7T | $2.0T |
+| **Meta** | $150B+ (AI 광고 정점) | 25x | **$3.75T** | $2.8T | $1.8T (RL 실패) |
+
+### 9-4-3. 시나리오별 성장 배수 종합
+
+| 종목 | 3년 Peak 배수 | 5년 낙관 배수 | 5년 중립 배수 | 5년 비관 배수 |
+|---|---|---|---|---|
+| **NVIDIA** | 1.09x | 0.96x | 0.79x | 0.61x |
+| **SK하이닉스** | **3.0x ★** | 2.4x | 1.75x | 1.25x |
+| **삼성전자** | **2.5x ★** | 2.2x | 1.7x | 1.2x |
+| **AMD** | **2.6x ★** | **2.3x ★** | 1.7x | 1.2x |
+| **ARM** | 0.8x | 1.0x | 0.8x | 0.6x |
+| **Seagate** | 1.05x | 1.04x | 0.84x | 0.6x |
+| **WDC** | 1.3x | 1.36x | 1.04x | 0.72x |
+| **SanDisk** | **2.0x ★** | 1.2x | 0.8x | 0.48x (사이클 침체) |
+| **Micron** | **1.5x** | 1.4x | 1.0x | 0.69x |
+| **Intel** | **2.1x ★★** | **2.0x ★★** | 1.3x | 0.67x |
+| **MSFT** | 1.22x | 1.38x | 1.08x | 0.81x |
+| **Google** | 1.32x | 1.45x | 1.14x | 0.82x |
+| **AWS** | 1.39x | 1.52x | 1.17x | 0.87x |
+| **Meta** | **2.2x ★** | **2.5x ★★** | 1.87x | 1.2x |
+
+### 9-4-4. 시나리오별 BT 핵심 결론
+
+#### ★ 3년 (peak, 2028) 최대 leverage 종목 (성장 배수 2.0x+)
+- **SK하이닉스 3.0x** (HBM 정점 + HBM4 majority)
+- **AMD 2.6x** (Meta·OpenAI 12GW + EPYC 가속)
+- **삼성전자 2.5x** (HBM4 AMD + 메모리 절대 CAPA)
+- **Meta 2.2x** (AI 광고 ARR + AMD 단독 + Llama)
+- **Intel 2.1x** (Foundry 18A turnaround 성공 시)
+- **SanDisk 2.0x** (NAND 사이클 정점)
+
+#### ★ 5년 (normalize) secular survivor — 낙관 시나리오 2.0x+
+- **Meta 2.5x** (AI 광고 ARR $150B+ + Reality Labs 흑전 가능성)
+- **SK하이닉스 2.4x** (HBM3E·HBM4 dominance 유지)
+- **AMD 2.3x** (NVIDIA 대안 #1 영구)
+- **삼성전자 2.2x** (HBM4 AMD majority + 메모리 #1)
+- **Intel 2.0x** (Foundry 18A → 14A 양산 성공)
+
+#### ★ 비관 시나리오에서 살아남는 종목 (배수 1.0x+)
+- **삼성전자 1.2x** (메모리 + 파운드리 buffer)
+- **SK하이닉스 1.25x** (HBM secular base)
+- **AMD 1.2x** (NVIDIA 대안 위치 영구)
+- **Meta 1.2x** (광고 monetization 영구)
+- **MSFT 0.81x / Google 0.82x / AWS 0.87x** (빅테크 안정성)
+
+#### ★ Terminal 시나리오에서 한계 종목
+- **NVIDIA**: 단기 (3년) 1.09x = 이미 가격 반영. 장기 (5년) 비관 시 0.61x = ★ monopoly 위협 4대 catalyst 본격화 risk
+- **ARM**: 단기 0.8x = 이미 가격 반영, 단 5년 1.0x로 안정. royalty 모델 영구이지만 valuation 한계
+
+#### ★ 종합 — 한국 주도주 후보 최상위
+**SK하이닉스 + 삼성전자**: 메모리 3사 + HBM 정점 + 한국 주도주 후보 최상. 3년 Peak 2.5-3.0x.
+
+#### ★ 미국 주도주 후보 최상위
+**AMD + Meta**: NVIDIA 대안 #1 (AMD) + AMD 단독 driver (Meta) = ★ AMD·Meta 단독 driver 양면 양강 + AI 광고 monetization.
+
+---
+
+## 9-5. 메타데이터 갱신 (v5 active_companies dominant/challenger 분기)
+
+> ★ v5 (2026-06-21) — 14개사 분석 완료 후 active_companies를 dominant/challenger 분기. **dominant = 현재 테마 패권 보유 (Moat 4.3+ 또는 점유 #1)**, **challenger = 패권 도전 중 (Moat 3.8-4.2 또는 빠른 성장)**.
+
+### dominant (현재 패권 8개사)
+
+| 종목 | 국가 | Moat | 패권 근거 |
+|---|---|---|---|
+| NVIDIA | 🇺🇸 | 4.8 | AI DC GPU 80%+ + CUDA + Networking |
+| SK하이닉스 | 🇰🇷 | 4.4 | HBM 53%+ + NVIDIA 단독공급 |
+| 삼성전자 | 🇰🇷 | 4.3 | DRAM 42% + HBM4 AMD MoU + 메모리 CAPA #1 |
+| ARM | 🇬🇧/🇯🇵 | 4.1 | 모바일 99% + DC IP 광범위 + N1/N1X |
+| Seagate | 🇺🇸 | 4.1 | HDD #1 (45%) + HAMR 양산 선행 |
+| WDC | 🇺🇸 | 4.0 | nearline 52% + 2026 sold out |
+| SanDisk | 🇺🇸 | 4.0 | NAND + HBF + $42B NBM |
+| Micron | 🇺🇸 | 4.0 | HBM 21% + 미국 본토 premium + 1Q26 HBM4 |
+
+### challenger (패권 도전 2개사)
+
+| 종목 | 국가 | Moat | 도전 근거 |
+|---|---|---|---|
+| AMD | 🇺🇸 | 3.8 | NVIDIA 대안 #1 (4%→18%) + Meta·OpenAI 12GW |
+| Intel | 🇺🇸 | 2.8 | Foundry 18A turnaround (MSFT Maia·DoD·Amazon 확보) |
+
+### macro layer (빅테크 4사 — 수요 측, 워치리스트 mixed)
+
+| 종목 | 국가 | role | 수요 측 evidence |
+|---|---|---|---|
+| MSFT | 🇺🇸 | macro #1 | AI ARR $37B + RPO $627B + CY26 CapEx $190B |
+| Google | 🇺🇸 | macro #2 (NVIDIA 의존 최저) | GCP +63% + TPU + Anthropic + Broadcom |
+| AWS (Amazon) | 🇺🇸 | macro #3 (Cloud 절대 #1) | AWS $137B + Trainium + Graviton + OpenAI 2GW |
+| Meta | 🇺🇸 | macro #4 (AMD 단독 driver) | AI 광고 ARR $30B + AMD MI450 6GW + Llama open |
+
+### narrative_shift_log 추가 (v5)
+
+```yaml
+- {date: 2026-Q1, event: "★ AWS OpenAI 2GW Trainium 신규 deal — MSFT-OpenAI 독점 깨는 evidence"}
+- {date: 2026-Q1, event: "★ NVIDIA 자본 정책 게임 체인저 (배당 25배 + $80B buyback) — secular + 자본환원 hybrid 진입"}
+- {date: 2026-Q1, event: "★ 4사 macro layer 합산 CapEx $585B (FY25 $258B 대비 +127%) — AI 인프라 사이클 정점 미도래 정량 시그널"}
+- {date: 2026-Q1, event: "★ Meta MI450 6GW + 6th Gen EPYC lead = AMD thesis 단독 driver"}
+- {date: 2026-Q2, event: "★ NVIDIA Q1 FY27 record + 9분기 연속 컨센 beat — secular 정점 미도래 검증"}
+```
+
+### bottleneck_category 확정
+
+| Sub-category | 분류 | 적용 종목 |
+|---|---|---|
+| (A) 구조적 메가 병목 | HBM·CoWoS·첨단노드·UHV 변압기 등 | NVIDIA·SK·삼성·Micron·TSMC·효성·HD현대일렉 |
+| (A) + (D) hybrid | 본 테마 전체 — 14개사 + 산업 17 segment | 전체 |
+
+---
+
+## 9-6. 워치리스트 자동 등록 (14개사)
+
+> `feedback_watchlist_auto_add.md` 룰 적용. **반도체 (T1)** + **미국 빅테크 (T1)** 섹터에 자동 추가.
+
+### T1 반도체 (10개사)
+
+```
+NVIDIA (NVDA, industry=반도체|AI 인프라)
+SK하이닉스 (industry=반도체|메모리)
+삼성전자 (industry=반도체|메모리|파운드리)
+ARM (ARM, industry=반도체|IP)
+Seagate (STX, industry=반도체|스토리지)
+Micron (MU, industry=반도체|메모리)
+SanDisk (SNDK, industry=반도체|메모리)
+WDC (WDC, industry=반도체|스토리지)
+AMD (AMD, industry=반도체|AI 인프라)
+Intel (INTC, industry=반도체|AI 인프라|파운드리)
+```
+
+### T1 미국 빅테크 (4개사, macro layer)
+
+```
+Microsoft (MSFT, industry=빅테크|클라우드|AI)
+Google (GOOGL, industry=빅테크|클라우드|AI 광고|자율주행)
+Amazon (AMZN, industry=빅테크|클라우드|소비재|AI)
+Meta (META, industry=빅테크|광고|AI|VR/AR)
+```
+
+### 한국 주도주 후보 워치리스트 매핑
+
+| 우선순위 | 종목 | T분류 | 본 테마 thesis |
+|---|---|---|---|
+| **1** | SK하이닉스 | T1 메모리 | HBM 정점 + DDR5 + eSSD 3 segment Top 2 |
+| **2** | 삼성전자 | T1 메모리·파운드리 | HBM4 AMD MoU + 메모리 CAPA #1 + 파운드리 #2 + Tesla 22조 |
+| **3** | 한미반도체 | T2 반도체 후공정 | TC본더 글로벌 #1 (★ 신규 본 테마 매핑) |
+| **4** | 효성중공업 | T1 전력 | UHV 변압기 미국 #1 |
+| **5** | HD현대일렉트릭 | T1 전력 | UHV 미국 15-20% |
+| **6** | LS ELECTRIC | T1 전력 | 스위치기어 + ★ 800VDC 한국 선도 |
+| **7** | 오이솔루션 | T2 광통신 | 1.6T·ITLA 국산화 |
+| **8** | 두산에너빌리티 | T1 SMR | SMR forging 글로벌 5사 중 1 |
+| **9** | 현대건설 | T1 SMR | SMR EPC Holtec 협력 |
+
+---
+
+# Step 9 통합본 — 핵심 결론 종합
+
+## A. 본 테마 valuation thesis (3년 vs 5년)
+
+**3년 (peak, 2028)**: ★ SK하이닉스 3.0x / AMD 2.6x / 삼성전자 2.5x / Meta 2.2x / Intel 2.1x / SanDisk 2.0x = 정점 leverage 6 종목.
+
+**5년 (normalize, 2030)**: 낙관 시나리오에서 Meta 2.5x / SK 2.4x / AMD 2.3x / 삼성 2.2x / Intel 2.0x = secular survivor 5 종목. 비관 시나리오에서도 1.2x+ 살아남는 종목 = 삼성·SK·AMD·Meta.
+
+## B. 한국 주도주 결론
+
+**★ 1순위: SK하이닉스 + 삼성전자** = HBM 정점 + 메모리 CAPA + HBM4 AMD MoU (삼성) + NVIDIA 단독공급 (SK).
+
+## C. 미국 주도주 결론
+
+**★ 1순위: AMD + Meta** = NVIDIA 대안 #1 (AMD) + AMD 단독 driver (Meta) 양강. ★ Meta·OpenAI 12GW MI450 mega deal 핵심 catalyst.
+
+**★ 2순위: NVIDIA** = 본 테마 needle-mover지만 ★ 단기 (3년) 1.09x = 이미 가격 반영. 단 long-term holdings로 monopoly 지속 가능성.
+
+## D. ★ 4사 macro layer 핵심 시그널 (분기 트래킹)
+
+- **★ 4사 CY26 CapEx 합산 $585B** + ★ peak 시점 **2027 H2 ~ 2028 H1** = secular 정점 미도래
+- **★ AI ARR 합산 $122B (2x YoY)** = AI monetization 정량 입증
+- **★ "constrained through 2026" 4사 commentary 수렴** = 공급 제약 천장
+- **★ NVIDIA Q1 FY27 record + 9분기 연속 컨센 beat** = secular 정점 미도래 검증
+
+## E. ★ NVIDIA monopoly 위협 catalyst (5년 risk)
+
+| 위협 | 5년+ NVIDIA 점유 영향 | macro evidence |
+|---|---|---|
+| #1 AMD MI400 | 80% → 70-75% | ★ Meta 6GW + OpenAI 6GW = 12GW (2025-10·2026-Q1) |
+| #2 하이퍼스케일러 ASIC | -8-10%pt | ★ Google TPU + Meta MTIA + AWS Trainium + MSFT Maia 합 $225B+ |
+| #3 CUDA 대체 | 일부 잠식 | ROCm·Triton·Mojo (장기) |
+| #4 중국 통제 | upside optionality | H20 $0 baseline |
+
+---
+
+## v5 changelog
+
+**v5 (2026-06-21)**: Step 9 통합본 append
+- 14개사 기업 분석 완료 (반도체 10 + 빅테크 4)
+- 4사 macro layer baseline + peak/normalize 도출
+- 3년 peak (2028) / 5년 normalize (2030) dual horizon Terminal 시나리오
+- 14개사별 Long-run multiple anchor + Terminal 시총 시나리오별
+- 한국 주도주 결론 (SK·삼성), 미국 주도주 결론 (AMD·Meta)
+- ★ NVIDIA monopoly 4대 위협 catalyst macro evidence 정리
+- 메타데이터: active_companies dominant 8 / challenger 2 / macro layer 4 분기
+- 워치리스트 자동 등록: 반도체 10개사 + 빅테크 4개사 + 한국 주도주 9개사
+
+
+

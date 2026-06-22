@@ -184,13 +184,13 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-06-21 (자동 실행)**
+> **최종 갱신: 2026-06-22 (자동 실행)**
 
 ### 6월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 6/25 | Micron (MU) | 반도체 | AMC→KST (6/24 ET), Q3 FY2026 (확정, Micron 공식 발표 — KST 새벽 05:30, 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 |
+| 6/25 | Micron (MU) | 반도체 | AMC→KST (6/24 ET), Q3 FY2026 (확정, Micron 공식 발표 — KST 새벽 05:30, 2:30 PM MT) — 가이던스: 매출 $33.5B±0.75B, GPM 81%, EPS $19.15±0.40 / 컨센서스: 매출 $34.66B·EPS $19.95 (가이던스 상회 기대 반영) |
 
 ### 7월
 
@@ -204,7 +204,7 @@
 | 7/15 | Morgan Stanley (MS) | 금융 | BMO, Q2 2026 (공식 확정, 7:30am ET, 콜 8:30am ET) |
 | 7/15 | ASML (ASML) | 반도체-소부장 | BMO, Q2 2026 (확정 — EUV 장비 수주 동향, High-NA ramp) |
 | 7/16 | TSMC (TSM) | 반도체-파운드리 | Q2 2026 (확정, TSMC 공식 IR — 파운드리 가동률, N3·N2 ramp) |
-| 7/16 | Seagate (STX) | 반도체-스토리지 | BMO, Q4 FY2026 — HDD 니어라인, 데이터센터 클라우드 수요 |
+| 7/16 | Seagate (STX) | 반도체-스토리지 | BMO, Q4 FY2026 — HDD 니어라인, 데이터센터 클라우드 수요 (TipRanks 7/16 확정; MarketChameleon 7/23~7/30 추정 — 재확인 요망) |
 | 7/16 | ABB (ABB) | 전력 | Q2 2026 (공식 IR 확정 — 변압기·차단기·GIS, 산업 사이클 cue) |
 | 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
 | 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
@@ -236,7 +236,7 @@
 | 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (도쿄 오후, KST 동일. TipRanks·MarketBeat·Zacks 일치) |
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
-| (~7/30) | Ford (F) | 자동차 | AMC→KST (~7/29 ET), Q2 2026 — 미확정 추정 (wallstreethorizon) |
+| (~7/30) | Ford (F) | 자동차 | AMC→KST (~7/29 ET), Q2 2026 — 미확정 추정 (TipRanks·WSH 7/29 AMC 미확정) |
 | 7/31 | Apple (AAPL) | 빅테크 | AMC→KST (7/30 ET), Q3 FY2026 (확정, Apple IR) |
 | 7/31 | Amazon (AMZN) | 빅테크 | AMC→KST (7/30 ET), Q2 2026 (확정) |
 | 7/31 | Bloom Energy (BE) | 전력 | AMC→KST (7/30 ET), Q2 2026 (확정, TipRanks) |
