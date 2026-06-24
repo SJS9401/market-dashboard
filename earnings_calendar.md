@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-06-23 (자동 실행)**
+> **최종 갱신: 2026-06-24 (자동 실행)**
 
 ### 6월
 
@@ -196,7 +196,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| (~7/7) | 삼성전자 | 반도체 | 2Q26 잠정실적 — 과거 패턴 추정 (2025 Q2: 7/8 / 2024 Q2: 7/5 / 2023 Q2: 7/7 — 일부 외부 소스 7/23 표시는 확정실적 날짜 오인 추정, 삼성 IR 공식 일정 미공시) |
+| (~7/7) | 삼성전자 | 반도체 | 2Q26 잠정실적 — 과거 패턴 추정 (2025 Q2: 7/8 / 2024 Q2: 7/5 / 2023 Q2: 7/7). ⚠️ 주의: 다수 외부 소스(Investing.com, WebSearch)가 "7/23 잠정실적" 표시 — 잠정 시점 지연 가능성 있음. 삼성 IR 공식 미공시 (2026-06-24 기준) |
 | 7/14 | JPMorgan Chase (JPM) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
 | 7/14 | Bank of America (BAC) | 금융 | BMO, Q2 2026 (공식 확정, 6:45am ET, 콜 8:30am ET) |
 | 7/14 | Goldman Sachs (GS) | 금융 | BMO, Q2 2026 (공식 확정, 7:30am ET, 콜 9:30am ET) |
@@ -212,7 +212,7 @@
 | 7/23 | Tesla (TSLA) | 자동차 | AMC→KST (7/22 ET), Q2 2026 (TipRanks·Unusual Whales Confirmed) |
 | 7/22 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (GEV 공식 IR 확정 — 웹캐스트 7/22 7:30am EDT. 765kV·HVDC·AI DC, 한국 전력 인프라 멀티플 reference. 6/21 정정) |
 | 7/23 | 현대차 | 자동차 | 2Q26 확정실적 콘퍼런스콜 (Investing.com 확인, Q1: 4/23 패턴 일치) |
-| (~7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 — Investing.com 7/23 표시 (패턴 대비 앞당겨질 가능성. 2025 Q2 콜: 7/31, 2024: 7/31, 2023: 7/27. 삼성 IR 공식 미공시) |
+| (7/23) | 삼성전자 | 반도체 | 2Q26 확정실적 콘퍼런스콜 또는 잠정실적 — Investing.com·WebSearch 다중 소스 7/23 일치. 역대 패턴(콜 7/27~7/31)보다 앞당겨짐. 잠정실적 7/23 가능성도 병존. 삼성 IR 공식 미공시 (2026-06-24 기준) |
 | 7/24 | Intel (INTC) | 반도체-CPU | AMC→KST (7/23 ET), Q2 2026 (확정 — 데이터센터 Xeon·IFS 18A, 한국 서버 DDR5 수요) |
 | 7/24 | KLA Corporation (KLAC) | 반도체-소부장 | AMC→KST (7/23 ET), Q4 FY2026 (확정 — FY 6월 결산, 검사·계측 장비, 첨단 노드 수율 cue) |
 | (~7/24) | 현대로템 | 방산 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/24) |
@@ -240,7 +240,7 @@
 | (~7/30) | LG에너지솔루션 | 배터리 | 2Q26 확정실적 콘퍼런스콜 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
 | (~7/30) | Ford (F) | 자동차 | AMC→KST (~7/29 ET), Q2 2026 — 미확정 추정 (TipRanks·WSH 7/29 AMC 미확정) |
-| 7/31 | Apple (AAPL) | 빅테크 | AMC→KST (7/30 ET), Q3 FY2026 (확정, Apple IR) |
+| 7/31 | Apple (AAPL) | 빅테크 | AMC→KST (7/30 ET), Q3 FY2026 (미확정 추정 — 7/30 AMC 예상, WSH·Marketbeat 공통 표시 but 미확인. 이전 Apple IR 확정 기록 있으나 2026-06-24 재확인 불가) |
 | 7/31 | Amazon (AMZN) | 빅테크 | AMC→KST (7/30 ET), Q2 2026 (확정) |
 | 7/31 | Bloom Energy (BE) | 전력 | AMC→KST (7/30 ET), Q2 2026 (확정, TipRanks) |
 | 7/31 | Cameco (CCJ) | 원전 | BMO, Q2 2026 (확정, Cameco 공식 발표) |
@@ -273,7 +273,7 @@
 | 8/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC→KST (8/13 ET), Q3 FY2026 (확정) — Q3 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, HBM CAPEX 사이클 동조 |
 | 8/19 | Oklo (OKLO) | 원전 | AMC→KST (8/18 ET), Q2 2026 (확정 — SMR 규제 진척, 현금 $2.5B) |
 | 8/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC→KST (8/20 ET), Q2 FY2027 (확정 — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
-| 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
+| 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정 — SEC 8-K·TipRanks·Unusual Whales 6/24 재확인) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 
 ### 9월
 

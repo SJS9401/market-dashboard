@@ -1867,9 +1867,6 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-    {d:"04/28",cat:"산업",ev:"테슬라 사이버캡 양산 램프업 + 로보택시 서비스 확장",note:"자율주행 — 2/17 첫 양산차 출고 → 4/22~23 Q1 어닝콜서 기가텍사스 양산 공식 개시 → 4/24 머스크 X \"Cybercab production has started\" 재공지…"},
-    {d:"06/15",cat:"산업",ev:"UAE 방산투자 후속 수주 확정 발표",note:"한국 방산 수주 연계 — 2/26 한-UAE $65B(방산 $35B) 협정 체결 완료. 5월 내 미발표…"},
-    {d:"06/15",cat:"산업",ev:"한미약품 MASH 임상 2b상 1차 평가변수 도출",note:"바이오 — 기존 3월중→5/11~6/27 이연"},
     {d:"06/25",cat:"실적",ev:"마이크론(MU) Q3 FY2026 실적발표 (AMC/6/24 ET)",note:"반도체 T1 — 가이던스: 매출 $33.5B±0.75B·GPM 81%·EPS $19.15±0.40. 핵심 관전: HBM4 12H ramp·추가 SCA 체결·FY27 가이던스 첫 시그널·싱가포르 팹"},
     {d:"06/28",cat:"정책",ev:"공정위 네이버·두나무 합병 승인",note:"금융·시장구조 — 6/17 공정위, 증권사 18개사에 의견 수렴 개시 (6월말 제출 목표). 쟁점: 증권플러스비상장+업비트 독과점·데이터 결합 효과·스테이블코인 경쟁 제한 여부…"},
     {d:"06/29",cat:"IPO",ev:"져스텍 신규상장 (청약 6/18)",note:"38커뮤니케이션 — 청약일 6/11 → 6/18 정정 (2026-05-19). 상장일 6/29 확정 (2026-06-03 갱신)…"},
@@ -1882,60 +1879,4 @@ function setupScrollbar(col, mainId) {
     {d:"07/01",cat:"경제지표",ev:"한국 6월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개"},
     {d:"07/01",cat:"정책",ev:"케빈 워시 의장 연설 (ET 09:30 = KST 22:30)",note:"Tier 1 금리 — 6/17 매파 FOMC 이후 첫 공개 발언. 점도표 상향(2026말 3.8%) 톤 재확인 여부. 같은 밤 ISM과 연속"},
     {d:"07/01",cat:"경제지표",ev:"미 6월 ISM 제조업지수 (ET 10:00 = KST 23:00)",note:"매크로 — FOMC 후 첫 ISM. 제조업 경기·물가지수(가격지불) 동향. 워시 연설 직후 발표"},
-    {d:"07/02",cat:"경제지표",ev:"미 6월 고용보고서 (비농업 고용) (BLS, ET 08:30 = KST 21:30)",note:"Tier 1 금리 — FOMC 후 첫 고용 데이터. 5월 월드컵 노이즈(+56K) payback 여부 관찰. 7/3 미 휴장 직전 발표라 결과 직후 포지션 정리 변동성"},
-    {d:"07/03",cat:"지정학",ev:"미 독립기념일 — 미 증시 휴장",note:"시장구조 — 미 증시·채권 휴무"},
-    {d:"07/04",cat:"정책",ev:"미국 클래리티법안 상원 본회의·하원 재승인·서명 일정",note:"법안심의 — 5/14 상원 은행위 마크업 15-9 통과 완료 (Gallego·Alsobrooks 민주당 2명 찬성)…"},
-    {d:"07/06",cat:"IPO",ev:"레몬헬스케어 신규상장 (청약 6/24)",note:"38커뮤니케이션 확정 (2026-06-09 갱신). 청약일 6/9→6/24 정정 (2026-05-28). 헬스케어 IT (의료정보 플랫폼·처방전 전송)"},
-    {d:"07/07",cat:"지정학",ev:"나토 정상회의 (~7/8, 튀르키에)",note:"지정학"},
-    {d:"07/11",cat:"경제지표",ev:"한국 7월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 7월 초 모멘텀 조기 시그널"},
-    {d:"07/13",cat:"IPO",ev:"레메디 신규상장 (청약 7/1)",note:"38커뮤니케이션 확정 (2026-06-21 갱신). 소형 X-ray 기반 의료기기, 코스닥 기술특례상장 (3수 도전). KB증권 주관…"},
-    {d:"07/15",cat:"정책",ev:"대미투자 1호 프로젝트 공식 발표 (산업부-미 상무부)",note:"한미통상 — 6/18 한미전략투자공사 출범 완료 (서울신문 2026-06-18). 1호 프로젝트 구체적 내용·발표 시기 \"정해진 바 없음\" (산업부 공식 설명자료 2026-06-21)…"},
-    {d:"07/15",cat:"IPO",ev:"빅웨이브로보틱스 신규상장 (청약 6/19~22)",note:"38커뮤니케이션 — 청약 6/19~22 (당초 6/19→4일 청약). FSC 2차 정정 요구 (2026-06-16)로 청약 직전 중단 보도 (glasswallet.com)…"},
-    {d:"07/15",cat:"경제지표",ev:"미 6월 CPI (BLS, ET 08:30 = KST 21:30)",note:"Yuanta 3Q 인플레 피크아웃 framework 1차 검증 — 2~3Q 상품/에너지 인플레 압력 vs 핵심·서비스 Disinflation. 7/29~30 FOMC D-15 전후…"},
-    {d:"07/16",cat:"경제지표",ev:"미 6월 PPI (BLS, ET 08:30 = KST 21:30)",note:"CPI 동조 확인. FOMC D-14 전후"},
-    {d:"07/18",cat:"정책",ev:"GENIUS Act 하위 규정 시행기한",note:"금융·스테이블코인"},
-    {d:"07/21",cat:"경제지표",ev:"한국 7월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 7월 잠정치 직전 선행 지표"},
-    {d:"07/28",cat:"IPO",ev:"에이치엘지노믹스 신규상장 (청약 7/13~14, 상장일 미확정)",note:"IPO Radar 신규 (2026-06-20) — 바이오, 희망공모가 18,500~21,500원. 상장일은 청약 이후 별도 확정"},
-    {d:"07/30",cat:"산업",ev:"테슬라 옵티머스 V3 양산·공개 (~8월초)",note:"로봇 7월말~8월초"},
-    {d:"07/30",cat:"정책",ev:"BOJ 통화정책회의 + Outlook Report",note:"Tier 1 금리 이슈 인상 후보일 (확률 50%) — 6/16 25bp 인상(0.75%→1.00%) 거의 확정(96.9%) 전제 시 → 추가 25bp (1.00% → 1.25%) 가능성…"},
-    {d:"08/01",cat:"경제지표",ev:"한국 7월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치. 반도체·자동차 품목별·국가별"},
-    {d:"08/05",cat:"IPO",ev:"인제니아테라퓨틱스 신규상장 (청약 7/23~24, 상장일 미확정)",note:"IPO Radar 신규 (2026-06-20) — 바이오, 희망공모가 12,000~14,500원. 상장일은 청약 이후 별도 확정"},
-    {d:"08/05",cat:"IPO",ev:"케이앤에스아이앤씨 신규상장 (청약 7/27~28, 상장일 미확정)",note:"IPO Radar 신규 (2026-06-20) — 공모가 9,000원. 상장일은 청약 이후 별도 확정"},
-    {d:"08/11",cat:"경제지표",ev:"한국 8월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 초 모멘텀 조기 시그널"},
-    {d:"08/12",cat:"경제지표",ev:"미 7월 CPI (BLS, ET 08:30 = KST 21:30)",note:"Yuanta 3Q 인플레 피크아웃 framework 2차 검증 — 핵심·서비스 Disinflation 추세 전환 확인 핵심 지표. 7월말 BOJ 결정 직후"},
-    {d:"08/13",cat:"경제지표",ev:"미 7월 PPI (BLS, ET 08:30 = KST 21:30)",note:"CPI 동조 확인"},
-    {d:"08/15",cat:"IPO",ev:"SK하이닉스 미국 ADR 상장",note:"반도체 T1 — 2026-06-23 update: 6/22(현지) SEC 결정 예정일 경과, 공식 발표 미확인…"},
-    {d:"08/17",cat:"지정학",ev:"미·이란 60일 최종협상 시한 (D+60)",note:"이란전 T1 — 연합인포맥스 6/19. 밴스 부통령 \"60일 카운트다운 6/18(현지)·KST 6/19 03:25 개시\". 호르무즈 60일 무료 통행 조항도 동일 만료…"},
-    {d:"08/18",cat:"시장구조",ev:"네이버·두나무 주주총회 (합병 주식교환)",note:"5/22→8/18 정정 연기 (2026-03-30 정정공시). 주식교환·이전일 6/30→9/30 이연. 공정위 기업결합 심사 장기화·디지털자산기본법 입법 지연 영향. 대주주 적격성·지분규제 변수…"},
-    {d:"08/21",cat:"경제지표",ev:"한국 8월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 잠정치 직전 선행 지표"},
-    {d:"09/01",cat:"경제지표",ev:"한국 8월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개"},
-    {d:"09/11",cat:"경제지표",ev:"한국 9월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 9월 초 모멘텀 조기 시그널. 반도체·자동차 품목별 데이터"},
-    {d:"09/11",cat:"경제지표",ev:"미 8월 CPI (BLS, ET 08:30)",note:"Yuanta 3Q 말 인플레 피크아웃 framework 최종 검증 — 4Q Goldilocks 진입 + 12월 FOMC 보험성 인하 전제 확인"},
-    {d:"09/15",cat:"IPO",ev:"오픈AI 나스닥 상장 (예상)",note:"Mega IPO 2차 유동성 흡수 리스크 — 5/22 confidential S-1 filing 완료, GS·MS 주관, 밸류 $1T+ 목표…"},
-    {d:"09/21",cat:"경제지표",ev:"한국 9월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 월간 잠정치(10/1) 직전 가장 정확한 선행 지표. 반도체·자동차 품목별 데이터"},
-    {d:"10/01",cat:"IPO",ev:"앤트로픽 IPO (예상)",note:"Mega IPO 3차 유동성 흡수 �"},
-    {d:"11/03",cat:"정책",ev:"미국 중간선거",note:"트럼프 레임덕"},
-  ];
-  const today=new Date();today.setHours(0,0,0,0);
-  const limit=new Date(today);limit.setDate(limit.getDate()+30);
-  const year=today.getFullYear();
-  const tbody=document.getElementById('ev-body');
-  // find last today index
-  const dow=today.getDay(),monOff=dow===0?-6:1-dow;
-  const weekStart=new Date(today);weekStart.setDate(today.getDate()+monOff);
-  const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
-  const filtered=events.map(e=>{
-    const [mm,dd]=e.d.split('/').map(Number);
-    const evDate=new Date(year,mm-1,dd);
-    if(evDate<today||evDate>limit)return null;
-    const diff=Math.floor((evDate-today)/(86400000));
-    const isThisWeek=evDate>=weekStart&&evDate<=weekEnd;
-    return {...e,evDate,diff,isThisWeek};
-  }).filter(Boolean);
-  let firstTodayIdx=-1,lastTodayIdx=-1;
-  filtered.forEach((e,i)=>{if(e.diff===0){if(firstTodayIdx===-1)firstTodayIdx=i;lastTodayIdx=i;}});
-  filtered.forEach((e,i)=>{
-    let cls='';
-    if(e.diff===0){
-      if(firstTodayIdx===lastTodayIdx){cls='today-only';}
-    
+    {d:"07/02",cat:"경제지표",ev:"미 6월 고용보고서 (비농업 고용) (BLS, ET 08:30 = KST 21:30)",no
