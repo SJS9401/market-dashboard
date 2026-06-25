@@ -1,13 +1,9 @@
 {
-  "generated_at": "2026-06-22T22:00:06Z",
+  "generated_at": "2026-06-25T22:00:02Z",
   "series": "DGS2",
-  "source": "FRED fredgraph.csv",
+  "source": "US Treasury par yield (2Y)",
   "unit": "percent",
   "daily": [
-    {
-      "date": "2024-04-15",
-      "yield": 4.93
-    },
     {
       "date": "2024-04-16",
       "yield": 4.97
@@ -2183,6 +2179,22 @@
     {
       "date": "2026-06-18",
       "yield": 4.19
+    },
+    {
+      "date": "2026-06-22",
+      "yield": 4.24
+    },
+    {
+      "date": "2026-06-23",
+      "yield": 4.16
+    },
+    {
+      "date": "2026-06-24",
+      "yield": 4.11
+    },
+    {
+      "date": "2026-06-25",
+      "yield": 4.09
     }
   ]
 }
