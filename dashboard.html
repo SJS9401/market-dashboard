@@ -991,12 +991,16 @@ async function loadIndex(id, col) {
   } else { msgEl.textContent = '⚠ 로딩 실패'; }
 }
 
-// MDD (Max Drawdown) — calculates running drawdown from peak
+// MDD (Max Drawdown) — 장중 고저 기준 (2026-06-28 BT: 종가 → intraday high/low)
+//   누적 최고 = 장중 고가(high)의 running max, 낙폭 = 장중 저가(low) vs 누적 최고가
+//   → HTS 추세선(고점→저점 peak-to-trough)과 정합. 고저 결측 시 close 폴백.
 function calcMDD(candles) {
   let peak = -Infinity;
   return candles.map(c => {
-    if (c.close > peak) peak = c.close;
-    const dd = ((c.close - peak) / peak) * 100; // always <= 0
+    const hi = (c.high != null ? c.high : c.close);
+    const lo = (c.low  != null ? c.low  : c.close);
+    if (hi > peak) peak = hi;                  // 장중 고가 누적 최고
+    const dd = ((lo - peak) / peak) * 100;     // 장중 저가 vs 누적 최고가, always <= 0
     return { time: c.time, value: parseFloat(dd.toFixed(2)) };
   });
 }
@@ -1041,12 +1045,24 @@ async function loadMDD(indexId, mddId, col) {
     allCharts[mddId].series.createPriceLine({ price: -30, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
     allCharts[mddId].series.createPriceLine({ price: -40, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
     allCharts[mddId].series.createPriceLine({ price: -50, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    // Show current MDD value
-    const cur = mddData[mddData.length - 1];
-    if (cur) {
-      document.getElementById('p-' + mddId).textContent = cur.value.toFixed(1) + '%';
-      origValues[mddId] = () => { document.getElementById('p-' + mddId).textContent = cur.value.toFixed(1) + '%'; };
+    // MDD = 최대 고점(ATH high) 대비 이후 최저점 — peak-to-trough (2026-06-28 BT: 현재가 낙폭 아님)
+    //   최고 고가 시점(pkIdx) 이후 구간의 최저 낙폭값 + 발생일 표시. pkIdx 이후엔 running peak == ATH라 mddData값이 곧 ATH 대비 낙폭.
+    let pkIdx = 0, pkHigh = -Infinity;
+    for (let i = 0; i < display.length; i++) {
+      const h = (display[i].high != null ? display[i].high : display[i].close);
+      if (h > pkHigh) { pkHigh = h; pkIdx = i; }
     }
+    let mddVal = 0, mddDate = (display[pkIdx] ? display[pkIdx].time : '');
+    for (let i = pkIdx; i < mddData.length; i++) {
+      if (mddData[i].value < mddVal) { mddVal = mddData[i].value; mddDate = mddData[i].time; }
+    }
+    const setMdd = () => {
+      document.getElementById('p-' + mddId).textContent = mddVal.toFixed(1) + '%';
+      const de = document.getElementById('d-' + mddId);
+      if (de) de.textContent = mddDate;
+    };
+    setMdd();
+    origValues[mddId] = setMdd;
     msgEl.style.display = 'none';
   } catch(e) { console.error('MDD', e); msgEl.textContent = '⚠ 실패'; }
 }
