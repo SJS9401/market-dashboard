@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-06-28 (자동 실행)**
+> **최종 갱신: 2026-06-29 (자동 실행)**
 
 ### 7월
 
@@ -200,8 +200,7 @@
 | 7/16 | TSMC (TSM) | 반도체-파운드리 | Q2 2026 (확정, TSMC 공식 IR — 파운드리 가동률, N3·N2 ramp) |
 | 7/16 | Seagate (STX) | 반도체-스토리지 | BMO, Q4 FY2026 — HDD 니어라인, 데이터센터 클라우드 수요 (7/16 확정 — TipRanks·SEC 8-K 패턴 6/23 재확인) |
 | 7/16 | ABB (ABB) | 전력 | Q2 2026 (공식 IR 확정 — 변압기·차단기·GIS, 산업 사이클 cue) |
-| 7/21 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX) |
-| 7/21 | General Motors (GM) | 자동차 | Q2 2026 (확정 — 미국 내수, EV 전환, Cruise) |
+| 7/21 | General Motors (GM) | 자동차 | BMO, Q2 2026 (GM 공식 IR 확정 — 6:30am ET, 콜 8:30am ET) |
 | (~7/21) | LS일렉트릭 | 전력 | 2Q26 잠정실적 — 과거 패턴 추정 (Q1: 4/21) |
 | 7/23 | Tesla (TSLA) | 자동차 | AMC→KST (7/22 ET), Q2 2026 (TipRanks·Unusual Whales Confirmed) |
 | 7/22 | GE Vernova (GEV) | 전력 | BMO, Q2 2026 (GEV 공식 IR 확정 — 웹캐스트 7/22 7:30am EDT. 765kV·HVDC·AI DC, 한국 전력 인프라 멀티플 reference. 6/21 정정) |
@@ -221,6 +220,7 @@
 | (~7/28) | 현대건설 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/28) |
 | (~7/28) | HD현대일렉트릭 | 전력 | 2Q26 잠정실적 — 과거 패턴 추정 (Q1: 4/28) |
 | 7/28 | RTX (RTX) | 방산 | BMO, Q2 2026 (확정 — 방산+항공엔진, 수주잔고) |
+| 7/28 | Lockheed Martin (LMT) | 방산 | BMO, Q2 2026 (확정 — F-35, 미사일방어, 국방 CAPEX. 6/29 정정: 기존 7/21 → 7/28) |
 | 7/29 | Microsoft (MSFT) | 빅테크 | AMC→KST (7/28 ET), Q4 FY2026 (확정, Microsoft 공식 발표 2026-04-08) |
 | 7/29 | Alphabet (GOOGL) | 빅테크 | AMC→KST (7/28 ET), Q2 2026 (TipRanks Confirmed, 6/20 갱신) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
