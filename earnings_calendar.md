@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-07-01 (자동 실행)**
+> **최종 갱신: 2026-07-02 (자동 실행)**
 
 ### 7월
 
@@ -225,6 +225,7 @@
 | 7/29 | Alphabet (GOOGL) | 빅테크 | AMC→KST (7/28 ET), Q2 2026 (TipRanks Confirmed, 6/20 갱신) |
 | 7/29 | SK하이닉스 | 반도체 | 2Q26 확정실적 콘퍼런스콜 (확정 — OPM 76% 돌파 여부, HBM4 양산, ADR 6월 결정 업데이트) |
 | 7/29 | 삼성바이오로직스 | 제약/바이오 | 2Q26 실적 (Investing.com 7/29 확인. 노조 파업 영향 3Q 이연 전망, 2Q 파업 이전 생산분 정상 인식 예상. Q1: 4/22) |
+| 7/29 | Ford (F) | 자동차 | AMC→KST (7/28 ET), Q2 2026 (Ford 공식 확정 — 4:05pm ET 실적, 5:00pm ET 콜. 기존 미확정 → 7/2 정정) |
 | (~7/29) | 두산에너빌리티 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/29) |
 | 7/30 | Meta (META) | 빅테크 | AMC→KST (7/29 ET), Q2 2026 (TipRanks·MarketBeat·Nasdaq Confirmed) |
 | 7/30 | ARM (ARM) | 반도체-CPU | AMC→KST (7/29 ET), Q1 FY2027 (확정, ARM 공식 IR — Neoverse·Cortex 라이선스 성장세) |
@@ -233,7 +234,6 @@
 | 7/30 | Schneider Electric (SU) | 전력 | H1 2026 결과 (확정, Euronext — LVDC·MVDC·데이터센터, 파리 오전 KST 동일) |
 | 7/30 | Toyota (TM) | 자동차 | Q1 FY2027 (4~6월분) — 확정 (도쿄 오후, KST 동일. TipRanks·MarketBeat·Zacks 일치) |
 | (~7/30) | 포스코퓨처엠 | 배터리 | 2Q26 실적 — 과거 패턴 추정 (Q1: 4/30) |
-| (~7/30) | Ford (F) | 자동차 | AMC→KST (~7/29 ET), Q2 2026 — 미확정 추정 (TipRanks·WSH 7/29 AMC 미확정) |
 | 7/31 | Apple (AAPL) | 빅테크 | AMC→KST (7/30 ET), Q3 FY2026 (TipRanks 확정·WSH 미확정 — 7/30 AMC 유력, 2026-06-25 재확인) |
 | 7/31 | Amazon (AMZN) | 빅테크 | AMC→KST (7/30 ET), Q2 2026 (확정) |
 | 7/31 | Bloom Energy (BE) | 전력 | AMC→KST (7/30 ET), Q2 2026 (확정, TipRanks) |
