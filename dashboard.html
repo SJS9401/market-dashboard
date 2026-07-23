@@ -65,6 +65,9 @@
   .series-toggle button[data-s="10"].active,
   .series-toggle button[data-s="50"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .series-toggle button[data-s="120"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
+  .series-toggle button[data-s="all"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
+  .series-toggle button[data-s="kp"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="kq"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .series-toggle[data-chart="kr-breadth"] button[data-s="20"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
@@ -168,7 +171,14 @@
       <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
+      <div class="card-top">
+        <div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div>
+        <div class="series-toggle" data-chart="adr">
+          <button data-s="all" class="active">통합</button>
+          <button data-s="kp">코스피</button>
+          <button data-s="kq">코스닥</button>
+        </div>
+      </div>
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
@@ -735,7 +745,9 @@ function renderSubsForTooltip(col, time) {
       valHtml = '<span class="' + cls2 + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(4) + '</span>';
     } else if (s.id === 'adr') {
       if (d.value == null) return;
-      valHtml = d.value.toFixed(2);
+      valHtml = '<span style="color:rgb(210,175,100)">' + d.value.toFixed(2) + '</span>'
+              + (d.kp != null ? ' / <span style="color:rgb(57,197,207)">KP ' + d.kp.toFixed(2) + '</span>' : '')
+              + (d.kq != null ? ' / <span style="color:rgb(249,117,131)">KQ ' + d.kq.toFixed(2) + '</span>' : '');
     } else if (s.id === 'kr-export') {
       valHtml = '<span style="color:rgb(210,175,100)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
               + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
@@ -1368,15 +1380,36 @@ async function loadADR(){
   const msgEl=document.getElementById('msg-adr');
   try{
     const all = await fetchAdrSeries();
-    const withAdr = all.filter(r => r.adr != null);
-    const filtered = filterAdrByRange(withAdr, range);
-    let out = filtered.map(r => ({time: r.date, value: r.adr}));
-    if(intv==='1wk') out=resampleWeekly(out);
-    const last=out[out.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
+    const filtered = filterAdrByRange(all.filter(r => r.adr != null), range);
+    const build = key => {
+      let s = filtered.filter(r=>r[key]!=null).map(r=>({time:r.date,value:r[key]}));
+      if(intv==='1wk') s=resampleWeekly(s);
+      return s;
+    };
+    const sAll=build('adr'), sKp=build('adr_kospi'), sKq=build('adr_kosdaq');
+    const last=sAll[sAll.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
     origValues['adr']=()=>{document.getElementById('p-adr').textContent=last?last.value:'—'};
-    if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});allCharts['adr'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('adr','rgb(210,175,100)');}
-    const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
-    addZoneLines(allCharts['adr'].series,[{price:120,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:80,color:'#3182f6'}]);
+    if(!allCharts['adr']){
+      createChart('adr','kr',{showTimeAxis:false});
+      allCharts['adr'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const gold=allCharts['adr'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const cyan=allCharts['adr'].chart.addLineSeries({color:'rgb(57,197,207)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,visible:false});
+      const pink=allCharts['adr'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,visible:false});
+      allCharts['adr'].series=gold;
+      allCharts['adr'].series2=cyan;
+      allCharts['adr'].series3=pink;
+      allCharts['adr'].seriesByKey = { all: gold, kp: cyan, kq: pink };
+      addZoneLines(gold,[{price:120,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:80,color:'#3182f6'}]);
+    }
+    const pAll=alignToTimeIndex(sAll,'kr');
+    allCharts['adr'].series.setData(pAll);
+    if(sKp.length) allCharts['adr'].series2.setData(alignToTimeIndex(sKp,'kr'));
+    if(sKq.length) allCharts['adr'].series3.setData(alignToTimeIndex(sKq,'kr'));
+    // 툴팁 map — 3값 통합
+    const kpMap={};sKp.forEach(p=>{kpMap[p.time]=p.value});
+    const kqMap={};sKq.forEach(p=>{kqMap[p.time]=p.value});
+    const map={};pAll.forEach(p=>{map[p.time]={time:p.time,value:p.value,kp:kpMap[p.time],kq:kqMap[p.time]};});
+    chartDataMap['adr']=map;
     msgEl.style.display='none';
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
