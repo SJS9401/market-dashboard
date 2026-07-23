@@ -171,17 +171,6 @@
       <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
-    <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>한국 수출 YoY</h3><span class="price" id="p-kr-export">—</span><span class="xdate" id="d-kr-export"></span></div>
-        <div class="series-toggle" data-chart="kr-export">
-          <button data-s="m" class="active">월 확정치</button>
-          <button data-s="20" class="active">1-20 잠정치</button>
-          <button data-s="10" class="active">1-10 잠정치</button>
-        </div>
-      </div>
-      <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
-    </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -715,8 +704,7 @@ function renderSubsForTooltip(col, time) {
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: 'rgb(210,175,100)' },
       { id: 'kr-breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
-      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
-      { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
+      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' }
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
@@ -910,7 +898,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr','kr-export'] : ['ndx','us-fgosc','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1872,7 +1860,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
