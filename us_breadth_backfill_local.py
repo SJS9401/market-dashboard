@@ -436,6 +436,19 @@ def _fetch_spx_yfinance(start: str, end: str):
     return s
 
 
+def _expected_last_us_close(now=None):
+    """직전 미국 정규장 close 가 확정된 거래일 (UTC 기준 근사).
+    미국 close = 20:00~21:00 UTC — 22:00 UTC 이후면 당일 close 확정으로 기대.
+    휴장일은 고려 안 함 (그 경우 모든 소스가 같은 날짜라 best-of 로 자연 처리)."""
+    now = now or datetime.utcnow()
+    d = now.date()
+    if now.hour < 22:
+        d -= timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
 def _fetch_spx_multi(start: str, end: str, attempts_log: list):
     """SPX 일봉 다중 소스 폴백.
 
@@ -451,6 +464,7 @@ def _fetch_spx_multi(start: str, end: str, attempts_log: list):
     """
     today = datetime.utcnow().date()
     fred_key = os.environ.get(FRED_API_KEY_ENV, "").strip()
+    best = None  # v2.4 best-of: (last_date, name, spx)
 
     sources = []
     sources.append(("yfinance",   _fetch_spx_yfinance,   0))
@@ -495,7 +509,21 @@ def _fetch_spx_multi(start: str, end: str, attempts_log: list):
 
         attempt["ok"] = True
         attempts_log.append(attempt)
-        _log(f"  ✓ using {name} as SPX source")
+
+        # v2.4 (2026-07-24): 예상 최신 거래일에 도달하면 즉시 채택.
+        # 도달 못하면 (예: yfinance SPX 가 전일 close 아직 미반영) 다음 소스도
+        # 시도해서 가장 최신 last_date 를 가진 소스를 채택 (best-of).
+        expected = _expected_last_us_close()
+        if last_date >= expected:
+            _log(f"  ✓ using {name} as SPX source (fresh: {last_date} >= expected {expected})")
+            return spx, name
+        if best is None or last_date > best[0]:
+            best = (last_date, name, spx)
+        _log(f"  {name} usable but {last_date} < expected {expected} — trying next source for fresher data")
+
+    if best is not None:
+        last_date, name, spx = best
+        _log(f"  ✓ using {name} as SPX source (best available: {last_date}, expected {_expected_last_us_close()} not reached)")
         return spx, name
 
     # 모든 소스 실패
