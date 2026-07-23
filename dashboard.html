@@ -1315,7 +1315,7 @@ async function loadKrFGOsc() {
     const aligned = alignToTimeIndex(out, 'kr');
     allCharts['kr-fgosc'].series.setData(aligned);
     buildDataMap('kr-fgosc', aligned);
-    addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0, color: '#8b949e' }]);
+    addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0.02, color: '#e74c3c' }, { price: -0.02, color: '#3182f6' }]);
     msgEl.style.display = 'none';
   } catch (e) { console.error('KrFGOsc', e); msgEl.textContent = '⚠ 실패'; }
 }
@@ -1637,7 +1637,7 @@ async function loadUSFGOsc() {
     const aligned = alignToTimeIndex(out, 'us');
     allCharts['us-fgosc'].series.setData(aligned);
     buildDataMap('us-fgosc', aligned);
-    addZoneLines(allCharts['us-fgosc'].series, [{ price: 0, color: '#8b949e' }]);
+    addZoneLines(allCharts['us-fgosc'].series, [{ price: 0.02, color: '#e74c3c' }, { price: -0.02, color: '#3182f6' }]);
     msgEl.style.display = 'none';
   } catch (e) { console.error('UsFGOsc', e); msgEl.textContent = '⚠ 실패'; }
 }
