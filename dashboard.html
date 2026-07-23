@@ -152,11 +152,7 @@
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="kr-fg-val">—</span><span class="fg-label" id="kr-fg-lbl"></span><span class="xdate" id="d-kr-fg"></span></div></div>
-      <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>피어앤그리드 오실레이터</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -199,12 +195,12 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
       <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>시장폭 (200MA·50MA 위 비율)</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="left"><h3>Market Breadth (200MA·50MA 위 비율)</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
         <div class="series-toggle" data-chart="breadth">
           <button data-s="200" class="active">200MA</button>
           <button data-s="50" class="active">50MA</button>
@@ -213,7 +209,7 @@
       <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>골드만 시장폭 (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
+      <div class="card-top"><div class="left"><h3>Goldman Market Breadth (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-us"></div>
@@ -705,16 +701,15 @@ function renderSubsForTooltip(col, time) {
   const subs = (col === 'kr')
     ? [
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
-      { id: 'kr-fg',     label: '공포탐욕지수',  color: '#FFD700' },
-      { id: 'kr-fgosc',  label: '피어앤그리드',  color: 'rgb(210,175,100)' },
+      { id: 'kr-fgosc',  label: 'F&G Osc',      color: 'rgb(210,175,100)' },
       { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
       { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
-      { id: 'us-fg',   label: '공포탐욕지수',   color: '#FFD700' },
-      { id: 'breadth', label: '시장폭',         color: 'rgb(210,175,100)' },
-      { id: 'goldman', label: '골드만 시장폭',  color: 'rgb(210,175,100)' }
+      { id: 'us-fg',   label: 'F&G',            color: '#FFD700' },
+      { id: 'breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
+      { id: 'goldman', label: 'Goldman Market Breadth', color: 'rgb(210,175,100)' }
     ];
   let html = '';
   subs.forEach(s => {
@@ -898,7 +893,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','kr-fgosc','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1315,9 +1310,9 @@ async function loadKrFGOsc() {
     if (!allCharts['kr-fgosc']) {
       createChart('kr-fgosc', 'kr', { showTimeAxis: false });
       allCharts['kr-fgosc'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      allCharts['kr-fgosc'].series = allCharts['kr-fgosc'].chart.addHistogramSeries({ color: 'rgb(210,175,100)', priceLineVisible: false, lastValueVisible: true, base: 0 });
+      allCharts['kr-fgosc'].series = allCharts['kr-fgosc'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
     }
-    const aligned = alignToTimeIndex(out, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? 'rgb(210,175,100)' : '#f04452' }));
+    const aligned = alignToTimeIndex(out, 'kr');
     allCharts['kr-fgosc'].series.setData(aligned);
     buildDataMap('kr-fgosc', aligned);
     addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0, color: '#8b949e' }]);
@@ -1786,7 +1781,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadKrFGOsc(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadADR(), loadKrExport()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
