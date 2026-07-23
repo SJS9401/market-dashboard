@@ -31,7 +31,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50   # 2026-07-23: 저녁 시간대 KRX 응답 지연으로 30분 초과 취소 발생 → 50분으로 상향
 
     steps:
       - name: 레포 체크아웃
