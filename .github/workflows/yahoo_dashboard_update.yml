@@ -62,15 +62,21 @@ jobs:
         run: |
           python yahoo_dashboard_backfill.py
 
+      - name: US F&G Oscillator 재계산
+        run: python -u us_fg_oscillator_build.py
+        continue-on-error: true
+
       - name: Commit + push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain data/yahoo_dashboard.json)" ]; then
-            git add data/yahoo_dashboard.json
-            git commit -m "chore(data): yahoo_dashboard.json 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          for f in data/yahoo_dashboard.json data/us_fg_oscillator.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore(data): yahoo_dashboard + us_fg_oscillator 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
             git push
             echo "committed"
-          else
-            echo "no changes"
           fi

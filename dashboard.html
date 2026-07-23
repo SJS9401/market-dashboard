@@ -195,8 +195,8 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>F&amp;G</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
-      <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-us-fgosc">—</span><span class="xdate" id="d-us-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-fgosc"><div class="msg" id="msg-us-fgosc">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top">
@@ -707,7 +707,7 @@ function renderSubsForTooltip(col, time) {
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
-      { id: 'us-fg',   label: 'F&G',            color: '#FFD700' },
+      { id: 'us-fgosc', label: 'F&G Osc',       color: 'rgb(210,175,100)' },
       { id: 'breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
       { id: 'goldman', label: 'Goldman Market Breadth', color: 'rgb(210,175,100)' }
     ];
@@ -728,7 +728,7 @@ function renderSubsForTooltip(col, time) {
       const v = Math.round(d.value);
       const lbl = getLabel(v);
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
-    } else if (s.id === 'kr-fgosc') {
+    } else if (s.id === 'kr-fgosc' || s.id === 'us-fgosc') {
       if (d.value == null) return;
       const cls2 = d.value < 0 ? 'hts-down' : '';
       valHtml = '<span class="' + cls2 + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(4) + '</span>';
@@ -893,7 +893,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','adr','kr-export'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1606,6 +1606,42 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
   return out;
 }
 
+// US F&G Oscillator — 합성 심리지수 MACD 히스토그램 (KR 과 대칭)
+// 데이터: ./data/us_fg_oscillator.json (us_fg_oscillator_build.py, yahoo cron 매일 갱신)
+let _usFgOscCache = null;
+async function fetchUsFgOsc() {
+  if (_usFgOscCache) return _usFgOscCache;
+  const r = await fetch('./data/us_fg_oscillator.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('us_fg_oscillator.json fetch failed: ' + r.status);
+  _usFgOscCache = await r.json();
+  return _usFgOscCache;
+}
+async function loadUSFGOsc() {
+  const intv = colInterval.us;
+  const msgEl = document.getElementById('msg-us-fgosc');
+  try {
+    const D = await fetchUsFgOsc();
+    let out = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
+    if (intv === '1wk') out = resampleWeekly(out);
+    const last = out[out.length - 1];
+    const hdr = document.getElementById('p-us-fgosc');
+    const hdrTxt = last ? (last.value >= 0 ? '+' : '') + last.value.toFixed(4) : '—';
+    const hdrColor = last && last.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
+    if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; }
+    origValues['us-fgosc'] = () => { if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; } };
+    if (!allCharts['us-fgosc']) {
+      createChart('us-fgosc', 'us', { showTimeAxis: false });
+      allCharts['us-fgosc'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      allCharts['us-fgosc'].series = allCharts['us-fgosc'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+    }
+    const aligned = alignToTimeIndex(out, 'us');
+    allCharts['us-fgosc'].series.setData(aligned);
+    buildDataMap('us-fgosc', aligned);
+    addZoneLines(allCharts['us-fgosc'].series, [{ price: 0, color: '#8b949e' }]);
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('UsFGOsc', e); msgEl.textContent = '⚠ 실패'; }
+}
+
 async function loadUSFG() {
   const range = colRange.us, intv = colInterval.us;
   const msgEl = document.getElementById('msg-us-fg');
@@ -1783,7 +1819,7 @@ async function loadColumn(col) {
   if (col === 'kr') {
     await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadADR(), loadKrExport()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
