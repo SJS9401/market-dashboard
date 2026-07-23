@@ -78,6 +78,16 @@ jobs:
         run: python -u kr_putcall_backfill_local.py --backfill 20100104 ${{ steps.dates.outputs.today }}
         continue-on-error: true
 
+      - name: 국채선물지수 갱신 (incremental, 피어앤그리드용)
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u kr_ktb_backfill_local.py --backfill 20150101 ${{ steps.dates.outputs.today }}
+        continue-on-error: true
+
+      - name: 피어앤그리드 오실레이터 재계산
+        run: python -u kr_fg_oscillator_build.py
+        continue-on-error: true
+
       - name: JSON 구조 검증
         run: |
           python - <<'PY'
@@ -109,7 +119,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 존재하는 파일만 stage
-          for f in data/kr_vkospi.json data/kr_putcall.json; do
+          for f in data/kr_vkospi.json data/kr_putcall.json data/kr_ktb_futures.json data/kr_fg_oscillator.json; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then

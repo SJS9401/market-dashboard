@@ -156,6 +156,10 @@
       <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
     </div>
     <div class="card">
+      <div class="card-top"><div class="left"><h3>피어앤그리드 오실레이터</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
+    </div>
+    <div class="card">
       <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
@@ -702,6 +706,7 @@ function renderSubsForTooltip(col, time) {
     ? [
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fg',     label: '공포탐욕지수',  color: '#FFD700' },
+      { id: 'kr-fgosc',  label: '피어앤그리드',  color: 'rgb(210,175,100)' },
       { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
       { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
     ]
@@ -728,6 +733,10 @@ function renderSubsForTooltip(col, time) {
       const v = Math.round(d.value);
       const lbl = getLabel(v);
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
+    } else if (s.id === 'kr-fgosc') {
+      if (d.value == null) return;
+      const cls2 = d.value < 0 ? 'hts-down' : '';
+      valHtml = '<span class="' + cls2 + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(4) + '</span>';
     } else if (s.id === 'adr') {
       if (d.value == null) return;
       valHtml = d.value.toFixed(2);
@@ -889,7 +898,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fg','kr-fgosc','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1279,6 +1288,43 @@ function filterAdrByRange(records, range) {
   const cutoffStr = cutoff.toISOString().slice(0,10);
   return records.filter(r => r.date >= cutoffStr);
 }
+// 피어앤그리드 오실레이터 — 합성 심리지수 MACD 히스토그램
+// 데이터: ./data/kr_fg_oscillator.json (kr_fg_oscillator_build.py, KRX cron 매일 갱신)
+// 절대 심리 수준이 아니라 심리 개선/둔화 "속도" 를 보여줌 (태린이아빠 방법론)
+let _fgOscCache = null;
+async function fetchFgOsc() {
+  if (_fgOscCache) return _fgOscCache;
+  const r = await fetch('./data/kr_fg_oscillator.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_fg_oscillator.json fetch failed: ' + r.status);
+  _fgOscCache = await r.json();
+  return _fgOscCache;
+}
+async function loadKrFGOsc() {
+  const intv = colInterval.kr;
+  const msgEl = document.getElementById('msg-kr-fgosc');
+  try {
+    const D = await fetchFgOsc();
+    let out = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
+    if (intv === '1wk') out = resampleWeekly(out);
+    const last = out[out.length - 1];
+    const hdr = document.getElementById('p-kr-fgosc');
+    const hdrTxt = last ? (last.value >= 0 ? '+' : '') + last.value.toFixed(4) : '—';
+    const hdrColor = last && last.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
+    if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; }
+    origValues['kr-fgosc'] = () => { if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; } };
+    if (!allCharts['kr-fgosc']) {
+      createChart('kr-fgosc', 'kr', { showTimeAxis: false });
+      allCharts['kr-fgosc'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      allCharts['kr-fgosc'].series = allCharts['kr-fgosc'].chart.addHistogramSeries({ color: 'rgb(210,175,100)', priceLineVisible: false, lastValueVisible: true, base: 0 });
+    }
+    const aligned = alignToTimeIndex(out, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? 'rgb(210,175,100)' : '#f04452' }));
+    allCharts['kr-fgosc'].series.setData(aligned);
+    buildDataMap('kr-fgosc', aligned);
+    addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0, color: '#8b949e' }]);
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('KrFGOsc', e); msgEl.textContent = '⚠ 실패'; }
+}
+
 async function loadADR(){
   const range=colRange.kr, intv=colInterval.kr;
   const msgEl=document.getElementById('msg-adr');
@@ -1740,7 +1786,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadKrFGOsc(), loadADR(), loadKrExport()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
@@ -1885,41 +1931,59 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar ──
 (function renderEvents(){
   const events=[
-{d:'07/18',cat:'정책',ev:'GENIUS Act 하위 규정 시행기한',note:'금융·스테이블코인'},
-{d:'07/20',cat:'정책',ev:'미 상원 CLARITY 법안 표결 목표 주간',note:'Polymarket ~43%·recess 실효 데드라인 8/7·트럼프 상원 면담'},
-{d:'07/21',cat:'경제지표',ev:'한국 7월 1~20일 수출입 (KST 09:00)',note:'반도체 수출 판가 모멘텀 체크'},
-{d:'07/21',cat:'실적',ev:'제너럴모터스(GM) Q2 BMO·LS일렉트릭 잠정(~)',note:'자동차·전력'},
-{d:'07/22',cat:'실적',ev:'GE버노바(GEV) Q2 BMO',note:'AI DC 전력 수요 — 한국 전력기기 참조'},
-{d:'07/23',cat:'실적',ev:'알파벳(GOOGL)·테슬라(TSLA) Q2 (7/22 ET AMC)',note:'★ AI CAPEX 1차 검증 — Kimi K3 쇼크 후 가이던스 + 옵티머스 V3'},
-{d:'07/23',cat:'실적',ev:'RTX·록히드마틴(LMT) BMO·현대차 CC·삼성바이오 잠정',note:'방산 수주잔고'},
-{d:'07/24',cat:'경제지표',ev:'일본 6월 전국 CPI (KST 08:30)',note:'BOJ 7/30~31 직전 최종 검증'},
-{d:'07/24',cat:'IPO',ev:'에이치엘지노믹스 신규상장',note:'확정공모가 21,500원'},
-{d:'07/24',cat:'실적',ev:'인텔(INTC)·KLA(KLAC) (7/23 ET AMC)·히타치에너지·현대로템 잠정',note:'CPU·장비 사이클'},
-{d:'07/25',cat:'실적',ev:'LG에너지솔루션 CC(~)·효성중공업(~)',note:'배터리·전력'},
-{d:'07/27',cat:'실적',ev:'한화오션 잠정·한화시스템(~)·LIG넥스원(~)',note:'천궁-II UAE 4.2조 계약 직후'},
-{d:'07/28',cat:'실적',ev:'삼성SDI CC(~)·HD현대일렉트릭 잠정(~)',note:'—'},
-{d:'07/29',cat:'실적',ev:'SK하이닉스 2Q CC·씨게이트(STX)·포드(F)·삼성바이오 확정 CC',note:'컨센 영업익 63~70조·HBM4'},
-{d:'07/29',cat:'시장구조',ev:'SK하이닉스 신주 1,779만주 코스피 추가상장',note:'★ 오버행 실제 반영일'},
-{d:'07/30',cat:'경제지표',ev:'미 FOMC 결정 (KST 03:00)',note:'워시 의장·non-SEP'},
-{d:'07/30',cat:'실적',ev:'삼성전자 확정 CC(10:00)·MSFT·META(7/29 ET AMC)·ARM·도요타·HII',note:'★ KST 초고밀도 — FOMC+빅테크+삼성 트리플'},
-{d:'07/30',cat:'IPO',ev:'인제니아테라퓨틱스 청약 7/30~31',note:'바이오·삼성증권'},
-{d:'07/31',cat:'정책',ev:'BOJ 결정 + Outlook Report (7/30~31)',note:'HOLD 기본·우에다 10월 인상 시그널'},
-{d:'07/31',cat:'실적',ev:'애플(AAPL)·아마존(AMZN)(7/30 ET AMC)·무라타·카메코(CCJ)·에코프로비엠·현대건설 잠정',note:'빅테크 CAPEX 마무리'},
-{d:'07/31',cat:'정책',ev:'정부 세제개편안 발표 (7월말)',note:'배당 분리과세·정책 유동성'},
-{d:'08/03',cat:'경제지표',ev:'한국 7월 월간 수출입 확정 (KST 09:00)',note:'반도체 품목별 세부'},
-{d:'08/04',cat:'IPO',ev:'딜리셔스 청약 8/3~4·케이앤에스아이앤 청약 8/4~5',note:'8월 IPO 러시'},
-{d:'08/05',cat:'경제지표',ev:'코스트코(COST) 7월 매출 (KST 8/6 05:15)',note:'미 소매판매 선행'},
-{d:'08/05',cat:'IPO',ev:'빅웨이브로보틱스 청약 8/5~6',note:'로봇·유진투자증권'},
-{d:'08/11',cat:'경제지표',ev:'한국 8월 1~10일 수출입 (KST 09:00)',note:'8월 초 모멘텀'},
-{d:'08/12',cat:'경제지표',ev:'미 7월 CPI (KST 21:30, 추정)',note:'유가 기저효과 소멸 1차 검증'},
-{d:'08/12',cat:'IPO',ev:'니어스랩·해치텍 청약 8/12~13',note:'일정 변경 반영(7/15·7/17)'},
-{d:'08/13',cat:'경제지표',ev:'미 7월 PPI (KST 21:30, 추정)',note:'CPI 선행'},
-{d:'08/13',cat:'IPO',ev:'스카이랩스 청약 8/13~14·기도산업 청약 8/11~12',note:'—'},
-{d:'08/14',cat:'경제지표',ev:'미 7월 소매판매 (KST 21:30)',note:'소비·물가 트리플 체크'},
-{d:'08/17',cat:'지정학',ev:'이란 60일 핵협상 시한 만료 (KST 8/18)',note:'공습 재개로 좌초 위기 — 결렬 시 봉쇄 재개'},
-{d:'08/18',cat:'정책',ev:'네이버·두나무 합병 주주총회',note:'공정위 승인 선행 필수'},
-{d:'08/21',cat:'경제지표',ev:'한국 8월 1~20일 수출입 (KST 09:00)',note:'8월 중순 모멘텀'}
-];
+    {d:"04/28",cat:"산업",ev:"테슬라 사이버캡 양산 램프업 + 로보택시 서비스 확장",note:"자율주행 — 2/17 첫 양산차 출고 → 4/22~23 Q1 어닝콜서 기가텍사스 양산 공식 개시 → 4/24 머스크 X \"Cybercab production has started\" 재공지…"},
+    {d:"06/15",cat:"산업",ev:"UAE 방산투자 후속 수주 확정 발표",note:"한국 방산 수주 연계 — 2/26 한-UAE $65B(방산 $35B) 협정 체결 완료. 5월 내 미발표…"},
+    {d:"06/15",cat:"산업",ev:"한미약품 MASH 임상 2b상 1차 평가변수 도출",note:"바이오 — 기존 3월중→5/11~6/27 이연"},
+    {d:"06/28",cat:"정책",ev:"공정위 네이버·두나무 합병 승인",note:"금융·시장구조 — 6/17 공정위, 증권사 18개사에 의견 수렴 개시 (6월말 제출 목표). 쟁점: 증권플러스비상장+업비트 독과점·데이터 결합 효과·스테이블코인 경쟁 제한 여부…"},
+    {d:"06/30",cat:"정책",ev:"원화 스테이블코인 입법 본격화",note:"정책 유동성"},
+    {d:"07/05",cat:"정책",ev:"국민연금 국내주식 리밸런싱 재개 (유예 6월말 종료)",note:"수급 — 날짜 정정 2026-06-28 (BT 확인): 특정일(7/15) 아님 — 유예가 6월 말 종료되어 7월부터 리밸런싱 재개되는 과정…"},
+    {d:"07/07",cat:"지정학",ev:"나토 정상회의 (~7/8, 튀르키에)",note:"지정학"},
+    {d:"07/07",cat:"실적",ev:"삼성전자 2분기 잠정실적 (추정)",note:"반도체 T1 — Blind 7/7 발표 예정 포스팅(IR 공식 미공시). 메모리·파운드리 OPM, HBM. 빅2 어닝 시즌 출발"},
+    {d:"07/07",cat:"시장구조",ev:"스페이스X 나스닥100 지수 편입 (장전 effective)",note:"우주 — 지수 추종 펀드 7/6 장 마감부터 매수 개시, 초기 비중 1% 미만. 패시브 수요 ~$4.3B(나스닥100)+러셀 $3B…"},
+    {d:"07/10",cat:"IPO",ev:"SK하이닉스 미국 ADR 상장 (나스닥 티커 SKHY)",note:"반도체 T1 — 2026-06-24 공식 PR 잠정 일정 (SK하이닉스 PR팀, 한/미 당국 승인·시황 따라 변동 가능): ▸7/6 증권신고서 효력발생 + 투자설명서 제출 + ADR 수요예측 개시…"},
+    {d:"07/15",cat:"정책",ev:"미국 클래리티법안 상원 본회의·하원 재승인·서명 일정",note:"법안심의 — 5/14 상원 은행위 마크업 15-9 통과 완료 (Gallego·Alsobrooks 민주당 2명 찬성). 6/1 상원 입법 캘린더 General Orders 등재 완료…"},
+    {d:"07/15",cat:"정책",ev:"대미투자 1호 프로젝트 공식 발표 (산업부-미 상무부)",note:"한미통상 — 6/18 한미전략투자공사 출범 완료 (서울신문 2026-06-18). 1호 프로젝트 구체적 내용·발표 시기 \"정해진 바 없음\" (산업부 공식 설명자료 2026-06-21)…"},
+    {d:"07/15",cat:"정책",ev:"정부·여당 2026 세제개편안(세법개정안) 발표",note:"정책 유동성(핵심 리스크 ④) — 기재부 통상 7월말 발표. 핵심: 배당소득 분리과세(밸류업·14~30% 차등)·금투세 폐지 후속(증권거래세 일부 환원)·법인세율 1%p 환원…"},
+    {d:"07/18",cat:"정책",ev:"GENIUS Act 하위 규정 시행기한",note:"금융·스테이블코인"},
+    {d:"07/22",cat:"실적",ev:"GE버노바(GEV) Q2 BMO (전력 인프라 T2 — 765kV·HVDC·AI DC)",note:"7/22 발표 완료: 매출 $11.1B +22% (비트) / GAAP EPS $2.47 (컨센 ~$3.2 미스…"},
+    {d:"07/23",cat:"실적",ev:"빅테크 실적 — 알파벳(GOOGL)·테슬라(TSLA) (7/22 ET AMC, KST 7/23 새벽)",note:"AI CAPEX 1차 검증 (핵심리스크 ①) — Cloud 성장·CapEx 가이던스 + 테슬라 Auto GPM·옵티머스·로보택시…"},
+    {d:"07/23",cat:"실적",ev:"빅테크 CAPEX 1차 검증 — 알파벳(GOOGL)·테슬라(TSLA) AMC (KST, 7/22 ET)",note:"핵심리스크 ① — 7/22 ET 발표 완료: GOOGL Q2: 매출 $119.8B +24% YoY / Cloud $24.8B +82% / CAPEX $44.9B / FY26 가이던스…"},
+    {d:"07/24",cat:"IPO",ev:"에이치엘지노믹스 신규상장 (청약 7/13~14)",note:"상장일 7/24 확정 (38커뮤니케이션 2026-07-01). 원료의약품(API) 기업. 확정공모가 21,500원 (2026-07-10 확정, 희망가 상단). 공모 256.5만주"},
+    {d:"07/28",cat:"정책",ev:"미 FOMC 통화정책회의 (결정 KST 7/30 03:00)",note:"Tier 1 금리 — 워시 의장. ⚠ 이미지 \"7/30\"은 KST 발표일 기준 정확 (미 회의 7/28~29, 결정 7/29 14:00 ET = KST 7/30 새벽)…"},
+    {d:"07/29",cat:"실적",ev:"SK하이닉스 2분기 확정실적 콘퍼런스콜",note:"반도체 T1 — 2Q 영업익 역대 최대(60~70조 전망). ADR 나스닥 상장(7/10)·신주 오버행과 동시 진행. 7/29 확정 (실적_캘린더 2026-06-27 기준)"},
+    {d:"07/29",cat:"실적",ev:"삼성전기 2분기 실적발표",note:"MLCC·기판 — 무라타와 MLCC 업황 cross-check. ⚠ 구체일 미확정(삼성그룹 통상 7월말) [Cross-check: KIND·삼성전기 IR]"},
+    {d:"07/30",cat:"실적",ev:"빅테크 실적 — 마이크로소프트(MSFT)·메타(META) (7/29 ET AMC, KST 7/30 새벽)",note:"AI CAPEX — Azure·CapEx 가이던스 + 메타 AI광고 ARR. MSFT 공식 IR 정정 2026-07-12 (기존 7/29 KST)…"},
+    {d:"07/30",cat:"산업",ev:"테슬라 옵티머스 V3 양산·공개 (~8월초)",note:"로봇 7월말~8월초"},
+    {d:"07/30",cat:"실적",ev:"삼성전자 2Q26 확정실적 콘퍼런스콜 (KST 10:00)",note:"반도체 T1 — 잠정실적 7/7 매출 171조·영업이익 89.4조 역대 최고(컨센 85.5조 대폭 비트). 핵심: HBM4 양산 로드맵·파운드리 GAA 수율·3Q 가이던스…"},
+    {d:"07/30",cat:"정책",ev:"BOJ 통화정책회의 + Outlook Report",note:"Tier 1 금리 — 6/16 BOJ 25bp 인상 확정 (0.75%→1.00%, 7-1 표결, 1995년 이후 최고)…"},
+    {d:"07/30",cat:"IPO",ev:"인제니아테라퓨틱스 신규상장",note:"38커뮤니케이션 — 청약 7/23~24 → 7/30~31 일정 변경 (2026-07-15). 바이오 기업. 희망공모가 12,000~14,500원. 삼성증권"},
+    {d:"07/31",cat:"실적",ev:"빅테크 실적 — 애플(AAPL)·아마존(AMZN) (AMC, KST 7/31)",note:"AWS CapEx·메모리 원가 가격전가·서비스"},
+    {d:"07/31",cat:"실적",ev:"무라타(6981) FY2027 Q1 실적발표 (14:00 JST)",note:"MLCC·전자부품 — 확정. 삼성전기·반도체 부품 수요 cross-read [Cross-check: TipRanks/Murata IR 2026-06]"},
+    {d:"08/03",cat:"경제지표",ev:"한국 7월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개. ⚠ 8/1(토) 주말 → 8/3(월) 이연"},
+    {d:"08/03",cat:"IPO",ev:"딜리셔스 신규상장",note:"38커뮤니케이션 확인 (2026-06-29)"},
+    {d:"08/04",cat:"IPO",ev:"케이앤에스아이앤 신규상장",note:"38커뮤니케이션 — 청약 7/27~28 → 8/4~5 일정 변경 확인 (2026-07-13). 상장일 8/14 확정 (38커뮤니케이션 신규상장 일정 직접 확인 2026-07-23)"},
+    {d:"08/05",cat:"경제지표",ev:"코스트코(COST) 7월 월간 매출 (IR, PT 13:15 = KST 8/6 05:15)",note:"미 소매판매 선행 지표 — 8/14 Census Bureau 발표 9일 전 선행. 소비자 심리·구매력 첫 신호. 발표일 확정 (Costco IR 이벤트 캘린더 직접 확인 2026-07-13)…"},
+    {d:"08/05",cat:"IPO",ev:"빅웨이브로보틱스 신규상장 (청약 재확정)",note:"38커뮤니케이션 — 청약 8/5~6 재확정 (2026-07-02). 기존 청약 6/19~22 → FSC 2차 정정 요구(2026-06-16)로 중단 → 8/5~6 재조정 확정…"},
+    {d:"08/11",cat:"경제지표",ev:"한국 8월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 초 모멘텀 조기 시그널"},
+    {d:"08/11",cat:"IPO",ev:"기도산업 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 24,800~28,400원. 미래에셋증권·삼성증권"},
+    {d:"08/12",cat:"경제지표",ev:"미 7월 CPI (BLS, ET 08:30 = KST 21:30)",note:"인플레 T1 — Yuanta 3Q framework 2차 검증. 유가 기저효과 소멸(7월부터) + PPI→CPI 전가 시차 3개월 반영 여부 확인. 명목+실질 금리 동반 방향 주시"},
+    {d:"08/12",cat:"IPO",ev:"니어스랩 신규상장",note:"38커뮤니케이션 — 청약 8/5~6 → 8/12~13 일정 변경 (2026-07-15). 드론 기업. 희망공모가 30,000~41,200원. 삼성증권"},
+    {d:"08/12",cat:"IPO",ev:"해치텍 신규상장",note:"38커뮤니케이션 확인 (2026-07-03). 희망공모가 23,000~28,000원. DB증권. 청약 8/6~7 → 8/12~13 일정 변경 (2026-07-17)"},
+    {d:"08/13",cat:"경제지표",ev:"미 7월 PPI (BLS, ET 08:30 = KST 21:30)",note:"인플레 T1 — CPI 선행. PPI→CPI 전가 시차 3개월 기준"},
+    {d:"08/13",cat:"IPO",ev:"스카이랩스 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 13,000~16,000원. 한국투자증권"},
+    {d:"08/14",cat:"경제지표",ev:"미 7월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 7월 선행 / 8/5 발표: [결과 확인 후 기입]) 소비 경기 바로미터. 미 7월 CPI(8/12)·PPI(8/13)와 동시기 — 소비·물가 트리플 체크…"},
+    {d:"08/17",cat:"지정학",ev:"이란 60일 핵협상 시한 만료",note:"이란·지정학 — 5/18 협상 개시 기준 60일 시한. 합의 실패 시 유가 급등·호르무즈 리스크 재점화 경로"},
+    {d:"08/18",cat:"정책",ev:"네이버·두나무 합병 주주총회 (주식교환 결의)",note:"핀테크·네이버 — 8/18 주총 전 공정위 기업결합 승인 필수. 카카오 지분 희석·국내 거래소 재편"},
+    {d:"08/21",cat:"경제지표",ev:"한국 8월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 중순 모멘텀"},
+    {d:"08/25",cat:"IPO",ev:"브릴스 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 16,500~19,500원. IBK투자증권"},
+    {d:"08/27",cat:"실적",ev:"엔비디아(NVDA) Q2 FY27 실적 (AMC, KST 8/27)",note:"AI칩 수요 핵심 — Data Center·Vera Rubin·가이던스 (핵심리스크 ①)"},
+    {d:"09/01",cat:"경제지표",ev:"한국 8월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개"},
+    {d:"09/02",cat:"경제지표",ev:"코스트코(COST) 8월 월간 매출 (IR, PT 13:15 = KST 9/3 05:15)",note:"미 소매판매 선행 지표 — 9/16 Census Bureau 발표 14일 전 선행."},
+    {d:"09/11",cat:"경제지표",ev:"한국 9월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 9월 초 모멘텀 조기 시그널. 반도체·자동차 품목별 데이터"},
+    {d:"09/16",cat:"경제지표",ev:"미 8월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 8월 선행 / 9/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터."},
+    {d:"09/21",cat:"경제지표",ev:"한국 9월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 월간 잠정치(10/1 예정) 직전 가장 정확한 선행 지표. 반도체·자동차 품목별 데이터. ⚠ 추석 (9/24~25) 직전 3영업일"},
+    {d:"11/03",cat:"정책",ev:"미국 중간선거",note:"트럼프 레임덕"},
+  ];
   const today=new Date();today.setHours(0,0,0,0);
   const limit=new Date(today);limit.setDate(limit.getDate()+30);
   const year=today.getFullYear();
