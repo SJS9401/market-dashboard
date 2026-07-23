@@ -66,17 +66,21 @@ jobs:
         run: python -u us_fg_oscillator_build.py
         continue-on-error: true
 
+      - name: KR F&G Oscillator 재계산 (^KS11 아침 유입분 반영 — 전일 값 완성)
+        run: python -u kr_fg_oscillator_build.py
+        continue-on-error: true
+
       - name: Commit + push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in data/yahoo_dashboard.json data/us_fg_oscillator.json; do
+          for f in data/yahoo_dashboard.json data/us_fg_oscillator.json data/kr_fg_oscillator.json; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "chore(data): yahoo_dashboard + us_fg_oscillator 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
-            git push
+            git commit -m "chore(data): yahoo_dashboard + fg_oscillator 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push || (git pull --rebase --autostash && git push)
             echo "committed"
           fi

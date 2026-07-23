@@ -128,6 +128,7 @@ jobs:
           else
             TS=$(date -u '+%Y-%m-%d %H:%M UTC')
             git commit -m "chore(data): us_breadth + health 자동 갱신 (${TS})"
-            git push
+            # push 경쟁 (동시간대 yahoo cron) 대비 rebase retry (2026-07-24)
+            git push || (git pull --rebase --autostash && git push)
             echo "::notice::us_breadth.json + health.json 갱신 & 푸시 완료"
           fi
