@@ -59,6 +59,8 @@ KOSPI_EP  = "/svc/apis/sto/stk_bydd_trd"
 KOSDAQ_EP = "/svc/apis/sto/ksq_bydd_trd"
 WINDOW_ADR = 20
 WINDOW_52W = 252
+WINDOW_MA_LONG = 120   # KR Market Breadth 장기선
+WINDOW_MA_SHORT = 20   # KR Market Breadth 단기선
 
 
 # ---------------- HTTP ----------------
@@ -226,6 +228,17 @@ def compute_breadth(daily):
     nh_pct = (nh_mask.sum(axis=1) / valid.replace(0, float("nan")) * 100).round(2)
     nl_pct = (nl_mask.sum(axis=1) / valid.replace(0, float("nan")) * 100).round(2)
 
+    # KR Market Breadth: % above 120MA / 20MA (2026-07-23 추가)
+    ma_long = close_df.rolling(WINDOW_MA_LONG, min_periods=WINDOW_MA_LONG).mean()
+    ma_short = close_df.rolling(WINDOW_MA_SHORT, min_periods=WINDOW_MA_SHORT).mean()
+    valid_long = (ma_long.notna() & close_df.notna()).sum(axis=1)
+    valid_short = (ma_short.notna() & close_df.notna()).sum(axis=1)
+    above_long = ((close_df > ma_long).sum(axis=1) / valid_long.replace(0, float("nan")) * 100).round(2)
+    above_short = ((close_df > ma_short).sum(axis=1) / valid_short.replace(0, float("nan")) * 100).round(2)
+    # MA 유효 종목이 전체의 30% 미만이면 신뢰 불가 → None
+    above_long = above_long.where(valid_long >= valid * 0.3)
+    above_short = above_short.where(valid_short >= valid * 0.3)
+
     import math
     def _safe(v):
         if v is None: return None
@@ -247,6 +260,8 @@ def compute_breadth(daily):
             "adr":    _safe(adr_s.iloc[i]),
             "nh_pct": _safe(nh_pct.iloc[i]),
             "nl_pct": _safe(nl_pct.iloc[i]),
+            "above_120ma": _safe(above_long.iloc[i]),
+            "above_20ma":  _safe(above_short.iloc[i]),
         })
     return out
 
@@ -255,7 +270,7 @@ def save(records):
     obj = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "source": "KRX OpenAPI - 종목별 일별매매정보 (KOSPI + KOSDAQ)",
-        "windows": {"adr": WINDOW_ADR, "nh_nl": WINDOW_52W},
+        "windows": {"adr": WINDOW_ADR, "nh_nl": WINDOW_52W, "ma_long": WINDOW_MA_LONG, "ma_short": WINDOW_MA_SHORT},
         "n_rows": len(records),
         "data": records,
     }
@@ -335,7 +350,8 @@ def cmd_update():
             # 기존 일자 — NH/NL이 None이었으면 새로 계산된 값으로 업데이트
             old = existing[r["date"]]
             if (old.get("nh_pct") is None and r.get("nh_pct") is not None) or \
-               (old.get("adr") is None and r.get("adr") is not None):
+               (old.get("adr") is None and r.get("adr") is not None) or \
+               (old.get("above_120ma") is None and r.get("above_120ma") is not None):
                 existing[r["date"]] = r
                 added += 1
     merged_sorted = sorted(existing.values(), key=lambda x: x["date"])
