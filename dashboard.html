@@ -64,6 +64,8 @@
   .series-toggle button[data-s="20"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
   .series-toggle button[data-s="10"].active,
   .series-toggle button[data-s="50"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
+  .series-toggle button[data-s="120"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
+  .series-toggle[data-chart="kr-breadth"] button[data-s="20"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
@@ -154,6 +156,16 @@
     <div class="card">
       <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-kr-breadth">—</span><span class="xdate" id="d-kr-breadth"></span></div>
+        <div class="series-toggle" data-chart="kr-breadth">
+          <button data-s="120" class="active">120MA</button>
+          <button data-s="20" class="active">20MA</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
@@ -702,6 +714,7 @@ function renderSubsForTooltip(col, time) {
     ? [
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: 'rgb(210,175,100)' },
+      { id: 'kr-breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
       { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
       { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
     ]
@@ -739,6 +752,10 @@ function renderSubsForTooltip(col, time) {
       valHtml = '<span style="color:rgb(210,175,100)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
               + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
               + '<span style="color:rgb(249,117,131)">1-10잠 ' + fmtPctSigned(d.y10) + '</span>';
+    } else if (s.id === 'kr-breadth') {
+      if (d.above120 == null && d.above20 == null) return;
+      valHtml = '<span style="color:rgb(210,175,100)">120MA ' + (d.above120 != null ? d.above120.toFixed(1) + '%' : '-') + '</span> / '
+              + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
@@ -893,7 +910,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','adr','kr-export'] : ['ndx','us-fgosc','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr','kr-export'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1318,6 +1335,44 @@ async function loadKrFGOsc() {
     addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0.02, color: '#e74c3c' }, { price: -0.02, color: '#3182f6' }]);
     msgEl.style.display = 'none';
   } catch (e) { console.error('KrFGOsc', e); msgEl.textContent = '⚠ 실패'; }
+}
+
+// KR Market Breadth: 120MA·20MA 위 비율 (kr_breadth.json above_120ma/above_20ma)
+async function loadKrBreadth(){
+  const range=colRange.kr, intv=colInterval.kr;
+  const msgEl=document.getElementById('msg-kr-breadth');
+  try{
+    const all = await fetchKrBreadthSeries();
+    const filtered = filterAdrByRange(all, range);
+    let s120 = filtered.filter(r=>r.above_120ma!=null).map(r=>({time:r.date,value:r.above_120ma}));
+    let s20  = filtered.filter(r=>r.above_20ma!=null).map(r=>({time:r.date,value:r.above_20ma}));
+    if(intv==='1wk'){s120=resampleWeekly(s120);s20=resampleWeekly(s20);}
+    if(!s120.length && !s20.length){msgEl.textContent='데이터 대기 중 (다음 KRX 갱신 후 표시)';return;}
+    const last120=s120[s120.length-1],last20=s20[s20.length-1];
+    const hdr=document.getElementById('p-kr-breadth');
+    const hdrHtml=(last120&&last20)?`<span style="color:rgb(210,175,100)">120MA ${last120.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">20MA ${last20.value.toFixed(1)}%</span>`:'—';
+    if(hdr)hdr.innerHTML=hdrHtml;
+    origValues['kr-breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
+    if(!allCharts['kr-breadth']){
+      createChart('kr-breadth','kr',{showTimeAxis:false});
+      allCharts['kr-breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const gold=allCharts['kr-breadth'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const pink=allCharts['kr-breadth'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts['kr-breadth'].series=gold;
+      allCharts['kr-breadth'].series2=pink;
+      allCharts['kr-breadth'].seriesByKey = { '120': gold, '20': pink };
+      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
+    }
+    const p120=alignToTimeIndex(s120,'kr');
+    const p20 =alignToTimeIndex(s20, 'kr');
+    allCharts['kr-breadth'].series.setData(p120);
+    allCharts['kr-breadth'].series2.setData(p20);
+    const map={};
+    const n=Math.min(p120.length,p20.length);
+    for(let i=0;i<n;i++){const t=p120[i].time;map[t]={time:t,above120:p120[i].value,above20:p20[i].value};}
+    chartDataMap['kr-breadth']=map;
+    msgEl.style.display='none';
+  }catch(e){console.error('loadKrBreadth',e);msgEl.textContent='⚠ 실패';}
 }
 
 async function loadADR(){
@@ -1817,7 +1872,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR(), loadKrExport()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }

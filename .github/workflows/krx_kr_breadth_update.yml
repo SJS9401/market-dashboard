@@ -74,7 +74,7 @@ jobs:
           last = data[-1]
           n = len(data)
           print(f"rows: {n}  last: {last['date']}")
-          for k in ('adv','dec','unc','adr','nh_pct','nl_pct','n_traded'):
+          for k in ('adv','dec','unc','adr','nh_pct','nl_pct','n_traded','above_120ma','above_20ma'):
               v = last.get(k)
               print(f"  {k}: {v}")
           PY
