@@ -127,6 +127,6 @@ jobs:
           else
             TS=$(date -u '+%Y-%m-%d %H:%M UTC')
             git commit -m "chore(data): KRX KR 지표 자동 갱신 (${TS})"
-            git push
+            git push || (git pull --rebase --autostash && git push)
             echo "::notice::KRX KR 지표 갱신 & 푸시 완료"
           fi
