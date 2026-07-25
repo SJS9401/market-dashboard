@@ -741,8 +741,9 @@ function renderSubsForTooltip(col, time) {
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
     } else if (s.id === 'kr-fgosc' || s.id === 'us-fgosc') {
       if (d.value == null) return;
-      const cls2 = d.value < 0 ? 'hts-down' : '';
-      valHtml = '<span class="' + cls2 + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(4) + '</span>';
+      valHtml = '<span style="color:#58a6ff">' + d.value.toFixed(1) + '</span>'
+              + (d.ema != null ? ' / <span style="color:#e2a44e">E ' + d.ema.toFixed(1) + '</span>' : '')
+              + (d.osc != null ? ' / <span style="color:' + (d.osc >= 0 ? 'rgb(210,175,100)' : '#f04452') + '">' + (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) + '</span>' : '');
     } else if (s.id === 'adr') {
       if (d.value == null) return;
       valHtml = '<span style="color:rgb(210,175,100)">' + d.value.toFixed(2) + '</span>'
@@ -1311,31 +1312,65 @@ async function fetchFgOsc() {
   _fgOscCache = await r.json();
   return _fgOscCache;
 }
-async function loadKrFGOsc() {
-  const intv = colInterval.kr;
-  const msgEl = document.getElementById('msg-kr-fgosc');
-  try {
-    const D = await fetchFgOsc();
-    let out = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
-    if (intv === '1wk') out = resampleWeekly(out);
-    const last = out[out.length - 1];
-    const hdr = document.getElementById('p-kr-fgosc');
-    const hdrTxt = last ? (last.value >= 0 ? '+' : '') + last.value.toFixed(4) : '—';
-    const hdrColor = last && last.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
-    if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; }
-    origValues['kr-fgosc'] = () => { if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; } };
-    if (!allCharts['kr-fgosc']) {
-      createChart('kr-fgosc', 'kr', { showTimeAxis: false });
-      allCharts['kr-fgosc'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      allCharts['kr-fgosc'].series = allCharts['kr-fgosc'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-    }
-    const aligned = alignToTimeIndex(out, 'kr');
-    allCharts['kr-fgosc'].series.setData(aligned);
-    buildDataMap('kr-fgosc', aligned);
-    addZoneLines(allCharts['kr-fgosc'].series, [{ price: 0.02, color: '#e74c3c' }, { price: -0.02, color: '#3182f6' }]);
-    msgEl.style.display = 'none';
-  } catch (e) { console.error('KrFGOsc', e); msgEl.textContent = '⚠ 실패'; }
+// F&G 시계열 EMA (span 기간)
+function fgEma20(points, span) {
+  const k = 2 / (span + 1);
+  let prev = null;
+  return points.map(p => {
+    prev = prev === null ? p.value : p.value * k + prev * (1 - k);
+    return { time: p.time, value: prev };
+  });
 }
+
+// F&G combo 로더 공통 (KR/US) — Index(좌축)+EMA20(좌축)+Oscillator(우축)
+async function loadFGCombo(id, col, fetchFn) {
+  const intv = colInterval[col];
+  const msgEl = document.getElementById('msg-' + id);
+  try {
+    const D = await fetchFn();
+    let sOsc = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
+    let sFg  = (D.data || []).map(([d, v]) => ({ time: d, value: Math.round(v.fg * 1000) / 10 }));
+    if (intv === '1wk') { sOsc = resampleWeekly(sOsc); sFg = resampleWeekly(sFg); }
+    const sEma = fgEma20(sFg, 20);
+    const lastOsc = sOsc[sOsc.length - 1], lastFg = sFg[sFg.length - 1], lastEma = sEma[sEma.length - 1];
+    const hdr = document.getElementById('p-' + id);
+    const oscTxt = lastOsc ? (lastOsc.value >= 0 ? '+' : '') + lastOsc.value.toFixed(4) : '—';
+    const oscColor = lastOsc && lastOsc.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
+    const hdrHtml = lastFg
+      ? `<span style="color:#58a6ff">F&G ${lastFg.value.toFixed(1)}</span> / <span style="color:#e2a44e">EMA20 ${lastEma.value.toFixed(1)}</span> / <span style="color:${oscColor}">Osc ${oscTxt}</span>`
+      : '—';
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+    if (!allCharts[id]) {
+      createChart(id, col, { showTimeAxis: false });
+      const ch = allCharts[id].chart;
+      ch.applyOptions({ leftPriceScale: { visible: true, borderColor: '#21262d' } });
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      ch.priceScale('left').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const blue = ch.addLineSeries({ priceScaleId: 'left', color: '#58a6ff', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const orange = ch.addLineSeries({ priceScaleId: 'left', color: '#e2a44e', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
+      const gold = ch.addLineSeries({ priceScaleId: 'right', color: 'rgb(210,175,100)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts[id].series = blue;
+      allCharts[id].series2 = orange;
+      allCharts[id].series3 = gold;
+      addZoneLines(blue, [{ price: 75, color: '#27ae60' }, { price: 25, color: '#e74c3c' }]);
+      addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
+    }
+    const pFg = alignToTimeIndex(sFg, col);
+    const pEma = alignToTimeIndex(sEma, col);
+    const pOsc = alignToTimeIndex(sOsc, col);
+    allCharts[id].series.setData(pFg);
+    allCharts[id].series2.setData(pEma);
+    allCharts[id].series3.setData(pOsc);
+    const emaMap = {}; pEma.forEach(p => { emaMap[p.time] = p.value; });
+    const oscMap = {}; pOsc.forEach(p => { oscMap[p.time] = p.value; });
+    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, ema: emaMap[p.time], osc: oscMap[p.time] }; });
+    chartDataMap[id] = map;
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('FGCombo ' + id, e); msgEl.textContent = '⚠ 실패'; }
+}
+
+async function loadKrFGOsc() { return loadFGCombo('kr-fgosc', 'kr', fetchFgOsc); }
 
 // KR Market Breadth: 120MA·20MA 위 비율 (kr_breadth.json above_120ma/above_20ma)
 async function loadKrBreadth(){
@@ -1692,31 +1727,7 @@ async function fetchUsFgOsc() {
   _usFgOscCache = await r.json();
   return _usFgOscCache;
 }
-async function loadUSFGOsc() {
-  const intv = colInterval.us;
-  const msgEl = document.getElementById('msg-us-fgosc');
-  try {
-    const D = await fetchUsFgOsc();
-    let out = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
-    if (intv === '1wk') out = resampleWeekly(out);
-    const last = out[out.length - 1];
-    const hdr = document.getElementById('p-us-fgosc');
-    const hdrTxt = last ? (last.value >= 0 ? '+' : '') + last.value.toFixed(4) : '—';
-    const hdrColor = last && last.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
-    if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; }
-    origValues['us-fgosc'] = () => { if (hdr) { hdr.textContent = hdrTxt; hdr.style.color = hdrColor; } };
-    if (!allCharts['us-fgosc']) {
-      createChart('us-fgosc', 'us', { showTimeAxis: false });
-      allCharts['us-fgosc'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      allCharts['us-fgosc'].series = allCharts['us-fgosc'].chart.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-    }
-    const aligned = alignToTimeIndex(out, 'us');
-    allCharts['us-fgosc'].series.setData(aligned);
-    buildDataMap('us-fgosc', aligned);
-    addZoneLines(allCharts['us-fgosc'].series, [{ price: 0.02, color: '#e74c3c' }, { price: -0.02, color: '#3182f6' }]);
-    msgEl.style.display = 'none';
-  } catch (e) { console.error('UsFGOsc', e); msgEl.textContent = '⚠ 실패'; }
-}
+async function loadUSFGOsc() { return loadFGCombo('us-fgosc', 'us', fetchUsFgOsc); }
 
 async function loadUSFG() {
   const range = colRange.us, intv = colInterval.us;

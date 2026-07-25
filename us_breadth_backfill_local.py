@@ -253,6 +253,29 @@ def compute_breadth(close_df, spx_close) -> dict:
         """NaN → None, 숫자는 round"""
         return [None if pd.isna(v) else round(float(v), 3) for v in s]
 
+    # v2.6 (2026-07-25): tail 날짜에 구성종목 커버리지가 부족하면 그 날짜 drop.
+    # yfinance 가 SPX 지수는 최신인데 개별 종목 대량 다운로드가 아직 그 날짜를
+    # 안 준 경우, 극소수 종목만으로 breadth 가 계산돼 100%/0% 같은 왜곡 발생
+    # (실사고: 2026-07-24 a200=100/a50=0/nh=nl=0). 커버리지 50% 미만 tail 은 제외.
+    MIN_COVERAGE_RATIO = 0.5
+    max_valid = float(valid_count.max()) if len(valid_count) else 0.0
+    n_drop = 0
+    while len(idx) > 1 and max_valid > 0 and \
+            float(valid_count.iloc[len(idx) - 1 - n_drop]) < max_valid * MIN_COVERAGE_RATIO:
+        n_drop += 1
+    if n_drop:
+        _log(f"  tail coverage drop: 마지막 {n_drop}일 제외 "
+             f"(valid {int(valid_count.iloc[len(idx)-1])}/{int(max_valid)} < {int(MIN_COVERAGE_RATIO*100)}%)")
+        keep = len(idx) - n_drop
+        idx = idx[:keep]
+        spx_close = spx_close.iloc[:keep]
+        spx_mdd = spx_mdd.iloc[:keep]
+        above_200 = above_200.iloc[:keep]
+        above_50 = above_50.iloc[:keep]
+        goldman = goldman.iloc[:keep]
+        nh_pct = nh_pct.iloc[:keep]
+        nl_pct = nl_pct.iloc[:keep]
+
     return {
         "dates": [d.strftime("%Y-%m-%d") for d in idx],
         "spx": clean(spx_close),
@@ -650,7 +673,13 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
     prev = _load_json(OUT_PATH)
     if prev and prev.get("dates") and new_last:
         prev_last = prev["dates"][-1]
-        if new_last < prev_last:
+        # v2.6b: 기존 마지막 row 가 오염 (spx null — 부분 커버리지로 저장된 잘못된 날)
+        # 이면 그 날을 새 결과가 drop 한 것이므로 1일 회귀 허용 (자동 복구 경로)
+        prev_spx = prev.get("spx") or []
+        prev_tail_corrupt = bool(prev_spx) and prev_spx[-1] is None
+        if prev_tail_corrupt and new_last < prev_last:
+            _log(f"  prev tail corrupt (spx null @ {prev_last}) — regression allowed (corrupt tail auto-heal)")
+        elif new_last < prev_last:
             _log(f"::error::regression detected: new last_date={new_last} < prev last_date={prev_last}. "
                  f"Refusing to overwrite. (max_tickers={max_tickers})")
             _write_health_json(
