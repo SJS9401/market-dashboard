@@ -436,6 +436,34 @@ def _fetch_spx_yfinance(start: str, end: str):
     return s
 
 
+def _fetch_spx_spy(start: str, end: str):
+    """SPY ETF ×10 — SPX 근사 (v2.5, 2026-07-24).
+
+    ^GSPC 지수는 close 후 수 시간 지연되는 날이 있지만 SPY ETF 는
+    개별 주식과 같은 피드라 close 직후 나옴. 모든 지표 계산이
+    % 비율 기반 (52wH 대비 등) 이라 ×10 스케일 근사로 충분.
+    """
+    import pandas as pd
+    try:
+        import yfinance as yf
+    except ImportError:
+        return pd.Series(dtype=float, name="Close")
+    try:
+        df = yf.download(
+            "SPY", start=start, end=end,
+            auto_adjust=True, progress=False,
+        )
+    except Exception:
+        return pd.Series(dtype=float, name="Close")
+    if df is None or df.empty:
+        return pd.Series(dtype=float, name="Close")
+    s = df["Close"]
+    if hasattr(s, "columns"):
+        s = s.iloc[:, 0]
+    s.index = s.index.tz_localize(None) if s.index.tz else s.index
+    return s * 10.0
+
+
 def _expected_last_us_close(now=None):
     """직전 미국 정규장 close 가 확정된 거래일 (UTC 기준 근사).
     미국 close = 20:00~21:00 UTC — 22:00 UTC 이후면 당일 close 확정으로 기대.
@@ -468,6 +496,7 @@ def _fetch_spx_multi(start: str, end: str, attempts_log: list):
 
     sources = []
     sources.append(("yfinance",   _fetch_spx_yfinance,   0))
+    sources.append(("spy_etf",    _fetch_spx_spy,        0))   # v2.5: 지수 지연 시 ETF 근사
     sources.append(("yahoo_http", _fetch_spx_yahoo_http, 0))
     if fred_key:
         sources.append(("fred", lambda s, e: _fetch_spx_fred(s, e, fred_key), 0))
