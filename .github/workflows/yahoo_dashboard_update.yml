@@ -30,6 +30,8 @@ on:
     - cron: '35 21 * * *'   # 06:35 KST — 4차
     - cron: '35 22 * * *'   # 07:35 KST — 5차 (1-4차 모두 fail 시 후행)
     - cron: '35 2 * * *'    # 11:35 KST — 6차 안전망
+    - cron: '35 8 * * *'    # 17:35 KST — 한국 종가 당일 반영 (KRX fill + KR 오실레이터, 2026-07-24)
+    - cron: '35 10 * * *'   # 19:35 KST — 한국 저녁 백업
   workflow_dispatch:
 
 permissions:
@@ -59,6 +61,8 @@ jobs:
           pip install yfinance pandas
 
       - name: Fetch yahoo data
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}   # ^KS11 야후 지연 시 KRX 보충용 (2026-07-24)
         run: |
           python yahoo_dashboard_backfill.py
 

@@ -124,6 +124,89 @@ def fetch_symbol(sym, period="10y", max_retry=2):
             return None
 
 
+KRX_HOST = "https://data-dbg.krx.co.kr"
+KRX_KOSPI_EP = "/svc/apis/idx/kospi_dd_trd"
+
+
+def _krx_auth_key():
+    key = os.environ.get("KRX_AUTH_KEY") or ""
+    if not key:
+        kf = os.path.join(THIS_DIR, ".krx_auth_key")
+        if os.path.exists(kf):
+            key = open(kf, encoding="utf-8").read().strip()
+    return key
+
+
+def _krx_kospi_candle(bas_dd, auth_key):
+    """KRX 유가증권 지수 시세에서 코스피 OHLC 1일 추출. 실패/휴장 시 None."""
+    import urllib.request
+    url = f"{KRX_HOST}{KRX_KOSPI_EP}?basDd={bas_dd}"
+    req = urllib.request.Request(url, headers={"AUTH_KEY": auth_key, "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            j = json.loads(r.read().decode("utf-8"))
+    except Exception as e:
+        _log(f"  KRX kospi fill {bas_dd}: {e}")
+        return None
+    for row in j.get("OutBlock_1") or []:
+        if (row.get("IDX_NM", "") or "").strip() == "코스피":
+            try:
+                return {
+                    "time": f"{bas_dd[:4]}-{bas_dd[4:6]}-{bas_dd[6:]}",
+                    "open": float(str(row["OPNPRC_IDX"]).replace(",", "")),
+                    "high": float(str(row["HGPRC_IDX"]).replace(",", "")),
+                    "low":  float(str(row["LWPRC_IDX"]).replace(",", "")),
+                    "close": float(str(row["CLSPRC_IDX"]).replace(",", "")),
+                }
+            except Exception:
+                return None
+    return None
+
+
+def _krx_kospi_fill(ks11_result):
+    """^KS11 캔들이 최신 한국 거래일보다 낡았으면 KRX 로 누락일 보충 (v2, 2026-07-24).
+
+    야후 ^KS11 이 종종 1-2일 지연되는 문제 대응. 한국 장 마감 (15:30 KST) +
+    KRX 일배치 후면 KRX 가 항상 더 빠름. 최대 7 캘린더일 보충.
+    """
+    from datetime import timedelta
+    if not ks11_result or not ks11_result.get("candles"):
+        return ks11_result
+    auth_key = _krx_auth_key()
+    if not auth_key:
+        _log("  KRX kospi fill: AUTH_KEY 없음 — skip")
+        return ks11_result
+
+    now_kst = datetime.now(timezone.utc) + timedelta(hours=9)
+    expected = now_kst.date()
+    if now_kst.hour < 17:   # 장 마감 + KRX 배치 (16-17시) 전이면 전일까지만 기대
+        expected -= timedelta(days=1)
+    while expected.weekday() >= 5:
+        expected -= timedelta(days=1)
+
+    candles = ks11_result["candles"]
+    last = datetime.strptime(candles[-1]["time"], "%Y-%m-%d").date()
+    if last >= expected:
+        return ks11_result
+
+    _log(f"  ^KS11 stale ({last} < expected {expected}) — KRX 보충 시도")
+    cur = last + timedelta(days=1)
+    added = 0
+    while cur <= expected and added < 7:
+        if cur.weekday() < 5:
+            c = _krx_kospi_candle(cur.strftime("%Y%m%d"), auth_key)
+            if c:
+                candles.append(c)
+                added += 1
+                _log(f"  KRX fill: {c['time']} close={c['close']}")
+        cur += timedelta(days=1)
+    if added:
+        ks11_result["price"] = candles[-1]["close"]
+        ks11_result["prev"] = candles[-2]["close"] if len(candles) >= 2 else candles[-1]["close"]
+        _log(f"  ✓ KRX 보충 {added}일 완료 (^KS11 last={candles[-1]['time']})")
+    return ks11_result
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -141,6 +224,8 @@ def main():
     for sym in symbols:
         _log(f"fetching {sym}...")
         result = fetch_symbol(sym, period=args.period)
+        if result and sym == "^KS11":
+            result = _krx_kospi_fill(result)
         if result:
             data[sym] = result
             ok_count += 1
