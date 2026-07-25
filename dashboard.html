@@ -741,9 +741,8 @@ function renderSubsForTooltip(col, time) {
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
     } else if (s.id === 'kr-fgosc' || s.id === 'us-fgosc') {
       if (d.value == null) return;
-      valHtml = '<span style="color:#58a6ff">' + d.value.toFixed(1) + '</span>'
-              + (d.ema != null ? ' / <span style="color:#e2a44e">E ' + d.ema.toFixed(1) + '</span>' : '')
-              + (d.osc != null ? ' / <span style="color:' + (d.osc >= 0 ? 'rgb(210,175,100)' : '#f04452') + '">' + (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) + '</span>' : '');
+      valHtml = '<span style="color:rgb(210,175,100)">' + d.value.toFixed(1) + '</span>'
+              + (d.osc != null ? ' / <span style="color:rgb(249,117,131)">' + (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) + '</span>' : '');
     } else if (s.id === 'adr') {
       if (d.value == null) return;
       valHtml = '<span style="color:rgb(210,175,100)">' + d.value.toFixed(2) + '</span>'
@@ -1331,13 +1330,12 @@ async function loadFGCombo(id, col, fetchFn) {
     let sOsc = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
     let sFg  = (D.data || []).map(([d, v]) => ({ time: d, value: Math.round(v.fg * 1000) / 10 }));
     if (intv === '1wk') { sOsc = resampleWeekly(sOsc); sFg = resampleWeekly(sFg); }
-    const sEma = fgEma20(sFg, 20);
-    const lastOsc = sOsc[sOsc.length - 1], lastFg = sFg[sFg.length - 1], lastEma = sEma[sEma.length - 1];
+    const lastOsc = sOsc[sOsc.length - 1], lastFg = sFg[sFg.length - 1];
     const hdr = document.getElementById('p-' + id);
     const oscTxt = lastOsc ? (lastOsc.value >= 0 ? '+' : '') + lastOsc.value.toFixed(4) : '—';
     const oscColor = lastOsc && lastOsc.value >= 0 ? 'rgb(210,175,100)' : '#f04452';
     const hdrHtml = lastFg
-      ? `<span style="color:#58a6ff">F&G ${lastFg.value.toFixed(1)}</span> / <span style="color:#e2a44e">EMA20 ${lastEma.value.toFixed(1)}</span> / <span style="color:${oscColor}">Osc ${oscTxt}</span>`
+      ? `<span style="color:rgb(210,175,100)">F&G ${lastFg.value.toFixed(1)}</span> / <span style="color:rgb(249,117,131)">Osc ${oscTxt}</span>`
       : '—';
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
@@ -1347,24 +1345,19 @@ async function loadFGCombo(id, col, fetchFn) {
       ch.applyOptions({ leftPriceScale: { visible: true, borderColor: '#21262d' } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
       ch.priceScale('left').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const blue = ch.addLineSeries({ priceScaleId: 'left', color: '#58a6ff', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      const orange = ch.addLineSeries({ priceScaleId: 'left', color: '#e2a44e', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
-      const gold = ch.addLineSeries({ priceScaleId: 'right', color: 'rgb(210,175,100)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      allCharts[id].series = blue;
-      allCharts[id].series2 = orange;
-      allCharts[id].series3 = gold;
-      addZoneLines(blue, [{ price: 75, color: '#27ae60' }, { price: 25, color: '#e74c3c' }]);
-      addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
+      const gold = ch.addLineSeries({ priceScaleId: 'left', color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const pink = ch.addLineSeries({ priceScaleId: 'right', color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts[id].series = gold;
+      allCharts[id].series2 = pink;
+      addZoneLines(gold, [{ price: 75, color: '#27ae60' }, { price: 25, color: '#e74c3c' }]);
+      addZoneLines(pink, [{ price: 0, color: '#8b949e' }]);
     }
     const pFg = alignToTimeIndex(sFg, col);
-    const pEma = alignToTimeIndex(sEma, col);
     const pOsc = alignToTimeIndex(sOsc, col);
     allCharts[id].series.setData(pFg);
-    allCharts[id].series2.setData(pEma);
-    allCharts[id].series3.setData(pOsc);
-    const emaMap = {}; pEma.forEach(p => { emaMap[p.time] = p.value; });
+    allCharts[id].series2.setData(pOsc);
     const oscMap = {}; pOsc.forEach(p => { oscMap[p.time] = p.value; });
-    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, ema: emaMap[p.time], osc: oscMap[p.time] }; });
+    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, osc: oscMap[p.time] }; });
     chartDataMap[id] = map;
     msgEl.style.display = 'none';
   } catch (e) { console.error('FGCombo ' + id, e); msgEl.textContent = '⚠ 실패'; }
