@@ -763,7 +763,8 @@ function renderSubsForTooltip(col, time) {
               + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
     } else if (s.id === 'kr-fflow') {
       if (d.value == null) return;
-      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + Math.round(d.value).toLocaleString() + '억</span>';
+      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + Math.round(d.value).toLocaleString() + '억</span>'
+              + (d.cum20 != null ? ' / <span style="color:rgb(210,175,100)">20D ' + Math.round(d.cum20).toLocaleString() + '억</span>' : '');
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
@@ -1427,26 +1428,42 @@ async function loadKrFflow() {
     const D = await fetchKrFflow();
     const rows = (D.data || []).filter(([d, v]) => v.frgn != null);
     let daily = rows.map(([d, v]) => ({ time: d, value: v.frgn }));
-    if (intv === '1wk') daily = resampleWeekly(daily);
-    const last = daily[daily.length - 1];
+    // 20일 누적 순매수 (rolling sum)
+    let cum20 = [];
+    { let win = []; let s = 0;
+      for (const [d, v] of rows) {
+        win.push(v.frgn); s += v.frgn;
+        if (win.length > 20) s -= win.shift();
+        if (win.length === 20) cum20.push({ time: d, value: Math.round(s) });
+      } }
+    if (intv === '1wk') { daily = resampleWeekly(daily); cum20 = resampleWeekly(cum20); }
+    const last = daily[daily.length - 1], last20 = cum20[cum20.length - 1];
     const fmt억 = v => Math.abs(v) >= 10000 ? (v / 10000).toFixed(2) + '조' : Math.round(v).toLocaleString() + '억';
     const hdr = document.getElementById('p-kr-fflow');
     const hdrHtml = last
-      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">${fmt억(last.value)}</span>`
+      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">1D ${fmt억(last.value)}</span> / <span style="color:rgb(210,175,100)">20D ${fmt억(last20 ? last20.value : 0)}</span>`
       : '—';
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues['kr-fflow'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
     if (!allCharts['kr-fflow']) {
       createChart('kr-fflow', 'kr', { showTimeAxis: false });
       const ch = allCharts['kr-fflow'].chart;
+      ch.applyOptions({ leftPriceScale: { visible: true, borderColor: '#21262d' } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const bars = ch.addHistogramSeries({ color: '#f04452', priceLineVisible: false, lastValueVisible: true, base: 0 });
+      ch.priceScale('left').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const bars = ch.addHistogramSeries({ priceScaleId: 'right', color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
+      const gold = ch.addLineSeries({ priceScaleId: 'left', color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       allCharts['kr-fflow'].series = bars;
-      addZoneLines(bars, [{ price: 0, color: '#8b949e' }]);
+      allCharts['kr-fflow'].series2 = gold;
+      addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
     }
-    const pDaily = alignToTimeIndex(daily, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? '#f04452' : '#3182f6' }));
+    const pDaily = alignToTimeIndex(daily, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? 'rgba(240,68,82,0.55)' : 'rgba(49,130,246,0.55)' }));
+    const pCum = alignToTimeIndex(cum20, 'kr');
     allCharts['kr-fflow'].series.setData(pDaily);
-    buildDataMap('kr-fflow', pDaily);
+    allCharts['kr-fflow'].series2.setData(pCum);
+    const cumMap = {}; pCum.forEach(p => { cumMap[p.time] = p.value; });
+    const map = {}; pDaily.forEach(p => { map[p.time] = { time: p.time, value: p.value, cum20: cumMap[p.time] }; });
+    chartDataMap['kr-fflow'] = map;
     msgEl.style.display = 'none';
   } catch (e) { console.error('KrFflow', e); msgEl.textContent = '⚠ 실패'; }
 }
