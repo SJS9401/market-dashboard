@@ -182,7 +182,7 @@
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>외국인 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
+      <div class="card-top"><div class="left"><h3>외국인 현선물 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-fflow"><div class="msg" id="msg-kr-fflow">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
@@ -719,7 +719,7 @@ function renderSubsForTooltip(col, time) {
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: 'rgb(210,175,100)' },
       { id: 'kr-breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
       { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
-      { id: 'kr-fflow',  label: '외국인 순매수', color: 'rgb(210,175,100)' }
+      { id: 'kr-fflow',  label: '외국인 현선물 순매수', color: 'rgb(210,175,100)' }
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
@@ -763,8 +763,8 @@ function renderSubsForTooltip(col, time) {
               + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
     } else if (s.id === 'kr-fflow') {
       if (d.value == null) return;
-      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + Math.round(d.value).toLocaleString() + '억</span>'
-              + (d.cum20 != null ? ' / <span style="color:rgb(210,175,100)">20D ' + Math.round(d.cum20).toLocaleString() + '억</span>' : '');
+      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(2) + '조</span>'
+              + (d.cum20 != null ? ' / <span style="color:rgb(210,175,100)">20D ' + (d.cum20 >= 0 ? '+' : '') + d.cum20.toFixed(2) + '조</span>' : '');
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
@@ -1427,32 +1427,31 @@ async function loadKrFflow() {
   try {
     const D = await fetchKrFflow();
     const rows = (D.data || []).filter(([d, v]) => v.frgn != null);
-    let daily = rows.map(([d, v]) => ({ time: d, value: v.frgn }));
-    // 20일 누적 순매수 (rolling sum)
+    // 단위: 조원 (억 ÷ 10000) — 축 라벨을 minimumWidth 60px 안에 맞춰 컬럼 크로스헤어 정렬 유지
+    let daily = rows.map(([d, v]) => ({ time: d, value: Math.round(v.frgn / 100) / 100 }));
+    // 20일 누적 순매수 (rolling sum, 조원)
     let cum20 = [];
     { let win = []; let s = 0;
       for (const [d, v] of rows) {
         win.push(v.frgn); s += v.frgn;
         if (win.length > 20) s -= win.shift();
-        if (win.length === 20) cum20.push({ time: d, value: Math.round(s) });
+        if (win.length === 20) cum20.push({ time: d, value: Math.round(s / 100) / 100 });
       } }
     if (intv === '1wk') { daily = resampleWeekly(daily); cum20 = resampleWeekly(cum20); }
     const last = daily[daily.length - 1], last20 = cum20[cum20.length - 1];
-    const fmt억 = v => Math.abs(v) >= 10000 ? (v / 10000).toFixed(2) + '조' : Math.round(v).toLocaleString() + '억';
+    const fmt조 = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '조';
     const hdr = document.getElementById('p-kr-fflow');
     const hdrHtml = last
-      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">1D ${fmt억(last.value)}</span> / <span style="color:rgb(210,175,100)">20D ${fmt억(last20 ? last20.value : 0)}</span>`
+      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">1D ${fmt조(last.value)}</span> / <span style="color:rgb(210,175,100)">20D ${fmt조(last20 ? last20.value : 0)}</span>`
       : '—';
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues['kr-fflow'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
     if (!allCharts['kr-fflow']) {
       createChart('kr-fflow', 'kr', { showTimeAxis: false });
       const ch = allCharts['kr-fflow'].chart;
-      ch.applyOptions({ leftPriceScale: { visible: true, borderColor: '#21262d' } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      ch.priceScale('left').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const bars = ch.addHistogramSeries({ priceScaleId: 'right', color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
-      const gold = ch.addLineSeries({ priceScaleId: 'left', color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      const bars = ch.addHistogramSeries({ color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
+      const gold = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       allCharts['kr-fflow'].series = bars;
       allCharts['kr-fflow'].series2 = gold;
       addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
