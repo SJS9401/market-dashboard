@@ -1,0 +1,61 @@
+# 외국인 순매수 (KOSPI) 자동 갱신 — KIS OpenAPI
+# ----------------------------------------------------------
+# kr_investor_flow_backfill.py --update 로 최근 300거래일 재fetch + merge.
+# 스케줄: 한국 장 마감 후 저녁 (KIS 는 실시간 계열이라 마감 직후 데이터 가용).
+#   - 08:40 UTC = 17:40 KST (1차)
+#   - 10:40 UTC = 19:40 KST (2차 백업)
+#   - workflow_dispatch: 수동
+#
+# Secrets: KIS_APP_KEY, KIS_APP_SECRET
+# 주의: KIS OpenAPI 가 해외 IP (GitHub Actions) 를 차단할 가능성 있음 —
+#       첫 dispatch 로 실측. 차단 시 BT PC Task Scheduler (옵션 D 패턴) 로 전환.
+# ----------------------------------------------------------
+
+name: KR Investor Flow Update
+
+on:
+  schedule:
+    - cron: '40 8 * * *'    # 17:40 KST
+    - cron: '40 10 * * *'   # 19:40 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-investor-flow
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 갱신 실행
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: python -u kr_investor_flow_backfill.py --update
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -f data/kr_investor_flow.json ] && git add data/kr_investor_flow.json
+          if git diff --cached --quiet; then
+            echo "::notice::변경 없음"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): kr_investor_flow 자동 갱신 (${TS})"
+            git push || (git pull --rebase --autostash && git push)
+            echo "::notice::갱신 & 푸시 완료"
+          fi

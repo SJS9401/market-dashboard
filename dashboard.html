@@ -181,6 +181,10 @@
       </div>
       <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
     </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>외국인 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fflow"><div class="msg" id="msg-kr-fflow">로딩 중...</div></div>
+    </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
   </div>
   <!-- RIGHT: 미국 -->
@@ -714,7 +718,8 @@ function renderSubsForTooltip(col, time) {
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: 'rgb(210,175,100)' },
       { id: 'kr-breadth', label: 'Market Breadth', color: 'rgb(210,175,100)' },
-      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' }
+      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
+      { id: 'kr-fflow',  label: '외국인 순매수', color: 'rgb(210,175,100)' }
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
@@ -756,6 +761,9 @@ function renderSubsForTooltip(col, time) {
       if (d.above120 == null && d.above20 == null) return;
       valHtml = '<span style="color:rgb(210,175,100)">120MA ' + (d.above120 != null ? d.above120.toFixed(1) + '%' : '-') + '</span> / '
               + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
+    } else if (s.id === 'kr-fflow') {
+      if (d.value == null) return;
+      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + Math.round(d.value).toLocaleString() + '억</span>';
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
@@ -910,7 +918,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr'] : ['ndx','us-fgosc','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr','kr-fflow'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1401,6 +1409,46 @@ async function loadKrBreadth(){
     chartDataMap['kr-breadth']=map;
     msgEl.style.display='none';
   }catch(e){console.error('loadKrBreadth',e);msgEl.textContent='⚠ 실패';}
+}
+
+// 외국인 순매수 (KOSPI, KIS FHPTJ04040000) — 누적 골드선(좌) + 일별 히스토그램(우, 억원)
+let _fflowCache = null;
+async function fetchKrFflow() {
+  if (_fflowCache) return _fflowCache;
+  const r = await fetch('./data/kr_investor_flow.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_investor_flow.json fetch failed: ' + r.status);
+  _fflowCache = await r.json();
+  return _fflowCache;
+}
+async function loadKrFflow() {
+  const intv = colInterval.kr;
+  const msgEl = document.getElementById('msg-kr-fflow');
+  try {
+    const D = await fetchKrFflow();
+    const rows = (D.data || []).filter(([d, v]) => v.frgn != null);
+    let daily = rows.map(([d, v]) => ({ time: d, value: v.frgn }));
+    if (intv === '1wk') daily = resampleWeekly(daily);
+    const last = daily[daily.length - 1];
+    const fmt억 = v => Math.abs(v) >= 10000 ? (v / 10000).toFixed(2) + '조' : Math.round(v).toLocaleString() + '억';
+    const hdr = document.getElementById('p-kr-fflow');
+    const hdrHtml = last
+      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">${fmt억(last.value)}</span>`
+      : '—';
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues['kr-fflow'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+    if (!allCharts['kr-fflow']) {
+      createChart('kr-fflow', 'kr', { showTimeAxis: false });
+      const ch = allCharts['kr-fflow'].chart;
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const bars = ch.addHistogramSeries({ color: '#f04452', priceLineVisible: false, lastValueVisible: true, base: 0 });
+      allCharts['kr-fflow'].series = bars;
+      addZoneLines(bars, [{ price: 0, color: '#8b949e' }]);
+    }
+    const pDaily = alignToTimeIndex(daily, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? '#f04452' : '#3182f6' }));
+    allCharts['kr-fflow'].series.setData(pDaily);
+    buildDataMap('kr-fflow', pDaily);
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('KrFflow', e); msgEl.textContent = '⚠ 실패'; }
 }
 
 async function loadADR(){
@@ -1897,7 +1945,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR(), loadKrFflow()]);
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
@@ -2057,7 +2105,6 @@ function setupScrollbar(col, mainId) {
     {d:"07/15",cat:"정책",ev:"정부·여당 2026 세제개편안(세법개정안) 발표",note:"정책 유동성(핵심 리스크 ④) — 기재부 통상 7월말 발표. 핵심: 배당소득 분리과세(밸류업·14~30% 차등)·금투세 폐지 후속(증권거래세 일부 환원)·법인세율 1%p 환원…"},
     {d:"07/18",cat:"정책",ev:"GENIUS Act 하위 규정 시행기한",note:"금융·스테이블코인"},
     {d:"07/23",cat:"실적",ev:"빅테크 실적 — 알파벳(GOOGL)·테슬라(TSLA) (7/22 ET AMC, KST 7/23 새벽)",note:"AI CAPEX 1차 검증 (핵심리스크 ①) — Cloud 성장·CapEx 가이던스 + 테슬라 Auto GPM·옵티머스·로보택시…"},
-    {d:"07/24",cat:"IPO",ev:"에이치엘지노믹스 신규상장 (청약 7/13~14)",note:"상장일 7/24 확정 (38커뮤니케이션 2026-07-01). 원료의약품(API) 기업. 확정공모가 21,500원 (2026-07-10 확정, 희망가 상단). 공모 256.5만주"},
     {d:"07/28",cat:"정책",ev:"미 FOMC 통화정책회의 (결정 KST 7/30 03:00)",note:"Tier 1 금리 — 워시 의장. ⚠ 이미지 \"7/30\"은 KST 발표일 기준 정확 (미 회의 7/28~29, 결정 7/29 14:00 ET = KST 7/30 새벽)…"},
     {d:"07/29",cat:"실적",ev:"SK하이닉스 2분기 확정실적 콘퍼런스콜",note:"반도체 T1 — 2Q 영업익 역대 최대(60~70조 전망). ADR 나스닥 상장(7/10)·신주 오버행과 동시 진행. 7/29 확정 (실적_캘린더 2026-06-27 기준)"},
     {d:"07/29",cat:"실적",ev:"삼성전기 2분기 실적발표",note:"MLCC·기판 — 무라타와 MLCC 업황 cross-check. ⚠ 구체일 미확정(삼성그룹 통상 7월말) [Cross-check: KIND·삼성전기 IR]"},
@@ -2090,8 +2137,10 @@ function setupScrollbar(col, mainId) {
     {d:"08/27",cat:"실적",ev:"엔비디아(NVDA) Q2 FY27 실적 (AMC, KST 8/27)",note:"AI칩 수요 핵심 — Data Center·Vera Rubin·가이던스 (핵심리스크 ①)"},
     {d:"09/01",cat:"경제지표",ev:"한국 8월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개"},
     {d:"09/02",cat:"경제지표",ev:"코스트코(COST) 8월 월간 매출 (IR, PT 13:15 = KST 9/3 05:15)",note:"미 소매판매 선행 지표 — 9/16 Census Bureau 발표 14일 전 선행."},
+    {d:"09/08",cat:"IPO",ev:"네오사피엔스 신규상장",note:"38커뮤니케이션 확인 (2026-07-26). 희망공모가 13,800~15,800원. 대신증권"},
     {d:"09/11",cat:"경제지표",ev:"한국 9월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 9월 초 모멘텀 조기 시그널. 반도체·자동차 품목별 데이터"},
     {d:"09/16",cat:"경제지표",ev:"미 8월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 8월 선행 / 9/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터."},
+    {d:"09/16",cat:"IPO",ev:"덕산넵코어스(구.넵코어스) 신규상장",note:"38커뮤니케이션 확인 (2026-07-26). 희망공모가 12,400~14,600원. 대신증권. ⚠ 중복상장 1호…"},
     {d:"09/21",cat:"경제지표",ev:"한국 9월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 월간 잠정치(10/1 예정) 직전 가장 정확한 선행 지표. 반도체·자동차 품목별 데이터. ⚠ 추석 (9/24~25) 직전 3영업일"},
     {d:"10/02",cat:"경제지표",ev:"코스트코(COST) 9월 월간 매출 (IR, PT 13:15 = KST 10/3 05:15 추정)",note:"미 소매판매 선행 지표 — 10/15 Census Bureau 발표 약 13일 전 선행."},
     {d:"10/15",cat:"경제지표",ev:"미 9월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 9월 선행 / ~10/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터."},
@@ -2191,6 +2240,8 @@ const INDICATOR_CRON_KST = [
   { h: 9,  m: 35 }, { h: 12, m: 5  },
   // yahoo 한국 종가 당일 반영 (KRX fill, 2026-07-24)
   { h: 17, m: 35 }, { h: 19, m: 35 },
+  // 외국인 순매수 (KIS, 2026-07-26)
+  { h: 17, m: 40 }, { h: 19, m: 40 },
   // yahoo_dashboard + us_breadth 안전망 (기존 11:30 → 11:35)
   { h: 11, m: 35 },
   // krx_kr_indicators (vkospi/putcall), krx_kr_breadth
