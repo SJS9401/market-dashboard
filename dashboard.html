@@ -1449,8 +1449,10 @@ async function loadKrFflow() {
     if (!allCharts['kr-fflow']) {
       createChart('kr-fflow', 'kr', { showTimeAxis: false });
       const ch = allCharts['kr-fflow'].chart;
-      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const bars = ch.addHistogramSeries({ color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.45 } });
+      // 일별 바 = 오버레이 스케일 (축 미표시, 독립 autoscale) — 축 폭 불변이라 컬럼 크로스헤어 정렬 유지
+      const bars = ch.addHistogramSeries({ priceScaleId: 'fflow-bars', color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
+      ch.priceScale('fflow-bars').applyOptions({ scaleMargins: { top: 0.5, bottom: 0.05 } });
       const gold = ch.addLineSeries({ color: 'rgb(210,175,100)', lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       allCharts['kr-fflow'].series = bars;
       allCharts['kr-fflow'].series2 = gold;
