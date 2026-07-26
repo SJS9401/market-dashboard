@@ -339,6 +339,11 @@ const lastCrosshairOnBar = { kr: false, us: false };
 // setMarkers/updateHeader/innerHTML rebuild are all redundant. Track last hovered time per column
 // so heavy work runs only on time change; only tooltip *position* updates every frame.
 const lastCrosshairTime = { kr: null, us: null };
+// rAF 배칭 (2026-07-26): 마우스가 캔들들을 빠르게 스칠 때 매 캔들마다 컬럼 전체 setMarkers
+// (6개 차트 재렌더 + 축 재계산) 가 초당 수십 회 발생 → 렉. 프레임당 마지막 hover time 만
+// 반영하면 최종 화면은 동일하고 중간 무의미한 재렌더만 제거됨.
+const crosshairRafId = { kr: null, us: null };
+const crosshairPending = { kr: null, us: null };
 const colRange = { kr: '10y', us: '10y' };
 const colInterval = { kr: '1d', us: '1d' };
 let syncing = false;
@@ -550,26 +555,31 @@ function createChart(id, col, opts = {}) {
       // Perf: heavy work (setMarkers + updateHeader + tooltip innerHTML rebuild) only on time change.
       // While mouse moves on the SAME candle, only tooltip position needs to follow the cursor.
       if (param.time !== lastCrosshairTime[col]) {
-        colGroups[col].forEach(cid => {
-          updateHeaderForChart(cid, param.time);
-          // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
-          if (!allCharts[cid] || !allCharts[cid].series) return;
-          try {
-            allCharts[cid].series.setMarkers([{
-              time: param.time,
-              // 'aboveBar': 가격축 영향 없음. 'inBar' 사용 시 lightweight-charts 가
-              // area series 의 baseline(0) 까지 priceScale 자동 확장 → 캔들 압축 →
-              // 마우스 약간만 움직여도 hit area 벗어나 툴팁 풀리는 사고 회피
-              // (2026-05-27 옵션 A). X축 정렬 검증 anchor 역할은 그대로 유지.
-              position: 'aboveBar',
-              color: 'rgb(210,175,100)',
-              shape: 'circle',
-              size: 0.5
-            }]);
-          } catch(_) {}
-        });
-        updateHTSTooltip(col, param.time, mx, my);  // full rebuild + position
         lastCrosshairTime[col] = param.time;
+        crosshairPending[col] = { time: param.time, mx, my };
+        if (!crosshairRafId[col]) {
+          crosshairRafId[col] = requestAnimationFrame(() => {
+            crosshairRafId[col] = null;
+            const p = crosshairPending[col];
+            if (!p) return;  // cleanup 이 취소함 (stale 마커 방지)
+            colGroups[col].forEach(cid => {
+              updateHeaderForChart(cid, p.time);
+              // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
+              if (!allCharts[cid] || !allCharts[cid].series) return;
+              try {
+                allCharts[cid].series.setMarkers([{
+                  time: p.time,
+                  // 'aboveBar': 가격축 영향 없음 (2026-05-27 옵션 A).
+                  position: 'aboveBar',
+                  color: 'rgb(210,175,100)',
+                  shape: 'circle',
+                  size: 0.5
+                }]);
+              } catch(_) {}
+            });
+            updateHTSTooltip(col, p.time, p.mx, p.my);  // full rebuild + position
+          });
+        }
       } else {
         moveHTSTooltip(col, mx, my);  // position-only (cheap)
       }
@@ -579,6 +589,7 @@ function createChart(id, col, opts = {}) {
       // setMarkers([]) triggers chart re-render — calling it every frame on empty-space hover
       // (e.g. between candles) chokes the frame budget and makes xline/date-label feel laggy.
       if (lastCrosshairOnBar[col]) {
+        crosshairPending[col] = null;  // 예약된 rAF heavy-work 취소
         restoreHeaders(col);
         colGroups[col].forEach(cid => {
           if (allCharts[cid] && allCharts[cid].series) {
@@ -599,6 +610,7 @@ function createChart(id, col, opts = {}) {
     hideHTSTooltip(col);
     // Sync state so next entry triggers fresh cleanup if needed
     if (lastCrosshairOnBar[col]) {
+      crosshairPending[col] = null;
       restoreHeaders(col);
       colGroups[col].forEach(cid => {
         if (allCharts[cid] && allCharts[cid].series) {
