@@ -1439,13 +1439,15 @@ async function loadKrFflow() {
   try {
     const D = await fetchKrFflow();
     const rows = (D.data || []).filter(([d, v]) => v.frgn != null);
-    // 단위: 조원 (억 ÷ 10000) — 축 라벨을 minimumWidth 60px 안에 맞춰 컬럼 크로스헤어 정렬 유지
-    let daily = rows.map(([d, v]) => ({ time: d, value: Math.round(v.frgn / 100) / 100 }));
+    // 현선물 합 (total = 현물 + 선물환산) 우선, 없으면 현물만. 단위: 조원 (억 ÷ 10000)
+    const pick = v => (v.total != null ? v.total : v.frgn);
+    let daily = rows.map(([d, v]) => ({ time: d, value: Math.round(pick(v) / 100) / 100 }));
     // 20일 누적 순매수 (rolling sum, 조원)
     let cum20 = [];
     { let win = []; let s = 0;
       for (const [d, v] of rows) {
-        win.push(v.frgn); s += v.frgn;
+        const x = pick(v);
+        win.push(x); s += x;
         if (win.length > 20) s -= win.shift();
         if (win.length === 20) cum20.push({ time: d, value: Math.round(s / 100) / 100 });
       } }
@@ -2122,7 +2124,6 @@ function setupScrollbar(col, mainId) {
   const events=[
     {d:"04/28",cat:"산업",ev:"테슬라 사이버캡 양산 램프업 + 로보택시 서비스 확장",note:"자율주행 — 2/17 첫 양산차 출고 → 4/22~23 Q1 어닝콜서 기가텍사스 양산 공식 개시 → 4/24 머스크 X \"Cybercab production has started\" 재공지…"},
     {d:"06/15",cat:"산업",ev:"UAE 방산투자 후속 수주 확정 발표",note:"한국 방산 수주 연계 — 2/26 한-UAE $65B(방산 $35B) 협정 체결 완료. 5월 내 미발표…"},
-    {d:"06/15",cat:"산업",ev:"한미약품 MASH 임상 2b상 1차 평가변수 도출",note:"바이오 — 기존 3월중→5/11~6/27 이연"},
     {d:"06/28",cat:"정책",ev:"공정위 네이버·두나무 합병 승인",note:"금융·시장구조 — 6/17 공정위, 증권사 18개사에 의견 수렴 개시 (6월말 제출 목표). 쟁점: 증권플러스비상장+업비트 독과점·데이터 결합 효과·스테이블코인 경쟁 제한 여부…"},
     {d:"06/30",cat:"정책",ev:"원화 스테이블코인 입법 본격화",note:"정책 유동성"},
     {d:"07/05",cat:"정책",ev:"국민연금 국내주식 리밸런싱 재개 (유예 6월말 종료)",note:"수급 — 날짜 정정 2026-06-28 (BT 확인): 특정일(7/15) 아님 — 유예가 6월 말 종료되어 7월부터 리밸런싱 재개되는 과정…"},
@@ -2173,7 +2174,7 @@ function setupScrollbar(col, mainId) {
     {d:"09/16",cat:"IPO",ev:"덕산넵코어스(구.넵코어스) 신규상장",note:"38커뮤니케이션 확인 (2026-07-26). 희망공모가 12,400~14,600원. 대신증권. ⚠ 중복상장 1호…"},
     {d:"09/21",cat:"경제지표",ev:"한국 9월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 월간 잠정치(10/1 예정) 직전 가장 정확한 선행 지표. 반도체·자동차 품목별 데이터. ⚠ 추석 (9/24~25) 직전 3영업일"},
     {d:"10/02",cat:"경제지표",ev:"코스트코(COST) 9월 월간 매출 (IR, PT 13:15 = KST 10/3 05:15 추정)",note:"미 소매판매 선행 지표 — 10/15 Census Bureau 발표 약 13일 전 선행."},
-    {d:"10/15",cat:"경제지표",ev:"미 9월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 9월 선행 / ~10/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터."},
+    {d:"10/15",cat:"경제지표",ev:"미 9월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 9월 선행 / ~10/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터. NVDA Q2 어닝(8/27)·이란 60일 시한(8/18) 이후 소비 추세 확인."},
     {d:"11/03",cat:"정책",ev:"미국 중간선거",note:"트럼프 레임덕"},
   ];
   const today=new Date();today.setHours(0,0,0,0);

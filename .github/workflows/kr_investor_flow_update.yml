@@ -40,7 +40,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 갱신 실행
+      - name: 선물 (네이버) 갱신
+        run: python -u kr_futures_flow_backfill.py --update
+        continue-on-error: true   # 네이버 fail 시 현물만이라도 갱신
+
+      - name: 현물 (KIS) 갱신 + 현선물 합산
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
@@ -50,7 +54,9 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          [ -f data/kr_investor_flow.json ] && git add data/kr_investor_flow.json
+          for f in data/kr_investor_flow.json data/kr_futures_flow.json; do
+            [ -f "$f" ] && git add "$f"
+          done
           if git diff --cached --quiet; then
             echo "::notice::변경 없음"
           else

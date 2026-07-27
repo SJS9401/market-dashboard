@@ -713,6 +713,17 @@ TSMC 3·2nm 90%+. Apple > NVIDIA > AMD > Broadcom > QCOM 알로케이션. Intel 
 ## 전력 측
 - 변압기 lead time, 한국 변압기 3사 분기 수주, 가스터빈 3사 주문, SMR PPA, 두산 SMR 부품, 현대건설 Holtec, IEA 데이터센터 전력, 하이퍼스케일러 분기 capex
 
+## ★ 자본공급자 측 (credit cycle — v5 추가, 2026-06-21, 이그전 '자본공급자' 프레임 기반)
+
+> **프레임**: Capex 사이클의 진짜 변곡점은 빅테크의 자발적 축소가 아니라 **자본공급자 (채권시장)의 변심**. "이 회사에 계속 돈을 빌려줘도 괜찮을까?"라는 의심이 시작되는 순간이 사이클 종료 시그널. 본 테마 Step 7 "AI capex 변곡점 (25%)" 리스크의 선행 지표 세트.
+
+- **★ 오라클 5Y CDS 프리미엄** (LSEG) — 반도체 ETF (SOXX)와 동행성 확인. 사실상 AI credit cycle의 실시간 지표. 200bp+ 고착 시 경계
+- **Neocloud 채권 스프레드** (CoreWeave·Lambda·Nebius 등) — 한계 차입자의 조달 여건. 첫 default가 심리 전환점 (2000년 텔레콤 채권 붕괴 유사 패턴)
+- **Hyperscaler 채권 발행 규모** (BIS) — 2024 ~$0 → 2025 $105B → 2026e $175B+. 매출 대비 capex 47%+ 도달로 외부 조달 의존 가속
+- **Hyperscaler 합산 FCF** (Bloomberg 전망) — 2027 합산 마이너스 전망 → 2028 개선. 개선 시점 앞당김/지연이 핵심
+- **OpenAI ARR 추정치** (간접: MSFT OpenAI 매출 인식·Azure AI contribution) — 오라클 RPO의 counterparty risk 본질
+- **circular financing 문제화 강도** — NVIDIA→OpenAI→오라클→NVIDIA 순환 구조에 대한 회계·규제·언론 조명
+
 ---
 
 # ★ Step 9. 통합본 (v5 — 2026-06-21)
