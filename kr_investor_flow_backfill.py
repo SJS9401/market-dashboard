@@ -62,10 +62,26 @@ def get_token(appkey, appsecret):
             pass
     print("[token] 신규 발급...")
     body = json.dumps({"grant_type": "client_credentials", "appkey": appkey, "appsecret": appsecret}).encode()
-    req = urllib.request.Request(f"{BASE}/oauth2/tokenP", data=body,
-                                 headers={"Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req, timeout=30) as r:
-        j = json.loads(r.read().decode("utf-8"))
+    def _issue():
+        req = urllib.request.Request(f"{BASE}/oauth2/tokenP", data=body,
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.loads(r.read().decode("utf-8"))
+    j = None
+    for attempt in (1, 2):
+        try:
+            j = _issue()
+            if "access_token" in j:
+                break
+            # KIS 토큰 발급 1분 1회 제한 (EGW00133) — 65초 대기 후 재시도
+            print(f"[token] 발급 거부: {str(j)[:120]} — 65초 대기 재시도 ({attempt}/2)")
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode("utf-8", errors="replace")[:120] if e.fp else str(e)
+            print(f"[token] HTTP {e.code}: {msg} — 65초 대기 재시도 ({attempt}/2)")
+        if attempt == 1:
+            time.sleep(65)
+    if not j or "access_token" not in j:
+        raise RuntimeError(f"token issue failed: {j}")
     token = j["access_token"]
     TOKEN_CACHE.write_text(json.dumps({"access_token": token, "issued_at": time.time()}), encoding="utf-8")
     return token

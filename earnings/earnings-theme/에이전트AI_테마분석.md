@@ -27,7 +27,7 @@ active_companies:
     - {ticker: "AMZN", name: "Amazon (AWS)", country: US, role: macro_demand, ai_arr_FY26: "$25B+", capex_CY26: "$195B"}
     - {ticker: "META", name: "Meta", country: US, role: macro_demand, ai_arr_FY26: "$30B", capex_CY26: "$100B"}
 sunset_companies: []
-last_updated: 2026-06-21 (v5 — Step 9 통합본 + 14개사 분류)
+last_updated: 2026-07-27 (v5.1 — 한국 Neocloud/AI Factory segment 신설 + SF AI Summit 패키지 반영)
 last_theme_review_date: null
 narrative_shift_log:
   - {date: 2024-Q4, event: "Anthropic Claude 3.5 Computer Use 공개 — 에이전트 진입 신호탄"}
@@ -42,6 +42,9 @@ narrative_shift_log:
   - {date: 2026-Q1, event: "★ 4사 macro layer 합산 CapEx $585B (FY25 $258B 대비 +127%) — AI 인프라 사이클 정점 미도래 정량 시그널"}
   - {date: 2026-Q1, event: "★ Meta MI450 6GW + 6th Gen EPYC lead = AMD thesis 단독 driver"}
   - {date: 2026-Q2, event: "★ v5 (2026-06-21): 14개사 기업 분석 통합본 작성 — 반도체 10 + 빅테크 4 + Terminal 시나리오 3년/5년 dual horizon"}
+  - {date: 2026-Q2, event: "★ 네이버+NVIDIA 기가와트급 AI Factory 발표 (2026-06-08) — 'Asian CoreWeave' narrative 형성"}
+  - {date: 2026-Q3, event: "★ SF AI Summit 한국 sovereign AI 패키지 (2026-07-24~25): NVIDIA $1B Naver 투자 + Brookfield $9B + SK LTA 5년 $750B + 삼성-Broadcom $200B + NVIDIA-SK Group 2GW DC"}
+  - {date: 2026-Q3, event: "★ v5.1 (2026-07-27): #18 segment 신설 — 한국 Neocloud/AI Factory (sovereign AI), 카테고리 (D). 한국 접근 TAM $226-277B+ 상향. NAVER 기업분석 클라우드 세션 핸드오프"}
 ---
 
 # 에이전트AI 테마 분석 (v4)
@@ -1015,6 +1018,68 @@ Meta (META, industry=빅테크|광고|AI|VR/AR)
 - ★ NVIDIA monopoly 4대 위협 catalyst macro evidence
 - 메타데이터: active_companies dominant 8 / challenger 2 / macro_layer 4
 - 워치리스트: 반도체 10 + 빅테크 4 + 한국 주도주 9
+
+---
+
+# ★ v5.1 add-on (2026-07-27) — 한국 Neocloud/AI Factory segment 신설
+
+> **trigger**: "네이버 = 한국의 코어위브" narrative + 2026-07-24~25 SF AI Summit (이재명 대통령 주재, NVIDIA·OpenAI·Anthropic·Broadcom + 삼성·SK 총수 참석) 한국 sovereign AI 패키지 일괄 발표. 본 세션 (반도체/에이전트AI)은 **테마 연결성 검증**을 담당, NAVER 기업 심층 분석은 **클라우드 세션 핸드오프** (분업 결정 2026-07-27).
+
+## A. narrative 형성 timeline
+
+| 시점 | 이벤트 | 의미 |
+|---|---|---|
+| **2026-06-08** | ★ 1차 형성 — NAVER + NVIDIA 기가와트급 AI Factory 계획 (GAK 세종, DSX platform, 55MW 시작). 언론 "Asian CoreWeave" 표현 시작 | narrative 탄생 |
+| **2026-07-24~25** | ★ 2차 폭발 — SF AI Summit에서 **NVIDIA $1B 직접 투자 (신주 204,500원) + Brookfield 최대 $9B (exclusive capital partner, nonbinding) + 55MW → 200MW 3배 확대 (2028) + 장기 1GW** 발표. "AI 인프라 매출 20조원" 목표 | narrative 정점 |
+| **2026-07-25 (동일 주간)** | ★ 한국 sovereign AI 패키지 동시 발표: **SK-NVIDIA·미국 CSP 5년 $750B 메모리 LTA** + **삼성-Broadcom 5년 $200B 메모리/파운드리 수주** + **NVIDIA-SK Group 2GW+ AI DC** (SKT GW급 AI cloud + SK하이닉스 메모리 공동개발 + 두산·LG deal, DSX platform) | 한국 = sovereign AI 국가 단위 진입 |
+| **2026-07-27** | NAVER 주가 +10% | 시장 반영 시작 |
+
+Roadmap: 55MW (1H 2027 가동) → 100MW (2027 후반) → 200MW (2028) → 1GW (장기).
+
+## B. segment 신설 — ★ #18 한국 Neocloud/AI Factory (sovereign AI)
+
+| 항목 | 내용 |
+|---|---|
+| **병목 카테고리** | **(D) 동반 확대** — 신규 시장 형성기. ASP 안정 (GPU cloud 시세 연동) + Q 폭증 (55MW → 1GW). 향후 (B) 수요 견인 전환 가능 |
+| **밸류체인 위치** | 수요 측 신규 layer — 미국 hyperscaler 4사와 별개의 **국가 단위 AI 인프라 발주 주체** 등장 |
+| **글로벌 peer** | CoreWeave (미국 #1 Neocloud, NVIDIA 투자 + $225B급 백로그 생태계), Lambda, Nebius. ★ NVIDIA의 Naver $1B = CoreWeave 투자와 동일 playbook |
+| **한국 플레이어** | **NAVER (GAK 세종, #1)** + SK Group (SKT GW급, 2GW+) + 삼성SDS·KT클라우드 (후보) |
+| **자본 구조** | ★ Brookfield $9B = 외부 인프라 펀드 조달 — **이그전 '자본공급자' 프레임의 한국 첫 사례** (Step 8 credit cycle 트래킹 지표 직결). nonbinding term sheet = 구속력 낮음 주의 |
+| **TAM (한국 접근)** | 인프라 투자 $10B+ (NAVER 단독) + SK 2GW+ 별도. NAVER 매출 목표 20조원 (~$15B). ★ **한국 접근 TAM 표에 +$10-15B 추가** (기존 $216-262B → **$226-277B+**) |
+
+## C. 14개사 thesis 영향 매핑
+
+| 종목 | 영향 | 방향 |
+|---|---|---|
+| **NVIDIA** | ACIE (Sovereign AI) segment 한국 확장 검증 — $1B 투자 + DSX platform 표준 수출. ★ Neocloud playbook (CoreWeave → Naver) 반복 = ACIE 다각화 thesis 강화 | ★ + |
+| **SK하이닉스** | ★ 이중 수혜 — (1) 5년 $750B LTA (연 250조, 예상 매출의 50-60%) (2) NVIDIA-SK Group 2GW DC의 HBM·DDR5·eSSD 국내 발주 경로 신설 | ★★ + |
+| **삼성전자** | 삼성-Broadcom $200B (메모리/파운드리) — HBM4 + 파운드리 다각화 검증. 단 Naver·SK DC 직접 수혜는 SK 대비 낮음 | + |
+| **전력 인프라 (LS ELECTRIC·효성·HD현대일렉·두산)** | ★ GAK 세종 200MW→1GW + SK 2GW+ = **한국 본토 변압기·스위치기어·액랭·800VDC 직접 수요 신설**. 특히 DSX platform = NVIDIA 800VDC reference → LS ELECTRIC DC MCCB 직결. 두산은 SK Group deal에 직접 포함 | ★★ + |
+| **AMD·Intel·ARM·Micron·HDD** | 간접 — 한국 DC는 NVIDIA DSX 중심이라 AMD 진입 제한적. HDD는 cold storage 수요 시차 수혜 | 중립~약+ |
+| **빅테크 4사 (macro)** | 수요 주체 다변화 — 미국 4사 외 **국가 단위 발주자** 등장 = capex 사이클의 지역 분산 = 자본공급자 리스크 일부 완화 (수요 base 다변화) | + |
+
+## D. 리스크 (신설 segment 고유)
+
+1. **Brookfield $9B nonbinding** — 구속력 낮음. 자본공급자 프레임상 금리·credit 환경 악화 시 첫 철회 후보
+2. **NAVER 실행력** — CoreWeave 대비 GPU cloud 운영 경험 부족 (ClusterMAX 평가 "Unavailable Tier" 참고)
+3. **수익성 미검증** — 매출 20조 목표 vs CoreWeave도 아직 적자. Neocloud 모델 자체가 자본집약 + 낮은 마진
+4. **한국 전력망 제약** — 1GW급 DC의 계통 연결·전력 확보가 실제 병목 가능
+
+## E. 클라우드 세션 핸드오프 노트
+
+- **본 세션 완료분**: narrative timeline + segment 신설 + thesis 영향 매핑 (본 문서)
+- **클라우드 세션 요청분**: NAVER 기업 심층 분석 — 사업부 구조 (검색·커머스·핀테크·클라우드 mix), AI Factory 사업부의 전체 밸류에이션 비중, "코어위브 멀티플 정당성" 판단 (pure-play CoreWeave vs mixed NAVER 차이), 신주 발행 (204,500원) 희석 효과
+- **cross-ref**: 본 문서 v5.1 + 클라우드_산업기초.md
+
+## v5.1 changelog
+
+**v5.1 (2026-07-27)**: 한국 Neocloud/AI Factory segment 신설 add-on
+- 네이버 "한국의 코어위브" narrative timeline (6/8 형성 → 7/24-25 정점)
+- ★ #18 segment 신설: 한국 Neocloud/AI Factory (sovereign AI), 카테고리 (D)
+- 한국 접근 TAM $216-262B → $226-277B+ 상향
+- 14개사 thesis 영향: SK·전력 ★★+ / NVIDIA·삼성 + / AMD·HDD 중립
+- SF AI Summit 패키지 (SK LTA $750B + 삼성-Broadcom $200B + SK Group 2GW) 반영
+- NAVER 기업분석 → 클라우드 세션 핸드오프
 
 # Step 6. 산업 유형 + 주도 섹터 가능성
 
