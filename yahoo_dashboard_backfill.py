@@ -104,13 +104,18 @@ def fetch_symbol(sym, period="10y", max_retry=2):
                 # NaN skip
                 if pd.isna(row.get("Open")) or pd.isna(row.get("Close")):
                     continue
-                candles.append({
+                c = {
                     "time": ts.strftime("%Y-%m-%d"),
                     "open": float(row["Open"]),
                     "high": float(row["High"]),
                     "low":  float(row["Low"]),
                     "close": float(row["Close"]),
-                })
+                }
+                # volume (2026-07-29 추가) — 주봉 거래량 패널용. 없으면 필드 생략 (하위호환)
+                v = row.get("Volume")
+                if v is not None and not pd.isna(v):
+                    c["volume"] = int(v)
+                candles.append(c)
             if not candles:
                 return None
             price = candles[-1]["close"]
@@ -151,16 +156,66 @@ def _krx_kospi_candle(bas_dd, auth_key):
     for row in j.get("OutBlock_1") or []:
         if (row.get("IDX_NM", "") or "").strip() == "코스피":
             try:
-                return {
+                c = {
                     "time": f"{bas_dd[:4]}-{bas_dd[4:6]}-{bas_dd[6:]}",
                     "open": float(str(row["OPNPRC_IDX"]).replace(",", "")),
                     "high": float(str(row["HGPRC_IDX"]).replace(",", "")),
                     "low":  float(str(row["LWPRC_IDX"]).replace(",", "")),
                     "close": float(str(row["CLSPRC_IDX"]).replace(",", "")),
                 }
+                try:
+                    c["volume"] = int(float(str(row.get("ACC_TRDVOL", 0)).replace(",", "")))
+                except Exception:
+                    pass
+                return c
             except Exception:
                 return None
     return None
+
+
+def _krx_kospi_gapfill(ks11_result, scan_days=60, max_fill=12):
+    """^KS11 시계열 '내부' 결측 거래일을 KRX 로 보충 (2026-07-29 신설).
+
+    배경: 기존 _krx_kospi_fill 은 마지막 캔들 이후(trailing)만 채운다.
+    야후가 시계열 중간에 구멍을 내는 경우(2026-07-17/24/28 실측)는 잡지 못해
+    주봉 집계·보조지표가 어긋난다. 최근 scan_days 캘린더일 범위의 평일 중
+    캔들이 없는 날을 KRX 에 조회 — 공휴일이면 KRX 도 빈 응답이라 자연 skip.
+    """
+    from datetime import timedelta
+    if not ks11_result or not ks11_result.get("candles"):
+        return ks11_result
+    auth_key = _krx_auth_key()
+    if not auth_key:
+        return ks11_result
+
+    candles = ks11_result["candles"]
+    have = {c["time"] for c in candles}
+    last = datetime.strptime(candles[-1]["time"], "%Y-%m-%d").date()
+    start = last - timedelta(days=scan_days)
+
+    holes = []
+    cur = start
+    while cur < last:
+        if cur.weekday() < 5 and cur.strftime("%Y-%m-%d") not in have:
+            holes.append(cur)
+        cur += timedelta(days=1)
+    if not holes:
+        return ks11_result
+
+    _log(f"  ^KS11 내부 결측 {len(holes)}일 후보 — KRX 조회 (공휴일은 빈 응답)")
+    added = 0
+    for d in holes[:max_fill]:
+        c = _krx_kospi_candle(d.strftime("%Y%m%d"), auth_key)
+        if c:
+            candles.append(c)
+            added += 1
+            _log(f"  gapfill: {c['time']} close={c['close']}")
+    if added:
+        candles.sort(key=lambda x: x["time"])
+        ks11_result["price"] = candles[-1]["close"]
+        ks11_result["prev"] = candles[-2]["close"] if len(candles) >= 2 else candles[-1]["close"]
+        _log(f"  ✓ 내부 결측 {added}일 보충 완료")
+    return ks11_result
 
 
 def _krx_kospi_fill(ks11_result):
@@ -225,7 +280,8 @@ def main():
         _log(f"fetching {sym}...")
         result = fetch_symbol(sym, period=args.period)
         if result and sym == "^KS11":
-            result = _krx_kospi_fill(result)
+            result = _krx_kospi_fill(result)      # trailing 지연 보충
+            result = _krx_kospi_gapfill(result)   # 내부 결측일 보충 (2026-07-29)
         if result:
             data[sym] = result
             ok_count += 1
