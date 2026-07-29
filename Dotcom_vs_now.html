@@ -91,7 +91,7 @@
     <h2>정점 후 주차별 누적 하락률 비교</h2>
     <div class="chartbox"><canvas id="cmp"></canvas></div>
     <div style="font-size:11.5px; color:#8b949e; margin-top:6px;">
-      <b>주간 종가</b> 기준, 각 정점 종가=0%. 1998 나스닥 7/20(2,014)→10/8(1,419) <b>종가 -29.6% / 장중 -33.7%</b>. 2000 나스닥 3/10(5,049)→5/23(3,165) <b>종가 -37.3% / 장중 -37.1%</b>. 현재 코스피 <span id="cmpNow">6/22(9,115)→7/28(6,024) <b>종가 -33.9% / 장중 -36.2%</b></span>. 주간 종가 샘플링이라 주중 저점은 곡선에 안 잡힘 — 1998 곡선 최저 -25.6%는 실제 저점(-29.6%)보다 얕게 보임.
+      <span id="cmpCap">불러오는 중&hellip;</span>
     </div>
   </div>
 
@@ -558,20 +558,26 @@
 
 <script>
 const labels = ['W0','W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12','W13'];
-const d1998 = [0,-4.0,-8.1,-8.7,-9.7,-11.1,-25.6,-22.2,-17.3,-16.6,-13.7,-23.7,-23.2,-18.1];
-const d2000 = [0,-5.0,-1.7,-9.4,-11.9,-34.2,-27.8,-23.5,-24.4,-30.1,-32.8,-36.5,-24.5,-23.2];
-const dNow  = [0,-7.9,-11.7,-25.3,-28.5,-25.9,-33.9,null,null,null,null,null,null,null];
 
-new Chart(document.getElementById('cmp'), {
+/* ── #cmp : 정점 후 주차별 '장중 저가' 하락률 (2026-07-30 종가→저가 전환) ──
+   정점 = 탐색구간 내 장중 최고가일, 그 High = 0%
+   W_n  = (정점+7(n-1)일, 정점+7n일] 구간의 장중 최저가
+   3개 시리즈 전부 데이터에서 계산. high/low 없으면 종가 fallback. */
+const CMP_SER = [
+  {label:'1998 조정 (나스닥)', src:'dotcom', sym:'^IXIC', from:'1998-06-15', to:'1998-08-15',
+   color:'#60a5fa', dash:[5,3], w:2},
+  {label:'2000 붕괴 (나스닥)', src:'dotcom', sym:'^IXIC', from:'2000-02-15', to:'2000-04-15',
+   color:'#f85149', dash:[5,3], w:2},
+  {label:'현재 코스피 (2026)', src:'kospi', sym:'^KS11', from:'2026-06-01', to:'2026-07-10',
+   color:'#f0f6fc', dash:[], w:3}
+];
+
+const cmpChart = new Chart(document.getElementById('cmp'), {
   type: 'line',
-  data: { labels: labels, datasets: [
-    {label: '1998 조정 (나스닥)', data: d1998, borderColor: '#60a5fa', backgroundColor: 'transparent',
-     borderWidth: 2, borderDash: [5,3], pointRadius: 2, tension: 0.1},
-    {label: '2000 붕괴 (나스닥)', data: d2000, borderColor: '#f85149', backgroundColor: 'transparent',
-     borderWidth: 2, borderDash: [5,3], pointRadius: 2, tension: 0.1},
-    {label: '현재 코스피 (2026)', data: dNow, borderColor: '#f0f6fc', backgroundColor: 'transparent',
-     borderWidth: 3, pointRadius: 3, tension: 0.1}
-  ]},
+  data: { labels: labels, datasets: CMP_SER.map(function (s) {
+    return {label: s.label, data: [], borderColor: s.color, backgroundColor: 'transparent',
+            borderWidth: s.w, borderDash: s.dash, pointRadius: s.dash.length ? 2 : 3, tension: 0.1, spanGaps: false};
+  })},
   options: {
     responsive: true, maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
@@ -582,11 +588,81 @@ new Chart(document.getElementById('cmp'), {
     scales: {
       x: { title: { display: true, text: '정점 후 주차', font: {size: 11}, color: '#8b949e' },
            ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
-      y: { title: { display: true, text: '정점 대비 (%)', font: {size: 11}, color: '#8b949e' },
+      y: { title: { display: true, text: '정점 장중고 대비 (%)', font: {size: 11}, color: '#8b949e' },
            ticks: { color: '#8b949e', callback: v => v + '%' }, grid: { color: '#21262d' } }
     }
   }
 });
+
+(function () {
+  var B = 'https://raw.githubusercontent.com/SJS9401/market-dashboard/main/data/';
+  function addD(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function f(n) { return Number(n).toLocaleString('ko-KR', {maximumFractionDigits: 0}); }
+  function md(t) { return (+t.slice(5, 7)) + '/' + (+t.slice(8, 10)); }
+
+  /* 원본 → [{t, c, h, l}] 정규화. high/low 없으면 close 로 대체 */
+  function norm(src, raw) {
+    if (src === 'dotcom') return raw.map(function (r) {
+      return {t: r[0], c: r[1], h: (r.length > 2 ? r[2] : r[1]), l: (r.length > 3 ? r[3] : r[1]), full: r.length > 3};
+    });
+    return raw.map(function (x) { return {t: x.time, c: x.close, h: x.high, l: x.low, full: true}; });
+  }
+
+  function build(S, cfg) {
+    // 1) 정점 = 탐색구간 장중 최고가일
+    var pk = null;
+    for (var i = 0; i < S.length; i++) {
+      var x = S[i];
+      if (x.t < cfg.from || x.t > cfg.to) continue;
+      if (!pk || x.h > pk.h) pk = x;
+    }
+    if (!pk) return null;
+    var out = [0], lo = Infinity, loT = '', lastT = S[S.length - 1].t;
+    for (var k = 1; k < labels.length; k++) {
+      var a = addD(pk.t, 7 * (k - 1)), b = addD(pk.t, 7 * k), m = Infinity;
+      for (var j = 0; j < S.length; j++) {
+        var y = S[j];
+        if (y.t > a && y.t <= b && y.l < m) m = y.l;
+      }
+      if (m === Infinity) { out.push(null); continue; }
+      out.push(+((m / pk.h - 1) * 100).toFixed(1));
+      if (m < lo) { lo = m; loT = a; }
+      // 아직 안 끝난 주차라도 지금까지의 저가를 그린다 (진행 중 구간)
+      if (b > lastT) break;
+    }
+    while (out.length < labels.length) out.push(null);
+    // 정확한 저점 일자
+    var loD = '';
+    for (var q = 0; q < S.length; q++) if (S[q].t >= pk.t && S[q].l === lo) { loD = S[q].t; break; }
+    return {data: out, pk: pk, lo: lo, loD: loD, full: S.length ? S[0].full : false};
+  }
+
+  Promise.all([
+    fetch(B + 'dotcom_historical.json?t=' + Date.now(), {cache: 'no-store'}).then(function (r) { return r.json(); }),
+    fetch('data/yahoo_dashboard.json?t=' + Date.now(), {cache: 'no-store'}).then(function (r) { return r.json(); })
+      .catch(function () { return fetch(B + 'yahoo_dashboard.json?t=' + Date.now(), {cache: 'no-store'}).then(function (r) { return r.json(); }); })
+  ]).then(function (res) {
+    var dc = res[0], yh = res[1], parts = [], anyClose = false;
+    CMP_SER.forEach(function (cfg, idx) {
+      var raw = (cfg.src === 'dotcom') ? (dc.data && dc.data[cfg.sym]) : (yh.data && yh.data[cfg.sym] && yh.data[cfg.sym].candles);
+      if (!raw || !raw.length) return;
+      var r = build(norm(cfg.src, raw), cfg);
+      if (!r) return;
+      cmpChart.data.datasets[idx].data = r.data;
+      if (!r.full) anyClose = true;
+      parts.push('<b>' + cfg.label.replace(/ \(.*\)/, '') + '</b> ' + md(r.pk.t) + '(' + f(r.pk.h) + ')&rarr;'
+        + md(r.loD) + '(' + f(r.lo) + ') <b>' + ((r.lo / r.pk.h - 1) * 100).toFixed(1) + '%</b>');
+    });
+    cmpChart.update('none');
+    var cap = document.getElementById('cmpCap');
+    if (cap) cap.innerHTML = '<b>주간 장중 저가</b> 기준, 각 정점의 <b>장중 최고가</b>=0%. '
+      + parts.join(' &middot; ') + '.<br>각 점은 해당 주차의 장중 최저가 &mdash; 종가 샘플링과 달리 주중 투매 지점이 그대로 찍힌다.'
+      + (anyClose ? ' <span style="color:#6e7681;">(나스닥은 아직 종가 데이터 — fetch_dotcom_historical 워크플로우 재실행 필요)</span>' : '');
+  }).catch(function (e) {
+    var cap = document.getElementById('cmpCap');
+    if (cap) cap.textContent = '데이터를 불러오지 못했습니다.';
+  });
+})();
 </script>
 <script>
 /* ── 코스피 주봉 자동 갱신 카드 (2026-07-29 신설) ──────────────────
@@ -827,69 +903,6 @@ new Chart(document.getElementById('cmp'), {
   else boot();
 })();
 </script>
-<script>
-/* ── #cmp 코스피 시리즈 자동 갱신 (2026-07-29 신설) ────────────────
-   W_n = (정점일 + 7n일) 이하 마지막 거래일 종가. 진행 중 구간은 최신 종가 append.
-   캘린더 기준이라 결측 거래일이 있어도 주차가 밀리지 않음.
-   1998/2000 나스닥은 확정 과거값이라 하드코딩 유지. */
-(function () {
-  var PK = '2026-06-22';   // 코스피 정점 종가일 (9,114.55)
-  var URLS = ['data/yahoo_dashboard.json',
-              'https://raw.githubusercontent.com/SJS9401/market-dashboard/main/data/yahoo_dashboard.json'];
-  function addD(iso, n) { var d = new Date(iso + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
-  function f(n, d) { return Number(n).toLocaleString('ko-KR', {maximumFractionDigits: d === undefined ? 0 : d}); }
 
-  function apply(K) {
-    var i = -1;
-    for (var a = 0; a < K.length; a++) if (K[a].time === PK) { i = a; break; }
-    if (i < 0) return;
-    var base = K[i].close, N = 14;
-    var out = [0], marks = [PK], lastT = PK;
-    for (var k = 1; k < N; k++) {
-      var lim = addD(PK, 7 * k), j = -1;
-      for (var m = i; m < K.length; m++) { if (K[m].time <= lim) j = m; else break; }
-      if (j < 0 || K[j].time === lastT || lim > K[K.length - 1].time) { out.push(null); marks.push(null); continue; }
-      out.push(+((K[j].close / base - 1) * 100).toFixed(1)); marks.push(K[j].time); lastT = K[j].time;
-    }
-    // 진행 중 구간 — 최신 종가를 다음 빈 슬롯에 붙여 곡선이 오늘까지 이어지게
-    var slot = out.indexOf(null), latest = K[K.length - 1];
-    if (slot > 0 && latest.time > lastT) { out[slot] = +((latest.close / base - 1) * 100).toFixed(1); marks[slot] = latest.time; }
-
-    var ch = Chart.getChart('cmp');
-    if (ch) {
-      var ds = ch.data.datasets;
-      for (var q = 0; q < ds.length; q++) if (ds[q].label && ds[q].label.indexOf('코스피') >= 0) ds[q].data = out;
-      ch.update('none');
-    }
-
-    // 캡션 — 종가↔종가 / 장중고↔장중저 분리
-    var hiC = 0, hiH = 0, hiHt = '', lo = Infinity;
-    for (var p = 0; p < K.length; p++) {
-      var x = K[p]; if (x.time < '2026-01-01') continue;
-      if (x.close > hiC) hiC = x.close;
-      if (x.high > hiH) { hiH = x.high; hiHt = x.time; }
-    }
-    for (var p2 = 0; p2 < K.length; p2++) if (K[p2].time >= hiHt && K[p2].low < lo) lo = K[p2].low;
-    var md = function (t) { return (+t.slice(5, 7)) + '/' + (+t.slice(8, 10)); };
-    var el = document.getElementById('cmpNow');
-    if (el) el.innerHTML = md(PK) + '(' + f(base) + ')&rarr;' + md(latest.time) + '(' + f(latest.close) + ') <b>종가 '
-      + ((latest.close / hiC - 1) * 100).toFixed(1) + '% / 장중 ' + ((lo / hiH - 1) * 100).toFixed(1) + '%</b>';
-  }
-
-  var i = 0;
-  (function next() {
-    if (i >= URLS.length) return;
-    var u = URLS[i++];
-    fetch(u + (u.indexOf('?') < 0 ? '?t=' : '&t=') + Date.now(), {cache: 'no-store'})
-      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-      .then(function (j) {
-        var k = j.data && j.data['^KS11'];
-        if (!k || !k.candles || !k.candles.length) throw 0;
-        apply(k.candles);
-      })
-      .catch(next);
-  })();
-})();
-</script>
 </body>
 </html>

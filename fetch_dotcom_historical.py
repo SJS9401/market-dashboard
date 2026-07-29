@@ -16,8 +16,8 @@ Output:
     {
       "_meta": {...},
       "data": {
-        "CSCO": [[date, close], ...],
-        "QCOM": [[date, close], ...]
+        "CSCO": [[date, close, high, low], ...],
+        "QCOM": [[date, close, high, low], ...]
       }
     }
 """
@@ -41,7 +41,13 @@ END   = "2002-06-30"
 
 
 def fetch_symbol(sym):
-    """yfinance 로 종가 시계열 fetch → [[date, close], ...]."""
+    """yfinance 로 시계열 fetch → [[date, close, high, low], ...].
+
+    2026-07-30: high/low 를 뒤에 append (하위호환).
+      기존 소비처(build_current_cycle.py:134)는 row[1] 을 close 로 읽으므로
+      인덱스 2,3 을 추가해도 깨지지 않는다.
+      용도 — Dotcom_vs_now.html '정점 후 주차별 하락률' 차트의 저가 기준 시리즈.
+    """
     import yfinance as yf
     import pandas as pd
 
@@ -53,7 +59,12 @@ def fetch_symbol(sym):
     for ts, row in h.iterrows():
         if pd.isna(row.get("Close")):
             continue
-        out.append([ts.strftime("%Y-%m-%d"), round(float(row["Close"]), 4)])
+        rec = [ts.strftime("%Y-%m-%d"), round(float(row["Close"]), 4)]
+        hi, lo = row.get("High"), row.get("Low")
+        if hi is not None and lo is not None and not pd.isna(hi) and not pd.isna(lo):
+            rec.append(round(float(hi), 4))
+            rec.append(round(float(lo), 4))
+        out.append(rec)
     return out
 
 
@@ -85,7 +96,7 @@ def main():
             "fetched_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "range": f"{START} ~ {END}",
             "symbols": SYMBOLS,
-            "format": "{symbol: [[date, close], ...]}"
+            "format": "{symbol: [[date, close, high, low], ...]}"
         },
         "data": data
     }
