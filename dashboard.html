@@ -331,6 +331,12 @@ const allCharts = {}; // id → { chart, series, el }
 const colGroups = { kr: [], us: [] }; // chart ids per column
 const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
 const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+// 컬럼 로지컬 범위 동기화 상태 (2026-08-01): 목표 범위 + rAF 핸들 + 근사 비교(0.05 bar)
+const colSyncTarget = { kr: null, us: null };
+const colSyncRaf = { kr: null, us: null };
+function rangeEq(a, b) {
+  return !!a && !!b && Math.abs(a.from - b.from) < 0.05 && Math.abs(a.to - b.to) < 0.05;
+}
 // Crosshair perf cache: setMarkers([]) re-renders each chart; calling it every frame on empty-space hover
 // chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
 // (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
@@ -476,20 +482,24 @@ function createChart(id, col, opts = {}) {
   }).observe(el);
 
   // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
+  //
+  // 2026-08-01 재설계 (X 정렬 항구 fix):
+  //   기존엔 전역 boolean `syncing` 으로 메아리를 막았는데, 한 프레임에 여러 차트가 동시에
+  //   범위를 바꾸면 (레이아웃 변화·페이지 스크롤·지연 적용된 setVisibleLogicalRange 등)
+  //   먼저 발화한 차트만 전파되고 나머지는 전부 버려져 → 메인만 120봉으로 튀고 서브는 그대로
+  //   남는 영구 desync 가 발생했다 (BT 리포트: 세로선/마커가 카드마다 어긋남).
+  //
+  //   → 목표 범위(colSyncTarget)를 두고 "마지막 변경이 진짜 소스" 로 수렴시키는 방식으로 교체.
+  //     - 들어온 범위가 현재 목표와 같으면 = 우리가 방금 건 set 의 메아리 → 무시 (루프 차단)
+  //     - 다르면 새 목표로 채택하고 rAF 한 번에 컬럼 전체를 목표로 맞춤 (다른 것만 set)
+  //   지연 발생한 변경도 나중에 새 목표가 되어 전파되므로 desync 가 남지 않는다.
   chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
-    if (syncing) return;
     const logicalRange = chart.timeScale().getVisibleLogicalRange();
-    const visibleRange = chart.timeScale().getVisibleRange();
     if (!logicalRange) return;
-    syncing = true;
-    colGroups[col].forEach(otherId => {
-      if (otherId !== id && allCharts[otherId]) {
-        try {
-          allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
-        } catch(_){}
-      }
-    });
-    // Update bar count display for main charts
+    if (rangeEq(logicalRange, colSyncTarget[col])) return;   // 메아리
+    colSyncTarget[col] = logicalRange;
+
+    // Update bar count display — 메인 차트 기준
     if (id === 'kospi' || id === 'ndx') {
       const barInput = document.getElementById('bars-' + col);
       if (barInput && !barInput.matches(':focus')) {
@@ -497,7 +507,21 @@ function createChart(id, col, opts = {}) {
         barInput.value = visibleBars > 0 ? visibleBars : '';
       }
     }
-    requestAnimationFrame(() => { syncing = false; });
+
+    if (colSyncRaf[col]) return;
+    colSyncRaf[col] = requestAnimationFrame(() => {
+      colSyncRaf[col] = null;
+      const tgt = colSyncTarget[col];
+      if (!tgt) return;
+      colGroups[col].forEach(otherId => {
+        const c = allCharts[otherId];
+        if (!c) return;
+        const cur = c.chart.timeScale().getVisibleLogicalRange();
+        if (!rangeEq(cur, tgt)) {
+          try { c.chart.timeScale().setVisibleLogicalRange(tgt); } catch(_){}
+        }
+      });
+    });
   });
 
   // Column crosshair overlay line + header value update + marker dots on sub-charts
