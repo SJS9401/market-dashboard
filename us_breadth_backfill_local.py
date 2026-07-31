@@ -631,6 +631,17 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
     import pandas as pd
 
     run_started = datetime.utcnow()
+
+    # 2026-08-01 신선도 버그 fix: yfinance 의 end 는 **exclusive** 라 end=오늘(UTC) 를 주면
+    # 정작 받고 싶은 그날 봉이 잘려나간다. 실제로 23:34 UTC (미 마감 3.5h 후) 실행에서도
+    # 모든 소스가 전일까지만 반환 → "시장폭이 늘 하루 늦음" 의 진짜 원인.
+    # → end 를 항상 today+1 이상으로 올려 inclusive 동작으로 정규화 (FRED 는 inclusive 라 무해).
+    _end_req = end
+    _tomorrow = (datetime.utcnow().date() + timedelta(days=1)).strftime("%Y-%m-%d")
+    if end < _tomorrow:
+        end = _tomorrow
+        _log(f"  [end-fix] yfinance end 는 exclusive → {_end_req} → {end} 로 확장")
+
     _log(f"== backfill v2 {start} → {end} ==")
 
     tickers = fetch_spx_tickers()
@@ -764,7 +775,7 @@ def main():
     if args.probe:
         cmd_probe()
     elif args.test:
-        end = datetime.now().strftime("%Y-%m-%d")
+        end = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")  # exclusive 보정
         start = (datetime.now() - timedelta(days=3 * 365 + 30)).strftime("%Y-%m-%d")
         run_backfill(start, end, max_tickers=50)
     elif args.backfill:

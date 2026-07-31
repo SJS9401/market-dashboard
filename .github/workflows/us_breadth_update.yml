@@ -63,11 +63,14 @@ jobs:
       - name: 백필 시작/종료 날짜 계산
         id: dates
         run: |
-          # SPX 데이터 시작은 2015-01-01 고정, 종료는 오늘 (UTC)
+          # SPX 데이터 시작은 2015-01-01 고정.
+          # 종료는 '오늘+1' (UTC) — yfinance 의 end 는 exclusive 라 오늘을 주면 그날 봉이 잘린다.
+          # (2026-08-01: 이 때문에 미 마감 3.5h 뒤 실행에도 늘 전일 데이터만 들어오던 버그 수정)
           TODAY=$(date -u +%Y-%m-%d)
+          END=$(date -u -d '+1 day' +%Y-%m-%d)
           echo "start=2015-01-01" >> $GITHUB_OUTPUT
-          echo "end=${TODAY}" >> $GITHUB_OUTPUT
-          echo "백필 기간: 2015-01-01 → ${TODAY}"
+          echo "end=${END}" >> $GITHUB_OUTPUT
+          echo "백필 기간: 2015-01-01 → ${END} (exclusive, 실효 종료일 ${TODAY})"
 
       - name: 풀 백필 실행
         env:
