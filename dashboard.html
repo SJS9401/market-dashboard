@@ -689,8 +689,11 @@ const ZONE_REMAP = {
   '#8b949e': '#3A424B',   // 0선·중립 회색
   '#3182f6': '#12459E'    // ADR 80 파랑
 };
+// 2026-08-01 BT: 과매수/과매도 라인 제거 (장기 차트로 직접 판정). 중립 기준선만 유지 —
+//   F&G 50 / Breadth 50 / ADR 100 / 오실레이터·현선물 0선. 상단(초록)·하단(빨강)·ADR 80(파랑) 은 skip.
+const ZONE_SKIP = ['#27ae60', '#e74c3c', '#3182f6'];
 function addZoneLines(series, lines) {
-  lines.forEach(l => series.createPriceLine({
+  lines.filter(l => !ZONE_SKIP.includes(l.color)).forEach(l => series.createPriceLine({
     price: l.price,
     color: ZONE_REMAP[l.color] || l.color,
     lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: ''
@@ -1396,10 +1399,14 @@ async function loadFGCombo(id, col, fetchFn) {
     if (!allCharts[id]) {
       createChart(id, col, { showTimeAxis: false });
       const ch = allCharts[id].chart;
-      ch.applyOptions({ leftPriceScale: { visible: true, borderColor: '#21262d' } });
+      // 2026-08-01 X 정렬 fix: 기존엔 F&G 절대값을 leftPriceScale 에 올려 좌축을 켰는데,
+      // 이 카드만 좌축 폭(~50px)만큼 plot 시작 X 가 밀려 컬럼 크로스헤어/마커가 어긋났다.
+      // → 현선물 카드와 동일한 '오버레이 priceScale' 패턴 (임의 ID = 축 미표시 + 독립 autoscale).
+      //   축 폭이 다른 카드와 동일해져 정렬 유지. F&G 절대값은 헤더/툴팁에서 확인.
+      ch.applyOptions({ leftPriceScale: { visible: false } });
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      ch.priceScale('left').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      const gold = ch.addLineSeries({ priceScaleId: 'left', color: C_SLATE, lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      ch.priceScale('fg-abs').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const gold = ch.addLineSeries({ priceScaleId: 'fg-abs', color: C_SLATE, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
       const pink = ch.addLineSeries({ priceScaleId: 'right', color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       allCharts[id].series = gold;
       allCharts[id].series2 = pink;
