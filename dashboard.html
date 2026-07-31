@@ -24,7 +24,7 @@
   /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
   /* 지수 차트 sticky 해제 (지표 4개 컴팩트 레이아웃) — relative 유지해서 date-main 이 index 카드 하단에 자리잡도록 함 */
   .sticky-index { position: relative; background: #0d1117; }
-  .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
+  .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(35,42,50,0.75); pointer-events: none; display: none; z-index: 99999; }
   .col-date-label { position: absolute; background: #1f6feb; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; white-space: nowrap; pointer-events: none; display: none; z-index: 99999; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
   .col-date-main { bottom: 4px; }
   .col-date-sub  { bottom: 4px; }
@@ -81,7 +81,7 @@
   .hts-tooltip .hts-row .v { color: #c9d1d9; font-variant-numeric: tabular-nums; }
   .hts-tooltip .hts-up { color: #f04452; }
   .hts-tooltip .hts-down { color: #3182f6; }
-  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 12px; pointer-events: none; }
+  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #4a5058; font-size: 12px; pointer-events: none; background: #C0C0C0; }
   .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
   .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
@@ -354,16 +354,19 @@ function getWeekKey(t){const d=new Date(t+'T12:00:00'),day=d.getDay(),diff=day==
 function resampleWeekly(data){if(!data.length)return data;const m=new Map();data.forEach(d=>{const wk=getWeekKey(d.time);m.set(wk,d)});return[...m.values()].sort((a,b)=>a.time.localeCompare(b.time))}
 function candlesToWeekly(candles){if(!candles.length)return candles;const weeks=[];let cur=null;candles.forEach(c=>{const wk=getWeekKey(c.time);if(!cur||cur._wk!==wk){if(cur){const{_wk,...rest}=cur;weeks.push(rest)}cur={time:c.time,open:c.open,high:c.high,low:c.low,close:c.close,_wk:wk}}else{cur.time=c.time;cur.high=Math.max(cur.high,c.high);cur.low=Math.min(cur.low,c.low);cur.close=c.close}});if(cur){const{_wk,...rest}=cur;weeks.push(rest)}return weeks}
 
-const CHART_OPTS = (bg='#161b22') => ({
-  layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
-  grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
-  crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
+// 2026-08-01: 주도주 사이클(Leading_stocks) 과 동일한 회색 HTS 테마.
+//   plot 배경 #C0C0C0 / grid #9A9A9A / 축·텍스트 다크. 카드 프레임은 기존 다크 유지.
+const CHART_OPTS = (bg='#C0C0C0') => ({
+  layout:{background:{type:'solid',color:bg},textColor:'#1c2128',fontSize:10},
+  grid:{vertLines:{color:'#9A9A9A'},horzLines:{color:'#9A9A9A'}},
+  crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false},
+    horzLine:{color:'#2b3138',labelBackgroundColor:'#2b3138'}},
   // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
   // - 50 이면 라벨 짧은 차트 (MDD -1.68, ADR 67.62) 가 50px, 라벨 긴 차트 (나스닥 26589.73) 가 자동 확장 → plot area width 다름 → marker 의 같은 time index 라도 X 픽셀 misalign.
   // - 60 으로 키워 가장 긴 라벨 (26589.73 = 8자, ~55px) 도 자동 확장 없이 fit → 모든 차트 same priceScale width → X 정렬 일치.
   // scaleMargins.top 0.12 (2026-05-27): 캔들 위 12% 공간 확보. setMarkers([{position:'aboveBar'}]) 시
   // lightweight-charts 가 marker 공간 위해 priceScale 자동 확장하던 사고 회피 — marker 가 미리 확보된 margin 안에 들어감.
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
+  rightPriceScale:{borderColor:'#707070',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
   handleScale:false,handleScroll:false
 });
 
@@ -456,7 +459,7 @@ function createChart(id, col, opts = {}) {
     width: el.clientWidth, height: el.clientHeight,
     ...CHART_OPTS(),
     timeScale: {
-      borderColor: '#21262d', timeVisible: false,
+      borderColor: '#707070', timeVisible: false,
       visible: opts.showTimeAxis !== false,
       // rightOffset 0: 데이터 마지막 bar 가 차트 우측 끝과 정렬. 추가 trailing padding 없음.
       rightOffset: 0
@@ -962,10 +965,21 @@ const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['
 
 // MA config: periods and colors per chart
 const MA_CONFIG = {
-  kospi: { daily:[5,10,20,60,120], weekly:[5,10,20,60,120] },
-  ndx:   { daily:[5,10,20,50,200], weekly:[5,10,20,50,200] }
+  kospi: { daily:[5,20,60,120], weekly:[5,20,60,120] },
+  ndx:   { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
-const MA_COLORS = ['#f04452','#f1c40f','#2ecc71','#3182f6','#bc8cff'];
+// 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
+//   5 검정 / 20 노랑 / 50·60 보라 / 100·120 녹색 / 200 갈색
+//   미국 5/20/50/100/200 (US 표준), 한국 5/20/60/120 (국내 관례 + BT: 시클리컬 위주라
+//   200·240 장기선은 실전 의미 낮다고 판단, 2026-08-01 제외).
+const MA_COLOR_BY_PERIOD = {
+  5:'#000000', 10:'#0000FF', 20:'#E8C400',
+  50:'#9900CC', 60:'#9900CC',
+  100:'#008000', 120:'#008000',
+  200:'#8B4513'
+};
+const MA_COLORS = ['#000000','#E8C400','#9900CC','#008000','#8B4513'];
+const maColor = (p, i) => MA_COLOR_BY_PERIOD[p] || MA_COLORS[i % MA_COLORS.length];
 
 async function loadIndex(id, col) {
   const range = colRange[col], intv = colInterval[col];
@@ -1005,7 +1019,7 @@ async function loadIndex(id, col) {
         }
         if (pts.length) {
           const line = allCharts[id].chart.addLineSeries({
-            color: MA_COLORS[idx % MA_COLORS.length], lineWidth: 1,
+            color: maColor(p, idx), lineWidth: 1.2,
             priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
           });
           line.setData(pts);
@@ -1020,7 +1034,7 @@ async function loadIndex(id, col) {
       if (legendEl) {
         const unit = intv === '1wk' ? 'W' : 'D';
         legendEl.innerHTML = periods.map((p, i) =>
-          `<span><span class="dot" style="background:${MA_COLORS[i]}"></span>${p}${unit}</span>`
+          `<span><span class="dot" style="background:${maColor(p, i)}"></span>${p}${unit}</span>`
         ).join('');
       }
     }
@@ -1065,7 +1079,7 @@ async function loadMDD(indexId, mddId, col) {
       const s = allCharts[mddId].chart.addBaselineSeries({
         baseValue: { type: 'price', price: 0 },
         topLineColor: 'transparent', topFillColor1: 'transparent', topFillColor2: 'transparent',
-        bottomLineColor: 'rgb(160,160,160)', bottomFillColor1: 'rgba(140,140,140,0.65)', bottomFillColor2: 'rgba(140,140,140,0.15)',
+        bottomLineColor: 'rgb(45,62,80)', bottomFillColor1: 'rgba(60,82,105,0.55)', bottomFillColor2: 'rgba(60,82,105,0.10)',
         lineWidth: 1.5, priceLineVisible: false,
         lastValueVisible: true, crosshairMarkerVisible: true,
         autoscaleInfoProvider: (original) => {
@@ -1080,7 +1094,7 @@ async function loadMDD(indexId, mddId, col) {
     allCharts[mddId].series.setData(padded);
     buildDataMap(mddId, padded);
     // 0% solid line
-    allCharts[mddId].series.createPriceLine({ price: 0, color: '#8b949e', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: 0, color: '#4a5058', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
     // Zone lines — Y축 라벨 없이 점선만
     allCharts[mddId].series.createPriceLine({ price: -10, color: '#27ae60', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
     allCharts[mddId].series.createPriceLine({ price: -20, color: '#e2a44e', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
@@ -2133,22 +2147,18 @@ function setupScrollbar(col, mainId) {
     {d:"07/10",cat:"IPO",ev:"SK하이닉스 미국 ADR 상장 (나스닥 티커 SKHY)",note:"반도체 T1 — 2026-06-24 공식 PR 잠정 일정 (SK하이닉스 PR팀, 한/미 당국 승인·시황 따라 변동 가능): ▸7/6 증권신고서 효력발생 + 투자설명서 제출 + ADR 수요예측 개시…"},
     {d:"07/15",cat:"정책",ev:"미국 클래리티법안 상원 본회의·하원 재승인·서명 일정",note:"법안심의 — 5/14 상원 은행위 마크업 15-9 통과 완료 (Gallego·Alsobrooks 민주당 2명 찬성). 6/1 상원 입법 캘린더 General Orders 등재 완료…"},
     {d:"07/15",cat:"정책",ev:"대미투자 1호 프로젝트 공식 발표 (산업부-미 상무부)",note:"한미통상 — 6/18 한미전략투자공사 출범 완료 (서울신문 2026-06-18). 1호 프로젝트 구체적 내용·발표 시기 \"정해진 바 없음\" (산업부 공식 설명자료 2026-06-21)…"},
-    {d:"07/15",cat:"정책",ev:"정부·여당 2026 세제개편안(세법개정안) 발표",note:"정책 유동성(핵심 리스크 ④) — 기재부 통상 7월말 발표. 핵심: 배당소득 분리과세(밸류업·14~30% 차등)·금투세 폐지 후속(증권거래세 일부 환원)·법인세율 1%p 환원…"},
     {d:"07/18",cat:"정책",ev:"GENIUS Act 하위 규정 시행기한",note:"금융·스테이블코인"},
     {d:"07/23",cat:"실적",ev:"빅테크 실적 — 알파벳(GOOGL)·테슬라(TSLA) (7/22 ET AMC, KST 7/23 새벽)",note:"AI CAPEX 1차 검증 (핵심리스크 ①) — Cloud 성장·CapEx 가이던스 + 테슬라 Auto GPM·옵티머스·로보택시…"},
-    {d:"07/29",cat:"실적",ev:"삼성전기 2분기 실적발표 — ⚠ 미확인",note:"MLCC·기판 — 무라타(7/31)와 MLCC 업황 cross-check. ⚠ 추정일 경과했으나 발표 확인 안 됨 (2026-07-31 daily-preview) [Cross-check:…"},
     {d:"07/30",cat:"실적",ev:"빅테크 실적 — 마이크로소프트(MSFT)·메타(META) (7/29 ET AMC, KST 7/30 새벽)",note:"AI CAPEX — Azure·CapEx 가이던스 + 메타 AI광고 ARR. MSFT 공식 IR 정정 2026-07-12 (기존 7/29 KST)…"},
     {d:"07/30",cat:"산업",ev:"테슬라 옵티머스 V3 양산·공개 (~8월초)",note:"로봇 7월말~8월초"},
-    {d:"07/30",cat:"정책",ev:"BOJ 통화정책회의 + Outlook Report",note:"Tier 1 금리 — 6/16 BOJ 25bp 인상 확정 (0.75%→1.00%, 7-1 표결, 1995년 이후 최고)…"},
     {d:"07/30",cat:"IPO",ev:"인제니아테라퓨틱스 신규상장",note:"38커뮤니케이션 — 청약 7/23~24 → 7/30~31 일정 변경 (2026-07-15). 바이오 기업. 희망공모가 12,000~14,500원. 삼성증권…"},
     {d:"07/31",cat:"실적",ev:"빅테크 실적 — 애플(AAPL)·아마존(AMZN) (AMC, KST 7/31)",note:"AWS CapEx·메모리 원가 가격전가·서비스"},
-    {d:"07/31",cat:"실적",ev:"빅테크 CAPEX 3차 검증 — 애플(AAPL)·아마존(AMZN) AMC — 완료 (KST 7/31 새벽)",note:"핵심리스크 ① — AAPL: 매출 $1,094.2억 +16% beat·EPS $2.02 beat·iPhone $542.5억 +21.7%…"},
-    {d:"07/31",cat:"실적",ev:"무라타(6981) FY2027 Q1 실적발표 (14:00 JST)",note:"MLCC·전자부품 — 확정. 삼성전기·반도체 부품 수요 cross-read [Cross-check: TipRanks/Murata IR 2026-06]"},
-    {d:"08/01",cat:"실적",ev:"지멘스에너지(ENR) Q3 FY2026 (독일 오전, KST 동일)",note:"전력인프라 T2 — 그리드·HVDC·풍력. 전력인프라 피어(ABB·GEV·LS일렉트릭) 실적 이후 최종 cross-read. [실적_캘린더 확정]"},
     {d:"08/03",cat:"경제지표",ev:"한국 7월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개. ⚠ 8/1(토) 주말 → 8/3(월) 이연"},
     {d:"08/03",cat:"IPO",ev:"딜리셔스 신규상장",note:"38커뮤니케이션 확인 (2026-06-29). 상장일 8/12 확정 (38커뮤니케이션 직접 확인 2026-07-28)"},
-    {d:"08/04",cat:"실적",ev:"이튼(ETN) Q2 BMO + 팔란티어(PLTR) Q2 AMC (KST)",note:"전력인프라 T2·AI 소프트웨어 — ETN: 전력 CAPEX·데이터센터 수요 (Q1 매출 $7.5B 사상최고, 유기적 성장 +8→+10% 상향)…"},
+    {d:"08/04",cat:"실적",ev:"팔란티어(PLTR) Q2 AMC (KST, ET 8/3 저녁)",note:"AI 소프트웨어 — 수주·미국 상업부문 성장. [실적_캘린더 확정 — ETN(이튼)은 8/4→7/31 정정, 발표 완료]"},
+    {d:"08/04",cat:"정책",ev:"정부·여당 2026 세제개편안(세법개정안) 발표",note:"정책 유동성(핵심 리스크 ④) — 배당소득 분리과세(밸류업·14~30% 차등)·금투세 폐지 후속(증권거래세 일부 환원)·법인세율 1%p 환원. 종부세·거래세 등 세제 전반 검토…"},
     {d:"08/04",cat:"IPO",ev:"케이앤에스아이앤씨 신규상장",note:"38커뮤니케이션 — 청약 7/27~28 → 8/4~5 일정 변경 확인 (2026-07-13). 상장일 8/14 확정 (38커뮤니케이션 신규상장 일정 직접 확인 2026-07-23)"},
+    {d:"08/05",cat:"실적",ev:"지멘스에너지(ENR) Q3 FY2026 (CC 08:30 CET, KST 동일)",note:"전력인프라 T2 — 그리드·HVDC·풍력. 전력인프라 피어(ABB·GEV·LS일렉트릭) 실적 이후 최종 cross-read…"},
     {d:"08/05",cat:"실적",ev:"AMD Q2 AMC (KST, 8/4 ET)",note:"반도체 CPU — MI350 AI 가속기·Zen5 EPYC 데이터센터·Q2 가이던스 $11.2B 달성 여부. 반도체 T1 크로스리드. [실적_캘린더 확정]"},
     {d:"08/05",cat:"경제지표",ev:"코스트코(COST) 7월 월간 매출 (IR, PT 13:15 = KST 8/6 05:15)",note:"미 소매판매 선행 지표 — 8/14 Census Bureau 발표 9일 전 선행. 소비자 심리·구매력 첫 신호. 발표일 확정 (Costco IR 이벤트 캘린더 직접 확인 2026-07-13)…"},
     {d:"08/06",cat:"실적",ev:"샌디스크(SNDK) + 웨스턴디지털(WDC) Q4 FY2026 AMC (KST, 8/5 ET)",note:"반도체 스토리지 — SNDK: Q4 가이던스 $7.75~8.25B·GM 79~81%·EPS $30~33 (Q3 실제 $5.95B +251% YoY 대폭 초과)…"},
