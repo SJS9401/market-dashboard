@@ -680,8 +680,21 @@ function addAreaSeries(id, color) {
   allCharts[id].series = s; return s;
 }
 
+// 2026-08-01: 회색 배경에서 기존 밝은 파스텔 존 라인이 거의 안 보여 → 진한 채도로 리맵.
+// 호출부는 기존 토큰(#27ae60 등)을 그대로 쓰고 여기서 한 번에 변환한다.
+const ZONE_REMAP = {
+  '#27ae60': '#0B6E33',   // 과매수(상단) 초록
+  '#e74c3c': '#B01D12',   // 과매도(하단) 빨강
+  '#f1c40f': '#8A6400',   // 중립 기준선 (50/100) 황금
+  '#8b949e': '#3A424B',   // 0선·중립 회색
+  '#3182f6': '#12459E'    // ADR 80 파랑
+};
 function addZoneLines(series, lines) {
-  lines.forEach(l => series.createPriceLine({price:l.price,color:l.color,lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''}));
+  lines.forEach(l => series.createPriceLine({
+    price: l.price,
+    color: ZONE_REMAP[l.color] || l.color,
+    lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: ''
+  }));
 }
 
 function showPrice(id,price,prev){
@@ -969,16 +982,17 @@ const MA_CONFIG = {
   ndx:   { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
 // 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
-//   5 검정 / 20 노랑 / 50·60 보라 / 100·120 녹색 / 200 갈색
+//   5 검정 / 20 황금(#CC9900 — 회색 배경에서 밝은 노랑이 묻혀 2026-08-01 진하게) /
+//   50·60 보라 / 100·120 녹색 / 200 갈색
 //   미국 5/20/50/100/200 (US 표준), 한국 5/20/60/120 (국내 관례 + BT: 시클리컬 위주라
 //   200·240 장기선은 실전 의미 낮다고 판단, 2026-08-01 제외).
 const MA_COLOR_BY_PERIOD = {
-  5:'#000000', 10:'#0000FF', 20:'#E8C400',
+  5:'#000000', 10:'#0000FF', 20:'#CC9900',
   50:'#9900CC', 60:'#9900CC',
   100:'#008000', 120:'#008000',
   200:'#8B4513'
 };
-const MA_COLORS = ['#000000','#E8C400','#9900CC','#008000','#8B4513'];
+const MA_COLORS = ['#000000','#CC9900','#9900CC','#008000','#8B4513'];
 // 2026-08-01: 회색 배경에서 금색 라인이 묻혀 → MDD 와 동일한 진한 슬레이트로 통일.
 //   C_SLATE      = 차트 시리즈 (회색 plot 위)  — MDD bottomLineColor 와 같은 값
 //   C_SLATE_TEXT = 다크 카드 헤더/툴팁 텍스트 (같은 색은 다크 배경에서 안 보임)
@@ -1101,11 +1115,11 @@ async function loadMDD(indexId, mddId, col) {
     // 0% solid line
     allCharts[mddId].series.createPriceLine({ price: 0, color: '#4a5058', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
     // Zone lines — Y축 라벨 없이 점선만
-    allCharts[mddId].series.createPriceLine({ price: -10, color: '#27ae60', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -20, color: '#e2a44e', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -30, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -40, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -50, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -10, color: '#0B6E33', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -20, color: '#9A6A05', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -30, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -40, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -50, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
     // MDD = 최대 고점(ATH high) 대비 이후 최저점 — peak-to-trough (2026-06-28 BT: 현재가 낙폭 아님)
     //   최고 고가 시점(pkIdx) 이후 구간의 최저 낙폭값 + 발생일 표시. pkIdx 이후엔 running peak == ATH라 mddData값이 곧 ATH 대비 낙폭.
     let pkIdx = 0, pkHigh = -Infinity;
@@ -1604,7 +1618,7 @@ async function loadKrExport(){
       allCharts['kr-export'].series3 = pink;
       allCharts['kr-export'].seriesByKey = { m: bars, '20': cyan, '10': pink };
       // 0% 참고선 (잠정 선 위에 추가해 항상 표시)
-      cyan.createPriceLine({ price: 0, color: 'rgba(139,148,158,0.5)', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
+      cyan.createPriceLine({ price: 0, color: '#3A424B', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
     }
     // 월 확정치: forward-fill 대신 실제 월별 데이터만 바로 렌더 (1개월 = 1개 바)
     const barsData = sM.map(x => ({ time: x.time, value: x.value, color: x.value >= 0 ? C_SLATE : 'rgb(231,76,60)' }));
@@ -1934,7 +1948,7 @@ async function loadGoldmanBreadth(){
       allCharts['goldman'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.1}});
       const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:C_SLATE,topColor:'rgba(45,62,80,0.28)',bottomColor:'rgba(45,62,80,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['goldman'].series=areaS;
-      areaS.createPriceLine({price:0,color:'rgba(139,148,158,0.5)',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
+      areaS.createPriceLine({price:0,color:'#3A424B',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
     }
     const pG=alignToTimeIndex(sG,'us');
     allCharts['goldman'].series.setData(pG);
