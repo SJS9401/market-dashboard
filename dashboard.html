@@ -81,7 +81,7 @@
   .hts-tooltip .hts-row .v { color: #c9d1d9; font-variant-numeric: tabular-nums; }
   .hts-tooltip .hts-up { color: #f04452; }
   .hts-tooltip .hts-down { color: #3182f6; }
-  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #4a5058; font-size: 12px; pointer-events: none; background: #8C8C8C; }
+  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #4a5058; font-size: 12px; pointer-events: none; background: #A4A4A4; }
   .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
   .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
@@ -361,10 +361,10 @@ function resampleWeekly(data){if(!data.length)return data;const m=new Map();data
 function candlesToWeekly(candles){if(!candles.length)return candles;const weeks=[];let cur=null;candles.forEach(c=>{const wk=getWeekKey(c.time);if(!cur||cur._wk!==wk){if(cur){const{_wk,...rest}=cur;weeks.push(rest)}cur={time:c.time,open:c.open,high:c.high,low:c.low,close:c.close,_wk:wk}}else{cur.time=c.time;cur.high=Math.max(cur.high,c.high);cur.low=Math.min(cur.low,c.low);cur.close=c.close}});if(cur){const{_wk,...rest}=cur;weeks.push(rest)}return weeks}
 
 // 2026-08-01: 주도주 사이클(Leading_stocks) 과 동일한 회색 HTS 테마.
-//   plot 배경 #8C8C8C / grid #6D6D6D / 축·텍스트 다크. 카드 프레임은 기존 다크 유지.
-const CHART_OPTS = (bg='#8C8C8C') => ({
+//   plot 배경 #A4A4A4 / grid #828282 / 축·텍스트 다크. 카드 프레임은 기존 다크 유지.
+const CHART_OPTS = (bg='#A4A4A4') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#232323',fontSize:10},
-  grid:{vertLines:{color:'#6D6D6D'},horzLines:{color:'#6D6D6D'}},
+  grid:{vertLines:{color:'#828282'},horzLines:{color:'#828282'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false},
     horzLine:{color:'#2b3138',labelBackgroundColor:'#2b3138'}},
   // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
