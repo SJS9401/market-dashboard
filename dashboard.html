@@ -690,7 +690,8 @@ function createChart(id, col, opts = {}) {
 
 function addCandleSeries(id) {
   const s = allCharts[id].chart.addCandlestickSeries({
-    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6'
+    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6',
+    priceLineVisible:false   // 2026-08-01 BT: 현재가 가로 점선 제거 (축 라벨은 유지)
   });
   allCharts[id].series = s; return s;
 }
@@ -1009,17 +1010,17 @@ const MA_CONFIG = {
   ndx:   { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
 // 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
-//   5 검정 / 20 황금(#CC9900 — 회색 배경에서 밝은 노랑이 묻혀 2026-08-01 진하게) /
+//   5 검정 / 20 황금(#B8860B dark goldenrod — 2회 상향: #E8C400 → #CC9900 → #B8860B) /
 //   50·60 보라 / 100·120 녹색 / 200 갈색
 //   미국 5/20/50/100/200 (US 표준), 한국 5/20/60/120 (국내 관례 + BT: 시클리컬 위주라
 //   200·240 장기선은 실전 의미 낮다고 판단, 2026-08-01 제외).
 const MA_COLOR_BY_PERIOD = {
-  5:'#000000', 10:'#0000FF', 20:'#CC9900',
+  5:'#000000', 10:'#0000FF', 20:'#B8860B',
   50:'#9900CC', 60:'#9900CC',
   100:'#008000', 120:'#008000',
   200:'#8B4513'
 };
-const MA_COLORS = ['#000000','#CC9900','#9900CC','#008000','#8B4513'];
+const MA_COLORS = ['#000000','#B8860B','#9900CC','#008000','#8B4513'];
 // 2026-08-01: 회색 배경에서 금색 라인이 묻혀 → MDD 와 동일한 진한 슬레이트로 통일.
 //   C_SLATE      = 차트 시리즈 (회색 plot 위)  — MDD bottomLineColor 와 같은 값
 //   C_SLATE_TEXT = 다크 카드 헤더/툴팁 텍스트 (같은 색은 다크 배경에서 안 보임)
@@ -1065,7 +1066,7 @@ async function loadIndex(id, col) {
         }
         if (pts.length) {
           const line = allCharts[id].chart.addLineSeries({
-            color: maColor(p, idx), lineWidth: 1.2,
+            color: maColor(p, idx), lineWidth: (p <= 20 ? 1.8 : 1.2),
             priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
           });
           line.setData(pts);
