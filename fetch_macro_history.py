@@ -49,8 +49,13 @@ SERIES = {
     "DFF":          ("연방기금금리 (실효)", "%", True),
     "T10YIE":       ("10년 기대인플레 (BEI)", "%", True),
     # ── 크레딧
-    "BAMLH0A0HYM2": ("하이일드 OAS", "%p", True),
-    "BAMLC0A0CM":   ("IG 회사채 OAS", "%p", True),
+    # ⚠ ICE BofA(BAML) 계열은 FRED graph CSV 에서 라이선스 제한으로 최근 3년만 내려온다.
+    #   cosd/coed 를 줘도 동일 (2026-08-01 2회 실측). 닷컴·중국 사이클 구간이 필요하므로
+    #   무디스 스프레드(FRED 자체 계산, 1986~)를 장기 크레딧 대용으로 병행 수집한다.
+    "BAA10Y":       ("무디스 Baa - 10Y 스프레드", "%p", True),   # 장기 크레딧 (1986~)
+    "AAA10Y":       ("무디스 Aaa - 10Y 스프레드", "%p", True),   # 우량 크레딧 (1983~)
+    "BAMLH0A0HYM2": ("하이일드 OAS", "%p", True),                # 최근 구간 정밀
+    "BAMLC0A0CM":   ("IG 회사채 OAS", "%p", True),               # 최근 구간 정밀
     # ── 원자재
     "DCOILWTICO":   ("WTI 원유", "$/bbl", True),
     "PCOPPUSDM":    ("구리", "$/t", False),
@@ -62,9 +67,11 @@ SERIES = {
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={id}&cosd={start}&coed={end}"
 
 # 시리즈별 최소 기대 포인트 — 미달 시 경고 (조용한 절단 재발 방지)
+# BAML 은 FRED 제한상 3년치가 정상 — 기대치를 낮게 두고 장기 커버는 BAA10Y/AAA10Y 가 담당한다.
 MIN_PTS = {
     "DGS10": 1500, "DGS30": 1200, "DFF": 1500, "T10YIE": 1000,
-    "BAMLH0A0HYM2": 1400, "BAMLC0A0CM": 1400,
+    "BAA10Y": 1500, "AAA10Y": 1500,
+    "BAMLH0A0HYM2": 150, "BAMLC0A0CM": 150,
     "DCOILWTICO": 1500, "PCOPPUSDM": 350, "PIORECRUSDM": 350,
 }
 
