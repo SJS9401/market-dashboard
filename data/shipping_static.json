@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "created": "2026-08-01",
+    "purpose": "중국 인프라 사이클(2003~2008) vs 현재 AI 사이클 비교용 해운·조선 지표. BDI·신조선가는 유료 소스(Baltic Exchange / Clarksons)라 FRED 자동 수집 불가 → 정적 데이터.",
+    "confidence": "anchor = 교차검증된 확정치 / interp = 사이클 형태 재현용 보간 추정치. 차트에서 interp 구간은 점선 처리 권장.",
+    "todo": "월별 실측 시계열 확보 시 교체. 후보 소스 — Baltic Exchange 회원 데이터, Clarksons SIN, 한국해양수산개발원(KMI) 해운시황 리포트, 투자은행 조선 이니시에이션 자료 부록.",
+    "series": {
+      "bdi": "발틱건화물운임지수 (Baltic Dry Index) — 중국 인프라 사이클의 P 지표. 지금의 DRAM ASP 자리.",
+      "newbuild": "Clarksons 신조선가 지수 (1988=100) — 조선의 P 지표."
+    }
+  },
+
+  "bdi": {
+    "label": "발틱건화물운임지수 (BDI)",
+    "unit": "pt",
+    "anchors": [
+      {"date": "2008-05-20", "value": 11793, "conf": "anchor", "note": "사상 최고. 중국 철광석·석탄 수요 정점"},
+      {"date": "2008-12-05", "value": 663,   "conf": "anchor", "note": "리먼 후 저점. 정점 대비 -94.4%, 약 6개월"}
+    ],
+    "data": [],
+    "_data_note": "월말 종가 시계열 미확보. 위 anchors 두 점만 확정. 수집 후 data 배열에 [YYYY-MM-DD, value] 로 채울 것."
+  },
+
+  "newbuild": {
+    "label": "Clarksons 신조선가 지수",
+    "unit": "index (1988=100)",
+    "anchors": [],
+    "data": [],
+    "_data_note": "미수집. Clarksons Shipping Intelligence Network 유료. 대체 후보 — 각 증권사 조선 산업 리포트의 신조선가 추이 표(수동 전사)."
+  },
+
+  "cycle_frame": {
+    "_note": "세 사이클을 같은 축으로 놓기 위한 대응표. 대시보드 두 탭의 공통 헤더로 사용.",
+    "rows": [
+      {
+        "axis": "수요 서사",
+        "dotcom": "인터넷 트래픽 폭증",
+        "china": "중국 도시화·고정자산투자",
+        "ai": "AI 토큰 소비량"
+      },
+      {
+        "axis": "P (가격)",
+        "dotcom": "대역폭 단가",
+        "china": "BDI · 철강 · 철광석",
+        "ai": "DRAM ASP · HBM 계약가"
+      },
+      {
+        "axis": "Q (물량)",
+        "dotcom": "광케이블 포설량",
+        "china": "조선 수주잔고 (3년치)",
+        "ai": "HBM 비트 출하 · CAPA"
+      },
+      {
+        "axis": "미래 매출 담보 계약",
+        "dotcom": "장기 공급계약",
+        "china": "수주잔고 (선박 건조계약)",
+        "ai": "LTA 5년 롤링 · CAPA 60~70% · 예치금"
+      },
+      {
+        "axis": "한계 자본공급자",
+        "dotcom": "시스코 벤더 파이낸싱 + 하이일드",
+        "china": "선박금융 (독일 KG펀드 등)",
+        "ai": "엔비디아 백스톱 (AA 신용등급 대여)"
+      },
+      {
+        "axis": "종료 트리거",
+        "dotcom": "2000~01 하이일드 경색 → CLEC 연쇄 도산 → 시스코 22.5억달러 재고 상각",
+        "china": "2008 리먼 → 선박금융 붕괴 → 수주 취소 급증",
+        "ai": "미발생 — NVDA CDS 82bp 1차 경보 (2026-07-27)"
+      }
+    ]
+  }
+}

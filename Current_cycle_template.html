@@ -557,9 +557,40 @@
           });
         }
 
+        // ── 정점 등가일 세로 마커 (2026-08-01 신설, 핸드오프 요청 4)
+        var peakMarkerPlugin = {
+          id: 'peakMarker' + key,
+          afterDatasetsDraw: function (chart) {
+            if (!d.peaks || !d.peaks.length) return;
+            var ctx = chart.ctx, xs = chart.scales.x, area = chart.chartArea;
+            ctx.save();
+            d.peaks.forEach(function (p, i) {
+              var px = xs.getPixelForValue(p.days);
+              if (px < area.left || px > area.right) return;
+              ctx.setLineDash([5, 4]);
+              ctx.strokeStyle = p.color;
+              ctx.globalAlpha = 0.75;
+              ctx.lineWidth = 1.2;
+              ctx.beginPath();
+              ctx.moveTo(px, area.top);
+              ctx.lineTo(px, area.bottom);
+              ctx.stroke();
+              ctx.setLineDash([]);
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = p.color;
+              ctx.font = '10px -apple-system, sans-serif';
+              ctx.textAlign = 'left';
+              var ty = area.top + 12 + (i * 13);
+              ctx.fillText(p.label + ' 정점 ' + p.days + '일', px + 4, ty);
+            });
+            ctx.restore();
+          }
+        };
+
         new Chart(document.getElementById(canvasId).getContext('2d'), {
           type: 'line',
           data: { datasets: datasets },
+          plugins: [peakMarkerPlugin],
           options: {
             animation: false, responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'nearest', axis: 'x', intersect: false },

@@ -1,0 +1,58 @@
+# Fetch Macro History (FRED 장기 시계열)
+# ----------------------------------------------------------
+# 금리·크레딧·원자재 1994~현재 를 FRED 에서 수집.
+# 결과: data/macro_history.json — "닷컴 vs 현재" / "중국 인프라 vs 현재" 탭 입력.
+#
+# FRED 는 브라우저에서 CORS 로 막히므로 (yahoo_dashboard 와 동일 문제)
+# 서버사이드에서 받아 JSON 으로 커밋하고 대시보드는 그 캐시를 읽는다.
+#
+# 사용:
+#   - workflow_dispatch 로 수동 실행 (신규 시리즈 추가 시)
+#   - 주 1회 cron — 최신 구간만 갱신되면 되므로 매일 돌릴 필요 없음
+#     (정각/정시 회피 규칙 준수 — project_cron_option_b 참조)
+# ----------------------------------------------------------
+
+name: Fetch Macro History
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 매주 토요일 06:25 KST = 금 21:25 UTC
+    - cron: '25 21 * * 5'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-macro-history
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch macro history (FRED)
+        run: |
+          python fetch_macro_history.py
+
+      - name: Commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/macro_history.json)" ]; then
+            git add data/macro_history.json
+            git commit -m "chore(data): macro_history.json (FRED 금리·크레딧·원자재) 갱신"
+            git push
+          else
+            echo "변경 없음 — commit skip"
+          fi

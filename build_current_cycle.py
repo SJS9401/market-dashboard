@@ -226,6 +226,14 @@ def build_pair_series(rows, anchor, end=None):
     return out
 
 
+
+def series_peak(series):
+    """[{days, date, close}] 에서 종가 최고점 반환. 핸드오프 요청 4 (2026-08-01)."""
+    if not series:
+        return None
+    p = max(series, key=lambda x: x['close'])
+    return {'days': p['days'], 'date': p['date'], 'close': p['close']}
+
 def build_dotcom_ai_payload(yahoo_data):
     """닷컴 vs AI 카드 2개의 payload 생성. dotcom 데이터 없으면 None."""
     dotcom = load_dotcom()
@@ -259,6 +267,17 @@ def build_dotcom_ai_payload(yahoo_data):
             'ai_color': cfg['ai_color'],
             'ai_series': ai_series,
         }
+        # 정점 등가일 마커 (2026-08-01 신설) — 차트에 세로선으로 표시
+        peaks = []
+        pk = series_peak(dot_series)
+        if pk:
+            peaks.append({**pk, 'label': cfg['dotcom_sym'], 'color': cfg['dotcom_color']})
+        pk = series_peak(ai_series)
+        if pk:
+            peaks.append({**pk, 'label': cfg['ai_sym'], 'color': cfg['ai_color']})
+        if peaks:
+            result[key]['peaks'] = peaks
+
         # extra series (예: SK하이닉스) — yahoo cache에서 추출, anchor 별도
         if cfg.get('extra_sym'):
             extra_rows = load_ai_yahoo(yahoo_data, cfg['extra_sym'], cfg['extra_anchor'])
@@ -270,6 +289,10 @@ def build_dotcom_ai_payload(yahoo_data):
                 result[key]['extra_color'] = cfg['extra_color']
                 result[key]['extra_series'] = extra_series
                 print(f"    [+extra] {cfg['extra_sym']} {len(extra_series)}일")
+                pk = series_peak(extra_series)
+                if pk:
+                    result[key].setdefault('peaks', []).append(
+                        {**pk, 'label': cfg.get('extra_label', cfg['extra_sym']), 'color': cfg['extra_color']})
 
         # indices (우측 축에 표시할 지수들)
         if cfg.get('indices'):
