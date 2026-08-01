@@ -7,20 +7,29 @@
     "series": {
       "bdi": "발틱건화물운임지수 (Baltic Dry Index) — 중국 인프라 사이클의 P 지표. 지금의 DRAM ASP 자리.",
       "newbuild": "Clarksons 신조선가 지수 (1988=100) — 조선의 P 지표."
-    }
+    },
+    "related": "shipbuilding_static.json — 현대미포 실적 전 구간(2005~2015) + 신조선가 + 조선4사 시총·OPM"
   },
-
   "bdi": {
     "label": "발틱건화물운임지수 (BDI)",
     "unit": "pt",
     "anchors": [
-      {"date": "2008-05-20", "value": 11793, "conf": "anchor", "note": "사상 최고. 중국 철광석·석탄 수요 정점"},
-      {"date": "2008-12-05", "value": 663,   "conf": "anchor", "note": "리먼 후 저점. 정점 대비 -94.4%, 약 6개월"}
+      {
+        "date": "2008-05-20",
+        "value": 11793,
+        "conf": "anchor",
+        "note": "사상 최고. 중국 철광석·석탄 수요 정점"
+      },
+      {
+        "date": "2008-12-05",
+        "value": 663,
+        "conf": "anchor",
+        "note": "리먼 후 저점. 정점 대비 -94.4%, 약 6개월"
+      }
     ],
     "data": [],
     "_data_note": "월말 종가 시계열 미확보. 위 anchors 두 점만 확정. 수집 후 data 배열에 [YYYY-MM-DD, value] 로 채울 것."
   },
-
   "newbuild": {
     "label": "Clarksons 신조선가 지수",
     "unit": "index (1988=100)",
@@ -28,9 +37,8 @@
     "data": [],
     "_data_note": "미수집. Clarksons Shipping Intelligence Network 유료. 대체 후보 — 각 증권사 조선 산업 리포트의 신조선가 추이 표(수동 전사)."
   },
-
   "cycle_frame": {
-    "_note": "세 사이클을 같은 축으로 놓기 위한 대응표. 대시보드 두 탭의 공통 헤더로 사용.",
+    "_note": "세 사이클을 같은 축으로 놓기 위한 대응표. 대시보드 두 탭의 공통 헤더로 사용. ★ '담보의 재무적 흔적' 행 추가 (2026-08-01) — 잔액이 아니라 증감 방향이 신호. 상세는 shipbuilding_static.json key_findings.2_advances",
     "rows": [
       {
         "axis": "수요 서사",
@@ -55,6 +63,12 @@
         "dotcom": "장기 공급계약",
         "china": "수주잔고 (선박 건조계약)",
         "ai": "LTA 5년 롤링 · CAPA 60~70% · 예치금"
+      },
+      {
+        "axis": "담보의 재무적 흔적",
+        "dotcom": "매출채권·재고 (시스코 FY2001 재고비용 $4,486M 폭증 → 22.5억달러 상각)",
+        "china": "선수금 — 미포 2008 2,668십억 → 2012 1,834 (-31.3%), 정점 후 4년 연속 감소",
+        "ai": "LTA 예치금 — 삼성 '일부 이미 수취'. 분기 재무제표 선수금 계정 추적 필요"
       },
       {
         "axis": "한계 자본공급자",
