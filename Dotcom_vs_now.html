@@ -94,7 +94,7 @@
 
   <!-- C. 1차축 -->
   <div class="card">
-    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="ldrExSeg" style="margin-left:6px;"><button data-i="0">SK하이닉스</button><button data-i="1">퀄컴(닷컴)</button></span></h2>
+    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="ldrExSeg" style="margin-left:6px;"><button data-i="0">SK하이닉스</button><button data-i="1">퀄컴(닷컴)</button></span><span class="seg" id="ldrFinSeg" style="margin-left:6px;"><button data-f="0">CSCO 영익</button><button data-f="1">CSCO OPM</button><button data-f="2">CSCO YoY</button><button data-f="3">NVDA 영익</button><button data-f="4">NVDA OPM</button><button data-f="5">NVDA YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrKV"></div>
@@ -102,12 +102,12 @@
       1994-07-15 앵커는 <b style="color:#c9d1d9;">정점까지 2,082일</b>로 현재 사이클(1,300일대)과 시간축이 가장 잘 맞는 지점이다.<br>
       현재쪽 저점 앵커는 각자 <b style="color:#c9d1d9;">장중 저점일</b> — 엔비디아 <b style="color:#c9d1d9;">2022-10-13</b>, SK하이닉스 <b style="color:#c9d1d9;">2023-01-03</b>.
       하이닉스를 켜면 <b style="color:#c9d1d9;">같은 시스코 곡선에 1차축(엔비디아)과 2차축(하이닉스)을 동시에</b> 겹쳐 볼 수 있고,
-      <b style="color:#c9d1d9;">퀄컴(닷컴)</b>을 켜면 닷컴 당시의 1차축(시스코) 대비 2차축(퀄컴) 흐름을 같은 화면에서 대조할 수 있다.</div>
+      <b style="color:#c9d1d9;">퀄컴(닷컴)</b>을 켜면 닷컴 당시의 1차축(시스코) 대비 2차축(퀄컴) 흐름을 같은 화면에서 대조할 수 있다.<br>      <b style="color:#c9d1d9;">실적 토글</b>(영익·OPM·YoY)은 각 분기를 <b style="color:#c9d1d9;">분기 종료월</b> 기준으로 같은 시간축에 얹는다 — 주가와 실적의 선후를 직접 볼 수 있다. 출처는 SEC EDGAR 원문 실측.</div>
   </div>
 
   <!-- D. 2차축 -->
   <div class="card">
-    <h2>2차축 — 퀄컴(닷컴) vs SK하이닉스(현재)<span class="seg" id="secSeg"><button class="on" data-m="accel">가속 97-12 ↔ 24-06</button><button data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="secExSeg" style="margin-left:6px;"><button data-i="0">마이크론</button><button data-i="1">나스닥(닷컴)</button><button data-i="2">코스피(현재)</button></span></h2>
+    <h2>2차축 — 퀄컴(닷컴) vs SK하이닉스(현재)<span class="seg" id="secSeg"><button class="on" data-m="accel">가속 97-12 ↔ 24-06</button><button data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="secExSeg" style="margin-left:6px;"><button data-i="0">마이크론</button><button data-i="1">나스닥(닷컴)</button><button data-i="2">코스피(현재)</button></span><span class="seg" id="secFinSeg" style="margin-left:6px;"><button data-f="0">QCOM 영익</button><button data-f="1">QCOM OPM</button><button data-f="2">QCOM YoY</button><button data-f="3">닉스 영익</button><button data-f="4">닉스 YoY</button></span></h2>
     <div class="chartbox"><canvas id="secChart"></canvas></div>
     <div class="chartbox sm"><canvas id="secDD"></canvas></div>
     <div class="kv" id="secKV"></div>
@@ -225,7 +225,7 @@
       <b style="color:#f0f6fc;">SK하이닉스 (지금)</b>: OPM YoY 26/2Q +35.0%p 정점 &rarr; 영익 YoY 26/3Q +612% 정점 &rarr; <b style="color:#f0f6fc;">+370% &rarr; +144% 단조 감속</b> (컨센 기준 27년 중 0 수렴)<br>
       &rarr; <b style="color:#f0f6fc;">1차축은 1998년형, 2차축은 2000년형</b>이다. 닷컴에서는 시스코와 퀄컴이 같은 방향이었는데, 지금은 두 축이 반대를 가리킨다.<br>
       해석 갈래 둘: (1) 엔비디아 재가속이 진짜 수요라면 하이닉스 컨센이 상향되며 2차축도 따라 붙는다 &mdash; 1998년형.
-      (2) 엔비디아 재가속이 <b style="color:#f0f6fc;">순환구조가 만든 매출</b>이라면, 시스코 FY2000의 +43.8%가 그랬듯 <b style="color:#f0f6fc;">붕괴 직전의 마지막 가속</b>이다 &mdash; 시스코도 정점 분기에 모멘텀이 최고였다.<br>
+      (2) 엔비디아 재가속이 <b style="color:#f0f6fc;">순환구조가 만든 매출</b>이라면, 시스코 FY00 Q3의 <b style="color:#f0f6fc;">+36.5%</b>가 그랬듯 <b style="color:#f0f6fc;">붕괴 직전의 마지막 가속</b>이다 &mdash; 시스코도 주가 정점 분기에 영익 YoY가 국지 최고였다.<br>
       &rarr; 이 갈래를 가르는 것이 <b style="color:#f0f6fc;">NVDA CDS와 하이닉스 27년 컨센 방향</b>이다.</span></div>
 
 
@@ -647,7 +647,8 @@
   /* 가속 앵커 — Current_cycle 탭 QCOM/MU 매칭 카드와 동일 */
   var ACC_DOT = '1997-12-01', ACC_DOT_END = '2001-12-31', ACC_NOW = '2024-06-11';
 
-  getJSON('data/dotcom_price.json').then(function (P) {
+  Promise.all([getJSON('data/dotcom_price.json'), getJSON('data/leader_earnings.json')]).then(function (RR) {
+    var P = RR[0], FIN = RR[1];
     var S = {};
     Object.keys(P.series).forEach(function (k) {
       S[k] = P.series[k].data.map(function (r) { return {t: r[0], h: r[2], l: r[3], c: r[4]}; });
@@ -655,6 +656,67 @@
     document.getElementById('updated').innerHTML =
       '닷컴(1994~2002) · 나스닥 · 시스코 · 퀄컴 ↔ AI(2022~) · 코스피 · 엔비디아 · 마이크론 | 주가 ' +
       P.series.KS11.to + ' 기준 · 야후 수정주가';
+
+
+    /* ── 분기 실적 시리즈 ─────────────────────────────────
+       각 분기를 '분기 종료월 중간일'로 잡아 앵커 후 경과일(x)로 변환.
+       y축은 별도 우축(f1=영익 / f2=OPM% / f3=영익YoY%). */
+    function qDate(ym) { return ym + '-15'; }
+    function finRows(key, mode2) {
+      var t = FIN[key]; if (!t) return [];
+      var f = t.fields, iy = f.indexOf('quarter_end_ym');
+      var ir = f.indexOf('rev');
+      var io_ = f.indexOf('op_adjusted') >= 0 ? f.indexOf('op_adjusted') : f.indexOf('op');
+      var raw = t.data.map(function (r) {
+        return {fq: r[0], t: qDate(r[iy]), rev: ir >= 0 ? r[ir] : null, op: r[io_]};
+      });
+      var out = [];
+      raw.forEach(function (r, i) {
+        var v = null;
+        if (mode2 === 'op') v = r.op;
+        else if (mode2 === 'opm') v = (r.rev ? r.op / r.rev * 100 : null);
+        else if (mode2 === 'yoy') {
+          var p = raw[i - 4];
+          v = (p && p.op > 0) ? (r.op / p.op - 1) * 100 : null;
+        }
+        if (v != null) out.push({t: r.t, v: v, fq: r.fq});
+      });
+      return out;
+    }
+    /* 하이닉스는 [YYYY-MM, 억원, A|E] 배열 (분기말 월) */
+    function hynixRows(mode2) {
+      var t = FIN.hynix_op; if (!t) return [];
+      var raw = t.data.map(function (r) { return {t: qDate(r[0]), op: r[1], flag: r[2], fq: r[0]}; });
+      var out = [];
+      raw.forEach(function (r, i) {
+        var v = null;
+        if (mode2 === 'op') v = r.op / 10000;              // 억원 → 조원
+        else if (mode2 === 'opm') v = null;                 // 매출 미보유
+        else if (mode2 === 'yoy') { var p = raw[i - 4]; v = (p && p.op > 0) ? (r.op / p.op - 1) * 100 : null; }
+        if (v != null) out.push({t: r.t, v: v, fq: r.fq});
+      });
+      return out;
+    }
+    var FINMETA = {
+      csco_op:  {src:'csco_q',  m:'op',  side:'dot', label:'시스코 조정영익($M)',  ax:'f1', color:'#34d399', unit:'M$', dp:0},
+      csco_opm: {src:'csco_q',  m:'opm', side:'dot', label:'시스코 OPM',           ax:'f2', color:'#6ee7b7', unit:'%',  dp:1},
+      csco_yoy: {src:'csco_q',  m:'yoy', side:'dot', label:'시스코 영익 YoY',      ax:'f3', color:'#a7f3d0', unit:'%',  dp:0},
+      nvda_op:  {src:'nvda_q',  m:'op',  side:'now', label:'엔비디아 영익($M)',    ax:'f1', color:'#f87171', unit:'M$', dp:0},
+      nvda_opm: {src:'nvda_q',  m:'opm', side:'now', label:'엔비디아 OPM',         ax:'f2', color:'#fca5a5', unit:'%',  dp:1},
+      nvda_yoy: {src:'nvda_q',  m:'yoy', side:'now', label:'엔비디아 영익 YoY',    ax:'f3', color:'#fecaca', unit:'%',  dp:0},
+      qcom_op:  {src:'qcom_q',  m:'op',  side:'dot', label:'퀄컴 조정영익($M)',    ax:'f1', color:'#fbbf24', unit:'M$', dp:0},
+      qcom_opm: {src:'qcom_q',  m:'opm', side:'dot', label:'퀄컴 OPM',             ax:'f2', color:'#fcd34d', unit:'%',  dp:1},
+      qcom_yoy: {src:'qcom_q',  m:'yoy', side:'dot', label:'퀄컴 영익 YoY',        ax:'f3', color:'#fde68a', unit:'%',  dp:0},
+      hx_op:    {src:'hynix',   m:'op',  side:'now', label:'하이닉스 영익(조원)',  ax:'f4', color:'#22d3ee', unit:'조', dp:1},
+      hx_yoy:   {src:'hynix',   m:'yoy', side:'now', label:'하이닉스 영익 YoY',    ax:'f3', color:'#67e8f9', unit:'%',  dp:0}
+    };
+    function finSeries(k, anchorDate) {
+      var m = FINMETA[k];
+      var rows = (m.src === 'hynix') ? hynixRows(m.m) : finRows(m.src, m.m);
+      var out = [];
+      rows.forEach(function (r) { out.push({x: days(anchorDate, r.t), y: r.v, d: r.fq, raw: r.v}); });
+      return out;
+    }
 
     function isAnchor(mode) { return mode !== 'peak98' && mode !== 'peak00'; }
     function alignDot(key, mode) {
@@ -698,8 +760,9 @@
     }
 
     function buildCard(cfg) {
-      var EX = cfg.ex || [];
-      var mode = cfg.mode0 || 'low94', exOn = EX.map(function () { return false; }), live = [];
+      var EX = cfg.ex || [], FN = cfg.fin || [];
+      var mode = cfg.mode0 || 'low94', exOn = EX.map(function () { return false; }),
+          fnOn = FN.map(function () { return false; }), live = [];
       function render() {
         live.forEach(function (c) { c.destroy(); }); live = [];
         var A = alignDot(cfg.dot, mode), B = alignNow(cfg.now, mode);
@@ -723,6 +786,21 @@
           ddSets.push({l: nm + ' 낙폭', d: ddSeries(Z.series), c: e.color || TH.ex,
                        w: 1.1, dash: e.dash || [2,2], bg: 'rgba(0,0,0,0)'});
         });
+        /* 실적 오버레이 */
+        var finAx = {};
+        FN.forEach(function (k, i) {
+          if (!fnOn[i]) return;
+          var m = FINMETA[k]; if (!m) return;
+          var aDate = (m.side === 'dot')
+            ? (mode === 'accel' ? ACC_DOT : (DOT_LOW[mode] || (A.peak ? A.peak.t : null)))
+            : (mode === 'accel' ? ACC_NOW : (mode === 'low98' ? NOW_LOW98[cfg.now] : NOW_LOW[cfg.now]));
+          if (!aDate) return;
+          finAx[m.ax] = m;
+          ds.push({label: m.label, data: finSeries(k, aDate), borderColor: m.color,
+                   borderWidth: 1.6, pointRadius: 2.2, tension: 0.15,
+                   borderDash: m.side === 'dot' ? [3,2] : [], yAxisID: m.ax});
+        });
+
         var vl = isAnchor(mode)
           ? [[A.peak ? A.peak.x : null, TH.dot], [B.peak ? B.peak.x : null, TH.now]]
           : [[0, '#8b949e']];
@@ -740,6 +818,13 @@
                     callback: function (v) { return tickOf(mode).indexOf(v) >= 0 ? fmt(v) : ''; }},
                   grid: {color: TH.grid}}}},
           plugins: [vLines(vl)]});
+        Object.keys(finAx).forEach(function (ax) {
+          var m = finAx[ax];
+          main.options.scales[ax] = {position: 'right', ticks: {color: m.color, font: {size: 9},
+            callback: function (v) { return fmt(v, m.dp) + (m.unit === '%' ? '%' : ''); }},
+            grid: {display: false}};
+        });
+        if (Object.keys(finAx).length) main.update('none');
         var dd = ddChart(cfg.ddCanvas, ddSets, xTitleOf(mode) + ' — 전고점 대비 낙폭 (%)');
         addZoom(main, dd); addZoom(dd, main);
         live = [main, dd];
@@ -774,17 +859,25 @@
           b.onclick = function () { exOn[i] = !exOn[i]; b.classList.toggle('on', exOn[i]); render(); };
         });
       }
+      if (cfg.finSeg) {
+        document.getElementById(cfg.finSeg).querySelectorAll('button').forEach(function (b) {
+          var i = +b.getAttribute('data-f');
+          b.onclick = function () { fnOn[i] = !fnOn[i]; b.classList.toggle('on', fnOn[i]); render(); };
+        });
+      }
       render();
     }
 
     buildCard({dot:'IXIC_OLD', now:'KS11', canvas:'idxChart', ddCanvas:'idxDD', kv:'idxKV', seg:'idxSeg', exSeg:'idxExSeg',
       ex:[{key:'IXIC', side:'now', label:'나스닥 (현재)', color:'#c4b5fd', dash:[]}]});
 
-    buildCard({dot:'CSCO', now:'NVDA', canvas:'ldrChart', ddCanvas:'ldrDD', kv:'ldrKV', seg:'ldrSeg', exSeg:'ldrExSeg',
+    buildCard({dot:'CSCO', now:'NVDA', canvas:'ldrChart', ddCanvas:'ldrDD', kv:'ldrKV', seg:'ldrSeg', exSeg:'ldrExSeg', finSeg:'ldrFinSeg',
+      fin:['csco_op','csco_opm','csco_yoy','nvda_op','nvda_opm','nvda_yoy'],
       ex:[{key:'HYNIX', side:'now', label:'SK하이닉스 (현재)', color:'#22d3ee', dash:[2,2]},
           {key:'QCOM', side:'dot', label:'퀄컴 (닷컴)', color:'#fbbf24', dash:[4,3]}]});
 
-    buildCard({dot:'QCOM', now:'HYNIX', canvas:'secChart', ddCanvas:'secDD', kv:'secKV', seg:'secSeg', exSeg:'secExSeg', mode0:'accel',
+    buildCard({dot:'QCOM', now:'HYNIX', canvas:'secChart', ddCanvas:'secDD', kv:'secKV', seg:'secSeg', exSeg:'secExSeg', finSeg:'secFinSeg', mode0:'accel',
+      fin:['qcom_op','qcom_opm','qcom_yoy','hx_op','hx_yoy'],
       ex:[{key:'MU', side:'now', label:'마이크론 (현재)', color:'#f87171', dash:[2,2]},
           {key:'IXIC_OLD', side:'dot', label:'나스닥 (닷컴)', color:'#a78bfa', dash:[4,3]},
           {key:'KS11', side:'now', label:'코스피 (현재)', color:'#86efac', dash:[]}]});
