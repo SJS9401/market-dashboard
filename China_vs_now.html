@@ -713,7 +713,7 @@
         }
         return out;
       }
-      pRows.hhiopyoy = opYoY(pRows.hhiop, 4);
+      pRows.hhiopyoy = opYoY(pRows.hhiop, 4).filter(function (r) { return r.t >= '2006-03'; });   // 2005 적자·저기저 왜곡 제외
       pRows.hxopyoy = opYoY(pRows.hxop, 4);
 
 
