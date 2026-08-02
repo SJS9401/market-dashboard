@@ -53,7 +53,7 @@ jobs:
       #     git config user.name "github-actions[bot]"
       #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       #     if [ -n "$(git status --porcelain <해당 HTML>)" ]; then
-      #       git add  <해당 HTML>   # 되살릴 때 Current_cycle.html 로 복원
+      #       git add  <원래 HTML 파일>
       #       git commit -m "chore(current-cycle): 자동 갱신"
       #       git push
       #     fi
