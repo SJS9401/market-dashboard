@@ -65,7 +65,7 @@
     <div class="chartbox"><canvas id="idxChart"></canvas></div>
     <div class="chartbox sm"><canvas id="idxDD"></canvas></div>
     <div class="kv" id="idxStats"></div>
-    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 드래그 박스 = 줌인, 더블클릭 = 리셋, Ctrl+휠 = 줌.</div>
+    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
   </div>
 
   <!-- C. 주도주 오버레이 (v3: 저점=100 정렬) -->
@@ -74,7 +74,7 @@
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점. 하단 = 전고점 대비 낙폭(drawdown). 드래그 박스 = 줌인, 더블클릭 = 리셋, Ctrl+휠 = 줌.
+    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점. 하단 = 전고점 대비 낙폭(drawdown). 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
       조선은 <b style="color:#c9d1d9;">수주잔고 리드타임</b>, 반도체는 <b style="color:#c9d1d9;">LTA</b>가 실적을 뒤로 밀어
       두 사이클 모두 "주가 먼저 &middot; 실적 나중" 구조 &mdash; 저점부터 전체 경로를 겹쳐 하이닉스의 현재 위치를 읽는다.</div>
   </div>
@@ -84,7 +84,7 @@
     <h2>실적 — 미포 실측 전 구간 vs 하이닉스 컨센서스</h2>
     <div class="grid2">
       <div>
-        <h3>현대미포조선 2000~2014 (십억원, DART 사업보고서 실측 · 별도)</h3>
+        <h3>현대미포조선 2000~2014 (억원, DART 사업보고서 실측 · 별도)</h3>
         <div id="mipo-table">불러오는 중…</div>
       </div>
       <div>
@@ -100,12 +100,12 @@
           <tr><td>2028E</td><td>5,538,866</td><td>3,973,216</td><td>71.7%</td></tr>
         </table>
         <div class="factor warn" style="margin-top:10px;"><b>정점 컨센서스는 -79% 틀렸다</b>
-          <span>2011-01 삼성증권의 미포 2012E 영업익 <b style="color:#f0f6fc;">442</b> → 실제 <b style="color:#f0f6fc;">93</b> (-78.9%), 이듬해 적자.
-          2013-10 케이프의 2014E +28 → 실제 <b style="color:#f0f6fc;">-832</b> (빅배스, 별도 OPM -24.7%). 시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다.</span></div>
+          <span>2011-01 삼성증권의 미포 2012E 영업익 <b style="color:#f0f6fc;">4,420억</b> → 실제 <b style="color:#f0f6fc;">930억</b>(연결) (-78.9%), 이듬해 적자.
+          2013-10 케이프의 2014E +280억 → 실제 <b style="color:#f0f6fc;">-8,324억</b> (빅배스, 별도 OPM -24.7%). 시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다.</span></div>
       </div>
     </div>
     <div class="factor" style="margin-top:8px;"><b>선수금 = LTA 예치금. 잔액이 아니라 방향 — 그리고 회복도 믿지 마라</b>
-      <span>DART 실측(별도): 상승기 2003 <b style="color:#f0f6fc;">302</b> → 2008 <b style="color:#f0f6fc;">2,668</b> (8.8배, P 상승과 동행) → 2012 <b style="color:#f0f6fc;">766</b> (<b style="color:#f0f6fc;">-71%</b>, 4년 연속 감소). 2013~14 회복(1,220→1,698)은 저가 수주 유입기 — 같은 시기 <b style="color:#f0f6fc;">2014 빅배스 -832</b>와 동시였다. 잔액 회복 &ne; 업황 회복.<br>2010 이전 = 선수금(K-GAAP), 2011~ = 초과청구공사(IFRS 재분류, 연속성 검증 완료). → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
+      <span>DART 실측(별도, 억원): 상승기 2003 <b style="color:#f0f6fc;">3,015</b> → 2008 <b style="color:#f0f6fc;">26,677</b> (8.8배, P 상승과 동행) → 2012 <b style="color:#f0f6fc;">7,658</b> (<b style="color:#f0f6fc;">-71%</b>, 4년 연속 감소). 2013~14 회복(12,201→16,976)은 저가 수주 유입기 — 같은 시기 <b style="color:#f0f6fc;">2014 빅배스 -8,324</b>와 동시였다. 잔액 회복 &ne; 업황 회복.<br>2010 이전 = 선수금(K-GAAP), 2011~ = 초과청구공사(IFRS 재분류, 연속성 검증 완료). → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
   </div>
 
   <!-- E. P 지표 -->
@@ -260,11 +260,39 @@
             grid: {color: TH.grid}}}};
   }
 
-  var ZOOMOPT = {zoom: {drag: {enabled: true, backgroundColor: 'rgba(96,165,250,0.15)', borderColor: '#60a5fa', borderWidth: 1},
-    wheel: {enabled: true, modifierKey: 'ctrl'}, mode: 'xy'}};
-  function addZoom(chart) {
-    chart.options.plugins.zoom = ZOOMOPT;
-    chart.canvas.ondblclick = function () { chart.resetZoom(); };
+  function addZoom(chart, partner) {
+    chart.$pair = partner || chart.$pair || null;
+    if (partner) partner.$pair = chart;
+    function resetBoth() {
+      [chart, chart.$pair].forEach(function (c) {
+        if (!c) return;
+        c.resetZoom();
+        c.options.scales.x.min = undefined; c.options.scales.x.max = undefined;
+        c.update('none');
+      });
+    }
+    chart.$resetBoth = resetBoth;
+    chart.options.plugins.zoom = {zoom: {
+      drag: {enabled: true, backgroundColor: 'rgba(96,165,250,0.15)', borderColor: '#60a5fa', borderWidth: 1},
+      wheel: {enabled: true, modifierKey: 'ctrl'},
+      mode: 'x',
+      onZoomComplete: function (ctx) {
+        var c = ctx.chart;
+        if (c.$dragLeft) { c.$dragLeft = false; setTimeout(c.$resetBoth, 0); return; }
+        if (c.$pair) {
+          c.$pair.options.scales.x.min = c.scales.x.min;
+          c.$pair.options.scales.x.max = c.scales.x.max;
+          c.$pair.update('none');
+        }
+      }
+    }};
+    var cv = chart.canvas;
+    cv.addEventListener('mousedown', function (e) { chart.$downX = e.offsetX; }, true);
+    cv.addEventListener('mouseup', function (e) {
+      if (chart.$downX != null && e.offsetX < chart.$downX - 4) chart.$dragLeft = true;
+      chart.$downX = null;
+    }, true);
+    cv.ondblclick = resetBoth;
     chart.update('none');
   }
   function ddSeries(S) {
@@ -283,7 +311,6 @@
           label: function (it) { return ' ' + it.dataset.label + ': ' + fmt(it.parsed.y, 1) + '%'; }}}},
       scales: {x: {type: 'linear', title: {display: true, text: xTitle, font: {size: 10}, color: TH.tick}, ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}},
         y: {max: 0, ticks: {color: TH.tick, font: {size: 9}, callback: function (v) { return v + '%'; }}, grid: {color: TH.grid}}}}});
-    addZoom(c);
     return c;
   }
 
@@ -325,8 +352,9 @@
         {label: '중국 사이클 (03-03-17~)', data: china, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
         {label: '현재 (22-09-30~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
       ]}, options: baseOpts('저점 후 캘린더 일수')});
-      addZoom(Chart.getChart(document.getElementById('idxChart')));
-      ddChart('idxDD', ddSeries(china), ddSeries(now), '중국 DD', '현재 DD', '저점 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+      var idxMain = Chart.getChart(document.getElementById('idxChart'));
+      var idxDd = ddChart('idxDD', ddSeries(china), ddSeries(now), '중국 DD', '현재 DD', '저점 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+      addZoom(idxMain, idxDd); addZoom(idxDd, idxMain);
 
       var sc = stats(Kall, '2003-03-17', '2008-07-08');
       var sn = stats(Kall, '2022-09-30');
@@ -381,8 +409,9 @@
           });
         }}]});
 
-      addZoom(Chart.getChart(document.getElementById('ldrChart')));
-      ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '미포 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+      var ldrMain = Chart.getChart(document.getElementById('ldrChart'));
+      var ldrDd = ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '미포 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+      addZoom(ldrMain, ldrDd); addZoom(ldrDd, ldrMain);
 
       // 통계 — 하이닉스 현재 vs 미포 등가 시점
       var hLast = ha.series[ha.series.length - 1];
@@ -408,9 +437,9 @@
         var peak = r[0] === 2008, loss = r[2] < 0, adv = advMap[r[0]];
         var advCls = (adv != null && prevAdv != null && adv < prevAdv) ? 'diff' : '';
         if (r[0] === 2008) advCls = 'same';
-        h += '<tr' + (peak ? ' class="hl"' : '') + '><td>' + r[0] + '</td><td>' + fmt(r[1]) + '</td><td class="' +
-             (loss ? 'diff' : peak ? 'same' : '') + '">' + fmt(r[2]) + '</td><td' + (loss ? ' class="diff"' : '') + '>' + r[3] +
-             '%</td><td class="' + advCls + '">' + (adv == null ? '\u2014' : fmt(adv)) + '</td></tr>';
+        h += '<tr' + (peak ? ' class="hl"' : '') + '><td>' + r[0] + '</td><td>' + fmt(r[1] * 10) + '</td><td class="' +
+             (loss ? 'diff' : peak ? 'same' : '') + '">' + fmt(r[2] * 10) + '</td><td' + (loss ? ' class="diff"' : '') + '>' + r[3] +
+             '%</td><td class="' + advCls + '">' + (adv == null ? '\u2014' : fmt(adv * 10)) + '</td></tr>';
         prevAdv = adv;
       });
       document.getElementById('mipo-table').innerHTML = h + '</table>';
