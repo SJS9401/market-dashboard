@@ -74,7 +74,7 @@
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">DRAM ASP YoY</button></span><span class="seg" id="ldrESeg" style="margin-left:6px;"><button data-p="hhiop">현중 영익</button><button data-p="hhiopyoy">현중 영익 YoY</button><button data-p="hxop">닉스 영익</button><button data-p="hxopyoy">닉스 영익 YoY</button></span></h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">수출판가</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">수출판가 YoY</button></span><span class="seg" id="ldrESeg" style="margin-left:6px;"><button data-p="hhiop">현중 영익</button><button data-p="hhiopyoy">현중 영익 YoY</button><button data-p="hxop">닉스 영익</button><button data-p="hxopyoy">닉스 영익 YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
@@ -83,7 +83,7 @@
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
       우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, DRAM ASP = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.
+      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, 수출판가 = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.
       (미포 데이터는 shipbuilding_static.json 에 보존)</div>
     <div class="factor warn" style="margin-top:8px;"><b>정점 후 회복 실패 패턴 — BDI</b>
       <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> &rarr; 2010 <b style="color:#f0f6fc;">36%</b> &rarr; 2011-03 <b style="color:#f0f6fc;">13%</b>.
@@ -227,6 +227,34 @@
           <td>신규 발주분에만 선가 반영</td>
           <td>3Q26부터 인상 여력은 <b style="color:#f0f6fc;">LTA 비계약 고객 + LTA 초과 물량</b>으로 이동</td></tr>
     </table>
+
+
+    <h3>1-1. 관세청 반도체 수출판가 실측 &mdash; P 모멘텀 정점은 2026년 6월</h3>
+    <table>
+      <tr><th style="width:80px;">월</th><th style="width:110px;">판가 ($/kg)</th><th style="width:100px;">판가 YoY</th><th>판독</th></tr>
+      <tr><td>2025-06</td><td>12,160</td><td class="diff">-25%</td><td>사이클 저점 (판가 YoY 바닥)</td></tr>
+      <tr><td>2025-12</td><td>23,724</td><td>+53%</td><td>플러스 전환 후 가속 시작</td></tr>
+      <tr><td>2026-03</td><td>55,149</td><td>+288%</td><td>가속</td></tr>
+      <tr><td>2026-05</td><td><b style="color:#f0f6fc;">77,559</b></td><td>+453%</td><td>&nbsp;</td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">2026-06</b></td><td>74,687 <span style="color:#8b949e;">(MoM <b style="color:#f0f6fc;">-16%</b>)</span></td>
+          <td><b style="color:#f0f6fc;">+514%</b></td>
+          <td class="diff"><b style="color:#f0f6fc;">판가 YoY 정점</b> &mdash; 주가 1차 정점 <b style="color:#f0f6fc;">2026-06-22</b>와 같은 달.<br><span style="color:#8b949e;">월 판가 자체도 MoM -16%로 첫 하락</span></td></tr>
+      <tr class="hl"><td>2026-07</td><td>86,970 <span style="color:#8b949e;">(MoM +16%)</span></td><td class="diff"><b style="color:#f0f6fc;">+484%</b></td>
+          <td class="diff"><b style="color:#f0f6fc;">첫 둔화</b> &mdash; 레벨은 신고가인데 YoY는 꺾임</td></tr>
+    </table>
+    <table style="margin-top:8px;">
+      <tr><th style="width:80px;">분기</th><th style="width:120px;">달러매출 (P&times;Q)</th><th style="width:100px;">분기 판가</th><th style="width:90px;">판가 QoQ</th><th>판독</th></tr>
+      <tr><td>2025-09</td><td>76.6억$</td><td>16,388</td><td>+17.4%</td><td>회복 국면</td></tr>
+      <tr><td>2025-12</td><td>106.2억$</td><td>22,899</td><td>+39.7%</td><td>가속</td></tr>
+      <tr class="hl"><td>2026-03</td><td>195.6억$</td><td>46,281</td><td><b style="color:#f0f6fc;">+102.1%</b></td><td class="same"><b style="color:#f0f6fc;">QoQ 정점</b></td></tr>
+      <tr class="hl"><td>2026-06</td><td><b style="color:#f0f6fc;">318.5억$</b></td><td>72,908</td><td>+57.5%</td><td class="diff">QoQ 둔화 시작 &mdash; 단 <b style="color:#f0f6fc;">매출(P&times;Q)은 +63%</b>로 계속 증가</td></tr>
+    </table>
+    <div class="factor"><b>★ 실측 결론 &mdash; 1차 고점 규칙이 세 번째로 확인됐다</b>
+      <span>판가 <b style="color:#f0f6fc;">레벨</b>은 2026-07에도 86,970으로 <b style="color:#f0f6fc;">신고가</b>인데, <b style="color:#f0f6fc;">YoY 모멘텀</b>은 6월 +514%에서 7월 +484%로 꺾였다.
+      그리고 주가 1차 정점은 <b style="color:#f0f6fc;">2026-06-22</b>였다 &mdash; 같은 달이다.<br>
+      현중 2007-11(2Q07 영익 YoY 정점 직후), 하이닉스 2017-10(ASP YoY 꺾임)에 이어 <b style="color:#f0f6fc;">세 번째 확인</b>이다.
+      <b style="color:#f0f6fc;">1차 고점은 P 레벨이 아니라 P 모멘텀이 만든다</b>는 규칙이 반복됐다.<br>
+      동시에 분기 <b style="color:#f0f6fc;">달러매출(P&times;Q)은 2026-06에 318.5억$로 QoQ +63%</b> 증가했다 &mdash; 이익 절대액이 계속 늘어난다는 실측 증거이며, <b style="color:#f0f6fc;">2차 고점의 연료</b>가 남아 있다는 뜻이다.</span></div>
 
     <h3>2. P 사이클 — 종료 신호는 어디까지 왔나</h3>
     <table>
@@ -683,9 +711,10 @@
     getJSON('data/macro_history.json'),
     getJSON('data/asp_dram.json'),
     getJSON('data/hhi_price.json'),
-    getJSON('data/leader_earnings.json')
+    getJSON('data/leader_earnings.json'),
+    getJSON('data/dram_export_price.json')
   ]).then(function (R) {
-    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5], hh = R[6], fin = R[7];
+    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5], hh = R[6], fin = R[7], dxp = R[8];
     document.getElementById('updated').textContent =
       '중국 중후장대(2003~2008) · 현대중공업 ↔ AI(2023~) · SK하이닉스 | yahoo ' +
       (yh.meta && yh.meta.updated ? yh.meta.updated.slice(0,10) : '?') + ' · FRED ' +
@@ -825,7 +854,7 @@
       var pRows = {
         bdi: ship.bdi.data.map(function (r) { return {t: r[0], v: r[1]}; }).sort(function (a, b) { return a.t < b.t ? -1 : 1; }),
         nb: ship.newbuild.data.map(function (r) { return {t: r[0], v: r[1]}; }).sort(function (a, b) { return a.t < b.t ? -1 : 1; }),
-        asp: (asp.data || []).map(function (r) { return {t: r.date, v: r.value}; }).sort(function (a, b) { return a.t < b.t ? -1 : 1; })
+        asp: dxp.monthly.map(function (r) { return {t: r.t, v: r.p}; })
       };
       function mIdx2(t) { return (+t.slice(0, 4) - 2000) * 12 + (+t.slice(5, 7) - 1); }
       function yoyRows(rows) {   // 12개월 전 값 보간 후 YoY(%)
@@ -846,7 +875,7 @@
         return out;
       }
       pRows.nbyoy = yoyRows(pRows.nb);
-      pRows.aspyoy = yoyRows(pRows.asp);
+      pRows.aspyoy = dxp.monthly.filter(function (r) { return r.yoy != null; }).map(function (r) { return {t: r.t, v: r.yoy}; });
       pRows.hhiop = fin.hhi_op_q.data.map(function (r) { return {t: r[0], v: r[1]}; });
       pRows.hxop = fin.hynix_op.data.map(function (r) { return {t: r[0], v: r[1]}; });
       function opYoY(rows, lag) {   // lag = 1(연간) | 4(분기)
@@ -865,9 +894,9 @@
       var PMETA = {
         bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0},
         nb: {label: '신조선가', color: TH.aux2, cyc: 'c', ax: 'p2', unit: 'p', dp: 0},
-        asp: {label: 'DRAM ASP', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 2},
+        asp: {label: '반도체 수출판가', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 0},
         nbyoy: {label: '신조선가 YoY', color: '#a3e635', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
-        aspyoy: {label: 'DRAM ASP YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 1},
+        aspyoy: {label: '수출판가 YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 0},
         hhiop: {label: '현중 영익(분기)', color: '#2dd4bf', cyc: 'c', ax: 'p5', unit: '억', dp: 0},
         hxop: {label: '하이닉스 영익(분기)', color: '#fb923c', cyc: 'n', ax: 'p6', unit: '억', dp: 0},
         hhiopyoy: {label: '현중 영익 YoY(분기)', color: '#4ade80', cyc: 'c', ax: 'p7', unit: '%', dp: 0},
