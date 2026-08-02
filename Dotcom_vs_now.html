@@ -164,7 +164,8 @@
 
   <!-- F. 이익 모멘텀 -->
   <div class="card">
-    <h2>이익 모멘텀 — 1998년은 '둔화 후 재가속', 2000년은 '정점 후 단조 감속'</h2>
+    <h2>이익 모멘텀 — 시스코 ↔ 엔비디아 같은 툴로 대조</h2>
+    <div class="note" style="margin:0 0 6px;">1998년형 = <b style="color:#c9d1d9;">둔화 후 재가속</b> / 2000년형 = <b style="color:#c9d1d9;">정점 후 단조 감속</b>. 두 회사를 같은 기준(분기 영업이익 YoY)으로 놓고 어느 모양인지 본다.</div>
     <h3>시스코 분기 조정 영업이익 YoY (일회성 제외, SEC 최초보고 기준)</h3>
     <table>
       <tr><th style="width:74px;">회계연도</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th style="width:150px;">판독</th></tr>
@@ -177,6 +178,38 @@
     </table>
     <div class="note">시스코 회계연도는 7월말 종료. FY 분기 → 달력: Q1=8~10월, Q2=11~1월, Q3=2~4월, Q4=5~7월.
       조정 영업이익 절대 정점은 <b style="color:#c9d1d9;">FY2001 Q1 (2000년 8~10월) $14.11억</b> — 주가 정점보다 5~7개월 뒤.</div>
+
+    <h3>엔비디아 분기 영업이익 YoY (GAAP, SEC EDGAR XBRL 실측)</h3>
+    <table>
+      <tr><th style="width:74px;">회계연도</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th style="width:150px;">판독</th></tr>
+      <tr><td>FY2024</td><td>+14.6%</td><td>+1,263%</td><td><b style="color:#f0f6fc;">+1,633%</b></td><td>+983%</td><td>AI 전환 초기 폭발</td></tr>
+      <tr><td>FY2025</td><td><b style="color:#f0f6fc;">+690%</b></td><td>+174%</td><td>+110%</td><td>+77%</td><td class="diff">단조 감속</td></tr>
+      <tr class="hl"><td>FY2026</td><td><b style="color:#f0f6fc;">+28.0%</b><br><span style="color:#8b949e;">H20 상각 $45억 제외 시 +54.6%</span></td><td>+52.6%</td><td>+64.7%</td><td>+84.3%</td>
+          <td class="same"><b style="color:#f0f6fc;">둔화 바닥 → 재가속</b></td></tr>
+      <tr class="hl"><td>FY2027</td><td><b style="color:#f0f6fc;">+147.4%</b></td><td colspan="3" style="color:#8b949e;">FY27 Q2(26-05~07)는 10-Q 미제출</td>
+          <td class="same"><b style="color:#f0f6fc;">재가속 지속</b></td></tr>
+    </table>
+    <h3>엔비디아 절대값 · 마진 (백만 달러)</h3>
+    <table>
+      <tr><th style="width:100px;">분기</th><th style="width:90px;">매출</th><th style="width:90px;">영업이익</th><th style="width:70px;">OPM</th><th>OPM YoY</th></tr>
+      <tr><td>FY2025 Q1 (24.02~04)</td><td>26,044</td><td>16,909</td><td><b style="color:#f0f6fc;">64.9%</b></td><td class="same">+35.2%p &larr; <b style="color:#f0f6fc;">마진 개선폭 정점</b></td></tr>
+      <tr><td>FY2025 Q4 (24.11~25.01)</td><td>39,331</td><td>24,034</td><td>61.1%</td><td class="diff">-0.5%p (첫 마이너스)</td></tr>
+      <tr><td>FY2026 Q1 (25.02~04)</td><td>44,062</td><td>21,638</td><td>49.1%</td><td class="diff">-15.8%p (H20 상각)</td></tr>
+      <tr class="hl"><td>FY2026 Q4 (25.11~26.01)</td><td>68,127</td><td>44,299</td><td>65.0%</td><td class="same">+3.9%p (플러스 복귀)</td></tr>
+      <tr class="hl"><td>FY2027 Q1 (26.02~04)</td><td><b style="color:#f0f6fc;">81,615</b></td><td><b style="color:#f0f6fc;">53,536</b></td><td><b style="color:#f0f6fc;">65.6%</b></td><td class="same"><b style="color:#f0f6fc;">+16.5%p</b> &mdash; 사상 최고 OPM</td></tr>
+    </table>
+    <div class="note">엔비디아 회계연도는 1월 말 종료. FY2027 Q1 = 2026년 2~4월 (10-Q 제출 2026-05-20).
+      출처: SEC EDGAR XBRL companyconcept (us-gaap/Revenues · OperatingIncomeLoss), Q4는 4분기 실적 보도자료 손익계산서로 교차검증. 연간 검산 4개 연도 일치.</div>
+
+    <div class="factor" style="margin-top:10px;"><b>★ 엔비디아는 시스코 1998년과 같은 모양이다 &mdash; 그런데 하이닉스는 아니다</b>
+      <span>세 시계열을 같은 축에 놓으면 이렇게 갈린다.<br>
+      <b style="color:#f0f6fc;">시스코 (1998년형)</b>: +84.6% &rarr; 둔화 &rarr; <b style="color:#f0f6fc;">+23~29% 바닥(FY98)</b> &rarr; 재가속 &rarr; +43.8%(FY00 Q3, 주가 정점 분기) &rarr; 단조 감속 &rarr; 붕괴<br>
+      <b style="color:#f0f6fc;">엔비디아 (지금)</b>: +1,633% &rarr; 단조 감속 &rarr; <b style="color:#f0f6fc;">+28.0% 바닥(FY26 Q1)</b> &rarr; <b style="color:#f0f6fc;">재가속 +52.6 &rarr; +64.7 &rarr; +84.3 &rarr; +147.4%</b><br>
+      <b style="color:#f0f6fc;">SK하이닉스 (지금)</b>: OPM YoY 26/2Q +35.0%p 정점 &rarr; 영익 YoY 26/3Q +612% 정점 &rarr; <b style="color:#f0f6fc;">+370% &rarr; +144% 단조 감속</b> (컨센 기준 27년 중 0 수렴)<br>
+      &rarr; <b style="color:#f0f6fc;">1차축은 1998년형, 2차축은 2000년형</b>이다. 닷컴에서는 시스코와 퀄컴이 같은 방향이었는데, 지금은 두 축이 반대를 가리킨다.<br>
+      해석 갈래 둘: (1) 엔비디아 재가속이 진짜 수요라면 하이닉스 컨센이 상향되며 2차축도 따라 붙는다 &mdash; 1998년형.
+      (2) 엔비디아 재가속이 <b style="color:#f0f6fc;">순환구조가 만든 매출</b>이라면, 시스코 FY2000의 +43.8%가 그랬듯 <b style="color:#f0f6fc;">붕괴 직전의 마지막 가속</b>이다 &mdash; 시스코도 정점 분기에 모멘텀이 최고였다.<br>
+      &rarr; 이 갈래를 가르는 것이 <b style="color:#f0f6fc;">NVDA CDS와 하이닉스 27년 컨센 방향</b>이다.</span></div>
 
     <div class="factor" style="margin-top:10px;"><b>1998년형의 판별식</b>
       <span>1998-10-08 저점은 시스코 <b style="color:#f0f6fc;">FY99 Q1 한복판</b>이었고, 그때 조정 영익 YoY는 <b style="color:#f0f6fc;">+27.5%로 둔화 사이클의 바닥</b>이었다.
@@ -211,7 +244,9 @@
           <td class="same"><b style="color:#f0f6fc;">1998년형</b></td></tr>
       <tr><td>배율</td><td>같은 경과일에 하이닉스 40.6배 vs 시스코 8.5배 &mdash; <b style="color:#f0f6fc;">4.8배 초과 상승</b>. 시간은 1998년 자리인데 가격은 그보다 훨씬 갔다</td>
           <td class="diff">과열</td></tr>
-      <tr><td>이익 모멘텀</td><td>1998년 시스코는 <b style="color:#f0f6fc;">+23~29% 둔화 바닥 후 재가속</b>. 하이닉스는 <b style="color:#f0f6fc;">+612% 정점 후 단조 감속</b> (컨센 기준 27년 중 0 수렴)</td>
+      <tr><td>이익 모멘텀<br><span style="font-weight:400;color:#6e7681;">1차축</span></td><td>시스코 1998년 <b style="color:#f0f6fc;">+23~29% 둔화 바닥 후 재가속</b>. 엔비디아도 <b style="color:#f0f6fc;">FY26 Q1 +28.0% 바닥 후 +52.6 &rarr; +64.7 &rarr; +84.3 &rarr; +147.4% 재가속</b> (SEC 실측)</td>
+          <td class="same"><b style="color:#f0f6fc;">1998년형</b></td></tr>
+      <tr><td>이익 모멘텀<br><span style="font-weight:400;color:#6e7681;">2차축</span></td><td>하이닉스 <b style="color:#f0f6fc;">+612% 정점 후 +370 &rarr; +144% 단조 감속</b> (컨센 기준 27년 중 0 수렴). 재가속 조짐 없음</td>
           <td class="diff"><b style="color:#f0f6fc;">2000년형</b></td></tr>
       <tr><td>원인 층위</td><td>1998년 = 외생(아시아·러시아·LTCM), 2000년 = 내생(벤더파이낸싱 붕괴). 지금은 수급 청산 vs P 종료가 <b style="color:#f0f6fc;">미확정</b></td>
           <td>미확정</td></tr>
