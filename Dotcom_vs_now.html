@@ -133,7 +133,24 @@
   </div>
 
 
+    <!-- ===== 글로벌 레이어 (2026-08-02): 지수 오버레이 + 매크로 ===== -->
   <div class="card">
+    <h2>지수 오버레이 &mdash; 나스닥 닷컴(1995-01-03=100) vs 코스피 현재(2025-04-09=100)</h2>
+    <div class="chartbox"><canvas id="gIdx"></canvas></div>
+    <div class="kv" id="gIdxStats"></div>
+    <div class="note">로그 스케일 &middot; x축 = 사이클 시작 후 캘린더 일수. 나스닥은 2002-06까지(붕괴 포함) 연장 &mdash;
+      정점 이후 경로가 이 비교의 목적. 통계는 종가 기준.</div>
+  </div>
+
+  <div class="card">
+    <h2>매크로 &mdash; FFR &middot; 10Y &middot; Baa 스프레드 &middot; WTI (FRED, 주간)</h2>
+    <div class="chartbox"><canvas id="gMac"></canvas></div>
+    <div class="note">음영 = 닷컴 사이클(1995-01~2002-06). 1999-06~2000-05 6차례 인상이 정점을 만들었고,
+      Baa-10Y 스프레드는 2000-03 1.93 &rarr; 2002-10 3.78 로 벌어지며 하이일드&middot;벤더 파이낸싱 채널이 닫혔다.
+      현재(2026-07-30) Baa 스프레드 1.64 &mdash; 광의 크레딧은 아직 타이트.</div>
+  </div>
+
+<div class="card">
     <h2>① 현재 코스피 하락 요인 (2026-06-22 → 7-29)</h2>
     <div class="factor warn"><b>&#9312; 최초 트리거 &mdash; P 사이클 종료 (6/23~7/1)</b>
       <span><b style="color:#f0f6fc;">6/23 메타</b> 유휴 컴퓨팅 임대(Meta Compute) 보도 &rarr; 7/2 저커버그 확인.
@@ -1289,5 +1306,104 @@ const cmpChart = new Chart(document.getElementById('cmp'), {
 })();
 </script>
 
+<script>
+/* ── 글로벌 레이어: 지수 오버레이 + 매크로 (2026-08-02) ── */
+(function () {
+  var TH = {grid:'#21262d', tick:'#8b949e', txt:'#c9d1d9', hi:'#f0f6fc',
+            dot:'#60a5fa', now:'#f87171', aux:'#a78bfa', aux2:'#fbbf24', baa:'#f85149',
+            shade:'rgba(96,165,250,0.08)'};
+  var RAW = 'https://raw.githubusercontent.com/SJS9401/market-dashboard/main/';
+  function getJSON(p) {
+    return fetch(p + '?t=' + Date.now(), {cache:'no-store'})
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .catch(function () { return fetch(RAW + p + '?t=' + Date.now(), {cache:'no-store'}).then(function (r) { return r.json(); }); });
+  }
+  function d2(s) { return new Date(s + 'T00:00:00Z'); }
+  function days(a, b) { return Math.round((d2(b) - d2(a)) / 864e5); }
+  function fmt(n, d) { return n == null ? '—' : Number(n).toLocaleString('ko-KR', {maximumFractionDigits: d === undefined ? 0 : d}); }
+  function anchored(S, anchor, end) {
+    var out = [], base = null;
+    for (var i = 0; i < S.length; i++) { var x = S[i];
+      if (x.t < anchor) continue; if (end && x.t > end) break;
+      if (base === null) base = x.c;
+      out.push({x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c}); }
+    return out; }
+  function stats(S, anchor, end) {
+    var seg = []; for (var i = 0; i < S.length; i++) { var x = S[i];
+      if (x.t < anchor) continue; if (end && x.t > end) break; seg.push(x); }
+    if (!seg.length) return null;
+    var base = seg[0].c, pk = seg[0], run = seg[0].c, mdd = 0;
+    for (var j = 0; j < seg.length; j++) {
+      if (seg[j].c > pk.c) pk = seg[j];
+      if (seg[j].c > run) run = seg[j].c;
+      var dd = seg[j].c / run - 1; if (dd < mdd) mdd = dd; }
+    var last = seg[seg.length - 1];
+    return {riseToPeak: (pk.c / base - 1) * 100, daysToPeak: days(anchor, pk.t),
+      mdd: mdd * 100, fromPeak: (last.c / pk.c - 1) * 100, lastDays: days(anchor, last.t)}; }
+  function kv(k, v, cls) { return '<div class="item"><div class="k">' + k + '</div><div class="v ' + (cls||'') + '">' + v + '</div></div>'; }
+
+  Promise.all([
+    getJSON('data/dotcom_historical.json'),
+    getJSON('data/kospi_historical.json'),
+    getJSON('data/yahoo_dashboard.json'),
+    getJSON('data/macro_history.json')
+  ]).then(function (R) {
+    var dc = R[0], kh = R[1], yh = R[2], mac = R[3];
+
+    /* 지수 오버레이 */
+    var IX = dc.data['^IXIC'].map(function (r) { return {t: r[0], c: r[1]}; });
+    var K = (kh.data || []).map(function (r) { return {t: r[0], c: r[1]}; });
+    var ynow = yh.data['^KS11'].candles.map(function (c) { return {t: c.time, c: c.close}; });
+    var map = {}; K.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
+    var Kall = Object.keys(map).sort().map(function (t) { return map[t]; });
+
+    var dot = anchored(IX, '1995-01-03', '2002-06-30');
+    var now = anchored(Kall, '2025-04-09');
+    new Chart(document.getElementById('gIdx'), {type: 'line', data: {datasets: [
+      {label: '나스닥 닷컴 (95-01-03~02-06)', data: dot, borderColor: TH.dot, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+      {label: '코스피 현재 (25-04-09~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+    ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: {mode: 'nearest', axis: 'x', intersect: false},
+      plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 16, font: {size: 11}, color: TH.txt}},
+        tooltip: {callbacks: {title: function (it) { return it[0].raw.d; },
+          label: function (it) { return ' ' + it.dataset.label + ': ' + fmt(it.parsed.y, 1) + ' (' + fmt(it.raw.raw) + ')'; }}}},
+      scales: {x: {type: 'linear', title: {display: true, text: '사이클 시작 후 캘린더 일수', font: {size: 11}, color: TH.tick},
+          ticks: {color: TH.tick}, grid: {color: TH.grid}},
+        y: {type: 'logarithmic', ticks: {color: TH.tick,
+            callback: function (v) { var a = [50,100,200,400,800]; return a.indexOf(v) >= 0 ? v : ''; }},
+          grid: {color: TH.grid}}}}});
+
+    var sd = stats(IX, '1995-01-03', '2002-06-30');
+    var sn = stats(Kall, '2025-04-09');
+    document.getElementById('gIdxStats').innerHTML =
+      kv('나스닥: 시작→정점', '+' + fmt(sd.riseToPeak, 0) + '% / ' + fmt(sd.daysToPeak) + '일', 'same') +
+      kv('나스닥: 정점 후 MDD', fmt(sd.mdd, 1) + '%', 'same') +
+      kv('코스피: 시작→정점', '+' + fmt(sn.riseToPeak, 0) + '% / ' + fmt(sn.daysToPeak) + '일', 'diff') +
+      kv('코스피: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
+
+    /* 매크로 */
+    function ser(id) { return (mac.series[id] ? mac.series[id].data : []).map(function (r) { return {x: r[0], y: r[1]}; }); }
+    var shade = {id: 'dotShade', beforeDraw: function (chart) {
+      var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      var a = xs.getPixelForValue('1995-01-06'), b = xs.getPixelForValue('2002-06-28');
+      if (isNaN(a) || isNaN(b)) return;
+      ctx.save(); ctx.fillStyle = TH.shade;
+      ctx.fillRect(Math.max(a, area.left), area.top, Math.min(b, area.right) - Math.max(a, area.left), area.bottom - area.top);
+      ctx.restore(); }};
+    new Chart(document.getElementById('gMac'), {type: 'line', data: {datasets: [
+      {label: 'FFR (%)', data: ser('DFF'), borderColor: TH.aux, borderWidth: 1.1, pointRadius: 0, tension: 0, yAxisID: 'y'},
+      {label: '10Y (%)', data: ser('DGS10'), borderColor: TH.hi, borderWidth: 1.1, pointRadius: 0, tension: 0, yAxisID: 'y'},
+      {label: 'Baa-10Y (%p)', data: ser('BAA10Y'), borderColor: TH.baa, borderWidth: 1.1, pointRadius: 0, tension: 0, yAxisID: 'y'},
+      {label: 'WTI ($, 우)', data: ser('DCOILWTICO'), borderColor: TH.aux2, borderWidth: 1.1, pointRadius: 0, tension: 0, yAxisID: 'y1'}
+    ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 14, font: {size: 10}, color: TH.txt}}},
+      scales: {x: {type: 'category', ticks: {color: TH.tick, font: {size: 9}, maxTicksLimit: 14, autoSkip: true,
+          callback: function (v) { var l = this.getLabelForValue(v); return l ? l.slice(0, 4) : ''; }}, grid: {display: false}},
+        y: {ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}},
+        y1: {position: 'right', ticks: {color: TH.aux2, font: {size: 9}}, grid: {display: false}}}},
+      plugins: [shade]});
+  }).catch(function (e) { console.error('글로벌 레이어 로드 실패', e); });
+})();
+</script>
 </body>
 </html>
