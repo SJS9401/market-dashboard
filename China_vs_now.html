@@ -41,6 +41,10 @@
   .kv .k { font-size: 11px; color: #8b949e; }
   .kv .v { font-size: 15px; font-weight: 700; margin-top: 2px; color: #f0f6fc; }
   .note { font-size: 11.5px; color: #6e7681; margin-top: 10px; }
+  .seg { display: inline-flex; margin-left: 10px; vertical-align: 2px; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; }
+  .seg button { background: #0d1117; color: #8b949e; border: 0; padding: 3px 11px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .seg button.on { background: #1f6feb; color: #fff; }
+
   .hl { background: #12261a; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
@@ -61,20 +65,20 @@
 
   <!-- B. 지수 오버레이 -->
   <div class="card">
-    <h2>코스피 — 중국 사이클(2003-03-17 저점=100) vs 현재(2022-09-30 저점=100)</h2>
+    <h2>코스피 — 중국 사이클(03-03-17~) vs 현재(22-09-30~)<span class="seg" id="idxSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span></h2>
     <div class="chartbox"><canvas id="idxChart"></canvas></div>
     <div class="chartbox sm"><canvas id="idxDD"></canvas></div>
     <div class="kv" id="idxStats"></div>
-    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
+    <div class="note">로그 스케일 · 저점 앵커 = 각자 저점=100, 고점 앵커 = 각자 정점=100·x=0이 정점. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
   </div>
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 저점=100 정렬 · 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)</h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일 · 수정주가(naver).
+    <div class="note">저점 앵커 = 각자 저점=100 (현중 03-03-25 / 하이닉스 23-01-03), 고점 앵커 = 현중 1차 정점(07-11-07)=100 vs 하이닉스 자기 정점=100 · 로그 · 수정주가(naver).
       세로 점선 = 현중 1차 정점(07-11-07, 중국 사이클)·2차 정점(11-04-08, 해양플랜트 사이클)·하이닉스 정점.
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
@@ -87,13 +91,14 @@
     <h2>실적 — 현대중공업 실측 전 구간 vs 하이닉스 컨센서스</h2>
     <div class="grid2">
       <div>
-        <h3>현대중공업 2000~2014 (억원, DART 사업보고서 실측 · 별도)</h3>
+        <h3>현대중공업 2003~2014 (억원, DART 사업보고서 실측 · 별도)</h3>
         <div id="mipo-table">불러오는 중…</div>
       </div>
       <div>
-        <h3>SK하이닉스 2022~2028 (억원, 실측 + 컨센)</h3>
+        <h3>SK하이닉스 2021~2028 (억원, 실측 + 컨센)</h3>
         <table>
           <tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th></tr>
+          <tr><td>2021</td><td>429,978</td><td>124,103</td><td>28.9%</td></tr>
           <tr><td>2022</td><td>446,216</td><td>68,094</td><td>15.3%</td></tr>
           <tr><td>2023</td><td>327,657</td><td class="diff">-77,303</td><td class="diff">-23.6%</td></tr>
           <tr><td>2024</td><td>661,930</td><td>234,673</td><td>35.5%</td></tr>
@@ -264,11 +269,13 @@
   }
 
   function addZoom(chart, partner) {
+    var cv = chart.canvas;
+    cv.$chart = chart;
     chart.$pair = partner || chart.$pair || null;
     if (partner) partner.$pair = chart;
     function resetBoth() {
       [chart, chart.$pair].forEach(function (c) {
-        if (!c) return;
+        if (!c || !c.canvas) return;
         c.resetZoom();
         c.options.scales.x.min = undefined; c.options.scales.x.max = undefined;
         c.update('none');
@@ -281,22 +288,71 @@
       mode: 'x',
       onZoomComplete: function (ctx) {
         var c = ctx.chart;
-        if (c.$dragLeft) { c.$dragLeft = false; setTimeout(c.$resetBoth, 0); return; }
-        if (c.$pair) {
+        if (c.$dragLeft) { c.$dragLeft = false; setTimeout(function () { if (c.$resetBoth) c.$resetBoth(); }, 0); return; }
+        if (c.$pair && c.$pair.canvas) {
           c.$pair.options.scales.x.min = c.scales.x.min;
           c.$pair.options.scales.x.max = c.scales.x.max;
           c.$pair.update('none');
         }
       }
     }};
-    var cv = chart.canvas;
-    cv.addEventListener('mousedown', function (e) { chart.$downX = e.offsetX; }, true);
-    cv.addEventListener('mouseup', function (e) {
-      if (chart.$downX != null && e.offsetX < chart.$downX - 4) chart.$dragLeft = true;
-      chart.$downX = null;
-    }, true);
-    cv.ondblclick = resetBoth;
+    if (!cv.$zoomBound) {
+      cv.addEventListener('mousedown', function (e) { if (cv.$chart) cv.$chart.$downX = e.offsetX; }, true);
+      cv.addEventListener('mouseup', function (e) {
+        var c = cv.$chart; if (!c) return;
+        if (c.$downX != null && e.offsetX < c.$downX - 4) c.$dragLeft = true;
+        c.$downX = null;
+      }, true);
+      cv.$zoomBound = true;
+    }
+    cv.ondblclick = function () { if (cv.$chart && cv.$chart.$resetBoth) cv.$chart.$resetBoth(); };
     chart.update('none');
+  }
+  function peakAlignG(S, from, to, preDays, postDays) {
+    var seg = [], pk = null;
+    for (var i = 0; i < S.length; i++) { var x = S[i];
+      if (x.t < from) continue; if (to && x.t > to) break;
+      seg.push(x); if (!pk || x.c > pk.c) pk = x; }
+    var out = [];
+    seg.forEach(function (x) {
+      var dd = days(pk.t, x.t);
+      if (dd < -preDays || dd > postDays) return;
+      out.push({x: dd, y: x.c / pk.c * 100, d: x.t, raw: x.c});
+    });
+    return {series: out, peak: pk};
+  }
+  function alignAt(S, anchorDate, from, to) {
+    var base = null;
+    for (var i = 0; i < S.length; i++) { if (S[i].t >= anchorDate) { base = S[i].c; break; } }
+    var out = [], pk = null;
+    for (var j = 0; j < S.length; j++) { var x = S[j];
+      if (x.t < from) continue; if (to && x.t > to) break;
+      var p = {x: days(anchorDate, x.t), y: x.c / base * 100, d: x.t, raw: x.c};
+      if (!pk || p.y > pk.y) pk = p;
+      out.push(p); }
+    return {series: out, peak: pk, base: base};
+  }
+  function vLines(list) {
+    return {id: 'vlines' + Math.random(), afterDatasetsDraw: function (chart) {
+      var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+      list.forEach(function (pv) {
+        if (pv[0] == null) return;
+        var px = xs.getPixelForValue(pv[0]);
+        if (px < area.left || px > area.right) return;
+        ctx.save(); ctx.setLineDash([3,3]); ctx.strokeStyle = pv[1]; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
+        ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke(); ctx.restore();
+      });
+    }};
+  }
+  function segWire(segId, onChange) {
+    var seg = document.getElementById(segId);
+    seg.querySelectorAll('button').forEach(function (b) {
+      b.onclick = function () {
+        seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on');
+        onChange(b.getAttribute('data-m'));
+      };
+    });
   }
   function ddSeries(S) {
     var run = -1e18, out = [];
@@ -342,34 +398,64 @@
       document.getElementById('frame-table').innerHTML = h + '</table>';
     })();
 
-    /* ── B. 지수 오버레이 */
+    /* ── B. 지수 오버레이 — v8 저점/고점 앵커 토글 */
     (function () {
       var K = lsNorm(ls.stocks.kospi);
-      // 현재 구간은 yahoo ^KS11 로 연장 (ls 는 갱신 지연 가능)
       var ynow = yh.data['^KS11'].candles.map(function (c) { return {t: c.time, c: c.close}; });
       var map = {}; K.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
       var Kall = Object.keys(map).sort().map(function (t) { return map[t]; });
+      var live = [];
 
-      var china = anchoredSeries(Kall, '2003-03-17', '2008-12-31');
-      var now = anchoredSeries(Kall, '2022-09-30');
-      new Chart(document.getElementById('idxChart'), {type: 'line', data: {datasets: [
-        {label: '중국 사이클 (03-03-17~)', data: china, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
-        {label: '현재 (22-09-30~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
-      ]}, options: baseOpts('저점 후 캘린더 일수')});
-      var idxMain = Chart.getChart(document.getElementById('idxChart'));
-      var idxDd = ddChart('idxDD', ddSeries(china), ddSeries(now), '중국 DD', '현재 DD', '저점 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
-      addZoom(idxMain, idxDd); addZoom(idxDd, idxMain);
+      function render(mode) {
+        live.forEach(function (c) { c.destroy(); }); live = [];
+        var s1, s2, l1, l2, xTitle, ticks, plugs = [], statsHtml;
 
-      var sc = stats(Kall, '2003-03-17', '2008-07-08');
-      var sn = stats(Kall, '2022-09-30');
-      document.getElementById('idxStats').innerHTML =
-        kvItem('중국: 저점→정점', '+' + fmt(sc.riseToPeak, 0) + '% / ' + fmt(sc.daysToPeak) + '일', 'same') +
-        kvItem('중국: 구간 내 MDD', fmt(sc.mdd, 1) + '%', 'same') +
-        kvItem('현재: 저점→정점', '+' + fmt(sn.riseToPeak, 0) + '% / ' + fmt(sn.daysToPeak) + '일', 'diff') +
-        kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
+        if (mode === 'low') {
+          s1 = anchoredSeries(Kall, '2003-03-17', '2008-12-31');
+          s2 = anchoredSeries(Kall, '2022-09-30');
+          l1 = '중국 사이클 (03-03-17 저점=100)'; l2 = '현재 (22-09-30 저점=100)';
+          xTitle = '저점 후 캘린더 일수'; ticks = [50, 100, 200, 400, 800];
+          var sc = stats(Kall, '2003-03-17', '2008-07-08');
+          var sn = stats(Kall, '2022-09-30');
+          statsHtml =
+            kvItem('중국: 저점→정점', '+' + fmt(sc.riseToPeak, 0) + '% / ' + fmt(sc.daysToPeak) + '일', 'same') +
+            kvItem('중국: 상승 구간 내 MDD', fmt(sc.mdd, 1) + '%', 'same') +
+            kvItem('현재: 저점→정점', '+' + fmt(sn.riseToPeak, 0) + '% / ' + fmt(sn.daysToPeak) + '일', 'diff') +
+            kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
+        } else {
+          var a = peakAlignG(Kall, '2003-03-17', '2008-12-31', 1800, 700);
+          var b = peakAlignG(Kall, '2022-09-30', null, 1800, 700);
+          s1 = a.series; s2 = b.series;
+          l1 = '중국 (정점 ' + a.peak.t + '=100)'; l2 = '현재 (정점 ' + b.peak.t + '=100)';
+          xTitle = '정점 전후 캘린더 일수 (0 = 정점)'; ticks = [20, 30, 50, 70, 100];
+          plugs = [vLines([[0, '#8b949e']])];
+          var aMin = null; a.series.forEach(function (p) { if (p.x >= 0 && (!aMin || p.y < aMin.y)) aMin = p; });
+          var bLast = s2[s2.length - 1];
+          var aAt = null; a.series.forEach(function (p) { if (p.x >= 0 && p.x <= bLast.x) aAt = p; });
+          statsHtml =
+            kvItem('중국 정점', a.peak.t, 'same') +
+            kvItem('중국: 정점 후 최저', fmt(aMin.y - 100, 1) + '% (' + aMin.d + ')', 'same') +
+            kvItem('현재: 정점 후', fmt(bLast.y - 100, 1) + '% (+' + fmt(bLast.x) + '일)', 'diff') +
+            kvItem('중국 등가(+' + fmt(bLast.x) + '일)', aAt ? fmt(aAt.y - 100, 1) + '%' : '\u2014', 'same');
+        }
+
+        var opts = baseOpts(xTitle);
+        opts.scales.y.ticks.callback = function (v) { return ticks.indexOf(v) >= 0 ? v : ''; };
+        var main = new Chart(document.getElementById('idxChart'), {type: 'line', data: {datasets: [
+          {label: l1, data: s1, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+          {label: l2, data: s2, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+        ]}, options: opts, plugins: plugs});
+        var dd = ddChart('idxDD', ddSeries(s1), ddSeries(s2), '중국 DD', '현재 DD', xTitle + ' — 전고점 대비 낙폭 (%)');
+        addZoom(main, dd); addZoom(dd, main);
+        live = [main, dd];
+        document.getElementById('idxStats').innerHTML = statsHtml;
+      }
+
+      segWire('idxSeg', render);
+      render('low');
     })();
 
-    /* ── C. 주도주 오버레이 — v7 현대중공업 저점=100 정렬 (03-03-25 / 하이닉스 23-01-03) */
+    /* ── C. 주도주 오버레이 — v8 현대중공업, 저점/고점 앵커 토글 */
     (function () {
       var M = hh.data.map(function (r) {
         return {t: r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8), c: r[1]};
@@ -378,65 +464,72 @@
       var ynow = yh.data['000660.KS'].candles.map(function (c) { return {t: c.time, c: c.close}; });
       var map = {}; H.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
       var Hall = Object.keys(map).sort().map(function (t) { return map[t]; });
+      var live = [];
 
-      function anchorAlign(S, anchor, end) {
-        var out = [], base = null, pk = null;
-        for (var i = 0; i < S.length; i++) { var x = S[i];
-          if (x.t < anchor) continue; if (end && x.t > end) break;
-          if (base === null) base = x.c;
-          var p = {x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c};
-          if (!pk || p.y > pk.y) pk = p;
-          out.push(p); }
-        return {series: out, peak: pk, base: base};
+      function mkChart(s1, s2, l1, l2, xTitle, ticks, plugs) {
+        var main = new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: [
+          {label: l1, data: s1, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+          {label: l2, data: s2, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+        ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+          interaction: {mode: 'nearest', axis: 'x', intersect: false},
+          plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 16, font: {size: 11}, color: TH.txt}},
+            tooltip: {callbacks: {title: function (it) { return it[0].raw.d + ' (' + (it[0].parsed.x >= 0 ? '+' : '') + it[0].parsed.x + '일)'; },
+              label: function (it) { return ' ' + it.dataset.label.split(' (')[0] + ': ' + fmt(it.parsed.y, 0) + ' (' + fmt(it.raw.raw) + '원)'; }}}},
+          scales: {x: {type: 'linear', title: {display: true, text: xTitle, font: {size: 11}, color: TH.tick},
+              ticks: {color: TH.tick}, grid: {color: TH.grid}},
+            y: {type: 'logarithmic', ticks: {color: TH.tick,
+                callback: function (v) { return ticks.indexOf(v) >= 0 ? fmt(v) : ''; }},
+              grid: {color: TH.grid}}}}, plugins: plugs});
+        var dd = ddChart('ldrDD', ddSeries(s1), ddSeries(s2), '현중 DD', '하이닉스 DD', xTitle + ' — 전고점 대비 낙폭 (%)');
+        addZoom(main, dd); addZoom(dd, main);
+        live = [main, dd];
       }
-      var ma = anchorAlign(M, '2003-03-25', '2015-12-31');
-      var ha = anchorAlign(Hall, '2023-01-03', null);
-      var p1 = null; ma.series.forEach(function (p) { if (p.d === '2007-11-07') p1 = p; });
 
-      new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: [
-        {label: '현대중공업 (03-03-25=100)', data: ma.series, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
-        {label: 'SK하이닉스 (23-01-03=100, 정점 ' + ha.peak.d + ')', data: ha.series, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
-      ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
-        interaction: {mode: 'nearest', axis: 'x', intersect: false},
-        plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 16, font: {size: 11}, color: TH.txt}},
-          tooltip: {callbacks: {title: function (it) { return it[0].raw.d + ' (+' + it[0].parsed.x + '일)'; },
-            label: function (it) { return ' ' + it.dataset.label.split(' (')[0] + ': ' + fmt(it.parsed.y, 0) + ' (' + fmt(it.raw.raw) + '원)'; }}}},
-        scales: {x: {type: 'linear', title: {display: true, text: '앵커 후 캘린더 일수', font: {size: 11}, color: TH.tick},
-            ticks: {color: TH.tick}, grid: {color: TH.grid}},
-          y: {type: 'logarithmic', ticks: {color: TH.tick,
-              callback: function (v) { var a = [50,100,200,500,1000,2000,5000]; return a.indexOf(v) >= 0 ? fmt(v) : ''; }},
-            grid: {color: TH.grid}}},
-        }, plugins: [{id: 'peakLines', afterDatasetsDraw: function (chart) {
-          var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
-          [[p1 ? p1.x : null, TH.china], [ma.peak.x, TH.china], [ha.peak.x, TH.now]].forEach(function (pv) {
-            if (pv[0] == null) return;
-            var px = xs.getPixelForValue(pv[0]);
-            if (px < area.left || px > area.right) return;
-            ctx.save(); ctx.setLineDash([3,3]); ctx.strokeStyle = pv[1]; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
-            ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke(); ctx.restore();
-          });
-        }}]});
+      function render(mode) {
+        live.forEach(function (c) { c.destroy(); }); live = [];
+        var statsHtml;
+        if (mode === 'low') {
+          var ma = alignAt(M, '2003-03-25', '2003-03-25', '2015-12-31');
+          var ha = alignAt(Hall, '2023-01-03', '2023-01-03', null);
+          var p1 = null; ma.series.forEach(function (p) { if (p.d === '2007-11-07') p1 = p; });
+          mkChart(ma.series, ha.series, '현대중공업 (03-03-25 저점=100)', 'SK하이닉스 (23-01-03 저점=100)',
+            '앵커 후 캘린더 일수', [50, 100, 200, 500, 1000, 2000, 5000],
+            [vLines([[p1 ? p1.x : null, TH.china], [ma.peak.x, TH.china], [ha.peak.x, TH.now]])]);
+          var hLast = ha.series[ha.series.length - 1];
+          var mAtSame = null; ma.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
+          var minAfter = null; ma.series.forEach(function (p) { if (p.x >= ma.peak.x && (!minAfter || p.y < minAfter.y)) minAfter = p; });
+          statsHtml =
+            kvItem('현중 1차 정점(07-11-07)', (p1 ? fmt(p1.y / 100, 1) : '\u2014') + '배 / +' + (p1 ? fmt(p1.x) : '') + '일', 'same') +
+            kvItem('2차 정점(' + ma.peak.d + ') → 최종', fmt(ma.peak.y / 100, 1) + '배 → ' + fmt((minAfter.y / ma.peak.y - 1) * 100, 0) + '%', 'same') +
+            kvItem('하이닉스: 앵커→현재', fmt(hLast.y / 100, 1) + '배 / ' + fmt(hLast.x) + '일', 'diff') +
+            kvItem('현중 등가(+' + fmt(hLast.x) + '일) → 1차 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt((p1 ? p1.x : 0) - hLast.x) + '일 남음', 'same');
+        } else {
+          var mp = alignAt(M, '2007-11-07', '2003-03-25', '2015-12-31');
+          var hp = peakAlignG(Hall, '2024-06-11', null, 1800, 700);
+          var m2 = null; mp.series.forEach(function (p) { if (p.d === '2011-04-08') m2 = p; });
+          mkChart(mp.series, hp.series, '현대중공업 (1차 정점 07-11-07=100)', 'SK하이닉스 (정점 ' + hp.peak.t + '=100)',
+            '정점 전후 캘린더 일수 (0 = 정점)', [10, 20, 30, 50, 70, 100, 200],
+            [vLines([[0, '#8b949e'], [m2 ? m2.x : null, TH.china]])]);
+          var hLast2 = hp.series[hp.series.length - 1];
+          var m1y = null; mp.series.forEach(function (p) { if (p.x >= 0 && p.x <= 500 && (!m1y || p.y < m1y.y)) m1y = p; });
+          var mAt2 = null; mp.series.forEach(function (p) { if (p.x >= 0 && p.x <= hLast2.x) mAt2 = p; });
+          var mFin = null; mp.series.forEach(function (p) { if (p.x >= 0 && (!mFin || p.y < mFin.y)) mFin = p; });
+          statsHtml =
+            kvItem('현중: 정점 후 1년 내 최저', fmt(m1y.y - 100, 1) + '% (' + m1y.d + ')', 'same') +
+            kvItem('현중: 2차 정점 → 최종', (m2 ? '+' + fmt(m2.y - 100, 1) + '%(11-04)' : '\u2014') + ' → ' + fmt(mFin.y - 100, 0) + '%', 'same') +
+            kvItem('하이닉스: 정점 후', fmt(hLast2.y - 100, 1) + '% (+' + fmt(hLast2.x) + '일)', 'diff') +
+            kvItem('현중 등가(+' + fmt(hLast2.x) + '일)', mAt2 ? fmt(mAt2.y - 100, 1) + '%' : '\u2014', 'same');
+        }
+        document.getElementById('ldrStats').innerHTML = statsHtml;
+      }
 
-      var ldrMain = Chart.getChart(document.getElementById('ldrChart'));
-      var ldrDd = ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '현중 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
-      addZoom(ldrMain, ldrDd); addZoom(ldrDd, ldrMain);
-
-      // 통계 — 하이닉스 현재 vs 현중 등가 시점
-      var hLast = ha.series[ha.series.length - 1];
-      var mAtSame = null;
-      ma.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
-      var minAfter = null;
-      ma.series.forEach(function (p) { if (p.x >= ma.peak.x && (!minAfter || p.y < minAfter.y)) minAfter = p; });
-      document.getElementById('ldrStats').innerHTML =
-        kvItem('현중 1차 정점(07-11-07)', fmt(p1.y / 100, 1) + '배 / +' + fmt(p1.x) + '일', 'same') +
-        kvItem('2차 정점(' + ma.peak.d + ') → 최종', fmt(ma.peak.y / 100, 1) + '배 → ' + fmt((minAfter.y / ma.peak.y - 1) * 100, 0) + '%', 'same') +
-        kvItem('하이닉스: 앵커→현재', fmt(hLast.y / 100, 1) + '배 / ' + fmt(hLast.x) + '일', 'diff') +
-        kvItem('현중 등가(+' + fmt(hLast.x) + '일) → 1차 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt(p1.x - hLast.x) + '일 남음', 'same');
+      segWire('ldrSeg', render);
+      render('low');
     })();
 
     /* ── D. 현대중공업 실적 + 선수금 (v7: DART 실측) */
     (function () {
-      var d = sb.hhi_annual.data;
+      var d = sb.hhi_annual.data.filter(function (r) { return r[0] >= 2003; });
       var advMap = {};
       sb.hhi_balance.data.forEach(function (r) { advMap[r[0]] = r[1]; });
       var h = '<table><tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th><th>선수금\u2605</th></tr>';
