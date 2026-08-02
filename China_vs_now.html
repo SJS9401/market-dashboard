@@ -69,7 +69,7 @@
     <div class="chartbox"><canvas id="idxChart"></canvas></div>
     <div class="chartbox sm"><canvas id="idxDD"></canvas></div>
     <div class="kv" id="idxStats"></div>
-    <div class="note">로그 스케일 · 저점 앵커 = 각자 저점=100, 고점 앵커 = 각자 정점=100·x=0이 정점. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선.<br><b style="color:#c9d1d9;">FFR·10Y·WTI 버튼</b> = 우축 매크로 오버레이. 점선 중국(03-03~08-12) / 실선 현재(22-09~). 2004~06 그린스펀 코넌드럼: FFR 17회 인상에도 10Y가 +30bp에 그쳐 한계 자본공급자 채널이 닫히지 않았고 주가는 지속됐다. WTI는 2008-07 $145로 사이클 정점과 동행. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
+    <div class="note">로그 스케일 · 저점 앵커 = 각자 저점=100, 고점 앵커 = 각자 정점=100·x=0이 정점. <b style="color:#c9d1d9;">MDD·낙폭은 고가&rarr;저가(장중) 기준</b>, 상승률은 종가 기준. 하단 = 전고점(고가) 대비 저가 낙폭 곡선.<br><b style="color:#c9d1d9;">FFR·10Y·WTI 버튼</b> = 우축 매크로 오버레이. 점선 중국(03-03~08-12) / 실선 현재(22-09~). 2004~06 그린스펀 코넌드럼: FFR 17회 인상에도 10Y가 +30bp에 그쳐 한계 자본공급자 채널이 닫히지 않았고 주가는 지속됐다. WTI는 2008-07 $145로 사이클 정점과 동행. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
   </div>
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
@@ -78,7 +78,7 @@
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">저점 앵커 = 각자 저점=100 (현중 03-03-25 / 하이닉스 23-01-03), 고점 앵커 = 현중 1차 정점(07-11-07)=100 vs 하이닉스 자기 정점=100 · 로그 · 수정주가(naver).
+    <div class="note">저점 앵커 = 각자 저점=100 (현중 03-03-25 / 하이닉스 23-01-03), 고점 앵커 = 현중 1차 정점(07-11-07)=100 vs 하이닉스 자기 정점=100 · 로그 · 수정주가(naver, OHLC). <b style="color:#c9d1d9;">낙폭·MDD는 고가&rarr;저가(장중) 기준</b>.
       세로 점선 = 현중 1차 정점(07-11-07, 중국 사이클)·2차 정점(11-04-08, 해양플랜트 사이클)·하이닉스 정점.
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
@@ -209,7 +209,9 @@
       if (x.t < anchor) continue;
       if (end && x.t > end) break;
       if (base === null) base = x.c;
-      out.push({x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c});
+      out.push({x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c,
+                yh: (x.h != null ? Math.max(x.h, x.c) : x.c) / base * 100,
+                yl: (x.l != null ? Math.min(x.l, x.c) : x.c) / base * 100});
     }
     return out;
   }
@@ -222,18 +224,21 @@
       seg.push(x);
     }
     if (!seg.length) return null;
-    var base = seg[0].c, pk = seg[0], run = seg[0].c, mdd = 0;
+    var base = seg[0].c, pk = seg[0], run = -1e18, runD = '', mdd = 0, mddD = '', pkHigh = -1e18;
     for (var j = 0; j < seg.length; j++) {
-      if (seg[j].c > pk.c) pk = seg[j];
-      if (seg[j].c > run) run = seg[j].c;
-      var dd = seg[j].c / run - 1;
-      if (dd < mdd) mdd = dd;
+      var x = seg[j];
+      var hi = (x.h != null ? Math.max(x.h, x.c) : x.c);
+      var lo = (x.l != null ? Math.min(x.l, x.c) : x.c);
+      if (hi > pkHigh) { pkHigh = hi; pk = x; runD = x.t; }
+      if (hi > run) run = hi;
+      var dd = lo / run - 1;
+      if (dd < mdd) { mdd = dd; mddD = x.t; }
     }
     var last = seg[seg.length - 1];
-    return {base: base, peak: pk, last: last,
-      riseToPeak: (pk.c / base - 1) * 100, daysToPeak: days(anchor, pk.t),
+    return {base: base, peak: pk, last: last, peakHigh: pkHigh,
+      riseToPeak: (pkHigh / base - 1) * 100, daysToPeak: days(anchor, pk.t),
       lastPct: (last.c / base - 1) * 100, lastDays: days(anchor, last.t),
-      mdd: mdd * 100, fromPeak: (last.c / pk.c - 1) * 100};
+      mdd: mdd * 100, mddDate: mddD, fromPeak: (last.c / pkHigh - 1) * 100};
   }
   function kvItem(k, v, cls) { return '<div class="item"><div class="k">' + k + '</div><div class="v ' + (cls||'') + '">' + v + '</div></div>'; }
   function baseOpts(xTitle) {
@@ -295,12 +300,17 @@
     var seg = [], pk = null;
     for (var i = 0; i < S.length; i++) { var x = S[i];
       if (x.t < from) continue; if (to && x.t > to) break;
-      seg.push(x); if (!pk || x.c > pk.c) pk = x; }
+      seg.push(x);
+      var hi = (x.h != null ? Math.max(x.h, x.c) : x.c);
+      if (!pk || hi > (pk.h != null ? Math.max(pk.h, pk.c) : pk.c)) pk = x; }
+    var pkHigh = (pk.h != null ? Math.max(pk.h, pk.c) : pk.c);
     var out = [];
     seg.forEach(function (x) {
       var dd = days(pk.t, x.t);
       if (dd < -preDays || dd > postDays) return;
-      out.push({x: dd, y: x.c / pk.c * 100, d: x.t, raw: x.c});
+      out.push({x: dd, y: x.c / pkHigh * 100, d: x.t, raw: x.c,
+                yh: (x.h != null ? Math.max(x.h, x.c) : x.c) / pkHigh * 100,
+                yl: (x.l != null ? Math.min(x.l, x.c) : x.c) / pkHigh * 100});
     });
     return {series: out, peak: pk};
   }
@@ -310,8 +320,10 @@
     var out = [], pk = null;
     for (var j = 0; j < S.length; j++) { var x = S[j];
       if (x.t < from) continue; if (to && x.t > to) break;
-      var p = {x: days(anchorDate, x.t), y: x.c / base * 100, d: x.t, raw: x.c};
-      if (!pk || p.y > pk.y) pk = p;
+      var p = {x: days(anchorDate, x.t), y: x.c / base * 100, d: x.t, raw: x.c,
+               yh: (x.h != null ? Math.max(x.h, x.c) : x.c) / base * 100,
+               yl: (x.l != null ? Math.min(x.l, x.c) : x.c) / base * 100};
+      if (!pk || p.yh > pk.yh) pk = p;
       out.push(p); }
     return {series: out, peak: pk, base: base};
   }
@@ -372,7 +384,11 @@
   }
   function ddSeries(S) {
     var run = -1e18, out = [];
-    S.forEach(function (p) { if (p.y > run) run = p.y; out.push({x: p.x, y: (p.y / run - 1) * 100, d: p.d}); });
+    S.forEach(function (p) {
+      var hi = p.yh != null ? p.yh : p.y, lo = p.yl != null ? p.yl : p.y;
+      if (hi > run) run = hi;
+      out.push({x: p.x, y: (lo / run - 1) * 100, d: p.d});
+    });
     return out;
   }
   function ddChart(canvasId, s1, s2, l1, l2, xTitle) {
@@ -417,7 +433,7 @@
     /* ── B. 지수 오버레이 — v10 앵커 토글 + 매크로·P 지표 On/Off */
     (function () {
       var K = lsNorm(ls.stocks.kospi);
-      var ynow = yh.data['^KS11'].candles.map(function (c) { return {t: c.time, c: c.close}; });
+      var ynow = yh.data['^KS11'].candles.map(function (c) { return {t: c.time, c: c.close, h: c.high, l: c.low}; });
       var kmap = {}; K.forEach(function (x) { kmap[x.t] = x; }); ynow.forEach(function (x) { kmap[x.t] = x; });
       var Kall = Object.keys(kmap).sort().map(function (t) { return kmap[t]; });
       var live = [], mode = 'low';
@@ -451,9 +467,9 @@
           var sn = stats(Kall, N_FROM);
           statsHtml =
             kvItem('중국: 저점→정점', '+' + fmt(sc.riseToPeak, 0) + '% / ' + fmt(sc.daysToPeak) + '일', 'same') +
-            kvItem('중국: 상승 구간 내 MDD', fmt(sc.mdd, 1) + '%', 'same') +
+            kvItem('중국: 상승 구간 MDD(고→저)', fmt(sc.mdd, 1) + '%', 'same') +
             kvItem('현재: 저점→정점', '+' + fmt(sn.riseToPeak, 0) + '% / ' + fmt(sn.daysToPeak) + '일', 'diff') +
-            kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
+            kvItem('현재: MDD(고→저) / 종가', fmt(sn.mdd, 1) + '% / ' + fmt(sn.fromPeak, 1) + '%', 'diff');
         } else {
           var a = peakAlignG(Kall, C_FROM, C_TO, 1800, 700);
           var b = peakAlignG(Kall, N_FROM, null, 1800, 700);
@@ -462,13 +478,14 @@
           l1 = '중국 코스피 (정점 ' + a.peak.t + '=100)'; l2 = '현재 코스피 (정점 ' + b.peak.t + '=100)';
           xTitle = '정점 전후 캘린더 일수 (0 = 정점)'; ticks = [20, 30, 50, 70, 100, 150, 200];
           plugs = [vLines([[0, '#8b949e']])];
-          var aMin = null; a.series.forEach(function (p) { if (p.x >= 0 && (!aMin || p.y < aMin.y)) aMin = p; });
+          var aMin = null; a.series.forEach(function (p) { if (p.x >= 0 && (!aMin || p.yl < aMin.yl)) aMin = p; });
           var bLast = s2[s2.length - 1];
+          var bMin = null; b.series.forEach(function (p) { if (p.x >= 0 && (!bMin || p.yl < bMin.yl)) bMin = p; });
           var aAt = null; a.series.forEach(function (p) { if (p.x >= 0 && p.x <= bLast.x) aAt = p; });
           statsHtml =
             kvItem('중국 정점', a.peak.t, 'same') +
-            kvItem('중국: 정점 후 최저', fmt(aMin.y - 100, 1) + '% (' + aMin.d + ')', 'same') +
-            kvItem('현재: 정점 후', fmt(bLast.y - 100, 1) + '% (+' + fmt(bLast.x) + '일)', 'diff') +
+            kvItem('중국: 정점 후 최저(저가)', fmt(aMin.yl - 100, 1) + '% (' + aMin.d + ')', 'same') +
+            kvItem('현재: 정점 후 최저 / 종가', fmt(bMin.yl - 100, 1) + '% / ' + fmt(bLast.y - 100, 1) + '%', 'diff') +
             kvItem('중국 등가(+' + fmt(bLast.x) + '일)', aAt ? fmt(aAt.y - 100, 1) + '%' : '\u2014', 'same');
         }
 
@@ -525,10 +542,11 @@
     /* ── C. 주도주 오버레이 — v11 앵커 토글 + P 지표 절대값 우축 On/Off */
     (function () {
       var M = hh.data.map(function (r) {
-        return {t: r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8), c: r[1]};
+        var t = r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8);
+        return r.length >= 5 ? {t: t, o: r[1], h: r[2], l: r[3], c: r[4]} : {t: t, c: r[1]};
       });
       var H = lsNorm(ls.stocks.sk_hynix);
-      var ynow = yh.data['000660.KS'].candles.map(function (c) { return {t: c.time, c: c.close}; });
+      var ynow = yh.data['000660.KS'].candles.map(function (c) { return {t: c.time, c: c.close, h: c.high, l: c.low}; });
       var map = {}; H.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
       var Hall = Object.keys(map).sort().map(function (t) { return map[t]; });
       var live = [], mode = 'low';
@@ -614,10 +632,10 @@
             '2003-03-25', '2023-01-03', '2003-03-25', '2014-12-31', '2023-01-03');
           var hLast = ha.series[ha.series.length - 1];
           var mAtSame = null; ma.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
-          var minAfter = null; ma.series.forEach(function (p) { if (p.x >= ma.peak.x && (!minAfter || p.y < minAfter.y)) minAfter = p; });
+          var minAfter = null; ma.series.forEach(function (p) { if (p.x >= ma.peak.x && (!minAfter || p.yl < minAfter.yl)) minAfter = p; });
           statsHtml =
             kvItem('현중 1차 정점(07-11-07)', (p1 ? fmt(p1.y / 100, 1) : '\u2014') + '배 / +' + (p1 ? fmt(p1.x) : '') + '일', 'same') +
-            kvItem('2차 정점(' + ma.peak.d + ') → 최종', fmt(ma.peak.y / 100, 1) + '배 → ' + fmt((minAfter.y / ma.peak.y - 1) * 100, 0) + '%', 'same') +
+            kvItem('2차 정점(' + ma.peak.d + ') → 최종', fmt(ma.peak.yh / 100, 1) + '배 → ' + fmt((minAfter.yl / ma.peak.yh - 1) * 100, 0) + '%', 'same') +
             kvItem('하이닉스: 앵커→현재', fmt(hLast.y / 100, 1) + '배 / ' + fmt(hLast.x) + '일', 'diff') +
             kvItem('현중 등가(+' + fmt(hLast.x) + '일) → 1차 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt((p1 ? p1.x : 0) - hLast.x) + '일 남음', 'same');
         } else {
@@ -629,13 +647,14 @@
             [vLines([[0, '#8b949e'], [m2 ? m2.x : null, TH.china]])],
             '2007-11-07', hp.peak.t, '2003-03-25', '2014-12-31', '2022-09-30');
           var hLast2 = hp.series[hp.series.length - 1];
-          var m1y = null; mp.series.forEach(function (p) { if (p.x >= 0 && p.x <= 500 && (!m1y || p.y < m1y.y)) m1y = p; });
+          var hMin2 = null; hp.series.forEach(function (p) { if (p.x >= 0 && (!hMin2 || p.yl < hMin2.yl)) hMin2 = p; });
+          var m1y = null; mp.series.forEach(function (p) { if (p.x >= 0 && p.x <= 500 && (!m1y || p.yl < m1y.yl)) m1y = p; });
           var mAt2 = null; mp.series.forEach(function (p) { if (p.x >= 0 && p.x <= hLast2.x) mAt2 = p; });
-          var mFin = null; mp.series.forEach(function (p) { if (p.x >= 0 && (!mFin || p.y < mFin.y)) mFin = p; });
+          var mFin = null; mp.series.forEach(function (p) { if (p.x >= 0 && (!mFin || p.yl < mFin.yl)) mFin = p; });
           statsHtml =
-            kvItem('현중: 정점 후 1년 내 최저', fmt(m1y.y - 100, 1) + '% (' + m1y.d + ')', 'same') +
-            kvItem('현중: 2차 정점 → 최종', (m2 ? '+' + fmt(m2.y - 100, 1) + '%(11-04)' : '\u2014') + ' → ' + fmt(mFin.y - 100, 0) + '%', 'same') +
-            kvItem('하이닉스: 정점 후', fmt(hLast2.y - 100, 1) + '% (+' + fmt(hLast2.x) + '일)', 'diff') +
+            kvItem('현중: 정점 후 1년 내 최저(저가)', fmt(m1y.yl - 100, 1) + '% (' + m1y.d + ')', 'same') +
+            kvItem('현중: 2차 정점 → 최종', (m2 ? '+' + fmt(m2.yh - 100, 1) + '%(11-04)' : '\u2014') + ' → ' + fmt(mFin.yl - 100, 0) + '%', 'same') +
+            kvItem('하이닉스: 정점 후 최저 / 종가', fmt(hMin2.yl - 100, 1) + '% / ' + fmt(hLast2.y - 100, 1) + '%', 'diff') +
             kvItem('현중 등가(+' + fmt(hLast2.x) + '일)', mAt2 ? fmt(mAt2.y - 100, 1) + '%' : '\u2014', 'same');
         }
         document.getElementById('ldrStats').innerHTML = statsHtml;
