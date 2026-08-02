@@ -79,7 +79,7 @@
 
   <!-- B. 지수 -->
   <div class="card">
-    <h2>지수 — 나스닥(닷컴) vs 코스피(현재)<span class="seg" id="idxSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="idxExSeg" style="margin-left:6px;"><button data-x="1">나스닥(현재)</button></span></h2>
+    <h2>지수 — 나스닥(닷컴) vs 코스피(현재)<span class="seg" id="idxSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="idxExSeg" style="margin-left:6px;"><button data-x="1">나스닥(현재)</button></span></h2>
     <div class="chartbox"><canvas id="idxChart"></canvas></div>
     <div class="chartbox sm"><canvas id="idxDD"></canvas></div>
     <div class="kv" id="idxKV"></div>
@@ -89,7 +89,7 @@
 
   <!-- C. 1차축 -->
   <div class="card">
-    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span></h2>
+    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrKV"></div>
@@ -99,11 +99,12 @@
 
   <!-- D. 2차축 -->
   <div class="card">
-    <h2>2차축 — 퀄컴(닷컴) vs 마이크론(현재)<span class="seg" id="secSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="secExSeg" style="margin-left:6px;"><button data-x="1">SK하이닉스</button></span></h2>
+    <h2>2차축 — 퀄컴(닷컴) vs 마이크론(현재)<span class="seg" id="secSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="secExSeg" style="margin-left:6px;"><button data-x="1">SK하이닉스</button></span></h2>
     <div class="chartbox"><canvas id="secChart"></canvas></div>
     <div class="chartbox sm"><canvas id="secDD"></canvas></div>
     <div class="kv" id="secKV"></div>
     <div class="note">퀄컴은 1998-10-08 앵커에서 정점까지 <b style="color:#c9d1d9;">40.9배 / 452일</b> — 닷컴 최말기의 고베타 축.
+      마이크론·하이닉스는 25-04 앵커에서 <b style="color:#c9d1d9;">442일</b>만에 정점 — 시간축이 거의 일치한다.
       2차축은 1차축보다 <b style="color:#c9d1d9;">더 늦게 정점을 만들고 더 깊게 빠지는</b> 것이 두 사이클 공통 패턴.</div>
   </div>
 
@@ -119,10 +120,17 @@
           <td>정점까지 <b style="color:#f0f6fc;">2,082일</b><br>등가일 8.5배</td>
           <td>정점까지 <b style="color:#f0f6fc;">1,998일</b><br>등가일 2.7배</td>
           <td class="diff">코스피 1,358일 4.35배<br>하이닉스 1,269일 <b style="color:#f0f6fc;">40.6배</b><br><span style="color:#8b949e;">시간은 맞고 배율은 초과</span></td></tr>
-      <tr><td><b style="color:#f0f6fc;">1998-10-08</b><br><span style="font-weight:400;color:#6e7681;">보조 앵커</span></td>
-          <td>3.62배 / 519일</td><td>7.03배 / 536일</td><td><b style="color:#f0f6fc;">40.89배</b> / 452일</td>
-          <td class="diff">셋 다 <b style="color:#f0f6fc;">같은 날 저점</b><br>마지막 국면의 시작점</td></tr>
+      <tr><td><b style="color:#f0f6fc;">1998-10-08</b><br><span style="font-weight:400;color:#6e7681;">보조 앵커<br>↔ 2025-04</span></td>
+          <td>3.62배 / <b style="color:#f0f6fc;">519일</b></td><td>7.03배 / <b style="color:#f0f6fc;">536일</b></td><td><b style="color:#f0f6fc;">40.89배</b> / 452일</td>
+          <td class="diff">코스피 <b style="color:#f0f6fc;">4.09배 / 436일</b><br>마이크론 16.16배 / 442일<br>하이닉스 18.21배 / 442일<br>엔비디아 2.07배 / 400일</td></tr>
     </table>
+    <div class="factor" style="margin-top:8px;"><b>★ 1998-10-08의 현재 등가는 2025-04 관세쇼크 저점이다</b>
+      <span>닷컴 상승장의 본체는 <b style="color:#f0f6fc;">1995~2000</b>이고, 1998-10-08은 그 <b style="color:#f0f6fc;">마지막 국면(final leg)의 시작점</b>이었다.
+      현재 사이클에서 같은 역할을 하는 것은 2022년 저점이 아니라 <b style="color:#f0f6fc;">2025-04-09(KR)·04-07(US) 관세쇼크 저점</b>이다 &mdash; 둘 다 외생 충격으로 만들어진 마지막 국면의 출발점.<br>
+      <b style="color:#f0f6fc;">시간축이 거의 정확히 겹친다</b>: 나스닥 519일 &rarr; 코스피 <b style="color:#f0f6fc;">436일</b>, 퀄컴 452일 &rarr; 마이크론·하이닉스 <b style="color:#f0f6fc;">442일</b>.
+      배율도 코스피 4.09배 vs 나스닥 3.62배로 <b style="color:#f0f6fc;">같은 자릿수</b>다 &mdash; 1994 앵커에서 4.8배씩 벌어졌던 것과 대조적이다.<br>
+      &rarr; 즉 <b style="color:#f0f6fc;">final leg 단위로 맞추면 시간·배율이 모두 정합</b>하고, 그 경우 현재 위치는 <b style="color:#f0f6fc;">2000년 1~3월 정점 직후</b>에 해당한다.
+      1994 앵커(잔여 665일)와 1998 앵커(이미 정점 통과)가 <b style="color:#f0f6fc;">정반대 결론</b>을 주므로, 어느 단위로 사이클을 세는지가 판단을 가른다.</span></div>
 
     <h3>② 고점 앵커 — 낙폭은 비슷한데 회복이 갈랐다</h3>
     <table>
@@ -190,8 +198,10 @@
     <h3>1. 세 층위가 서로 다른 답을 준다</h3>
     <table>
       <tr><th style="width:110px;">층위</th><th>실측</th><th style="width:110px;">가리키는 곳</th></tr>
-      <tr><td>시간축</td><td>1994-07 앵커 시 정점까지 2,065~2,082일. 현재 1,358일 &rarr; 등가로 <b style="color:#f0f6fc;">약 700일 남은 자리</b>. 그 등가 지점이 정확히 <b style="color:#f0f6fc;">1997-12~1998-04</b> = 아시아 위기 직전</td>
+      <tr><td>시간축<br><span style="font-weight:400;color:#6e7681;">1994 앵커</span></td><td>1994-07 앵커 시 정점까지 2,065~2,082일. 현재 1,358일 &rarr; 등가로 <b style="color:#f0f6fc;">약 700일 남은 자리</b>. 그 등가 지점이 정확히 <b style="color:#f0f6fc;">1997-12~1998-04</b> = 아시아 위기 직전</td>
           <td class="same"><b style="color:#f0f6fc;">1998년형</b></td></tr>
+      <tr><td>시간축<br><span style="font-weight:400;color:#6e7681;">1998 앵커 (final leg)</span></td><td>1998-10-08 &rarr; 정점 519일(나스닥)·452일(퀄컴). 25-04 앵커 &rarr; 정점 <b style="color:#f0f6fc;">436일(코스피)·442일(마이크론·하이닉스)</b> &mdash; <b style="color:#f0f6fc;">거의 동일</b>. 배율도 4.09 vs 3.62배로 정합</td>
+          <td class="diff"><b style="color:#f0f6fc;">2000년형</b><br><span style="color:#8b949e;">이미 정점 통과</span></td></tr>
       <tr><td>낙폭</td><td>코스피 -43.9% / 마이크론 -41.2% vs 1998년 시스코 -41.4% / 퀄컴 -42.7%. 2000년형(-77~88%)과는 <b style="color:#f0f6fc;">거리가 멀다</b></td>
           <td class="same"><b style="color:#f0f6fc;">1998년형</b></td></tr>
       <tr><td>배율</td><td>같은 경과일에 하이닉스 40.6배 vs 시스코 8.5배 &mdash; <b style="color:#f0f6fc;">4.8배 초과 상승</b>. 시간은 1998년 자리인데 가격은 그보다 훨씬 갔다</td>
@@ -366,7 +376,10 @@
   var DOT_LOW  = {low94: '1994-07-15', low98: '1998-10-08'};
   var DOT_END  = '2002-08-21';
   var NOW_LOW  = {KS11:'2022-09-30', IXIC:'2022-10-13', NVDA:'2022-10-14', MU:'2022-10-14', HYNIX:'2023-01-03'};
+  /* 1998-10-08 앵커의 현재 등가 = 2025-04 관세쇼크 저점 (KR 4/9, US 4/7) */
+  var NOW_LOW98 = {KS11:'2025-04-09', HYNIX:'2025-04-09', IXIC:'2025-04-07', NVDA:'2025-04-07', MU:'2025-04-07'};
   var MODE_LBL = {low94:'1994-07-15 저점=100', low98:'1998-10-08 저점=100', peak98:'1998 고점=100', peak00:'2000 정점=100'};
+  var NOW_LBL  = {low98:'25-04 저점=100'};
 
   getJSON('data/dotcom_price.json').then(function (P) {
     var S = {};
@@ -385,8 +398,9 @@
       return peakAlignG(S[key], '1998-06-01', DOT_END, 560, 1010);
     }
     function alignNow(key, mode) {
+      if (mode === 'low98') { var b = NOW_LOW98[key]; return alignAt(S[key], b, b, null); }
       var a = NOW_LOW[key];
-      if (mode === 'low94' || mode === 'low98') return alignAt(S[key], a, a, null);
+      if (mode === 'low94') return alignAt(S[key], a, a, null);
       return peakAlignG(S[key], a, null, 560, 900);
     }
     function xTitleOf(mode) {
@@ -423,7 +437,7 @@
         var ds = [
           {label: P.series[cfg.dot].name + ' (' + MODE_LBL[mode] + ')', data: A.series,
            borderColor: TH.dot, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
-          {label: P.series[cfg.now].name + ' (현재)', data: B.series,
+          {label: P.series[cfg.now].name + ' (' + (NOW_LBL[mode] || '현재') + ')', data: B.series,
            borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
         ];
         var ddSets = [
