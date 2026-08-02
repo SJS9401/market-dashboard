@@ -74,7 +74,7 @@
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">DRAM ASP YoY</button></span></h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">DRAM ASP YoY</button></span><span class="seg" id="ldrESeg" style="margin-left:6px;"><button data-p="hhiop">현중 영익</button><button data-p="hhiopyoy">현중 영익 YoY</button><button data-p="hxop">닉스 영익</button><button data-p="hxopyoy">닉스 영익 YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
@@ -83,7 +83,7 @@
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
       우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, DRAM ASP = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교.
+      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, DRAM ASP = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.
       (미포 데이터는 shipbuilding_static.json 에 보존)</div>
     <div class="factor warn" style="margin-top:8px;"><b>정점 후 회복 실패 패턴 — BDI</b>
       <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> &rarr; 2010 <b style="color:#f0f6fc;">36%</b> &rarr; 2011-03 <b style="color:#f0f6fc;">13%</b>.
@@ -536,9 +536,10 @@
     getJSON('data/shipbuilding_static.json'),
     getJSON('data/macro_history.json'),
     getJSON('data/asp_dram.json'),
-    getJSON('data/hhi_price.json')
+    getJSON('data/hhi_price.json'),
+    getJSON('data/leader_earnings.json')
   ]).then(function (R) {
-    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5], hh = R[6];
+    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5], hh = R[6], fin = R[7];
     document.getElementById('updated').textContent =
       '중국 중후장대(2003~2008) · 현대중공업 ↔ AI(2023~) · SK하이닉스 | yahoo ' +
       (yh.meta && yh.meta.updated ? yh.meta.updated.slice(0,10) : '?') + ' · FRED ' +
@@ -700,15 +701,34 @@
       }
       pRows.nbyoy = yoyRows(pRows.nb);
       pRows.aspyoy = yoyRows(pRows.asp);
+      pRows.hhiop = fin.hhi_op.data.map(function (r) { return {t: r[0], v: r[1]}; });
+      pRows.hxop = fin.hynix_op.data.map(function (r) { return {t: r[0], v: r[1]}; });
+      function opYoY(rows, lag) {   // lag = 1(연간) | 4(분기)
+        var out = [];
+        for (var i = lag; i < rows.length; i++) {
+          var p = rows[i - lag].v, c = rows[i].v;
+          if (p == null || c == null || p <= 0) continue;   // 적자 기저 제외
+          out.push({t: rows[i].t, v: (c / p - 1) * 100});
+        }
+        return out;
+      }
+      pRows.hhiopyoy = opYoY(pRows.hhiop, 1);
+      pRows.hxopyoy = opYoY(pRows.hxop, 4);
+
 
       var PMETA = {
         bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0},
         nb: {label: '신조선가', color: TH.aux2, cyc: 'c', ax: 'p2', unit: 'p', dp: 0},
         asp: {label: 'DRAM ASP', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 2},
         nbyoy: {label: '신조선가 YoY', color: '#a3e635', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
-        aspyoy: {label: 'DRAM ASP YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 1}
+        aspyoy: {label: 'DRAM ASP YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 1},
+        hhiop: {label: '현중 영업이익', color: '#2dd4bf', cyc: 'c', ax: 'p5', unit: '억', dp: 0},
+        hxop: {label: '하이닉스 영업이익', color: '#fb923c', cyc: 'n', ax: 'p6', unit: '억', dp: 0},
+        hhiopyoy: {label: '현중 영익 YoY', color: '#4ade80', cyc: 'c', ax: 'p7', unit: '%', dp: 0},
+        hxopyoy: {label: '하이닉스 영익 YoY', color: '#ef4444', cyc: 'n', ax: 'p7', unit: '%', dp: 0}
       };
-      var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false};
+      var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false,
+                 hhiop: false, hxop: false, hhiopyoy: false, hxopyoy: false};
 
       function pAbs(rows, anchorDate, from, to) {  // 절대값 + x = 앵커 후 일수
         var out = [];
@@ -732,8 +752,8 @@
           ds.push({label: m.label + (isC ? ' (중국, 우)' : ' (현재, 우)'),
                    data: pAbs(pRows[k], isC ? cAnchor : nAnchor, isC ? cFrom : nFrom, isC ? cTo : null),
                    borderColor: m.color, borderWidth: m.ax === 'p4' ? 1.8 : 1.4,
-                   pointRadius: (k === 'asp' || k === 'aspyoy') ? 0 : 2,
-                   tension: 0.15, borderDash: (m.ax === 'p4' ? [6,3] : (isC ? [2,2] : [])), yAxisID: m.ax});
+                   pointRadius: (k === 'asp' || k === 'aspyoy') ? 0 : (k.indexOf('op') >= 0 ? 2.5 : 2),
+                   tension: 0.15, borderDash: (m.ax === 'p4' || m.ax === 'p7' ? [6,3] : (isC ? [2,2] : [])), yAxisID: m.ax});
         });
 
         var scales = {
@@ -746,11 +766,11 @@
         Object.keys(axOn).forEach(function (ax) {
           var m = axOn[ax];
           scales[ax] = {position: 'right', ticks: {color: ax === 'p4' ? '#e5e7eb' : m.color, font: {size: 9},
-            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : ''); }},
+            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억' : ''); }},
             grid: {display: false}};
         });
-        if (axOn.p4) plugs = (plugs || []).concat([{id: 'zeroLine', beforeDatasetsDraw: function (chart) {
-          var ys = chart.scales.p4, area = chart.chartArea, ctx = chart.ctx;
+        if (axOn.p4 || axOn.p7) plugs = (plugs || []).concat([{id: 'zeroLine', beforeDatasetsDraw: function (chart) {
+          var ys = chart.scales.p4 || chart.scales.p7, area = chart.chartArea, ctx = chart.ctx;
           if (!ys) return;
           var py = ys.getPixelForValue(0);
           if (py < area.top || py > area.bottom) return;
@@ -767,7 +787,7 @@
                 var ax = it.dataset.yAxisID;
                 if (ax === 'y') return ' ' + it.dataset.label.split(' (')[0] + ': ' + fmt(it.parsed.y, 0) + ' (' + fmt(it.raw.raw) + '원)';
                 var m = axOn[ax] || {unit: '', dp: 0};
-                return ' ' + it.dataset.label.split(' (')[0] + ': ' + (m.unit === '$' ? '$' : '') + fmt(it.parsed.y, m.dp) + (m.unit === 'p' ? 'p' : '');
+                return ' ' + it.dataset.label.split(' (')[0] + ': ' + (m.unit === '$' ? '$' : '') + fmt(it.parsed.y, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억원' : '');
               }}}},
           scales: scales}, plugins: plugs});
         var dd = ddChart('ldrDD', ddSeries(s1), ddSeries(s2), '현중 DD', '하이닉스 DD', xTitle + ' — 전고점 대비 낙폭 (%)');
@@ -817,13 +837,15 @@
       }
 
       segWire('ldrSeg', function (m) { mode = m; render(); });
-      document.getElementById('ldrPSeg').querySelectorAll('button').forEach(function (b) {
+      ['ldrPSeg', 'ldrESeg'].forEach(function (segId) {
+      document.getElementById(segId).querySelectorAll('button').forEach(function (b) {
         b.onclick = function () {
           var id = b.getAttribute('data-p');
           pOn[id] = !pOn[id];
           b.classList.toggle('on', pOn[id]);
           render();
         };
+      });
       });
       render();
     })();
