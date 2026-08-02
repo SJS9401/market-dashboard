@@ -6,6 +6,7 @@
 <title>중국 인프라 vs 현재 — 사이클 비교</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 <script src="nav-loader.js" defer></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -60,18 +61,20 @@
 
   <!-- B. 지수 오버레이 -->
   <div class="card">
-    <h2>코스피 — 중국 사이클(2003-03-17 저점=100) vs 현재(2025-04-09 저점=100)</h2>
+    <h2>코스피 — 중국 사이클(2003-03-17 저점=100) vs 현재(2022-09-30 저점=100)</h2>
     <div class="chartbox"><canvas id="idxChart"></canvas></div>
+    <div class="chartbox sm"><canvas id="idxDD"></canvas></div>
     <div class="kv" id="idxStats"></div>
-    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준, MDD는 저점 이후 최대 낙폭.</div>
+    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 드래그 박스 = 줌인, 더블클릭 = 리셋, Ctrl+휠 = 줌.</div>
   </div>
 
   <!-- C. 주도주 오버레이 (v3: 저점=100 정렬) -->
   <div class="card">
     <h2>주도주 — 저점=100 정렬 · 현대미포조선(03-03-25~) vs SK하이닉스(23-01-03~)</h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
+    <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점.
+    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점. 하단 = 전고점 대비 낙폭(drawdown). 드래그 박스 = 줌인, 더블클릭 = 리셋, Ctrl+휠 = 줌.
       조선은 <b style="color:#c9d1d9;">수주잔고 리드타임</b>, 반도체는 <b style="color:#c9d1d9;">LTA</b>가 실적을 뒤로 밀어
       두 사이클 모두 "주가 먼저 &middot; 실적 나중" 구조 &mdash; 저점부터 전체 경로를 겹쳐 하이닉스의 현재 위치를 읽는다.</div>
   </div>
@@ -81,7 +84,7 @@
     <h2>실적 — 미포 실측 전 구간 vs 하이닉스 컨센서스</h2>
     <div class="grid2">
       <div>
-        <h3>현대미포조선 2002~2014 (십억원, DART 실측 + 당시 컨센)</h3>
+        <h3>현대미포조선 2000~2014 (십억원, DART 사업보고서 실측 · 별도)</h3>
         <div id="mipo-table">불러오는 중…</div>
       </div>
       <div>
@@ -101,11 +104,8 @@
           2013-10 케이프의 2014E +28 → 실제 <b style="color:#f0f6fc;">-832</b> (빅배스, 별도 OPM -24.7%). 시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다.</span></div>
       </div>
     </div>
-    <h3>★ 선수금 — 담보의 재무적 흔적 (미포, 십억원)</h3>
-    <div id="adv-table">불러오는 중…</div>
-    <div class="factor" style="margin-top:8px;"><b>선수금 = LTA 예치금. 잔액이 아니라 방향</b>
-      <span>정점(2008) 이후 4년 연속 감소 -31.3% = 신규 수주가 인도를 못 따라간 흔적.
-      → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 재무제표 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
+    <div class="factor" style="margin-top:8px;"><b>선수금 = LTA 예치금. 잔액이 아니라 방향 — 그리고 회복도 믿지 마라</b>
+      <span>DART 실측(별도): 상승기 2003 <b style="color:#f0f6fc;">302</b> → 2008 <b style="color:#f0f6fc;">2,668</b> (8.8배, P 상승과 동행) → 2012 <b style="color:#f0f6fc;">766</b> (<b style="color:#f0f6fc;">-71%</b>, 4년 연속 감소). 2013~14 회복(1,220→1,698)은 저가 수주 유입기 — 같은 시기 <b style="color:#f0f6fc;">2014 빅배스 -832</b>와 동시였다. 잔액 회복 &ne; 업황 회복.<br>2010 이전 = 선수금(K-GAAP), 2011~ = 초과청구공사(IFRS 재분류, 연속성 검증 완료). → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
   </div>
 
   <!-- E. P 지표 -->
@@ -260,6 +260,33 @@
             grid: {color: TH.grid}}}};
   }
 
+  var ZOOMOPT = {zoom: {drag: {enabled: true, backgroundColor: 'rgba(96,165,250,0.15)', borderColor: '#60a5fa', borderWidth: 1},
+    wheel: {enabled: true, modifierKey: 'ctrl'}, mode: 'xy'}};
+  function addZoom(chart) {
+    chart.options.plugins.zoom = ZOOMOPT;
+    chart.canvas.ondblclick = function () { chart.resetZoom(); };
+    chart.update('none');
+  }
+  function ddSeries(S) {
+    var run = -1e18, out = [];
+    S.forEach(function (p) { if (p.y > run) run = p.y; out.push({x: p.x, y: (p.y / run - 1) * 100, d: p.d}); });
+    return out;
+  }
+  function ddChart(canvasId, s1, s2, l1, l2, xTitle) {
+    var c = new Chart(document.getElementById(canvasId), {type: 'line', data: {datasets: [
+      {label: l1, data: s1, borderColor: TH.china, borderWidth: 1.2, pointRadius: 0, tension: 0, borderDash: [5,3], fill: {target: {value: 0}}, backgroundColor: 'rgba(45,212,191,0.10)'},
+      {label: l2, data: s2, borderColor: TH.now, borderWidth: 1.6, pointRadius: 0, tension: 0, fill: {target: {value: 0}}, backgroundColor: 'rgba(248,113,113,0.10)'}
+    ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: {mode: 'nearest', axis: 'x', intersect: false},
+      plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 14, font: {size: 10}, color: TH.txt}},
+        tooltip: {callbacks: {title: function (it) { return it[0].raw.d || ''; },
+          label: function (it) { return ' ' + it.dataset.label + ': ' + fmt(it.parsed.y, 1) + '%'; }}}},
+      scales: {x: {type: 'linear', title: {display: true, text: xTitle, font: {size: 10}, color: TH.tick}, ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}},
+        y: {max: 0, ticks: {color: TH.tick, font: {size: 9}, callback: function (v) { return v + '%'; }}, grid: {color: TH.grid}}}}});
+    addZoom(c);
+    return c;
+  }
+
   Promise.all([
     getJSON('ls_data_v3.json'),
     getJSON('data/yahoo_dashboard.json'),
@@ -293,14 +320,16 @@
       var Kall = Object.keys(map).sort().map(function (t) { return map[t]; });
 
       var china = anchoredSeries(Kall, '2003-03-17', '2008-12-31');
-      var now = anchoredSeries(Kall, '2025-04-09');
+      var now = anchoredSeries(Kall, '2022-09-30');
       new Chart(document.getElementById('idxChart'), {type: 'line', data: {datasets: [
         {label: '중국 사이클 (03-03-17~)', data: china, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
-        {label: '현재 (25-04-09~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+        {label: '현재 (22-09-30~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
       ]}, options: baseOpts('저점 후 캘린더 일수')});
+      addZoom(Chart.getChart(document.getElementById('idxChart')));
+      ddChart('idxDD', ddSeries(china), ddSeries(now), '중국 DD', '현재 DD', '저점 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
 
       var sc = stats(Kall, '2003-03-17', '2008-07-08');
-      var sn = stats(Kall, '2025-04-09');
+      var sn = stats(Kall, '2022-09-30');
       document.getElementById('idxStats').innerHTML =
         kvItem('중국: 저점→정점', '+' + fmt(sc.riseToPeak, 0) + '% / ' + fmt(sc.daysToPeak) + '일', 'same') +
         kvItem('중국: 구간 내 MDD', fmt(sc.mdd, 1) + '%', 'same') +
@@ -352,6 +381,9 @@
           });
         }}]});
 
+      addZoom(Chart.getChart(document.getElementById('ldrChart')));
+      ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '미포 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+
       // 통계 — 하이닉스 현재 vs 미포 등가 시점
       var hLast = ha.series[ha.series.length - 1];
       var mAtSame = null;
@@ -365,25 +397,23 @@
         kvItem('미포 등가(+' + fmt(hLast.x) + '일) → 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt(ma.peak.x - hLast.x) + '일 남음', 'same');
     })();
 
-    /* ── D. 미포 실적 + 선수금 */
+    /* ── D. 미포 실적 + 선수금 (v5: 전 구간 DART 실측 통합) */
     (function () {
       var d = sb.hyundai_mipo_annual.data;
-      var h = '<table><tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th><th>구분</th></tr>';
+      var advMap = {};
+      sb.hyundai_mipo_balance.data.forEach(function (r) { advMap[r[0]] = r[1]; });
+      var h = '<table><tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th><th>선수금\u2605</th></tr>';
+      var prevAdv = advMap[d[0][0] - 1];
       d.forEach(function (r) {
-        var peak = r[0] === 2008, crash = r[2] < 0 || r[0] === 2012;
+        var peak = r[0] === 2008, loss = r[2] < 0, adv = advMap[r[0]];
+        var advCls = (adv != null && prevAdv != null && adv < prevAdv) ? 'diff' : '';
+        if (r[0] === 2008) advCls = 'same';
         h += '<tr' + (peak ? ' class="hl"' : '') + '><td>' + r[0] + '</td><td>' + fmt(r[1]) + '</td><td class="' +
-             (crash ? 'diff' : peak ? 'same' : '') + '">' + fmt(r[2]) + '</td><td>' + r[3] + '%</td><td style="color:#6e7681;">' + r[6] + '</td></tr>';
+             (loss ? 'diff' : peak ? 'same' : '') + '">' + fmt(r[2]) + '</td><td' + (loss ? ' class="diff"' : '') + '>' + r[3] +
+             '%</td><td class="' + advCls + '">' + (adv == null ? '\u2014' : fmt(adv)) + '</td></tr>';
+        prevAdv = adv;
       });
       document.getElementById('mipo-table').innerHTML = h + '</table>';
-
-      var b = sb.hyundai_mipo_balance.data.filter(function (r) { return r[1]; });
-      var h2 = '<table><tr><th>연도</th>';
-      b.forEach(function (r) { h2 += '<th>' + r[0] + '</th>'; });
-      h2 += '</tr><tr><td>선수금</td>';
-      b.forEach(function (r, i) {
-        h2 += '<td class="' + (i === 0 ? 'same' : r[1] < b[i-1][1] ? 'diff' : '') + '">' + fmt(r[1]) + '</td>';
-      });
-      document.getElementById('adv-table').innerHTML = h2 + '</tr></table>';
     })();
 
     /* ── E. BDI + ASP */
