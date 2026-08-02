@@ -1,25 +1,25 @@
-# Current Cycle Update — Current_cycle.html 데일리 자동 빌드
+# Current Cycle Update — [DISABLED 2026-08-03]
 # ----------------------------------------------------------
-# data/kospi_historical.json (정적) + data/yahoo_dashboard.json (daily) merge
-#   → build_current_cycle.py 가 3사이클 데이터 + MDD 재계산
-#   → Current_cycle.html 재생성 + commit/push
+# 2026-08-03: Current_cycle.html 을 '현재 사이클 시나리오' 정적 카드로 전면 교체함에 따라
+#   자동 빌드/커밋을 중단한다. build_current_cycle.py 와 데이터 파이프라인은 그대로 보존.
 #
-# 사이트 반영: GitHub Pages 가 자동 deploy.
+# 되살리는 법:
+#   1) 아래 on: 블록의 schedule 주석을 해제
+#   2) 'Commit + push if changed' 스텝의 주석(#) 해제
+#   3) 단, 그 순간부터 Current_cycle.html 은 GitHub Actions 관리 파일이 되어
+#      로컬(deploy_dashboard.bat) 수정이 force-restore 로 덮어써진다는 점에 유의
 #
-# 스케줄 (yahoo_dashboard_update.yml 직후 trigger):
-#   - yahoo update: 06:00/06:30/07:30/11:30 KST
-#   - current cycle: 06:45/07:45/11:45 KST (yahoo update 후 15분)
-#   - workflow_dispatch: 수동 실행
+# 원래 스케줄: 06:45 / 07:45 / 11:45 KST (yahoo_dashboard_update 직후)
 # ----------------------------------------------------------
 
-name: Current Cycle Update
+name: Current Cycle Update (disabled)
 
 on:
-  schedule:
-    - cron: '45 21 * * *'   # 06:45 KST — yahoo 1차 직후
-    - cron: '45 22 * * *'   # 07:45 KST — yahoo 3차 직후
-    - cron: '45 2 * * *'    # 11:45 KST — yahoo 4차 직후 (안전망)
   workflow_dispatch:
+  # schedule:
+  #   - cron: '45 21 * * *'   # 06:45 KST
+  #   - cron: '45 22 * * *'   # 07:45 KST
+  #   - cron: '45 2 * * *'    # 11:45 KST
 
 permissions:
   contents: write
@@ -32,6 +32,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: false   # DISABLED — 수동 실행해도 스킵. 되살리려면 이 줄 제거.
 
     steps:
       - name: Checkout
@@ -42,18 +43,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Build Current_cycle.html
+      - name: Build (dry-run only)
         run: |
           python build_current_cycle.py
+          echo "DISABLED: commit/push skipped"
 
-      - name: Commit + push if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain Current_cycle.html)" ]; then
-            git add Current_cycle.html
-            git commit -m "chore(current-cycle): Current_cycle.html 자동 갱신 ($(date -u +%Y-%m-%dT%H:%MZ))"
-            git push
-          else
-            echo "no changes — skip commit"
-          fi
+      # - name: Commit + push if changed
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     if [ -n "$(git status --porcelain Current_cycle.html)" ]; then
+      #       git add Current_cycle.html
+      #       git commit -m "chore(current-cycle): 자동 갱신"
+      #       git push
+      #     fi
