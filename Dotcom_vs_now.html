@@ -256,12 +256,13 @@
       out.push(p); }
     return {series: out, peak: pk, base: base};
   }
-  function peakAlignG(S, from, to, preDays, postDays, peakTo) {
+  function peakAlignG(S, from, to, preDays, postDays, peakTo, peakFrom) {
     var seg = [], pk = null;
     for (var i = 0; i < S.length; i++) { var x = S[i];
       if (x.t < from) continue; if (to && x.t > to) break;
       seg.push(x);
       if (peakTo && x.t > peakTo) continue;
+      if (peakFrom && x.t < peakFrom) continue;
       if (!pk || Math.max(x.h, x.c) > Math.max(pk.h, pk.c)) pk = x; }
     if (!pk) return {series: [], peak: null};
     var pkHigh = Math.max(pk.h, pk.c), out = [];
@@ -380,7 +381,7 @@
       if (mode === 'low94' || mode === 'low98')
         return alignAt(S[key], DOT_LOW[mode], DOT_LOW[mode], DOT_END);
       if (mode === 'peak98')
-        return peakAlignG(S[key], '1997-01-01', '2000-12-31', 560, 900, '1998-10-31');
+        return peakAlignG(S[key], '1997-01-01', '2000-12-31', 560, 900, '1998-10-31', '1998-01-01');
       return peakAlignG(S[key], '1998-06-01', DOT_END, 560, 900);
     }
     function alignNow(key, mode) {
@@ -396,21 +397,21 @@
         ? [50,100,200,400,800,1600,3200,6400,12800] : [5,10,20,30,50,70,100,150,200];
     }
 
-    /* 정점 이후 최저점 → 처음으로 전고점(=100) 재돌파까지 걸린 일수 */
-    function recoverDays(series) {
-      var lo = null;
-      for (var i = 0; i < series.length; i++) {
-        var p = series[i];
-        if (p.x < 0) continue;
-        if (!lo || p.yl < lo.yl) lo = p;
-      }
-      if (!lo) return {days: null, low: null};
-      for (var j = 0; j < series.length; j++) {
-        var q = series[j];
-        if (q.x <= lo.x) continue;
-        if (q.yh >= 100) return {days: q.x - lo.x, at: q.d, low: lo};
-      }
-      return {days: null, at: null, low: lo};
+    /* 정점(x=0) 이후 ~ 첫 재돌파(yh>=100)까지를 '이번 조정' 구간으로 보고
+       그 구간 안에서만 저점·MDD·재돌파 소요일을 계산한다.
+       (재돌파 이후의 다음 사이클 하락이 섞이는 것을 방지) */
+    function correction(series) {
+      var post = series.filter(function (p) { return p.x >= 0; });
+      if (!post.length) return {mdd: 0, days: null, low: null};
+      var recIdx = -1;
+      for (var i = 1; i < post.length; i++) { if (post[i].yh >= 100) { recIdx = i; break; } }
+      var seg = recIdx >= 0 ? post.slice(0, recIdx + 1) : post;
+      var lo = seg[0];
+      seg.forEach(function (p) { if (p.yl < lo.yl) lo = p; });
+      var mdd = (lo.yl / 100 - 1) * 100;
+      var days = null, at = null;
+      if (recIdx >= 0 && post[recIdx].x > lo.x) { days = post[recIdx].x - lo.x; at = post[recIdx].d; }
+      return {mdd: mdd, days: days, at: at, low: lo};
     }
 
     function buildCard(cfg) {
@@ -430,7 +431,7 @@
           {l: P.series[cfg.now].name + ' 낙폭', d: ddSeries(B.series), c: TH.now, w: 1.6, bg: 'rgba(248,113,113,0.10)'}
         ];
         if (C) {
-          ds.push({label: P.series[cfg.ex].name + ' (현재)', data: C.series,
+          ds.push({label: P.series[cfg.ex].name, data: C.series,
                    borderColor: TH.ex, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [2,2]});
           ddSets.push({l: P.series[cfg.ex].name + ' 낙폭', d: ddSeries(C.series), c: TH.ex, w: 1.2, dash: [2,2], bg: 'rgba(167,139,250,0.08)'});
         }
@@ -456,7 +457,6 @@
         live = [main, dd];
 
         var html = '';
-        function mddOf(s) { var m = 0; ddSeries(s).forEach(function (p) { if (p.y < m) m = p.y; }); return m; }
         if (mode === 'low94' || mode === 'low98') {
           var lb = B.series[B.series.length - 1];
           var aAt = null; A.series.forEach(function (p) { if (p.x <= lb.x) aAt = p; });
@@ -469,11 +469,11 @@
           html += kvItem('정점까지 등가 잔여',
             aAt ? fmt(A.peak.x - lb.x) + '일' : '—');
         } else {
-          var ra = recoverDays(A.series), rb = recoverDays(B.series);
-          html += kvItem(P.series[cfg.dot].name + ' MDD', fmt(mddOf(A.series), 1) + '%', 'same');
+          var ra = correction(A.series), rb = correction(B.series);
+          html += kvItem(P.series[cfg.dot].name + ' MDD', fmt(ra.mdd, 1) + '%', 'same');
           html += kvItem(P.series[cfg.dot].name + ' 저점→재돌파',
             ra.days != null ? fmt(ra.days) + '일' : '재돌파 없음', ra.days != null ? 'same' : 'diff');
-          html += kvItem(P.series[cfg.now].name + ' MDD', fmt(mddOf(B.series), 1) + '%', 'diff');
+          html += kvItem(P.series[cfg.now].name + ' MDD', fmt(rb.mdd, 1) + '%', 'diff');
           html += kvItem(P.series[cfg.now].name + ' 저점→재돌파',
             rb.days != null ? fmt(rb.days) + '일' : '진행 중', 'diff');
         }
