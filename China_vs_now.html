@@ -74,7 +74,7 @@
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">ASP YoY</button></span></h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">DRAM ASP YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
@@ -676,8 +676,8 @@
         bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0},
         nb: {label: '신조선가', color: TH.aux2, cyc: 'c', ax: 'p2', unit: 'p', dp: 0},
         asp: {label: 'DRAM ASP', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 2},
-        nbyoy: {label: '신조선가 YoY', color: '#fbbf24', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
-        aspyoy: {label: 'ASP YoY', color: '#f472b6', cyc: 'n', ax: 'p4', unit: '%', dp: 1}
+        nbyoy: {label: '신조선가 YoY', color: '#a3e635', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
+        aspyoy: {label: 'DRAM ASP YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 1}
       };
       var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false};
 
@@ -702,8 +702,9 @@
           axOn[m.ax] = m;
           ds.push({label: m.label + (isC ? ' (중국, 우)' : ' (현재, 우)'),
                    data: pAbs(pRows[k], isC ? cAnchor : nAnchor, isC ? cFrom : nFrom, isC ? cTo : null),
-                   borderColor: m.color, borderWidth: 1.4, pointRadius: k === 'asp' ? 0 : 2,
-                   tension: 0.15, borderDash: isC ? [2,2] : [], yAxisID: m.ax});
+                   borderColor: m.color, borderWidth: m.ax === 'p4' ? 1.8 : 1.4,
+                   pointRadius: (k === 'asp' || k === 'aspyoy') ? 0 : 2,
+                   tension: 0.15, borderDash: (m.ax === 'p4' ? [6,3] : (isC ? [2,2] : [])), yAxisID: m.ax});
         });
 
         var scales = {
