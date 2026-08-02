@@ -50,7 +50,7 @@
 <div class="tab-bar" data-active="china_vs_now"></div>
 <div class="wrap">
   <h1>중국 인프라 vs 현재 — 사이클 비교</h1>
-  <div class="sub" id="updated">중국 중후장대(2003~2008) · 현대미포조선 ↔ AI(2023~) · SK하이닉스 | 데이터 로딩 중…</div>
+  <div class="sub" id="updated">중국 중후장대(2003~2008) · 현대중공업 ↔ AI(2023~) · SK하이닉스 | 데이터 로딩 중…</div>
 
   <!-- A. 3사이클 프레임 -->
   <div class="card">
@@ -68,23 +68,26 @@
     <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준. 하단 = 전고점 대비 낙폭(drawdown) 곡선. 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.</div>
   </div>
 
-  <!-- C. 주도주 오버레이 (v3: 저점=100 정렬) -->
+  <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 저점=100 정렬 · 현대미포조선(03-03-25~) vs SK하이닉스(23-01-03~)</h2>
+    <h2>주도주 — 저점=100 정렬 · 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)</h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점. 하단 = 전고점 대비 낙폭(drawdown). 우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      조선은 <b style="color:#c9d1d9;">수주잔고 리드타임</b>, 반도체는 <b style="color:#c9d1d9;">LTA</b>가 실적을 뒤로 밀어
-      두 사이클 모두 "주가 먼저 &middot; 실적 나중" 구조 &mdash; 저점부터 전체 경로를 겹쳐 하이닉스의 현재 위치를 읽는다.</div>
+    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일 · 수정주가(naver).
+      세로 점선 = 현중 1차 정점(07-11-07, 중국 사이클)·2차 정점(11-04-08, 해양플랜트 사이클)·하이닉스 정점.
+      역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
+      현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
+      우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
+      (미포 데이터는 shipbuilding_static.json 에 보존)</div>
   </div>
 
   <!-- D. 실적 비교 -->
   <div class="card">
-    <h2>실적 — 미포 실측 전 구간 vs 하이닉스 컨센서스</h2>
+    <h2>실적 — 현대중공업 실측 전 구간 vs 하이닉스 컨센서스</h2>
     <div class="grid2">
       <div>
-        <h3>현대미포조선 2000~2014 (억원, DART 사업보고서 실측 · 별도)</h3>
+        <h3>현대중공업 2000~2014 (억원, DART 사업보고서 실측 · 별도)</h3>
         <div id="mipo-table">불러오는 중…</div>
       </div>
       <div>
@@ -99,13 +102,13 @@
           <tr class="hl"><td>2027E</td><td>5,116,970</td><td>3,970,219</td><td class="same">77.6%</td></tr>
           <tr><td>2028E</td><td>5,538,866</td><td>3,973,216</td><td>71.7%</td></tr>
         </table>
-        <div class="factor warn" style="margin-top:10px;"><b>정점 컨센서스는 -79% 틀렸다</b>
+        <div class="factor warn" style="margin-top:10px;"><b>정점 컨센서스는 -79% 틀렸다 (미포 사례)</b>
           <span>2011-01 삼성증권의 미포 2012E 영업익 <b style="color:#f0f6fc;">4,420억</b> → 실제 <b style="color:#f0f6fc;">930억</b>(연결) (-78.9%), 이듬해 적자.
-          2013-10 케이프의 2014E +280억 → 실제 <b style="color:#f0f6fc;">-8,324억</b> (빅배스, 별도 OPM -24.7%). 시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다.</span></div>
+          2013-10 케이프의 2014E +280억 → 실제 <b style="color:#f0f6fc;">-8,324억</b> (빅배스, 별도 OPM -24.7%). 시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다. 현중도 동일 — 2013-10 시점 컨센은 2014 흑자였으나 실제 -1.9조.</span></div>
       </div>
     </div>
     <div class="factor" style="margin-top:8px;"><b>선수금 = LTA 예치금. 잔액이 아니라 방향 — 그리고 회복도 믿지 마라</b>
-      <span>DART 실측(별도, 억원): 상승기 2003 <b style="color:#f0f6fc;">3,015</b> → 2008 <b style="color:#f0f6fc;">26,677</b> (8.8배, P 상승과 동행) → 2012 <b style="color:#f0f6fc;">7,658</b> (<b style="color:#f0f6fc;">-71%</b>, 4년 연속 감소). 2013~14 회복(12,201→16,976)은 저가 수주 유입기 — 같은 시기 <b style="color:#f0f6fc;">2014 빅배스 -8,324</b>와 동시였다. 잔액 회복 &ne; 업황 회복.<br>2010 이전 = 선수금(K-GAAP), 2011~ = 초과청구공사(IFRS 재분류, 연속성 검증 완료). → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
+      <span>현중 DART 실측(별도, 억원): 상승기 1999 <b style="color:#f0f6fc;">15,190</b> → 2008 정점 <b style="color:#f0f6fc;">101,774</b> (6.7배, P 상승과 동행) → 2012 <b style="color:#f0f6fc;">51,112</b> (<b style="color:#f0f6fc;">-50%</b>). 2014 회복(60,141)은 저가 수주 유입기 — 같은 해 <b style="color:#f0f6fc;">빅배스 -19,233</b>과 동시였다. 잔액 회복 &ne; 업황 회복. 미포도 동일 패턴(정점 후 -71% → 회복기 = 빅배스).<br>2009 이전 = 선수금(K-GAAP), 2010~ = 초과청구공사+선수금 합계(IFRS 재분류, 2009→2010 스텝은 회계 단절 포함). → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
   </div>
 
   <!-- E. P 지표 -->
@@ -143,19 +146,19 @@
     <table>
       <tr><th style="width:120px;">단계</th><th>닷컴</th><th class="same">중국 인프라</th><th class="diff">AI</th></tr>
       <tr><td>주가 바닥/시작</td><td style="color:#8b949e;">1995-01 (나스닥)</td>
-          <td>2002-10-10 미포 1,092원<br><span style="color:#8b949e;">코스피 바닥(03-03-17)보다 5개월 先</span></td>
+          <td>현중 바닥권 2000-12~2003-03 (최저 00-12-20 14,625원)<br><span style="color:#8b949e;">앵커 03-03-25 16,261원 — 코스피 바닥(03-03-17)과 동행</span></td>
           <td>2022-09-30 코스피 2,155<br>2022-12-29 하이닉스 75,000</td></tr>
       <tr><td>서사 등장</td><td style="color:#8b949e;">넷스케이프 IPO 1995-08<br>(+7개월)</td>
-          <td>BRICs 리포트 2003-10 (+12개월)<br><span class="same">그때 미포 이미 3.3배</span></td>
+          <td>BRICs 리포트 2003-10 (+12개월)<br><span class="same">그때 현중 1.5배 (미포는 3.3배 — 중형주가 先행)</span></td>
           <td>ChatGPT 2022-11-30 (+2개월)<br><span style="color:#8b949e;">코스피 바닥은 출시 前</span></td></tr>
       <tr><td>P/실적 검증</td><td style="color:#8b949e;">—</td>
           <td>BDI 1차 정점 2004-02 (+16개월)<br><span style="color:#8b949e;">미포 5.4배</span></td>
           <td class="diff">NVDA 가이던스 2023-05-24 (+8개월)<br><span style="color:#8b949e;">$11B vs 컨센 $7.2B, +24%</span></td></tr>
       <tr><td>적자 중 상승</td><td style="color:#8b949e;">—</td>
-          <td class="same">✅ 조선4사 2004~05 OPM 적자<br>그 와중에 1차 강세(04-09~)</td>
+          <td class="same">✅ 현중 2004 영업적자 -981억·2005 OPM 0.9%<br>그 와중에 주가 05말 4.3배</td>
           <td class="same">✅ 하이닉스 2023 영업적자 -7.7조<br>그해 주가 +90%</td></tr>
       <tr><td>이익 검증</td><td style="color:#8b949e;">—</td>
-          <td>2006-4Q~07-1Q 前고점 돌파 (+48개월)<br><span class="same">그때 미포 이미 67.7배</span></td>
+          <td>2006 영업익 +868% 확인(07-03 공시, +48개월)<br><span class="same">그때 현중 이미 10.5배 → 정점 29.5배</span></td>
           <td>하이닉스 흑자 전환 1Q24 (+15개월)</td></tr>
     </table>
     <div class="factor"><b>사이클의 문법은 같고 재생 속도만 빨라졌다</b>
@@ -320,11 +323,12 @@
     getJSON('data/shipping_static.json'),
     getJSON('data/shipbuilding_static.json'),
     getJSON('data/macro_history.json'),
-    getJSON('data/asp_dram.json')
+    getJSON('data/asp_dram.json'),
+    getJSON('data/hhi_price.json')
   ]).then(function (R) {
-    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5];
+    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5], hh = R[6];
     document.getElementById('updated').textContent =
-      '중국 중후장대(2003~2008) · 현대미포조선 ↔ AI(2023~) · SK하이닉스 | yahoo ' +
+      '중국 중후장대(2003~2008) · 현대중공업 ↔ AI(2023~) · SK하이닉스 | yahoo ' +
       (yh.meta && yh.meta.updated ? yh.meta.updated.slice(0,10) : '?') + ' · FRED ' +
       (mac.meta && mac.meta.updated ? mac.meta.updated.slice(0,10) : '?') + ' 기준 · 매일 자동 갱신';
 
@@ -365,9 +369,11 @@
         kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
     })();
 
-    /* ── C. 주도주 오버레이 — v3 저점=100 정렬 (미포 02-03-25 / 하이닉스 23-01-03) */
+    /* ── C. 주도주 오버레이 — v7 현대중공업 저점=100 정렬 (03-03-25 / 하이닉스 23-01-03) */
     (function () {
-      var M = lsNorm(ls.stocks.hyundai_mipo);
+      var M = hh.data.map(function (r) {
+        return {t: r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8), c: r[1]};
+      });
       var H = lsNorm(ls.stocks.sk_hynix);
       var ynow = yh.data['000660.KS'].candles.map(function (c) { return {t: c.time, c: c.close}; });
       var map = {}; H.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
@@ -383,11 +389,12 @@
           out.push(p); }
         return {series: out, peak: pk, base: base};
       }
-      var ma = anchorAlign(M, '2003-03-25', '2013-12-31');
+      var ma = anchorAlign(M, '2003-03-25', '2015-12-31');
       var ha = anchorAlign(Hall, '2023-01-03', null);
+      var p1 = null; ma.series.forEach(function (p) { if (p.d === '2007-11-07') p1 = p; });
 
       new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: [
-        {label: '현대미포 (03-03-25=100, 정점 ' + ma.peak.d + ')', data: ma.series, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+        {label: '현대중공업 (03-03-25=100)', data: ma.series, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
         {label: 'SK하이닉스 (23-01-03=100, 정점 ' + ha.peak.d + ')', data: ha.series, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
       ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
         interaction: {mode: 'nearest', axis: 'x', intersect: false},
@@ -401,7 +408,8 @@
             grid: {color: TH.grid}}},
         }, plugins: [{id: 'peakLines', afterDatasetsDraw: function (chart) {
           var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
-          [[ma.peak.x, TH.china], [ha.peak.x, TH.now]].forEach(function (pv) {
+          [[p1 ? p1.x : null, TH.china], [ma.peak.x, TH.china], [ha.peak.x, TH.now]].forEach(function (pv) {
+            if (pv[0] == null) return;
             var px = xs.getPixelForValue(pv[0]);
             if (px < area.left || px > area.right) return;
             ctx.save(); ctx.setLineDash([3,3]); ctx.strokeStyle = pv[1]; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
@@ -410,31 +418,31 @@
         }}]});
 
       var ldrMain = Chart.getChart(document.getElementById('ldrChart'));
-      var ldrDd = ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '미포 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
+      var ldrDd = ddChart('ldrDD', ddSeries(ma.series), ddSeries(ha.series), '현중 DD', '하이닉스 DD', '앵커 후 캘린더 일수 — 전고점 대비 낙폭 (%)');
       addZoom(ldrMain, ldrDd); addZoom(ldrDd, ldrMain);
 
-      // 통계 — 하이닉스 현재 vs 미포 등가 시점
+      // 통계 — 하이닉스 현재 vs 현중 등가 시점
       var hLast = ha.series[ha.series.length - 1];
       var mAtSame = null;
       ma.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
-      var mMinAfter = ma.peak.y;
-      ma.series.forEach(function (p) { if (p.x >= ma.peak.x && p.y < mMinAfter) mMinAfter = p.y; });
+      var minAfter = null;
+      ma.series.forEach(function (p) { if (p.x >= ma.peak.x && (!minAfter || p.y < minAfter.y)) minAfter = p; });
       document.getElementById('ldrStats').innerHTML =
-        kvItem('미포: 앵커→정점', fmt(ma.peak.y / 100, 1) + '배 / ' + fmt(ma.peak.x) + '일', 'same') +
-        kvItem('미포: 정점 후 최저', fmt((mMinAfter / ma.peak.y - 1) * 100, 0) + '%', 'same') +
+        kvItem('현중 1차 정점(07-11-07)', fmt(p1.y / 100, 1) + '배 / +' + fmt(p1.x) + '일', 'same') +
+        kvItem('2차 정점(' + ma.peak.d + ') → 최종', fmt(ma.peak.y / 100, 1) + '배 → ' + fmt((minAfter.y / ma.peak.y - 1) * 100, 0) + '%', 'same') +
         kvItem('하이닉스: 앵커→현재', fmt(hLast.y / 100, 1) + '배 / ' + fmt(hLast.x) + '일', 'diff') +
-        kvItem('미포 등가(+' + fmt(hLast.x) + '일) → 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt(ma.peak.x - hLast.x) + '일 남음', 'same');
+        kvItem('현중 등가(+' + fmt(hLast.x) + '일) → 1차 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt(p1.x - hLast.x) + '일 남음', 'same');
     })();
 
-    /* ── D. 미포 실적 + 선수금 (v5: 전 구간 DART 실측 통합) */
+    /* ── D. 현대중공업 실적 + 선수금 (v7: DART 실측) */
     (function () {
-      var d = sb.hyundai_mipo_annual.data;
+      var d = sb.hhi_annual.data;
       var advMap = {};
-      sb.hyundai_mipo_balance.data.forEach(function (r) { advMap[r[0]] = r[1]; });
+      sb.hhi_balance.data.forEach(function (r) { advMap[r[0]] = r[1]; });
       var h = '<table><tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th><th>선수금\u2605</th></tr>';
       var prevAdv = advMap[d[0][0] - 1];
       d.forEach(function (r) {
-        var peak = r[0] === 2008, loss = r[2] < 0, adv = advMap[r[0]];
+        var peak = r[0] === 2010, loss = r[2] < 0, adv = advMap[r[0]];
         var advCls = (adv != null && prevAdv != null && adv < prevAdv) ? 'diff' : '';
         if (r[0] === 2008) advCls = 'same';
         h += '<tr' + (peak ? ' class="hl"' : '') + '><td>' + r[0] + '</td><td>' + fmt(r[1] * 10) + '</td><td class="' +
