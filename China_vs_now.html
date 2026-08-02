@@ -84,7 +84,7 @@
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
       우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, 수출판가 = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.
+      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, 수출판가 = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.<br>색 규칙: 주가는 <b style="color:#34d399;">초록(중국)</b>·<b style="color:#f87171;">빨강(현재)</b>, 오버레이는 <b style="color:#22d3ee;">청록=BDI</b> · <b style="color:#fbbf24;">앰버=신조선가</b> · <b style="color:#f472b6;">핑크=수출판가</b> · <b style="color:#8b5cf6;">보라=영업이익</b> · <b style="color:#0ea5e9;">하늘=영익 YoY</b> (YoY는 같은 계열 진한 톤). 과거는 <b style="color:#c9d1d9;">점선+마름모</b>, 현재는 <b style="color:#c9d1d9;">실선+원</b>.
       (미포 데이터는 shipbuilding_static.json 에 보존)</div>
     <div class="factor warn" style="margin-top:8px;"><b>정점 후 회복 실패 패턴 — BDI</b>
       <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> &rarr; 2010 <b style="color:#f0f6fc;">36%</b> &rarr; 2011-03 <b style="color:#f0f6fc;">13%</b>.
@@ -941,16 +941,19 @@
       pRows.hxopyoy = opYoY(pRows.hxop, 4);
 
 
+      /* 색 체계 — 주가선(초록=중국 / 빨강=현재)과 겹치지 않도록 오버레이는 별도 색군.
+         지표 계열: BDI=청록 / 신조선가=앰버 / 수출판가=핑크 / 영업이익=보라 / 영익YoY=하늘.
+         YoY는 같은 계열의 진한 톤. 과거(c)=굵은 점선+마름모, 현재(n)=실선+원. */
       var PMETA = {
-        bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0},
-        nb: {label: '신조선가', color: TH.aux2, cyc: 'c', ax: 'p2', unit: 'p', dp: 0},
-        asp: {label: '반도체 수출판가', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 0},
-        nbyoy: {label: '신조선가 YoY', color: '#a3e635', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
-        aspyoy: {label: '수출판가 YoY', color: '#c084fc', cyc: 'n', ax: 'p4', unit: '%', dp: 0},
-        hhiop: {label: '현중 영익(분기)', color: '#2dd4bf', cyc: 'c', ax: 'p5', unit: '억', dp: 0},
-        hxop: {label: '하이닉스 영익(분기)', color: '#fb923c', cyc: 'n', ax: 'p6', unit: '억', dp: 0},
-        hhiopyoy: {label: '현중 영익 YoY(분기)', color: '#4ade80', cyc: 'c', ax: 'p7', unit: '%', dp: 0},
-        hxopyoy: {label: '하이닉스 영익 YoY(분기)', color: '#ef4444', cyc: 'n', ax: 'p7', unit: '%', dp: 0}
+        bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0, w: 1.8},
+        nb: {label: '신조선가', color: '#fbbf24', cyc: 'c', ax: 'p2', unit: 'p', dp: 0, w: 2.0},
+        asp: {label: '반도체 수출판가', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 0, w: 2.0},
+        nbyoy: {label: '신조선가 YoY', color: '#d97706', cyc: 'c', ax: 'p4', unit: '%', dp: 1, w: 1.8},
+        aspyoy: {label: '수출판가 YoY', color: '#db2777', cyc: 'n', ax: 'p4', unit: '%', dp: 0, w: 1.8},
+        hhiop: {label: '현중 영익(분기)', color: '#8b5cf6', cyc: 'c', ax: 'p5', unit: '억', dp: 0, w: 2.2},
+        hxop: {label: '하이닉스 영익(분기)', color: '#c084fc', cyc: 'n', ax: 'p6', unit: '억', dp: 0, w: 2.2},
+        hhiopyoy: {label: '현중 영익 YoY(분기)', color: '#0ea5e9', cyc: 'c', ax: 'p7', unit: '%', dp: 0, w: 1.8},
+        hxopyoy: {label: '하이닉스 영익 YoY(분기)', color: '#7dd3fc', cyc: 'n', ax: 'p7', unit: '%', dp: 0, w: 1.8}
       };
       var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false,
                  hhiop: false, hxop: false, hhiopyoy: false, hxopyoy: false};
@@ -976,9 +979,11 @@
           axOn[m.ax] = m;
           ds.push({label: m.label + (isC ? ' (중국, 우)' : ' (현재, 우)'),
                    data: pAbs(pRows[k], isC ? cAnchor : nAnchor, isC ? cFrom : nFrom, isC ? cTo : null),
-                   borderColor: m.color, borderWidth: m.ax === 'p4' ? 1.8 : 1.4,
-                   pointRadius: (k === 'asp' || k === 'aspyoy') ? 0 : (k.indexOf('op') >= 0 ? 2.5 : 2),
-                   tension: 0.15, borderDash: (m.ax === 'p4' || m.ax === 'p7' ? [6,3] : (isC ? [2,2] : [])), yAxisID: m.ax});
+                   borderColor: m.color, borderWidth: m.w || 1.8,
+                   backgroundColor: m.color,
+                   pointRadius: (k === 'asp' || k === 'aspyoy') ? 0 : (k.indexOf('op') >= 0 ? 3 : 2.2),
+                   pointStyle: isC ? 'rectRot' : 'circle',
+                   tension: 0.15, borderDash: (isC ? [6,3] : []), yAxisID: m.ax});
         });
 
         var scales = {
@@ -990,7 +995,9 @@
         };
         Object.keys(axOn).forEach(function (ax) {
           var m = axOn[ax];
-          scales[ax] = {position: 'right', ticks: {color: ax === 'p4' ? '#e5e7eb' : m.color, font: {size: 9},
+          scales[ax] = {position: 'right',
+            title: {display: true, text: m.label.replace('(분기)','').replace('하이닉스 ','닉스 '), font: {size: 9}, color: m.color},
+            ticks: {color: m.color, font: {size: 9},
             callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억' : ''); }},
             grid: {display: false}};
         });
