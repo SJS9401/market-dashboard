@@ -503,7 +503,7 @@
           if (!pOn[k]) return;
           var m = PMETA[k], isC = m.cycle === 'c';
           ds.push({label: m.label + (isC ? ' (중국)' : ' (현재)'),
-                   data: pIndex(pRows[k], isC ? cAnchor : nAnchor, isC ? C_FROM : N_FROM, isC ? C_TO : null),
+                   data: pIndex(pRows[k], isC ? cAnchor : nAnchor, isC ? C_FROM : N_FROM, isC ? '2014-12-31' : null),
                    borderColor: m.color, borderWidth: 1.4, pointRadius: isC && k !== 'asp' ? 2 : 0,
                    tension: 0.15, borderDash: isC ? [2,2] : [], yAxisID: 'y'});
         });
