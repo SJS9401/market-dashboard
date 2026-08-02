@@ -65,14 +65,14 @@
     <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준, MDD는 저점 이후 최대 낙폭.</div>
   </div>
 
-  <!-- C. 주도주 오버레이 (v2: 정점=100 정렬) -->
+  <!-- C. 주도주 오버레이 (v3: 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 정점=100 정렬 · 현대미포조선 vs SK하이닉스</h2>
+    <h2>주도주 — 저점=100 정렬 · 현대미포조선(02-03-25~) vs SK하이닉스(23-01-03~)</h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="kv" id="ldrStats"></div>
-    <div class="note">각자 자기 정점=100, x축 = 정점 전후 캘린더 일수 (0 = 정점).
-      "하이닉스가 미포의 어느 지점에 있는가"에 직접 답하는 정렬 — 상승 배율 비교는 희생 (미포 저점 대비 126.8배 vs 하이닉스 12.7배).
-      역할 매칭: 미포 = P 사이클 수혜 공급자(퀄컴 축) = 하이닉스.</div>
+    <div class="note">각자 자기 앵커=100, x축 = 앵커 후 캘린더 일수 · 로그 스케일. 세로 점선 = 각자의 정점.
+      조선은 <b style="color:#c9d1d9;">수주잔고 리드타임</b>, 반도체는 <b style="color:#c9d1d9;">LTA</b>가 실적을 뒤로 밀어
+      두 사이클 모두 "주가 먼저 &middot; 실적 나중" 구조 &mdash; 저점부터 전체 경로를 겹쳐 하이닉스의 현재 위치를 읽는다.</div>
   </div>
 
   <!-- D. 실적 비교 -->
@@ -305,7 +305,7 @@
         kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
     })();
 
-    /* ── C. 주도주 오버레이 — v2 정점=100 정렬 */
+    /* ── C. 주도주 오버레이 — v3 저점=100 정렬 (미포 02-03-25 / 하이닉스 23-01-03) */
     (function () {
       var M = lsNorm(ls.stocks.hyundai_mipo);
       var H = lsNorm(ls.stocks.sk_hynix);
@@ -313,52 +313,53 @@
       var map = {}; H.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
       var Hall = Object.keys(map).sort().map(function (t) { return map[t]; });
 
-      function peakAlign(S, from, to, preDays, postDays) {
-        var seg = S.filter(function (x) { return x.t >= from && (!to || x.t <= to); });
-        var pk = seg[0];
-        seg.forEach(function (x) { if (x.c > pk.c) pk = x; });
-        var out = [];
-        seg.forEach(function (x) {
-          var dd = days(pk.t, x.t);
-          if (dd < -preDays || dd > postDays) return;
-          out.push({x: dd, y: x.c / pk.c * 100, d: x.t, raw: x.c});
-        });
-        return {series: out, peak: pk};
+      function anchorAlign(S, anchor, end) {
+        var out = [], base = null, pk = null;
+        for (var i = 0; i < S.length; i++) { var x = S[i];
+          if (x.t < anchor) continue; if (end && x.t > end) break;
+          if (base === null) base = x.c;
+          var p = {x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c};
+          if (!pk || p.y > pk.y) pk = p;
+          out.push(p); }
+        return {series: out, peak: pk, base: base};
       }
-      var mp = peakAlign(M, '2003-01-01', '2013-12-31', 1400, 2200);
-      var hp = peakAlign(Hall, '2024-06-11', null, 1400, 2200);
+      var ma = anchorAlign(M, '2002-03-25', '2013-12-31');
+      var ha = anchorAlign(Hall, '2023-01-03', null);
 
       new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: [
-        {label: '현대미포 (정점 ' + mp.peak.t + ')', data: mp.series, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
-        {label: 'SK하이닉스 (정점 ' + hp.peak.t + ')', data: hp.series, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+        {label: '현대미포 (02-03-25=100, 정점 ' + ma.peak.d + ')', data: ma.series, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+        {label: 'SK하이닉스 (23-01-03=100, 정점 ' + ha.peak.d + ')', data: ha.series, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
       ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
         interaction: {mode: 'nearest', axis: 'x', intersect: false},
         plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 16, font: {size: 11}, color: TH.txt}},
-          tooltip: {callbacks: {title: function (it) { return it[0].raw.d + ' (정점 ' + (it[0].parsed.x >= 0 ? '+' : '') + it[0].parsed.x + '일)'; },
-            label: function (it) { return ' ' + it.dataset.label + ': ' + fmt(it.parsed.y, 1) + ' (' + fmt(it.raw.raw) + ')'; }}}},
-        scales: {x: {type: 'linear', title: {display: true, text: '정점 전후 캘린더 일수 (0 = 정점)', font: {size: 11}, color: TH.tick},
+          tooltip: {callbacks: {title: function (it) { return it[0].raw.d + ' (+' + it[0].parsed.x + '일)'; },
+            label: function (it) { return ' ' + it.dataset.label.split(' (')[0] + ': ' + fmt(it.parsed.y, 0) + ' (' + fmt(it.raw.raw) + '원)'; }}}},
+        scales: {x: {type: 'linear', title: {display: true, text: '앵커 후 캘린더 일수', font: {size: 11}, color: TH.tick},
             ticks: {color: TH.tick}, grid: {color: TH.grid}},
           y: {type: 'logarithmic', ticks: {color: TH.tick,
-              callback: function (v) { var a = [10,20,30,50,70,100]; return a.indexOf(v) >= 0 ? v : ''; }},
+              callback: function (v) { var a = [50,100,200,500,1000,2000,5000]; return a.indexOf(v) >= 0 ? fmt(v) : ''; }},
             grid: {color: TH.grid}}},
-        }, plugins: [{id: 'peakLine', afterDatasetsDraw: function (chart) {
+        }, plugins: [{id: 'peakLines', afterDatasetsDraw: function (chart) {
           var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
-          var px = xs.getPixelForValue(0);
-          if (px < area.left || px > area.right) return;
-          ctx.save(); ctx.setLineDash([3,3]); ctx.strokeStyle = '#8b949e'; ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke(); ctx.restore();
+          [[ma.peak.x, TH.china], [ha.peak.x, TH.now]].forEach(function (pv) {
+            var px = xs.getPixelForValue(pv[0]);
+            if (px < area.left || px > area.right) return;
+            ctx.save(); ctx.setLineDash([3,3]); ctx.strokeStyle = pv[1]; ctx.lineWidth = 1; ctx.globalAlpha = 0.7;
+            ctx.beginPath(); ctx.moveTo(px, area.top); ctx.lineTo(px, area.bottom); ctx.stroke(); ctx.restore();
+          });
         }}]});
 
-      // 통계 — 하이닉스 현재 위치와 미포 등가 시점
-      var hLast = hp.series[hp.series.length - 1];
+      // 통계 — 하이닉스 현재 vs 미포 등가 시점
+      var hLast = ha.series[ha.series.length - 1];
       var mAtSame = null;
-      mp.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
-      var mMin = 100; mp.series.forEach(function (p) { if (p.x >= 0 && p.y < mMin) mMin = p.y; });
+      ma.series.forEach(function (p) { if (p.x <= hLast.x) mAtSame = p; });
+      var mMinAfter = ma.peak.y;
+      ma.series.forEach(function (p) { if (p.x >= ma.peak.x && p.y < mMinAfter) mMinAfter = p.y; });
       document.getElementById('ldrStats').innerHTML =
-        kvItem('미포 정점', mp.peak.t + ' (' + fmt(mp.peak.c) + '원)', 'same') +
-        kvItem('미포: 정점 후 최저', fmt(mMin - 100, 1) + '%', 'same') +
-        kvItem('하이닉스: 정점 후', fmt(hLast.y - 100, 1) + '% (+' + hLast.x + '일)', 'diff') +
-        kvItem('미포 등가 시점(+' + hLast.x + '일)', mAtSame ? fmt(mAtSame.y - 100, 1) + '%' : '—', 'same');
+        kvItem('미포: 앵커→정점', fmt(ma.peak.y / 100, 1) + '배 / ' + fmt(ma.peak.x) + '일', 'same') +
+        kvItem('미포: 정점 후 최저', fmt((mMinAfter / ma.peak.y - 1) * 100, 0) + '%', 'same') +
+        kvItem('하이닉스: 앵커→현재', fmt(hLast.y / 100, 1) + '배 / ' + fmt(hLast.x) + '일', 'diff') +
+        kvItem('미포 등가(+' + fmt(hLast.x) + '일) → 정점까지', fmt(mAtSame.y / 100, 1) + '배 → ' + fmt(ma.peak.x - hLast.x) + '일 남음', 'same');
     })();
 
     /* ── D. 미포 실적 + 선수금 */
