@@ -217,49 +217,67 @@
 
 
     <h3>2차축 — 퀄컴 ↔ SK하이닉스, 같은 시간축에 놓고 본 실적</h3>
-    <div class="note" style="margin:0 0 6px;">가속 앵커 정렬(QCOM 1997-12-01 ↔ 하이닉스 2024-06-11). 각 분기 중간일의 앵커 후 경과일이 <b style="color:#c9d1d9;">±11일 이내로 일치</b>해 1:1 대응이 성립한다.
-      퀄컴은 SEC EDGAR 원문 실측(조정 = 일회성 제외, $M), 하이닉스는 억원.<br>
-      <b style="color:#c9d1d9;">배수</b> = 각자 <b style="color:#c9d1d9;">앵커 분기의 영업이익을 1.00</b>으로 둔 값 (퀄컴 FY98 Q1 $65M / 하이닉스 24/2Q 5.47조).
-      통화·규모가 달라 절대액 비교가 불가능하므로 같은 축에 올리기 위한 정규화다. <b style="color:#c9d1d9;">YoY는 전년 동기 대비</b>, 비고의 증감률은 별도 표기가 없으면 <b style="color:#c9d1d9;">직전 분기 대비(QoQ)</b>다.</div>
+    <div class="note" style="margin:0 0 6px;">가속 앵커 정렬(QCOM 1997-12-01 ↔ 하이닉스 2024-06-11). 각 분기 중간일의 앵커 후 경과일이 <b style="color:#c9d1d9;">±11일 이내로 일치</b>한다.
+      다만 두 회사는 사업이 달라 <b style="color:#c9d1d9;">이익 절대액이나 배수 비교는 의미가 약하므로</b>, 통화·규모와 무관한
+      <b style="color:#c9d1d9;">영업이익 · OPM · 영업이익 YoY</b> 세 축으로만 본다. 괄호 안 <b style="color:#c9d1d9;">%p</b>는 OPM의 전년 동기 대비 개선폭.<br>
+      퀄컴 = SEC EDGAR 원문 실측(조정 영익 = 일회성 제외, $M) · 하이닉스 = 26/2Q까지 실측, 이후 컨센(조원).</div>
     <table>
-      <tr><th style="width:60px;">경과일</th><th style="width:62px;">퀄컴</th><th style="width:70px;">조정 영익</th>
-          <th style="width:54px;">배수<br><span style="font-weight:400;color:#6e7681;">앵커=1.00</span></th><th style="width:58px;">YoY</th>
-          <th style="width:58px;">하이닉스</th><th style="width:74px;">영업이익</th>
-          <th style="width:54px;">배수<br><span style="font-weight:400;color:#6e7681;">앵커=1.00</span></th><th style="width:58px;">YoY</th><th>비고</th></tr>
-      <tr><td>-20</td><td>FY98 Q1</td><td>$65M</td><td>1.00</td><td>—</td><td>24/2Q</td><td>5.47조</td><td>1.00</td><td>—</td><td>앵커 분기</td></tr>
-      <tr><td>+70</td><td>FY98 Q2</td><td>$51M</td><td>0.78</td><td>—</td><td>24/3Q</td><td>7.03조</td><td>1.29</td><td>—</td><td>&nbsp;</td></tr>
-      <tr><td>+160</td><td>FY98 Q3</td><td>$53M</td><td>0.82</td><td>—</td><td>24/4Q</td><td>8.08조</td><td>1.48</td><td>—</td><td>&nbsp;</td></tr>
-      <tr><td>+250</td><td>FY98 Q4</td><td>$85M</td><td>1.31</td><td>—</td><td>25/1Q</td><td>7.44조</td><td>1.36</td><td>—</td><td>&nbsp;</td></tr>
-      <tr><td>+345</td><td>FY99 Q1</td><td>$78M</td><td>1.20</td><td>+20%</td><td>25/2Q</td><td>9.21조</td><td>1.68</td><td>+68%</td><td>&nbsp;</td></tr>
-      <tr><td>+435</td><td>FY99 Q2</td><td>$101M</td><td>1.55</td><td>+98%</td><td>25/3Q</td><td>11.38조</td><td>2.08</td><td>+62%</td><td>&nbsp;</td></tr>
-      <tr class="hl"><td><b style="color:#f0f6fc;">+525</b></td><td>FY99 Q3</td><td><b style="color:#f0f6fc;">$208M</b></td><td><b style="color:#f0f6fc;">3.20</b></td><td><b style="color:#f0f6fc;">+292%</b></td>
-          <td>25/4Q</td><td><b style="color:#f0f6fc;">19.17조</b></td><td><b style="color:#f0f6fc;">3.51</b></td><td>+137%</td>
-          <td class="same"><b style="color:#f0f6fc;">둘 다 여기서 이익 2배 점프 &mdash; 원인은 정반대</b><br>
+      <tr><th style="width:56px;">경과일</th>
+          <th style="width:58px;">퀄컴</th><th style="width:60px;">조정영익</th><th style="width:86px;">OPM (YoY)</th><th style="width:62px;">영익 YoY</th>
+          <th style="width:54px;">하이닉스</th><th style="width:62px;">영업이익</th><th style="width:86px;">OPM (YoY)</th><th style="width:62px;">영익 YoY</th>
+          <th>비고</th></tr>
+      <tr><td>-20</td><td>FY98 Q1</td><td>$65M</td><td>8.3%</td><td>—</td><td>24/2Q</td><td>5.47조</td><td>33.3%</td><td>—</td><td>앵커 분기</td></tr>
+      <tr><td>+70</td><td>FY98 Q2</td><td>$51M</td><td>6.7%</td><td>—</td><td>24/3Q</td><td>7.03조</td><td>40.0%</td><td>—</td><td>&nbsp;</td></tr>
+      <tr><td>+160</td><td>FY98 Q3</td><td>$53M</td><td>6.1%</td><td>—</td><td>24/4Q</td><td>8.08조</td><td>40.9%</td><td>—</td><td>&nbsp;</td></tr>
+      <tr><td>+250</td><td>FY98 Q4</td><td>$85M</td><td>9.2%</td><td>—</td><td>25/1Q</td><td>7.44조</td><td>42.2%</td><td>—</td><td>&nbsp;</td></tr>
+      <tr><td>+345</td><td>FY99 Q1</td><td>$78M</td><td>8.3% <span style="color:#8b949e;">(0.0p)</span></td><td>+20%</td>
+          <td>25/2Q</td><td>9.21조</td><td>41.4% <span style="color:#8b949e;">(+8.1p)</span></td><td>+68%</td><td>&nbsp;</td></tr>
+      <tr><td>+435</td><td>FY99 Q2</td><td>$101M</td><td>10.8% <span style="color:#8b949e;">(+4.1p)</span></td><td>+98%</td>
+          <td>25/3Q</td><td>11.38조</td><td>46.6% <span style="color:#8b949e;">(+6.6p)</span></td><td>+62%</td><td>&nbsp;</td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">+525</b></td><td>FY99 Q3</td><td><b style="color:#f0f6fc;">$208M</b></td>
+          <td><b style="color:#f0f6fc;">20.7%</b> <span style="color:#8b949e;">(+14.7p)</span></td><td><b style="color:#f0f6fc;">+292%</b></td>
+          <td>25/4Q</td><td><b style="color:#f0f6fc;">19.17조</b></td><td><b style="color:#f0f6fc;">58.4%</b> <span style="color:#8b949e;">(+17.5p)</span></td><td>+137%</td>
+          <td class="same"><b style="color:#f0f6fc;">둘 다 여기서 OPM이 계단식으로 점프 &mdash; 원인은 정반대</b><br>
           <span style="color:#8b949e;"><b style="color:#f0f6fc;">퀄컴 = 믹스 전환(구조적)</b>: 1999-05 에릭슨에 지상 CDMA 인프라 장비 사업 매각 + 특허 소송 전면 합의(단일 CDMA 표준).
-          저마진 하드웨어가 빠지며 총이익률 <b style="color:#f0f6fc;">41%&rarr;52%</b>, 영업이익률 <b style="color:#f0f6fc;">8%&rarr;23%</b>.
-          매출은 오히려 $1,060M&rarr;$728M로 <b style="color:#f0f6fc;">줄었는데</b> 이익이 늘었다 &mdash; 칩+로열티 구조로의 영구 전환.<br>
+          저마진 하드웨어가 빠지며 총이익률 <b style="color:#f0f6fc;">41%&rarr;52%</b>. 매출은 이후 오히려 줄었는데 OPM은 계속 올랐다 &mdash; 칩+로열티 구조로의 <b style="color:#f0f6fc;">영구 전환</b>.<br>
           <b style="color:#f0f6fc;">하이닉스 = 가격(P, 순환적)</b>: 레거시 DRAM 숏티지로 판가 급등. 매출과 이익이 <b style="color:#f0f6fc;">같이</b> 늘었다.</span></td></tr>
-      <tr><td>+620</td><td>FY99 Q4</td><td>$258M</td><td>3.97</td><td>+204%</td><td>26/1Q</td><td>37.61조</td><td>6.88</td><td>+405%</td><td>&nbsp;</td></tr>
-      <tr class="hl"><td>+710</td><td>FY00 Q1</td><td><b style="color:#f0f6fc;">$286M</b><br><span style="color:#8b949e;">사이클 정점</span></td><td>4.40</td><td>+267%</td>
-          <td>26/2Q</td><td><b style="color:#f0f6fc;">60.54조</b></td><td><b style="color:#f0f6fc;">11.07</b></td><td><b style="color:#f0f6fc;">+557%</b></td>
-          <td class="diff"><b style="color:#f0f6fc;">주가 정점 분기</b><br><span style="color:#8b949e;">QCOM +763일 / 하이닉스 +744일</span></td></tr>
-      <tr class="hl"><td>+800</td><td>FY00 Q2</td><td class="diff"><b style="color:#f0f6fc;">$169M</b></td><td>2.60</td><td class="diff"><b style="color:#f0f6fc;">+67%</b></td>
-          <td>26/3Q</td><td class="same"><b style="color:#f0f6fc;">78.5조(E)</b></td><td>14.35</td><td class="same"><b style="color:#f0f6fc;">+590%(E)</b></td>
-          <td class="diff"><b style="color:#f0f6fc;">여기서 갈린다 &mdash; 직전 분기 대비(QoQ)</b><br>
-          QCOM $286M &rarr; $169M <b style="color:#f0f6fc;">-41%</b> &nbsp;vs&nbsp; 하이닉스 60.5조 &rarr; 78.5조 <b style="color:#f0f6fc;">+30%</b><br>
-          <span style="color:#8b949e;">단 QCOM의 -41%는 수요 붕괴가 아니라 <b style="color:#f0f6fc;">2000-02 교세라에 단말 사업 매각</b> 효과 (아래 정정 참조)</span></td></tr>
-      <tr><td>+890</td><td>FY00 Q3</td><td>$217M</td><td>3.34</td><td>+4%</td><td>26/4Q</td><td>88.7조(E)</td><td>16.22</td><td>+363%(E)</td><td>&nbsp;</td></tr>
-      <tr><td>+980</td><td>FY00 Q4</td><td>$188M</td><td>2.89</td><td class="diff">-27%</td><td>27/1Q</td><td>92.7조(E)</td><td>16.95</td><td>+146%(E)</td><td>QCOM 첫 마이너스</td></tr>
+      <tr><td>+620</td><td>FY99 Q4</td><td>$258M</td><td>24.3% <span style="color:#8b949e;">(+15.2p)</span></td><td>+204%</td>
+          <td>26/1Q</td><td>37.61조</td><td>71.5% <span style="color:#8b949e;">(+29.4p)</span></td><td>+405%</td><td>&nbsp;</td></tr>
+      <tr class="hl"><td>+710</td><td>FY00 Q1</td><td>$286M</td>
+          <td><b style="color:#f0f6fc;">25.5%</b> <b style="color:#79c0ff;">(+17.2p)</b></td><td>+267%</td>
+          <td>26/2Q</td><td>60.54조</td><td><b style="color:#f0f6fc;">76.3%</b> <b style="color:#79c0ff;">(+34.9p)</b></td><td>+557%</td>
+          <td class="diff"><b style="color:#f0f6fc;">★ OPM 개선폭 정점 = 주가 1차 고점 분기</b><br>
+          <span style="color:#8b949e;">QCOM 주가 정점 2000-01-03(FY00 Q1 종료 직후) / 하이닉스 2026-06-22(26/2Q 내)</span></td></tr>
+      <tr><td>+800</td><td>FY00 Q2</td><td>$169M</td><td>23.2% <span style="color:#8b949e;">(+12.4p)</span></td><td class="diff">+67%</td>
+          <td>26/3Q</td><td>78.5조(E)</td><td>78.3% <span style="color:#8b949e;">(+31.7p)</span></td><td class="same">+579%(E)</td>
+          <td>둘 다 OPM 개선폭 축소 시작<br><span style="color:#8b949e;">QCOM은 2000-02 교세라에 단말 사업 매각으로 매출 -35%</span></td></tr>
+      <tr><td>+890</td><td>FY00 Q3</td><td>$217M</td><td><b style="color:#f0f6fc;">30.4%</b> <span style="color:#8b949e;">(+9.7p)</span></td><td class="diff">+4%</td>
+          <td>26/4Q</td><td>88.7조(E)</td><td>79.5% <span style="color:#8b949e;">(+21.1p)</span></td><td>+336%(E)</td>
+          <td><b style="color:#f0f6fc;">QCOM: 매출 -1.9%인데 OPM 30.4%로 사상 최고</b><br><span style="color:#8b949e;">구조 전환이 끝난 자리 &mdash; 이후 30% 안착</span></td></tr>
+      <tr><td>+980</td><td>FY00 Q4</td><td>$188M</td><td>29.6% <span style="color:#8b949e;">(+5.3p)</span></td><td class="diff">-27%</td>
+          <td>27/1Q</td><td>92.7조(E)</td><td>79.7% <span style="color:#8b949e;">(+8.2p)</span></td><td>+147%(E)</td>
+          <td>QCOM 영익 YoY 첫 마이너스<br><span style="color:#8b949e;">하이닉스도 OPM 개선폭 +8.2p로 수렴</span></td></tr>
     </table>
 
-    <div class="factor" style="margin-top:10px;"><b>★ 같은 자리에서 이익이 2배 점프했다 — 그런데 원인이 정반대다</b>
-      <span>앵커 후 <b style="color:#f0f6fc;">+525일</b>에 둘 다 이익이 두 배로 뛴다 (퀄컴 1.55 &rarr; 3.20배, 하이닉스 2.08 &rarr; 3.51배).
-      BT가 지목한 <b style="color:#f0f6fc;">레거시 메모리 숏티지에 의한 본격 급등</b>이 바로 이 분기(25/4Q)이고, 퀄컴의 등가 분기는 <b style="color:#f0f6fc;">FY1999 Q3(1999년 4~6월)</b>이다.<br>
-      <b style="color:#f0f6fc;">퀄컴의 점프 원인 = 믹스 전환</b>: 1999년 5월 <b style="color:#f0f6fc;">에릭슨에 지상 CDMA 인프라 장비 사업을 매각</b>하고 특허 소송을 전면 합의(단일 CDMA 표준)했다.
-      저마진 하드웨어가 빠지면서 총이익률 41% &rarr; 52%(FY00 Q3 61%), 영업이익률 8% &rarr; 23%로 뛰었다. 매출은 오히려 $1,060M &rarr; $728M로 <b style="color:#f0f6fc;">줄었는데</b> 이익이 늘었다 &mdash; 칩+로열티 구조로의 <b style="color:#f0f6fc;">영구적 전환</b>.<br>
-      <b style="color:#f0f6fc;">하이닉스의 점프 원인 = 가격(P)</b>: 레거시 DRAM 숏티지로 판가가 뛴 것이다. 매출과 이익이 <b style="color:#f0f6fc;">같이</b> 늘었다 &mdash; <b style="color:#f0f6fc;">순환적</b>.<br>
-      &rarr; 함의: 퀄컴의 이익 레벨 상승은 되돌릴 수 없는 구조 변화였고, 하이닉스의 것은 P가 돌면 되돌아간다.
-      <b style="color:#f0f6fc;">이 점만 보면 하이닉스가 더 취약</b>하다. 다만 LTA가 그 P의 하방을 계약으로 고정한다는 것이 이번 사이클의 상쇄 요인이다.</span></div>
+
+    <div class="factor" style="margin-top:10px;"><b>★ 사업이 달라도 통하는 이정표 &mdash; OPM 개선폭 정점이 1차 고점을 만든다</b>
+      <span>이익 절대액이나 배수는 통화&middot;규모&middot;사업구조가 달라 비교가 안 된다. 그런데 <b style="color:#f0f6fc;">OPM의 전년 대비 개선폭(%p)</b>은 사업과 무관하게 같은 의미를 갖고,
+      <b style="color:#f0f6fc;">그 정점 분기가 주가 1차 고점 분기와 일치</b>한다 &mdash; 네 사례 모두.<br>
+      현대중공업 <b style="color:#f0f6fc;">FY2007 +4.3%p</b> &rarr; 주가 2007-11-07 &nbsp;/&nbsp; SK하이닉스 2017 &rarr; 2017-10-11 &nbsp;/&nbsp;
+      <b style="color:#f0f6fc;">퀄컴 FY00 Q1 +17.2%p</b> &rarr; 주가 2000-01-03 &nbsp;/&nbsp; <b style="color:#f0f6fc;">SK하이닉스 26/2Q +34.9%p</b> &rarr; 주가 2026-06-22.<br>
+      반면 <b style="color:#f0f6fc;">영업이익 YoY 정점은 어긋난다</b> &mdash; 퀄컴은 FY99 Q3(주가 정점 2분기 <b style="color:#f0f6fc;">앞</b>), 하이닉스는 26/3Q(1분기 <b style="color:#f0f6fc;">뒤</b>).
+      즉 <b style="color:#f0f6fc;">1차 고점의 정확한 판별자는 영익 YoY가 아니라 마진 개선폭</b>이다.</span></div>
+
+    <div class="factor"><b>★★ 이익의 퀄리티 &mdash; 같은 OPM 상승이라도 되돌아가는 것과 아닌 것</b>
+      <span><b style="color:#f0f6fc;">퀄컴</b>: 6.1% &rarr; 20.7% &rarr; <b style="color:#f0f6fc;">30.4%</b>로 계단식 상승 후 <b style="color:#f0f6fc;">거기서 유지</b>했다.
+      결정적 증거는 FY00 Q3 &mdash; <b style="color:#f0f6fc;">매출이 -1.9% 줄었는데 OPM은 30.4%로 사상 최고</b>였다. 저마진 사업을 떼어낸 결과이므로 <b style="color:#f0f6fc;">되돌아가지 않는다</b>.<br>
+      <b style="color:#f0f6fc;">하이닉스</b>: 33.3% &rarr; <b style="color:#f0f6fc;">76.3%</b>. 매출과 이익이 같이 늘었고, 원인은 P다.
+      메모리의 사이클 중간 OPM은 대략 <b style="color:#f0f6fc;">20~30%</b>이므로 지금의 76%에는 <b style="color:#f0f6fc;">P 프리미엄이 45~50%p</b> 얹혀 있다.<br>
+      2026E로 환산하면 매출 341조 &times; 정상 OPM 30% = 정상 이익 약 <b style="color:#f0f6fc;">102조</b>, 컨센 265조 중 나머지 <b style="color:#f0f6fc;">163조(약 62%)가 P 프리미엄</b>이다.
+      &rarr; <b style="color:#f0f6fc;">하이닉스 이익의 약 3분의 2는 P가 만든 것이고 P가 돌면 사라진다.</b> 퀄컴의 30%는 사라지지 않았다.<br>
+      여기서 LTA가 의미를 갖는다 &mdash; 그 P 프리미엄 중 <b style="color:#f0f6fc;">얼마가 계약으로 잠겨 있느냐</b>가 이익 퀄리티의 실제 답이다.
+      하나증권 추정 "2027년 LTA만으로 117조"를 쓰면, 정상 이익 102조 + 계약 잠금 117조 = 219조로 <b style="color:#f0f6fc;">2027E 컨센 408조의 54%</b>가 계약&middot;구조로 설명된다. 나머지 46%가 순수 P 노출분이다.</span></div>
+
 
     <div class="factor warn"><b>★★ 정정 — 퀄컴 -88%는 이익 붕괴가 아니라 멀티플 붕괴였다</b>
       <span>앞서 "퀄컴은 주가와 이익이 같이 죽었다"고 썼는데 <b style="color:#f0f6fc;">실측과 다르다</b>. 연간 영업이익은
