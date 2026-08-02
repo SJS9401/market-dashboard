@@ -382,7 +382,7 @@
         return alignAt(S[key], DOT_LOW[mode], DOT_LOW[mode], DOT_END);
       if (mode === 'peak98')
         return peakAlignG(S[key], '1997-01-01', '2000-12-31', 560, 900, '1998-10-31', '1998-01-01');
-      return peakAlignG(S[key], '1998-06-01', DOT_END, 560, 900);
+      return peakAlignG(S[key], '1998-06-01', DOT_END, 560, 1010);
     }
     function alignNow(key, mode) {
       var a = NOW_LOW[key];
