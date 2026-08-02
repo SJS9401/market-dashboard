@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>중국 인프라 vs 현재 — 사이클 비교</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="nav-loader.js" defer></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Pretendard', "Segoe UI", "Malgun Gothic", sans-serif;
+         background: #0d1117; color: #c9d1d9; line-height: 1.65; }
+  .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; }
+  .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; }
+  .tab-bar a:hover { color: #f0f6fc; }
+  .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 21px; margin-bottom: 4px; color: #f0f6fc; }
+  .sub { font-size: 12px; color: #8b949e; margin-bottom: 16px; }
+  .card { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 18px; margin-bottom: 14px; }
+  .card h2 { font-size: 15.5px; margin-bottom: 10px; color: #f0f6fc; }
+  .card h3 { font-size: 13.5px; margin: 12px 0 6px; color: #c9d1d9; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+  th, td { padding: 7px 6px; border-bottom: 1px solid #21262d; text-align: left; vertical-align: top; }
+  th { background: #0d1117; font-size: 11px; color: #8b949e; }
+  td:first-child { font-weight: 600; white-space: nowrap; color: #f0f6fc; }
+  .same { color: #79c0ff; font-weight: 600; }
+  .diff { color: #ffa198; font-weight: 600; }
+  .chartbox { position: relative; height: 340px; margin-top: 8px; }
+  .chartbox.sm { height: 220px; }
+  .factor { border-left: 3px solid #1f6feb; background: #0d1117; padding: 9px 12px; border-radius: 0 8px 8px 0; margin-bottom: 8px; font-size: 13px; }
+  .factor.warn { border-left-color: #f85149; }
+  .factor b { display: block; font-size: 13px; color: #f0f6fc; }
+  .factor span { color: #8b949e; font-size: 12.5px; }
+  .kv { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  @media (max-width: 700px) { .kv { grid-template-columns: 1fr 1fr; } }
+  .kv .item { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 10px; }
+  .kv .k { font-size: 11px; color: #8b949e; }
+  .kv .v { font-size: 15px; font-weight: 700; margin-top: 2px; color: #f0f6fc; }
+  .note { font-size: 11.5px; color: #6e7681; margin-top: 10px; }
+  .hl { background: #12261a; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="tab-bar" data-active="china_vs_now"></div>
+<div class="wrap">
+  <h1>중국 인프라 vs 현재 — 사이클 비교</h1>
+  <div class="sub" id="updated">중국 중후장대(2003~2008) · 현대미포조선 ↔ AI(2023~) · SK하이닉스 | 데이터 로딩 중…</div>
+
+  <!-- A. 3사이클 프레임 -->
+  <div class="card">
+    <h2>사이클 대응표 — 역할이 같은 것끼리</h2>
+    <div id="frame-table">불러오는 중…</div>
+    <div class="note">ground truth: data/shipping_static.json cycle_frame. ★ 잔액이 아니라 <b style="color:#c9d1d9;">증감 방향</b>이 신호.</div>
+  </div>
+
+  <!-- B. 지수 오버레이 -->
+  <div class="card">
+    <h2>코스피 — 중국 사이클(2003-03-17 저점=100) vs 현재(2025-04-09 저점=100)</h2>
+    <div class="chartbox"><canvas id="idxChart"></canvas></div>
+    <div class="kv" id="idxStats"></div>
+    <div class="note">로그 스케일 · x축 = 저점 후 캘린더 일수. 통계는 종가 기준, MDD는 저점 이후 최대 낙폭.</div>
+  </div>
+
+  <!-- C. 주도주 오버레이 -->
+  <div class="card">
+    <h2>주도주 — 현대미포조선(2003-03-17=100) vs SK하이닉스(2024-06-11=100)</h2>
+    <div class="chartbox"><canvas id="ldrChart"></canvas></div>
+    <div class="kv" id="ldrStats"></div>
+    <div class="note">미포는 정점 후 붕괴 구간(~2013)까지 연장 표시 — 정점 이후에 무엇이 오는지가 이 비교의 목적.
+      역할 매칭: 미포 = P 사이클 수혜 공급자(퀄컴 축) = 하이닉스.</div>
+  </div>
+
+  <!-- D. 실적 비교 -->
+  <div class="card">
+    <h2>실적 — 미포 실측 전 구간 vs 하이닉스 컨센서스</h2>
+    <div class="grid2">
+      <div>
+        <h3>현대미포조선 (십억원, 실측+당시컨센)</h3>
+        <div id="mipo-table">불러오는 중…</div>
+      </div>
+      <div>
+        <h3>SK하이닉스 (억원, 2026~28 컨센)</h3>
+        <table>
+          <tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th></tr>
+          <tr><td>2024</td><td>661,930</td><td>234,673</td><td>35.5%</td></tr>
+          <tr><td>2025</td><td>971,467</td><td>472,063</td><td>48.6%</td></tr>
+          <tr class="hl"><td>2026E</td><td>3,522,652</td><td>2,706,345</td><td class="same">76.8%</td></tr>
+          <tr class="hl"><td>2027E</td><td>5,116,970</td><td>3,970,219</td><td class="same">77.6%</td></tr>
+          <tr><td>2028E</td><td>5,538,866</td><td>3,973,216</td><td>71.7%</td></tr>
+        </table>
+        <div class="factor warn" style="margin-top:10px;"><b>정점 컨센서스는 -79% 틀렸다</b>
+          <span>2011-01 삼성증권의 미포 2012E 영업익 <b style="color:#f0f6fc;">442</b> → 실제 <b style="color:#f0f6fc;">93</b> (-78.9%), 이듬해 적자.
+          시스코 FY2001(컨센 40~50% 성장 → 실제 -$2,004M)과 같은 패턴 — 하이닉스 2027E 77.6%를 그대로 믿을 근거가 약하다.</span></div>
+      </div>
+    </div>
+    <h3>★ 선수금 — 담보의 재무적 흔적 (미포, 십억원)</h3>
+    <div id="adv-table">불러오는 중…</div>
+    <div class="factor" style="margin-top:8px;"><b>선수금 = LTA 예치금. 잔액이 아니라 방향</b>
+      <span>정점(2008) 이후 4년 연속 감소 -31.3% = 신규 수주가 인도를 못 따라간 흔적.
+      → 추적 지표: <b style="color:#f0f6fc;">SK하이닉스·삼성전자 분기 재무제표 선수금 계정</b>. 삼성 컨콜(7/30) "예치금 성격 선수금 일부 이미 수취".</span></div>
+  </div>
+
+  <!-- E. P 지표 -->
+  <div class="card">
+    <h2>P 지표 — 당시 BDI·신조선가 vs 현재 DRAM 수출 ASP</h2>
+    <div class="grid2">
+      <div>
+        <h3>BDI + Clarkson 신조선가 (차트 판독 + 실측)</h3>
+        <div class="chartbox sm"><canvas id="bdiChart"></canvas></div>
+      </div>
+      <div>
+        <h3>DRAM 수출 ASP ($/unit, 관세청)</h3>
+        <div class="chartbox sm"><canvas id="aspChart"></canvas></div>
+      </div>
+    </div>
+    <div class="factor warn"><b>정점 후 회복 실패 패턴 — BDI</b>
+      <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> → 2010 <b style="color:#f0f6fc;">36%</b> → 2011-03 <b style="color:#f0f6fc;">13%</b>.
+      두 번 반등했으나 매번 더 낮은 고점. 중국 수요는 살아있었는데 <b style="color:#f0f6fc;">2003~08 호황기 발주분이 인도되며 공급이 밀려온 탓</b>.<br>
+      → AI 대입: 삼성 "2027 부족 심화·2028 지속"(팹 리드타임 3년 반)이 맞더라도, 지금 짓는 팹들이 <b style="color:#f0f6fc;">2029년 이후 도착</b>해 같은 역할을 할 수 있다.</span></div>
+  </div>
+
+  <!-- F. 매크로 -->
+  <div class="card">
+    <h2>매크로 — 정책금리·10년물·WTI (FRED, 주간)</h2>
+    <div class="chartbox"><canvas id="macroChart"></canvas></div>
+    <div class="note">음영 = 중국 사이클(2003-03~2008-07). 2004~06 그린스펀 코넌드럼 — FFR 17회 인상에도 10Y가 +30bp에 그쳐
+      한계 자본공급자 채널이 열리지 않았고 주가는 지속됐다. 유가는 2008-07 WTI $145로 사이클 정점과 동행.</div>
+  </div>
+
+  <!-- G. 시차 체인 -->
+  <div class="card">
+    <h2>시차 체인 — 무엇이 먼저 꺾였나</h2>
+    <div id="chain-table">불러오는 중…</div>
+    <div class="factor" style="margin-top:10px;"><b>현재 위치 — step 1과 step 2 사이</b>
+      <span>step 1(주가 정점) = NVDA 2026-05-14 · 코스피·MU·하이닉스 2026-06-25 — 이미 발생.<br>
+      step 2(P 정점) = DRAM ASP — <b style="color:#f0f6fc;">미도래</b> (3Q26E 계약가 +13~20%, 여전히 상승).<br>
+      중국 사이클에서 주가는 P(BDI)보다 <b style="color:#f0f6fc;">정확히 7개월</b> 선행했다 — "주가는 산업보다 6개월~1년 선행" 명제의 실측 검증.</span></div>
+  </div>
+
+  <!-- H. 상승/하락 원인 -->
+  <div class="card">
+    <h2>상승 원인 · 하락 원인 — 사후 확정 해석</h2>
+    <div class="grid2">
+      <div>
+        <h3>왜 올랐나 (2003~2008)</h3>
+        <div class="factor"><b>중국 도시화·고정자산투자</b><span>철광석·석탄 물동량 폭증 → BDI 8배. 원자재 슈퍼사이클의 운송 병목.</span></div>
+        <div class="factor"><b>조선 CAPA 부족</b><span>1990년대 저선가로 증설 중단 → 수주잔고 3년치 누적. 원화 강세로 2005년부터 선가 본격 상승.</span></div>
+        <div class="factor"><b>선박금융 팽창</b><span>독일 KG펀드 등 — 선주의 구매력을 금융이 만들어줌. 지금의 엔비디아 백스톱 자리.</span></div>
+      </div>
+      <div>
+        <h3>왜 무너졌나 (2008~)</h3>
+        <div class="factor warn"><b>리먼 → 선박금융 붕괴</b><span>수요(중국 FAI)가 아니라 <b style="color:#f0f6fc;">금융 채널</b>이 먼저 끊겼다. 발주 취소 급증 — 수주잔고는 계약서였을 뿐.</span></div>
+        <div class="factor warn"><b>호황기 발주분의 지연 인도</b><span>2003~08 발주 선박이 2009~12에 인도 — 수요 회복에도 공급이 계속 밀려와 BDI 회복 실패 (36%→36%→13%).</span></div>
+        <div class="factor warn"><b>이익은 늦게 무너졌다</b><span>잔고가 실적을 떠받쳐 분기 OPM 정점은 2010-1Q. 시총 정점(2007-10)보다 2년 5개월 뒤. <b style="color:#f0f6fc;">"실적이 좋다"는 주가 바닥의 근거가 아니었다.</b></span></div>
+      </div>
+    </div>
+    <div class="note">본 분석은 정보 제공 목적이며 투자 권유가 아님. 작성 2026-08-02 · 데이터: ls_data_v3(키움), shipbuilding/shipping_static(증권사 리포트 전사), macro_history(FRED), asp_dram(관세청).</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var TH = {grid:'#21262d', tick:'#8b949e', txt:'#c9d1d9', hi:'#f0f6fc',
+            china:'#34d399', now:'#f87171', aux:'#a78bfa', aux2:'#fbbf24', shade:'rgba(52,211,153,0.08)'};
+  var RAW = 'https://raw.githubusercontent.com/SJS9401/market-dashboard/main/';
+
+  function getJSON(path) {
+    return fetch(path + '?t=' + Date.now(), {cache:'no-store'})
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .catch(function () { return fetch(RAW + path + '?t=' + Date.now(), {cache:'no-store'}).then(function (r) { return r.json(); }); });
+  }
+  function d2(iso) { return new Date(iso + 'T00:00:00Z'); }
+  function days(a, b) { return Math.round((d2(b) - d2(a)) / 864e5); }
+  function fmt(n, d) { return n == null ? '—' : Number(n).toLocaleString('ko-KR', {maximumFractionDigits: d === undefined ? 0 : d}); }
+  // ls_data_v3 row: [YYYYMMDD, o,h,l,c,v]
+  function lsNorm(rows) { return rows.map(function (r) {
+    var t = r[0]; return {t: t.slice(0,4)+'-'+t.slice(4,6)+'-'+t.slice(6,8), c: r[4], h: r[2], l: r[3]}; }); }
+
+  function anchoredSeries(S, anchor, end) {
+    var out = [], base = null;
+    for (var i = 0; i < S.length; i++) {
+      var x = S[i];
+      if (x.t < anchor) continue;
+      if (end && x.t > end) break;
+      if (base === null) base = x.c;
+      out.push({x: days(anchor, x.t), y: x.c / base * 100, d: x.t, raw: x.c});
+    }
+    return out;
+  }
+  function stats(S, anchor, end) {
+    var seg = [], started = false;
+    for (var i = 0; i < S.length; i++) {
+      var x = S[i];
+      if (x.t < anchor) continue;
+      if (end && x.t > end) break;
+      seg.push(x);
+    }
+    if (!seg.length) return null;
+    var base = seg[0].c, pk = seg[0], run = seg[0].c, mdd = 0;
+    for (var j = 0; j < seg.length; j++) {
+      if (seg[j].c > pk.c) pk = seg[j];
+      if (seg[j].c > run) run = seg[j].c;
+      var dd = seg[j].c / run - 1;
+      if (dd < mdd) mdd = dd;
+    }
+    var last = seg[seg.length - 1];
+    return {base: base, peak: pk, last: last,
+      riseToPeak: (pk.c / base - 1) * 100, daysToPeak: days(anchor, pk.t),
+      lastPct: (last.c / base - 1) * 100, lastDays: days(anchor, last.t),
+      mdd: mdd * 100, fromPeak: (last.c / pk.c - 1) * 100};
+  }
+  function kvItem(k, v, cls) { return '<div class="item"><div class="k">' + k + '</div><div class="v ' + (cls||'') + '">' + v + '</div></div>'; }
+  function baseOpts(xTitle) {
+    return {responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: {mode: 'nearest', axis: 'x', intersect: false},
+      plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 16, font: {size: 11}, color: TH.txt}},
+        tooltip: {callbacks: {
+          title: function (it) { return it[0].raw.d || ''; },
+          label: function (it) { return ' ' + it.dataset.label + ': ' + fmt(it.parsed.y, 1) + (it.raw.raw ? ' (' + fmt(it.raw.raw) + ')' : ''); }}}},
+      scales: {
+        x: {type: 'linear', title: {display: true, text: xTitle, font: {size: 11}, color: TH.tick},
+            ticks: {color: TH.tick}, grid: {color: TH.grid}},
+        y: {type: 'logarithmic', ticks: {color: TH.tick,
+              callback: function (v) { var a = [50,100,200,400,800,1600,3200,6400]; return a.indexOf(v) >= 0 ? v : ''; }},
+            grid: {color: TH.grid}}}};
+  }
+
+  Promise.all([
+    getJSON('ls_data_v3.json'),
+    getJSON('data/yahoo_dashboard.json'),
+    getJSON('data/shipping_static.json'),
+    getJSON('data/shipbuilding_static.json'),
+    getJSON('data/macro_history.json'),
+    getJSON('data/asp_dram.json')
+  ]).then(function (R) {
+    var ls = R[0], yh = R[1], ship = R[2], sb = R[3], mac = R[4], asp = R[5];
+    document.getElementById('updated').textContent =
+      '중국 중후장대(2003~2008) · 현대미포조선 ↔ AI(2023~) · SK하이닉스 | yahoo ' +
+      (yh.meta && yh.meta.updated ? yh.meta.updated.slice(0,10) : '?') + ' · FRED ' +
+      (mac.meta && mac.meta.updated ? mac.meta.updated.slice(0,10) : '?') + ' 기준 · 매일 자동 갱신';
+
+    /* ── A. 프레임 표 */
+    (function () {
+      var rows = ship.cycle_frame.rows;
+      var h = '<table><tr><th style="width:110px;">축</th><th>닷컴 (1995~2002)</th><th class="same">중국 인프라 (2003~2008)</th><th class="diff">AI (2023~)</th></tr>';
+      rows.forEach(function (r) {
+        h += '<tr><td>' + r.axis + '</td><td style="color:#8b949e;">' + r.dotcom + '</td><td>' + r.china + '</td><td>' + r.ai + '</td></tr>';
+      });
+      document.getElementById('frame-table').innerHTML = h + '</table>';
+    })();
+
+    /* ── B. 지수 오버레이 */
+    (function () {
+      var K = lsNorm(ls.stocks.kospi);
+      // 현재 구간은 yahoo ^KS11 로 연장 (ls 는 갱신 지연 가능)
+      var ynow = yh.data['^KS11'].candles.map(function (c) { return {t: c.time, c: c.close}; });
+      var map = {}; K.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
+      var Kall = Object.keys(map).sort().map(function (t) { return map[t]; });
+
+      var china = anchoredSeries(Kall, '2003-03-17', '2008-12-31');
+      var now = anchoredSeries(Kall, '2025-04-09');
+      new Chart(document.getElementById('idxChart'), {type: 'line', data: {datasets: [
+        {label: '중국 사이클 (03-03-17~)', data: china, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+        {label: '현재 (25-04-09~)', data: now, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+      ]}, options: baseOpts('저점 후 캘린더 일수')});
+
+      var sc = stats(Kall, '2003-03-17', '2008-07-08');
+      var sn = stats(Kall, '2025-04-09');
+      document.getElementById('idxStats').innerHTML =
+        kvItem('중국: 저점→정점', '+' + fmt(sc.riseToPeak, 0) + '% / ' + fmt(sc.daysToPeak) + '일', 'same') +
+        kvItem('중국: 구간 내 MDD', fmt(sc.mdd, 1) + '%', 'same') +
+        kvItem('현재: 저점→정점', '+' + fmt(sn.riseToPeak, 0) + '% / ' + fmt(sn.daysToPeak) + '일', 'diff') +
+        kvItem('현재: 정점 대비', fmt(sn.fromPeak, 1) + '% (' + fmt(sn.lastDays) + '일차)', 'diff');
+    })();
+
+    /* ── C. 주도주 오버레이 */
+    (function () {
+      var M = lsNorm(ls.stocks.hyundai_mipo);
+      var H = lsNorm(ls.stocks.sk_hynix);
+      var ynow = yh.data['000660.KS'].candles.map(function (c) { return {t: c.time, c: c.close}; });
+      var map = {}; H.forEach(function (x) { map[x.t] = x; }); ynow.forEach(function (x) { map[x.t] = x; });
+      var Hall = Object.keys(map).sort().map(function (t) { return map[t]; });
+
+      var mipo = anchoredSeries(M, '2003-03-17', '2013-12-31');
+      var hyx = anchoredSeries(Hall, '2024-06-11');
+      new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: [
+        {label: '현대미포 (03-03-17~13)', data: mipo, borderColor: TH.china, borderWidth: 1.6, pointRadius: 0, tension: 0, borderDash: [5,3]},
+        {label: 'SK하이닉스 (24-06-11~)', data: hyx, borderColor: TH.now, borderWidth: 2.2, pointRadius: 0, tension: 0}
+      ]}, options: baseOpts('앵커 후 캘린더 일수')});
+
+      var sm = stats(M, '2003-03-17', '2013-12-31');
+      var sh = stats(Hall, '2024-06-11');
+      document.getElementById('ldrStats').innerHTML =
+        kvItem('미포: 저점→정점', '+' + fmt(sm.riseToPeak, 0) + '% / ' + fmt(sm.daysToPeak) + '일', 'same') +
+        kvItem('미포: 정점 후 MDD', fmt(sm.mdd, 1) + '%', 'same') +
+        kvItem('하이닉스: 앵커→정점', '+' + fmt(sh.riseToPeak, 0) + '% / ' + fmt(sh.daysToPeak) + '일', 'diff') +
+        kvItem('하이닉스: 정점 대비', fmt(sh.fromPeak, 1) + '% (' + fmt(sh.lastDays) + '일차)', 'diff');
+    })();
+
+    /* ── D. 미포 실적 + 선수금 */
+    (function () {
+      var d = sb.hyundai_mipo_annual.data;
+      var h = '<table><tr><th>FY</th><th>매출</th><th>영업이익</th><th>OPM</th><th>구분</th></tr>';
+      d.forEach(function (r) {
+        var peak = r[0] === 2008, crash = r[0] === 2012 || r[0] === 2013;
+        h += '<tr' + (peak ? ' class="hl"' : '') + '><td>' + r[0] + '</td><td>' + fmt(r[1]) + '</td><td class="' +
+             (crash ? 'diff' : peak ? 'same' : '') + '">' + fmt(r[2]) + '</td><td>' + r[3] + '%</td><td style="color:#6e7681;">' + r[6] + '</td></tr>';
+      });
+      document.getElementById('mipo-table').innerHTML = h + '</table>';
+
+      var b = sb.hyundai_mipo_balance.data.filter(function (r) { return r[1]; });
+      var h2 = '<table><tr><th>연도</th>';
+      b.forEach(function (r) { h2 += '<th>' + r[0] + '</th>'; });
+      h2 += '</tr><tr><td>선수금</td>';
+      b.forEach(function (r, i) {
+        h2 += '<td class="' + (i === 0 ? 'same' : r[1] < b[i-1][1] ? 'diff' : '') + '">' + fmt(r[1]) + '</td>';
+      });
+      document.getElementById('adv-table').innerHTML = h2 + '</tr></table>';
+    })();
+
+    /* ── E. BDI + ASP */
+    (function () {
+      var bd = ship.bdi.data.map(function (r) { return {x: r[0], y: r[1], conf: r[2]}; });
+      var nb = ship.newbuild.data.map(function (r) { return {x: r[0], y: r[1]}; });
+      new Chart(document.getElementById('bdiChart'), {type: 'line', data: {datasets: [
+        {label: 'BDI', data: bd, borderColor: TH.china, borderWidth: 1.8, pointRadius: 3,
+         pointBackgroundColor: bd.map(function (p) { return p.conf === 'chart' ? '#0d1117' : TH.china; }),
+         tension: 0.2, yAxisID: 'y'},
+        {label: '신조선가 (우)', data: nb, borderColor: TH.aux2, borderWidth: 1.4, pointRadius: 2, tension: 0.2, yAxisID: 'y1'}
+      ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 14, font: {size: 10}, color: TH.txt}}},
+        scales: {x: {type: 'category', ticks: {color: TH.tick, font: {size: 9}, maxTicksLimit: 8}, grid: {color: TH.grid}},
+          y: {ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}},
+          y1: {position: 'right', ticks: {color: TH.aux2, font: {size: 9}}, grid: {display: false}}}}});
+
+      var ad = (asp.data || []).map(function (r) { return {x: r.date.slice(0,7), y: r.value}; });
+      new Chart(document.getElementById('aspChart'), {type: 'line', data: {datasets: [
+        {label: 'DRAM 수출 ASP', data: ad, borderColor: TH.now, borderWidth: 1.8, pointRadius: 0, tension: 0.2}
+      ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 14, font: {size: 10}, color: TH.txt}}},
+        scales: {x: {type: 'category', ticks: {color: TH.tick, font: {size: 9}, maxTicksLimit: 8}, grid: {color: TH.grid}},
+          y: {ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}}}}});
+    })();
+
+    /* ── F. 매크로 */
+    (function () {
+      function ser(id) { return (mac.series[id] ? mac.series[id].data : []).map(function (r) { return {x: r[0], y: r[1]}; }); }
+      var shade = {id: 'chinaShade', beforeDraw: function (chart) {
+        var xs = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+        var a = xs.getPixelForValue('2003-03-14'), b = xs.getPixelForValue('2008-07-11');
+        if (isNaN(a) || isNaN(b)) return;
+        ctx.save(); ctx.fillStyle = TH.shade;
+        ctx.fillRect(Math.max(a, area.left), area.top, Math.min(b, area.right) - Math.max(a, area.left), area.bottom - area.top);
+        ctx.restore(); }};
+      new Chart(document.getElementById('macroChart'), {type: 'line', data: {datasets: [
+        {label: 'FFR (%)', data: ser('DFF'), borderColor: TH.aux, borderWidth: 1.2, pointRadius: 0, tension: 0, yAxisID: 'y'},
+        {label: '미 10Y (%)', data: ser('DGS10'), borderColor: TH.hi, borderWidth: 1.2, pointRadius: 0, tension: 0, yAxisID: 'y'},
+        {label: 'WTI ($, 우)', data: ser('DCOILWTICO'), borderColor: TH.aux2, borderWidth: 1.2, pointRadius: 0, tension: 0, yAxisID: 'y1'}
+      ]}, options: {responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: {legend: {position: 'top', align: 'end', labels: {boxWidth: 14, font: {size: 10}, color: TH.txt}}},
+        scales: {x: {type: 'category', ticks: {color: TH.tick, font: {size: 9}, maxTicksLimit: 12,
+            callback: function (v, i) { var lbl = this.getLabelForValue(v); return lbl ? lbl.slice(0, 4) : ''; }, autoSkip: true},
+            grid: {display: false}},
+          y: {ticks: {color: TH.tick, font: {size: 9}}, grid: {color: TH.grid}},
+          y1: {position: 'right', ticks: {color: TH.aux2, font: {size: 9}}, grid: {display: false}}}},
+        plugins: [shade]});
+    })();
+
+    /* ── G. 시차 체인 */
+    (function () {
+      var c = ship.lead_lag_chain.chain;
+      var h = '<table><tr><th>step</th><th>사건</th><th>시점</th><th>직전 대비</th></tr>';
+      c.forEach(function (r) {
+        h += '<tr' + (r.step === 1 ? ' class="hl"' : '') + '><td>' + r.step + '</td><td>' + r.event + '</td><td>' + r.date + '</td><td>' + (r.lag_from_prev || '—') + '</td></tr>';
+      });
+      document.getElementById('chain-table').innerHTML = h + '</table>';
+    })();
+
+  }).catch(function (e) {
+    document.getElementById('updated').innerHTML = '<span style="color:#f85149;">데이터 로드 실패: ' + e + '</span>';
+  });
+})();
+</script>
+</body>
+</html>
