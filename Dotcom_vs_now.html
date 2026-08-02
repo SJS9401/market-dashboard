@@ -102,7 +102,7 @@
       1994-07-15 앵커는 <b style="color:#c9d1d9;">정점까지 2,082일</b>로 현재 사이클(1,300일대)과 시간축이 가장 잘 맞는 지점이다.<br>
       현재쪽 저점 앵커는 각자 <b style="color:#c9d1d9;">장중 저점일</b> — 엔비디아 <b style="color:#c9d1d9;">2022-10-13</b>, SK하이닉스 <b style="color:#c9d1d9;">2023-01-03</b>.
       하이닉스를 켜면 <b style="color:#c9d1d9;">같은 시스코 곡선에 1차축(엔비디아)과 2차축(하이닉스)을 동시에</b> 겹쳐 볼 수 있고,
-      <b style="color:#c9d1d9;">퀄컴(닷컴)</b>을 켜면 닷컴 당시의 1차축(시스코) 대비 2차축(퀄컴) 흐름을 같은 화면에서 대조할 수 있다.<br>      <b style="color:#c9d1d9;">실적 토글</b>(영익·OPM·YoY)은 각 분기를 <b style="color:#c9d1d9;">분기 종료월</b> 기준으로 같은 시간축에 얹는다 — 주가와 실적의 선후를 직접 볼 수 있다. 출처는 SEC EDGAR 원문 실측.</div>
+      <b style="color:#c9d1d9;">퀄컴(닷컴)</b>을 켜면 닷컴 당시의 1차축(시스코) 대비 2차축(퀄컴) 흐름을 같은 화면에서 대조할 수 있다.<br>      <b style="color:#c9d1d9;">실적 토글</b>(영익·OPM·YoY)은 각 분기를 <b style="color:#c9d1d9;">분기 종료월</b> 기준으로 같은 시간축에 얹는다 — 주가와 실적의 선후를 직접 볼 수 있다. 출처는 SEC EDGAR 원문 실측.<br>      색 규칙: 주가는 <b style="color:#34d399;">초록(닷컴)</b>·<b style="color:#f87171;">빨강(현재)</b>, 실적은 지표별로 <b style="color:#8b5cf6;">보라=영업이익</b> · <b style="color:#ea580c;">주황=OPM</b> · <b style="color:#0ea5e9;">하늘=영익 YoY</b>. 닷컴은 <b style="color:#c9d1d9;">굵은 점선 + 마름모</b>, 현재는 <b style="color:#c9d1d9;">실선 + 원</b>.</div>
   </div>
 
   <!-- D. 2차축 -->
@@ -746,18 +746,21 @@
       });
       return out;
     }
+    /* 색 체계: 주가선(초록=닷컴 / 빨강=현재)과 겹치지 않도록 실적은 별도 색군을 쓴다.
+       지표별로 같은 계열 — 영익=보라 / OPM=주황 / YoY=하늘.
+       닷컴은 진한 톤 + 점선, 현재는 밝은 톤 + 실선. */
     var FINMETA = {
-      csco_op:  {src:'csco_q',  m:'op',  side:'dot', label:'시스코 조정영익($M)',  ax:'f1', color:'#34d399', unit:'M$', dp:0},
-      csco_opm: {src:'csco_q',  m:'opm', side:'dot', label:'시스코 OPM',           ax:'f2', color:'#6ee7b7', unit:'%',  dp:1},
-      csco_yoy: {src:'csco_q',  m:'yoy', side:'dot', label:'시스코 영익 YoY',      ax:'f3', color:'#a7f3d0', unit:'%',  dp:0},
-      nvda_op:  {src:'nvda_q',  m:'op',  side:'now', label:'엔비디아 영익($M)',    ax:'f1', color:'#f87171', unit:'M$', dp:0},
-      nvda_opm: {src:'nvda_q',  m:'opm', side:'now', label:'엔비디아 OPM',         ax:'f2', color:'#fca5a5', unit:'%',  dp:1},
-      nvda_yoy: {src:'nvda_q',  m:'yoy', side:'now', label:'엔비디아 영익 YoY',    ax:'f3', color:'#fecaca', unit:'%',  dp:0},
-      qcom_op:  {src:'qcom_q',  m:'op',  side:'dot', label:'퀄컴 조정영익($M)',    ax:'f1', color:'#fbbf24', unit:'M$', dp:0},
-      qcom_opm: {src:'qcom_q',  m:'opm', side:'dot', label:'퀄컴 OPM',             ax:'f2', color:'#fcd34d', unit:'%',  dp:1},
-      qcom_yoy: {src:'qcom_q',  m:'yoy', side:'dot', label:'퀄컴 영익 YoY',        ax:'f3', color:'#fde68a', unit:'%',  dp:0},
-      hx_op:    {src:'hynix',   m:'op',  side:'now', label:'하이닉스 영익(조원)',  ax:'f4', color:'#22d3ee', unit:'조', dp:1},
-      hx_yoy:   {src:'hynix',   m:'yoy', side:'now', label:'하이닉스 영익 YoY',    ax:'f3', color:'#67e8f9', unit:'%',  dp:0}
+      csco_op:  {src:'csco_q',  m:'op',  side:'dot', label:'시스코 조정영익($M)',  ax:'f1', color:'#8b5cf6', unit:'M$', dp:0, w:2.2},
+      csco_opm: {src:'csco_q',  m:'opm', side:'dot', label:'시스코 OPM',           ax:'f2', color:'#ea580c', unit:'%',  dp:1, w:2.0},
+      csco_yoy: {src:'csco_q',  m:'yoy', side:'dot', label:'시스코 영익 YoY',      ax:'f3', color:'#0ea5e9', unit:'%',  dp:0, w:1.8},
+      nvda_op:  {src:'nvda_q',  m:'op',  side:'now', label:'엔비디아 영익($M)',    ax:'f1', color:'#c084fc', unit:'M$', dp:0, w:2.2},
+      nvda_opm: {src:'nvda_q',  m:'opm', side:'now', label:'엔비디아 OPM',         ax:'f2', color:'#fb923c', unit:'%',  dp:1, w:2.0},
+      nvda_yoy: {src:'nvda_q',  m:'yoy', side:'now', label:'엔비디아 영익 YoY',    ax:'f3', color:'#7dd3fc', unit:'%',  dp:0, w:1.8},
+      qcom_op:  {src:'qcom_q',  m:'op',  side:'dot', label:'퀄컴 조정영익($M)',    ax:'f1', color:'#8b5cf6', unit:'M$', dp:0, w:2.2},
+      qcom_opm: {src:'qcom_q',  m:'opm', side:'dot', label:'퀄컴 OPM',             ax:'f2', color:'#ea580c', unit:'%',  dp:1, w:2.0},
+      qcom_yoy: {src:'qcom_q',  m:'yoy', side:'dot', label:'퀄컴 영익 YoY',        ax:'f3', color:'#0ea5e9', unit:'%',  dp:0, w:1.8},
+      hx_op:    {src:'hynix',   m:'op',  side:'now', label:'하이닉스 영익(조원)',  ax:'f4', color:'#c084fc', unit:'조', dp:1, w:2.2},
+      hx_yoy:   {src:'hynix',   m:'yoy', side:'now', label:'하이닉스 영익 YoY',    ax:'f3', color:'#7dd3fc', unit:'%',  dp:0, w:1.8}
     };
     function finSeries(k, anchorDate) {
       var m = FINMETA[k];
@@ -846,8 +849,12 @@
           if (!aDate) return;
           finAx[m.ax] = m;
           ds.push({label: m.label, data: finSeries(k, aDate), borderColor: m.color,
-                   borderWidth: 1.6, pointRadius: 2.2, tension: 0.15,
-                   borderDash: m.side === 'dot' ? [3,2] : [], yAxisID: m.ax});
+                   backgroundColor: m.color,
+                   borderWidth: m.w || 1.8,
+                   pointRadius: m.m === 'op' ? 3 : (m.m === 'opm' ? 2.6 : 2.2),
+                   pointStyle: m.side === 'dot' ? 'rectRot' : 'circle',
+                   tension: 0.15,
+                   borderDash: m.side === 'dot' ? [6,3] : [], yAxisID: m.ax});
         });
 
         var vl = isAnchor(mode)
@@ -869,8 +876,11 @@
           plugins: [vLines(vl)]});
         Object.keys(finAx).forEach(function (ax) {
           var m = finAx[ax];
-          main.options.scales[ax] = {position: 'right', ticks: {color: m.color, font: {size: 9},
-            callback: function (v) { return fmt(v, m.dp) + (m.unit === '%' ? '%' : ''); }},
+          main.options.scales[ax] = {position: 'right',
+            title: {display: true, text: (m.m === 'op' ? '영업이익' : m.m === 'opm' ? 'OPM' : '영익 YoY'),
+                    font: {size: 9}, color: m.color},
+            ticks: {color: m.color, font: {size: 9},
+              callback: function (v) { return fmt(v, m.dp) + (m.unit === '%' ? '%' : ''); }},
             grid: {display: false}};
         });
         if (Object.keys(finAx).length) main.update('none');
