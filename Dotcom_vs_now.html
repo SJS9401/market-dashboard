@@ -89,12 +89,14 @@
 
   <!-- C. 1차축 -->
   <div class="card">
-    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span></h2>
+    <h2>1차축 — 시스코(닷컴) vs 엔비디아(현재)<span class="seg" id="ldrSeg"><button class="on" data-m="low94">저점 94-07</button><button data-m="low98">저점 98-10 ↔ 25-04</button><button data-m="peak98">고점 1998</button><button data-m="peak00">고점 2000</button></span><span class="seg" id="ldrExSeg" style="margin-left:6px;"><button data-x="1">SK하이닉스</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrKV"></div>
     <div class="note">시스코는 1990년대 내내 상승했다 — 1990-10-10 앵커 시 정점까지 <b style="color:#c9d1d9;">1,153배 / 3,456일</b>.
-      1994-07-15 앵커는 <b style="color:#c9d1d9;">정점까지 2,082일</b>로 현재 사이클(1,300일대)과 시간축이 가장 잘 맞는 지점이다.</div>
+      1994-07-15 앵커는 <b style="color:#c9d1d9;">정점까지 2,082일</b>로 현재 사이클(1,300일대)과 시간축이 가장 잘 맞는 지점이다.<br>
+      현재쪽 저점 앵커는 각자 <b style="color:#c9d1d9;">장중 저점일</b> — 엔비디아 <b style="color:#c9d1d9;">2022-10-13</b>, SK하이닉스 <b style="color:#c9d1d9;">2023-01-03</b>.
+      하이닉스를 켜면 <b style="color:#c9d1d9;">같은 시스코 곡선에 1차축(엔비디아)과 2차축(하이닉스)을 동시에</b> 겹쳐 볼 수 있다.</div>
   </div>
 
   <!-- D. 2차축 -->
@@ -119,7 +121,7 @@
           <td>정점까지 <b style="color:#f0f6fc;">2,065일</b><br>등가일 2.2배</td>
           <td>정점까지 <b style="color:#f0f6fc;">2,082일</b><br>등가일 8.5배</td>
           <td>정점까지 <b style="color:#f0f6fc;">1,998일</b><br>등가일 2.7배</td>
-          <td class="diff">코스피 1,358일 4.35배<br>하이닉스 1,269일 <b style="color:#f0f6fc;">40.6배</b><br><span style="color:#8b949e;">시간은 맞고 배율은 초과</span></td></tr>
+          <td class="diff">코스피 1,358일 4.35배<br>하이닉스 1,269일 <b style="color:#f0f6fc;">40.6배</b><br><span style="color:#8b949e;">현재쪽 앵커는 각자 <b style="color:#c9d1d9;">장중 저점일</b><br>(코스피 22-09-30 · 나스닥·NVDA 22-10-13<br>· 마이크론 22-09-23 · 하이닉스 23-01-03)</span></td></tr>
       <tr><td><b style="color:#f0f6fc;">1998-10-08</b><br><span style="font-weight:400;color:#6e7681;">보조 앵커<br>↔ 2025-04</span></td>
           <td>3.62배 / <b style="color:#f0f6fc;">519일</b></td><td>7.03배 / <b style="color:#f0f6fc;">536일</b></td><td><b style="color:#f0f6fc;">40.89배</b> / 452일</td>
           <td class="diff">코스피 <b style="color:#f0f6fc;">4.09배 / 436일</b><br>마이크론 16.16배 / 442일<br>하이닉스 18.21배 / 442일<br>엔비디아 2.07배 / 400일</td></tr>
@@ -375,7 +377,8 @@
   /* ── 앵커 정의 ───────────────────────────────────────── */
   var DOT_LOW  = {low94: '1994-07-15', low98: '1998-10-08'};
   var DOT_END  = '2002-08-21';
-  var NOW_LOW  = {KS11:'2022-09-30', IXIC:'2022-10-13', NVDA:'2022-10-14', MU:'2022-10-14', HYNIX:'2023-01-03'};
+  /* 2022 베어마켓 저점 = 각자 장중 저점일 (코스피 09-30 / 나스닥·NVDA 10-13 / MU 09-23 / 하이닉스 23-01-03) */
+  var NOW_LOW  = {KS11:'2022-09-30', IXIC:'2022-10-13', NVDA:'2022-10-13', MU:'2022-09-23', HYNIX:'2023-01-03'};
   /* 1998-10-08 앵커의 현재 등가 = 2025-04 관세쇼크 저점 (KR 4/9, US 4/7) */
   var NOW_LOW98 = {KS11:'2025-04-09', HYNIX:'2025-04-09', IXIC:'2025-04-07', NVDA:'2025-04-07', MU:'2025-04-07'};
   var MODE_LBL = {low94:'1994-07-15 저점=100', low98:'1998-10-08 저점=100', peak98:'1998 고점=100', peak00:'2000 정점=100'};
@@ -502,7 +505,7 @@
     }
 
     buildCard({dot:'IXIC_OLD', now:'KS11', ex:'IXIC', canvas:'idxChart', ddCanvas:'idxDD', kv:'idxKV', seg:'idxSeg', exSeg:'idxExSeg'});
-    buildCard({dot:'CSCO', now:'NVDA', canvas:'ldrChart', ddCanvas:'ldrDD', kv:'ldrKV', seg:'ldrSeg'});
+    buildCard({dot:'CSCO', now:'NVDA', ex:'HYNIX', canvas:'ldrChart', ddCanvas:'ldrDD', kv:'ldrKV', seg:'ldrSeg', exSeg:'ldrExSeg'});
     buildCard({dot:'QCOM', now:'MU', ex:'HYNIX', canvas:'secChart', ddCanvas:'secDD', kv:'secKV', seg:'secSeg', exSeg:'secExSeg'});
   }).catch(function (e) {
     document.getElementById('updated').textContent = '데이터 로드 실패: ' + e;
