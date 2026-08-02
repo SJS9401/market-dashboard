@@ -75,7 +75,7 @@
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">수출판가</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">수출판가 YoY</button></span><span class="seg" id="ldrESeg" style="margin-left:6px;"><button data-p="hhiop">현중 영익</button><button data-p="hhiopyoy">현중 영익 YoY</button><button data-p="hxop">닉스 영익</button><button data-p="hxopyoy">닉스 영익 YoY</button></span></h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">수출판가</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">수출판가 YoY</button></span><span class="seg" id="ldrESeg" style="margin-left:6px;"><button data-p="hhiop">현중 영익</button><button data-p="hhiopyoy">현중 영익 YoY</button><button data-p="hxop">닉스 영익</button><button data-p="hxopyoy">닉스 영익 YoY</button><button data-p="nvop">엔비디아 영익</button><button data-p="nvopyoy">엔비디아 YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
@@ -84,7 +84,7 @@
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
       우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, 수출판가 = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.<br>색 규칙: 주가는 <b style="color:#34d399;">초록(중국)</b>·<b style="color:#f87171;">빨강(현재)</b>, 오버레이는 <b style="color:#22d3ee;">청록=BDI</b> · <b style="color:#fbbf24;">앰버=신조선가</b> · <b style="color:#f472b6;">핑크=수출판가</b> · <b style="color:#8b5cf6;">보라=영업이익</b> · <b style="color:#0ea5e9;">하늘=영익 YoY</b> (YoY는 같은 계열 진한 톤). 과거는 <b style="color:#c9d1d9;">점선+마름모</b>, 현재는 <b style="color:#c9d1d9;">실선+원</b>.
+      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, 수출판가 = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교. <b style="color:#c9d1d9;">영익 버튼</b> = 현중 연간(DART 별도)·하이닉스 분기(키움, 26/2Q~ 컨센) 영업이익 절대값과 YoY. <b style="color:#c9d1d9;">1차 고점 = 영익 YoY 정점 / 2차 고점 = 영익 절대 정점</b> 규칙을 차트에서 직접 확인할 수 있다.<br>색 규칙: 주가는 <b style="color:#34d399;">초록(중국)</b>·<b style="color:#f87171;">빨강(현재)</b>, 오버레이는 <b style="color:#22d3ee;">청록=BDI</b> · <b style="color:#fbbf24;">앰버=신조선가</b> · <b style="color:#f472b6;">핑크=수출판가</b> · <b style="color:#8b5cf6;">보라=영업이익</b> · <b style="color:#0ea5e9;">하늘=영익 YoY</b> (YoY는 같은 계열 진한 톤). 과거는 <b style="color:#c9d1d9;">점선+마름모</b>, 현재는 <b style="color:#c9d1d9;">실선+원</b>.<br><b style="color:#c9d1d9;">엔비디아 영익</b>(인디고)·<b style="color:#c9d1d9;">엔비디아 YoY</b>(틸)은 하이닉스와 <b style="color:#c9d1d9;">같은 현재 앵커</b>에 얹혀 있다 &mdash; 1차축(엔비디아)과 2차축(하이닉스)의 실적 선후를 한 화면에서 볼 수 있다. 출처 SEC EDGAR XBRL 실측(FY23 Q1~FY27 Q1).
       (미포 데이터는 shipbuilding_static.json 에 보존)</div>
     <div class="factor warn" style="margin-top:8px;"><b>정점 후 회복 실패 패턴 — BDI</b>
       <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> &rarr; 2010 <b style="color:#f0f6fc;">36%</b> &rarr; 2011-03 <b style="color:#f0f6fc;">13%</b>.
@@ -939,6 +939,8 @@
       }
       pRows.hhiopyoy = opYoY(pRows.hhiop, 4).filter(function (r) { return r.t >= '2006-03'; });   // 2005 적자·저기저 왜곡 제외
       pRows.hxopyoy = opYoY(pRows.hxop, 4);
+      pRows.nvop = (fin.nvda_q ? fin.nvda_q.data.map(function (r) { return {t: r[1], v: r[3]}; }) : []);
+      pRows.nvopyoy = opYoY(pRows.nvop, 4);
 
 
       /* 색 체계 — 주가선(초록=중국 / 빨강=현재)과 겹치지 않도록 오버레이는 별도 색군.
@@ -953,10 +955,13 @@
         hhiop: {label: '현중 영익(분기)', color: '#8b5cf6', cyc: 'c', ax: 'p5', unit: '억', dp: 0, w: 2.2},
         hxop: {label: '하이닉스 영익(분기)', color: '#c084fc', cyc: 'n', ax: 'p6', unit: '억', dp: 0, w: 2.2},
         hhiopyoy: {label: '현중 영익 YoY(분기)', color: '#0ea5e9', cyc: 'c', ax: 'p7', unit: '%', dp: 0, w: 1.8},
-        hxopyoy: {label: '하이닉스 영익 YoY(분기)', color: '#7dd3fc', cyc: 'n', ax: 'p7', unit: '%', dp: 0, w: 1.8}
+        hxopyoy: {label: '하이닉스 영익 YoY(분기)', color: '#7dd3fc', cyc: 'n', ax: 'p7', unit: '%', dp: 0, w: 1.8},
+        nvop: {label: '엔비디아 영익($M)', color: '#6366f1', cyc: 'n', ax: 'p8', unit: 'M$', dp: 0, w: 2.2},
+        nvopyoy: {label: '엔비디아 영익 YoY', color: '#14b8a6', cyc: 'n', ax: 'p7', unit: '%', dp: 0, w: 1.8}
       };
       var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false,
-                 hhiop: false, hxop: false, hhiopyoy: false, hxopyoy: false};
+                 hhiop: false, hxop: false, hhiopyoy: false, hxopyoy: false,
+                 nvop: false, nvopyoy: false};
 
       function pAbs(rows, anchorDate, from, to) {  // 절대값 + x = 앵커 후 일수
         var out = [];
@@ -998,7 +1003,7 @@
           scales[ax] = {position: 'right',
             title: {display: true, text: m.label.replace('(분기)','').replace('하이닉스 ','닉스 '), font: {size: 9}, color: m.color},
             ticks: {color: m.color, font: {size: 9},
-            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억' : ''); }},
+            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억' : m.unit === 'M$' ? 'M' : ''); }},
             grid: {display: false}};
         });
         if (axOn.p4 || axOn.p7) plugs = (plugs || []).concat([{id: 'zeroLine', beforeDatasetsDraw: function (chart) {
@@ -1019,7 +1024,7 @@
                 var ax = it.dataset.yAxisID;
                 if (ax === 'y') return ' ' + it.dataset.label.split(' (')[0] + ': ' + fmt(it.parsed.y, 0) + ' (' + fmt(it.raw.raw) + '원)';
                 var m = axOn[ax] || {unit: '', dp: 0};
-                return ' ' + it.dataset.label.split(' (')[0] + ': ' + (m.unit === '$' ? '$' : '') + fmt(it.parsed.y, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억원' : '');
+                return ' ' + it.dataset.label.split(' (')[0] + ': ' + (m.unit === '$' ? '$' : '') + fmt(it.parsed.y, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : m.unit === '억' ? '억원' : m.unit === 'M$' ? '백만달러' : '');
               }}}},
           scales: scales}, plugins: plugs});
         var dd = ddChart('ldrDD', ddSeries(s1), ddSeries(s2), '현중 DD', '하이닉스 DD', xTitle + ' — 전고점 대비 낙폭 (%)');
