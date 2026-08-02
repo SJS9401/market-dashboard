@@ -74,7 +74,7 @@
 
   <!-- C. 주도주 오버레이 (v7: 현대중공업, 저점=100 정렬) -->
   <div class="card">
-    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button></span></h2>
+    <h2>주도주 — 현대중공업(03-03-25~) vs SK하이닉스(23-01-03~)<span class="seg" id="ldrSeg"><button class="on" data-m="low">저점 앵커</button><button data-m="high">고점 앵커</button></span><span class="seg" id="ldrPSeg" style="margin-left:6px;"><button data-p="bdi">BDI</button><button data-p="nb">신조선가</button><button data-p="asp">DRAM ASP</button><button data-p="nbyoy">신조선가 YoY</button><button data-p="aspyoy">ASP YoY</button></span></h2>
     <div class="chartbox"><canvas id="ldrChart"></canvas></div>
     <div class="chartbox sm"><canvas id="ldrDD"></canvas></div>
     <div class="kv" id="ldrStats"></div>
@@ -83,7 +83,7 @@
       역할 매칭: 현중 = 당시 시총 대장주(2007 코스피 3위) &harr; 하이닉스 = 현 대장주(정점 시 코스피 2위).
       현중은 2008 -78% 후 2011 前고점 재돌파(2차 사이클) &rarr; 2015 -85% 최종 붕괴의 이중 정점 구조.
       우측 드래그 = 기간 확대(x축만), 좌측 드래그·더블클릭 = 전체 복귀, Ctrl+휠 = 줌. 본 차트와 낙폭 차트는 연동.
-      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, DRAM ASP = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조.
+      <b style="color:#c9d1d9;">BDI·신조선가·DRAM ASP 버튼</b> = P 지표를 <b style="color:#c9d1d9;">절대값</b>으로 우축에 오버레이 (BDI·신조선가 = 현중 앵커 기준, DRAM ASP = 하이닉스 앵커 기준) — 주가 대비 P가 언제 꺾였는지 대조. <b style="color:#c9d1d9;">YoY 버튼</b>은 두 계약가/현물가의 <b style="color:#c9d1d9;">모멘텀</b>을 공용 % 축(0선 표시)에 겹쳐 비교.
       (미포 데이터는 shipbuilding_static.json 에 보존)</div>
     <div class="factor warn" style="margin-top:8px;"><b>정점 후 회복 실패 패턴 — BDI</b>
       <span>정점(11,793) 대비 회복률 2009 <b style="color:#f0f6fc;">36%</b> &rarr; 2010 <b style="color:#f0f6fc;">36%</b> &rarr; 2011-03 <b style="color:#f0f6fc;">13%</b>.
@@ -202,13 +202,23 @@
       <tr><td>레버리지 소재지<br><span style="font-weight:400;color:#6e7681;">= 사이클 종료 트리거</span></td>
           <td>선주(<b style="color:#f0f6fc;">수요자</b>) 선박금융<br>독일 KG펀드 &rarr; 리먼으로 조달 붕괴 &rarr; <b style="color:#f0f6fc;">수주 취소</b><br>&rarr; 수요 자체 소멸, 회복 5년</td>
           <td class="diff"><b style="color:#f0f6fc;">엔비디아 순환구조</b> (벤더 파이낸싱 + 신용보강)<br>NVDA 투자 &rarr; 고객사 GPU 구매 &rarr; NVDA 매출로 환류<br>&rarr; <b style="color:#f0f6fc;">아직 발화 안 함</b>. CDS가 유일한 조기 신호</td></tr>
-      <tr><td>P 지표 위치</td>
+      <tr><td>P &mdash; 현물</td>
           <td><b style="color:#f0f6fc;">BDI 정점 2008-05</b> (주가 정점 +7개월)<br>이후 회복 실패 36% &rarr; 36% &rarr; 13%</td>
-          <td class="diff"><b style="color:#f0f6fc;">DRAM ASP 정점 미도래</b><br>저점 $1.98(23-02) &rarr; 최근 <b style="color:#f0f6fc;">$8.50</b> (4.3배, 신고가 갱신 중)<br>3Q26E +13~20% 추가 상승 컨센</td></tr>
+          <td class="diff"><b style="color:#f0f6fc;">DRAM ASP 정점 미도래</b><br>저점 $1.98(23-02) &rarr; 최근 <b style="color:#f0f6fc;">$8.50</b> (4.3배, 신고가)<br>3Q26E +13~20% 추가 상승 컨센</td></tr>
+      <tr><td>P &mdash; 계약<br><span style="font-weight:400;color:#6e7681;">LTA의 진짜 등가물</span></td>
+          <td>신조선가 정점 2008-08 190 (주가 +9개월)<br>&rarr; 2012 126 (<b style="color:#f0f6fc;">-34%만</b>) &rarr; 2014 139 부분회복<br><span style="color:#8b949e;">계약가는 잔고에 잠겨 얕게 빠진다</span></td>
+          <td class="diff">HBM 연간 계약가 &mdash; 2027 협상 진행 중<br>LTA 분기 -5% 캡이 하방을 계약으로 고정<br><span style="color:#8b949e;">신조선가보다 <b style="color:#f0f6fc;">더 강한</b> 하방 방어 구조</span></td></tr>
       <tr><td>수요 후행</td>
           <td>중국 고정자산투자 둔화<br>&rarr; 물동량 감소로 직결</td>
           <td class="diff">클라우드 매출 YoY <b style="color:#f0f6fc;">가속</b><br>24 &rarr; 33 &rarr; 39 &rarr; 48% (25-1Q~26-2Q)</td></tr>
     </table>
+
+    <div class="factor" style="margin-top:8px;"><b>★ YoY 모멘텀 &mdash; 계약가 모멘텀은 주가 정점보다 2년 5개월 먼저 꺾였다</b>
+      <span>신조선가 YoY 실측: 2004-06 +9.7% &rarr; <b style="color:#f0f6fc;">2005-06 +40%(정점)</b> &rarr; 2006-06 <b style="color:#f0f6fc;">-4.2%</b> &rarr; 2007-06 +2.5%.
+      즉 계약가 상승 모멘텀은 <b style="color:#f0f6fc;">2005년 중반에 이미 꺾였는데</b>, 주가 정점은 <b style="color:#f0f6fc;">2007-11</b>이었다 &mdash; <b style="color:#f0f6fc;">2년 5개월</b>이나 더 올랐다.<br>
+      DRAM ASP YoY 실측: 2025-05 +13% &rarr; 08월 +20.5% &rarr; 10월 +32.9% &rarr; 11월 +72.7% &rarr; <b style="color:#f0f6fc;">12월 +118.1%</b> &mdash; 꺾이기는커녕 <b style="color:#f0f6fc;">가속 중</b>인데 주가는 이미 -58%.<br>
+      &rarr; 두 방향의 함의: (1) "ASP YoY가 꺾이면 곧 주가 정점"은 <b style="color:#f0f6fc;">틀린 룰</b> &mdash; 조선에서는 2년 5개월 시차가 있었다.
+      (2) 지금의 하락은 P 모멘텀과 <b style="color:#f0f6fc;">정반대 방향</b>이므로 P 사이클 종료로 설명되지 않는다 &mdash; 수급 층위 해석을 뒷받침.</span></div>
 
     <h3>2-1. 엔비디아 순환구조 — 이번 사이클의 '선박금융'</h3>
     <table>
@@ -641,12 +651,35 @@
         nb: ship.newbuild.data.map(function (r) { return {t: r[0], v: r[1]}; }).sort(function (a, b) { return a.t < b.t ? -1 : 1; }),
         asp: (asp.data || []).map(function (r) { return {t: r.date, v: r.value}; }).sort(function (a, b) { return a.t < b.t ? -1 : 1; })
       };
+      function mIdx2(t) { return (+t.slice(0, 4) - 2000) * 12 + (+t.slice(5, 7) - 1); }
+      function yoyRows(rows) {   // 12개월 전 값 보간 후 YoY(%)
+        var R = rows.map(function (r) { return {t: r.t, m: mIdx2(r.t), v: r.v}; }).sort(function (a, b) { return a.m - b.m; });
+        function interp(m) {
+          var a = null, b = null;
+          for (var i = 0; i < R.length; i++) { if (R[i].m <= m) a = R[i]; if (R[i].m >= m && !b) b = R[i]; }
+          if (!a || !b) return null;
+          if (a.m === b.m) return a.v;
+          return a.v + (b.v - a.v) * (m - a.m) / (b.m - a.m);
+        }
+        var out = [];
+        R.forEach(function (r) {
+          if (r.m - 12 < R[0].m) return;
+          var p = interp(r.m - 12);
+          if (p) out.push({t: r.t, v: (r.v / p - 1) * 100});
+        });
+        return out;
+      }
+      pRows.nbyoy = yoyRows(pRows.nb);
+      pRows.aspyoy = yoyRows(pRows.asp);
+
       var PMETA = {
         bdi: {label: 'BDI', color: '#22d3ee', cyc: 'c', ax: 'p1', unit: '', dp: 0},
         nb: {label: '신조선가', color: TH.aux2, cyc: 'c', ax: 'p2', unit: 'p', dp: 0},
-        asp: {label: 'DRAM ASP', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 2}
+        asp: {label: 'DRAM ASP', color: '#f472b6', cyc: 'n', ax: 'p3', unit: '$', dp: 2},
+        nbyoy: {label: '신조선가 YoY', color: '#fbbf24', cyc: 'c', ax: 'p4', unit: '%', dp: 1},
+        aspyoy: {label: 'ASP YoY', color: '#f472b6', cyc: 'n', ax: 'p4', unit: '%', dp: 1}
       };
-      var pOn = {bdi: false, nb: false, asp: false};
+      var pOn = {bdi: false, nb: false, asp: false, nbyoy: false, aspyoy: false};
 
       function pAbs(rows, anchorDate, from, to) {  // 절대값 + x = 앵커 후 일수
         var out = [];
@@ -682,10 +715,18 @@
         };
         Object.keys(axOn).forEach(function (ax) {
           var m = axOn[ax];
-          scales[ax] = {position: 'right', ticks: {color: m.color, font: {size: 9},
-            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : ''); }},
+          scales[ax] = {position: 'right', ticks: {color: ax === 'p4' ? '#e5e7eb' : m.color, font: {size: 9},
+            callback: function (v) { return (m.unit === '$' ? '$' : '') + fmt(v, m.dp) + (m.unit === 'p' ? 'p' : m.unit === '%' ? '%' : ''); }},
             grid: {display: false}};
         });
+        if (axOn.p4) plugs = (plugs || []).concat([{id: 'zeroLine', beforeDatasetsDraw: function (chart) {
+          var ys = chart.scales.p4, area = chart.chartArea, ctx = chart.ctx;
+          if (!ys) return;
+          var py = ys.getPixelForValue(0);
+          if (py < area.top || py > area.bottom) return;
+          ctx.save(); ctx.setLineDash([2,3]); ctx.strokeStyle = '#6e7681'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(area.left, py); ctx.lineTo(area.right, py); ctx.stroke(); ctx.restore();
+        }}]);
 
         var main = new Chart(document.getElementById('ldrChart'), {type: 'line', data: {datasets: ds},
           options: {responsive: true, maintainAspectRatio: false, animation: false,
