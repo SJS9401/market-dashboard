@@ -184,12 +184,13 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-08-01 (자동 실행)**
+> **최종 갱신: 2026-08-02 (자동 실행)**
 
 ### 8월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 8/3 | 에이피알 | 화장품 | 2Q26 잠정실적 (FnGuide 확인 — 확정실적 CC 8/19 Investing.com 별도) |
 | 8/4 | Palantir (PLTR) | 소프트웨어 | AMC→KST (8/3 ET), Q2 2026 (확정 — AI 소프트웨어 수주, 미국 상업부문 성장세. 2026-07-29 정정: 기존 8/11 KST(8/10 ET)→8/4 KST(8/3 ET)) |
 | 8/5 | AMD (AMD) | 반도체-CPU | AMC→KST (8/4 ET), Q2 2026 (확정, MarketBeat·Nasdaq) — Zen5 EPYC 데이터센터, MI350 AI 가속기, Q2 가이던스 $11.2B |
 | 8/5 | Siemens Energy (ENR) | 전력 | Q3 FY2026 (4~6월분) (확정, siemens-energy.com 공식 발표 — CC 08:30 CET KST 동일. 그리드·HVDC·풍력. 기존 8/1 → 8/5 정정 2026-08-01) |
@@ -205,11 +206,12 @@
 | (~8/7) | 미래에셋증권 | 금융 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
 | (~8/8) | 한국전력 | 원전 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/8) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
-| (~8/18) | 현대로템 | 방산 | 2Q26 확정실적 CC — 잠정실적 7/24 FnGuide 확정. Investing.com·IRGO 확인 |
+| 8/12 | HD현대일렉트릭 | 전력 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/28 완료(영업이익 2870억 +37% YoY). OPM 27% 회복·신규수주 가이던스·관세 환급. 2026-08-02 정정: 기존 Investing.com 8/26→FnGuide 8/12) |
+| 8/13 | HD현대중공업 | 조선 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/29 완료(매출 6조3136억 +52.3% YoY, 영업이익 1조357억 +120.7% YoY, 분기 사상 최대)) |
 | 8/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC→KST (8/13 ET), Q3 FY2026 (확정 — Applied Materials 공식. Q3 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, HBM CAPEX 사이클 동조) |
-| 8/19 | 에이피알 | 화장품 | 2Q26 실적 (Investing.com 8/19 확인 — Q1: 5/6, 기존 (~8/6) 정정 2026-07-30) |
+| (~8/18) | 현대로템 | 방산 | 2Q26 확정실적 CC — 잠정실적 7/24 FnGuide 확정. Investing.com·IRGO 확인 |
+| 8/19 | 에이피알 | 화장품 | 2Q26 확정실적 CC (Investing.com 8/19 확인 — 잠정실적 8/3 FnGuide 확정. Q1: 5/6) |
 | 8/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC→KST (8/20 ET), Q2 FY2027 (확정 — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
-| 8/26 | HD현대일렉트릭 | 전력 | 2Q26 확정실적 CC (Investing.com 8/26 확인 — 잠정실적 7/28 FnGuide 확정(영업이익 2870억 +37% YoY). OPM 27% 회복·신규수주 가이던스·관세 환급) |
 | 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정 — SEC 8-K·TipRanks·Unusual Whales 6/24 재확인) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
 
 ### 9월
@@ -232,9 +234,9 @@
 | (10/23) | Intel (INTC) | 반도체-CPU | AMC→KST (10/22 ET), Q3 2026 (확정) |
 | (~10/23) | RTX (RTX) | 방산 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/23 BMO) |
 | (10/28) | Microsoft (MSFT) | 빅테크 | AMC→KST (10/27 ET), Q1 FY2027 (확정) |
-| (~10/28) | Alphabet (GOOGL) | 빅테크 | AMC→KST (~10/27 ET), Q3 2026 — 과거 패턴 추정 (Q2: 7/23 AMC) |
+| (10/28) | Alphabet (GOOGL) | 빅테크 | AMC→KST (10/27 ET), Q3 2026 (확정, TipRanks — Q2: 7/23 AMC) |
 | (10/29) | Tesla (TSLA) | 자동차 | AMC→KST (10/28 ET), Q3 2026 (확정) |
-| (~10/29) | Meta (META) | 빅테크 | AMC→KST (~10/28 ET), Q3 2026 — 과거 패턴 추정 (Q2: 7/29 AMC) |
+| (10/29) | Meta (META) | 빅테크 | AMC→KST (10/28 ET), Q3 2026 (확정, TipRanks·Investing.com — Q2: 7/29 AMC) |
 
 ---
 
