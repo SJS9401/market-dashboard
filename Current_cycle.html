@@ -15,16 +15,20 @@
   .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; }
   .tab-bar a:hover { color: #f0f6fc; }
   .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
-  .wrap { max-width: 940px; margin: 0 auto; padding: 20px 16px 60px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 16px 60px; }
   h1 { font-size: 21px; margin-bottom: 4px; color: #f0f6fc; }
   .sub { font-size: 12px; color: #8b949e; margin-bottom: 16px; }
   .card { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 18px; margin-bottom: 14px; }
   .card h2 { font-size: 15.5px; margin-bottom: 10px; color: #f0f6fc; }
   .card h3 { font-size: 13.5px; margin: 14px 0 6px; color: #c9d1d9; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
-  th, td { padding: 7px 6px; border-bottom: 1px solid #21262d; text-align: left; vertical-align: top; }
-  th { background: #0d1117; font-size: 11px; color: #8b949e; }
+  th, td { padding: 6px 5px; border-bottom: 1px solid #21262d; text-align: left; vertical-align: top; }
+  th { background: #0d1117; font-size: 10.5px; color: #8b949e; }
   td:first-child { font-weight: 600; white-space: nowrap; color: #f0f6fc; }
+  table.num td { text-align: right; }
+  table.num td:first-child, table.num td:last-child { text-align: left; }
+  table.num th { text-align: right; }
+  table.num th:first-child, table.num th:last-child { text-align: left; }
   .same { color: #79c0ff; font-weight: 600; }
   .diff { color: #ffa198; font-weight: 600; }
   .chartbox { position: relative; height: 380px; margin-top: 8px; }
@@ -37,7 +41,6 @@
   .note { font-size: 11.5px; color: #6e7681; margin-top: 10px; }
   .hl { background: #12261a; }
   .bad { background: #2b1214; }
-  /* 라이브 패널 */
   .live { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0 4px; }
   @media (max-width: 760px) { .live { grid-template-columns: 1fr 1fr; } }
   .live .box { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; padding: 12px; }
@@ -49,6 +52,9 @@
   .bar u { position: absolute; top: -3px; width: 2px; height: 16px; background: #58a6ff; }
   .barlab { display: flex; justify-content: space-between; font-size: 10.5px; color: #6e7681; margin-top: 4px; }
   .verdict { font-size: 13px; font-weight: 700; padding: 8px 12px; border-radius: 8px; margin-top: 10px; }
+  .tl { display: grid; grid-template-columns: 92px 1fr; gap: 0; }
+  .tl .t { font-size: 11.5px; color: #f0f6fc; font-weight: 700; padding: 7px 0; border-right: 2px solid #30363d; padding-right: 12px; text-align: right; }
+  .tl .c { font-size: 12px; color: #8b949e; padding: 7px 0 7px 14px; }
 </style>
 </head>
 <body>
@@ -57,158 +63,234 @@
   <h1>현재 사이클 시나리오 — 닷컴 × 중국 인프라 믹싱</h1>
   <div class="sub" id="updated">두 탭에서 확립한 판별 규칙을 현재 AI 사이클에 적용한다 | 데이터 로딩 중…</div>
 
-  <!-- A. 라이브 판별 패널 -->
+  <!-- ① 라이브 트리거 -->
   <div class="card">
     <h2>① 1순위 트리거 — 저점 후 되돌림 <span style="font-size:11px;color:#6e7681;font-weight:400;">(실측 5사례에서 성공·실패가 완전히 갈린 유일한 지표)</span></h2>
     <div class="live" id="liveBox"></div>
     <div class="bar" id="bar"><i id="barFill" style="width:0%"></i><u id="barMark" style="left:70%"></u></div>
     <div class="barlab"><span>저점 0.00</span><span style="color:#58a6ff;">임계 0.70</span><span>전고점 1.00</span></div>
     <div class="verdict" id="verdict"></div>
-
-    <h3>실측 — 저점 후 1개월 시점의 되돌림이 결과를 완전히 갈랐다</h3>
     <table>
       <tr><th style="width:150px;">사례</th><th style="width:96px;">MDD</th><th style="width:110px;">+1M 되돌림</th><th style="width:96px;">그때 MDD</th><th style="width:110px;">재돌파</th><th>결과</th></tr>
-      <tr class="hl"><td>시스코 1998</td><td>-41.4%</td><td><b style="color:#f0f6fc;">0.938</b></td><td>-2.6%</td><td class="same">41일</td><td class="same">2000년까지 <b style="color:#f0f6fc;">3.4배</b> 추가 상승</td></tr>
+      <tr class="hl"><td>시스코 1998</td><td>-41.4%</td><td><b style="color:#f0f6fc;">0.938</b></td><td>-2.6%</td><td class="same">41일</td><td class="same">2000년까지 <b style="color:#f0f6fc;">3.4배</b></td></tr>
       <tr class="hl"><td>시스코 1997</td><td>-39.4%</td><td><b style="color:#f0f6fc;">0.812</b></td><td>-7.4%</td><td class="same">72일</td><td class="same">2000년까지 <b style="color:#f0f6fc;">9.7배</b></td></tr>
       <tr class="hl"><td>퀄컴 1998</td><td>-42.7%</td><td><b style="color:#f0f6fc;">0.790</b></td><td>-9.0%</td><td class="same">103일</td><td class="same">2000년까지 <b style="color:#f0f6fc;">24.3배</b></td></tr>
       <tr><td colspan="6" style="background:#0d1117;color:#58a6ff;font-size:11px;padding:4px 6px;">— 임계 0.70 —</td></tr>
       <tr class="bad"><td>시스코 2000</td><td>-39.0%</td><td class="diff"><b style="color:#f0f6fc;">0.611</b></td><td>-15.2%</td><td class="diff">없음</td><td class="diff">최종 <b style="color:#f0f6fc;">-86.5%</b></td></tr>
-      <tr class="bad"><td>현대중공업 2008</td><td>-49.4%</td><td class="diff"><b style="color:#f0f6fc;">0.442</b></td><td>-27.5%</td><td class="diff">1,164일</td><td class="diff">-81% 후 2.5년 뒤 겨우 +0.7% 돌파</td></tr>
+      <tr class="bad"><td>현대중공업 2008</td><td>-49.4%</td><td class="diff"><b style="color:#f0f6fc;">0.442</b></td><td>-27.5%</td><td class="diff">1,164일</td><td class="diff">-81% 후 2.5년 뒤 +0.7%</td></tr>
     </table>
     <div class="factor"><b>규칙 — 1개월, 되돌림 0.70, MDD -10%</b>
-      <span>성공 3사례는 <b style="color:#f0f6fc;">저점 후 30일 안에</b> 되돌림 0.79~0.94(MDD -2.6~-9.0%)에 도달했고, 실패 2사례는 <b style="color:#f0f6fc;">90일을 줘도</b> 0.44~0.63(MDD -14.6~-27.5%)에서 멈췄다.
-      경계가 <b style="color:#f0f6fc;">0.70 / MDD -10%</b> 부근에 깨끗이 그어진다 &mdash; 겹치는 구간이 없다.<br>
-      트레이딩 관점의 함의: <b style="color:#f0f6fc;">저점 후 한 달이 전부</b>다. 그 안에 조정폭의 70% 이상을 되돌리면 신고가 돌파 확률이 매우 높고, 못 되돌리면 그 반등은 되팔 자리였다.</span></div>
+      <span>성공 3사례는 <b style="color:#f0f6fc;">저점 후 30일 안에</b> 0.79~0.94(MDD -2.6~-9.0%)에 도달했고, 실패 2사례는 <b style="color:#f0f6fc;">90일을 줘도</b> 0.44~0.63(MDD -14.6~-27.5%)에서 멈췄다.
+      경계가 <b style="color:#f0f6fc;">0.70 / MDD -10%</b>에 깨끗이 그어지며 겹치는 구간이 없다. <b style="color:#f0f6fc;">저점 후 한 달이 전부</b>다.</span></div>
     <div class="chartbox"><canvas id="retChart"></canvas></div>
-    <div class="note">저점=0.00 · 전고점=1.00으로 정규화한 <b style="color:#c9d1d9;">되돌림 경로</b>. 파란 점선이 임계 0.70, 회색 점선이 +30일.
-      성공(파랑 계열)과 실패(붉은 계열)가 첫 달에 갈린다.</div>
+    <div class="note">저점=0.00 · 전고점=1.00으로 정규화한 되돌림 경로. 파란 점선이 임계 0.70, 회색 점선이 +30일.</div>
   </div>
 
-  <!-- B. 사이클 유형 -->
+  <!-- ② 유형 판별 -->
   <div class="card">
-    <h2>② 사이클 유형 — 판별자가 유형마다 다르다</h2>
-    <table>
-      <tr><th style="width:110px;">유형</th><th style="width:34%;">특징</th><th style="width:150px;">1차 고점 판별자</th><th>해당 종목</th></tr>
-      <tr class="hl"><td><b style="color:#f0f6fc;">마진 확장형</b></td>
-          <td>매출과 마진이 같이 오른다. P(가격)가 마진에 직결. <b style="color:#f0f6fc;">되돌아간다</b></td>
-          <td class="same"><b style="color:#f0f6fc;">OPM 개선폭(%p) 정점</b></td>
-          <td>현대중공업(FY07 +4.3%p → 07-11-07) · 퀄컴(FY00Q1 +17.2%p → 00-01-03) · <b style="color:#f0f6fc;">SK하이닉스(26/2Q +34.9%p → 26-06-22)</b></td></tr>
-      <tr><td><b style="color:#f0f6fc;">매출 성장형</b></td>
-          <td>마진은 평평하거나 하락. 성장은 <b style="color:#f0f6fc;">Q(물량)</b>가 만든다</td>
-          <td class="diff"><b style="color:#f0f6fc;">영익 YoY 국지 정점 · 매출 성장률</b></td>
-          <td>시스코(OPM 36.7%→18.8% 지속 하락, FY00Q3 +36.5% → 00-03-27) · <b style="color:#f0f6fc;">엔비디아</b></td></tr>
+    <h2>② 사이클 유형 — '간격'이 유형을 정의한다</h2>
+    <div class="note" style="margin:0 0 6px;"><b style="color:#c9d1d9;">간격 = 영업이익 YoY − 매출 YoY (%p)</b>. 이익 증가가 매출에서 오는지 마진에서 오는지를 한 숫자로 분리한다.</div>
+    <table class="num">
+      <tr><th style="width:150px;">사례</th><th>주가 1차 정점 분기</th><th>매출 YoY</th><th>영익 YoY</th><th style="width:96px;">간격</th><th style="width:150px;">유형</th></tr>
+      <tr class="hl"><td>SK하이닉스</td><td>2Q26</td><td>+256.8%</td><td>+557.1%</td><td><b style="color:#f0f6fc;">+300.3%p</b></td><td class="same">마진 확장형</td></tr>
+      <tr><td>현대중공업</td><td>FY2007</td><td>+23.7%</td><td>+99.2%</td><td><b style="color:#f0f6fc;">+75.5%p</b></td><td class="same">마진 확장형</td></tr>
+      <tr><td>엔비디아</td><td>FY27 Q1</td><td>+85.2%</td><td>+147.4%</td><td>+62.2%p<br><span style="color:#8b949e;font-weight:400;">H20 기저 착시 포함</span></td><td class="same">마진 확장형 → 고원</td></tr>
+      <tr class="bad"><td>시스코</td><td>FY00 Q3</td><td>+55.9%</td><td>+36.5%</td><td class="diff"><b style="color:#f0f6fc;">-19.4%p</b></td><td class="diff">마진 희석형</td></tr>
     </table>
-    <div class="factor"><b>엔비디아는 매출 성장형이다 — 마진은 이미 고원</b>
-      <span>OPM이 FY24에 22.5% &rarr; 61.6%로 뛴 뒤 <b style="color:#f0f6fc;">FY25 Q1 64.9% &rarr; FY27 Q1 65.6%로 2년간 +0.7%p</b>, 사실상 평평하다.
-      FY27 Q1의 +16.5%p 개선폭은 전년 기저가 <b style="color:#f0f6fc;">H20 상각 $45억</b>으로 눌린 착시이며, 조정하면 +6.3%p다.<br>
-      지금 성장을 만드는 건 매출이다 &mdash; 매출 YoY가 FY26 Q1 <b style="color:#f0f6fc;">+69% 바닥</b> 후 +55.6 &rarr; +62.5 &rarr; +73.2 &rarr; <b style="color:#f0f6fc;">+85.2%</b>로 재가속 중.<br>
-      &rarr; 시스코 사례에서 <b style="color:#f0f6fc;">매출 YoY 정점(FY01 Q1)이 주가 정점(FY00 Q3)보다 2분기 뒤</b>였다.
-      엔비디아 주가 정점(2026-05-14)이 FY27 Q1 직후이므로, 같은 패턴이면 <b style="color:#f0f6fc;">매출 YoY 정점은 FY27 Q2~Q3</b>에 온다. 그때가 1차 고점의 사후 확정 시점이다.</span></div>
-    <div class="factor warn"><b>그래서 두 축의 진단이 다르다</b>
-      <span><b style="color:#f0f6fc;">2차축(하이닉스) = 마진 확장형</b> &rarr; OPM 개선폭 정점(26/2Q)이 이미 나왔으므로 <b style="color:#f0f6fc;">1차 고점 확정</b>. 현중 경로를 따라간다.<br>
-      <b style="color:#f0f6fc;">1차축(엔비디아) = 매출 성장형</b> &rarr; 매출 YoY가 아직 재가속 중이므로 <b style="color:#f0f6fc;">1차 고점 미확정</b>. 시스코 1997년 자리일 수 있다.<br>
-      &rarr; 두 축이 다른 시계를 갖는다는 것이 이번 사이클의 특징이며, 닷컴에서는 시스코·퀄컴이 같이 움직였다.</span></div>
+    <div class="factor"><b>세 유형과 각각의 1차 고점 판별자</b>
+      <span><b style="color:#f0f6fc;">간격 (+)</b> = 마진 확장형 → 판별자 <b style="color:#f0f6fc;">OPM 개선폭 정점</b> (현중·퀄컴·하이닉스)<br>
+      <b style="color:#f0f6fc;">간격 ≈ 0</b> = 매출 성장형 → 판별자 <b style="color:#f0f6fc;">매출 성장률</b><br>
+      <b style="color:#f0f6fc;">간격 (−)</b> = 마진 희석형 → 판별자 <b style="color:#f0f6fc;">영익 YoY 국지 정점</b> (시스코: OPM 36.6%→18.8% 전 구간 하락, 인수 상각이 마진을 갉아먹음)</span></div>
+    <div class="factor warn"><b>★ 유형은 사이클 안에서 전환된다 — 하이닉스는 2027 하반기에 넘어간다</b>
+      <span>하이닉스의 간격은 1Q26 <b style="color:#f0f6fc;">+207%p</b> → 2Q27E +9.5%p → 3Q27E +3.8%p → 4Q27E <b style="color:#f0f6fc;">+1.9%p</b>로 0에 수렴한다.
+      간격이 0이면 <b style="color:#f0f6fc;">이익 증가율 = 매출 증가율</b>, 즉 이익이 순전히 Q로만 만들어지는 상태다.<br>
+      SK증권 모델도 같다 — DRAM OPM이 2026E 81% → 2027E <b style="color:#f0f6fc;">81%</b>로 고원에 안착하고, 2028E 전사 OPM은 79.4% → <b style="color:#f0f6fc;">76.6%</b>로 꺾인다.<br>
+      &rarr; <b style="color:#f0f6fc;">2027 하반기부터는 판별자를 OPM 개선폭이 아니라 매출 성장률로 바꿔야 한다</b> — 엔비디아와 같은 기준이 된다.</span></div>
   </div>
 
-  <!-- C. 경로 대조 -->
+  <!-- ③ 4사 실적 대조 -->
   <div class="card">
-    <h2>③ 1차 고점 이후 경로 — 3사이클 실측 대조</h2>
-    <table>
-      <tr><th style="width:130px;">단계</th><th class="same">현대중공업 (2007~2011)</th><th>시스코 (1997 / 2000)</th><th class="diff">SK하이닉스 (2026~)</th></tr>
-      <tr><td>1차 고점</td><td><b style="color:#f0f6fc;">2007-11-07</b><br>3Q07 발표 직전, 영익 YoY 둔화 확인</td>
-          <td><b style="color:#f0f6fc;">1997-01-21</b> (모멘텀 둔화 3분기째)<br><b style="color:#f0f6fc;">2000-03-27</b> (진짜 사이클 정점)</td>
-          <td><b style="color:#f0f6fc;">2026-06-22</b><br>OPM 개선폭 정점 = 판가 YoY 정점(26-06)</td></tr>
-      <tr class="hl"><td><b style="color:#f0f6fc;">낙폭 속도</b></td><td>84일 만에 <b style="color:#f0f6fc;">-49.4%</b></td><td>62일 만에 -39.4% (1997)<br>56일 만에 -39.0% (2000)</td>
-          <td class="diff"><b style="color:#f0f6fc;">37일 만에 -58.3%</b><br><span style="color:#8b949e;">셋 중 가장 빠르고 깊다</span></td></tr>
-      <tr><td>바닥 패턴</td><td>2월·4월 두 번 반등 실패 &rarr; <b style="color:#f0f6fc;">H&amp;S</b></td>
-          <td>1997: 3/24 · 4/28 <b style="color:#f0f6fc;">쌍바닥</b> &rarr; 재돌파<br>2000: 8월 반등 고점 &rarr; <b style="color:#f0f6fc;">H&amp;S</b></td>
-          <td>진행 중 &mdash; <b style="color:#f0f6fc;">쌍바닥이냐 H&amp;S냐</b>가 관측 대상</td></tr>
-      <tr><td>최종 낙폭</td><td class="diff">-81.3% (2008-10-27, 선박금융 붕괴)</td><td class="same">1997: 없음(재돌파)<br><span class="diff">2000: -86.5%</span></td><td>미정</td></tr>
-      <tr class="hl"><td><b style="color:#f0f6fc;">2차 정점</b></td><td><b style="color:#f0f6fc;">2011-04-11</b> 고가 기준 <b style="color:#f0f6fc;">+0.7%</b> 돌파<br>이익 정점(1Q11 9,918억) 직후</td>
-          <td>1997 조정 후 <b style="color:#f0f6fc;">9.7배</b><br>2000 이후 재돌파 없음</td>
-          <td>이익 절대 정점 <b style="color:#f0f6fc;">2028E</b> 컨센 &rarr; 2차 정점 여지 존재</td></tr>
-      <tr><td>2차 스토리</td><td><b style="color:#f0f6fc;">해양플랜트</b> (유가 $100+)</td><td><b style="color:#f0f6fc;">캐리어 진입 → 옵티컬</b><br>Cerent+Monterey $74억(1999)</td>
-          <td class="diff"><b style="color:#f0f6fc;">아직 없음</b> &mdash; LTA가 그 자리를 대신</td></tr>
-      <tr class="bad"><td>붕괴 원인</td><td>유가 하락 &rarr; 2014 <b style="color:#f0f6fc;">-1.92조</b> 빅배스</td><td>CLEC 파산 &rarr; 재고 $22.5억 + 채권 $22.5억 상각</td>
-          <td>미발생 &mdash; 등가물은 <b style="color:#f0f6fc;">엔비디아 순환구조</b></td></tr>
+    <h2>③ 4사 분기 실적 — 같은 규격으로</h2>
+
+    <h3>SK하이닉스 <span style="font-size:11px;color:#6e7681;font-weight:400;">실측 2Q26까지 · 이후 DB증권 추정 (2027 분기를 낸 유일한 곳)</span></h3>
+    <table class="num">
+      <tr><th style="width:76px;">분기</th><th>매출(조)</th><th>매출 YoY</th><th>영익(조)</th><th>영익 YoY</th><th>OPM</th><th>OPM YoY</th><th style="width:76px;">간격</th><th style="width:120px;"></th></tr>
+      <tr><td>1Q25</td><td>17.6</td><td>+41.9%</td><td>7.4</td><td>+157.8%</td><td>42.2%</td><td>+19.0p</td><td>+115.9p</td><td></td></tr>
+      <tr><td>3Q25</td><td>24.4</td><td>+39.1%</td><td>11.4</td><td>+61.9%</td><td>46.6%</td><td>+6.6p</td><td>+22.8p</td><td></td></tr>
+      <tr><td>4Q25</td><td>32.8</td><td>+66.1%</td><td>19.2</td><td>+137.2%</td><td>58.4%</td><td>+17.5p</td><td>+71.1p</td><td>레거시 숏티지</td></tr>
+      <tr><td>1Q26</td><td>52.6</td><td>+198.1%</td><td>37.6</td><td>+405.4%</td><td>71.5%</td><td>+29.3p</td><td><b style="color:#f0f6fc;">+207.3p</b></td><td></td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">2Q26</b></td><td>79.3</td><td>+256.8%</td><td>60.5</td><td>+557.1%</td><td><b style="color:#f0f6fc;">76.3%</b></td><td><b style="color:#f0f6fc;">+34.9p</b></td><td>+300.3p</td><td class="diff">주가 1차 정점</td></tr>
+      <tr><td>3Q26E</td><td>99.7</td><td><b style="color:#f0f6fc;">+307.6%</b></td><td>78.6</td><td><b style="color:#f0f6fc;">+590.9%</b></td><td>78.9%</td><td>+32.4p</td><td>+283.3p</td><td>YoY 정점</td></tr>
+      <tr><td>4Q26E</td><td>112.9</td><td>+244.0%</td><td>89.7</td><td>+367.9%</td><td>79.4%</td><td>+21.0p</td><td>+123.9p</td><td></td></tr>
+      <tr><td>1Q27E</td><td>116.3</td><td>+121.3%</td><td>92.7</td><td>+146.5%</td><td>79.7%</td><td>+8.2p</td><td>+25.2p</td><td></td></tr>
+      <tr><td>2Q27E</td><td>127.6</td><td>+60.9%</td><td>103.2</td><td>+70.4%</td><td>80.9%</td><td>+4.5p</td><td>+9.5p</td><td></td></tr>
+      <tr><td>3Q27E</td><td>137.5</td><td>+37.9%</td><td>111.4</td><td>+41.7%</td><td>81.0%</td><td>+2.1p</td><td>+3.8p</td><td>유형 전환</td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">4Q27E</b></td><td>141.7</td><td>+25.5%</td><td>114.3</td><td>+27.4%</td><td>80.7%</td><td>+1.2p</td><td><b style="color:#f0f6fc;">+1.9p</b></td><td class="same">이익 정점 (QoQ +2.6%)</td></tr>
     </table>
-    <div class="factor"><b>핵심 대조 — 같은 "모멘텀 둔화 조정"인데 결과가 9.7배 vs +0.7%</b>
-      <span>시스코 1997은 107일 만에 신고가를 뚫고 3년을 더 올라 <b style="color:#f0f6fc;">9.7배</b>가 됐고, 현중 2007은 2.5년 뒤 겨우 <b style="color:#f0f6fc;">+0.7%</b>를 돌파했다.<br>
-      갈린 이유는 <b style="color:#f0f6fc;">유형</b>이다 &mdash; 현중은 마진 확장형이라 OPM 개선폭 정점이 곧 사이클 정점이었고, 시스코는 매출 성장형이라 매출 성장률이 살아있는 한 계속 갔다.
-      <b style="color:#f0f6fc;">하이닉스는 마진 확장형이므로 현중 쪽</b>이다.</span></div>
-    <div class="factor ok"><b>다만 시스코 1997이 알려주는 것 — 재돌파를 만든 건 YoY가 아니라 이익 절대액이었다</b>
-      <span>1997년 조정을 뚫고 나온 시점(1997-07-09)에도 시스코의 <b style="color:#f0f6fc;">영익 YoY는 계속 둔화 중</b>이었다 &mdash; +74.9 &rarr; +65.2 &rarr; +43.0 &rarr; +36.1%.
-      반면 <b style="color:#f0f6fc;">조정 영업이익 절대액은 한 번도 줄지 않았다</b> &mdash; 488 &rarr; 532 &rarr; 539 &rarr; 577 &rarr; 602 &rarr; 660 &rarr; 691 &rarr; 744.<br>
-      &rarr; 하이닉스의 영익 YoY가 27년 중 0으로 수렴하는 것은 <b style="color:#f0f6fc;">재돌파의 반증이 아니다</b>. 판별자는
-      <b style="color:#f0f6fc;">이익 절대액이 2028E까지 증가한다는 컨센이 지켜지는가</b>이다.</span></div>
+
+    <h3>엔비디아 <span style="font-size:11px;color:#6e7681;font-weight:400;">SEC EDGAR 전량 실측 · FY는 1월말 종료 · FY27 Q2 이후 컨센 미보유</span></h3>
+    <table class="num">
+      <tr><th style="width:76px;">분기</th><th>매출($M)</th><th>매출 YoY</th><th>영익($M)</th><th>영익 YoY</th><th>OPM</th><th>OPM YoY</th><th style="width:76px;">간격</th><th style="width:120px;"></th></tr>
+      <tr><td>FY25Q1</td><td>26,044</td><td>+262.1%</td><td>16,909</td><td>+690.1%</td><td><b style="color:#f0f6fc;">64.9%</b></td><td>+35.2p</td><td>+428.0p</td><td>마진 확장 완료</td></tr>
+      <tr><td>FY25Q4</td><td>39,331</td><td>+77.9%</td><td>24,034</td><td>+76.5%</td><td>61.1%</td><td class="diff">-0.5p</td><td>-1.4p</td><td></td></tr>
+      <tr class="hl"><td>FY26Q1</td><td>44,062</td><td><b style="color:#f0f6fc;">+69.2%</b></td><td>21,638</td><td><b style="color:#f0f6fc;">+28.0%</b></td><td>49.1%</td><td class="diff">-15.8p</td><td>-41.2p</td><td class="same">둔화 바닥 (H20 상각)</td></tr>
+      <tr><td>FY26Q2</td><td>46,743</td><td>+55.6%</td><td>28,440</td><td>+52.6%</td><td>60.8%</td><td>-1.2p</td><td>-3.0p</td><td></td></tr>
+      <tr><td>FY26Q3</td><td>57,006</td><td>+62.5%</td><td>36,010</td><td>+64.7%</td><td>63.2%</td><td>+0.8p</td><td>+2.2p</td><td>재가속</td></tr>
+      <tr><td>FY26Q4</td><td>68,127</td><td>+73.2%</td><td>44,299</td><td>+84.3%</td><td>65.0%</td><td>+3.9p</td><td>+11.1p</td><td></td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">FY27Q1</b></td><td>81,615</td><td><b style="color:#f0f6fc;">+85.2%</b></td><td>53,536</td><td><b style="color:#f0f6fc;">+147.4%</b></td><td>65.6%</td><td>+16.5p</td><td>+62.2p</td><td class="diff">주가 정점 26-05-14</td></tr>
+    </table>
+
+    <h3>시스코 <span style="font-size:11px;color:#6e7681;font-weight:400;">SEC EDGAR 전량 실측 · FY는 7월말 종료 · 조정 영익($M)</span></h3>
+    <table class="num">
+      <tr><th style="width:76px;">분기</th><th>매출</th><th>매출 YoY</th><th>조정영익</th><th>영익 YoY</th><th>OPM</th><th>OPM YoY</th><th style="width:76px;">간격</th><th style="width:120px;"></th></tr>
+      <tr><td>FY95Q1</td><td>434</td><td>—</td><td>159</td><td>—</td><td><b style="color:#f0f6fc;">36.6%</b></td><td>—</td><td>—</td><td>OPM 최고점</td></tr>
+      <tr><td>FY96Q3</td><td>1,087</td><td>+86.8%</td><td>377</td><td><b style="color:#f0f6fc;">+82.1%</b></td><td>34.7%</td><td>-0.9p</td><td>-4.6p</td><td>영익 YoY 정점</td></tr>
+      <tr><td>FY97Q1</td><td>1,435</td><td>+79.8%</td><td>488</td><td>+74.9%</td><td>34.0%</td><td>-1.0p</td><td>-4.9p</td><td class="diff">-40% 조정 시작</td></tr>
+      <tr class="hl"><td>FY98Q1</td><td>1,869</td><td>+30.2%</td><td>602</td><td><b style="color:#f0f6fc;">+23.4%</b></td><td>32.2%</td><td>-1.8p</td><td>-6.9p</td><td class="same">둔화 바닥</td></tr>
+      <tr><td>FY99Q1</td><td>2,597</td><td>+39.0%</td><td>768</td><td>+27.6%</td><td>29.6%</td><td>-2.6p</td><td>-11.4p</td><td>98-10-08 저점 분기</td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">FY00Q3</b></td><td>4,933</td><td>+55.9%</td><td>1,201</td><td><b style="color:#f0f6fc;">+36.5%</b></td><td>24.3%</td><td>-3.5p</td><td class="diff"><b style="color:#f0f6fc;">-19.4p</b></td><td class="diff">주가 정점 00-03-27</td></tr>
+      <tr><td>FY01Q1</td><td>6,519</td><td>+66.4%</td><td><b style="color:#f0f6fc;">1,411</b></td><td>+36.3%</td><td>21.6%</td><td>-4.8p</td><td>-30.1p</td><td>영익 절대 정점</td></tr>
+      <tr><td>FY01Q2</td><td><b style="color:#f0f6fc;">6,748</b></td><td>+54.9%</td><td>1,269</td><td>+16.5%</td><td>18.8%</td><td>-6.2p</td><td class="diff">-38.3p</td><td>매출 절대 정점</td></tr>
+      <tr class="bad"><td>FY01Q3</td><td>4,728</td><td class="diff"><b style="color:#f0f6fc;">-4.2%</b></td><td class="diff">-273</td><td class="diff">-122.7%</td><td class="diff">-5.8%</td><td>-30.1p</td><td>—</td><td class="diff">붕괴</td></tr>
+    </table>
+
+    <h3>현대중공업 <span style="font-size:11px;color:#6e7681;font-weight:400;">DART 사업보고서 실측 · 별도 · 십억원 · 분기 매출 미보유로 연간</span></h3>
+    <table class="num">
+      <tr><th style="width:76px;">연도</th><th>매출</th><th>매출 YoY</th><th>영업이익</th><th>영익 YoY</th><th>OPM</th><th>OPM YoY</th><th>선수금</th><th style="width:150px;"></th></tr>
+      <tr><td>2003</td><td>8,154</td><td>+0.2%</td><td>274</td><td>-37.8%</td><td>3.4%</td><td>-2.0p</td><td>4,069</td><td>사이클 저점</td></tr>
+      <tr><td>2004</td><td>9,084</td><td>+11.4%</td><td class="diff">-98</td><td class="diff">적자</td><td>-1.1%</td><td>-4.5p</td><td>5,041</td><td>후판가·저가수주</td></tr>
+      <tr><td>2006</td><td>12,555</td><td>+21.2%</td><td>879</td><td>+868.0%</td><td>7.0%</td><td>+6.1p</td><td>6,263</td><td></td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">2007</b></td><td>15,533</td><td>+23.7%</td><td>1,751</td><td>+99.2%</td><td><b style="color:#f0f6fc;">11.3%</b></td><td><b style="color:#f0f6fc;">+4.3p</b></td><td>8,013</td><td class="diff">OPM 정점 → 주가 1차 고점</td></tr>
+      <tr><td>2008</td><td>19,957</td><td>+28.5%</td><td>2,206</td><td>+26.0%</td><td>11.1%</td><td>-0.2p</td><td><b style="color:#f0f6fc;">10,177</b></td><td class="diff">리먼 · <b style="color:#f0f6fc;">선수금 정점</b></td></tr>
+      <tr><td>2009</td><td>21,142</td><td>+5.9%</td><td>2,223</td><td>+0.7%</td><td>10.5%</td><td>-0.6p</td><td>8,584</td><td></td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">2010</b></td><td>22,408</td><td><b style="color:#f0f6fc;">+6.0%</b></td><td><b style="color:#f0f6fc;">3,632</b></td><td>+63.4%</td><td><b style="color:#f0f6fc;">16.2%</b></td><td><b style="color:#f0f6fc;">+5.7p</b></td><td>6,894</td><td class="same">영익 절대 정점 — 해양플랜트</td></tr>
+      <tr><td>2011</td><td>25,020</td><td>+11.7%</td><td>2,628</td><td>-27.6%</td><td>10.5%</td><td>-5.7p</td><td>6,939</td><td class="same">주가 2차 정점 11-04-11</td></tr>
+      <tr><td>2012</td><td>25,055</td><td>+0.1%</td><td>1,285</td><td>-51.1%</td><td>5.1%</td><td>-5.4p</td><td>5,111</td><td></td></tr>
+      <tr class="bad"><td>2014</td><td>23,464</td><td>-3.4%</td><td class="diff">-1,923</td><td class="diff">적자</td><td class="diff">-8.2%</td><td>-11.2p</td><td>6,014</td><td class="diff">빅배스</td></tr>
+    </table>
+
+    <div class="factor" style="margin-top:12px;"><b>★★ 2차 정점은 매출이 아니라 '믹스'가 만든다 — 그런데 컨센에는 그게 없다</b>
+      <span>현중 <b style="color:#f0f6fc;">2010년</b>: 매출 <b style="color:#f0f6fc;">+6.0%</b>인데 영업이익 <b style="color:#f0f6fc;">+63.4%</b>, OPM 10.5% → <b style="color:#f0f6fc;">16.2%(+5.7%p)</b>.
+      매출은 거의 안 늘었는데 <b style="color:#f0f6fc;">해양플랜트라는 고마진 믹스</b>가 이익을 만들었다 — 퀄컴 FY99~FY00의 믹스 전환(매출 감소·OPM 급등)과 같은 구조다.<br>
+      1차 고점(2007: 매출 +23.7% / 영익 +99.2%)과 성격이 정반대다. <b style="color:#f0f6fc;">1차는 매출·마진 동반, 2차는 매출 정체 + 마진 급등.</b><br>
+      &rarr; 그런데 하이닉스 컨센(4Q27E)은 매출 +25.5% / 영익 +27.4%, 간격 <b style="color:#f0f6fc;">+1.9%p</b> &mdash; <b style="color:#f0f6fc;">2차 정점을 만들 마진 이벤트가 컨센에 들어 있지 않다</b>.
+      커스텀 HBM·HBM4E 같은 믹스 개선이 붙어야 현중 2010년형이 재현된다. <b style="color:#f0f6fc;">'2차 스토리'가 여기서 정량적으로 필요해진다.</b></span></div>
+
+    <div class="factor warn"><b>★ 시스코는 매출이 먼저 무너졌다 — 하이닉스에서 같은 일이 벌어지려면 LTA가 깨져야 한다</b>
+      <span>시스코 매출 YoY가 FY01Q2 <b style="color:#f0f6fc;">+54.9%</b>에서 FY01Q3 <b style="color:#f0f6fc;">-4.2%</b>로 한 분기에 <b style="color:#f0f6fc;">59%p 급락</b>했다. CLEC 발주가 증발한 것이다.<br>
+      계약 물량이 고정돼 있으면 매출이 한 분기에 -30% 빠질 수 없다 &mdash; 이것이 <b style="color:#f0f6fc;">"LTA = 수주잔고 등가물"</b> 논리의 실전 의미다.
+      거꾸로 <b style="color:#f0f6fc;">하이닉스 매출 YoY가 컨센(4Q27E +25.5%)보다 빠르게 꺾이는 것</b>이 관측 신호다.</span></div>
+
+    <div class="factor"><b>★ 선수금이 이익 정점을 2년 미리 알렸다</b>
+      <span>현중 <b style="color:#f0f6fc;">선수금 정점은 2008년(10,177)</b>인데 이익 정점은 <b style="color:#f0f6fc;">2010년</b>이다 &mdash; <b style="color:#f0f6fc;">2년 선행</b>했다.
+      2009년부터 선수금이 8,584 → 6,894로 줄기 시작했고, 그것이 2011년 이후 이익 붕괴의 예고였다.<br>
+      &rarr; 하이닉스의 등가물은 <b style="color:#f0f6fc;">LTA 선수금(계약부채)</b>이다. 3Q26 실적에서 계약부채가 잡히기 시작하면 그 <b style="color:#f0f6fc;">증감 방향</b>이 2~3년 뒤 이익을 미리 알려준다.
+      LTA 검증 지점이자 <b style="color:#f0f6fc;">선행지표</b>로 이중 역할을 한다.</span></div>
   </div>
 
-  <!-- D. 시나리오 -->
+  <!-- ④ 2차 정점 시간표 -->
   <div class="card">
-    <h2>④ 시나리오</h2>
+    <h2>④ 2차 정점 시간표</h2>
+    <table>
+      <tr><th style="width:130px;">단계</th><th style="width:32%;" class="same">현대중공업 (실현)</th><th style="width:30%;">시스코 (미실현)</th><th class="diff">SK하이닉스 (추정)</th></tr>
+      <tr><td>1차 고점</td><td>2007-11-07</td><td>2000-03-27</td><td><b style="color:#f0f6fc;">2026-06-22</b></td></tr>
+      <tr><td>이익 절대 정점</td><td>1Q11 9,918억<br><span style="color:#8b949e;">(연간 2010 3.63조)</span></td><td>FY01 Q1 $1,411M<br><span style="color:#8b949e;">(주가 정점 +5~7개월)</span></td><td><b style="color:#f0f6fc;">4Q27E</b> 114.3조<br><span style="color:#8b949e;">QoQ +2.6%로 평평</span></td></tr>
+      <tr><td>공시·확인 시점</td><td>2011-03-31</td><td>2000-11 (FY01Q1 발표)</td><td><b style="color:#f0f6fc;">2028년 1~2월</b></td></tr>
+      <tr class="hl"><td><b style="color:#f0f6fc;">2차 주가 정점</b></td><td><b style="color:#f0f6fc;">2011-04-11</b><br>공시 <b style="color:#f0f6fc;">11일 뒤</b> · 전고점 고가 +0.7%</td><td class="diff"><b style="color:#f0f6fc;">없음</b><br>이익 정점과 7개월 괴리 후 붕괴</td><td><b style="color:#f0f6fc;">2028년 상반기</b> (추정)</td></tr>
+      <tr><td>1차 → 2차 간격</td><td><b style="color:#f0f6fc;">41개월</b></td><td>—</td><td><b style="color:#f0f6fc;">약 20개월</b></td></tr>
+    </table>
+    <div class="tl" style="margin-top:14px;">
+      <div class="t">2026-08-28</div><div class="c"><b style="color:#f0f6fc;">되돌림 1차 판별</b> — 임계 0.70 (≈246만원) 도달 여부. 저점 +30일</div>
+      <div class="t">2026-09-27</div><div class="c">되돌림 2차 판별 — 저점 +60일. 실패 사례는 90일에도 0.44~0.63</div>
+      <div class="t">2026-10</div><div class="c"><b style="color:#f0f6fc;">3Q26 실적</b> — LTA <b style="color:#f0f6fc;">계약부채 인식액</b> 첫 관측. 컨센 대비 ASP 상승률(BofA 30~50% vs TrendForce 13~18%) 판정</div>
+      <div class="t">2026-11-13</div><div class="c"><b style="color:#f0f6fc;">재돌파 데드라인</b> — 시스코 1997 기준 107일. 전고점 2,987,000원</div>
+      <div class="t">2027-01</div><div class="c">4Q26 실적 — <b style="color:#f0f6fc;">키움 뷰(QoQ -10%) 검증</b>. 2027E 컨센 재편의 트리거</div>
+      <div class="t">2027-03</div><div class="c">사업보고서 — 주석의 <b style="color:#f0f6fc;">수행의무 잔액</b> (조선 수주잔고에 대응)</div>
+      <div class="t">2027 하반기</div><div class="c"><b style="color:#f0f6fc;">유형 전환</b> — 간격 0 수렴. 판별자를 매출 성장률로 교체</div>
+      <div class="t">2028년 1~2월</div><div class="c"><b style="color:#f0f6fc;">4Q27 실적 = 이익 절대 정점 확인</b>. 현중은 이 시점 +11일에 2차 정점</div>
+      <div class="t">2028 상반기</div><div class="c"><b style="color:#f0f6fc;">2차 주가 정점 후보 구간</b></div>
+    </div>
+    <div class="factor" style="margin-top:12px;"><b>주의 — 20개월은 현중(41개월)의 절반이다</b>
+      <span>하이닉스 사이클은 전 구간이 빠르다. 1차 고점까지의 상승도, 낙폭 속도(37일 -58.3%, 현중 84일 -49.4%)도, 이익 정점까지의 거리도 짧다.
+      <b style="color:#f0f6fc;">그만큼 판별 창도 좁다</b> &mdash; 되돌림 판별에 주어진 시간이 한 달뿐인 이유다.</span></div>
+  </div>
+
+  <!-- ⑤ 시나리오 -->
+  <div class="card">
+    <h2>⑤ 시나리오</h2>
     <table>
       <tr><th style="width:110px;">구분</th><th style="width:42%;" class="same">Base — 2차 구간 진입</th><th class="diff">Risk — 사이클 종료</th></tr>
-      <tr><td>전제</td>
-          <td>마진 확장형 = 현중 경로. 1차 고점(26-06-22) 확정, <b style="color:#f0f6fc;">이익 절대 정점은 2028E</b>로 아직 미도래</td>
-          <td>OPM 개선폭 정점이 곧 이익 정점. 2027~28 컨센이 하향되며 <b style="color:#f0f6fc;">이익 절대액도 조기 피크</b></td></tr>
+      <tr><td>전제</td><td>마진 확장형 = 현중 경로. 1차 고점 확정, 이익 절대 정점은 <b style="color:#f0f6fc;">4Q27E</b></td>
+          <td>OPM 개선폭 정점이 곧 이익 정점. 2027~28 컨센 하향 → 이익 조기 피크</td></tr>
       <tr class="hl"><td><b style="color:#f0f6fc;">진입 트리거</b></td>
-          <td class="same"><b style="color:#f0f6fc;">2026-08-28까지 되돌림 0.70(≈246만원) 도달</b><br>+ 쌍바닥 형성</td>
-          <td class="diff">1개월 내 0.70 미달 &rarr; 3개월(09-27)에도 0.6대<br>+ <b style="color:#f0f6fc;">H&amp;S 완성</b></td></tr>
-      <tr><td>경로</td>
-          <td>재돌파(데드라인 <b style="color:#f0f6fc;">2026-11-13</b>, 시스코 1997 기준 107일) &rarr; 이익 정점까지 2차 상승</td>
-          <td>추가 하락 &mdash; 현중 -81% / 시스코 -86.5% 경로. 저점 후 <b style="color:#f0f6fc;">1~2.5년 횡보</b></td></tr>
-      <tr><td>2차 정점 폭</td>
-          <td>현중형이면 전고점 <b style="color:#f0f6fc;">+0~5% 수준</b>의 얕은 돌파.<br><span style="color:#8b949e;">시스코형(9.7배)은 매출 성장형에만 해당 &mdash; 하이닉스엔 부적용</span></td>
+          <td class="same"><b style="color:#f0f6fc;">2026-08-28까지 되돌림 0.70 (≈246만원)</b> + 쌍바닥</td>
+          <td class="diff">1개월 내 미달 → 3개월에도 0.6대 + <b style="color:#f0f6fc;">H&amp;S 완성</b></td></tr>
+      <tr><td>경로</td><td>재돌파(데드라인 2026-11-13) → <b style="color:#f0f6fc;">2028 상반기</b> 2차 정점</td>
+          <td>현중 -81% / 시스코 -86.5% 경로. 저점 후 1~2.5년 횡보</td></tr>
+      <tr><td>2차 정점 폭</td><td>현중형이면 전고점 <b style="color:#f0f6fc;">+0~5%</b>의 얕은 돌파<br><span style="color:#8b949e;">시스코형(9.7배)은 마진 희석형 전용 — 부적용</span></td>
           <td>돌파 없음</td></tr>
-      <tr><td>2차 스토리</td>
-          <td>커스텀 HBM · CXL/PIM · 온디바이스 AI 중 하나가 붙으면 폭 확대<br><b style="color:#f0f6fc;">단 고객이 CSP(현금)일 것</b></td>
-          <td class="diff">네오클라우드(부채)가 주 고객이 되면 <b style="color:#f0f6fc;">CLEC 구조 재현</b></td></tr>
-      <tr><td>무효화 조건</td>
-          <td>2026-07-29 저점 이탈 시 시계 리셋</td>
-          <td>NVDA CDS 100bp 초과 / 네오클라우드 디폴트 / DRAM 계약가 QoQ 마이너스</td></tr>
+      <tr><td>무효화</td><td>2026-07-29 저점 이탈 시 시계 리셋</td>
+          <td class="diff">CDS 100bp / 네오클라우드 디폴트 / 매출 YoY 급락</td></tr>
     </table>
-    <div class="factor"><b>Base가 요구하는 것 — 한 달 안에 +43%</b>
-      <span>현재가에서 되돌림 0.70까지는 <b style="color:#f0f6fc;">+43.5%</b>다. 빡빡해 보이지만 <b style="color:#f0f6fc;">시스코 1998년은 41일 만에 -41%에서 전고점을 뚫었다</b> &mdash; 불가능한 속도가 아니다.
-      반대로 이 속도가 안 나오면, 실패 2사례가 그랬듯 <b style="color:#f0f6fc;">시간을 더 줘도 안 된다</b>. 90일을 줘도 0.44~0.63에서 멈췄다.</span></div>
-    <div class="factor"><b>중간 지대 — 2차 스토리가 없으면 횡보</b>
-      <span>하이닉스에는 아직 <b style="color:#f0f6fc;">해양플랜트/옵티컬에 해당하는 새 스토리가 없다</b>. 이익 확장의 연료가 P 하나뿐이다.<br>
-      &rarr; 양날: (a) 새 스토리가 없다는 건 <b style="color:#f0f6fc;">붕괴의 씨앗도 아직 심기지 않았다</b>는 뜻이다(현중·시스코는 신시장 진입이 곧 붕괴 경로였다).
-      (b) 동시에 <b style="color:#f0f6fc;">P가 꺾이면 대체할 축이 없다</b>.<br>
-      &rarr; 그래서 Base와 Risk 사이에 <b style="color:#f0f6fc;">"스토리가 나오기 전까지 넓은 박스 횡보"</b>라는 제3의 경로가 현실적으로 가장 두껍다.</span></div>
+    <div class="factor warn"><b>★ Base의 근거가 컨센 기준으로는 약하다 — 2028E 분포를 봐야 한다</b>
+      <span>우리는 "2028E &gt; 2027E이므로 이익 정점 미도래"를 Base의 축으로 썼는데, <b style="color:#f0f6fc;">전체 컨센은 다르다</b>.<br>
+      <b style="color:#f0f6fc;">삼성전자 28F 영업이익</b> &mdash; 에프엔가이드 컨센 <b style="color:#f0f6fc;">556.3조(+1.3%, 사실상 피크아웃)</b> / 우리 4사 중앙값 636.1조(+10.4%) / 노무라 <b style="color:#f0f6fc;">774조(+22%)</b>.
+      2028E를 제시한 4사가 강세론 편향이었다(하나·KB는 숫자를 내지 않음).<br>
+      <b style="color:#f0f6fc;">하이닉스 2028E</b> &mdash; 4사 중앙값 433.5조 / SK증권 491.9조(+15.7%). 다만 SK증권도 <b style="color:#f0f6fc;">2028 OPM은 79.4% → 76.6%로 꺾인다</b>고 본다.<br>
+      &rarr; 표현을 <b style="color:#f0f6fc;">"이익 절대 정점 미도래"에서 "2027~28년에 도달"로</b> 정정한다. 2차 정점 시점도 그만큼 앞당겨진다.<br>
+      &rarr; 노무라 가정의 취약점: NAND OPM <b style="color:#f0f6fc;">80%대를 3년 유지</b>(2018 피크 45%의 두 배), 28F 매출 +6.8%인데 영익 +22% &mdash; <b style="color:#f0f6fc;">Q가 아니라 P로 이익을 만든다</b>는 가정이다.</span></div>
+    <div class="factor"><b>제3의 경로 — 스토리 없는 넓은 박스 횡보 (현실적으로 가장 두껍다)</b>
+      <span>하이닉스에는 아직 해양플랜트·옵티컬에 해당하는 새 스토리가 없고, 컨센에도 <b style="color:#f0f6fc;">2차 정점을 만들 마진 이벤트가 없다</b>.
+      이익 확장의 연료가 P 하나뿐이다.<br>
+      <b style="color:#f0f6fc;">Base가 요구하는 것은 한 달 안에 +43.5%</b> &mdash; 빡빡하지만 시스코 1998년은 41일 만에 -41%에서 전고점을 뚫었다.</span></div>
+    <div class="factor ok"><b>새 축 — 주주환원이 밸류에이션 하방을 만든다 (과거 3사에 없던 요소)</b>
+      <span><b style="color:#f0f6fc;">SK하이닉스</b>: 연내 배당·자사주 매입 소각 소통 예고. 순현금 100조 달성 시점 앞당겨짐. 주주환원 정책 마지막 해가 2027년.
+      SK증권: <b style="color:#f0f6fc;">"메모리 재평가의 핵심은 ADR이 아닌 주주환원"</b>. PER 2026E 4.7배 / 2027E 3.9배 / 2028E 3.3배.<br>
+      <b style="color:#f0f6fc;">삼성전자(노무라)</b>: 환원수익률 26F 11.2% → 28F <b style="color:#f0f6fc;">22.3%</b>. "이때부터는 실적보다 주주환원이 리레이팅 근거".<br>
+      &rarr; 현중·퀄컴에는 없던 축이다. <b style="color:#f0f6fc;">단 시스코 반례를 검증해야 한다</b> &mdash; 시스코는 2001~2002년 대규모 자사주를 매입했으나 주가 하락을 막지 못했다.
+      주주환원이 하방을 만드는 조건이 <b style="color:#f0f6fc;">'이익이 유지될 때'</b>인지가 관건이다.</span></div>
   </div>
 
-  <!-- E. 체크리스트 -->
+  <!-- ⑥ 체크리스트 -->
   <div class="card">
-    <h2>⑤ 관측 체크리스트 — 결과 판별자 2 + 원인 지표 7</h2>
-    <h3>결과 판별자 (즉시 관측 가능, 판별력 최상)</h3>
+    <h2>⑥ 관측 체크리스트</h2>
+    <h3>결과 판별자 — 즉시 관측 가능, 판별력 최상</h3>
     <table>
-      <tr><th style="width:34px;">#</th><th style="width:190px;">지표</th><th style="width:150px;">임계</th><th>비고</th></tr>
-      <tr class="hl"><td>0-1</td><td><b style="color:#f0f6fc;">저점 후 되돌림</b></td><td class="same"><b style="color:#f0f6fc;">1개월 내 0.70</b><br>(MDD -10%)</td>
-          <td>실측 5사례에서 성공 0.79~0.94 vs 실패 0.44~0.63 &mdash; <b style="color:#f0f6fc;">겹침 없음</b></td></tr>
-      <tr class="hl"><td>0-2</td><td><b style="color:#f0f6fc;">이익 절대액 컨센 방향</b></td><td class="same">하이닉스 2028E <b style="color:#f0f6fc;">433.5조</b><br>삼성 636.1조 유지</td>
-          <td>시스코 1997 재돌파를 만든 것이 이것. YoY가 아니다</td></tr>
-      <tr><td>0-3</td><td>차트 패턴</td><td>쌍바닥 vs H&amp;S</td><td>시스코 1997=쌍바닥(성공) / 현중 2008·시스코 2000=H&amp;S(실패)</td></tr>
+      <tr><th style="width:34px;">#</th><th style="width:180px;">지표</th><th style="width:180px;">임계 / 현재</th><th>비고</th></tr>
+      <tr class="hl"><td>0-1</td><td><b style="color:#f0f6fc;">저점 후 되돌림</b></td><td><b style="color:#f0f6fc;">1개월 내 0.70</b> (MDD -10%)</td>
+          <td>실측 5사례 성공 0.79~0.94 vs 실패 0.44~0.63 — <b style="color:#f0f6fc;">겹침 없음</b></td></tr>
+      <tr class="hl"><td>0-2</td><td><b style="color:#f0f6fc;">분기 영업이익 QoQ</b></td><td><b style="color:#f0f6fc;">0에 수렴</b> (5% 이내)<br>현재 4Q26E +19.0% → 4Q27E +2.6%</td>
+          <td>2차 고점 = 이익 절대 정점. <b style="color:#f0f6fc;">DRAM ASP QoQ가 아니다</b> (아래 정정 참조)</td></tr>
+      <tr><td>0-3</td><td>매출 YoY 급락</td><td>컨센 4Q27E +25.5%보다 빠른 감속</td><td>시스코는 한 분기에 59%p 급락했다 — LTA가 이걸 막는다</td></tr>
+      <tr><td>0-4</td><td>간격 (영익YoY − 매출YoY)</td><td>0 수렴 = 유형 전환</td><td>4Q27E +1.9%p. 이후 판별자를 매출 성장률로 교체</td></tr>
+      <tr><td>0-5</td><td>차트 패턴</td><td>쌍바닥 vs H&amp;S</td><td>시스코 1997=쌍바닥(성공) / 현중·시스코 2000=H&amp;S(실패)</td></tr>
     </table>
+    <div class="factor warn" style="margin-top:8px;"><b>★ 정정 — "DRAM ASP QoQ 한 자릿수"를 임계로 쓰려 했던 것은 프레임 위반이다</b>
+      <span>P 모멘텀은 <b style="color:#f0f6fc;">1차 고점의 판별자</b>이고 그것은 2026-06에 이미 썼다. 지금은 <b style="color:#f0f6fc;">2차 고점 국면</b>이고, 그 판별자는 이익 절대액이다.<br>
+      현중이 실증한다 &mdash; 신조선가는 2008-08 정점 후 <b style="color:#f0f6fc;">-34% 하락</b>하는 동안에도 이익은 1Q11까지 늘어 2차 정점이 나왔다.<br>
+      실제 모델도 그렇다 &mdash; DRAM ASP QoQ가 4Q26E에 <b style="color:#f0f6fc;">+8.8%로 한 자릿수</b>가 되지만 영업이익은 <b style="color:#f0f6fc;">+19.0%</b> 늘어난다(출하 +9.2%가 받쳐줌).<br>
+      &rarr; DRAM ASP QoQ는 판별자가 아니라 <b style="color:#f0f6fc;">이익 정점 시점을 앞당기거나 늦추는 입력값</b>이다.</span></div>
 
-    <h3>원인 지표 (BT 정리 + 보완)</h3>
+    <h3>원인 지표</h3>
     <table>
-      <tr><th style="width:34px;">#</th><th style="width:190px;">지표</th><th style="width:150px;">임계 / 현재</th><th>왜 보나</th></tr>
-      <tr class="hl"><td>1</td><td><b style="color:#f0f6fc;">엔비디아 CDS</b></td><td class="diff">현재 <b style="color:#f0f6fc;">82bp</b>(7/27 사상 최고)<br>다음 문턱 100bp</td>
-          <td>순환구조 = 닷컴 벤더파이낸싱 · 2008 선박금융의 등가물. <b style="color:#f0f6fc;">최우선</b></td></tr>
-      <tr><td>2</td><td>네오클라우드 신용<br><span style="font-weight:400;color:#6e7681;">코어위브·람다·크루소</span></td><td>코어위브 2031채 <b style="color:#f0f6fc;">11.5%</b><br>부채 $290억/자본 $39억</td>
-          <td>엔비디아가 파이낸싱을 제공 &rarr; <b style="color:#f0f6fc;">파생적으로 NVDA CDS로 전이</b><br><span style="color:#8b949e;">※ 오라클은 네오클라우드가 아니라 부채로 capex하는 하이퍼스케일러(IG 등급) &mdash; 별도 층위</span></td></tr>
-      <tr><td>3</td><td>빅테크 AI ROI</td><td>서버 수명 5~6년 · 투자비 3년 내 회수<br><span style="color:#8b949e;">(가이던스 원문 확인 필요)</span></td>
-          <td>클라우드 성장률·마진·capex의 지속 가능성. <b style="color:#f0f6fc;">수요 층위의 뿌리</b></td></tr>
-      <tr class="hl"><td>4</td><td><b style="color:#f0f6fc;">DRAM 계약가 QoQ</b></td><td class="same">3Q26 진행 중 <b style="color:#f0f6fc;">이미 +19.3%</b><br>마이너스 전환 시 경보</td>
-          <td>YoY는 기저가 만든 예정값이라 판별력 없음. <b style="color:#f0f6fc;">QoQ가 실질 판별자</b></td></tr>
-      <tr><td>5</td><td>LTA 구속력·계약 구조</td><td>BofA: 하락 시 분기 <b style="color:#f0f6fc;">-5% 제한</b>, 상방은 시장가 반영</td>
-          <td>이익 하한의 실체. <b style="color:#f0f6fc;">3Q26 계약부채 인식액</b>이 첫 검증 지점</td></tr>
-      <tr><td>6</td><td>미국 10년물 금리</td><td>—</td><td>순환구조의 자금조달 비용 &mdash; CDS 확대의 상류</td></tr>
-      <tr><td>7</td><td><b style="color:#f0f6fc;">2차 스토리의 등장</b></td><td>커스텀 HBM · CXL/PIM · 온디바이스 AI</td>
-          <td>2차 정점의 <b style="color:#f0f6fc;">크기</b>를 결정. 그 고객이 CSP인지 네오클라우드인지가 핵심</td></tr>
+      <tr><th style="width:34px;">#</th><th style="width:180px;">지표</th><th style="width:180px;">임계 / 현재</th><th>왜 보나</th></tr>
+      <tr class="hl"><td>1</td><td><b style="color:#f0f6fc;">엔비디아 CDS</b></td><td class="diff">82bp (7/27 사상 최고) → 100bp</td>
+          <td>순환구조 = 벤더파이낸싱·선박금융의 등가물. <b style="color:#f0f6fc;">최우선</b></td></tr>
+      <tr><td>2</td><td>네오클라우드 신용</td><td>코어위브 2031채 11.5%</td>
+          <td>엔비디아가 파이낸싱 제공 → CDS로 전이<br><span style="color:#8b949e;">※ 오라클은 네오클라우드가 아니라 부채로 capex하는 하이퍼스케일러(IG) — 별도 층위</span></td></tr>
+      <tr><td>3</td><td>빅테크 AI ROI</td><td>서버 수명 5~6년 · 3년 회수<br><span style="color:#8b949e;">(가이던스 원문 확인 필요)</span></td><td>수요 층위의 뿌리</td></tr>
+      <tr><td>4</td><td>DRAM 계약가 QoQ<br><span style="font-weight:400;color:#6e7681;">입력값</span></td><td>3Q26E +19.7% → 4Q26E <b style="color:#f0f6fc;">+8.8%</b></td>
+          <td>이익 정점 시점을 이동시킨다. 빨리 꺾이면 2Q27로 당겨지고 늦으면 2028로 밀린다</td></tr>
+      <tr class="hl"><td>5</td><td><b style="color:#f0f6fc;">LTA 계약부채(선수금)</b></td><td><b style="color:#f0f6fc;">3Q26 실적이 첫 관측</b></td>
+          <td>현중은 선수금 정점이 이익 정점을 <b style="color:#f0f6fc;">2년 선행</b>했다 — 검증 지점이자 선행지표</td></tr>
+      <tr><td>6</td><td>미국 10년물 금리</td><td>—</td><td>순환구조 자금조달 비용 — CDS 확대의 상류</td></tr>
+      <tr class="hl"><td>7</td><td><b style="color:#f0f6fc;">2차 스토리 = 마진 이벤트</b></td><td>커스텀 HBM · HBM4E · CXL/PIM</td>
+          <td>현중 2010(매출 +6%, OPM +5.7%p)처럼 <b style="color:#f0f6fc;">매출 없이 마진을 올리는</b> 이벤트가 필요. 고객이 CSP냐 네오클라우드냐가 핵심</td></tr>
+      <tr><td>8</td><td>주주환원 가시화</td><td>하이닉스 연내 발표 예고<br>삼성 28F 환원수익률 22.3%</td><td>밸류에이션 하방. 단 시스코 반례 검증 필요</td></tr>
     </table>
     <div class="note">상세 근거: <a href="China_vs_now.html" style="color:#58a6ff;">중국 vs 현재</a>(P·Q 사이클 신호판 · 순환구조) ·
-      <a href="Dotcom_vs_now.html" style="color:#58a6ff;">닷컴 vs 현재</a>(앵커 4종 · 이익 모멘텀 · LTA 정량화 추적).</div>
+      <a href="Dotcom_vs_now.html" style="color:#58a6ff;">닷컴 vs 현재</a>(앵커 4종 · 이익 모멘텀 · LTA 정량화 추적).
+      출처: SEC EDGAR · DART · 관세청 · TrendForce · BofA · SK증권 NDR(26-08-03) · 노무라 · 2Q26 리뷰 12편.</div>
   </div>
 </div>
 
@@ -226,7 +308,6 @@
   function addD(s, n) { var d = new Date(d2(s).getTime() + n * 864e5); return d.toISOString().slice(0, 10); }
   function fmt(n, d) { return n == null ? '—' : Number(n).toLocaleString('ko-KR', {maximumFractionDigits: d === undefined ? 0 : d}); }
 
-  /* [date,o,h,l,c] 배열에서 되돌림 경로 산출 */
   function retPath(S, peakD, lowD, maxDays) {
     var pk = null, lo = null;
     S.forEach(function (r) { if (r[0] === peakD) pk = r[2]; if (r[0] === lowD) lo = r[3]; });
@@ -258,11 +339,10 @@
       {n:'현대중공업 2008', S:HHI, pk:'2007-11-07', lo:'2008-01-30', c:'#ffa198', ok:0},
       {n:'SK하이닉스 2026', S:HX, pk:'2026-06-25', lo:'2026-07-29', c:'#d29922', ok:2}
     ];
-    var MAX = 150, ds = [];
-    var hxInfo = null;
+    var MAX = 150, ds = [], hxInfo = null;
     CASES.forEach(function (c) {
       var r = retPath(c.S, c.pk, c.lo, MAX);
-      if (c.ok === 2) hxInfo = {pk: r.pk, lo: r.lo, lowD: c.lo, peakD: c.pk, path: r.path, S: c.S};
+      if (c.ok === 2) hxInfo = {pk: r.pk, lo: r.lo, lowD: c.lo, peakD: c.pk, S: c.S};
       ds.push({label: c.n, data: r.path, borderColor: c.c,
                borderWidth: c.ok === 2 ? 3.2 : 1.9, pointRadius: 0, tension: 0.1,
                borderDash: c.ok === 0 ? [5,3] : []});
@@ -277,7 +357,7 @@
         scales:{x:{type:'linear', min:0, max:MAX,
             title:{display:true, text:'저점 후 캘린더 일수', font:{size:11}, color:TH.tick},
             ticks:{color:TH.tick}, grid:{color:TH.grid}},
-          y:{min:0, max:1.25, title:{display:true, text:'되돌림 (저점 0 → 전고점 1.0)', font:{size:11}, color:TH.tick},
+          y:{min:0, max:1.35, title:{display:true, text:'되돌림 (저점 0 → 전고점 1.0)', font:{size:11}, color:TH.tick},
             ticks:{color:TH.tick, callback:function(v){return v.toFixed(2);}}, grid:{color:TH.grid}}}},
       plugins:[{id:'lines', afterDatasetsDraw:function(ch){
         var xs=ch.scales.x, ys=ch.scales.y, a=ch.chartArea, ctx=ch.ctx;
@@ -293,7 +373,6 @@
         ctx.restore();
       }}]});
 
-    /* 라이브 패널 */
     if (hxInfo) {
       var last = hxInfo.S[hxInfo.S.length - 1];
       var cur = last[4], pk = hxInfo.pk, lo = hxInfo.lo;
@@ -303,14 +382,13 @@
       var t070 = lo + (pk - lo) * 0.70;
       var d1 = addD(hxInfo.lowD, 30), d3 = addD(hxInfo.lowD, 107);
       document.getElementById('updated').innerHTML =
-        '두 탭에서 확립한 판별 규칙을 현재 AI 사이클에 적용한다 | SK하이닉스 ' + last[0] + ' 종가 기준 · 주가는 야후 수정주가';
+        '두 탭에서 확립한 판별 규칙을 현재 AI 사이클에 적용한다 | SK하이닉스 ' + last[0] + ' 종가 기준 · 야후 수정주가';
       document.getElementById('liveBox').innerHTML =
         '<div class="box"><div class="k">현재 되돌림</div><div class="v">' + ret.toFixed(3) + '</div><div class="s">저점 +' + elapsed + '일 · MDD ' + fmt(mdd,1) + '%</div></div>' +
         '<div class="box"><div class="k">임계 0.70 주가</div><div class="v">' + fmt(t070) + '</div><div class="s">현재 대비 ' + (t070/cur>=1?'+':'') + fmt((t070/cur-1)*100,1) + '%</div></div>' +
         '<div class="box"><div class="k">1차 판별일 (+30d)</div><div class="v" style="font-size:17px;">' + d1 + '</div><div class="s">D' + (days(last[0], d1) >= 0 ? '-' + days(last[0], d1) : '+' + (-days(last[0], d1))) + '</div></div>' +
         '<div class="box"><div class="k">재돌파 데드라인</div><div class="v" style="font-size:17px;">' + d3 + '</div><div class="s">전고점 ' + fmt(pk) + '원 · 저점 +107일</div></div>';
-      var pct = Math.max(0, Math.min(100, ret * 100));
-      document.getElementById('barFill').style.width = pct + '%';
+      document.getElementById('barFill').style.width = Math.max(0, Math.min(100, ret * 100)) + '%';
       var v = document.getElementById('verdict');
       if (elapsed <= 30 && ret >= 0.70) { v.style.background='#12261a'; v.style.color='#3fb950'; v.textContent = '● 성공 구간 — 저점 후 ' + elapsed + '일에 되돌림 ' + ret.toFixed(3) + '. 시스코 1997·1998 / 퀄컴 1998과 같은 자리.'; }
       else if (elapsed <= 30) { v.style.background='#1c2128'; v.style.color='#d29922'; v.textContent = '◐ 판별 진행 중 — 저점 후 ' + elapsed + '일. 임계 0.70까지 ' + fmt((t070/cur-1)*100,1) + '% 남음. 판별일 ' + d1 + '.'; }

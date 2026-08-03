@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-08-02 (자동 실행)**
+> **최종 갱신: 2026-08-03 (자동 실행)**
 
 ### 8월
 
@@ -213,6 +213,7 @@
 | 8/19 | 에이피알 | 화장품 | 2Q26 확정실적 CC (Investing.com 8/19 확인 — 잠정실적 8/3 FnGuide 확정. Q1: 5/6) |
 | 8/21 | Marvell Technology (MRVL) | 반도체-ASIC | AMC→KST (8/20 ET), Q2 FY2027 (확정 — AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
 | 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정 — SEC 8-K·TipRanks·Unusual Whales 6/24 재확인) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
+| 8/31 | 현대차 | 자동차 | 2Q26 확정실적 CC (FnGuide 8/31 확인 — 잠정실적 7/23 완료. 매출 49.2조 역대 2분기 최대, OI 2조8509억 -20.8% YoY — 원자재·부품사 화재 영향) |
 
 ### 9월
 
@@ -226,17 +227,40 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| (~10/15) | TSMC (TSM) | 반도체-파운드리 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/16 BMO. 2025 Q3: 10/16) |
+| 10/13 | JPMorgan Chase (JPM) | 금융 | BMO (10/13 ET), Q3 2026 (확정, TipRanks·WallStreetHorizon — 소비자 신용·금리 마진, IB·트레이딩) |
+| 10/13 | Goldman Sachs (GS) | 금융 | BMO (10/13 ET), Q3 2026 (확정, TipRanks — IB/트레이딩, SpaceX IPO 후속 M&A 사이클) |
+| 10/14 | ASML (ASML) | 반도체-소부장 | BMO (10/14 CET), Q3 2026 (확정, TipRanks — EUV 수주 강세, High-NA ramp 진척) |
+| 10/14 | Bank of America (BAC) | 금융 | BMO (10/14 ET), Q3 2026 (확정 — 소비자 신용, 금리 마진) |
+| 10/14 | Morgan Stanley (MS) | 금융 | BMO (10/14 ET), Q3 2026 (확정, Morgan Stanley IR 공식 10/14 9:30am ET — 자산관리, IB/트레이딩) |
+| 10/14 | Citigroup (C) | 금융 | BMO (10/14 ET), Q3 2026 (확정, Citigroup IR 공식 8:00am ET — 글로벌 금융, EM 익스포저) |
+| (~10/15) | TSMC (TSM) | 반도체-파운드리 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/16 BMO. 2025 Q3: 10/16. WallStreetHorizon ~10/15) |
 | (~10/20) | ABB (ABB) | 전력 | Q3 2026 — 과거 패턴 추정 (Q2: 7/16 Zurich) |
-| (~10/20) | Lockheed Martin (LMT) | 방산 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/23 BMO) |
-| (~10/21) | GE Vernova (GEV) | 전력 | Q3 2026 BMO — 추정 (Q2: 7/22 BMO) |
+| 10/20 | Lockheed Martin (LMT) | 방산 | Q3 2026 BMO (확정, MarketBeat·Nasdaq — 기존 ~10/20 추정 확인. 2026-08-03 정정) |
+| 10/20 | General Motors (GM) | 자동차 | Q3 2026 (확정, Investing.com — 미국 내수, EV 전환, GM 크루즈) |
+| (~10/21) | GE Vernova (GEV) | 전력 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/22 BMO. 2025 Q3: 10/22) |
+| (~10/21) | Seagate (STX) | 반도체-스토리지 | Q1 FY2027 AMC→KST — 과거 패턴 추정 (Q4 FY2026: 7/28. FY2026 Q1: 10/21/2025) |
+| (~10/22) | Ford (F) | 자동차 | Q3 2026 AMC→KST — 과거 패턴 추정 (Q2: 7/29 AMC. WallStreetHorizon 10/22 미확정) |
+| (~10/23) | Nextracker (NXT) | 전력 | Q2 FY2027 AMC→KST — 과거 패턴 추정 (Q1 FY2027: 8/5 AMC. Q2 FY2026: 10/23/2025) |
 | (10/23) | Amazon (AMZN) | 빅테크 | AMC→KST (10/22 ET), Q3 2026 (확정) |
 | (10/23) | Intel (INTC) | 반도체-CPU | AMC→KST (10/22 ET), Q3 2026 (확정) |
-| (~10/23) | RTX (RTX) | 방산 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/23 BMO) |
+| (10/27) | RTX (RTX) | 방산 | Q3 2026 BMO (TipRanks 추정 10/27 — 일부 소스 10/20 언급. 2026-08-03 기존 ~10/23에서 정정) |
 | (10/28) | Microsoft (MSFT) | 빅테크 | AMC→KST (10/27 ET), Q1 FY2027 (확정) |
 | (10/28) | Alphabet (GOOGL) | 빅테크 | AMC→KST (10/27 ET), Q3 2026 (확정, TipRanks — Q2: 7/23 AMC) |
 | (10/29) | Tesla (TSLA) | 자동차 | AMC→KST (10/28 ET), Q3 2026 (확정) |
 | (10/29) | Meta (META) | 빅테크 | AMC→KST (10/28 ET), Q3 2026 (확정, TipRanks·Investing.com — Q2: 7/29 AMC) |
+| (~10/29) | Bloom Energy (BE) | 전력 | Q3 2026 AMC→KST — 과거 패턴 추정 (Q2: 7/31 AMC. MarketBeat 10/29 추정) |
+| (~10/30) | Western Digital (WDC) | 반도체-스토리지 | Q1 FY2027 AMC→KST — 과거 패턴 추정 (Q4 FY2026: 8/5. FY2026 Q1: 10/30/2025) |
+| (10월중) | SanDisk (SNDK) | 반도체-스토리지 | Q1 FY2027 — 날짜 미확정 (Q4 FY2026: 8/5. WDC와 동일 분기 종료) |
+| (10월중) | ARM Holdings (ARM) | 반도체-CPU | Q2 FY2027 AMC→KST — 날짜 미확정 (Q1 FY2027: 7/29 AMC. FY 3월 결산) |
+
+### 11월
+
+| 날짜 | 종목명(티커) | 산업 | 비고 |
+|------|------------|------|------|
+| (~11/5) | Toyota (TM) | 자동차 | Q2 FY2027 (도쿄 오후) — 과거 패턴 추정 (Q1 FY2027: 7/30 도쿄. 2025년 Q2: 11/5) |
+| (11/11) | Qualcomm (QCOM) | 반도체-모바일 | AMC→KST (11/10 ET), Q4 FY2026 (확정, Qualcomm IR — 갤럭시·스냅드래곤. 9/1부터 전 제품 가격 인상 단행) |
+| (~11월) | Siemens Energy (ENR) | 전력 | Q4 FY2026 — FY 종료 9/30, 과거 패턴 추정 (Q3 FY2026: 8/5) |
+| (~11월) | Rheinmetall (RHM) | 방산 | 9M 2026 결과 — 과거 패턴 추정 (H1: 8/6. 독일 분기 보고 체계) |
 
 ---
 
