@@ -12,44 +12,44 @@
 <script src="./lightweight-charts.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, 'Pretendard', 'Segoe UI', sans-serif; overflow-x: hidden; }
-  .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; }
+  body { background: #0f0f0f; color: #c9d1d9; font-family: -apple-system, 'Pretendard', 'Segoe UI', sans-serif; overflow-x: hidden; }
+  .tab-bar { display: flex; gap: 0; background: #111111; border-bottom: 1px solid #2e2e2e; padding: 0 24px; }
   .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
   .tab-bar a:hover { color: #f0f6fc; }
   .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
-  .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; border-bottom: 1px solid #21262d; background: #0d1117; }
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; border-bottom: 1px solid #2e2e2e; background: #0f0f0f; }
   .header h1 { font-size: 17px; color: #f0f6fc; } .header .time { font-size: 12px; color: #8b949e; }
   .main { display: flex; gap: 50px; padding: 10px; max-width: 1600px; margin: 0 auto; }
   .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
   /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
   /* 지수 차트 sticky 해제 (지표 4개 컴팩트 레이아웃) — relative 유지해서 date-main 이 index 카드 하단에 자리잡도록 함 */
-  .sticky-index { position: relative; background: #0d1117; }
-  .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(117,134,150,0.7); pointer-events: none; display: none; z-index: 99999; }
+  .sticky-index { position: relative; background: #0f0f0f; }
+  .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(35,42,50,0.75); pointer-events: none; display: none; z-index: 99999; }
   .col-date-label { position: absolute; background: #1f6feb; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; white-space: nowrap; pointer-events: none; display: none; z-index: 99999; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
   .col-date-main { bottom: 4px; }
   .col-date-sub  { bottom: 4px; }
   .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
   .col .card { border-radius: 0; border-bottom: none; }
   .col .card:first-child { border-radius: 10px 10px 0 0; }
-  .col .card:last-child { border-radius: 0 0 10px 10px; border-bottom: 1px solid #21262d; }
-  .card { background: #161b22; border: 1px solid #21262d; overflow: hidden; }
-  .card-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid #21262d; background: #1c2128; flex-wrap: wrap; gap: 4px; }
+  .col .card:last-child { border-radius: 0 0 10px 10px; border-bottom: 1px solid #414141; }
+  .card { background: #181818; border: 1px solid #414141; overflow: hidden; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid #414141; background: #232323; flex-wrap: wrap; gap: 4px; }
   .card-top .left { display: flex; align-items: baseline; gap: 8px; }
   .card-top h3 { font-size: 12px; font-weight: 600; color: #f0f6fc; white-space: nowrap; }
   .card-top .price { font-size: 13px; font-weight: 700; color: #f0f6fc; }
   .card-top .chg { font-size: 10px; font-weight: 600; }
   .chg.up { color: #f04452; } .chg.down { color: #3182f6; } .chg.flat { color: #8b949e; }
   .range-btns { display: flex; gap: 2px; }
-  .range-btns button { background: none; border: 1px solid #30363d; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .range-btns button { background: none; border: 1px solid #3a3a3a; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
   .range-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .range-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .interval-btns { display: flex; gap: 2px; margin-left: 6px; }
-  .interval-btns button { background: none; border: 1px solid #30363d; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .interval-btns button { background: none; border: 1px solid #3a3a3a; color: #8b949e; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
   .bar-count { display: flex; align-items: center; gap: 2px; margin-left: 6px; }
-  .bar-count input { width: 38px; background: #0d1117; border: 1px solid #30363d; color: #c9d1d9; padding: 1px 4px; border-radius: 4px; font-size: 10px; text-align: center; outline: none; }
+  .bar-count input { width: 38px; background: #0f0f0f; border: 1px solid #3a3a3a; color: #c9d1d9; padding: 1px 4px; border-radius: 4px; font-size: 10px; text-align: center; outline: none; }
   .bar-count input:focus { border-color: #58a6ff; }
   .bar-count span { font-size: 10px; color: #8b949e; }
-  .refresh-timer { font-size: 11px; color: #8b949e; background: #21262d; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+  .refresh-timer { font-size: 11px; color: #8b949e; background: #2e2e2e; padding: 2px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
   .refresh-timer .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 6px; vertical-align: middle; }
   .refresh-timer .dot.ok    { background: #3fb950; }  /* 24h 이내 — 정상 */
   .refresh-timer .dot.warn  { background: #d29922; }  /* 24~48h — 주의 */
@@ -57,26 +57,31 @@
   .interval-btns button:hover { border-color: #58a6ff; color: #58a6ff; }
   .interval-btns button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
   .series-toggle { display: flex; gap: 2px; margin-left: auto; }
-  .series-toggle button { background: none; border: 1px solid #30363d; color: #6e7681; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
+  .series-toggle button { background: none; border: 1px solid #3a3a3a; color: #6e7681; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
   .series-toggle button:hover { border-color: #58a6ff; }
   .series-toggle button[data-s="m"].active,
-  .series-toggle button[data-s="200"].active { background: rgba(210,175,100,0.18); color: rgb(210,175,100); border-color: rgba(210,175,100,0.55); }
+  .series-toggle button[data-s="200"].active { background: rgba(126,166,209,0.18); color: rgb(126,166,209); border-color: rgba(126,166,209,0.55); }
   .series-toggle button[data-s="20"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
   .series-toggle button[data-s="10"].active,
   .series-toggle button[data-s="50"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
+  .series-toggle button[data-s="120"].active { background: rgba(126,166,209,0.18); color: rgb(126,166,209); border-color: rgba(126,166,209,0.55); }
+  .series-toggle button[data-s="all"].active { background: rgba(126,166,209,0.18); color: rgb(126,166,209); border-color: rgba(126,166,209,0.55); }
+  .series-toggle button[data-s="kp"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
+  .series-toggle button[data-s="kq"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
+  .series-toggle[data-chart="kr-breadth"] button[data-s="20"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
   /* HTS-style 툴팁 (주도주 사이클 페이지와 동일 디자인) */
-  .hts-tooltip { position: absolute; background: rgba(22,27,34,0.97); border: 1px solid #30363d; border-radius: 6px; padding: 7px 10px; min-width: 220px; max-width: 320px; z-index: 99998; pointer-events: none; display: none; font-size: 11px; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
-  .hts-tooltip .hts-divider { margin-top: 5px; padding-top: 5px; border-top: 1px solid #30363d; }
+  .hts-tooltip { position: absolute; background: rgba(24,24,24,0.97); border: 1px solid #3a3a3a; border-radius: 6px; padding: 7px 10px; min-width: 220px; max-width: 320px; z-index: 99998; pointer-events: none; display: none; font-size: 11px; line-height: 1.45; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .hts-tooltip .hts-divider { margin-top: 5px; padding-top: 5px; border-top: 1px solid #3a3a3a; }
   .hts-tooltip .hts-section-title { font-size: 11px; font-weight: 700; padding: 2px 0 2px; }
   .hts-tooltip .hts-row { display: flex; justify-content: space-between; gap: 12px; padding: 1px 0; }
   .hts-tooltip .hts-row .k { color: #8b949e; }
   .hts-tooltip .hts-row .v { color: #c9d1d9; font-variant-numeric: tabular-nums; }
   .hts-tooltip .hts-up { color: #f04452; }
   .hts-tooltip .hts-down { color: #3182f6; }
-  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 12px; pointer-events: none; }
+  .cw .msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #4a5058; font-size: 12px; pointer-events: none; background: #A4A4A4; }
   .zoom-overlay { position: absolute; top: 0; bottom: 20px; background: rgba(49,130,246,0.12); border-left: 1px solid rgba(49,130,246,0.5); border-right: 1px solid rgba(49,130,246,0.5); pointer-events: none; display: none; z-index: 10; }
   .ma-legend { display: flex; gap: 8px; padding: 2px 14px 0; flex-wrap: wrap; }
   .ma-legend span { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
@@ -84,31 +89,31 @@
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
-  .scrollbar { width: 100%; height: 14px; background: #1c2128; border: 1px solid #21262d; border-top: none; border-bottom: 1px solid #21262d; position: relative; cursor: pointer; }
-  .sb-thumb { position: absolute; height: 8px; top: 2px; background: #30363d; border-radius: 4px; cursor: grab; min-width: 24px; }
+  .scrollbar { width: 100%; height: 14px; background: #232323; border: 1px solid #2e2e2e; border-top: none; border-bottom: 1px solid #2e2e2e; position: relative; cursor: pointer; }
+  .sb-thumb { position: absolute; height: 8px; top: 2px; background: #3a3a3a; border-radius: 4px; cursor: grab; min-width: 24px; }
   .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
   .events { max-width: 1600px; margin: 0 auto 20px; padding: 0 10px; display: flex; gap: 50px; }
-  .events-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; }
-  .events-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #21262d; background: #1c2128; }
-  .links-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; align-self: flex-start; }
-  .links-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #21262d; background: #1c2128; }
+  .events-card { background: #181818; border: 1px solid #2e2e2e; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; }
+  .events-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #2e2e2e; background: #232323; }
+  .links-card { background: #181818; border: 1px solid #2e2e2e; border-radius: 10px; overflow: hidden; flex: 1; min-width: 0; align-self: flex-start; }
+  .links-card h2 { font-size: 13px; font-weight: 600; color: #f0f6fc; padding: 10px 16px; border-bottom: 1px solid #2e2e2e; background: #232323; }
   .links-grid { display: grid; grid-template-columns: 1fr 1fr; }
   .links-grid a { display: flex; align-items: center; gap: 8px; padding: 20px 16px; color: #c9d1d9; text-decoration: none; font-size: 13px; border-bottom: 1px solid #1e2229; transition: background 0.15s; }
   .links-grid a:nth-child(odd) { border-right: 1px solid #1e2229; }
   .links-grid a:nth-last-child(-n+2) { border-bottom: none; }
   /* 그리드 빈 셀 (야간선물 옆 placeholder) — a와 동일한 높이 유지 */
   .links-grid .link-spacer { display: block; padding: 20px 16px; border-bottom: 1px solid #1e2229; }
-  .links-grid a:hover { background: #1c2128; color: #58a6ff; }
+  .links-grid a:hover { background: #232323; color: #58a6ff; }
   .links-card .link-icon { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; }
   .links-card .link-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ev-table { border-collapse: collapse; font-size: 13px; }
-  .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #21262d; font-weight: 500; }
+  .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #2e2e2e; font-weight: 500; }
   .ev-table td { padding: 6px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; line-height: 1.5; vertical-align: middle; }
   .ev-table tr:last-child td { border-bottom: none; }
   .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
   .ev-table tr.today td, .ev-table tr.today-first td, .ev-table tr.today-last td, .ev-table tr.today-only td { color: #e2c571; }
   .ev-table tr.soon td { color: #e2c571; }
-  .ev-date-badge { display: inline-block; background: #e2c571; color: #0d1117; padding: 1px 6px; border-radius: 3px; font-weight: 700; font-size: 12px; }
+  .ev-date-badge { display: inline-block; background: #e2c571; color: #0f0f0f; padding: 1px 6px; border-radius: 3px; font-weight: 700; font-size: 12px; }
   .ev-cat { display: inline-block; padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 600; white-space: nowrap; }
   .ev-cat.실적 { background: #1f3a24; color: #56d364; }
   .ev-cat.정책 { background: #3a2a1f; color: #e2a44e; }
@@ -152,23 +157,33 @@
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="kr-fg-val">—</span><span class="fg-label" id="kr-fg-lbl"></span><span class="xdate" id="d-kr-fg"></span></div></div>
-      <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div></div>
-      <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>한국 수출 YoY</h3><span class="price" id="p-kr-export">—</span><span class="xdate" id="d-kr-export"></span></div>
-        <div class="series-toggle" data-chart="kr-export">
-          <button data-s="m" class="active">월 확정치</button>
-          <button data-s="20" class="active">1-20 잠정치</button>
-          <button data-s="10" class="active">1-10 잠정치</button>
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-kr-breadth">—</span><span class="xdate" id="d-kr-breadth"></span></div>
+        <div class="series-toggle" data-chart="kr-breadth">
+          <button data-s="120" class="active">120MA</button>
+          <button data-s="20" class="active">20MA</button>
         </div>
       </div>
-      <div class="cw cw-sub" id="cw-kr-export"><div class="msg" id="msg-kr-export">로딩 중...</div></div>
+      <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div>
+        <div class="series-toggle" data-chart="adr">
+          <button data-s="all" class="active">통합</button>
+          <button data-s="kp">코스피</button>
+          <button data-s="kq">코스닥</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>외국인 현선물 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fflow"><div class="msg" id="msg-kr-fflow">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
   </div>
@@ -195,12 +210,12 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕지수</h3><span class="fg-score" id="us-fg-val">—</span><span class="fg-label" id="us-fg-lbl"></span><span class="xdate" id="d-us-fg"></span></div></div>
-      <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-us-fgosc">—</span><span class="xdate" id="d-us-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-fgosc"><div class="msg" id="msg-us-fgosc">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>시장폭 (200MA·50MA 위 비율)</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
         <div class="series-toggle" data-chart="breadth">
           <button data-s="200" class="active">200MA</button>
           <button data-s="50" class="active">50MA</button>
@@ -209,7 +224,7 @@
       <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>골드만 시장폭 (초대형주 상대강도)</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
+      <div class="card-top"><div class="left"><h3>Goldman Market Breadth</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-us"></div>
@@ -316,6 +331,12 @@ const allCharts = {}; // id → { chart, series, el }
 const colGroups = { kr: [], us: [] }; // chart ids per column
 const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
 const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+// 컬럼 로지컬 범위 동기화 상태 (2026-08-01): 목표 범위 + rAF 핸들 + 근사 비교(0.05 bar)
+const colSyncTarget = { kr: null, us: null };
+const colSyncRaf = { kr: null, us: null };
+function rangeEq(a, b) {
+  return !!a && !!b && Math.abs(a.from - b.from) < 0.05 && Math.abs(a.to - b.to) < 0.05;
+}
 // Crosshair perf cache: setMarkers([]) re-renders each chart; calling it every frame on empty-space hover
 // chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
 // (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
@@ -324,6 +345,11 @@ const lastCrosshairOnBar = { kr: false, us: false };
 // setMarkers/updateHeader/innerHTML rebuild are all redundant. Track last hovered time per column
 // so heavy work runs only on time change; only tooltip *position* updates every frame.
 const lastCrosshairTime = { kr: null, us: null };
+// rAF 배칭 (2026-07-26): 마우스가 캔들들을 빠르게 스칠 때 매 캔들마다 컬럼 전체 setMarkers
+// (6개 차트 재렌더 + 축 재계산) 가 초당 수십 회 발생 → 렉. 프레임당 마지막 hover time 만
+// 반영하면 최종 화면은 동일하고 중간 무의미한 재렌더만 제거됨.
+const crosshairRafId = { kr: null, us: null };
+const crosshairPending = { kr: null, us: null };
 const colRange = { kr: '10y', us: '10y' };
 const colInterval = { kr: '1d', us: '1d' };
 let syncing = false;
@@ -334,16 +360,19 @@ function getWeekKey(t){const d=new Date(t+'T12:00:00'),day=d.getDay(),diff=day==
 function resampleWeekly(data){if(!data.length)return data;const m=new Map();data.forEach(d=>{const wk=getWeekKey(d.time);m.set(wk,d)});return[...m.values()].sort((a,b)=>a.time.localeCompare(b.time))}
 function candlesToWeekly(candles){if(!candles.length)return candles;const weeks=[];let cur=null;candles.forEach(c=>{const wk=getWeekKey(c.time);if(!cur||cur._wk!==wk){if(cur){const{_wk,...rest}=cur;weeks.push(rest)}cur={time:c.time,open:c.open,high:c.high,low:c.low,close:c.close,_wk:wk}}else{cur.time=c.time;cur.high=Math.max(cur.high,c.high);cur.low=Math.min(cur.low,c.low);cur.close=c.close}});if(cur){const{_wk,...rest}=cur;weeks.push(rest)}return weeks}
 
-const CHART_OPTS = (bg='#161b22') => ({
-  layout:{background:{type:'solid',color:bg},textColor:'#8b949e',fontSize:10},
-  grid:{vertLines:{color:'#1e2229'},horzLines:{color:'#1e2229'}},
-  crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false}},
+// 2026-08-01: 주도주 사이클(Leading_stocks) 과 동일한 회색 HTS 테마.
+//   plot 배경 #A4A4A4 / grid #828282 / 축·텍스트 다크. 카드 프레임은 기존 다크 유지.
+const CHART_OPTS = (bg='#A4A4A4') => ({
+  layout:{background:{type:'solid',color:bg},textColor:'#232323',fontSize:10},
+  grid:{vertLines:{color:'#828282'},horzLines:{color:'#828282'}},
+  crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false},
+    horzLine:{color:'#2b3138',labelBackgroundColor:'#2b3138'}},
   // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
   // - 50 이면 라벨 짧은 차트 (MDD -1.68, ADR 67.62) 가 50px, 라벨 긴 차트 (나스닥 26589.73) 가 자동 확장 → plot area width 다름 → marker 의 같은 time index 라도 X 픽셀 misalign.
   // - 60 으로 키워 가장 긴 라벨 (26589.73 = 8자, ~55px) 도 자동 확장 없이 fit → 모든 차트 same priceScale width → X 정렬 일치.
   // scaleMargins.top 0.12 (2026-05-27): 캔들 위 12% 공간 확보. setMarkers([{position:'aboveBar'}]) 시
   // lightweight-charts 가 marker 공간 위해 priceScale 자동 확장하던 사고 회피 — marker 가 미리 확보된 margin 안에 들어감.
-  rightPriceScale:{borderColor:'#21262d',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
+  rightPriceScale:{borderColor:'#707070',minimumWidth:60,scaleMargins:{top:0.12,bottom:0.05}},
   handleScale:false,handleScroll:false
 });
 
@@ -436,7 +465,7 @@ function createChart(id, col, opts = {}) {
     width: el.clientWidth, height: el.clientHeight,
     ...CHART_OPTS(),
     timeScale: {
-      borderColor: '#21262d', timeVisible: false,
+      borderColor: '#707070', timeVisible: false,
       visible: opts.showTimeAxis !== false,
       // rightOffset 0: 데이터 마지막 bar 가 차트 우측 끝과 정렬. 추가 trailing padding 없음.
       rightOffset: 0
@@ -453,20 +482,24 @@ function createChart(id, col, opts = {}) {
   }).observe(el);
 
   // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
+  //
+  // 2026-08-01 재설계 (X 정렬 항구 fix):
+  //   기존엔 전역 boolean `syncing` 으로 메아리를 막았는데, 한 프레임에 여러 차트가 동시에
+  //   범위를 바꾸면 (레이아웃 변화·페이지 스크롤·지연 적용된 setVisibleLogicalRange 등)
+  //   먼저 발화한 차트만 전파되고 나머지는 전부 버려져 → 메인만 120봉으로 튀고 서브는 그대로
+  //   남는 영구 desync 가 발생했다 (BT 리포트: 세로선/마커가 카드마다 어긋남).
+  //
+  //   → 목표 범위(colSyncTarget)를 두고 "마지막 변경이 진짜 소스" 로 수렴시키는 방식으로 교체.
+  //     - 들어온 범위가 현재 목표와 같으면 = 우리가 방금 건 set 의 메아리 → 무시 (루프 차단)
+  //     - 다르면 새 목표로 채택하고 rAF 한 번에 컬럼 전체를 목표로 맞춤 (다른 것만 set)
+  //   지연 발생한 변경도 나중에 새 목표가 되어 전파되므로 desync 가 남지 않는다.
   chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
-    if (syncing) return;
     const logicalRange = chart.timeScale().getVisibleLogicalRange();
-    const visibleRange = chart.timeScale().getVisibleRange();
     if (!logicalRange) return;
-    syncing = true;
-    colGroups[col].forEach(otherId => {
-      if (otherId !== id && allCharts[otherId]) {
-        try {
-          allCharts[otherId].chart.timeScale().setVisibleLogicalRange(logicalRange);
-        } catch(_){}
-      }
-    });
-    // Update bar count display for main charts
+    if (rangeEq(logicalRange, colSyncTarget[col])) return;   // 메아리
+    colSyncTarget[col] = logicalRange;
+
+    // Update bar count display — 메인 차트 기준
     if (id === 'kospi' || id === 'ndx') {
       const barInput = document.getElementById('bars-' + col);
       if (barInput && !barInput.matches(':focus')) {
@@ -474,7 +507,21 @@ function createChart(id, col, opts = {}) {
         barInput.value = visibleBars > 0 ? visibleBars : '';
       }
     }
-    requestAnimationFrame(() => { syncing = false; });
+
+    if (colSyncRaf[col]) return;
+    colSyncRaf[col] = requestAnimationFrame(() => {
+      colSyncRaf[col] = null;
+      const tgt = colSyncTarget[col];
+      if (!tgt) return;
+      colGroups[col].forEach(otherId => {
+        const c = allCharts[otherId];
+        if (!c) return;
+        const cur = c.chart.timeScale().getVisibleLogicalRange();
+        if (!rangeEq(cur, tgt)) {
+          try { c.chart.timeScale().setVisibleLogicalRange(tgt); } catch(_){}
+        }
+      });
+    });
   });
 
   // Column crosshair overlay line + header value update + marker dots on sub-charts
@@ -535,26 +582,31 @@ function createChart(id, col, opts = {}) {
       // Perf: heavy work (setMarkers + updateHeader + tooltip innerHTML rebuild) only on time change.
       // While mouse moves on the SAME candle, only tooltip position needs to follow the cursor.
       if (param.time !== lastCrosshairTime[col]) {
-        colGroups[col].forEach(cid => {
-          updateHeaderForChart(cid, param.time);
-          // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
-          if (!allCharts[cid] || !allCharts[cid].series) return;
-          try {
-            allCharts[cid].series.setMarkers([{
-              time: param.time,
-              // 'aboveBar': 가격축 영향 없음. 'inBar' 사용 시 lightweight-charts 가
-              // area series 의 baseline(0) 까지 priceScale 자동 확장 → 캔들 압축 →
-              // 마우스 약간만 움직여도 hit area 벗어나 툴팁 풀리는 사고 회피
-              // (2026-05-27 옵션 A). X축 정렬 검증 anchor 역할은 그대로 유지.
-              position: 'aboveBar',
-              color: 'rgb(210,175,100)',
-              shape: 'circle',
-              size: 0.5
-            }]);
-          } catch(_) {}
-        });
-        updateHTSTooltip(col, param.time, mx, my);  // full rebuild + position
         lastCrosshairTime[col] = param.time;
+        crosshairPending[col] = { time: param.time, mx, my };
+        if (!crosshairRafId[col]) {
+          crosshairRafId[col] = requestAnimationFrame(() => {
+            crosshairRafId[col] = null;
+            const p = crosshairPending[col];
+            if (!p) return;  // cleanup 이 취소함 (stale 마커 방지)
+            colGroups[col].forEach(cid => {
+              updateHeaderForChart(cid, p.time);
+              // 같은 column 의 모든 차트(메인 지수 + sub-지표)에 호버 시점 marker 표시.
+              if (!allCharts[cid] || !allCharts[cid].series) return;
+              try {
+                allCharts[cid].series.setMarkers([{
+                  time: p.time,
+                  // 'aboveBar': 가격축 영향 없음 (2026-05-27 옵션 A).
+                  position: 'aboveBar',
+                  color: C_SLATE,
+                  shape: 'circle',
+                  size: 0.5
+                }]);
+              } catch(_) {}
+            });
+            updateHTSTooltip(col, p.time, p.mx, p.my);  // full rebuild + position
+          });
+        }
       } else {
         moveHTSTooltip(col, mx, my);  // position-only (cheap)
       }
@@ -564,6 +616,7 @@ function createChart(id, col, opts = {}) {
       // setMarkers([]) triggers chart re-render — calling it every frame on empty-space hover
       // (e.g. between candles) chokes the frame budget and makes xline/date-label feel laggy.
       if (lastCrosshairOnBar[col]) {
+        crosshairPending[col] = null;  // 예약된 rAF heavy-work 취소
         restoreHeaders(col);
         colGroups[col].forEach(cid => {
           if (allCharts[cid] && allCharts[cid].series) {
@@ -584,6 +637,7 @@ function createChart(id, col, opts = {}) {
     hideHTSTooltip(col);
     // Sync state so next entry triggers fresh cleanup if needed
     if (lastCrosshairOnBar[col]) {
+      crosshairPending[col] = null;
       restoreHeaders(col);
       colGroups[col].forEach(cid => {
         if (allCharts[cid] && allCharts[cid].series) {
@@ -636,7 +690,8 @@ function createChart(id, col, opts = {}) {
 
 function addCandleSeries(id) {
   const s = allCharts[id].chart.addCandlestickSeries({
-    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6'
+    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6',
+    priceLineVisible:false   // 2026-08-01 BT: 현재가 가로 점선 제거 (축 라벨은 유지)
   });
   allCharts[id].series = s; return s;
 }
@@ -650,8 +705,24 @@ function addAreaSeries(id, color) {
   allCharts[id].series = s; return s;
 }
 
+// 2026-08-01: 회색 배경에서 기존 밝은 파스텔 존 라인이 거의 안 보여 → 진한 채도로 리맵.
+// 호출부는 기존 토큰(#27ae60 등)을 그대로 쓰고 여기서 한 번에 변환한다.
+const ZONE_REMAP = {
+  '#27ae60': '#0B6E33',   // 과매수(상단) 초록
+  '#e74c3c': '#B01D12',   // 과매도(하단) 빨강
+  '#f1c40f': '#8A6400',   // 중립 기준선 (50/100) 황금
+  '#8b949e': '#3A424B',   // 0선·중립 회색
+  '#3182f6': '#12459E'    // ADR 80 파랑
+};
+// 2026-08-01 BT: 과매수/과매도 라인 제거 (장기 차트로 직접 판정). 중립 기준선만 유지 —
+//   F&G 50 / Breadth 50 / ADR 100 / 오실레이터·현선물 0선. 상단(초록)·하단(빨강)·ADR 80(파랑) 은 skip.
+const ZONE_SKIP = ['#27ae60', '#e74c3c', '#3182f6'];
 function addZoneLines(series, lines) {
-  lines.forEach(l => series.createPriceLine({price:l.price,color:l.color,lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''}));
+  lines.filter(l => !ZONE_SKIP.includes(l.color)).forEach(l => series.createPriceLine({
+    price: l.price,
+    color: ZONE_REMAP[l.color] || l.color,
+    lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: ''
+  }));
 }
 
 function showPrice(id,price,prev){
@@ -701,15 +772,16 @@ function renderSubsForTooltip(col, time) {
   const subs = (col === 'kr')
     ? [
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
-      { id: 'kr-fg',     label: '공포탐욕지수',  color: '#FFD700' },
-      { id: 'adr',       label: 'ADR',          color: 'rgb(210,175,100)' },
-      { id: 'kr-export', label: '한국 수출 YoY', color: 'rgb(210,175,100)' }
+      { id: 'kr-fgosc',  label: 'F&G Osc',      color: C_SLATE_TEXT },
+      { id: 'kr-breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
+      { id: 'adr',       label: 'ADR',          color: C_SLATE_TEXT },
+      { id: 'kr-fflow',  label: '외국인 현선물 순매수', color: C_SLATE_TEXT }
     ]
     : [
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
-      { id: 'us-fg',   label: '공포탐욕지수',   color: '#FFD700' },
-      { id: 'breadth', label: '시장폭',         color: 'rgb(210,175,100)' },
-      { id: 'goldman', label: '골드만 시장폭',  color: 'rgb(210,175,100)' }
+      { id: 'us-fgosc', label: 'F&G Osc',       color: C_SLATE_TEXT },
+      { id: 'breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
+      { id: 'goldman', label: 'Goldman Market Breadth', color: C_SLATE_TEXT }
     ];
   let html = '';
   subs.forEach(s => {
@@ -728,18 +800,32 @@ function renderSubsForTooltip(col, time) {
       const v = Math.round(d.value);
       const lbl = getLabel(v);
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
+    } else if (s.id === 'kr-fgosc' || s.id === 'us-fgosc') {
+      if (d.value == null) return;
+      valHtml = '<span style="color:rgb(126,166,209)">' + d.value.toFixed(1) + '</span>'
+              + (d.osc != null ? ' / <span style="color:rgb(249,117,131)">' + (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) + '</span>' : '');
     } else if (s.id === 'adr') {
       if (d.value == null) return;
-      valHtml = d.value.toFixed(2);
+      valHtml = '<span style="color:rgb(126,166,209)">' + d.value.toFixed(2) + '</span>'
+              + (d.kp != null ? ' / <span style="color:rgb(57,197,207)">KP ' + d.kp.toFixed(2) + '</span>' : '')
+              + (d.kq != null ? ' / <span style="color:rgb(249,117,131)">KQ ' + d.kq.toFixed(2) + '</span>' : '');
     } else if (s.id === 'kr-export') {
-      valHtml = '<span style="color:rgb(210,175,100)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
+      valHtml = '<span style="color:rgb(126,166,209)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
               + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
               + '<span style="color:rgb(249,117,131)">1-10잠 ' + fmtPctSigned(d.y10) + '</span>';
+    } else if (s.id === 'kr-breadth') {
+      if (d.above120 == null && d.above20 == null) return;
+      valHtml = '<span style="color:rgb(126,166,209)">120MA ' + (d.above120 != null ? d.above120.toFixed(1) + '%' : '-') + '</span> / '
+              + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
+    } else if (s.id === 'kr-fflow') {
+      if (d.value == null) return;
+      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(2) + '조</span>'
+              + (d.cum20 != null ? ' / <span style="color:rgb(126,166,209)">20D ' + (d.cum20 >= 0 ? '+' : '') + d.cum20.toFixed(2) + '조</span>' : '');
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
       const a50  = d.above50  != null ? d.above50.toFixed(1)  + '%' : '—';
-      valHtml = '<span style="color:rgb(210,175,100)">200MA ' + a200 + '</span> / <span style="color:rgb(249,117,131)">50MA ' + a50 + '</span>';
+      valHtml = '<span style="color:rgb(126,166,209)">200MA ' + a200 + '</span> / <span style="color:rgb(249,117,131)">50MA ' + a50 + '</span>';
     } else if (s.id === 'goldman') {
       if (d.value == null) return;
       valHtml = d.value.toFixed(1) + '%p';
@@ -863,7 +949,7 @@ function _updateHeaderForChartImpl(chartId, time) {
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
-      pe.innerHTML = `<span style="color:rgb(210,175,100)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${d.above50.toFixed(1)}%</span>`;
+      pe.innerHTML = `<span style="color:rgb(126,166,209)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${d.above50.toFixed(1)}%</span>`;
   } else if (chartId === 'goldman') {
     const pe = document.getElementById('p-goldman');
     if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
@@ -871,7 +957,7 @@ function _updateHeaderForChartImpl(chartId, time) {
     const pe = document.getElementById('p-kr-export');
     if (pe) {
       const fmt = v => v == null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
-      pe.innerHTML = `<span style="color:rgb(210,175,100)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
+      pe.innerHTML = `<span style="color:rgb(126,166,209)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
     }
   } else {
     const pe = document.getElementById('p-' + chartId);
@@ -889,7 +975,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fg','adr','kr-export'] : ['ndx','us-fg','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr','kr-fflow'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -920,10 +1006,27 @@ const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['
 
 // MA config: periods and colors per chart
 const MA_CONFIG = {
-  kospi: { daily:[5,10,20,60,120], weekly:[5,10,20,60,120] },
-  ndx:   { daily:[5,10,20,50,200], weekly:[5,10,20,50,200] }
+  kospi: { daily:[5,20,60,120], weekly:[5,20,60,120] },
+  ndx:   { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
-const MA_COLORS = ['#f04452','#f1c40f','#2ecc71','#3182f6','#bc8cff'];
+// 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
+//   5 검정 / 20 황금(#B8860B dark goldenrod — 2회 상향: #E8C400 → #CC9900 → #B8860B) /
+//   50·60 보라 / 100·120 녹색 / 200 갈색
+//   미국 5/20/50/100/200 (US 표준), 한국 5/20/60/120 (국내 관례 + BT: 시클리컬 위주라
+//   200·240 장기선은 실전 의미 낮다고 판단, 2026-08-01 제외).
+const MA_COLOR_BY_PERIOD = {
+  5:'#000000', 10:'#0000FF', 20:'#B8860B',
+  50:'#9900CC', 60:'#9900CC',
+  100:'#008000', 120:'#008000',
+  200:'#8B4513'
+};
+const MA_COLORS = ['#000000','#B8860B','#9900CC','#008000','#8B4513'];
+// 2026-08-01: 회색 배경에서 금색 라인이 묻혀 → MDD 와 동일한 진한 슬레이트로 통일.
+//   C_SLATE      = 차트 시리즈 (회색 plot 위)  — MDD bottomLineColor 와 같은 값
+//   C_SLATE_TEXT = 다크 카드 헤더/툴팁 텍스트 (같은 색은 다크 배경에서 안 보임)
+const C_SLATE = 'rgb(45,62,80)';
+const C_SLATE_TEXT = 'rgb(126,166,209)';
+const maColor = (p, i) => MA_COLOR_BY_PERIOD[p] || MA_COLORS[i % MA_COLORS.length];
 
 async function loadIndex(id, col) {
   const range = colRange[col], intv = colInterval[col];
@@ -963,7 +1066,7 @@ async function loadIndex(id, col) {
         }
         if (pts.length) {
           const line = allCharts[id].chart.addLineSeries({
-            color: MA_COLORS[idx % MA_COLORS.length], lineWidth: 1,
+            color: maColor(p, idx), lineWidth: (p <= 20 ? 1.8 : 1.2),
             priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
           });
           line.setData(pts);
@@ -978,7 +1081,7 @@ async function loadIndex(id, col) {
       if (legendEl) {
         const unit = intv === '1wk' ? 'W' : 'D';
         legendEl.innerHTML = periods.map((p, i) =>
-          `<span><span class="dot" style="background:${MA_COLORS[i]}"></span>${p}${unit}</span>`
+          `<span><span class="dot" style="background:${maColor(p, i)}"></span>${p}${unit}</span>`
         ).join('');
       }
     }
@@ -1023,7 +1126,7 @@ async function loadMDD(indexId, mddId, col) {
       const s = allCharts[mddId].chart.addBaselineSeries({
         baseValue: { type: 'price', price: 0 },
         topLineColor: 'transparent', topFillColor1: 'transparent', topFillColor2: 'transparent',
-        bottomLineColor: 'rgb(160,160,160)', bottomFillColor1: 'rgba(140,140,140,0.65)', bottomFillColor2: 'rgba(140,140,140,0.15)',
+        bottomLineColor: 'rgb(45,62,80)', bottomFillColor1: 'rgba(60,82,105,0.55)', bottomFillColor2: 'rgba(60,82,105,0.10)',
         lineWidth: 1.5, priceLineVisible: false,
         lastValueVisible: true, crosshairMarkerVisible: true,
         autoscaleInfoProvider: (original) => {
@@ -1038,13 +1141,13 @@ async function loadMDD(indexId, mddId, col) {
     allCharts[mddId].series.setData(padded);
     buildDataMap(mddId, padded);
     // 0% solid line
-    allCharts[mddId].series.createPriceLine({ price: 0, color: '#8b949e', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: 0, color: '#4a5058', lineWidth: 1, lineStyle: 0, axisLabelVisible: false, title: '' });
     // Zone lines — Y축 라벨 없이 점선만
-    allCharts[mddId].series.createPriceLine({ price: -10, color: '#27ae60', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -20, color: '#e2a44e', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -30, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -40, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
-    allCharts[mddId].series.createPriceLine({ price: -50, color: '#f85149', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -10, color: '#0B6E33', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -20, color: '#9A6A05', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -30, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -40, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
+    allCharts[mddId].series.createPriceLine({ price: -50, color: '#B01D12', lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' });
     // MDD = 최대 고점(ATH high) 대비 이후 최저점 — peak-to-trough (2026-06-28 BT: 현재가 낙폭 아님)
     //   최고 고가 시점(pkIdx) 이후 구간의 최저 낙폭값 + 발생일 표시. pkIdx 이후엔 running peak == ATH라 mddData값이 곧 ATH 대비 낙폭.
     let pkIdx = 0, pkHigh = -Infinity;
@@ -1199,7 +1302,7 @@ async function loadKrFG() {
     document.getElementById('kr-fg-val').textContent=score;
     const le=document.getElementById('kr-fg-lbl');le.textContent=lbl.t;le.style.color=lbl.c;
     origValues['kr-fg']=()=>{document.getElementById('kr-fg-val').textContent=score;le.textContent=lbl.t;le.style.color=lbl.c};
-    if(!allCharts['kr-fg']){createChart('kr-fg','kr',{showTimeAxis:false});allCharts['kr-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('kr-fg','rgb(210,175,100)');}
+    if(!allCharts['kr-fg']){createChart('kr-fg','kr',{showTimeAxis:false});allCharts['kr-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('kr-fg',C_SLATE);}
     const krfgData=alignToTimeIndex(data,'kr');allCharts['kr-fg'].series.setData(krfgData);buildDataMap('kr-fg',krfgData);
     addZoneLines(allCharts['kr-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
     // fitContent skipped — synced from main chart
@@ -1279,20 +1382,207 @@ function filterAdrByRange(records, range) {
   const cutoffStr = cutoff.toISOString().slice(0,10);
   return records.filter(r => r.date >= cutoffStr);
 }
+// 피어앤그리드 오실레이터 — 합성 심리지수 MACD 히스토그램
+// 데이터: ./data/kr_fg_oscillator.json (kr_fg_oscillator_build.py, KRX cron 매일 갱신)
+// 절대 심리 수준이 아니라 심리 개선/둔화 "속도" 를 보여줌 (태린이아빠 방법론)
+let _fgOscCache = null;
+async function fetchFgOsc() {
+  if (_fgOscCache) return _fgOscCache;
+  const r = await fetch('./data/kr_fg_oscillator.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_fg_oscillator.json fetch failed: ' + r.status);
+  _fgOscCache = await r.json();
+  return _fgOscCache;
+}
+// F&G 시계열 EMA (span 기간)
+function fgEma20(points, span) {
+  const k = 2 / (span + 1);
+  let prev = null;
+  return points.map(p => {
+    prev = prev === null ? p.value : p.value * k + prev * (1 - k);
+    return { time: p.time, value: prev };
+  });
+}
+
+// F&G combo 로더 공통 (KR/US) — Index(좌축)+EMA20(좌축)+Oscillator(우축)
+async function loadFGCombo(id, col, fetchFn) {
+  const intv = colInterval[col];
+  const msgEl = document.getElementById('msg-' + id);
+  try {
+    const D = await fetchFn();
+    let sOsc = (D.data || []).map(([d, v]) => ({ time: d, value: v.osc }));
+    let sFg  = (D.data || []).map(([d, v]) => ({ time: d, value: Math.round(v.fg * 1000) / 10 }));
+    if (intv === '1wk') { sOsc = resampleWeekly(sOsc); sFg = resampleWeekly(sFg); }
+    const lastOsc = sOsc[sOsc.length - 1], lastFg = sFg[sFg.length - 1];
+    const hdr = document.getElementById('p-' + id);
+    const oscTxt = lastOsc ? (lastOsc.value >= 0 ? '+' : '') + lastOsc.value.toFixed(4) : '—';
+    const oscColor = lastOsc && lastOsc.value >= 0 ? C_SLATE_TEXT : '#f04452';
+    const hdrHtml = lastFg
+      ? `<span style="color:rgb(126,166,209)">F&G ${lastFg.value.toFixed(1)}</span> / <span style="color:rgb(249,117,131)">Osc ${oscTxt}</span>`
+      : '—';
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+    if (!allCharts[id]) {
+      createChart(id, col, { showTimeAxis: false });
+      const ch = allCharts[id].chart;
+      // 2026-08-01 X 정렬 fix: 기존엔 F&G 절대값을 leftPriceScale 에 올려 좌축을 켰는데,
+      // 이 카드만 좌축 폭(~50px)만큼 plot 시작 X 가 밀려 컬럼 크로스헤어/마커가 어긋났다.
+      // → 현선물 카드와 동일한 '오버레이 priceScale' 패턴 (임의 ID = 축 미표시 + 독립 autoscale).
+      //   축 폭이 다른 카드와 동일해져 정렬 유지. F&G 절대값은 헤더/툴팁에서 확인.
+      ch.applyOptions({ leftPriceScale: { visible: false } });
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      ch.priceScale('fg-abs').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
+      const gold = ch.addLineSeries({ priceScaleId: 'fg-abs', color: C_SLATE, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
+      const pink = ch.addLineSeries({ priceScaleId: 'right', color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts[id].series = gold;
+      allCharts[id].series2 = pink;
+      addZoneLines(gold, [{ price: 75, color: '#27ae60' }, { price: 25, color: '#e74c3c' }]);
+      addZoneLines(pink, [{ price: 0, color: '#8b949e' }]);
+    }
+    const pFg = alignToTimeIndex(sFg, col);
+    const pOsc = alignToTimeIndex(sOsc, col);
+    allCharts[id].series.setData(pFg);
+    allCharts[id].series2.setData(pOsc);
+    const oscMap = {}; pOsc.forEach(p => { oscMap[p.time] = p.value; });
+    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, osc: oscMap[p.time] }; });
+    chartDataMap[id] = map;
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('FGCombo ' + id, e); msgEl.textContent = '⚠ 실패'; }
+}
+
+async function loadKrFGOsc() { return loadFGCombo('kr-fgosc', 'kr', fetchFgOsc); }
+
+// KR Market Breadth: 120MA·20MA 위 비율 (kr_breadth.json above_120ma/above_20ma)
+async function loadKrBreadth(){
+  const range=colRange.kr, intv=colInterval.kr;
+  const msgEl=document.getElementById('msg-kr-breadth');
+  try{
+    const all = await fetchKrBreadthSeries();
+    const filtered = filterAdrByRange(all, range);
+    let s120 = filtered.filter(r=>r.above_120ma!=null).map(r=>({time:r.date,value:r.above_120ma}));
+    let s20  = filtered.filter(r=>r.above_20ma!=null).map(r=>({time:r.date,value:r.above_20ma}));
+    if(intv==='1wk'){s120=resampleWeekly(s120);s20=resampleWeekly(s20);}
+    if(!s120.length && !s20.length){msgEl.textContent='데이터 대기 중 (다음 KRX 갱신 후 표시)';return;}
+    const last120=s120[s120.length-1],last20=s20[s20.length-1];
+    const hdr=document.getElementById('p-kr-breadth');
+    const hdrHtml=(last120&&last20)?`<span style="color:rgb(126,166,209)">120MA ${last120.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">20MA ${last20.value.toFixed(1)}%</span>`:'—';
+    if(hdr)hdr.innerHTML=hdrHtml;
+    origValues['kr-breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
+    if(!allCharts['kr-breadth']){
+      createChart('kr-breadth','kr',{showTimeAxis:false});
+      allCharts['kr-breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const gold=allCharts['kr-breadth'].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const pink=allCharts['kr-breadth'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts['kr-breadth'].series=gold;
+      allCharts['kr-breadth'].series2=pink;
+      allCharts['kr-breadth'].seriesByKey = { '120': gold, '20': pink };
+      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'}]);
+    }
+    const p120=alignToTimeIndex(s120,'kr');
+    const p20 =alignToTimeIndex(s20, 'kr');
+    allCharts['kr-breadth'].series.setData(p120);
+    allCharts['kr-breadth'].series2.setData(p20);
+    const map={};
+    const n=Math.min(p120.length,p20.length);
+    for(let i=0;i<n;i++){const t=p120[i].time;map[t]={time:t,above120:p120[i].value,above20:p20[i].value};}
+    chartDataMap['kr-breadth']=map;
+    msgEl.style.display='none';
+  }catch(e){console.error('loadKrBreadth',e);msgEl.textContent='⚠ 실패';}
+}
+
+// 외국인 순매수 (KOSPI, KIS FHPTJ04040000) — 누적 골드선(좌) + 일별 히스토그램(우, 억원)
+let _fflowCache = null;
+async function fetchKrFflow() {
+  if (_fflowCache) return _fflowCache;
+  const r = await fetch('./data/kr_investor_flow.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_investor_flow.json fetch failed: ' + r.status);
+  _fflowCache = await r.json();
+  return _fflowCache;
+}
+async function loadKrFflow() {
+  const intv = colInterval.kr;
+  const msgEl = document.getElementById('msg-kr-fflow');
+  try {
+    const D = await fetchKrFflow();
+    const rows = (D.data || []).filter(([d, v]) => v.frgn != null);
+    // 현선물 합 (total = 현물 + 선물환산) 우선, 없으면 현물만. 단위: 조원 (억 ÷ 10000)
+    const pick = v => (v.total != null ? v.total : v.frgn);
+    let daily = rows.map(([d, v]) => ({ time: d, value: Math.round(pick(v) / 100) / 100 }));
+    // 20일 누적 순매수 (rolling sum, 조원)
+    let cum20 = [];
+    { let win = []; let s = 0;
+      for (const [d, v] of rows) {
+        const x = pick(v);
+        win.push(x); s += x;
+        if (win.length > 20) s -= win.shift();
+        if (win.length === 20) cum20.push({ time: d, value: Math.round(s / 100) / 100 });
+      } }
+    if (intv === '1wk') { daily = resampleWeekly(daily); cum20 = resampleWeekly(cum20); }
+    const last = daily[daily.length - 1], last20 = cum20[cum20.length - 1];
+    const fmt조 = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '조';
+    const hdr = document.getElementById('p-kr-fflow');
+    const hdrHtml = last
+      ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">1D ${fmt조(last.value)}</span> / <span style="color:rgb(126,166,209)">20D ${fmt조(last20 ? last20.value : 0)}</span>`
+      : '—';
+    if (hdr) hdr.innerHTML = hdrHtml;
+    origValues['kr-fflow'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
+    if (!allCharts['kr-fflow']) {
+      createChart('kr-fflow', 'kr', { showTimeAxis: false });
+      const ch = allCharts['kr-fflow'].chart;
+      ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.45 } });
+      // 일별 바 = 오버레이 스케일 (축 미표시, 독립 autoscale) — 축 폭 불변이라 컬럼 크로스헤어 정렬 유지
+      const bars = ch.addHistogramSeries({ priceScaleId: 'fflow-bars', color: '#f04452', priceLineVisible: false, lastValueVisible: false, base: 0 });
+      ch.priceScale('fflow-bars').applyOptions({ scaleMargins: { top: 0.5, bottom: 0.05 } });
+      const gold = ch.addLineSeries({ color: C_SLATE, lineWidth: 2, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
+      allCharts['kr-fflow'].series = bars;
+      allCharts['kr-fflow'].series2 = gold;
+      addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
+    }
+    const pDaily = alignToTimeIndex(daily, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? 'rgba(240,68,82,0.55)' : 'rgba(49,130,246,0.55)' }));
+    const pCum = alignToTimeIndex(cum20, 'kr');
+    allCharts['kr-fflow'].series.setData(pDaily);
+    allCharts['kr-fflow'].series2.setData(pCum);
+    const cumMap = {}; pCum.forEach(p => { cumMap[p.time] = p.value; });
+    const map = {}; pDaily.forEach(p => { map[p.time] = { time: p.time, value: p.value, cum20: cumMap[p.time] }; });
+    chartDataMap['kr-fflow'] = map;
+    msgEl.style.display = 'none';
+  } catch (e) { console.error('KrFflow', e); msgEl.textContent = '⚠ 실패'; }
+}
+
 async function loadADR(){
   const range=colRange.kr, intv=colInterval.kr;
   const msgEl=document.getElementById('msg-adr');
   try{
     const all = await fetchAdrSeries();
-    const withAdr = all.filter(r => r.adr != null);
-    const filtered = filterAdrByRange(withAdr, range);
-    let out = filtered.map(r => ({time: r.date, value: r.adr}));
-    if(intv==='1wk') out=resampleWeekly(out);
-    const last=out[out.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
+    const filtered = filterAdrByRange(all.filter(r => r.adr != null), range);
+    const build = key => {
+      let s = filtered.filter(r=>r[key]!=null).map(r=>({time:r.date,value:r[key]}));
+      if(intv==='1wk') s=resampleWeekly(s);
+      return s;
+    };
+    const sAll=build('adr'), sKp=build('adr_kospi'), sKq=build('adr_kosdaq');
+    const last=sAll[sAll.length-1];document.getElementById('p-adr').textContent=last?last.value:'—';
     origValues['adr']=()=>{document.getElementById('p-adr').textContent=last?last.value:'—'};
-    if(!allCharts['adr']){createChart('adr','kr',{showTimeAxis:false});allCharts['adr'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('adr','rgb(210,175,100)');}
-    const adrData=alignToTimeIndex(out,'kr');allCharts['adr'].series.setData(adrData);buildDataMap('adr',adrData);
-    addZoneLines(allCharts['adr'].series,[{price:120,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:80,color:'#3182f6'}]);
+    if(!allCharts['adr']){
+      createChart('adr','kr',{showTimeAxis:false});
+      allCharts['adr'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      const gold=allCharts['adr'].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const cyan=allCharts['adr'].chart.addLineSeries({color:'rgb(57,197,207)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,visible:false});
+      const pink=allCharts['adr'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true,visible:false});
+      allCharts['adr'].series=gold;
+      allCharts['adr'].series2=cyan;
+      allCharts['adr'].series3=pink;
+      allCharts['adr'].seriesByKey = { all: gold, kp: cyan, kq: pink };
+      addZoneLines(gold,[{price:120,color:'#e74c3c'},{price:100,color:'#8b949e'},{price:80,color:'#3182f6'}]);
+    }
+    const pAll=alignToTimeIndex(sAll,'kr');
+    allCharts['adr'].series.setData(pAll);
+    if(sKp.length) allCharts['adr'].series2.setData(alignToTimeIndex(sKp,'kr'));
+    if(sKq.length) allCharts['adr'].series3.setData(alignToTimeIndex(sKq,'kr'));
+    // 툴팁 map — 3값 통합
+    const kpMap={};sKp.forEach(p=>{kpMap[p.time]=p.value});
+    const kqMap={};sKq.forEach(p=>{kqMap[p.time]=p.value});
+    const map={};pAll.forEach(p=>{map[p.time]={time:p.time,value:p.value,kp:kpMap[p.time],kq:kqMap[p.time]};});
+    chartDataMap['adr']=map;
     msgEl.style.display='none';
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
@@ -1344,7 +1634,7 @@ async function loadKrExport(){
     const last20 = s20[s20.length - 1];
     const last10 = s10[s10.length - 1];
     const hdr = document.getElementById('p-kr-export');
-    const hdrHtml = `<span style="color:rgb(210,175,100)">월 ${fmt(lastM && lastM.value)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(last20 && last20.value)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(last10 && last10.value)}</span>`;
+    const hdrHtml = `<span style="color:rgb(126,166,209)">월 ${fmt(lastM && lastM.value)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(last20 && last20.value)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(last10 && last10.value)}</span>`;
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues['kr-export'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
 
@@ -1352,7 +1642,7 @@ async function loadKrExport(){
       createChart('kr-export', 'kr', { showTimeAxis: true });
       allCharts['kr-export'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
       // 월 확정치 = 히스토그램(바), 양수=골드 / 음수=레드
-      const bars = allCharts['kr-export'].chart.addHistogramSeries({ color: 'rgb(210,175,100)', priceLineVisible: false, lastValueVisible: true, base: 0 });
+      const bars = allCharts['kr-export'].chart.addHistogramSeries({ color: C_SLATE, priceLineVisible: false, lastValueVisible: true, base: 0 });
       const cyan = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.6, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       const pink = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
       allCharts['kr-export'].series  = bars;
@@ -1360,10 +1650,10 @@ async function loadKrExport(){
       allCharts['kr-export'].series3 = pink;
       allCharts['kr-export'].seriesByKey = { m: bars, '20': cyan, '10': pink };
       // 0% 참고선 (잠정 선 위에 추가해 항상 표시)
-      cyan.createPriceLine({ price: 0, color: 'rgba(139,148,158,0.5)', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
+      cyan.createPriceLine({ price: 0, color: '#3A424B', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
     }
     // 월 확정치: forward-fill 대신 실제 월별 데이터만 바로 렌더 (1개월 = 1개 바)
-    const barsData = sM.map(x => ({ time: x.time, value: x.value, color: x.value >= 0 ? 'rgb(210,175,100)' : 'rgb(231,76,60)' }));
+    const barsData = sM.map(x => ({ time: x.time, value: x.value, color: x.value >= 0 ? C_SLATE : 'rgb(231,76,60)' }));
     const pM  = alignToTimeIndex(sM,  'kr'); // crosshair용 (렌더링에는 미사용)
     const p20 = alignToTimeIndex(s20, 'kr');
     const p10 = alignToTimeIndex(s10, 'kr');
@@ -1565,6 +1855,18 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
   return out;
 }
 
+// US F&G Oscillator — 합성 심리지수 MACD 히스토그램 (KR 과 대칭)
+// 데이터: ./data/us_fg_oscillator.json (us_fg_oscillator_build.py, yahoo cron 매일 갱신)
+let _usFgOscCache = null;
+async function fetchUsFgOsc() {
+  if (_usFgOscCache) return _usFgOscCache;
+  const r = await fetch('./data/us_fg_oscillator.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('us_fg_oscillator.json fetch failed: ' + r.status);
+  _usFgOscCache = await r.json();
+  return _usFgOscCache;
+}
+async function loadUSFGOsc() { return loadFGCombo('us-fgosc', 'us', fetchUsFgOsc); }
+
 async function loadUSFG() {
   const range = colRange.us, intv = colInterval.us;
   const msgEl = document.getElementById('msg-us-fg');
@@ -1602,7 +1904,7 @@ async function loadUSFG() {
     document.getElementById('us-fg-val').textContent = score;
     const le = document.getElementById('us-fg-lbl'); le.textContent = lbl.t; le.style.color = lbl.c;
     origValues['us-fg'] = () => { document.getElementById('us-fg-val').textContent = score; le.textContent = lbl.t; le.style.color = lbl.c; };
-    if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); allCharts['us-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}}); addAreaSeries('us-fg', 'rgb(210,175,100)'); }
+    if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); allCharts['us-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}}); addAreaSeries('us-fg', C_SLATE); }
     const usfgPadded = alignToTimeIndex(data, 'us'); allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
     addZoneLines(allCharts['us-fg'].series, [{ price: 75, color: '#27ae60' }, { price: 50, color: '#f1c40f' }, { price: 25, color: '#e74c3c' }]);
     // fitContent skipped — synced from main chart
@@ -1634,13 +1936,13 @@ async function loadUSBreadth(){
     if(intv==='1wk'){s200=resampleWeekly(s200);s50=resampleWeekly(s50);}
     const last200=s200[s200.length-1],last50=s50[s50.length-1];
     const hdr=document.getElementById('p-breadth');
-    const hdrHtml=(last200&&last50)?`<span style="color:rgb(210,175,100)">200MA ${last200.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${last50.value.toFixed(1)}%</span>`:'—';
+    const hdrHtml=(last200&&last50)?`<span style="color:rgb(126,166,209)">200MA ${last200.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${last50.value.toFixed(1)}%</span>`:'—';
     if(hdr)hdr.innerHTML=hdrHtml;
     origValues['breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
     if(!allCharts['breadth']){
       createChart('breadth','us',{showTimeAxis:false});
       allCharts['breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      const gold=allCharts['breadth'].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const gold=allCharts['breadth'].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       const pink=allCharts['breadth'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['breadth'].series=gold;
       allCharts['breadth'].series2=pink;
@@ -1676,9 +1978,9 @@ async function loadGoldmanBreadth(){
     if(!allCharts['goldman']){
       createChart('goldman','us',{showTimeAxis:true});
       allCharts['goldman'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.1}});
-      const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:'rgb(210,175,100)',topColor:'rgba(210,175,100,0.28)',bottomColor:'rgba(210,175,100,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:C_SLATE,topColor:'rgba(45,62,80,0.28)',bottomColor:'rgba(45,62,80,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts['goldman'].series=areaS;
-      areaS.createPriceLine({price:0,color:'rgba(139,148,158,0.5)',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
+      areaS.createPriceLine({price:0,color:'#3A424B',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
     }
     const pG=alignToTimeIndex(sG,'us');
     allCharts['goldman'].series.setData(pG);
@@ -1709,7 +2011,7 @@ async function loadFedRate(chartId,col){
     if(pe)pe.textContent=price?price.toFixed(2)+'%':'—';
     origValues[chartId]=()=>{if(pe)pe.textContent=price?price.toFixed(2)+'%':'—'};
     if(!allCharts[chartId]){createChart(chartId,col,{showTimeAxis:true});allCharts[chartId].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      const s=allCharts[chartId].chart.addLineSeries({color:'rgb(210,175,100)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const s=allCharts[chartId].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
       allCharts[chartId].series=s;}
     const padded=alignToTimeIndex(pts,col);allCharts[chartId].series.setData(padded);buildDataMap(chartId,padded);
     msgEl.style.display='none';
@@ -1740,9 +2042,9 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFG(), loadADR(), loadKrExport()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR(), loadKrFflow()]);
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFG(), loadUSBreadth(), loadGoldmanBreadth()]);
+    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
   if (allCharts[mainId]) {
     // Default view: last 120 bars
@@ -1893,7 +2195,6 @@ function setupScrollbar(col, mainId) {
     {d:"07/07",cat:"지정학",ev:"나토 정상회의 (~7/8, 튀르키에)",note:"지정학"},
     {d:"07/07",cat:"실적",ev:"삼성전자 2분기 잠정실적 (추정)",note:"반도체 T1 — Blind 7/7 발표 예정 포스팅(IR 공식 미공시). 메모리·파운드리 OPM, HBM. 빅2 어닝 시즌 출발"},
     {d:"07/07",cat:"시장구조",ev:"스페이스X 나스닥100 지수 편입 (장전 effective)",note:"우주 — 지수 추종 펀드 7/6 장 마감부터 매수 개시, 초기 비중 1% 미만. 패시브 수요 ~$4.3B(나스닥100)+러셀 $3B…"},
-    {d:"07/15",cat:"정책",ev:"미국 클래리티법안 상원 본회의·하원 재승인·서명 일정",note:"법안심의 — 5/14 상원 은행위 마크업 15-9 통과 완료 (Gallego·Alsobrooks 민주당 2명 찬성). 6/1 상원 입법 캘린더 General Orders 등재 완료…"},
     {d:"07/15",cat:"정책",ev:"대미투자 1호 프로젝트 공식 발표 (산업부-미 상무부)",note:"한미통상 — 6/18 한미전략투자공사 출범 완료 (서울신문 2026-06-18). 1호 프로젝트 구체적 내용·발표 시기 \"정해진 바 없음\" (산업부 공식 설명자료 2026-06-21)…"},
     {d:"07/18",cat:"정책",ev:"GENIUS Act 하위 규정 시행기한",note:"금융·스테이블코인"},
     {d:"07/23",cat:"실적",ev:"빅테크 실적 — 알파벳(GOOGL)·테슬라(TSLA) (7/22 ET AMC, KST 7/23 새벽)",note:"AI CAPEX 1차 검증 (핵심리스크 ①) — Cloud 성장·CapEx 가이던스 + 테슬라 Auto GPM·옵티머스·로보택시…"},
@@ -1903,31 +2204,28 @@ function setupScrollbar(col, mainId) {
     {d:"07/31",cat:"실적",ev:"빅테크 실적 — 애플(AAPL)·아마존(AMZN) (AMC, KST 7/31)",note:"AWS CapEx·메모리 원가 가격전가·서비스"},
     {d:"08/03",cat:"IPO",ev:"딜리셔스 신규상장",note:"38커뮤니케이션 확인 (2026-06-29). 상장일 8/12 확정 (38커뮤니케이션 직접 확인 2026-07-28)"},
     {d:"08/04",cat:"IPO",ev:"케이앤에스아이앤씨 신규상장",note:"38커뮤니케이션 — 청약 7/27~28 → 8/4~5 일정 변경 확인 (2026-07-13). 확정 공모가 11,000원. 상장일 8/14 확정 (38커뮤니케이션 직접 확인 2026-07-23)"},
-    {d:"08/05",cat:"실적",ev:"지멘스에너지(ENR) Q3 FY2026 (CC 08:30 CET, KST 동일)",note:"전력인프라 T2 — 그리드·HVDC·풍력. 전력인프라 피어(ABB·GEV·LS일렉트릭) 실적 이후 최종 cross-read…"},
-    {d:"08/05",cat:"실적",ev:"AMD(AMD) Q2 2026",note:"반도체 CPU — 매출 $11.5B +50% YoY beat(컨센 $11.3B), EPS $1.66 beat(컨센 $1.62), 데이터센터 $6.7B +107% YoY 사상 최고…"},
-    {d:"08/05",cat:"경제지표",ev:"코스트코(COST) 7월 월간 매출 (IR, PT 13:15 = KST 8/6 05:15)",note:"$23.12B / +10.7% YoY / 동매장 +8.9% (4주 기간, 8/2 종료. 미국 +10.3%·캐나다 +4.2%·디지털 +17.7%) → 분위기 양호"},
-    {d:"08/06",cat:"실적",ev:"샌디스크(SNDK) + 웨스턴디지털(WDC) Q4 FY2026 AMC (KST, 8/5 ET)",note:"반도체 스토리지 — SNDK: Q4 가이던스 $7.75~8.25B·GM 79~81%·EPS $30~33 (Q3 실제 $5.95B +251% YoY 대폭 초과)…"},
-    {d:"08/06",cat:"실적",ev:"컨스텔레이션에너지(CEG) Q2 BMO + 뉴스케일파워(SMR) Q2 BMO",note:"원전 T2 — CEG: 기존 원전 가동/수익성·전력 가격. SMR(뉴스케일): SMR 수주·인허가 진척, 현금 유동성. [실적_캘린더 확정 — 기존 8/13→8/6 정정 2026-07-29]"},
-    {d:"08/06",cat:"실적",ev:"넥스트래커(NXT) Q1 FY2027 AMC (KST, 8/5 ET)",note:"신재생에너지/전력 T2 — 태양광 트래커. FY27 가이던스 $3.8~4.1B. [실적_캘린더 확정 — MarketBeat]"},
-    {d:"08/06",cat:"실적",ev:"라인메탈(RHM) H1 2026 (독일 오전, KST 동일)",note:"방산 T2 — 장갑차·탄약·독일 재무장. 유럽 방산 크로스리드. [실적_캘린더 확정 — Rheinmetall IR]"},
+    {d:"08/06",cat:"실적",ev:"샌디스크(SNDK) + 웨스턴디지털(WDC) Q4 FY2026 AMC (KST, 8/5 ET)",note:"반도체 스토리지 — SNDK: 매출 $89.7억 +372% YoY(컨센 $84.2억 상회)·non-GAAP EPS $39.25(컨센 $34.59 상회)·GM 84.6% / Q1 FY2027…"},
+    {d:"08/06",cat:"실적",ev:"컨스텔레이션에너지(CEG) Q2 BMO + 뉴스케일파워(SMR) Q2 BMO",note:"원전 T2 — CEG: 매출 $75억(컨센 소폭 상회)·EPS beat +8.05%·FY2026 EPS 가이던스 상향 $11.50~12.50(기존 $11.00~12.00)·신규 클린에너지 계약…"},
+    {d:"08/06",cat:"실적",ev:"넥스트래커(NXT) Q1 FY2027 AMC (KST, 8/5 ET)",note:"신재생에너지/전력 T2 — EPS $1.20(컨센 $1.00 대비 +20% beat)·미국 시장 강세 지속."},
+    {d:"08/06",cat:"실적",ev:"라인메탈(RHM) H1 2026 (독일 오전, KST 동일)",note:"방산 T2 — H1 매출 €52.3억 +39% YoY·영업이익률 15.0%(전년 12.1%)·EPS €8.43(전년 €4.69)·수주잔고 €80.5B +44% YoY…"},
     {d:"08/07",cat:"실적",ev:"비스트라(VST) Q2 BMO + 오클로(OKLO) Q2 BMO",note:"원전 T2 — VST: 원전+가스 발전·전력 가격. OKLO: SMR 규제 진척·현금 $2.5B. [실적_캘린더 확정]"},
     {d:"08/11",cat:"경제지표",ev:"한국 8월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 초 모멘텀 조기 시그널"},
-    {d:"08/11",cat:"IPO",ev:"기도산업 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 24,800~28,400원. 미래에셋증권·삼성증권"},
+    {d:"08/11",cat:"IPO",ev:"기도산업 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 24,800~28,400원. 미래에셋증권·삼성증권. 상장일 8/21 확정 (38커뮤니케이션 직접 확인 2026-08-07)"},
     {d:"08/12",cat:"경제지표",ev:"미 7월 CPI (BLS, ET 08:30 = KST 21:30)",note:"인플레 T1 — Yuanta 3Q framework 2차 검증. 유가 기저효과 소멸(7월부터) + PPI→CPI 전가 시차 3개월 반영 여부 확인. 명목+실질 금리 동반 방향 주시"},
     {d:"08/12",cat:"실적",ev:"HD현대일렉트릭 2Q26 확정실적 CC",note:"전력인프라 T2 — 잠정실적 7/28 OI 2870억 +37% YoY. OPM 27% 회복·신규수주 가이던스·관세 환급…"},
     {d:"08/12",cat:"IPO",ev:"니어스랩 신규상장",note:"38커뮤니케이션 — 청약 8/5~6 → 8/12~13 일정 변경 (2026-07-15). 드론 기업. 희망공모가 30,000~41,200원. 삼성증권…"},
-    {d:"08/12",cat:"IPO",ev:"해치텍 신규상장",note:"38커뮤니케이션 확인 (2026-07-03). 희망공모가 23,000~28,000원. DB증권. 청약 8/6~7 → 8/12~13 일정 변경 (2026-07-17)"},
+    {d:"08/12",cat:"IPO",ev:"해치텍 신규상장",note:"38커뮤니케이션 확인 (2026-07-03). 희망공모가 23,000~28,000원. DB증권. 청약 8/6~7 → 8/12~13 일정 변경 (2026-07-17)…"},
     {d:"08/13",cat:"경제지표",ev:"미 7월 PPI (BLS, ET 08:30 = KST 21:30)",note:"인플레 T1 — CPI 선행. PPI→CPI 전가 시차 3개월 기준"},
     {d:"08/13",cat:"실적",ev:"HD현대중공업 2Q26 확정실적 CC",note:"조선 T2 — 잠정실적 7/29 완료(매출 6조3136억 +52.3% YoY, OI 1조357억 +120.7% YoY, 분기 사상 최대). 확정실적 세부 내역·수주잔고·조선 사이클 가이던스…"},
     {d:"08/14",cat:"경제지표",ev:"미 7월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 7월 선행 / 8/5 발표: $23.12B / +10.7% YoY / 동매장 +8.9% → 분위기 양호) 소비 경기 바로미터…"},
     {d:"08/14",cat:"실적",ev:"어플라이드머티리얼즈(AMAT) Q3 FY2026 AMC (KST, 8/13 ET)",note:"반도체 장비 — Q3 가이던스 $8.95B±0.5B·non-GAAP EPS $3.36±0.20. HBM CAPEX 사이클 동조. [실적_캘린더 확정]"},
-    {d:"08/17",cat:"지정학",ev:"이란 60일 핵협상 시한 만료",note:"이란·지정학 — 5/18 협상 개시 기준 60일 시한. 합의 실패 시 유가 급등·호르무즈 리스크 재점화 경로"},
+    {d:"08/17",cat:"지정학",ev:"~~이란 60일 핵협상 시한 만료~~ → 호르무즈 \"60일 무료 통행\" 조항 만료일로 재정의",note:"이란·지정학 — 2026-08-07 BT 지적 반영 정정. (a) 7/7 미국이 이란 원유 판매 라이선스를 취소해 MOU의 핵심 경제 조항(제재 면제)을 이미 파기…"},
     {d:"08/18",cat:"실적",ev:"현대로템 2Q26 확정실적 CC",note:"방산 T2 — 잠정실적 7/24 완료. K2 전차·방산 수출 세부 내역·수주잔고·해외 현지화 진척. [실적_캘린더 확정 — FnGuide·IRGO]"},
     {d:"08/18",cat:"정책",ev:"네이버·두나무 합병 주주총회 (주식교환 결의)",note:"핀테크·네이버 — 8/18 주총 전 공정위 기업결합 승인 필수. 카카오 지분 희석·국내 거래소 재편"},
     {d:"08/21",cat:"경제지표",ev:"한국 8월 1~20일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 8월 중순 모멘텀"},
-    {d:"08/21",cat:"실적",ev:"마벨(MRVL) Q2 FY2027 AMC (KST, 8/20 ET)",note:"반도체 ASIC — AWS 트레이니움·MS Maia ASIC. Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B. [실적_캘린더 확정]"},
     {d:"08/26",cat:"IPO",ev:"스카이랩스 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 13,000~16,000원. 한국투자증권. 청약 8/13~14 → 8/26~27 일정 변경 (2026-07-31, 4차 정정)"},
     {d:"08/27",cat:"실적",ev:"엔비디아(NVDA) Q2 FY27 실적 (AMC, KST 8/27)",note:"AI칩 수요 핵심 — Data Center·Vera Rubin·가이던스 (핵심리스크 ①)"},
+    {d:"08/28",cat:"실적",ev:"마벨(MRVL) Q2 FY2027 AMC (KST, 8/27 ET)",note:"반도체 ASIC — ⚠ 기존 8/21(8/20 ET)→8/28(8/27 ET) 정정 (Marvell 공식 CC 8/27 1:45pm PT, 실적_캘린더 2026-08-06)…"},
     {d:"09/01",cat:"경제지표",ev:"한국 8월 월간 잠정 수출입 동향 (관세청, KST 09:00)",note:"한국 수출 — 월간 확정치, 가장 중요. 반도체·자동차 품목별·국가별 세부 데이터 공개"},
     {d:"09/01",cat:"IPO",ev:"NH스팩34호 신규상장",note:"38커뮤니케이션 확인 (2026-08-04). 희망공모가 2,000원. NH투자증권"},
     {d:"09/02",cat:"경제지표",ev:"코스트코(COST) 8월 월간 매출 (IR, PT 13:15 = KST 9/3 05:15)",note:"미 소매판매 선행 지표 — 9/16 Census Bureau 발표 14일 전 선행."},
@@ -1936,6 +2234,7 @@ function setupScrollbar(col, mainId) {
     {d:"09/08",cat:"IPO",ev:"브릴스 신규상장",note:"38커뮤니케이션 확인 (2026-07-15). 희망공모가 16,500~19,500원. IBK투자증권. 청약 8/25~26 → 9/8~9 일정 변경 (38커뮤니케이션 2026-08-06)"},
     {d:"09/11",cat:"경제지표",ev:"한국 9월 1~10일 수출입 (관세청, KST 09:00)",note:"한국 수출 — 9월 초 모멘텀 조기 시그널. 반도체·자동차 품목별 데이터"},
     {d:"09/14",cat:"IPO",ev:"와이즈플래닛컴퍼니 신규상장",note:"38커뮤니케이션 확인 (2026-07-31). 희망공모가 10,000~12,000원. 대신증권"},
+    {d:"09/15",cat:"정책",ev:"미국 클래리티법안 상원 본회의·하원 재승인·서명 일정",note:"법안심의 — 5/14 상원 은행위 마크업 15-9 통과 완료 (Gallego·Alsobrooks 민주당 2명 찬성). 6/1 상원 입법 캘린더 General Orders 등재 완료…"},
     {d:"09/15",cat:"실적",ev:"오라클(ORCL) Q1 FY2027 AMC (KST, ET 9/14 AMC)",note:"소프트웨어/클라우드 — 엔터프라이즈 클라우드/DB 수요. Q4 FY2026 매출 $19.2B·RPO $638B 레코드 기반. [실적_캘린더 확정]"},
     {d:"09/16",cat:"IPO",ev:"빅웨이브로보틱스 신규상장",note:"38커뮤니케이션 — 청약 9/16~17 재변경 (2026-08-04, 4차 정정). 이력: 청약 6/19~22 → FSC 2차 정정(6/16) 중단 → 8/5~6 재확정(7/2) → 8/13~14…"},
     {d:"09/16",cat:"경제지표",ev:"미 8월 소매판매 (Census Bureau, ET 08:30 = KST 21:30)",note:"(코스트코 8월 선행 / 9/2 발표: [결과 확인 후 기입]) 소비 경기 바로미터."},
@@ -2044,6 +2343,10 @@ const INDICATOR_CRON_KST = [
   { h: 7,  m: 35 },                                       // 후행 (기존 07:30 → 07:35)
   // kr_export
   { h: 9,  m: 35 }, { h: 12, m: 5  },
+  // yahoo 한국 종가 당일 반영 (KRX fill, 2026-07-24)
+  { h: 17, m: 35 }, { h: 19, m: 35 },
+  // 외국인 순매수 (KIS, 2026-07-26)
+  { h: 17, m: 40 }, { h: 19, m: 40 },
   // yahoo_dashboard + us_breadth 안전망 (기존 11:30 → 11:35)
   { h: 11, m: 35 },
   // krx_kr_indicators (vkospi/putcall), krx_kr_breadth
