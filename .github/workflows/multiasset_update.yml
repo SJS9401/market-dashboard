@@ -3,7 +3,9 @@
 # data/multiasset_live_v1.json 을 매일 갱신한다.
 #
 # base / live 2-파일 구조인 이유:
-#   data/multiasset_data_v1.json 은 18MB (349,312행, SPX 는 1927년부터).
+#   base 파일(multiasset_data_v1.json, data 폴더)은 18MB (349,312행, SPX 는 1927년부터).
+#   ※ 주석에도 'data/<파일>.json' 형태를 쓰면 안 된다 — extract_protected_files.ps1 이
+#      주석까지 스캔해서 보호 대상으로 잡고, 그러면 로컬 deploy 가 base 를 못 올린다.
 #   매일 통째로 커밋하면 repo 가 감당이 안 되고 페이지도 매번 18MB 를 받는다.
 #   그래서 역사(base, 이 workflow 가 손대지 않음)와 최근(live, 트레일링 500일)을 나눴다.
 #   Multiasset.html loadMaData() 가 둘을 병렬 fetch 후 날짜 기준 merge — 겹치면 live 승.
