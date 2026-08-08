@@ -41,7 +41,7 @@ ASSETS = {
 
     # ===== 한국 주식 =====
     'POSCO':         {'ticker': '005490.KS', 'source': 'yfinance', 'desc': 'POSCO 홀딩스'},
-    # 'DOOSAN_INFRA':  Yahoo 미러링 끊김 (2026-05-15 검증). 향후 KRX OpenAPI 로 재추가 검토.
+    # 'DOOSAN_INFRA': Yahoo 미러링 끊김 (2026-05-15 검증) -> 네이버 일봉을 manual CSV 로 정적 확보 (2026-08-08). 아래 manual 섹션 참조.
     #                  당시 Yahoo 응답: "Quote not found for symbol: 042670.KS"
     #                  2009_kr_china_2nd 이벤트는 데이터 미연결 상태로 두고 placeholder 처리.
     'KAKAO':         {'ticker': '035720.KS', 'source': 'yfinance', 'desc': '카카오'},
@@ -112,6 +112,9 @@ ASSETS = {
     'SLV_MANUAL':  {'ticker': 'silver_monthly_real.csv.csv', 'source': 'manual', 'parser': 'macrotrends',
                     'desc': 'Silver USD/oz long history (Macrotrends 100Y monthly, 1915+)',
                     'note': '1979-80 Silver Hunt corner climax 분석용. 1980-01 $35.28 verified.'},
+    'DOOSAN_INFRA': {'ticker': 'doosan_infra_daily.csv', 'source': 'manual', 'parser': 'ohlc_csv',
+                    'desc': '두산인프라코어 (현 HD현대인프라코어, 2026-01 상장폐지)',
+                    'note': '2009 한국 China 2차 사이클용. 2008-10-28 저점 6,186 -> 2009-05-08 고점 17,474 (2.8x). 상장폐지 종목이라 갱신 불필요.'},
 }
 
 

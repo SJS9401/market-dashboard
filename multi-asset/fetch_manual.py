@@ -25,6 +25,42 @@ HERE = Path(__file__).resolve().parent
 MANUAL_DIR = HERE / 'manual_data'
 
 
+def parse_ohlc_csv(filename):
+    """Date,Open,High,Low,Close,Volume 형식 → OHLC list.
+
+    Macrotrends/Shiller 계열은 close-only monthly 라 캔들이 안 나온다.
+    이 파서는 진짜 일봉 OHLCV 를 받는다 (네이버 siseJson 저장분 등).
+    상장폐지 종목처럼 더 이상 변하지 않는 시리즈를 정적으로 보관할 때 쓴다.
+    """
+    path = MANUAL_DIR / filename
+    if not path.exists():
+        return [], {'error': 'file not found: ' + str(path)}
+    data = []
+    try:
+        with open(path, 'r', encoding='utf-8-sig') as f:
+            lines = f.readlines()
+    except Exception as e:
+        return [], {'error': 'read failed: ' + str(e)}
+    for line in lines[1:]:
+        parts = line.strip().split(',')
+        if len(parts) < 5:
+            continue
+        try:
+            d = parts[0].strip().replace('-', '')
+            o, h, l, c = (float(parts[i]) for i in (1, 2, 3, 4))
+            v = float(parts[5]) if len(parts) > 5 and parts[5].strip() else 0.0
+        except ValueError:
+            continue
+        if min(o, h, l, c) <= 0:
+            continue
+        data.append([d, o, h, l, c, v])
+    if not data:
+        return [], {'error': 'no rows parsed'}
+    data.sort(key=lambda r: r[0])
+    return data, {'ticker': filename, 'source': 'manual-ohlc-csv', 'interval': '1d',
+                  'start': data[0][0], 'end': data[-1][0], 'count': len(data)}
+
+
 def parse_macrotrends_csv(filename):
     """Macrotrends 'Date,Value' format → OHLC list.
 
@@ -161,6 +197,8 @@ def fetch_manual(spec):
         return parse_shiller_xlsx(filename)
     elif parser == 'macrotrends':
         return parse_macrotrends_csv(filename)
+    elif parser == 'ohlc_csv':
+        return parse_ohlc_csv(filename)
     else:
         return [], {'error': 'unknown parser: ' + parser}
 
