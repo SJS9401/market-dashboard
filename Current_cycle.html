@@ -279,7 +279,7 @@
     <div class="factor"><b>되돌림 실패 시 — 스토리 없는 넓은 박스 횡보</b>
       <span>하이닉스에는 아직 해양플랜트·옵티컬에 해당하는 새 스토리가 없고, 컨센에도 <b style="color:#f0f6fc;">2차 정점을 만들 마진 이벤트가 없다</b>.
       이익 확장의 연료가 P 하나뿐이다.<br>
-      <b style="color:#f0f6fc;">Case A·B 모두 한 달 안에 +43.5%를 요구한다</b> &mdash; 빡빡하지만 시스코 1998년은 41일 만에 -41%에서 전고점을 뚫었다.</span></div>
+      <b style="color:#f0f6fc;">Case A·B 모두 한 달 안에 임계 0.70(약 246만원) 복귀를 요구한다</b> &mdash; 빡빡하지만 시스코 1998년은 41일 만에 -41%에서 전고점을 뚫었다. 필요 상승률은 위 라이브 패널이 매일 갱신한다.</span></div>
     <div class="factor ok"><b>새 축 — 주주환원이 밸류에이션 하방을 만든다 (과거 3사에 없던 요소)</b>
       <span><b style="color:#f0f6fc;">SK하이닉스</b>: 연내 배당·자사주 매입 소각 소통 예고. 순현금 100조 달성 시점 앞당겨짐. 주주환원 정책 마지막 해가 2027년.
       SK증권: <b style="color:#f0f6fc;">"메모리 재평가의 핵심은 ADR이 아닌 주주환원"</b>. PER 2026E 4.7배 / 2027E 3.9배 / 2028E 3.3배.<br>
@@ -421,6 +421,8 @@
       var cur = last[4], pk = hxInfo.pk, lo = hxInfo.lo;
       var ret = (cur - lo) / (pk - lo);
       var mdd = (cur / pk - 1) * 100;
+      var mxr = 0, mxd = last[0];
+      hxInfo.S.forEach(function (r) { if (r[0] >= hxInfo.lowD) { var q = (r[2] - lo) / (pk - lo); if (q > mxr) { mxr = q; mxd = r[0]; } } });
       var elapsed = days(hxInfo.lowD, last[0]);
       var t070 = lo + (pk - lo) * 0.70;
       var d1 = addD(hxInfo.lowD, 30), d3 = addD(hxInfo.lowD, 107);
@@ -428,13 +430,14 @@
         '두 탭에서 확립한 판별 규칙을 현재 AI 사이클에 적용한다 | SK하이닉스 ' + last[0] + ' 종가 기준 · 야후 수정주가';
       document.getElementById('liveBox').innerHTML =
         '<div class="box"><div class="k">현재 되돌림</div><div class="v">' + ret.toFixed(3) + '</div><div class="s">저점 +' + elapsed + '일 · MDD ' + fmt(mdd,1) + '%</div></div>' +
+        '<div class="box"><div class="k">저점 후 최고 되돌림</div><div class="v">' + mxr.toFixed(3) + '</div><div class="s">' + mxd + ' 장중고가 기준</div></div>' +
         '<div class="box"><div class="k">임계 0.70 주가</div><div class="v">' + fmt(t070) + '</div><div class="s">현재 대비 ' + (t070/cur>=1?'+':'') + fmt((t070/cur-1)*100,1) + '%</div></div>' +
         '<div class="box"><div class="k">1차 판별일 (+30d)</div><div class="v" style="font-size:17px;">' + d1 + '</div><div class="s">D' + (days(last[0], d1) >= 0 ? '-' + days(last[0], d1) : '+' + (-days(last[0], d1))) + '</div></div>' +
         '<div class="box"><div class="k">재돌파 데드라인</div><div class="v" style="font-size:17px;">' + d3 + '</div><div class="s">전고점 ' + fmt(pk) + '원 · 저점 +107일</div></div>';
       document.getElementById('barFill').style.width = Math.max(0, Math.min(100, ret * 100)) + '%';
       var v = document.getElementById('verdict');
       if (elapsed <= 30 && ret >= 0.70) { v.style.background='#12261a'; v.style.color='#3fb950'; v.textContent = '● 성공 구간 — 저점 후 ' + elapsed + '일에 되돌림 ' + ret.toFixed(3) + '. 시스코 1997·1998 / 퀄컴 1998과 같은 자리.'; }
-      else if (elapsed <= 30) { v.style.background='#1c2128'; v.style.color='#d29922'; v.textContent = '◐ 판별 진행 중 — 저점 후 ' + elapsed + '일. 임계 0.70까지 ' + fmt((t070/cur-1)*100,1) + '% 남음. 판별일 ' + d1 + '.'; }
+      else if (elapsed <= 30) { v.style.background='#1c2128'; v.style.color='#d29922'; v.textContent = '◐ 판별 진행 중 — 저점 후 ' + elapsed + '일. 되돌림 ' + ret.toFixed(3) + (mxr - ret > 0.03 ? ' (최고 ' + mxr.toFixed(3) + ' @' + mxd + ' 대비 후퇴 중)' : '') + '. 임계 0.70까지 ' + fmt((t070/cur-1)*100,1) + '% 남음. 판별일 ' + d1 + '.'; }
       else if (ret >= 0.70) { v.style.background='#12261a'; v.style.color='#3fb950'; v.textContent = '● 늦었지만 도달 — 되돌림 ' + ret.toFixed(3) + '. 퀄컴 1998형(103일 재돌파) 가능성.'; }
       else { v.style.background='#2b1214'; v.style.color='#f85149'; v.textContent = '● 실패 구간 — 저점 후 ' + elapsed + '일에 되돌림 ' + ret.toFixed(3) + ' (임계 0.70 미달). 시스코 2000 / 현중 2008과 같은 자리.'; }
     }

@@ -184,16 +184,13 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-08-07 (자동 실행)**
+> **최종 갱신: 2026-08-08 (자동 실행)**
 
 ### 8월
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
-| 8/7 | Vistra (VST) | 원전 | BMO (8/7 ET), Q2 2026 (확정 — 원전+가스 발전, 전력 가격. 2026-07-29 정정: 기존 8/12 BMO→8/7 BMO) |
-| 8/7 | Oklo (OKLO) | 원전 | BMO (8/7 ET), Q2 2026 (확정, BusinessWire 7/27 공시 — SMR 규제 진척, 현금 $2.5B. 2026-07-29 정정: 기존 8/19 AMC→8/7 BMO) |
-| (~8/7) | 미래에셋증권 | 금융 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/7) |
-| 8/7 | 한국전력 | 원전 | 2Q26 실적 (Investing.com 확인 — Q1: 5/8. 2026-08-05 정정: 기존 (~8/8)→8/7) |
+| (~8/19) | 미래에셋증권 | 금융 | 2Q26 실적 (Investing.com 8/19 확인 — Q1: 5/7. 2026-08-08 정정: 기존 (~8/7)→~8/19) |
 | (~8/12) | 달바글로벌 | 화장품 | 2Q26 실적 — 과거 패턴 추정 (Q1: 5/12) |
 | 8/12 | HD현대일렉트릭 | 전력 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/28 완료(영업이익 2870억 +37% YoY). OPM 27% 회복·신규수주 가이던스·관세 환급. 2026-08-02 정정: 기존 Investing.com 8/26→FnGuide 8/12) |
 | 8/13 | HD현대중공업 | 조선 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/29 완료(매출 6조3136억 +52.3% YoY, 영업이익 1조357억 +120.7% YoY, 분기 사상 최대)) |
@@ -222,7 +219,7 @@
 | 10/14 | Bank of America (BAC) | 금융 | BMO (10/14 ET), Q3 2026 (확정 — 소비자 신용, 금리 마진) |
 | 10/14 | Morgan Stanley (MS) | 금융 | BMO (10/14 ET), Q3 2026 (확정, Morgan Stanley IR 공식 10/14 9:30am ET — 자산관리, IB/트레이딩) |
 | 10/14 | Citigroup (C) | 금융 | BMO (10/14 ET), Q3 2026 (확정, Citigroup IR 공식 8:00am ET — 글로벌 금융, EM 익스포저) |
-| (~10/15) | TSMC (TSM) | 반도체-파운드리 | Q3 2026 BMO — 과거 패턴 추정 (Q2: 7/16 BMO. 2025 Q3: 10/16. WallStreetHorizon ~10/15) |
+| (10/15) | TSMC (TSM) | 반도체-파운드리 | Q3 2026 BMO (WallStreetHorizon 10/15 확인 — Q2: 7/16 BMO. 2026-08-08 정정: 기존 (~10/15)→(10/15)) |
 | (~10/20) | ABB (ABB) | 전력 | Q3 2026 — 과거 패턴 추정 (Q2: 7/16 Zurich) |
 | 10/20 | Lockheed Martin (LMT) | 방산 | Q3 2026 BMO (확정, MarketBeat·Nasdaq — 기존 ~10/20 추정 확인. 2026-08-03 정정) |
 | 10/20 | General Motors (GM) | 자동차 | Q3 2026 (확정, Investing.com — 미국 내수, EV 전환, GM 크루즈) |
@@ -237,6 +234,7 @@
 | (10/28) | Alphabet (GOOGL) | 빅테크 | AMC→KST (10/27 ET), Q3 2026 (확정, TipRanks — Q2: 7/23 AMC) |
 | (10/29) | Tesla (TSLA) | 자동차 | AMC→KST (10/28 ET), Q3 2026 (확정) |
 | (10/29) | Meta (META) | 빅테크 | AMC→KST (10/28 ET), Q3 2026 (확정, TipRanks·Investing.com — Q2: 7/29 AMC) |
+| (10/29) | Apple (AAPL) | 빅테크 | AMC→KST (10/28 ET), Q4 FY2026 (미확정 — WallStreetHorizon 추정. Q3: 7/31 AMC, Tim Cook CEO 마지막 어닝콜 → 신임 CEO 첫 어닝콜 예정) |
 | (~10/29) | Bloom Energy (BE) | 전력 | Q3 2026 AMC→KST — 과거 패턴 추정 (Q2: 7/31 AMC. MarketBeat 10/29 추정) |
 | (~10/30) | Western Digital (WDC) | 반도체-스토리지 | Q1 FY2027 AMC→KST — 과거 패턴 추정 (Q4 FY2026: 8/5 ET 실발표. FY2026 Q1: 10/30/2025) |
 | (10월중) | SanDisk (SNDK) | 반도체-스토리지 | Q1 FY2027 — 날짜 미확정 (Q4 FY2026: 8/5 ET 실발표. WDC와 동일 분기 종료) |
@@ -246,6 +244,7 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| (11/4) | AMD (AMD) | 반도체-CPU | AMC→KST (11/3 ET), Q3 2026 (Investing.com 11/3 확인 — Q2: 8/5 AMC. 컨센 EPS $1.76, Data Center $6.7B +107% YoY Q2 기반, MI450 ramp·Q3 가이던스 $12.7-13.3B vs 컨센 $12.5B) |
 | (~11/5) | Toyota (TM) | 자동차 | Q2 FY2027 (도쿄 오후) — 과거 패턴 추정 (Q1 FY2027: 7/30 도쿄. 2025년 Q2: 11/5) |
 | (11/11) | Qualcomm (QCOM) | 반도체-모바일 | AMC→KST (11/10 ET), Q4 FY2026 (확정, Qualcomm IR — 갤럭시·스냅드래곤. 9/1부터 전 제품 가격 인상 단행) |
 | (~11월) | Siemens Energy (ENR) | 전력 | Q4 FY2026 — FY 종료 9/30, 과거 패턴 추정 (Q3 FY2026: 8/5) |
@@ -257,6 +256,9 @@
 
 | 날짜 | 종목명(티커) | 산업 | 비고 |
 |------|------------|------|------|
+| 8/7 | Vistra (VST) | 원전 | Q2 2026 BMO (8/7 ET) 발표 완료 (매출 $4.017B miss vs 컨센 $5.46B — 헤지 손실 $472M 영향, adj EBITDA $1.767B +30% YoY beat vs $1.64B 컨센. FY26 EBITDA 가이던스 $6.8-7.6B·FCF $3.9-4.7B 재확인. Helix Digital Infrastructure 출범: KKR·NVIDIA·KIA 파트너십, VST $1B founding investor·preferred power partner) |
+| 8/7 | Oklo (OKLO) | 원전 | Q2 2026 BMO (8/7 ET) 발표 완료 (매출 $1.21M 컨센 $0.1M 대폭 비트(분기 첫 매출 달성), EPS -$0.28 miss vs -$0.16, 현금+투자유가증권 $3.0B — Groves 원자로 초임계(first criticality) 달성, 주가 AH +5%) |
+| 8/7 | 한국전력 | 원전 | 2Q26 실적 발표 완료 (8/7 KST) |
 | 8/6 | Constellation Energy (CEG) | 원전 | Q2 2026 BMO (8/6 ET) 발표 완료 (매출 $7.5B miss vs 컨센 $7.7B, adj EPS $2.55 beat vs 컨센 $2.34 +21c (+34% YoY) — Calpine close + 920 MW 신규 장기 원전 PPA 체결. FY26 adj EPS 가이던스 $11.50-12.50으로 상향) |
 | 8/6 | Rheinmetall (RHM) | 방산 | H1 2026 결과 발표 완료 (8/6 독일 오전 — Q2 매출 €3.289B +69% YoY 레코드, OI €562M 컨센 20% 상회(예상 €470M), 수주잔고 €80B+ 첫 돌파, 신규수주 €11.37B(독일군 徘徊탄약 포함). FCF significantly negative — 선급금 이연 영향) |
 | 8/6 | NuScale Power (SMR) | 원전 | Q2 2026 AMC(8/5 ET) 발표 완료 (pre-revenue 단계, 현금+투자 $1.9B, Romania RoPower 6기 NuScale 모듈 프로젝트 조건 충족 협의 진행) |
