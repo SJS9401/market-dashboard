@@ -896,16 +896,68 @@ let US_MARKET_CYCLES = [];
 // 멀티에셋 외부 JSON 로드용 글로벌 데이터
 let MA_DATA = null;
 
+// base(역사, 18MB, 갱신 드묾) + live(트레일링 윈도우, 매일 자동 갱신) 2-파일 merge.
+// 겹치는 구간은 live 가 이긴다 — 수정주가 계수 변화가 자동 반영된다.
+// live 가 없거나 깨져도 base 만으로 동작한다 (하위호환).
+function maMergeRows(baseRows, liveRows) {
+  if (!Array.isArray(liveRows) || !liveRows.length) return baseRows || [];
+  if (!Array.isArray(baseRows) || !baseRows.length) return liveRows;
+  const cut = liveRows[0][0];
+  const head = [];
+  for (let i = 0; i < baseRows.length; i++) {
+    if (baseRows[i][0] < cut) head.push(baseRows[i]); else break;
+  }
+  return head.concat(liveRows);
+}
+
+function maApplyLive(base, live) {
+  if (!live) return 0;
+  let n = 0;
+  ['assets', 'macros', 'cot'].forEach(function (grp) {
+    const L = live[grp] || {};
+    base[grp] = base[grp] || {};
+    Object.keys(L).forEach(function (k) {
+      base[grp][k] = maMergeRows(base[grp][k], L[k]); n++;
+    });
+  });
+  const LX = live.crypto || {};
+  base.crypto = base.crypto || {};
+  Object.keys(LX).forEach(function (k) {
+    const b = base.crypto[k] || {}, l = LX[k] || {};
+    base.crypto[k] = { oi: maMergeRows(b.oi, l.oi), funding: maMergeRows(b.funding, l.funding) };
+    n++;
+  });
+  // meta 의 end/count 를 live 기준으로 갱신 (desc 등 base 필드는 보존)
+  Object.keys(live.meta || {}).forEach(function (k) {
+    base.meta[k] = Object.assign({}, base.meta[k] || {}, { end: (live.meta[k] || {}).end });
+  });
+  base.live_cutoff = live.cutoff;
+  base.live_generated_at = live.generated_at;
+  return n;
+}
+
 async function loadMaData() {
   try {
-    const r = await fetch('data/multiasset_data_v1.json', { cache: 'no-store' });
-    if (!r.ok) throw new Error('fetch failed: ' + r.status);
-    MA_DATA = await r.json();
+    const [rb, rl] = await Promise.all([
+      fetch('data/multiasset_data_v1.json', { cache: 'no-store' }),
+      fetch('data/multiasset_live_v1.json', { cache: 'no-store' }).catch(function () { return null; })
+    ]);
+    if (!rb || !rb.ok) throw new Error('base fetch failed: ' + (rb && rb.status));
+    MA_DATA = await rb.json();
+
+    let live = null;
+    if (rl && rl.ok) {
+      try { live = await rl.json(); } catch (e) { console.warn('[multiasset] live parse failed:', e); }
+    }
+    const nMerged = maApplyLive(MA_DATA, live);
+
     const nA = Object.keys(MA_DATA.assets || {}).length;
     const nM = Object.keys(MA_DATA.macros || {}).length;
     const nC = Object.keys(MA_DATA.cot    || {}).length;
     const nX = Object.keys(MA_DATA.crypto || {}).length;
-    console.log('[multiasset] data loaded:', nA, 'assets,', nM, 'macros,', nC, 'COT,', nX, 'crypto');
+    console.log('[multiasset] data loaded:', nA, 'assets,', nM, 'macros,', nC, 'COT,', nX, 'crypto',
+                live ? ('| live merged: ' + nMerged + ' series, cutoff ' + live.cutoff + ', gen ' + live.generated_at)
+                     : '| live 없음 — base 만 사용');
     return true;
   } catch (e) {
     console.error('[multiasset] data fetch failed:', e);

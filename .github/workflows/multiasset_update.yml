@@ -1,0 +1,77 @@
+# Multiasset Live Update (멀티에셋 탭 라이브 데이터)
+# ----------------------------------------------------------
+# data/multiasset_live_v1.json 을 매일 갱신한다.
+#
+# base / live 2-파일 구조인 이유:
+#   data/multiasset_data_v1.json 은 18MB (349,312행, SPX 는 1927년부터).
+#   매일 통째로 커밋하면 repo 가 감당이 안 되고 페이지도 매번 18MB 를 받는다.
+#   그래서 역사(base, 이 workflow 가 손대지 않음)와 최근(live, 트레일링 500일)을 나눴다.
+#   Multiasset.html loadMaData() 가 둘을 병렬 fetch 후 날짜 기준 merge — 겹치면 live 승.
+#
+# base 재생성이 필요할 때만 BT 로컬에서:
+#   python create_multiasset_data.py
+#
+# 대상: assets(yfinance/FRED) + macros(FRED 13) + cot(CFTC 주간) + crypto(Coinalyze)
+#   - source='manual' 자산(GLD_MANUAL/SLV_MANUAL/SPX_SHILLER)은 정적이라 제외
+#   - 부분 실패 허용. assets·macros 가 모두 0건일 때만 exit 1
+#
+# 스케줄 — 옵션 B (정각/정시 회피, 2026-06-02 cron skip 사고 이후 표준):
+#   21:45 / 22:15 UTC = 06:45 / 07:15 KST — 미국 종가 반영 + 재시도
+#   02:45 UTC         = 11:45 KST — 안전망
+#   08:45 UTC         = 17:45 KST — 한국 종가 당일 반영 (KOSPI/하이닉스/한화오션 등)
+# ----------------------------------------------------------
+
+name: Multiasset Live Update
+
+on:
+  schedule:
+    - cron: '45 21 * * *'   # 06:45 KST — 1차 (미국 종가)
+    - cron: '15 22 * * *'   # 07:15 KST — 2차 재시도
+    - cron: '45 2 * * *'    # 11:45 KST — 안전망
+    - cron: '45 8 * * *'    # 17:45 KST — 한국 종가 당일 반영
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: multiasset-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas requests
+
+      - name: Update multiasset live data
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
+        run: python -u multiasset_live_update.py --days 500
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/multiasset_live_v1.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore(data): multiasset live 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push || (git pull --rebase --autostash && git push)
+            echo "committed"
+          fi
