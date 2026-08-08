@@ -1,0 +1,69 @@
+# Dotcom Price Update (Current_cycle / Dotcom_vs_now 라이브 시리즈)
+# ----------------------------------------------------------
+# data/dotcom_price.json 의 진행 중 5개 시리즈를 매일 갱신한다.
+#   갱신 : IXIC, KS11, NVDA, MU, HYNIX (000660.KS)
+#   불변 : IXIC_OLD, CSCO, QCOM — 1989~2002 정적, 스크립트가 무결성 검증
+#
+# 왜 필요한가 (2026-08-08):
+#   Current_cycle.html ① 카드가 SK하이닉스 되돌림을 라이브로 판정한다.
+#   판별 데드라인이 2026-11-13 이라 그때까지 매일 최신 종가가 있어야 한다.
+#   수동 갱신이던 것을 자동화 — 7/31 데이터로 8/7 을 판정하던 사고 방지.
+#
+# 스케줄 — 옵션 B (정각/정시 회피, 2026-06-02 cron skip 사고 이후 표준):
+#   21:10 / 21:20 / 21:40 UTC = 06:10 / 06:20 / 06:40 KST — 미국 종가 반영 3단계
+#   02:40 UTC                 = 11:40 KST — 안전망
+#   08:40 UTC                 = 17:40 KST — 한국 종가(15:30) 당일 반영
+# ----------------------------------------------------------
+
+name: Dotcom Price Update
+
+on:
+  schedule:
+    - cron: '10 21 * * *'   # 06:10 KST — 1차 (미국 종가)
+    - cron: '20 21 * * *'   # 06:20 KST — 2차
+    - cron: '40 21 * * *'   # 06:40 KST — 3차
+    - cron: '40 2 * * *'    # 11:40 KST — 안전망
+    - cron: '40 8 * * *'    # 17:40 KST — 한국 종가 당일 반영
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dotcom-price-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas
+
+      - name: Update dotcom_price.json
+        run: python -u dotcom_price_update.py
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/dotcom_price.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore(data): dotcom_price 라이브 시리즈 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push || (git pull --rebase --autostash && git push)
+            echo "committed"
+          fi
