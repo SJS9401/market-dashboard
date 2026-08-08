@@ -246,6 +246,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <button class="ctrl-btn active" id="v1-daily" onclick="setV1Interval('daily')">일봉</button>
     <button class="ctrl-btn" id="v1-weekly" onclick="setV1Interval('weekly')">주봉</button>
     <button class="ctrl-btn" id="v1-monthly" onclick="setV1Interval('monthly')">월봉</button>
+    <span class="ctrl-label" style="margin-left:12px;">구간:</span>
+    <button class="ctrl-btn active" id="v1-win-event" onclick="setMaWindow('v1','event')">이벤트</button>
+    <button class="ctrl-btn" id="v1-win-all" onclick="setMaWindow('v1','all')">전체</button>
   </div>
   <div class="main">
     <div class="chart-info">
@@ -339,6 +342,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <button class="ctrl-btn active" id="v2-daily" onclick="setV2Interval('daily')">일봉</button>
     <button class="ctrl-btn" id="v2-weekly" onclick="setV2Interval('weekly')">주봉</button>
     <button class="ctrl-btn" id="v2-monthly" onclick="setV2Interval('monthly')">월봉</button>
+    <span class="ctrl-label" style="margin-left:12px;">구간:</span>
+    <button class="ctrl-btn active" id="v2-win-event" onclick="setMaWindow('v2','event')">이벤트</button>
+    <button class="ctrl-btn" id="v2-win-all" onclick="setMaWindow('v2','all')">전체</button>
     <button class="expand-btn" id="v2-expand" onclick="toggleExpand()">전체차트 보기</button>
   </div>
   <div class="main">
@@ -2892,6 +2898,51 @@ function makeMacroChart(canvasId, seriesList, view) {
 }
 
 // View-1/2 공통 멀티에셋 차트 빌더 (4-stack: SP500/벤치마크/메인자산/거래량)
+// ===== Phase 2c-2C: 이벤트 구간 윈도잉 =====
+// 전체 역사(SPX 는 1927년부터 24,767행)를 매번 그리면 climax run 이 보이지 않고
+// 렌더도 수십 초 멈춘다. era 문자열에서 구간을 뽑아 앞뒤로 패딩해 자른다.
+// 명시 지정이 필요하면 이벤트에 win: ['YYYYMMDD','YYYYMMDD'] 를 넣으면 그쪽이 우선한다.
+const MA_WIN_PAD_PRE_Y  = 3;   // 사건 시작 전 (상승 runway 확인용)
+const MA_WIN_PAD_POST_Y = 3;   // 사건 종료 후 (distribution 확인용)
+
+function maEraWindow(event) {
+  if (event.win && event.win.length === 2) return { from: event.win[0], to: event.win[1] };
+  const m = String(event.era || '').match(/(\d{4})(?:\s*[-~]\s*(\d{2,4}))?/);
+  if (!m) return null;
+  const y0 = parseInt(m[1], 10);
+  let y1 = y0;
+  if (m[2]) {
+    const t = m[2];
+    y1 = t.length === 4 ? parseInt(t, 10)
+                        : Math.floor(y0 / 100) * 100 + parseInt(t, 10);
+    if (y1 < y0) y1 += 100;   // 세기 경계 (예: 1998-00 -> 2000)
+  }
+  return { from: String(y0 - MA_WIN_PAD_PRE_Y) + '0101',
+           to:   String(y1 + MA_WIN_PAD_POST_Y) + '1231' };
+}
+
+function maSlice(rows, win) {
+  if (!win || !Array.isArray(rows) || !rows.length) return rows || [];
+  const out = [];
+  for (let i = 0; i < rows.length; i++) {
+    const d = rows[i][0];
+    if (d >= win.from && d <= win.to) out.push(rows[i]);
+  }
+  // 창 안에 데이터가 없으면(커버리지 부족) 자르지 않고 원본을 준다 — 빈 차트 방지
+  return out.length ? out : rows;
+}
+
+const maWindowMode = { v1: 'event', v2: 'event' };
+
+function setMaWindow(view, mode) {
+  maWindowMode[view] = mode;
+  const be = document.getElementById(view + '-win-event');
+  const ba = document.getElementById(view + '-win-all');
+  if (be) be.classList.toggle('active', mode === 'event');
+  if (ba) ba.classList.toggle('active', mode === 'all');
+  if (maSelection[view]) renderMaChart(view, maSelection[view]);
+}
+
 function renderMaChart(view, event) {
   if (typeof destroyView === 'function') destroyView(view);
   if (typeof zoomStates !== 'undefined') zoomStates[view] = { zoomed: false };
@@ -2924,11 +2975,16 @@ function renderMaChart(view, event) {
   // 일봉/주봉 분기 (view 별 interval state)
   const interval = view === 'v1' ? v1Interval : v2Interval;
   const convert = interval === 'monthly' ? toMonthly : (interval === 'weekly' ? toWeekly : toDaily);
-  const spxWeekly    = convert(spxRaw);
-  const nasdaqWeekly = convert(nasdaqRaw);
-  const benchWeekly  = convert(benchRaw);
-  const kosdaqWeekly = convert(kosdaqRaw);
-  const assetWeekly  = convert(assetData);
+
+  // Phase 2c-2C: 이벤트 구간으로 먼저 자른 뒤 변환한다 (변환 비용도 같이 줄인다)
+  const win = maWindowMode[view] === 'all' ? null : maEraWindow(event);
+  const cut = rows => maSlice(rows, win);
+
+  const spxWeekly    = convert(cut(spxRaw));
+  const nasdaqWeekly = convert(cut(nasdaqRaw));
+  const benchWeekly  = convert(cut(benchRaw));
+  const kosdaqWeekly = convert(cut(kosdaqRaw));
+  const assetWeekly  = convert(cut(assetData));
 
   const acColor = MA_ASSET_CLASS[event.ac].color;
 
