@@ -2928,8 +2928,10 @@ function maSlice(rows, win) {
     const d = rows[i][0];
     if (d >= win.from && d <= win.to) out.push(rows[i]);
   }
-  // 창 안에 데이터가 없으면(커버리지 부족) 자르지 않고 원본을 준다 — 빈 차트 방지
-  return out.length ? out : rows;
+  // 창 안에 데이터가 없으면 빈 배열을 준다.
+  // 원본 전체를 fallback 으로 주면 1907 이벤트의 '미국 지수' 패널에 1927~2026 이 그려져
+  // 데이터가 있는 것처럼 보이고(오독), 렌더도 4초 이상 걸린다. 비우는 쪽이 정직하고 빠르다.
+  return out;
 }
 
 const maWindowMode = { v1: 'event', v2: 'event' };
