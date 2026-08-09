@@ -3297,7 +3297,9 @@ function renderMaChart(view, event) {
 
   // Big Move 음영 — 메인 자산 기준으로 구간을 잡아 5개 패널에 동일 적용
   // (패널마다 따로 잡으면 축이 어긋나 비교가 안 된다)
-  const bmSegs = maBigMoveSegments(assetWeekly);
+  // 주의: assetWeekly 는 {x,y,o,h,l,c} 객체 배열이다. 구간 탐지는 원본 [date,o,h,l,c,v] 로 해야 한다.
+  // 또 주봉/월봉 토글과 무관하게 일봉 기준으로 잡아야 구간이 흔들리지 않는다.
+  const bmSegs = maBigMoveSegments(cut(assetData));
   [usCh, benchCh, mainCh, volCh, macroCh].forEach(c => { if (c) { c.$bmSegs = bmSegs; c.update('none'); } });
   const bmEl = document.getElementById(view + '-bm-info');
   if (bmEl) {
