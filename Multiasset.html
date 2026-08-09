@@ -249,6 +249,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <span class="ctrl-label" style="margin-left:12px;">구간:</span>
     <button class="ctrl-btn active" id="v1-win-event" onclick="setMaWindow('v1','event')">이벤트</button>
     <button class="ctrl-btn" id="v1-win-all" onclick="setMaWindow('v1','all')">전체</button>
+    <span class="ctrl-label" style="margin-left:12px;">Big Move 음영:</span>
+    <button class="ctrl-btn active" id="v1-bm-on" onclick="setBigMoveShade(true)">표시</button>
+    <button class="ctrl-btn" id="v1-bm-off" onclick="setBigMoveShade(false)">해제</button>
+    <span class="ctrl-label" id="v1-bm-info" style="margin-left:10px;color:#6e7681;font-weight:400;"></span>
   </div>
   <div class="main">
     <div class="chart-info">
@@ -345,6 +349,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <span class="ctrl-label" style="margin-left:12px;">구간:</span>
     <button class="ctrl-btn active" id="v2-win-event" onclick="setMaWindow('v2','event')">이벤트</button>
     <button class="ctrl-btn" id="v2-win-all" onclick="setMaWindow('v2','all')">전체</button>
+    <span class="ctrl-label" style="margin-left:12px;">Big Move 음영:</span>
+    <button class="ctrl-btn active" id="v2-bm-on" onclick="setBigMoveShade(true)">표시</button>
+    <button class="ctrl-btn" id="v2-bm-off" onclick="setBigMoveShade(false)">해제</button>
+    <span class="ctrl-label" id="v2-bm-info" style="margin-left:10px;color:#6e7681;font-weight:400;"></span>
     <button class="expand-btn" id="v2-expand" onclick="toggleExpand()">전체차트 보기</button>
   </div>
   <div class="main">
@@ -1438,6 +1446,88 @@ const crosshairPlugin = {
 Chart.register(crosshairPlugin);
 
 // ===== CANDLESTICK PLUGIN =====
+// ===== Big Move 구간 음영 (2026-08-08) =====
+// 상승 스윙 중 '되돌림 임계를 넘지 않고 최소 배율 이상 오른 구간'을 Big Move 로 본다.
+// 그 밖의 구간은 어둡게 덮어 시각적으로 죽인다.
+//
+// ★ 사후 표시다. 차트 오른쪽 끝(현재)에서는 그 구간이 Big Move 로 남을지 알 수 없다.
+//   진입 시점 판단에 쓰는 것이 아니라, 지나간 구간의 모양을 눈에 익히는 용도다.
+const MA_BM = { retrace: 20, minGain: 50, minBars: 20, on: true };
+
+function maBigMoveSegments(rows) {
+  // rows: [date, o, h, l, c, v] 오름차순
+  if (!rows || rows.length < 30) return [];
+  const segs = [];
+  let lowI = 0, lowV = rows[0][3];
+  let peakI = 0, peakV = rows[0][2];
+  for (let i = 1; i < rows.length; i++) {
+    const h = rows[i][2], l = rows[i][3];
+    if (h > peakV) { peakV = h; peakI = i; }
+    // 고점 대비 되돌림이 임계를 넘으면 스윙 종료
+    if (peakV > 0 && (l / peakV - 1) * 100 <= -MA_BM.retrace) {
+      // minBars: 1~2일짜리 노이즈 구간 배제 (2020 마이너스 유가 직후 같은 극단 반등)
+      if (lowV > 0 && (peakV / lowV - 1) * 100 >= MA_BM.minGain && peakI - lowI >= MA_BM.minBars) {
+        segs.push([rows[lowI][0], rows[peakI][0]]);
+      }
+      // 새 저점 탐색 시작
+      lowI = i; lowV = l; peakI = i; peakV = h;
+    } else if (l < lowV && peakI <= lowI) {
+      lowI = i; lowV = l;
+    }
+  }
+  // 마지막 진행 중 스윙
+  if (lowV > 0 && (peakV / lowV - 1) * 100 >= MA_BM.minGain && peakI - lowI >= MA_BM.minBars) {
+    segs.push([rows[lowI][0], rows[peakI][0]]);
+  }
+  return segs;
+}
+
+const bigMoveShadePlugin = {
+  id: 'bigMoveShade',
+  beforeDatasetsDraw(chart) {
+    if (!MA_BM.on) return;
+    const segs = chart.$bmSegs;
+    if (!segs || !segs.length) return;
+    const a = chart.chartArea, xs = chart.scales.x;
+    if (!a || !xs) return;
+    const toT = d => new Date(+d.slice(0,4), +d.slice(4,6)-1, +d.slice(6,8)).getTime();
+    // Big Move 구간의 x 픽셀 범위
+    const lit = segs.map(sg => [xs.getPixelForValue(toT(sg[0])), xs.getPixelForValue(toT(sg[1]))])
+                    .map(p => [Math.max(a.left, Math.min(p[0], p[1])), Math.min(a.right, Math.max(p[0], p[1]))])
+                    .filter(p => p[1] > p[0])
+                    .sort((x, y) => x[0] - y[0]);
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(a.left, a.top, a.right - a.left, a.bottom - a.top); ctx.clip();
+    // 비-Big Move 구간을 어둡게
+    ctx.fillStyle = 'rgba(20,24,30,0.34)';
+    let cur = a.left;
+    lit.forEach(p => {
+      if (p[0] > cur) ctx.fillRect(cur, a.top, p[0] - cur, a.bottom - a.top);
+      cur = Math.max(cur, p[1]);
+    });
+    if (cur < a.right) ctx.fillRect(cur, a.top, a.right - cur, a.bottom - a.top);
+    // Big Move 구간 경계선
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 1;
+    lit.forEach(p => {
+      ctx.beginPath(); ctx.moveTo(p[0], a.top); ctx.lineTo(p[0], a.bottom); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(p[1], a.top); ctx.lineTo(p[1], a.bottom); ctx.stroke();
+    });
+    ctx.restore();
+  }
+};
+Chart.register(bigMoveShadePlugin);
+
+function setBigMoveShade(on) {
+  MA_BM.on = on;
+  ['v1','v2'].forEach(v => {
+    const b1 = document.getElementById(v + '-bm-on'), b2 = document.getElementById(v + '-bm-off');
+    if (b1) b1.classList.toggle('active', on);
+    if (b2) b2.classList.toggle('active', !on);
+  });
+  ['v1','v2'].forEach(v => getChartsForView(v).forEach(ch => { if (ch) ch.update('none'); }));
+}
+
 const candlestickPlugin = {
   id: 'candlestick',
   afterDatasetDraw(chart, args) {
@@ -3204,6 +3294,17 @@ function renderMaChart(view, event) {
   });
 
   const macroCh = makeMacroChart(view + '-macro', macroSeries, view);
+
+  // Big Move 음영 — 메인 자산 기준으로 구간을 잡아 5개 패널에 동일 적용
+  // (패널마다 따로 잡으면 축이 어긋나 비교가 안 된다)
+  const bmSegs = maBigMoveSegments(assetWeekly);
+  [usCh, benchCh, mainCh, volCh, macroCh].forEach(c => { if (c) { c.$bmSegs = bmSegs; c.update('none'); } });
+  const bmEl = document.getElementById(view + '-bm-info');
+  if (bmEl) {
+    bmEl.textContent = bmSegs.length
+      ? 'Big Move ' + bmSegs.length + '구간 (되돌림 ' + MA_BM.retrace + '% 이내 · 최소 +' + MA_BM.minGain + '%)'
+      : 'Big Move 구간 없음';
+  }
   if (macroCh) {
     if (xMin !== null && xMax !== null && allArrs.length > 0) {
       macroCh.options.scales.x.min = xMin;
