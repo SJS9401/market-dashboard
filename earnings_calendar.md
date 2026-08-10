@@ -184,7 +184,7 @@
 > 날짜 미확정은 (날짜)로 표기. 발표 1주 전 재확인 권장.
 > (M월중)은 과거 패턴 기반 추정. BMO=장전, AMC=장후.
 > **날짜 기준: KST. AMC 종목은 미국 발표일(ET) 다음 날 KST로 표기. BMO·한국·유럽·일본 종목은 발표 당일 KST.**
-> **최종 갱신: 2026-08-09 (자동 실행)**
+> **최종 갱신: 2026-08-10 (자동 실행)**
 
 ### 8월
 
@@ -195,7 +195,7 @@
 | 8/12 | HD현대일렉트릭 | 전력 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/28 완료(영업이익 2870억 +37% YoY). OPM 27% 회복·신규수주 가이던스·관세 환급. 2026-08-02 정정: 기존 Investing.com 8/26→FnGuide 8/12) |
 | 8/13 | HD현대중공업 | 조선 | 2Q26 확정실적 CC (FnGuide 확인 — 잠정실적 7/29 완료(매출 6조3136억 +52.3% YoY, 영업이익 1조357억 +120.7% YoY, 분기 사상 최대)) |
 | 8/14 | Applied Materials (AMAT) | 반도체-소부장 | AMC→KST (8/13 ET), Q3 FY2026 (확정 — Applied Materials 공식. Q3 가이던스 매출 $8.95B±0.5B·non-GAAP EPS $3.36±0.20, HBM CAPEX 사이클 동조) |
-| (~8/18) | 현대로템 | 방산 | 2Q26 확정실적 CC — 잠정실적 7/24 FnGuide 확정. Investing.com·IRGO 확인 |
+| 8/18 | 현대로템 | 방산 | 2Q26 확정실적 CC (Investing.com 8/18 확인 — 잠정실적 7/24 FnGuide 확정, OI 2324억 -9.7% YoY. 2026-08-10 정정: (~8/18)→8/18) |
 | 8/19 | 에이피알 | 화장품 | 2Q26 확정실적 CC (Investing.com 8/19 확인 — 잠정실적 8/3 FnGuide 확정. Q1: 5/6) |
 | 8/28 | Marvell Technology (MRVL) | 반도체-ASIC | AMC→KST (8/27 ET), Q2 FY2027 (2026-08-06 정정: 기존 8/21(8/20 ET)→8/28(8/27 ET). Marvell 공식 CC 8/27 1:45pm PT 확인. Investor Day 10/6 NYC. AWS 트레이니움·MS Maia ASIC, Q2 가이던스 ~$2.7B +35% YoY·FY2027 ~$11B) |
 | 8/27 | Nvidia (NVDA) | 반도체 | AMC→KST (8/26 ET), Q2 FY2027 (확정 — SEC 8-K·TipRanks·Unusual Whales 6/24 재확인) — Q1 매출 $81.6B +85% YoY, Q2 가이던스 $91B vs 컨센 $86.8B 대폭 상회, Vera Rubin 시점·디테일, Data Center $75.2B +100% YoY |
