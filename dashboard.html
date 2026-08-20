@@ -171,17 +171,6 @@
       <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>ADR</h3><span class="price" id="p-adr">—</span><span class="xdate" id="d-adr"></span></div>
-        <div class="series-toggle" data-chart="adr">
-          <button data-s="all" class="active">통합</button>
-          <button data-s="kp">코스피</button>
-          <button data-s="kq">코스닥</button>
-        </div>
-      </div>
-      <div class="cw cw-sub" id="cw-adr"><div class="msg" id="msg-adr">로딩 중...</div></div>
-    </div>
-    <div class="card">
       <div class="card-top"><div class="left"><h3>외국인 현선물 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-fflow"><div class="msg" id="msg-kr-fflow">로딩 중...</div></div>
     </div>
@@ -231,39 +220,34 @@
   </div>
 </div>
 
-<!-- 마켓맵 (2026-08-20 BT 요청): TradingView Stock Heatmap 위젯 임베드.
-     위젯 상단바에서 변동률 기간(1일/1주/1개월/3개월/6개월/1년) 전환 + 줌 + 툴팁 지원.
-     외부 위젯이라 자체 데이터 파이프라인 불필요. -->
-<div class="events" style="margin-top:20px;">
-  <div class="events-card" style="flex:1;">
-    <h2>한국 마켓맵</h2>
-    <div style="height:560px;">
-      <div class="tradingview-widget-container" style="height:100%;">
-        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
-        {
-          "dataSource": "KOSPI",
-          "blockSize": "market_cap_basic",
-          "blockColor": "change",
-          "grouping": "sector",
-          "locale": "kr",
-          "colorTheme": "dark",
-          "exchanges": [],
-          "hasTopBar": true,
-          "isDataSetEnabled": true,
-          "isZoomEnabled": true,
-          "hasSymbolTooltip": true,
-          "isMonoSize": false,
-          "width": "100%",
-          "height": "100%"
-        }
-        </script>
-      </div>
+<!-- 마켓맵 (2026-08-21 개편): 한국 = 자체 canvas 트리맵 (kr_marketmap.json — KRX 시세·시총 + 네이버 업종,
+     TradingView 임베드가 KRX 미지원이라 자체 구축). 미국 = TradingView Stock Heatmap 위젯.
+     각 한 줄 전폭 (BT: 절반씩은 한눈에 안 들어옴). -->
+<div class="events" style="margin-top:20px;flex-direction:column;gap:20px;">
+  <div class="events-card" style="flex:none;width:100%;">
+    <h2 style="display:flex;align-items:center;gap:10px;">한국 마켓맵
+      <span id="mm-kr-date" style="color:#8b949e;font-weight:400;font-size:11px;"></span>
+      <span id="mm-kr-pbtns" class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button data-s="m" class="active" onclick="mmSetPeriod(0,this)">1일</button>
+        <button data-s="m" onclick="mmSetPeriod(1,this)">1주</button>
+        <button data-s="m" onclick="mmSetPeriod(2,this)">1개월</button>
+        <button data-s="m" onclick="mmSetPeriod(3,this)">3개월</button>
+        <button data-s="m" onclick="mmSetPeriod(4,this)">6개월</button>
+        <button data-s="m" onclick="mmSetPeriod(5,this)">1년</button>
+      </span>
+      <span id="mm-kr-mbtns" class="series-toggle" style="display:flex;gap:4px;">
+        <button data-s="m" class="active" onclick="mmSetMkt(0,this)">코스피</button>
+        <button data-s="m" onclick="mmSetMkt(1,this)">코스닥</button>
+      </span>
+    </h2>
+    <div style="height:640px;position:relative;background:#101010;">
+      <canvas id="mm-kr-canvas" style="display:block;cursor:crosshair;"></canvas>
+      <div id="mm-kr-tip" style="position:absolute;display:none;pointer-events:none;background:rgba(24,24,24,0.96);border:1px solid #3a3a3a;border-radius:6px;padding:7px 10px;font-size:12px;line-height:1.5;z-index:10;color:#e6edf3;"></div>
     </div>
   </div>
-  <div class="events-card" style="flex:1;">
+  <div class="events-card" style="flex:none;width:100%;">
     <h2>미국 마켓맵</h2>
-    <div style="height:560px;">
+    <div style="height:640px;">
       <div class="tradingview-widget-container" style="height:100%;">
         <div class="tradingview-widget-container__widget" style="height:100%;"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
@@ -749,7 +733,8 @@ function createChart(id, col, opts = {}) {
 
 function addCandleSeries(id) {
   const s = allCharts[id].chart.addCandlestickSeries({
-    upColor:'#f04452',downColor:'#3182f6',borderUpColor:'#f04452',borderDownColor:'#3182f6',wickUpColor:'#f04452',wickDownColor:'#3182f6',
+    // 2026-08-21 BT: 회색 배경에서 흐릿 → 진한 빨강/파랑으로 (캔들만; 다크 UI 텍스트 색은 기존 유지)
+    upColor:'#d61022',downColor:'#1750e0',borderUpColor:'#d61022',borderDownColor:'#1750e0',wickUpColor:'#d61022',wickDownColor:'#1750e0',
     priceLineVisible:false   // 2026-08-01 BT: 현재가 가로 점선 제거 (축 라벨은 유지)
   });
   allCharts[id].series = s; return s;
@@ -833,7 +818,6 @@ function renderSubsForTooltip(col, time) {
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: C_SLATE_TEXT },
       { id: 'kr-breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
-      { id: 'adr',       label: 'ADR',          color: C_SLATE_TEXT },
       { id: 'kr-fflow',  label: '외국인 현선물 순매수', color: C_SLATE_TEXT }
     ]
     : [
@@ -863,11 +847,6 @@ function renderSubsForTooltip(col, time) {
       if (d.value == null) return;
       valHtml = '<span style="color:rgb(126,166,209)">' + d.value.toFixed(1) + '</span>'
               + (d.osc != null ? ' / <span style="color:rgb(249,117,131)">' + (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) + '</span>' : '');
-    } else if (s.id === 'adr') {
-      if (d.value == null) return;
-      valHtml = '<span style="color:rgb(126,166,209)">' + d.value.toFixed(2) + '</span>'
-              + (d.kp != null ? ' / <span style="color:rgb(57,197,207)">KP ' + d.kp.toFixed(2) + '</span>' : '')
-              + (d.kq != null ? ' / <span style="color:rgb(249,117,131)">KQ ' + d.kq.toFixed(2) + '</span>' : '');
     } else if (s.id === 'kr-export') {
       valHtml = '<span style="color:rgb(126,166,209)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
               + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
@@ -1034,7 +1013,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','adr','kr-fflow'] : ['ndx','us-fgosc','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','kr-fflow'] : ['ndx','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -2101,7 +2080,7 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadADR(), loadKrFflow()]);
+    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadKrFflow()]);  // ADR 카드 제거 (2026-08-21 BT)
   } else {
     await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
@@ -2367,6 +2346,7 @@ async function refreshAllData() {
   }
   for (const key of Object.keys(dataCache)) delete dataCache[key];
   await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+  loadKrMarketmap();
   for (const [id, lr] of Object.entries(savedRanges)) {
     if (allCharts[id]) { try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {} }
   }
@@ -2487,6 +2467,166 @@ window.addEventListener('load',()=>{
     setInterval(refreshAllData, 15 * 60 * 1000);
   },200);
 });
+
+// ═══════════════════════════════════
+// KR 마켓맵 — 자체 트리맵 (2026-08-21)
+// TradingView 임베드가 KRX 미지원이라 kr_marketmap.json (KRX+네이버업종) 기반 canvas 직접 렌더.
+// ═══════════════════════════════════
+const MM = { data: null, period: 0, mkt: 0, rects: [] };
+const MM_SCALE = [3, 5, 10, 20, 30, 60];   // 기간별 색 스케일 ±%
+
+function mmColor(r, scale) {
+  if (r == null) return '#3d3d3d';
+  const t = Math.max(-1, Math.min(1, r / scale));
+  const L = (a, b, k) => Math.round(a + (b - a) * k);
+  const neu = [58, 60, 64], red = [214, 16, 34], blu = [23, 80, 224];
+  const c = t >= 0
+    ? [L(neu[0], red[0], t), L(neu[1], red[1], t), L(neu[2], red[2], t)]
+    : [L(neu[0], blu[0], -t), L(neu[1], blu[1], -t), L(neu[2], blu[2], -t)];
+  return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')';
+}
+
+// squarified treemap (Bruls) — items[{v}] 내림차순 전제, 결과 rx/ry/rw/rh 부여
+function mmSquarify(items, x, y, w, h) {
+  let i = 0;
+  while (i < items.length) {
+    let total = 0;
+    for (let k = i; k < items.length; k++) total += items[k].v;
+    if (total <= 0 || w <= 0 || h <= 0) break;
+    const horiz = w >= h, side = horiz ? h : w, area = w * h;
+    let row = [], rowSum = 0, best = Infinity, j = i;
+    while (j < items.length) {
+      const ns = rowSum + items[j].v;
+      const thick = (ns / total) * area / side;
+      let worst = 0;
+      for (let k = i; k <= j; k++) {
+        const len = items[k].v / ns * side;
+        worst = Math.max(worst, thick / len, len / thick);
+      }
+      if (worst <= best || row.length === 0) { best = worst; row.push(items[j]); rowSum = ns; j++; }
+      else break;
+    }
+    const thick = (rowSum / total) * area / side;
+    let off = 0;
+    for (const it of row) {
+      const len = it.v / rowSum * side;
+      if (horiz) { it.rx = x; it.ry = y + off; it.rw = thick; it.rh = len; }
+      else { it.rx = x + off; it.ry = y; it.rw = len; it.rh = thick; }
+      off += len;
+    }
+    if (horiz) { x += thick; w -= thick; } else { y += thick; h -= thick; }
+    i = j;
+  }
+}
+
+function renderKrMarketmap() {
+  const D = MM.data;
+  const canvas = document.getElementById('mm-kr-canvas');
+  if (!D || !canvas) return;
+  const wrap = canvas.parentElement;
+  const W = wrap.clientWidth, H = wrap.clientHeight;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = '#101010'; ctx.fillRect(0, 0, W, H);
+  ctx.textBaseline = 'middle';
+
+  const ri = MM.period + 5;                 // stocks r index: 5(1d)..10(1y)
+  const scale = MM_SCALE[MM.period];
+  const groups = {};
+  for (const s of D.stocks) {
+    if (s[2] !== MM.mkt) continue;
+    const sec = s[3] >= 0 ? D.sectors[s[3]] : '기타';
+    (groups[sec] = groups[sec] || []).push({ name: s[1], cap: s[4], r: s[ri], v: s[4] });
+  }
+  const secItems = Object.keys(groups).map(name => ({
+    name, arr: groups[name].sort((a, b) => b.v - a.v),
+    v: groups[name].reduce((t, a) => t + a.v, 0)
+  })).sort((a, b) => b.v - a.v);
+  mmSquarify(secItems, 0, 0, W, H);
+
+  MM.rects = [];
+  const LBL = 14;
+  for (const g of secItems) {
+    ctx.fillStyle = '#0a0a0a'; ctx.fillRect(g.rx, g.ry, g.rw, g.rh);
+    const hasLbl = g.rh > 34 && g.rw > 44;
+    const inner = { x: g.rx + 1, y: g.ry + (hasLbl ? LBL : 1), w: g.rw - 2, h: g.rh - (hasLbl ? LBL + 1 : 2) };
+    if (hasLbl) {
+      ctx.fillStyle = '#b9bec5'; ctx.font = '600 10px sans-serif';
+      ctx.save(); ctx.beginPath(); ctx.rect(g.rx + 2, g.ry, g.rw - 4, LBL); ctx.clip();
+      ctx.fillText(g.name, g.rx + 4, g.ry + LBL / 2 + 0.5); ctx.restore();
+    }
+    if (inner.w < 2 || inner.h < 2) continue;
+    mmSquarify(g.arr, inner.x, inner.y, inner.w, inner.h);
+    for (const it of g.arr) {
+      if (it.rw < 0.6 || it.rh < 0.6) continue;
+      ctx.fillStyle = mmColor(it.r, scale);
+      ctx.fillRect(it.rx + 0.5, it.ry + 0.5, Math.max(0.4, it.rw - 1), Math.max(0.4, it.rh - 1));
+      MM.rects.push(it);
+      const rTxt = it.r == null ? '-' : (it.r > 0 ? '+' : '') + it.r.toFixed(1) + '%';
+      if (it.rw > 46 && it.rh > 28) {
+        const fs = Math.min(16, Math.max(9, Math.sqrt(it.rw * it.rh) / 7));
+        ctx.fillStyle = 'rgba(255,255,255,0.94)'; ctx.textAlign = 'center';
+        ctx.font = '600 ' + fs.toFixed(0) + 'px sans-serif';
+        ctx.fillText(it.name.length > 9 ? it.name.slice(0, 9) : it.name, it.rx + it.rw / 2, it.ry + it.rh / 2 - fs * 0.58);
+        ctx.font = Math.max(8, fs - 2).toFixed(0) + 'px sans-serif';
+        ctx.fillText(rTxt, it.rx + it.rw / 2, it.ry + it.rh / 2 + fs * 0.62);
+        ctx.textAlign = 'left';
+      } else if (it.rw > 32 && it.rh > 12) {
+        ctx.fillStyle = 'rgba(255,255,255,0.88)'; ctx.textAlign = 'center';
+        ctx.font = '600 9px sans-serif';
+        ctx.fillText(rTxt, it.rx + it.rw / 2, it.ry + it.rh / 2);
+        ctx.textAlign = 'left';
+      }
+    }
+  }
+}
+
+function mmSetPeriod(i, btn) {
+  MM.period = i;
+  document.querySelectorAll('#mm-kr-pbtns button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderKrMarketmap();
+}
+function mmSetMkt(i, btn) {
+  MM.mkt = i;
+  document.querySelectorAll('#mm-kr-mbtns button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderKrMarketmap();
+}
+
+async function loadKrMarketmap() {
+  try {
+    const r = await fetch('data/kr_marketmap.json?v=' + Date.now());
+    MM.data = await r.json();
+    const d = MM.data.base_date;
+    const el = document.getElementById('mm-kr-date');
+    if (el) el.textContent = d.slice(0, 4) + '.' + d.slice(4, 6) + '.' + d.slice(6) + ' 종가 기준';
+    renderKrMarketmap();
+    const canvas = document.getElementById('mm-kr-canvas');
+    const tip = document.getElementById('mm-kr-tip');
+    if (canvas && tip) {
+      canvas.addEventListener('mousemove', e => {
+        const b = canvas.getBoundingClientRect();
+        const mx = e.clientX - b.left, my = e.clientY - b.top;
+        const hit = MM.rects.find(t => mx >= t.rx && mx <= t.rx + t.rw && my >= t.ry && my <= t.ry + t.rh);
+        if (!hit) { tip.style.display = 'none'; return; }
+        const rTxt = hit.r == null ? '데이터 없음' : (hit.r > 0 ? '+' : '') + hit.r.toFixed(2) + '%';
+        const capTxt = hit.cap >= 10000 ? (hit.cap / 10000).toFixed(1) + '조' : hit.cap.toLocaleString() + '억';
+        tip.innerHTML = '<b>' + hit.name + '</b><br>' + rTxt + ' · 시총 ' + capTxt;
+        tip.style.display = 'block';
+        tip.style.left = Math.min(mx + 14, canvas.clientWidth - 150) + 'px';
+        tip.style.top = Math.min(my + 14, canvas.clientHeight - 50) + 'px';
+      });
+      canvas.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    }
+    let mmRT;
+    window.addEventListener('resize', () => { clearTimeout(mmRT); mmRT = setTimeout(renderKrMarketmap, 150); });
+  } catch (e) { console.error('kr marketmap', e); }
+}
+
 </script>
 </body>
 </html>
