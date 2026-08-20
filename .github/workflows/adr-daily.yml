@@ -27,6 +27,9 @@ jobs:
           pip install pykrx pandas
 
       - name: Run daily update
+        env:
+          KRX_ID: ${{ secrets.KRX_ID }}
+          KRX_PW: ${{ secrets.KRX_PW }}
         run: python scripts/update_adr.py
 
       - name: Commit result
