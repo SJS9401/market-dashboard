@@ -2461,6 +2461,7 @@ setInterval(fetchIndicatorMeta, 5 * 60 * 1000);
 window.addEventListener('load',()=>{
   setTimeout(async()=>{
     await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+    loadKrMarketmap();
     setupScrollbar('kr', 'kospi');
     setupScrollbar('us', 'ndx');
     // Auto-refresh every 15 minutes
@@ -2607,7 +2608,8 @@ async function loadKrMarketmap() {
     renderKrMarketmap();
     const canvas = document.getElementById('mm-kr-canvas');
     const tip = document.getElementById('mm-kr-tip');
-    if (canvas && tip) {
+    if (canvas && tip && !MM.bound) {
+      MM.bound = true;
       canvas.addEventListener('mousemove', e => {
         const b = canvas.getBoundingClientRect();
         const mx = e.clientX - b.left, my = e.clientY - b.top;
