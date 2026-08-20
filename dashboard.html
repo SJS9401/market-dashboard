@@ -231,6 +231,64 @@
   </div>
 </div>
 
+<!-- 마켓맵 (2026-08-20 BT 요청): TradingView Stock Heatmap 위젯 임베드.
+     위젯 상단바에서 변동률 기간(1일/1주/1개월/3개월/6개월/1년) 전환 + 줌 + 툴팁 지원.
+     외부 위젯이라 자체 데이터 파이프라인 불필요. -->
+<div class="events" style="margin-top:20px;">
+  <div class="events-card" style="flex:1;">
+    <h2>한국 마켓맵</h2>
+    <div style="height:560px;">
+      <div class="tradingview-widget-container" style="height:100%;">
+        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+        {
+          "dataSource": "KOSPI",
+          "blockSize": "market_cap_basic",
+          "blockColor": "change",
+          "grouping": "sector",
+          "locale": "kr",
+          "colorTheme": "dark",
+          "exchanges": [],
+          "hasTopBar": true,
+          "isDataSetEnabled": true,
+          "isZoomEnabled": true,
+          "hasSymbolTooltip": true,
+          "isMonoSize": false,
+          "width": "100%",
+          "height": "100%"
+        }
+        </script>
+      </div>
+    </div>
+  </div>
+  <div class="events-card" style="flex:1;">
+    <h2>미국 마켓맵</h2>
+    <div style="height:560px;">
+      <div class="tradingview-widget-container" style="height:100%;">
+        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+        {
+          "dataSource": "SPX500",
+          "blockSize": "market_cap_basic",
+          "blockColor": "change",
+          "grouping": "sector",
+          "locale": "kr",
+          "colorTheme": "dark",
+          "exchanges": [],
+          "hasTopBar": true,
+          "isDataSetEnabled": true,
+          "isZoomEnabled": true,
+          "hasSymbolTooltip": true,
+          "isMonoSize": false,
+          "width": "100%",
+          "height": "100%"
+        }
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="events">
   <div class="events-card">
     <h2>이벤트 캘린더</h2>
