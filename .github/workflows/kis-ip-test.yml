@@ -1,0 +1,34 @@
+name: KIS API Overseas IP Test
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show runner IP
+        run: curl -s https://api.ipify.org && echo ""
+
+      - name: KIS token issuance test
+        env:
+          KIS_APPKEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APPSECRET: ${{ secrets.KIS_APP_SECRET }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, urllib.request
+          url = 'https://openapi.koreainvestment.com:9443/oauth2/tokenP'
+          body = json.dumps({'grant_type': 'client_credentials', 'appkey': os.environ['KIS_APPKEY'], 'appsecret': os.environ['KIS_APPSECRET']}).encode()
+          req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'}, method='POST')
+          try:
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  data = json.loads(r.read())
+                  if 'access_token' in data:
+                      print('[SUCCESS] token issued - KIS API accessible from overseas IP')
+                  else:
+                      print('[FAIL] unexpected:', {k: v for k, v in data.items() if k != 'access_token'})
+          except urllib.error.HTTPError as e:
+              print('[FAIL] HTTP', e.code, ':', e.read().decode()[:300])
+          except Exception as e:
+              print('[FAIL]', type(e).__name__, ':', e)
+          EOF
