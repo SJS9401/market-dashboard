@@ -1,0 +1,42 @@
+name: Sync Notion Calendar to Dashboard
+
+on:
+  schedule:
+    # 매일 22:30 UTC = 07:30 KST
+    - cron: '30 22 * * *'
+  workflow_dispatch: {}  # 수동 실행 버튼
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Sync Notion calendar
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python scripts/sync_notion_calendar.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "calendar-sync-bot"
+          git config user.email "actions@github.com"
+          git add dashboard.html index.html
+          if git diff --cached --quiet; then
+            echo "No calendar changes"
+          else
+            git commit -m "chore: sync event calendar from Notion ($(date +'%Y-%m-%d %H:%M KST' -d '+9 hours'))"
+            git push
+          fi
