@@ -1,0 +1,71 @@
+# 한국 마켓맵 데이터 자동 갱신 — KRX 시세·시총 + 네이버 업종 분류
+# ----------------------------------------------------------
+# kr_marketmap_build.py --build 로 kr_marketmap.json 재생성.
+# 스케줄 (정각 회피 관례):
+#   - 07:35 UTC = 16:35 KST (장 마감 후 1차 — KRX 일별 데이터 확정 시점)
+#   - 09:35 UTC = 18:35 KST (2차 백업)
+# Secrets: KRX_AUTH_KEY (기존 krx workflows 와 공유)
+# ----------------------------------------------------------
+
+name: KR Marketmap Update
+
+on:
+  schedule:
+    - cron: '35 7 * * 1-5'
+    - cron: '35 9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-marketmap
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: probe (필드 확인 로그)
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u kr_marketmap_build.py --probe
+        continue-on-error: true
+
+      - name: 마켓맵 빌드
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u kr_marketmap_build.py --build
+
+      - name: JSON 검증
+        run: |
+          python - <<'PY'
+          import json, sys
+          j = json.load(open('data/kr_marketmap.json', encoding='utf-8'))
+          n = len(j['stocks']); s = len(j['sectors'])
+          print(f"stocks={n} sectors={s} base={j['base_date']}")
+          assert n > 1300 and s > 20, "데이터 규모 이상"
+          PY
+
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_marketmap.json
+          if git diff --cached --quiet; then
+            echo "::notice::변경 없음"
+          else
+            TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "chore(data): kr_marketmap 자동 갱신 (${TS})"
+            git push || (git pull --rebase --autostash && git push)
+          fi
