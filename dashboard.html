@@ -240,14 +240,14 @@
         <button data-s="m" onclick="mmSetMkt(1,this)">코스닥</button>
       </span>
     </h2>
-    <div style="height:640px;position:relative;background:#101010;">
+    <div style="height:800px;position:relative;background:#101010;">
       <canvas id="mm-kr-canvas" style="display:block;cursor:crosshair;"></canvas>
       <div id="mm-kr-tip" style="position:absolute;display:none;pointer-events:none;background:rgba(24,24,24,0.96);border:1px solid #3a3a3a;border-radius:6px;padding:7px 10px;font-size:12px;line-height:1.5;z-index:10;color:#e6edf3;"></div>
     </div>
   </div>
   <div class="events-card" style="flex:none;width:100%;">
     <h2>미국 마켓맵</h2>
-    <div style="height:640px;">
+    <div style="height:800px;">
       <div class="tradingview-widget-container" style="height:100%;">
         <div class="tradingview-widget-container__widget" style="height:100%;"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
@@ -294,7 +294,6 @@
       <a href="https://comp.fnguide.com/SVO2/ASP/SVD_comp_calendar.asp?pGB=1&amp;gicode=A005930&amp;gcd=&amp;gnm=&amp;curdt=&amp;ctp=&amp;cID=&amp;MenuYn=Y&amp;ReportGB=&amp;NewMenuID=701&amp;stkGb=701" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=fnguide.com&amp;sz=32" alt=""><span class="link-label">컴퍼니가이드 캘린더</span></a>
       <a href="https://www.earningswhispers.com/wrs" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=earningswhispers.com&sz=32" alt=""><span class="link-label">미국 어닝스 위스퍼</span></a>
       <a href="https://www.silicondata.com/products/silicon-index/llm-token-expenditure-index" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=silicondata.com&sz=32" alt=""><span class="link-label">LLM 토큰 가격</span></a>
-      <span class="link-spacer"></span>
       <a href="https://www.38.co.kr/html/fund/index.htm?o=nw" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=38.co.kr&sz=32" alt=""><span class="link-label">38커뮤니케이션</span></a>
       <a href="http://www.ipostock.co.kr/main/main.asp" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=ipostock.co.kr&sz=32" alt=""><span class="link-label">IPO스탁</span></a>
       <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=cmegroup.com&sz=32" alt=""><span class="link-label">CME FedWatch</span></a>
@@ -1564,7 +1563,7 @@ async function loadKrFflow() {
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues['kr-fflow'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
     if (!allCharts['kr-fflow']) {
-      createChart('kr-fflow', 'kr', { showTimeAxis: false });
+      createChart('kr-fflow', 'kr', { showTimeAxis: true });  // 2026-08-21 BT: KR 컬럼 하단 날짜 표시 (US goldman 대칭)
       const ch = allCharts['kr-fflow'].chart;
       ch.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.45 } });
       // 일별 바 = 오버레이 스케일 (축 미표시, 독립 autoscale) — 축 폭 불변이라 컬럼 크로스헤어 정렬 유지
