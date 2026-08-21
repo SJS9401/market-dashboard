@@ -220,6 +220,20 @@
   </div>
 </div>
 
+<!-- 해외 실시간 추정가 (2026-08-21 BT 요청): Binance 주식 무기한선물 × USD/KRW.
+     코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
+<div class="events" style="margin-top:20px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
+      <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
+      <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
+    </h2>
+    <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
+      <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
+    </div>
+  </div>
+</div>
+
 <!-- 마켓맵 (2026-08-21 개편): 한국 = 자체 canvas 트리맵 (kr_marketmap.json — KRX 시세·시총 + 네이버 업종,
      TradingView 임베드가 KRX 미지원이라 자체 구축). 미국 = TradingView Stock Heatmap 위젯.
      각 한 줄 전폭 (BT: 절반씩은 한눈에 안 들어옴). -->
@@ -2352,6 +2366,7 @@ async function refreshAllData() {
   for (const key of Object.keys(dataCache)) delete dataCache[key];
   await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
   loadKrMarketmap();
+  initNightPrice();
   for (const [id, lr] of Object.entries(savedRanges)) {
     if (allCharts[id]) { try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {} }
   }
@@ -2467,6 +2482,7 @@ window.addEventListener('load',()=>{
   setTimeout(async()=>{
     await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
     loadKrMarketmap();
+    initNightPrice();
     setupScrollbar('kr', 'kospi');
     setupScrollbar('us', 'ndx');
     // Auto-refresh every 15 minutes
@@ -2632,6 +2648,74 @@ async function loadKrMarketmap() {
     let mmRT;
     window.addEventListener('resize', () => { clearTimeout(mmRT); mmRT = setTimeout(renderKrMarketmap, 150); });
   } catch (e) { console.error('kr marketmap', e); }
+}
+
+
+// ═══════════════════════════════════
+// 해외 실시간 추정가 (2026-08-21) — Binance 주식 무기한선물 × USD/KRW
+// 코스피랩과 동일 원리 (실측: SAMSUNGUSDT 가 코스피랩 표시가와 일치). 공개 API·CORS 허용.
+// 가격 15초 폴링, 환율·전일 종가는 yahoo_dashboard.json (전일 기준).
+// ═══════════════════════════════════
+const NN_STOCKS = [
+  { sym: 'SAMSUNGUSDT',  name: '삼성전자',   ks: '005930.KS' },
+  { sym: 'SKHYNIXUSDT',  name: 'SK하이닉스', ks: '000660.KS' },
+  { sym: 'HYUNDAIUSDT',  name: '현대차',     ks: '005380.KS' },
+];
+const NN = { fx: null, close: {}, closeDate: '', timer: null };
+
+async function initNightPrice() {
+  const grid = document.getElementById('nn-grid');
+  if (!grid) return;
+  try {
+    const cache = await fetchYahooCache();
+    const cd = cache.data || {};
+    const last = s => { const c = cd[s] && cd[s].candles; return c && c.length ? c[c.length - 1] : null; };
+    const fx = last('USDKRW=X') || last('KRW=X');
+    NN.fx = fx ? fx.close : null;
+    for (const st of NN_STOCKS) {
+      const l = last(st.ks);
+      if (l) { NN.close[st.ks] = l.close; NN.closeDate = l.time; }
+    }
+  } catch (e) {}
+  nnPoll();
+  if (NN.timer) clearInterval(NN.timer);
+  NN.timer = setInterval(nnPoll, 15000);
+}
+
+async function nnPoll() {
+  const grid = document.getElementById('nn-grid');
+  if (!grid) return;
+  try {
+    const all = await fetch('https://fapi.binance.com/fapi/v1/ticker/price').then(r => r.json());
+    const map = {};
+    for (const t of all) map[t.symbol] = parseFloat(t.price);
+    let html = '';
+    for (const st of NN_STOCKS) {
+      const usd = map[st.sym];
+      const krw = (usd && NN.fx) ? usd * NN.fx : null;
+      const prev = NN.close[st.ks];
+      let chg = '<span style="color:#8b949e">전일 종가 대기 중</span>';
+      if (krw && prev) {
+        const d = krw - prev, p = d / prev * 100, up = d >= 0;
+        chg = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲' : '▼') + ' '
+            + Math.abs(Math.round(d)).toLocaleString() + '원 · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
+      }
+      html += '<div style="background:#101010;border:1px solid #2e2e2e;border-radius:8px;padding:13px 16px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+        + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name + '</span>'
+        + '<span style="font-size:10px;color:#6e7681;">' + st.sym + '</span></div>'
+        + '<div style="font-size:24px;font-weight:800;color:#f0f6fc;margin:6px 0 2px;">'
+        + (krw ? '₩' + Math.round(krw).toLocaleString() : '—') + '</div>'
+        + '<div style="font-size:12px;color:#8b949e;">≈ $' + (usd ? usd.toFixed(2) : '—') + '</div>'
+        + '<div style="font-size:12px;margin-top:7px;">'
+        + (NN.closeDate && prev ? NN.closeDate.slice(5).replace('-', '/') + ' 종가 대비 ' : '') + chg + '</div>'
+        + '</div>';
+    }
+    grid.innerHTML = html;
+    const u = document.getElementById('nn-updated');
+    if (u) u.textContent = '환율 ' + (NN.fx ? Math.round(NN.fx).toLocaleString() + '원(전일)' : '—')
+      + ' · ' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신';
+  } catch (e) {}
 }
 
 </script>

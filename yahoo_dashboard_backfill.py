@@ -68,6 +68,8 @@ SYMBOLS = [
     "NVDA",         # AI 1차 주도주 (vs 닷컴 CSCO) — Current_cycle 카드
     "MU",           # AI 2차 주도주 (vs 닷컴 QCOM) — Current_cycle 카드
     "000660.KS",    # SK하이닉스 — 한국 AI 메모리 주도주, MU와 같은 anchor (2024-06-11)
+    "005930.KS",    # 삼성전자 — 야간 실시간 추정가 카드 (Binance perp 대비 전일 종가, 2026-08-21)
+    "005380.KS",    # 현대차 — 야간 실시간 추정가 카드
     "ZN=F",         # 미 10년 국채선물 연속물 — US F&G Oscillator (10y-5y spread)
     "ZF=F",         # 미 5년 국채선물 연속물 — US F&G Oscillator
 ]
