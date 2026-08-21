@@ -227,6 +227,7 @@
     <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
       <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
       <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
+      <span class="series-toggle" style="display:flex;"><button data-s="m" onclick="nnRefresh()" title="시세·환율·종가 즉시 갱신">↻ 새로고침</button></span>
     </h2>
     <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
       <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
@@ -2657,9 +2658,9 @@ async function loadKrMarketmap() {
 // 가격 15초 폴링, 환율·전일 종가는 yahoo_dashboard.json (전일 기준).
 // ═══════════════════════════════════
 const NN_STOCKS = [
+  { sym: 'KODEX200USDT', name: 'KODEX 200',  ks: '069500.KS' },   // 야간 코스피 지수 프록시 (2026-08-21 BT: 현대차 교체)
   { sym: 'SAMSUNGUSDT',  name: '삼성전자',   ks: '005930.KS' },
   { sym: 'SKHYNIXUSDT',  name: 'SK하이닉스', ks: '000660.KS' },
-  { sym: 'HYUNDAIUSDT',  name: '현대차',     ks: '005380.KS' },
 ];
 const NN = { fx: null, close: {}, closeDate: '', timer: null };
 
@@ -2680,6 +2681,12 @@ async function initNightPrice() {
   nnPoll();
   if (NN.timer) clearInterval(NN.timer);
   NN.timer = setInterval(nnPoll, 15000);
+}
+
+async function nnRefresh() {
+  _yahooCacheJson = null;              // 환율·전일 종가 캐시 무효화 후 전체 재로드
+  NN.fx = null; NN.close = {}; NN.closeDate = '';
+  await initNightPrice();
 }
 
 async function nnPoll() {
