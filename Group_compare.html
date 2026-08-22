@@ -29,7 +29,10 @@ RS 강세 = 3M 하락일 방어 + 상승일 우위 · 소르티노 = 하락일 �
   <button id="cycBtn" onclick="toggleCyc()">사이클 마커 ON</button>
   <span id="lgd"></span>
 </div>
-<div class="panel"><div class="ptitle" id="ptitle">그룹 지수 (2014-01=100)</div><div id="ch"></div></div>
+<div class="panel"><div class="ptitle" style="display:flex;align-items:center;gap:8px;"><span id="ptitle">그룹 지수 (2014-01=100)</span>
+<span style="margin-left:auto;display:flex;gap:6px;align-items:center;">
+<input id="anchorDate" type="date" style="background:#181818;color:#ccc;border:1px solid #3a3a3a;border-radius:5px;padding:3px 6px;font-size:12px;">
+<button onclick="rebaseAt()" style="padding:3px 10px;font-size:12px;">이 날짜 = 100</button></span></div><div id="ch"></div></div>
 
 <script>/*!
  * @license
@@ -65,18 +68,29 @@ document.getElementById('lgd').innerHTML = Object.entries(COLORS)
   .map(([n,c])=>`<span class="lg"><b style="background:${c}"></b>${n}</span>`).join('');
 
 let rebased=false;
-function rebase(){
+function rebaseAt(){
+  const v = document.getElementById('anchorDate').value;
+  if(!v) return;
   const r = chart.timeScale().getVisibleRange();
-  if(!r) return;
-  const i0 = D.dates.findIndex(d=>d>=r.from);
+  const i0 = D.dates.findIndex(d=>d>=v);
   if(i0<0) return;
+  _applyRebase(i0, r);
+}
+function _applyRebase(i0, r){
   for (const [name, vals] of Object.entries(D.series)) {
     const b = vals[i0];
     seriesMap[name].setData(D.dates.map((d,i)=>({time:d,value:+(vals[i]/b*100).toFixed(2)})));
   }
   rebased=true;
   document.getElementById('ptitle').textContent='그룹 지수 — '+D.dates[i0]+' = 100 리베이스';
-  chart.timeScale().setVisibleRange(r);
+  if(r) chart.timeScale().setVisibleRange(r);
+}
+function rebase(){
+  const r = chart.timeScale().getVisibleRange();
+  if(!r) return;
+  const i0 = D.dates.findIndex(d=>d>=r.from);
+  if(i0<0) return;
+  _applyRebase(i0, r);
 }
 function resetView(){
   for (const [name, vals] of Object.entries(D.series))
