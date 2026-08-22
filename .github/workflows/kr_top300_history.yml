@@ -1,0 +1,42 @@
+name: kr-top300-history-backfill
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-top300-history
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run backfill chunk
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+          MAX_DAYS: '900'
+        run: python kr_top300_backfill.py
+      - name: Validate
+        run: |
+          python - <<'EOF'
+          import gzip, json
+          h = json.loads(gzip.decompress(open('data/kr_top300_history.json.gz','rb').read()))
+          assert len(h['dates']) == len(h['days']) > 100
+          assert len(h['days'][-1]) == 300
+          print('dates', len(h['dates']), 'last', h.get('last_date'), 'codes', len(h['codes']))
+          EOF
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/kr_top300_history.json.gz
+          git diff --cached --quiet && echo "no changes" || git commit -m "kr_top300 backfill chunk"
+          git push || (git pull --rebase --autostash && git push)
