@@ -81,9 +81,11 @@ function mkCandle(id,h){
   const mas=MA_PERIODS.map(([n,col])=>c.addLineSeries({color:col,lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}));
   charts.push(c);series.push(s);maSeries.push(mas);return s;
 }
+const panelVal=[{},{},{},{}];   // time -> value (크로스헤어 동기화용)
 function setPanel(i,rows){
   series[i].setData(candleData(rows));
   MA_PERIODS.forEach(([n],j)=>maSeries[i][j].setData(maData(rows,n)));
+  panelVal[i]={}; rows.forEach(r=>panelVal[i][r[0]]=r[4]);
 }
 mkCandle('c0',230);setPanel(0,D.kospi);
 mkCandle('c1',230);setPanel(1,D.kosdaq);
@@ -93,6 +95,22 @@ mkCandle('c2',250);
   const s=c.addHistogramSeries({color:'#2d3e50',priceFormat:{type:'volume'}});
   charts.push(c);series.push(s);
 })();
+
+// 크로스헤어 4패널 동기화
+let crossSyncing=false;
+charts.forEach((c,i)=>{
+  c.subscribeCrosshairMove(p=>{
+    if(crossSyncing) return;
+    crossSyncing=true;
+    charts.forEach((o,j)=>{
+      if(j===i) return;
+      if(p && p.time!==undefined && panelVal[j][p.time]!==undefined)
+        o.setCrosshairPosition(panelVal[j][p.time], p.time, series[j]);
+      else o.clearCrosshairPosition();
+    });
+    crossSyncing=false;
+  });
+});
 
 // X축 동기화 (목표 수렴 방식 간이판)
 let syncTarget=null;
@@ -118,6 +136,7 @@ function loadCase(i){
   const sd=D.sectors[cur.sector];
   setPanel(2,sd.w);
   series[3].setData(sd.tv.map(r=>({time:r[0],value:r[1]/1e4})));   // 억원→조원
+  panelVal[3]={}; sd.tv.forEach(r=>panelVal[3][r[0]]=r[1]/1e4);
   document.getElementById('secName').textContent='섹터: '+cur.sector;
   const b=document.getElementById('caseBadge');
   b.textContent=(cur.ok?'주도 진입 성공 ':'주도 진입 실패 ')+(cur.ex>=0?'+':'')+cur.ex+'%p';
