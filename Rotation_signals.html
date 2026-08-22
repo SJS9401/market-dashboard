@@ -27,6 +27,7 @@
 <h1>순환매 신호 검증 차트 <span class="small">고베타+저거래+정배열 3중 조건 42건 · 주봉</span></h1>
 <div class="meta">코스피·코스닥 = 실제 OHLC 주봉 합성 · 섹터 = 시총가중 종가지수 기반 주봉 근사
 (시가=전주 종가, 고저=주중 종가 극값 — 실제 고저보다 좁음) · 거래대금 = 섹터 주간 합(조원) ·
+이평선 <span style="color:#bbb">4W</span>·<span style="color:#5b8def">13W</span>·<span style="color:#CC9900">26W</span>·<span style="color:#b46ae0">52W</span> ·
 ▼ 마커 = 신호월 말 · 음영 시점 이후 12개월 내 랭킹 상위 20% 3연속 체류 여부가 성공 판정</div>
 
 <div class="bar">
@@ -63,15 +64,27 @@ const OPT = {
   handleScroll:true, handleScale:true,
 };
 function candleData(rows){return rows.map(r=>({time:r[0],open:r[1],high:r[2],low:r[3],close:r[4]}));}
+const MA_PERIODS=[[4,'#000000'],[13,'#1750e0'],[26,'#CC9900'],[52,'#9900CC']];   // 4검정 13파랑 26노랑 52보라
+function maData(rows,n){
+  const out=[];let sum=0;
+  for(let i=0;i<rows.length;i++){sum+=rows[i][4];if(i>=n)sum-=rows[i-n][4];
+    if(i>=n-1)out.push({time:rows[i][0],value:+(sum/n).toFixed(2)});}
+  return out;
+}
 
-const charts=[], series=[];
+const charts=[], series=[], maSeries=[];
 function mkCandle(id,h){
   const c=LightweightCharts.createChart(document.getElementById(id),{...OPT,height:h});
   const s=c.addCandlestickSeries({upColor:UP,downColor:DN,borderUpColor:UP,borderDownColor:DN,wickUpColor:UP,wickDownColor:DN});
-  charts.push(c);series.push(s);return s;
+  const mas=MA_PERIODS.map(([n,col])=>c.addLineSeries({color:col,lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false}));
+  charts.push(c);series.push(s);maSeries.push(mas);return s;
 }
-mkCandle('c0',230).setData(candleData(D.kospi));
-mkCandle('c1',230).setData(candleData(D.kosdaq));
+function setPanel(i,rows){
+  series[i].setData(candleData(rows));
+  MA_PERIODS.forEach(([n],j)=>maSeries[i][j].setData(maData(rows,n)));
+}
+mkCandle('c0',230);setPanel(0,D.kospi);
+mkCandle('c1',230);setPanel(1,D.kosdaq);
 mkCandle('c2',250);
 (function(){
   const c=LightweightCharts.createChart(document.getElementById('c3'),{...OPT,height:150});
@@ -101,7 +114,7 @@ function monthEnd(ym){const [y,m]=ym.split('-').map(Number);return new Date(Date
 function loadCase(i){
   cur=D.cases[i];
   const sd=D.sectors[cur.sector];
-  series[2].setData(candleData(sd.w));
+  setPanel(2,sd.w);
   series[3].setData(sd.tv.map(r=>({time:r[0],value:r[1]/1e4})));   // 억원→조원
   document.getElementById('secName').textContent='섹터: '+cur.sector;
   const b=document.getElementById('caseBadge');
