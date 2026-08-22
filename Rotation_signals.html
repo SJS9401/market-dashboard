@@ -59,7 +59,7 @@
 const D = JSON.parse(document.getElementById('cd').textContent);
 const UP='#d61022', DN='#1750e0';
 const OPT = {
-  localization:{timeFormatter:t=>{if(t&&typeof t==='object')return String(t.year).slice(2)+'/'+String(t.month).padStart(2,'0')+'/'+String(t.day).padStart(2,'0');const d=new Date(t*1000);return String(d.getUTCFullYear()).slice(2)+'/'+String(d.getUTCMonth()+1).padStart(2,'0')+'/'+String(d.getUTCDate()).padStart(2,'0');}},
+  localization:{timeFormatter:t=>{if(typeof t==='string'){const p=t.split('-');return p[0].slice(2)+'/'+p[1]+'/'+p[2];}if(t&&typeof t==='object')return String(t.year).slice(2)+'/'+String(t.month).padStart(2,'0')+'/'+String(t.day).padStart(2,'0');const d=new Date(t*1000);return String(d.getUTCFullYear()).slice(2)+'/'+String(d.getUTCMonth()+1).padStart(2,'0')+'/'+String(d.getUTCDate()).padStart(2,'0');}},
   layout:{background:{type:'solid',color:'#8C8C8C'},textColor:'#1c2128',fontSize:11},
   grid:{vertLines:{color:'#6D6D6D'},horzLines:{color:'#6D6D6D'}},
   rightPriceScale:{borderColor:'#707070',minimumWidth:64},
