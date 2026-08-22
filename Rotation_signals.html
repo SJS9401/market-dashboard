@@ -28,7 +28,7 @@
 <div class="meta">코스피·코스닥 = 실제 OHLC 주봉 합성 · 섹터 = 시총가중 종가지수 기반 주봉 근사
 (시가=전주 종가, 고저=주중 종가 극값 — 실제 고저보다 좁음) · 거래대금 = 섹터 주간 합(조원) ·
 이평선 <span style="color:#bbb">4W</span>·<span style="color:#5b8def">13W</span>·<span style="color:#CC9900">26W</span>·<span style="color:#b46ae0">52W</span> ·
-▼ 마커 = 신호월 말 · 코스피 패널: ▼-3%트리거 ▲저점 ●50%되돌림 · 섹터 패널: ▲진입(저점 전일, 신의 타이밍) ▼청산(파랑=50%되돌림/빨강=−5%손절) · 성공 판정 = 신호 후 12개월 누적수익이 전체시장 대비 +15%p 이상 (2026-08-22 v2 — 월랭킹 3연속 기준은 노이즈로 폐기)</div>
+▼ 마커 = 신호월 말 · 코스피 패널: ▼-3%트리거 ▲저점 ●50%되돌림 · 섹터 패널: ▲진입(빨강, 저점 전일·신의 타이밍) ▼청산(파랑, 텍스트로 익절/손절 구분) · 성공 판정 = 신호 후 12개월 누적수익이 전체시장 대비 +15%p 이상 (2026-08-22 v2 — 월랭킹 3연속 기준은 노이즈로 폐기)</div>
 
 <div class="bar">
   <select id="caseSel"></select>
@@ -148,8 +148,8 @@ function loadCase(i){
   const wk=sd.w.find(r=>new Date(r[0])>=me) || sd.w[sd.w.length-1];
   const mks=[{time:wk[0],position:'belowBar',color:'#ffd54a',shape:'arrowUp',text:'신호 '+cur.t}];
   (SWT[cur.sector]||[]).forEach(t=>{
-    mks.push({time:t[0],position:'belowBar',color:'#0e7f6e',shape:'arrowUp',text:'진입 '+t[4]});
-    mks.push({time:t[1],position:'aboveBar',color:t[3]?'#c0392b':'#5b8def',shape:'arrowDown',
+    mks.push({time:t[0],position:'belowBar',color:'#d10000',shape:'arrowUp',text:'진입 '+t[4]});
+    mks.push({time:t[1],position:'aboveBar',color:'#0033cc',shape:'arrowDown',
               text:(t[3]?'손절 ':'청산 ')+(t[2]>=0?'+':'')+t[2]+'%'});
   });
   series[2].setMarkers(mks.sort((a,b)=>a.time<b.time?-1:1));
