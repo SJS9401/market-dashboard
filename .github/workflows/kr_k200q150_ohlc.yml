@@ -1,0 +1,45 @@
+name: kr-k200q150-ohlc-backfill
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-k200q150-ohlc
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run backfill
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+          MAX_DAYS: '3300'
+        run: python kr_k200q150_ohlc_backfill.py
+      - name: Validate
+        run: |
+          python - <<'EOF'
+          import gzip, json
+          h = json.loads(gzip.decompress(open('data/kr_k200q150_ohlc.json.gz','rb').read()))
+          assert len(h['dates']) == len(h['days']) > 100
+          d = h['days'][-1]
+          assert len(d) >= 300
+          v = next(iter(d.values()))
+          assert len(v) == 5 and v[1] >= v[2]
+          print('dates', len(h['dates']), 'last', h.get('last_date'), 'codes', len(h['codes']))
+          EOF
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/kr_k200q150_ohlc.json.gz
+          git diff --cached --quiet || git commit -m "kr_k200q150_ohlc backfill chunk"
+          git push
