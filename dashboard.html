@@ -2686,21 +2686,23 @@ async function initNightPrice() {
   NN.timer = setInterval(nnPoll, 15000);
 }
 
-// ═══ 반등 매매 국면 카드 (2026-08-23, 순환매 시리즈 최종 · v2 체계) ═══
+// ═══ 반등 매매 국면 카드 (2026-08-23, 순환매 시리즈 최종 · v3: 1종목 백테스트 + 익스포저/손절) ═══
+// 백테스트: 시총 1위 1종목, 손절 -7% (전 국면에서 -5%를 압도 — -5%는 시총1위 정상 노이즈에 털림)
+// [평균%, 중앙%, 승률%, PF(null=전승 ∞), 사이클수, 등급, 권장 익스포저, 코멘트]
 const REGIME_STATS = {
-  "1-1": [3.90, 46.6, 1.95, 17, "X", "관망 — 고점권 얕은 조정 (최다 빈도 함정, 중앙값 음수)"],
-  "1-2": [7.89, 69.8, 5.73, 21, "A", "매수 유효 — 정석 눌림목 (주력 국면). 지수관련주, 손절 -7%"],
-  "1-3": [3.58, 56.7, 2.06, 10, "B", "신중 — 중간 지대 (손절률 36%). 축소 진입"],
-  "1-4": [7.81, 72.3, 4.28, 10, "A", "매수 유효 — 정배열 붕괴급 투매. 손절 -7%"],
-  "2-1": [7.41, 74.1, 5.04, 8, "A", "매수 유효 — 역배열 투매 저점 (심리 관리 필수). 손절 -7%"],
-  "2-2": [null, null, null, 0, "-", "표본 없음 — 스윙 저점 진입 시 미출현"],
-  "2-3": [null, null, null, 0, "-", "표본 없음 — 스윙 저점 진입 시 미출현"],
-  "2-4": [null, null, null, 0, "-", "표본 없음 — 스윙 저점 진입 시 미출현"],
-  "2-5": [null, null, null, 0, "-", "표본 없음 — 스윙 저점 진입 시 미출현"],
-  "3-1": [8.10, 69.3, 4.92, 6, "A", "매수 유효 — 상승 후 수렴 딥. 유일하게 손절 -5% 허용"],
-  "3-2": [0.61, 40.0, 1.14, 3, "X", "관망 — 고점 수렴 첫 이탈"],
-  "4-1": [7.23, 73.6, 4.86, 10, "A", "매수 유효 — 바닥 다지기 딥. 손절 -7%"],
-  "4-2": [null, null, null, 0, "-", "표본 없음 — 스윙 저점 진입 시 미출현"],
+  "1-1": [9.51, 1.59, 59, 4.42, 17, "X", "≤50% or 패스", "복권형 — 손절 6회 vs 대박 4회 (상위 20%가 이익 90%)"],
+  "1-2": [9.55, 4.21, 86, 16.46, 21, "A", "200%", "주력 — 손절률 5%, 하위 25%도 +1.9%"],
+  "1-3": [12.90, 7.92, 80, 10.22, 10, "B", "100~150%", "이분법 — 크게 이기거나 손절 (손절률 20%)"],
+  "1-4": [11.45, 5.66, 80, 43.42, 10, "A", "150~200%", "손절 0회 — 정배열 붕괴급 투매"],
+  "2-1": [11.74, 10.35, 100, null, 8, "A", "150~200%", "8전승 — 역배열 투매 저점 (n 소수 주의)"],
+  "2-2": [null, null, null, null, 0, "-", "—", "표본 없음 — 스윙 저점 진입 시 미출현"],
+  "2-3": [null, null, null, null, 0, "-", "—", "표본 없음 — 스윙 저점 진입 시 미출현"],
+  "2-4": [null, null, null, null, 0, "-", "—", "표본 없음 — 스윙 저점 진입 시 미출현"],
+  "2-5": [null, null, null, null, 0, "-", "—", "표본 없음 — 스윙 저점 진입 시 미출현"],
+  "3-1": [7.74, 8.02, 100, null, 6, "A", "150%", "6전승 — 상승 후 수렴 딥 (n 소수 주의)"],
+  "3-2": [8.47, 10.03, 100, null, 3, "B", "100%", "n=3 — 과신 금지"],
+  "4-1": [6.93, 5.26, 80, 50.12, 10, "A", "150%", "손절 0회 — 바닥 다지기 딥"],
+  "4-2": [null, null, null, null, 0, "-", "—", "표본 없음 — 스윙 저점 진입 시 미출현"],
 };
 const REGIME_NAMES = {
   "1-1":"정배열 · 주가 20선 위 (고점권)", "1-2":"정배열 · 20선 아래 60선 위 (눌림목)",
@@ -2728,23 +2730,26 @@ function regimeTable(cur) {
   const gcolor = {"A":"#2ea043","B":"#b08a2e","X":"#d64545","-":"#555"};
   let rows = '';
   for (const c of order) {
-    const st = REGIME_STATS[c], hl = c===cur, dim = st[4]==="-";
+    const st = REGIME_STATS[c], hl = c===cur, dim = st[5]==="-";
     rows += '<tr style="'+(hl?'background:#26241c;':'')+(dim?'opacity:.45;':'')+'border-top:1px solid #222;">'
       + '<td style="padding:4px 8px;font-weight:700;color:'+(hl?'#ffd866':'#ccc')+';white-space:nowrap;">'+c+(hl?' ◀':'')+'</td>'
       + '<td style="padding:4px 8px;color:#aaa;">'+REGIME_NAMES[c]+'</td>'
-      + '<td style="padding:4px 8px;color:'+gcolor[st[4]]+';font-weight:700;white-space:nowrap;">'+gname[st[4]]+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;">'+st[3]+'</td>'
+      + '<td style="padding:4px 8px;color:'+gcolor[st[5]]+';font-weight:700;white-space:nowrap;">'+gname[st[5]]+'</td>'
+      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;">'+st[4]+'</td>'
       + '<td style="padding:4px 8px;text-align:right;color:#ccc;white-space:nowrap;">'+(st[0]!==null?'+'+st[0]+'%':'—')+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[1]!==null?st[1]+'%':'—')+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[2]!==null?st[2]:'—')+'</td>'
-      + '<td style="padding:4px 8px;color:#8b949e;">'+st[5]+'</td></tr>';
+      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[1]!==null?'+'+st[1]+'%':'—')+'</td>'
+      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[2]!==null?st[2]+'%':'—')+'</td>'
+      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[4]>0?(st[3]!==null?st[3]:'∞'):'—')+'</td>'
+      + '<td style="padding:4px 8px;text-align:right;font-weight:700;color:'+(hl?'#ffd866':'#ddd')+';white-space:nowrap;">'+st[6]+'</td>'
+      + '<td style="padding:4px 8px;color:#8b949e;">'+st[7]+'</td></tr>';
   }
   return '<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px;">'
     + '<tr style="color:#6e7681;font-size:10.5px;"><th style="text-align:left;padding:2px 8px;">국면</th>'
     + '<th style="text-align:left;padding:2px 8px;">조건</th><th style="text-align:left;padding:2px 8px;">등급</th>'
     + '<th style="text-align:right;padding:2px 8px;">사이클</th>'
-    + '<th style="text-align:right;padding:2px 8px;">평균</th><th style="text-align:right;padding:2px 8px;">승률</th>'
-    + '<th style="text-align:right;padding:2px 8px;">PF</th><th style="text-align:left;padding:2px 8px;">권고</th></tr>'
+    + '<th style="text-align:right;padding:2px 8px;">평균</th><th style="text-align:right;padding:2px 8px;">중앙</th>'
+    + '<th style="text-align:right;padding:2px 8px;">승률</th><th style="text-align:right;padding:2px 8px;">PF</th>'
+    + '<th style="text-align:right;padding:2px 8px;">익스포저</th><th style="text-align:left;padding:2px 8px;">비고</th></tr>'
     + rows + '</table>';
 }
 async function initRegimeCard() {
@@ -2756,8 +2761,8 @@ async function initRegimeCard() {
     if (!ks || !ks.candles || ks.candles.length < 130) { el.textContent = 'KOSPI 데이터 없음'; return; }
     const cl = ks.candles.map(c=>c.close);
     const r = regimeOf(cl);
-    const st = REGIME_STATS[r.code] || [null,null,null,0,"B","—"];
-    const avg=st[0], wr=st[1], pf=st[2], grade=st[4], advice=st[5];
+    const st = REGIME_STATS[r.code] || [null,null,null,null,0,"B","—","—"];
+    const grade=st[5];
     const hi20 = Math.max.apply(null, cl.slice(-20));
     const dd20 = (r.p/hi20 - 1) * 100;
     const gcol = grade==="A" ? "#2ea043" : grade==="X" ? "#d64545" : "#b08a2e";
@@ -2769,9 +2774,10 @@ async function initRegimeCard() {
       + '<div><div style="color:#ddd;font-size:15px;font-weight:bold;">'+r.code+' — '+REGIME_NAMES[r.code]+'</div>'
       + '<div style="font-size:12px;margin-top:3px;">'+pos+' · 60/120 괴리 '+(r.gap*100).toFixed(1)+'% · 20일 고점 대비 '+dd20.toFixed(1)+'%</div></div>'
       + '<div style="margin-left:auto;text-align:right;font-size:12px;color:#8b949e;">'
-      + (avg!==null ? '백테스트: 평균 <b style="color:#ddd">+'+avg+'%</b> · 승률 '+wr+'% · PF '+pf : '표본 없음')
-      + '<br><span style="color:#aaa">'+advice+'</span></div></div>'
-      + '<div style="font-size:11px;color:#666;margin-top:8px;">진입 트리거는 지수 스윙 저점 (시황 재량) — 본 카드는 국면 필터만 표시 · 분류 기준: 60/120MA 괴리 +1.5% 이상 = 정배열(1) · -1.5% 이하 = 역배열(2) · ±1.5% 이내 = 수렴 (126일 전 대비 상승=3 / 하락=4) · 주가 위치는 깊은 이탈 우선 판정</div>'
+      + '권장 익스포저 <b style="color:#ffd866;font-size:15px;">'+st[6]+'</b> · 손절 <b style="color:#ddd;">-7%</b>'
+      + '<br>'+(st[0]!==null ? '백테스트: 평균 <b style="color:#ddd">+'+st[0]+'%</b> · 중앙 +'+st[1]+'% · 승률 '+st[2]+'%' : '표본 없음')
+      + '<br><span style="color:#aaa">'+st[7]+'</span></div></div>'
+      + '<div style="font-size:11px;color:#666;margin-top:8px;">진입 트리거 = 지수 스윙 저점 (시황 재량) · 백테스트 = 시총 1위 1종목, 손절 -7% 종가 기준 (전 국면에서 -5% 압도 — 시총 1위 정상 노이즈가 -5~-6% 구간) · 계좌 리스크 = 익스포저 × 7% · 분류: 60/120MA 괴리 ±1.5% = 수렴 (126일 전 대비 상승=3/하락=4), 주가 위치는 깊은 이탈 우선</div>'
       + regimeTable(r.code);
   } catch(e) { el.textContent = '국면 계산 실패: ' + e.message; }
 }
