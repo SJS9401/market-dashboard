@@ -2736,10 +2736,8 @@ function regimeTable(cur) {
       + '<td style="padding:4px 8px;color:#aaa;">'+REGIME_NAMES[c]+'</td>'
       + '<td style="padding:4px 8px;color:'+gcolor[st[5]]+';font-weight:700;white-space:nowrap;">'+gname[st[5]]+'</td>'
       + '<td style="padding:4px 8px;text-align:right;color:#8b949e;">'+st[4]+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#ccc;white-space:nowrap;">'+(st[0]!==null?'+'+st[0]+'%':'—')+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[1]!==null?'+'+st[1]+'%':'—')+'</td>'
       + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[2]!==null?st[2]+'%':'—')+'</td>'
-      + '<td style="padding:4px 8px;text-align:right;color:#8b949e;white-space:nowrap;">'+(st[4]>0?(st[3]!==null?st[3]:'∞'):'—')+'</td>'
+      + '<td style="padding:4px 8px;text-align:right;color:#ccc;white-space:nowrap;">'+(st[0]!==null?'+'+st[0]+'%':'—')+'</td>'
       + '<td style="padding:4px 8px;text-align:right;font-weight:700;color:'+(hl?'#ffd866':'#ddd')+';white-space:nowrap;">'+st[6]+'</td>'
       + '<td style="padding:4px 8px;color:#8b949e;">'+st[7]+'</td></tr>';
   }
@@ -2747,8 +2745,7 @@ function regimeTable(cur) {
     + '<tr style="color:#6e7681;font-size:10.5px;"><th style="text-align:left;padding:2px 8px;">국면</th>'
     + '<th style="text-align:left;padding:2px 8px;">조건</th><th style="text-align:left;padding:2px 8px;">등급</th>'
     + '<th style="text-align:right;padding:2px 8px;">사이클</th>'
-    + '<th style="text-align:right;padding:2px 8px;">평균</th><th style="text-align:right;padding:2px 8px;">중앙</th>'
-    + '<th style="text-align:right;padding:2px 8px;">승률</th><th style="text-align:right;padding:2px 8px;">PF</th>'
+    + '<th style="text-align:right;padding:2px 8px;">승률</th><th style="text-align:right;padding:2px 8px;">평균</th>'
     + '<th style="text-align:right;padding:2px 8px;">익스포저</th><th style="text-align:left;padding:2px 8px;">비고</th></tr>'
     + rows + '</table>';
 }
@@ -2775,7 +2772,7 @@ async function initRegimeCard() {
       + '<div style="font-size:12px;margin-top:3px;">'+pos+' · 60/120 괴리 '+(r.gap*100).toFixed(1)+'% · 20일 고점 대비 '+dd20.toFixed(1)+'%</div></div>'
       + '<div style="margin-left:auto;text-align:right;font-size:12px;color:#8b949e;">'
       + '권장 익스포저 <b style="color:#ffd866;font-size:15px;">'+st[6]+'</b> · 손절 <b style="color:#ddd;">-7%</b>'
-      + '<br>'+(st[0]!==null ? '백테스트: 평균 <b style="color:#ddd">+'+st[0]+'%</b> · 중앙 +'+st[1]+'% · 승률 '+st[2]+'%' : '표본 없음')
+      + '<br>'+(st[0]!==null ? '백테스트: 평균 <b style="color:#ddd">+'+st[0]+'%</b> · 승률 '+st[2]+'%' : '표본 없음')
       + '<br><span style="color:#aaa">'+st[7]+'</span></div></div>'
       + '<div style="font-size:11px;color:#666;margin-top:8px;">진입 트리거 = 지수 스윙 저점 (시황 재량) · 백테스트 = 시총 1위 1종목, 손절 -7% 종가 기준 (전 국면에서 -5% 압도 — 시총 1위 정상 노이즈가 -5~-6% 구간) · 계좌 리스크 = 익스포저 × 7% · 분류: 60/120MA 괴리 ±1.5% = 수렴 (126일 전 대비 상승=3/하락=4), 주가 위치는 깊은 이탈 우선</div>'
       + regimeTable(r.code);
