@@ -224,7 +224,10 @@
      코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
 <div class="events" style="margin-top:20px;">
   <div class="events-card" style="flex:1;">
-    <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
+    <h2>반등 매매 국면 <span style="color:#8b949e;font-weight:400;font-size:12px;">KOSPI 60/120MA 기준 · 백테스트 2014~2026 (86사이클)</span></h2>
+<div id="regime-card" style="padding:14px;color:#8b949e;">로딩 중...</div>
+
+<h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
       <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
       <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
       <span class="series-toggle" style="display:flex;"><button data-s="m" onclick="nnRefresh()" title="시세·환율·종가 즉시 갱신">↻ 새로고침</button></span>
@@ -2367,7 +2370,7 @@ async function refreshAllData() {
   for (const key of Object.keys(dataCache)) delete dataCache[key];
   await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
   loadKrMarketmap();
-  initNightPrice();
+  initNightPrice(); initRegimeCard();
   for (const [id, lr] of Object.entries(savedRanges)) {
     if (allCharts[id]) { try { allCharts[id].chart.timeScale().setVisibleLogicalRange(lr); } catch(_) {} }
   }
@@ -2483,7 +2486,7 @@ window.addEventListener('load',()=>{
   setTimeout(async()=>{
     await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
     loadKrMarketmap();
-    initNightPrice();
+    initNightPrice(); initRegimeCard();
     setupScrollbar('kr', 'kospi');
     setupScrollbar('us', 'ndx');
     // Auto-refresh every 15 minutes
@@ -2683,7 +2686,67 @@ async function initNightPrice() {
   NN.timer = setInterval(nnPoll, 15000);
 }
 
+// ═══ 반등 매매 국면 카드 (2026-08-23, 순환매 시리즈 최종) ═══
+const REGIME_STATS = {
+  "1-1": [7.89, 69.8, 5.73, "A", "매수 유효 — 정석 눌림목 (주력 국면). 지수관련주, 손절 -7%"],
+  "1-2": [5.68, 64.4, 2.96, "B", "매수 가능 — 깊은 눌림. 손절 -7%"],
+  "1-3": [3.90, 46.6, 1.95, "X", "관망 — 고점권 얕은 조정 (최다 빈도 함정, 중앙값 음수)"],
+  "2-1": [null, null, null, "B", "표본 소수 — 신중"],
+  "2-2": [7.91, 79.8, 7.06, "A", "매수 유효 — 투매 저점 (최강 성적, 심리 관리 필수). 손절 -7%"],
+  "2-0": [4.16, 36.8, 1.78, "X", "관망 — 예외 국면"],
+  "3-1": [8.10, 69.3, 4.92, "A", "매수 유효 — 상승 후 수렴 딥. 유일하게 손절 -5% 허용"],
+  "3-2": [0.61, 40.0, 1.14, "X", "관망 — 고점 수렴 첫 이탈"],
+  "3-3": [7.23, 73.6, 4.86, "A", "매수 유효 — 바닥 다지기 딥. 손절 -7%"],
+  "3-4": [null, null, null, "B", "표본 소수 — 신중"],
+};
+const REGIME_NAMES = {
+  "1-1":"정배열 · 20선 아래 60선 위 (눌림목)", "1-2":"정배열 · 60선 아래 (깊은 눌림)",
+  "1-3":"정배열 · 20선 위 (고점권)", "2-1":"역배열 · 60선 아래 5선 위", "2-2":"역배열 · 5선 아래 (투매)",
+  "2-0":"역배열 · 60선 위 (예외)", "3-1":"상승 후 수렴 · 120선 아래", "3-2":"상승 후 수렴 · 120선 위",
+  "3-3":"하락 후 수렴 · 120선 아래", "3-4":"하락 후 수렴 · 120선 위",
+};
+function regimeOf(cl) {
+  const p = cl[cl.length-1];
+  const ma = n => cl.slice(-n).reduce((a,b)=>a+b,0)/n;
+  const m5=ma(5), m20=ma(20), m60=ma(60), m120=ma(120);
+  const up6 = p > cl[cl.length-127];
+  const gap = m60/m120 - 1;
+  let code;
+  if (Math.abs(gap) < 0.015) code = up6 ? (p>m120?"3-2":"3-1") : (p>m120?"3-4":"3-3");
+  else if (gap > 0) code = p>m20 ? "1-3" : (p>m60 ? "1-1" : "1-2");
+  else code = p<m60 ? (p>m5?"2-1":"2-2") : "2-0";
+  return {code, p, m5, m20, m60, m120, gap};
+}
+async function initRegimeCard() {
+  const el = document.getElementById('regime-card');
+  if (!el) return;
+  try {
+    const cache = await fetchYahooCache();
+    const ks = cache && cache.data && cache.data['^KS11'];
+    if (!ks || !ks.candles || ks.candles.length < 130) { el.textContent = 'KOSPI 데이터 없음'; return; }
+    const cl = ks.candles.map(c=>c.close);
+    const r = regimeOf(cl);
+    const st = REGIME_STATS[r.code] || [null,null,null,"B","—"];
+    const avg=st[0], wr=st[1], pf=st[2], grade=st[3], advice=st[4];
+    const hi20 = Math.max.apply(null, cl.slice(-20));
+    const dd20 = (r.p/hi20 - 1) * 100;
+    const gcol = grade==="A" ? "#2ea043" : grade==="X" ? "#d64545" : "#b08a2e";
+    const glabel = grade==="A" ? "A급 진입 국면" : grade==="X" ? "기피 국면 (관망)" : "B급 (신중)";
+    const pos = [["5일", r.m5], ["20일", r.m20], ["60일", r.m60], ["120일", r.m120]]
+      .map(function(x){ return '<span style="color:'+(r.p>=x[1]?'#f04452':'#3182f6')+'">'+x[0]+'선 '+(r.p>=x[1]?'위':'아래')+'</span>'; }).join(' · ');
+    el.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">'
+      + '<div style="background:'+gcol+';color:#fff;font-weight:bold;font-size:15px;padding:8px 16px;border-radius:8px;">'+glabel+'</div>'
+      + '<div><div style="color:#ddd;font-size:15px;font-weight:bold;">'+r.code+' — '+REGIME_NAMES[r.code]+'</div>'
+      + '<div style="font-size:12px;margin-top:3px;">'+pos+' · 60/120 괴리 '+(r.gap*100).toFixed(1)+'% · 20일 고점 대비 '+dd20.toFixed(1)+'%</div></div>'
+      + '<div style="margin-left:auto;text-align:right;font-size:12px;color:#8b949e;">'
+      + (avg!==null ? '백테스트: 평균 <b style="color:#ddd">+'+avg+'%</b> · 승률 '+wr+'% · PF '+pf : '표본 소수')
+      + '<br><span style="color:#aaa">'+advice+'</span></div></div>'
+      + '<div style="font-size:11px;color:#666;margin-top:8px;">진입 트리거는 지수 스윙 저점 (시황 재량) — 본 카드는 국면 필터만 표시 · A급 = 1-1/2-2/3-1/3-3 · 기피 = 1-3/3-2</div>';
+  } catch(e) { el.textContent = '국면 계산 실패: ' + e.message; }
+}
+
 async function nnRefresh() {
+
   _yahooCacheJson = null;              // 환율·전일 종가 캐시 무효화 후 전체 재로드
   NN.fx = null; NN.close = {}; NN.closeDate = '';
   await initNightPrice();
