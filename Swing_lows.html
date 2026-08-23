@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>스윙 저점 검증 차트</title>
+<script src="./lightweight-charts.js"></script>
+<style>
+body { margin:0; background:#161616; color:#ddd; font-family:'Segoe UI',sans-serif; }
+.wrap { max-width:1900px; margin:0 auto; padding:14px 18px; }
+h1 { font-size:22px; margin:4px 0 2px; } h1 small { font-size:13px; color:#8b949e; font-weight:normal; }
+.sub { font-size:12.5px; color:#8b949e; line-height:1.6; margin-bottom:10px; }
+.bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+button { background:#262626; color:#ddd; border:1px solid #3a3a3a; border-radius:8px; padding:8px 14px; font-size:13px; cursor:pointer; }
+button:hover { background:#333; }
+.lg { font-size:13px; display:flex; gap:14px; flex-wrap:wrap; }
+.lg span { display:inline-flex; align-items:center; gap:5px; }
+.sw { width:18px; height:3px; display:inline-block; }
+#chart { height:760px; background:#1e1e1e; border:1px solid #2e2e2e; border-radius:10px; }
+.note { font-size:11.5px; color:#666; margin-top:8px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>스윙 저점 검증 차트 <small>KOSPI + 5·10·20·60·120일 이평선 · 반등 사이클 v3 저점 85개 (ZigZag 3.5%, BT 실전 지점 9/10 재현)</small></h1>
+<div class="sub">마커 = 스윙 저점일, 라벨 = 진입 시점(저점 전일) 이평 국면 코드 · <b style="color:#e2b93b">금색 ▲ = 롱 유니버스</b> (정배열 1-x · 수렴 3-x/4-x) · <b style="color:#d64545">적색 ▲ = 역배열 2-x (숏 존 — 반등 매매 제외, 2-1은 숏 커버 트리거)</b></div>
+<div class="bar">
+  <button id="btnMk">마커 OFF</button>
+  <button id="btnFit">전체 보기</button>
+  <div class="lg">
+    <span><i class="sw" style="background:#e8e8e8"></i>5일</span>
+    <span><i class="sw" style="background:#ff9800"></i>10일</span>
+    <span><i class="sw" style="background:#f04452"></i>20일</span>
+    <span><i class="sw" style="background:#2ea043"></i>60일</span>
+    <span><i class="sw" style="background:#a678f0"></i>120일</span>
+  </div>
+</div>
+<div id="chart"></div>
+<div class="note">국면: 1-1 정배열·20선 위 / 1-2 20아래 60위 / 1-3 60아래 120위 / 1-4 120아래 · 2-1 역배열·5선 아래 · 3-x 상승 후 수렴 / 4-x 하락 후 수렴 (-1 120아래 / -2 120위) · 주가 위치는 깊은 이탈 우선 · 국면은 지수 수익률 지수(_ALL) 기준이라 KOSPI 이평선과 미세하게 다를 수 있음</div>
+</div>
+<script>
+const LOWS = [{"d": "2014-10-17", "rg": "1-4"}, {"d": "2014-12-18", "rg": "3-1"}, {"d": "2015-06-16", "rg": "1-2"}, {"d": "2015-07-08", "rg": "1-2"}, {"d": "2015-08-24", "rg": "1-4"}, {"d": "2015-11-16", "rg": "3-2"}, {"d": "2015-12-14", "rg": "1-3"}, {"d": "2016-01-21", "rg": "1-4"}, {"d": "2016-02-12", "rg": "4-1"}, {"d": "2016-06-24", "rg": "1-1"}, {"d": "2016-09-12", "rg": "1-2"}, {"d": "2016-11-09", "rg": "1-3"}, {"d": "2017-08-11", "rg": "1-3"}, {"d": "2017-12-21", "rg": "1-2"}, {"d": "2018-02-09", "rg": "1-3"}, {"d": "2018-07-05", "rg": "3-1"}, {"d": "2018-10-29", "rg": "4-1"}, {"d": "2019-01-03", "rg": "2-1"}, {"d": "2019-03-28", "rg": "1-2"}, {"d": "2019-05-29", "rg": "1-4"}, {"d": "2019-08-06", "rg": "2-1"}, {"d": "2019-12-05", "rg": "1-3"}, {"d": "2020-01-31", "rg": "1-2"}, {"d": "2020-02-28", "rg": "1-4"}, {"d": "2020-03-19", "rg": "1-4"}, {"d": "2020-03-23", "rg": "4-1"}, {"d": "2020-04-01", "rg": "4-1"}, {"d": "2020-06-15", "rg": "2-1"}, {"d": "2020-08-20", "rg": "1-1"}, {"d": "2020-09-24", "rg": "1-2"}, {"d": "2020-10-30", "rg": "1-2"}, {"d": "2021-01-18", "rg": "1-1"}, {"d": "2021-01-29", "rg": "1-1"}, {"d": "2021-03-10", "rg": "1-2"}, {"d": "2021-05-13", "rg": "1-2"}, {"d": "2021-08-20", "rg": "1-3"}, {"d": "2021-10-06", "rg": "3-1"}, {"d": "2021-11-30", "rg": "3-1"}, {"d": "2022-01-27", "rg": "4-1"}, {"d": "2022-02-24", "rg": "4-1"}, {"d": "2022-03-08", "rg": "4-1"}, {"d": "2022-05-12", "rg": "2-1"}, {"d": "2022-06-23", "rg": "4-1"}, {"d": "2022-07-04", "rg": "2-1"}, {"d": "2022-09-30", "rg": "2-1"}, {"d": "2022-10-13", "rg": "2-1"}, {"d": "2023-01-03", "rg": "3-1"}, {"d": "2023-03-14", "rg": "1-2"}, {"d": "2023-04-26", "rg": "1-2"}, {"d": "2023-07-10", "rg": "1-2"}, {"d": "2023-08-18", "rg": "1-2"}, {"d": "2023-10-10", "rg": "1-4"}, {"d": "2023-10-31", "rg": "4-1"}, {"d": "2023-11-13", "rg": "3-1"}, {"d": "2024-01-17", "rg": "3-2"}, {"d": "2024-04-17", "rg": "1-2"}, {"d": "2024-05-30", "rg": "1-2"}, {"d": "2024-08-05", "rg": "1-3"}, {"d": "2024-09-11", "rg": "1-4"}, {"d": "2024-11-13", "rg": "4-1"}, {"d": "2024-12-09", "rg": "2-1"}, {"d": "2025-03-04", "rg": "3-2"}, {"d": "2025-04-09", "rg": "1-4"}, {"d": "2025-08-01", "rg": "1-1"}, {"d": "2025-11-07", "rg": "1-1"}, {"d": "2025-11-24", "rg": "1-2"}, {"d": "2025-12-16", "rg": "1-1"}, {"d": "2026-02-02", "rg": "1-1"}, {"d": "2026-02-06", "rg": "1-1"}, {"d": "2026-03-04", "rg": "1-1"}, {"d": "2026-03-09", "rg": "1-1"}, {"d": "2026-03-23", "rg": "1-1"}, {"d": "2026-03-31", "rg": "1-2"}, {"d": "2026-04-02", "rg": "1-2"}, {"d": "2026-05-20", "rg": "1-1"}, {"d": "2026-06-08", "rg": "1-1"}, {"d": "2026-06-10", "rg": "1-1"}, {"d": "2026-06-23", "rg": "1-1"}, {"d": "2026-07-02", "rg": "1-1"}, {"d": "2026-07-08", "rg": "1-2"}, {"d": "2026-07-13", "rg": "1-2"}, {"d": "2026-07-20", "rg": "1-3"}, {"d": "2026-07-30", "rg": "1-4"}, {"d": "2026-08-03", "rg": "1-3"}, {"d": "2026-08-07", "rg": "1-3"}];
+const el = document.getElementById('chart');
+const chart = LightweightCharts.createChart(el, {
+  layout: { background: { type: 'solid', color: '#1e1e1e' }, textColor: '#bbb', fontSize: 12 },
+  grid: { vertLines: { color: '#2a2a2a' }, horzLines: { color: '#2a2a2a' } },
+  crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+  rightPriceScale: { borderColor: '#3a3a3a' },
+  timeScale: { borderColor: '#3a3a3a', rightOffset: 5 },
+  localization: { timeFormatter: t => {
+    if (typeof t === 'string') { const p = t.split('-'); return p[0].slice(2)+'/'+p[1]+'/'+p[2]; }
+    if (t && t.year) return String(t.year).slice(2)+'/'+String(t.month).padStart(2,'0')+'/'+String(t.day).padStart(2,'0');
+    const d = new Date(t*1000); return String(d.getUTCFullYear()).slice(2)+'/'+String(d.getUTCMonth()+1).padStart(2,'0')+'/'+String(d.getUTCDate()).padStart(2,'0');
+  }},
+});
+new ResizeObserver(() => chart.applyOptions({ width: el.clientWidth, height: el.clientHeight })).observe(el);
+const candle = chart.addCandlestickSeries({ upColor:'#d61022', downColor:'#1750e0', borderUpColor:'#d61022', borderDownColor:'#1750e0', wickUpColor:'#d61022', wickDownColor:'#1750e0' });
+const maDefs = [[5,'#e8e8e8'],[10,'#ff9800'],[20,'#f04452'],[60,'#2ea043'],[120,'#a678f0']];
+const maSeries = maDefs.map(([n,c]) => chart.addLineSeries({ color:c, lineWidth: n>=60?2:1, priceLineVisible:false, lastValueVisible:false, crosshairMarkerVisible:false }));
+fetch('data/kr_index_ohlc.json?cb='+Date.now()).then(r=>r.json()).then(j => {
+  const rows = j.kospi;
+  candle.setData(rows.map(r => ({ time:r[0], open:r[1], high:r[2], low:r[3], close:r[4] })));
+  const closes = rows.map(r => r[4]);
+  maDefs.forEach(([n], k) => {
+    const out = [];
+    let s = 0;
+    for (let i = 0; i < rows.length; i++) {
+      s += closes[i];
+      if (i >= n) s -= closes[i-n];
+      if (i >= n-1) out.push({ time: rows[i][0], value: s/n });
+    }
+    maSeries[k].setData(out);
+  });
+  const dset = new Set(rows.map(r => r[0]));
+  const near = d => { // 해당일이 KOSPI 휴장일이면 다음 거래일로
+    if (dset.has(d)) return d;
+    const t = new Date(d);
+    for (let k = 1; k <= 5; k++) { t.setDate(t.getDate()+1); const s = t.toISOString().slice(0,10); if (dset.has(s)) return s; }
+    return null;
+  };
+  const markers = [];
+  for (const L of LOWS) {
+    const d = near(L.d);
+    if (!d) continue;
+    const isShort = L.rg.startsWith('2');
+    markers.push({ time: d, position: 'belowBar', shape: 'arrowUp',
+      color: isShort ? '#d64545' : '#e2b93b', text: L.rg, size: 1 });
+  }
+  markers.sort((a,b) => a.time < b.time ? -1 : 1);
+  let on = true;
+  candle.setMarkers(markers);
+  document.getElementById('btnMk').onclick = () => {
+    on = !on;
+    candle.setMarkers(on ? markers : []);
+    document.getElementById('btnMk').textContent = on ? '마커 OFF' : '마커 ON';
+  };
+  document.getElementById('btnFit').onclick = () => chart.timeScale().fitContent();
+  // 초기: 최근 2년
+  const n2 = rows.length;
+  chart.timeScale().setVisibleRange({ from: rows[Math.max(0, n2-500)][0], to: rows[n2-1][0] });
+});
+</script>
+</body>
+</html>
