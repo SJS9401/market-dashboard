@@ -1,7 +1,7 @@
 {
   "sector": "battery",
-  "source_pdf": "Battery_Weekly_2026.8.10.pdf",
-  "generated_at": "2026-08-10T10:30:31Z",
+  "source_pdf": "Battery_Weekly_2026.8.18_F_3.pdf",
+  "generated_at": "2026-08-23T10:30:30Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
@@ -16,7 +16,7 @@
       "file": "pdf_pages/battery_cellmaker_lges_perf.pdf",
       "mediabox_pt": [
         519.8540650000001,
-        822.216
+        833.64
       ],
       "needs_review": false,
       "review_reason": ""
@@ -29,7 +29,7 @@
       "file": "pdf_pages/battery_cellmaker_sdi_perf.pdf",
       "mediabox_pt": [
         519.8540650000001,
-        822.216
+        833.64
       ],
       "needs_review": false,
       "review_reason": ""
@@ -42,7 +42,7 @@
       "file": "pdf_pages/battery_cellmaker_p29_combined.pdf",
       "mediabox_pt": [
         520.792,
-        822.216
+        833.64
       ],
       "needs_review": false,
       "review_reason": ""
@@ -54,7 +54,7 @@
       "page_num": 1,
       "file": "pdf_pages/battery_summary_page1.pdf",
       "mediabox_pt": [
-        558.1,
+        558.12,
         841.9199829101562
       ],
       "needs_review": false,
@@ -96,7 +96,7 @@
       "file": "pdf_pages/battery_export_ev_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.8979200000001
+        201.89792
       ]
     },
     "export_ev_price": {
@@ -109,7 +109,7 @@
       "file": "pdf_pages/battery_export_ev_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.8979200000001
+        199.89792
       ]
     },
     "export_ess_value": {
@@ -122,7 +122,7 @@
       "file": "pdf_pages/battery_export_ess_value.pdf",
       "mediabox_pt": [
         263.57,
-        200.76792000000012
+        200.88792000000012
       ]
     },
     "export_ess_price": {
@@ -135,7 +135,7 @@
       "file": "pdf_pages/battery_export_ess_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.76792000000012
+        199.88792000000012
       ]
     },
     "export_foil_value": {
@@ -173,8 +173,8 @@
       "page_num": 9,
       "file": "pdf_pages/battery_ev_global_growth.pdf",
       "mediabox_pt": [
-        264.53000000000003,
-        199.77792
+        264.55,
+        199.89792
       ]
     },
     "ev_us_monthly": {
@@ -186,8 +186,8 @@
       "page_num": 9,
       "file": "pdf_pages/battery_ev_us_monthly.pdf",
       "mediabox_pt": [
-        262.29999999999995,
-        199.77792
+        262.31999999999994,
+        199.89792
       ]
     },
     "ev_china_monthly": {
@@ -199,8 +199,8 @@
       "page_num": 9,
       "file": "pdf_pages/battery_ev_china_monthly.pdf",
       "mediabox_pt": [
-        268.1097729912898,
-        200.8979200000001
+        268.12977299128977,
+        200.77792
       ]
     },
     "ev_eu_monthly": {
@@ -213,7 +213,7 @@
       "file": "pdf_pages/battery_ev_eu_monthly.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.8979200000001
+        199.77792
       ]
     },
     "ev_us_volume": {
@@ -225,8 +225,8 @@
       "page_num": 10,
       "file": "pdf_pages/battery_ev_us_volume.pdf",
       "mediabox_pt": [
-        272.81,
-        200.89792
+        272.79539731123964,
+        200.77792
       ]
     },
     "ev_us_share": {
@@ -239,7 +239,7 @@
       "file": "pdf_pages/battery_ev_us_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.89792
+        199.77792
       ]
     },
     "ev_china_volume": {
@@ -251,8 +251,8 @@
       "page_num": 11,
       "file": "pdf_pages/battery_ev_china_volume.pdf",
       "mediabox_pt": [
-        268.1051496703981,
-        201.88792
+        268.12514967039806,
+        201.76792
       ]
     },
     "ev_china_share": {
@@ -265,7 +265,7 @@
       "file": "pdf_pages/battery_ev_china_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.88792
+        199.76792
       ]
     },
     "ev_eu3_volume": {
@@ -277,8 +277,8 @@
       "page_num": 12,
       "file": "pdf_pages/battery_ev_eu3_volume.pdf",
       "mediabox_pt": [
-        272.81,
-        200.76791999999995
+        272.83,
+        200.88791999999995
       ]
     },
     "ev_eu3_share": {
@@ -291,7 +291,7 @@
       "file": "pdf_pages/battery_ev_eu3_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.76791999999995
+        199.88791999999995
       ]
     },
     "lib_global_shipment": {
@@ -303,8 +303,8 @@
       "page_num": 15,
       "file": "pdf_pages/battery_lib_global_shipment.pdf",
       "mediabox_pt": [
-        372.16999999999996,
-        202.3679199999999
+        372.18999999999994,
+        202.2479199999999
       ]
     },
     "lib_kr3_shipment": {
@@ -316,8 +316,8 @@
       "page_num": 15,
       "file": "pdf_pages/battery_lib_kr3_shipment.pdf",
       "mediabox_pt": [
-        365.09000000000003,
-        201.25392
+        365.11,
+        201.37392
       ]
     },
     "lfp_global": {
@@ -342,7 +342,7 @@
       "page_num": 16,
       "file": "pdf_pages/battery_lfp_us.pdf",
       "mediabox_pt": [
-        261.01983999999993,
+        261.03984,
         200.36792000000003
       ]
     },
@@ -356,7 +356,7 @@
       "file": "pdf_pages/battery_lfp_china.pdf",
       "mediabox_pt": [
         263.57,
-        201.24792000000002
+        201.36792000000003
       ]
     },
     "lfp_eu": {
@@ -369,7 +369,7 @@
       "file": "pdf_pages/battery_lfp_eu.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        200.24792000000002
+        200.36792000000003
       ]
     },
     "ess_install_global": {
@@ -381,8 +381,8 @@
       "page_num": 7,
       "file": "pdf_pages/battery_ess_install_global.pdf",
       "mediabox_pt": [
-        370.76,
-        199.88791999999995
+        370.75,
+        199.76791999999995
       ]
     },
     "ess_chemistry_share": {
@@ -394,8 +394,8 @@
       "page_num": 7,
       "file": "pdf_pages/battery_ess_chemistry_share.pdf",
       "mediabox_pt": [
-        370.76,
-        199.77391999999998
+        370.75,
+        199.89391999999998
       ]
     },
     "ess_install_by_region": {
@@ -408,7 +408,7 @@
       "file": "pdf_pages/battery_ess_install_by_region.pdf",
       "mediabox_pt": [
         515.4039906400001,
-        175.88792000000012
+        175.76792000000012
       ]
     },
     "ess_grid_market_type": {
@@ -421,7 +421,7 @@
       "file": "pdf_pages/battery_ess_grid_market_type.pdf",
       "mediabox_pt": [
         515.4039906400001,
-        164.70792
+        164.82792
       ]
     },
     "raw_lithium": {
@@ -434,7 +434,7 @@
       "file": "pdf_pages/battery_raw_lithium.pdf",
       "mediabox_pt": [
         263.57,
-        199.76792000000012
+        199.88792000000012
       ]
     },
     "raw_nickel": {
@@ -447,7 +447,7 @@
       "file": "pdf_pages/battery_raw_nickel.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.76792000000012
+        199.88792000000012
       ]
     },
     "raw_cobalt": {
@@ -459,8 +459,8 @@
       "page_num": 26,
       "file": "pdf_pages/battery_raw_cobalt.pdf",
       "mediabox_pt": [
-        265.73,
-        199.88792000000007
+        265.75,
+        199.76792000000006
       ]
     },
     "raw_manganese": {
@@ -473,7 +473,7 @@
       "file": "pdf_pages/battery_raw_manganese.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.88792000000007
+        199.76792000000006
       ]
     },
     "raw_aluminum": {
@@ -485,7 +485,7 @@
       "page_num": 26,
       "file": "pdf_pages/battery_raw_aluminum.pdf",
       "mediabox_pt": [
-        265.73,
+        265.75,
         199.89792
       ]
     },
@@ -511,7 +511,7 @@
       "page_num": 14,
       "file": "pdf_pages/battery_power_uk.pdf",
       "mediabox_pt": [
-        265.73,
+        265.75,
         200.37792000000002
       ]
     },
@@ -537,7 +537,7 @@
       "page_num": 14,
       "file": "pdf_pages/battery_power_fr.pdf",
       "mediabox_pt": [
-        265.73,
+        265.75,
         201.37792000000002
       ]
     },
@@ -564,7 +564,7 @@
       "file": "pdf_pages/battery_import_lithium_hydroxide_value.pdf",
       "mediabox_pt": [
         263.57,
-        200.89792
+        200.89791999999994
       ]
     },
     "import_lithium_hydroxide_price": {
@@ -577,7 +577,7 @@
       "file": "pdf_pages/battery_import_lithium_hydroxide_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        200.89792
+        200.89791999999994
       ]
     },
     "import_anode_value": {
@@ -616,7 +616,7 @@
       "file": "pdf_pages/battery_import_graphite_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.76792000000012
+        201.88792000000012
       ]
     },
     "import_graphite_price": {
@@ -629,7 +629,7 @@
       "file": "pdf_pages/battery_import_graphite_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        200.76792000000012
+        200.88792000000012
       ]
     },
     "export_cathode_value_total": {
@@ -642,7 +642,7 @@
       "file": "pdf_pages/battery_export_cathode_value_total.pdf",
       "mediabox_pt": [
         263.57,
-        200.77792000000005
+        200.89792000000006
       ]
     },
     "export_cathode_ncm_value": {
@@ -655,7 +655,7 @@
       "file": "pdf_pages/battery_export_cathode_ncm_value.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.77792000000005
+        199.89792000000006
       ]
     },
     "export_cathode_nca_value": {
@@ -668,7 +668,7 @@
       "file": "pdf_pages/battery_export_cathode_nca_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.76792000000012
+        201.88792000000012
       ]
     },
     "export_cathode_ncm_nca_value": {
@@ -681,7 +681,7 @@
       "file": "pdf_pages/battery_export_cathode_ncm_nca_value.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.76792000000012
+        199.88792000000012
       ]
     },
     "export_cathode_weight_total": {
@@ -746,7 +746,7 @@
       "file": "pdf_pages/battery_export_cathode_unit_price.pdf",
       "mediabox_pt": [
         263.57,
-        200.76792000000012
+        200.88792000000012
       ]
     },
     "export_cathode_ncm_price": {
@@ -759,7 +759,7 @@
       "file": "pdf_pages/battery_export_cathode_ncm_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.76792000000012
+        199.88792000000012
       ]
     },
     "export_cathode_nca_price": {
