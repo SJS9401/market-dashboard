@@ -2,6 +2,8 @@ name: kr-k200q150-ohlc-backfill
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '35 22 * * *'   # 07:35 KST temp - remove after backfill completes
 
 permissions:
   contents: write
