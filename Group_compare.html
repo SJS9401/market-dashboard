@@ -57,10 +57,10 @@ const chart = LightweightCharts.createChart(document.getElementById('ch'), {
   timeScale:{borderColor:'#707070'},
   crosshair:{mode:0,horzLine:{color:'#2b3138'},vertLine:{color:'#2b3138'}},
 });
-const const shade = chart.addHistogramSeries({priceScaleId:'shade', lastValueVisible:false, priceLineVisible:false});
+const shade = chart.addHistogramSeries({priceScaleId:'shade', lastValueVisible:false, priceLineVisible:false});
 chart.priceScale('shade').applyOptions({scaleMargins:{top:0,bottom:0}, visible:false});
 shade.setData(D.dates.map((d,i)=>({time:d, value:1, color: D.lead[i] ? 'rgba(226,185,59,0.13)' : 'rgba(0,0,0,0)'})));
-seriesMap = {};
+const seriesMap = {};
 for (const [name, vals] of Object.entries(D.series)) {
   const s = chart.addLineSeries({color:COLORS[name],lineWidth:(name==='지수관련주')?3:2,
     priceLineVisible:false,lastValueVisible:true,title:''});
