@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>순환매 장세 종목 선별 리포트 — 스윙 반등 vs 눌림 단타</title>
+<style>
+body { margin:0; background:#161616; color:#ccc; font-family:'Segoe UI','Malgun Gothic',sans-serif; line-height:1.75; font-size:15px; }
+.wrap { max-width:1080px; margin:0 auto; padding:36px 28px 80px; }
+h1 { font-size:27px; color:#f0f6fc; margin:8px 0 4px; }
+.meta { color:#8b949e; font-size:13px; margin-bottom:26px; }
+h2 { font-size:20px; color:#e2b93b; border-bottom:1px solid #333; padding-bottom:8px; margin:44px 0 14px; }
+h3 { font-size:16px; color:#ddd; margin:26px 0 8px; }
+p { margin:10px 0; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:13.5px; }
+th { text-align:right; padding:7px 10px; color:#8b949e; border-bottom:1px solid #444; font-weight:600; white-space:nowrap; }
+th:first-child, td:first-child { text-align:left; }
+td { text-align:right; padding:6px 10px; border-bottom:1px solid #262626; white-space:nowrap; }
+.hl { background:#26241c; } .hl td { color:#ffd866; }
+.good { color:#f04452; font-weight:700; } .bad { color:#3182f6; }
+.box { background:#1e1e1e; border:1px solid #333; border-left:4px solid #e2b93b; border-radius:8px; padding:16px 20px; margin:18px 0; }
+.box.red { border-left-color:#d64545; } .box.blue { border-left-color:#3182f6; }
+.kicker { display:inline-block; background:#2a2a2a; color:#e2b93b; font-size:12px; padding:2px 10px; border-radius:10px; margin-bottom:6px; letter-spacing:1px; }
+.small { font-size:12.5px; color:#8b949e; }
+b { color:#eee; }
+ul { margin:8px 0; padding-left:22px; } li { margin:5px 0; }
+a { color:#58a6ff; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; } @media (max-width:800px){ .grid2{grid-template-columns:1fr;} }
+.card { background:#1e1e1e; border:1px solid #333; border-radius:10px; padding:18px 20px; }
+.card h4 { margin:0 0 10px; font-size:15px; } 
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<span class="kicker">QUANT NOTE · 2026-08-24</span>
+<h1>순환매 장세의 종목 선별 — 전략이 다르면 종목도 다르다</h1>
+<div class="meta">스윙 반등 매매 vs 눌림 단타, 2014–2026 전수 백테스트 · 유니버스: 매일 코스피 시총 상위 200 + 코스닥 상위 150 (상폐 포함, 생존편향 없음) · KRX 일별 OHLC + 수익률(분할 조정) 자체 백필</div>
+
+<div class="box">
+<b>한 줄 결론.</b> 같은 순환매 장세라도 <b>전략의 신호 원천에 따라 최적 종목이 완전히 갈린다</b>.
+지수 스윙 저점에서 반등을 사는 매매는 <b style="color:#e2b93b">시총 1위 1종목</b>이 정답이고 (종목 선별 = 마이너스 알파),
+개별 종목의 깊은 눌림을 사는 단타는 <b style="color:#e2b93b">RS(상대강도) 상위 5~10% 정예</b>가 유일한 플러스 알파다.
+소르티노(하락 방어형)는 두 전략 모두에서 기각 — 관찰(정찰) 전용이다.
+</div>
+
+<h2>1. 문제 설정과 방법론</h2>
+<p>순환매 장세에서 트레이더의 실질 질문은 "언제"가 아니라 <b>"무엇을 사느냐"</b>다. 타이밍(지수 스윙 저점~고점)을 고정한 상태에서 종목 그룹별 성과를 전수 비교했다.</p>
+<ul>
+<li><b>유니버스</b>: 매일 그날 기준 코스피 시총 상위 200 + 코스닥 상위 150 (K200·Q150 근사). 상폐 종목 포함 — 생존편향 없음.</li>
+<li><b>사이클 정의</b>: 지수 ZigZag 3.5% 대칭 — 실전 매매 지점 10개로 캘리브레이션 (9/10 재현, 평균 오차 2일). 2014–2026 스윙 저점 85개. 검증 차트: <a href="https://sjs9401.github.io/market-dashboard/Swing_lows.html">Swing_lows.html</a></li>
+<li><b>그룹 정의 (3개월/63일)</b>: <b>지수관련주</b> = 지수 상관 상위 (실전 = 시총 1위) · <b>RS</b> = 하락일 방어 + 상승일 우위 · <b>소르티노</b> = 하락일 방어 + 상승일 소외 · 방어주(양방향 β&lt;0.7)는 사전 제외. 정예 = 그룹 내 점수 상위 5/10/20%.</li>
+<li><b>주도주기 분리</b>: 시총 1위(삼성전자)가 스스로 주도주였던 2016–17, 2025–26 반도체 장세는 별도 표기 — 왜곡 원천이므로 결론은 비주도주기(ex) 기준.</li>
+<li><b>체결 가정</b>: 스윙 = 종가 기준. 눌림 단타 = OHLC 정밀 (지정가 터치 체결, 갭은 시가, 당일 손절 우선의 보수 가정).</li>
+</ul>
+
+<h2>2. 스윙 반등 매매 — 종목 선별의 답: 시총 1위</h2>
+
+<h3>2-1. 어떤 그룹도 지수관련주를 이기지 못한다</h3>
+<p>스윙 저점 진입 후 매매 창(진입~스윙 고점) 기준, 비주도주기 54사이클:</p>
+<table>
+<tr><th>그룹</th><th>평균</th><th>중앙</th><th>vs 지수관련주</th><th>사이클 승률</th></tr>
+<tr class="hl"><td>지수관련주 (IDX)</td><td>+9.16%</td><td>+6.60%</td><td>—</td><td>—</td></tr>
+<tr><td>RS 상위 10%</td><td>+8.60%</td><td>+7.45%</td><td class="bad">-0.56%p</td><td>43%</td></tr>
+<tr><td>RS 상위 5%</td><td>+9.69%</td><td>+6.65%</td><td>+0.53%p</td><td>43%</td></tr>
+<tr><td>소르티노 상위 10%</td><td>+7.85%</td><td>+3.91%</td><td class="bad">-1.31%p</td><td>33%</td></tr>
+<tr><td>소르티노 상위 5%</td><td>+7.18%</td><td>+3.94%</td><td class="bad">-1.98%p</td><td>35%</td></tr>
+</table>
+<p><b>파라미터 강건성</b>: 집계 창 1M/3M/6M × 전체/10%/5% — 총 18개 조합 어디에도 지수관련주를 승률 있게 이기는 선별이 없다. RS 상위 5%가 평균을 따라잡는 유일한 케이스지만 승률 43%(중앙값 열위)의 tail 의존 구조라 대체재가 못 된다. 진입일 명단을 D+60까지 끌고 가도 전 구간 열위. <b>이유: 반등 신호가 "지수" 신호이므로, 지수관련주는 전달 손실이 0이고 종목 선별은 노이즈 삽입이다.</b></p>
+
+<h3>2-2. 집중이 분산을 이긴다</h3>
+<p>총 익스포저 150% 고정, 시총 상위 N종목 등분: <b>1종목 +14.84% &gt; 2종목 +13.77% &gt; 3종목 +10.96% &gt; 5종목 +10.11%</b> (1 vs 3종목 paired t=3.32, 양 시대 동일 방향). 알파 원천이 하나(지수)이므로 분산은 리스크 분산이 아니라 <b>베타 희석</b>이다. 실용 절충 = 시총 1·2위 75%씩 (단일 종목 갭 리스크 반분, 평균 -1.1%p 비용).</p>
+
+<h3>2-3. 국면 필터 × 익스포저 (비주도주기, 시총 1위 1종목, 손절 -7%)</h3>
+<table>
+<tr><th>국면 (60/120MA + 주가 위치)</th><th>n</th><th>승률</th><th>평균</th><th>최대</th><th>최소</th><th>권장 익스포저</th></tr>
+<tr><td>1-1 정배열 · 20선 위 (고점권)</td><td>3</td><td>100%</td><td>+2.85%</td><td>+5.5%</td><td>+1.4%</td><td class="bad">≤50% or 패스</td></tr>
+<tr class="hl"><td>1-2 정배열 · 20↓60↑ (눌림목)</td><td>14</td><td>93%</td><td>+8.90%</td><td>+54.4%</td><td>-2.3%</td><td>200%</td></tr>
+<tr><td>1-3 정배열 · 60↓120↑ (깊은 눌림)</td><td>5</td><td>80%</td><td>+7.12%</td><td>+26.0%</td><td>-7.0%</td><td>100~150%</td></tr>
+<tr><td>1-4 정배열 · 120선 아래 (투매)</td><td>7</td><td>71%</td><td>+7.24%</td><td>+21.9%</td><td>-2.3%</td><td>150%</td></tr>
+<tr><td>2-x 역배열</td><td colspan="5" style="text-align:center;" class="bad">선물 숏 존 — 롱 반등 매매 제외 (2-1 투매 저점 = 숏 커버 트리거, 롱 참고 8전승)</td><td>—</td></tr>
+<tr><td>3-1 상승 후 수렴 · 120선 아래</td><td>6</td><td>100%</td><td>+7.74%</td><td>+12.9%</td><td>+2.7%</td><td>150%</td></tr>
+<tr><td>4-1 하락 후 수렴 · 120선 아래</td><td>9</td><td>78%</td><td>+4.99%</td><td>+16.0%</td><td>-1.3%</td><td>100~150%</td></tr>
+</table>
+<p class="small">전체 (비주도주기 롱 유니버스): n=46, 평균 +7.03%, 승률 87%, 손절률 2%. 라이브 판정: <a href="https://sjs9401.github.io/market-dashboard/dashboard.html">대시보드 "반등 매매 국면" 카드</a>.</p>
+
+<h3>2-4. 실행 룰 (검증 완료)</h3>
+<ul>
+<li><b>진입</b>: 저점 예측 금지. 저점 확인 후 당일~+1일 진입이 저점 전일 매수보다 우위 (조기 진입은 하루당 -1.3%p + 손절률 급증). 실패 시 본전 청산이 최악 — <b>-7% 손절 후 저점 재확인 재진입</b>이 정답, 재진입은 절반 익스포저 (손절 클러스터: 직전 손절 0회 손절률 30% → 1회 52% → 2회+ 62%).</li>
+<li><b>손절</b>: -7% 단일 (-3~-6% 전부 열위 — 시총 1위 정상 노이즈 경계가 -6~-7% 사이). 주도주기(변동성 확대)만 -10%.</li>
+<li><b>매도 (이원화)</b>: 평상시 = 재량 스윙 고점 우선 (+3.5%p 가치), 기계 안전망 = +10% 도달 후 트레일 -5% 조임. 주도주기 = 트레일 -10% (지점 익절 전면 금지 — 이익의 89%가 +7% 이상 구간에서 나옴). 고정 목표가·되돌림 익절은 전 앵커에서 열위.</li>
+<li><b>오버나이트 구조</b>: 반등 1국면(저점→지수 +7%, 평균 19일) 수익의 84%가 오버나이트 — 종가 매수·시가 매도 단타 유효 (선물/ETF 전용, 현물 거래세면 엣지 소멸). 갭하락 -0.5% 이상 발생일은 장중 매수 (승률 66~80%). 지수 +7% 도달 = 단타 종료 시점.</li>
+</ul>
+
+<h2>3. 눌림 단타 — 종목 선별의 답: RS 상위 5~10%</h2>
+
+<h3>3-1. 룰 정의</h3>
+<p>고점 앵커(진행 최고가) 대비 <b>-D% 지정가 매수</b> → 진입 후 파동 저가 대비 <b>+4% 터치 매도</b> → 매입가 <b>-5% 손절</b> → 매도 후 앵커 리셋. 전 종목 상시 적용, OHLC 터치 체결 (보수 가정: 당일 손절 우선, 갭은 시가 체결).</p>
+
+<h3>3-2. OHLC 정밀 결과 (비주도주기 기준)</h3>
+<table>
+<tr><th>매수 트리거 (앵커 대비)</th><th>RS 상위5</th><th>RS 상위10</th><th>RS 상위20</th><th>RS 전체</th><th>SRT 상위5</th><th>SRT 전체</th><th>삼성전자</th></tr>
+<tr><td>-4%</td><td class="good">+1.00% / 1.52</td><td>+0.88 / 1.47</td><td>+0.71 / 1.38</td><td>+0.44 / 1.26</td><td class="bad">-0.07 / 0.96</td><td>+0.04 / 1.03</td><td>+0.23 / 1.13</td></tr>
+<tr><td>-6%</td><td class="good">+1.01% / 1.51</td><td>+0.96 / 1.50</td><td>+0.73 / 1.39</td><td>+0.51 / 1.30</td><td class="bad">-0.10 / 0.95</td><td>+0.03 / 1.02</td><td>+0.06 / 1.04</td></tr>
+<tr><td>-8%</td><td class="good">+0.98% / 1.51</td><td>+0.98 / 1.52</td><td>+0.75 / 1.40</td><td>+0.62 / 1.37</td><td class="bad">-0.13 / 0.94</td><td>+0.02 / 1.01</td><td>+0.34 / 1.19</td></tr>
+<tr class="hl"><td>-10%</td><td>+1.13% / 1.58</td><td>+1.12 / 1.60</td><td>+0.80 / 1.42</td><td>+0.66 / 1.38</td><td>-0.06 / 0.97</td><td>+0.05 / 1.03</td><td>+1.06 / 1.61</td></tr>
+</table>
+<p class="small">셀 = 회당 평균 수익 / PF. RS 상위5 기준 승률 56~61%, 손절률 36~38%, 평균 보유 ~3일, n=665~1,422 (12.6년). 전체 기간 포함 시 수치 유사 (D=-10% RS5 +1.23%/PF 1.65).</p>
+
+<h3>3-3. 읽는 법</h3>
+<ul>
+<li><b>티어 단조성</b>: 상위5 &gt; 상위10 &gt; 상위20 &gt; 전체 — 상대강도가 강할수록 눌림의 복원력이 강하다. 눌림 단타는 "강한 놈의 일시적 눌림"을 사는 전략이므로 <b>RS가 곧 알파</b>.</li>
+<li><b>비주도주기에서도 유지</b> — 주도주 장세의 산물이 아닌 구조적 엣지.</li>
+<li><b>소르티노 전멸</b> (전 조합 PF 0.94~1.07): 하락 방어형의 눌림은 복원 연료가 없다. 세 전략(스윙·핸드오프·눌림)에서 일관 기각.</li>
+<li><b>시총 1위는 -10%에서만 유효</b> (PF 1.61) — 삼전의 정상 변동성(-4~-8%)은 신호가 아니다. 야후·KRX 독립 데이터 교차 일치로 검증.</li>
+<li><b>비용 생존</b>: RS5 -8~-10% 기준 순 +0.75~0.85%/회 (현물 왕복 0.25% 차감), 보유 3일.</li>
+<li><b>종가 백테스트 경고</b>: 같은 룰을 종가로만 돌리면 그룹 구조가 정반대로 나온다 (RS 정예 PF~1.0). 터치 체결·장중 손절이 반영돼야 진실이 보인다 — <b>단타류 검증은 OHLC 필수</b>.</li>
+</ul>
+
+<h2>4. 왜 갈리는가 — 신호의 원천</h2>
+<div class="grid2">
+<div class="card">
+<h4 style="color:#e2b93b;">스윙 반등 = 베타 전달 게임</h4>
+<p class="small">신호가 <b>지수</b>에서 나온다 (시장 전체의 투매·저점). 최적 종목 = 신호를 손실 없이 전달하는 최순수 베타 = 시총 1위. 어떤 종목 선별도 노이즈 삽입이고, 분산은 희석이다. 종목이 아니라 국면(익스포저)과 규율(손절 -7%, 재진입 감산)로 승부한다.</p>
+</div>
+<div class="card">
+<h4 style="color:#e2b93b;">눌림 단타 = 종목 복원력 게임</h4>
+<p class="small">신호가 <b>종목</b>에서 나온다 (강한 종목의 일시 이탈). 최적 종목 = 복원력이 검증된 RS 상위 정예. 깊을수록 좋고(-8~-10%), 방어형(소르티노)은 복원 연료가 없어 역선택이다. 시총 1위조차 여기선 -10% 한정 보조 수단.</p>
+</div>
+</div>
+<div class="box red">
+<b>주도주기 예외 (시총 1위 = 주도주인 시대: 2016–17, 2020–21, 2025–26 반도체).</b>
+스윙 매매의 tail(+50%대)은 전부 이 시기의 산물이다. 이 시기엔 ① 갈아타기 전면 금지 (재선별 알파가 사라짐 — 갈아타기 = 주도주를 파는 실수) ② 손절 -10% (변동성 확대로 -7%는 노이즈에 털림: 손절률 26→13%) ③ 처음부터 현물 홀드 + 트레일 -10%. 판별은 시총 1위의 지수 대비 초과수익 (+2.6%p vs -0.8%p로 명확히 갈림).
+</div>
+<div class="box blue">
+<b>소르티노의 자리.</b> 세 전략 모두에서 매매 대상으로는 기각. 단 하나의 용도 = <b>정찰</b>: 소르티노 → RS 변신(하락 방어가 상승 주도로 바뀌는 순간)이 주도주 승격 신호다. 추세 확정(D+20) 후 "그 시점 기준" RS 상위 10% 재선별은 +1.7~3.5%p/20일의 다음 포지션 알파 — 단, 이것은 스윙 매도 이후의 이야기다.
+</div>
+
+<h2>5. 팀 실행 체크리스트</h2>
+<table>
+<tr><th></th><th>스윙 반등 매매</th><th>눌림 단타</th></tr>
+<tr><td><b>종목</b></td><td>시총 1위 (대안: 1·2위 75%씩, 지수 ETF/선물)</td><td>RS(3개월) 상위 5~10% 정예</td></tr>
+<tr><td><b>진입</b></td><td>지수 스윙 저점 확인 후 당일~+1일 (예측 금지)</td><td>고점 앵커 -8~-10% 지정가 (얕은 눌림 -4~-6%는 삼전 금지)</td></tr>
+<tr><td><b>국면</b></td><td>A급(1-2·1-4·3-1) 150~200% / 1-3·4-1 100~150% / 1-1 패스 / 역배열 = 숏 존</td><td>상시 (국면 무관 구조적 엣지)</td></tr>
+<tr><td><b>손절</b></td><td>-7% (주도주기 -10%)</td><td>-5%</td></tr>
+<tr><td><b>익절</b></td><td>재량 스윙 고점 + 수익잠금(+10% 후 트레일 -5%) / 주도주기 트레일 -10%</td><td>파동 저점 +4% 터치 (기계)</td></tr>
+<tr><td><b>실패 대응</b></td><td>손절 → 저점 재확인 → 절반 익스포저 재진입 (본전 청산 금지)</td><td>손절 후 앵커 리셋, 다음 신호 대기</td></tr>
+<tr><td><b>보유</b></td><td>~수 주 (사이클)</td><td>~3일</td></tr>
+<tr><td><b>기대값</b></td><td>+7.0%/사이클 · 승률 87% (비주도주기)</td><td>+1.0%/회 (비용 후 +0.8%) · PF 1.5~1.6</td></tr>
+</table>
+
+<h2>6. 한계와 주의</h2>
+<ul>
+<li>스윙 국면별 표본이 작다 (n=3~14) — 국면 등급은 방향성 참고, 과신 금지. 눌림 단타는 n 수백~수만으로 탄탄.</li>
+<li>스윙 손절은 종가 기준 — 갭이 -7%를 넘는 날의 초과 손실 미반영. 고익스포저(200%)일수록 갭 리스크 상존.</li>
+<li>눌림 단타의 동시 신호(같은 날 다수 종목) 자본 배분과 호가 슬리피지는 미모델링 (지정가라 제한적).</li>
+<li>ZigZag 저점은 사후 확정 — 실전 진입 확인은 재량 (촉매·반전 캔들). 기계식 ±3.5% 확인 매매는 왕복 통행세 7%p로 기각 검증 완료.</li>
+<li>주도주기 판별의 실시간 오차 — 기계 판별 정확도 66% 수준, 최종 판단은 재량.</li>
+</ul>
+
+<p class="small" style="margin-top:36px; border-top:1px solid #333; padding-top:14px;">
+데이터: data/kr_k200q150_history.json.gz (수익률·거래대금), data/kr_k200q150_ohlc.json.gz (OHLC, 분할은 수익률로 조정), kr_sector_history.json (시장 벤치마크) — 전부 KRX OpenAPI 자체 백필.
+검증 페이지: <a href="https://sjs9401.github.io/market-dashboard/Swing_lows.html">스윙 저점 검증 차트</a> ·
+<a href="https://sjs9401.github.io/market-dashboard/dashboard.html">반등 매매 국면 카드 (라이브)</a> ·
+<a href="https://sjs9401.github.io/market-dashboard/Group_compare.html">그룹군 지수 비교</a> ·
+<a href="https://sjs9401.github.io/market-dashboard/Rotation_signals.html">순환매 신호 검증 차트</a>
+</p>
+
+</div>
+</body>
+</html>
