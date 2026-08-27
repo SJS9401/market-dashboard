@@ -224,12 +224,7 @@
      코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
 <div class="events" style="margin-top:20px;">
   <div class="events-card" style="flex:1;">
-    <h2>경제 캘린더 <span style="color:#8b949e;font-weight:400;font-size:12px;">Investing.com 공식 위젯 · 한국/미국/중국/일본/유로존 · KST · 위젯 안에서 날짜/시간대 조작 가능</span></h2>
-    <div style="margin:0 12px 14px;background:#fff;border-radius:8px;overflow:hidden;">
-      <iframe src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&amp;features=datepicker,timezone,timeselector,filters&amp;countries=5,11,35,37,72&amp;calType=day&amp;timeZone=88&amp;lang=18" style="width:100%;height:780px;border:0;display:block;" loading="lazy"></iframe>
-    </div>
-
-<h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
+    <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
       <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
       <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
       <span class="series-toggle" style="display:flex;"><button data-s="m" onclick="nnRefresh()" title="시세·환율·종가 즉시 갱신">↻ 새로고침</button></span>
@@ -295,6 +290,15 @@
         }
         </script>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="events" style="margin-top:20px;">
+  <div class="events-card" style="flex:1;">
+    <h2>경제 캘린더 <span style="color:#8b949e;font-weight:400;font-size:12px;">Investing.com 공식 위젯 · 한국/미국/중국/일본/유로존 · KST · 날짜/시간대/필터 조작 가능</span></h2>
+    <div style="margin:0 12px 14px;background:#fff;border-radius:8px;overflow:hidden;">
+      <iframe src="https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&amp;features=datepicker,timezone,timeselector,filters&amp;countries=5,11,35,37,72&amp;calType=day&amp;timeZone=88&amp;lang=18" style="width:100%;height:780px;border:0;display:block;" loading="lazy"></iframe>
     </div>
   </div>
 </div>
