@@ -166,6 +166,10 @@
     <div class="col-date-label col-date-main" id="date-main-kr"></div>
     </div>
     <div class="card">
+      <div class="card-top"><div class="left"><h3>거래대금</h3><span class="price" id="p-kr-vol" style="color:rgb(126,166,209)">—</span><span class="xdate" id="d-kr-vol"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-vol"><div class="msg" id="msg-kr-vol">로딩 중...</div></div>
+    </div>
+    <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kr-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kr-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
     </div>
@@ -206,6 +210,10 @@
     </div>
     <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
     <div class="col-date-label col-date-main" id="date-main-us"></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>거래량</h3><span class="price" id="p-us-vol" style="color:rgb(126,166,209)">—</span><span class="xdate" id="d-us-vol"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-vol"><div class="msg" id="msg-us-vol">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
@@ -857,12 +865,14 @@ function fmtPctSigned(v) {
 function renderSubsForTooltip(col, time) {
   const subs = (col === 'kr')
     ? [
+      { id: 'kr-vol',    label: '거래대금',      color: C_SLATE_TEXT },
       { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
       { id: 'kr-fgosc',  label: 'F&G Osc',      color: C_SLATE_TEXT },
       { id: 'kr-breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
       { id: 'kr-fflow',  label: '외국인 현선물 순매수', color: C_SLATE_TEXT }
     ]
     : [
+      { id: 'us-vol',  label: '거래량',         color: C_SLATE_TEXT },
       { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
       { id: 'us-fgosc', label: 'F&G Osc',       color: C_SLATE_TEXT },
       { id: 'breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
@@ -875,7 +885,10 @@ function renderSubsForTooltip(col, time) {
     const d = map[time];
     if (!d) return;
     let valHtml = '';
-    if (s.id === 'kr-mdd' || s.id === 'us-mdd') {
+    if (s.id === 'kr-vol' || s.id === 'us-vol') {
+      if (d.value == null) return;
+      valHtml = '<span style="color:rgb(126,166,209)">' + (s.id === 'kr-vol' ? (d.value/10000).toFixed(1) + '조' : (d.value/1e9).toFixed(2) + 'B') + '</span>';
+    } else if (s.id === 'kr-mdd' || s.id === 'us-mdd') {
       if (d.value == null) return;
       const v = d.value;
       const cls = v < 0 ? 'hts-down' : '';
@@ -1188,6 +1201,68 @@ function calcMDD(candles) {
   });
 }
 
+// ── 거래대금(KR)/거래량(US) 패널 (2026-08-30 BT) — 캔들 바로 아래, 지수 등락색 히스토그램 ──
+function volWeekly(rows) {
+  const out = []; let cur = null;
+  rows.forEach(r => { const wk = getWeekKey(r.time);
+    if (!cur || cur._wk !== wk) { if (cur) { const { _wk, ...rest } = cur; out.push(rest); } cur = { time: r.time, value: r.value, _wk: wk }; }
+    else { cur.time = r.time; cur.value += r.value; } });
+  if (cur) { const { _wk, ...rest } = cur; out.push(rest); }
+  return out;
+}
+function setVolSeries(id, col, rows, fmt) {
+  if (!allCharts[id]) {
+    createChart(id, col, { showTimeAxis: false });
+    const s = allCharts[id].chart.addHistogramSeries({
+      priceLineVisible: false, lastValueVisible: false,
+      priceFormat: { type: 'custom', formatter: fmt }
+    });
+    allCharts[id].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.12, bottom: 0 } });
+    allCharts[id].series = s;
+  }
+  const mainId = col === 'kr' ? 'kospi' : 'ndx';
+  const idxMap = chartDataMap[mainId] || {};
+  const data = rows.map(r => {
+    const c = idxMap[r.time];
+    const up = (c && c.open != null && c.close != null) ? (c.close >= c.open) : true;
+    return { time: r.time, value: r.value, color: up ? '#d61022' : '#1750e0' };
+  });
+  const idx = colTimeIndex[col] || [];
+  let aligned = data;
+  if (idx.length) {
+    const m = {}; data.forEach(d => { m[d.time] = d; });
+    aligned = idx.map(tm => m[tm] || { time: tm });
+  }
+  allCharts[id].series.setData(aligned);
+  buildDataMap(id, data);
+}
+async function loadKrVol() {
+  const msgEl = document.getElementById('msg-kr-vol');
+  try {
+    const j = await fetch('data/kr_sector_history.json?cb=' + Math.floor(Date.now()/9e5)).then(r => r.json());
+    const i = j.sectors.indexOf('_ALL');
+    let rows = j.dates.map((d, k) => ({ time: d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8), value: j.val[i][k] }));
+    if (colInterval.kr === '1wk') rows = volWeekly(rows);
+    setVolSeries('kr-vol', 'kr', rows, v => (v/10000).toFixed(1) + '조');
+    const last = rows[rows.length-1];
+    document.getElementById('p-kr-vol').textContent = (last.value/10000).toFixed(1) + '조';
+    document.getElementById('d-kr-vol').textContent = last.time;
+    msgEl.style.display = 'none';
+  } catch(e) { if (msgEl) msgEl.textContent = '거래대금 실패: ' + e.message; }
+}
+async function loadUSVol() {
+  const msgEl = document.getElementById('msg-us-vol');
+  try {
+    const { candles } = await getCachedData('^IXIC', colRange.us);
+    let rows = candles.filter(c => c.volume != null && c.volume > 0).map(c => ({ time: c.time, value: c.volume }));
+    if (colInterval.us === '1wk') rows = volWeekly(rows);
+    setVolSeries('us-vol', 'us', rows, v => (v/1e9).toFixed(1) + 'B');
+    const last = rows[rows.length-1];
+    document.getElementById('p-us-vol').textContent = (last.value/1e9).toFixed(2) + 'B주';
+    document.getElementById('d-us-vol').textContent = last.time;
+    msgEl.style.display = 'none';
+  } catch(e) { if (msgEl) msgEl.textContent = '거래량 실패: ' + e.message; }
+}
 async function loadMDD(indexId, mddId, col) {
   const msgEl = document.getElementById('msg-' + mddId);
   try {
@@ -2122,18 +2197,18 @@ async function loadColumn(col) {
   else { await loadIndex('ndx', 'us'); }
   // Then load all sub-indicators in parallel
   if (col === 'kr') {
-    await Promise.allSettled([loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadKrFflow()]);  // ADR 카드 제거 (2026-08-21 BT)
+    await Promise.allSettled([loadKrVol(), loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadKrFflow()]);  // ADR 카드 제거 (2026-08-21 BT)
   } else {
-    await Promise.allSettled([loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
+    await Promise.allSettled([loadUSVol(), loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
   }
   if (allCharts[mainId]) {
-    // Default view: last 120 bars
+    // Default view: last 90 bars (2026-08-30 BT: 120 → 90)
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     if (dataLen > 0) {
-      const from = Math.max(0, dataLen - 120);
+      const from = Math.max(0, dataLen - 90);
       allCharts[mainId].chart.timeScale().setVisibleLogicalRange({ from, to: dataLen });
       const barInput = document.getElementById('bars-' + col);
-      if (barInput) barInput.value = Math.min(120, dataLen);
+      if (barInput) barInput.value = Math.min(90, dataLen);
     } else {
       allCharts[mainId].chart.timeScale().fitContent();
     }
