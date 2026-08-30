@@ -134,7 +134,9 @@
     .header { flex-wrap: wrap; gap: 6px; padding: 8px 10px; }
     .header h1 { font-size: 16px; }
     .events { flex-direction: column; gap: 16px; padding: 0 6px; }
-    #nn-grid { grid-template-columns: 1fr !important; }
+    .events-card { overflow-x: auto; }
+    #nn-grid { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 10px !important; }
+    #nn-grid > div { scroll-snap-align: start; }
     .mm-box { height: 62vh !important; }
     iframe[src*="sslecal2"] { height: 640px !important; }
   }
