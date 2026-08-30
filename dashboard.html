@@ -126,7 +126,18 @@
   .ev-cat.정치 { background: #3a1f2a; color: #f778ba; }
   .ev-cat.기타 { background: #2a2a2a; color: #8b949e; }
   .ev-cat.방산 { background: #3a2a1f; color: #e2a44e; }
-  @media (max-width: 860px) { .main { flex-direction: column; } }
+  @media (max-width: 860px) {
+    .main { flex-direction: column; }
+    .tab-bar { overflow-x: auto; padding: 0 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-bar a { white-space: nowrap; flex: none; padding: 10px 12px; font-size: 12.5px; }
+    .header { flex-wrap: wrap; gap: 6px; padding: 8px 10px; }
+    .header h1 { font-size: 16px; }
+    .events { flex-direction: column; gap: 16px; padding: 0 6px; }
+    #nn-grid { grid-template-columns: 1fr !important; }
+    .mm-box { height: 62vh !important; }
+    iframe[src*="sslecal2"] { height: 640px !important; }
+  }
 </style>
 </head>
 <body>
@@ -255,14 +266,14 @@
         <button data-s="m" onclick="mmSetMkt(1,this)">코스닥</button>
       </span>
     </h2>
-    <div style="height:800px;position:relative;background:#101010;">
+    <div class="mm-box" style="height:800px;position:relative;background:#101010;">
       <canvas id="mm-kr-canvas" style="display:block;cursor:crosshair;"></canvas>
       <div id="mm-kr-tip" style="position:absolute;display:none;pointer-events:none;background:rgba(24,24,24,0.96);border:1px solid #3a3a3a;border-radius:6px;padding:7px 10px;font-size:12px;line-height:1.5;z-index:10;color:#e6edf3;"></div>
     </div>
   </div>
   <div class="events-card" style="flex:none;width:100%;">
     <h2>미국 마켓맵</h2>
-    <div style="height:800px;">
+    <div class="mm-box" style="height:800px;">
       <div class="tradingview-widget-container" style="height:100%;">
         <div class="tradingview-widget-container__widget" style="height:100%;"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
