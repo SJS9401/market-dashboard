@@ -912,8 +912,8 @@ function renderSubsForTooltip(col, time) {
               + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
     } else if (s.id === 'kr-fflow') {
       if (d.value == null) return;
-      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(2) + '조</span>'
-              + (d.cum20 != null ? ' / <span style="color:rgb(126,166,209)">20D ' + (d.cum20 >= 0 ? '+' : '') + d.cum20.toFixed(2) + '조</span>' : '');
+      valHtml = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">' + (d.value >= 0 ? '+' : '') + d.value.toFixed(1) + '조</span>'
+              + (d.cum20 != null ? ' / <span style="color:rgb(126,166,209)">20D ' + (d.cum20 >= 0 ? '+' : '') + d.cum20.toFixed(1) + '조</span>' : '');
     } else if (s.id === 'breadth') {
       if (d.above200 == null && d.above50 == null) return;
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
