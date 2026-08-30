@@ -1141,7 +1141,18 @@ async function loadIndex(id, col) {
   if (!allCharts[id]) { createChart(id, col, { showTimeAxis: false }); addCandleSeries(id); }
   const syms = FALLBACKS[id] || [id];
   const results = await Promise.allSettled(syms.map(s => getCachedData(s, range)));
-  const winner = results.find(r => r.status === 'fulfilled' && r.value.candles.length);
+  // 2026-08-31 부분 응답 방어: 장기 range 인데 캔들 수십 개 미만이면 (프록시/야후 순단 조각)
+  // winner 에서 제외하고 세션 캐시도 비워 다음 로드에서 재시도. 전부 미달이면 최다 캔들 사용.
+  const MINBARS = range === '1mo' ? 12 : (range === '3mo' ? 35 : 100);
+  results.forEach((r, k) => {
+    if (r.status === 'fulfilled' && r.value.candles.length > 0 && r.value.candles.length < MINBARS) {
+      console.warn('[guard] partial candles', syms[k], range, r.value.candles.length);
+      delete dataCache[syms[k] + '|' + range];
+    }
+  });
+  const winner = results.find(r => r.status === 'fulfilled' && r.value.candles.length >= MINBARS)
+    || results.filter(r => r.status === 'fulfilled' && r.value.candles.length)
+         .sort((a, b) => b.value.candles.length - a.value.candles.length)[0];
   if (winner) {
     const {candles,price} = winner.value;
     const display = intv === '1wk' ? candlesToWeekly(candles) : candles;
