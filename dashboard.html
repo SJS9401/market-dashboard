@@ -2796,14 +2796,33 @@ async function initNightPrice() {
     const last = s => { const c = cd[s] && cd[s].candles; return c && c.length ? c[c.length - 1] : null; };
     const fx = last('USDKRW=X') || last('KRW=X');
     NN.fx = fx ? fx.close : null;
+    NN.fxSrc = '전일';
     for (const st of NN_STOCKS) {
       const l = last(st.ks);
       if (l) { NN.close[st.ks] = l.close; NN.closeDate = l.time; }
     }
   } catch (e) {}
+  refreshFx();
   nnPoll();
   if (NN.timer) clearInterval(NN.timer);
   NN.timer = setInterval(nnPoll, 15000);
+  if (NN.fxTimer) clearInterval(NN.fxTimer);
+  NN.fxTimer = setInterval(refreshFx, 300000);
+}
+
+// 2026-08-31: 환율 실시간화 — 전일 고정 환율 탓에 코스피랩 대비 가격 어긋남 (BT 리포트).
+// 1) 야후 KRW=X 실시간 (CORS 프록시 race) → 2) 업비트 KRW-USDT (김프 포함 근사) → 3) 전일 유지.
+async function refreshFx() {
+  try {
+    const j = await fetchJSON('https://query1.finance.yahoo.com/v8/finance/chart/KRW=X?range=1d&interval=5m&_t=' + Date.now());
+    const p = j.chart.result[0].meta.regularMarketPrice;
+    if (p > 800 && p < 3000) { NN.fx = p; NN.fxSrc = '실시간'; return; }
+  } catch (_) {}
+  try {
+    const u = await fetch('https://api.upbit.com/v1/ticker?markets=KRW-USDT').then(r => r.json());
+    const p = u[0] && u[0].trade_price;
+    if (p > 800 && p < 3000) { NN.fx = p; NN.fxSrc = 'USDT'; return; }
+  } catch (_) {}
 }
 
 async function nnRefresh() {
@@ -2817,7 +2836,13 @@ async function nnPoll() {
   const grid = document.getElementById('nn-grid');
   if (!grid) return;
   try {
-    const all = await fetch('https://fapi.binance.com/fapi/v1/ticker/price').then(r => r.json());
+    let all;
+    try {
+      all = await fetch('https://fapi.binance.com/fapi/v1/ticker/price').then(r => { if (!r.ok) throw 0; return r.json(); });
+    } catch (_) {
+      // 2026-08-31: Binance 국내 IP 웹 차단 대비 — CORS 프록시 race 폴백
+      all = await fetchJSON('https://fapi.binance.com/fapi/v1/ticker/price');
+    }
     const map = {};
     for (const t of all) map[t.symbol] = parseFloat(t.price);
     let html = '';
@@ -2844,9 +2869,12 @@ async function nnPoll() {
     }
     grid.innerHTML = html;
     const u = document.getElementById('nn-updated');
-    if (u) u.textContent = '환율 ' + (NN.fx ? Math.round(NN.fx).toLocaleString() + '원(전일)' : '—')
+    if (u) u.textContent = '환율 ' + (NN.fx ? Math.round(NN.fx).toLocaleString() + '원(' + (NN.fxSrc || '전일') + ')' : '—')
       + ' · ' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신';
-  } catch (e) {}
+  } catch (e) {
+    const u = document.getElementById('nn-updated');
+    if (u) u.textContent = 'Binance 연결 실패 · 재시도 중 (' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ')';
+  }
 }
 
 </script>
