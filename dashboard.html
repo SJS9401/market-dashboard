@@ -1052,6 +1052,12 @@ function _updateHeaderForChartImpl(chartId, time) {
       const fmt = v => v == null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
       pe.innerHTML = `<span style="color:rgb(126,166,209)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
     }
+  } else if (chartId === 'kr-vol') {
+    const pe = document.getElementById('p-kr-vol');
+    if (pe && d.value != null) pe.textContent = (d.value / 10000).toFixed(1) + '조';
+  } else if (chartId === 'us-vol') {
+    const pe = document.getElementById('p-us-vol');
+    if (pe && d.value != null) pe.textContent = (d.value / 1e9).toFixed(2) + 'B주';
   } else {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) {
@@ -1068,7 +1074,7 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-fgosc','kr-breadth','kr-fflow'] : ['ndx','us-fgosc','breadth','goldman'];
+  const ids = col === 'kr' ? ['kospi','kr-vol','kr-fgosc','kr-breadth','kr-fflow'] : ['ndx','us-vol','us-fgosc','breadth','goldman'];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1245,7 +1251,8 @@ async function loadKrVol() {
     if (colInterval.kr === '1wk') rows = volWeekly(rows);
     setVolSeries('kr-vol', 'kr', rows, v => (v/10000).toFixed(1) + '조');
     const last = rows[rows.length-1];
-    document.getElementById('p-kr-vol').textContent = (last.value/10000).toFixed(1) + '조';
+    const setHdrKrVol = () => { document.getElementById('p-kr-vol').textContent = (last.value/10000).toFixed(1) + '조'; };
+    setHdrKrVol(); origValues['kr-vol'] = setHdrKrVol;
     document.getElementById('d-kr-vol').textContent = last.time;
     msgEl.style.display = 'none';
   } catch(e) { if (msgEl) msgEl.textContent = '거래대금 실패: ' + e.message; }
@@ -1258,7 +1265,8 @@ async function loadUSVol() {
     if (colInterval.us === '1wk') rows = volWeekly(rows);
     setVolSeries('us-vol', 'us', rows, v => (v/1e9).toFixed(1) + 'B');
     const last = rows[rows.length-1];
-    document.getElementById('p-us-vol').textContent = (last.value/1e9).toFixed(2) + 'B주';
+    const setHdrUsVol = () => { document.getElementById('p-us-vol').textContent = (last.value/1e9).toFixed(2) + 'B주'; };
+    setHdrUsVol(); origValues['us-vol'] = setHdrUsVol;
     document.getElementById('d-us-vol').textContent = last.time;
     msgEl.style.display = 'none';
   } catch(e) { if (msgEl) msgEl.textContent = '거래량 실패: ' + e.message; }
@@ -1673,7 +1681,7 @@ async function loadKrFflow() {
       } }
     if (intv === '1wk') { daily = resampleWeekly(daily); cum20 = resampleWeekly(cum20); }
     const last = daily[daily.length - 1], last20 = cum20[cum20.length - 1];
-    const fmt조 = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '조';
+    const fmt조 = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '조';
     const hdr = document.getElementById('p-kr-fflow');
     const hdrHtml = last
       ? `<span style="color:${last.value >= 0 ? '#f04452' : '#3182f6'}">1D ${fmt조(last.value)}</span> / <span style="color:rgb(126,166,209)">20D ${fmt조(last20 ? last20.value : 0)}</span>`
