@@ -1052,6 +1052,13 @@ function _updateHeaderForChartImpl(chartId, time) {
       const fmt = v => v == null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
       pe.innerHTML = `<span style="color:rgb(126,166,209)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
     }
+  } else if (chartId === 'kr-fflow') {
+    const pe = document.getElementById('p-kr-fflow');
+    if (pe && d.value != null) {
+      const f = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '조';
+      pe.innerHTML = '<span style="color:' + (d.value >= 0 ? '#f04452' : '#3182f6') + '">1D ' + f(d.value) + '</span>'
+        + (d.cum20 != null ? ' / <span style="color:rgb(126,166,209)">20D ' + f(d.cum20) + '</span>' : '');
+    }
   } else if (chartId === 'kr-vol') {
     const pe = document.getElementById('p-kr-vol');
     if (pe && d.value != null) pe.textContent = (d.value / 10000).toFixed(1) + '조';
