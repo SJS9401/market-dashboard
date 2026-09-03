@@ -86,6 +86,18 @@
     <div class="note">저점=0.00 · 전고점=1.00으로 정규화한 되돌림 경로. 파란 점선이 임계 0.70, 회색 점선이 +30일.</div>
   </div>
 
+  <!-- ①-2 실패군 정밀 카드 (2026-09-03 신설, BT 요청) -->
+  <div class="card">
+    <h2>①-2 실패군 정밀 카드 — 시스코 2000 · 현대중공업 2008 <span style="font-size:11px;color:#6e7681;font-weight:400;">1차 판별 실패 확정 — 이제 비교 대상은 실패군 2사례의 "이후 경로"다</span></h2>
+    <div class="live" id="failStats"></div>
+    <div class="chartbox" style="height:360px;"><canvas id="failPeak"></canvas></div>
+    <div class="note">앵커 A — <b style="color:#c9d1d9;">직전 고점 = 1.00</b>. 전고점 후 캘린더 일수 기준 가격 경로(장중고가). 회색 점선 = 전고점(재돌파선)·0.50. 금색 = SK하이닉스 2026 (현재 진행).</div>
+    <div class="chartbox" style="height:360px;"><canvas id="failLow"></canvas></div>
+    <div class="note">앵커 B — <b style="color:#c9d1d9;">1차 저점 = 0.00 · 전고점 = 1.00</b> 되돌림. 저점 후 캘린더 일수. 파란 점선 = 임계 0.70. 실패군은 이후로도 0.70을 넘지 못하거나(시스코) 3년 뒤에야 넘었다(현중).</div>
+    <div class="chartbox" style="height:250px;"><canvas id="failMdd"></canvas></div>
+    <div class="note">MDD — 전고점 대비 낙폭(%). 전고점 후 캘린더 일수 기준. 실패군의 1차 저점(-39%/-49%)은 끝이 아니라 중간 계단이었다 — 최종 저점은 -86.5%(시스코) / -81%(현중).</div>
+  </div>
+
   <!-- ② 유형 판별 -->
   <div class="card">
     <h2>② 사이클 유형 — '간격'이 유형을 정의한다</h2>
@@ -441,6 +453,98 @@
       else if (ret >= 0.70) { v.style.background='#12261a'; v.style.color='#3fb950'; v.textContent = '● 늦었지만 도달 — 되돌림 ' + ret.toFixed(3) + '. 퀄컴 1998형(103일 재돌파) 가능성.'; }
       else { v.style.background='#2b1214'; v.style.color='#f85149'; v.textContent = '● 1차 판별(+30d) 실패 확정 — 저점 후 ' + elapsed + '일, 되돌림 ' + ret.toFixed(3) + ' (최고 ' + mxr.toFixed(3) + ', 임계 0.70 미달). 시스코 2000 / 현중 2008 경로. 다음 관전: 2차 판별 9/27 · 재돌파 데드라인 11/13.'; }
     }
+
+    // ── ①-2 실패군 정밀 카드 (2026-09-03) ──
+    function peakPath(S, pkD, maxD) {
+      var pk = null;
+      S.forEach(function (r) { if (r[0] === pkD) pk = r[2]; });
+      if (pk == null) { var a = S.filter(function (r) { return r[0] <= pkD; }); if (a.length) pk = a[a.length-1][2]; }
+      var out = [];
+      S.forEach(function (r) {
+        if (r[0] < pkD) return;
+        var d = days(pkD, r[0]);
+        if (d > maxD) return;
+        out.push({x: d, y: r[2] / pk, d: r[0]});
+      });
+      return {path: out, pk: pk};
+    }
+    var FMAX = 1200;
+    var FC = [
+      {n:'시스코 2000',      S:CS,  pk:'2000-03-27', lo:'2000-05-22', c:'#f85149', dash:[5,3], w:1.9},
+      {n:'현대중공업 2008',  S:HHI, pk:'2007-11-07', lo:'2008-01-30', c:'#ffa198', dash:[5,3], w:1.9},
+      {n:'SK하이닉스 2026',  S:HX,  pk:'2026-06-25', lo:'2026-07-29', c:'#d29922', dash:[],    w:3.2}
+    ];
+    var dsPk = [], dsLo = [], dsMd = [], fstats = [];
+    FC.forEach(function (c) {
+      var pp = peakPath(c.S, c.pk, FMAX);
+      var rp = retPath(c.S, c.pk, c.lo, FMAX);
+      var mk = function (data) { return {label:c.n, data:data, borderColor:c.c, borderWidth:c.w, pointRadius:0, tension:0.1, borderDash:c.dash}; };
+      dsPk.push(mk(pp.path));
+      dsLo.push(mk(rp.path));
+      dsMd.push(mk(pp.path.map(function (p) { return {x:p.x, y:(p.y-1)*100, d:p.d}; })));
+      var minP = 1, minD = 0, minDate = '';
+      pp.path.forEach(function (p) { if (p.y < minP) { minP = p.y; minD = p.x; minDate = p.d; } });
+      var loGap = days(c.pk, c.lo), reb = null;
+      for (var q = 0; q < pp.path.length; q++) { var p2 = pp.path[q]; if (p2.x > loGap && p2.y >= 1.0) { reb = p2.x; break; } }
+      var lastP = pp.path[pp.path.length-1];
+      fstats.push({n:c.n, min:minP, minD:minD, minDate:minDate, reb:reb, last:lastP, live:(c.n.indexOf('하이닉스') >= 0)});
+    });
+    var sb = '';
+    fstats.forEach(function (s) {
+      if (s.live) {
+        sb += '<div class="box"><div class="k">' + s.n + ' — 현재 위치</div><div class="v" style="color:#d29922;">' + ((s.last.y-1)*100).toFixed(1) + '%</div><div class="s">전고점 +' + s.last.x + '일 (' + s.last.d + ')</div></div>';
+      } else {
+        sb += '<div class="box"><div class="k">' + s.n + ' — 최종 저점</div><div class="v" style="color:#f85149;">' + ((s.min-1)*100).toFixed(1) + '%</div><div class="s">전고점 +' + s.minD + '일 (' + s.minDate + ')</div></div>'
+            + '<div class="box"><div class="k">' + s.n + ' — 전고점 재돌파</div><div class="v" style="font-size:17px;">' + (s.reb ? '+' + s.reb.toLocaleString() + '일' : '없음') + '</div><div class="s">' + (s.reb ? '약 ' + (s.reb/365).toFixed(1) + '년' : '데이터 내 미회복') + '</div></div>';
+      }
+    });
+    document.getElementById('failStats').innerHTML = sb;
+    var fTooltip = function (xl) { return {callbacks:{
+      title:function(it){ return it[0].raw.d + ' (' + xl + ' +' + it[0].parsed.x + '일)'; },
+      label:function(it){ return ' ' + it.dataset.label + ': ' + it.parsed.y.toFixed(3); }}}; };
+    var fScales = function (xl, ymin, ymax, yl, pct) { return {
+      x:{type:'linear', min:0, max:FMAX, title:{display:true, text:xl + ' 후 캘린더 일수', font:{size:11}, color:TH.tick}, ticks:{color:TH.tick}, grid:{color:TH.grid}},
+      y:{min:ymin, max:ymax, title:{display:true, text:yl, font:{size:11}, color:TH.tick},
+         ticks:{color:TH.tick, callback:function(v){ return pct ? v + '%' : v.toFixed(2); }}, grid:{color:TH.grid}}}; };
+    var fLegend = {legend:{position:'top', align:'end', labels:{boxWidth:14, font:{size:10}, color:TH.txt}}};
+    new Chart(document.getElementById('failPeak'), {type:'line', data:{datasets:dsPk},
+      options:{responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'nearest', axis:'x', intersect:false},
+        plugins:Object.assign({}, fLegend, {tooltip:fTooltip('전고점')}),
+        scales:fScales('전고점', 0, 1.15, '가격 (전고점 1.0)', false)},
+      plugins:[{id:'fpLines', afterDatasetsDraw:function(ch){
+        var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
+        ctx.save();
+        [[1.0, '#6e7681', '전고점 (재돌파선)'], [0.5, '#30363d', '-50%']].forEach(function (L) {
+          ctx.setLineDash([4,4]); ctx.strokeStyle = L[1]; ctx.lineWidth = 1.2;
+          var py = ys.getPixelForValue(L[0]);
+          ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
+          ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.fillText(L[2], a.left + 6, py - 4);
+        });
+        ctx.restore();
+      }}]});
+    new Chart(document.getElementById('failLow'), {type:'line', data:{datasets:dsLo},
+      options:{responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'nearest', axis:'x', intersect:false},
+        plugins:Object.assign({}, fLegend, {tooltip:fTooltip('저점')}),
+        scales:fScales('1차 저점', 0, 1.3, '되돌림 (저점 0 → 전고점 1.0)', false)},
+      plugins:[{id:'flLines', afterDatasetsDraw:function(ch){
+        var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
+        ctx.save();
+        ctx.setLineDash([4,4]); ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 1.4;
+        var py = ys.getPixelForValue(0.70);
+        ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
+        ctx.fillStyle = '#58a6ff'; ctx.font = '11px sans-serif'; ctx.fillText('임계 0.70', a.left + 6, py - 5);
+        ctx.restore();
+      }}]});
+    new Chart(document.getElementById('failMdd'), {type:'line', data:{datasets:dsMd},
+      options:{responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'nearest', axis:'x', intersect:false},
+        plugins:Object.assign({}, fLegend, {tooltip:{callbacks:{
+          title:function(it){ return it[0].raw.d + ' (전고점 +' + it[0].parsed.x + '일)'; },
+          label:function(it){ return ' ' + it.dataset.label + ': ' + it.parsed.y.toFixed(1) + '%'; }}}}),
+        scales:fScales('전고점', -100, 5, '전고점 대비 낙폭 (%)', true)}});
+
   }).catch(function (e) {
     document.getElementById('updated').textContent = '데이터 로드 실패: ' + e;
     console.error(e);
