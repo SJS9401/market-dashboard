@@ -591,7 +591,7 @@
             x:{ticks:{color:TH.tick, maxTicksLimit:14, maxRotation:0, callback:function (v) { var t = labels[v]; return t ? t.slice(0, 7) : ''; }}, grid:{color:TH.grid}},
             y:{type:'logarithmic', title:{display:true, text:'주가 (로그, USD)', font:{size:11}, color:TH.tick},
                afterBuildTicks:function (ax) { ax.ticks = [10, 15, 20, 30, 40, 60, 80, 120, 160, 200, 240].map(function (v) { return {value: v}; }); },
-               ticks:{color:TH.tick}, grid:{color:TH.grid}}}}});
+               ticks:{color:TH.tick, autoSkip:false}, grid:{color:TH.grid}}}}});
 
       var EQ = [
         ['Apr 22', 56, 0], ['Jul 22', -50, 0], ['Oct 22', -50, 0], ['Jan 23', -31, 0],
