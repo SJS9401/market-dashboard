@@ -93,9 +93,11 @@
     <div class="chartbox" style="height:360px;"><canvas id="failPeak"></canvas></div>
     <div class="note">앵커 A — <b style="color:#c9d1d9;">직전 고점 = 1.00</b>. 전고점 후 캘린더 일수 기준 가격 경로(장중고가). 회색 점선 = 전고점(재돌파선)·0.50. 금색 = SK하이닉스 2026 (현재 진행).</div>
     <div class="chartbox" style="height:360px;"><canvas id="failLow"></canvas></div>
-    <div class="note">확대 — <b style="color:#c9d1d9;">전고점 후 0~400일 · 1차 저점 = 0.00 · 전고점 = 1.00</b>. 고점 → 1차 저점 → 반등 → <b style="color:#c9d1d9;">저점 붕괴(빨간 선 아래)</b> 시퀀스. 실패군 공통: 반등이 전고점을 회복하지 못한 채 1차 저점을 깨며 2차 하락이 시작됐다.</div>
+    <div class="note">확대 — <b style="color:#c9d1d9;">직전 고점 → 1차 저점 구간을 앵커(1.00 → 0.00)로, X축 = 1차 저점 기준 일수</b>(음수 = 고점→저점 하락, 0 = 저점, 양수 = 반등 구간). 세 케이스의 반등이 x=0에서 정렬된다.
+      빨간 점선 0.00 = <b style="color:#c9d1d9;">1차 저점의 장중 저가</b> — 경로는 장중 고가 기준이라, 선이 이 아래로 가면 그날 고가조차 1차 저점보다 낮다는 뜻 = 명백한 저점 갱신.
+      시스코: 반등 최고 0.625(+79일) → <b style="color:#c9d1d9;">저점 붕괴 +161일</b> · 현중: 0.481(+68일) → <b style="color:#c9d1d9;">붕괴 +188일</b> · 하이닉스: 0.313(+20일), 현재 진행.</div>
     <div class="chartbox" style="height:250px;"><canvas id="failMdd"></canvas></div>
-    <div class="note">저점 대비 되돌림 — <b style="color:#c9d1d9;">1차 저점 = 0% 기준 반등 폭(%)</b>. 위 확대 차트와 같은 시간축(전고점 후 0~400일). 반등이 얼마나 나오다 꺾여 저점을 깨는지(0% 아래)를 %로 읽는다.</div>
+    <div class="note">저점 대비 반등 폭 — <b style="color:#c9d1d9;">1차 저점 = 0% 기준, 반등 구간만</b> (0% 아래는 표시하지 않음). 위 확대 차트와 같은 저점 앵커 시간축. 실패군도 저점 대비 +40~47%의 반등은 나왔다 — 폭이 아니라 <b style="color:#c9d1d9;">전고점 대비 되돌림 비율(위 차트)</b>이 성패를 갈랐다.</div>
   </div>
 
   <!-- ② 유형 판별 -->
@@ -492,7 +494,7 @@
       });
       return {path: out, pk: pk, lo: lo};
     }
-    var FMAX = 1300, FZOOM = 400;
+    var FMAX = 1300, FZ2 = 350, FPRE = -90;
     var FC = [
       {n:'시스코 2000',      S:CS,  pk:'2000-03-27', lo:'2000-05-22', c:'#f85149', dash:[5,3], w:1.9},
       {n:'현대중공업 2008',  S:HHI, pk:'2007-11-07', lo:'2008-01-30', c:'#ffa198', dash:[5,3], w:1.9},
@@ -501,14 +503,15 @@
     var dsPk = [], dsLo = [], dsMd = [], fstats = [];
     FC.forEach(function (c) {
       var pp = peakPath(c.S, c.pk, FMAX);
-      var rp = zoomPath(c.S, c.pk, c.lo, FZOOM);
+      var loGap = days(c.pk, c.lo);
+      var rp = zoomPath(c.S, c.pk, c.lo, loGap + FZ2);
       var mk = function (data) { return {label:c.n, data:data, borderColor:c.c, borderWidth:c.w, pointRadius:0, tension:0.1, borderDash:c.dash}; };
       dsPk.push(mk(pp.path));
-      dsLo.push(mk(rp.path));
-      dsMd.push(mk(rp.path.filter(function (p) { return p.d >= c.lo; }).map(function (p) { return {x:p.x, y:p.y * (rp.pk - rp.lo) / rp.lo * 100, d:p.d}; })));
+      dsLo.push(mk(rp.path.map(function (p) { return {x:p.x - loGap, y:p.y, d:p.d}; })));
+      dsMd.push(mk(rp.path.filter(function (p) { return p.d >= c.lo; }).map(function (p) { return {x:p.x - loGap, y:p.y * (rp.pk - rp.lo) / rp.lo * 100, d:p.d}; })));
       var minP = 1, minD = 0, minDate = '';
       pp.path.forEach(function (p) { if (p.y < minP) { minP = p.y; minD = p.x; minDate = p.d; } });
-      var loGap = days(c.pk, c.lo), reb = null;
+      var reb = null;
       for (var q = 0; q < pp.path.length; q++) { var p2 = pp.path[q]; if (p2.x > loGap && p2.y >= 1.0) { reb = p2.x; break; } }
       var lastP = pp.path[pp.path.length-1];
       fstats.push({n:c.n, min:minP, minD:minD, minDate:minDate, reb:reb, last:lastP, live:(c.n.indexOf('하이닉스') >= 0)});
@@ -524,10 +527,10 @@
     });
     document.getElementById('failStats').innerHTML = sb;
     var fTooltip = function (xl) { return {callbacks:{
-      title:function(it){ return it[0].raw.d + ' (' + xl + ' +' + it[0].parsed.x + '일)'; },
+      title:function(it){ var xv = it[0].parsed.x; return it[0].raw.d + ' (' + xl + (xv >= 0 ? ' +' : ' ') + xv + '일)'; },
       label:function(it){ return ' ' + it.dataset.label + ': ' + it.parsed.y.toFixed(3); }}}; };
-    var fScales = function (xl, ymin, ymax, yl, pct, xmax) { return {
-      x:{type:'linear', min:0, max:(xmax || FMAX), title:{display:true, text:xl + ' 후 캘린더 일수', font:{size:11}, color:TH.tick}, ticks:{color:TH.tick}, grid:{color:TH.grid}},
+    var fScales = function (xl, ymin, ymax, yl, pct, xmax, xmin) { return {
+      x:{type:'linear', min:(xmin || 0), max:(xmax || FMAX), title:{display:true, text:xl + ' 후 캘린더 일수', font:{size:11}, color:TH.tick}, ticks:{color:TH.tick}, grid:{color:TH.grid}},
       y:{min:ymin, max:ymax, title:{display:true, text:yl, font:{size:11}, color:TH.tick},
          ticks:{color:TH.tick, callback:function(v){ return pct ? v + '%' : v.toFixed(2); }}, grid:{color:TH.grid}}}; };
     var fLegend = {legend:{position:'top', align:'end', labels:{boxWidth:14, font:{size:10}, color:TH.txt}}};
@@ -550,11 +553,15 @@
     new Chart(document.getElementById('failLow'), {type:'line', data:{datasets:dsLo},
       options:{responsive:true, maintainAspectRatio:false, animation:false,
         interaction:{mode:'nearest', axis:'x', intersect:false},
-        plugins:Object.assign({}, fLegend, {tooltip:fTooltip('전고점')}),
-        scales:fScales('전고점', -1.3, 1.1, '되돌림 (1차 저점 0 → 전고점 1.0)', false, FZOOM)},
+        plugins:Object.assign({}, fLegend, {tooltip:fTooltip('1차 저점')}),
+        scales:fScales('1차 저점', -1.3, 1.1, '되돌림 (1차 저점 0 → 전고점 1.0)', false, FZ2, FPRE)},
       plugins:[{id:'flLines', afterDatasetsDraw:function(ch){
-        var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
+        var ys = ch.scales.y, xs = ch.scales.x, a = ch.chartArea, ctx = ch.ctx;
         ctx.save();
+        ctx.setLineDash([3,3]); ctx.strokeStyle = '#8b949e'; ctx.lineWidth = 1.2;
+        var px0 = xs.getPixelForValue(0);
+        ctx.beginPath(); ctx.moveTo(px0, a.top); ctx.lineTo(px0, a.bottom); ctx.stroke();
+        ctx.fillStyle = '#8b949e'; ctx.font = '10px sans-serif'; ctx.fillText('1차 저점', px0 + 4, a.top + 12);
         [[1.0, '#6e7681', '전고점', [4,4]],
          [0.0, '#f85149', '1차 저점 — 아래 = 저점 붕괴', [2,3]]].forEach(function (L) {
           ctx.setLineDash(L[3]); ctx.strokeStyle = L[1]; ctx.lineWidth = 1.4;
@@ -568,18 +575,10 @@
       options:{responsive:true, maintainAspectRatio:false, animation:false,
         interaction:{mode:'nearest', axis:'x', intersect:false},
         plugins:Object.assign({}, fLegend, {tooltip:{callbacks:{
-          title:function(it){ return it[0].raw.d + ' (전고점 +' + it[0].parsed.x + '일)'; },
-          label:function(it){ return ' ' + it.dataset.label + ': ' + (it.parsed.y > 0 ? '+' : '') + it.parsed.y.toFixed(1) + '%'; }}}}),
-        scales:fScales('전고점', -80, 50, '1차 저점 대비 (%)', true, FZOOM)},
-      plugins:[{id:'frZero', afterDatasetsDraw:function(ch){
-        var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
-        ctx.save();
-        ctx.setLineDash([2,3]); ctx.strokeStyle = '#f85149'; ctx.lineWidth = 1.4;
-        var py = ys.getPixelForValue(0);
-        ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
-        ctx.fillStyle = '#f85149'; ctx.font = '11px sans-serif'; ctx.fillText('1차 저점 0%', a.left + 6, py - 5);
-        ctx.restore();
-      }}]});
+          title:function(it){ return it[0].raw.d + ' (1차 저점 +' + it[0].parsed.x + '일)'; },
+          label:function(it){ return ' ' + it.dataset.label + ': +' + it.parsed.y.toFixed(1) + '%'; }}}}),
+        scales:fScales('1차 저점', 0, 50, '1차 저점 대비 반등 (%)', true, FZ2)},
+      });
 
     /* ===== ③-2 엔비디아 주봉 × EPS 컨센 ===== */
     (function () {
