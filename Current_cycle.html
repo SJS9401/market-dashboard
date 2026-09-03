@@ -505,7 +505,7 @@
       var mk = function (data) { return {label:c.n, data:data, borderColor:c.c, borderWidth:c.w, pointRadius:0, tension:0.1, borderDash:c.dash}; };
       dsPk.push(mk(pp.path));
       dsLo.push(mk(rp.path));
-      dsMd.push(mk(rp.path.map(function (p) { return {x:p.x, y:p.y * (rp.pk - rp.lo) / rp.lo * 100, d:p.d}; })));
+      dsMd.push(mk(rp.path.filter(function (p) { return p.d >= c.lo; }).map(function (p) { return {x:p.x, y:p.y * (rp.pk - rp.lo) / rp.lo * 100, d:p.d}; })));
       var minP = 1, minD = 0, minDate = '';
       pp.path.forEach(function (p) { if (p.y < minP) { minP = p.y; minD = p.x; minDate = p.d; } });
       var loGap = days(c.pk, c.lo), reb = null;
@@ -570,7 +570,7 @@
         plugins:Object.assign({}, fLegend, {tooltip:{callbacks:{
           title:function(it){ return it[0].raw.d + ' (전고점 +' + it[0].parsed.x + '일)'; },
           label:function(it){ return ' ' + it.dataset.label + ': ' + (it.parsed.y > 0 ? '+' : '') + it.parsed.y.toFixed(1) + '%'; }}}}),
-        scales:fScales('전고점', -80, 55, '1차 저점 대비 (%)', true, FZOOM)},
+        scales:fScales('전고점', -80, 50, '1차 저점 대비 (%)', true, FZOOM)},
       plugins:[{id:'frZero', afterDatasetsDraw:function(ch){
         var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
         ctx.save();
