@@ -590,12 +590,12 @@
       plugins:[{id:'fibLines', afterDatasetsDraw:function(ch){
         var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
         ctx.save();
-        [[1.0, '#6e7681', '1.000 전고점'], [0.786, '#30363d', '0.786'], [0.618, '#d29922', '0.618'],
-         [0.5, '#30363d', '0.500'], [0.382, '#58a6ff', '0.382'], [0.236, '#30363d', '0.236']].forEach(function (L) {
-          ctx.setLineDash([4,4]); ctx.strokeStyle = L[1]; ctx.lineWidth = L[0] === 0.618 || L[0] === 0.382 ? 1.5 : 1.1;
+        [[1.0, '#c9d1d9', '1.000 전고점'], [0.618, '#d29922', '0.618'],
+         [0.5, '#3fb950', '0.500'], [0.382, '#58a6ff', '0.382'], [0.236, '#bc8cff', '0.236']].forEach(function (L) {
+          ctx.setLineDash([4,4]); ctx.strokeStyle = L[1]; ctx.lineWidth = 1.5;
           var py = ys.getPixelForValue(L[0]);
           ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
-          ctx.fillStyle = L[1] === '#30363d' ? '#6e7681' : L[1]; ctx.font = '10px sans-serif';
+          ctx.fillStyle = L[1]; ctx.font = 'bold 10px sans-serif';
           ctx.fillText(L[2], a.left + 6, py - 4);
         });
         ctx.restore();
