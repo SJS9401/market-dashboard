@@ -98,6 +98,8 @@
       시스코: 반등 최고 0.625(+79일) → <b style="color:#c9d1d9;">저점 붕괴 +161일</b> · 현중: 0.481(+68일) → <b style="color:#c9d1d9;">붕괴 +188일</b> · 하이닉스: 0.313(+20일), 현재 진행.</div>
     <div class="chartbox" style="height:250px;"><canvas id="failMdd"></canvas></div>
     <div class="note">저점 대비 반등 폭 — <b style="color:#c9d1d9;">1차 저점 = 0% 기준, 반등 구간만</b> (0% 아래는 표시하지 않음). 위 확대 차트와 같은 저점 앵커 시간축. 실패군도 저점 대비 +40~47%의 반등은 나왔다 — 폭이 아니라 <b style="color:#c9d1d9;">전고점 대비 되돌림 비율(위 차트)</b>이 성패를 갈랐다.</div>
+    <div class="chartbox" style="height:300px;"><canvas id="failFib"></canvas></div>
+    <div class="note">피보나치 되돌림 — <b style="color:#c9d1d9;">고점→저점 낙폭 대비 반등 비율</b> (0 = 1차 저점 · 1.0 = 전고점), 반등 구간만. 실패군의 반등 정점: <b style="color:#c9d1d9;">시스코 0.625 (0.618 터치 직후 실패)</b> · <b style="color:#c9d1d9;">현중 0.481 (0.5 미달)</b> · 하이닉스 0.313 (0.382 미달, 진행 중). 성공군 임계 0.70과 피보나치 0.618 사이가 실전 분기선이다.</div>
   </div>
 
   <!-- ② 유형 판별 -->
@@ -500,7 +502,7 @@
       {n:'현대중공업 2008',  S:HHI, pk:'2007-11-07', lo:'2008-01-30', c:'#ffa198', dash:[5,3], w:1.9},
       {n:'SK하이닉스 2026',  S:HX,  pk:'2026-06-25', lo:'2026-07-29', c:'#d29922', dash:[],    w:3.2}
     ];
-    var dsPk = [], dsLo = [], dsMd = [], fstats = [];
+    var dsPk = [], dsLo = [], dsMd = [], dsFib = [], fstats = [];
     FC.forEach(function (c) {
       var pp = peakPath(c.S, c.pk, FMAX);
       var loGap = days(c.pk, c.lo);
@@ -509,6 +511,7 @@
       dsPk.push(mk(pp.path));
       dsLo.push(mk(rp.path.map(function (p) { return {x:p.x - loGap, y:p.y, d:p.d}; })));
       dsMd.push(mk(rp.path.filter(function (p) { return p.d >= c.lo; }).map(function (p) { return {x:p.x - loGap, y:p.y * (rp.pk - rp.lo) / rp.lo * 100, d:p.d}; })));
+      dsFib.push(mk(rp.path.filter(function (p) { return p.d >= c.lo; }).map(function (p) { return {x:p.x - loGap, y:p.y, d:p.d}; })));
       var minP = 1, minD = 0, minDate = '';
       pp.path.forEach(function (p) { if (p.y < minP) { minP = p.y; minD = p.x; minDate = p.d; } });
       var reb = null;
@@ -579,6 +582,24 @@
           label:function(it){ return ' ' + it.dataset.label + ': +' + it.parsed.y.toFixed(1) + '%'; }}}}),
         scales:fScales('1차 저점', 0, 50, '1차 저점 대비 반등 (%)', true, FZ2)},
       });
+    new Chart(document.getElementById('failFib'), {type:'line', data:{datasets:dsFib},
+      options:{responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'nearest', axis:'x', intersect:false},
+        plugins:Object.assign({}, fLegend, {tooltip:fTooltip('1차 저점')}),
+        scales:fScales('1차 저점', 0, 1.05, '되돌림 (저점 0 → 전고점 1.0)', false, FZ2)},
+      plugins:[{id:'fibLines', afterDatasetsDraw:function(ch){
+        var ys = ch.scales.y, a = ch.chartArea, ctx = ch.ctx;
+        ctx.save();
+        [[1.0, '#6e7681', '1.000 전고점'], [0.786, '#30363d', '0.786'], [0.618, '#d29922', '0.618'],
+         [0.5, '#30363d', '0.500'], [0.382, '#58a6ff', '0.382'], [0.236, '#30363d', '0.236']].forEach(function (L) {
+          ctx.setLineDash([4,4]); ctx.strokeStyle = L[1]; ctx.lineWidth = L[0] === 0.618 || L[0] === 0.382 ? 1.5 : 1.1;
+          var py = ys.getPixelForValue(L[0]);
+          ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
+          ctx.fillStyle = L[1] === '#30363d' ? '#6e7681' : L[1]; ctx.font = '10px sans-serif';
+          ctx.fillText(L[2], a.left + 6, py - 4);
+        });
+        ctx.restore();
+      }}]});
 
     /* ===== ③-2 엔비디아 주봉 × EPS 컨센 ===== */
     (function () {
