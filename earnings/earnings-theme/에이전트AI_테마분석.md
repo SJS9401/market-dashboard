@@ -11,8 +11,8 @@ bottleneck_category: A+D hybrid — 구조적 메가 병목 (A) + 동반 확대 
 active_companies:
   dominant:    # 현재 테마 패권 보유 (Moat 4.0+, 점유 #1-2 또는 기술 리더)
     - {ticker: "NVDA", name: "NVIDIA", country: US, moat: 4.8, theme_relevance: high}
-    - {ticker: "000660", name: "SK하이닉스", country: KR, moat: 4.4, theme_relevance: high}
-    - {ticker: "005930", name: "삼성전자", country: KR, moat: 4.3, theme_relevance: high}
+    - {ticker: "005930", name: "삼성전자", country: KR, moat: 4.4, theme_relevance: high}   # ★ v5.2 상향 (4.3→4.4): HBM4E base die 수직통합 우위
+    - {ticker: "000660", name: "SK하이닉스", country: KR, moat: 4.3, theme_relevance: high} # ★ v5.2 하향 (4.4→4.3): HBM4E base die 원가 열위 + 8-Hi 적층 해자 희석
     - {ticker: "ARM", name: "ARM Holdings", country: UK_JP, moat: 4.1, theme_relevance: high}
     - {ticker: "STX", name: "Seagate", country: US, moat: 4.1, theme_relevance: high}
     - {ticker: "WDC", name: "Western Digital", country: US, moat: 4.0, theme_relevance: high}
@@ -27,7 +27,7 @@ active_companies:
     - {ticker: "AMZN", name: "Amazon (AWS)", country: US, role: macro_demand, ai_arr_FY26: "$25B+", capex_CY26: "$195B"}
     - {ticker: "META", name: "Meta", country: US, role: macro_demand, ai_arr_FY26: "$30B", capex_CY26: "$100B"}
 sunset_companies: []
-last_updated: 2026-07-27 (v5.1 — 한국 Neocloud/AI Factory segment 신설 + SF AI Summit 패키지 반영)
+last_updated: 2026-09-06 (v5.2 — Disaggregated Inference 구조 반영 + HBM4E 재채점)
 last_theme_review_date: null
 narrative_shift_log:
   - {date: 2024-Q4, event: "Anthropic Claude 3.5 Computer Use 공개 — 에이전트 진입 신호탄"}
@@ -45,6 +45,12 @@ narrative_shift_log:
   - {date: 2026-Q2, event: "★ 네이버+NVIDIA 기가와트급 AI Factory 발표 (2026-06-08) — 'Asian CoreWeave' narrative 형성"}
   - {date: 2026-Q3, event: "★ SF AI Summit 한국 sovereign AI 패키지 (2026-07-24~25): NVIDIA $1B Naver 투자 + Brookfield $9B + SK LTA 5년 $750B + 삼성-Broadcom $200B + NVIDIA-SK Group 2GW DC"}
   - {date: 2026-Q3, event: "★ v5.1 (2026-07-27): #18 segment 신설 — 한국 Neocloud/AI Factory (sovereign AI), 카테고리 (D). 한국 접근 TAM $226-277B+ 상향. NAVER 기업분석 클라우드 세션 핸드오프"}
+  - {date: 2026-Q3, event: "★ Rubin Ultra HBM 12-Hi → 8-Hi down-spec (SemiAnalysis 2026-07-29) — 288GB→192GB. '병목이 $/capacity에서 $/bandwidth로 이동'. SK 적층 해자 희석 + 2028 물량경쟁 우려 형성"}
+  - {date: 2026-Q3, event: "★ 삼성 HBM4 수율 80% 도달 (2026-08) — 2월 60%↓에서 반년 만에 황금수율. 연내 HBM 점유 38% 목표"}
+  - {date: 2026-Q3, event: "★ 3사 2027 동시 증설 확정 — SK 용인 2027-02 (3개월 단축) / 삼성 P5 2027-05 + P4 파운드리 공간 HBM4 전환 / Micron Idaho 2H27·NY 중반. 2028 수급 반전 risk"}
+  - {date: 2026-Q3, event: "★ GPT-6 Astra 출시 (2026-09-03) — 컴퓨터 사용 최적화 + 1.05M 컨텍스트. '사람 병목' 해소 = 수요 base 전문가→일반 지식노동자 확장 분기점. 가격 2.5배 인상 (이례적)"}
+  - {date: 2026-Q3, event: "★ Rubin CPX 부활 (궈밍치 2026-09) — GDDR7 128GB → HBM4 168GB, Rubin과 1:1, 2027 Q1 양산. prefill/decode 분리 = disaggregated inference. 시스템 HBM 360GB로 원안(288GB) 초과"}
+  - {date: 2026-Q3, event: "★ v5.2 (2026-09-06): Hot layer 세분화 (prefill/decode) + Interconnect layer 승격 + 광통신 segment 재정의 + HBM4E 재채점 (SK 3.2 / 삼성 3.6) + 종합 Moat 역전 (SK 4.3 < 삼성 4.4)"}
 ---
 
 # 에이전트AI 테마 분석 (v4)
@@ -1895,6 +1901,205 @@ Meta (META, industry=빅테크|광고|AI|VR/AR)
 - ★ NVIDIA monopoly 4대 위협 catalyst macro evidence 정리
 - 메타데이터: active_companies dominant 8 / challenger 2 / macro layer 4 분기
 - 워치리스트 자동 등록: 반도체 10개사 + 빅테크 4개사 + 한국 주도주 9개사
+
+---
+
+# ★ v5.2 add-on (2026-09-06) — Disaggregated Inference 구조 반영
+
+> **trigger**: (1) Rubin Ultra HBM 12-Hi → 8-Hi down-spec (SemiAnalysis 2026-07-29) (2) **GPT-6 Astra 출시** (2026-09-03, 컴퓨터 사용 최적화 + 1.05M 컨텍스트) (3) **Rubin CPX 부활** (궈밍치 2026-09, GDDR7 → HBM4 168GB, Rubin과 1:1, 2027 Q1 양산).
+>
+> **핵심 재해석**: Rubin Ultra의 용량 축소는 "용량이 덜 중요해진 것"이 아니라 **"용량 부담을 별도 칩(CPX)으로 분리한 것"**. 시스템 전체 HBM은 192 + 168 = **360GB**로 원안(288GB) 대비 증가. 이에 따라 본 테마의 **Hot layer 정의·광통신 segment·NVIDIA Networking Moat 근거를 구조적으로 수정**한다.
+>
+> **cross-ref**: `1 산업-기업 분석/에이전트AI_HBM구도전환_핵심리포트_20260906.md`
+
+---
+
+## A. ★ 신규 아키텍처 축 — Disaggregated Inference
+
+기존 v4/v5는 추론을 **rack 단위 단일 워크로드**로 다뤘으나, Rubin CPX 부활로 추론이 **물리적으로 분리된 2단계**가 되었다.
+
+```
+CPX rack (prefill)  → 긴 컨텍스트 읽기 + KV cache 생성
+      ↓ Ethernet RDMA (tray 간 구리 / ★ 모듈 간 OSFP 광)
+Rubin NVL72 rack (decode) → 토큰 생성
+```
+
+| 단계 | 성격 | 병목 | 담당 칩 | HBM |
+|---|---|---|---|---|
+| **prefill** | 긴 컨텍스트를 한 번에 읽는 단계 | **용량** | Rubin CPX | 168GB HBM4 |
+| **decode** | 토큰을 하나씩 뽑는 단계 | **대역폭** | Rubin (Ultra) | 192GB HBM4 8-Hi |
+
+**CPX 스펙 (궈밍치 2026-09)**: 168GB HBM4 (기존 설계 128GB GDDR7 대비 대전환) · 2,300W · standalone MGX ETL rack (64/128/192/256 GPU 선택) · **CPX : Rubin NVL72 = 1:1 필수** · 2027 Q1 양산.
+
+★ **GDDR7 → HBM4 전환의 함의**: CPX의 원래 존재 이유가 "싼 GDDR7으로 prefill 저비용 처리"였는데 그 정당성을 스스로 폐기. prefill도 HBM급 대역폭이 필요하다는 판단이거나 GDDR7으로 성능이 안 나온다는 뜻 — **어느 쪽이든 HBM 해자 강화**.
+
+---
+
+## B. ★ Hot layer 재정의 (기존: HBM 단일 → prefill/decode 세분화)
+
+기존 v4/v5 layer 표의 **Hot (microsec) = HBM** 항목을 아래로 대체한다.
+
+| Layer | 데이터 유형 | 매체 | 병목 성격 | 수혜 종목 |
+|---|---|---|---|---|
+| **Hot-P (prefill)** ★신규 | 긴 컨텍스트 입력, KV cache **생성** | HBM (CPX) | **용량** | 메모리 3사 — ★ 저용량(168GB) → **8-Hi 가능 = 삼성·Micron 진입 여지** |
+| **Hot-D (decode)** ★신규 | KV cache **재사용**, activation | HBM (Rubin) | **대역폭·speed grade** | 메모리 3사 — ★ 최고 대역폭 요구 → **SK 우위 유지 여지** |
+| Warm (msec) | 모델 가중치(off-package), 활성 dataset | DRAM·SSD | 용량·비용 | 메모리 3사 + SNDK·Solidigm |
+| Warm-Cold (sec) | 검색 코퍼스, 벡터 DB | eSSD QLC·HBF | 비용 | SNDK |
+| Cold (수초~분) | 학습 데이터셋, 체크포인트, **agent trace·compliance 로그** | HDD nearline | GB당 비용 | WDC·Seagate |
+| **★ Interconnect (신규 승격)** | **KV cache rack 간 전송** | **OSFP 광·Spectrum-6 Ethernet** | **네트워크 대역폭** | ★ **NVIDIA Networking + 광통신 벤더** |
+| Compute (CPU) | server·host·client CPU | x86·ARM | — | Intel·AMD·ARM 라이선시 |
+| Compute (GPU·AI) | training·inference 가속 | GPU·ASIC | — | NVIDIA·AMD·hyperscaler ASIC |
+| IP layer | chip 상위 설계 | ARM IP + CUDA·NVLink | — | ARM + NVIDIA |
+
+★ **핵심 변화**: Interconnect가 **부수 layer → 독립 병목 layer로 승격**. prefill/decode 분리 구조에서 KV cache는 반드시 rack 사이를 이동해야 하므로, 네트워크가 추론 성능의 직접 제약이 된다.
+
+---
+
+## C. ★ 광통신 segment 재정의 (Step 3-2-3 / Step 5-1 #5 갱신)
+
+기존 정의는 **"AI 클러스터 통신 병목 = 800G/1.6T 트랜시버"** 로 scale-out(rack 간 일반 통신) 중심이었다. 이제 **수요 driver가 2개**로 분리된다.
+
+| Driver | 내용 | 성격 | 비고 |
+|---|---|---|---|
+| **① 클러스터 규모 확대 (기존)** | 10만 → 100만 GPU, 800G → 1.6T 전환 | scale-out | 기존 TAM 추정 유지 |
+| **② ★ scale-up의 광 침투 (신규)** | 구리 NVLink **2m 물리 한계** → NVL576이 **8 rack**에 걸치며 rack 간 scale-up에 **CPO 강제** | scale-up | Quantum X800-Q3450 = CPO 기반 스위치 |
+| **③ ★ KV cache 전송 (신규, CPX)** | CPX rack ↔ Rubin rack 간 KV cache 상시 이동. **모듈 간 OSFP 광 링크** | disaggregated | 1:1 비율 = 상시 대용량 트래픽 |
+
+★ **분석 frame 정정 (중요)**: v5까지는 "HBM 논의와 광통신은 layer가 달라 직접 연결되지 않는다"고 정리했으나, **CPX의 disaggregated 구조가 두 layer를 직접 연결**했다. 메모리 아키텍처 변경이 곧바로 네트워크 대역폭 수요를 만드는 경로가 성립.
+
+**TAM 영향**: 기존 광통신 TAM ($16B → $35B+, CAGR 30%+)에 **CPX 채택률 × KV cache 트래픽** 항목이 추가 upside로 작용. 단 CPX 양산 확정 전까지는 정량화 보류.
+
+---
+
+## D. ★ NVIDIA Networking Moat 근거 강화 (기업분석 cross-ref)
+
+`엔비디아_에이전트AI_기업분석.md` Segment 3 (Networking, Moat 5.0)의 근거를 갱신한다.
+
+| 기존 근거 (v1) | ★ 추가 근거 (v5.2) |
+|---|---|
+| Mellanox 통합 (2020 $6.9B) | ★ **disaggregated inference 구조에서 네트워크가 필수 경로화** |
+| NVLink Fusion + NVLink C2C | ★ **Spectrum-6 Ethernet이 CPX↔Rubin KV cache 전송 담당** |
+| Q1 FY27 +199% YoY 폭증 | ★ **CPX 1:1 비율 = rack 수 2배 = 네트워크 포트 수요 2배** |
+| Kyber rack 800VDC | ★ **모듈 간 OSFP 광 = NVIDIA 스펙 종속** |
+
+→ **Moat 5.0 유지, 단 근거가 "통합 stack 우위"에서 "아키텍처 필수 경로"로 격상**. 경쟁사(Broadcom·Arista)가 대체하려면 NVIDIA의 disaggregated 아키텍처 자체를 우회해야 하므로 진입 장벽 상승.
+
+---
+
+## E. ★ SK·삼성 Moat 재검토 (HBM4E 항목 재채점)
+
+### E-1. 재채점 필요 근거
+
+v5 시점 HBM4E 채점은 **"양산 전, 기술 선점 시도"** 수준의 얇은 근거였으나, 이후 확인된 사실:
+
+| 확인 사항 | 내용 | 영향 |
+|---|---|---|
+| **base die 원가 격차** | TSMC HBM4 base die = SK 1b core die의 **3~4배**, HBM4E에서 확대 전망 | SK 원가 열위 |
+| **base die 전략 분화** | SK: TSMC N12 → 3nm(custom)/12nm(표준) + **Intel Foundry 검토**(8/31) / 삼성: **SF4 자체** → 4nm·2nm 검토 / Micron: 내부 CMOS → **TSMC 위탁**(2027) | 삼성 수직통합 우위 |
+| **삼성 수율 추격** | HBM4 수율 2026-02 60%↓ → **2026-08 80%**, 연말 1c D램 85% 목표. HBM4E 신뢰성 70%+, 5월 12단 샘플 | 격차 축소 |
+| **8-Hi 전환** | 적층 난이도 하락 → **MR-MUF 해자 발현 자리 소멸** | SK 해자 희석 |
+| **HBM4E 비중** | **2027 시장의 40%** (TrendForce) | 가중치 상승 |
+
+### E-2. 재채점 결과
+
+| Segment | v5 | **v5.2** | 변경 근거 |
+|---|---|---|---|
+| **SK HBM4E** | 3.4 | **3.2** ▼ | base die 원가 3~4배 열위 + 8-Hi로 적층 해자 희석. Intel Foundry 이원화는 대응 착수이나 미확정 |
+| **삼성 HBM4E** | 3.2 | **3.6** ▲ | ★ 자체 파운드리 수직통합(내부 할인) + 수율 80% 도달 + custom HBM 대응력 |
+| **Micron HBM4E** | 2.2 | **2.6** ▲ | TSMC 위탁 전환 + 미국 본토 프리미엄 + 전력효율 강점 |
+
+★ **HBM4E에서 처음으로 삼성이 SK를 앞서는 채점**. 단 HBM3E·HBM4(NVIDIA Rubin) segment는 변경 없음.
+
+### E-3. 종합 Moat 영향
+
+| 종목 | v5 | **v5.2** | 비고 |
+|---|---|---|---|
+| **SK하이닉스** | 4.4 | **4.3** ▼ | HBM4E 가중 하락. 단 HBM3E 5.0·HBM4 4.4 유지로 여전히 메모리 #1 |
+| **삼성전자** | 4.3 | **4.4** ▲ | HBM4E 역전 + 파운드리 optionality |
+
+★ **v5.2에서 SK·삼성 Moat 순위가 처음 뒤바뀜** (SK 4.3 < 삼성 4.4). 단 격차 0.1로 미미하며, 아래 F항의 상쇄 요인 고려 필요.
+
+### E-4. ★ 상쇄 요인 — 제품 분화로 제로섬 완화
+
+CPX 부활로 하나의 시스템에 **성격이 다른 두 HBM 수요**가 생긴다.
+
+| 용도 | 요구 스펙 | 유리한 벤더 |
+|---|---|---|
+| **CPX (prefill)** | 168GB, 상대적 저용량 → 8-Hi 가능성 | 삼성·Micron 진입 여지 |
+| **Rubin (decode)** | 최고 대역폭·speed grade | SK 우위 유지 여지 |
+
+→ 3사가 같은 파이를 놓고 싸우는 제로섬이 아니라 **역할이 갈릴 수 있는 구조**. **2028 물량 경쟁 우려를 완화하는 논거**이자, SK Moat 하향을 제한하는 요인.
+
+### E-5. 시간축 해석
+
+| 구간 | 우세 축 | 유리한 종목 |
+|---|---|---|
+| **단기 (~2027)** | 8-Hi 전환 + base die 원가 + 3사 동시 증설 | 삼성·Micron |
+| **중기 (2028+)** | Astra 1M 컨텍스트 + CPX prefill 용량 수요 | SK (용량 해자 재부각 여지) |
+
+★ **타이밍 유의**: Rubin Ultra 스펙 결정(2026-07)이 Astra 실사용 데이터(2026-09~)보다 먼저 이뤄졌다. Astra발 수요 형태가 스펙에 반영되려면 **Rubin Ultra 다음 세대**여야 하므로, 용량 vs 대역폭 구도의 최종 확인은 **2027이 아니라 2028+ 스펙**에서 결판날 가능성.
+
+---
+
+## F. Step 8 트래킹 지표 추가 (v5.2)
+
+### F-1. ★ 수요 검증 (GPT-6 Astra 실효성)
+
+> 검증 질문: **일반인에게도 실효적 툴이 되는가** — 수요 base 확장이 실제 매출·토큰 소비로 이어지는지.
+
+- **OpenAI ARR·구독 전환율** — MSFT OpenAI 매출 인식, Azure AI contribution (간접)
+- **토큰 소비 실측** — 작업당 시간 47% 단축(OSWorld)이 토큰 감소로 이어지는지 vs 세션 수 증가가 압도하는지 (**Jevons 검증**)
+- ★ **수요의 형태** — 세션 수 증가(짧고 많음) = **대역폭** / 세션 길이 증가(장문 유지) = **용량**. 쏠림 방향이 SK·삼성 구도를 결정
+- 컴퓨터 사용 에이전트 기업 seat 채택률
+- 컨텍스트 실사용 분포 — 1M을 실제로 쓰는지 (HBM 용량 수요의 실체)
+- 경쟁 대응 — Anthropic·Google의 컴퓨터 사용 최적화 모델 추격 속도
+
+### F-2. ★ 아키텍처 검증 (CPX 부활 실현)
+
+> 검증 질문: **CPX가 2027 Q1 실제 양산되며 용량·컨텍스트 성장 뷰를 뒷받침하는가.**
+
+- ★ **CPX 양산 확정** — NVIDIA 공식 로드맵 재등재 여부 (GTC 2026에서 한 차례 제외된 이력, 당시 Groq 3 LPU·LPX rack 강조)
+- ★ **1:1 비율 실현** — 실제 배치 구성. 비율이 낮아지면 HBM 증분 효과 축소
+- **CPX HBM 적층 단수** — 168GB가 8-Hi인지 12-Hi인지 → 벤더 배분 결정
+- HBM 주문 mix — 8-Hi vs 12-Hi 비중 (3사 컨콜·TrendForce)
+- NVIDIA 차세대 스펙 — GTC 2027에서 용량을 다시 올리는지
+- 3사 코멘트 — "custom HBM 요구가 용량이냐 대역폭이냐"
+- **OSFP 광 링크 물량** — CPX 모듈 간 연결 수요 (광통신 segment 정량화 근거)
+
+### F-3. 자본공급자 (credit cycle) — v5 지표에 1건 추가
+
+- ★ **Astra 성공 = OpenAI ARR ↑ = 오라클 RPO counterparty risk 완화** — 수요 검증이 credit cycle에도 positive로 작용하는 경로 (기존 "OpenAI ARR 추정치" 지표와 연결)
+
+---
+
+## G. v5.2 종합 — 축별 방향과 수혜
+
+| 축 | 방향 | 주요 수혜 |
+|---|---|---|
+| Rubin Ultra 8-Hi | 단일 칩 용량 ↓, 적층 해자 희석 | 삼성·Micron |
+| base die 원가 (TSMC 3~4배) | 수직통합 유리 | 삼성 |
+| 2027 3사 동시 증설 (SK 용인 2027-02 / 삼성 P5 2027-05 / Micron 2H27) | 공급 경쟁 격화 | 중립 (2028 risk) |
+| 주주환원 (SK 자사주 소각) | 밸류 방어 | SK |
+| **★ Astra 1M 컨텍스트** | **prefill 부담 ↑ = 용량 수요 ↑** | **SK + CPX** |
+| **★ CPX 부활 (HBM4 1:1)** | **HBM 총량 ↑ (360GB) + 광통신 ↑** | **메모리 3사 + 광통신 + NVIDIA Networking** |
+
+**Before → After 요약**: Rubin 용량 축소로 "SK 해자 소멸 → 3사 물량 경쟁 → **2028 컨센 붕괴**" 우려가 형성되던 중, **GPT-6 Astra + CPX 부활**이 그 의구심을 되돌리는 트리거로 등장. 확인해야 할 것은 위 F-1·F-2 두 가지.
+
+> ⚠️ **확정도 유의**: Rubin Ultra 8-Hi와 CPX 부활은 모두 **애널리스트 리포트 기반 추정**으로 NVIDIA 공식 확정 사항이 아님. SK Intel Foundry 검토, 삼성 2nm base die도 "검토" 단계. **Moat 재채점(E-2/E-3)은 이 추정이 확정될 경우를 전제**하며, CPX 미실현 시 원복 검토 필요.
+
+## v5.2 changelog
+
+**v5.2 (2026-09-06)**: Disaggregated Inference 구조 반영
+- ★ 신규 아키텍처 축: disaggregated inference (prefill/decode 물리 분리)
+- ★ Hot layer 세분화: Hot-P (prefill, 용량) / Hot-D (decode, 대역폭)
+- ★ Interconnect layer 승격 (부수 → 독립 병목) — KV cache rack 간 전송
+- ★ 광통신 segment 재정의: 수요 driver 3개 분리 (클러스터 확대 / scale-up 광 침투 / KV cache 전송)
+- ★ 분석 frame 정정: "HBM ↔ 광통신 무관" → CPX가 두 layer 직접 연결
+- ★ NVIDIA Networking Moat 5.0 근거 격상 ("통합 stack 우위" → "아키텍처 필수 경로")
+- ★ HBM4E 재채점: SK 3.4→3.2 / 삼성 3.2→3.6 / Micron 2.2→2.6
+- ★ 종합 Moat 순위 역전: SK 4.4→4.3 / 삼성 4.3→4.4 (격차 0.1, 제품 분화로 상쇄 여지)
+- ★ Step 8 트래킹 지표: 수요 검증 6건 + 아키텍처 검증 7건 + credit 1건 추가
+- cross-ref: `1 산업-기업 분석/에이전트AI_HBM구도전환_핵심리포트_20260906.md`
 
 
 
