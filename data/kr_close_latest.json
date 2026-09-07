@@ -1,34 +1,30 @@
 {
- "generated_at": "2026-09-07T15:01:13.253589+09:00",
+ "generated_at": "2026-09-07T15:08:29.172671+09:00",
  "base_date": "2026-09-07",
  "indices": {
   "코스피": {
-   "close": "6976.13",
-   "chg_pct": "4.32",
-   "value_krw_mn": "18143686",
-   "code": "0001",
-   "verified": true
+   "close": "6982.36",
+   "chg_pct": "4.41",
+   "value_krw_mn": "18793498",
+   "code": "0001"
   },
   "코스닥": {
-   "close": "823.40",
-   "chg_pct": "1.22",
-   "value_krw_mn": "5940097",
-   "code": "1001",
-   "verified": true
+   "close": "822.90",
+   "chg_pct": "1.16",
+   "value_krw_mn": "6026475",
+   "code": "1001"
   },
   "코스피200": {
-   "close": "1101.69",
-   "chg_pct": "4.77",
-   "value_krw_mn": "16108651",
-   "code": "2001",
-   "verified": false
+   "close": "1103.03",
+   "chg_pct": "4.90",
+   "value_krw_mn": "16724352",
+   "code": "2001"
   },
   "코스닥150": {
-   "close": "1413.87",
-   "chg_pct": "1.49",
-   "value_krw_mn": "2550952",
-   "code": "3003",
-   "verified": false
+   "close": "1413.31",
+   "chg_pct": "1.45",
+   "value_krw_mn": "2593868",
+   "code": "3003"
   }
  },
  "value_top20": [
@@ -36,17 +32,17 @@
    "rank": 1,
    "name": "SK하이닉스",
    "code": "000660",
-   "close": "1772000",
-   "chg_pct": "7.59",
-   "value_krw_mn": "4957946424000"
+   "close": "1779500",
+   "chg_pct": "8.04",
+   "value_krw": "5242614374000"
   },
   {
    "rank": 2,
    "name": "삼성전자",
    "code": "005930",
-   "close": "268750",
-   "chg_pct": "5.19",
-   "value_krw_mn": "3927903506250"
+   "close": "269250",
+   "chg_pct": "5.38",
+   "value_krw": "4082354179250"
   },
   {
    "rank": 3,
@@ -54,7 +50,7 @@
    "code": "386380",
    "close": "30550",
    "chg_pct": "30.00",
-   "value_krw_mn": "780098115325"
+   "value_krw": "780151425075"
   },
   {
    "rank": 4,
@@ -62,39 +58,39 @@
    "code": "009150",
    "close": "1451000",
    "chg_pct": "3.57",
-   "value_krw_mn": "675852317500"
+   "value_krw": "686863620000"
   },
   {
    "rank": 5,
    "name": "삼성전자우",
    "code": "005935",
-   "close": "199600",
-   "chg_pct": "4.18",
-   "value_krw_mn": "559512435150"
+   "close": "199500",
+   "chg_pct": "4.12",
+   "value_krw": "569976548350"
   },
   {
    "rank": 6,
    "name": "SK스퀘어",
    "code": "402340",
-   "close": "1119000",
-   "chg_pct": "7.49",
-   "value_krw_mn": "492117496000"
+   "close": "1118000",
+   "chg_pct": "7.40",
+   "value_krw": "500175861000"
   },
   {
    "rank": 7,
    "name": "두산에너빌리티",
    "code": "034020",
-   "close": "88400",
-   "chg_pct": "11.62",
-   "value_krw_mn": "483566703300"
+   "close": "88200",
+   "chg_pct": "11.36",
+   "value_krw": "494044561100"
   },
   {
    "rank": 8,
    "name": "LG전자",
    "code": "066570",
-   "close": "214500",
-   "chg_pct": "6.45",
-   "value_krw_mn": "344172357500"
+   "close": "213000",
+   "chg_pct": "5.71",
+   "value_krw": "349490745250"
   },
   {
    "rank": 9,
@@ -102,45 +98,43 @@
    "code": "108490",
    "close": "303000",
    "chg_pct": "-0.49",
-   "value_krw_mn": "234240647000"
+   "value_krw": "235625498750"
   },
   {
    "rank": 10,
    "name": "주성엔지니어링",
    "code": "036930",
-   "close": "187500",
-   "chg_pct": "5.16",
-   "value_krw_mn": "200568335100"
+   "close": "187400",
+   "chg_pct": "5.10",
+   "value_krw": "202905388250"
   },
   {
    "rank": 11,
    "name": "JW신약",
    "code": "067290",
-   "close": "3555",
-   "chg_pct": "8.88",
-   "value_krw_mn": "199946176171"
+   "close": "3590",
+   "chg_pct": "9.95",
+   "value_krw": "201531720813"
   },
   {
    "rank": 12,
    "name": "삼성SDI",
    "code": "006400",
-   "close": "540000",
-   "chg_pct": "-1.46",
-   "value_krw_mn": "166401856500"
+   "close": "539000",
+   "chg_pct": "-1.64",
+   "value_krw": "176421789500"
   },
   {
    "rank": 13,
    "name": "두산퓨얼셀",
    "code": "336260",
-   "close": "49950",
-   "chg_pct": "13.91",
-   "value_krw_mn": "163494975275"
+   "close": "49800",
+   "chg_pct": "13.57",
+   "value_krw": "165505195800"
   }
  ],
  "investor": {},
  "notes": [
-  "거래대금 순위 13건만 확보",
-  "investor 블록 미활성 — probe 후 TR 확정 필요",
-  "base_date=실행일 기준 — 지수 응답의 영업일 필드 확인 후 교체 권장"
+  "거래대금 순위 13건만 확보 (30행-ETF)"
  ]
 }
