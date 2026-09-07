@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""kr_close_relay.py v4 — 한국장 마감 릴레이 (KIS → data/kr_close_latest.json)
+"""kr_close_relay.py v5 — 한국장 마감 릴레이 (KIS → data/kr_close_latest.json)
 확정: 지수코드(0001/1001/2001/3003), 거래대금순 BLNG=3, ETF·ETN 제외 마스크 0000001100,
-투자자별: 코스피 KSP/0001, 코스닥 KSQ/1001, 선물 K2I/F001 실측 확정. 코스닥150선물은 후보 순회 자가 발견"""
+투자자별: 코스피 KSP/0001, 코스닥 KSQ/1001, 선물 K2I/F001. 코스닥150선물 = KRX 상품코드 106 힌트로 후보 확장(자가 발견)"""
 import json, os, time, urllib.request, urllib.parse
 from datetime import datetime, timezone, timedelta
 
@@ -18,7 +18,7 @@ INVESTOR_TARGETS = {
     "코스피":        [("KSP", "0001")],
     "코스닥":        [("KSQ", "1001")],
     "선물(코스피200)": [("K2I", "F001"), ("K2I", "0001")],
-    "코스닥150선물":  [("KQI", "F001"), ("KQI", "1001"), ("KQI", "0001"), ("KQI", "3003"), ("KQI", "Q150")],
+    "코스닥150선물":  [("K2I", "F002"), ("K2I", "F003"), ("K2I", "F004"), ("K2I", "106"), ("KQI", "F001"), ("KQI", "106"), ("KQI", "F002")],
 }
 FIELDS = {"개인": "prsn", "외국인": "frgn", "기관계": "orgn", "금융투자": "scrt",
           "투신": "ivtr", "연기금등": "fund", "사모펀드": "pe_fund", "기타법인": "etc_corp"}
