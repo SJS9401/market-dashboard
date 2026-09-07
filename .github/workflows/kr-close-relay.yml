@@ -1,0 +1,35 @@
+name: KR Close Relay (KIS)
+
+on:
+  schedule:
+    - cron: '10 7 * * 1-5'   # 16:10 KST 평일
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: 'PROBE mode (1 = raw response log)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run relay
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+          PROBE: ${{ github.event.inputs.probe || '0' }}
+        run: python3 scripts/kr_close_relay.py
+
+      - name: Commit data
+        run: |
+          git config user.name "kr-close-relay"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/kr_close_*.json
+          git diff --cached --quiet || git commit -m "kr_close $(date -u +%Y-%m-%d) [skip ci]"
+          git push
