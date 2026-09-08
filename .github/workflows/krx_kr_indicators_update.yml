@@ -22,6 +22,8 @@ name: KRX KR Indicators Update
 
 on:
   schedule:
+    - cron: '35 0 * * *'   # 09:35 KST — T+1 아침 (KRX 는 전일자를 새벽 이후 제공. 2026-09-08 실증:
+                           #   03:02 KST 실행엔 전일 데이터 없음 / 08:41 KST 실행엔 있음)
     - cron: '0 10 * * *'   # 19:00 KST — 데이터 확정 후 1차
     - cron: '0 13 * * *'   # 22:00 KST — 백업
   workflow_dispatch:        # 수동 실행

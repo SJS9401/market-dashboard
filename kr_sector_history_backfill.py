@@ -69,16 +69,37 @@ def main():
     if not AUTH_KEY:
         raise SystemExit("[ERROR] KRX_AUTH_KEY missing")
     mp = json.loads(MAP_PATH.read_text(encoding="utf-8"))
-    sectors = list(mp["sectors"])
-    code2sec = {s[0]: s[3] for s in mp["stocks"] if s[3] >= 0}
-    n_sec = len(sectors)
-    ALL = n_sec  # "_ALL" index
-    log(f"mapping: {len(code2sec)} stocks -> {n_sec} sectors")
+    map_sectors = list(mp["sectors"])
 
+    # kr_marketmap.json 은 매일 재생성되며 sectors 배열의 "순서"가 바뀔 수 있다
+    # (2026-09-08 진단: idx 55 에서 핸드셋 <-> 생명보험 뒤바뀜 -> 구 assert 가
+    #  8/22 이후 매일 실패시켜 데이터가 8/21 에 멈춰 있었다).
+    # 기존 파일이 있으면 그 순서를 canonical 로 고정하고, 종목 -> 섹터 인덱스를
+    # "이름" 기준으로 remap 한다. map 인덱스를 그대로 쓰면 과거 열과 어긋난다.
+    hist = None
     if OUT_PATH.exists():
         hist = json.loads(OUT_PATH.read_text(encoding="utf-8"))
-        assert hist["sectors"][:n_sec] == sectors, "sector list drift — rebuild from scratch"
+        sectors = [x for x in hist["sectors"] if x != "_ALL"]
+        assert set(sectors) == set(map_sectors), (
+            f"sector set changed (hist {len(sectors)} vs map {len(map_sectors)}) "
+            f"— rebuild from scratch")
     else:
+        sectors = map_sectors
+
+    n_sec = len(sectors)
+    ALL = n_sec  # "_ALL" index
+    name2idx = {n: i for i, n in enumerate(sectors)}
+    code2sec = {}
+    for st in mp["stocks"]:
+        si = st[3]
+        if si is None or si < 0 or si >= len(map_sectors):
+            continue
+        ci = name2idx.get(map_sectors[si])
+        if ci is not None:
+            code2sec[st[0]] = ci
+    log(f"mapping: {len(code2sec)} stocks -> {n_sec} sectors (canonical order)")
+
+    if hist is None:
         hist = {"start": START_DATE, "sectors": sectors + ["_ALL"],
                 "dates": [], "ret": [[] for _ in range(n_sec + 1)],
                 "val": [[] for _ in range(n_sec + 1)]}
