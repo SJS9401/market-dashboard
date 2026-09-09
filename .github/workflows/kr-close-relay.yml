@@ -1,8 +1,27 @@
+# KR Close Relay (KIS) — 한국장 마감 릴레이
+# ----------------------------------------------------------
+# 2026-09-09 US 릴레이와 동일 원인으로 예방 패치.
+#   KR 은 아직 스케줄 실패가 관측되지 않았으나 구조가 US 와 똑같다
+#   (concurrency 없음 / push 재시도 없음 / 슬롯 1개).
+#   실제로 kr_close_latest.json 의 커밋은 전부 수동 dispatch 분이고
+#   07:10 UTC 스케줄 슬롯에서 나온 커밋이 하나도 없다.
+#   07시 UTC 는 리포 커밋 29건/300 으로 혼잡 구간 — US 와 같은 경합 위험.
+#
+#   한국장 마감 15:30 KST(06:30 UTC) → 1차 16:10 KST 유지,
+#   2차는 08시 UTC(17시 KST, 리포 1건/300 한산)로 깐다.
+# ----------------------------------------------------------
+
 name: KR Close Relay (KIS)
+
+concurrency:
+  group: kr-close-relay
+  cancel-in-progress: false
 
 on:
   schedule:
-    - cron: '10 7 * * 1-5'   # 16:10 KST 평일
+    # ⚠ 정각(:00)·:30 회피 — 2026-06-02 정각 cron 통째 skip 사고 전례
+    - cron: '10 7 * * 1-5'    # 16:10 KST — 1차 (기존 유지)
+    - cron: '10 8 * * 1-5'    # 17:10 KST — 2차 (1차 실패·skip 대비)
   workflow_dispatch:
     inputs:
       probe:
@@ -16,6 +35,7 @@ permissions:
 jobs:
   relay:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -28,8 +48,20 @@ jobs:
 
       - name: Commit data
         run: |
+          set -e
           git config user.name "kr-close-relay"
           git config user.email "actions@users.noreply.github.com"
           git add data/kr_close_*.json
-          git diff --cached --quiet || git commit -m "kr_close $(date -u +%Y-%m-%d) [skip ci]"
-          git push
+          if git diff --cached --quiet; then
+            echo "no changes — skip"; exit 0
+          fi
+          git commit -m "kr_close $(date -u +%Y-%m-%d) [skip ci]"
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "pushed (attempt $i)"; exit 0
+            fi
+            echo "push rejected — rebase & retry ($i/5)"
+            git pull --rebase --autostash
+            sleep $((i * 5))
+          done
+          echo "::error::push 5회 실패 — 커밋 경합 지속"; exit 1
