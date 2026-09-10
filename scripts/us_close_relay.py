@@ -236,7 +236,22 @@ def main():
         except Exception as e:
             out["notes"].append("new-high " + excd + " 실패: " + str(e))
         time.sleep(0.4)
-    out["new_highs"] = sorted(out["new_highs"], key=lambda x: float(x.get("tamt") or 0), reverse=True)[:80]
+    # ⚠ 2026-09-11 실측: new-highlow 응답에는 tamt 가 없다(전부 null).
+    #   구 코드는 tamt 로 정렬 후 상위 80건을 잘랐는데, 키가 전부 0이라 정렬이 무의미해지고
+    #   API 응답 순서(NYS→NAS→AMS)가 그대로 남아 NYS 98건이 80칸을 다 먹고
+    #   NAS·AMS 200건이 통째로 잘려나갔다.
+    #   → 거래소별로 균등하게 자른다. 시총 필터는 이 API 가 시총을 안 주므로 불가 —
+    #   $1B+ 필터가 있는 인사이더트래킹 리스트가 계속 1순위이고 이건 보조 소스다.
+    PER_EXCD_CAP = 40
+    balanced, seen = [], {}
+    for it in out["new_highs"]:
+        ex = it.get("exchange")
+        n = seen.get(ex, 0)
+        if n < PER_EXCD_CAP:
+            balanced.append(it)
+            seen[ex] = n + 1
+    out["new_highs"] = balanced
+    out["notes"].append("new-high 거래소별 " + str(PER_EXCD_CAP) + "건 컷 → " + str(len(balanced)) + "건 (tamt 미제공으로 정렬 불가)")
 
     # base_date — 노션 「미국장 마감 데이터 소스 규격」의 신선도 게이트가 요구하는 필드.
     # KR JSON 에는 있는데 US 에는 없어서 데일리가 generated_at + 대표 종목 등락률로 우회 판정해야 했다.
