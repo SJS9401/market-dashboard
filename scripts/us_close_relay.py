@@ -192,30 +192,40 @@ def main():
         for s in ["NVDA", "MU", "SNDK", "TSLA"]:
             print("DETAIL " + s + ": " + json.dumps(out['stocks'].get(s), ensure_ascii=False))
 
-    # ⚠ 2026-09-09 점검: 9/4(거래일) 스냅샷인데 new_highs 0건 + notes 빈 배열이었다.
-    #   = 예외 없이 output2 가 비어 온 것 → GUBN2 값 또는 응답 필드명 문제.
-    #   KQI/F002 자가 발견과 같은 방식으로 후보를 순회하고, 어느 조합이 먹었는지 notes 에 남긴다.
-    GUBN2_CANDIDATES = ["1", "0", "2", "3"]
+    # ⚠ 2026-09-10 원인 확정 — 9/10 자동 슬롯 notes 전량이 "ERROR INPUT FIELD NOT FOUND [NDAY]" 였다.
+    #   GUBN2 값 문제가 아니라, KIS 가 이 TR 에 NDAY 필수 입력을 추가했는데 우리가 안 보내고 있었다.
+    #   (같은 파일의 trade-pbmn 은 이미 NDAY="0" 을 넘긴다. 공식 예제·문서에는 아직 NDAY 가 없다.)
+    #   → NDAY x GUBN2 조합을 자가 순회하고(KQI/F002 방식), 먹은 조합은 캐시해 다음 거래소에 먼저 쓴다.
+    #   실패 노트는 거래소당 1줄로 요약한다 — 조합 전수를 notes 에 쏟으면 데일리가 읽기 어렵다.
+    NDAY_CANDIDATES = ["0", "1", "2", "3"]
+    GUBN2_CANDIDATES = ["1", "0"]
+    COMBOS = [(nd, g2) for nd in NDAY_CANDIDATES for g2 in GUBN2_CANDIDATES]
+    found_combo = None
     for excd in ["NYS", "NAS", "AMS"]:
         try:
-            rows, used = [], None
-            for g2 in GUBN2_CANDIDATES:
+            rows, used, errs = [], None, []
+            trial = ([found_combo] + [c for c in COMBOS if c != found_combo]) if found_combo else list(COMBOS)
+            for nd, g2 in trial:
                 d = http_get("/uapi/overseas-stock/v1/ranking/new-highlow", "HHDFS76300000",
-                             {"EXCD": excd, "MINX": "0", "VOL_RANG": "0", "GUBN": "1", "GUBN2": g2, "KEYB": "", "AUTH": ""})
-                if api_err(d, "new-high " + excd + " GUBN2=" + g2, out["notes"]):
+                             {"EXCD": excd, "NDAY": nd, "MINX": "0", "VOL_RANG": "0",
+                              "GUBN": "1", "GUBN2": g2, "KEYB": "", "AUTH": ""})
+                if api_err(d, "new-high " + excd + " NDAY=" + nd + "/GUBN2=" + g2, errs):
                     time.sleep(0.4)
                     continue
                 cand = d.get("output2", []) or d.get("output1", []) or []
                 if PROBE:
-                    print("NEWHIGH " + excd + " GUBN2=" + g2 + ": keys=" + str(list(d.keys())) + " rows=" + str(len(cand)))
+                    print("NEWHIGH " + excd + " NDAY=" + nd + " GUBN2=" + g2 + ": keys=" + str(list(d.keys())) + " rows=" + str(len(cand)))
                 if cand:
-                    rows, used = cand, g2
+                    rows, used = cand, (nd, g2)
+                    found_combo = used
                     break
                 time.sleep(0.4)
             if used is None:
-                out["notes"].append("new-high " + excd + ": GUBN2 " + "/".join(GUBN2_CANDIDATES) + " 전부 0건")
+                out["notes"].append("new-high " + excd + ": " + str(len(trial)) + "개 조합 전부 실패 — "
+                                    + (errs[0] if errs else "오류 없이 0건 반환"))
             else:
-                out["notes"].append("new-high " + excd + ": GUBN2=" + used + " 채택 (" + str(len(rows)) + "건)")
+                out["notes"].append("new-high " + excd + ": NDAY=" + used[0] + "/GUBN2=" + used[1]
+                                    + " 채택 (" + str(len(rows)) + "건)")
             for it in rows:
                 sym = it.get("symb", "")
                 if not sym:
