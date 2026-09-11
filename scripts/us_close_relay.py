@@ -41,6 +41,8 @@ def http_get(path, tr, params, timeout=15):
 # 겨울에 그대로 돌면 장중 시세를 종가인 척 덮어써서, 멈춘 것보다 나쁘다.
 # → 예약은 넉넉히 깔고, 여기서 실제 뉴욕 시각을 보고 마감 전이면 그냥 나간다.
 CLOSE_BUFFER_MIN = 10   # 16:10 ET 이후부터 진행 (체결 정산 여유)
+MAX_WAIT_MIN = 300      # 잡 타임아웃(6h) 안에서 허용하는 최대 대기
+WAITED_MIN = 0          # 실제 대기 분 (notes 기록용)
 OUT_PATH = "data/us_close_latest.json"
 
 def _ny_now():
@@ -83,6 +85,38 @@ def market_closed():
         return True, ny
     cutoff = ny.replace(hour=16, minute=CLOSE_BUFFER_MIN, second=0, microsecond=0)
     return ny >= cutoff, ny
+
+# ── 대기 루프 (2026-09-11 신설) ────────────────────────────────
+# GitHub 예약 디스패치가 상시 1~4시간씩 밀린다(2026-09-10·11 실측). 언제 깨우는지를
+# 통제할 수 없으므로, 아주 이른 슬롯에 예약해 두고 깨어난 시점이 마감 전이면
+# 여기서 자고 일어나 수집한다. 지연이 0이든 2시간이든 도착 시각이 같아진다.
+# ★ 부수 효과 — 서머타임 전환도 자동 흡수된다. 뉴욕 시계를 직접 보고 기다리므로
+#   여름 마감 05:00 KST / 겨울 06:00 KST 어느 쪽이든 마감 직후에 수집한다.
+def wait_for_close():
+    global WAITED_MIN
+    closed, ny = market_closed()
+    if closed:
+        return True, ny
+    cutoff = ny.replace(hour=16, minute=CLOSE_BUFFER_MIN, second=0, microsecond=0)
+    wait_s = (cutoff - ny).total_seconds()
+    if wait_s > MAX_WAIT_MIN * 60:
+        print("[SKIP] 마감까지 " + str(int(wait_s // 60)) + "분 — 최대 대기("
+              + str(MAX_WAIT_MIN) + "분) 초과. 파일을 건드리지 않고 종료.")
+        return False, ny
+    print("[WAIT] 뉴욕 " + ny.strftime("%Y-%m-%d %H:%M %Z") + " — 마감까지 "
+          + str(int(wait_s // 60)) + "분 대기 후 수집")
+    while True:
+        time.sleep(60)
+        WAITED_MIN += 1
+        closed, ny = market_closed()
+        if closed:
+            break
+        if WAITED_MIN > MAX_WAIT_MIN:
+            print("[SKIP] 대기 " + str(WAITED_MIN) + "분 초과 — 중단")
+            return False, ny
+    print("[GO-AFTER-WAIT] 뉴욕 " + ny.strftime("%Y-%m-%d %H:%M %Z")
+          + " / 대기 " + str(WAITED_MIN) + "분")
+    return True, ny
 # ────────────────────────────────────────────────────────────────────
 
 def api_err(d, label, notes):
@@ -118,10 +152,8 @@ def token():
 
 def main():
     global TK
-    closed, ny = market_closed()
+    closed, ny = wait_for_close()
     if not closed:
-        print("[SKIP] 미국장 마감 전 — 뉴욕 " + ny.strftime("%Y-%m-%d %H:%M %Z")
-              + " (마감 16:00 + 버퍼 " + str(CLOSE_BUFFER_MIN) + "분). 파일을 건드리지 않고 종료.")
         return
     BD = base_date_of(ny)
     if already_have(BD) and os.environ.get("FORCE", "0") != "1":
@@ -132,6 +164,8 @@ def main():
     out = {"generated_at": datetime.now(KST).isoformat(),
            "units": {"trading_amount": "USD(tamt 원시값 — probe 검증)", "volume": "주"},
            "rank_value": [], "stocks": {}, "new_highs": [], "notes": []}
+    if WAITED_MIN:
+        out["notes"].append("마감 대기 " + str(WAITED_MIN) + "분 후 수집(예약 디스패치 조기 발화)")
 
     all_rank = {}
     for excd in ["NYS", "NAS", "AMS"]:
