@@ -2282,13 +2282,27 @@ async function loadColumn(col) {
   }
   if (allCharts[mainId]) {
     // Default view: last 50 bars (2026-08-30 BT: 120 → 90, 2026-09-11 BT: 90 → 50) — KR/US 공통
+    //
+    // 2026-09-11 레이스 fix: 카드 ResizeObserver 가 뒤늦게 실제 폭을 적용하면 lightweight-charts 가
+    // barSpacing 을 유지한 채 보이는 봉 수를 늘린다 → 그 range-change 가 컬럼 동기화의 새 목표로
+    // 채택되어 기본 50봉이 94봉 등으로 밀려났다 (한 컬럼만 틀어지는 형태로 관측).
+    // → 레이아웃이 안정될 때까지 몇 번 재적용. span 이 이미 맞으면 건드리지 않으므로
+    //   사용자가 그 사이 패닝한 위치는 보존된다 (줌만 교정).
     const DEFAULT_BARS = 50;
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     if (dataLen > 0) {
-      const from = Math.max(0, dataLen - DEFAULT_BARS);
-      allCharts[mainId].chart.timeScale().setVisibleLogicalRange({ from, to: dataLen });
-      const barInput = document.getElementById('bars-' + col);
-      if (barInput) barInput.value = Math.min(DEFAULT_BARS, dataLen);
+      const setDefaultBars = () => {
+        const ts = allCharts[mainId].chart.timeScale();
+        const cur = ts.getVisibleLogicalRange();
+        if (cur && Math.abs((cur.to - cur.from) - DEFAULT_BARS) < 1.5) return;  // 이미 맞음
+        colSyncTarget[col] = null;   // 이번 변경을 새 목표로 채택시킴
+        ts.setVisibleLogicalRange({ from: Math.max(0, dataLen - DEFAULT_BARS), to: dataLen });
+        const barInput = document.getElementById('bars-' + col);
+        if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
+      };
+      setDefaultBars();
+      requestAnimationFrame(setDefaultBars);
+      [120, 350, 700, 1200].forEach(ms => setTimeout(setDefaultBars, ms));
     } else {
       allCharts[mainId].chart.timeScale().fitContent();
     }
