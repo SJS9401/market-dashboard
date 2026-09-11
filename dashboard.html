@@ -69,7 +69,7 @@
   .series-toggle button[data-s="kp"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
   .series-toggle button[data-s="kq"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .series-toggle[data-chart="kr-breadth"] button[data-s="20"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
-  .series-toggle button[data-s="ws"].active { background: rgba(46,160,67,0.18); color: #3fb950; border-color: rgba(46,160,67,0.55); }
+  .series-toggle button[data-s="ws"].active { background: #12459E; color: #fff; border-color: #12459E; font-weight: 600; }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
@@ -2148,8 +2148,9 @@ async function loadUSBreadth(){
     if(!allCharts['breadth']){
       createChart('breadth','us',{showTimeAxis:false});
       allCharts['breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      // washout(바닥신호) 음영 — 200MA 위 비율 <= 20% 구간 풀-하이트 세로 음영. gold/pink 보다 먼저 생성해야 뒤에 깔린다.
-      const shade=allCharts['breadth'].chart.addHistogramSeries({priceScaleId:'ws-shade',color:'rgba(63,185,80,0.16)',base:0,priceLineVisible:false,lastValueVisible:false});
+      // washout(바닥신호) 음영 — 200MA 위 비율 <= 20% 구간 풀-하이트 세로 음영.
+      // gold/pink 보다 먼저 생성해야 뒤에 깔린다. histogram 은 bar 간격 때문에 줄무늬로 보여 stepped area(lineType:1) 사용.
+      const shade=allCharts['breadth'].chart.addAreaSeries({priceScaleId:'ws-shade',lineType:1,lineWidth:0,lineColor:'rgba(0,0,0,0)',topColor:'rgba(18,69,158,0.32)',bottomColor:'rgba(18,69,158,0.32)',priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
       allCharts['breadth'].chart.priceScale('ws-shade').applyOptions({scaleMargins:{top:0,bottom:0}});
       allCharts['breadth'].shade=shade;
       const gold=allCharts['breadth'].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
@@ -2157,14 +2158,14 @@ async function loadUSBreadth(){
       allCharts['breadth'].series=gold;
       allCharts['breadth'].series2=pink;
       allCharts['breadth'].seriesByKey = { '200': gold, '50': pink, 'ws': shade };
-      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:20,color:'#3fb950'}]);
+      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:20,color:'#12459E'}]);
     }
     const p200=alignToTimeIndex(s200,'us');
     const p50 =alignToTimeIndex(s50, 'us');
     allCharts['breadth'].series.setData(p200);
     allCharts['breadth'].series2.setData(p50);
     if(allCharts['breadth'].shade){
-      allCharts['breadth'].shade.setData(p200.map(p=>(p.value!=null&&p.value<=WASHOUT_TH)?{time:p.time,value:1}:{time:p.time}));
+      allCharts['breadth'].shade.setData(p200.map(p=>({time:p.time,value:(p.value!=null&&p.value<=WASHOUT_TH)?1:0})));
     }
     // combined crosshair map
     const map={};
