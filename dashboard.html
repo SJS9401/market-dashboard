@@ -820,10 +820,11 @@ const WASHOUT_TH = 20;
 // US(200MA/20%) 와 절대 레벨 비교 금지 — 이평 길이·유니버스가 달라 분포가 더 넓다
 const WASHOUT_TH_KR = 10;
 function addZoneLines(series, lines) {
+  // l.width / l.style 로 라인별 오버라이드 가능 (기본 1px 점선). lineStyle 0=실선, 2=점선.
   lines.filter(l => !ZONE_SKIP.includes(l.color)).forEach(l => series.createPriceLine({
     price: l.price,
     color: ZONE_REMAP[l.color] || l.color,
-    lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: ''
+    lineWidth: l.width || 1, lineStyle: (l.style !== undefined ? l.style : 2), axisLabelVisible: false, title: ''
   }));
 }
 
@@ -1673,7 +1674,7 @@ async function loadKrBreadth(){
       allCharts['kr-breadth'].series=gold;
       allCharts['kr-breadth'].series2=pink;
       allCharts['kr-breadth'].seriesByKey = { '120': gold, '20': pink, 'ws': shadeK };
-      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:10,color:'#12459E'}]);
+      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:10,color:'#12459E',width:2,style:0}]);
     }
     const p120=alignToTimeIndex(s120,'kr');
     const p20 =alignToTimeIndex(s20, 'kr');
@@ -2171,7 +2172,7 @@ async function loadUSBreadth(){
       allCharts['breadth'].series=gold;
       allCharts['breadth'].series2=pink;
       allCharts['breadth'].seriesByKey = { '200': gold, '50': pink, 'ws': shade };
-      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:20,color:'#12459E'}]);
+      addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:20,color:'#12459E',width:2,style:0}]);
     }
     const p200=alignToTimeIndex(s200,'us');
     const p50 =alignToTimeIndex(s50, 'us');
