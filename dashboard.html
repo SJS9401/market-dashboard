@@ -70,6 +70,9 @@
   .series-toggle button[data-s="kq"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .series-toggle[data-chart="kr-breadth"] button[data-s="20"].active { background: rgba(249,117,131,0.18); color: rgb(249,117,131); border-color: rgba(249,117,131,0.55); }
   .series-toggle button[data-s="ws"].active { background: #12459E; color: #fff; border-color: #12459E; font-weight: 600; }
+  .series-toggle[data-chart="kr-fflow"] button[data-s="20d"].active { background: rgba(126,166,209,0.18); color: rgb(126,166,209); border-color: rgba(126,166,209,0.55); }
+  .series-toggle[data-chart="kr-fflow"] button[data-s="60d"].active { background: rgba(242,163,60,0.18); color: #f2a33c; border-color: rgba(242,163,60,0.55); }
+  .series-toggle[data-chart="kr-fflow"] button[data-s="120d"].active { background: rgba(88,166,255,0.18); color: #58a6ff; border-color: rgba(88,166,255,0.55); }
   .cw { width: 100%; position: relative; overflow: hidden; cursor: crosshair; }
   .cw-main { height: 340px; }
   .cw-sub { height: 140px; cursor: crosshair; }
@@ -190,7 +193,14 @@
       <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>외국인 현선물 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div></div>
+      <div class="card-top">
+        <div class="left"><h3>외국인 현선물 순매수</h3><span class="price" id="p-kr-fflow">—</span><span class="xdate" id="d-kr-fflow"></span></div>
+        <div class="series-toggle" data-chart="kr-fflow">
+          <button data-s="20d" class="active" title="20일 누적 순매수 (조원)">20D</button>
+          <button data-s="60d" class="active" title="20D 누적합의 60일 이동평균">60MA</button>
+          <button data-s="120d" class="active" title="20D 누적합의 120일 이동평균">120MA</button>
+        </div>
+      </div>
       <div class="cw cw-sub" id="cw-kr-fflow"><div class="msg" id="msg-kr-fflow">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
@@ -1749,6 +1759,8 @@ async function loadKrFflow() {
       allCharts['kr-fflow'].series2 = gold;
       allCharts['kr-fflow'].series3 = l60;
       allCharts['kr-fflow'].series4 = l120;
+      // 일별 바(bars)는 카드의 본체라 토글 대상에서 제외 — 라인 3종만
+      allCharts['kr-fflow'].seriesByKey = { '20d': gold, '60d': l60, '120d': l120 };
       addZoneLines(gold, [{ price: 0, color: '#8b949e' }]);
     }
     const pDaily = alignToTimeIndex(daily, 'kr').map(p => ({ time: p.time, value: p.value, color: p.value >= 0 ? 'rgba(240,68,82,0.55)' : 'rgba(49,130,246,0.55)' }));
