@@ -81,10 +81,15 @@ def build_events_js(rows):
     events.sort(key=lambda x: x[0])
 
     parts = []
-    for _, d_disp, cat, ev, note in events:
+    for sort_key, d_disp, cat, ev, note in events:
+        # sd = 렌더러가 계산에 쓰는 ISO 날짜(정렬일). d_disp 는 사람이 쓴 자유 텍스트라
+        # '8/23~8/26' / '청약 8/26~27' 처럼 파싱이 안 되는 값이 36% 였다 (2026-09-12 fix).
+        # 정렬일이 비어 있으면 빈 문자열 → 렌더러가 M/D fallback 후 '진행형' 목록으로 분리.
+        sd = "" if sort_key == "9999-12-31" else sort_key[:10]
         parts.append(
-            "{d:'%s',cat:'%s',ev:'%s',note:'%s'}"
-            % (js_escape(d_disp), js_escape(cat), js_escape(ev), js_escape(note))
+            "{d:'%s',sd:'%s',cat:'%s',ev:'%s',note:'%s'}"
+            % (js_escape(d_disp), js_escape(sd), js_escape(cat),
+               js_escape(ev), js_escape(note))
         )
     return "const events=[" + ",".join(parts) + "];"
 
