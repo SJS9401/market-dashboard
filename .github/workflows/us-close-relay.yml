@@ -61,6 +61,10 @@ on:
         description: 'PROBE mode (1 = raw response log)'
         required: false
         default: '0'
+      force:
+        description: 'FORCE mode (1 = 같은 거래일이어도 재수집·재커밋)'
+        required: false
+        default: '0'
 
 permissions:
   contents: write
@@ -77,6 +81,7 @@ jobs:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
           KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
           PROBE: ${{ github.event.inputs.probe || '0' }}
+          FORCE: ${{ github.event.inputs.force || '0' }}
         run: python3 scripts/us_close_relay.py
 
       - name: Commit data
