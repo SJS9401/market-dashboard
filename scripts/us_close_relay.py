@@ -307,6 +307,14 @@ def main():
     os.makedirs("data", exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
+    # ★ 2026-09-12 신설 — 날짜별 스냅샷도 함께 쓴다 (KR 릴레이는 처음부터 이 구조였다).
+    #   latest 만 있으면 데일리가 그날 못 읽고 지나간 순간 그 회차 데이터는 영영 사라진다.
+    #   실제로 2026-09-12 회차가 CDN 캐시 때문에 멀쩡한 파일을 스테일로 오판해 버렸는데,
+    #   KR 은 날짜별 파일이 있어 위클리가 되찾을 수 있었고 US 는 그게 없어 불가능했다.
+    #   워크플로가 data/us_close_*.json 을 add 하므로 별도 설정 불필요.
+    #   용량 — 회차당 약 75KB, 거래일 기준 연 약 18MB. 리포 규모상 문제 없음.
+    with open("data/us_close_" + BD.replace("-", "") + ".json", "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
     ok_syms = sum(1 for v in out["stocks"].values() if v)
     print("[OK] rank=" + str(len(out['rank_value'])) + " stocks=" + str(ok_syms) + "/" + str(len(SYMBOLS)) + " new_highs=" + str(len(out['new_highs'])) + " notes=" + str(out['notes'][:5]))
 
