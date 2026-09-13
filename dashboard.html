@@ -540,6 +540,29 @@ const lastCrosshairTime = { kr: null, kq: null, us: null, etf: null };
 const crosshairRafId = { kr: null, kq: null, us: null, etf: null };
 const crosshairPending = { kr: null, kq: null, us: null, etf: null };
 const colRange = { kr: '10y', kq: '10y', us: '10y', etf: '10y' };
+// ── 기본 봉수 고정 (2026-09-13 재설계) ───────────────────────────────────────
+// lightweight-charts 는 리사이즈 때 logical range 가 아니라 barSpacing 을 보존한다.
+// 카드 ResizeObserver 가 뒤늦게 실제 폭을 적용하면 보이는 봉 수가 늘어나고, 그 range-change 가
+// 컬럼 동기화의 새 목표로 채택되어 기본 50봉이 94봉 등으로 밀린다.
+// 09-11 에는 시간 기반 재시도(120~1200ms)로 막았는데, 4컬럼이 되며 레이아웃 안정이 더 늦어져 재발.
+// → 시간이 아니라 "메인 차트가 리사이즈될 때마다" 재적용하고, 사용자가 줌을 건드리면 잠근다.
+const DEFAULT_BARS = 50;
+const colUserZoomed = { kr: false, kq: false, us: false, etf: false };
+function applyDefaultBars(col) {
+  if (colUserZoomed[col]) return;
+  const mainId = COL_MAIN[col];
+  const c = allCharts[mainId];
+  if (!c) return;
+  const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
+  if (!dataLen) return;
+  const ts = c.chart.timeScale();
+  const cur = ts.getVisibleLogicalRange();
+  if (cur && Math.abs((cur.to - cur.from) - DEFAULT_BARS) < 1.5) return;   // 이미 맞음
+  colSyncTarget[col] = null;   // 이번 변경을 새 목표로 채택시킴
+  ts.setVisibleLogicalRange({ from: Math.max(0, dataLen - DEFAULT_BARS), to: dataLen });
+  const barInput = document.getElementById('bars-' + col);
+  if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
+}
 const colInterval = { kr: '1d', kq: '1d', us: '1d', etf: '1d' };
 let syncing = false;
 // crosshair sync handled by custom overlay xline
@@ -668,6 +691,8 @@ function createChart(id, col, opts = {}) {
   new ResizeObserver(entries => {
     const r = entries[0].contentRect;
     chart.applyOptions({ width: r.width, height: r.height });
+    // 메인 차트 폭이 바뀌면 기본 봉수를 다시 못박는다 (사용자가 줌을 건드리기 전까지만)
+    if (id === COL_MAIN[col]) requestAnimationFrame(() => applyDefaultBars(col));
   }).observe(el);
 
   // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
@@ -843,6 +868,7 @@ function createChart(id, col, opts = {}) {
     e.preventDefault();
     const lr = chart.timeScale().getVisibleLogicalRange();
     if (!lr) return;
+    colUserZoomed[col] = true;   // 사용자가 직접 줌 → 기본 봉수 자동 복원 중단
     const mainId = COL_MAIN[col];
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     const shift = e.deltaY > 0 ? -1 : 1;
@@ -2410,21 +2436,11 @@ async function loadColumn(col) {
     // 채택되어 기본 50봉이 94봉 등으로 밀려났다 (한 컬럼만 틀어지는 형태로 관측).
     // → 레이아웃이 안정될 때까지 몇 번 재적용. span 이 이미 맞으면 건드리지 않으므로
     //   사용자가 그 사이 패닝한 위치는 보존된다 (줌만 교정).
-    const DEFAULT_BARS = 50;
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     if (dataLen > 0) {
-      const setDefaultBars = () => {
-        const ts = allCharts[mainId].chart.timeScale();
-        const cur = ts.getVisibleLogicalRange();
-        if (cur && Math.abs((cur.to - cur.from) - DEFAULT_BARS) < 1.5) return;  // 이미 맞음
-        colSyncTarget[col] = null;   // 이번 변경을 새 목표로 채택시킴
-        ts.setVisibleLogicalRange({ from: Math.max(0, dataLen - DEFAULT_BARS), to: dataLen });
-        const barInput = document.getElementById('bars-' + col);
-        if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
-      };
-      setDefaultBars();
-      requestAnimationFrame(setDefaultBars);
-      [120, 350, 700, 1200].forEach(ms => setTimeout(setDefaultBars, ms));
+      applyDefaultBars(col);
+      requestAnimationFrame(() => applyDefaultBars(col));
+      [150, 500, 1200].forEach(ms => setTimeout(() => applyDefaultBars(col), ms));
     } else {
       allCharts[mainId].chart.timeScale().fitContent();
     }
@@ -2439,6 +2455,7 @@ document.querySelectorAll('.range-btns').forEach(g=>{
     btn.addEventListener('click',()=>{
       g.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
       colRange[col]=btn.dataset.r;
+      colUserZoomed[col] = false;   // 기간 변경은 기본 봉수로 리셋
       loadColumn(col);
     });
   });
@@ -2450,6 +2467,7 @@ document.querySelectorAll('.bar-count input').forEach(input => {
   const apply = () => {
     const n = parseInt(input.value);
     if (!n || n < 10) return;
+    colUserZoomed[col] = true;
     const mainId = COL_MAIN[col];
     if (!allCharts[mainId]) return;
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
