@@ -331,6 +331,17 @@ def cmd_backfill(start_yyyymmdd, end_yyyymmdd, overwrite=False):
         for r in prev.get("data", []):
             existing[r["date"]] = r
         print(f"[*] 기존 {len(existing)} 일자 발견")
+        # 2026-09-13 스키마 마이그레이션 감지.
+        # 시장 분리 필드(above_120ma_kp 등)는 mkt_map 이 있는 날만 계산된다. 구 스키마로 쌓인
+        # 구간은 --update 로는 절대 채워지지 않고(최근 260영업일만 fetch), 풀 백필도 "기존 일자
+        # 스킵" 때문에 통째로 건너뛴다 → 영원히 반쪽짜리로 남는다.
+        # 통합값(above_120ma)은 있는데 분리값이 없는 행이 과반이면 전 구간 재수집한다.
+        have_all = [r for r in existing.values() if r.get("above_120ma") is not None]
+        have_split = [r for r in have_all if r.get("above_120ma_kp") is not None]
+        if have_all and len(have_split) * 2 < len(have_all):
+            print(f"[migrate] 시장 분리 필드 {len(have_split)}/{len(have_all)} 행만 존재 "
+                  f"-> 구 스키마로 판단, 전 구간 재수집")
+            existing = {}
     daily = fetch_range(start_yyyymmdd, end_yyyymmdd, existing_dates=set(existing.keys()))
     if not daily and not existing:
         print("[ERROR] 신규/기존 데이터 모두 없음")
