@@ -33,6 +33,10 @@
   /* 지수 차트 sticky 해제 (지표 4개 컴팩트 레이아웃) — relative 유지해서 date-main 이 index 카드 하단에 자리잡도록 함 */
   .sticky-index { position: relative; background: #0f0f0f; }
   .col-xline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(35,42,50,0.75); pointer-events: none; display: none; z-index: 99999; }
+  /* 날짜 기준선 — 컬럼 전체를 관통. 어두운 카드 헤더 위에서는 거의 안 보이고(색이 헤더와 근사)
+     회색 plot(#A4A4A4) 위에서만 또렷하게 보이도록 알파를 맞췄다. */
+  .col-gridlines { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+  .col-gridlines i { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid rgba(35,42,50,0.42); }
   .col-date-label { position: absolute; background: #1f6feb; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; white-space: nowrap; pointer-events: none; display: none; z-index: 99999; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
   .col-date-main { bottom: 4px; }
   .col-date-sub  { bottom: 4px; }
@@ -163,6 +167,7 @@
   <!-- LEFT: 코스피 -->
   <div class="col" id="col-kr">
     <div class="col-xline" id="xline-kr"></div>
+    <div class="col-gridlines" id="grid-kr"></div>
     <div class="hts-tooltip" id="hts-tooltip-kr"></div>
     <div class="sticky-index">
     <div class="card">
@@ -217,6 +222,7 @@
   <!-- RIGHT: 코스닥 (2026-09-13 신설) -->
   <div class="col" id="col-kq">
     <div class="col-xline" id="xline-kq"></div>
+    <div class="col-gridlines" id="grid-kq"></div>
     <div class="hts-tooltip" id="hts-tooltip-kq"></div>
     <div class="sticky-index">
     <div class="card">
@@ -260,6 +266,7 @@
   <!-- LEFT: 나스닥 -->
   <div class="col" id="col-us">
     <div class="col-xline" id="xline-us"></div>
+    <div class="col-gridlines" id="grid-us"></div>
     <div class="hts-tooltip" id="hts-tooltip-us"></div>
     <div class="sticky-index">
     <div class="card">
@@ -303,6 +310,7 @@
   <!-- RIGHT: ETF 6패널 (2026-09-13 신설) — 시총가중 vs 동일비중 쏠림 비교 -->
   <div class="col" id="col-etf">
     <div class="col-xline" id="xline-etf"></div>
+    <div class="col-gridlines" id="grid-etf"></div>
     <div class="hts-tooltip" id="hts-tooltip-etf"></div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>QQQ</h3><span class="etf-sub">나스닥100</span><span class="price" id="p-qqq">—</span><span class="chg flat" id="c-qqq"></span></div></div>
@@ -559,6 +567,7 @@ function applyDefaultBars(col, _attempt) {
   ts.setVisibleLogicalRange({ from: Math.max(0, dataLen - DEFAULT_BARS), to: dataLen });
   const barInput = document.getElementById('bars-' + col);
   if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
+  requestAnimationFrame(() => updateDateGrid(col));
   // 위 set 이 통째로 무시될 수 있다 (백그라운드 탭이면 렌더 루프가 멈춰 no-op).
   // 그래서 "걸었다" 가 아니라 "실제로 먹었다" 를 확인할 때까지 재시도한다.
   // rAF 는 hidden 탭에서 아예 발화하지 않으므로 체인이 스스로 멈췄다가 탭이 보이면 재개된다.
@@ -590,7 +599,8 @@ function candlesToWeekly(candles){if(!candles.length)return candles;const weeks=
 //   plot 배경 #A4A4A4 / grid #828282 / 축·텍스트 다크. 카드 프레임은 기존 다크 유지.
 const CHART_OPTS = (bg='#A4A4A4') => ({
   layout:{background:{type:'solid',color:bg},textColor:'#232323',fontSize:10},
-  grid:{vertLines:{color:'#828282'},horzLines:{color:'#828282'}},
+  // 세로 격자는 라이브러리 자동 눈금 대신 날짜 기준선 오버레이(updateDateGrid)가 담당 — 2026-09-13 BT
+  grid:{vertLines:{visible:false},horzLines:{color:'#828282'}},
   crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{visible:false},
     horzLine:{color:'#2b3138',labelBackgroundColor:'#2b3138'}},
   // minimumWidth 60 (2026-05-27): 모든 차트 priceScale 가 같은 width 가 되도록 통일.
@@ -685,6 +695,61 @@ function isOnGraphic(id, time, mouseY) {
   return false;
 }
 
+// ── 날짜 기준선 (2026-09-13 BT) ───────────────────────────────────────────────
+// BT 가 자주 쓰는 봉수 50 / 120 / 250 / 500 을 기준으로 간격을 고른다.
+//   일봉: 50·120 월별, 250 분기, 500 반기
+//   주봉: 50 이 이미 250영업일에 가까우므로 한 단계씩 올려 50 분기, 120·250 반기, 500 연간
+// 경계값은 두 앵커의 기하평균 (50/120 -> 77, 120/250 -> 173, 250/500 -> 354, 그 이상 -> 707).
+const GRID_STEPS = {
+  '1d':  [[173, 'M'], [354, 'Q'], [707, 'H'], [Infinity, 'Y']],
+  '1wk': [[ 77, 'Q'], [354, 'H'], [Infinity, 'Y']]
+};
+function gridStepFor(bars, interval) {
+  const table = GRID_STEPS[interval === '1wk' ? '1wk' : '1d'];
+  for (const [max, step] of table) if (bars <= max) return step;
+  return 'Y';
+}
+// 직전 봉과 월/분기/반기/연이 달라지는 지점 = 기준선
+function isPeriodEdge(prev, cur, step) {
+  if (!prev) return false;
+  const py = +prev.slice(0, 4), pm = +prev.slice(5, 7);
+  const cy = +cur.slice(0, 4),  cm = +cur.slice(5, 7);
+  if (cy !== py) return true;
+  if (step === 'Y') return false;
+  if (step === 'M') return cm !== pm;
+  const n = step === 'Q' ? 3 : 6;
+  return Math.ceil(cm / n) !== Math.ceil(pm / n);
+}
+function updateDateGrid(col) {
+  const box = document.getElementById('grid-' + col);
+  const main = allCharts[COL_MAIN[col]];
+  const colEl = document.getElementById('col-' + col);
+  if (!box || !main || !colEl) return;
+  const ti = colTimeIndex[col] || [];
+  const ts = main.chart.timeScale();
+  const lr = ts.getVisibleLogicalRange();
+  if (!ti.length || !lr) { box.innerHTML = ''; return; }
+  const bars = lr.to - lr.from;
+  const step = gridStepFor(bars, colInterval[col]);
+  const from = Math.max(1, Math.floor(lr.from));
+  const to   = Math.min(ti.length - 1, Math.ceil(lr.to));
+  const offset = main.el.getBoundingClientRect().left - colEl.getBoundingClientRect().left;
+  const plotW = main.el.clientWidth;
+  const xs = [];
+  for (let i = from; i <= to; i++) {
+    if (!isPeriodEdge(ti[i - 1], ti[i], step)) continue;
+    let c = null;
+    try { c = ts.timeToCoordinate(ti[i]); } catch(_) {}
+    if (c == null || c < 0 || c > plotW) continue;
+    xs.push(offset + c);
+  }
+  // DOM 재사용 — 범위가 바뀔 때마다 innerHTML 을 새로 쓰면 스크롤/줌 중 프레임을 깎아먹는다
+  const nodes = box.children;
+  while (nodes.length > xs.length) box.removeChild(box.lastChild);
+  while (nodes.length < xs.length) box.appendChild(document.createElement('i'));
+  xs.forEach((x, k) => { nodes[k].style.left = x + 'px'; });
+}
+
 function createChart(id, col, opts = {}) {
   const el = document.getElementById('cw-' + id);
   const chart = LightweightCharts.createChart(el, {
@@ -706,7 +771,7 @@ function createChart(id, col, opts = {}) {
     const r = entries[0].contentRect;
     chart.applyOptions({ width: r.width, height: r.height });
     // 메인 차트 폭이 바뀌면 기본 봉수를 다시 못박는다 (사용자가 줌을 건드리기 전까지만)
-    if (id === COL_MAIN[col]) requestAnimationFrame(() => applyDefaultBars(col));
+    if (id === COL_MAIN[col]) requestAnimationFrame(() => { applyDefaultBars(col); updateDateGrid(col); });
   }).observe(el);
 
   // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
@@ -749,6 +814,7 @@ function createChart(id, col, opts = {}) {
           try { c.chart.timeScale().setVisibleLogicalRange(tgt); } catch(_){}
         }
       });
+      updateDateGrid(col);
     });
   });
 
@@ -2464,7 +2530,7 @@ async function loadColumn(col) {
     } else {
       allCharts[mainId].chart.timeScale().fitContent();
     }
-    setTimeout(() => syncColumnToMain(mainId), 100);
+    setTimeout(() => { syncColumnToMain(mainId); updateDateGrid(col); }, 100);
   }
 }
 
