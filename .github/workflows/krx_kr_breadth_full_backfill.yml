@@ -97,6 +97,6 @@ jobs:
           else
             TS=$(date -u '+%Y-%m-%d %H:%M UTC')
             git commit -m "chore(data): data/kr_breadth.json 풀 백필 완료 (${TS})"
-            git push
+            git push || (git pull --rebase --autostash && git push)
             echo "::notice::풀 백필 결과 push 완료"
           fi
