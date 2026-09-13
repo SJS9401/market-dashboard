@@ -563,6 +563,16 @@ function applyDefaultBars(col) {
   const barInput = document.getElementById('bars-' + col);
   if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
 }
+// 백그라운드 탭에서 로드되면 lightweight-charts 가 렌더 루프를 멈춘다.
+// 이때 setVisibleLogicalRange 는 모델에 반영되지 않고 조용히 무시되어(입력칸만 50으로 바뀜)
+// 기본 봉수가 116봉 등 barSpacing 기본값 그대로 남는다. 탭이 보이는 순간 다시 못박는다.
+// 2026-09-13 확인: hidden 상태에서는 raw setVisibleLogicalRange / barSpacing 모두 no-op.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  const redo = () => Object.keys(colGroups).forEach(applyDefaultBars);
+  requestAnimationFrame(redo);
+  [120, 400, 900].forEach(ms => setTimeout(redo, ms));
+});
 const colInterval = { kr: '1d', kq: '1d', us: '1d', etf: '1d' };
 let syncing = false;
 // crosshair sync handled by custom overlay xline
@@ -714,7 +724,7 @@ function createChart(id, col, opts = {}) {
     colSyncTarget[col] = logicalRange;
 
     // Update bar count display — 메인 차트 기준
-    if (id === 'kospi' || id === 'ndx') {
+    if (id === COL_MAIN[col]) {
       const barInput = document.getElementById('bars-' + col);
       if (barInput && !barInput.matches(':focus')) {
         const visibleBars = Math.round(logicalRange.to - logicalRange.from);
