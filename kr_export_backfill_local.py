@@ -122,7 +122,25 @@ def current_yyyymm():
     return f"{now.year:04d}{now.month:02d}"
 
 
+# ── 2026-09-13 BT: 대시보드에서 수출 카드를 보고 있지 않아 GitHub Actions 자동 갱신을 중지.
+#    08:13 UTC 실행이 JSON 구조 검증에서 실패했는데(관세청 응답 변화 추정), 안 보는 지표라
+#    원인 규명은 뒤로 미루고 일단 워크플로가 조용해지도록 Actions 에서만 no-op 처리한다.
+#    - 로컬 실행(kr_export_backfill_local.bat / py 직접 실행)은 그대로 동작한다.
+#    - 다시 켜려면 kr_export_update.yml 실행 스텝에 env 로 KR_EXPORT_ENABLED: '1' 을 주거나
+#      이 블록을 지우면 된다.
+#    ※ 검증 실패 시 커밋 스텝이 skip 되므로 레포의 data/kr_export.json 은 마지막 정상본 그대로다.
+def _paused_in_actions():
+    import os
+    if os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("KR_EXPORT_ENABLED") != "1":
+        print("[paused] 2026-09-13 BT 요청으로 Actions 자동 갱신 중지 상태 "
+              "(KR_EXPORT_ENABLED=1 로 재개). 기존 data/kr_export.json 을 그대로 둔다.")
+        return True
+    return False
+
+
 def main():
+    if _paused_in_actions():
+        return 0
     end_ym = current_yyyymm()
     print(f"[plan] KR 수출 YoY 백필: {START_YYYYMM} → {end_ym}")
     print(f"[endpoint] {ENDPOINT}")
