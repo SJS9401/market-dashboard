@@ -187,10 +187,6 @@
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
-      <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
-    </div>
-    <div class="card">
       <div class="card-top">
         <div class="left"><h3>Market Breadth</h3><span class="price" id="p-kr-breadth">—</span><span class="xdate" id="d-kr-breadth"></span></div>
         <div class="series-toggle" data-chart="kr-breadth">
@@ -200,6 +196,10 @@
         </div>
       </div>
       <div class="cw cw-sub" id="cw-kr-breadth"><div class="msg" id="msg-kr-breadth">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-kr-fgosc">—</span><span class="xdate" id="d-kr-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-kr-fgosc"><div class="msg" id="msg-kr-fgosc">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top">
@@ -284,10 +284,6 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-us-fgosc">—</span><span class="xdate" id="d-us-fgosc"></span></div></div>
-      <div class="cw cw-sub" id="cw-us-fgosc"><div class="msg" id="msg-us-fgosc">로딩 중...</div></div>
-    </div>
-    <div class="card">
       <div class="card-top">
         <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
         <div class="series-toggle" data-chart="breadth">
@@ -299,8 +295,8 @@
       <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>Goldman Market Breadth</h3><span class="price" id="p-goldman">—</span><span class="xdate" id="d-goldman"></span></div></div>
-      <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
+      <div class="card-top"><div class="left"><h3>F&amp;G Oscillator</h3><span class="price" id="p-us-fgosc">—</span><span class="xdate" id="d-us-fgosc"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-fgosc"><div class="msg" id="msg-us-fgosc">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-us"></div>
   </div>
@@ -815,7 +811,7 @@ function createChart(id, col, opts = {}) {
       // While mouse moves on the SAME candle, only tooltip position needs to follow the cursor.
       if (param.time !== lastCrosshairTime[col]) {
         lastCrosshairTime[col] = param.time;
-        crosshairPending[col] = { time: param.time, mx, my };
+        crosshairPending[col] = { time: param.time, mx, my, id };
         if (!crosshairRafId[col]) {
           crosshairRafId[col] = requestAnimationFrame(() => {
             crosshairRafId[col] = null;
@@ -836,7 +832,7 @@ function createChart(id, col, opts = {}) {
                 }]);
               } catch(_) {}
             });
-            updateHTSTooltip(col, p.time, p.mx, p.my);  // full rebuild + position
+            updateHTSTooltip(col, p.time, p.mx, p.my, p.id);  // full rebuild + position
           });
         }
       } else {
@@ -1007,23 +1003,47 @@ function fmtPctSigned(v) {
   if (v == null || isNaN(v)) return '—';
   return (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
 }
-// HTS 툴팁의 sub 차트 데이터 렌더링 — KR/US 컬럼별로 보조지표 행 추가
-function renderSubsForTooltip(col, time) {
-  const subs = (col === 'kr')
-    ? [
-      { id: 'kr-vol',    label: '거래대금',      color: C_SLATE_TEXT },
-      { id: 'kr-mdd',    label: 'MDD',          color: '#f04452' },
-      { id: 'kr-fgosc',  label: 'F&G Osc',      color: C_SLATE_TEXT },
-      { id: 'kr-breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
-      { id: 'kr-fflow',  label: '외국인 현선물 순매수', color: C_SLATE_TEXT }
-    ]
-    : [
-      { id: 'us-vol',  label: '거래량',         color: C_SLATE_TEXT },
-      { id: 'us-mdd',  label: 'MDD',           color: '#f04452' },
-      { id: 'us-fgosc', label: 'F&G Osc',       color: C_SLATE_TEXT },
-      { id: 'breadth', label: 'Market Breadth', color: C_SLATE_TEXT },
-      { id: 'goldman', label: 'Goldman Market Breadth', color: C_SLATE_TEXT }
+// 2026-09-13: 툴팁이 컬럼 구분 없이 "kr 아니면 ndx" 로 폴백해서 코스닥/ETF 카드에 호버해도
+// 나스닥 종합 OHLC 가 떴다. 컬럼별 메인 차트 + 표시 이름을 테이블로 분리한다.
+const TOOLTIP_MAIN = { kr: 'kospi', kq: 'kosdaq', us: 'ndx' };   // etf 는 호버한 카드가 곧 메인
+const CHART_TITLE = {
+  kospi: '코스피', kosdaq: '코스닥', ndx: '나스닥 종합',
+  qqq: 'QQQ 나스닥100', qqqe: 'QQQE 나스닥100 동일비중', spy: 'SPY S&P500',
+  rsp: 'RSP S&P500 동일비중', dia: 'DIA 다우존스', iwm: 'IWM 러셀2000'
+};
+const TOOLTIP_COLOR = { kr: '#F39C12', kq: '#F39C12', us: '#FF6B6B', etf: '#FF6B6B' };
+// HTS 툴팁의 sub 차트 데이터 렌더링 — 컬럼별 보조지표 행 추가
+function renderSubsForTooltip(col, time, hoverId) {
+  let subs;
+  if (col === 'kr') {
+    subs = [
+      { id: 'kr-vol',     label: '거래대금',            color: C_SLATE_TEXT },
+      { id: 'kr-mdd',     label: 'MDD',                color: '#f04452' },
+      { id: 'kr-breadth', label: 'Market Breadth',     color: C_SLATE_TEXT },
+      { id: 'kr-fgosc',   label: 'F&G Osc',            color: C_SLATE_TEXT },
+      { id: 'kr-fflow',   label: '외국인 현선물 순매수', color: C_SLATE_TEXT }
     ];
+  } else if (col === 'kq') {
+    subs = [
+      { id: 'kq-vol',     label: '거래대금',        color: C_SLATE_TEXT },
+      { id: 'kq-mdd',     label: 'MDD',            color: '#f04452' },
+      { id: 'kq-breadth', label: 'Market Breadth', color: C_SLATE_TEXT }
+    ];
+  } else if (col === 'etf') {
+    // 호버한 카드는 위쪽 OHLC 블록이 이미 보여주므로 나머지 5개만 종가 비교로 붙인다
+    subs = ETF_IDS.filter(x => x !== hoverId)
+                  .map(x => ({ id: x, label: CHART_TITLE[x] || x.toUpperCase(), color: C_SLATE_TEXT, etf: true }));
+  } else {
+    subs = [
+      { id: 'us-vol',   label: '거래량',           color: C_SLATE_TEXT },
+      { id: 'us-mdd',   label: 'MDD',             color: '#f04452' },
+      { id: 'breadth',  label: 'Market Breadth',  color: C_SLATE_TEXT },
+      { id: 'us-fgosc', label: 'F&G Osc',         color: C_SLATE_TEXT }
+    ];
+  }
+  // ETF 비교용 전일 종가 lookup (컬럼 시간축에서 직전 영업일)
+  const etfTi = (col === 'etf') ? (colTimeIndex[col] || []) : null;
+  const etfPrevT = etfTi ? etfTi[etfTi.indexOf(time) - 1] : null;
   let html = '';
   subs.forEach(s => {
     const map = chartDataMap[s.id];
@@ -1031,10 +1051,17 @@ function renderSubsForTooltip(col, time) {
     const d = map[time];
     if (!d) return;
     let valHtml = '';
-    if (s.id === 'kr-vol' || s.id === 'us-vol') {
+    if (s.etf) {
+      if (d.close == null) return;
+      const pv = etfPrevT ? ((chartDataMap[s.id] || {})[etfPrevT] || {}).close : null;
+      const p = (pv != null && pv) ? ((d.close - pv) / pv * 100) : null;
+      valHtml = fmtN(d.close)
+              + (p != null ? ' <span class="' + (p >= 0 ? 'hts-up' : 'hts-down') + '" style="font-size:10px;">('
+                             + (p >= 0 ? '+' : '') + p.toFixed(2) + '%)</span>' : '');
+    } else if (s.id === 'kr-vol' || s.id === 'kq-vol' || s.id === 'us-vol') {
       if (d.value == null) return;
-      valHtml = '<span style="color:rgb(126,166,209)">' + (s.id === 'kr-vol' ? (d.value/10000).toFixed(1) + '조' : (d.value/1e9).toFixed(2) + 'B') + '</span>';
-    } else if (s.id === 'kr-mdd' || s.id === 'us-mdd') {
+      valHtml = '<span style="color:rgb(126,166,209)">' + (s.id === 'us-vol' ? (d.value/1e9).toFixed(2) + 'B' : (d.value/10000).toFixed(1) + '조') + '</span>';
+    } else if (s.id === 'kr-mdd' || s.id === 'kq-mdd' || s.id === 'us-mdd') {
       if (d.value == null) return;
       const v = d.value;
       const cls = v < 0 ? 'hts-down' : '';
@@ -1052,7 +1079,7 @@ function renderSubsForTooltip(col, time) {
       valHtml = '<span style="color:rgb(126,166,209)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
               + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
               + '<span style="color:rgb(249,117,131)">1-10잠 ' + fmtPctSigned(d.y10) + '</span>';
-    } else if (s.id === 'kr-breadth') {
+    } else if (s.id === 'kr-breadth' || s.id === 'kq-breadth') {
       if (d.above120 == null && d.above20 == null) return;
       valHtml = '<span style="color:rgb(126,166,209)">120MA ' + (d.above120 != null ? d.above120.toFixed(1) + '%' : '-') + '</span> / '
               + '<span style="color:rgb(249,117,131)">20MA ' + (d.above20 != null ? d.above20.toFixed(1) + '%' : '-') + '</span>';
@@ -1067,9 +1094,6 @@ function renderSubsForTooltip(col, time) {
       const a200 = d.above200 != null ? d.above200.toFixed(1) + '%' : '—';
       const a50  = d.above50  != null ? d.above50.toFixed(1)  + '%' : '—';
       valHtml = '<span style="color:rgb(126,166,209)">200MA ' + a200 + '</span> / <span style="color:rgb(249,117,131)">50MA ' + a50 + '</span>';
-    } else if (s.id === 'goldman') {
-      if (d.value == null) return;
-      valHtml = d.value.toFixed(1) + '%p';
     }
     if (!valHtml) return;
     html += '<div class="hts-row"><span class="k" style="color:' + s.color + ';font-weight:600;">' + s.label + '</span><span class="v">' + valHtml + '</span></div>';
@@ -1077,12 +1101,16 @@ function renderSubsForTooltip(col, time) {
   return html;
 }
 // === HTS-style 툴팁 (KOSPI / NASDAQ — 주도주 사이클 페이지와 동일 디자인) ===
-function updateHTSTooltip(col, time, mx, my) {
+function updateHTSTooltip(col, time, mx, my, hoverId) {
   const tip = document.getElementById('hts-tooltip-' + col);
   if (!tip) return;
-  const mainId = (col === 'kr') ? 'kospi' : 'ndx';
-  const mainName = (col === 'kr') ? '코스피' : '나스닥 종합';
-  const mainColor = (col === 'kr') ? '#F39C12' : '#FF6B6B';
+  // ETF 컬럼은 카드마다 독립 지수라 "호버한 카드" 가 곧 메인. 나머지는 컬럼 대표 지수.
+  const mainId = (col === 'etf')
+    ? ((hoverId && allCharts[hoverId]) ? hoverId : ETF_IDS[0])
+    : TOOLTIP_MAIN[col];
+  if (!mainId || !allCharts[mainId]) { tip.style.display = 'none'; return; }
+  const mainName = CHART_TITLE[mainId] || mainId;
+  const mainColor = TOOLTIP_COLOR[col] || '#FF6B6B';
   const map = chartDataMap[mainId];
   const d = map && map[time];
   if (!d || d.open == null) { tip.style.display = 'none'; return; }
@@ -1118,7 +1146,7 @@ function updateHTSTooltip(col, time, mx, my) {
     html += `<div class="hts-row"><span class="k">MA${p}${unit}</span><span class="v">${fmtN(v)} <span class="${dUp ? 'hts-up' : 'hts-down'}" style="font-size:10px;">(${dUp ? '+' : ''}${disp.toFixed(2)}%)</span></span></div>`;
   });
   // 보조지표 (MDD / 공포탐욕 / ADR / 수출 / 시장폭 / 골드만)
-  const subHtml = renderSubsForTooltip(col, time);
+  const subHtml = renderSubsForTooltip(col, time, mainId);
   if (subHtml) {
     html += '<div class="hts-divider">' + subHtml + '</div>';
   }
@@ -1181,9 +1209,9 @@ function _updateHeaderForChartImpl(chartId, time) {
   // Update date label on sub-charts
   const dateEl = document.getElementById('d-' + chartId);
   if (dateEl) dateEl.textContent = formatDate(d.time || time);
-  if (chartId === 'kospi' || chartId === 'ndx') {
+  if (d.close != null && d.open != null) {   // 캔들 차트 (지수 + ETF 6패널) — 2026-09-13 일반화
     const pe = document.getElementById('p-' + chartId);
-    if (pe && d.close != null) pe.textContent = d.close.toLocaleString('en-US', {maximumFractionDigits:2});
+    if (pe) pe.textContent = d.close.toLocaleString('en-US', {maximumFractionDigits:2});
   } else if (chartId === 'kr-fg' || chartId === 'us-fg') {
     const v = d.value != null ? Math.round(d.value) : null;
     if (v != null) { const lbl = getLabel(v); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
@@ -1191,9 +1219,6 @@ function _updateHeaderForChartImpl(chartId, time) {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
       pe.innerHTML = `<span style="color:rgb(126,166,209)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${d.above50.toFixed(1)}%</span>`;
-  } else if (chartId === 'goldman') {
-    const pe = document.getElementById('p-goldman');
-    if (pe && d.value != null) pe.textContent = d.value.toFixed(1) + '%p';
   } else if (chartId === 'kr-export') {
     const pe = document.getElementById('p-kr-export');
     if (pe) {
@@ -1274,8 +1299,8 @@ const MA_CONFIG = {
   kosdaq: { daily:[5,20,60,120], weekly:[5,20,60,120] },
   ndx:    { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
-// ETF 6패널은 높이가 작아 20일선 하나만 (비교 기준선 역할)
-ETF_IDS.forEach(id => { MA_CONFIG[id] = { daily:[20], weekly:[20] }; });
+// ETF 6패널도 나스닥과 동일한 5/20/50/100/200 (2026-09-13 BT)
+ETF_IDS.forEach(id => { MA_CONFIG[id] = { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }; });
 // 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
 //   5 검정 / 20 황금(#B8860B dark goldenrod — 2회 상향: #E8C400 → #CC9900 → #B8860B) /
 //   50·60 보라 / 100·120 녹색 / 200 갈색
@@ -1780,7 +1805,8 @@ async function loadFGCombo(id, col, fetchFn) {
     if (hdr) hdr.innerHTML = hdrHtml;
     origValues[id] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
     if (!allCharts[id]) {
-      createChart(id, col, { showTimeAxis: false });
+      // 2026-09-13: 미국 컬럼 순서 교체로 F&G 가 맨 아래 카드가 됐다 -> 날짜축 담당
+      createChart(id, col, { showTimeAxis: id === 'us-fgosc' });
       const ch = allCharts[id].chart;
       // 2026-08-01 X 정렬 fix: 기존엔 F&G 절대값을 leftPriceScale 에 올려 좌축을 켰는데,
       // 이 카드만 좌축 폭(~50px)만큼 plot 시작 X 가 밀려 컬럼 크로스헤어/마커가 어긋났다.
@@ -2324,7 +2350,7 @@ async function loadUSBreadth(){
     if(hdr)hdr.innerHTML=hdrHtml;
     origValues['breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
     if(!allCharts['breadth']){
-      createChart('breadth','us',{showTimeAxis:false});
+      createChart('breadth','us',{showTimeAxis:false});   // 맨 아래는 us-fgosc (2026-09-13 순서 교체)
       allCharts['breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
       // washout(과매도) 음영 — 200MA 위 비율 <= 20% 구간 풀-하이트 세로 음영.
       // gold/pink 보다 먼저 생성해야 뒤에 깔린다. histogram 은 bar 간격 때문에 줄무늬로 보여 stepped area(lineType:1) 사용.
@@ -2355,32 +2381,8 @@ async function loadUSBreadth(){
   }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
 
-// Goldman Breadth (SPX %52wH − 구성종목 median)
-async function loadGoldmanBreadth(){
-  const intv=colInterval.us;
-  const msgEl=document.getElementById('msg-goldman');
-  try{
-    const D=await getUSBreadthData();
-    let sG=D.dates.map((t,i)=>({time:t,value:D.goldman_breadth[i]})).filter(x=>x.value!=null);
-    if(intv==='1wk')sG=resampleWeekly(sG);
-    const lastG=sG[sG.length-1];
-    const hdr=document.getElementById('p-goldman');
-    const hdrStr=lastG?lastG.value.toFixed(1)+'%p':'—';
-    if(hdr)hdr.textContent=hdrStr;
-    origValues['goldman']=()=>{if(hdr)hdr.textContent=hdrStr;};
-    if(!allCharts['goldman']){
-      createChart('goldman','us',{showTimeAxis:true});
-      allCharts['goldman'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.1}});
-      const areaS=allCharts['goldman'].chart.addAreaSeries({lineColor:C_SLATE,topColor:'rgba(45,62,80,0.28)',bottomColor:'rgba(45,62,80,0)',lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      allCharts['goldman'].series=areaS;
-      areaS.createPriceLine({price:0,color:'#3A424B',lineWidth:1,lineStyle:2,axisLabelVisible:false,title:''});
-    }
-    const pG=alignToTimeIndex(sG,'us');
-    allCharts['goldman'].series.setData(pG);
-    buildDataMap('goldman',pG);
-    msgEl.style.display='none';
-  }catch(e){console.error('loadGoldmanBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
-}
+// Goldman Breadth 카드 제거 (2026-09-13 BT): 우측 QQQ~IWM 일봉 6패널로 시장폭 쏠림을 직접 본다.
+// us_breadth.json 의 goldman_breadth 필드는 그대로 유지 — 필요하면 loadGoldmanBreadth 를 git 이력에서 복구.
 
 // US Fed Rate — ^IRX (13-week T-Bill, tracks Fed Funds Rate closely)
 // Shared data cache for both columns
@@ -2443,7 +2445,7 @@ async function loadColumn(col) {
       // 코스닥 (2026-09-13): F&G·외국인 현선물은 코스피 전용이라 제외
       await Promise.allSettled([loadKqVol(), loadMDD('kosdaq','kq-mdd','kq'), loadKqBreadth()]);
     } else {
-      await Promise.allSettled([loadUSVol(), loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
+      await Promise.allSettled([loadUSVol(), loadMDD('ndx','us-mdd','us'), loadUSBreadth(), loadUSFGOsc()]);
     }
   }
   if (allCharts[mainId]) {
