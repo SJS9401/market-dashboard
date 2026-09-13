@@ -73,6 +73,13 @@ SYMBOLS = [
     "069500.KS",    # KODEX 200 — 야간 실시간 추정가 카드 (코스피 지수 프록시)
     "ZN=F",         # 미 10년 국채선물 연속물 — US F&G Oscillator (10y-5y spread)
     "ZF=F",         # 미 5년 국채선물 연속물 — US F&G Oscillator
+    # ── 2026-09-13 추가 ──
+    "^KQ11",        # 코스닥 종합 — 코스닥 컬럼 지수/MDD (기존 kr_index_ohlc.json 은 one-shot 이라 정지)
+    "QQQE",         # 나스닥100 동일비중 (vs QQQ 시총가중) — 시장폭 쏠림
+    "SPY",          # S&P500
+    "RSP",          # S&P500 동일비중 (vs SPY) — 시장폭 쏠림
+    "DIA",          # 다우존스
+    "IWM",          # 러셀2000 (소형주)
 ]
 
 
@@ -107,12 +114,14 @@ def fetch_symbol(sym, period="10y", max_retry=2):
                 # NaN skip
                 if pd.isna(row.get("Open")) or pd.isna(row.get("Close")):
                     continue
+                # 2026-09-13: float64 repr(714.8800048828125)을 그대로 직렬화하던 것을 4자리로 반올림.
+                # 표시 정밀도(2자리)보다 여유 있고, 파일 크기는 약 31% 감소 (심볼 증설분 상쇄).
                 c = {
                     "time": ts.strftime("%Y-%m-%d"),
-                    "open": float(row["Open"]),
-                    "high": float(row["High"]),
-                    "low":  float(row["Low"]),
-                    "close": float(row["Close"]),
+                    "open": round(float(row["Open"]), 4),
+                    "high": round(float(row["High"]), 4),
+                    "low":  round(float(row["Low"]), 4),
+                    "close": round(float(row["Close"]), 4),
                 }
                 # volume (2026-07-29 추가) — 주봉 거래량 패널용. 없으면 필드 생략 (하위호환)
                 v = row.get("Volume")
