@@ -199,7 +199,31 @@ def fetch_range(start_yyyymmdd, end_yyyymmdd, existing_dates=None):
         if i % 50 == 0 or i == total:
             elapsed = int(time.time() - t0)
             print(f"  [{i:5d}/{total}] {bas_dd}  fetched={len(daily)}  skip={skip}  fail={fail}  ({elapsed}s)")
+    _assert_market_coverage(daily)
     return daily
+
+
+# 한 시장이 통째로 빠진 결과로 기존 데이터를 덮어쓰는 사고를 막는다.
+# fetch_one_day 는 두 시장 중 하나만 살아 있어도 rows 를 돌려주므로 여기서 걸러야 한다.
+MIN_MARKET_COVERAGE = float(os.environ.get("MIN_MARKET_COVERAGE", "0.9"))
+
+
+def _assert_market_coverage(daily):
+    n = len(daily)
+    if n < 20:
+        return   # 표본이 적으면 판단하지 않는다 (증분 업데이트/휴장 연휴)
+    kp = sum(1 for d in daily if d["adv_kp"] + d["dec_kp"] > 0)
+    kq = sum(1 for d in daily if d["adv_kq"] + d["dec_kq"] > 0)
+    print(f"[coverage] 코스피 {kp}/{n} ({kp/n:.1%})  코스닥 {kq}/{n} ({kq/n:.1%})")
+    for label, got in (("KOSPI", kp), ("KOSDAQ", kq)):
+        if got / n < MIN_MARKET_COVERAGE:
+            print(f"[ERROR] {label} 응답이 {got}/{n} 일자에만 존재 — 한쪽 시장이 빠진 결과다.",
+                  file=sys.stderr)
+            print("[ERROR] 이대로 저장하면 통합 시계열이 반쪽짜리로 덮인다. 저장하지 않고 중단한다.",
+                  file=sys.stderr)
+            print("[ERROR] KRX OpenAPI 일일 호출 한도 또는 엔드포인트 장애를 먼저 확인할 것.",
+                  file=sys.stderr)
+            sys.exit(1)
 
 
 def compute_breadth(daily):
