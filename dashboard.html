@@ -41,6 +41,11 @@
   .col-date-main { bottom: 4px; }
   .col-date-sub  { bottom: 4px; }
   .xdate { font-size: 10px; color: #8b949e; margin-left: 6px; font-weight: 400; }
+  .hdr-sub { font-size: 10px; color: #8b949e; font-weight: 400; }
+  /* 우축 종가 라벨 바로 아래 등락률 — 라벨과 같은 색 규칙(상승 빨강/하락 파랑) */
+  .last-chg { position: absolute; right: 0; padding: 1px 4px; font-size: 10px; font-weight: 700;
+    color: #fff; border-radius: 2px; pointer-events: none; display: none; z-index: 60;
+    font-variant-numeric: tabular-nums; white-space: nowrap; line-height: 14px; }
   .col .card { border-radius: 0; border-bottom: none; }
   .col .card:first-child { border-radius: 10px 10px 0 0; }
   .col .card:last-child { border-radius: 0 0 10px 10px; border-bottom: 1px solid #414141; }
@@ -695,6 +700,36 @@ function isOnGraphic(id, time, mouseY) {
   return false;
 }
 
+// ── 우축 등락률 배지 (2026-09-13 BT) ─────────────────────────────────────────
+// 캔들 차트 우축의 종가 라벨은 라이브러리가 1줄로만 그린다. 등락률을 같은 자리에 얹기 위해
+// 차트 컨테이너(.cw, position:relative)에 배지를 붙이고 종가의 Y 좌표를 따라가게 한다.
+const lastChgInfo = {};   // chartId -> { close, pct }
+function updateLastChg(id) {
+  const c = allCharts[id];
+  const info = lastChgInfo[id];
+  if (!c || !c.series || !c.el) return;
+  let el = document.getElementById('lchg-' + id);
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'last-chg';
+    el.id = 'lchg-' + id;
+    c.el.appendChild(el);
+  }
+  if (!info || info.pct == null || info.close == null) { el.style.display = 'none'; return; }
+  let y = null;
+  try { y = c.series.priceToCoordinate(info.close); } catch(_) {}
+  if (y == null) { el.style.display = 'none'; return; }
+  el.textContent = (info.pct >= 0 ? '+' : '') + info.pct.toFixed(2) + '%';
+  el.style.background = info.pct >= 0 ? '#d61022' : '#1750e0';
+  // 종가 라벨(높이 ~18px)의 바로 아래. 카드 하단을 넘으면 라벨 위로 뒤집는다.
+  const h = 16, top = y + 9;
+  el.style.top = ((top + h > c.el.clientHeight) ? Math.max(0, y - 9 - h) : top) + 'px';
+  el.style.display = 'block';
+}
+function updateLastChgCol(col) {
+  (colGroups[col] || []).forEach(id => { if (lastChgInfo[id]) updateLastChg(id); });
+}
+
 // ── 날짜 기준선 (2026-09-13 BT) ───────────────────────────────────────────────
 // BT 가 자주 쓰는 봉수 50 / 120 / 250 / 500 을 기준으로 간격을 고른다.
 //   일봉: 50·120 월별, 250 분기, 500 반기
@@ -772,6 +807,7 @@ function createChart(id, col, opts = {}) {
     chart.applyOptions({ width: r.width, height: r.height });
     // 메인 차트 폭이 바뀌면 기본 봉수를 다시 못박는다 (사용자가 줌을 건드리기 전까지만)
     if (id === COL_MAIN[col]) requestAnimationFrame(() => { applyDefaultBars(col); updateDateGrid(col); });
+    if (lastChgInfo[id]) requestAnimationFrame(() => updateLastChg(id));
   }).observe(el);
 
   // Sync time scale across column — use LOGICAL range (index-based, pixel-perfect)
@@ -815,6 +851,7 @@ function createChart(id, col, opts = {}) {
         }
       });
       updateDateGrid(col);
+      updateLastChgCol(col);
     });
   });
 
@@ -1285,6 +1322,20 @@ function _updateHeaderForChartImpl(chartId, time) {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
       pe.innerHTML = `<span style="color:rgb(126,166,209)">200MA ${d.above200.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">50MA ${d.above50.toFixed(1)}%</span>`;
+  } else if (chartId.endsWith('-breadth')) {          // kr-breadth / kq-breadth
+    const pe = document.getElementById('p-' + chartId);
+    if (pe && (d.above120 != null || d.above20 != null))
+      pe.innerHTML = `<span style="color:rgb(126,166,209)">120MA ${d.above120 != null ? d.above120.toFixed(1) + '%' : '—'}</span>`
+                   + ` / <span style="color:rgb(249,117,131)">20MA ${d.above20 != null ? d.above20.toFixed(1) + '%' : '—'}</span>`;
+  } else if (chartId.endsWith('-mdd')) {              // kr-mdd / kq-mdd / us-mdd
+    const pe = document.getElementById('p-' + chartId);
+    if (pe && d.value != null) pe.textContent = d.value.toFixed(2) + '%';
+  } else if (chartId.endsWith('-fgosc')) {            // kr-fgosc / us-fgosc
+    const pe = document.getElementById('p-' + chartId);
+    if (pe && d.value != null) {
+      const osc = d.osc != null ? (d.osc >= 0 ? '+' : '') + d.osc.toFixed(4) : '—';
+      pe.innerHTML = `<span style="color:rgb(126,166,209)">F&G ${d.value.toFixed(1)}</span> / <span style="color:rgb(249,117,131)">Osc ${osc}</span>`;
+    }
   } else if (chartId === 'kr-export') {
     const pe = document.getElementById('p-kr-export');
     if (pe) {
@@ -1300,8 +1351,8 @@ function _updateHeaderForChartImpl(chartId, time) {
         + (d.cum20 != null ? ' / <span style="color:rgb(126,166,209)">20D ' + f(d.cum20) + '</span>' : '')
         + (d.cum60 != null ? ' / <span style="color:#f2a33c">60D ' + f(d.cum60) + '</span>' : '');
     }
-  } else if (chartId === 'kr-vol') {
-    const pe = document.getElementById('p-kr-vol');
+  } else if (chartId === 'kr-vol' || chartId === 'kq-vol') {
+    const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) pe.textContent = (d.value / 10000).toFixed(1) + '조';
   } else if (chartId === 'us-vol') {
     const pe = document.getElementById('p-us-vol');
@@ -1315,10 +1366,30 @@ function _updateHeaderForChartImpl(chartId, time) {
 }
 
 // Build time-indexed map from data array
+// 크로스헤어를 뗐을 때 되돌릴 "최신 봉" 날짜. alignToTimeIndex 로 뒤쪽이 빈 봉으로 패딩될 수
+// 있으므로 실제 값이 들어있는 마지막 봉을 찾는다.
+const lastDates = {};
+const hasValue = d => !!d && Object.keys(d).some(k => k !== 'time' && d[k] != null);
+// chartDataMap 대입은 전부 여기를 거친다 — 값이 실제로 있는 마지막 봉 날짜를 같이 기록.
+function setDataMap(chartId, map) {
+  chartDataMap[chartId] = map;
+  let best = '';
+  for (const t in map) if (t > best && hasValue(map[t])) best = t;
+  lastDates[chartId] = best;
+}
 function buildDataMap(chartId, dataArr) {
   const map = {};
   dataArr.forEach(d => { map[d.time] = d; });
-  chartDataMap[chartId] = map;
+  setDataMap(chartId, map);
+}
+
+// 카드 옆 날짜(d-*)를 최신 봉 날짜로 채운다. 로더마다 d-* 를 세팅하는 곳이 제각각이라
+// (거래대금/MDD 만 세팅, 시장폭/F&G/현선물은 미세팅) 컬럼 로드 후 한 번에 맞춘다.
+function applyLastDates(col) {
+  (colGroups[col] || []).forEach(cid => {
+    const el = document.getElementById('d-' + cid);
+    if (el && lastDates[cid]) el.textContent = lastDates[cid];
+  });
 }
 
 function restoreHeaders(col) {
@@ -1326,8 +1397,9 @@ function restoreHeaders(col) {
   const ids = colGroups[col] || [];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
+    // 빈 문자열로 지우면 "지금 보이는 값이 오늘 것인지" 알 수 없다 -> 최신 봉 날짜로 되돌린다
     const dateEl = document.getElementById('d-' + cid);
-    if (dateEl) dateEl.textContent = '';
+    if (dateEl) dateEl.textContent = lastDates[cid] || '';
   });
 }
 
@@ -1460,6 +1532,11 @@ async function loadIndex(id, col) {
     origValues[id] = () => showPrice(id, price, prev);
     if (candles.length) colStartDate[col] = candles[0].time;
     colTimeIndex[col] = display.map(c => c.time);
+    // 우축 등락률 배지 — 헤더의 등락률과 동일 기준 (주봉이면 전주 종가 대비)
+    const lastC = display.length ? display[display.length - 1].close : null;
+    lastChgInfo[id] = (lastC != null && prev) ? { close: lastC, pct: (lastC - prev) / prev * 100 } : null;
+    updateLastChg(id);
+    requestAnimationFrame(() => updateLastChg(id));
     msgEl.style.display = 'none';
   } else { msgEl.textContent = '⚠ 로딩 실패'; }
 }
@@ -1608,10 +1685,18 @@ async function loadMDD(indexId, mddId, col) {
     for (let i = pkIdx; i < mddData.length; i++) {
       if (mddData[i].value < mddVal) { mddVal = mddData[i].value; mddDate = mddData[i].time; }
     }
+    // 헤더 주값은 "당일 낙폭" (다른 카드와 동일하게 최신 봉 기준 — 2026-09-13 BT).
+    // 카드 이름값인 peak-to-trough 최대낙폭은 옆에 작게 병기한다.
+    const lastMdd = (() => {
+      for (let i = mddData.length - 1; i >= 0; i--) if (mddData[i].value != null) return mddData[i];
+      return null;
+    })();
     const setMdd = () => {
-      document.getElementById('p-' + mddId).textContent = mddVal.toFixed(1) + '%';
+      const pe = document.getElementById('p-' + mddId);
+      if (pe) pe.innerHTML = (lastMdd ? lastMdd.value.toFixed(2) + '%' : '—')
+        + ' <span class="hdr-sub">최대 ' + mddVal.toFixed(1) + '% (' + mddDate + ')</span>';
       const de = document.getElementById('d-' + mddId);
-      if (de) de.textContent = mddDate;
+      if (de) de.textContent = lastMdd ? lastMdd.time : mddDate;
     };
     setMdd();
     origValues[mddId] = setMdd;
@@ -1894,7 +1979,7 @@ async function loadFGCombo(id, col, fetchFn) {
     allCharts[id].series2.setData(pOsc);
     const oscMap = {}; pOsc.forEach(p => { oscMap[p.time] = p.value; });
     const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, osc: oscMap[p.time] }; });
-    chartDataMap[id] = map;
+    setDataMap(id, map);
     msgEl.style.display = 'none';
   } catch (e) { console.error('FGCombo ' + id, e); msgEl.textContent = '⚠ 실패'; }
 }
@@ -1945,7 +2030,7 @@ async function loadBreadthCard(chartId, col, kLong, kShort){
     const map={};
     const n=Math.min(p120.length,p20.length);
     for(let i=0;i<n;i++){const t=p120[i].time;map[t]={time:t,above120:p120[i].value,above20:p20[i].value};}
-    chartDataMap[chartId]=map;
+    setDataMap(chartId, map);
     msgEl.style.display='none';
   }catch(e){console.error('loadBreadthCard '+chartId,e);msgEl.textContent='⚠ 실패';}
 }
@@ -2019,7 +2104,7 @@ async function loadKrFflow() {
     const m60Map = {}; p60.forEach(p => { m60Map[p.time] = p.value; });
     const m5Map = {}; p5.forEach(p => { m5Map[p.time] = p.value; });
     const map = {}; pDaily.forEach(p => { map[p.time] = { time: p.time, value: p.value, cum5: m5Map[p.time], cum20: cumMap[p.time], cum60: m60Map[p.time] }; });
-    chartDataMap['kr-fflow'] = map;
+    setDataMap('kr-fflow', map);
     msgEl.style.display = 'none';
   } catch (e) { console.error('KrFflow', e); msgEl.textContent = '⚠ 실패'; }
 }
@@ -2058,7 +2143,7 @@ async function loadADR(){
     const kpMap={};sKp.forEach(p=>{kpMap[p.time]=p.value});
     const kqMap={};sKq.forEach(p=>{kqMap[p.time]=p.value});
     const map={};pAll.forEach(p=>{map[p.time]={time:p.time,value:p.value,kp:kpMap[p.time],kq:kqMap[p.time]};});
-    chartDataMap['adr']=map;
+    setDataMap('adr', map);
     msgEl.style.display='none';
   }catch(e){console.error('ADR',e);msgEl.textContent='⚠ 실패';}
 }
@@ -2162,7 +2247,7 @@ async function loadKrExport(){
     for (const t of allTimes) {
       cmap[t] = { time: t, mYoY: mMapM[t] != null ? mMapM[t] : null, y20: mMap2[t] != null ? mMap2[t] : null, y10: mMap1[t] != null ? mMap1[t] : null };
     }
-    chartDataMap['kr-export'] = cmap;
+    setDataMap('kr-export', cmap);
 
     msgEl.style.display = 'none';
   } catch (e) {
@@ -2442,7 +2527,7 @@ async function loadUSBreadth(){
     const map={};
     const n=Math.min(p200.length,p50.length);
     for(let i=0;i<n;i++){const t=p200[i].time;map[t]={time:t,above200:p200[i].value,above50:p50[i].value};}
-    chartDataMap['breadth']=map;
+    setDataMap('breadth', map);
     msgEl.style.display='none';
   }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
@@ -2530,7 +2615,8 @@ async function loadColumn(col) {
     } else {
       allCharts[mainId].chart.timeScale().fitContent();
     }
-    setTimeout(() => { syncColumnToMain(mainId); updateDateGrid(col); }, 100);
+    applyLastDates(col);
+    setTimeout(() => { syncColumnToMain(mainId); updateDateGrid(col); updateLastChgCol(col); }, 100);
   }
 }
 
