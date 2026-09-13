@@ -88,7 +88,7 @@ def fetch_one_day(bas_dd):
     """KOSPI + KOSDAQ 한 일자 fetch — 통합 종목 list 반환. 둘 다 실패 시 None."""
     rows = []
     fail = 0
-    for ep in (KOSPI_EP, KOSDAQ_EP):
+    for ep, mkt in ((KOSPI_EP, "kp"), (KOSDAQ_EP, "kq")):
         status, body = call_endpoint(ep, bas_dd)
         if status != 200:
             fail += 1
@@ -99,6 +99,8 @@ def fetch_one_day(bas_dd):
             fail += 1
             continue
         ob = j.get("OutBlock_1") or []
+        for r in ob:
+            r["_mkt"] = mkt   # ADR 코스피/코스닥 분리 계산용 태그
         rows.extend(ob)
         time.sleep(0.05)  # rate limit 보호
     if fail == 2:
@@ -111,7 +113,9 @@ def aggregate_day(rows):
     거래 정지(거래량=0) / 이상치(close=0) 종목 제외.
     """
     adv = dec = unc = 0
+    mkt_cnt = {"kp": [0, 0], "kq": [0, 0]}   # [adv, dec] per market
     close_map = {}
+    mkt_map = {}      # 2026-09-13: 종목 -> 'kp'/'kq' (시장별 MA 비율 계산용)
     for r in rows:
         try:
             rt = float(str(r.get("FLUC_RT", "0")).replace(",", ""))
@@ -122,14 +126,19 @@ def aggregate_day(rows):
             continue
         if not isu or close <= 0 or vol <= 0:
             continue
+        mkt = r.get("_mkt")
         if rt > 0:
             adv += 1
+            if mkt in mkt_cnt: mkt_cnt[mkt][0] += 1
         elif rt < 0:
             dec += 1
+            if mkt in mkt_cnt: mkt_cnt[mkt][1] += 1
         else:
             unc += 1
         close_map[isu] = close
-    return adv, dec, unc, close_map
+        if mkt:
+            mkt_map[isu] = mkt
+    return adv, dec, unc, close_map, mkt_cnt, mkt_map
 
 
 # ---------------- Probe ----------------
@@ -144,7 +153,8 @@ def cmd_probe():
     if rows is None:
         print("[probe] FAIL — 양쪽 endpoint 모두 실패")
         sys.exit(1)
-    adv, dec, unc, cm = aggregate_day(rows)
+    adv, dec, unc, cm, mkt_cnt, _mm = aggregate_day(rows)
+    print(f"[probe] 시장별 adv/dec: {mkt_cnt}")
     print(f"[probe] 종목수 (KOSPI+KOSDAQ 통합 거래 종목): {adv + dec + unc}")
     print(f"[probe] adv={adv}  dec={dec}  unc={unc}")
     if dec > 0:
@@ -180,10 +190,12 @@ def fetch_range(start_yyyymmdd, end_yyyymmdd, existing_dates=None):
         if rows is None:
             fail += 1
             continue
-        adv, dec, unc, cm = aggregate_day(rows)
+        adv, dec, unc, cm, mkt_cnt, mm = aggregate_day(rows)
         if adv + dec + unc == 0:
             continue  # 휴장
-        daily.append({"date": date_str, "adv": adv, "dec": dec, "unc": unc, "close_map": cm})
+        daily.append({"date": date_str, "adv": adv, "dec": dec, "unc": unc, "close_map": cm, "mkt_map": mm,
+                      "adv_kp": mkt_cnt["kp"][0], "dec_kp": mkt_cnt["kp"][1],
+                      "adv_kq": mkt_cnt["kq"][0], "dec_kq": mkt_cnt["kq"][1]})
         if i % 50 == 0 or i == total:
             elapsed = int(time.time() - t0)
             print(f"  [{i:5d}/{total}] {bas_dd}  fetched={len(daily)}  skip={skip}  fail={fail}  ({elapsed}s)")
@@ -212,12 +224,16 @@ def compute_breadth(daily):
         for isu, c in d["close_map"].items():
             close_df.at[d["date"], isu] = c
 
-    # ADR (20일 누적 비율)
-    adv_s = pd.Series([d["adv"] for d in daily_sorted], index=dates, dtype=float)
-    dec_s = pd.Series([d["dec"] for d in daily_sorted], index=dates, dtype=float)
-    sum_adv = adv_s.rolling(WINDOW_ADR, min_periods=WINDOW_ADR).sum()
-    sum_dec = dec_s.rolling(WINDOW_ADR, min_periods=WINDOW_ADR).sum()
-    adr_s = (sum_adv / sum_dec.replace(0, float("nan")) * 100).round(2)
+    # ADR (20일 누적 비율) — 통합 + 코스피 + 코스닥 3종
+    def _adr_series(adv_key, dec_key):
+        a = pd.Series([d.get(adv_key) for d in daily_sorted], index=dates, dtype=float)
+        b = pd.Series([d.get(dec_key) for d in daily_sorted], index=dates, dtype=float)
+        sa = a.rolling(WINDOW_ADR, min_periods=WINDOW_ADR).sum()
+        sb = b.rolling(WINDOW_ADR, min_periods=WINDOW_ADR).sum()
+        return (sa / sb.replace(0, float("nan")) * 100).round(2)
+    adr_s = _adr_series("adv", "dec")
+    adr_kp_s = _adr_series("adv_kp", "dec_kp")
+    adr_kq_s = _adr_series("adv_kq", "dec_kq")
 
     # NH/NL (252일 rolling max/min vs close)
     roll_max = close_df.rolling(WINDOW_52W, min_periods=60).max()
@@ -229,15 +245,34 @@ def compute_breadth(daily):
     nl_pct = (nl_mask.sum(axis=1) / valid.replace(0, float("nan")) * 100).round(2)
 
     # KR Market Breadth: % above 120MA / 20MA (2026-07-23 추가)
+    # 2026-09-13: 코스피/코스닥 분리 추가 — 대시보드가 시장별 카드로 나뉘었다.
     ma_long = close_df.rolling(WINDOW_MA_LONG, min_periods=WINDOW_MA_LONG).mean()
     ma_short = close_df.rolling(WINDOW_MA_SHORT, min_periods=WINDOW_MA_SHORT).mean()
-    valid_long = (ma_long.notna() & close_df.notna()).sum(axis=1)
-    valid_short = (ma_short.notna() & close_df.notna()).sum(axis=1)
-    above_long = ((close_df > ma_long).sum(axis=1) / valid_long.replace(0, float("nan")) * 100).round(2)
-    above_short = ((close_df > ma_short).sum(axis=1) / valid_short.replace(0, float("nan")) * 100).round(2)
-    # MA 유효 종목이 전체의 30% 미만이면 신뢰 불가 → None
-    above_long = above_long.where(valid_long >= valid * 0.3)
-    above_short = above_short.where(valid_short >= valid * 0.3)
+
+    # 종목 -> 시장 (마지막으로 관측된 값). 과거 rows 에 mkt_map 이 없으면 통합값만 계산된다.
+    code2mkt = {}
+    for d in daily_sorted:
+        for isu, m in (d.get("mkt_map") or {}).items():
+            code2mkt[isu] = m
+    cols_kp = [c for c in close_df.columns if code2mkt.get(c) == "kp"]
+    cols_kq = [c for c in close_df.columns if code2mkt.get(c) == "kq"]
+
+    def _above_ratio(ma_df, cols=None):
+        cd = close_df if cols is None else close_df[cols]
+        md = ma_df if cols is None else ma_df[cols]
+        vtot = cd.notna().sum(axis=1)                       # 그날 거래된 종목 수
+        vma = (md.notna() & cd.notna()).sum(axis=1)          # MA 까지 유효한 종목 수
+        r = ((cd > md).sum(axis=1) / vma.replace(0, float("nan")) * 100).round(2)
+        # MA 유효 종목이 전체의 30% 미만이면 신뢰 불가 → None
+        return r.where(vma >= vtot * 0.3)
+
+    above_long = _above_ratio(ma_long)
+    above_short = _above_ratio(ma_short)
+    above_long_kp = _above_ratio(ma_long, cols_kp) if cols_kp else None
+    above_short_kp = _above_ratio(ma_short, cols_kp) if cols_kp else None
+    above_long_kq = _above_ratio(ma_long, cols_kq) if cols_kq else None
+    above_short_kq = _above_ratio(ma_short, cols_kq) if cols_kq else None
+    print(f"[breadth] 시장 분리: 코스피 {len(cols_kp)} 종목 / 코스닥 {len(cols_kq)} 종목")
 
     import math
     def _safe(v):
@@ -258,10 +293,16 @@ def compute_breadth(daily):
             "unc": d["unc"],
             "n_traded": v,
             "adr":    _safe(adr_s.iloc[i]),
+            "adr_kospi":  _safe(adr_kp_s.iloc[i]),
+            "adr_kosdaq": _safe(adr_kq_s.iloc[i]),
             "nh_pct": _safe(nh_pct.iloc[i]),
             "nl_pct": _safe(nl_pct.iloc[i]),
             "above_120ma": _safe(above_long.iloc[i]),
             "above_20ma":  _safe(above_short.iloc[i]),
+            "above_120ma_kp": _safe(above_long_kp.iloc[i]) if above_long_kp is not None else None,
+            "above_20ma_kp":  _safe(above_short_kp.iloc[i]) if above_short_kp is not None else None,
+            "above_120ma_kq": _safe(above_long_kq.iloc[i]) if above_long_kq is not None else None,
+            "above_20ma_kq":  _safe(above_short_kq.iloc[i]) if above_short_kq is not None else None,
         })
     return out
 
@@ -351,7 +392,9 @@ def cmd_update():
             old = existing[r["date"]]
             if (old.get("nh_pct") is None and r.get("nh_pct") is not None) or \
                (old.get("adr") is None and r.get("adr") is not None) or \
-               (old.get("above_120ma") is None and r.get("above_120ma") is not None):
+               (old.get("above_120ma") is None and r.get("above_120ma") is not None) or \
+               (old.get("above_120ma_kp") is None and r.get("above_120ma_kp") is not None) or \
+               (old.get("adr_kospi") is None and r.get("adr_kospi") is not None):
                 existing[r["date"]] = r
                 added += 1
     merged_sorted = sorted(existing.values(), key=lambda x: x["date"])

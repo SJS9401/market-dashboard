@@ -20,6 +20,14 @@
   .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; border-bottom: 1px solid #2e2e2e; background: #0f0f0f; }
   .header h1 { font-size: 17px; color: #f0f6fc; } .header .time { font-size: 12px; color: #8b949e; }
   .main { display: flex; gap: 50px; padding: 10px; max-width: 1600px; margin: 0 auto; }
+  /* 2026-09-13: 한국 행 / 미국 행 2단 구성. 행 사이 구분선 + 라벨 */
+  .main + .main { padding-top: 4px; }
+  .row-label { max-width: 1600px; margin: 18px auto 0; padding: 0 10px; display: flex; align-items: center; gap: 10px;
+               font-size: 12px; font-weight: 700; color: #6e7681; letter-spacing: 0.04em; }
+  .row-label::after { content: ''; flex: 1; height: 1px; background: #2e2e2e; }
+  /* ETF 6패널 — 6개가 같은 높이. 좌측 나스닥 컬럼(메인 340 + 서브 5장) 총높이에 맞춤 */
+  .cw-etf { height: 177px; cursor: crosshair; }
+  .etf-sub { font-size: 10px; color: #6e7681; margin-left: 2px; }
   .col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
   /* 지수 차트(코스피/나스닥) + 스크롤바를 상단 고정 — events 영역 만나면 자동 해제 */
   /* 지수 차트 sticky 해제 (지표 4개 컴팩트 레이아웃) — relative 유지해서 date-main 이 index 카드 하단에 자리잡도록 함 */
@@ -150,8 +158,9 @@
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
 <div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
+<div class="row-label">한국</div>
 <div class="main">
-  <!-- LEFT: 한국 -->
+  <!-- LEFT: 코스피 -->
   <div class="col" id="col-kr">
     <div class="col-xline" id="xline-kr"></div>
     <div class="hts-tooltip" id="hts-tooltip-kr"></div>
@@ -205,7 +214,50 @@
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kr"></div>
   </div>
-  <!-- RIGHT: 미국 -->
+  <!-- RIGHT: 코스닥 (2026-09-13 신설) -->
+  <div class="col" id="col-kq">
+    <div class="col-xline" id="xline-kq"></div>
+    <div class="hts-tooltip" id="hts-tooltip-kq"></div>
+    <div class="sticky-index">
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>코스닥</h3><span class="price" id="p-kosdaq">—</span><span class="chg flat" id="c-kosdaq"></span></div>
+        <div class="range-btns" data-col="kq"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y">1Y</button><button data-r="3y">3Y</button><button data-r="10y" class="active">10Y</button></div>
+        <div class="bar-count" data-col="kq"><input type="text" id="bars-kq" value="" placeholder="봉"><span>봉</span></div>
+        <div class="interval-btns" data-col="kq"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
+      </div>
+      <div class="ma-legend" id="ma-legend-kosdaq"></div>
+      <div class="cw cw-main" id="cw-kosdaq"><div class="msg" id="msg-kosdaq">로딩 중...</div></div>
+    </div>
+    <div class="scrollbar" id="sb-kq"><div class="sb-thumb" id="sb-thumb-kq"></div></div>
+    <div class="col-date-label col-date-main" id="date-main-kq"></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>거래대금</h3><span class="price" id="p-kq-vol" style="color:rgb(126,166,209)">—</span><span class="xdate" id="d-kq-vol"></span></div></div>
+      <div class="cw cw-sub" id="cw-kq-vol"><div class="msg" id="msg-kq-vol">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kq-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kq-mdd"></span></div></div>
+      <div class="cw cw-sub" id="cw-kq-mdd"><div class="msg" id="msg-kq-mdd">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-kq-breadth">—</span><span class="xdate" id="d-kq-breadth"></span></div>
+        <div class="series-toggle" data-chart="kq-breadth">
+          <button data-s="120" class="active">120MA</button>
+          <button data-s="20" class="active">20MA</button>
+          <button data-s="ws" class="active">과매도</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-kq-breadth"><div class="msg" id="msg-kq-breadth">로딩 중...</div></div>
+    </div>
+    <div class="col-date-label col-date-sub" id="date-sub-kq"></div>
+  </div>
+</div>
+
+<div class="row-label">미국</div>
+<div class="main">
+  <!-- LEFT: 나스닥 -->
   <div class="col" id="col-us">
     <div class="col-xline" id="xline-us"></div>
     <div class="hts-tooltip" id="hts-tooltip-us"></div>
@@ -251,6 +303,36 @@
       <div class="cw cw-sub" id="cw-goldman"><div class="msg" id="msg-goldman">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-us"></div>
+  </div>
+  <!-- RIGHT: ETF 6패널 (2026-09-13 신설) — 시총가중 vs 동일비중 쏠림 비교 -->
+  <div class="col" id="col-etf">
+    <div class="col-xline" id="xline-etf"></div>
+    <div class="hts-tooltip" id="hts-tooltip-etf"></div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>QQQ</h3><span class="etf-sub">나스닥100</span><span class="price" id="p-qqq">—</span><span class="chg flat" id="c-qqq"></span></div></div>
+      <div class="cw cw-etf" id="cw-qqq"><div class="msg" id="msg-qqq">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>QQQE</h3><span class="etf-sub">나스닥100 동일비중</span><span class="price" id="p-qqqe">—</span><span class="chg flat" id="c-qqqe"></span></div></div>
+      <div class="cw cw-etf" id="cw-qqqe"><div class="msg" id="msg-qqqe">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>SPY</h3><span class="etf-sub">S&amp;P500</span><span class="price" id="p-spy">—</span><span class="chg flat" id="c-spy"></span></div></div>
+      <div class="cw cw-etf" id="cw-spy"><div class="msg" id="msg-spy">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>RSP</h3><span class="etf-sub">S&amp;P500 동일비중</span><span class="price" id="p-rsp">—</span><span class="chg flat" id="c-rsp"></span></div></div>
+      <div class="cw cw-etf" id="cw-rsp"><div class="msg" id="msg-rsp">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>DIA</h3><span class="etf-sub">다우존스</span><span class="price" id="p-dia">—</span><span class="chg flat" id="c-dia"></span></div></div>
+      <div class="cw cw-etf" id="cw-dia"><div class="msg" id="msg-dia">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>IWM</h3><span class="etf-sub">러셀2000</span><span class="price" id="p-iwm">—</span><span class="chg flat" id="c-iwm"></span></div></div>
+      <div class="cw cw-etf" id="cw-iwm"><div class="msg" id="msg-iwm">로딩 중...</div></div>
+    </div>
+    <div class="col-date-label col-date-sub" id="date-sub-etf"></div>
   </div>
 </div>
 
@@ -435,30 +517,30 @@ function safeSMA(arr,p){const r=[];for(let i=0;i<arr.length;i++){if(i<p-1){r.pus
 // CHART SYSTEM — synced columns
 // ═══════════════════════════════════
 const allCharts = {}; // id → { chart, series, el }
-const colGroups = { kr: [], us: [] }; // chart ids per column
-const colStartDate = { kr: null, us: null }; // earliest date per column for data padding
-const colTimeIndex = { kr: [], us: [] }; // full time keys from main chart
+const colGroups = { kr: [], kq: [], us: [], etf: [] }; // chart ids per column
+const colStartDate = { kr: null, kq: null, us: null, etf: null }; // earliest date per column for data padding
+const colTimeIndex = { kr: [], kq: [], us: [], etf: [] }; // full time keys from main chart
 // 컬럼 로지컬 범위 동기화 상태 (2026-08-01): 목표 범위 + rAF 핸들 + 근사 비교(0.05 bar)
-const colSyncTarget = { kr: null, us: null };
-const colSyncRaf = { kr: null, us: null };
+const colSyncTarget = { kr: null, kq: null, us: null, etf: null };
+const colSyncRaf = { kr: null, kq: null, us: null, etf: null };
 function rangeEq(a, b) {
   return !!a && !!b && Math.abs(a.from - b.from) < 0.05 && Math.abs(a.to - b.to) < 0.05;
 }
 // Crosshair perf cache: setMarkers([]) re-renders each chart; calling it every frame on empty-space hover
 // chokes the frame budget and makes xline/date-label appear laggy. Track per-col state so cleanup
 // (restoreHeaders + setMarkers([]) + hideHTSTooltip) runs ONCE on true→false transition, not every frame.
-const lastCrosshairOnBar = { kr: false, us: false };
+const lastCrosshairOnBar = { kr: false, kq: false, us: false, etf: false };
 // Same idea for onBar=true case: while mouse moves on the SAME candle, time doesn't change so
 // setMarkers/updateHeader/innerHTML rebuild are all redundant. Track last hovered time per column
 // so heavy work runs only on time change; only tooltip *position* updates every frame.
-const lastCrosshairTime = { kr: null, us: null };
+const lastCrosshairTime = { kr: null, kq: null, us: null, etf: null };
 // rAF 배칭 (2026-07-26): 마우스가 캔들들을 빠르게 스칠 때 매 캔들마다 컬럼 전체 setMarkers
 // (6개 차트 재렌더 + 축 재계산) 가 초당 수십 회 발생 → 렉. 프레임당 마지막 hover time 만
 // 반영하면 최종 화면은 동일하고 중간 무의미한 재렌더만 제거됨.
-const crosshairRafId = { kr: null, us: null };
-const crosshairPending = { kr: null, us: null };
-const colRange = { kr: '10y', us: '10y' };
-const colInterval = { kr: '1d', us: '1d' };
+const crosshairRafId = { kr: null, kq: null, us: null, etf: null };
+const crosshairPending = { kr: null, kq: null, us: null, etf: null };
+const colRange = { kr: '10y', kq: '10y', us: '10y', etf: '10y' };
+const colInterval = { kr: '1d', kq: '1d', us: '1d', etf: '1d' };
 let syncing = false;
 // crosshair sync handled by custom overlay xline
 
@@ -761,7 +843,7 @@ function createChart(id, col, opts = {}) {
     e.preventDefault();
     const lr = chart.timeScale().getVisibleLogicalRange();
     if (!lr) return;
-    const mainId = col === 'kr' ? 'kospi' : 'ndx';
+    const mainId = COL_MAIN[col];
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     const shift = e.deltaY > 0 ? -1 : 1;
     const newTo = lr.to + shift;
@@ -1105,7 +1187,8 @@ function buildDataMap(chartId, dataArr) {
 }
 
 function restoreHeaders(col) {
-  const ids = col === 'kr' ? ['kospi','kr-vol','kr-fgosc','kr-breadth','kr-fflow'] : ['ndx','us-vol','us-fgosc','breadth','goldman'];
+  // 2026-09-13: 하드코딩 목록 -> colGroups (kq/etf 컬럼 자동 포함)
+  const ids = colGroups[col] || [];
   ids.forEach(cid => {
     if (origValues[cid]) origValues[cid]();
     const dateEl = document.getElementById('d-' + cid);
@@ -1132,13 +1215,23 @@ function alignToTimeIndex(data, col) {
 // ═══════════════════════════════════
 // DATA LOADERS
 // ═══════════════════════════════════
-const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['USDKRW=X','KRW=X'] };
+const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['USDKRW=X','KRW=X'],
+  // 2026-09-13: 코스닥 + ETF 6종
+  kosdaq:['^KQ11'],
+  qqq:['QQQ'], qqqe:['QQQE'], spy:['SPY'], rsp:['RSP'], dia:['DIA'], iwm:['IWM'] };
+// ETF 패널 (시총가중 vs 동일비중 쏠림 비교). 순서 = 화면 배열 순서
+const ETF_IDS = ['qqq','qqqe','spy','rsp','dia','iwm'];
+// 컬럼별 메인(=기준) 차트 — 기본 봉수/스크롤바/동기화 기준
+const COL_MAIN = { kr:'kospi', kq:'kosdaq', us:'ndx', etf:'qqq' };
 
 // MA config: periods and colors per chart
 const MA_CONFIG = {
-  kospi: { daily:[5,20,60,120], weekly:[5,20,60,120] },
-  ndx:   { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
+  kospi:  { daily:[5,20,60,120], weekly:[5,20,60,120] },
+  kosdaq: { daily:[5,20,60,120], weekly:[5,20,60,120] },
+  ndx:    { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
+// ETF 6패널은 높이가 작아 20일선 하나만 (비교 기준선 역할)
+ETF_IDS.forEach(id => { MA_CONFIG[id] = { daily:[20], weekly:[20] }; });
 // 2026-08-01 BT 스펙 — 주기별 고정 색 (주도주 사이클 HTS 색 계열과 통일):
 //   5 검정 / 20 황금(#B8860B dark goldenrod — 2회 상향: #E8C400 → #CC9900 → #B8860B) /
 //   50·60 보라 / 100·120 녹색 / 200 갈색
@@ -1162,7 +1255,8 @@ async function loadIndex(id, col) {
   const range = colRange[col], intv = colInterval[col];
   const msgEl = document.getElementById('msg-' + id);
   msgEl.style.display = 'flex'; msgEl.textContent = '로딩 중...';
-  if (!allCharts[id]) { createChart(id, col, { showTimeAxis: false }); addCandleSeries(id); }
+  // ETF 컬럼은 서브 카드가 없어 맨 아래 패널(IWM)이 날짜축 역할
+  if (!allCharts[id]) { createChart(id, col, { showTimeAxis: col === 'etf' && id === ETF_IDS[ETF_IDS.length - 1] }); addCandleSeries(id); }
   const syms = FALLBACKS[id] || [id];
   const results = await Promise.allSettled(syms.map(s => getCachedData(s, range)));
   // 2026-08-31 부분 응답 방어: 장기 range 인데 캔들 수십 개 미만이면 (프록시/야후 순단 조각)
@@ -1268,7 +1362,7 @@ function setVolSeries(id, col, rows, fmt) {
     allCharts[id].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.12, bottom: 0 } });
     allCharts[id].series = s;
   }
-  const mainId = col === 'kr' ? 'kospi' : 'ndx';
+  const mainId = COL_MAIN[col];   // 2026-09-13: kq/etf 추가로 kr/us 삼항으로는 부족
   const idxMap = chartDataMap[mainId] || {};
   const data = rows.map(r => {
     const c = idxMap[r.time];
@@ -1284,21 +1378,36 @@ function setVolSeries(id, col, rows, fmt) {
   allCharts[id].series.setData(aligned);
   buildDataMap(id, data);
 }
-async function loadKrVol() {
-  const msgEl = document.getElementById('msg-kr-vol');
+// 2026-09-13: _ALL(코스피+코스닥 합산) 하나만 쓰던 것을 시장별로 분리.
+// _KOSPI/_KOSDAQ 는 kr_sector_history_backfill.py 재빌드 후 생기므로, 없으면 _ALL 로 폴백.
+let _sectorHistCache = null;
+async function fetchSectorHist() {
+  if (!_sectorHistCache) {
+    _sectorHistCache = fetch('data/kr_sector_history.json?cb=' + Math.floor(Date.now()/9e5))
+      .then(r => r.json()).catch(e => { _sectorHistCache = null; throw e; });
+  }
+  return _sectorHistCache;
+}
+async function loadVolCard(chartId, col, pseudo) {
+  const msgEl = document.getElementById('msg-' + chartId);
   try {
-    const j = await fetch('data/kr_sector_history.json?cb=' + Math.floor(Date.now()/9e5)).then(r => r.json());
-    const i = j.sectors.indexOf('_ALL');
-    let rows = j.dates.map((d, k) => ({ time: d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8), value: j.val[i][k] }));
-    if (colInterval.kr === '1wk') rows = volWeekly(rows);
-    setVolSeries('kr-vol', 'kr', rows, v => (v/10000).toFixed(1) + '조');
+    const j = await fetchSectorHist();
+    let i = j.sectors.indexOf(pseudo);
+    if (i < 0) i = j.sectors.indexOf('_ALL');   // 재빌드 전 폴백
+    if (i < 0) throw new Error(pseudo + ' 없음');
+    let rows = j.dates.map((d, k) => ({ time: d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8), value: j.val[i][k] }))
+                      .filter(r => r.value != null);
+    if (colInterval[col] === '1wk') rows = volWeekly(rows);
+    setVolSeries(chartId, col, rows, v => (v/10000).toFixed(1) + '조');
     const last = rows[rows.length-1];
-    const setHdrKrVol = () => { document.getElementById('p-kr-vol').textContent = (last.value/10000).toFixed(1) + '조'; };
-    setHdrKrVol(); origValues['kr-vol'] = setHdrKrVol;
-    document.getElementById('d-kr-vol').textContent = last.time;
+    const setHdr = () => { document.getElementById('p-' + chartId).textContent = (last.value/10000).toFixed(1) + '조'; };
+    setHdr(); origValues[chartId] = setHdr;
+    document.getElementById('d-' + chartId).textContent = last.time;
     msgEl.style.display = 'none';
   } catch(e) { if (msgEl) msgEl.textContent = '거래대금 실패: ' + e.message; }
 }
+const loadKrVol = () => loadVolCard('kr-vol', 'kr', '_KOSPI');
+const loadKqVol = () => loadVolCard('kq-vol', 'kq', '_KOSDAQ');
 async function loadUSVol() {
   const msgEl = document.getElementById('msg-us-vol');
   try {
@@ -1657,50 +1766,55 @@ async function loadFGCombo(id, col, fetchFn) {
 async function loadKrFGOsc() { return loadFGCombo('kr-fgosc', 'kr', fetchFgOsc); }
 
 // KR Market Breadth: 120MA·20MA 위 비율 (kr_breadth.json above_120ma/above_20ma)
-async function loadKrBreadth(){
-  const range=colRange.kr, intv=colInterval.kr;
-  const msgEl=document.getElementById('msg-kr-breadth');
+// 2026-09-13: 시장폭을 코스피/코스닥 카드로 분리.
+//   kr_breadth.json 의 above_120ma_kp/kq · above_20ma_kp/kq 사용 (통합값 above_120ma 는 미사용).
+//   신규 필드라 과거 구간은 null → filter 로 빠지고 선이 그 지점부터 시작한다.
+//   ※ 과매도 임계 10% 는 통합 시리즈로 검증한 값이다. 시장별 재검증은 분리 백필 완료 후 과제.
+async function loadBreadthCard(chartId, col, kLong, kShort){
+  const range=colRange[col], intv=colInterval[col];
+  const msgEl=document.getElementById('msg-'+chartId);
   try{
     const all = await fetchKrBreadthSeries();
     const filtered = filterAdrByRange(all, range);
-    let s120 = filtered.filter(r=>r.above_120ma!=null).map(r=>({time:r.date,value:r.above_120ma}));
-    let s20  = filtered.filter(r=>r.above_20ma!=null).map(r=>({time:r.date,value:r.above_20ma}));
+    let s120 = filtered.filter(r=>r[kLong]!=null).map(r=>({time:r.date,value:r[kLong]}));
+    let s20  = filtered.filter(r=>r[kShort]!=null).map(r=>({time:r.date,value:r[kShort]}));
     if(intv==='1wk'){s120=resampleWeekly(s120);s20=resampleWeekly(s20);}
     if(!s120.length && !s20.length){msgEl.textContent='데이터 대기 중 (다음 KRX 갱신 후 표시)';return;}
     const last120=s120[s120.length-1],last20=s20[s20.length-1];
-    const hdr=document.getElementById('p-kr-breadth');
+    const hdr=document.getElementById('p-'+chartId);
     const hdrHtml=(last120&&last20)?`<span style="color:rgb(126,166,209)">120MA ${last120.value.toFixed(1)}%</span> / <span style="color:rgb(249,117,131)">20MA ${last20.value.toFixed(1)}%</span>`:'—';
     if(hdr)hdr.innerHTML=hdrHtml;
-    origValues['kr-breadth']=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
-    if(!allCharts['kr-breadth']){
-      createChart('kr-breadth','kr',{showTimeAxis:false});
-      allCharts['kr-breadth'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
-      // washout(과매도) 음영 — 120MA 위 비율 <= 10% 구간. US 카드와 동일 패턴:
-      // gold/pink 보다 먼저 생성(뒤에 깔림) + stepped area(줄무늬 회피) + autoscale 0..1 고정(전 구간 0 일 때 하단 절반 칠해지는 버그 회피)
-      const shadeK=allCharts['kr-breadth'].chart.addAreaSeries({priceScaleId:'ws-shade',lineType:1,lineWidth:0,lineColor:'rgba(0,0,0,0)',topColor:'rgba(18,69,158,0.32)',bottomColor:'rgba(18,69,158,0.32)',priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false,autoscaleInfoProvider:()=>({priceRange:{minValue:0,maxValue:1}})});
-      allCharts['kr-breadth'].chart.priceScale('ws-shade').applyOptions({scaleMargins:{top:0,bottom:0}});
-      allCharts['kr-breadth'].shade=shadeK;
-      const gold=allCharts['kr-breadth'].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      const pink=allCharts['kr-breadth'].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
-      allCharts['kr-breadth'].series=gold;
-      allCharts['kr-breadth'].series2=pink;
-      allCharts['kr-breadth'].seriesByKey = { '120': gold, '20': pink, 'ws': shadeK };
+    origValues[chartId]=()=>{if(hdr)hdr.innerHTML=hdrHtml;};
+    if(!allCharts[chartId]){
+      createChart(chartId,col,{showTimeAxis: col === 'kq'});   // 코스닥 컬럼은 이 카드가 맨 아래
+      allCharts[chartId].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});
+      // washout(과매도) 음영 — gold/pink 보다 먼저 생성(뒤에 깔림) + stepped area + autoscale 0..1 고정
+      const shadeK=allCharts[chartId].chart.addAreaSeries({priceScaleId:'ws-shade',lineType:1,lineWidth:0,lineColor:'rgba(0,0,0,0)',topColor:'rgba(18,69,158,0.32)',bottomColor:'rgba(18,69,158,0.32)',priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false,autoscaleInfoProvider:()=>({priceRange:{minValue:0,maxValue:1}})});
+      allCharts[chartId].chart.priceScale('ws-shade').applyOptions({scaleMargins:{top:0,bottom:0}});
+      allCharts[chartId].shade=shadeK;
+      const gold=allCharts[chartId].chart.addLineSeries({color:C_SLATE,lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      const pink=allCharts[chartId].chart.addLineSeries({color:'rgb(249,117,131)',lineWidth:1.4,priceLineVisible:false,lastValueVisible:true,crosshairMarkerVisible:true});
+      allCharts[chartId].series=gold;
+      allCharts[chartId].series2=pink;
+      allCharts[chartId].seriesByKey = { '120': gold, '20': pink, 'ws': shadeK };
       addZoneLines(gold,[{price:70,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:30,color:'#e74c3c'},{price:10,color:'#12459E',width:2,style:0}]);
     }
-    const p120=alignToTimeIndex(s120,'kr');
-    const p20 =alignToTimeIndex(s20, 'kr');
-    allCharts['kr-breadth'].series.setData(p120);
-    allCharts['kr-breadth'].series2.setData(p20);
-    if(allCharts['kr-breadth'].shade){
-      allCharts['kr-breadth'].shade.setData(p120.map(p=>({time:p.time,value:(p.value!=null&&p.value<=WASHOUT_TH_KR)?1:0})));
+    const p120=alignToTimeIndex(s120,col);
+    const p20 =alignToTimeIndex(s20, col);
+    allCharts[chartId].series.setData(p120);
+    allCharts[chartId].series2.setData(p20);
+    if(allCharts[chartId].shade){
+      allCharts[chartId].shade.setData(p120.map(p=>({time:p.time,value:(p.value!=null&&p.value<=WASHOUT_TH_KR)?1:0})));
     }
     const map={};
     const n=Math.min(p120.length,p20.length);
     for(let i=0;i<n;i++){const t=p120[i].time;map[t]={time:t,above120:p120[i].value,above20:p20[i].value};}
-    chartDataMap['kr-breadth']=map;
+    chartDataMap[chartId]=map;
     msgEl.style.display='none';
-  }catch(e){console.error('loadKrBreadth',e);msgEl.textContent='⚠ 실패';}
+  }catch(e){console.error('loadBreadthCard '+chartId,e);msgEl.textContent='⚠ 실패';}
 }
+const loadKrBreadth = () => loadBreadthCard('kr-breadth','kr','above_120ma_kp','above_20ma_kp');
+const loadKqBreadth = () => loadBreadthCard('kq-breadth','kq','above_120ma_kq','above_20ma_kq');
 
 // 외국인 순매수 (KOSPI, KIS FHPTJ04040000) — 누적 골드선(좌) + 일별 히스토그램(우, 억원)
 let _fflowCache = null;
@@ -2235,7 +2349,7 @@ async function getFedRateData(){
 }
 
 async function loadFedRate(chartId,col){
-  const intv=col==='kr'?colInterval.kr:colInterval.us;
+  const intv=colInterval[col];
   const msgEl=document.getElementById('msg-'+chartId);
   try{
     const{candles,price,prev}=await getFedRateData();
@@ -2271,15 +2385,22 @@ function syncColumnToMain(mainId) {
 
 // ── Full column reload ──
 async function loadColumn(col) {
-  const mainId = col === 'kr' ? 'kospi' : 'ndx';
-  // Load index first (sets colStartDate for padding)
-  if (col === 'kr') { await loadIndex('kospi', 'kr'); }
-  else { await loadIndex('ndx', 'us'); }
-  // Then load all sub-indicators in parallel
-  if (col === 'kr') {
-    await Promise.allSettled([loadKrVol(), loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadKrFflow()]);  // ADR 카드 제거 (2026-08-21 BT)
+  const mainId = COL_MAIN[col];
+  if (col === 'etf') {
+    // ETF 6패널 — 전부 지수 차트 형태라 서브 지표가 없다
+    await Promise.allSettled(ETF_IDS.map(id => loadIndex(id, 'etf')));
   } else {
-    await Promise.allSettled([loadUSVol(), loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
+    // Load index first (sets colStartDate for padding)
+    await loadIndex(mainId, col);
+    // Then load all sub-indicators in parallel
+    if (col === 'kr') {
+      await Promise.allSettled([loadKrVol(), loadMDD('kospi','kr-mdd','kr'), loadKrFGOsc(), loadKrBreadth(), loadKrFflow()]);  // ADR 카드 제거 (2026-08-21 BT)
+    } else if (col === 'kq') {
+      // 코스닥 (2026-09-13): F&G·외국인 현선물은 코스피 전용이라 제외
+      await Promise.allSettled([loadKqVol(), loadMDD('kosdaq','kq-mdd','kq'), loadKqBreadth()]);
+    } else {
+      await Promise.allSettled([loadUSVol(), loadMDD('ndx','us-mdd','us'), loadUSFGOsc(), loadUSBreadth(), loadGoldmanBreadth()]);
+    }
   }
   if (allCharts[mainId]) {
     // Default view: last 50 bars (2026-08-30 BT: 120 → 90, 2026-09-11 BT: 90 → 50) — KR/US 공통
@@ -2329,7 +2450,7 @@ document.querySelectorAll('.bar-count input').forEach(input => {
   const apply = () => {
     const n = parseInt(input.value);
     if (!n || n < 10) return;
-    const mainId = col === 'kr' ? 'kospi' : 'ndx';
+    const mainId = COL_MAIN[col];
     if (!allCharts[mainId]) return;
     const dataLen = chartDataMap[mainId] ? Object.keys(chartDataMap[mainId]).length : 0;
     if (dataLen === 0) return;
@@ -2525,7 +2646,7 @@ async function refreshAllData() {
     try { const lr = obj.chart.timeScale().getVisibleLogicalRange(); if (lr) savedRanges[id] = lr; } catch(_) {}
   }
   for (const key of Object.keys(dataCache)) delete dataCache[key];
-  await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+  await Promise.allSettled([loadColumn('kr'), loadColumn('kq'), loadColumn('us'), loadColumn('etf')]);
   loadKrMarketmap();
   initNightPrice();
   for (const [id, lr] of Object.entries(savedRanges)) {
@@ -2641,10 +2762,11 @@ setInterval(fetchIndicatorMeta, 5 * 60 * 1000);
 // ── INIT ──
 window.addEventListener('load',()=>{
   setTimeout(async()=>{
-    await Promise.allSettled([loadColumn('kr'), loadColumn('us')]);
+    await Promise.allSettled([loadColumn('kr'), loadColumn('kq'), loadColumn('us'), loadColumn('etf')]);
     loadKrMarketmap();
     initNightPrice();
     setupScrollbar('kr', 'kospi');
+    setupScrollbar('kq', 'kosdaq');
     setupScrollbar('us', 'ndx');
     // Auto-refresh every 15 minutes
     setInterval(refreshAllData, 15 * 60 * 1000);
