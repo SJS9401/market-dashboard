@@ -548,7 +548,8 @@ const colRange = { kr: '10y', kq: '10y', us: '10y', etf: '10y' };
 // → 시간이 아니라 "메인 차트가 리사이즈될 때마다" 재적용하고, 사용자가 줌을 건드리면 잠근다.
 const DEFAULT_BARS = 50;
 const colUserZoomed = { kr: false, kq: false, us: false, etf: false };
-function applyDefaultBars(col) {
+const BARS_MAX_RETRY = 40;
+function applyDefaultBars(col, _attempt) {
   if (colUserZoomed[col]) return;
   const mainId = COL_MAIN[col];
   const c = allCharts[mainId];
@@ -562,6 +563,13 @@ function applyDefaultBars(col) {
   ts.setVisibleLogicalRange({ from: Math.max(0, dataLen - DEFAULT_BARS), to: dataLen });
   const barInput = document.getElementById('bars-' + col);
   if (barInput && !barInput.matches(':focus')) barInput.value = Math.min(DEFAULT_BARS, dataLen);
+  // 위 set 이 통째로 무시될 수 있다 (백그라운드 탭이면 렌더 루프가 멈춰 no-op).
+  // 그래서 "걸었다" 가 아니라 "실제로 먹었다" 를 확인할 때까지 재시도한다.
+  // rAF 는 hidden 탭에서 아예 발화하지 않으므로 체인이 스스로 멈췄다가 탭이 보이면 재개된다.
+  const n = _attempt || 0;
+  if (n < BARS_MAX_RETRY) {
+    requestAnimationFrame(() => setTimeout(() => applyDefaultBars(col, n + 1), 200));
+  }
 }
 // 백그라운드 탭에서 로드되면 lightweight-charts 가 렌더 루프를 멈춘다.
 // 이때 setVisibleLogicalRange 는 모델에 반영되지 않고 조용히 무시되어(입력칸만 50으로 바뀜)
