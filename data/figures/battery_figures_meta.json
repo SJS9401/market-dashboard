@@ -1,7 +1,7 @@
 {
   "sector": "battery",
-  "source_pdf": "Battery_Weekly_2026.9.07_1.pdf",
-  "generated_at": "2026-09-13T10:30:32Z",
+  "source_pdf": "Battery_Weekly_2026.9.14_1.pdf",
+  "generated_at": "2026-09-14T10:30:33Z",
   "resolution_dpi": 200,
   "schema_version": 9,
   "match_strategy": "title_substring",
@@ -11,12 +11,12 @@
     "cellmaker_lges_perf": {
       "title": "LG에너지솔루션 실적 추이 및 전망",
       "type": "pdf_embed",
-      "page_idx": 26,
-      "page_num": 27,
+      "page_idx": 28,
+      "page_num": 29,
       "file": "pdf_pages/battery_cellmaker_lges_perf.pdf",
       "mediabox_pt": [
         519.8540650000001,
-        833.64
+        839.28
       ],
       "needs_review": false,
       "review_reason": ""
@@ -24,12 +24,12 @@
     "cellmaker_sdi_perf": {
       "title": "삼성SDI 실적 추이 및 전망",
       "type": "pdf_embed",
-      "page_idx": 27,
-      "page_num": 28,
+      "page_idx": 29,
+      "page_num": 30,
       "file": "pdf_pages/battery_cellmaker_sdi_perf.pdf",
       "mediabox_pt": [
         519.8540650000001,
-        833.64
+        839.28
       ],
       "needs_review": false,
       "review_reason": ""
@@ -37,12 +37,12 @@
     "cellmaker_p29_combined": {
       "title": "에코프로비엠 + 포스코퓨처엠 실적 추이 및 전망",
       "type": "pdf_embed",
-      "page_idx": 28,
-      "page_num": 29,
+      "page_idx": 30,
+      "page_num": 31,
       "file": "pdf_pages/battery_cellmaker_p29_combined.pdf",
       "mediabox_pt": [
         520.792,
-        833.64
+        839.28
       ],
       "needs_review": false,
       "review_reason": ""
@@ -65,8 +65,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "2차전지 수출액 추이",
       "matched_fig_num": 35,
-      "page_idx": 16,
-      "page_num": 17,
+      "page_idx": 18,
+      "page_num": 19,
       "file": "pdf_pages/battery_export_battery_total.pdf",
       "mediabox_pt": [
         263.57,
@@ -78,8 +78,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "리튬이온전지 수출액 추이",
       "matched_fig_num": 36,
-      "page_idx": 16,
-      "page_num": 17,
+      "page_idx": 18,
+      "page_num": 19,
       "file": "pdf_pages/battery_export_liion.pdf",
       "mediabox_pt": [
         252.33999999999992,
@@ -91,12 +91,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "EV용 리튬이온전지 수출액 추이",
       "matched_fig_num": 37,
-      "page_idx": 16,
-      "page_num": 17,
+      "page_idx": 18,
+      "page_num": 19,
       "file": "pdf_pages/battery_export_ev_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.89792
+        201.77792
       ]
     },
     "export_ev_price": {
@@ -104,12 +104,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "EV용 리튬이온전지 수출 단가 추이",
       "matched_fig_num": 38,
-      "page_idx": 16,
-      "page_num": 17,
+      "page_idx": 18,
+      "page_num": 19,
       "file": "pdf_pages/battery_export_ev_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.89792
+        199.77792
       ]
     },
     "export_ess_value": {
@@ -117,12 +117,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "ESS용 리튬이온전지 수출액 추이",
       "matched_fig_num": 39,
-      "page_idx": 17,
-      "page_num": 18,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/battery_export_ess_value.pdf",
       "mediabox_pt": [
         263.57,
-        200.88792000000012
+        200.76792000000012
       ]
     },
     "export_ess_price": {
@@ -130,12 +130,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "ESS용 리튬이온전지 수출 단가 추이",
       "matched_fig_num": 40,
-      "page_idx": 17,
-      "page_num": 18,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/battery_export_ess_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.88792000000012
+        199.76792000000012
       ]
     },
     "export_foil_value": {
@@ -143,8 +143,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "동박 수출액 추이",
       "matched_fig_num": 41,
-      "page_idx": 17,
-      "page_num": 18,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/battery_export_foil_value.pdf",
       "mediabox_pt": [
         263.57,
@@ -156,8 +156,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "동박 수출 단가 추이",
       "matched_fig_num": 42,
-      "page_idx": 17,
-      "page_num": 18,
+      "page_idx": 19,
+      "page_num": 20,
       "file": "pdf_pages/battery_export_foil_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
@@ -169,12 +169,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 전기차(BEV+PHEV) 월별 판매증가율",
       "matched_fig_num": 8,
-      "page_idx": 8,
-      "page_num": 9,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/battery_ev_global_growth.pdf",
       "mediabox_pt": [
         264.55,
-        199.89792
+        199.77792
       ]
     },
     "ev_us_monthly": {
@@ -182,12 +182,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "미국 전기차(BEV+PHEV) 월별 판매 추이",
       "matched_fig_num": 9,
-      "page_idx": 8,
-      "page_num": 9,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/battery_ev_us_monthly.pdf",
       "mediabox_pt": [
         262.31999999999994,
-        199.89792
+        199.77792
       ]
     },
     "ev_china_monthly": {
@@ -195,12 +195,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "중국 전기차(BEV+PHEV) 월별 판매 추이",
       "matched_fig_num": 10,
-      "page_idx": 8,
-      "page_num": 9,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/battery_ev_china_monthly.pdf",
       "mediabox_pt": [
         268.12977299128977,
-        200.77792
+        200.89792
       ]
     },
     "ev_eu_monthly": {
@@ -208,12 +208,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 전기차(BEV+PHEV) 월별 판매 추이",
       "matched_fig_num": 11,
-      "page_idx": 8,
-      "page_num": 9,
+      "page_idx": 10,
+      "page_num": 11,
       "file": "pdf_pages/battery_ev_eu_monthly.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.77792
+        199.89792
       ]
     },
     "ev_us_volume": {
@@ -221,12 +221,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "미국 전기차 판매량 추이",
       "matched_fig_num": 12,
-      "page_idx": 9,
-      "page_num": 10,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/battery_ev_us_volume.pdf",
       "mediabox_pt": [
-        272.79539731123964,
-        200.77792
+        272.0758572004396,
+        200.89792000000006
       ]
     },
     "ev_us_share": {
@@ -234,12 +234,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "미국 전기차 시장점유율 추이",
       "matched_fig_num": 13,
-      "page_idx": 9,
-      "page_num": 10,
+      "page_idx": 11,
+      "page_num": 12,
       "file": "pdf_pages/battery_ev_us_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.77792
+        199.89792000000006
       ]
     },
     "ev_china_volume": {
@@ -247,12 +247,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "중국 전기차 판매량 추이",
       "matched_fig_num": 14,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/battery_ev_china_volume.pdf",
       "mediabox_pt": [
-        267.02985392439473,
-        201.76792
+        266.31024336951475,
+        201.88792
       ]
     },
     "ev_china_share": {
@@ -260,12 +260,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "중국 전기차 시장점유율 추이",
       "matched_fig_num": 15,
-      "page_idx": 10,
-      "page_num": 11,
+      "page_idx": 12,
+      "page_num": 13,
       "file": "pdf_pages/battery_ev_china_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.76792
+        199.88792
       ]
     },
     "ev_eu3_volume": {
@@ -273,8 +273,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 주요 3개국 전기차 판매량 추이",
       "matched_fig_num": 22,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 13,
+      "page_num": 14,
       "file": "pdf_pages/battery_ev_eu3_volume.pdf",
       "mediabox_pt": [
         272.83,
@@ -286,8 +286,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 주요 3개국 전기차 시장점유율 추이",
       "matched_fig_num": 23,
-      "page_idx": 11,
-      "page_num": 12,
+      "page_idx": 13,
+      "page_num": 14,
       "file": "pdf_pages/battery_ev_eu3_share.pdf",
       "mediabox_pt": [
         256.65999999999997,
@@ -299,12 +299,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "전기차용 리튬 이온 배터리 출하량",
       "matched_fig_num": 29,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 16,
+      "page_num": 17,
       "file": "pdf_pages/battery_lib_global_shipment.pdf",
       "mediabox_pt": [
         372.18999999999994,
-        202.2479199999999
+        202.36791999999997
       ]
     },
     "lib_kr3_shipment": {
@@ -312,8 +312,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "한국 배터리 3사 전기차용 리튬 이온 배터리 출하량",
       "matched_fig_num": 30,
-      "page_idx": 14,
-      "page_num": 15,
+      "page_idx": 16,
+      "page_num": 17,
       "file": "pdf_pages/battery_lib_kr3_shipment.pdf",
       "mediabox_pt": [
         365.11,
@@ -325,8 +325,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "글로벌 LFP 배터리 침투율",
       "matched_fig_num": 31,
-      "page_idx": 15,
-      "page_num": 16,
+      "page_idx": 17,
+      "page_num": 18,
       "file": "pdf_pages/battery_lfp_global.pdf",
       "mediabox_pt": [
         263.57,
@@ -338,8 +338,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "미국 LFP 배터리 침투율",
       "matched_fig_num": 32,
-      "page_idx": 15,
-      "page_num": 16,
+      "page_idx": 17,
+      "page_num": 18,
       "file": "pdf_pages/battery_lfp_us.pdf",
       "mediabox_pt": [
         261.03984,
@@ -351,8 +351,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "중국 LFP 배터리 침투율",
       "matched_fig_num": 33,
-      "page_idx": 15,
-      "page_num": 16,
+      "page_idx": 17,
+      "page_num": 18,
       "file": "pdf_pages/battery_lfp_china.pdf",
       "mediabox_pt": [
         263.57,
@@ -364,8 +364,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 LFP 배터리 침투율",
       "matched_fig_num": 34,
-      "page_idx": 15,
-      "page_num": 16,
+      "page_idx": 17,
+      "page_num": 18,
       "file": "pdf_pages/battery_lfp_eu.pdf",
       "mediabox_pt": [
         252.33999999999992,
@@ -377,12 +377,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "ESS 신규 설치량",
       "matched_fig_num": 4,
-      "page_idx": 6,
-      "page_num": 7,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/battery_ess_install_global.pdf",
       "mediabox_pt": [
         370.75,
-        199.76791999999995
+        199.88791999999995
       ]
     },
     "ess_chemistry_share": {
@@ -390,12 +390,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "ESS 케미스트리별 비중",
       "matched_fig_num": 5,
-      "page_idx": 6,
-      "page_num": 7,
+      "page_idx": 8,
+      "page_num": 9,
       "file": "pdf_pages/battery_ess_chemistry_share.pdf",
       "mediabox_pt": [
         370.75,
-        199.89391999999998
+        199.8939200000001
       ]
     },
     "ess_install_by_region": {
@@ -403,8 +403,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "지역별 ESS 배터리 신규 설치량",
       "matched_fig_num": 6,
-      "page_idx": 7,
-      "page_num": 8,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/battery_ess_install_by_region.pdf",
       "mediabox_pt": [
         515.81668,
@@ -416,8 +416,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "전력망(Grid) 시장 내 연계 유형별 ESS 배터리 신규",
       "matched_fig_num": 7,
-      "page_idx": 7,
-      "page_num": 8,
+      "page_idx": 9,
+      "page_num": 10,
       "file": "pdf_pages/battery_ess_grid_market_type.pdf",
       "mediabox_pt": [
         515.4039906400001,
@@ -429,12 +429,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "리튬 월별 평균 가격 추이",
       "matched_fig_num": 63,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_lithium.pdf",
       "mediabox_pt": [
         263.57,
-        199.88792000000012
+        199.76792000000012
       ]
     },
     "raw_nickel": {
@@ -442,12 +442,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "니켈 월별 평균 가격 추이",
       "matched_fig_num": 64,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_nickel.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.88792000000012
+        199.76792000000012
       ]
     },
     "raw_cobalt": {
@@ -455,12 +455,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "코발트 월별 평균 가격 추이",
       "matched_fig_num": 65,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_cobalt.pdf",
       "mediabox_pt": [
         265.75,
-        199.76792000000006
+        199.88792
       ]
     },
     "raw_manganese": {
@@ -468,12 +468,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "망간 월별 평균 가격 추이",
       "matched_fig_num": 66,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_manganese.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        199.76792000000006
+        199.88792
       ]
     },
     "raw_aluminum": {
@@ -481,8 +481,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "알루미늄 월별 평균 가격 추이",
       "matched_fig_num": 67,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_aluminum.pdf",
       "mediabox_pt": [
         265.75,
@@ -494,8 +494,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "동 월별 평균 가격 추이",
       "matched_fig_num": 68,
-      "page_idx": 25,
-      "page_num": 26,
+      "page_idx": 27,
+      "page_num": 28,
       "file": "pdf_pages/battery_raw_copper.pdf",
       "mediabox_pt": [
         256.65999999999997,
@@ -507,12 +507,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "영국 전력 가격 추이",
       "matched_fig_num": 25,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 15,
+      "page_num": 16,
       "file": "pdf_pages/battery_power_uk.pdf",
       "mediabox_pt": [
         265.75,
-        200.37792000000002
+        200.25792
       ]
     },
     "power_de": {
@@ -520,12 +520,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "독일 전력 가격 추이",
       "matched_fig_num": 26,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 15,
+      "page_num": 16,
       "file": "pdf_pages/battery_power_de.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        202.37792000000002
+        202.25792
       ]
     },
     "power_fr": {
@@ -533,12 +533,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "프랑스 전력 가격 추이",
       "matched_fig_num": 27,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 15,
+      "page_num": 16,
       "file": "pdf_pages/battery_power_fr.pdf",
       "mediabox_pt": [
         265.75,
-        201.37792000000002
+        201.25792
       ]
     },
     "power_eu3_combined": {
@@ -546,12 +546,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "유럽 3국 전력 가격 추이",
       "matched_fig_num": 28,
-      "page_idx": 13,
-      "page_num": 14,
+      "page_idx": 15,
+      "page_num": 16,
       "file": "pdf_pages/battery_power_eu3_combined.pdf",
       "mediabox_pt": [
         256.65999999999997,
-        201.37792000000002
+        201.25792
       ]
     },
     "import_lithium_hydroxide_value": {
@@ -559,8 +559,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "수산화리튬 수입액 추이",
       "matched_fig_num": 56,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 24,
+      "page_num": 25,
       "file": "pdf_pages/battery_import_lithium_hydroxide_value.pdf",
       "mediabox_pt": [
         263.57,
@@ -572,8 +572,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "수산화리튬 수입 단가 추이",
       "matched_fig_num": 57,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 24,
+      "page_num": 25,
       "file": "pdf_pages/battery_import_lithium_hydroxide_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
@@ -585,12 +585,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "음극재 수입액 추이",
       "matched_fig_num": 58,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 24,
+      "page_num": 25,
       "file": "pdf_pages/battery_import_anode_value.pdf",
       "mediabox_pt": [
         263.57,
-        200.88792
+        200.76792
       ]
     },
     "import_anode_price": {
@@ -598,12 +598,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "음극재 수입 단가 추이",
       "matched_fig_num": 59,
-      "page_idx": 22,
-      "page_num": 23,
+      "page_idx": 24,
+      "page_num": 25,
       "file": "pdf_pages/battery_import_anode_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.88792
+        199.76792
       ]
     },
     "import_graphite_value": {
@@ -611,12 +611,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "천연흑연 수입액 추이",
       "matched_fig_num": 60,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 25,
+      "page_num": 26,
       "file": "pdf_pages/battery_import_graphite_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.88792000000012
+        201.76792000000012
       ]
     },
     "import_graphite_price": {
@@ -624,12 +624,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "천연흑연 수입 단가 추이",
       "matched_fig_num": 61,
-      "page_idx": 23,
-      "page_num": 24,
+      "page_idx": 25,
+      "page_num": 26,
       "file": "pdf_pages/battery_import_graphite_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        200.88792000000012
+        200.76792000000012
       ]
     },
     "export_cathode_value_total": {
@@ -637,12 +637,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "양극재 수출액 추이",
       "matched_fig_num": 43,
-      "page_idx": 18,
-      "page_num": 19,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/battery_export_cathode_value_total.pdf",
       "mediabox_pt": [
         263.57,
-        200.89792000000006
+        200.77792000000005
       ]
     },
     "export_cathode_ncm_value": {
@@ -650,12 +650,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM 양극재 수출액 추이",
       "matched_fig_num": 44,
-      "page_idx": 18,
-      "page_num": 19,
+      "page_idx": 20,
+      "page_num": 21,
       "file": "pdf_pages/battery_export_cathode_ncm_value.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.89792000000006
+        199.77792000000005
       ]
     },
     "export_cathode_nca_value": {
@@ -663,12 +663,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCA 양극재 수출액 추이",
       "matched_fig_num": 45,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_nca_value.pdf",
       "mediabox_pt": [
         263.57,
-        201.88792000000012
+        201.76792000000012
       ]
     },
     "export_cathode_ncm_nca_value": {
@@ -676,12 +676,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM+NCA 양극재 수출액 추이",
       "matched_fig_num": 46,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_ncm_nca_value.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.88792000000012
+        199.76792000000012
       ]
     },
     "export_cathode_weight_total": {
@@ -689,8 +689,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "양극재 수출 중량 추이",
       "matched_fig_num": 47,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_weight_total.pdf",
       "mediabox_pt": [
         263.57,
@@ -702,8 +702,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM 양극재 수출 중량 추이",
       "matched_fig_num": 48,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_ncm_weight.pdf",
       "mediabox_pt": [
         252.33999999999992,
@@ -715,12 +715,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCA 양극재 수출 중량 추이",
       "matched_fig_num": 49,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_nca_weight.pdf",
       "mediabox_pt": [
         263.57,
-        200.89792
+        200.77792000000005
       ]
     },
     "export_cathode_ncm_nca_weight": {
@@ -728,12 +728,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM+NCA 양극재 수출 중량 추이",
       "matched_fig_num": 50,
-      "page_idx": 19,
-      "page_num": 20,
+      "page_idx": 21,
+      "page_num": 22,
       "file": "pdf_pages/battery_export_cathode_ncm_nca_weight.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.89792
+        199.77792000000005
       ]
     },
     "export_cathode_unit_price": {
@@ -741,12 +741,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "양극재 수출 단가 추이",
       "matched_fig_num": 51,
-      "page_idx": 20,
-      "page_num": 21,
+      "page_idx": 22,
+      "page_num": 23,
       "file": "pdf_pages/battery_export_cathode_unit_price.pdf",
       "mediabox_pt": [
         263.57,
-        200.88792000000012
+        200.76792000000012
       ]
     },
     "export_cathode_ncm_price": {
@@ -754,12 +754,12 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM 양극재 수출 단가 추이",
       "matched_fig_num": 52,
-      "page_idx": 20,
-      "page_num": 21,
+      "page_idx": 22,
+      "page_num": 23,
       "file": "pdf_pages/battery_export_cathode_ncm_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
-        199.88792000000012
+        199.76792000000012
       ]
     },
     "export_cathode_nca_price": {
@@ -767,8 +767,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCA 양극재 수출 단가 추이",
       "matched_fig_num": 53,
-      "page_idx": 20,
-      "page_num": 21,
+      "page_idx": 22,
+      "page_num": 23,
       "file": "pdf_pages/battery_export_cathode_nca_price.pdf",
       "mediabox_pt": [
         263.57,
@@ -780,8 +780,8 @@
       "type": "pdf_embed_chart",
       "matched_pdf_title": "NCM+NCA 양극재 수출 단가 추이",
       "matched_fig_num": 54,
-      "page_idx": 20,
-      "page_num": 21,
+      "page_idx": 22,
+      "page_num": 23,
       "file": "pdf_pages/battery_export_cathode_ncm_nca_price.pdf",
       "mediabox_pt": [
         252.33999999999992,
