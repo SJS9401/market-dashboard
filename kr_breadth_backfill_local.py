@@ -196,28 +196,33 @@ def fetch_range(start_yyyymmdd, end_yyyymmdd, existing_dates=None):
         daily.append({"date": date_str, "adv": adv, "dec": dec, "unc": unc, "close_map": cm, "mkt_map": mm,
                       "adv_kp": mkt_cnt["kp"][0], "dec_kp": mkt_cnt["kp"][1],
                       "adv_kq": mkt_cnt["kq"][0], "dec_kq": mkt_cnt["kq"][1]})
+        if len(daily) == EARLY_CHECK_N:
+            # 한쪽 시장이 통째로 막힌 상태면 여기서 끝낸다 (몇 분). 통과하면 끝까지 간다.
+            _assert_market_coverage(daily, phase="조기")
         if i % 50 == 0 or i == total:
             elapsed = int(time.time() - t0)
             print(f"  [{i:5d}/{total}] {bas_dd}  fetched={len(daily)}  skip={skip}  fail={fail}  ({elapsed}s)")
-    _assert_market_coverage(daily)
+    _assert_market_coverage(daily, phase="최종")
     return daily
 
 
 # 한 시장이 통째로 빠진 결과로 기존 데이터를 덮어쓰는 사고를 막는다.
 # fetch_one_day 는 두 시장 중 하나만 살아 있어도 rows 를 돌려주므로 여기서 걸러야 한다.
 MIN_MARKET_COVERAGE = float(os.environ.get("MIN_MARKET_COVERAGE", "0.9"))
+# 이 일자 수가 모이면 1차 검사. 40일이면 KRX 응답 기준 1~2분이라 빨리 끊을 수 있다.
+EARLY_CHECK_N = int(os.environ.get("EARLY_CHECK_N", "40"))
 
 
-def _assert_market_coverage(daily):
+def _assert_market_coverage(daily, phase="최종"):
     n = len(daily)
     if n < 20:
         return   # 표본이 적으면 판단하지 않는다 (증분 업데이트/휴장 연휴)
     kp = sum(1 for d in daily if d["adv_kp"] + d["dec_kp"] > 0)
     kq = sum(1 for d in daily if d["adv_kq"] + d["dec_kq"] > 0)
-    print(f"[coverage] 코스피 {kp}/{n} ({kp/n:.1%})  코스닥 {kq}/{n} ({kq/n:.1%})")
+    print(f"[coverage/{phase}] 코스피 {kp}/{n} ({kp/n:.1%})  코스닥 {kq}/{n} ({kq/n:.1%})")
     for label, got in (("KOSPI", kp), ("KOSDAQ", kq)):
         if got / n < MIN_MARKET_COVERAGE:
-            print(f"[ERROR] {label} 응답이 {got}/{n} 일자에만 존재 — 한쪽 시장이 빠진 결과다.",
+            print(f"[ERROR] {label} 응답이 {got}/{n} 일자에만 존재 — 한쪽 시장이 빠진 결과다. ({phase} 검사)",
                   file=sys.stderr)
             print("[ERROR] 이대로 저장하면 통합 시계열이 반쪽짜리로 덮인다. 저장하지 않고 중단한다.",
                   file=sys.stderr)
