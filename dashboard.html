@@ -1367,7 +1367,7 @@ function _updateHeaderForChartImpl(chartId, time) {
 // 크로스헤어를 뗐을 때 되돌릴 "최신 봉" 날짜. alignToTimeIndex 로 뒤쪽이 빈 봉으로 패딩될 수
 // 있으므로 실제 값이 들어있는 마지막 봉을 찾는다.
 const lastDates = {};
-const hasValue = d => !!d && Object.keys(d).some(k => k !== 'time' && d[k] != null);
+const hasValue = d => !!d && !d._pad && Object.keys(d).some(k => k !== 'time' && k !== '_pad' && d[k] != null);
 // chartDataMap 대입은 전부 여기를 거친다 — 값이 실제로 있는 마지막 봉 날짜를 같이 기록.
 function setDataMap(chartId, map) {
   chartDataMap[chartId] = map;
@@ -1411,8 +1411,10 @@ function alignToTimeIndex(data, col) {
   const result = [];
   let lastVal = firstVal;
   for (const t of idx) {
-    if (map[t] !== undefined) lastVal = map[t];
-    result.push({ time: t, value: lastVal });
+    const own = map[t] !== undefined;
+    if (own) lastVal = map[t];
+    // _pad: 원본에 없어서 직전 값으로 채운 봉. 선은 그대로 잇되 "최신 데이터 날짜" 판정에서는 뺀다.
+    result.push(own ? { time: t, value: lastVal } : { time: t, value: lastVal, _pad: true });
   }
   return result;
 }
@@ -1976,7 +1978,7 @@ async function loadFGCombo(id, col, fetchFn) {
     allCharts[id].series.setData(pFg);
     allCharts[id].series2.setData(pOsc);
     const oscMap = {}; pOsc.forEach(p => { oscMap[p.time] = p.value; });
-    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, osc: oscMap[p.time] }; });
+    const map = {}; pFg.forEach(p => { map[p.time] = { time: p.time, value: p.value, osc: oscMap[p.time], _pad: p._pad }; });
     setDataMap(id, map);
     msgEl.style.display = 'none';
   } catch (e) { console.error('FGCombo ' + id, e); msgEl.textContent = '⚠ 실패'; }
@@ -2027,7 +2029,8 @@ async function loadBreadthCard(chartId, col, kLong, kShort){
     }
     const map={};
     const n=Math.min(p120.length,p20.length);
-    for(let i=0;i<n;i++){const t=p120[i].time;map[t]={time:t,above120:p120[i].value,above20:p20[i].value};}
+    for(let i=0;i<n;i++){const t=p120[i].time;
+      map[t]={time:t,above120:p120[i].value,above20:p20[i].value,_pad:p120[i]._pad};}
     setDataMap(chartId, map);
     msgEl.style.display='none';
   }catch(e){console.error('loadBreadthCard '+chartId,e);msgEl.textContent='⚠ 실패';}
@@ -2464,7 +2467,8 @@ async function loadUSBreadth(){
     // combined crosshair map
     const map={};
     const n=Math.min(p200.length,p50.length);
-    for(let i=0;i<n;i++){const t=p200[i].time;map[t]={time:t,above200:p200[i].value,above50:p50[i].value};}
+    for(let i=0;i<n;i++){const t=p200[i].time;
+      map[t]={time:t,above200:p200[i].value,above50:p50[i].value,_pad:p200[i]._pad};}
     setDataMap('breadth', map);
     msgEl.style.display='none';
   }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
