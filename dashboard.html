@@ -566,10 +566,45 @@ function applyDefaultBars(col, _attempt) {
 // 2026-09-13 확인: hidden 상태에서는 raw setVisibleLogicalRange / barSpacing 모두 no-op.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;
-  const redo = () => Object.keys(colGroups).forEach(applyDefaultBars);
+  const redo = () => { Object.keys(colGroups).forEach(applyDefaultBars); syncEtfHeights(); };
   requestAnimationFrame(redo);
   [120, 400, 900].forEach(ms => setTimeout(redo, ms));
 });
+// ETF 컬럼 총높이를 좌측 나스닥 컬럼에 맞춘다 (2026-09-14 BT).
+//   메인 카드의 ma-legend 가 창 폭에 따라 줄바꿈되어 컬럼 높이가 변하므로
+//   CSS 고정값(194px)만으로는 폭이 바뀔 때 어긋난다 → 실측해서 맞춘다.
+function colContentHeight(colId) {
+  const col = document.getElementById(colId);
+  if (!col) return 0;
+  let sum = 0;
+  const walk = el => {
+    for (const c of el.children) {
+      if (getComputedStyle(c).position === 'absolute') continue;
+      if (c.classList.contains('sticky-index')) { walk(c); continue; }
+      sum += c.getBoundingClientRect().height;
+    }
+  };
+  walk(col);
+  return sum;
+}
+function syncEtfHeights() {
+  const target = colContentHeight('col-us');
+  if (!target) return;
+  const cws = ETF_IDS.map(id => document.getElementById('cw-' + id)).filter(Boolean);
+  if (!cws.length) return;
+  let headers = 0;
+  cws.forEach(cw => {
+    const card = cw.closest('.card');
+    if (card) headers += card.getBoundingClientRect().height - cw.getBoundingClientRect().height;
+  });
+  const h = Math.max(80, Math.round((target - headers) / cws.length));
+  cws.forEach(cw => {
+    if (cw.style.height !== h + 'px') cw.style.height = h + 'px';
+  });
+}
+let _etfSyncRT = null;
+window.addEventListener('resize', () => { clearTimeout(_etfSyncRT); _etfSyncRT = setTimeout(syncEtfHeights, 160); });
+
 const colInterval = { kr: '1d', kq: '1d', us: '1d', etf: '1d' };
 let syncing = false;
 // crosshair sync handled by custom overlay xline
@@ -2433,6 +2468,8 @@ async function loadColumn(col) {
     }
     applyLastDates(col);
     setTimeout(() => { syncColumnToMain(mainId); updateDateGrid(col); updateLastChgCol(col); }, 100);
+    // ETF 컬럼 높이를 나스닥 컬럼에 맞춤 — 다른 컬럼이 다 그려진 뒤에 재측정
+    [0, 300, 900, 1800].forEach(ms => setTimeout(syncEtfHeights, ms));
   }
 }
 
