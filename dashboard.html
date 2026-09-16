@@ -131,9 +131,12 @@
   /* .n 을 줄어들 수 있게 (min-width:0 + ellipsis) 해야 폭이 좁을 때 종목명이 먼저 줄고
      오른쪽 등락률이 잘리지 않는다. nowrap + overflow:hidden 만 두면 꼬리가 잘린다 (2026-09-16 실측). */
   .ui-head .n { font-size:12px; font-weight:700; color:#f0f6fc; min-width:0; overflow:hidden; text-overflow:ellipsis; }
-  .ui-head .p { font-size:12px; font-weight:700; color:#f0f6fc; font-variant-numeric:tabular-nums; }
-  .ui-head .c { font-size:11px; font-weight:700; margin-left:auto; font-variant-numeric:tabular-nums; flex:none; }
-  .ui-head .p { flex:none; }
+  /* 현재가(등락률) 한 덩어리 — 대비(절대값)는 표시하지 않는다 (2026-09-16 BT).
+     색은 당일 방향: 상승 빨강 / 하락 파랑 (대시보드 .chg.up/.down 과 동일 값). */
+  .ui-pc { font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; flex:none; }
+  .ui-pc.up { color:#f04452; } .ui-pc.down { color:#3182f6; } .ui-pc.flat { color:#8b949e; }
+  .ui-head .ui-pc { margin-left:auto; }          /* 카드 헤더 = 우측 끝 */
+  .ui-sub .ui-pc { font-size:13px; }             /* 15분 헤더 = 제목 옆 (우측엔 이평선 범례) */
   .ui-cw { width:100%; height:190px; cursor:crosshair; position:relative; }
   .ui-nq-wrap { padding:0 14px 14px; }
   .ui-nq-cw { width:100%; height:300px; cursor:crosshair; position:relative; background:#101010; border:1px solid #2e2e2e; border-radius:8px; overflow:hidden; }
@@ -281,8 +284,7 @@
     </h2>
     <div id="ui-grid"><div style="color:#6e7681;font-size:12px;">로딩 중...</div></div>
     <h2 class="ui-sub" style="border-top:1px solid #2e2e2e;">나스닥 15분
-      <span class="p" id="p-ui-nq" style="font-size:13px;font-weight:700;color:#f0f6fc;font-variant-numeric:tabular-nums;">&mdash;</span>
-      <span class="chg flat" id="c-ui-nq" style="font-size:11px;font-weight:700;"></span>
+      <span class="ui-pc flat" id="p-ui-nq">&mdash;</span>
       <span class="ma-legend" id="ma-legend-ui-nq"></span>
     </h2>
     <div class="ui-nq-wrap"><div class="ui-nq-cw" id="cw-ui-nq"><div class="uicg" id="uicg-nq"></div></div></div>
@@ -803,6 +805,12 @@ function updateLastChg(id) {
   let y = null;
   try { y = c.series.priceToCoordinate(info.close); } catch(_) {}
   if (y == null) { el.style.display = 'none'; return; }
+  // 좌측 정렬: 우축 price scale 의 좌측 경계 = 차트폭 - priceScale 폭.
+  // 종가 라벨이 그 지점부터 그려지므로 배지 왼쪽을 거기 맞추면 두 줄의 왼쪽 라인이 일치한다.
+  let psw = 0;
+  try { psw = c.chart.priceScale('right').width(); } catch(_) {}
+  if (psw > 0) { el.style.left = (c.el.clientWidth - psw) + 'px'; el.style.right = 'auto'; }
+  else { el.style.left = 'auto'; el.style.right = '0'; }
   el.textContent = (info.pct >= 0 ? '+' : '') + info.pct.toFixed(2) + '%';
   el.style.background = info.pct >= 0 ? '#d61022' : '#1750e0';
   // 종가 라벨(높이 ~18px)의 바로 아래. 카드 하단을 넘으면 라벨 위로 뒤집는다.
@@ -3265,7 +3273,7 @@ async function loadNightCharts() {
       if (info.baseLine) { try { info.series.removePriceLine(info.baseLine); } catch (_) {} info.baseLine = null; }
       if (basePx) {
         info.baseLine = info.series.createPriceLine({
-          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: true, title: ''
+          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: false, title: ''
         });
       }
       info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - NN_VIEW_BARS), to: bars.length });
@@ -3362,9 +3370,37 @@ const uiCharts = {};
 
 function uiFmt(v, d) { return v == null ? '—' : v.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d}); }
 function uiCls(v) { return v > 0 ? 'up' : (v < 0 ? 'down' : 'flat'); }
-function uiChgText(d) {
-  const sign = (d.chg || 0) > 0 ? '+' : '';
-  return sign + uiFmt(d.chg, 2) + ' (' + sign + (d.chg_pct == null ? '—' : d.chg_pct.toFixed(2)) + '%)';
+// 현재가(등락률). 대비(절대값)는 쓰지 않는다 — 2026-09-16 BT.
+function uiPriceText(d) {
+  const sign = (d.chg_pct || 0) > 0 ? '+' : '';
+  return uiFmt(d.last, 2) + ' (' + sign + (d.chg_pct == null ? '—' : d.chg_pct.toFixed(2)) + '%)';
+}
+
+// 우축 종가 라벨 바로 아래 등락률 배지 — 기존 카드의 updateLastChg 와 같은 규칙.
+// 왼쪽을 price scale 좌측 경계에 맞춰 종가 라벨과 세로 정렬시킨다 (키움 HTS 방식).
+function uiLastChg(key) {
+  const info = uiCharts[key];
+  if (!info || !info.series || !info.el || !info.chg) return;
+  let el = document.getElementById('uilchg-' + key);
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'last-chg';
+    el.id = 'uilchg-' + key;
+    info.el.appendChild(el);
+  }
+  const pct = info.chg.pct, close = info.chg.close;
+  let y = null;
+  try { y = info.series.priceToCoordinate(close); } catch (_) {}
+  if (y == null || pct == null) { el.style.display = 'none'; return; }
+  let psw = 0;
+  try { psw = info.chart.priceScale('right').width(); } catch (_) {}
+  if (psw > 0) { el.style.left = (info.el.clientWidth - psw) + 'px'; el.style.right = 'auto'; }
+  else { el.style.left = 'auto'; el.style.right = '0'; }
+  el.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+  el.style.background = pct >= 0 ? '#d61022' : '#1750e0';
+  const h = 16, top = y + 9;
+  el.style.top = ((top + h > info.el.clientHeight) ? Math.max(0, y - 9 - h) : top) + 'px';
+  el.style.display = 'block';
 }
 
 function uiMakeChart(el, opts) {
@@ -3427,8 +3463,7 @@ async function loadUsIntraday() {
     const d = j.symbols[k]; if (!d) return '';
     return '<div class="ui-cell"><div class="ui-head">'
       + '<span class="n">' + d.name + '</span>'
-      + '<span class="p">' + uiFmt(d.last, 2) + '</span>'
-      + '<span class="c ' + uiCls(d.chg) + '">' + uiChgText(d) + '</span>'
+      + '<span class="ui-pc ' + uiCls(d.chg) + '">' + uiPriceText(d) + '</span>'
       + '</div><div class="ui-cw" id="uicw-' + k + '"></div></div>';
   }).join('');
 
@@ -3437,18 +3472,23 @@ async function loadUsIntraday() {
     const el = document.getElementById('uicw-' + k); if (!el) return;
     const ch = uiMakeChart(el);
     const se = ch.addCandlestickSeries(UI_CANDLE);
-    se.setData(uiBars(d.b5, off));
+    const b5 = uiBars(d.b5, off);
+    se.setData(b5);
     if (d.prev_close != null) {
       se.createPriceLine({ price: d.prev_close, color: '#232323', lineWidth: 1,
         lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: false });
     }
     ch.timeScale().fitContent();
-    uiCharts[k] = { chart: ch, el: el };
+    uiCharts[k] = { chart: ch, el: el, series: se,
+                    chg: { close: b5.length ? b5[b5.length - 1].close : d.last, pct: d.chg_pct } };
+    uiLastChg(k);
     new ResizeObserver(en => {
       const r = en[0].contentRect;
       ch.applyOptions({ width: r.width, height: r.height });
       ch.timeScale().fitContent();
+      requestAnimationFrame(() => uiLastChg(k));
     }).observe(el);
+    [120, 400, 1000].forEach(ms => setTimeout(() => uiLastChg(k), ms));
   });
 
   /* ── 나스닥 15분봉 + 이평선 ── */
@@ -3479,18 +3519,20 @@ async function loadUsIntraday() {
     const show = Math.min(135, bars.length);         // 기본 = 최근 5세션 (27봉 x 5, 2026-09-16 BT)
     ch.timeScale().setVisibleLogicalRange({ from: bars.length - show, to: bars.length });
 
-    const pEl = document.getElementById('p-ui-nq'), cEl = document.getElementById('c-ui-nq');
-    if (pEl) pEl.textContent = uiFmt(nq.last, 2);
-    if (cEl) { cEl.className = 'chg ' + uiCls(nq.chg); cEl.textContent = uiChgText(nq); }
+    const pEl = document.getElementById('p-ui-nq');
+    if (pEl) { pEl.className = 'ui-pc ' + uiCls(nq.chg); pEl.textContent = uiPriceText(nq); }
 
-    uiCharts.NQ15 = { chart: ch, el: nqEl, bars: bars, grid: document.getElementById('uicg-nq') };
-    ch.timeScale().subscribeVisibleLogicalRangeChange(() => uiNqGrid());
+    uiCharts.NQ15 = { chart: ch, el: nqEl, bars: bars, series: se,
+                      grid: document.getElementById('uicg-nq'),
+                      chg: { close: bars.length ? bars[bars.length - 1].close : nq.last,
+                             pct: nq.chg_pct } };
+    ch.timeScale().subscribeVisibleLogicalRangeChange(() => { uiNqGrid(); uiLastChg('NQ15'); });
     new ResizeObserver(en => {
       const r = en[0].contentRect;
       ch.applyOptions({ width: r.width, height: r.height });
-      requestAnimationFrame(uiNqGrid);
+      requestAnimationFrame(() => { uiNqGrid(); uiLastChg('NQ15'); });
     }).observe(nqEl);
-    [0, 120, 400, 1000].forEach(ms => setTimeout(uiNqGrid, ms));
+    [0, 120, 400, 1000].forEach(ms => setTimeout(() => { uiNqGrid(); uiLastChg('NQ15'); }, ms));
   }
 
   const note = document.getElementById('ui-note');
