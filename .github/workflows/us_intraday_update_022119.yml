@@ -1,0 +1,88 @@
+# US Intraday Update — 미국 4대 지수 장중 봉 (2026-09-16 신설)
+# ----------------------------------------------------------
+# dashboard.html 나스닥 컬럼 상단 "인트라데이" 카드용 data/us_intraday.json 생성.
+#   5분봉  ^GSPC ^IXIC ^DJI ^RUT  (range=1d)
+#   15분봉 ^IXIC + MA 5/20/60/120 (range=1mo — 27봉/세션이라 MA120 에 4.5세션 필요)
+#
+# ★ 왜 yahoo_dashboard_update.yml 에 step 을 붙이지 않고 새 워크플로를 팠나
+#   deploy_dashboard.bat 이 매 배포마다 Scheduled\.github\workflows\*.yml 을
+#   xcopy /Y 로 repo 에 덮어쓴다. Scheduled 는 Cowork 가 protected location 으로
+#   막아 둬서 지금 Claude 가 못 고친다 → repo 쪽 yml 을 고치면 다음 배포에 롤백된다.
+#   Scheduled 에 존재하지 않는 "새 파일" 은 xcopy 대상이 아니라 살아남는다.
+#
+# ★ us_intraday_build.py 가 리포 루트에 있는 이유
+#   Cowork 가 `.github` 경로 전체를 protected 로 막아 remote tool 로 쓸 수 없다.
+#   리포 루트는 쓸 수 있고, deploy bat 의 py 미러 목록(line 92)에 없는 파일은
+#   Scheduled 사본으로 덮이지 않으며 `git add -A` 가 그대로 커밋한다.
+#
+# ★ 스케줄 근거 — 정각(:00)·:30 금지 (2026-06-02 정각 cron 통째 skip 사고).
+#   :05 :15 :25 :35 :45 는 기존 워크플로가 이미 쓰므로 :12 / :42 로 비켜 잡았다.
+#   이 계정의 Actions cron 은 평균 120분 지연 발화한다 (us-close-relay 실측).
+#   마감(하계 20:00 UTC / 동계 21:00 UTC) 전에 깨는 슬롯이 실제로 생기므로,
+#   빌드 스크립트가 currentTradingPeriod.regular.end 를 보고 마감 전이면
+#   아무것도 쓰지 않고 exit 0 한다. 뒤 슬롯이 이어받는다.
+# ----------------------------------------------------------
+
+name: US Intraday Update
+
+concurrency:
+  group: us-intraday-update
+  cancel-in-progress: false
+
+on:
+  schedule:
+    - cron: '12 17 * * 1-5'   # 02:12 KST — 지연 120분이면 마감 직후 착지
+    - cron: '42 17 * * 1-5'   # 02:42 KST
+    - cron: '12 18 * * 1-5'   # 03:12 KST
+    - cron: '42 18 * * 1-5'   # 03:42 KST
+    - cron: '12 19 * * 1-5'   # 04:12 KST — 동계 마감(21:00 UTC) 대응 주력
+    - cron: '42 19 * * 1-5'   # 04:42 KST
+    - cron: '12 21 * * 1-5'   # 06:12 KST — 지연 0분이어도 마감 후
+    - cron: '12 2 * * 1-6'    # 11:12 KST — 최종 안전망 (금요일 세션은 토 UTC)
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'FORCE (1 = 마감 전이어도 강제 수집)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 표준 라이브러리만 쓴다 (urllib) — pip install 없음
+      - name: Build us_intraday.json
+        env:
+          FORCE: ${{ github.event.inputs.force || '0' }}
+        run: python -u us_intraday_build.py
+
+      - name: Commit + push if changed
+        run: |
+          set -e
+          if [ ! -f data/us_intraday.json ]; then
+            echo "no output (마감 전 skip) — nothing to commit"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/us_intraday.json
+          if git diff --cached --quiet; then
+            echo "no changes — skip"; exit 0
+          fi
+          git commit -m "chore(data): us_intraday 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC')) [skip ci]"
+          for i in 1 2 3 4 5; do
+            if git push; then echo "pushed (attempt $i)"; exit 0; fi
+            echo "push rejected — rebase & retry ($i/5)"
+            git pull --rebase --autostash
+            sleep $((i * 5))
+          done
+          echo "::error::push 5회 실패"; exit 1
