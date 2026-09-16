@@ -295,7 +295,7 @@
 <!-- 미국 마켓맵 (2026-09-16 BT): 미국 관련 카드를 한 덩어리로 — 인트라데이 바로 아래. -->
 <div class="events" style="margin-top:20px;flex-direction:column;gap:20px;">
   <div class="events-card" style="flex:none;width:100%;">
-    <h2>미국 마켓맵</h2>
+    <h2 style="display:flex;align-items:center;gap:10px;">미국 마켓맵<span id="mm-us-stamp" style="color:#8b949e;font-weight:400;font-size:12px;">TradingView 실시간</span></h2>
     <div class="mm-box" style="height:800px;">
       <div class="tradingview-widget-container" style="height:100%;">
         <div class="tradingview-widget-container__widget" style="height:100%;"></div>
@@ -3541,6 +3541,17 @@ async function loadUsIntraday() {
 }
 
 loadUsIntraday();
+
+// 미국 마켓맵 신선도 — TradingView 위젯은 자체 실시간 시세이므로 기준일을 우리가 알 수 없다.
+// 한국 마켓맵의 "YYYY.MM.DD 종가 기준" 과 짝이 되도록 위젯 로드 시각을 찍어 둔다 (2026-09-16 BT).
+(function stampUsMarketmap() {
+  const el = document.getElementById('mm-us-stamp');
+  if (!el) return;
+  const t = new Date();
+  const p = n => String(n).padStart(2, '0');
+  el.textContent = 'TradingView 실시간 · ' + (t.getMonth() + 1) + '.' + p(t.getDate())
+    + ' ' + p(t.getHours()) + ':' + p(t.getMinutes()) + ' 로드';
+})();
 
 </script>
 </body>

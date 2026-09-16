@@ -49,7 +49,27 @@ if not AUTH_KEY and KEY_FILE.exists():
     AUTH_KEY = KEY_FILE.read_text(encoding="utf-8").strip()
 
 NAVER_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36",
-            "Referer": "https://finance.naver.com/sise/"}
+            "Referer": "https://finance.naver.com/sise/",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8"}
+
+# 2026-09-16: 업종 파싱이 0개로 떨어져 5일간(9/11~) 빌드가 중단됐다.
+# 단일 정규식이 네이버 마크업 변화에 그대로 깨지는 구조였으므로 후보 패턴 다단계로 교체.
+# &amp; 이스케이프, .naver/.nhn 확장자, 속성 순서 변화를 모두 흡수한다.
+SECTOR_LIST_URLS = [
+    "https://finance.naver.com/sise/sise_group.naver?type=upjong",
+    "https://finance.naver.com/sise/sise_group.nhn?type=upjong",
+]
+GROUP_PATTERNS = [
+    r'sise_group_detail\.naver\?type=upjong&no=(\d+)"[^>]*>\s*([^<]+?)\s*</a>',
+    r'sise_group_detail\.(?:naver|nhn)\?[^"\']*?no=(\d+)[^>]*>\s*([^<]+?)\s*</a>',
+    r'group_detail[^"\']*?no=(\d+)[^>]*>\s*([^<]+?)\s*</a>',
+]
+CODE_PATTERNS = [
+    r'/item/main\.naver\?code=(\d{6})',
+    r'/item/main\.(?:naver|nhn)\?code=(\d{6})',
+    r'item/main[^"\']*?code=(\d{6})',
+]
 
 # 기간: (키, 달력일 오프셋)
 PERIODS = [("1w", 7), ("1m", 30), ("3m", 91), ("6m", 182), ("1y", 365)]
@@ -142,26 +162,90 @@ def _num(v):
 
 # ---------------- 네이버 업종 ----------------
 
-def naver_get(url):
+def naver_fetch(url):
+    """(text, status, final_url, encoding, nbytes). 인코딩은 헤더/meta 우선, 실패 시 euc-kr→utf-8."""
     req = urllib.request.Request(url, headers=NAVER_UA)
     with urllib.request.urlopen(req, timeout=20) as r:
-        return r.read().decode("euc-kr", errors="replace")
+        raw = r.read()
+        status = getattr(r, "status", r.getcode())
+        final = r.geturl()
+        ctype = r.headers.get("Content-Type", "")
+    cs = None
+    m = re.search(r'charset=["\']?([\w-]+)', ctype, re.I)
+    if m:
+        cs = m.group(1)
+    else:
+        m = re.search(rb'charset=["\']?([\w-]+)', raw[:4096], re.I)
+        if m:
+            cs = m.group(1).decode("ascii", "ignore")
+    for enc in (cs, "euc-kr", "utf-8"):
+        if not enc:
+            continue
+        try:
+            return raw.decode(enc), status, final, enc, len(raw)
+        except Exception:
+            continue
+    return raw.decode("euc-kr", errors="replace"), status, final, "euc-kr!", len(raw)
+
+
+def naver_get(url):
+    return naver_fetch(url)[0]
+
+
+def _unescape(html):
+    return html.replace("&amp;", "&")
+
+
+def _find_groups(html):
+    """(groups, 사용한 패턴 index). 하나라도 잡히면 즉시 반환."""
+    un = _unescape(html)
+    for i, pat in enumerate(GROUP_PATTERNS):
+        g = re.findall(pat, un)
+        if g:
+            return g, i
+    return [], -1
+
+
+def _find_codes(html):
+    un = _unescape(html)
+    for pat in CODE_PATTERNS:
+        c = re.findall(pat, un)
+        if c:
+            return c
+    return []
 
 
 def fetch_sector_map():
     """{종목코드: 업종명}. 네이버 업종 목록 → 각 업종 상세."""
-    html = naver_get("https://finance.naver.com/sise/sise_group.naver?type=upjong")
-    groups = re.findall(r"sise_group_detail\.naver\?type=upjong&no=(\d+)\">([^<]+)</a>", html)
-    _log(f"  네이버 업종 {len(groups)}개")
+    groups, pat_i, used = [], -1, None
+    for url in SECTOR_LIST_URLS:
+        try:
+            html = naver_get(url)
+        except Exception as e:
+            _log(f"  업종목록 fail ({url}): {e}")
+            continue
+        used = url
+        groups, pat_i = _find_groups(html)
+        if groups:
+            break
+    _log(f"  네이버 업종 {len(groups)}개 (url={used}, pattern#{pat_i})")
+    if not groups:
+        _log("  ! 업종 목록 파싱 실패 — --probe 로그의 발췌를 확인할 것")
+        return {}
     sector_of = {}
     for no, name in groups:
         name = name.strip()
-        try:
-            d = naver_get(f"https://finance.naver.com/sise/sise_group_detail.naver?type=upjong&no={no}")
-        except Exception as e:
-            _log(f"  업종 {name} fail: {e}")
+        d = None
+        for base in ("sise_group_detail.naver", "sise_group_detail.nhn"):
+            try:
+                d = naver_get(f"https://finance.naver.com/sise/{base}?type=upjong&no={no}")
+                break
+            except Exception as e:
+                last = e
+        if d is None:
+            _log(f"  업종 {name} fail: {last}")
             continue
-        for code in re.findall(r"/item/main\.naver\?code=(\d{6})", d):
+        for code in _find_codes(d):
             sector_of.setdefault(code, name)
         time.sleep(0.08)
     _log(f"  업종 매핑 종목 {len(sector_of)}개")
@@ -179,9 +263,29 @@ def cmd_probe():
     print("[probe] 첫 row:", json.dumps(r0, ensure_ascii=False)[:400])
     kp = [r for r in rows if r["_mkt"] == 0]
     print(f"[probe] KOSPI {len(kp)} / KOSDAQ {len(rows)-len(kp)}")
-    html = naver_get("https://finance.naver.com/sise/sise_group.naver?type=upjong")
-    groups = re.findall(r"sise_group_detail\.naver\?type=upjong&no=(\d+)\">([^<]+)</a>", html)
-    print(f"[probe] 네이버 업종 {len(groups)}개, 앞 5개: {groups[:5]}")
+    # ── 네이버 업종 진단 (2026-09-16) ──
+    for url in SECTOR_LIST_URLS:
+        try:
+            txt, status, final, enc, nb = naver_fetch(url)
+        except Exception as e:
+            print(f"[probe] naver FAIL {url}: {e}")
+            continue
+        print(f"[probe] naver status={status} bytes={nb} enc={enc}")
+        print(f"[probe]   url={url}")
+        print(f"[probe]   final={final}")
+        un = _unescape(txt)
+        for i, pat in enumerate(GROUP_PATTERNS):
+            print(f"[probe]   pattern#{i} -> {len(re.findall(pat, un))}건")
+        idx = un.find("upjong")
+        print(f"[probe]   'upjong' 위치={idx}  'group_detail' 위치={un.find('group_detail')}")
+        anchors = re.findall(r'<a[^>]*href="[^"]*(?:group|upjong)[^"]*"[^>]*>[^<]*</a>', un)[:5]
+        print(f"[probe]   a태그 샘플({len(anchors)}): {anchors}")
+        seg = un[max(0, idx - 250): idx + 700] if idx >= 0 else un[:900]
+        print(f"[probe]   발췌: {seg!r}")
+        groups, pat_i = _find_groups(txt)
+        print(f"[probe] 네이버 업종 {len(groups)}개 (pattern#{pat_i}), 앞 5개: {groups[:5]}")
+        if groups:
+            break
 
 
 def cmd_build():
