@@ -107,6 +107,14 @@
   .fg-header { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; }
   .fg-score { font-size: 18px; font-weight: 800; color: #f0f6fc; }
   .fg-label { font-size: 11px; font-weight: 600; }
+  /* 해외 실시간 4시간봉 (2026-09-16 BT) */
+  .nnc-wrap { background:#101010; border:1px solid #2e2e2e; border-radius:8px; overflow:hidden; }
+  .nnc-head { display:flex; align-items:baseline; gap:8px; padding:8px 12px; background:#232323; border-bottom:1px solid #414141; }
+  .nnc-head .n { font-size:12px; font-weight:700; color:#f0f6fc; white-space:nowrap; }
+  .nnc-head .p { font-size:12px; font-weight:700; color:#f0f6fc; font-variant-numeric:tabular-nums; }
+  .nnc-head .d { font-size:11px; font-weight:700; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .nnc { width:100%; height:190px; cursor:crosshair; }
+  .nnc-note { font-size:11px; color:#6e7681; padding:0 14px 12px; }
   .scrollbar { width: 100%; height: 14px; background: #232323; border: 1px solid #2e2e2e; border-top: none; border-bottom: 1px solid #2e2e2e; position: relative; cursor: pointer; }
   .sb-thumb { position: absolute; height: 8px; top: 2px; background: #3a3a3a; border-radius: 4px; cursor: grab; min-width: 24px; }
   .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
@@ -155,6 +163,7 @@
     .events-card { overflow-x: auto; }
     #nn-grid { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 10px !important; }
     #nn-grid > div { scroll-snap-align: start; }
+    #nn-mini { grid-template-columns: none !important; }
     .mm-box { height: 62vh !important; }
     iframe[src*="sslecal2"] { height: 640px !important; }
   }
@@ -336,6 +345,19 @@
     <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
       <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
     </div>
+    <!-- 4시간봉 (2026-09-16 BT): 프리장 전 "전일 20시 대비 어디" 를 보기 위한 차트.
+         기준선 = 직전 영업일 20:00 KST (일/월 아침이면 금요일 20:00). Binance 1h klines 를
+         20:00 KST 정렬 4시간봉으로 합성 — 라이브러리 기본 UTC 정렬은 20시가 봉 경계가 아니라서. -->
+    <div id="nn-mini" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 14px 14px;"></div>
+    <div style="padding:0 14px 6px;">
+      <div class="nnc-wrap">
+        <div class="nnc-head"><span class="n">3종목 비교</span>
+          <span class="p" style="font-weight:400;color:#8b949e;">기준 20:00 = 0%</span>
+          <span class="d" id="nn-cmp-legend" style="font-weight:400;"></span></div>
+        <div class="nnc" id="nnc-cmp" style="height:230px;"></div>
+      </div>
+    </div>
+    <div class="nnc-note" id="nn-chart-note"></div>
   </div>
 </div>
 
@@ -3006,8 +3028,11 @@ async function initNightPrice() {
   } catch (e) {}
   refreshFx();
   nnPoll();
+  loadNightCharts();
   if (NN.timer) clearInterval(NN.timer);
   NN.timer = setInterval(nnPoll, 15000);
+  if (nnChartTimer) clearInterval(nnChartTimer);
+  nnChartTimer = setInterval(loadNightCharts, 300000);   // 4시간봉이라 5분이면 충분
   if (NN.fxTimer) clearInterval(NN.fxTimer);
   NN.fxTimer = setInterval(refreshFx, 300000);
 }
@@ -3032,6 +3057,177 @@ async function nnRefresh() {
   _yahooCacheJson = null;              // 환율·전일 종가 캐시 무효화 후 전체 재로드
   NN.fx = null; NN.close = {}; NN.closeDate = '';
   await initNightPrice();
+}
+
+// ═══════════════════════════════════
+// 해외 실시간 4시간봉 (2026-09-16 BT)
+//   목적: 한국 프리장 전에 "전일 20시 대비 지금 어디" 를 3종목 한 번에.
+//   기준 시각 = 직전 "영업일(월~금) 20:00 KST". 일/월 아침에는 자동으로 금요일 20:00 이 잡힌다.
+//   Binance fapi klines(1h) 를 받아 20:00 KST 정렬 4시간봉으로 합성한다.
+//     - 라이브러리 기본 봉 정렬(UTC 00/04/08...)은 20:00 KST 가 봉 경계가 아니라 기준가가 봉 중간에 걸린다.
+//     - 20:00 KST = 11:00 UTC 라 1h 봉 경계와 정확히 맞는다 → 1h 를 4개씩 묶으면 경계가 딱 떨어짐.
+//   lightweight-charts 는 timestamp 를 UTC 로 표시하므로 +9h 시프트해서 축이 KST 로 읽히게 한다.
+// ═══════════════════════════════════
+const NN_KST = 9 * 3600;          // 표시용 시프트
+const NN_ANCHOR_UTC = 11 * 3600;  // 20:00 KST
+const NN_KLINE_LIMIT = 260;       // 1h × 260 ≈ 11일
+const NN_CMP_COLOR = { KODEX200USDT: 'rgb(126,166,209)', SAMSUNGUSDT: 'rgb(249,117,131)', SKHYNIXUSDT: 'rgb(57,197,207)' };
+const nnCharts = {};   // sym -> {chart, series, baseLine}
+let nnCmpChart = null, nnCmpSeries = {}, nnChartTimer = null;
+
+// 직전 영업일 20:00 KST (UTC epoch sec). 토/일에 찍힌 20시는 건너뛴다.
+function nnBaseTimeUtc(nowSec) {
+  let t = Math.floor((nowSec - NN_ANCHOR_UTC) / 86400) * 86400 + NN_ANCHOR_UTC;
+  for (let i = 0; i < 10; i++) {
+    const dow = new Date((t + NN_KST) * 1000).getUTCDay();   // KST 기준 요일
+    if (dow >= 1 && dow <= 5) return t;
+    t -= 86400;
+  }
+  return t;
+}
+
+async function nnKlines(sym) {
+  const url = 'https://fapi.binance.com/fapi/v1/klines?symbol=' + sym + '&interval=1h&limit=' + NN_KLINE_LIMIT;
+  let raw;
+  try {
+    raw = await fetch(url).then(r => { if (!r.ok) throw 0; return r.json(); });
+  } catch (_) {
+    raw = await fetchJSON(url);      // 국내 IP 차단 대비 CORS 프록시 폴백 (nnPoll 과 동일)
+  }
+  if (!Array.isArray(raw)) throw new Error('klines shape');
+  return raw.map(k => ({ t: Math.floor(k[0] / 1000), o: +k[1], h: +k[2], l: +k[3], c: +k[4] }))
+            .filter(k => isFinite(k.o) && isFinite(k.c));
+}
+
+// 1h → 20:00 KST 정렬 4시간봉
+function nnTo4h(bars) {
+  const out = [];
+  let cur = null, curKey = null;
+  for (const b of bars) {
+    const key = Math.floor((b.t - NN_ANCHOR_UTC) / 14400);
+    if (key !== curKey) {
+      if (cur) out.push(cur);
+      curKey = key;
+      cur = { t: key * 14400 + NN_ANCHOR_UTC, o: b.o, h: b.h, l: b.l, c: b.c };
+    } else {
+      cur.h = Math.max(cur.h, b.h); cur.l = Math.min(cur.l, b.l); cur.c = b.c;
+    }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+
+function nnMakeChart(el, extra) {
+  const c = LightweightCharts.createChart(el, Object.assign({
+    width: el.clientWidth || 300, height: el.clientHeight || 190
+  }, CHART_OPTS(), {
+    timeScale: { borderColor: '#707070', timeVisible: true, secondsVisible: false, rightOffset: 1 },
+    rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.12, bottom: 0.08 } }
+  }, extra || {}));
+  new ResizeObserver(e => {
+    const r = e[0].contentRect;
+    if (r.width > 0) c.applyOptions({ width: r.width, height: r.height });
+  }).observe(el);
+  return c;
+}
+
+const nnFmtKrw = v => (v == null || !isFinite(v)) ? '—' : '₩' + Math.round(v).toLocaleString();
+const nnFmtPct = v => (v == null || !isFinite(v)) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+const nnPctColor = v => (v == null || !isFinite(v)) ? '#8b949e' : (v >= 0 ? '#f04452' : '#3182f6');
+
+async function loadNightCharts() {
+  const mini = document.getElementById('nn-mini');
+  const cmpEl = document.getElementById('nnc-cmp');
+  if (!mini || !cmpEl) return;
+  const note = document.getElementById('nn-chart-note');
+  const base = nnBaseTimeUtc(Math.floor(Date.now() / 1000));
+
+  if (!mini.children.length) {
+    mini.innerHTML = NN_STOCKS.map(st =>
+      '<div class="nnc-wrap"><div class="nnc-head">'
+      + '<span class="n">' + st.name + '</span>'
+      + '<span class="p" id="nnc-p-' + st.sym + '">—</span>'
+      + '<span class="d" id="nnc-d-' + st.sym + '">—</span></div>'
+      + '<div class="nnc" id="nnc-' + st.sym + '"></div></div>').join('');
+  }
+
+  let ok = 0;
+  const cmpData = {};
+  for (const st of NN_STOCKS) {
+    try {
+      const bars = await nnKlines(st.sym);
+      if (!bars.length) throw new Error('empty');
+
+      // ── 미니 4시간봉 ──
+      const b4 = nnTo4h(bars);
+      const el = document.getElementById('nnc-' + st.sym);
+      if (!nnCharts[st.sym] && el) {
+        const ch = nnMakeChart(el);
+        const se = ch.addCandlestickSeries({
+          upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0',
+          wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: false
+        });
+        nnCharts[st.sym] = { chart: ch, series: se, baseLine: null };
+      }
+      const info = nnCharts[st.sym];
+      if (!info) continue;
+      info.series.setData(b4.map(k => ({ time: k.t + NN_KST, open: k.o, high: k.h, low: k.l, close: k.c })));
+
+      // 기준가 = 20:00 KST 봉의 시가
+      const baseBar = b4.find(k => k.t === base);
+      const basePx = baseBar ? baseBar.o : null;
+      if (info.baseLine) { try { info.series.removePriceLine(info.baseLine); } catch (_) {} info.baseLine = null; }
+      if (basePx) {
+        info.baseLine = info.series.createPriceLine({
+          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0,
+          axisLabelVisible: true, title: ''
+        });
+      }
+      info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, b4.length - 30), to: b4.length });
+
+      const lastPx = bars[bars.length - 1].c;
+      const pct = basePx ? (lastPx / basePx - 1) * 100 : null;
+      const pe = document.getElementById('nnc-p-' + st.sym);
+      const de = document.getElementById('nnc-d-' + st.sym);
+      if (pe) pe.textContent = NN.fx ? nnFmtKrw(lastPx * NN.fx) : '$' + lastPx.toFixed(2);
+      if (de) { de.textContent = nnFmtPct(pct); de.style.color = nnPctColor(pct); }
+
+      if (basePx) cmpData[st.sym] = bars.filter(k => k.t >= base).map(k => ({ time: k.t + NN_KST, value: (k.c / basePx - 1) * 100 }));
+      ok++;
+    } catch (e) {
+      console.error('nnChart ' + st.sym, e);
+      const de = document.getElementById('nnc-d-' + st.sym);
+      if (de) { de.textContent = '⚠'; de.style.color = '#8b949e'; }
+    }
+  }
+
+  // ── 비교 차트 (기준 = 0%), 1시간 해상도 ──
+  if (!nnCmpChart) {
+    nnCmpChart = nnMakeChart(cmpEl, { rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.12, bottom: 0.12 } } });
+    for (const st of NN_STOCKS) {
+      nnCmpSeries[st.sym] = nnCmpChart.addLineSeries({
+        color: NN_CMP_COLOR[st.sym] || C_SLATE, lineWidth: 2,
+        priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true,
+        priceFormat: { type: 'custom', minMove: 0.01, formatter: v => v.toFixed(2) + '%' }
+      });
+    }
+    nnCmpSeries[NN_STOCKS[0].sym].createPriceLine({ price: 0, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: false, title: '' });
+    const lg = document.getElementById('nn-cmp-legend');
+    if (lg) lg.innerHTML = NN_STOCKS.map(st =>
+      '<span style="color:' + (NN_CMP_COLOR[st.sym] || '#8b949e') + ';margin-left:10px;">● ' + st.name + '</span>').join('');
+  }
+  for (const st of NN_STOCKS) nnCmpSeries[st.sym].setData(cmpData[st.sym] || []);
+  nnCmpChart.timeScale().fitContent();
+
+  if (note) {
+    const bd = new Date((base + NN_KST) * 1000);
+    const pad = n => String(n).padStart(2, '0');
+    note.textContent = ok
+      ? '기준 ' + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' ' + pad(bd.getUTCHours()) + ':00 KST 가격 · '
+        + '미니 차트는 20:00 정렬 4시간봉, 비교 차트는 1시간 종가 · '
+        + '% 는 달러 기준(환율 변동 제외), 원화 표시가는 현재 환율 적용 · ' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
+      : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
+  }
 }
 
 async function nnPoll() {
