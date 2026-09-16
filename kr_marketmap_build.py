@@ -7,8 +7,8 @@ TradingView 임베드 위젯이 KRX 데이터 미지원이라 자체 구축 (BT 
   1) KRX OpenAPI stk_bydd_trd / ksq_bydd_trd — 종목별 종가·등락률·시가총액
      (kr_breadth 파이프라인과 동일 엔드포인트·인증. Actions secrets KRX_AUTH_KEY)
   2) 네이버 금융 업종 페이지 — 업종 분류 (KRX API 에는 업종 정보 없음)
-     finance.naver.com/sise/sise_group.naver?type=upjong (목록, euc-kr)
-     → sise_group_detail.naver?type=upjong&no=N (업종별 종목코드)
+     stock.naver.com JSON API (2026-09-16 전환, 구 finance.naver.com HTML 소스 소멸)
+     → /api/stockSecurity/rankings/v2/domestic/industries + /upjong/{code}/stocklist
      네이버-on-Actions 는 kr_futures_flow 에서 검증됨.
 
 기간 수익률: 당일 + 5개 앵커일(1주/1개월/3개월/6개월/1년 전 거래일) 종가 스냅샷으로 계산.
@@ -48,28 +48,32 @@ KEY_FILE = SCRIPT_DIR / ".krx_auth_key"
 if not AUTH_KEY and KEY_FILE.exists():
     AUTH_KEY = KEY_FILE.read_text(encoding="utf-8").strip()
 
+NAVER_JSON_HEADERS = None  # 아래에서 채운다
 NAVER_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126 Safari/537.36",
             "Referer": "https://finance.naver.com/sise/",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8"}
+NAVER_JSON_HEADERS = dict(NAVER_UA, **{"Accept": "application/json, text/plain, */*",
+                                       "Referer": "https://stock.naver.com/"})
 
-# 2026-09-16: 업종 파싱이 0개로 떨어져 5일간(9/11~) 빌드가 중단됐다.
-# 단일 정규식이 네이버 마크업 변화에 그대로 깨지는 구조였으므로 후보 패턴 다단계로 교체.
-# &amp; 이스케이프, .naver/.nhn 확장자, 속성 순서 변화를 모두 흡수한다.
-SECTOR_LIST_URLS = [
-    "https://finance.naver.com/sise/sise_group.naver?type=upjong",
-    "https://finance.naver.com/sise/sise_group.nhn?type=upjong",
-]
-GROUP_PATTERNS = [
-    r'sise_group_detail\.naver\?type=upjong&no=(\d+)"[^>]*>\s*([^<]+?)\s*</a>',
-    r'sise_group_detail\.(?:naver|nhn)\?[^"\']*?no=(\d+)[^>]*>\s*([^<]+?)\s*</a>',
-    r'group_detail[^"\']*?no=(\d+)[^>]*>\s*([^<]+?)\s*</a>',
-]
-CODE_PATTERNS = [
-    r'/item/main\.naver\?code=(\d{6})',
-    r'/item/main\.(?:naver|nhn)\?code=(\d{6})',
-    r'item/main[^"\']*?code=(\d{6})',
-]
+# 2026-09-16: 네이버가 finance.naver.com/sise/sise_group.naver 를
+# stock.naver.com (Next.js SPA) 로 리다이렉트하면서 HTML 스크래핑 소스가 사라졌다.
+# 9/11~9/16 5일간 빌드 중단(업종 0개 → 매핑률 가드 발동). 신 사이트의 JSON API 로 교체.
+#
+#   업종 목록  : /api/stockSecurity/rankings/v2/domestic/industries
+#                → {"hasNext":bool, "items":[{"code":"294","name":"통신장비",...}]}
+#   업종별 종목: /api/domestic/market/upjong/{code}/stocklist
+#                → [{"itemcode":"010170","itemname":"대한광통신",...}]  ← 최상위가 배열
+#
+# ★ stocklist 는 pageSize 상한이 있어 100개 넘는 업종은 startIdx 로 넘겨야 한다.
+#   배열 길이 < pageSize 이면 마지막 페이지. 이걸 빠뜨리면 큰 업종이 통째로 잘린다.
+NAVER_API_BASE = "https://stock.naver.com"
+INDUSTRY_LIST_EP = ("/api/stockSecurity/rankings/v2/domestic/industries"
+                    "?sortType=changeRate&size=300&period=daily")
+INDUSTRY_STOCKS_EP = ("/api/domestic/market/upjong/{code}/stocklist"
+                      "?marketType=ALL&orderType=priceTop&startIdx={idx}&pageSize={size}")
+PAGE_SIZE = 100
+MAX_IDX = 5000          # 폭주 방지 상한
 
 # 기간: (키, 달력일 오프셋)
 PERIODS = [("1w", 7), ("1m", 30), ("3m", 91), ("6m", 182), ("1y", 365)]
@@ -192,62 +196,63 @@ def naver_get(url):
     return naver_fetch(url)[0]
 
 
-def _unescape(html):
-    return html.replace("&amp;", "&")
-
-
-def _find_groups(html):
-    """(groups, 사용한 패턴 index). 하나라도 잡히면 즉시 반환."""
-    un = _unescape(html)
-    for i, pat in enumerate(GROUP_PATTERNS):
-        g = re.findall(pat, un)
-        if g:
-            return g, i
-    return [], -1
-
-
-def _find_codes(html):
-    un = _unescape(html)
-    for pat in CODE_PATTERNS:
-        c = re.findall(pat, un)
-        if c:
-            return c
-    return []
+def naver_json(path, timeout=20):
+    """stock.naver.com JSON API. path 는 / 로 시작하는 경로 또는 전체 URL."""
+    url = path if path.startswith("http") else NAVER_API_BASE + path
+    req = urllib.request.Request(url, headers=NAVER_JSON_HEADERS)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
 
 
 def fetch_sector_map():
-    """{종목코드: 업종명}. 네이버 업종 목록 → 각 업종 상세."""
-    groups, pat_i, used = [], -1, None
-    for url in SECTOR_LIST_URLS:
-        try:
-            html = naver_get(url)
-        except Exception as e:
-            _log(f"  업종목록 fail ({url}): {e}")
-            continue
-        used = url
-        groups, pat_i = _find_groups(html)
-        if groups:
-            break
-    _log(f"  네이버 업종 {len(groups)}개 (url={used}, pattern#{pat_i})")
-    if not groups:
-        _log("  ! 업종 목록 파싱 실패 — --probe 로그의 발췌를 확인할 것")
+    """{종목코드: 업종명}. stock.naver.com JSON API (2026-09-16 신 사이트 대응)."""
+    try:
+        j = naver_json(INDUSTRY_LIST_EP)
+    except Exception as e:
+        _log(f"  업종 목록 fail: {e}")
         return {}
+    items = j.get("items") if isinstance(j, dict) else None
+    if not items:
+        _log(f"  업종 목록 비어 있음 (keys={list(j)[:6] if isinstance(j, dict) else type(j)})")
+        return {}
+    if j.get("hasNext"):
+        _log("  ! 업종 목록 hasNext=true — INDUSTRY_LIST_EP 의 size 를 올릴 것")
+    _log(f"  네이버 업종 {len(items)}개")
+
     sector_of = {}
-    for no, name in groups:
-        name = name.strip()
-        d = None
-        for base in ("sise_group_detail.naver", "sise_group_detail.nhn"):
-            try:
-                d = naver_get(f"https://finance.naver.com/sise/{base}?type=upjong&no={no}")
-                break
-            except Exception as e:
-                last = e
-        if d is None:
-            _log(f"  업종 {name} fail: {last}")
+    empty_sectors = 0
+    for it in items:
+        code = str(it.get("code") or "").strip()
+        name = str(it.get("name") or "").strip()
+        if not code or not name:
             continue
-        for code in _find_codes(d):
-            sector_of.setdefault(code, name)
-        time.sleep(0.08)
+        got = 0
+        idx = 0
+        while idx <= MAX_IDX:
+            try:
+                rows = naver_json(INDUSTRY_STOCKS_EP.format(code=code, idx=idx, size=PAGE_SIZE))
+            except Exception as e:
+                _log(f"  업종 {name}({code}) idx={idx} fail: {e}")
+                break
+            if not isinstance(rows, list) or not rows:
+                break
+            for row in rows:
+                c = str(row.get("itemcode") or "").strip()
+                if len(c) == 6 and c.isdigit():
+                    sector_of.setdefault(c, name)
+                    got += 1
+            if len(rows) < PAGE_SIZE:      # 마지막 페이지
+                break
+            idx += PAGE_SIZE
+            time.sleep(0.05)
+        else:
+            _log(f"  ! 업종 {name}({code}) MAX_IDX 도달 — 잘렸을 수 있음")
+        if got == 0:
+            empty_sectors += 1
+        time.sleep(0.05)
+
+    if empty_sectors:
+        _log(f"  종목 0개인 업종 {empty_sectors}개")
     _log(f"  업종 매핑 종목 {len(sector_of)}개")
     return sector_of
 
@@ -291,48 +296,18 @@ def cmd_probe():
     print("[probe] 첫 row:", json.dumps(r0, ensure_ascii=False)[:400])
     kp = [r for r in rows if r["_mkt"] == 0]
     print(f"[probe] KOSPI {len(kp)} / KOSDAQ {len(rows)-len(kp)}")
-    # ── 네이버 업종 진단 (2026-09-16) ──
-    for url in SECTOR_LIST_URLS:
-        try:
-            txt, status, final, enc, nb = naver_fetch(url)
-        except Exception as e:
-            print(f"[probe] naver FAIL {url}: {e}")
-            continue
-        print(f"[probe] naver status={status} bytes={nb} enc={enc}")
-        print(f"[probe]   url={url}")
-        print(f"[probe]   final={final}")
-        un = _unescape(txt)
-        for i, pat in enumerate(GROUP_PATTERNS):
-            print(f"[probe]   pattern#{i} -> {len(re.findall(pat, un))}건")
-        idx = un.find("upjong")
-        print(f"[probe]   'upjong' 위치={idx}  'group_detail' 위치={un.find('group_detail')}")
-        anchors = re.findall(r'<a[^>]*href="[^"]*(?:group|upjong)[^"]*"[^>]*>[^<]*</a>', un)[:5]
-        print(f"[probe]   a태그 샘플({len(anchors)}): {anchors}")
-        seg = un[max(0, idx - 250): idx + 700] if idx >= 0 else un[:900]
-        print(f"[probe]   발췌: {seg!r}")
-        groups, pat_i = _find_groups(txt)
-        print(f"[probe] 네이버 업종 {len(groups)}개 (pattern#{pat_i}), 앞 5개: {groups[:5]}")
-        # 신 사이트(Next.js SPA) 로 옮겨간 경우 임베드 JSON 위치 탐색
-        if not groups:
-            for kw in ("industryCode", "industryName", "industryName\\", "stockItems",
-                       "itemCode", "__next_f", "industry"):
-                print(f"[probe]   키워드 '{kw}' {un.count(kw)}회")
-            for kw in ("industryName", "industryCode", "itemCode"):
-                k = un.find(kw)
-                if k >= 0:
-                    print(f"[probe]   {kw} 발췌: {un[max(0,k-150):k+500]!r}")
-                    break
-        if groups:
-            break
-    # 신 사이트 API 후보 타진
-    for api in ("https://api.stock.naver.com/industry/list",
-                "https://api.stock.naver.com/industry/home",
-                "https://m.stock.naver.com/api/industry/list"):
-        try:
-            t2, st2, fin2, enc2, nb2 = naver_fetch(api)
-            print(f"[probe] API {api} -> {st2} {nb2}bytes {t2[:200]!r}")
-        except Exception as e:
-            print(f"[probe] API {api} -> FAIL {e}")
+    # ── 네이버 업종 API 진단 (2026-09-16) — 응답 내용은 찍지 않고 집계만 ──
+    try:
+        j = naver_json(INDUSTRY_LIST_EP)
+        items = j.get("items") or []
+        print(f"[probe] 업종 목록 {len(items)}개, hasNext={j.get('hasNext')}")
+        if items:
+            c0 = str(items[0].get("code"))
+            rows = naver_json(INDUSTRY_STOCKS_EP.format(code=c0, idx=0, size=PAGE_SIZE))
+            n = sum(1 for r in rows if str(r.get("itemcode", "")).isdigit()) if isinstance(rows, list) else -1
+            print(f"[probe] 첫 업종 code={c0} 종목 {n}개 (1페이지)")
+    except Exception as e:
+        print(f"[probe] 업종 API FAIL: {e}")
 
 
 def cmd_build():
