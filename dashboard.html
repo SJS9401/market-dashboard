@@ -113,7 +113,11 @@
   .nnc-head .n { font-size:12px; font-weight:700; color:#f0f6fc; white-space:nowrap; }
   .nnc-head .p { font-size:12px; font-weight:700; color:#f0f6fc; font-variant-numeric:tabular-nums; }
   .nnc-head .d { font-size:11px; font-weight:700; margin-left:auto; font-variant-numeric:tabular-nums; }
-  .nnc { width:100%; height:190px; cursor:crosshair; }
+  .nnc { width:100%; height:190px; cursor:crosshair; position:relative; }
+  /* 매일 20:00 KST 세로선. 기준일(직전 영업일)은 진하게 — 가로 기준선과 교차해 십자가 됨 */
+  .nncg { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:5; }
+  .nncg i { position:absolute; top:0; bottom:0; width:0; border-left:1px solid rgba(35,42,50,0.45); }
+  .nncg i.base { border-left:2px solid #232323; }
   .nnc-note { font-size:11px; color:#6e7681; padding:0 14px 12px; }
   .scrollbar { width: 100%; height: 14px; background: #232323; border: 1px solid #2e2e2e; border-top: none; border-bottom: 1px solid #2e2e2e; position: relative; cursor: pointer; }
   .sb-thumb { position: absolute; height: 8px; top: 2px; background: #3a3a3a; border-radius: 4px; cursor: grab; min-width: 24px; }
@@ -349,14 +353,6 @@
          기준선 = 직전 영업일 20:00 KST (일/월 아침이면 금요일 20:00). Binance 1h klines 를
          20:00 KST 정렬 4시간봉으로 합성 — 라이브러리 기본 UTC 정렬은 20시가 봉 경계가 아니라서. -->
     <div id="nn-mini" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 14px 14px;"></div>
-    <div style="padding:0 14px 6px;">
-      <div class="nnc-wrap">
-        <div class="nnc-head"><span class="n">3종목 비교</span>
-          <span class="p" style="font-weight:400;color:#8b949e;">기준 20:00 = 0%</span>
-          <span class="d" id="nn-cmp-legend" style="font-weight:400;"></span></div>
-        <div class="nnc" id="nnc-cmp" style="height:230px;"></div>
-      </div>
-    </div>
     <div class="nnc-note" id="nn-chart-note"></div>
   </div>
 </div>
@@ -3060,20 +3056,23 @@ async function nnRefresh() {
 }
 
 // ═══════════════════════════════════
-// 해외 실시간 4시간봉 (2026-09-16 BT)
+// 해외 실시간 2시간봉 (2026-09-16 BT)
 //   목적: 한국 프리장 전에 "전일 20시 대비 지금 어디" 를 3종목 한 번에.
 //   기준 시각 = 직전 "영업일(월~금) 20:00 KST". 일/월 아침에는 자동으로 금요일 20:00 이 잡힌다.
-//   Binance fapi klines(1h) 를 받아 20:00 KST 정렬 4시간봉으로 합성한다.
-//     - 라이브러리 기본 봉 정렬(UTC 00/04/08...)은 20:00 KST 가 봉 경계가 아니라 기준가가 봉 중간에 걸린다.
-//     - 20:00 KST = 11:00 UTC 라 1h 봉 경계와 정확히 맞는다 → 1h 를 4개씩 묶으면 경계가 딱 떨어짐.
+//   Binance fapi klines(1h) 를 받아 20:00 KST 정렬 2시간봉으로 합성한다.
+//     - 라이브러리 기본 봉 정렬(UTC)은 20:00 KST 가 봉 경계가 아니라 기준가가 봉 중간에 걸린다.
+//     - 20:00 KST = 11:00 UTC 라 1h 봉 경계와 정확히 맞는다 → 1h 를 2개씩 묶으면 경계가 딱 떨어짐.
+//   매일 20:00 KST 에 세로선(DOM 오버레이). 라이브러리에 세로선 API 가 없어 컬럼 날짜선과 같은 방식.
 //   lightweight-charts 는 timestamp 를 UTC 로 표시하므로 +9h 시프트해서 축이 KST 로 읽히게 한다.
 // ═══════════════════════════════════
 const NN_KST = 9 * 3600;          // 표시용 시프트
 const NN_ANCHOR_UTC = 11 * 3600;  // 20:00 KST
+const NN_BAR_SEC = 2 * 3600;      // 2시간봉 (2026-09-16 BT: 4h -> 2h)
 const NN_KLINE_LIMIT = 260;       // 1h × 260 ≈ 11일
-const NN_CMP_COLOR = { KODEX200USDT: 'rgb(126,166,209)', SAMSUNGUSDT: 'rgb(249,117,131)', SKHYNIXUSDT: 'rgb(57,197,207)' };
-const nnCharts = {};   // sym -> {chart, series, baseLine}
-let nnCmpChart = null, nnCmpSeries = {}, nnChartTimer = null;
+const NN_VIEW_BARS = 36;          // 2시간봉 36개 = 3일
+const nnCharts = {};              // sym -> {chart, series, baseLine, grid, bars}
+let nnChartTimer = null;
+let nnBaseUtc = null;
 
 // 직전 영업일 20:00 KST (UTC epoch sec). 토/일에 찍힌 20시는 건너뛴다.
 function nnBaseTimeUtc(nowSec) {
@@ -3099,16 +3098,16 @@ async function nnKlines(sym) {
             .filter(k => isFinite(k.o) && isFinite(k.c));
 }
 
-// 1h → 20:00 KST 정렬 4시간봉
-function nnTo4h(bars) {
+// 1h → 20:00 KST 정렬 N시간봉
+function nnAggregate(bars, sec) {
   const out = [];
   let cur = null, curKey = null;
   for (const b of bars) {
-    const key = Math.floor((b.t - NN_ANCHOR_UTC) / 14400);
+    const key = Math.floor((b.t - NN_ANCHOR_UTC) / sec);
     if (key !== curKey) {
       if (cur) out.push(cur);
       curKey = key;
-      cur = { t: key * 14400 + NN_ANCHOR_UTC, o: b.o, h: b.h, l: b.l, c: b.c };
+      cur = { t: key * sec + NN_ANCHOR_UTC, o: b.o, h: b.h, l: b.l, c: b.c };
     } else {
       cur.h = Math.max(cur.h, b.h); cur.l = Math.min(cur.l, b.l); cur.c = b.c;
     }
@@ -3117,18 +3116,38 @@ function nnTo4h(bars) {
   return out;
 }
 
-function nnMakeChart(el, extra) {
+function nnMakeChart(el) {
   const c = LightweightCharts.createChart(el, Object.assign({
     width: el.clientWidth || 300, height: el.clientHeight || 190
   }, CHART_OPTS(), {
     timeScale: { borderColor: '#707070', timeVisible: true, secondsVisible: false, rightOffset: 1 },
     rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.12, bottom: 0.08 } }
-  }, extra || {}));
-  new ResizeObserver(e => {
-    const r = e[0].contentRect;
-    if (r.width > 0) c.applyOptions({ width: r.width, height: r.height });
-  }).observe(el);
+  }));
   return c;
+}
+
+// 매일 20:00 KST 세로선 — 라이브러리 vertLine API 가 없어 DOM 오버레이 (updateDateGrid 와 동일 패턴).
+// timeToCoordinate 는 차트 엘리먼트 좌측 기준 x 를 준다. 오버레이가 같은 박스 안이라 offset 0.
+function nnUpdateGrid(sym) {
+  const info = nnCharts[sym];
+  if (!info || !info.grid || !info.bars) return;
+  const ts = info.chart.timeScale();
+  const w = info.chart.options().width || info.el.clientWidth;
+  const marks = [];
+  for (const b of info.bars) {
+    if ((b.t - NN_ANCHOR_UTC) % 86400 !== 0) continue;    // 20:00 KST 봉만
+    let x = null;
+    try { x = ts.timeToCoordinate(b.t + NN_KST); } catch (_) {}
+    if (x == null || x < 0 || x > w) continue;
+    marks.push({ x: x, base: b.t === nnBaseUtc });
+  }
+  const nodes = info.grid.children;
+  while (nodes.length > marks.length) info.grid.removeChild(info.grid.lastChild);
+  while (nodes.length < marks.length) info.grid.appendChild(document.createElement('i'));
+  marks.forEach((m, k) => {
+    nodes[k].style.left = m.x + 'px';
+    nodes[k].className = m.base ? 'base' : '';
+  });
 }
 
 const nnFmtKrw = v => (v == null || !isFinite(v)) ? '—' : '₩' + Math.round(v).toLocaleString();
@@ -3137,10 +3156,9 @@ const nnPctColor = v => (v == null || !isFinite(v)) ? '#8b949e' : (v >= 0 ? '#f0
 
 async function loadNightCharts() {
   const mini = document.getElementById('nn-mini');
-  const cmpEl = document.getElementById('nnc-cmp');
-  if (!mini || !cmpEl) return;
+  if (!mini) return;
   const note = document.getElementById('nn-chart-note');
-  const base = nnBaseTimeUtc(Math.floor(Date.now() / 1000));
+  nnBaseUtc = nnBaseTimeUtc(Math.floor(Date.now() / 1000));
 
   if (!mini.children.length) {
     mini.innerHTML = NN_STOCKS.map(st =>
@@ -3148,18 +3166,16 @@ async function loadNightCharts() {
       + '<span class="n">' + st.name + '</span>'
       + '<span class="p" id="nnc-p-' + st.sym + '">—</span>'
       + '<span class="d" id="nnc-d-' + st.sym + '">—</span></div>'
-      + '<div class="nnc" id="nnc-' + st.sym + '"></div></div>').join('');
+      + '<div class="nnc" id="nnc-' + st.sym + '"><div class="nncg" id="nncg-' + st.sym + '"></div></div></div>').join('');
   }
 
   let ok = 0;
-  const cmpData = {};
   for (const st of NN_STOCKS) {
     try {
-      const bars = await nnKlines(st.sym);
-      if (!bars.length) throw new Error('empty');
+      const raw = await nnKlines(st.sym);
+      if (!raw.length) throw new Error('empty');
+      const bars = nnAggregate(raw, NN_BAR_SEC);
 
-      // ── 미니 4시간봉 ──
-      const b4 = nnTo4h(bars);
       const el = document.getElementById('nnc-' + st.sym);
       if (!nnCharts[st.sym] && el) {
         const ch = nnMakeChart(el);
@@ -3167,32 +3183,36 @@ async function loadNightCharts() {
           upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0',
           wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: false
         });
-        nnCharts[st.sym] = { chart: ch, series: se, baseLine: null };
+        nnCharts[st.sym] = { chart: ch, series: se, el: el, grid: document.getElementById('nncg-' + st.sym), baseLine: null, bars: null };
+        ch.timeScale().subscribeVisibleLogicalRangeChange(() => nnUpdateGrid(st.sym));
+        new ResizeObserver(e => {
+          const r = e[0].contentRect;
+          if (r.width > 0) { ch.applyOptions({ width: r.width, height: r.height }); requestAnimationFrame(() => nnUpdateGrid(st.sym)); }
+        }).observe(el);
       }
       const info = nnCharts[st.sym];
       if (!info) continue;
-      info.series.setData(b4.map(k => ({ time: k.t + NN_KST, open: k.o, high: k.h, low: k.l, close: k.c })));
+      info.bars = bars;
+      info.series.setData(bars.map(k => ({ time: k.t + NN_KST, open: k.o, high: k.h, low: k.l, close: k.c })));
 
-      // 기준가 = 20:00 KST 봉의 시가
-      const baseBar = b4.find(k => k.t === base);
+      // 기준가 = 기준일 20:00 KST 봉의 시가
+      const baseBar = bars.find(k => k.t === nnBaseUtc);
       const basePx = baseBar ? baseBar.o : null;
       if (info.baseLine) { try { info.series.removePriceLine(info.baseLine); } catch (_) {} info.baseLine = null; }
       if (basePx) {
         info.baseLine = info.series.createPriceLine({
-          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0,
-          axisLabelVisible: true, title: ''
+          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: true, title: ''
         });
       }
-      info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, b4.length - 30), to: b4.length });
+      info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - NN_VIEW_BARS), to: bars.length });
+      requestAnimationFrame(() => nnUpdateGrid(st.sym));
 
-      const lastPx = bars[bars.length - 1].c;
+      const lastPx = raw[raw.length - 1].c;
       const pct = basePx ? (lastPx / basePx - 1) * 100 : null;
       const pe = document.getElementById('nnc-p-' + st.sym);
       const de = document.getElementById('nnc-d-' + st.sym);
       if (pe) pe.textContent = NN.fx ? nnFmtKrw(lastPx * NN.fx) : '$' + lastPx.toFixed(2);
       if (de) { de.textContent = nnFmtPct(pct); de.style.color = nnPctColor(pct); }
-
-      if (basePx) cmpData[st.sym] = bars.filter(k => k.t >= base).map(k => ({ time: k.t + NN_KST, value: (k.c / basePx - 1) * 100 }));
       ok++;
     } catch (e) {
       console.error('nnChart ' + st.sym, e);
@@ -3201,31 +3221,13 @@ async function loadNightCharts() {
     }
   }
 
-  // ── 비교 차트 (기준 = 0%), 1시간 해상도 ──
-  if (!nnCmpChart) {
-    nnCmpChart = nnMakeChart(cmpEl, { rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.12, bottom: 0.12 } } });
-    for (const st of NN_STOCKS) {
-      nnCmpSeries[st.sym] = nnCmpChart.addLineSeries({
-        color: NN_CMP_COLOR[st.sym] || C_SLATE, lineWidth: 2,
-        priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true,
-        priceFormat: { type: 'custom', minMove: 0.01, formatter: v => v.toFixed(2) + '%' }
-      });
-    }
-    nnCmpSeries[NN_STOCKS[0].sym].createPriceLine({ price: 0, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: false, title: '' });
-    const lg = document.getElementById('nn-cmp-legend');
-    if (lg) lg.innerHTML = NN_STOCKS.map(st =>
-      '<span style="color:' + (NN_CMP_COLOR[st.sym] || '#8b949e') + ';margin-left:10px;">● ' + st.name + '</span>').join('');
-  }
-  for (const st of NN_STOCKS) nnCmpSeries[st.sym].setData(cmpData[st.sym] || []);
-  nnCmpChart.timeScale().fitContent();
-
   if (note) {
-    const bd = new Date((base + NN_KST) * 1000);
-    const pad = n => String(n).padStart(2, '0');
+    const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
-      ? '기준 ' + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' ' + pad(bd.getUTCHours()) + ':00 KST 가격 · '
-        + '미니 차트는 20:00 정렬 4시간봉, 비교 차트는 1시간 종가 · '
-        + '% 는 달러 기준(환율 변동 제외), 원화 표시가는 현재 환율 적용 · ' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
+      ? '2시간봉 (20:00 KST 정렬) · 세로선 = 매일 20:00, 진한 선 = 기준일 '
+        + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 · '
+        + '% 는 달러 기준(환율 변동 제외), 원화 표시가는 현재 환율 적용 · '
+        + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
   }
 }
