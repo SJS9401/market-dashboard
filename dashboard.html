@@ -3348,7 +3348,7 @@ async function nnPoll() {
      이렇게 해야 축이 뉴욕 시각(09:30~16:00)으로 읽힌다 — 네이버 화면과 같은 기준.
 
    ★ 15분봉만 range=1mo 로 받는다. 세션당 27봉뿐이라 MA60(2.2세션)·MA120(4.5세션)이
-     한 세션 안에서는 계산 자체가 불가능하다. 기본 시야는 최근 2세션, 그 이전은 스크롤.
+     한 세션 안에서는 계산 자체가 불가능하다. 기본 시야는 최근 5세션(135봉), 그 이전은 스크롤.
    ══════════════════════════════════════════════════════════════════════ */
 const UI_ORDER = ['GSPC', 'IXIC', 'DJI', 'RUT'];
 const UI_CANDLE = { upColor:'#d61022', downColor:'#1750e0', borderUpColor:'#d61022',
@@ -3448,7 +3448,7 @@ async function loadUsIntraday() {
     const lg = document.getElementById('ma-legend-ui-nq');
     if (lg) lg.innerHTML = legend.join('');
 
-    const show = Math.min(54, bars.length);          // 기본 = 최근 2세션(27봉 x 2)
+    const show = Math.min(135, bars.length);         // 기본 = 최근 5세션 (27봉 x 5, 2026-09-16 BT)
     ch.timeScale().setVisibleLogicalRange({ from: bars.length - show, to: bars.length });
 
     const pEl = document.getElementById('p-ui-nq'), cEl = document.getElementById('c-ui-nq');
@@ -3463,8 +3463,8 @@ async function loadUsIntraday() {
   }
 
   const note = document.getElementById('ui-note');
-  if (note) note.textContent = '5분봉·15분봉 모두 야후 네이티브 간격 (집계 없음) · 15분봉은 최근 '
-    + ((nq && nq.b15) ? nq.b15.length : 0) + '봉, 드래그로 과거 구간 이동';
+  if (note) note.textContent = '5분봉·15분봉 모두 야후 네이티브 간격 (집계 없음) · 15분봉 기본 5일치(135봉), 보유 '
+    + ((nq && nq.b15) ? nq.b15.length : 0) + '봉 — 드래그로 과거 구간 이동';
 }
 
 loadUsIntraday();
