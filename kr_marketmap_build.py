@@ -65,8 +65,14 @@ NAVER_JSON_HEADERS = dict(NAVER_UA, **{"Accept": "application/json, text/plain, 
 #   업종별 종목: /api/domestic/market/upjong/{code}/stocklist
 #                → [{"itemcode":"010170","itemname":"대한광통신",...}]  ← 최상위가 배열
 #
-# ★ stocklist 는 pageSize 상한이 있어 100개 넘는 업종은 startIdx 로 넘겨야 한다.
-#   배열 길이 < pageSize 이면 마지막 페이지. 이걸 빠뜨리면 큰 업종이 통째로 잘린다.
+# ★ startIdx 는 "오프셋이 아니라 페이지 번호"다 (2026-09-16 실측).
+#     startIdx=0 → 1페이지, startIdx=1 → 다음 100개(겹침 0), startIdx=100 → 빈 배열.
+#     `page` 파라미터는 무시된다. 오프셋으로 착각해 100씩 더하면 2페이지에서 바로 끝나
+#     업종이 100개에서 잘린다 (매핑률 97.1% → 88.7% 퇴행으로 드러났다).
+# ★ pageSize 는 200 까지 정상, 500 은 HTTP 400. 상한이 있으니 임의로 올리지 말 것.
+# ★ 종목코드는 숫자 전용이 아니다 — 신형우선주·ETN 등 `00088K` 처럼 영문이 섞인다.
+#   isdigit() 로 거르면 100개 중 79개만 남는다. 6자 영숫자를 모두 받고,
+#   실제 채택 여부는 KRX 전종목 목록과의 교집합이 결정한다.
 NAVER_API_BASE = "https://stock.naver.com"
 # ★ size=100 은 BT 가 브라우저에서 캡처한 값 그대로다. 300 으로 올렸더니 HTTP 400.
 #   상한이 있는 파라미터이므로 캡처한 URL 을 임의로 "개선"하지 말 것 (2026-09-16 실패 1회).
@@ -75,8 +81,8 @@ INDUSTRY_LIST_EP = ("/api/stockSecurity/rankings/v2/domestic/industries"
                     "?sortType=changeRate&size=100&period=daily")
 INDUSTRY_STOCKS_EP = ("/api/domestic/market/upjong/{code}/stocklist"
                       "?marketType=ALL&orderType=priceTop&startIdx={idx}&pageSize={size}")
-PAGE_SIZE = 100
-MAX_IDX = 5000          # 폭주 방지 상한
+PAGE_SIZE = 200         # 실측 상한 200 (500 은 400 에러)
+MAX_PAGES = 40          # 폭주 방지 (최대 업종 「기타」 약 1,536종목 = 8페이지)
 
 # 기간: (키, 달력일 오프셋)
 PERIODS = [("1w", 7), ("1m", 30), ("3m", 91), ("6m", 182), ("1y", 365)]
@@ -230,26 +236,26 @@ def fetch_sector_map():
         if not code or not name:
             continue
         got = 0
-        idx = 0
-        while idx <= MAX_IDX:
+        page = 0
+        while page < MAX_PAGES:
             try:
-                rows = naver_json(INDUSTRY_STOCKS_EP.format(code=code, idx=idx, size=PAGE_SIZE))
+                rows = naver_json(INDUSTRY_STOCKS_EP.format(code=code, idx=page, size=PAGE_SIZE))
             except Exception as e:
-                _log(f"  업종 {name}({code}) idx={idx} fail: {e}")
+                _log(f"  업종 {name}({code}) page={page} fail: {e}")
                 break
             if not isinstance(rows, list) or not rows:
-                break
+                break                      # 빈 배열 = 끝
             for row in rows:
-                c = str(row.get("itemcode") or "").strip()
-                if len(c) == 6 and c.isdigit():
+                c = str(row.get("itemcode") or "").strip().upper()
+                if len(c) == 6 and c.isalnum():
                     sector_of.setdefault(c, name)
                     got += 1
             if len(rows) < PAGE_SIZE:      # 마지막 페이지
                 break
-            idx += PAGE_SIZE
+            page += 1
             time.sleep(0.05)
         else:
-            _log(f"  ! 업종 {name}({code}) MAX_IDX 도달 — 잘렸을 수 있음")
+            _log(f"  ! 업종 {name}({code}) MAX_PAGES 도달 — 잘렸을 수 있음")
         if got == 0:
             empty_sectors += 1
         time.sleep(0.05)
