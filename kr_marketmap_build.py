@@ -68,8 +68,11 @@ NAVER_JSON_HEADERS = dict(NAVER_UA, **{"Accept": "application/json, text/plain, 
 # ★ stocklist 는 pageSize 상한이 있어 100개 넘는 업종은 startIdx 로 넘겨야 한다.
 #   배열 길이 < pageSize 이면 마지막 페이지. 이걸 빠뜨리면 큰 업종이 통째로 잘린다.
 NAVER_API_BASE = "https://stock.naver.com"
+# ★ size=100 은 BT 가 브라우저에서 캡처한 값 그대로다. 300 으로 올렸더니 HTTP 400.
+#   상한이 있는 파라미터이므로 캡처한 URL 을 임의로 "개선"하지 말 것 (2026-09-16 실패 1회).
+#   업종은 78개라 100 이면 충분하고, 실제 응답도 hasNext=false 였다.
 INDUSTRY_LIST_EP = ("/api/stockSecurity/rankings/v2/domestic/industries"
-                    "?sortType=changeRate&size=300&period=daily")
+                    "?sortType=changeRate&size=100&period=daily")
 INDUSTRY_STOCKS_EP = ("/api/domestic/market/upjong/{code}/stocklist"
                       "?marketType=ALL&orderType=priceTop&startIdx={idx}&pageSize={size}")
 PAGE_SIZE = 100
