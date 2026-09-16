@@ -137,6 +137,10 @@
   .ui-cw { width:100%; height:190px; cursor:crosshair; position:relative; }
   .ui-nq-wrap { padding:0 14px 14px; }
   .ui-nq-cw { width:100%; height:300px; cursor:crosshair; position:relative; background:#101010; border:1px solid #2e2e2e; border-radius:8px; overflow:hidden; }
+  /* 일자 구분 세로선 — lightweight-charts 에 vertical line API 가 없어 DOM 오버레이.
+     nnUpdateGrid / updateDateGrid 와 동일 패턴. 오버레이가 차트 엘리먼트와 같은 박스라 offset 0. */
+  .uicg { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:5; }
+  .uicg i { position:absolute; top:0; bottom:0; width:0; border-left:1px solid #232323; }
   .ui-sub { display:flex; align-items:baseline; gap:10px; }
   .ui-sub .ma-legend { margin-left:auto; padding:0; }
   .scrollbar { width: 100%; height: 14px; background: #232323; border: 1px solid #2e2e2e; border-top: none; border-bottom: 1px solid #2e2e2e; position: relative; cursor: pointer; }
@@ -281,7 +285,7 @@
       <span class="chg flat" id="c-ui-nq" style="font-size:11px;font-weight:700;"></span>
       <span class="ma-legend" id="ma-legend-ui-nq"></span>
     </h2>
-    <div class="ui-nq-wrap"><div class="ui-nq-cw" id="cw-ui-nq"></div></div>
+    <div class="ui-nq-wrap"><div class="ui-nq-cw" id="cw-ui-nq"><div class="uicg" id="uicg-nq"></div></div></div>
     <div class="nnc-note" id="ui-note"></div>
   </div>
 </div>
@@ -3376,6 +3380,30 @@ function uiBars(rows, off) {
   return rows.map(r => ({ time: r[0] + off, open: r[1], high: r[2], low: r[3], close: r[4] }));
 }
 
+// 일자 구분 세로선 (2026-09-16 BT). 봉 시각은 이미 gmtoffset 이 더해져 뉴욕 기준이므로
+// floor(time/86400) 이 바뀌는 지점 = 뉴욕 날짜가 바뀌는 첫 봉 = 그날 09:30 봉.
+function uiNqGrid() {
+  const info = uiCharts.NQ15;
+  if (!info || !info.bars || !info.grid) return;
+  const ts = info.chart.timeScale();
+  const w = info.chart.options().width || info.el.clientWidth;
+  const marks = [];
+  let prevDay = null;
+  for (const b of info.bars) {
+    const day = Math.floor(b.time / 86400);
+    if (prevDay !== null && day !== prevDay) {
+      let x = null;
+      try { x = ts.timeToCoordinate(b.time); } catch (_) {}
+      if (x != null && x >= 0 && x <= w) marks.push(x);
+    }
+    prevDay = day;
+  }
+  const nodes = info.grid.children;
+  while (nodes.length > marks.length) info.grid.removeChild(info.grid.lastChild);
+  while (nodes.length < marks.length) info.grid.appendChild(document.createElement('i'));
+  marks.forEach((x, k) => { nodes[k].style.left = x + 'px'; });
+}
+
 async function loadUsIntraday() {
   const dEl = document.getElementById('d-ui');
   let j;
@@ -3455,11 +3483,14 @@ async function loadUsIntraday() {
     if (pEl) pEl.textContent = uiFmt(nq.last, 2);
     if (cEl) { cEl.className = 'chg ' + uiCls(nq.chg); cEl.textContent = uiChgText(nq); }
 
-    uiCharts.NQ15 = { chart: ch, el: nqEl };
+    uiCharts.NQ15 = { chart: ch, el: nqEl, bars: bars, grid: document.getElementById('uicg-nq') };
+    ch.timeScale().subscribeVisibleLogicalRangeChange(() => uiNqGrid());
     new ResizeObserver(en => {
       const r = en[0].contentRect;
       ch.applyOptions({ width: r.width, height: r.height });
+      requestAnimationFrame(uiNqGrid);
     }).observe(nqEl);
+    [0, 120, 400, 1000].forEach(ms => setTimeout(uiNqGrid, ms));
   }
 
   const note = document.getElementById('ui-note');
