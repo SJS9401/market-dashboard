@@ -281,6 +281,42 @@
   </div>
 </div>
 
+<!-- 미국 마켓맵 (2026-09-16 BT): 미국 관련 카드를 한 덩어리로 — 인트라데이 바로 아래. -->
+<div class="events" style="margin-top:20px;flex-direction:column;gap:20px;">
+  <div class="events-card" style="flex:none;width:100%;">
+    <h2>미국 마켓맵</h2>
+    <div class="mm-box" style="height:800px;">
+      <div class="tradingview-widget-container" style="height:100%;">
+        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+        {
+          "dataSource": "SPX500",
+          "blockSize": "market_cap_basic",
+          "blockColor": "change",
+          "grouping": "sector",
+          "locale": "kr",
+          "colorTheme": "dark",
+          "displaySettings": {
+            "showLogo": true,
+            "title": { "columnName": "name", "isShown": true },
+            "displayValue": { "columnName": "change", "isShown": true },
+            "colorScheme": "blue-red"
+          },
+          "exchanges": [],
+          "hasTopBar": true,
+          "isDataSetEnabled": true,
+          "isZoomEnabled": true,
+          "hasSymbolTooltip": true,
+          "isMonoSize": false,
+          "width": "100%",
+          "height": "100%"
+        }
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row-label">한국</div>
 <div class="main">
   <!-- LEFT: 코스피 -->
@@ -420,38 +456,7 @@
       <div id="mm-kr-tip" style="position:absolute;display:none;pointer-events:none;background:rgba(24,24,24,0.96);border:1px solid #3a3a3a;border-radius:6px;padding:7px 10px;font-size:12px;line-height:1.5;z-index:10;color:#e6edf3;"></div>
     </div>
   </div>
-  <div class="events-card" style="flex:none;width:100%;">
-    <h2>미국 마켓맵</h2>
-    <div class="mm-box" style="height:800px;">
-      <div class="tradingview-widget-container" style="height:100%;">
-        <div class="tradingview-widget-container__widget" style="height:100%;"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
-        {
-          "dataSource": "SPX500",
-          "blockSize": "market_cap_basic",
-          "blockColor": "change",
-          "grouping": "sector",
-          "locale": "kr",
-          "colorTheme": "dark",
-          "displaySettings": {
-            "showLogo": true,
-            "title": { "columnName": "name", "isShown": true },
-            "displayValue": { "columnName": "change", "isShown": true },
-            "colorScheme": "blue-red"
-          },
-          "exchanges": [],
-          "hasTopBar": true,
-          "isDataSetEnabled": true,
-          "isZoomEnabled": true,
-          "hasSymbolTooltip": true,
-          "isMonoSize": false,
-          "width": "100%",
-          "height": "100%"
-        }
-        </script>
-      </div>
-    </div>
-  </div>
+
 </div>
 
 <div class="events" style="margin-top:20px;">
