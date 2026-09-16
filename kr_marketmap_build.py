@@ -252,6 +252,34 @@ def fetch_sector_map():
     return sector_of
 
 
+def cached_sector_map():
+    """직전 kr_marketmap.json 의 업종 매핑을 그대로 재사용.
+
+    2026-09-16: 네이버가 finance.naver.com/sise/sise_group.naver 를
+    stock.naver.com (Next.js SPA) 로 리다이렉트하면서 HTML 스크래핑 소스가 사라졌다.
+    업종 분류는 분기에 몇 건 수준으로만 바뀌므로, 소스 복구 전까지 직전 매핑을 재사용해
+    "시세는 매일 갱신 / 업종만 고정" 상태로 운영한다. 신규 상장은 미분류(-1).
+    kr_sector_history_backfill.py 가 이 파일의 업종 집합을 그대로 쓰므로
+    집합이 유지되는 편이 다운스트림에도 안전하다.
+    """
+    if not OUT_PATH.exists():
+        return {}, None
+    try:
+        j = json.loads(OUT_PATH.read_text(encoding="utf-8"))
+    except Exception as e:
+        _log(f"  캐시 로드 실패: {e}")
+        return {}, None
+    secs = j.get("sectors") or []
+    out = {}
+    for row in (j.get("stocks") or []):
+        if not isinstance(row, list) or len(row) < 4:
+            continue
+        code, si = row[0], row[3]
+        if isinstance(si, int) and 0 <= si < len(secs):
+            out[code] = secs[si]
+    return out, j.get("base_date")
+
+
 # ---------------- Build ----------------
 
 def cmd_probe():
@@ -284,8 +312,27 @@ def cmd_probe():
         print(f"[probe]   발췌: {seg!r}")
         groups, pat_i = _find_groups(txt)
         print(f"[probe] 네이버 업종 {len(groups)}개 (pattern#{pat_i}), 앞 5개: {groups[:5]}")
+        # 신 사이트(Next.js SPA) 로 옮겨간 경우 임베드 JSON 위치 탐색
+        if not groups:
+            for kw in ("industryCode", "industryName", "industryName\\", "stockItems",
+                       "itemCode", "__next_f", "industry"):
+                print(f"[probe]   키워드 '{kw}' {un.count(kw)}회")
+            for kw in ("industryName", "industryCode", "itemCode"):
+                k = un.find(kw)
+                if k >= 0:
+                    print(f"[probe]   {kw} 발췌: {un[max(0,k-150):k+500]!r}")
+                    break
         if groups:
             break
+    # 신 사이트 API 후보 타진
+    for api in ("https://api.stock.naver.com/industry/list",
+                "https://api.stock.naver.com/industry/home",
+                "https://m.stock.naver.com/api/industry/list"):
+        try:
+            t2, st2, fin2, enc2, nb2 = naver_fetch(api)
+            print(f"[probe] API {api} -> {st2} {nb2}bytes {t2[:200]!r}")
+        except Exception as e:
+            print(f"[probe] API {api} -> FAIL {e}")
 
 
 def cmd_build():
@@ -303,6 +350,14 @@ def cmd_build():
         _log(f"앵커 {key}: {ad} ({len(amap)}종목)")
 
     sector_of = fetch_sector_map()
+    sector_source = "naver"
+    if not sector_of:
+        sector_of, cached_date = cached_sector_map()
+        sector_source = f"cache({cached_date})"
+        _log(f"  ! 네이버 업종 수집 실패 → 직전 매핑 재사용 "
+             f"{len(sector_of)}종목 (기준 {cached_date})")
+        if not sector_of:
+            raise SystemExit("업종 소스 없음 (네이버 실패 + 캐시 없음) — 저장 중단")
 
     sectors = []
     sector_idx = {}
@@ -341,13 +396,15 @@ def cmd_build():
         "anchor_dates": anchors,
         "periods": ["1d"] + [k for k, _ in PERIODS],
         "sectors": sectors,
+        "sector_source": sector_source,
         "stocks": stocks,
     }
     # sanity: 코스피 500+ 코스닥 800+ 필수, 업종 매핑률 60%+
     kp_n = sum(1 for s in stocks if s[2] == 0)
     kq_n = len(stocks) - kp_n
     mapped = sum(1 for s in stocks if s[3] >= 0)
-    _log(f"KOSPI {kp_n} / KOSDAQ {kq_n} / 업종매핑 {mapped}/{len(stocks)} / skip {skipped}")
+    _log(f"KOSPI {kp_n} / KOSDAQ {kq_n} / 업종매핑 {mapped}/{len(stocks)} "
+         f"/ skip {skipped} / 업종소스 {sector_source}")
     assert kp_n > 500 and kq_n > 800, "종목 수 이상 — 저장 중단"
     assert mapped / max(1, len(stocks)) > 0.6, "업종 매핑률 저조 — 저장 중단"
 
