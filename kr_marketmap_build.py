@@ -305,10 +305,43 @@ def cmd_probe():
         items = j.get("items") or []
         print(f"[probe] 업종 목록 {len(items)}개, hasNext={j.get('hasNext')}")
         if items:
-            c0 = str(items[0].get("code"))
-            rows = naver_json(INDUSTRY_STOCKS_EP.format(code=c0, idx=0, size=PAGE_SIZE))
-            n = sum(1 for r in rows if str(r.get("itemcode", "")).isdigit()) if isinstance(rows, list) else -1
-            print(f"[probe] 첫 업종 code={c0} 종목 {n}개 (1페이지)")
+            # 종목이 가장 많을 법한 업종(상승+보합+하락 최대)으로 페이징 실험
+            def _tot(it):
+                try:
+                    return (int(it.get("risingCount") or 0) + int(it.get("fallingCount") or 0)
+                            + int(it.get("unchangedCount") or 0))
+                except Exception:
+                    return 0
+            big = max(items, key=_tot)
+            c0, nm, expect = str(big.get("code")), big.get("name"), _tot(big)
+            print(f"[probe] 페이징 실험 대상: {nm}(code={c0}) 화면상 약 {expect}종목")
+
+            def codes(url):
+                try:
+                    rows = naver_json(url)
+                except Exception as e:
+                    return None, f"FAIL {e}"
+                if not isinstance(rows, list):
+                    return None, f"배열 아님 ({type(rows).__name__})"
+                return {str(r.get("itemcode")) for r in rows if str(r.get("itemcode", "")).isdigit()}, "ok"
+
+            base = f"/api/domestic/market/upjong/{c0}/stocklist?marketType=ALL&orderType=priceTop"
+            s0, m0 = codes(f"{base}&startIdx=0&pageSize=100")
+            print(f"[probe]   startIdx=0&pageSize=100 -> {len(s0) if s0 else m0}개")
+            for label, url in [
+                ("startIdx=100", f"{base}&startIdx=100&pageSize=100"),
+                ("startIdx=1",   f"{base}&startIdx=1&pageSize=100"),
+                ("startIdx=2",   f"{base}&startIdx=2&pageSize=100"),
+                ("page=1",       f"{base}&page=1&pageSize=100"),
+                ("pageSize=200", f"{base}&startIdx=0&pageSize=200"),
+                ("pageSize=500", f"{base}&startIdx=0&pageSize=500"),
+            ]:
+                st, mm = codes(url)
+                if st is None:
+                    print(f"[probe]   {label} -> {mm}")
+                else:
+                    new = len(st - s0) if s0 else len(st)
+                    print(f"[probe]   {label} -> {len(st)}개, 0페이지와 겹치지 않는 신규 {new}개")
     except Exception as e:
         print(f"[probe] 업종 API FAIL: {e}")
 
@@ -327,15 +360,25 @@ def cmd_build():
         anchor_maps[key] = amap
         _log(f"앵커 {key}: {ad} ({len(amap)}종목)")
 
-    sector_of = fetch_sector_map()
-    sector_source = "naver"
-    if not sector_of:
-        sector_of, cached_date = cached_sector_map()
+    # 업종 소스 = 네이버 우선 + 캐시 backfill.
+    # 2026-09-16 실측: 신 API 가 업종당 100개에서 잘려 매핑률이 97.1% → 88.7% 로 퇴행했다.
+    # 네이버가 주는 만큼만 쓰고 나머지는 직전 매핑으로 메우면, 페이징이 덜 풀린 상태에서도
+    # 퇴행하지 않는다. 페이징이 고쳐지면 캐시 기여분이 자연히 0 으로 수렴한다.
+    naver_map = fetch_sector_map()
+    cache_map, cached_date = cached_sector_map()
+    sector_of = dict(cache_map)
+    sector_of.update(naver_map)          # 네이버 값이 캐시를 덮어쓴다 (업종 변경 반영)
+    filled = len(sector_of) - len(naver_map)
+    if naver_map and cache_map:
+        sector_source = f"naver+cache({cached_date})" if filled > 0 else "naver"
+    elif naver_map:
+        sector_source = "naver"
+    elif cache_map:
         sector_source = f"cache({cached_date})"
-        _log(f"  ! 네이버 업종 수집 실패 → 직전 매핑 재사용 "
-             f"{len(sector_of)}종목 (기준 {cached_date})")
-        if not sector_of:
-            raise SystemExit("업종 소스 없음 (네이버 실패 + 캐시 없음) — 저장 중단")
+    else:
+        raise SystemExit("업종 소스 없음 (네이버 실패 + 캐시 없음) — 저장 중단")
+    _log(f"  업종 소스: 네이버 {len(naver_map)} + 캐시 보충 {max(0, filled)} "
+         f"= {len(sector_of)}종목 [{sector_source}]")
 
     sectors = []
     sector_idx = {}
