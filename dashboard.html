@@ -119,6 +119,21 @@
   .nncg i { position:absolute; top:0; bottom:0; width:0; border-left:1px solid rgba(35,42,50,0.45); }
   .nncg i.base { border-left:2px solid #232323; }
   .nnc-note { font-size:11px; color:#6e7681; padding:0 14px 12px; }
+
+  /* ── 미국 지수 인트라데이 (2026-09-16 BT) — nnc-* 카드와 같은 톤 ── */
+  /* minmax(0,1fr) + min-width:0 필수 — 없으면 lightweight-charts 캔버스의 고정 픽셀 폭이
+     1fr 컬럼의 min-content 가 되어 셀이 안 줄어들고 그리드를 밀어낸다 (2026-09-16 실측). */
+  #ui-grid { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px; padding:14px; }
+  .ui-cell { background:#101010; border:1px solid #2e2e2e; border-radius:8px; overflow:hidden; min-width:0; }
+  .ui-head { display:flex; align-items:baseline; gap:8px; padding:8px 12px; background:#232323; border-bottom:1px solid #414141; white-space:nowrap; overflow:hidden; }
+  .ui-head .n { font-size:12px; font-weight:700; color:#f0f6fc; }
+  .ui-head .p { font-size:12px; font-weight:700; color:#f0f6fc; font-variant-numeric:tabular-nums; }
+  .ui-head .c { font-size:11px; font-weight:700; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .ui-cw { width:100%; height:190px; cursor:crosshair; position:relative; }
+  .ui-nq-wrap { padding:0 14px 14px; }
+  .ui-nq-cw { width:100%; height:300px; cursor:crosshair; position:relative; background:#101010; border:1px solid #2e2e2e; border-radius:8px; overflow:hidden; }
+  .ui-sub { display:flex; align-items:baseline; gap:10px; }
+  .ui-sub .ma-legend { margin-left:auto; padding:0; }
   .scrollbar { width: 100%; height: 14px; background: #232323; border: 1px solid #2e2e2e; border-top: none; border-bottom: 1px solid #2e2e2e; position: relative; cursor: pointer; }
   .sb-thumb { position: absolute; height: 8px; top: 2px; background: #3a3a3a; border-radius: 4px; cursor: grab; min-width: 24px; }
   .sb-thumb:hover, .sb-thumb.dragging { background: #58a6ff; }
@@ -167,6 +182,8 @@
     .events-card { overflow-x: auto; }
     #nn-grid { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 10px !important; }
     #nn-grid > div { scroll-snap-align: start; }
+    #ui-grid { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; }
+    #ui-grid > div { scroll-snap-align: start; }
     #nn-mini { grid-template-columns: none !important; }
     .mm-box { height: 62vh !important; }
     iframe[src*="sslecal2"] { height: 640px !important; }
@@ -177,6 +194,93 @@
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
 <div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
+<div class="row-label">미국</div>
+<div class="main">
+  <!-- LEFT: 나스닥 -->
+  <div class="col" id="col-us">
+    <div class="col-xline" id="xline-us"></div>
+    <div class="col-gridlines" id="grid-us"></div>
+    <div class="hts-tooltip" id="hts-tooltip-us"></div>
+    <div class="sticky-index">
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>나스닥 종합</h3><span class="price" id="p-ndx">—</span><span class="chg flat" id="c-ndx"></span></div>
+        <div class="range-btns" data-col="us"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y">1Y</button><button data-r="3y">3Y</button><button data-r="10y" class="active">10Y</button></div>
+        <div class="bar-count" data-col="us"><input type="text" id="bars-us" value="" placeholder="봉"><span>봉</span></div>
+        <div class="interval-btns" data-col="us"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
+      </div>
+      <div class="ma-legend" id="ma-legend-ndx"></div>
+      <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
+    </div>
+    <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
+    <div class="col-date-label col-date-main" id="date-main-us"></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>거래량</h3><span class="price" id="p-us-vol" style="color:rgb(126,166,209)">—</span><span class="xdate" id="d-us-vol"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-vol"><div class="msg" id="msg-us-vol">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
+      <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top">
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="series-toggle" data-chart="breadth">
+          <button data-s="200" class="active">200MA</button>
+          <button data-s="50" class="active">50MA</button>
+        </div>
+      </div>
+      <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
+    </div>
+    <div class="col-date-label col-date-sub" id="date-sub-us"></div>
+  </div>
+  <!-- RIGHT: ETF 4패널 (2026-09-13 신설, 2026-09-14 DIA·IWM 제거) — 시총가중 vs 동일비중 쏠림 비교 -->
+  <div class="col" id="col-etf">
+    <div class="col-xline" id="xline-etf"></div>
+    <div class="col-gridlines" id="grid-etf"></div>
+    <div class="hts-tooltip" id="hts-tooltip-etf"></div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>QQQ</h3><span class="etf-sub">나스닥100</span><span class="price" id="p-qqq">—</span><span class="chg flat" id="c-qqq"></span></div><div class="bar-count" data-col="etf"><input type="text" id="bars-etf" value="" placeholder="봉"><span>봉</span></div></div>
+      <div class="cw cw-etf" id="cw-qqq"><div class="msg" id="msg-qqq">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>QQQE</h3><span class="etf-sub">나스닥100 동일비중</span><span class="price" id="p-qqqe">—</span><span class="chg flat" id="c-qqqe"></span></div></div>
+      <div class="cw cw-etf" id="cw-qqqe"><div class="msg" id="msg-qqqe">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>SPY</h3><span class="etf-sub">S&amp;P500</span><span class="price" id="p-spy">—</span><span class="chg flat" id="c-spy"></span></div></div>
+      <div class="cw cw-etf" id="cw-spy"><div class="msg" id="msg-spy">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>RSP</h3><span class="etf-sub">S&amp;P500 동일비중</span><span class="price" id="p-rsp">—</span><span class="chg flat" id="c-rsp"></span></div></div>
+      <div class="cw cw-etf" id="cw-rsp"><div class="msg" id="msg-rsp">로딩 중...</div></div>
+    </div>
+    <div class="col-date-label col-date-sub" id="date-sub-etf"></div>
+  </div>
+</div>
+
+<!-- 미국 지수 인트라데이 (2026-09-16 BT) — 5분봉 4종 + 나스닥 15분봉(MA 5/20/60/120).
+     데이터: data/us_intraday.json — us_intraday_update.yml 가 미국장 마감 후 커밋.
+     컬럼 안이 아니라 전폭 블록인 이유: 컬럼 폭(약 400px)에 4개를 넣으면 셀당 200px 로
+     5분봉 79개가 봉당 2.5px 가 된다. 전폭이면 셀당 약 380px 로 두 배 넉넉하다. -->
+<div class="events" style="margin-top:6px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:baseline;gap:10px;">인트라데이
+      <span style="color:#8b949e;font-weight:400;font-size:11px;">5분봉 · 뉴욕 기준 · 점선 = 전일 종가</span>
+      <span id="d-ui" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;">로딩 중...</span>
+    </h2>
+    <div id="ui-grid"><div style="color:#6e7681;font-size:12px;">로딩 중...</div></div>
+    <h2 class="ui-sub" style="border-top:1px solid #2e2e2e;">나스닥 15분
+      <span class="p" id="p-ui-nq" style="font-size:13px;font-weight:700;color:#f0f6fc;font-variant-numeric:tabular-nums;">&mdash;</span>
+      <span class="chg flat" id="c-ui-nq" style="font-size:11px;font-weight:700;"></span>
+      <span class="ma-legend" id="ma-legend-ui-nq"></span>
+    </h2>
+    <div class="ui-nq-wrap"><div class="ui-nq-cw" id="cw-ui-nq"></div></div>
+    <div class="nnc-note" id="ui-note"></div>
+  </div>
+</div>
+
 <div class="row-label">한국</div>
 <div class="main">
   <!-- LEFT: 코스피 -->
@@ -268,72 +372,6 @@
       <div class="cw cw-sub" id="cw-kq-adr"><div class="msg" id="msg-kq-adr">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-kq"></div>
-  </div>
-</div>
-
-<div class="row-label">미국</div>
-<div class="main">
-  <!-- LEFT: 나스닥 -->
-  <div class="col" id="col-us">
-    <div class="col-xline" id="xline-us"></div>
-    <div class="col-gridlines" id="grid-us"></div>
-    <div class="hts-tooltip" id="hts-tooltip-us"></div>
-    <div class="sticky-index">
-    <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>나스닥 종합</h3><span class="price" id="p-ndx">—</span><span class="chg flat" id="c-ndx"></span></div>
-        <div class="range-btns" data-col="us"><button data-r="1mo">1M</button><button data-r="3mo">3M</button><button data-r="6mo">6M</button><button data-r="1y">1Y</button><button data-r="3y">3Y</button><button data-r="10y" class="active">10Y</button></div>
-        <div class="bar-count" data-col="us"><input type="text" id="bars-us" value="" placeholder="봉"><span>봉</span></div>
-        <div class="interval-btns" data-col="us"><button data-i="1d" class="active">D</button><button data-i="1wk">W</button></div>
-      </div>
-      <div class="ma-legend" id="ma-legend-ndx"></div>
-      <div class="cw cw-main" id="cw-ndx"><div class="msg" id="msg-ndx">로딩 중...</div></div>
-    </div>
-    <div class="scrollbar" id="sb-us"><div class="sb-thumb" id="sb-thumb-us"></div></div>
-    <div class="col-date-label col-date-main" id="date-main-us"></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>거래량</h3><span class="price" id="p-us-vol" style="color:rgb(126,166,209)">—</span><span class="xdate" id="d-us-vol"></span></div></div>
-      <div class="cw cw-sub" id="cw-us-vol"><div class="msg" id="msg-us-vol">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-us-mdd" style="color:#f04452">—</span><span class="xdate" id="d-us-mdd"></span></div></div>
-      <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top">
-        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
-        <div class="series-toggle" data-chart="breadth">
-          <button data-s="200" class="active">200MA</button>
-          <button data-s="50" class="active">50MA</button>
-        </div>
-      </div>
-      <div class="cw cw-sub" id="cw-breadth"><div class="msg" id="msg-breadth">로딩 중...</div></div>
-    </div>
-    <div class="col-date-label col-date-sub" id="date-sub-us"></div>
-  </div>
-  <!-- RIGHT: ETF 4패널 (2026-09-13 신설, 2026-09-14 DIA·IWM 제거) — 시총가중 vs 동일비중 쏠림 비교 -->
-  <div class="col" id="col-etf">
-    <div class="col-xline" id="xline-etf"></div>
-    <div class="col-gridlines" id="grid-etf"></div>
-    <div class="hts-tooltip" id="hts-tooltip-etf"></div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>QQQ</h3><span class="etf-sub">나스닥100</span><span class="price" id="p-qqq">—</span><span class="chg flat" id="c-qqq"></span></div><div class="bar-count" data-col="etf"><input type="text" id="bars-etf" value="" placeholder="봉"><span>봉</span></div></div>
-      <div class="cw cw-etf" id="cw-qqq"><div class="msg" id="msg-qqq">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>QQQE</h3><span class="etf-sub">나스닥100 동일비중</span><span class="price" id="p-qqqe">—</span><span class="chg flat" id="c-qqqe"></span></div></div>
-      <div class="cw cw-etf" id="cw-qqqe"><div class="msg" id="msg-qqqe">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>SPY</h3><span class="etf-sub">S&amp;P500</span><span class="price" id="p-spy">—</span><span class="chg flat" id="c-spy"></span></div></div>
-      <div class="cw cw-etf" id="cw-spy"><div class="msg" id="msg-spy">로딩 중...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-top"><div class="left"><h3>RSP</h3><span class="etf-sub">S&amp;P500 동일비중</span><span class="price" id="p-rsp">—</span><span class="chg flat" id="c-rsp"></span></div></div>
-      <div class="cw cw-etf" id="cw-rsp"><div class="msg" id="msg-rsp">로딩 중...</div></div>
-    </div>
-    <div class="col-date-label col-date-sub" id="date-sub-etf"></div>
   </div>
 </div>
 
@@ -3285,6 +3323,141 @@ async function nnPoll() {
     if (u) u.textContent = 'Binance 연결 실패 · 재시도 중 (' + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ')';
   }
 }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   미국 지수 인트라데이 (2026-09-16 BT)
+   ----------------------------------------------------------------------
+   5분봉 4종(S&P500/나스닥종합/다우존스/러셀2000) + 나스닥 15분봉 MA 5·20·60·120.
+
+   ★ createChart() 를 쓰지 않고 LightweightCharts.createChart 를 직접 부른다.
+     createChart() 는 colGroups[col] 에 등록해 컬럼 시간축 동기화에 편입시키는데,
+     장중 5분봉은 일봉 컬럼과 시간축이 완전히 달라 동기화되면 안 된다 (nn* 미니차트와 같은 이유).
+
+   ★ 타임스탬프에 gmtoffset 을 더해서 넣는다. 라이브러리는 UTC 로 렌더하므로
+     이렇게 해야 축이 뉴욕 시각(09:30~16:00)으로 읽힌다 — 네이버 화면과 같은 기준.
+
+   ★ 15분봉만 range=1mo 로 받는다. 세션당 27봉뿐이라 MA60(2.2세션)·MA120(4.5세션)이
+     한 세션 안에서는 계산 자체가 불가능하다. 기본 시야는 최근 2세션, 그 이전은 스크롤.
+   ══════════════════════════════════════════════════════════════════════ */
+const UI_ORDER = ['GSPC', 'IXIC', 'DJI', 'RUT'];
+const UI_CANDLE = { upColor:'#d61022', downColor:'#1750e0', borderUpColor:'#d61022',
+                    borderDownColor:'#1750e0', wickUpColor:'#d61022', wickDownColor:'#1750e0',
+                    priceLineVisible:false };
+const uiCharts = {};
+
+function uiFmt(v, d) { return v == null ? '—' : v.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d}); }
+function uiCls(v) { return v > 0 ? 'up' : (v < 0 ? 'down' : 'flat'); }
+function uiChgText(d) {
+  const sign = (d.chg || 0) > 0 ? '+' : '';
+  return sign + uiFmt(d.chg, 2) + ' (' + sign + (d.chg_pct == null ? '—' : d.chg_pct.toFixed(2)) + '%)';
+}
+
+function uiMakeChart(el, opts) {
+  return LightweightCharts.createChart(el, Object.assign({
+    width: el.clientWidth || 300, height: el.clientHeight || 190
+  }, CHART_OPTS(), {
+    timeScale: { borderColor:'#707070', timeVisible:true, secondsVisible:false, rightOffset:1 },
+    rightPriceScale: { borderColor:'#707070', minimumWidth:56, scaleMargins:{top:0.12,bottom:0.08} }
+  }, opts || {}));
+}
+
+function uiBars(rows, off) {
+  return rows.map(r => ({ time: r[0] + off, open: r[1], high: r[2], low: r[3], close: r[4] }));
+}
+
+async function loadUsIntraday() {
+  const dEl = document.getElementById('d-ui');
+  let j;
+  try {
+    const r = await fetch('./data/us_intraday.json?_t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    j = await r.json();
+  } catch (e) {
+    if (dEl) dEl.textContent = '데이터 없음';
+    const g = document.getElementById('ui-grid');
+    if (g) g.innerHTML = '<div style="color:#6e7681;font-size:12px;">us_intraday.json 없음 — 미국장 마감 후 자동 생성</div>';
+    console.warn('[us_intraday] load 실패', e);
+    return;
+  }
+  const off = j.meta.gmtoffset || 0;
+  if (dEl) dEl.textContent = j.meta.session + ' 장마감 · 갱신 ' + j.meta.updated;
+
+  /* ── 5분봉 4종 ── */
+  const grid = document.getElementById('ui-grid');
+  grid.innerHTML = UI_ORDER.map(k => {
+    const d = j.symbols[k]; if (!d) return '';
+    return '<div class="ui-cell"><div class="ui-head">'
+      + '<span class="n">' + d.name + '</span>'
+      + '<span class="p">' + uiFmt(d.last, 2) + '</span>'
+      + '<span class="c ' + uiCls(d.chg) + '">' + uiChgText(d) + '</span>'
+      + '</div><div class="ui-cw" id="uicw-' + k + '"></div></div>';
+  }).join('');
+
+  UI_ORDER.forEach(k => {
+    const d = j.symbols[k]; if (!d) return;
+    const el = document.getElementById('uicw-' + k); if (!el) return;
+    const ch = uiMakeChart(el);
+    const se = ch.addCandlestickSeries(UI_CANDLE);
+    se.setData(uiBars(d.b5, off));
+    if (d.prev_close != null) {
+      se.createPriceLine({ price: d.prev_close, color: '#232323', lineWidth: 1,
+        lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: false });
+    }
+    ch.timeScale().fitContent();
+    uiCharts[k] = { chart: ch, el: el };
+    new ResizeObserver(en => {
+      const r = en[0].contentRect;
+      ch.applyOptions({ width: r.width, height: r.height });
+      ch.timeScale().fitContent();
+    }).observe(el);
+  });
+
+  /* ── 나스닥 15분봉 + 이평선 ── */
+  const nq = j.symbols[j.meta.b15_symbol || 'IXIC'];
+  const nqEl = document.getElementById('cw-ui-nq');
+  if (nq && nq.b15 && nqEl) {
+    // 이 차트만 패닝/줌 허용 — MA120 구간을 보려면 과거로 스크롤해야 한다.
+    const ch = uiMakeChart(nqEl, { handleScale: true, handleScroll: true });
+    const se = ch.addCandlestickSeries(UI_CANDLE);
+    const bars = uiBars(nq.b15, off);
+    se.setData(bars);
+
+    const periods = (j.meta.b15_mas || [5, 20, 60, 120]);
+    const mas = nq.b15_ma || {};
+    const legend = [];
+    periods.forEach((p, i) => {
+      const arr = mas['ma' + p]; if (!arr) return;
+      const col = maColor(p, i);
+      const ls = ch.addLineSeries({ color: col, lineWidth: 1, priceLineVisible: false,
+                                    lastValueVisible: false, crosshairMarkerVisible: false });
+      ls.setData(bars.map((b, n) => (arr[n] == null ? null : { time: b.time, value: arr[n] }))
+                     .filter(Boolean));
+      legend.push('<span><span class="dot" style="background:' + col + '"></span>' + p + '</span>');
+    });
+    const lg = document.getElementById('ma-legend-ui-nq');
+    if (lg) lg.innerHTML = legend.join('');
+
+    const show = Math.min(54, bars.length);          // 기본 = 최근 2세션(27봉 x 2)
+    ch.timeScale().setVisibleLogicalRange({ from: bars.length - show, to: bars.length });
+
+    const pEl = document.getElementById('p-ui-nq'), cEl = document.getElementById('c-ui-nq');
+    if (pEl) pEl.textContent = uiFmt(nq.last, 2);
+    if (cEl) { cEl.className = 'chg ' + uiCls(nq.chg); cEl.textContent = uiChgText(nq); }
+
+    uiCharts.NQ15 = { chart: ch, el: nqEl };
+    new ResizeObserver(en => {
+      const r = en[0].contentRect;
+      ch.applyOptions({ width: r.width, height: r.height });
+    }).observe(nqEl);
+  }
+
+  const note = document.getElementById('ui-note');
+  if (note) note.textContent = '5분봉·15분봉 모두 야후 네이티브 간격 (집계 없음) · 15분봉은 최근 '
+    + ((nq && nq.b15) ? nq.b15.length : 0) + '봉, 드래그로 과거 구간 이동';
+}
+
+loadUsIntraday();
 
 </script>
 </body>
