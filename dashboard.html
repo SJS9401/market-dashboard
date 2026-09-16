@@ -3150,6 +3150,18 @@ function nnUpdateGrid(sym) {
   });
 }
 
+// 헤더는 kline 마지막 종가(5분 주기)가 아니라 nnPoll 의 실시간 체결가(15초)로 칠한다.
+// 안 그러면 위 카드 가격과 몇 분 어긋나 보인다 (2026-09-16).
+function nnPaintHead(sym, usd) {
+  const info = nnCharts[sym];
+  const pe = document.getElementById('nnc-p-' + sym);
+  const de = document.getElementById('nnc-d-' + sym);
+  if (pe) pe.textContent = (usd == null) ? '—' : (NN.fx ? nnFmtKrw(usd * NN.fx) : '$' + usd.toFixed(2));
+  const basePx = info && info.basePx;
+  const pct = (basePx && usd) ? (usd / basePx - 1) * 100 : null;
+  if (de) { de.textContent = nnFmtPct(pct); de.style.color = nnPctColor(pct); }
+}
+
 const nnFmtKrw = v => (v == null || !isFinite(v)) ? '—' : '₩' + Math.round(v).toLocaleString();
 const nnFmtPct = v => (v == null || !isFinite(v)) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
 const nnPctColor = v => (v == null || !isFinite(v)) ? '#8b949e' : (v >= 0 ? '#f04452' : '#3182f6');
@@ -3183,7 +3195,7 @@ async function loadNightCharts() {
           upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0',
           wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: false
         });
-        nnCharts[st.sym] = { chart: ch, series: se, el: el, grid: document.getElementById('nncg-' + st.sym), baseLine: null, bars: null };
+        nnCharts[st.sym] = { chart: ch, series: se, el: el, grid: document.getElementById('nncg-' + st.sym), baseLine: null, bars: null, basePx: null };
         ch.timeScale().subscribeVisibleLogicalRangeChange(() => nnUpdateGrid(st.sym));
         new ResizeObserver(e => {
           const r = e[0].contentRect;
@@ -3207,12 +3219,8 @@ async function loadNightCharts() {
       info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - NN_VIEW_BARS), to: bars.length });
       requestAnimationFrame(() => nnUpdateGrid(st.sym));
 
-      const lastPx = raw[raw.length - 1].c;
-      const pct = basePx ? (lastPx / basePx - 1) * 100 : null;
-      const pe = document.getElementById('nnc-p-' + st.sym);
-      const de = document.getElementById('nnc-d-' + st.sym);
-      if (pe) pe.textContent = NN.fx ? nnFmtKrw(lastPx * NN.fx) : '$' + lastPx.toFixed(2);
-      if (de) { de.textContent = nnFmtPct(pct); de.style.color = nnPctColor(pct); }
+      info.basePx = basePx;
+      nnPaintHead(st.sym, raw[raw.length - 1].c);
       ok++;
     } catch (e) {
       console.error('nnChart ' + st.sym, e);
@@ -3248,6 +3256,7 @@ async function nnPoll() {
     let html = '';
     for (const st of NN_STOCKS) {
       const usd = map[st.sym];
+      if (nnCharts[st.sym]) nnPaintHead(st.sym, usd);   // 미니 차트 헤더도 같은 시세로
       const krw = (usd && NN.fx) ? usd * NN.fx : null;
       const prev = NN.close[st.ks];
       let chg = '<span style="color:#8b949e">전일 종가 대기 중</span>';
