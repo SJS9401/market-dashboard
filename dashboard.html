@@ -244,7 +244,7 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">나스닥 7-factor</span></div></div>
+      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">나스닥 7-factor</span><span class="xdate" id="us-fg-cnn" title="CNN Business Fear &amp; Greed Index (총점)">CNN —</span></div></div>
       <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -2443,6 +2443,7 @@ async function loadUSFG() {
     if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); allCharts['us-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}}); addAreaSeries('us-fg', C_SLATE); }
     const usfgPadded = alignToTimeIndex(data, 'us'); allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
     addZoneLines(allCharts['us-fg'].series, [{ price: 75, color: '#27ae60' }, { price: 50, color: '#f1c40f' }, { price: 25, color: '#e74c3c' }]);
+    loadUSCnnFG();          // CNN 총점 오버레이 (2026-09-17 BT) — 차트 생성 후에 호출
     // fitContent skipped — synced from main chart
     msgEl.style.display = 'none';
   } catch (e) { console.error('US FG', e); msgEl.textContent = '⚠ 실패'; }
@@ -3614,6 +3615,67 @@ loadUsIntraday();
   el.textContent = 'TradingView 실시간 · ' + (t.getMonth() + 1) + '.' + p(t.getDate())
     + ' ' + p(t.getHours()) + ':' + p(t.getMinutes()) + ' 로드';
 })();
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   CNN Business Fear & Greed — 총점 대조군 (2026-09-17 BT)
+   ----------------------------------------------------------------------
+   왜 붙이나: 같은 "공포탐욕" 이름을 쓰지만 우리 7-factor 는 전 구간 롤링
+   z-score 정규화, CNN 은 자체(비공개) 정규화라 값이 20p 넘게 벌어진다.
+   2026-09-17 실측 — 우리 48 / CNN 26. 팩터별로는 Volatility·Junk Bond 만
+   일치했고 Momentum/Strength/Breadth/Put-Call 이 통째로 위로 떠 있었다.
+   원인은 지표가 아니라 정규화 방식이므로 "고칠" 대상이 아니다. 대신
+   외부 기준선을 같은 축에 겹쳐 두고 괴리 자체를 읽는다.
+
+   데이터: data/us_cnn_fg.json  (us_cnn_fg_build.py + US CNN Fear Greed Update)
+     { current:{date,score,rating}, data:[[YYYY-MM-DD, score], ...] }
+     소급 한계 2020-09-21 — 그 이전 구간에는 선을 그리지 않는다(앞 패딩 금지).
+   ══════════════════════════════════════════════════════════════════════ */
+let usCnnFG = null, usCnnSeries = null, usCnnPromise = null;
+
+// 두 군데서 부른다: (1) 스크립트 끝 — 헤더 숫자는 우리 F&G 가 실패해도 뜨게,
+// (2) loadUSFG 끝 — 차트가 만들어진 뒤 오버레이를 그리게. fetch 는 1회만.
+function loadUSCnnFG() {
+  if (!usCnnPromise) {
+    usCnnPromise = (async () => {
+      const r = await fetch('data/us_cnn_fg.json?t=' + Date.now());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const J = await r.json();
+      if (!J || !Array.isArray(J.data) || !J.data.length) throw new Error('empty');
+      usCnnFG = J;
+      const el = document.getElementById('us-fg-cnn');
+      if (el) {
+        const c = J.current || {};
+        const sc = Math.round(c.score != null ? c.score : J.data[J.data.length - 1][1]);
+        el.textContent = 'CNN ' + sc;
+        el.style.color = getLabel(sc).c;
+        el.title = 'CNN Business Fear & Greed (총점) · ' + (c.date || '')
+                 + (c.rating ? ' · ' + c.rating : '');
+      }
+    })();
+  }
+  return usCnnPromise.then(drawUSCnnFG).catch(e => console.warn('CNN F&G', e));
+}
+
+function drawUSCnnFG() {
+  if (!usCnnFG || !allCharts['us-fg']) return;
+  const start = usCnnFG.data[0][0];
+  let arr = usCnnFG.data.map(p => ({ time: p[0], value: p[1] }));
+  // 주봉 모드면 본선과 같은 방식으로 주간 리샘플 — 안 하면 일자 키가 안 맞아
+  // alignToTimeIndex 가 전 구간을 첫 값으로 패딩해 일직선이 된다.
+  if (colInterval.us === '1wk') arr = resampleWeekly(arr);
+  // 앞 패딩 제거: CNN 아카이브 시작(2020-09) 이전에 가짜 수평선을 그리지 않는다.
+  arr = alignToTimeIndex(arr, 'us').filter(p => p.time >= start);
+  if (!usCnnSeries) {
+    usCnnSeries = allCharts['us-fg'].chart.addLineSeries({
+      color: '#6b4fa8', lineWidth: 1, lineStyle: 2,   // 2 = dashed
+      priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
+    });
+  }
+  usCnnSeries.setData(arr);
+}
+
+loadUSCnnFG();          // 헤더 숫자는 즉시 — 차트 오버레이는 loadUSFG 쪽에서 한 번 더
 
 </script>
 </body>
