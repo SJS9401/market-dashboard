@@ -1797,6 +1797,21 @@ async function loadMDD(indexId, mddId, col) {
 // Phase 1 Breadth(ADR) / Phase 2 VKOSPI/Bond 유지
 // 가중치: Phase 3 활성 시 (Mom 20 / Str 15 / Brd 15 / Vol 20 / SH 15 / PC 15 = 100)
 //          Phase 2 (Put/Call 데이터 없음) → 기존 (25/20/15/25/15 = 100)
+// 252일 rolling z-score (2026-09-17) — F&G Volatility 팩터 표준화용.
+// 표본이 window 의 80% 미만이거나 표준편차 0 이면 null → 호출부에서 fallback.
+function rollZScore(arr, w) {
+  const out = arr.map(() => null);
+  for (let i = w - 1; i < arr.length; i++) {
+    const s = [];
+    for (let j = i - w + 1; j <= i; j++) if (arr[j] != null && isFinite(arr[j])) s.push(arr[j]);
+    if (s.length < w * 0.8) continue;
+    const m = s.reduce((a, b) => a + b, 0) / s.length;
+    const sd = Math.sqrt(s.reduce((a, b) => a + (b - m) * (b - m), 0) / s.length);
+    if (sd > 0) out[i] = (arr[i] - m) / sd;
+  }
+  return out;
+}
+
 function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap, nhMap, nlMap) {
   const c=kospi.map(x=>x.close),t=kospi.map(x=>x.time);
   const sma125=calcSMA(c,125),rsi=calcRSI(c);
@@ -1827,6 +1842,9 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap, nhM
   const nhSMA5=safeSMA(nhA,5);
   const nlSMA5=safeSMA(nlA,5);
   const hasNHNL=nhSMA5.some(v=>v!=null)&&nlSMA5.some(v=>v!=null);
+  // Volatility z-score (2026-09-17) — 상세 근거는 rollZScore 위 주석 참조
+  const vkRatio=vkA.map((v,i)=>(v!=null&&vkSMA50[i])?v/vkSMA50[i]:null);
+  const vkZ=rollZScore(vkRatio,252);
   const out=[];
   for(let i=125;i<c.length;i++){
     const ma=sma125[i];if(!ma)continue;
@@ -1848,9 +1866,9 @@ function calcKrFG(kospi, fx, adrMap, bondCandles, vkospiCandles, putcallMap, nhM
     else{let ups=0;for(let j=i-19;j<=i;j++)if(kospi[j].close>kospi[j].open)ups++;brd=(ups/20)*100}
     // 4. Volatility (25%) — VKOSPI vs 50MA 우선, 없으면 realized σ fallback
     let vol;
-    if(vkA[i]!=null&&vkSMA50[i]!=null){
-      // VKOSPI가 50MA 대비 높을수록 공포 → vol score 낮아짐
-      vol=Math.max(0,Math.min(100,100-(vkA[i]/vkSMA50[i]-1)*100));
+    if(vkZ[i]!=null){
+      // VKOSPI/50MA 를 252일 분포로 표준화 — z=0 → 50, z=+2 → 10, z=-2 → 90
+      vol=Math.max(0,Math.min(100,50-vkZ[i]*20));
     }else{
       vol=Math.max(0,Math.min(100,100-(v2/v5-0.5)*100));
     }
@@ -2308,6 +2326,9 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
   const v9dMap = {}; if (vix9dCandles) vix9dCandles.forEach(x => { v9dMap[x.time] = x.close; });
   const v9dA = []; let l9 = null; for (const tt of t) { if (v9dMap[tt]) l9 = v9dMap[tt]; v9dA.push(l9); }
   const hasPC = v9dA.some(v => v != null) && vixA.some(v => v != null);
+  // Volatility z-score (2026-09-17) — 상세 근거는 rollZScore 위 주석 참조
+  const vixRatio = vixA.map((v, i) => (v != null && vixSMA50[i]) ? v / vixSMA50[i] : null);
+  const vixZ = rollZScore(vixRatio, 252);
   const out = [];
   for (let i = 125; i < c.length; i++) {
     const ma = sma125[i]; if (!ma) continue;
@@ -2329,8 +2350,9 @@ function calcUsFG(ndxCandles, tltCandles, breadthMap, vixCandles, hygCandles, nh
     else { let ups = 0; for (let j = i - 19; j <= i; j++) if (ndxCandles[j].close > ndxCandles[j].open) ups++; brd = (ups / 20) * 100; }
     // 4. Volatility: VIX vs 50MA 우선 (CNN 방식), 없으면 realized σ fallback
     let vol;
-    if (vixA[i] != null && vixSMA50[i] != null) {
-      vol = Math.max(0, Math.min(100, 100 - (vixA[i] / vixSMA50[i] - 1) * 100));
+    if (vixZ[i] != null) {
+      // VIX/50MA 를 252일 분포로 표준화 — z=0 → 50, z=+2 → 10, z=-2 → 90
+      vol = Math.max(0, Math.min(100, 50 - vixZ[i] * 20));
     } else {
       vol = Math.max(0, Math.min(100, 100 - (v2 / v5 - 0.5) * 100));
     }
