@@ -3420,7 +3420,7 @@ async function nnPoll() {
 /* ══════════════════════════════════════════════════════════════════════
    미국 지수 인트라데이 (2026-09-16 BT)
    ----------------------------------------------------------------------
-   5분봉 4종(S&P500/나스닥종합/다우존스/러셀2000) + 나스닥 15분봉 MA 5·20·60·120.
+   5분봉 4종(나스닥종합/S&P500/다우존스/러셀2000) + 나스닥 15분봉 MA 5·20·60·120.
 
    ★ createChart() 를 쓰지 않고 LightweightCharts.createChart 를 직접 부른다.
      createChart() 는 colGroups[col] 에 등록해 컬럼 시간축 동기화에 편입시키는데,
@@ -3432,7 +3432,7 @@ async function nnPoll() {
    ★ 15분봉만 range=1mo 로 받는다. 세션당 27봉뿐이라 MA60(2.2세션)·MA120(4.5세션)이
      한 세션 안에서는 계산 자체가 불가능하다. 기본 시야는 최근 5세션(135봉), 그 이전은 스크롤.
    ══════════════════════════════════════════════════════════════════════ */
-const UI_ORDER = ['GSPC', 'IXIC', 'DJI', 'RUT'];
+const UI_ORDER = ['IXIC', 'GSPC', 'DJI', 'RUT'];   // 나스닥 먼저 (2026-09-17 BT)
 const UI_CANDLE = { upColor:'#d61022', downColor:'#1750e0', borderUpColor:'#d61022',
                     borderDownColor:'#1750e0', wickUpColor:'#d61022', wickDownColor:'#1750e0',
                     priceLineVisible:false };
