@@ -244,7 +244,7 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">나스닥 7-factor</span><span class="xdate" id="us-fg-cnn" title="CNN Business Fear &amp; Greed Index (총점)">CNN —</span></div></div>
+      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">CNN Fear &amp; Greed</span><span class="xdate" id="us-fg-own" title="우리 7-factor (나스닥 기준) — 전 구간 롤링 z-score 정규화">7-factor —</span></div></div>
       <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -417,6 +417,10 @@
     <div class="card">
       <div class="card-top"><div class="left"><h3>MDD</h3><span class="price" id="p-kq-mdd" style="color:#f04452">—</span><span class="xdate" id="d-kq-mdd"></span></div></div>
       <div class="cw cw-sub" id="cw-kq-mdd"><div class="msg" id="msg-kq-mdd">로딩 중...</div></div>
+    </div>
+    <div class="card card-blank">
+      <div class="card-top"><div class="left"><h3>&nbsp;</h3></div></div>
+      <div class="cw cw-sub"></div>
     </div>
     <div class="card">
       <div class="card-top">
@@ -1282,7 +1286,7 @@ function renderSubsForTooltip(col, time, hoverId) {
     } else if (s.id === 'kr-fg' || s.id === 'us-fg') {
       if (d.value == null) return;
       const v = Math.round(d.value);
-      const lbl = getLabel(v);
+      const lbl = fgLabel(v, s.id);        // us-fg 는 CNN 밴드 (2026-09-17 BT)
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
     } else if (s.id === 'kr-export') {
       valHtml = '<span style="color:rgb(126,166,209)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
@@ -1421,7 +1425,7 @@ function _updateHeaderForChartImpl(chartId, time) {
     if (pe) pe.textContent = d.close.toLocaleString('en-US', {maximumFractionDigits:2});
   } else if (chartId === 'kr-fg' || chartId === 'us-fg') {
     const v = d.value != null ? Math.round(d.value) : null;
-    if (v != null) { const lbl = getLabel(v); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
+    if (v != null) { const lbl = fgLabel(v, chartId); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
@@ -2436,14 +2440,17 @@ async function loadUSFG() {
                         vix ? vix.candles : null, hyg ? hyg.candles : null, nhMap, nlMap,
                         vix9d ? vix9d.candles : null);
     if (intv === '1wk') data = resampleWeekly(data);
-    const last = data[data.length - 1], score = last ? last.value : 50, lbl = getLabel(score);
-    document.getElementById('us-fg-val').textContent = score;
-    const le = document.getElementById('us-fg-lbl'); le.textContent = lbl.t; le.style.color = lbl.c;
-    origValues['us-fg'] = () => { document.getElementById('us-fg-val').textContent = score; le.textContent = lbl.t; le.style.color = lbl.c; };
+    const last = data[data.length - 1], score = last ? last.value : 50;
+    // 2026-09-17 BT: 본선·헤더 숫자는 CNN 이 맡는다. 우리 7-factor 는 헤더 우측 보조 숫자.
+    usOwnScore = score;
+    const oe = document.getElementById('us-fg-own');
+    if (oe) { oe.textContent = '7-factor ' + score; oe.style.color = getLabel(score).c; }
+    usFgHeader(score, false);   // CNN 도착 전 임시값 — fetch 실패하면 이대로 남는다(폴백)
     if (!allCharts['us-fg']) { createChart('us-fg', 'us', { showTimeAxis: false }); allCharts['us-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}}); addAreaSeries('us-fg', C_SLATE); }
-    const usfgPadded = alignToTimeIndex(data, 'us'); allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
+    const usfgPadded = alignToTimeIndex(data, 'us'); usOwnAligned = usfgPadded;
+    allCharts['us-fg'].series.setData(usfgPadded); buildDataMap('us-fg', usfgPadded);
     addZoneLines(allCharts['us-fg'].series, [{ price: 75, color: '#27ae60' }, { price: 50, color: '#f1c40f' }, { price: 25, color: '#e74c3c' }]);
-    loadUSCnnFG();          // CNN 총점 오버레이 (2026-09-17 BT) — 차트 생성 후에 호출
+    loadUSCnnFG();          // 본선을 CNN 으로 교체 (2026-09-17 BT) — 차트 생성 후에 호출
     // fitContent skipped — synced from main chart
     msgEl.style.display = 'none';
   } catch (e) { console.error('US FG', e); msgEl.textContent = '⚠ 실패'; }
@@ -3618,23 +3625,46 @@ loadUsIntraday();
 
 
 /* ══════════════════════════════════════════════════════════════════════
-   CNN Business Fear & Greed — 총점 대조군 (2026-09-17 BT)
+   미국 공포탐욕 = CNN Business Fear & Greed (2026-09-17 BT)
    ----------------------------------------------------------------------
-   왜 붙이나: 같은 "공포탐욕" 이름을 쓰지만 우리 7-factor 는 전 구간 롤링
-   z-score 정규화, CNN 은 자체(비공개) 정규화라 값이 20p 넘게 벌어진다.
-   2026-09-17 실측 — 우리 48 / CNN 26. 팩터별로는 Volatility·Junk Bond 만
-   일치했고 Momentum/Strength/Breadth/Put-Call 이 통째로 위로 떠 있었다.
-   원인은 지표가 아니라 정규화 방식이므로 "고칠" 대상이 아니다. 대신
-   외부 기준선을 같은 축에 겹쳐 두고 괴리 자체를 읽는다.
+   BT: "전세계에서 F&G 를 보면 CNN 을 보는 게 대체적이라, 같은 절대값을 보면서
+        심리 흐름을 같이 파악하려는 목적." → 미국 카드는 CNN 을 본선으로 둔다.
+
+   우리 7-factor 를 버리지 않는 이유: 두 지수는 지표가 아니라 정규화가 다르다.
+   2026-09-17 실측 — 우리 48 / CNN 26. 팩터별로는 Volatility·Junk Bond 만 일치했고
+   Momentum/Strength/Breadth/Put-Call 이 통째로 위로 떠 있었다. 다만 6년 분포는
+   거의 같다 (CNN 10/50/90 = 22.6/49.5/70.8, 우리 = 24.7/54.0/69.7) — 즉 체계적
+   편향이 아니라 시점별 판독 차이다. 그래서 점선으로 남겨 괴리 자체를 읽는다.
 
    데이터: data/us_cnn_fg.json  (us_cnn_fg_build.py + US CNN Fear Greed Update)
      { current:{date,score,rating}, data:[[YYYY-MM-DD, score], ...] }
-     소급 한계 2020-09-21 — 그 이전 구간에는 선을 그리지 않는다(앞 패딩 금지).
+     소급 한계 2020-09-21 — 그 이전 구간에는 CNN 선을 그리지 않는다(앞 패딩 금지).
    ══════════════════════════════════════════════════════════════════════ */
-let usCnnFG = null, usCnnSeries = null, usCnnPromise = null;
+let usCnnFG = null, usCnnPromise = null;
+let usOwnSeries = null, usOwnAligned = null, usOwnScore = null;
 
-// 두 군데서 부른다: (1) 스크립트 끝 — 헤더 숫자는 우리 F&G 가 실패해도 뜨게,
-// (2) loadUSFG 끝 — 차트가 만들어진 뒤 오버레이를 그리게. fetch 는 1회만.
+// CNN 공식 밴드 — 우리 getLabel(20/40/60/80) 과 경계가 다르다.
+// 26 을 보여주면서 라벨만 우리 밴드로 찍으면 CNN 사이트와 어긋난다.
+function cnnLabel(s, rating) {
+  const t = rating ? rating.replace(/\b\w/g, c => c.toUpperCase())
+          : (s < 25 ? 'Extreme Fear' : s < 45 ? 'Fear' : s <= 55 ? 'Neutral'
+          : s <= 75 ? 'Greed' : 'Extreme Greed');
+  const k = t.toLowerCase();
+  const c = k === 'extreme fear' ? '#e74c3c' : k === 'fear' ? '#e67e22'
+          : k === 'neutral' ? '#f1c40f' : k === 'greed' ? '#2ecc71' : '#27ae60';
+  return { t: t, c: c };
+}
+function fgLabel(v, id) { return id === 'us-fg' ? cnnLabel(v) : getLabel(v); }
+
+function usFgHeader(v, isCnn, rating) {
+  const lbl = isCnn ? cnnLabel(v, rating) : getLabel(v);
+  const ve = document.getElementById('us-fg-val');
+  const le = document.getElementById('us-fg-lbl');
+  if (ve) ve.textContent = v;
+  if (le) { le.textContent = lbl.t; le.style.color = lbl.c; }
+  origValues['us-fg'] = () => usFgHeader(v, isCnn, rating);   // 크로스헤어 이탈 복원
+}
+
 function loadUSCnnFG() {
   if (!usCnnPromise) {
     usCnnPromise = (async () => {
@@ -3643,15 +3673,6 @@ function loadUSCnnFG() {
       const J = await r.json();
       if (!J || !Array.isArray(J.data) || !J.data.length) throw new Error('empty');
       usCnnFG = J;
-      const el = document.getElementById('us-fg-cnn');
-      if (el) {
-        const c = J.current || {};
-        const sc = Math.round(c.score != null ? c.score : J.data[J.data.length - 1][1]);
-        el.textContent = 'CNN ' + sc;
-        el.style.color = getLabel(sc).c;
-        el.title = 'CNN Business Fear & Greed (총점) · ' + (c.date || '')
-                 + (c.rating ? ' · ' + c.rating : '');
-      }
     })();
   }
   return usCnnPromise.then(drawUSCnnFG).catch(e => console.warn('CNN F&G', e));
@@ -3661,9 +3682,9 @@ function drawUSCnnFG() {
   if (!usCnnFG || !allCharts['us-fg']) return;
   const idx = colTimeIndex['us'] || [];
   if (!idx.length) return;
-  // 주봉 모드에서는 "주 키"로 맞춘다. resampleWeekly + 날짜 정확매칭으로 하면
-  // CNN 이 진행 중인 오늘 날짜(예: 9/17)를 들고 있고 본선 인덱스는 직전 완성봉(9/16)
-  // 이라 마지막 주가 통째로 앞값 패딩된다 (2026-09-17 실측). 키를 주 단위로 낮추면 붙는다.
+  // 주봉 모드에서는 "주 키"로 맞춘다. 날짜 정확매칭으로 하면 CNN 이 진행 중인 오늘
+  // 날짜(예: 9/17)를 들고 있고 본선 인덱스는 직전 완성봉(9/16)이라 마지막 주가
+  // 통째로 앞값 패딩된다 (2026-09-17 실측). 키를 주 단위로 낮추면 붙는다.
   const wk = colInterval.us === '1wk';
   const key = t => wk ? getWeekKey(t) : t;
   const map = {};
@@ -3677,16 +3698,30 @@ function drawUSCnnFG() {
     if (map[k] != null) last = map[k];
     if (last != null) arr.push({ time: t, value: last });  // 휴장 등 결측은 직전 값 유지
   }
-  if (!usCnnSeries) {
-    usCnnSeries = allCharts['us-fg'].chart.addLineSeries({
-      color: '#6b4fa8', lineWidth: 1, lineStyle: 2,   // 2 = dashed
-      priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
-    });
-  }
-  usCnnSeries.setData(arr);
-}
+  if (!arr.length) return;
 
-loadUSCnnFG();          // 헤더 숫자는 즉시 — 차트 오버레이는 loadUSFG 쪽에서 한 번 더
+  // 본선 = CNN. addZoneLines 는 같은 series 객체에 이미 걸려 있으므로 재호출 불필요.
+  allCharts['us-fg'].series.setData(arr);
+  buildDataMap('us-fg', arr);            // 크로스헤어도 CNN 값을 읽는다
+
+  // 우리 7-factor = 점선 보조선
+  if (usOwnAligned && usOwnAligned.length) {
+    if (!usOwnSeries) {
+      usOwnSeries = allCharts['us-fg'].chart.addLineSeries({
+        color: '#6b4fa8', lineWidth: 1, lineStyle: 2,   // 2 = dashed
+        priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
+      });
+    }
+    usOwnSeries.setData(usOwnAligned);
+  }
+
+  // 헤더 숫자 = CNN 최신값 (차트 마지막 봉이 아니라 CNN 이 현재로 찍은 값 — 사이트와 일치)
+  const c = usCnnFG.current || {};
+  const sc = Math.round(c.score != null ? c.score : arr[arr.length - 1].value);
+  usFgHeader(sc, true, c.rating);
+  const ve = document.getElementById('us-fg-val');
+  if (ve) ve.title = 'CNN Business Fear & Greed · ' + (c.date || '');
+}
 
 </script>
 </body>
