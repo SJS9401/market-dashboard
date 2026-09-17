@@ -1,0 +1,77 @@
+# US CNN Fear & Greed — 총점 수집 (2026-09-17 신설)
+# ----------------------------------------------------------
+# 우리 7-factor F&G 와 나란히 비교할 외부 대조군. data/us_cnn_fg.json 생성.
+# 총점만 저장한다 — 서브지표는 필요할 때 CNN 사이트에서 직접 본다 (2026-09-17 BT).
+#
+# ★ us_cnn_fg_build.py 가 리포 루트에 있는 이유
+#   Cowork 가 `.github` 전체를 protected 로 막아 remote tool 로 못 쓴다.
+#   리포 루트는 쓸 수 있고, deploy_dashboard.bat 의 py 미러 목록에 없는 새 파일은
+#   Scheduled 사본으로 덮이지 않으며 `git add -A` 가 그대로 커밋한다.
+#   이 yml 도 같은 이유로 Scheduled\.github\workflows\ 에 BT 가 직접 옮겨야 한다.
+#
+# ★ 스케줄 — 정각(:00)·:30 금지. 기존 워크플로가 :05 :12 :15 :25 :35 :42 :45 를
+#   쓰므로 :17 / :47 로 비켜 잡았다. 이 계정 Actions cron 은 평균 120분 지연 발화.
+#   CNN 지수는 일 단위 종가 기준이고 스크립트가 기존 파일과 병합하므로
+#   하루에 두 번 돌아도, 한 번 걸러도 피해가 없다.
+#
+# ★ 컨테이너에서 production.dataviz.cnn.io 는 차단(000)이지만 Actions 는 열려 있다.
+#   브라우저 UA + Referer 를 실어 보낸다 (스크립트 HEADERS).
+# ----------------------------------------------------------
+
+name: US CNN Fear Greed Update
+
+concurrency:
+  group: us-cnn-fg-update
+  cancel-in-progress: false
+
+on:
+  schedule:
+    - cron: '17 21 * * 1-5'   # 06:17 KST — 하계 마감(20:00 UTC) 후
+    - cron: '47 2 * * 2-6'    # 11:47 KST — 안전망 (금요일 세션은 토 UTC)
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'FULL (1 = 2020-09 전체 소급 재수집)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 표준 라이브러리만 쓴다 (urllib) — pip install 없음
+      - name: Build us_cnn_fg.json
+        env:
+          FULL: ${{ github.event.inputs.full || '0' }}
+        run: python -u us_cnn_fg_build.py
+
+      - name: Commit + push if changed
+        run: |
+          set -e
+          if [ ! -f data/us_cnn_fg.json ]; then
+            echo "no output — nothing to commit"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/us_cnn_fg.json
+          if git diff --cached --quiet; then
+            echo "no changes — skip"; exit 0
+          fi
+          git commit -m "chore(data): us_cnn_fg 자동 갱신 ($(date -u +'%Y-%m-%d %H:%M UTC')) [skip ci]"
+          for i in 1 2 3 4 5; do
+            if git push; then echo "pushed (attempt $i)"; exit 0; fi
+            echo "push rejected — rebase & retry ($i/5)"
+            git pull --rebase --autostash
+            sleep $((i * 5))
+          done
+          echo "::error::push 5회 실패"; exit 1
