@@ -3659,13 +3659,24 @@ function loadUSCnnFG() {
 
 function drawUSCnnFG() {
   if (!usCnnFG || !allCharts['us-fg']) return;
-  const start = usCnnFG.data[0][0];
-  let arr = usCnnFG.data.map(p => ({ time: p[0], value: p[1] }));
-  // 주봉 모드면 본선과 같은 방식으로 주간 리샘플 — 안 하면 일자 키가 안 맞아
-  // alignToTimeIndex 가 전 구간을 첫 값으로 패딩해 일직선이 된다.
-  if (colInterval.us === '1wk') arr = resampleWeekly(arr);
-  // 앞 패딩 제거: CNN 아카이브 시작(2020-09) 이전에 가짜 수평선을 그리지 않는다.
-  arr = alignToTimeIndex(arr, 'us').filter(p => p.time >= start);
+  const idx = colTimeIndex['us'] || [];
+  if (!idx.length) return;
+  // 주봉 모드에서는 "주 키"로 맞춘다. resampleWeekly + 날짜 정확매칭으로 하면
+  // CNN 이 진행 중인 오늘 날짜(예: 9/17)를 들고 있고 본선 인덱스는 직전 완성봉(9/16)
+  // 이라 마지막 주가 통째로 앞값 패딩된다 (2026-09-17 실측). 키를 주 단위로 낮추면 붙는다.
+  const wk = colInterval.us === '1wk';
+  const key = t => wk ? getWeekKey(t) : t;
+  const map = {};
+  usCnnFG.data.forEach(p => { map[key(p[0])] = p[1]; });   // 같은 키면 뒤 값이 이긴다
+  const first = key(usCnnFG.data[0][0]);
+  const arr = [];
+  let last = null;
+  for (const t of idx) {
+    const k = key(t);
+    if (k < first) continue;              // CNN 아카이브 시작(2020-09) 이전 — 그리지 않는다
+    if (map[k] != null) last = map[k];
+    if (last != null) arr.push({ time: t, value: last });  // 휴장 등 결측은 직전 값 유지
+  }
   if (!usCnnSeries) {
     usCnnSeries = allCharts['us-fg'].chart.addLineSeries({
       color: '#6b4fa8', lineWidth: 1, lineStyle: 2,   // 2 = dashed
