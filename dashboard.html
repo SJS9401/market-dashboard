@@ -504,7 +504,7 @@
   <div class="events-card">
     <h2>이벤트 캘린더</h2>
     <table class="ev-table">
-      <thead><tr><th>날짜</th><th>카테고리</th><th>이벤트</th><th>비고</th></tr></thead>
+      <thead><tr><th>날짜</th><th>카테고리</th><th>이벤트</th></tr></thead>
       <tbody id="ev-body"></tbody>
     </table>
     <div id="ev-ongoing" hidden></div>
@@ -2738,7 +2738,7 @@ function setupScrollbar(col, mainId) {
   }catch(err){
     console.error('events_calendar',err);
     const tb=document.getElementById('ev-body');
-    if(tb)tb.innerHTML='<tr><td colspan="4" style="color:#8b949e">⚠ 이벤트 캘린더 로드 실패</td></tr>';
+    if(tb)tb.innerHTML='<tr><td colspan="3" style="color:#8b949e">⚠ 이벤트 캘린더 로드 실패</td></tr>';
     return;
   }
   const today=new Date();today.setHours(0,0,0,0);
@@ -2762,6 +2762,8 @@ function setupScrollbar(col, mainId) {
     }
     return null;
   };
+  const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+                                     .replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ongoing=[];
   const filtered=events.map(e=>{
     const evDate=parseEvDate(e);
@@ -2784,7 +2786,9 @@ function setupScrollbar(col, mainId) {
     const dowNames=['일','월','화','수','목','금','토'];
     const dLabel=`${e.d}(${dowNames[e.evDate.getDay()]})`;
     const dateCell=e.diff===0?`<span class="ev-date-badge">${dLabel}</span>`:dLabel;
-    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}</td><td style="color:#8b949e">${e.note}</td></tr>`;
+    // 비고 열 제거 (2026-09-17 BT) — note 는 json 에 남아 있고 title 로만 노출한다
+    const noteAttr = e.note ? ` title="${evEsc(e.note)}"` : '';
+    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td${noteAttr}>${e.ev}</td></tr>`;
   });
   // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 / 10월 하순 ...) — 표 아래 별도 표기
   const ongEl=document.getElementById('ev-ongoing');
