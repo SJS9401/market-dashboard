@@ -41,7 +41,9 @@ def http_get(path, tr, params, timeout=15):
 # 겨울에 그대로 돌면 장중 시세를 종가인 척 덮어써서, 멈춘 것보다 나쁘다.
 # → 예약은 넉넉히 깔고, 여기서 실제 뉴욕 시각을 보고 마감 전이면 그냥 나간다.
 CLOSE_BUFFER_MIN = 10   # 16:10 ET 이후부터 진행 (체결 정산 여유)
-MAX_WAIT_MIN = 300      # 잡 타임아웃(6h) 안에서 허용하는 최대 대기
+MAX_WAIT_MIN = 330      # 잡 타임아웃(GitHub 하드리밋 360분) 안에서 허용하는 최대 대기.
+                        # 2026-09-29: 300→330. 00:05 KST(15:05 UTC) 슬롯이 여름 마감(20:10 UTC 수집)까지
+                        # 305분을 자야 해서 300 이면 [SKIP] 으로 빠진다. yml timeout-minutes 358 과 짝.
 WAITED_MIN = 0          # 실제 대기 분 (notes 기록용)
 OUT_PATH = "data/us_close_latest.json"
 
