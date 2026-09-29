@@ -47,10 +47,38 @@ def is_excluded(name):
     n = name.replace(" ", "")
     return n.startswith(ETF_PREFIX) or "스팩" in n or n.endswith("ETN") or "레버리지" in n or "인버스" in n
 
+def kr_session_date(now):
+    """수집한 종가가 속한 거래일 — 실행일이 아니라 세션일로 도장을 찍는다 (2026-09-29).
+
+    발화 지연으로 자정을 넘겨 깨면 실행일은 이미 다음 날이지만 KIS 가 주는 값은 전날 종가다.
+    9/28(월) 종가가 kr_close_20260929.json / base_date 2026-09-29 로 저장돼
+    데일리·위클리의 휴장/결손 판정 룰(날짜 지정 스냅샷 404 = 휴장)이 거짓을 말한 사고 후 도입.
+      - 15:40 KST 이전(마감 15:30 + 정산 여유)에 깨면 → 직전 영업일
+      - 주말이면 → 직전 금요일
+      - 평일 09:00~15:40 = 장중 → (True 반환) 저장 금지. 장중 시세를 종가로 덮어쓰는 사고 방지.
+    휴장일 테이블은 없다 — base_date_source 에 그대로 적어 프리뷰가 staleness 를 교차 확인하게 둔다.
+    KIS 현재가 응답에는 거래일 필드가 없어 계산으로 간다 (있으면 그쪽이 항상 옳다).
+    """
+    d = now.date()
+    hm = now.hour * 60 + now.minute
+    cutoff = 15 * 60 + 40
+    in_session = now.weekday() < 5 and 9 * 60 <= hm < cutoff
+    if hm < cutoff:
+        d -= timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d, in_session
+
 def main():
+    now = datetime.now(KST)
+    session_date, in_session = kr_session_date(now)
+    if in_session and not PROBE:
+        print(f"[SKIP] {now:%Y-%m-%d %H:%M} KST 장중 — 장중 시세를 종가로 저장하지 않는다. 파일을 건드리지 않고 종료.")
+        return
     tk = token()
-    out = {"generated_at": datetime.now(KST).isoformat(),
-           "base_date": datetime.now(KST).strftime("%Y-%m-%d"),
+    out = {"generated_at": now.isoformat(),
+           "base_date": session_date.isoformat(),
+           "base_date_source": "computed(session-date: 15:40 KST cutoff, weekend-adjusted, 휴장일 미반영)",
            "units": {"indices.value": "백만원", "top20.value": "원", "investor": "억원(백만원/100 반올림)"},
            "indices": {}, "value_top20": [], "investor": {}, "notes": []}
 
