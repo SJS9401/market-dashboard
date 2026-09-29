@@ -55,7 +55,9 @@ jobs:
           if git diff --cached --quiet; then
             echo "no changes — skip"; exit 0
           fi
-          git commit -m "kr_close $(date -u +%Y-%m-%d) [skip ci]"
+          # 커밋 메시지 = 세션일(base_date). 실행일(UTC)이 아니다 (2026-09-29)
+          SD=$(python3 -c "import json;print(json.load(open('data/kr_close_latest.json')).get('base_date','unknown'))" 2>/dev/null || echo unknown)
+          git commit -m "kr_close ${SD} [skip ci]"
           for i in 1 2 3 4 5; do
             if git push; then
               echo "pushed (attempt $i)"; exit 0
