@@ -1,0 +1,76 @@
+# US Breadth NYSE Update — NYSE 종목군 시장폭 (2026-09-30 신설)
+# ----------------------------------------------------------
+# data/us_breadth_nyse.json 생성. StockCharts $NYA200R / $NYA50R 과 같은 종목군(NYSE 보통주)으로
+# 대시보드 US Market Breadth 카드를 맞추기 위한 파이프라인. 기존 us_breadth_update.yml (S&P500 503종목,
+# F&G·Goldman 이 읽음) 은 그대로 둔다. 설계: us_breadth_nyse_build.py 헤더 docstring.
+#
+# ★ 증분 갱신 — 종목이 약 2,000개라 매일 풀 백필은 30분+. 기본은 최근 450일만 받아 재계산하고
+#   마지막 60거래일을 덮어쓴다. 첫 실행·복구는 workflow_dispatch 의 full=1.
+#
+# ★ 스케줄 — 정각(:00)·:30 금지 (2026-06-02 정각 cron 통째 skip 사고). 기존 워크플로와 겹치지 않게
+#   :17 / :47. 이 계정의 cron 은 2~5시간 지연 발화한다 — 마감 전에 깨도 문제없다
+#   (yfinance 가 전일까지 주고, 회귀 가드가 퇴행을 막고, 다음 슬롯이 이어받는다).
+# ----------------------------------------------------------
+
+name: US Breadth NYSE Update
+
+on:
+  schedule:
+    - cron: '17 21 * * 1-5'   # 06:17 KST — 1차 (여름 마감 20:00 UTC 후)
+    - cron: '47 21 * * 1-5'   # 06:47 KST — 2차 (겨울 마감 21:00 UTC 후)
+    - cron: '17 23 * * 1-5'   # 08:17 KST — 3차
+    - cron: '47 2 * * 2-6'    # 11:47 KST — 안전망 (금요일 세션은 토 UTC)
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'FULL (1 = 2015-01-01 부터 풀 백필)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: us-breadth-nyse-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas
+
+      - name: NYSE 시장폭 빌드
+        env:
+          FULL: ${{ github.event.inputs.full || '0' }}
+        run: python -u us_breadth_nyse_build.py
+
+      - name: Commit + push if changed
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/us_breadth_nyse.json data/us_breadth_nyse_health.json data/us_breadth_nyse_symbols.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "no changes — skip"; exit 0
+          fi
+          LD=$(python3 -c "import json;print(json.load(open('data/us_breadth_nyse.json'))['dates'][-1])" 2>/dev/null || echo unknown)
+          git commit -m "chore(data): us_breadth_nyse ${LD} [skip ci]"
+          for i in 1 2 3 4 5; do
+            if git push; then echo "pushed (attempt $i)"; exit 0; fi
+            echo "push rejected — rebase & retry ($i/5)"
+            git pull --rebase --autostash
+            sleep $((i * 5))
+          done
+          echo "::error::push 5회 실패"; exit 1
