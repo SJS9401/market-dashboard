@@ -1,0 +1,22 @@
+{
+ "run_at": "2026-09-30T22:21:47Z",
+ "mode": "full",
+ "status": "OK",
+ "universe_source": "nasdaqtrader",
+ "n_universe": 1932,
+ "n_downloaded": 1932,
+ "n_failed": 0,
+ "failed_sample": [],
+ "last_date": "2026-09-30",
+ "stale_n": 0,
+ "stale_pct": 0.0,
+ "stale_sample": [],
+ "n_valid_200_last": 1866,
+ "last_values": {
+  "date": "2026-09-30",
+  "pct_above_200ma": 39.496,
+  "pct_above_50ma": 19.99,
+  "n_valid_200": 1866,
+  "n_valid_50": 1911
+ }
+}
