@@ -2,7 +2,7 @@
 """kr_close_relay.py v5 — 한국장 마감 릴레이 (KIS → data/kr_close_latest.json)
 확정: 지수코드(0001/1001/2001/3003), 거래대금순 BLNG=3, ETF·ETN 제외 마스크 0000001100,
 투자자별: 코스피 KSP/0001, 코스닥 KSQ/1001, 선물 K2I/F001. 코스닥150선물 = KRX 상품코드 106 힌트로 후보 확장(자가 발견)"""
-import json, os, time, urllib.request, urllib.parse
+import json, os, re, time, urllib.request, urllib.parse
 from datetime import datetime, timezone, timedelta
 
 KST = timezone(timedelta(hours=9))
@@ -47,6 +47,84 @@ def is_excluded(name):
     n = name.replace(" ", "")
     return n.startswith(ETF_PREFIX) or "스팩" in n or n.endswith("ETN") or "레버리지" in n or "인버스" in n
 
+# ── 국고채 3Y·10Y 최종호가수익률 (2026-09-30 신설) ─────────────────────────────
+# 데일리 프리뷰가 tradingeconomics 웹페이지를 긁어 국고채를 받던 것(지연·캐시에 취약, 9/30 데일리에서
+# 9/29 종가 미수집)을 KIS 「금리 종합(국내채권/금리)」 로 대체해 kr_close JSON 에 같이 싣는다.
+#   /uapi/domestic-stock/v1/quotations/comp-interest   TR HHPST070200C0
+#   (구 TR FHPST07020000 은 KIS 공지상 삭제 예정이라 신 TR 만 쓴다)
+#   DATA_GB 1 = 장외 최종호가(금투협 고시 = 시장 표준 지표금리) / 3 = 장내 국고채(KTS 체결)
+#   1 을 먼저 보고 비면 3 으로 폴백. 둘 다 비면 bonds=None + notes — 다른 항목 저장은 막지 않는다.
+# 응답 필드(신 TR): indicator_nm(금리명) bond_cntg_ert(수익률 %) prdy_vrss_sign prdy_vrss(전일대비 %p)
+#   prdy_ctrt date_time bond_stnd_iscd. 목록이 output1/output2 어느 쪽인지 문서가 불명확해 둘 다 훑는다.
+#   PROBE=1 이면 원문을 로그에 남긴다.
+TR_BOND_RATES = "HHPST070200C0"
+BOND_TARGETS = {"국고3Y": r"국고.*?(?<!\d)3\s*년", "국고10Y": r"국고.*?(?<!\d)10\s*년"}
+_SIGN_NEG = {"4", "5"}          # KIS prdy_vrss_sign: 1상한 2상승 3보합 4하한 5하락
+
+def _bond_name(r):
+    return str(r.get("indicator_nm") or r.get("hts_kor_isnm") or "").strip()
+
+def _signed(val, sign):
+    s = str(val if val is not None else "").strip().replace(",", "")
+    if not s:
+        return None
+    try:
+        v = float(s)
+    except ValueError:
+        return None
+    if str(sign or "").strip() in _SIGN_NEG and v > 0:
+        v = -v
+    return v
+
+def fetch_bonds(tk, out):
+    out["bonds"] = None
+    rows, used = [], None
+    for gb in ("1", "3"):
+        try:
+            d = kis_get(tk, "/uapi/domestic-stock/v1/quotations/comp-interest", TR_BOND_RATES,
+                        {"FID_COND_MRKT_DIV_CODE": "I", "FID_COND_SCR_DIV_CODE": "20702",
+                         "FID_DIV_CLS_CODE": "0", "FID_DIV_CLS_CODE1": "1", "DATA_GB": gb})
+            if PROBE:
+                print(f"PROBE bonds DATA_GB={gb}: " + json.dumps(d, ensure_ascii=False)[:4000])
+            cand = []
+            for key in ("output1", "output2", "output"):
+                v = d.get(key)
+                if isinstance(v, list):
+                    cand += [r for r in v if isinstance(r, dict)]
+                elif isinstance(v, dict):
+                    cand.append(v)
+            if any(re.search(p, _bond_name(r)) for r in cand for p in BOND_TARGETS.values()):
+                rows, used = cand, gb
+                break
+            out["notes"].append(f"국고채 금리 DATA_GB={gb}: 국고 3년/10년 항목 없음 (rt_cd={d.get('rt_cd')}, {len(cand)}행)")
+        except Exception as e:
+            out["notes"].append(f"국고채 금리 DATA_GB={gb} 실패: {e}")
+        time.sleep(0.3)
+    if not rows:
+        out["notes"].append("국고채 금리 미확보 — bonds=None (데일리는 폴백 소스 사용)")
+        return
+    bonds = {}
+    for label, pat in BOND_TARGETS.items():
+        r = next((r for r in rows if re.search(pat, _bond_name(r))), None)
+        if not r:
+            out["notes"].append(f"국고채 금리 {label} 항목 없음")
+            continue
+        y = _signed(r.get("bond_cntg_ert") or r.get("bond_mnrt_prpr"), "")
+        chg = _signed(r.get("prdy_vrss") or r.get("bond_mnrt_prdy_vrss"), r.get("prdy_vrss_sign"))
+        bonds[label] = {
+            "name": _bond_name(r),
+            "yield": None if y is None else f"{y:.3f}",
+            "chg_pct_pt": None if chg is None else f"{chg:+.3f}",
+            "chg_bp": None if chg is None else f"{chg * 100:+.1f}",
+            "as_of": str(r.get("date_time") or r.get("stck_bsop_date") or "").strip(),
+        }
+    if bonds:
+        out["bonds"] = bonds
+        out["bonds_source"] = ("KIS comp-interest HHPST070200C0 DATA_GB=" + used
+                               + (" (장외 최종호가·금투협 고시)" if used == "1" else " (장내 국고채 체결)"))
+        out["units"]["bonds.yield"] = "%"
+        out["units"]["bonds.chg_bp"] = "bp (전일대비 %p x 100)"
+
 def kr_session_date(now):
     """수집한 종가가 속한 거래일 — 실행일이 아니라 세션일로 도장을 찍는다 (2026-09-29).
 
@@ -72,7 +150,7 @@ def kr_session_date(now):
 def main():
     now = datetime.now(KST)
     session_date, in_session = kr_session_date(now)
-    if in_session and not PROBE:
+    if in_session:   # PROBE 라도 예외 없음 — 장중 시세가 전날 세션일 파일에 덮이는 사고 방지 (2026-09-30)
         print(f"[SKIP] {now:%Y-%m-%d %H:%M} KST 장중 — 장중 시세를 종가로 저장하지 않는다. 파일을 건드리지 않고 종료.")
         return
     tk = token()
@@ -140,13 +218,16 @@ def main():
             out["investor"][target] = None
             out["notes"].append(f"투자자별 {target} 미확보 (전 후보 zero)")
 
+    fetch_bonds(tk, out)          # 국고채 3Y·10Y (2026-09-30) — 실패해도 위 항목 저장은 진행
+
     os.makedirs("data", exist_ok=True)
     with open("data/kr_close_latest.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     with open(f"data/kr_close_{out['base_date'].replace('-', '')}.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     inv_ok = [k for k, v in out["investor"].items() if v]
-    print(f"[OK] indices={len(out['indices'])} top20={len(out['value_top20'])} investor={inv_ok} notes={out['notes']}")
+    print(f"[OK] indices={len(out['indices'])} top20={len(out['value_top20'])} investor={inv_ok} "
+          f"bonds={list((out.get('bonds') or {}).keys())} notes={out['notes']}")
 
 if __name__ == "__main__":
     main()
