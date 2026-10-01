@@ -166,6 +166,9 @@ def main():
                         {"FID_COND_MRKT_DIV_CODE": "U", "FID_INPUT_ISCD": code})
             o = d.get("output", {})
             row = {"close": o.get("bstp_nmix_prpr"), "chg_pct": o.get("bstp_nmix_prdy_ctrt")}
+            # OHLC/거래량 (2026-10-02): yahoo_dashboard 의 ^KS11/^KQ11 당일 지연 보충용
+            row.update({"open": o.get("bstp_nmix_oprc"), "high": o.get("bstp_nmix_hgpr"),
+                        "low": o.get("bstp_nmix_lwpr"), "volume": o.get("acml_vol")})
             if name in ("코스피", "코스닥"):
                 row["value_krw_mn"] = o.get("acml_tr_pbmn")
             out["indices"][name] = row
