@@ -1,22 +1,24 @@
 {
- "run_at": "2026-10-01T02:12:42Z",
+ "run_at": "2026-10-01T09:26:55Z",
  "mode": "incremental",
  "status": "OK",
  "universe_source": "nasdaqtrader",
- "n_universe": 1932,
+ "n_universe": 1933,
  "n_downloaded": 1932,
- "n_failed": 0,
- "failed_sample": [],
+ "n_failed": 1,
+ "failed_sample": [
+  "VYLR"
+ ],
  "last_date": "2026-09-30",
  "stale_n": 0,
  "stale_pct": 0.0,
  "stale_sample": [],
- "n_valid_200_last": 1867,
+ "n_valid_200_last": 1876,
  "last_values": {
   "date": "2026-09-30",
-  "pct_above_200ma": 39.689,
-  "pct_above_50ma": 20.219,
-  "n_valid_200": 1867,
-  "n_valid_50": 1914
+  "pct_above_200ma": 39.765,
+  "pct_above_50ma": 20.281,
+  "n_valid_200": 1876,
+  "n_valid_50": 1923
  }
 }
