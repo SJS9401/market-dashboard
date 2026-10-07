@@ -171,6 +171,10 @@ def main():
                         "low": o.get("bstp_nmix_lwpr"), "volume": o.get("acml_vol")})
             if name in ("코스피", "코스닥"):
                 row["value_krw_mn"] = o.get("acml_tr_pbmn")
+                # 등락 종목수 (2026-10-07): 대시보드 ADR 당일 잠정치용 — KRX 확정치는 T+1 아침
+                row["breadth"] = {"adv": o.get("ascn_issu_cnt"), "uplm": o.get("uplm_issu_cnt"),
+                                  "unch": o.get("stnr_issu_cnt"), "dec": o.get("down_issu_cnt"),
+                                  "lslm": o.get("lslm_issu_cnt")}
             out["indices"][name] = row
         except Exception as e:
             out["notes"].append(f"지수 {name} 실패: {e}")
