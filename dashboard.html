@@ -249,7 +249,7 @@
     </div>
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="left"><h3>Market Breadth</h3><span class="xdate" id="u-breadth" title="종목군">NYSE</span><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
         <div class="series-toggle" data-chart="breadth">
           <button data-s="200" class="active">200MA</button>
           <button data-s="50" class="active">50MA</button>
@@ -1701,6 +1701,54 @@ async function fetchSectorHist() {
   }
   return _sectorHistCache;
 }
+// ── 한국 거래대금·ADR 당일 잠정치 (2026-10-07 BT) ──
+// 거래일 확인: 릴레이 base_date 는 휴장일 미반영이므로 ^KS11 캔들(야후 + KRX/KIS 보충)에
+// 그 날짜가 있을 때만 쓴다. 거래대금 단위: 섹터히스토리 = 억원 = floor(KIS 백만원 / 100) (10/1~10/6 실측 일치).
+// ADR: KRX 시장별 20일 누적(adv/dec) 중 최근 19일 + KIS 당일 상승/하락 종목수.
+let _krProvCache = null;
+function krProvisional() {
+  if (!_krProvCache) {
+    _krProvCache = (async () => {
+      try {
+        const r = await fetch('./data/kr_close_latest.json?_t=' + Date.now());
+        if (!r.ok) return null;
+        const j = await r.json();
+        const bd = j.base_date, ix = j.indices || {};
+        if (!bd) return null;
+        const k = await getCachedData('^KS11', colRange.kr);
+        const cs = (k && k.candles) || [];
+        if (!cs.some(c => c.time === bd)) return null;          // 휴장일 or 아직 지수 미반영
+        const num = v => { const f = parseFloat(String(v == null ? '' : v).replace(/,/g, '')); return isFinite(f) ? f : null; };
+        const kpV = num((ix['코스피'] || {}).value_krw_mn), kqV = num((ix['코스닥'] || {}).value_krw_mn);
+        const br = m => { const b = (ix[m] || {}).breadth || {}; const a = num(b.adv), d = num(b.dec);
+                          return (a != null && d != null && a + d > 0) ? { adv: a, dec: d } : null; };
+        return {
+          date: bd,
+          val: {
+            _KOSPI:  kpV != null ? Math.floor(kpV / 100) : null,
+            _KOSDAQ: kqV != null ? Math.floor(kqV / 100) : null,
+            _ALL:   (kpV != null && kqV != null) ? Math.floor((kpV + kqV) / 100) : null
+          },
+          breadth: { kp: br('코스피'), kq: br('코스닥') }
+        };
+      } catch (e) { console.warn('krProvisional', e); return null; }
+    })();
+  }
+  return _krProvCache;
+}
+// recs: kr_breadth.json data (날짜 오름차순). mk: 'kp' | 'kq'
+async function krProvisionalAdr(recs, mk) {
+  const pv = await krProvisional();
+  if (!pv || !pv.breadth[mk] || !recs.length) return null;
+  if (recs[recs.length - 1].date >= pv.date) return null;      // KRX 확정치 이미 있음
+  const prev = recs.filter(r => r.date < pv.date).slice(-19);
+  const aK = 'adv_' + mk, dK = 'dec_' + mk;
+  if (prev.length < 19 || prev.some(r => r[aK] == null || r[dK] == null)) return null;
+  const sa = prev.reduce((s, r) => s + r[aK], 0) + pv.breadth[mk].adv;
+  const sd = prev.reduce((s, r) => s + r[dK], 0) + pv.breadth[mk].dec;
+  if (sd <= 0) return null;
+  return { time: pv.date, value: Math.round(sa / sd * 10000) / 100 };
+}
 async function loadVolCard(chartId, col, pseudo) {
   const msgEl = document.getElementById('msg-' + chartId);
   try {
@@ -1710,12 +1758,18 @@ async function loadVolCard(chartId, col, pseudo) {
     if (i < 0) throw new Error(pseudo + ' 없음');
     let rows = j.dates.map((d, k) => ({ time: d.slice(0,4)+'-'+d.slice(4,6)+'-'+d.slice(6,8), value: j.val[i][k] }))
                       .filter(r => r.value != null);
+    let volProv = false;   // 2-g: KRX 미반영 당일분 KIS 잠정치
+    { const pv = await krProvisional();
+      const pk = j.sectors[i];
+      if (pv && pv.val[pk] != null && rows.length && rows[rows.length - 1].time < pv.date) {
+        rows.push({ time: pv.date, value: pv.val[pk] }); volProv = true; } }
     if (colInterval[col] === '1wk') rows = volWeekly(rows);
     setVolSeries(chartId, col, rows, v => (v/10000).toFixed(1) + '조');
     const last = rows[rows.length-1];
     const setHdr = () => { document.getElementById('p-' + chartId).textContent = (last.value/10000).toFixed(1) + '조'; };
     setHdr(); origValues[chartId] = setHdr;
-    document.getElementById('d-' + chartId).textContent = last.time;
+    if (volProv) lastDates[chartId] = last.time + ' 잠정';
+    document.getElementById('d-' + chartId).textContent = volProv ? last.time + ' 잠정' : last.time;
     msgEl.style.display = 'none';
   } catch(e) { if (msgEl) msgEl.textContent = '거래대금 실패: ' + e.message; }
 }
@@ -2101,6 +2155,8 @@ async function loadAdrCard(chartId, col, key){
     const all = await fetchAdrSeries();
     const filtered = filterAdrByRange(all, range);
     let sAdr = filtered.filter(r => r[key] != null).map(r => ({ time: r.date, value: r[key] }));
+    const adrProv = await krProvisionalAdr(all, key === 'adr_kospi' ? 'kp' : 'kq');   // 2-g
+    if (adrProv && (!sAdr.length || sAdr[sAdr.length - 1].time < adrProv.time)) sAdr.push(adrProv);
     if (intv === '1wk') sAdr = resampleWeekly(sAdr);
     if (!sAdr.length) { msgEl.textContent = '⚠ ' + key + ' 데이터 없음'; return; }
     const last = sAdr[sAdr.length - 1];
@@ -2128,6 +2184,7 @@ async function loadAdrCard(chartId, col, key){
     const padded = alignToTimeIndex(sAdr, col);
     allCharts[chartId].series.setData(padded);
     buildDataMap(chartId, padded);
+    if (adrProv && lastDates[chartId] === adrProv.time) lastDates[chartId] = adrProv.time + ' 잠정';
     msgEl.style.display = 'none';
   }catch(e){ console.error('loadAdrCard ' + chartId, e); msgEl.textContent = '⚠ 실패'; }
 }
@@ -2469,12 +2526,28 @@ async function getUSBreadthData(){
   return usBreadthCache;
 }
 
+// NYSE 종목군 시장폭 (2026-10-01) — StockCharts $NYA200R/$NYA50R 과 같은 종목군. 카드 전용.
+let usBreadthNyseCache=null;
+async function getUSBreadthNyseData(){
+  if(usBreadthNyseCache)return usBreadthNyseCache;
+  const res=await fetch('./data/us_breadth_nyse.json?t='+Date.now());
+  if(!res.ok)throw new Error('us_breadth_nyse.json fetch failed: '+res.status);
+  usBreadthNyseCache=await res.json();
+  return usBreadthNyseCache;
+}
+
 // 시장폭: 200MA·50MA 위 비율 (병합)
 async function loadUSBreadth(){
   const intv=colInterval.us;
   const msgEl=document.getElementById('msg-breadth');
   try{
-    const D=await getUSBreadthData();
+    let D, uni='NYSE';
+    try{ D=await getUSBreadthNyseData(); }
+    catch(e){ console.warn('NYSE breadth 없음 → S&P500 폴백', e); D=await getUSBreadthData(); uni='S&P500'; }
+    const uEl=document.getElementById('u-breadth');
+    if(uEl){ uEl.textContent=uni; uEl.title=uni==='NYSE'
+      ? ('NYSE 보통주 '+((D.meta&&D.meta.universe_size)||'')+'종목 — StockCharts $NYA200R/$NYA50R 근사')
+      : 'S&P500 503종목 (NYSE 파일 로드 실패 폴백)'; }
     let s200=D.dates.map((t,i)=>({time:t,value:D.pct_above_200ma[i]})).filter(x=>x.value!=null);
     let s50 =D.dates.map((t,i)=>({time:t,value:D.pct_above_50ma[i] })).filter(x=>x.value!=null);
     if(intv==='1wk'){s200=resampleWeekly(s200);s50=resampleWeekly(s50);}
@@ -2504,7 +2577,7 @@ async function loadUSBreadth(){
       map[t]={time:t,above200:p200[i].value,above50:p50[i].value,_pad:p200[i]._pad};}
     setDataMap('breadth', map);
     msgEl.style.display='none';
-  }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
+  }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ 시장폭 데이터 로드 실패';}
 }
 
 // Goldman Breadth 카드 제거 (2026-09-13 BT): 우측 QQQ~IWM 일봉 6패널로 시장폭 쏠림을 직접 본다.
@@ -2848,6 +2921,7 @@ setInterval(() => {
 // 가장 stale 한 JSON 의 last update 기준 색상 + 다음 KST cron 까지 카운트다운.
 const INDICATOR_JSONS = [
   { url: './data/us_breadth.json',       field: 'meta.updated' },
+  { url: './data/us_breadth_nyse.json',  field: 'meta.updated' },   // 2026-10-01 NYSE 시장폭 카드
   { url: './data/yahoo_dashboard.json',  field: 'meta.updated' },
   { url: './data/kr_breadth.json',       field: 'generated_at' },
   { url: './data/kr_export.json',        field: 'generated_at' },
