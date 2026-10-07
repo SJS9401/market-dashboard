@@ -249,7 +249,7 @@
     </div>
     <div class="card">
       <div class="card-top">
-        <div class="left"><h3>Market Breadth</h3><span class="xdate" id="u-breadth" title="종목군">NYSE</span><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
+        <div class="left"><h3>Market Breadth</h3><span class="price" id="p-breadth">—</span><span class="xdate" id="d-breadth"></span></div>
         <div class="series-toggle" data-chart="breadth">
           <button data-s="200" class="active">200MA</button>
           <button data-s="50" class="active">50MA</button>
@@ -2469,28 +2469,12 @@ async function getUSBreadthData(){
   return usBreadthCache;
 }
 
-// NYSE 종목군 시장폭 (2026-10-01) — StockCharts $NYA200R/$NYA50R 과 같은 종목군. 카드 전용.
-let usBreadthNyseCache=null;
-async function getUSBreadthNyseData(){
-  if(usBreadthNyseCache)return usBreadthNyseCache;
-  const res=await fetch('./data/us_breadth_nyse.json?t='+Date.now());
-  if(!res.ok)throw new Error('us_breadth_nyse.json fetch failed: '+res.status);
-  usBreadthNyseCache=await res.json();
-  return usBreadthNyseCache;
-}
-
 // 시장폭: 200MA·50MA 위 비율 (병합)
 async function loadUSBreadth(){
   const intv=colInterval.us;
   const msgEl=document.getElementById('msg-breadth');
   try{
-    let D, uni='NYSE';
-    try{ D=await getUSBreadthNyseData(); }
-    catch(e){ console.warn('NYSE breadth 없음 → S&P500 폴백', e); D=await getUSBreadthData(); uni='S&P500'; }
-    const uEl=document.getElementById('u-breadth');
-    if(uEl){ uEl.textContent=uni; uEl.title=uni==='NYSE'
-      ? ('NYSE 보통주 '+((D.meta&&D.meta.universe_size)||'')+'종목 — StockCharts $NYA200R/$NYA50R 근사')
-      : 'S&P500 503종목 (NYSE 파일 로드 실패 폴백)'; }
+    const D=await getUSBreadthData();
     let s200=D.dates.map((t,i)=>({time:t,value:D.pct_above_200ma[i]})).filter(x=>x.value!=null);
     let s50 =D.dates.map((t,i)=>({time:t,value:D.pct_above_50ma[i] })).filter(x=>x.value!=null);
     if(intv==='1wk'){s200=resampleWeekly(s200);s50=resampleWeekly(s50);}
@@ -2520,7 +2504,7 @@ async function loadUSBreadth(){
       map[t]={time:t,above200:p200[i].value,above50:p50[i].value,_pad:p200[i]._pad};}
     setDataMap('breadth', map);
     msgEl.style.display='none';
-  }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ 시장폭 데이터 로드 실패';}
+  }catch(e){console.error('loadUSBreadth',e);msgEl.textContent='⚠ us_breadth.json 로드 실패';}
 }
 
 // Goldman Breadth 카드 제거 (2026-09-13 BT): 우측 QQQ~IWM 일봉 6패널로 시장폭 쏠림을 직접 본다.
@@ -2864,7 +2848,6 @@ setInterval(() => {
 // 가장 stale 한 JSON 의 last update 기준 색상 + 다음 KST cron 까지 카운트다운.
 const INDICATOR_JSONS = [
   { url: './data/us_breadth.json',       field: 'meta.updated' },
-  { url: './data/us_breadth_nyse.json',  field: 'meta.updated' },   // 2026-10-01 NYSE 시장폭 카드
   { url: './data/yahoo_dashboard.json',  field: 'meta.updated' },
   { url: './data/kr_breadth.json',       field: 'generated_at' },
   { url: './data/kr_export.json',        field: 'generated_at' },
