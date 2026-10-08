@@ -1,7 +1,7 @@
 /* deploy:2026-05-02-22:20 force CDN invalidate v2 */
 const DATA_PATHS = {
   watchlist: 'earnings/watchlist.md',
-  calendar: 'earnings_calendar.md',
+  calendar: 'earnings/earnings_calendar.md',  // 2026-10-08: 원본 = Documents\Claude\earnings\earnings_calendar.md (배포 미러)
   manifest: 'earnings/manifest.json'
 };
 
