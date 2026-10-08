@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실적 팔로업 - 마켓 대시보드</title>
+<!-- 브라우저 cache 영구 차단 (2026-05-28). GitHub Pages max-age=600 override.
+     매 새로고침 시 fresh download. JSON/JS 자산은 별도라 영향 작음. -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>
+:root { --bg:#0d1117; --bg-2:#161b22; --bg-3:#21262d; --border:#21262d; --border-2:#30363d; --text:#c9d1d9; --text-dim:#8b949e; --text-bright:#f0f6fc; --accent:#1f6feb; --t1:#ffd700; --t2:#4a90d9; --t3:#888; --done:#4caf50; --pending:#555; --signal:#b9c5d4; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,'Pretendard','Segoe UI','Noto Sans KR',sans-serif; line-height:1.5; font-size:0.9rem; }
+.tab-bar { display:flex; gap:0; background:#010409; border-bottom:1px solid var(--border); padding:0 24px; }
+.tab-bar a { display:inline-block; padding:8px 18px; font-size:13px; font-weight:600; color:var(--text-dim); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.15s; }
+.tab-bar a:hover { color:var(--text-bright); }
+.tab-bar a.active { color:var(--text-bright); border-bottom-color:var(--accent); }
+.content { padding:1.5rem 24px; max-width:1600px; margin:0 auto; }
+header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; padding-bottom:0.8rem; border-bottom:1px solid var(--border-2); }
+h1 { color:var(--text-bright); margin:0; font-size:1.6rem; }
+h2 { color:var(--text-bright); margin:1.5rem 0 0.8rem; font-size:1.15rem; padding-bottom:0.3rem; border-bottom:1px solid var(--border); }
+h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
+.quarter-selector { display:flex; gap:0.5rem; align-items:center; }
+.quarter-selector button, .quarter-selector select { background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); padding:0.4rem 0.8rem; border-radius:4px; cursor:pointer; font-size:0.85rem; }
+.quarter-selector button:hover { background:var(--accent); color:var(--text-bright); }
+.search-box { background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); padding:0.4rem 0.8rem; border-radius:4px; font-size:0.85rem; min-width:200px; }
+.summary-row { display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1rem; }
+.watchlist-box, .progress-box { background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:0.8rem 1rem; }
+.tier-line { margin:0.3rem 0; font-size:0.88rem; }
+.tier-badge { display:inline-block; min-width:1.6rem; text-align:center; padding:0.05rem 0.4rem; border-radius:3px; font-weight:600; margin-right:0.4rem; font-size:0.8rem; }
+.tier-T1 { background:var(--t1); color:#000; }
+.tier-T2 { background:var(--t2); color:#fff; }
+.tier-T3 { background:var(--t3); color:#fff; }
+.progress-stats { display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center; }
+.stat { display:flex; flex-direction:column; align-items:center; min-width:60px; }
+.stat-value { font-size:1.4rem; font-weight:700; color:var(--text-bright); }
+.stat-label { font-size:0.78rem; color:var(--text-dim); }
+.sector-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem; margin-bottom:1.5rem; }
+.sector-card { background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:0.8rem 1rem; transition:border-color 0.15s; }
+.sector-card.t1 { border-left:4px solid var(--t1); }
+.sector-card.t2 { border-left:4px solid var(--t2); }
+.sector-card.t3 { border-left:4px solid var(--t3); }
+.sector-card:hover { border-color:var(--accent); }
+.sector-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; }
+.sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
+.sector-meta { font-size:0.78rem; color:var(--text-dim); }
+.stock-table { width:100%; border-collapse:collapse; table-layout:fixed; margin-top:0.5rem; }
+.stock-table th, .stock-table td { padding:0.5rem 0.6rem; border-right:1px solid var(--bg-3); border-bottom:1px solid var(--bg-3); vertical-align:middle; }
+.stock-table th:last-child, .stock-table td:last-child { border-right:0; padding-right:0; }
+.stock-table th:first-child, .stock-table td:first-child { padding-left:0; }
+.stock-table tbody tr:last-child td { border-bottom:0; }
+.stock-table thead th { color:var(--text-dim); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.03em; text-align:center; padding-top:0.3rem; padding-bottom:0.3rem; border-bottom:1px solid var(--border-2); }
+.col-name { width:140px; }
+.col-followup { color:var(--signal); font-size:0.78rem; opacity:0.9; word-break:keep-all; line-height:1.4; }
+.col-date { width:90px; font-size:0.8rem; color:var(--text-dim); }
+.col-report { width:300px; }
+/* 데이터(td) 컬럼별 정렬: 종목명·팔로업=좌측, 발표일·리포트=가운데 */
+.stock-table tbody .col-name { text-align:left; }
+.stock-table tbody .col-followup { text-align:left; }
+.stock-table tbody .col-date { text-align:center; }
+.stock-table tbody .col-report { text-align:center; }
+.stock-name { font-weight:500; color:var(--text); }
+.ticker { color:var(--text-dim); font-size:0.78rem; }
+.progress-circles { display:inline-flex; gap:0.2rem; align-items:center; }
+.circle { display:inline-block; width:0.7rem; height:0.7rem; border-radius:50%; background:var(--done); }
+.circle.empty { background:transparent; border:1px solid var(--pending); }
+.mode-buttons { display:flex; gap:0.25rem; justify-content:center; flex-wrap:nowrap; }
+.mode-btn { display:inline-flex; align-items:center; gap:0.2rem; padding:0.18rem 0.35rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.68rem; cursor:pointer; text-decoration:none; transition:all 0.15s; white-space:nowrap; }
+.mode-btn:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
+.mode-btn.disabled { opacity:0.25; cursor:not-allowed; pointer-events:none; }
+.loading { color:var(--text-dim); font-style:italic; padding:1rem; }
+.error-box { background:#3a1f1f; border:1px solid #c44; padding:0.6rem 1rem; border-radius:4px; margin:0.5rem 0; font-size:0.85rem; }
+/* 5/18 신규 — 테마 리뷰 카드 */
+.theme-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin-bottom:1.5rem; }
+.theme-card { background:var(--bg-2); border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:6px; padding:0.7rem 0.9rem; }
+.theme-name { color:var(--text-bright); font-size:1rem; font-weight:600; margin-bottom:0.3rem; }
+.theme-meta { font-size:0.75rem; color:var(--text-dim); margin-bottom:0.5rem; }
+.theme-reviews { display:flex; gap:0.3rem; flex-wrap:wrap; }
+.theme-review-link { padding:0.18rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; text-decoration:none; transition:all 0.15s; }
+.theme-review-link:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
+.empty-state { color:var(--text-dim); font-style:italic; padding:1rem; text-align:center; grid-column:1/-1; background:var(--bg-2); border:1px dashed var(--border-2); border-radius:6px; }
+/* 5/18 신규 — multi-industry 종목 ([산업기초] 버튼 dropdown UX) */
+.mode-btn-wrapper { position:relative; display:inline-flex; }
+.mode-btn-multi { position:relative; }
+.mode-btn-dropdown { display:none; position:absolute; top:calc(100% + 2px); left:0; background:var(--bg-3); border:1px solid var(--border-2); border-radius:4px; padding:0.25rem; min-width:max-content; z-index:100; box-shadow:0 2px 6px rgba(0,0,0,0.4); }
+.mode-btn-wrapper:hover .mode-btn-dropdown { display:flex; flex-direction:column; gap:0.2rem; }
+.dropdown-item { padding:0.2rem 0.6rem; font-size:0.7rem; color:var(--text); text-decoration:none; border-radius:3px; white-space:nowrap; }
+.dropdown-item:hover { background:var(--accent); color:var(--text-bright); }
+.dropdown-item.disabled { color:var(--text-dim); opacity:0.5; cursor:not-allowed; }
+.dropdown-item.disabled:hover { background:transparent; color:var(--text-dim); }
+footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); text-align:center; color:var(--text-dim); font-size:0.8rem; }
+</style>
+</head>
+<body>
+<div class="tab-bar" data-active="earnings"></div>
+<div class="content">
+<header>
+<div><h1>실적 팔로업</h1><div style="color:var(--text-dim);font-size:0.85rem;margin-top:0.2rem;">분기별 종목·섹터 실적 분석 아카이브</div></div>
+<div class="quarter-selector">
+<input type="text" class="search-box" id="searchInput" placeholder="종목·섹터 검색...">
+<button id="prevQuarter">이전 분기</button>
+<select id="quarterSelect"></select>
+<button id="nextQuarter">다음 분기</button>
+</div>
+</header>
+<div class="summary-row">
+<div class="watchlist-box"><h3 style="margin-top:0;">워치리스트 — <span id="currentQuarterLabel">-</span></h3><div id="watchlistSummary" class="loading">워치리스트 로딩...</div></div>
+<div class="progress-box"><h3 style="margin-top:0;">진행률</h3><div id="progressStats" class="progress-stats"><div class="stat"><div class="stat-value" id="statR">-</div></div></div></div>
+</div>
+<!-- 5/18 신규 — 테마 리뷰 카드 섹션 (워치리스트와 Tier 1 사이) -->
+<h2>테마 리뷰</h2>
+<div id="themeReviews" class="theme-grid"><div class="loading">테마 리뷰 로딩...</div></div>
+<h2>Tier 1</h2>
+<div id="t1Sectors" class="sector-grid"><div class="loading">섹터 데이터 로딩...</div></div>
+<h2>Tier 2</h2>
+<div id="t2Sectors" class="sector-grid"></div>
+<h2>Tier 3</h2>
+<div id="t3Sectors" class="sector-grid"></div>
+<footer>최종 갱신: <span id="lastUpdate">-</span> · 데이터 source: watchlist.md, earnings_calendar.md, manifest.json</footer>
+</div>
+<script src="nav-loader.js" defer></script>
+<script src="Earnings_followup.js"></script>
+</body>
+</html>
