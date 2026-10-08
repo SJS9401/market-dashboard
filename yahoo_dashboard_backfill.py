@@ -274,6 +274,70 @@ def _krx_kospi_fill(ks11_result):
     return ks11_result
 
 
+KR_CLOSE_PATH = os.path.join(THIS_DIR, "data", "kr_close_latest.json")
+KIS_FILL_MAP = {"^KS11": "코스피", "^KQ11": "코스닥"}
+KIS_PROOF_SYMS = ("069500.KS", "005930.KS")
+
+
+def _kis_num(v):
+    try:
+        f = float(str(v).replace(",", ""))
+        return f if f > 0 else None
+    except Exception:
+        return None
+
+
+def _kis_close_fill(data):
+    """^KS11/^KQ11 마지막 캔들이 KIS 종가 릴레이(kr_close_latest.json)보다 낡았으면 1일 보충 (2026-10-02).
+
+    배경: 야후 ^KS11/^KQ11 은 자주 1일 지연되고, KRX OpenAPI 는 익영업일 아침에야
+    공개되어 당일 저녁~새벽 런에서는 채워지지 않는다 (10/1 종가가 10/2 아침까지 누락).
+    KIS 릴레이는 당일 밤 도착하므로 이를 보충원으로 사용. ^KQ11 은 기존 보충 경로가 없었음.
+    안전장치: 릴레이 base_date 는 휴장일 미반영이므로, 같은 파일의 한국 개별종목
+    (069500.KS / 005930.KS) 캔들에 그 날짜가 있을 때만(= 실제 거래일 확인) 보충.
+    야후가 따라잡으면 다음 런(풀 재수집)에서 자연 대체된다.
+    """
+    if not os.path.exists(KR_CLOSE_PATH):
+        _log("  KIS fill: kr_close_latest.json 없음 — skip")
+        return
+    try:
+        with open(KR_CLOSE_PATH, encoding="utf-8") as f:
+            kc = json.load(f)
+    except Exception as e:
+        _log(f"  KIS fill: kr_close_latest 읽기 실패 {e}")
+        return
+    bd = kc.get("base_date") or ""
+    traded = False
+    for s in KIS_PROOF_SYMS:
+        cs = (data.get(s) or {}).get("candles") or []
+        if any(c.get("time") == bd for c in cs[-5:]):
+            traded = True
+            break
+    if not bd or not traded:
+        _log(f"  KIS fill: base_date {bd} 거래일 확인 불가 — skip")
+        return
+    for sym, name in KIS_FILL_MAP.items():
+        res = data.get(sym)
+        row = (kc.get("indices") or {}).get(name) or {}
+        close = _kis_num(row.get("close"))
+        if not res or not res.get("candles") or close is None:
+            continue
+        candles = res["candles"]
+        last = candles[-1]["time"]
+        if last >= bd:
+            continue
+        o, h, l = _kis_num(row.get("open")), _kis_num(row.get("high")), _kis_num(row.get("low"))
+        o = o or close
+        c = {"time": bd, "open": o, "high": h or max(o, close), "low": l or min(o, close), "close": close}
+        vol, pv = _kis_num(row.get("volume")), candles[-1].get("volume")
+        if vol and pv and 0.2 <= vol / pv <= 5:
+            c["volume"] = int(vol)
+        candles.append(c)
+        res["price"] = close
+        res["prev"] = candles[-2]["close"]
+        _log(f"  ✓ KIS fill: {sym} {bd} close={close} (야후 last={last})")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -303,6 +367,8 @@ def main():
             _log(f"  FAIL")
         # Rate limit politeness
         time.sleep(0.5)
+
+    _kis_close_fill(data)   # ^KS11/^KQ11 당일 지연 보충 (KIS 릴레이, 2026-10-02)
 
     output = {
         "meta": {

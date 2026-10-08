@@ -320,6 +320,9 @@ def compute_breadth(daily):
             "adv": d["adv"],
             "dec": d["dec"],
             "unc": d["unc"],
+            # 2026-10-07: 시장별 등락 종목수 (대시보드 ADR 당일 잠정치 계산용)
+            "adv_kp": d.get("adv_kp"), "dec_kp": d.get("dec_kp"),
+            "adv_kq": d.get("adv_kq"), "dec_kq": d.get("dec_kq"),
             "n_traded": v,
             "adr":    _safe(adr_s.iloc[i]),
             "adr_kospi":  _safe(adr_kp_s.iloc[i]),
@@ -436,6 +439,12 @@ def cmd_update():
                (old.get("above_120ma_kp") is None and r.get("above_120ma_kp") is not None) or \
                (old.get("adr_kospi") is None and r.get("adr_kospi") is not None):
                 existing[r["date"]] = r
+                added += 1
+            elif old.get("adv_kp") is None and r.get("adv_kp") is not None:
+                # 2026-10-07: 시장별 등락 종목수만 병합 — 다른 지표(NH/NL·MA 비율)는 기존값 유지
+                # (update 모드는 400일 창이라 앞쪽 일자 재계산값이 짧은 lookback 으로 왜곡되므로 통째 교체 금지)
+                for k2 in ("adv_kp", "dec_kp", "adv_kq", "dec_kq"):
+                    old[k2] = r.get(k2)
                 added += 1
     merged_sorted = sorted(existing.values(), key=lambda x: x["date"])
     save(merged_sorted)
