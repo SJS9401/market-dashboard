@@ -3898,6 +3898,43 @@ function drawUSCnnFG() {
   const fmt = (v, p) => v == null ? '—' : Number(v).toLocaleString('en-US', { minimumFractionDigits: p, maximumFractionDigits: p });
   const bucket15 = ms => Math.floor(ms / 1000 / 900) * 900 + KST;   // 15분 버킷 시작 (KST 표시용 초)
 
+  // ── 잘못된 체결값(배드 틱)·빈 봉 정리 (2026-10-10 BT) ──
+  //   CNBC 원자료에는 ① 독일 10년물 고가 403%, 저가 -27% 같은 오류 틱과
+  //   ② 거래 없는 주말·휴일에 직전 종가로 채운 납작한 가짜 봉이 섞여 있다.
+  //   처리: 무거래 봉(시가=고가=저가=종가=직전 종가) 삭제 → 앞뒤와 동떨어진 종가·시가 한 점은 직전 종가로 →
+  //         몸통 밖 꼬리가 주변 '실제 움직임'(몸통·종가 변화 중 큰 쪽의 중앙값)의 4배를 넘으면 몸통 끝까지 잘라냄.
+  const median = a => { const b = a.filter(v => isFinite(v) && v > 0).sort((x, y) => x - y); return b.length ? b[Math.floor(b.length / 2)] : 0; };
+  function cleanBars(src) {
+    const bars = [];
+    src.forEach(b => {
+      const p = bars.length ? bars[bars.length - 1].close : null;
+      if (p != null && b.open === b.close && b.high === b.close && b.low === b.close && b.close === p) return;   // 무거래 봉
+      bars.push(b);
+    });
+    const n = bars.length; if (n < 5) return bars;
+    const mv = bars.map((b, i) => Math.max(Math.abs(b.close - b.open), i ? Math.abs(b.close - bars[i - 1].close) : 0));
+    const g = Math.max(median(mv), 1e-9);
+    for (let i = 1; i < n; i++) {
+      const p = bars[i - 1].close, b = bars[i], nx = i + 1 < n ? bars[i + 1].close : null;
+      if (nx != null && Math.abs(b.close - p) > 8 * g && Math.abs(b.close - nx) > 8 * g && Math.abs(p - nx) < 3 * g) b.close = p;
+      if (Math.abs(b.open - p) > 8 * g && Math.abs(b.open - b.close) > 8 * g) b.open = p;
+    }
+    for (let i = 0; i < n; i++) {
+      const b = bars[i];
+      const loc = Math.max(median(mv.slice(Math.max(0, i - 10), i + 11)), g * 0.5);
+      const top = Math.max(b.open, b.close), bot = Math.min(b.open, b.close);
+      if (!(b.high >= top) || b.high - top > 4 * loc) b.high = top;
+      if (!(b.low <= bot) || bot - b.low > 4 * loc) b.low = bot;
+    }
+    return bars;
+  }
+  function wickCap(s) {   // 실시간 고가·저가 검증용 허용폭 (최근 60봉 '실제 움직임' 중앙값 × 4)
+    const b = s.bars.slice(-61);
+    return 4 * Math.max(median(b.slice(1).map((x, i) => Math.max(Math.abs(x.close - x.open), Math.abs(x.close - b[i].close)))), 1e-9);
+  }
+
+
+
   async function getJSON(u) { const r = await fetch(u); if (!r.ok) throw new Error(r.status); return r.json(); }
   async function cnbcHist(sym) {
     if (mode === 'd') {
@@ -4058,7 +4095,8 @@ function drawUSCnnFG() {
       }
       if (want !== mode) return;               // 로딩 중에 모드가 바뀜
       if (!bars.length) throw new Error('empty');
-      s.bars = bars; s.src = src;
+      bars = cleanBars(bars);
+      s.bars = bars; s.src = src; s.cap = wickCap(s); s.skip = 0;
       if (src === 'binance' && mode === 'm15') { try { s.dayPrev = await binanceDayPrev(m.bn); } catch (_) {} }
       if (m.refDaily && mode === 'm15') {        // 독일·영국: 15분봉 등락 기준도 일봉 종가로 (CNBC 시세의 전일종가가 일봉과 달라서)
         try {
@@ -4101,11 +4139,17 @@ function drawUSCnnFG() {
           if (mode === 'm15') {
             const tms = Date.parse(q.last_time); if (!isFinite(tms)) return;
             const t = bucket15(tms);
+            if (Math.abs(last - lb.close) > 2 * s.cap && (s.skip = (s.skip || 0) + 1) <= 2) { header(m); return; }   // 튀는 틱 2번까지 무시
+            s.skip = 0;
             if (t === lb.time) { lb.close = last; lb.high = Math.max(lb.high, last); lb.low = Math.min(lb.low, last); s.series.update(lb); }
             else if (t > lb.time) pushBar(s, { time: t, open: last, high: last, low: last, close: last });
             header(m); return;
           }
-          const o = num(q.open) || last, h = Math.max(num(q.high) || last, last), l = Math.min(num(q.low) || last, last);
+          let o = num(q.open) || last, h = Math.max(num(q.high) || last, last), l = Math.min(num(q.low) || last, last);
+          const cap = s.cap || Infinity;
+          if (Math.abs(o - last) > 2 * cap) o = last;
+          if (h - Math.max(o, last) > cap) h = Math.max(o, last);
+          if (Math.min(o, last) - l > cap) l = Math.min(o, last);
           const addBar = () => { const nb = { time: nextWeekday(lb.time), open: o, high: h, low: l, close: last }; s.live = nb.time; pushBar(s, nb); };
           // 시세 날짜 기준 갱신 — 일봉 종가와 시세 전일종가의 기준이 다른 종목(독일·영국 국채 등)용
           const byDate = () => {
