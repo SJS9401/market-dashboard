@@ -201,7 +201,17 @@ def probe():
                 rec["sample"] = fmt(sn[:15])
     except Exception as e:
         rec["steps"]["fatal"] = f"{type(e).__name__}: {str(e)[:500]}"
-        log(traceback.format_exc())
+        log(f"영상 정보 실패: {type(e).__name__}: {str(e)[:200]}")
+        # 영상 정보가 막혀도 자막 API 단독 경로는 따로 시험한다
+        try:
+            cands = [c for c in list_recent_streams() if TITLE_KEY in c["title"].lower()]
+            rec["steps"]["list_only"] = {"ok": bool(cands), "first": cands[0] if cands else None}
+            if cands:
+                sn = transcript_via_api(cands[0]["id"])
+                rec["steps"]["transcript_api_only"] = {"ok": bool(sn), "segments": len(sn)}
+                rec["sample"] = fmt(sn[:15])
+        except Exception as e2:
+            rec["steps"]["transcript_api_only"] = {"ok": False, "error": f"{type(e2).__name__}: {str(e2)[:500]}"}
     rec["log"] = log_lines
     os.makedirs(DATA_DIR, exist_ok=True)
     with open(PROBE_OUT, "w", encoding="utf-8") as f:
