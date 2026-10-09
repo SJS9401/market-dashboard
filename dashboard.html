@@ -209,11 +209,11 @@
     iframe[src*="sslecal2"] { height: 640px !important; }
   }
 
-  /* ── 매크로 8패널 (2026-10-09 BT) — 2열 × 4행, 열마다 ETF 패널처럼 카드가 붙어 쌓인다 ── */
+  /* ── 매크로 10패널 (2026-10-09 BT) — 2열 × 5행, 열마다 ETF 패널처럼 카드가 붙어 쌓인다 ── */
   #mac-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); column-gap:14px; row-gap:0; padding:14px; }
   #mac-grid .mac-card { border-radius:0; border-bottom:none; min-width:0; }
   #mac-grid .mac-card:nth-child(1), #mac-grid .mac-card:nth-child(2) { border-radius:10px 10px 0 0; }
-  #mac-grid .mac-card:nth-child(7), #mac-grid .mac-card:nth-child(8) { border-radius:0 0 10px 10px; border-bottom:1px solid #414141; }
+  #mac-grid .mac-card:nth-child(9), #mac-grid .mac-card:nth-child(10) { border-radius:0 0 10px 10px; border-bottom:1px solid #414141; }
   .cw-mac { height:213px; cursor:crosshair; }
   .cw-mac.cw-mac-axis { height:242px; }
   .mac-intv { display:flex; gap:2px; }
@@ -322,7 +322,7 @@
   </div>
 </div>
 
-<!-- 매크로 8패널 (2026-10-09 BT) — 금리·원유·금속·달러/비트코인. ETF 패널과 같은 일봉+MA 규격. 일봉/15분봉 전환(2026-10-09).
+<!-- 매크로 10패널 (2026-10-09 BT) — 금리(미·독·영)·원유·금속·달러/비트코인. ETF 패널과 같은 일봉+MA 규격. 일봉/15분봉 전환(2026-10-09).
      데이터는 브라우저가 CNBC/바이낸스에서 직접 조회 (서버·Actions 무관, 30초 실시간 갱신). -->
 <div class="events" style="margin-top:20px;">
   <div class="events-card" style="flex:1;">
@@ -337,6 +337,10 @@
         <div class="cw cw-mac" id="mac-cw-us2y"><div class="msg" id="mac-msg-us2y">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>US10Y</h3><span class="etf-sub">미국 10년물</span><span class="price" id="mac-p-us10y">—</span><span class="chg flat" id="mac-c-us10y"></span><span class="etf-sub" id="mac-src-us10y"></span></div></div>
         <div class="cw cw-mac" id="mac-cw-us10y"><div class="msg" id="mac-msg-us10y">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>DE10Y</h3><span class="etf-sub">독일 10년물</span><span class="price" id="mac-p-de10y">—</span><span class="chg flat" id="mac-c-de10y"></span><span class="etf-sub" id="mac-src-de10y"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-de10y"><div class="msg" id="mac-msg-de10y">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>GB10Y</h3><span class="etf-sub">영국 10년물</span><span class="price" id="mac-p-gb10y">—</span><span class="chg flat" id="mac-c-gb10y"></span><span class="etf-sub" id="mac-src-gb10y"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-gb10y"><div class="msg" id="mac-msg-gb10y">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>WTI</h3><span class="etf-sub">WTI 근월물</span><span class="price" id="mac-p-wti">—</span><span class="chg flat" id="mac-c-wti"></span><span class="etf-sub" id="mac-src-wti"></span></div></div>
         <div class="cw cw-mac" id="mac-cw-wti"><div class="msg" id="mac-msg-wti">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>Brent</h3><span class="etf-sub">브렌트 근월물</span><span class="price" id="mac-p-brent">—</span><span class="chg flat" id="mac-c-brent"></span><span class="etf-sub" id="mac-src-brent"></span></div></div>
@@ -3852,7 +3856,7 @@ function drawUSCnnFG() {
 
 
 // ═══════════════════════════════════════════════════════════════════
-// 매크로 8패널 (2026-10-09 BT) — 미국 2Y/10Y · WTI/Brent · 금/구리 · 달러인덱스/비트코인
+// 매크로 10패널 (2026-10-09 BT) — 미국 2Y/10Y · 독일/영국 10Y (유럽 재정 모니터링) · WTI/Brent · 금/구리 · 달러인덱스/비트코인
 //   일봉 / 15분봉 전환 + MA 5/20/50/100/200 (ETF 패널과 같은 규격) + 실시간 마지막 봉.
 //   데이터: CNBC — 일봉 = ts-api 1Y (약 2년치 일봉), 15분봉 = ts-api 5D (5분봉 약 8거래일 → 15분 합성),
 //           시세 = restQuote (당일 세션 OHLC). github.io 에서 CORS 허용 실측.
@@ -3865,6 +3869,8 @@ function drawUSCnnFG() {
   const MAC = [
     { id: 'us2y',   sym: 'US2Y',   name: '미국 2년물',     kind: 'yield', prec: 3 },
     { id: 'us10y',  sym: 'US10Y',  name: '미국 10년물',    kind: 'yield', prec: 3 },
+    { id: 'de10y',  sym: 'DE10Y-DE', name: '독일 10년물',  kind: 'yield', prec: 3, refDaily: true },
+    { id: 'gb10y',  sym: 'GB10Y-GB', name: '영국 10년물',  kind: 'yield', prec: 3, refDaily: true },
     { id: 'wti',    sym: '@CL.1',  name: 'WTI 근월물',     prec: 2, bn: 'CLUSDT' },
     { id: 'brent',  sym: '@LCO.1', name: '브렌트 근월물',  prec: 2, bn: 'BZUSDT' },
     { id: 'gold',   sym: '@GC.1',  name: '금 근월물',      prec: 1, bn: 'XAUUSDT' },
@@ -4042,7 +4048,7 @@ function drawUSCnnFG() {
     ensureChart(m, showTime);
     const s = st[m.id];
     const want = mode;
-    s.live = null;   // 히스토리를 새로 받으면 실시간 봉 표시는 초기화
+    s.live = null; s.liveByDate = false;   // 히스토리를 새로 받으면 실시간 봉 표시는 초기화
     try {
       let bars, src;
       if (m.binanceOnly) { bars = await binanceHist(m.bn); src = 'binance'; }
@@ -4054,6 +4060,12 @@ function drawUSCnnFG() {
       if (!bars.length) throw new Error('empty');
       s.bars = bars; s.src = src;
       if (src === 'binance' && mode === 'm15') { try { s.dayPrev = await binanceDayPrev(m.bn); } catch (_) {} }
+      if (m.refDaily && mode === 'm15') {        // 독일·영국: 15분봉 등락 기준도 일봉 종가로 (CNBC 시세의 전일종가가 일봉과 달라서)
+        try {
+          const j = await getJSON(CN_TS + '1Y.json?symbol=' + encodeURIComponent(m.sym));
+          s.daily = ((j.barData && j.barData.priceBars) || []).map(x => ({ time: ymd(x.tradeTime), close: +x.close })).filter(x => isFinite(x.close) && x.close > 0);
+        } catch (_) { s.daily = null; }
+      }
       const tag = document.getElementById('mac-src-' + m.id);
       if (tag) tag.textContent = src === 'binance' && !m.binanceOnly ? '바이낸스 대체' : '';
       render(m);
@@ -4081,6 +4093,10 @@ function drawUSCnnFG() {
           const last = num(q.last), prev = num(q.previous_day_closing);
           if (last == null) return;
           s.dayPrev = prev;
+          if (m.refDaily && s.daily && s.daily.length) {
+            const qd = String(q.last_time || '').slice(0, 10);
+            for (let k = s.daily.length - 1; k >= 0; k--) if (s.daily[k].time < qd) { s.dayPrev = s.daily[k].close; break; }
+          }
           const lb = bars[bars.length - 1], pb = bars.length > 1 ? bars[bars.length - 2] : null;
           if (mode === 'm15') {
             const tms = Date.parse(q.last_time); if (!isFinite(tms)) return;
@@ -4091,7 +4107,18 @@ function drawUSCnnFG() {
           }
           const o = num(q.open) || last, h = Math.max(num(q.high) || last, last), l = Math.min(num(q.low) || last, last);
           const addBar = () => { const nb = { time: nextWeekday(lb.time), open: o, high: h, low: l, close: last }; s.live = nb.time; pushBar(s, nb); };
-          if (s.live === lb.time) {
+          // 시세 날짜 기준 갱신 — 일봉 종가와 시세 전일종가의 기준이 다른 종목(독일·영국 국채 등)용
+          const byDate = () => {
+            const qd = String(q.last_time || '').slice(0, 10);
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(qd)) return false;
+            s.liveByDate = true;
+            if (qd === lb.time) { lb.close = last; lb.high = Math.max(lb.high, last); lb.low = Math.min(lb.low, last); s.live = lb.time; s.series.update(lb); }
+            else if (qd > lb.time) { const nb = { time: qd, open: o, high: h, low: l, close: last }; s.live = nb.time; pushBar(s, nb); }
+            else return false;
+            return true;
+          };
+          if (s.liveByDate) { if (!byDate()) return; }
+          else if (s.live === lb.time) {
             if (pb && near(prev, pb.close)) { Object.assign(lb, { open: o, high: h, low: l, close: last }); s.series.update(lb); }
             else {                                               // 페이지를 켜둔 채 세션이 넘어감: 직전 봉 마감 후 새 봉
               if (prev != null) { lb.close = prev; lb.high = Math.max(lb.high, prev); lb.low = Math.min(lb.low, prev); s.series.update(lb); }
@@ -4101,7 +4128,7 @@ function drawUSCnnFG() {
           else if (near(prev, lb.close)) addBar();               // 새 세션 → 다음 영업일 봉 추가
           else if (pb && near(prev, pb.close)) {                 // 마지막 봉이 진행 중 세션
             Object.assign(lb, { open: o, high: h, low: l, close: last }); s.live = lb.time; s.series.update(lb);
-          } else return;
+          } else if (!byDate()) return;
           header(m);
         });
       } catch (e) { console.warn('macro quote', e); }
