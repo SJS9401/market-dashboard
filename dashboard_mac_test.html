@@ -3869,8 +3869,8 @@ function drawUSCnnFG() {
   const MAC = [
     { id: 'us2y',   sym: 'US2Y',   name: '미국 2년물',     kind: 'yield', prec: 3 },
     { id: 'us10y',  sym: 'US10Y',  name: '미국 10년물',    kind: 'yield', prec: 3 },
-    { id: 'de10y',  sym: 'DE10Y-DE', name: '독일 10년물',  kind: 'yield', prec: 3 },
-    { id: 'gb10y',  sym: 'GB10Y-GB', name: '영국 10년물',  kind: 'yield', prec: 3 },
+    { id: 'de10y',  sym: 'DE10Y-DE', name: '독일 10년물',  kind: 'yield', prec: 3, refDaily: true },
+    { id: 'gb10y',  sym: 'GB10Y-GB', name: '영국 10년물',  kind: 'yield', prec: 3, refDaily: true },
     { id: 'wti',    sym: '@CL.1',  name: 'WTI 근월물',     prec: 2, bn: 'CLUSDT' },
     { id: 'brent',  sym: '@LCO.1', name: '브렌트 근월물',  prec: 2, bn: 'BZUSDT' },
     { id: 'gold',   sym: '@GC.1',  name: '금 근월물',      prec: 1, bn: 'XAUUSDT' },
@@ -4060,6 +4060,12 @@ function drawUSCnnFG() {
       if (!bars.length) throw new Error('empty');
       s.bars = bars; s.src = src;
       if (src === 'binance' && mode === 'm15') { try { s.dayPrev = await binanceDayPrev(m.bn); } catch (_) {} }
+      if (m.refDaily && mode === 'm15') {        // 독일·영국: 15분봉 등락 기준도 일봉 종가로 (CNBC 시세의 전일종가가 일봉과 달라서)
+        try {
+          const j = await getJSON(CN_TS + '1Y.json?symbol=' + encodeURIComponent(m.sym));
+          s.daily = ((j.barData && j.barData.priceBars) || []).map(x => ({ time: ymd(x.tradeTime), close: +x.close })).filter(x => isFinite(x.close) && x.close > 0);
+        } catch (_) { s.daily = null; }
+      }
       const tag = document.getElementById('mac-src-' + m.id);
       if (tag) tag.textContent = src === 'binance' && !m.binanceOnly ? '바이낸스 대체' : '';
       render(m);
@@ -4087,6 +4093,10 @@ function drawUSCnnFG() {
           const last = num(q.last), prev = num(q.previous_day_closing);
           if (last == null) return;
           s.dayPrev = prev;
+          if (m.refDaily && s.daily && s.daily.length) {
+            const qd = String(q.last_time || '').slice(0, 10);
+            for (let k = s.daily.length - 1; k >= 0; k--) if (s.daily[k].time < qd) { s.dayPrev = s.daily[k].close; break; }
+          }
           const lb = bars[bars.length - 1], pb = bars.length > 1 ? bars[bars.length - 2] : null;
           if (mode === 'm15') {
             const tms = Date.parse(q.last_time); if (!isFinite(tms)) return;
