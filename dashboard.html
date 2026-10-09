@@ -208,6 +208,20 @@
     .mm-box { height: 62vh !important; }
     iframe[src*="sslecal2"] { height: 640px !important; }
   }
+
+  /* ── 매크로 8패널 (2026-10-09 BT) — 2열 × 4행, 열마다 ETF 패널처럼 카드가 붙어 쌓인다 ── */
+  #mac-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); column-gap:14px; row-gap:0; padding:14px; }
+  #mac-grid .mac-card { border-radius:0; border-bottom:none; min-width:0; }
+  #mac-grid .mac-card:nth-child(1), #mac-grid .mac-card:nth-child(2) { border-radius:10px 10px 0 0; }
+  #mac-grid .mac-card:nth-child(7), #mac-grid .mac-card:nth-child(8) { border-radius:0 0 10px 10px; border-bottom:1px solid #414141; }
+  .cw-mac { height:194px; cursor:crosshair; }
+  .cw-mac.cw-mac-axis { height:220px; }
+  .mac-bars { display:flex; align-items:center; gap:2px; }
+  .mac-bars input { width:38px; background:#0f0f0f; border:1px solid #3a3a3a; color:#c9d1d9; padding:1px 4px; border-radius:4px; font-size:10px; text-align:center; outline:none; }
+  .mac-bars input:focus { border-color:#58a6ff; }
+  .mac-bars span { font-size:10px; color:#8b949e; font-weight:400; }
+  @media (max-width: 900px) { #mac-grid { grid-template-columns:minmax(0,1fr); }
+    #mac-grid .mac-card { border-radius:0 !important; border-bottom:none !important; } }
 </style>
 </head>
 <body>
@@ -301,6 +315,36 @@
     </h2>
     <div class="ui-nq-wrap"><div class="ui-nq-cw" id="cw-ui-nq"><div class="uicg" id="uicg-nq"></div></div></div>
     <div class="nnc-note" id="ui-note"></div>
+  </div>
+</div>
+
+<!-- 매크로 8패널 (2026-10-09 BT) — 금리·원유·금속·달러/비트코인. ETF 패널과 같은 일봉+MA 규격.
+     데이터는 브라우저가 CNBC/바이낸스에서 직접 조회 (서버·Actions 무관, 30초 실시간 갱신). -->
+<div class="events" style="margin-top:20px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:center;gap:10px;">매크로
+      <span style="color:#8b949e;font-weight:400;font-size:11px;">일봉 · MA 5/20/50/100/200 · 실시간 30초 (CNBC · 비트코인 바이낸스)</span>
+      <span id="mac-stamp" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;">로딩 중...</span>
+      <span class="mac-bars"><input type="text" id="mac-bars" value="60" title="표시 봉 수 (10~500)"><span>봉</span></span>
+    </h2>
+    <div id="mac-grid">
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>US2Y</h3><span class="etf-sub">미국 2년물</span><span class="price" id="mac-p-us2y">—</span><span class="chg flat" id="mac-c-us2y"></span><span class="etf-sub" id="mac-src-us2y"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-us2y"><div class="msg" id="mac-msg-us2y">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>US10Y</h3><span class="etf-sub">미국 10년물</span><span class="price" id="mac-p-us10y">—</span><span class="chg flat" id="mac-c-us10y"></span><span class="etf-sub" id="mac-src-us10y"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-us10y"><div class="msg" id="mac-msg-us10y">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>WTI</h3><span class="etf-sub">WTI 근월물</span><span class="price" id="mac-p-wti">—</span><span class="chg flat" id="mac-c-wti"></span><span class="etf-sub" id="mac-src-wti"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-wti"><div class="msg" id="mac-msg-wti">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>Brent</h3><span class="etf-sub">브렌트 근월물</span><span class="price" id="mac-p-brent">—</span><span class="chg flat" id="mac-c-brent"></span><span class="etf-sub" id="mac-src-brent"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-brent"><div class="msg" id="mac-msg-brent">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>Gold</h3><span class="etf-sub">금 근월물</span><span class="price" id="mac-p-gold">—</span><span class="chg flat" id="mac-c-gold"></span><span class="etf-sub" id="mac-src-gold"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-gold"><div class="msg" id="mac-msg-gold">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>Copper</h3><span class="etf-sub">구리 근월물</span><span class="price" id="mac-p-copper">—</span><span class="chg flat" id="mac-c-copper"></span><span class="etf-sub" id="mac-src-copper"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-copper"><div class="msg" id="mac-msg-copper">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>DXY</h3><span class="etf-sub">달러 인덱스</span><span class="price" id="mac-p-dxy">—</span><span class="chg flat" id="mac-c-dxy"></span><span class="etf-sub" id="mac-src-dxy"></span></div></div>
+        <div class="cw cw-mac cw-mac-axis" id="mac-cw-dxy"><div class="msg" id="mac-msg-dxy">로딩 중...</div></div></div>
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>BTC</h3><span class="etf-sub">비트코인</span><span class="price" id="mac-p-btc">—</span><span class="chg flat" id="mac-c-btc"></span><span class="etf-sub" id="mac-src-btc"></span></div></div>
+        <div class="cw cw-mac cw-mac-axis" id="mac-cw-btc"><div class="msg" id="mac-msg-btc">로딩 중...</div></div></div>
+    </div>
   </div>
 </div>
 
@@ -3800,6 +3844,247 @@ function drawUSCnnFG() {
   const ve = document.getElementById('us-fg-val');
   if (ve) ve.title = 'CNN Business Fear & Greed · ' + (c.date || '');
 }
+
+
+// ═══════════════════════════════════════════════════════════════════
+// 매크로 8패널 (2026-10-09 BT) — 미국 2Y/10Y · WTI/Brent · 금/구리 · 달러인덱스/비트코인
+//   일봉 + MA 5/20/50/100/200 (ETF 패널과 같은 규격) + 실시간 마지막 봉.
+//   데이터: CNBC (일봉 히스토리 ts-api 1Y = 약 2년치 일봉, 시세 restQuote) — github.io 에서 CORS 허용 실측.
+//           비트코인 = 바이낸스 BTCUSDT 무기한 (24시간, 기존 해외 실시간 추정가 카드와 같은 소스).
+//   CNBC 장애 시: WTI/Brent/금/구리는 바이낸스 원자재 무기한(CLUSDT/BZUSDT/XAUUSDT/COPPERUSDT)으로 자동 전환.
+//   서버·Actions 불필요 (브라우저 직접 조회). 30초마다 시세 갱신, 30분마다 히스토리 재조회.
+// ═══════════════════════════════════════════════════════════════════
+(function () {
+  const MAC = [
+    { id: 'us2y',   sym: 'US2Y',   name: '미국 2년물',     kind: 'yield', prec: 3 },
+    { id: 'us10y',  sym: 'US10Y',  name: '미국 10년물',    kind: 'yield', prec: 3 },
+    { id: 'wti',    sym: '@CL.1',  name: 'WTI 근월물',     prec: 2, bn: 'CLUSDT' },
+    { id: 'brent',  sym: '@LCO.1', name: '브렌트 근월물',  prec: 2, bn: 'BZUSDT' },
+    { id: 'gold',   sym: '@GC.1',  name: '금 근월물',      prec: 1, bn: 'XAUUSDT' },
+    { id: 'copper', sym: '@HG.1',  name: '구리 근월물',    prec: 4, bn: 'COPPERUSDT' },
+    { id: 'dxy',    sym: '.DXY',   name: '달러 인덱스',    prec: 3 },
+    { id: 'btc',    bn: 'BTCUSDT', name: '비트코인',       prec: 0, binanceOnly: true }
+  ];
+  const LABEL = { us2y: 'US2Y', us10y: 'US10Y', wti: 'WTI', brent: 'Brent', gold: 'Gold', copper: 'Copper', dxy: 'DXY', btc: 'BTC' };
+  const MA_P = [5, 20, 50, 100, 200];
+  const POLL_MS = 30000, HIST_MS = 30 * 60000;
+  const CN_Q = 'https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&symbols=';
+  const CN_TS = 'https://ts-api.cnbc.com/harmony/app/charts/1Y.json?symbol=';
+  const BN = 'https://fapi.binance.com/fapi/v1/klines?interval=1d&symbol=';
+  const st = {};          // id -> { chart, series, el, bars, src, prev, live, maLines }
+  let nBars = 60;
+  let syncing = false;   // 크로스헤어 동기화 메아리 차단
+
+  const num = v => { const f = parseFloat(String(v == null ? '' : v).replace(/[%,]/g, '')); return isFinite(f) ? f : null; };
+  const ymd = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+  const nextWeekday = d => { const t = new Date(d + 'T00:00:00Z'); do { t.setUTCDate(t.getUTCDate() + 1); } while (t.getUTCDay() === 0 || t.getUTCDay() === 6); return t.toISOString().slice(0, 10); };
+  const near = (a, b) => a != null && b != null && Math.abs(a - b) <= Math.max(1e-6, Math.abs(b) * 2e-5);
+  const fmt = (v, p) => v == null ? '—' : Number(v).toLocaleString('en-US', { minimumFractionDigits: p, maximumFractionDigits: p });
+
+  async function cnbcHist(sym) {
+    const j = await fetch(CN_TS + encodeURIComponent(sym)).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+    const b = (j.barData && j.barData.priceBars) || [];
+    return b.map(x => ({ time: ymd(x.tradeTime), open: +x.open, high: +x.high, low: +x.low, close: +x.close }))
+            .filter(x => isFinite(x.close) && x.close > 0);
+  }
+  async function binanceHist(sym, limit) {
+    const j = await fetch(BN + sym + '&limit=' + (limit || 520)).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+    return j.map(k => ({ time: new Date(k[0]).toISOString().slice(0, 10), open: +k[1], high: +k[2], low: +k[3], close: +k[4] }));
+  }
+
+  function header(m) {
+    const s = st[m.id]; if (!s || !s.bars.length) return;
+    const last = s.bars[s.bars.length - 1], prev = s.bars.length > 1 ? s.bars[s.bars.length - 2].close : null;
+    paintHeader(m, last.close, prev);
+    s.lastInfo = { close: last.close, prev };
+    badge(m);
+  }
+  function paintHeader(m, close, prev) {
+    const p = document.getElementById('mac-p-' + m.id), c = document.getElementById('mac-c-' + m.id);
+    if (!p || !c) return;
+    p.textContent = fmt(close, m.prec) + (m.kind === 'yield' ? '%' : '');
+    if (prev == null) { c.textContent = ''; c.className = 'chg flat'; return; }
+    const d = close - prev;
+    c.className = 'chg ' + (d > 0 ? 'up' : d < 0 ? 'down' : 'flat');
+    c.textContent = m.kind === 'yield'
+      ? (d >= 0 ? '+' : '') + (d * 100).toFixed(1) + 'bp'
+      : (d >= 0 ? '+' : '') + (d / prev * 100).toFixed(2) + '%';
+  }
+  // 우축 종가 라벨 아래 등락 배지 (ETF 패널 updateLastChg 와 같은 규칙)
+  function badge(m) {
+    const s = st[m.id]; if (!s || !s.lastInfo) return;
+    let el = document.getElementById('mac-lchg-' + m.id);
+    if (!el) { el = document.createElement('div'); el.className = 'last-chg'; el.id = 'mac-lchg-' + m.id; s.el.appendChild(el); }
+    const { close, prev } = s.lastInfo;
+    if (prev == null) { el.style.display = 'none'; return; }
+    let y = null; try { y = s.series.priceToCoordinate(close); } catch (_) {}
+    if (y == null) { el.style.display = 'none'; return; }
+    let psw = 0; try { psw = s.chart.priceScale('right').width(); } catch (_) {}
+    if (psw > 0) { el.style.left = (s.el.clientWidth - psw) + 'px'; el.style.right = 'auto'; }
+    const d = close - prev;
+    el.textContent = m.kind === 'yield' ? (d >= 0 ? '+' : '') + (d * 100).toFixed(1) + 'bp' : (d >= 0 ? '+' : '') + (d / prev * 100).toFixed(2) + '%';
+    el.style.background = d >= 0 ? '#d61022' : '#1750e0';
+    const h = 16, top = y + 9;
+    el.style.top = ((top + h > s.el.clientHeight) ? Math.max(0, y - 9 - h) : top) + 'px';
+    el.style.display = 'block';
+  }
+
+  function ensureChart(m, showTime) {
+    if (st[m.id] && st[m.id].chart) return st[m.id];
+    const el = document.getElementById('mac-cw-' + m.id);
+    const opts = CHART_OPTS();
+    opts.timeScale = { borderColor: '#707070', timeVisible: false, visible: !!showTime, rightOffset: 0 };
+    opts.grid = { vertLines: { color: '#909090' }, horzLines: { color: '#828282' } };
+    opts.crosshair = { mode: LightweightCharts.CrosshairMode.Normal,
+      vertLine: { color: '#2b3138', style: 2, labelBackgroundColor: '#2b3138' },
+      horzLine: { color: '#2b3138', labelBackgroundColor: '#2b3138' } };
+    const chart = LightweightCharts.createChart(el, Object.assign({ width: el.clientWidth, height: el.clientHeight }, opts));
+    const series = chart.addCandlestickSeries({
+      upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0',
+      wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: false,
+      priceFormat: { type: 'price', precision: m.prec, minMove: Math.pow(10, -m.prec) }
+    });
+    st[m.id] = Object.assign(st[m.id] || {}, { chart, series, el, bars: [], maLines: [] });
+    new ResizeObserver(e => { const r = e[0].contentRect; chart.applyOptions({ width: r.width, height: r.height }); requestAnimationFrame(() => { applyBars(); badge(m); }); }).observe(el);
+    // 마우스 위치의 봉으로 헤더 갱신 + 8패널 크로스헤어 동기화 (같은 날짜)
+    chart.subscribeCrosshairMove(param => {
+      if (syncing) return;
+      const s = st[m.id];
+      syncing = true;
+      try {
+      if (!param || !param.time || !s.bars.length) { MAC.forEach(o => { header(o); if (o.id !== m.id) { try { st[o.id] && st[o.id].chart.clearCrosshairPosition(); } catch (_) {} } }); return; }
+      MAC.forEach(o => {
+        const so = st[o.id]; if (!so || !so.bars.length) return;
+        const i = so.idx ? so.idx[param.time] : undefined;
+        if (i == null) return;
+        const b = so.bars[i], pv = i > 0 ? so.bars[i - 1].close : null;
+        paintHeader(o, b.close, pv);
+        if (o.id !== m.id) { try { so.chart.setCrosshairPosition(b.close, param.time, so.series); } catch (_) {} }
+      });
+      } finally { syncing = false; }
+    });
+    return st[m.id];
+  }
+
+  function render(m) {
+    const s = st[m.id]; if (!s) return;
+    s.idx = {}; s.bars.forEach((b, i) => { s.idx[b.time] = i; });
+    s.series.setData(s.bars);
+    s.maLines.forEach(l => s.chart.removeSeries(l)); s.maLines = [];
+    const closes = s.bars.map(b => b.close);
+    MA_P.forEach((p, k) => {
+      const sma = calcSMA(closes, p), pts = [];
+      for (let i = p - 1; i < s.bars.length; i++) if (sma[i] != null) pts.push({ time: s.bars[i].time, value: sma[i] });
+      if (!pts.length) return;
+      const l = s.chart.addLineSeries({ color: maColor(p, k), lineWidth: p <= 20 ? 1.8 : 1.2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+      l.setData(pts); s.maLines.push(l);
+    });
+    header(m);
+    const msg = document.getElementById('mac-msg-' + m.id); if (msg) msg.style.display = 'none';
+  }
+
+  // 모든 패널을 같은 시작 날짜로 맞춘다 (비트코인은 주말 봉이 있어 봉 수 대신 날짜 기준)
+  function applyBars() {
+    const base = st.us10y && st.us10y.bars.length ? st.us10y : MAC.map(m => st[m.id]).find(s => s && s.bars.length);
+    if (!base) return;
+    const from = base.bars[Math.max(0, base.bars.length - nBars)].time;
+    MAC.forEach(m => {
+      const s = st[m.id]; if (!s || !s.bars.length) return;
+      let i = s.bars.findIndex(b => b.time >= from); if (i < 0) i = 0;
+      try { s.chart.timeScale().setVisibleLogicalRange({ from: i - 0.5, to: s.bars.length - 0.5 }); } catch (_) {}
+      requestAnimationFrame(() => badge(m));
+    });
+    const inp = document.getElementById('mac-bars'); if (inp && document.activeElement !== inp) inp.value = nBars;
+  }
+
+  async function loadHist(m, showTime) {
+    ensureChart(m, showTime);
+    const s = st[m.id];
+    s.live = null;   // 히스토리를 새로 받으면 실시간 봉 표시는 초기화
+    try {
+      if (m.binanceOnly) { s.bars = await binanceHist(m.bn); s.src = 'binance'; }
+      else {
+        try { s.bars = await cnbcHist(m.sym); s.src = 'cnbc'; }
+        catch (e) { if (!m.bn) throw e; s.bars = await binanceHist(m.bn); s.src = 'binance'; }
+      }
+      if (!s.bars.length) throw new Error('empty');
+      const tag = document.getElementById('mac-src-' + m.id);
+      if (tag) tag.textContent = s.src === 'binance' && !m.binanceOnly ? '바이낸스 대체' : '';
+      render(m);
+    } catch (e) {
+      const msg = document.getElementById('mac-msg-' + m.id);
+      if (msg) { msg.style.display = 'flex'; msg.textContent = '⚠ 로드 실패'; }
+      console.warn('macro hist', m.id, e);
+    }
+  }
+
+  // 실시간: CNBC 시세의 당일 세션 OHLC 로 마지막 봉을 갱신/추가
+  async function poll() {
+    const cn = MAC.filter(m => !m.binanceOnly && st[m.id] && st[m.id].src === 'cnbc');
+    if (cn.length) {
+      try {
+        const j = await fetch(CN_Q + cn.map(m => encodeURIComponent(m.sym)).join('|')).then(r => r.json());
+        const qs = (j.FormattedQuoteResult && j.FormattedQuoteResult.FormattedQuote) || [];
+        qs.forEach(q => {
+          const m = cn.find(x => x.sym === q.symbol); if (!m) return;
+          const s = st[m.id], bars = s.bars; if (!bars.length) return;
+          const last = num(q.last), prev = num(q.previous_day_closing);
+          if (last == null) return;
+          const o = num(q.open) || last, h = Math.max(num(q.high) || last, last), l = Math.min(num(q.low) || last, last);
+          const lb = bars[bars.length - 1], pb = bars.length > 1 ? bars[bars.length - 2] : null;
+          const addBar = () => {
+            const nb = { time: nextWeekday(lb.time), open: o, high: h, low: l, close: last };
+            bars.push(nb); s.live = nb.time; s.idx[nb.time] = bars.length - 1; s.series.update(nb);
+          };
+          if (s.live === lb.time) {
+            if (pb && near(prev, pb.close)) { Object.assign(lb, { open: o, high: h, low: l, close: last }); s.series.update(lb); }
+            else {                                               // 페이지를 켜둔 채 세션이 넘어감: 직전 봉 마감 후 새 봉
+              if (prev != null) { lb.close = prev; lb.high = Math.max(lb.high, prev); lb.low = Math.min(lb.low, prev); s.series.update(lb); }
+              addBar();
+            }
+          }
+          else if (near(prev, lb.close)) addBar();               // 새 세션 → 다음 영업일 봉 추가
+          else if (pb && near(prev, pb.close)) {                 // 마지막 봉이 진행 중 세션
+            Object.assign(lb, { open: o, high: h, low: l, close: last }); s.live = lb.time; s.series.update(lb);
+          } else return;
+          header(m);
+        });
+      } catch (e) { console.warn('macro quote', e); }
+    }
+    for (const m of MAC.filter(x => st[x.id] && st[x.id].src === 'binance')) {
+      try {
+        const s = st[m.id], nb = (await binanceHist(m.bn, 2)).pop(), bars = s.bars;
+        if (!nb || !bars.length) continue;
+        if (bars[bars.length - 1].time === nb.time) bars[bars.length - 1] = nb; else { bars.push(nb); s.idx[nb.time] = bars.length - 1; }
+        s.series.update(nb); header(m);
+      } catch (e) { console.warn('macro binance', m.id, e); }
+    }
+    const t = new Date(), p2 = n => String(n).padStart(2, '0');
+    const ts = document.getElementById('mac-stamp'); if (ts) ts.textContent = '갱신 ' + p2(t.getHours()) + ':' + p2(t.getMinutes()) + ':' + p2(t.getSeconds());
+  }
+
+  async function loadAll() {
+    await Promise.allSettled(MAC.map((m, i) => loadHist(m, i >= MAC.length - 2)));
+    applyBars();
+    await poll();
+  }
+
+  function init() {
+    if (!document.getElementById('mac-grid') || typeof LightweightCharts === 'undefined') return;
+    const inp = document.getElementById('mac-bars');
+    if (inp) {
+      inp.value = nBars;
+      const apply = () => { const v = parseInt(inp.value, 10); if (v >= 10 && v <= 500) { nBars = v; applyBars(); } else inp.value = nBars; };
+      inp.addEventListener('change', apply);
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { apply(); inp.blur(); } });
+    }
+    loadAll();
+    setInterval(() => { if (!document.hidden) poll(); }, POLL_MS);
+    setInterval(() => { if (!document.hidden) Promise.allSettled(MAC.map((m, i) => loadHist(m, i >= MAC.length - 2))).then(() => { applyBars(); poll(); }); }, HIST_MS);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
+  }
+  init();
+})();
 
 </script>
 </body>
