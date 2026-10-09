@@ -87,7 +87,8 @@ def find_today_video(today_ny):
             return info
         if PROBE:   # 프로브는 날짜 무관 최신 1건
             return info
-        break       # 최신 SMT 가 오늘 것이 아니면 아직 안 올라온 것
+        if not os.environ.get("TARGET_DATE"):
+            break   # 최신 SMT 가 오늘 것이 아니면 아직 안 올라온 것 (수동 지정일은 계속 찾는다)
     return None
 
 
@@ -223,6 +224,17 @@ def main():
     if PROBE:
         return probe()
     now = datetime.now(timezone.utc)
+    target = os.environ.get("TARGET_DATE", "").strip()   # 수동 시험용: 지정한 세션일 회차를 대기 없이 받는다
+    if target:
+        info = find_today_video(target)
+        if not info:
+            log(f"[TARGET] {target} 회차를 찾지 못함"); return
+        method, sn, res = try_transcript(info)
+        if sn:
+            save(build_record(info, method, sn, target))
+        else:
+            log(f"[TARGET] 자막 실패 ({res})")
+        return
     today_ny = now.astimezone(NY).date().isoformat()
     if datetime.now(NY).weekday() >= 5:
         log("주말 — 종료"); return
