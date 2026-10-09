@@ -3898,33 +3898,43 @@ function drawUSCnnFG() {
   const fmt = (v, p) => v == null ? '—' : Number(v).toLocaleString('en-US', { minimumFractionDigits: p, maximumFractionDigits: p });
   const bucket15 = ms => Math.floor(ms / 1000 / 900) * 900 + KST;   // 15분 버킷 시작 (KST 표시용 초)
 
-  // ── 잘못된 체결값(배드 틱) 정리 (2026-10-10 BT) ──
-  //   CNBC 원자료에 독일 10년물 고가 403%, 저가 -27% 같은 오류 틱이 섞여 들어온다.
-  //   ① 앞뒤 봉과 동떨어진 종가·시가 한 점 → 직전 종가로 대체
-  //   ② 몸통에서 주변 평균 변동폭의 4배 넘게 튀어나간 꼬리 → 몸통 끝으로 잘라냄
-  const median = a => { const b = a.filter(isFinite).sort((x, y) => x - y); return b.length ? b[Math.floor(b.length / 2)] : 0; };
-  function cleanBars(bars) {
+  // ── 잘못된 체결값(배드 틱)·빈 봉 정리 (2026-10-10 BT) ──
+  //   CNBC 원자료에는 ① 독일 10년물 고가 403%, 저가 -27% 같은 오류 틱과
+  //   ② 거래 없는 주말·휴일에 직전 종가로 채운 납작한 가짜 봉이 섞여 있다.
+  //   처리: 주말·무거래 봉 삭제 → 앞뒤와 동떨어진 종가·시가 한 점은 직전 종가로 →
+  //         몸통 밖 꼬리가 주변 하루 변동폭(종가 변화 중앙값)의 4배를 넘으면 몸통 끝까지 잘라냄.
+  const median = a => { const b = a.filter(v => isFinite(v) && v > 0).sort((x, y) => x - y); return b.length ? b[Math.floor(b.length / 2)] : 0; };
+  const isWeekend = t => typeof t === 'string' && [0, 6].includes(new Date(t + 'T00:00:00Z').getUTCDay());
+  function cleanBars(src) {
+    const bars = [];
+    src.forEach(b => {
+      const p = bars.length ? bars[bars.length - 1].close : null;
+      if (isWeekend(b.time)) return;
+      if (p != null && b.open === b.close && b.high === b.close && b.low === b.close && b.close === p) return;   // 무거래 봉
+      bars.push(b);
+    });
     const n = bars.length; if (n < 5) return bars;
-    const g = Math.max(median(bars.map(b => b.high - b.low)), median(bars.slice(1).map((b, i) => Math.abs(b.close - bars[i].close))), 1e-9);
+    const chg = bars.map((b, i) => i ? Math.abs(b.close - bars[i - 1].close) : NaN);
+    const g = Math.max(median(chg), 1e-9);
     for (let i = 1; i < n; i++) {
       const p = bars[i - 1].close, b = bars[i], nx = i + 1 < n ? bars[i + 1].close : null;
       if (nx != null && Math.abs(b.close - p) > 8 * g && Math.abs(b.close - nx) > 8 * g && Math.abs(p - nx) < 3 * g) b.close = p;
       if (Math.abs(b.open - p) > 8 * g && Math.abs(b.open - b.close) > 8 * g) b.open = p;
     }
-    const rng = bars.map(b => b.high - b.low);
     for (let i = 0; i < n; i++) {
       const b = bars[i];
-      const loc = Math.max(median(rng.slice(Math.max(0, i - 10), i + 11)), g);
+      const loc = Math.max(median(chg.slice(Math.max(1, i - 10), i + 11)), g * 0.5);
       const top = Math.max(b.open, b.close), bot = Math.min(b.open, b.close);
       if (!(b.high >= top) || b.high - top > 4 * loc) b.high = top;
       if (!(b.low <= bot) || bot - b.low > 4 * loc) b.low = bot;
     }
     return bars;
   }
-  function wickCap(s) {   // 실시간 고가·저가 검증용 허용폭 (최근 60봉 평균 변동폭 × 4)
-    const r = s.bars.slice(-60).map(b => b.high - b.low);
-    return 4 * Math.max(median(r), 1e-9);
+  function wickCap(s) {   // 실시간 고가·저가 검증용 허용폭 (최근 60봉 종가 변화 중앙값 × 4)
+    const b = s.bars.slice(-61);
+    return 4 * Math.max(median(b.slice(1).map((x, i) => Math.abs(x.close - b[i].close))), 1e-9);
   }
+
 
   async function getJSON(u) { const r = await fetch(u); if (!r.ok) throw new Error(r.status); return r.json(); }
   async function cnbcHist(sym) {
@@ -4086,7 +4096,7 @@ function drawUSCnnFG() {
       }
       if (want !== mode) return;               // 로딩 중에 모드가 바뀜
       if (!bars.length) throw new Error('empty');
-      cleanBars(bars);
+      bars = cleanBars(bars);
       s.bars = bars; s.src = src; s.cap = wickCap(s); s.skip = 0;
       if (src === 'binance' && mode === 'm15') { try { s.dayPrev = await binanceDayPrev(m.bn); } catch (_) {} }
       if (m.refDaily && mode === 'm15') {        // 독일·영국: 15분봉 등락 기준도 일봉 종가로 (CNBC 시세의 전일종가가 일봉과 달라서)
