@@ -7,11 +7,15 @@ GitHub 서버(클라우드 IP)는 YouTube 가 봇으로 차단한다(2026-10-09 
 그래서 BT PC 의 작업 스케줄러가 KST 화~토 06:40 에 이 파일을 실행한다.
 
   1) 로컬 리포 git pull (최신 스크립트 반영)
-  2) scripts/ibd_smt_relay.py 실행 — 최대 15분 재시도 (06:55 KST 전 종료)
+  2) scripts/ibd_smt_relay.py 실행 — 5분 간격 재시도, 마지막 확인 07:20 KST
+     (2026-10-10 BT 지시: 15분 → 07:20까지 연장. 10/9 방송(65분)은 06:15 종료 후
+      35분이 지나도 자동자막이 안 나와 06:55 마감에 걸렸다. 데일리가 IBD를 맨 마지막에 읽는다)
   3) data/ibd_smt_*.json 변경분만 commit → push (토큰은 Scheduled/.github_token)
   4) 로그: Scheduled/deploy_logs/ibd_smt_YYYYMMDD.log
 
-데일리 프리뷰(07:01)는 GitHub Pages 의 data/ibd_smt_latest.json 을 읽는다.
+데일리 프리뷰(07:01 시작)는 수집 묶음이 끝난 뒤 맨 마지막(07:18~07:22 전후)에
+GitHub Pages 의 data/ibd_smt_latest.json 을 읽는다. 07:20까지 못 받으면 그날은 「IBD 자막 미수신」.
+※ 작업 스케줄러 「IBD-SMT-Relay」의 실행 시간 제한은 1시간이어야 한다(30분이면 07:10에 강제 종료).
 """
 import os, subprocess, sys, datetime
 
@@ -20,6 +24,8 @@ SCHED = r"C:\Users\ruzby\Documents\Claude\Scheduled"
 TOKEN_FILE = os.path.join(SCHED, ".github_token")
 LOG_DIR = os.path.join(SCHED, "deploy_logs")
 REMOTE = "github.com/SJS9401/market-dashboard.git"
+
+DEADLINE = (7, 22)   # KST 07:22 — 07:20 전후 마지막 확인 후 종료 (5분 간격 오차 흡수)
 
 os.makedirs(LOG_DIR, exist_ok=True)
 LOG = os.path.join(LOG_DIR, f"ibd_smt_{datetime.datetime.now():%Y%m%d}.log")
@@ -52,8 +58,12 @@ def main():
         log("[ERROR] local repo not found"); return 1
     run(["git", "pull", "--rebase", "--autostash"], timeout=120)
 
-    env = dict(os.environ, PYTHONIOENCODING="utf-8", MAX_WAIT_MIN="15", PROBE="0")
-    run([sys.executable, os.path.join("scripts", "ibd_smt_relay.py")], env=env, timeout=20 * 60)
+    now = datetime.datetime.now()   # PC 시계 = KST
+    dl = now.replace(hour=DEADLINE[0], minute=DEADLINE[1], second=0, microsecond=0)
+    wait_min = max(1, int((dl - now).total_seconds() // 60))   # 마감이 지났으면 1회만 확인
+    log(f"마감 {DEADLINE[0]:02d}:{DEADLINE[1]:02d} KST — 최대 {wait_min}분 재시도")
+    env = dict(os.environ, PYTHONIOENCODING="utf-8", MAX_WAIT_MIN=str(wait_min), PROBE="0")
+    run([sys.executable, os.path.join("scripts", "ibd_smt_relay.py")], env=env, timeout=55 * 60)
 
     # ibd 파일만 커밋한다 — 다른 작업(대시보드 배포 등) 파일은 건드리지 않는다
     subprocess.run(["git", "reset", "-q"], cwd=REPO)
