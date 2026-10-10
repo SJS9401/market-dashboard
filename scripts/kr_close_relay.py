@@ -227,6 +227,27 @@ def main():
 
     fetch_bonds(tk, out)          # 국고채 3Y·10Y (2026-09-30) — 실패해도 위 항목 저장은 진행
 
+    # ── 휴장일 중복 저장 방지 (2026-10-10) ──────────────────────────────────────
+    # 10/9(한글날) 휴장일 밤에 깨서 KIS 가 돌려준 직전 거래일(10/8) 값을 kr_close_20261009.json 으로
+    # 저장했다(휴장일 테이블이 없어 세션일 계산이 평일이면 무조건 그날로 찍는다). 데일리가 세션일 파일을
+    # 「내용이 있으면 확정」으로 읽어 10/8 세션을 10/9 로 이중 보고할 뻔했다.
+    # → 직전 저장분(latest)이 더 이른 세션일인데 지수 4종의 종가·등락률·거래대금이 전부 같으면
+    #   「새 세션이 열리지 않았다」(휴장)로 보고 파일을 건드리지 않는다. 강제 저장은 FORCE=1.
+    prev_path = "data/kr_close_latest.json"
+    if os.path.exists(prev_path) and os.environ.get("FORCE", "0") != "1":
+        try:
+            with open(prev_path, encoding="utf-8") as f:
+                prev = json.load(f)
+            def _sig(o):
+                return [(k, (v or {}).get("close"), (v or {}).get("chg_pct"), (v or {}).get("value_krw_mn"))
+                        for k, v in sorted((o.get("indices") or {}).items())]
+            if (prev.get("base_date") or "") < out["base_date"] and out["indices"] and _sig(prev) == _sig(out):
+                print(f"[SKIP] 휴장 추정 — {out['base_date']} 지수 값이 직전 저장분({prev.get('base_date')})과 동일. "
+                      "파일을 건드리지 않고 종료.")
+                return
+        except Exception as e:
+            out["notes"].append(f"휴장 중복 검사 실패: {e}")
+
     os.makedirs("data", exist_ok=True)
     with open("data/kr_close_latest.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

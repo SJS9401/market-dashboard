@@ -12,7 +12,7 @@ APPKEY = os.environ["KIS_APP_KEY"]
 APPSECRET = os.environ["KIS_APP_SECRET"]
 PROBE = os.environ.get("PROBE", "0") == "1"
 
-SYMBOLS = ["NVDA","AMD","AVGO","MRVL","ALAB","CRDO","MU","SNDK","WDC","STX","INTC","ARM",
+SYMBOLS = ["NVDA","AMD","AVGO","MRVL","ALAB","CRDO","MU","SNDK","WDC","STX","SKHY","INTC","ARM",
            "TSM","GFS","UMC","AMAT","LRCX","KLAC","ASML","TXN","ADI","NXPI","ON","MPWR",
            "AMKR","ENTG","LITE","COHR","AAOI","FN","CIEN","NOK","ERIC","ANET","CSCO",
            "CRWV","NBIS","ORCL","IBM","SNOW","MDB","DELL","SMCI","HPE",
@@ -306,6 +306,8 @@ def main():
     out["staleness_probe"] = [{"symbol": r["symbol"], "change_rate": r["change_rate"]} for r in ranked[:3]]
     out["base_date_note"] = "미국 직전 영업일 데이터 (휴장일엔 그 전 영업일 스냅샷 — 데일리는 base_date + staleness_probe 를 함께 확인)"
 
+    # 2026-10-10: KIS new-highlow(HHDFS76300000)는 「최근 N분 내 장중 신고가」 API 다 — 52주 신고가가 아니다.
+    out["notes"].append("new_highs = KIS 장중 신고가(최근 N분 돌파) — 52주 신고가 아님, 52주 판정에 쓰지 않는다")
     os.makedirs("data", exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
