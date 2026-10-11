@@ -3938,10 +3938,17 @@ function drawUSCnnFG() {
   async function getJSON(u) { const r = await fetch(u); if (!r.ok) throw new Error(r.status); return r.json(); }
   async function cnbcHist(sym) {
     if (mode === 'd') {
-      const j = await getJSON(CN_TS + '1Y.json?symbol=' + encodeURIComponent(sym));
-      return ((j.barData && j.barData.priceBars) || [])
-        .map(x => ({ time: ymd(x.tradeTime), open: +x.open, high: +x.high, low: +x.low, close: +x.close }))
-        .filter(x => isFinite(x.close) && x.close > 0);
+      // CNBC 가 가끔 특정 종목의 1Y 일봉을 빈 값으로 준다 (2026-10-11 미국 2년물) → 6M·YTD 로 재시도 (둘 다 일봉)
+      for (const rng of ['1Y', '6M', 'YTD']) {
+        try {
+          const j = await getJSON(CN_TS + rng + '.json?symbol=' + encodeURIComponent(sym));
+          const bars = ((j.barData && j.barData.priceBars) || [])
+            .map(x => ({ time: ymd(x.tradeTime), open: +x.open, high: +x.high, low: +x.low, close: +x.close }))
+            .filter(x => isFinite(x.close) && x.close > 0);
+          if (bars.length >= 30) return bars;
+        } catch (_) {}
+      }
+      throw new Error('empty');
     }
     const j = await getJSON(CN_TS + '5D.json?symbol=' + encodeURIComponent(sym));
     const out = [], map = {};
