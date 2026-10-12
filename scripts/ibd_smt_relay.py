@@ -83,6 +83,8 @@ def find_today_video(today_ny):
         info = video_info(c["id"])
         sd = session_date_of(info)
         log(f"후보 {c['id']} · {sd} · live_status={info.get('live_status')} · {c['title'][:60]}")
+        if info.get("live_status") == "is_upcoming" or (today_ny and sd and sd > today_ny):
+            continue  # 다음 회차 예약 방송(자리표시)은 건너뛴다 — 2026-10-13 미수신 원인
         if sd == today_ny:
             return info
         if PROBE:   # 프로브는 날짜 무관 최신 1건
