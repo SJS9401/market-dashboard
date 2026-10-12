@@ -80,7 +80,11 @@ def find_today_video(today_ny):
     for c in list_recent_streams():
         if TITLE_KEY not in c["title"].lower():
             continue
-        info = video_info(c["id"])
+        try:
+            info = video_info(c["id"])
+        except Exception as e:   # 예약 방송은 yt-dlp가 「will begin in N hours」 오류를 낸다 (2026-10-13)
+            log(f"후보 {c['id']} 정보 실패(예약 방송 추정) — 건너뜀: {str(e)[:120]}")
+            continue
         sd = session_date_of(info)
         log(f"후보 {c['id']} · {sd} · live_status={info.get('live_status')} · {c['title'][:60]}")
         if info.get("live_status") == "is_upcoming" or (today_ny and sd and sd > today_ny):
