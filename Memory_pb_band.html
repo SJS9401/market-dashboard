@@ -28,10 +28,21 @@
   .kpi { display: flex; gap: 18px; margin: 6px 0 2px; font-size: 12px; color: #8b949e; } .kpi b { font-size: 14px; color: #f0f6fc; }
   table.stg{table-layout:fixed}table.stg th:nth-child(1){width:18%}table.stg th:nth-child(2){width:22%}table.stg th:nth-child(3){width:18%}table.stg th:nth-child(4){width:8%}table.stg th:nth-child(5){width:11%}table.stg th:nth-child(6){width:11%}table.stg th:nth-child(7){width:12%}
   table.stg.b4 th:nth-child(1){width:26%}table.stg.b4 th:nth-child(2){width:14%}table.stg.b4 th:nth-child(3){width:14%}table.stg.b4 th:nth-child(4){width:46%}
+  table.stg.bm th:nth-child(1){width:36%}table.stg.bm th:nth-child(2){width:24%}table.stg.bm th:nth-child(3){width:40%}table.stg.bm td:first-child{font-weight:600;color:#f0f6fc}
 </style></head><body>
 <div class="tab-bar" data-active="memory_pb"></div>
 <div class="wrap">
 <h1>삼성전자 · SK하이닉스 12MF PBR 밴드 (하나증권 → FnGuide BPS 앵커, 날짜별 상이)</h1>
+<div class="card" style="border-color:#1f6feb;">
+<h2 style="margin-top:0">최종 바텀 지도 (2026-10-13)</h2>
+<div class="sub" style="margin-bottom:6px">시클리컬 잣대(PBR 0.8~1.1x)를 2028년 말 BPS에 적용. 기준 종가 삼성전자 235,000 / SK하이닉스 1,457,000.</div>
+<table class="stg bm"><tr><th></th><th>삼성전자</th><th>SK하이닉스</th></tr>
+<tr><td>2028년 말 BPS (FnGuide 컨센, 2026-10-13)</td><td>230,268</td><td>1,428,184</td></tr>
+<tr><td>비고</td><td>멀티플 기준</td><td>삼성전자 PBR × 1.09 (현재 12MF PBR 비율 1.63 / 1.50, 하닉 프리미엄 유지 가정)</td></tr>
+<tr><td>상단 — 1.1x, 2028 순이익 컨센 유지</td><td><b>253,000</b></td><td><b>1,712,000</b></td></tr>
+<tr><td>중심 — 1.0x, 2028 순이익 −15~50%</td><td><b>199,000~221,000</b></td><td><b>1,306,000~1,481,000</b></td></tr>
+<tr><td>하단 — 0.8x, 2028 순이익 −15~50%</td><td><b>159,000~177,000</b></td><td><b>1,045,000~1,185,000</b></td></tr></table>
+</div>
 <div class="sub">주가: 네이버 수정주가 일봉(2015-01-02 ~ 2026-10-13) + 이후 dotcom_price.json 라이브 꼬리(매일 자동 갱신) <span id="livenote"></span>. 12MF BPS: ~2025-05 하나증권 2025.6.2 밴드 역산, 2026-10~ FnGuide 연간 BPS 보간, 사이는 추정. 월 사이는 일 단위 선형 보간.</div>
 <div class="note"><b>앵커 처리 방식</b> — ① 2025-05까지: 하나증권 2025.6.2 리포트 12MF PBR 밴드에서 역산한 월별 BPS(당시 컨센서스). ② 2026-10 이후: FnGuide 연간 BPS(키움 재무추이, 2026-10-13 기준 — 삼성 2025 63,997 / 2026E 108,623 / 2027E 167,035 / 2028E 230,268 · 하이닉스 171,751 / 527,055 / 967,928 / 1,428,184)를 월 단위 12MF로 보간(월 m: FY(Y)×(12−m)/12 + FY(Y+1)×m/12). ③ 2025-06~2026-09(회색 음영): ①과 ②를 기하 보간(가중치 t²) — 당시 실제 컨센이 아닌 추정 구간.<br>
 <b>참고</b> — 하나증권 2026.10.12 리포트의 밴드는 12개월 밀려 있어(2016년 구간 0, 2017~2025 값이 2025.6 리포트의 1년 전 값과 일치) 사용하지 않음.</div>
