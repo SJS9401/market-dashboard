@@ -5,7 +5,7 @@ dotcom_price.json 라이브 시리즈 일일 갱신
 Current_cycle.html / Dotcom_vs_now.html 이 쓰는 data/dotcom_price.json 에서
 현재 진행 중인 5개 시리즈만 트레일링 윈도우로 갱신한다.
 
-  갱신 대상 : IXIC, KS11, NVDA, MU, HYNIX   (yfinance, adjclose 반영)
+  갱신 대상 : IXIC, KS11, NVDA, MU, HYNIX, SEC   (yfinance, adjclose 반영)
   불변 대상 : IXIC_OLD, CSCO, QCOM          (1989~2002 정적 — 절대 건드리지 않음)
 
 설계 메모
@@ -39,7 +39,9 @@ LIVE = {
     "NVDA":  "NVDA",
     "MU":    "MU",
     "HYNIX": "000660.KS",
+    "SEC":   "005930.KS",   # 2026-10-13 추가 — Memory_pb_band.html 라이브 꼬리용
 }
+NEW_NAMES = {"SEC": "삼성전자"}   # 파일에 없는 키는 빈 시리즈로 자동 생성 후 채움
 FROZEN = ("IXIC_OLD", "CSCO", "QCOM")
 
 
@@ -85,8 +87,11 @@ def main():
     ok, failed, changed = [], [], 0
     for key, ticker in LIVE.items():
         if key not in series:
-            print("[SKIP] %-6s 파일에 없음" % key)
-            continue
+            if key not in NEW_NAMES:
+                print("[SKIP] %-6s 파일에 없음" % key)
+                continue
+            series[key] = {"name": NEW_NAMES[key], "n": 0, "from": None, "to": None, "data": []}
+            print("[NEW]  %-6s 시리즈 생성" % key)
         ser = series[key]
         try:
             fresh = fetch(ticker, args.days)
@@ -103,6 +108,7 @@ def main():
             changed += 1
         ser["data"] = merged
         ser["n"] = len(merged)
+        ser["from"] = merged[0][0]
         ser["to"] = merged[-1][0]
         ok.append(key)
         print("[OK]   %-6s %s -> %s  (n %d -> %d, 교체 %d행)  종가 %s"

@@ -32,7 +32,7 @@
 <div class="tab-bar" data-active="memory_pb"></div>
 <div class="wrap">
 <h1>삼성전자 · SK하이닉스 12MF PBR 밴드 (하나증권 → FnGuide BPS 앵커, 날짜별 상이)</h1>
-<div class="sub">주가: 네이버 수정주가 일봉(2015-01-02 ~ 2026-10-13). 12MF BPS: ~2025-05 하나증권 2025.6.2 밴드 역산, 2026-10~ FnGuide 연간 BPS 보간, 사이는 추정. 월 사이는 일 단위 선형 보간.</div>
+<div class="sub">주가: 네이버 수정주가 일봉(2015-01-02 ~ 2026-10-13) + 이후 dotcom_price.json 라이브 꼬리(매일 자동 갱신) <span id="livenote"></span>. 12MF BPS: ~2025-05 하나증권 2025.6.2 밴드 역산, 2026-10~ FnGuide 연간 BPS 보간, 사이는 추정. 월 사이는 일 단위 선형 보간.</div>
 <div class="note"><b>앵커 처리 방식</b> — ① 2025-05까지: 하나증권 2025.6.2 리포트 12MF PBR 밴드에서 역산한 월별 BPS(당시 컨센서스). ② 2026-10 이후: FnGuide 연간 BPS(키움 재무추이, 2026-10-13 기준 — 삼성 2025 63,997 / 2026E 108,623 / 2027E 167,035 / 2028E 230,268 · 하이닉스 171,751 / 527,055 / 967,928 / 1,428,184)를 월 단위 12MF로 보간(월 m: FY(Y)×(12−m)/12 + FY(Y+1)×m/12). ③ 2025-06~2026-09(회색 음영): ①과 ②를 기하 보간(가중치 t²) — 당시 실제 컨센이 아닌 추정 구간.<br>
 <b>참고</b> — 하나증권 2026.10.12 리포트의 밴드는 12개월 밀려 있어(2016년 구간 0, 2017~2025 값이 2025.6 리포트의 1년 전 값과 일치) 사용하지 않음.</div>
 <div class="ctl">
@@ -137,6 +137,17 @@ for(const sym of ['005930','000660']){let h=`<h3>${DATA[sym].name}</h3><table><t
 function all(){for(const s of ['005930','000660'])build(s)}
 ['src','logy','rng'].forEach(id=>document.getElementById(id).addEventListener('change',all));
 all();
+// ---- 라이브 꼬리: data/dotcom_price.json (GitHub Actions 매일 갱신, yfinance 수정종가) ----
+(function(){
+  const MAP={'005930':'SEC','000660':'HYNIX'};
+  fetch('data/dotcom_price.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
+    if(!j||!j.series)return;let added=0,lastD='';
+    for(const sym in MAP){const ser=j.series[MAP[sym]];if(!ser||!ser.data)continue;
+      const px=DATA[sym].px;const last=px[px.length-1][0];
+      for(const r of ser.data){const d=r[0].replace(/-/g,'');if(d>last&&r[4]>0){px.push([d,Math.round(r[4])]);added++;if(d>lastD)lastD=d}}}
+    if(added){all();const el=document.getElementById('livenote');if(el)el.textContent='· 라이브: '+lastD.slice(0,4)+'-'+lastD.slice(4,6)+'-'+lastD.slice(6,8)+' 종가까지 자동 갱신(yfinance)';}
+  }).catch(()=>{});
+})();
 </script>
 </div>
 </body></html>
