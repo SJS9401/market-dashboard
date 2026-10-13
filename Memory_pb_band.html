@@ -48,8 +48,8 @@
 <b>참고</b> — 하나증권 2026.10.12 리포트의 밴드는 12개월 밀려 있어(2016년 구간 0, 2017~2025 값이 2025.6 리포트의 1년 전 값과 일치) 사용하지 않음.</div>
 <div class="ctl">
  <span>BPS 앵커: <select id="src"><option value="S">접합(기본: ~2025-05 하나 / 2026-10~ FnGuide)</option><option value="A">2025.6 하나 리포트만</option><option value="F">FnGuide 연말 BPS 보간만</option></select></span>
- <label><input type="checkbox" id="logy" checked> 로그 Y</label> <span style="color:#666">· 차트 드래그: 오른쪽 = 구간 확대, 왼쪽 = 전체로 복귀</span>
- <span>구간: <select id="rng"><option value="2015">2015~</option><option value="2018">2018~</option><option value="2021">2021~</option><option value="2024" selected>2024~</option><option value="2026">2026~</option></select></span>
+ <label><input type="checkbox" id="logy" checked> 로그 Y</label> <span style="color:#666">· 차트 드래그: 오른쪽 = 구간 확대, 왼쪽 = 2015~ 전체로 복귀</span>
+ <span>구간: <select id="rng"><option value="2015" selected>2015~</option><option value="2018">2018~</option><option value="2021">2021~</option><option value="2024">2024~</option><option value="2026">2026~</option></select></span>
 </div>
 <div class="card" id="panels"></div>
 <div class="card"><h2>하락 사이클별 PBR 하단과 당시 이슈</h2>
@@ -112,7 +112,7 @@ function attachDrag(sym){const ch=charts[sym];const cv=ch.p.canvas;if(cv.$bound)
  const end=e=>{const c=charts[sym].p,d=c.$drag;if(!d||d.x1==null){if(c)c.$drag=null;return}
   const xs=c.scales.x;let i0=Math.round(xs.getValueForPixel(Math.min(d.x0,d.x1))),i1=Math.round(xs.getValueForPixel(Math.max(d.x0,d.x1)));
   c.$drag=null;
-  if(d.x1<d.x0){setRange(sym,null,null)}else if(i1-i0>=5){setRange(sym,i0,i1)}else c.draw()};
+  if(d.x1<d.x0){const r=document.getElementById('rng');if(r.value!=='2015'){r.value='2015';all()}else setRange(sym,null,null)}else if(i1-i0>=5){setRange(sym,i0,i1)}else c.draw()};
  cv.addEventListener('mouseup',end);cv.addEventListener('mouseleave',end);}
 function setRange(sym,i0,i1){for(const k of ['p','q']){const c=charts[sym][k];const n=c.data.labels.length;c.options.scales.x.min=i0==null?undefined:Math.max(0,i0);c.options.scales.x.max=i1==null?undefined:Math.min(n-1,i1);c.update('none')}}
 
