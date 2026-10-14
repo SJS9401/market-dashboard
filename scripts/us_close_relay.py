@@ -308,6 +308,12 @@ def main():
 
     # 2026-10-10: KIS new-highlow(HHDFS76300000)는 「최근 N분 내 장중 신고가」 API 다 — 52주 신고가가 아니다.
     out["notes"].append("new_highs = KIS 장중 신고가(최근 N분 돌파) — 52주 신고가 아님, 52주 판정에 쓰지 않는다")
+    # 2026-10-15: 데일리가 WebFetch 로 읽으면 7만 자 파일의 끝부분(new_highs 뒤)이 잘려 base_date 가 안 보였다
+    #   → 날짜·상태 필드를 맨 앞으로, 가장 큰 new_highs 블록을 맨 뒤로 옮겨 저장한다 (내용은 그대로, 순서만 변경)
+    _first = ["generated_at", "base_date", "base_date_source", "base_date_note", "staleness_probe", "units", "notes"]
+    out = {**{k: out[k] for k in _first if k in out},
+           **{k: v for k, v in out.items() if k not in _first and k != "new_highs"},
+           **({"new_highs": out["new_highs"]} if "new_highs" in out else {})}
     os.makedirs("data", exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
