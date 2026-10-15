@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경제지표 — 고용·물가·ISM·경기선행</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<script src="chart.umd.min.js"></script>
+<script src="nav-loader.js" defer></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Pretendard',"Segoe UI","Malgun Gothic",sans-serif; background:#0d1117; color:#c9d1d9; line-height:1.5; }
+  .tab-bar { display:flex; gap:0; background:#010409; border-bottom:1px solid #21262d; padding:0 24px; overflow-x:auto; }
+  .tab-bar a { display:inline-block; padding:8px 18px; font-size:13px; font-weight:600; color:#8b949e; text-decoration:none; border-bottom:2px solid transparent; white-space:nowrap; }
+  .tab-bar a:hover { color:#f0f6fc; } .tab-bar a.active { color:#f0f6fc; border-bottom-color:#1f6feb; }
+  .wrap { max-width:1500px; margin:0 auto; padding:18px 16px 60px; }
+  h1 { font-size:20px; color:#f0f6fc; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  h1 .sub, h2 .sub { font-size:12px; color:#8b949e; font-weight:400; }
+  h2 { font-size:15px; color:#f0f6fc; margin:18px 0 10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .note { font-size:11.5px; color:#6e7681; }
+  .ctl { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin:12px 0 10px; font-size:12px; color:#8b949e; }
+  .seg { display:inline-flex; border:1px solid #30363d; border-radius:8px; overflow:hidden; }
+  .seg button { background:#0d1117; color:#8b949e; border:0; padding:4px 11px; font-size:11.5px; font-weight:600; cursor:pointer; }
+  .seg button.on { background:#1f6feb; color:#fff; }
+  .up { color:#ff7b72; } .dn { color:#79c0ff; } .flat { color:#8b949e; }
+  .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  @media (max-width:1100px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:700px) { .grid { grid-template-columns:1fr; } }
+  .card { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:12px 14px 10px; cursor:pointer; min-width:0; transition:border-color .15s; }
+  .card:hover { border-color:#58a6ff; } .card.sel { border-color:#1f6feb; box-shadow:0 0 0 1px #1f6feb inset; }
+  .card .top { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .card .nm { font-size:14px; font-weight:700; color:#f0f6fc; }
+  .card .src { font-size:10px; color:#6e7681; }
+  .card .vals { display:flex; align-items:baseline; gap:10px; margin-top:4px; flex-wrap:wrap; }
+  .card .v { font-size:20px; font-weight:700; color:#f0f6fc; }
+  .card .v small { font-size:11px; color:#8b949e; font-weight:400; }
+  .card .d { font-size:12px; font-weight:700; }
+  .card .m { font-size:11px; color:#8b949e; }
+  .card .next { font-size:10.5px; color:#8b949e; margin-top:2px; min-height:14px; }
+  .card .next b { color:#d2a8ff; font-weight:600; }
+  .card .cv { position:relative; height:150px; margin-top:6px; }
+  .card .lg { display:flex; gap:10px; font-size:10.5px; color:#8b949e; margin-top:4px; flex-wrap:wrap; }
+  .lg i { display:inline-block; width:10px; height:3px; vertical-align:middle; margin-right:4px; border-radius:2px; }
+  .detail { background:#161b22; border:1px solid #1f6feb; border-radius:12px; padding:16px; margin:14px 0 6px; display:none; }
+  .detail.show { display:block; }
+  .detail .hd { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .detail .hd h3 { font-size:16px; color:#f0f6fc; }
+  .detail .x { background:none; border:1px solid #30363d; color:#8b949e; border-radius:6px; padding:3px 10px; cursor:pointer; font-size:12px; }
+  .detail .idx { position:relative; height:220px; margin-top:10px; display:none; }
+  .detail .idx.show { display:block; }
+  .detail .big { position:relative; height:340px; margin-top:6px; }
+  .toggles { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; font-size:12px; color:#8b949e; align-items:center; }
+  .chk { display:inline-flex; align-items:center; gap:4px; cursor:pointer; } .chk input { accent-color:#1f6feb; }
+  .stats { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-top:10px; }
+  @media (max-width:900px) { .stats { grid-template-columns:repeat(3,1fr); } }
+  .stats .item { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:8px 10px; }
+  .stats .k { font-size:10.5px; color:#8b949e; } .stats .v { font-size:14px; font-weight:700; color:#f0f6fc; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { padding:5px 8px; border-bottom:1px solid #21262d; text-align:right; }
+  th { background:#0d1117; font-size:11px; color:#8b949e; position:sticky; top:0; }
+  td:first-child, th:first-child { text-align:left; color:#f0f6fc; font-weight:600; }
+  .tbl { max-height:300px; overflow:auto; border:1px solid #21262d; border-radius:8px; margin-top:10px; }
+  .err { color:#f85149; padding:20px; }
+</style>
+</head>
+<body>
+<div class="tab-bar" data-active="macro"></div>
+<div class="wrap">
+  <h1>경제지표 <span class="sub" id="hdsub">불러오는 중…</span></h1>
+  <div class="note">미국 고용·소매판매·물가(CPI/PCE/PPI)·ISM·OECD 경기선행지수 · 회색 음영 = NBER 경기침체 · 카드를 누르면 세부지표와 지수(S&amp;P500·코스피) 비교</div>
+  <div class="ctl">
+    <span>기간</span>
+    <span class="seg" id="rangeSeg"><button data-y="5">5년</button><button data-y="10" class="on">10년</button><button data-y="20">20년</button><button data-y="0">전체</button></span>
+    <span class="note">ISM 은 브라우저가 직접 최신값을 받고, 실패하면 서버 캐시를 사용</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <div class="detail" id="detail">
+    <div class="hd">
+      <h3 id="dTitle">—</h3>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span class="seg" id="dRange"><button data-y="5">5년</button><button data-y="10" class="on">10년</button><button data-y="20">20년</button><button data-y="40">40년</button><button data-y="0">전체</button></span>
+        <span class="seg" id="idxSeg"><button data-i="none" class="on">지수 없음</button><button data-i="spx">S&amp;P500</button><button data-i="kospi">코스피</button></span>
+        <button class="x" id="dClose">닫기</button>
+      </div>
+    </div>
+    <div class="idx" id="idxBox"><canvas id="idxChart"></canvas></div>
+    <div class="big"><canvas id="bigChart"></canvas></div>
+    <div class="toggles" id="dToggles"></div>
+    <div class="stats" id="dStats"></div>
+    <div class="tbl" id="dTable"></div>
+  </div>
+  <div class="note" style="margin-top:16px;" id="foot"></div>
+</div>
+
+<script>
+(async function () {
+  const $ = s => document.querySelector(s);
+  Chart.defaults.color = '#8b949e'; Chart.defaults.font.size = 10; Chart.defaults.borderColor = '#21262d';
+  const fmt = (v, p = 1) => v == null || !isFinite(v) ? '—' : v.toLocaleString('ko-KR', { minimumFractionDigits: p, maximumFractionDigits: p });
+  const sgn = (v, p = 1, suf = '') => v == null || !isFinite(v) ? '—' : (v > 0 ? '+' : '') + fmt(v, p) + suf;
+  const cls = v => v == null ? 'flat' : v > 0 ? 'up' : v < 0 ? 'dn' : 'flat';
+
+  let M, E = { events: [] }, KOSPI = {};
+  try { M = await fetch('data/macro_indicators.json?t=' + Date.now(), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('macro_indicators ' + r.status); return r.json(); }); }
+  catch (e) { $('#grid').innerHTML = '<div class="err">데이터 로드 실패: ' + e.message + '</div>'; return; }
+  M.ism = M.ism || {}; M.series = M.series || {};
+  try { E = await fetch('data/events_calendar.json', { cache: 'no-store' }).then(r => r.json()); } catch (e) {}
+  try {
+    const [h, y] = await Promise.all([fetch('data/kospi_historical.json').then(r => r.json()), fetch('data/yahoo_dashboard.json').then(r => r.json())]);
+    h.data.forEach(([d, c]) => { KOSPI[d.slice(0, 7)] = c; }); ((y.data['^KS11'] || {}).candles || []).forEach(c => { KOSPI[c.time.slice(0, 7)] = c.close; });
+  } catch (e) {}
+  // ISM 실시간 (브라우저 직접) — 성공하면 캐시 대체
+  const ISM_IDS = { mfg_pmi: 173, mfg_prices: 174, mfg_employment: 1046, svc_pmi: 176, svc_neworders: 1050, svc_employment: 1048, svc_prices: 1049 };
+  let ismLive = false;
+  await Promise.all(Object.entries(ISM_IDS).map(async ([k, id]) => {
+    try { const j = await fetch('https://sbcharts.investing.com/events_charts/us/' + id + '.json').then(r => r.json());
+      const data = j.data.filter(d => d[1] != null).map(d => [new Date(d[0]).toISOString().slice(0, 10), +d[1]]);
+      const fc = {}; (j.attr || []).forEach(a => { if (a.forecast != null) fc[new Date(a.timestamp).toISOString().slice(0, 10)] = a.forecast; });
+      if (data.length > 100) { M.ism[k] = { label: (M.ism[k] || {}).label || k, data, forecast: fc }; ismLive = true; }
+    } catch (e) {} }));
+
+  // ── 월 축 ──
+  const S = M.series;
+  const ymOf = d => d.slice(0, 7);
+  const allLast = Object.values(S).concat(Object.values(M.ism || {})).map(s => s.data && s.data.length ? ymOf(s.data[s.data.length - 1][0]) : '').sort().pop();
+  const months = []; { let [y, m] = [1960, 1]; while (true) { const ym = `${y}-${String(m).padStart(2, '0')}`; months.push(ym); if (ym >= allLast) break; m++; if (m > 12) { m = 1; y++; } } }
+  const N = months.length, midx = Object.fromEntries(months.map((m, i) => [m, i]));
+  // 발표일 기준 시계열(ISM: 발표일 = 해당월+1) → 월 매핑: ISM 은 발표 전월로 당김
+  const toMonthly = (data, mode) => { const a = new Array(N).fill(null), cnt = new Array(N).fill(0);
+    data.forEach(([d, v]) => { let ym = ymOf(d); if (mode === 'prev') { let y = +ym.slice(0, 4), mm = +ym.slice(5) - 1; if (mm < 1) { mm = 12; y--; } ym = `${y}-${String(mm).padStart(2, '0')}`; }
+      const i = midx[ym]; if (i == null) return; if (mode === 'avg') { a[i] = (a[i] || 0) + v; cnt[i]++; } else a[i] = v; });
+    if (mode === 'avg') for (let i = 0; i < N; i++) if (cnt[i]) a[i] = a[i] / cnt[i];
+    return a; };
+  const yoy = a => a.map((v, i) => i >= 12 && v != null && a[i - 12] ? (v / a[i - 12] - 1) * 100 : null);
+  const mom = a => a.map((v, i) => i >= 1 && v != null && a[i - 1] ? (v / a[i - 1] - 1) * 100 : null);
+  const diff = a => a.map((v, i) => i >= 1 && v != null && a[i - 1] != null ? v - a[i - 1] : null);
+  const ma3 = a => a.map((v, i) => { const w = [a[i], a[i - 1], a[i - 2]].filter(x => x != null); return w.length === 3 ? (w[0] + w[1] + w[2]) / 3 : null; });
+  const lastIdx = a => { for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return i; return -1; };
+  const SER = id => S[id] ? toMonthly(S[id].data, id === 'ICSA' ? 'avg' : 'last') : new Array(N).fill(null);
+  const ISMS = k => M.ism && M.ism[k] ? toMonthly(M.ism[k].data, 'prev') : new Array(N).fill(null);
+  const REC = (M.recessions || []).map(([a, b]) => [midx[ymOf(a)], midx[ymOf(b)]]).filter(x => x[0] != null);
+
+  // ── 지표 정의 ──
+  // lines: {key,label,data,color,axis('y'|'y1'),type('line'|'bar'),dash}
+  const C = { a: '#58a6ff', b: '#ff7b72', c: '#3fb950', d: '#d2a8ff', e: '#f0b429', f: '#8b949e', g: '#79c0ff', h: '#ffa657' };
+  const IND = [
+    { id: 'unemp', rule: 'nfp', name: '실업률', src: 'BLS · 월간', unit: '%', p: 1, zero: null, main: [{ key: 'u3', label: '실업률 U-3', data: SER('UNRATE'), color: C.a }],
+      subs: [{ key: 'u6', label: 'U-6 광의 실업률', data: SER('U6RATE'), color: C.d }, { key: 'icsa', label: '신규 실업수당(주평균, 만건)', data: SER('ICSA').map(v => v == null ? null : v / 1e4), color: C.e, axis: 'y1' }],
+      chg: 'pp', match: /고용보고서/ },
+    { id: 'payrolls', rule: 'nfp', name: '비농업 고용', src: 'BLS · 월간 증감', unit: '천명', p: 0, zero: 0, clip: [3, 97], main: [{ key: 'nfp', label: '비농업 고용 증감(천명)', data: diff(SER('PAYEMS')), color: C.c, type: 'bar' }, { key: 'nfp3', label: '3개월 평균', data: ma3(diff(SER('PAYEMS'))), color: C.e }],
+      subs: [{ key: 'jolts', label: 'JOLTS 구인(천건)', data: SER('JTSJOL'), color: C.d, axis: 'y1' }, { key: 'ahe', label: '시간당 임금 YoY(%)', data: yoy(SER('CES0500000003')), color: C.b, axis: 'y1' }],
+      chg: 'abs', match: /고용보고서/ },
+    { id: 'retail', rule: 'retail', name: '소매판매', src: 'Census · 월간', unit: '%', p: 1, zero: 0, clip: [3, 97], main: [{ key: 'rs_yoy', label: '소매판매 YoY(%)', data: yoy(SER('RSAFS')), color: C.a }, { key: 'rs_mom', label: 'MoM(%)', data: mom(SER('RSAFS')), color: C.c, type: 'bar', axis: 'y1' }],
+      subs: [{ key: 'rs_xmv', label: '자동차 제외 YoY', data: yoy(SER('RSFSXMV')), color: C.d }, { key: 'rs_xfs', label: '음식서비스 제외 YoY', data: yoy(SER('RSXFS')), color: C.h }],
+      chg: 'pp', match: /미.*소매판매|소매판매.*Census/ },
+    { id: 'cpi', rule: 'cpi', name: 'CPI 소비자물가', src: 'BLS · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'cpi', label: '헤드라인 YoY', data: yoy(SER('CPIAUCSL')), color: C.a }, { key: 'core', label: '근원 YoY', data: yoy(SER('CPILFESL')), color: C.b }],
+      subs: [{ key: 'shelter', label: '주거', data: yoy(SER('CUSR0000SAH1')), color: C.d }, { key: 'energy', label: '에너지', data: yoy(SER('CPIENGSL')), color: C.e, axis: 'y1' }, { key: 'food', label: '식품', data: yoy(SER('CPIUFDSL')), color: C.c }, { key: 'svc', label: '서비스(에너지 제외)', data: yoy(SER('CUSR0000SASLE')), color: C.h }, { key: 'goods', label: '상품(식품·에너지 제외)', data: yoy(SER('CUSR0000SACL1E')), color: C.g }, { key: 'cpi_mom', label: '헤드라인 MoM', data: mom(SER('CPIAUCSL')), color: C.f, type: 'bar' }],
+      chg: 'pp', match: /미.*CPI/ },
+    { id: 'pce', rule: 'pce', name: 'PCE 물가', src: 'BEA · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'pce', label: '헤드라인 YoY', data: yoy(SER('PCEPI')), color: C.a }, { key: 'pcecore', label: '근원 YoY', data: yoy(SER('PCEPILFE')), color: C.b }],
+      subs: [{ key: 'goods', label: '상품', data: yoy(SER('DGDSRG3M086SBEA')), color: C.g }, { key: 'svc', label: '서비스', data: yoy(SER('DSERRG3M086SBEA')), color: C.h }, { key: 'pce_mom', label: '근원 MoM', data: mom(SER('PCEPILFE')), color: C.f, type: 'bar' }],
+      chg: 'pp', match: /PCE/ },
+    { id: 'ppi', rule: 'ppi', name: 'PPI 생산자물가', src: 'BLS · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'ppi', label: '최종수요 YoY', data: yoy(SER('PPIFIS')), color: C.a }, { key: 'ppicore', label: '근원 YoY', data: yoy(SER('PPIFES')), color: C.b }],
+      subs: [{ key: 'aco', label: '전체 원자재(1913~)', data: yoy(SER('PPIACO')), color: C.e, axis: 'y1' }, { key: 'svc', label: '최종수요 서비스', data: yoy(SER('WPSFD4131')), color: C.h }, { key: 'ppi_mom', label: '최종수요 MoM', data: mom(SER('PPIFIS')), color: C.f, type: 'bar' }],
+      chg: 'pp', match: /미.*PPI/ },
+    { id: 'ism_mfg', rule: 'ism1', name: 'ISM 제조업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('mfg_pmi'), color: C.a }],
+      subs: [{ key: 'prices', label: '가격지수', data: ISMS('mfg_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('mfg_employment'), color: C.d }],
+      chg: 'abs', match: /ISM 제조업/, ism: 'mfg_pmi' },
+    { id: 'ism_svc', rule: 'ism3', name: 'ISM 서비스업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('svc_pmi'), color: C.a }],
+      subs: [{ key: 'no', label: '신규주문', data: ISMS('svc_neworders'), color: C.c }, { key: 'prices', label: '가격지수', data: ISMS('svc_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('svc_employment'), color: C.d }],
+      chg: 'abs', match: /ISM 서비스/, ism: 'svc_pmi' },
+    { id: 'cli', name: 'OECD 경기선행지수', src: 'OECD CLI · 100 = 추세', unit: '', p: 2, zero: 100,
+      main: [['USA', '미국', C.d], ['KOR', '한국', C.b], ['CHN', '중국', C.e], ['G20', 'G20', C.a]].map(([k, l, c]) => ({ key: k, label: l, data: M.oecd_cli && M.oecd_cli[k] ? toMonthly(M.oecd_cli[k], 'last') : new Array(N).fill(null), color: c })),
+      subs: [['JPN', '일본', C.c], ['EA20', '유로존', C.h]].filter(([k]) => M.oecd_cli && M.oecd_cli[k]).map(([k, l, c]) => ({ key: k, label: l, data: toMonthly(M.oecd_cli[k], 'last'), color: c })),
+      chg: 'abs', match: null },
+  ];
+  // 다음 발표
+  const today = new Date().toISOString().slice(0, 10);
+  // 달력에 없으면 발표 규칙으로 추정: 발표 대상월 = 최신 데이터월 + 1, 발표월 = +2
+  const addM = (ym, k) => { let y = +ym.slice(0, 4), m = +ym.slice(5) + k; while (m > 12) { m -= 12; y++; } return [y, m]; };
+  const bizDay = (y, m, k) => { let d = new Date(Date.UTC(y, m - 1, 1)), c = 0; while (true) { const w = d.getUTCDay(); if (w !== 0 && w !== 6) { c++; if (c === k) break; } d.setUTCDate(d.getUTCDate() + 1); } return d; };
+  const nthDow = (y, m, dow, k) => { let d = new Date(Date.UTC(y, m - 1, 1)); while (d.getUTCDay() !== dow) d.setUTCDate(d.getUTCDate() + 1); d.setUTCDate(d.getUTCDate() + 7 * (k - 1)); return d; };
+  const mdOf = d => (d.getUTCMonth() + 1) + '/' + String(d.getUTCDate()).padStart(2, '0');
+  const ruleEv = (ind, lastYm) => { if (!lastYm) return null; const [y, m] = addM(lastYm, 2), tm = addM(lastYm, 1)[1] + '월';
+    switch (ind.rule) {
+      case 'nfp': return `${mdOf(nthDow(y, m, 5, 1))} 미 ${tm} 고용보고서 (통상 첫째 금요일)`;
+      case 'ism1': return `${mdOf(bizDay(y, m, 1))} ${tm} ISM 제조업 (첫 영업일)`;
+      case 'ism3': return `${mdOf(bizDay(y, m, 3))} ${tm} ISM 서비스업 (셋째 영업일)`;
+      case 'cpi': return `${m}월 10~15일경 미 ${tm} CPI`;
+      case 'ppi': return `${m}월 중순 미 ${tm} PPI (CPI 전후)`;
+      case 'retail': return `${m}월 15일 전후 미 ${tm} 소매판매`;
+      case 'pce': return `${m}월 말 미 ${tm} PCE`;
+      default: return null; } };
+  const nextEv = re => { if (!re) return null; const ev = (E.events || []).filter(e => e.sd >= today && e.cat === '경제지표' && re.test(e.ev) && !/중국|독일|유로|한국|영국|일본/.test(e.ev)).sort((a, b) => a.sd.localeCompare(b.sd))[0]; return ev ? ev.sd.slice(5).replace('-', '/') + ' ' + ev.ev.replace(/\(KST[^)]*\)|\s*★\s*/g, '').trim().slice(0, 34) : null; };
+
+  // ── 공통 차트 ──
+  const recPlugin = { id: 'rec', beforeDatasetsDraw(ch, args, opts) { const from = opts.from; if (from == null) return; const ctx = ch.ctx, xs = ch.scales.x; if (!xs) return;
+      ctx.save(); ctx.fillStyle = 'rgba(139,148,158,0.13)';
+      REC.forEach(([a, b]) => { const i0 = Math.max(a, from) - from, i1 = Math.min(b, from + xs.ticks.length + 10000) - from; if (b < from) return; const x0 = xs.getPixelForValue(i0), x1 = xs.getPixelForValue(Math.max(i0, i1)); ctx.fillRect(x0, ch.chartArea.top, Math.max(1, x1 - x0), ch.chartArea.bottom - ch.chartArea.top); });
+      ctx.restore(); } };
+  const zeroPlugin = { id: 'zero', afterDatasetsDraw(ch, a, opts) { if (opts.v == null) return; const y = ch.scales.y, p = y.getPixelForValue(opts.v); if (p < ch.chartArea.top || p > ch.chartArea.bottom) return; const ctx = ch.ctx; ctx.save(); ctx.strokeStyle = '#6e7681'; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(ch.chartArea.left, p); ctx.lineTo(ch.chartArea.right, p); ctx.stroke(); ctx.restore(); } };
+  Chart.register(recPlugin, zeroPlugin);
+  const tickCb = (lab, n) => (v, i) => { const m = lab[i]; if (!m) return ''; if (n <= 72) return m.endsWith('-01') ? m.slice(0, 4) : (m.endsWith('-07') ? '7월' : ''); if (n <= 300) return m.endsWith('-01') ? m.slice(0, 4) : ''; return m.endsWith('-01') && (+m.slice(0, 4)) % 5 === 0 ? m.slice(0, 4) : ''; };
+  function mkDatasets(lines, from, to, mini) {
+    return lines.map(l => ({ type: l.type || 'line', label: l.label, data: l.data.slice(from, to), borderColor: l.color, backgroundColor: l.type === 'bar' ? l.color + '88' : l.color, borderWidth: mini ? 1.4 : 1.7, pointRadius: 0, tension: 0.15, yAxisID: l.axis || 'y', borderDash: l.dash, spanGaps: true, order: l.type === 'bar' ? 3 : 1 }));
+  }
+  function makeChart(canvas, ind, lines, from, to, mini) {
+    const lab = months.slice(from, to), n = to - from;
+    const hasY1 = lines.some(l => l.axis === 'y1');
+    // 극단치(코로나 등)로 축이 눌리는 지표는 백분위로 축 범위 제한 (선은 차트 밖으로 잘림)
+    const lim = {}; if (ind.clip) ['y', 'y1'].forEach(ax => { const vals = lines.filter(l => (l.axis || 'y') === ax).flatMap(l => l.data.slice(from, to)).filter(v => v != null).sort((a, b) => a - b);
+      if (vals.length < 24) return; const lo = vals[Math.floor(vals.length * ind.clip[0] / 100)], hi = vals[Math.ceil(vals.length * ind.clip[1] / 100) - 1], pad = (hi - lo) * 0.25 || 1; const st = Math.pow(10, Math.floor(Math.log10((hi - lo + 2 * pad) / 5))); lim[ax] = { min: Math.floor((lo - pad) / st) * st, max: Math.ceil((hi + pad) / st) * st }; });
+    return new Chart(canvas, { data: { labels: lab, datasets: mkDatasets(lines, from, to, mini) },
+      options: { animation: false, responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: !mini, labels: { boxWidth: 10 } }, tooltip: { enabled: !mini, callbacks: { label: c => c.dataset.label + ': ' + fmt(c.parsed.y, ind.p) } }, rec: { from }, zero: { v: ind.zero } },
+        scales: { x: { ticks: { autoSkip: false, maxRotation: 0, callback: tickCb(lab, n) }, grid: { display: !mini } },
+          y: { position: 'left', ticks: { callback: v => fmt(v, ind.p === 0 ? 0 : 1) }, grid: { color: '#21262d' }, afterFit: mini ? undefined : (sc => { sc.width = 60; }), ...(lim.y || {}) },
+          y1: { display: hasY1, position: 'right', grid: { drawOnChartArea: false }, afterFit: mini ? undefined : (sc => { sc.width = 44; }), ...(lim.y1 || {}) } } } });
+  }
+
+  // ── 카드 ──
+  let rangeY = 10; const charts = {};
+  function stat(ind) { const m = ind.main[0].data, i = lastIdx(m); const prev = m[i - 1], v = m[i];
+    const ch = ind.chg === 'pp' ? v - prev : v - prev; return { i, v, prev, ch, ym: months[i] }; }
+  function renderGrid() {
+    Object.values(charts).forEach(c => c.destroy());
+    const n = rangeY ? rangeY * 12 : N;
+    $('#grid').innerHTML = IND.map(ind => { const s = stat(ind); const ne = nextEv(ind.match) || ruleEv(ind, s.ym);
+      let fc = ''; if (ind.ism && M.ism[ind.ism]) { const d = M.ism[ind.ism].data, last = d[d.length - 1]; const f = M.ism[ind.ism].forecast[last[0]]; if (f != null) fc = ` · 예상 ${fmt(f, 1)}`; }
+      const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b></span>`; })() : '';
+      return `<div class="card" data-id="${ind.id}"><div class="top"><span class="nm">${ind.name}</span><span class="src">${ind.src}</span></div>
+        <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small></span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
+        <div class="next">${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>
+        <div class="cv"><canvas></canvas></div>
+        <div class="lg">${ind.main.map(l => `<span><i style="background:${l.color}"></i>${l.label}</span>`).join('')}</div></div>`; }).join('');
+    IND.forEach(ind => { const el = $(`.card[data-id="${ind.id}"]`); charts[ind.id] = makeChart(el.querySelector('canvas'), ind, ind.main, Math.max(0, N - n), N, true); el.onclick = () => openDetail(ind.id); });
+  }
+  renderGrid();
+  $('#rangeSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; rangeY = +b.dataset.y; $('#rangeSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
+  const upd = (M.meta.updated || '').slice(0, 10);
+  $('#hdsub').textContent = `FRED·OECD·ISM · 서버 갱신 ${upd}${ismLive ? ' · ISM 실시간' : ' · ISM 캐시'}`;
+  $('#foot').textContent = '출처: FRED(BLS·BEA·Census), OECD SDMX, ISM(investing.com 차트 데이터), S&P500 yfinance. ISM·CLI 는 발표월(전월 데이터) 기준으로 해당 월에 배치. 모든 YoY/MoM 은 원지수에서 직접 계산.';
+
+  // ── 상세 ──
+  let cur = null, dRangeY = 10, idxMode = 'none', big = null, idxCh = null;
+  function openDetail(id) { cur = IND.find(x => x.id === id); document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel')); $(`.card[data-id="${id}"]`).classList.add('sel');
+    $('#dToggles').innerHTML = (cur.subs.length ? '<span>세부지표</span>' : '') + cur.subs.map(s => `<label class="chk"><input type="checkbox" data-k="${s.key}"> <i style="display:inline-block;width:10px;height:3px;background:${s.color};vertical-align:middle;border-radius:2px"></i> ${s.label}</label>`).join('');
+    $('#dToggles').querySelectorAll('input').forEach(i => i.onchange = drawDetail);
+    $('#detail').classList.add('show'); drawDetail(); $('#detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  function drawDetail() {
+    if (!cur) return; const ind = cur; const n = dRangeY ? dRangeY * 12 : N, from = Math.max(0, N - n);
+    const on = new Set([...$('#dToggles').querySelectorAll('input:checked')].map(i => i.dataset.k));
+    const lines = ind.main.concat(ind.subs.filter(s => on.has(s.key)));
+    $('#dTitle').textContent = ind.name + ' — ' + ind.src;
+    if (big) big.destroy(); big = makeChart($('#bigChart'), ind, lines, from, N, false);
+    if (idxCh) { idxCh.destroy(); idxCh = null; }
+    if (idxMode !== 'none') {
+      const src = idxMode === 'spx' ? Object.fromEntries((M.spx_monthly || []).map(([m, v]) => [m, v])) : KOSPI;
+      const data = months.map(m => src[m] ?? null); const lab = months.slice(from, N);
+      $('#idxBox').classList.add('show');
+      idxCh = new Chart($('#idxChart'), { data: { labels: lab, datasets: [{ type: 'line', label: idxMode === 'spx' ? 'S&P500 (로그)' : '코스피 (로그)', data: data.slice(from, N), borderColor: idxMode === 'spx' ? '#f0f6fc' : '#a371f7', borderWidth: 1.6, pointRadius: 0, spanGaps: true }] },
+        options: { animation: false, responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: true, labels: { boxWidth: 10 } }, rec: { from }, zero: { v: null } },
+          scales: { x: { ticks: { autoSkip: false, maxRotation: 0, callback: tickCb(lab, N - from) } }, y: { type: 'logarithmic', position: 'left', ticks: { callback: v => fmt(v, 0) }, afterFit: sc => { sc.width = 60; } }, y1: { display: big.options.scales.y1.display, position: 'right', ticks: { display: false }, grid: { drawOnChartArea: false }, afterFit: sc => { sc.width = 44; } } } } });
+    } else $('#idxBox').classList.remove('show');
+    // 통계
+    const m0 = ind.main[0].data, i = lastIdx(m0); const v = m0[i];
+    const hist = m0.slice(0, i + 1).filter(x => x != null); const pct = hist.filter(x => x <= v).length / hist.length * 100;
+    const win = m0.slice(Math.max(0, i - 119), i + 1).filter(x => x != null);
+    $('#dStats').innerHTML = [['최신 (' + months[i] + ')', fmt(v, ind.p) + ind.unit], ['전월', fmt(m0[i - 1], ind.p)], ['3개월 전', fmt(m0[i - 3], ind.p)], ['12개월 전', fmt(m0[i - 12], ind.p)], ['10년 범위', fmt(Math.min(...win), ind.p) + ' ~ ' + fmt(Math.max(...win), ind.p)], ['역사적 백분위', fmt(pct, 0) + '%']]
+      .map(([k, vv]) => `<div class="item"><div class="k">${k}</div><div class="v">${vv}</div></div>`).join('');
+    // 표 (최근 24개월, 전 라인)
+    const rows = []; for (let k = i; k >= Math.max(0, i - 23); k--) rows.push(`<tr><td>${months[k]}</td>${lines.map(l => `<td>${fmt(l.data[k], ind.p)}</td>`).join('')}</tr>`);
+    $('#dTable').innerHTML = `<table><thead><tr><th>월</th>${lines.map(l => `<th>${l.label}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
+  }
+  $('#dRange').onclick = e => { const b = e.target.closest('button'); if (!b) return; dRangeY = +b.dataset.y; $('#dRange').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); drawDetail(); };
+  $('#idxSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; idxMode = b.dataset.i; $('#idxSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); drawDetail(); };
+  $('#dClose').onclick = () => { $('#detail').classList.remove('show'); document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel')); cur = null; };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+# 경제지표 탭 자동 갱신 (data/macro_indicators.json)
+# ----------------------------------------------------------
+# FRED(고용·소매판매·CPI·PCE·PPI·NBER 침체) + OECD 경기선행지수(SDMX) + ISM(투자닷컴 차트, 403 이면 이전 캐시 유지) + S&P500 월간(yfinance)
+# 스케줄: 매일 07:20 / 11:50 KST (미국 지표 발표(KST 21:30~23:00) 다음날 아침 반영, 정각 회피). 변경 있을 때만 커밋.
+# ----------------------------------------------------------
+name: Macro Indicators Update
+
+on:
+  schedule:
+    - cron: '20 22 * * *'   # 07:20 KST
+    - cron: '50 2 * * *'    # 11:50 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: macro-indicators-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 의존성
+        run: pip install -q yfinance
+      - name: 갱신 스크립트 실행
+        run: python -u macro_indicators_update.py
+      - name: JSON 검증
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('data/macro_indicators.json'))
+          s = d['series']
+          for k in ('UNRATE', 'PAYEMS', 'RSAFS', 'CPIAUCSL', 'PCEPI', 'PPIFIS', 'USREC'):
+              assert k in s and len(s[k]['data']) > 100, k
+              print(f"{k:10s} {s[k]['data'][-1]}")
+          print('recessions:', len(d['recessions']), 'oecd:', {k: v[-1] for k, v in (d.get('oecd_cli') or {}).items()})
+          print('ism:', {k: v['data'][-1] for k, v in (d.get('ism') or {}).items()})
+          print('spx_monthly:', len(d.get('spx_monthly') or []), (d.get('spx_monthly') or [None])[-1])
+          PY
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/macro_indicators.json
+          if git diff --cached --quiet; then
+            echo "::notice::변경 없음 — 커밋 생략"
+          else
+            git commit -m "chore(data): 경제지표 탭 자동 갱신 ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi
