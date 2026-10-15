@@ -1,0 +1,58 @@
+# 수출 데이터 탭 자동 갱신 (20대 주력품목·세부품목·국가별·잠정치)
+# ----------------------------------------------------------
+# K-stat 과거치(data/kr_export_items.json, 2000.01~) 이후 달을 관세청 tradedata.go.kr 에서 채운다.
+#   - 품목: scripts/kr_export_mti_map.json 의 HS10 목록 합산 (산업부 20대 품목 정의와 동일)
+#   - 국가: 국가별 실적 → data/kr_export_country.json
+#   - 잠정치: 10일 단위 잠정치(총액 + 10개 품목) 최근 3개월 + 전년 동월
+# 스케줄: 매일 09:45 / 12:15 KST (관세청 공개 창 커버, 정각 회피). 변경 있을 때만 커밋.
+# 월 확정치는 익월 15일경, 1-10 잠정 11~12일, 1-20 잠정 21~22일 공개.
+# ----------------------------------------------------------
+name: KR Export Items Update
+
+on:
+  schedule:
+    - cron: '45 0 * * *'   # 09:45 KST
+    - cron: '15 3 * * *'   # 12:15 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-export-items-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 갱신 스크립트 실행
+        run: python -u kr_export_items_update.py
+      - name: JSON 검증
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('data/kr_export_items.json'))
+          c = json.load(open('data/kr_export_country.json'))
+          assert len(d['months']) == len(d['series']['semi']['exp']) == len(d['series']['total']['exp'])
+          assert len(c['months']) == len(c['series']['CN']['exp'])
+          print('items last:', d['months'][-1], 'semi=', d['series']['semi']['exp'][-1], 'total=', d['series']['total']['exp'][-1])
+          print('country last:', c['months'][-1], 'CN=', c['series']['CN']['exp'][-1])
+          print('provisional:', {k: list(v.keys()) for k, v in (d.get('provisional') or {}).items()})
+          PY
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_export_items.json data/kr_export_country.json
+          if git diff --cached --quiet; then
+            echo "::notice::변경 없음 — 커밋 생략"
+          else
+            git commit -m "chore(data): 수출 데이터 탭 자동 갱신 ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi
