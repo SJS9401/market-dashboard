@@ -791,7 +791,7 @@ async function getCachedData(sym, range) {
 //  - Candlestick: mouseY between high-Y and low-Y (+ small pad).
 //  - Line:        |mouseY − valueY| ≤ 14px for any numeric value in data row.
 //  - Area/Histogram: mouseY within filled region (between value-Y and baseline-Y at price=0) + line tolerance.
-// Multi-series charts (breadth/kr-export): every numeric key in the data row is treated as a candidate value.
+// Multi-series charts (breadth 등): every numeric key in the data row is treated as a candidate value.
 // Returns true (allow) when chartDataMap is missing for resilience (back-compat with charts that don't populate map).
 function isOnGraphic(id, time, mouseY) {
   const ci = allCharts[id];
@@ -1341,10 +1341,6 @@ function renderSubsForTooltip(col, time, hoverId) {
       const v = Math.round(d.value);
       const lbl = fgLabel(v, s.id);        // us-fg 는 CNN 밴드 (2026-09-17 BT)
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
-    } else if (s.id === 'kr-export') {
-      valHtml = '<span style="color:rgb(126,166,209)">월 ' + fmtPctSigned(d.mYoY) + '</span> / '
-              + '<span style="color:rgb(57,197,207)">1-20잠 ' + fmtPctSigned(d.y20) + '</span> / '
-              + '<span style="color:rgb(249,117,131)">1-10잠 ' + fmtPctSigned(d.y10) + '</span>';
     } else if (s.id.endsWith('-adr')) {
       if (d.value == null) return;
       const c = d.value >= ADR_OVERBOUGHT ? '#f04452' : (d.value <= ADR_OVERSOLD ? '#3182f6' : '');
@@ -1497,12 +1493,6 @@ function _updateHeaderForChartImpl(chartId, time) {
   } else if (chartId.endsWith('-mdd')) {              // kr-mdd / kq-mdd / us-mdd
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) pe.textContent = d.value.toFixed(2) + '%';
-  } else if (chartId === 'kr-export') {
-    const pe = document.getElementById('p-kr-export');
-    if (pe) {
-      const fmt = v => v == null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
-      pe.innerHTML = `<span style="color:rgb(126,166,209)">월 ${fmt(d.mYoY)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(d.y20)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(d.y10)}</span>`;
-    }
   } else if (chartId === 'kr-vol' || chartId === 'kq-vol') {
     const pe = document.getElementById('p-' + chartId);
     if (pe && d.value != null) pe.textContent = (d.value / 10000).toFixed(1) + '조';
@@ -2244,114 +2234,6 @@ async function loadAdrCard(chartId, col, key){
 const loadKrAdr = () => loadAdrCard('kr-adr', 'kr', 'adr_kospi');
 const loadKqAdr = () => loadAdrCard('kq-adr', 'kq', 'adr_kosdaq');
 
-// KR 수출 YoY — 3개 cutoff 병합 (월 확정 + 1~20잠정 + 1~10잠정)
-// 데이터 소스: ./data/kr_export.json (로컬 스크립트 kr_export_backfill_local.py로 생성)
-// 각 cutoff별로 YoY(%)를 계산해 forward-fill → 일별 시간축에 정렬
-let _krExportCache = null;
-async function fetchKrExportSeries() {
-  if (_krExportCache) return _krExportCache;
-  const r = await fetch('./data/kr_export.json?_t=' + Date.now());
-  if (!r.ok) throw new Error('kr_export.json fetch failed: ' + r.status);
-  _krExportCache = await r.json();
-  return _krExportCache;
-}
-async function loadKrExport(){
-  const intv = colInterval.kr;
-  const msgEl = document.getElementById('msg-kr-export');
-  try {
-    const D = await fetchKrExportSeries();
-    const idx = colTimeIndex.kr || [];
-    // Build forward-filled series on the column's time index (daily or weekly)
-    const buildSeries = (arr) => {
-      const list = (arr || [])
-        .filter(x => x && x.yoy != null && x.period)
-        .map(x => ({ t: x.period + '-01', v: x.yoy }))
-        .sort((a, b) => a.t < b.t ? -1 : 1);
-      if (!list.length) return [];
-      const rawPts = [];
-      if (idx.length) {
-        let pi = 0;
-        for (const t of idx) {
-          while (pi + 1 < list.length && list[pi + 1].t <= t) pi++;
-          const v = list[pi] && list[pi].t <= t ? list[pi].v : null;
-          if (v != null) rawPts.push({ time: t, value: v });
-        }
-      } else {
-        list.forEach(p => rawPts.push({ time: p.t, value: p.v }));
-      }
-      return rawPts;
-    };
-    let sM  = buildSeries(D.monthly_confirmed);
-    let s20 = buildSeries(D.partial_1_20);
-    let s10 = buildSeries(D.partial_1_10);
-    if (intv === '1wk') { sM = resampleWeekly(sM); s20 = resampleWeekly(s20); s10 = resampleWeekly(s10); }
-
-    const fmt = v => (v == null) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
-    const lastM  = sM[sM.length - 1];
-    const last20 = s20[s20.length - 1];
-    const last10 = s10[s10.length - 1];
-    const hdr = document.getElementById('p-kr-export');
-    const hdrHtml = `<span style="color:rgb(126,166,209)">월 ${fmt(lastM && lastM.value)}</span> / <span style="color:rgb(57,197,207)">1-20잠 ${fmt(last20 && last20.value)}</span> / <span style="color:rgb(249,117,131)">1-10잠 ${fmt(last10 && last10.value)}</span>`;
-    if (hdr) hdr.innerHTML = hdrHtml;
-    origValues['kr-export'] = () => { if (hdr) hdr.innerHTML = hdrHtml; };
-
-    if (!allCharts['kr-export']) {
-      createChart('kr-export', 'kr', { showTimeAxis: true });
-      allCharts['kr-export'].chart.priceScale('right').applyOptions({ scaleMargins: { top: 0.1, bottom: 0.1 } });
-      // 월 확정치 = 히스토그램(바), 양수=골드 / 음수=레드
-      const bars = allCharts['kr-export'].chart.addHistogramSeries({ color: C_SLATE, priceLineVisible: false, lastValueVisible: true, base: 0 });
-      const cyan = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(57,197,207)', lineWidth: 1.6, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      const pink = allCharts['kr-export'].chart.addLineSeries({ color: 'rgb(249,117,131)', lineWidth: 1.4, priceLineVisible: false, lastValueVisible: true, crosshairMarkerVisible: true });
-      allCharts['kr-export'].series  = bars;
-      allCharts['kr-export'].series2 = cyan;
-      allCharts['kr-export'].series3 = pink;
-      allCharts['kr-export'].seriesByKey = { m: bars, '20': cyan, '10': pink };
-      // 0% 참고선 (잠정 선 위에 추가해 항상 표시)
-      cyan.createPriceLine({ price: 0, color: '#3A424B', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: '0' });
-    }
-    // 월 확정치: forward-fill 대신 실제 월별 데이터만 바로 렌더 (1개월 = 1개 바)
-    const barsData = sM.map(x => ({ time: x.time, value: x.value, color: x.value >= 0 ? C_SLATE : 'rgb(231,76,60)' }));
-    const pM  = alignToTimeIndex(sM,  'kr'); // crosshair용 (렌더링에는 미사용)
-    const p20 = alignToTimeIndex(s20, 'kr');
-    const p10 = alignToTimeIndex(s10, 'kr');
-    allCharts['kr-export'].series.setData(barsData);
-    allCharts['kr-export'].series2.setData(p20);
-    allCharts['kr-export'].series3.setData(p10);
-
-    // 잠정치 선에 월별 업데이트 지점 마커 (가시성 개선)
-    // forward-fill된 시리즈에서 값이 바뀌는 지점 = 신규 월별 데이터 반영 시점
-    const makeUpdateMarkers = (padded, color) => {
-      const out = [];
-      for (let i = 0; i < padded.length; i++) {
-        if (padded[i].value == null) continue;
-        const prev = i > 0 ? padded[i-1].value : null;
-        if (prev == null || Math.abs(padded[i].value - prev) > 1e-9) {
-          out.push({ time: padded[i].time, position: 'inBar', color, shape: 'circle', size: 1 });
-        }
-      }
-      return out;
-    };
-    allCharts['kr-export'].series2.setMarkers(makeUpdateMarkers(p20, 'rgb(57,197,207)'));
-    allCharts['kr-export'].series3.setMarkers(makeUpdateMarkers(p10, 'rgb(249,117,131)'));
-
-    // Combined crosshair map — 3개 시리즈의 time별 값 조합 (forward-fill된 pM 기준)
-    const cmap = {};
-    const mMapM = {}; pM.forEach(x => mMapM[x.time] = x.value);
-    const mMap2 = {}; p20.forEach(x => mMap2[x.time] = x.value);
-    const mMap1 = {}; p10.forEach(x => mMap1[x.time] = x.value);
-    const allTimes = new Set([...Object.keys(mMapM), ...Object.keys(mMap2), ...Object.keys(mMap1)]);
-    for (const t of allTimes) {
-      cmap[t] = { time: t, mYoY: mMapM[t] != null ? mMapM[t] : null, y20: mMap2[t] != null ? mMap2[t] : null, y10: mMap1[t] != null ? mMap1[t] : null };
-    }
-    setDataMap('kr-export', cmap);
-
-    msgEl.style.display = 'none';
-  } catch (e) {
-    console.error('loadKrExport', e);
-    msgEl.textContent = '⚠ kr_export.json 로드 실패';
-  }
-}
-
 // ═══════════════════════════════════
 // KOSPI 12MF 밸류에이션 차트 (A: 시총+ROE+P/B, B: 시총+EPS+P/E)
 // ═══════════════════════════════════
@@ -2977,7 +2859,6 @@ const INDICATOR_JSONS = [
   { url: './data/us_breadth_nyse.json',  field: 'meta.updated' },   // 2026-10-01 NYSE 시장폭 카드
   { url: './data/yahoo_dashboard.json',  field: 'meta.updated' },
   { url: './data/kr_breadth.json',       field: 'generated_at' },
-  { url: './data/kr_export.json',        field: 'generated_at' },
   { url: './data/kr_vkospi.json',        field: 'generated_at' },
   { url: './data/kr_putcall.json',       field: 'generated_at' },
 ];
@@ -2987,8 +2868,6 @@ const INDICATOR_CRON_KST = [
   // yahoo_dashboard + us_breadth (옵션 B, 2026-06-02): 정각 회피 + 10분 간격
   { h: 6,  m: 5  }, { h: 6,  m: 15 }, { h: 6,  m: 25 }, { h: 6,  m: 35 },
   { h: 7,  m: 35 },                                       // 후행 (기존 07:30 → 07:35)
-  // kr_export
-  { h: 9,  m: 35 }, { h: 12, m: 5  },
   // yahoo 한국 종가 당일 반영 (KRX fill, 2026-07-24)
   { h: 17, m: 35 }, { h: 19, m: 35 },
   // 외국인 순매수 (KIS, 2026-07-26)
