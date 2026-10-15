@@ -46,15 +46,23 @@ def log(msg):
 
 # ---------------------------------------------------------------- 영상 찾기
 def list_recent_streams(n=8):
+    # 2026-10-16: 10/15 회차는 라이브가 아니라 일반 업로드(동영상 탭)로 올라와 「라이브」 탭만 보던 스크립트가 놓쳤다
+    #   → 라이브 탭과 동영상 탭을 둘 다 훑는다 (라이브 먼저, 중복 제거)
     import yt_dlp
     opts = {"quiet": True, "skip_download": True, "extract_flat": "in_playlist",
             "playlistend": n, "noprogress": True}
-    with yt_dlp.YoutubeDL(opts) as y:
-        info = y.extract_info(CHANNEL_STREAMS, download=False)
-    out = []
-    for e in (info.get("entries") or []):
-        if e and e.get("id"):
-            out.append({"id": e["id"], "title": e.get("title") or ""})
+    out, seen = [], set()
+    for url in (CHANNEL_STREAMS, CHANNEL_STREAMS.replace("/streams", "/videos")):
+        try:
+            with yt_dlp.YoutubeDL(opts) as y:
+                info = y.extract_info(url, download=False)
+        except Exception as ex:
+            log(f"목록 실패 {url.rsplit('/', 1)[-1]}: {type(ex).__name__}: {str(ex)[:120]}")
+            continue
+        for e in (info.get("entries") or []):
+            if e and e.get("id") and e["id"] not in seen:
+                seen.add(e["id"])
+                out.append({"id": e["id"], "title": e.get("title") or ""})
     return out
 
 
@@ -93,8 +101,7 @@ def find_today_video(today_ny):
             return info
         if PROBE:   # 프로브는 날짜 무관 최신 1건
             return info
-        if not os.environ.get("TARGET_DATE"):
-            break   # 최신 SMT 가 오늘 것이 아니면 아직 안 올라온 것 (수동 지정일은 계속 찾는다)
+        # 2026-10-16: 여기서 break 하던 것을 없앴다 — 라이브 탭의 어제 회차에서 멈추면 동영상 탭의 오늘 회차를 못 본다
     return None
 
 
