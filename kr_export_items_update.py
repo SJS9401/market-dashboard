@@ -110,6 +110,27 @@ def main():
     last_done = ym_add(last_done, -1)
     changed = False
 
+    # ── 0. K-stat 과거치 이후 달은 매번 다시 받는다 (관세청 정정분 반영 + 이전 실행 오류 자가 복구) ──
+    def truncate_after(obj, key_months, last_keep):
+        keep = [i for i, m in enumerate(obj[key_months]) if m <= last_keep]
+        n = len(keep)
+        if n == len(obj[key_months]): return False
+        obj[key_months] = obj[key_months][:n]
+        for sid, ser in obj['series'].items():
+            for k in ('exp', 'imp'):
+                if k in ser: ser[k] = ser[k][:n]
+        return True
+    k_items = items['meta'].get('kstat_last') or '2026-08'
+    k_ctry = ctry['meta'].setdefault('kstat_last', '2026-08')
+    if truncate_after(items, 'months', k_items): changed = True
+    if truncate_after(ctry, 'months', k_ctry): changed = True
+    ns = len([m for m in items['sub_months'] if m <= k_items])
+    if ns != len(items['sub_months']):
+        items['sub_months'] = items['sub_months'][:ns]
+        for lst in items['subs'].values():
+            for sb in lst: sb['exp'] = sb['exp'][:ns]
+        changed = True
+
     # ── 1. 품목 월 확정치 (K-stat 과거치 이후) ──
     fr = ym_add(items['months'][-1], 1)
     if fr <= last_done:
