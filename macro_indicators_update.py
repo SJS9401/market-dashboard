@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 경제지표 탭 데이터 수집 → data/macro_indicators.json
-  * FRED (fredgraph.csv, 인증 불필요): 고용·소매판매·CPI·PCE·PPI 와 세부지표, 경기침체(USREC)
+  * FRED API (환경변수 FRED_API_KEY, 없으면 fredgraph.csv 시도): 고용·소매판매·CPI·PCE·PPI 와 세부지표, 경기침체(USREC)
+    - 실패한 시리즈는 이전 JSON 값을 그대로 유지 (data/macro_indicators.json 은 2026-10-15 브라우저 빌드로 시드됨)
   * OECD 경기선행지수(CLI): OECD SDMX API (미국·한국·중국·G20·일본·유로존)
   * ISM 제조업/서비스업: investing.com 차트 JSON (서버에서 403 이면 건너뜀 — 페이지가 브라우저에서 직접 받고 캐시는 보조)
   * S&P500 월말 종가 (yfinance ^GSPC, 1927~) — 역사 비교용 (실패 시 FRED SP500 10년)
@@ -75,9 +76,19 @@ def get(url, headers=None, retry=3, timeout=60):
             log(f'  retry {k+1}: {e}'); time.sleep(3)
     return None, 0
 
+FRED_KEY = os.environ.get('FRED_API_KEY', '').strip()   # GitHub Secrets → FRED 공식 API (fredgraph.csv 는 GitHub 러너에서 타임아웃/차단)
+
 def fred(sid):
+    if FRED_KEY:
+        raw, st = get(f'https://api.stlouisfed.org/fred/series/observations?series_id={sid}&api_key={FRED_KEY}&file_type=json&observation_start={START}', retry=2, timeout=40)
+        if raw:
+            try:
+                out = [[o['date'], float(o['value'])] for o in json.loads(raw).get('observations', []) if o.get('value') not in ('.', '', None)]
+                if out: return out
+            except Exception as e: log(f'  {sid}: API parse error {e}')
+        else: log(f'  {sid}: API HTTP {st}')
     end = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-    raw, st = get(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}&cosd={START}&coed={end}')
+    raw, st = get(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}&cosd={START}&coed={end}', retry=1, timeout=30)
     if not raw: return None
     out = []
     for rec in list(csv.reader(io.StringIO(raw)))[1:]:

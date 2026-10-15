@@ -1,6 +1,6 @@
 # 경제지표 탭 자동 갱신 (data/macro_indicators.json)
 # ----------------------------------------------------------
-# FRED(고용·소매판매·CPI·PCE·PPI·NBER 침체) + OECD 경기선행지수(SDMX) + ISM(투자닷컴 차트, 403 이면 이전 캐시 유지) + S&P500 월간(yfinance)
+# FRED API(고용·소매판매·CPI·PCE·PPI·NBER 침체, secrets.FRED_API_KEY 필요) + OECD 경기선행지수(SDMX) + ISM(투자닷컴 차트, 403 이면 이전 캐시 유지) + S&P500 월간(yfinance)
 # 스케줄: 매일 07:20 / 11:50 KST (미국 지표 발표(KST 21:30~23:00) 다음날 아침 반영, 정각 회피). 변경 있을 때만 커밋.
 # ----------------------------------------------------------
 name: Macro Indicators Update
@@ -30,6 +30,8 @@ jobs:
       - name: 의존성
         run: pip install -q yfinance
       - name: 갱신 스크립트 실행
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # 저장소 Settings → Secrets → Actions 에 등록 (없으면 FRED 갱신 건너뜀, ISM/OECD/S&P 만 갱신)
         run: python -u macro_indicators_update.py
       - name: JSON 검증
         run: |
