@@ -64,7 +64,7 @@ def fetch_hs10(codes, fr, to):
             if not re.match(r'^\d{4}\.\d{2}$', t): continue
             ym = t.replace('.', '-')
             e, im, w = acc.get(ym, (0.0, 0.0, 0.0))
-            acc[ym] = (e + num(it.get('expUsdAmt')), im + num(it.get('impUsdAmt')), w + num(it.get('expTtwg')))
+            acc[ym] = (e + num(it.get('expUsdAmt')) * 1000, im + num(it.get('impUsdAmt')) * 1000, w + num(it.get('expTtwg')))   # 관세청 금액은 천달러 단위
         time.sleep(SLEEP)
     return acc
 
@@ -78,7 +78,7 @@ def fetch_country(fr, to):
         if not re.match(r'^\d{4}\.\d{2}$', t): continue
         ym = t.replace('.', '-'); cd = str(it.get('cntyCd', '')).strip()
         if not cd: continue
-        out.setdefault(ym, {})[cd] = (num(it.get('expUsdAmt')), num(it.get('impUsdAmt')))
+        out.setdefault(ym, {})[cd] = (num(it.get('expUsdAmt')) * 1000, num(it.get('impUsdAmt')) * 1000)   # 천달러 → 달러
     return out
 
 def fetch_provisional(fr, to):
