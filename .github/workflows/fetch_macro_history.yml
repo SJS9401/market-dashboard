@@ -54,6 +54,7 @@ jobs:
           if [ -n "$(git status --porcelain data/macro_history.json)" ]; then
             git add data/macro_history.json
             git commit -m "chore(data): macro_history.json (FRED 금리·크레딧·원자재) 갱신"
+            git pull --rebase origin main   # 동시 push(배포 bat 등) 충돌 방지
             git push
           else
             echo "변경 없음 — commit skip"

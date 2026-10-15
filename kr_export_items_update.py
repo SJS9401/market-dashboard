@@ -4,6 +4,7 @@
   * 품목: scripts/kr_export_mti_map.json 의 HS10 목록을 합산 (산업부 20대 주력품목 정의와 동일 → 발표치와 일치)
   * 국가: 국가별 실적(ETS_MNK_1020000D) → data/kr_export_country.json
   * 잠정치: 10일 단위 잠정치(총액 + 10개 품목) → kr_export_items.json['provisional']
+  * 중량(wgt, 톤): 관세청 구간(kstat_last 이후)만 채움. K-stat 과거 구간 중량은 별도 재수집 필요 (2026-10-15 BT 요청: 단가 = 금액/중량)
 순수 stdlib. GitHub Actions 에서 매일 실행, 변경 있을 때만 커밋.
 """
 import json, os, sys, time, re
@@ -99,7 +100,8 @@ def fetch_provisional(fr, to):
         time.sleep(SLEEP)
     return out
 
-M = lambda v: round(v / 1e6, 1)
+M = lambda v: round(v / 1e6, 1)      # 달러 → 백만달러
+T = lambda w: round(w / 1e3, 1)      # kg → 톤
 
 def main():
     items = json.load(open(ITEMS_PATH, encoding='utf-8'))
@@ -117,7 +119,7 @@ def main():
         if n == len(obj[key_months]): return False
         obj[key_months] = obj[key_months][:n]
         for sid, ser in obj['series'].items():
-            for k in ('exp', 'imp'):
+            for k in ('exp', 'imp', 'wgt'):
                 if k in ser: ser[k] = ser[k][:n]
         return True
     k_items = items['meta'].get('kstat_last') or '2026-08'
@@ -128,8 +130,18 @@ def main():
     if ns != len(items['sub_months']):
         items['sub_months'] = items['sub_months'][:ns]
         for lst in items['subs'].values():
-            for sb in lst: sb['exp'] = sb['exp'][:ns]
+            for sb in lst:
+                sb['exp'] = sb['exp'][:ns]
+                if 'wgt' in sb: sb['wgt'] = sb['wgt'][:ns]
         changed = True
+    # ── 0b. 중량(wgt, 톤) 배열 보장 — 과거치(K-stat 구간)는 아직 없음 → None 으로 채움 (2026-10-15 신설) ──
+    for ser in items['series'].values():
+        if len(ser.setdefault('wgt', [])) != len(items['months']):
+            ser['wgt'] = (ser['wgt'] + [None] * len(items['months']))[:len(items['months'])]; changed = True
+    for lst in items['subs'].values():
+        for sb in lst:
+            if len(sb.setdefault('wgt', [])) != len(items['sub_months']):
+                sb['wgt'] = (sb['wgt'] + [None] * len(items['sub_months']))[:len(items['sub_months'])]; changed = True
 
     # ── 1. 품목 월 확정치 (K-stat 과거치 이후) ──
     fr = ym_add(items['months'][-1], 1)
@@ -153,13 +165,15 @@ def main():
                     if iid == 'total': continue
                     e, im, w = per_item[iid].get(m, (0.0, 0.0, 0.0))
                     items['series'][iid]['exp'].append(M(e)); items['series'][iid]['imp'].append(M(im))
-                # 총액은 국가별 총계(전 품목)로 — 아래 국가 단계에서 채움. 임시로 품목합.
-                items['series']['total']['exp'].append(None); items['series']['total']['imp'].append(None)
+                    items['series'][iid]['wgt'].append(T(w))          # 수출 중량(톤) — 관세청 kg 합산
+                # 총액은 국가별 총계(전 품목)로 — 아래 국가 단계에서 채움. 임시로 품목합. (총액 중량은 국가별 통계에 없음 → None)
+                items['series']['total']['exp'].append(None); items['series']['total']['imp'].append(None); items['series']['total']['wgt'].append(None)
                 items['sub_months'].append(m)
                 for parent, lst in items['subs'].items():
                     for s in lst:
                         e = per_sub.get(s['id'], {}).get(m)
                         s['exp'].append(M(e[0]) if e else None)
+                        s['wgt'].append(T(e[2]) if e else None)
             items['meta']['last_month'] = new_months[-1]
             changed = True
     else:

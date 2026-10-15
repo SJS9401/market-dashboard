@@ -86,7 +86,7 @@
     <span class="legend">
       <span class="badge st-accel">가속</span><span class="badge st-rebound">반등</span><span class="badge st-flat">횡보</span><span class="badge st-decel">감속</span><span class="badge st-break">꺾임</span>
     </span>
-    <span class="sub">YoY 3개월 평균의 방향으로 판정 · 카드를 누르면 상세</span>
+    <span class="sub">월별 YoY 2개월 연속 상승 = 가속 · 연속 하락 = 감속 (3개월치 비교) · 카드를 누르면 상세</span>
   </h2>
   <div class="ctl">
     <span>정렬</span>
@@ -104,10 +104,13 @@
         <label class="chk"><input type="checkbox" id="chkImp"> 수입</label>
         <label class="chk"><input type="checkbox" id="chkYoy3"> YoY 3MA</label>
         <label class="chk"><input type="checkbox" id="chkKospi"> 코스피</label>
+        <label class="chk" id="lblWgt"><input type="checkbox" id="chkWgt"> 중량·단가</label>
         <button class="x" id="dClose">닫기</button>
       </div>
     </div>
     <div class="big"><canvas id="bigChart"></canvas></div>
+    <div class="big" id="wgtBox" style="display:none;height:220px;margin-top:8px;"><canvas id="wgtChart"></canvas></div>
+    <div class="note" id="wgtNote" style="display:none;"></div>
     <div class="stats" id="dStats"></div>
     <div id="dSubs"></div>
     <div class="tbl" id="dTable"></div>
@@ -117,7 +120,7 @@
   <div class="grid" id="cgrid"></div>
 
   <div class="note" style="margin-top:16px;">출처: 한국무역협회 K-stat(2000.01~) · 관세청 수출입무역통계(최근월 자동 갱신, HS10 합산 — 산업부 발표치와 동일 정의) · 잠정치는 관세청 10일 단위 통계(총액·10개 품목만 제공).
-    모멘텀 판정: 반등 = YoY가 최근 마이너스→플러스 전환 · 꺾임 = 플러스→마이너스 전환 · 가속/감속 = YoY 3개월 평균이 2개월 연속 상승/하락 · 그 외 횡보.</div>
+    모멘텀 판정: 반등 = YoY가 최근 마이너스→플러스 전환 · 꺾임 = 플러스→마이너스 전환 · 가속/감속 = 월별 YoY가 2개월 연속 상승/하락(지지난달→지난달→이번달, 예: +40→+45→+50 가속) · 그 외 횡보. 부호 전환이 있으면 반등/꺾임이 우선.</div>
 </div>
 
 <script>
@@ -125,6 +128,10 @@
   const $ = s => document.querySelector(s);
   const fmtB = v => v == null ? '—' : (v / 100).toLocaleString('ko-KR', { maximumFractionDigits: v >= 10000 ? 0 : 1 });   // 백만$ → 억$
   const fmtP = v => v == null || !isFinite(v) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+  // 단가 $/kg = 수출액(백만$)×1e6 ÷ 중량(톤)×1e3 — 반도체처럼 kg당 수만$ 인 품목과 석유제품처럼 1$ 안팎인 품목이 섞여 자릿수 적응
+  const unitPrice = (expM, wgtT) => expM != null && wgtT ? expM * 1000 / wgtT : null;
+  const fmtU = v => v == null || !isFinite(v) ? '—' : v >= 100 ? v.toLocaleString('ko-KR', { maximumFractionDigits: 0 }) : v.toFixed(2);
+  const fmtT = v => v == null ? '—' : v.toLocaleString('ko-KR', { maximumFractionDigits: 0 });
   const cls = v => v == null ? 'flat' : v > 0 ? 'up' : v < 0 ? 'dn' : 'flat';
   Chart.defaults.color = '#8b949e'; Chart.defaults.font.size = 10; Chart.defaults.borderColor = '#21262d';
 
@@ -147,18 +154,23 @@
   const ser = ITEMS.series;
   const yoyOf = arr => arr.map((v, i) => (i >= 12 && v != null && arr[i - 12]) ? (v / arr[i - 12] - 1) * 100 : null);
   const ma3 = arr => arr.map((v, i) => { const w = [arr[i], arr[i - 1], arr[i - 2]].filter(x => x != null); return w.length === 3 ? w.reduce((a, b) => a + b, 0) / 3 : null; });
+  // 모멘텀 판정 (BT 기준 2026-10-15): 월별 YoY 3개월치를 본다.
+  //   가속 = YoY 가 2개월 연속 상승 (m-2 < m-1 < m, 예: +40 → +45 → +50) / 감속 = 2개월 연속 하락
+  //   반등 = 최근 마이너스 → 플러스 전환 / 꺾임 = 플러스 → 마이너스 전환 (부호 전환이 가속·감속보다 우선)
+  //   score = 2개월간 YoY 변화폭 (m − m-2) → 가속순/감속순 정렬 기준
   function classify(exp) {
-    const y = yoyOf(exp), y3 = ma3(y), i = exp.length - 1;
-    if (y[i] == null || y[i - 1] == null) return { st: 'flat', label: '횡보', score: 0, yoy: y[i], y3: y3[i] };
+    const y = yoyOf(exp), i = exp.length - 1;
+    const a = y[i], b = y[i - 1], c = y[i - 2];
+    if (a == null || b == null) return { st: 'flat', label: '횡보', score: 0, yoy: a, path: [c, b, a] };
     let st = 'flat';
-    if (y[i] > 0 && y[i - 1] <= 0) st = 'rebound';
-    else if (y[i] <= 0 && y[i - 1] > 0) st = 'break';
-    else if (y3[i] != null && y3[i - 1] != null && y3[i - 2] != null) {
-      if (y3[i] > y3[i - 1] && y3[i - 1] > y3[i - 2]) st = 'accel';
-      else if (y3[i] < y3[i - 1] && y3[i - 1] < y3[i - 2]) st = 'decel';
+    if (a > 0 && b <= 0) st = 'rebound';
+    else if (a <= 0 && b > 0) st = 'break';
+    else if (c != null) {
+      if (a > b && b > c) st = 'accel';
+      else if (a < b && b < c) st = 'decel';
     }
-    const score = (y3[i] != null && y3[i - 3] != null) ? y3[i] - y3[i - 3] : 0;   // 3개월간 YoY(3MA) 변화폭 = 가속도
-    return { st, label: { accel: '가속', rebound: '반등', flat: '횡보', decel: '감속', break: '꺾임' }[st], score, yoy: y[i], y3: y3[i] };
+    const score = c != null ? a - c : 0;
+    return { st, label: { accel: '가속', rebound: '반등', flat: '횡보', decel: '감속', break: '꺾임' }[st], score, yoy: a, path: [c, b, a] };
   }
 
   // ── 잠정치 매핑 (관세청 10일 잠정치 10개 품목 → 우리 품목) ──
@@ -206,7 +218,7 @@
     const c = classify(exp), i = exp.length - 1;
     return `<div class="card" data-id="${id}"><div class="top"><span class="nm">${name}</span><span class="grp">${grp || ''}</span></div>
       <div class="top"><span class="val">${fmtB(exp[i])}<small> 억$</small></span><span class="yoy ${cls(c.yoy)}">${fmtP(c.yoy)}</span></div>
-      <div class="meta"><span class="badge st-${c.st}">${c.label}</span><span>3MA ${fmtP(c.y3)} · Δ${fmtP(c.score)}p</span></div>
+      <div class="meta"><span class="badge st-${c.st}">${c.label}</span><span title="YoY 지지난달 → 지난달 → 이번달">${c.path.map(v => fmtP(v)).join(' → ')}</span></div>
       <div class="prov">${extra || ''}</div><div class="cv"><canvas></canvas></div></div>`;
   }
   function renderGrid() {
@@ -229,7 +241,7 @@
   $('#spanSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; spanN = +b.dataset.n; $('#spanSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
 
   // ── 상세 ──
-  let big = null, cur = null, rangeY = 5;
+  let big = null, wgtCh = null, cur = null, rangeY = 5;
   function openDetail(kind, id) {
     cur = { kind, id };
     document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel'));
@@ -269,6 +281,25 @@
           y: { position: 'left', beginAtZero: true, title: { display: true, text: '억$' } },
           y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'YoY %' }, ticks: { callback: v => v + '%' } },
           y2: { display: $('#chkKospi').checked && !!KOSPI, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '코스피' } } } } });
+    // 중량·단가 (관세청 구간만 있음 — 과거 K-stat 구간은 null)
+    const wg = isItem && Array.isArray(s.wgt) ? s.wgt : null, hasW = !!wg && wg.some(v => v != null);
+    $('#lblWgt').style.display = isItem && cur.id !== 'total' ? '' : 'none';
+    if (wgtCh) { wgtCh.destroy(); wgtCh = null; }
+    if (hasW && $('#chkWgt').checked && cur.id !== 'total') {
+      const w = wg.slice(from), up = exp.map((v, k) => unitPrice(v, w[k]));
+      const kt = Math.max(...w.filter(v => v != null)) >= 2000, wUnit = kt ? '천톤' : '톤';   // 반도체처럼 중량이 작은 품목은 톤 단위
+      const firstW = mm[wg.findIndex(v => v != null)];
+      $('#wgtBox').style.display = ''; $('#wgtNote').style.display = '';
+      $('#wgtNote').textContent = `중량·단가는 ${firstW}부터 (관세청 HS10 합산, 수출 중량 기준) · 그 이전 K-stat 구간 중량은 아직 수집 전`;
+      wgtCh = new Chart($('#wgtChart'), { data: { labels: lab, datasets: [
+          { type: 'bar', label: '수출 중량(' + wUnit + ')', data: w.map(v => v == null ? null : kt ? v / 1000 : v), backgroundColor: 'rgba(139,148,158,0.5)', borderWidth: 0, yAxisID: 'y', order: 2 },
+          { type: 'line', label: '단가($/kg)', data: up, borderColor: '#d2a8ff', borderWidth: 1.6, pointRadius: 2, yAxisID: 'y1', tension: 0.2, spanGaps: true, order: 1 }] },
+        options: { animation: false, responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { display: true, labels: { boxWidth: 10 } }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.parsed.y == null ? '—' : c.dataset.yAxisID === 'y1' ? fmtU(c.parsed.y) : c.parsed.y.toLocaleString('ko-KR', { maximumFractionDigits: 1 })) } } },
+          scales: { x: { ticks: { autoSkip: false, maxRotation: 0, callback: (v, k) => !lab[k] ? '' : lab[k].endsWith('-01') ? lab[k].slice(0, 4) : (n <= 24 ? lab[k].slice(5) : (n <= 60 && lab[k].endsWith('-07') ? '7월' : '')) } },
+            y: { position: 'left', beginAtZero: true, title: { display: true, text: wUnit } },
+            y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '$/kg' }, ticks: { callback: v => fmtU(v) } } } } });
+    } else { $('#wgtBox').style.display = 'none'; $('#wgtNote').style.display = 'none'; }
     // 통계
     const i = s.exp.length - 1, yy = yoyOf(s.exp), y3a = ma3(yy);
     const mx = s.exp.indexOf(Math.max(...s.exp.filter(v => v != null)));
@@ -277,22 +308,24 @@
     const share = isItem && cur.id !== 'total' ? s.exp[i] / ser.total.exp[N - 1] * 100 : (!isItem ? s.exp[i] / CTRY.series.ALL.exp[CTRY.months.length - 1] * 100 : null);
     $('#dStats').innerHTML = [['최신월 (' + mm[i] + ')', fmtB(s.exp[i]) + ' 억$'], ['YoY', `<span class="${cls(yy[i])}">${fmtP(yy[i])}</span>`], ['YoY 3MA', `<span class="${cls(y3a[i])}">${fmtP(y3a[i])}</span>`],
       ['올해 누적 YoY', `<span class="${cls(ytdC / ytdP - 1)}">${fmtP((ytdC / ytdP - 1) * 100)}</span>`], ['비중', share == null ? '—' : share.toFixed(1) + '%'], ['역대 최고', fmtB(s.exp[mx]) + ' (' + mm[mx] + ')']]
+      .concat(hasW && wg[i] != null ? [['중량 (톤)', fmtT(wg[i])], ['단가 ($/kg)', fmtU(unitPrice(s.exp[i], wg[i]))]] : [])
       .map(([k, v]) => `<div class="item"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
     // 세부 품목
     const subs = isItem ? (ITEMS.subs[cur.id] || []) : [];
     $('#dSubs').innerHTML = subs.length ? `<h2 style="margin:16px 0 8px;">세부 품목 <span class="sub">${ITEMS.sub_months[0]}~ · 2022년 이후 신분류 세부코드 (이전은 대응 코드가 있는 항목만)</span></h2><div class="subgrid">` +
       subs.map(sb => { const e = sb.exp, k = e.length - 1, yv = e[k] != null && e[k - 12] ? (e[k] / e[k - 12] - 1) * 100 : null;
-        return `<div class="card" data-sub="${sb.id}"><div class="top"><span class="nm">${sb.name}</span><span class="grp">${sb.codes_new.join('+')}</span></div><div class="top"><span class="val">${fmtB(e[k])}<small> 억$</small></span><span class="yoy ${cls(yv)}">${fmtP(yv)}</span></div><div class="cv" style="height:70px"><canvas></canvas></div></div>`; }).join('') + '</div>' : '';
+        const sw = Array.isArray(sb.wgt) ? sb.wgt[k] : null, su = unitPrice(e[k], sw);
+        return `<div class="card" data-sub="${sb.id}"><div class="top"><span class="nm">${sb.name}</span><span class="grp">${sb.codes_new.join('+')}</span></div><div class="top"><span class="val">${fmtB(e[k])}<small> 억$</small></span><span class="yoy ${cls(yv)}">${fmtP(yv)}</span></div>${sw != null ? `<div class="meta"><span>중량 ${fmtT(sw)}톤 · 단가 $${fmtU(su)}/kg</span></div>` : ''}<div class="cv" style="height:70px"><canvas></canvas></div></div>`; }).join('') + '</div>' : '';
     subs.forEach(sb => { const cv = $('#dSubs').querySelector(`.card[data-sub="${sb.id}"] canvas`); const lab2 = ITEMS.sub_months.slice(-spanN), e2 = sb.exp.slice(-spanN);
       const yv = sb.exp.map((v, k) => k >= 12 && v != null && sb.exp[k - 12] ? (v / sb.exp[k - 12] - 1) * 100 : null).slice(-spanN);
       new Chart(cv, { type: 'bar', data: { labels: lab2, datasets: [{ type: 'bar', data: e2, backgroundColor: 'rgba(88,166,255,0.45)', borderWidth: 0, yAxisID: 'y' }, { type: 'line', data: yv, borderColor: '#f0b429', borderWidth: 1.2, pointRadius: 0, yAxisID: 'y1', tension: .25 }] },
         options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, beginAtZero: true }, y1: { display: false, position: 'right' } } } }); });
     // 테이블 (최근 36개월)
-    const rows = []; for (let k = mm.length - 1; k >= Math.max(0, mm.length - 36); k--) rows.push(`<tr><td>${mm[k]}</td><td>${fmtB(s.exp[k])}</td><td class="${cls(s.exp[k] / s.exp[k - 1] - 1)}">${fmtP((s.exp[k] / s.exp[k - 1] - 1) * 100)}</td><td class="${cls(yy[k])}">${fmtP(yy[k])}</td><td>${fmtB(s.imp[k])}</td><td>${fmtB(s.exp[k] - s.imp[k])}</td></tr>`);
-    $('#dTable').innerHTML = `<table><thead><tr><th>월</th><th>수출(억$)</th><th>MoM</th><th>YoY</th><th>수입(억$)</th><th>수지</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+    const rows = []; for (let k = mm.length - 1; k >= Math.max(0, mm.length - 36); k--) rows.push(`<tr><td>${mm[k]}</td><td>${fmtB(s.exp[k])}</td><td class="${cls(s.exp[k] / s.exp[k - 1] - 1)}">${fmtP((s.exp[k] / s.exp[k - 1] - 1) * 100)}</td><td class="${cls(yy[k])}">${fmtP(yy[k])}</td><td>${fmtB(s.imp[k])}</td><td>${fmtB(s.exp[k] - s.imp[k])}</td>${hasW ? `<td>${fmtT(wg[k])}</td><td>${fmtU(unitPrice(s.exp[k], wg[k]))}</td>` : ''}</tr>`);
+    $('#dTable').innerHTML = `<table><thead><tr><th>월</th><th>수출(억$)</th><th>MoM</th><th>YoY</th><th>수입(억$)</th><th>수지</th>${hasW ? '<th>중량(톤)</th><th>단가($/kg)</th>' : ''}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
   }
   $('#rangeSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; rangeY = +b.dataset.y; $('#rangeSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); drawDetail(); };
-  ['#chkImp', '#chkYoy3', '#chkKospi'].forEach(s => $(s).onchange = drawDetail);
+  ['#chkImp', '#chkYoy3', '#chkKospi', '#chkWgt'].forEach(s => $(s).onchange = drawDetail);
   $('#dClose').onclick = () => { $('#detail').classList.remove('show'); document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel')); cur = null; };
 })();
 </script>
