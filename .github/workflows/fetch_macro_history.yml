@@ -42,6 +42,8 @@ jobs:
           python-version: '3.11'
 
       - name: Fetch macro history (FRED)
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # FRED 공식 API — 러너에서 fredgraph.csv 차단(2026-09~) 우회
         run: |
           python fetch_macro_history.py
 

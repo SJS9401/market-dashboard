@@ -80,15 +80,50 @@ def _log(msg):
     print(f"[{datetime.now().isoformat(timespec='seconds')}] {msg}", flush=True)
 
 
-def fetch_series(sid, start=START, retry=3):
-    """FRED CSV → [[YYYY-MM-DD, float], ...]. 결측('.')은 제외."""
+# 2026-10-15: GitHub Actions 러너에서 fredgraph.csv 가 타임아웃(차단) → FRED 공식 API 우선.
+# 저장소 Secret FRED_API_KEY 를 workflow 가 환경변수로 넘긴다. 키가 없으면 CSV 1회 시도.
+FRED_KEY = os.environ.get("FRED_API_KEY", "").strip()
+FRED_API = ("https://api.stlouisfed.org/fred/series/observations"
+            "?series_id={id}&api_key={key}&file_type=json&observation_start={start}")
+
+
+def _fetch_api(sid, start):
+    url = FRED_API.format(id=sid, key=FRED_KEY, start=start)
+    req = urllib.request.Request(url, headers={"User-Agent": "market-dashboard macro fetcher"})
+    for a in range(1, 3):
+        try:
+            with urllib.request.urlopen(req, timeout=40) as r:
+                j = json.loads(r.read().decode("utf-8", errors="replace"))
+            out = []
+            for o in j.get("observations", []):
+                v = o.get("value")
+                if v in (".", "", None):
+                    continue
+                try:
+                    out.append([o["date"], float(v)])
+                except ValueError:
+                    pass
+            return out or None
+        except Exception as e:
+            _log(f"  {sid}: API {e} (attempt {a}/2)")
+            time.sleep(3)
+    return None
+
+
+def fetch_series(sid, start=START, retry=1):
+    """FRED API(키 있을 때) 또는 CSV → [[YYYY-MM-DD, float], ...]. 결측('.')은 제외."""
+    if FRED_KEY:
+        out = _fetch_api(sid, start)
+        if out:
+            return out
+        _log(f"  {sid}: API 실패 — CSV 폴백")
     end = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     url = FRED_CSV.format(id=sid, start=start, end=end)
     req = urllib.request.Request(url, headers={
         "User-Agent": "Mozilla/5.0 (market-dashboard macro fetcher)"})
     for a in range(1, retry + 1):
         try:
-            with urllib.request.urlopen(req, timeout=60) as r:
+            with urllib.request.urlopen(req, timeout=30) as r:
                 raw = r.read().decode("utf-8", errors="replace")
             break
         except Exception as e:
