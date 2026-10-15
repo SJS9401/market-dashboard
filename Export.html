@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한국 수출 데이터 — 20대 품목·국가별</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<script src="chart.umd.min.js"></script>
+<script src="nav-loader.js" defer></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Pretendard',"Segoe UI","Malgun Gothic",sans-serif; background:#0d1117; color:#c9d1d9; line-height:1.5; }
+  .tab-bar { display:flex; gap:0; background:#010409; border-bottom:1px solid #21262d; padding:0 24px; overflow-x:auto; }
+  .tab-bar a { display:inline-block; padding:8px 18px; font-size:13px; font-weight:600; color:#8b949e; text-decoration:none; border-bottom:2px solid transparent; white-space:nowrap; }
+  .tab-bar a:hover { color:#f0f6fc; } .tab-bar a.active { color:#f0f6fc; border-bottom-color:#1f6feb; }
+  .wrap { max-width:1500px; margin:0 auto; padding:18px 16px 60px; }
+  h1 { font-size:20px; color:#f0f6fc; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  h1 .sub { font-size:12px; color:#8b949e; font-weight:400; }
+  h2 { font-size:15px; color:#f0f6fc; margin:22px 0 10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  h2 .sub { font-size:11.5px; color:#8b949e; font-weight:400; }
+  .note { font-size:11.5px; color:#6e7681; }
+  .kpi { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:12px; }
+  @media (max-width:900px) { .kpi { grid-template-columns:repeat(2,1fr); } }
+  .kpi .box { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:12px 14px; }
+  .kpi .k { font-size:11px; color:#8b949e; } .kpi .v { font-size:20px; font-weight:700; color:#f0f6fc; margin-top:2px; }
+  .kpi .s { font-size:11.5px; margin-top:2px; color:#8b949e; }
+  .up { color:#ff7b72; } .dn { color:#79c0ff; } .flat { color:#8b949e; }
+  .ctl { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin:14px 0 10px; font-size:12px; color:#8b949e; }
+  .seg { display:inline-flex; border:1px solid #30363d; border-radius:8px; overflow:hidden; }
+  .seg button { background:#0d1117; color:#8b949e; border:0; padding:4px 11px; font-size:11.5px; font-weight:600; cursor:pointer; }
+  .seg button.on { background:#1f6feb; color:#fff; }
+  .legend { display:flex; gap:8px; flex-wrap:wrap; }
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; padding:1px 7px; border-radius:10px; border:1px solid transparent; }
+  .st-accel { color:#3fb950; background:#12261a; border-color:#1f4a2c; }
+  .st-rebound { color:#58a6ff; background:#0f2140; border-color:#1f3f6e; }
+  .st-flat { color:#8b949e; background:#161b22; border-color:#30363d; }
+  .st-decel { color:#d29922; background:#2a2008; border-color:#5a4410; }
+  .st-break { color:#f85149; background:#2d1012; border-color:#6e2124; }
+  .grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+  @media (max-width:1300px) { .grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  @media (max-width:1000px) { .grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media (max-width:680px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  .card { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:10px 12px 8px; cursor:pointer; min-width:0; transition:border-color .15s; }
+  .card:hover { border-color:#58a6ff; } .card.sel { border-color:#1f6feb; box-shadow:0 0 0 1px #1f6feb inset; }
+  .card .top { display:flex; justify-content:space-between; align-items:baseline; gap:6px; }
+  .card .nm { font-size:13px; font-weight:700; color:#f0f6fc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .card .grp { font-size:10px; color:#6e7681; }
+  .card .val { font-size:16px; font-weight:700; color:#f0f6fc; margin-top:2px; }
+  .card .val small { font-size:11px; color:#8b949e; font-weight:400; }
+  .card .yoy { font-size:12px; font-weight:700; }
+  .card .meta { display:flex; justify-content:space-between; align-items:center; margin-top:2px; font-size:11px; color:#8b949e; gap:4px; }
+  .card .prov { font-size:10.5px; color:#8b949e; margin-top:2px; min-height:14px; }
+  .card .cv { position:relative; height:84px; margin-top:4px; }
+  .detail { background:#161b22; border:1px solid #1f6feb; border-radius:12px; padding:16px; margin:14px 0 6px; display:none; }
+  .detail.show { display:block; }
+  .detail .hd { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .detail .hd h3 { font-size:16px; color:#f0f6fc; }
+  .detail .hd .x { background:none; border:1px solid #30363d; color:#8b949e; border-radius:6px; padding:3px 10px; cursor:pointer; font-size:12px; }
+  .detail .big { position:relative; height:360px; margin-top:10px; }
+  .detail .stats { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin-top:10px; }
+  @media (max-width:900px) { .detail .stats { grid-template-columns:repeat(3,1fr); } }
+  .detail .stats .item { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:8px 10px; }
+  .detail .stats .k { font-size:10.5px; color:#8b949e; } .detail .stats .v { font-size:14px; font-weight:700; color:#f0f6fc; }
+  .subgrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:12px; }
+  @media (max-width:1000px) { .subgrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  .subgrid .card { cursor:default; } .subgrid .card:hover { border-color:#21262d; }
+  table { width:100%; border-collapse:collapse; font-size:12px; margin-top:10px; }
+  th, td { padding:5px 8px; border-bottom:1px solid #21262d; text-align:right; }
+  th { background:#0d1117; font-size:11px; color:#8b949e; position:sticky; top:0; }
+  td:first-child, th:first-child { text-align:left; color:#f0f6fc; font-weight:600; }
+  .tbl { max-height:320px; overflow:auto; border:1px solid #21262d; border-radius:8px; margin-top:10px; }
+  .chk { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:#8b949e; cursor:pointer; }
+  .chk input { accent-color:#1f6feb; }
+  .err { color:#f85149; padding:20px; }
+</style>
+</head>
+<body>
+<div class="tab-bar" data-active="export"></div>
+<div class="wrap">
+  <h1>한국 수출 데이터 <span class="sub" id="hdsub">불러오는 중…</span></h1>
+  <div class="note">산업부 20대 주력 수출품목(2026.6 개편 기준, 관세청 통관 기준) · 월별 수출액과 전년동월비(YoY) · 2022-01 이전은 옛 분류 코드로 연결 · 단위 억 달러</div>
+
+  <div class="kpi" id="kpi"></div>
+
+  <h2>품목별 모멘텀 — 어디가 꺾이고 어디가 올라오나
+    <span class="legend">
+      <span class="badge st-accel">가속</span><span class="badge st-rebound">반등</span><span class="badge st-flat">횡보</span><span class="badge st-decel">감속</span><span class="badge st-break">꺾임</span>
+    </span>
+    <span class="sub">YoY 3개월 평균의 방향으로 판정 · 카드를 누르면 상세</span>
+  </h2>
+  <div class="ctl">
+    <span>정렬</span>
+    <span class="seg" id="sortSeg"><button data-s="default" class="on">기본</button><button data-s="accel">가속순</button><button data-s="decel">감속순</button><button data-s="yoy">YoY순</button><button data-s="amt">금액순</button></span>
+    <span>미니차트 기간</span>
+    <span class="seg" id="spanSeg"><button data-n="24">2년</button><button data-n="36" class="on">3년</button><button data-n="60">5년</button></span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <div class="detail" id="detail">
+    <div class="hd">
+      <h3 id="dTitle">—</h3>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span class="seg" id="rangeSeg"><button data-y="1">1년</button><button data-y="3">3년</button><button data-y="5" class="on">5년</button><button data-y="10">10년</button><button data-y="0">전체</button></span>
+        <label class="chk"><input type="checkbox" id="chkImp"> 수입</label>
+        <label class="chk"><input type="checkbox" id="chkYoy3"> YoY 3MA</label>
+        <label class="chk"><input type="checkbox" id="chkKospi"> 코스피</label>
+        <button class="x" id="dClose">닫기</button>
+      </div>
+    </div>
+    <div class="big"><canvas id="bigChart"></canvas></div>
+    <div class="stats" id="dStats"></div>
+    <div id="dSubs"></div>
+    <div class="tbl" id="dTable"></div>
+  </div>
+
+  <h2>국가·권역별 <span class="sub">월별 수출액 · YoY · 카드를 누르면 상세</span></h2>
+  <div class="grid" id="cgrid"></div>
+
+  <div class="note" style="margin-top:16px;">출처: 한국무역협회 K-stat(2000.01~) · 관세청 수출입무역통계(최근월 자동 갱신, HS10 합산 — 산업부 발표치와 동일 정의) · 잠정치는 관세청 10일 단위 통계(총액·10개 품목만 제공).
+    모멘텀 판정: 반등 = YoY가 최근 마이너스→플러스 전환 · 꺾임 = 플러스→마이너스 전환 · 가속/감속 = YoY 3개월 평균이 2개월 연속 상승/하락 · 그 외 횡보.</div>
+</div>
+
+<script>
+(async function () {
+  const $ = s => document.querySelector(s);
+  const fmtB = v => v == null ? '—' : (v / 100).toLocaleString('ko-KR', { maximumFractionDigits: v >= 10000 ? 0 : 1 });   // 백만$ → 억$
+  const fmtP = v => v == null || !isFinite(v) ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+  const cls = v => v == null ? 'flat' : v > 0 ? 'up' : v < 0 ? 'dn' : 'flat';
+  Chart.defaults.color = '#8b949e'; Chart.defaults.font.size = 10; Chart.defaults.borderColor = '#21262d';
+
+  let ITEMS, CTRY, KOSPI = null;
+  try {
+    [ITEMS, CTRY] = await Promise.all(['data/kr_export_items.json', 'data/kr_export_country.json'].map(u => fetch(u + '?t=' + Date.now(), { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); })));
+  } catch (e) { $('#grid').innerHTML = '<div class="err">데이터 로드 실패: ' + e.message + '</div>'; return; }
+  // 코스피 월말 종가 (장기 + 최근)
+  (async () => {
+    try {
+      const [h, y] = await Promise.all([fetch('data/kospi_historical.json').then(r => r.json()), fetch('data/yahoo_dashboard.json').then(r => r.json())]);
+      const m = {};
+      h.data.forEach(([d, c]) => { m[d.slice(0, 7)] = c; });
+      ((y.data['^KS11'] || {}).candles || []).forEach(c => { m[c.time.slice(0, 7)] = c.close; });
+      KOSPI = m;
+    } catch (e) { console.warn('kospi', e); }
+  })();
+
+  const months = ITEMS.months, N = months.length, last = months[N - 1];
+  const ser = ITEMS.series;
+  const yoyOf = arr => arr.map((v, i) => (i >= 12 && v != null && arr[i - 12]) ? (v / arr[i - 12] - 1) * 100 : null);
+  const ma3 = arr => arr.map((v, i) => { const w = [arr[i], arr[i - 1], arr[i - 2]].filter(x => x != null); return w.length === 3 ? w.reduce((a, b) => a + b, 0) / 3 : null; });
+  function classify(exp) {
+    const y = yoyOf(exp), y3 = ma3(y), i = exp.length - 1;
+    if (y[i] == null || y[i - 1] == null) return { st: 'flat', label: '횡보', score: 0, yoy: y[i], y3: y3[i] };
+    let st = 'flat';
+    if (y[i] > 0 && y[i - 1] <= 0) st = 'rebound';
+    else if (y[i] <= 0 && y[i - 1] > 0) st = 'break';
+    else if (y3[i] != null && y3[i - 1] != null && y3[i - 2] != null) {
+      if (y3[i] > y3[i - 1] && y3[i - 1] > y3[i - 2]) st = 'accel';
+      else if (y3[i] < y3[i - 1] && y3[i - 1] < y3[i - 2]) st = 'decel';
+    }
+    const score = (y3[i] != null && y3[i - 3] != null) ? y3[i] - y3[i - 3] : 0;   // 3개월간 YoY(3MA) 변화폭 = 가속도
+    return { st, label: { accel: '가속', rebound: '반등', flat: '횡보', decel: '감속', break: '꺾임' }[st], score, yoy: y[i], y3: y3[i] };
+  }
+
+  // ── 잠정치 매핑 (관세청 10일 잠정치 10개 품목 → 우리 품목) ──
+  const PROV_MAP = { '반도체': 'semi', '철강제품': 'steel', '석유제품': 'petro', '무선통신기기': 'wireless', '선박': 'ship', '자동차부품': 'autoparts', '컴퓨터주변기기': 'computer', '가전제품': 'appliance' };
+  const prov = ITEMS.provisional || {};
+  function provText(iid) {
+    const pm = Object.keys(prov).filter(k => k > last).sort().pop(); if (!pm) return '';
+    const cut = ['1-20', '1-10'].find(c => prov[pm][c]); if (!cut) return '';
+    const key = iid === 'total' ? null : Object.keys(PROV_MAP).find(k => PROV_MAP[k] === iid);
+    if (iid !== 'total' && !key) return '';
+    const cur = iid === 'total' ? prov[pm][cut].total : prov[pm][cut].items[key];
+    const py = (pm.slice(0, 4) - 1) + pm.slice(4); const prv = prov[py] && prov[py][cut] ? (iid === 'total' ? prov[py][cut].total : prov[py][cut].items[key]) : null;
+    const yoy = prv ? (cur / prv - 1) * 100 : null;
+    return `${pm.slice(5)}월 ${cut}일 잠정 <b class="${cls(yoy)}">${fmtP(yoy)}</b>`;
+  }
+
+  // ── KPI ──
+  const tot = ser.total.exp, ty = yoyOf(tot), i0 = N - 1;
+  const ytd = (y) => months.map((m, i) => m.startsWith(y) && m <= last ? tot[i] : 0).reduce((a, b) => a + b, 0);
+  const ytdCur = ytd(last.slice(0, 4)), ytdPrev = months.map((m, i) => m.startsWith(String(+last.slice(0, 4) - 1)) && m.slice(5) <= last.slice(5) ? tot[i] : 0).reduce((a, b) => a + b, 0);
+  const maxI = tot.indexOf(Math.max(...tot.filter(v => v != null)));
+  const pt = provText('total');
+  $('#kpi').innerHTML = [
+    ['최신월 수출 (' + last + ')', fmtB(tot[i0]) + ' <small style="font-size:11px;color:#8b949e">억$</small>', `MoM <span class="${cls(tot[i0] / tot[i0 - 1] - 1)}">${fmtP((tot[i0] / tot[i0 - 1] - 1) * 100)}</span>`],
+    ['전년동월 대비 (YoY)', `<span class="${cls(ty[i0])}">${fmtP(ty[i0])}</span>`, '전년: ' + fmtB(tot[i0 - 12]) + '억$'],
+    ['이달 잠정치', pt ? pt.replace(/^.*?잠정 /, '') : '—', pt ? pt.replace(/ <b.*$/, '') : '아직 발표 전'],
+    [last.slice(0, 4) + '년 누적', fmtB(ytdCur) + ' <small style="font-size:11px;color:#8b949e">억$</small>', `전년 동기 ${fmtB(ytdPrev)} (<span class="${cls(ytdCur / ytdPrev - 1)}">${fmtP((ytdCur / ytdPrev - 1) * 100)}</span>)`],
+    ['역대 최고 (월)', fmtB(tot[maxI]) + ' <small style="font-size:11px;color:#8b949e">억$</small>', months[maxI]],
+  ].map(([k, v, s]) => `<div class="box"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  $('#hdsub').textContent = `${months[0]} ~ ${last} · 품목 ${ITEMS.items.length - 1}개 · 국가 ${CTRY.countries.length}개 · 갱신 ${(ITEMS.meta.generated_at || '').slice(0, 10)}`;
+
+  // ── 카드 ──
+  const charts = {};
+  let spanN = 36, sortMode = 'default';
+  function miniChart(canvas, exp, n) {
+    const y = yoyOf(exp), lab = months.slice(-n), e = exp.slice(-n), yy = y.slice(-n);
+    const ch = new Chart(canvas, { type: 'bar', data: { labels: lab, datasets: [
+      { type: 'bar', data: e, backgroundColor: 'rgba(63,185,80,0.45)', borderWidth: 0, yAxisID: 'y', order: 2 },
+      { type: 'line', data: yy, borderColor: '#f0b429', borderWidth: 1.4, pointRadius: 0, yAxisID: 'y1', tension: 0.25, order: 1 }] },
+      options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: { x: { display: false }, y: { display: false, beginAtZero: true }, y1: { display: false, position: 'right', grid: { drawOnChartArea: false } } } } });
+    return ch;
+  }
+  function cardHTML(id, name, grp, exp, extra) {
+    const c = classify(exp), i = exp.length - 1;
+    return `<div class="card" data-id="${id}"><div class="top"><span class="nm">${name}</span><span class="grp">${grp || ''}</span></div>
+      <div class="top"><span class="val">${fmtB(exp[i])}<small> 억$</small></span><span class="yoy ${cls(c.yoy)}">${fmtP(c.yoy)}</span></div>
+      <div class="meta"><span class="badge st-${c.st}">${c.label}</span><span>3MA ${fmtP(c.y3)} · Δ${fmtP(c.score)}p</span></div>
+      <div class="prov">${extra || ''}</div><div class="cv"><canvas></canvas></div></div>`;
+  }
+  function renderGrid() {
+    Object.values(charts).forEach(c => c.destroy()); for (const k in charts) delete charts[k];
+    let list = ITEMS.items.filter(it => it.id !== 'total').map(it => ({ it, c: classify(ser[it.id].exp), amt: ser[it.id].exp[N - 1] }));
+    if (sortMode === 'accel') list.sort((a, b) => b.c.score - a.c.score);
+    else if (sortMode === 'decel') list.sort((a, b) => a.c.score - b.c.score);
+    else if (sortMode === 'yoy') list.sort((a, b) => (b.c.yoy ?? -999) - (a.c.yoy ?? -999));
+    else if (sortMode === 'amt') list.sort((a, b) => b.amt - a.amt);
+    const totalIt = ITEMS.items.find(it => it.id === 'total');
+    $('#grid').innerHTML = cardHTML('total', '전체 수출', '합계', ser.total.exp, provText('total')) + list.map(({ it }) => cardHTML(it.id, it.name, it.group, ser[it.id].exp, provText(it.id))).join('');
+    $('#grid').querySelectorAll('.card').forEach(el => { const id = el.dataset.id; charts[id] = miniChart(el.querySelector('canvas'), ser[id].exp, spanN); el.onclick = () => openDetail('item', id); });
+    const cm = CTRY.months, cN = cm.length;
+    const clist = CTRY.countries.filter(c => c.id !== 'ALL').slice(0, 20);
+    $('#cgrid').innerHTML = clist.map(c => cardHTML('c:' + c.id, c.name, c.members ? '권역' : '', CTRY.series[c.id].exp, '')).join('');
+    $('#cgrid').querySelectorAll('.card').forEach(el => { const id = el.dataset.id.slice(2); charts['c:' + id] = miniChart(el.querySelector('canvas'), CTRY.series[id].exp, spanN); el.onclick = () => openDetail('country', id); });
+  }
+  renderGrid();
+  $('#sortSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; sortMode = b.dataset.s; $('#sortSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
+  $('#spanSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; spanN = +b.dataset.n; $('#spanSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
+
+  // ── 상세 ──
+  let big = null, cur = null, rangeY = 5;
+  function openDetail(kind, id) {
+    cur = { kind, id };
+    document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel'));
+    const el = document.querySelector(`.card[data-id="${kind === 'item' ? id : 'c:' + id}"]`); if (el) el.classList.add('sel');
+    $('#detail').classList.add('show');
+    drawDetail();
+    $('#detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function drawDetail() {
+    if (!cur) return;
+    const isItem = cur.kind === 'item';
+    const mm = isItem ? months : CTRY.months;
+    const s = isItem ? ser[cur.id] : CTRY.series[cur.id];
+    const meta = isItem ? ITEMS.items.find(x => x.id === cur.id) : CTRY.countries.find(x => x.id === cur.id);
+    const name = isItem ? (cur.id === 'total' ? '전체 수출' : meta.name) : meta.name;
+    $('#dTitle').textContent = name + (isItem && meta.mti_new ? `  (MTI ${meta.mti_new.join('+')}${meta.mti_old && meta.mti_old.join() !== meta.mti_new.join() ? ' · 2021년 이전 ' + meta.mti_old.join('+') : ''})` : '');
+    const n = rangeY ? rangeY * 12 : mm.length, from = Math.max(0, mm.length - n);
+    const lab = mm.slice(from), exp = s.exp.slice(from), imp = s.imp.slice(from);
+    const y = yoyOf(s.exp).slice(from), y3 = ma3(yoyOf(s.exp)).slice(from);
+    const ds = [
+      { type: 'bar', label: '수출액(억$)', data: exp.map(v => v == null ? null : v / 100), backgroundColor: 'rgba(63,185,80,0.5)', borderWidth: 0, yAxisID: 'y', order: 3 },
+      { type: 'line', label: 'YoY(%)', data: y, borderColor: '#f0b429', borderWidth: 1.6, pointRadius: 0, yAxisID: 'y1', tension: 0.2, order: 1 }];
+    if ($('#chkYoy3').checked) ds.push({ type: 'line', label: 'YoY 3MA', data: y3, borderColor: '#ff7b72', borderWidth: 1.4, borderDash: [4, 3], pointRadius: 0, yAxisID: 'y1', tension: 0.2, order: 1 });
+    if ($('#chkImp').checked) ds.push({ type: 'line', label: '수입액(억$)', data: imp.map(v => v == null ? null : v / 100), borderColor: '#8b949e', borderWidth: 1.2, pointRadius: 0, yAxisID: 'y', order: 2 });
+    if ($('#chkKospi').checked && KOSPI) ds.push({ type: 'line', label: '코스피', data: lab.map(m => KOSPI[m] ?? null), borderColor: '#a371f7', borderWidth: 1.6, pointRadius: 0, yAxisID: 'y2', tension: 0.2, order: 0 });
+    const bndIdx = lab.indexOf(ITEMS.meta.boundary);
+    const bndPlugin = { id: 'bnd', afterDraw(ch) {
+      if (bndIdx <= 0 || !isItem) return;
+      const half = ch.scales.x.width / lab.length / 2, px = ch.scales.x.getPixelForValue(bndIdx) - half, ctx = ch.ctx;
+      ctx.save(); ctx.strokeStyle = '#30363d'; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(px, ch.chartArea.top); ctx.lineTo(px, ch.chartArea.bottom); ctx.stroke();
+      ctx.fillStyle = '#6e7681'; ctx.font = '10px sans-serif'; ctx.fillText('신분류 →', px + 3, ch.chartArea.top + 10); ctx.restore(); } };
+    if (big) big.destroy();
+    big = new Chart($('#bigChart'), { data: { labels: lab, datasets: ds }, plugins: [bndPlugin],
+      options: { animation: false, responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: true, labels: { boxWidth: 10 } }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.parsed.y == null ? '—' : c.dataset.yAxisID === 'y1' ? fmtP(c.parsed.y) : c.parsed.y.toLocaleString('ko-KR', { maximumFractionDigits: 1 })) } } },
+        scales: { x: { ticks: { autoSkip: false, maxRotation: 0, callback: (v, i) => !lab[i] ? '' : lab[i].endsWith('-01') ? lab[i].slice(0, 4) : (n <= 24 ? lab[i].slice(5) : (n <= 60 && lab[i].endsWith('-07') ? '7월' : '')) } },
+          y: { position: 'left', beginAtZero: true, title: { display: true, text: '억$' } },
+          y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'YoY %' }, ticks: { callback: v => v + '%' } },
+          y2: { display: $('#chkKospi').checked && !!KOSPI, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '코스피' } } } } });
+    // 통계
+    const i = s.exp.length - 1, yy = yoyOf(s.exp), y3a = ma3(yy);
+    const mx = s.exp.indexOf(Math.max(...s.exp.filter(v => v != null)));
+    const ytdC = mm.map((m, k) => m.startsWith(mm[i].slice(0, 4)) ? s.exp[k] : 0).reduce((a, b) => a + b, 0);
+    const ytdP = mm.map((m, k) => m.startsWith(String(+mm[i].slice(0, 4) - 1)) && m.slice(5) <= mm[i].slice(5) ? s.exp[k] : 0).reduce((a, b) => a + b, 0);
+    const share = isItem && cur.id !== 'total' ? s.exp[i] / ser.total.exp[N - 1] * 100 : (!isItem ? s.exp[i] / CTRY.series.ALL.exp[CTRY.months.length - 1] * 100 : null);
+    $('#dStats').innerHTML = [['최신월 (' + mm[i] + ')', fmtB(s.exp[i]) + ' 억$'], ['YoY', `<span class="${cls(yy[i])}">${fmtP(yy[i])}</span>`], ['YoY 3MA', `<span class="${cls(y3a[i])}">${fmtP(y3a[i])}</span>`],
+      ['올해 누적 YoY', `<span class="${cls(ytdC / ytdP - 1)}">${fmtP((ytdC / ytdP - 1) * 100)}</span>`], ['비중', share == null ? '—' : share.toFixed(1) + '%'], ['역대 최고', fmtB(s.exp[mx]) + ' (' + mm[mx] + ')']]
+      .map(([k, v]) => `<div class="item"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+    // 세부 품목
+    const subs = isItem ? (ITEMS.subs[cur.id] || []) : [];
+    $('#dSubs').innerHTML = subs.length ? `<h2 style="margin:16px 0 8px;">세부 품목 <span class="sub">${ITEMS.sub_months[0]}~ · 2022년 이후 신분류 세부코드 (이전은 대응 코드가 있는 항목만)</span></h2><div class="subgrid">` +
+      subs.map(sb => { const e = sb.exp, k = e.length - 1, yv = e[k] != null && e[k - 12] ? (e[k] / e[k - 12] - 1) * 100 : null;
+        return `<div class="card" data-sub="${sb.id}"><div class="top"><span class="nm">${sb.name}</span><span class="grp">${sb.codes_new.join('+')}</span></div><div class="top"><span class="val">${fmtB(e[k])}<small> 억$</small></span><span class="yoy ${cls(yv)}">${fmtP(yv)}</span></div><div class="cv" style="height:70px"><canvas></canvas></div></div>`; }).join('') + '</div>' : '';
+    subs.forEach(sb => { const cv = $('#dSubs').querySelector(`.card[data-sub="${sb.id}"] canvas`); const lab2 = ITEMS.sub_months.slice(-spanN), e2 = sb.exp.slice(-spanN);
+      const yv = sb.exp.map((v, k) => k >= 12 && v != null && sb.exp[k - 12] ? (v / sb.exp[k - 12] - 1) * 100 : null).slice(-spanN);
+      new Chart(cv, { type: 'bar', data: { labels: lab2, datasets: [{ type: 'bar', data: e2, backgroundColor: 'rgba(88,166,255,0.45)', borderWidth: 0, yAxisID: 'y' }, { type: 'line', data: yv, borderColor: '#f0b429', borderWidth: 1.2, pointRadius: 0, yAxisID: 'y1', tension: .25 }] },
+        options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, beginAtZero: true }, y1: { display: false, position: 'right' } } } }); });
+    // 테이블 (최근 36개월)
+    const rows = []; for (let k = mm.length - 1; k >= Math.max(0, mm.length - 36); k--) rows.push(`<tr><td>${mm[k]}</td><td>${fmtB(s.exp[k])}</td><td class="${cls(s.exp[k] / s.exp[k - 1] - 1)}">${fmtP((s.exp[k] / s.exp[k - 1] - 1) * 100)}</td><td class="${cls(yy[k])}">${fmtP(yy[k])}</td><td>${fmtB(s.imp[k])}</td><td>${fmtB(s.exp[k] - s.imp[k])}</td></tr>`);
+    $('#dTable').innerHTML = `<table><thead><tr><th>월</th><th>수출(억$)</th><th>MoM</th><th>YoY</th><th>수입(억$)</th><th>수지</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+  }
+  $('#rangeSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; rangeY = +b.dataset.y; $('#rangeSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); drawDetail(); };
+  ['#chkImp', '#chkYoy3', '#chkKospi'].forEach(s => $(s).onchange = drawDetail);
+  $('#dClose').onclick = () => { $('#detail').classList.remove('show'); document.querySelectorAll('.card.sel').forEach(x => x.classList.remove('sel')); cur = null; };
+})();
+</script>
+</body>
+</html>
