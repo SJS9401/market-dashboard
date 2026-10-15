@@ -203,6 +203,29 @@ def main():
         out["notes"].append(f"Top20 실패: {e}")
     time.sleep(0.5)
 
+    # 2026-10-15 (BT 확인): 순위 API 의 prdy_ctrt 는 전일 「통합(KRX+NXT 애프터마켓)」 종가 기준이라
+    #   정규장 등락률과 최대 1%p 어긋난다 (10/14 삼성전자: API +1.08% vs 정규장 234,500원 +0.21%).
+    #   → 종목별 일별 시세(KRX)로 세션일·직전 거래일의 정규장 종가를 받아 등락률을 다시 계산한다.
+    #   실패한 종목은 원래 값을 그대로 두고 notes 에 남긴다. 순위 API 원값은 chg_pct_rank_api 로 보존.
+    fixed = 0
+    bd = out["base_date"].replace("-", "")
+    for r in out["value_top20"]:
+        try:
+            d2 = kis_get(tk, "/uapi/domestic-stock/v1/quotations/inquire-daily-price", "FHKST01010400", {
+                "FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": r["code"],
+                "FID_PERIOD_DIV_CODE": "D", "FID_ORG_ADJ_PRC": "0"})
+            rows = [x for x in (d2.get("output") or []) if x.get("stck_clpr")]
+            idx = next(i for i, x in enumerate(rows) if x.get("stck_bsop_date") == bd)
+            c0, c1 = float(rows[idx]["stck_clpr"]), float(rows[idx + 1]["stck_clpr"])
+            r["chg_pct_rank_api"] = r.get("chg_pct")
+            r["close"] = rows[idx]["stck_clpr"]
+            r["chg_pct"] = f"{(c0 / c1 - 1) * 100:.2f}"
+            fixed += 1
+        except Exception as e:
+            out["notes"].append(f"정규장 종가 재계산 실패 {r.get('name')}: {type(e).__name__}")
+        time.sleep(0.3)
+    out["notes"].append(f"value_top20 종가·등락률 = KRX 정규장 종가 기준 재계산 {fixed}/{len(out['value_top20'])}건")
+
     for target, cands in INVESTOR_TARGETS.items():
         picked = None
         for a, b in cands:
