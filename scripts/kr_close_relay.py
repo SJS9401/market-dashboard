@@ -203,28 +203,57 @@ def main():
         out["notes"].append(f"Top20 실패: {e}")
     time.sleep(0.5)
 
-    # 2026-10-15 (BT 확인): 순위 API 의 prdy_ctrt 는 전일 「통합(KRX+NXT 애프터마켓)」 종가 기준이라
-    #   정규장 등락률과 최대 1%p 어긋난다 (10/14 삼성전자: API +1.08% vs 정규장 234,500원 +0.21%).
-    #   → 종목별 일별 시세(KRX)로 세션일·직전 거래일의 정규장 종가를 받아 등락률을 다시 계산한다.
-    #   실패한 종목은 원래 값을 그대로 두고 notes 에 남긴다. 순위 API 원값은 chg_pct_rank_api 로 보존.
-    fixed = 0
-    bd = out["base_date"].replace("-", "")
-    for r in out["value_top20"]:
+    # 2026-10-17 (BT 승인): 정규장(KRX) 종가·등락률 재계산 — 확인 조회 3회(10/16~10/17)로 검증한 방식.
+    # · 순위 API·현재가·일별 시세는 저녁엔 애프터마켓(NXT) 마지막 가격이 섞인다(10/16 삼성전자 217,000 = 19:59 NXT 체결가).
+    #   일별 시세(J)는 다음 날 아침에도 틀린 날이 있다(10/14 232,000 vs 정규장 234,500) → 쓰지 않는다 (10/15 재계산 폐기).
+    # · 정규장 종가 = 시간대별 체결(FHPST01060000, J)의 15:20~15:31 체결 — NXT 가 15:20~15:40 쉬므로 이 구간 체결은
+    #   KRX 종가 단일가뿐이다. 10/16 삼성전자 15:30:05 215,500 / SK하이닉스 15:30:25 1,272,000 = 기사 종가와 일치.
+    # · 등락률 = 종가 ÷ 그날 기준가(현재가 시세 J 의 stck_sdpr) − 1. 권리락 등 기준가 조정일(10/15 진코스텍)과
+    #   신규상장 첫날(기준가 = 공모가, 10/15 멜콘)도 그대로 맞는다. 기준가는 저녁·자정 이후에도 유지된다(10/17 06:41 재조회).
+    # · 다음 거래일 07:50 KST 이후에 깨면(발화 지연) 기준가·체결이 새 날짜로 바뀌므로 재계산하지 않고 순위 API 값을 둔다.
+    # 실패·생략 종목은 순위 API 원값을 그대로 두고 notes 에 남긴다. 원값은 close_rank_api·chg_pct_rank_api 로 보존.
+    nd = session_date + timedelta(days=1)
+    while nd.weekday() >= 5:
+        nd += timedelta(days=1)
+    late = now >= datetime(nd.year, nd.month, nd.day, 7, 50, tzinfo=KST)
+    fixed, missing = 0, []
+    if late:
+        out["notes"].append(f"정규장 재계산 생략 — {now:%m/%d %H:%M} KST 실행(다음 거래일 07:50 이후). "
+                            "value_top20 종가·등락률은 순위 API 값(애프터마켓 포함 가능)")
+    for r in ([] if late else out["value_top20"]):
         try:
+            p = kis_get(tk, "/uapi/domestic-stock/v1/quotations/inquire-price", "FHKST01010100",
+                        {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": r["code"]})
+            base = float((p.get("output") or {}).get("stck_sdpr") or 0)
+            time.sleep(0.3)
+            t = kis_get(tk, "/uapi/domestic-stock/v1/quotations/inquire-time-itemconclusion", "FHPST01060000",
+                        {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": r["code"], "FID_INPUT_HOUR_1": "153100"})
+            ticks = [x for x in (t.get("output2") or [])
+                     if "152000" <= str(x.get("stck_cntg_hour") or "") <= "153100" and x.get("stck_prpr")]
+            if base <= 0 or not ticks:
+                missing.append(r.get("name"))
+                continue
+            close = float(max(ticks, key=lambda x: str(x.get("stck_cntg_hour")))["stck_prpr"])
+            r["close_rank_api"] = r.get("close")
+            r["chg_pct_rank_api"] = r.get("chg_pct")
+            r["base_price"] = f"{base:.0f}"
+            r["close"] = f"{close:.0f}"
+            r["chg_pct"] = f"{(close / base - 1) * 100:.2f}"
+            # 신규상장 첫날 = 일별 시세가 세션일 1행뿐 → 등락률은 공모가(기준가) 대비
+            time.sleep(0.3)
             d2 = kis_get(tk, "/uapi/domestic-stock/v1/quotations/inquire-daily-price", "FHKST01010400", {
                 "FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": r["code"],
                 "FID_PERIOD_DIV_CODE": "D", "FID_ORG_ADJ_PRC": "0"})
-            rows = [x for x in (d2.get("output") or []) if x.get("stck_clpr")]
-            idx = next(i for i, x in enumerate(rows) if x.get("stck_bsop_date") == bd)
-            c0, c1 = float(rows[idx]["stck_clpr"]), float(rows[idx + 1]["stck_clpr"])
-            r["chg_pct_rank_api"] = r.get("chg_pct")
-            r["close"] = rows[idx]["stck_clpr"]
-            r["chg_pct"] = f"{(c0 / c1 - 1) * 100:.2f}"
+            if len([x for x in (d2.get("output") or []) if x.get("stck_clpr")]) == 1:
+                r["listing_day"] = True
+                out["notes"].append(f"신규상장 첫날 {r.get('name')} — 등락률은 공모가(기준가 {base:.0f}) 대비")
             fixed += 1
         except Exception as e:
             out["notes"].append(f"정규장 종가 재계산 실패 {r.get('name')}: {type(e).__name__}")
         time.sleep(0.3)
-    out["notes"].append(f"value_top20 종가·등락률 = KRX 정규장 종가 기준 재계산 {fixed}/{len(out['value_top20'])}건")
+    if not late:
+        out["notes"].append(f"value_top20 종가·등락률 = 정규장 종가(15:30 체결) ÷ 기준가 재계산 {fixed}/{len(out['value_top20'])}건"
+                            + (f" — 미확인 {', '.join(missing)}(순위 API 값 유지)" if missing else ""))
 
     for target, cands in INVESTOR_TARGETS.items():
         picked = None
