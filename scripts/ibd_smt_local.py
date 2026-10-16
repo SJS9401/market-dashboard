@@ -7,18 +7,18 @@ GitHub 서버(클라우드 IP)는 YouTube 가 봇으로 차단한다(2026-10-09 
 그래서 BT PC 의 작업 스케줄러가 KST 화~토 06:40 에 이 파일을 실행한다.
 
   1) 로컬 리포 git pull (최신 스크립트 반영)
-  2) scripts/ibd_smt_relay.py 실행 — 5분 간격 재시도, 마지막 확인 08:00 KST (미국 서머타임 해제 기간 08:30)
+  2) scripts/ibd_smt_relay.py 실행 — 5분 간격 재시도, 마지막 확인 08:00 KST (미국 서머타임 해제 기간 08:15)
      (2026-10-10 BT 지시: 15분 → 07:20까지 연장. 10/9 방송(65분)은 06:15 종료 후
       35분이 지나도 자동자막이 안 나와 06:55 마감에 걸렸다. 데일리가 IBD를 맨 마지막에 읽는다)
   3) data/ibd_smt_*.json 변경분만 commit → push (토큰은 Scheduled/.github_token)
   4) 로그: Scheduled/deploy_logs/ibd_smt_YYYYMMDD.log
 
 (2026-10-16 BT 지시: 07:20 → 08:00. 10/15 회차는 06:48 업로드. 서머타임이 끝나면 방송이 1시간
-늦어져 자막이 07:40~07:55 예상 → 그 기간은 08:30으로 자동 전환. 데일리가 못 읽은 날은 08:40 클라우드
+늦어져 자막이 07:40~07:55 예상 → 그 기간은 08:15로 자동 전환(10-17 BT: 08:30 → 08:15, 사후 채우기 08:20보다 앞서 끝나게). 데일리가 못 읽은 날은 08:20 클라우드
 예약 작업 「ibd-backfill-cloud」가 아카이브 ⑤-3을 채운다)
 
 데일리 프리뷰(07:01 시작)는 수집 묶음이 끝난 뒤 맨 마지막(07:18~07:22 전후)에
-GitHub Pages 의 data/ibd_smt_latest.json 을 읽는다. 07:20까지 못 받으면 데일리에는 「IBD 자막 미수신」, 08:40 사후 채우기가 보완한다.
+GitHub Pages 의 data/ibd_smt_latest.json 을 읽는다. 07:20까지 못 받으면 데일리에는 「IBD 자막 미수신」, 08:20 사후 채우기가 보완한다.
 ※ 작업 스케줄러 「IBD-SMT-Relay」의 실행 시간 제한은 2시간이어야 한다(1시간이면 07:40에 강제 종료).
 """
 import os, subprocess, sys, datetime
@@ -30,7 +30,7 @@ LOG_DIR = os.path.join(SCHED, "deploy_logs")
 REMOTE = "github.com/SJS9401/market-dashboard.git"
 
 DEADLINE_DST = (8, 2)    # 미국 서머타임 기간: KST 08:00 전후 마지막 확인 (5분 간격 오차 흡수)
-DEADLINE_STD = (8, 32)   # 서머타임 해제 기간(11월 첫 일요일 ~ 3월 둘째 일요일): 방송 1시간 늦음 → 08:30
+DEADLINE_STD = (8, 17)   # 서머타임 해제 기간(11월 첫 일요일 ~ 3월 둘째 일요일): 방송 1시간 늦음 → 08:15
 
 def us_dst(d):
     """미국 서머타임 여부 — 3월 둘째 일요일 ~ 11월 첫 일요일 (tz 데이터 없이 계산)"""
