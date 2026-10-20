@@ -1,7 +1,7 @@
 {
- "run_at": "2026-10-20T00:42:30Z",
+ "run_at": "2026-10-20T01:54:17Z",
  "mode": "incremental",
- "status": "FAIL_SMALL (유효 79 < 1000)",
+ "status": "OK",
  "universe_source": "nasdaqtrader",
  "n_universe": 1925,
  "n_downloaded": 1925,
@@ -11,5 +11,12 @@
  "stale_n": 0,
  "stale_pct": 0.0,
  "stale_sample": [],
- "n_valid_200_last": 79
+ "n_valid_200_last": 1859,
+ "last_values": {
+  "date": "2026-10-19",
+  "pct_above_200ma": 41.743,
+  "pct_above_50ma": 31.954,
+  "n_valid_200": 1859,
+  "n_valid_50": 1909
+ }
 }
