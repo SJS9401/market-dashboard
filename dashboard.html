@@ -339,8 +339,9 @@
         <div class="cw cw-mac" id="mac-cw-us10y"><div class="msg" id="mac-msg-us10y">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>DE10Y</h3><span class="etf-sub">독일 10년물</span><span class="price" id="mac-p-de10y">—</span><span class="chg flat" id="mac-c-de10y"></span><span class="etf-sub" id="mac-src-de10y"></span></div></div>
         <div class="cw cw-mac" id="mac-cw-de10y"><div class="msg" id="mac-msg-de10y">로딩 중...</div></div></div>
-      <div class="card mac-card"><div class="card-top"><div class="left"><h3>GB10Y</h3><span class="etf-sub">영국 10년물</span><span class="price" id="mac-p-gb10y">—</span><span class="chg flat" id="mac-c-gb10y"></span><span class="etf-sub" id="mac-src-gb10y"></span></div></div>
-        <div class="cw cw-mac" id="mac-cw-gb10y"><div class="msg" id="mac-msg-gb10y">로딩 중...</div></div></div>
+      <!-- 2026-10-22 BT: 영국 10Y → 프랑스 10Y 교체 (영국 복원 시 아래 FR 카드를 GB10Y/gb10y 로 되돌리고 MAC 목록 주석 해제) -->
+      <div class="card mac-card"><div class="card-top"><div class="left"><h3>FR10Y</h3><span class="etf-sub">프랑스 10년물</span><span class="price" id="mac-p-fr10y">—</span><span class="chg flat" id="mac-c-fr10y"></span><span class="etf-sub" id="mac-src-fr10y"></span></div></div>
+        <div class="cw cw-mac" id="mac-cw-fr10y"><div class="msg" id="mac-msg-fr10y">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>WTI</h3><span class="etf-sub">WTI 근월물</span><span class="price" id="mac-p-wti">—</span><span class="chg flat" id="mac-c-wti"></span><span class="etf-sub" id="mac-src-wti"></span></div></div>
         <div class="cw cw-mac" id="mac-cw-wti"><div class="msg" id="mac-msg-wti">로딩 중...</div></div></div>
       <div class="card mac-card"><div class="card-top"><div class="left"><h3>Brent</h3><span class="etf-sub">브렌트 근월물</span><span class="price" id="mac-p-brent">—</span><span class="chg flat" id="mac-c-brent"></span><span class="etf-sub" id="mac-src-brent"></span></div></div>
@@ -3737,7 +3738,7 @@ function drawUSCnnFG() {
 
 
 // ═══════════════════════════════════════════════════════════════════
-// 매크로 10패널 (2026-10-09 BT) — 미국 2Y/10Y · 독일/영국 10Y (유럽 재정 모니터링) · WTI/Brent · 금/구리 · 달러인덱스/비트코인
+// 매크로 10패널 (2026-10-09 BT) — 미국 2Y/10Y · 독일/프랑스 10Y (유럽 재정 모니터링, 2026-10-22 영국→프랑스) · WTI/Brent · 금/구리 · 달러인덱스/비트코인
 //   일봉 / 15분봉 전환 + MA 5/20/50/100/200 (ETF 패널과 같은 규격) + 실시간 마지막 봉.
 //   데이터: CNBC — 일봉 = ts-api 1Y (약 2년치 일봉), 15분봉 = ts-api 5D (5분봉 약 8거래일 → 15분 합성),
 //           시세 = restQuote (당일 세션 OHLC). github.io 에서 CORS 허용 실측.
@@ -3751,7 +3752,8 @@ function drawUSCnnFG() {
     { id: 'us2y',   sym: 'US2Y',   name: '미국 2년물',     kind: 'yield', prec: 3 },
     { id: 'us10y',  sym: 'US10Y',  name: '미국 10년물',    kind: 'yield', prec: 3 },
     { id: 'de10y',  sym: 'DE10Y-DE', name: '독일 10년물',  kind: 'yield', prec: 3, refDaily: true },
-    { id: 'gb10y',  sym: 'GB10Y-GB', name: '영국 10년물',  kind: 'yield', prec: 3, refDaily: true },
+    { id: 'fr10y',  sym: 'FR10Y-FR', name: '프랑스 10년물', kind: 'yield', prec: 3, refDaily: true },   // 2026-10-22 영국 → 프랑스 교체
+    // { id: 'gb10y',  sym: 'GB10Y-GB', name: '영국 10년물',  kind: 'yield', prec: 3, refDaily: true },   // 보류 (복원 시 주석 해제 + 카드 HTML 교체)
     { id: 'wti',    sym: '@CL.1',  name: 'WTI 근월물',     prec: 2, bn: 'CLUSDT' },
     { id: 'brent',  sym: '@LCO.1', name: '브렌트 근월물',  prec: 2, bn: 'BZUSDT' },
     { id: 'gold',   sym: '@GC.1',  name: '금 근월물',      prec: 1, bn: 'XAUUSDT' },
