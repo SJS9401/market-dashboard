@@ -1580,8 +1580,8 @@ const COL_MAIN = { kr:'kospi', kq:'kosdaq', us:'ndx', etf:'qqq' };
 
 // MA config: periods and colors per chart
 const MA_CONFIG = {
-  kospi:  { daily:[5,20,60,120], weekly:[5,20,60,120] },
-  kosdaq: { daily:[5,20,60,120], weekly:[5,20,60,120] },
+  kospi:  { daily:[5,20,60,120,200], weekly:[5,20,60,120] },   // 2026-10-24 BT: 일봉 200일선 추가 (미국과 동일 진한 빨강·굵게)
+  kosdaq: { daily:[5,20,60,120,200], weekly:[5,20,60,120] },
   ndx:    { daily:[5,20,50,100,200], weekly:[5,20,50,100,200] }
 };
 // ETF 6패널도 나스닥과 동일한 5/20/50/100/200 (2026-09-13 BT)
