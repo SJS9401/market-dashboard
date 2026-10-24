@@ -1595,15 +1595,16 @@ const MA_COLOR_BY_PERIOD = {
   5:'#000000', 10:'#0000FF', 20:'#B8860B',
   50:'#9900CC', 60:'#9900CC',
   100:'#008000', 120:'#008000',
-  200:'#8B4513'
+  200:'#8B0000'   // 2026-10-24 BT: 갈색 → 진한 빨강 + 굵게 (maWidth)
 };
-const MA_COLORS = ['#000000','#B8860B','#9900CC','#008000','#8B4513'];
+const MA_COLORS = ['#000000','#B8860B','#9900CC','#008000','#8B0000'];
 // 2026-08-01: 회색 배경에서 금색 라인이 묻혀 → MDD 와 동일한 진한 슬레이트로 통일.
 //   C_SLATE      = 차트 시리즈 (회색 plot 위)  — MDD bottomLineColor 와 같은 값
 //   C_SLATE_TEXT = 다크 카드 헤더/툴팁 텍스트 (같은 색은 다크 배경에서 안 보임)
 const C_SLATE = 'rgb(45,62,80)';
 const C_SLATE_TEXT = 'rgb(126,166,209)';
 const maColor = (p, i) => MA_COLOR_BY_PERIOD[p] || MA_COLORS[i % MA_COLORS.length];
+const maWidth = p => (p >= 200 ? 2.6 : p <= 20 ? 1.8 : 1.2);   // 200일선만 굵게 (2026-10-24 BT)
 
 async function loadIndex(id, col) {
   const range = colRange[col], intv = colInterval[col];
@@ -1655,7 +1656,7 @@ async function loadIndex(id, col) {
         }
         if (pts.length) {
           const line = allCharts[id].chart.addLineSeries({
-            color: maColor(p, idx), lineWidth: (p <= 20 ? 1.8 : 1.2),
+            color: maColor(p, idx), lineWidth: maWidth(p),
             priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
           });
           line.setData(pts);
@@ -3950,7 +3951,7 @@ function drawUSCnnFG() {
       const sma = calcSMA(closes, p), pts = [];
       for (let i = p - 1; i < s.bars.length; i++) if (sma[i] != null) pts.push({ time: s.bars[i].time, value: sma[i] });
       if (!pts.length) return;
-      const l = s.chart.addLineSeries({ color: maColor(p, k), lineWidth: p <= 20 ? 1.8 : 1.2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+      const l = s.chart.addLineSeries({ color: maColor(p, k), lineWidth: maWidth(p), priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
       l.setData(pts); s.maLines.push(l);
     });
     header(m);
