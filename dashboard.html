@@ -277,7 +277,7 @@
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-us"></div>
   </div>
-  <!-- RIGHT: ETF 4패널 (2026-09-13 신설, 2026-09-14 DIA·IWM 제거) — 시총가중 vs 동일비중 쏠림 비교 -->
+  <!-- RIGHT: ETF 4패널 (2026-09-13 신설, 2026-09-14 DIA·IWM 제거, 2026-10-24 BT: QQQE 제거·IWM 복귀 → QQQ/SPY/RSP/IWM) -->
   <div class="col" id="col-etf">
     <div class="col-xline" id="xline-etf"></div>
     <div class="col-gridlines" id="grid-etf"></div>
@@ -287,16 +287,16 @@
       <div class="cw cw-etf" id="cw-qqq"><div class="msg" id="msg-qqq">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>QQQE</h3><span class="etf-sub">나스닥100 동일비중</span><span class="price" id="p-qqqe">—</span><span class="chg flat" id="c-qqqe"></span></div></div>
-      <div class="cw cw-etf" id="cw-qqqe"><div class="msg" id="msg-qqqe">로딩 중...</div></div>
-    </div>
-    <div class="card">
       <div class="card-top"><div class="left"><h3>SPY</h3><span class="etf-sub">S&amp;P500</span><span class="price" id="p-spy">—</span><span class="chg flat" id="c-spy"></span></div></div>
       <div class="cw cw-etf" id="cw-spy"><div class="msg" id="msg-spy">로딩 중...</div></div>
     </div>
     <div class="card">
       <div class="card-top"><div class="left"><h3>RSP</h3><span class="etf-sub">S&amp;P500 동일비중</span><span class="price" id="p-rsp">—</span><span class="chg flat" id="c-rsp"></span></div></div>
       <div class="cw cw-etf" id="cw-rsp"><div class="msg" id="msg-rsp">로딩 중...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-top"><div class="left"><h3>IWM</h3><span class="etf-sub">러셀2000</span><span class="price" id="p-iwm">—</span><span class="chg flat" id="c-iwm"></span></div></div>
+      <div class="cw cw-etf" id="cw-iwm"><div class="msg" id="msg-iwm">로딩 중...</div></div>
     </div>
     <div class="col-date-label col-date-sub" id="date-sub-etf"></div>
   </div>
@@ -1283,7 +1283,7 @@ const TOOLTIP_MAIN = { kr: 'kospi', kq: 'kosdaq', us: 'ndx' };   // etf 는 호�
 const CHART_TITLE = {
   kospi: '코스피', kosdaq: '코스닥', ndx: '나스닥 종합',
   qqq: 'QQQ 나스닥100', qqqe: 'QQQE 나스닥100 동일비중', spy: 'SPY S&P500',
-  rsp: 'RSP S&P500 동일비중'
+  rsp: 'RSP S&P500 동일비중', iwm: 'IWM 러셀2000'
 };
 const TOOLTIP_COLOR = { kr: '#F39C12', kq: '#F39C12', us: '#FF6B6B', etf: '#FF6B6B' };
 // HTS 툴팁의 sub 차트 데이터 렌더링 — 컬럼별 보조지표 행 추가
@@ -1574,7 +1574,7 @@ const FALLBACKS = { kospi:['^KS11','EWY'], ndx:['^IXIC','^NDX','QQQ'], usdkrw:['
   kosdaq:['^KQ11'],
   qqq:['QQQ'], qqqe:['QQQE'], spy:['SPY'], rsp:['RSP'], dia:['DIA'], iwm:['IWM'] };
 // ETF 패널 (시총가중 vs 동일비중 쏠림 비교). 순서 = 화면 배열 순서
-const ETF_IDS = ['qqq','qqqe','spy','rsp'];   // 2026-09-14 BT: DIA·IWM 제거
+const ETF_IDS = ['qqq','spy','rsp','iwm'];   // 2026-10-24 BT: QQQE 제거, IWM(러셀2000) 추가 (이전: qqq/qqqe/spy/rsp)
 // 컬럼별 메인(=기준) 차트 — 기본 봉수/스크롤바/동기화 기준
 const COL_MAIN = { kr:'kospi', kq:'kosdaq', us:'ndx', etf:'qqq' };
 
