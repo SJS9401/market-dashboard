@@ -266,6 +266,20 @@ def main():
     if close.empty:
         raise SystemExit("[ERROR] 가격 데이터 없음")
 
+    # 끝 행 커버리지 트림 (2026-10-29): 야후가 최신 거래일 봉을 일부 종목만 먼저 내주는 시간대가 있다
+    #   (10/28 09:45 KST 실행: 10/27 행에 99종목만 → FAIL_SMALL). 최근 20행 중앙값의 80% 미만인
+    #   끝 행은 '아직 덜 들어온 날'로 보고 잘라낸다 → 전일까지만 계산, 다음 실행에서 채워짐.
+    cnt = close.notna().sum(axis=1)
+    ref = float(cnt.iloc[-23:-3].median()) if len(cnt) > 25 else float(cnt.max())
+    trimmed = []
+    while len(close) > 1 and cnt.iloc[-1] < 0.8 * ref:
+        trimmed.append(f"{close.index[-1].date()}({int(cnt.iloc[-1])})")
+        close = close.iloc[:-1]
+        cnt = cnt.iloc[:-1]
+    if trimmed:
+        _log(f"  끝 행 커버리지 부족 → 제외: {', '.join(trimmed)} (기준 {ref:.0f}종목의 80%)")
+    health["trimmed_tail"] = trimmed
+
     # 종목 신선도 게이트
     last_idx = close.index.max().date()
     last_valid = close.apply(lambda s: s.last_valid_index())
