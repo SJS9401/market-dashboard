@@ -424,7 +424,7 @@
       <div class="cw cw-sub" id="cw-kr-mdd"><div class="msg" id="msg-kr-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="kr-fg-val">—</span><span class="chg" id="kr-fg-lbl"></span><span class="xdate">코스피 7-factor</span></div></div>
+      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="kr-fg-val">—</span><span class="chg" id="kr-fg-lbl"></span><span class="xdate">코스피 7-factor</span><span class="xdate" id="kr-fg-osc" title="F&amp;G 오실레이터 — 5변수 합성 심리지수의 MACD(12,26,9) 히스토그램. 절대 수준이 아니라 심리 개선/둔화 속도 (0 위 = 개선 중)">Osc —</span></div></div>
       <div class="cw cw-sub" id="cw-kr-fg"><div class="msg" id="msg-kr-fg">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -1344,6 +1344,8 @@ function renderSubsForTooltip(col, time, hoverId) {
       const v = Math.round(d.value);
       const lbl = fgLabel(v, s.id);        // us-fg 는 CNN 밴드 (2026-09-17 BT)
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
+      if (s.id === 'kr-fg' && d.osc != null)
+        valHtml += ' / <span style="color:' + (d.osc >= 0 ? 'rgb(249,117,131)' : 'rgb(126,166,209)') + '">Osc ' + (d.osc >= 0 ? '+' : '') + (d.osc * 100).toFixed(2) + '</span>';
     } else if (s.id.endsWith('-adr')) {
       if (d.value == null) return;
       const c = d.value >= ADR_OVERBOUGHT ? '#f04452' : (d.value <= ADR_OVERSOLD ? '#3182f6' : '');
@@ -1478,6 +1480,7 @@ function _updateHeaderForChartImpl(chartId, time) {
   } else if (chartId === 'kr-fg' || chartId === 'us-fg') {
     const v = d.value != null ? Math.round(d.value) : null;
     if (v != null) { const lbl = fgLabel(v, chartId); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
+    if (chartId === 'kr-fg' && window._krFgOscSet) window._krFgOscSet(d.osc != null ? d.osc : null);
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
@@ -2059,9 +2062,47 @@ async function loadKrFG() {
     if(!allCharts['kr-fg']){createChart('kr-fg','kr',{showTimeAxis:false});allCharts['kr-fg'].chart.priceScale('right').applyOptions({scaleMargins:{top:0.05,bottom:0.05}});addAreaSeries('kr-fg',C_SLATE);}
     const krfgData=alignToTimeIndex(data,'kr');allCharts['kr-fg'].series.setData(krfgData);buildDataMap('kr-fg',krfgData);
     addZoneLines(allCharts['kr-fg'].series,[{price:75,color:'#27ae60'},{price:50,color:'#f1c40f'},{price:25,color:'#e74c3c'}]);
+    // 2026-10-30 BT: F&G 오실레이터 오버레이 (kr_fg_oscillator.json, 매일 KRX cron 이 갱신).
+    //   절대값(7-factor)보다 선행해서 꺾이는 경향 → 같은 카드에 핑크선으로 겹쳐 본다.
+    //   축은 'fg-osc' 오버레이 스케일(축 미표시) — 좌축을 켜면 컬럼 X 정렬이 어긋난다 (2026-08-01 교훈).
+    try {
+      const O = await fetchFgOsc();
+      let sOsc = (O.data || []).map(([d, v]) => ({ time: d, value: v.osc })).filter(p => p.value != null);
+      if (intv === '1wk') sOsc = resampleWeekly(sOsc);
+      const ch = allCharts['kr-fg'];
+      if (!ch.series2) {
+        ch.chart.priceScale('fg-osc').applyOptions({ scaleMargins: { top: 0.08, bottom: 0.08 } });
+        ch.series2 = ch.chart.addLineSeries({ priceScaleId: 'fg-osc', color: 'rgb(249,117,131)', lineWidth: 1.6,
+          priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
+        addZoneLines(ch.series2, [{ price: 0, color: '#8b949e' }]);
+      }
+      const pOsc = alignToTimeIndex(sOsc, 'kr');
+      ch.series2.setData(pOsc);
+      const om = {}; pOsc.forEach(p => { om[p.time] = p.value; });
+      const map = chartDataMap['kr-fg'] || {};
+      Object.keys(map).forEach(t => { map[t] = Object.assign({}, map[t], { osc: om[t] }); });
+      const lo = sOsc[sOsc.length - 1], oe = document.getElementById('kr-fg-osc');
+      const oscTxt = v => (v >= 0 ? '+' : '') + (v * 100).toFixed(2);
+      const setOsc = v => { if (!oe) return; if (v == null) { oe.textContent = 'Osc —'; return; }
+        oe.textContent = 'Osc ' + oscTxt(v); oe.style.color = v >= 0 ? 'rgb(249,117,131)' : 'rgb(126,166,209)'; };
+      setOsc(lo ? lo.value : null);
+      window._krFgOscSet = setOsc;
+      const prevOrig = origValues['kr-fg'];
+      origValues['kr-fg'] = () => { prevOrig && prevOrig(); setOsc(lo ? lo.value : null); };
+    } catch (e) { console.warn('KR FG osc', e); }
     // fitContent skipped — synced from main chart
     msgEl.style.display='none';
   } catch(e){console.error('KR FG',e);msgEl.textContent='⚠ 실패';}
+}
+
+// F&G 오실레이터 데이터 (2026-09-14 카드 철거 → 2026-10-30 KR F&G 카드 오버레이로 복귀)
+let _fgOscCache = null;
+async function fetchFgOsc() {
+  if (_fgOscCache) return _fgOscCache;
+  const r = await fetch('./data/kr_fg_oscillator.json?_t=' + Date.now());
+  if (!r.ok) throw new Error('kr_fg_oscillator.json fetch failed: ' + r.status);
+  _fgOscCache = await r.json();
+  return _fgOscCache;
 }
 
 // KR VKOSPI (Phase 3) — KRX OpenAPI 파생상품지수 시세정보 추출 결과
