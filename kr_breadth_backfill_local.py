@@ -84,28 +84,45 @@ def call_endpoint(endpoint, bas_dd):
     return http_get(url, headers)
 
 
-def fetch_one_day(bas_dd):
-    """KOSPI + KOSDAQ 한 일자 fetch — 통합 종목 list 반환. 둘 다 실패 시 None."""
-    rows = []
-    fail = 0
-    for ep, mkt in ((KOSPI_EP, "kp"), (KOSDAQ_EP, "kq")):
+def _fetch_market(ep, mkt, bas_dd, tries=3):
+    """한 시장 1일치. HTTP 오류/파싱 오류만 재시도. 정상 빈 응답(휴장)은 바로 [] (휴장일 대기 낭비 방지)."""
+    for k in range(tries):
         status, body = call_endpoint(ep, bas_dd)
-        if status != 200:
-            fail += 1
-            continue
-        try:
-            j = json.loads(body)
-        except Exception:
-            fail += 1
-            continue
-        ob = j.get("OutBlock_1") or []
-        for r in ob:
-            r["_mkt"] = mkt   # ADR 코스피/코스닥 분리 계산용 태그
-        rows.extend(ob)
-        time.sleep(0.05)  # rate limit 보호
-    if fail == 2:
-        return None  # 양쪽 다 실패 → 휴일 또는 API 장애
-    return rows
+        if status == 200:
+            try:
+                ob = json.loads(body).get("OutBlock_1") or []
+            except Exception:
+                ob = None
+            if ob is not None:
+                for r in ob:
+                    r["_mkt"] = mkt   # ADR 코스피/코스닥 분리 계산용 태그
+                return ob
+        time.sleep(1.0 + k)
+    return []
+
+
+def fetch_one_day(bas_dd):
+    """KOSPI + KOSDAQ 한 일자 fetch — 통합 종목 list 반환. 휴장/장애면 None.
+    2026-10-30: 한 시장만 비어 오는 날(2026-01-13 코스닥 누락 사고)은 반쪽 데이터를 쓰지 않고
+    그 날을 통째로 건너뛴다 → 다음 --update 실행이 다시 받아 채운다.
+    반쪽 날이 섞이면 그 시장의 MA(120)가 이후 120영업일 동안 계산 불가(null)가 된다."""
+    kp = _fetch_market(KOSPI_EP, "kp", bas_dd)
+    time.sleep(0.05)  # rate limit 보호
+    kq = _fetch_market(KOSDAQ_EP, "kq", bas_dd)
+    for k in range(3):                      # 한쪽만 비었으면 그쪽만 몇 번 더 (일시 장애 대비)
+        if bool(kp) == bool(kq):
+            break
+        time.sleep(2.0 + 2 * k)
+        if not kp:
+            kp = _fetch_market(KOSPI_EP, "kp", bas_dd)
+        else:
+            kq = _fetch_market(KOSDAQ_EP, "kq", bas_dd)
+    if not kp and not kq:
+        return None   # 휴장 또는 양쪽 장애
+    if not kp or not kq:
+        print(f"  [warn] {bas_dd} {'KOSPI' if not kp else 'KOSDAQ'} 응답 없음 — 반쪽 데이터라 이 날은 건너뜀")
+        return None
+    return kp + kq
 
 
 def aggregate_day(rows):
@@ -437,6 +454,8 @@ def cmd_update():
                (old.get("adr") is None and r.get("adr") is not None) or \
                (old.get("above_120ma") is None and r.get("above_120ma") is not None) or \
                (old.get("above_120ma_kp") is None and r.get("above_120ma_kp") is not None) or \
+               (old.get("above_120ma_kq") is None and r.get("above_120ma_kq") is not None) or \
+               (old.get("above_20ma_kq") is None and r.get("above_20ma_kq") is not None) or \
                (old.get("adr_kospi") is None and r.get("adr_kospi") is not None):
                 existing[r["date"]] = r
                 added += 1
@@ -451,6 +470,32 @@ def cmd_update():
     print(f"[update] 신규/갱신 {added} 일자 추가됨")
 
 
+def cmd_repair(start_yyyymmdd, end_yyyymmdd):
+    """구간 재계산 (2026-10-30). START~END 의 기존 행을 통째로 다시 계산해 덮어쓴다.
+    NH/NL(252일)·MA(120) 워밍업을 위해 START 400일 전부터 받는다. 구간 밖 행은 그대로 둔다.
+    용도: 특정 날 한 시장이 빠져 이후 MA 가 null/왜곡된 구간 복구."""
+    if not OUT_PATH.exists():
+        print("[repair] 기존 파일 없음"); sys.exit(1)
+    s = datetime.strptime(start_yyyymmdd, "%Y%m%d")
+    fetch_start = (s - timedelta(days=400)).strftime("%Y%m%d")
+    print(f"[repair] 대상 {start_yyyymmdd}~{end_yyyymmdd} · fetch {fetch_start}~{end_yyyymmdd}")
+    prev = json.loads(OUT_PATH.read_text(encoding="utf-8"))
+    existing = {r["date"]: r for r in prev.get("data", [])}
+    daily = fetch_range(fetch_start, end_yyyymmdd, existing_dates=None)
+    if not daily:
+        print("[repair] fetch 결과 없음 — 중단"); sys.exit(1)
+    lo = f"{start_yyyymmdd[:4]}-{start_yyyymmdd[4:6]}-{start_yyyymmdd[6:]}"
+    hi = f"{end_yyyymmdd[:4]}-{end_yyyymmdd[4:6]}-{end_yyyymmdd[6:]}"
+    n = 0
+    for r in compute_breadth(daily):
+        if lo <= r["date"] <= hi:
+            existing[r["date"]] = r
+            n += 1
+    still = [d for d, r in existing.items() if lo <= d <= hi and r.get("above_120ma_kq") is None]
+    print(f"[repair] {n} 일자 재계산 · 구간 내 above_120ma_kq 누락 {len(still)}일 {still[:5]}")
+    save(sorted(existing.values(), key=lambda x: x["date"]))
+
+
 def main():
     p = argparse.ArgumentParser()
     g = p.add_mutually_exclusive_group(required=True)
@@ -459,6 +504,8 @@ def main():
                    help="기간 풀 백필 YYYYMMDD YYYYMMDD")
     g.add_argument("--update", action="store_true",
                    help="최근 260영업일 fetch + 신규 일자 append (Actions용)")
+    g.add_argument("--repair", nargs=2, metavar=("START", "END"),
+                   help="구간 재계산 후 덮어쓰기 YYYYMMDD YYYYMMDD (워밍업 400일 자동 포함)")
     p.add_argument("--overwrite", action="store_true", help="기존 파일 무시하고 처음부터")
     args = p.parse_args()
 
@@ -468,6 +515,8 @@ def main():
         cmd_backfill(args.backfill[0], args.backfill[1], overwrite=args.overwrite)
     elif args.update:
         cmd_update()
+    elif args.repair:
+        cmd_repair(args.repair[0], args.repair[1])
 
 
 if __name__ == "__main__":

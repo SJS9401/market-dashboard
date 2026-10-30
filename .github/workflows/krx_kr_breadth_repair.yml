@@ -1,0 +1,68 @@
+# KRX KR Breadth 구간 복구 (2026-10-30 신설)
+# ----------------------------------------------------------
+# 특정 날 한 시장(코스피/코스닥) 응답이 빠지면 그 시장의 MA(120)가 이후 120영업일 동안 null 이 된다.
+# (2026-01-13 코스닥 누락 → 코스닥 120MA 시장폭 2026-01-13~07-09 공백)
+# 이 워크플로는 지정 구간을 워밍업 400일 포함해 다시 받아 그 구간 행만 덮어쓴다.
+# 수동 실행 전용 (workflow_dispatch). 기본값 = 2026-01 사고 구간.
+# Secret: KRX_AUTH_KEY
+# ----------------------------------------------------------
+name: KRX KR Breadth Repair
+
+on:
+  workflow_dispatch:
+    inputs:
+      start:
+        description: '복구 시작일 YYYYMMDD'
+        required: true
+        default: '20260113'
+      end:
+        description: '복구 종료일 YYYYMMDD'
+        required: true
+        default: '20260831'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krx-kr-breadth-backfill
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 의존성 설치
+        run: pip install -q pandas
+      - name: 구간 재계산
+        env:
+          KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
+        run: python -u kr_breadth_backfill_local.py --repair ${{ github.event.inputs.start }} ${{ github.event.inputs.end }}
+      - name: 검증
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open('data/kr_breadth.json'))['data']
+          seg = [r for r in d if '2026-01-05' <= r['date'] <= '2026-07-15']
+          miss = [r['date'] for r in seg if r.get('above_120ma_kq') is None]
+          print('rows', len(d), 'segment', len(seg), 'kq120 missing', len(miss), miss[:5])
+          for r in seg:
+              if r['date'] in ('2026-01-12','2026-01-13','2026-01-14','2026-07-09','2026-07-10'):
+                  print(r['date'], r.get('n_traded'), r.get('above_120ma_kq'), r.get('above_20ma_kq'), r.get('above_120ma'))
+          PY
+      - name: 변경사항 있을 때만 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_breadth.json
+          if git diff --cached --quiet; then
+            echo "::notice::변경 없음"
+          else
+            git commit -m "chore(data): kr_breadth 구간 복구 ${{ github.event.inputs.start }}~${{ github.event.inputs.end }}"
+            git pull --rebase origin main
+            git push
+          fi
