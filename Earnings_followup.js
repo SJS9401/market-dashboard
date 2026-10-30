@@ -378,12 +378,11 @@ function renderWatchlistSummary() {
 }
 
 function renderProgress() {
-  let totalStocks = 0, p = 0, r = 0;
+  let totalStocks = 0, r = 0;
   for (const tier of ['T1', 'T2', 'T3']) {
     for (const sec of state.watchlist[tier]) {
       for (const stock of sec.stocks) {
         totalStocks++;
-        if (getModeFile(stock, 'preview')) p++;
         if (getModeFile(stock, 'review')) r++;
       }
     }
@@ -459,10 +458,10 @@ function renderStockRow(stock) {
   tr.appendChild(nameTd);
   // td 2: 발표일 (YY/MM/DD)
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
-  // td 3: 리포트 5개 버튼
+  // td 3: 리포트 버튼 4개
   const buttons = el('div', { class: 'mode-buttons' });
-  // 5/18 변경: 산업기초 추가 + 라벨 풀네임 통일 (총 6개)
-  for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['theme', '테마분석'], ['preview', '실적 프리뷰'], ['review', '실적 리뷰'], ['in-depth', '실적 인뎁스']]) {
+  // 2026-10-30: 프리뷰·인뎁스 모드 폐지 → 버튼 제거 (실적은 리뷰 v11 하나)
+  for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['theme', '테마분석'], ['review', '실적 리뷰']]) {
     const mode = pair[0], label = pair[1];
     // 5/18 추가: industry-basic + multi-industry (예: Alphabet=광고|클라우드) → dropdown UX
     if (mode === 'industry-basic' && stock.industries && stock.industries.length > 1) {
@@ -486,13 +485,12 @@ function renderSectorCard(sectorObj, tier) {
     el('div', { class: 'sector-name' }, sectorObj.sector),
     el('div', { class: 'sector-meta' }, '종목 ' + sectorObj.stocks.length + '개 · ' + tier)
   ]));
-  let pCount = 0, rCount = 0;
+  let rCount = 0;
   for (const stock of sectorObj.stocks) {
-    if (getModeFile(stock, 'preview')) pCount++;
     if (getModeFile(stock, 'review')) rCount++;
   }
   card.appendChild(el('div', { class: 'sector-meta', style: 'margin-bottom: 0.4rem;' },
-    '진행: P ' + pCount + '/' + sectorObj.stocks.length + ' · R ' + rCount + '/' + sectorObj.stocks.length));
+    '리뷰 ' + rCount + '/' + sectorObj.stocks.length));
   // 종목 테이블 (table 사용 — 컬럼 vertical line 카드 전체에 이어짐)
   const table = el('table', { class: 'stock-table' });
   const thead = el('thead');
