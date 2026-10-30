@@ -262,7 +262,7 @@
       <div class="cw cw-sub" id="cw-us-mdd"><div class="msg" id="msg-us-mdd">로딩 중...</div></div>
     </div>
     <div class="card">
-      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">CNN Fear &amp; Greed</span><span class="xdate" id="us-fg-own" title="우리 7-factor (나스닥 기준) — 전 구간 롤링 z-score 정규화">7-factor —</span></div></div>
+      <div class="card-top"><div class="left"><h3>공포탐욕</h3><span class="price" id="us-fg-val">—</span><span class="chg" id="us-fg-lbl"></span><span class="xdate">CNN Fear &amp; Greed</span><span class="xdate" id="us-fg-own" title="우리 7-factor (나스닥 기준) — 전 구간 롤링 z-score 정규화">7-factor —</span><span class="xdate" id="us-fg-osc" title="F&amp;G 오실레이터 — CNN Fear &amp; Greed(일별)의 MACD(12,26,9) 히스토그램. 절대 수준이 아니라 심리 개선/둔화 속도 (0 위 = 개선 중)">Osc —</span></div></div>
       <div class="cw cw-sub" id="cw-us-fg"><div class="msg" id="msg-us-fg">로딩 중...</div></div>
     </div>
     <div class="card">
@@ -1344,7 +1344,7 @@ function renderSubsForTooltip(col, time, hoverId) {
       const v = Math.round(d.value);
       const lbl = fgLabel(v, s.id);        // us-fg 는 CNN 밴드 (2026-09-17 BT)
       valHtml = v + ' <span style="color:' + lbl.c + ';font-size:10px;">(' + lbl.t + ')</span>';
-      if (s.id === 'kr-fg' && d.osc != null)
+      if (d.osc != null)
         valHtml += ' / <span style="color:' + (d.osc >= 0 ? 'rgb(249,117,131)' : 'rgb(126,166,209)') + '">Osc ' + (d.osc >= 0 ? '+' : '') + (d.osc * 100).toFixed(2) + '</span>';
     } else if (s.id.endsWith('-adr')) {
       if (d.value == null) return;
@@ -1481,6 +1481,7 @@ function _updateHeaderForChartImpl(chartId, time) {
     const v = d.value != null ? Math.round(d.value) : null;
     if (v != null) { const lbl = fgLabel(v, chartId); document.getElementById(chartId+'-val').textContent = v; const le = document.getElementById(chartId+'-lbl'); le.textContent = lbl.t; le.style.color = lbl.c; }
     if (chartId === 'kr-fg' && window._krFgOscSet) window._krFgOscSet(d.osc != null ? d.osc : null);
+    if (chartId === 'us-fg' && window._usFgOscSet) window._usFgOscSet(d.osc != null ? d.osc : null);
   } else if (chartId === 'breadth') {
     const pe = document.getElementById('p-breadth');
     if (pe && d.above200 != null && d.above50 != null)
@@ -3776,6 +3777,47 @@ function drawUSCnnFG() {
   usFgHeader(sc, true, c.rating);
   const ve = document.getElementById('us-fg-val');
   if (ve) ve.title = 'CNN Business Fear & Greed · ' + (c.date || '');
+
+  // 2026-10-30 BT: CNN F&G 오실레이터 — KR 카드와 같은 규격(0~1 스케일 MACD 12,26,9 히스토그램).
+  //   CNN 일별 원시값으로 계산 → 본선과 같은 키(일/주)로 정렬. 축은 'fg-osc' 오버레이(축 미표시).
+  try {
+    const ema = (a, n) => { const k = 2 / (n + 1); let e = null; return a.map(v => (e = e == null ? v : v * k + e * (1 - k))); };
+    const raw = usCnnFG.data.filter(p => p[1] != null);
+    const xs = raw.map(p => p[1] / 100);
+    const e12 = ema(xs, 12), e26 = ema(xs, 26);
+    const macd = xs.map((_, i) => e12[i] - e26[i]);
+    const sig = ema(macd, 9);
+    const om = {};
+    raw.forEach((p, i) => { if (i >= 33) om[key(p[0])] = macd[i] - sig[i]; });   // 워밍업(26+9) 이후만
+    const pOsc = []; let lv = null;
+    for (const t of idx) {
+      const k = key(t);
+      if (k < first) continue;
+      if (om[k] != null) lv = om[k];
+      if (lv != null) pOsc.push({ time: t, value: lv });
+    }
+    const ch = allCharts['us-fg'];
+    if (!ch.series2) {
+      ch.chart.priceScale('fg-osc').applyOptions({ scaleMargins: { top: 0.08, bottom: 0.08 } });
+      ch.series2 = ch.chart.addLineSeries({ priceScaleId: 'fg-osc', color: 'rgb(249,117,131)', lineWidth: 1.6,
+        priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: true });
+      addZoneLines(ch.series2, [{ price: 0, color: '#8b949e' }]);
+    }
+    ch.series2.setData(pOsc);
+    const vm = {}; pOsc.forEach(p => { vm[p.time] = p.value; });
+    const dm = chartDataMap['us-fg'] || {};
+    Object.keys(dm).forEach(t => { dm[t] = Object.assign({}, dm[t], { osc: vm[t] }); });
+    const lastOsc = raw.length > 33 ? macd[raw.length - 1] - sig[raw.length - 1] : null;
+    const oe = document.getElementById('us-fg-osc');
+    const setOsc = v => { if (!oe) return; if (v == null) { oe.textContent = 'Osc —'; oe.style.color = ''; return; }
+      oe.textContent = 'Osc ' + (v >= 0 ? '+' : '') + (v * 100).toFixed(2); oe.style.color = v >= 0 ? 'rgb(249,117,131)' : 'rgb(126,166,209)'; };
+    setOsc(lastOsc);
+    window._usFgOscSet = setOsc;
+    const prevOrig = origValues['us-fg'];
+    // usFgHeader 가 복원 시 origValues 를 다시 덮어쓰므로, 래퍼가 자기 자신을 재등록한다.
+    const restore = () => { prevOrig && prevOrig(); setOsc(lastOsc); origValues['us-fg'] = restore; };
+    origValues['us-fg'] = restore;
+  } catch (e) { console.warn('US FG osc', e); }
 }
 
 
