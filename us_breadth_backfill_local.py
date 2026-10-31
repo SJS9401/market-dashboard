@@ -691,16 +691,13 @@ def run_backfill(start: str, end: str, max_tickers: int = 0) -> None:
         if prev_tail_corrupt and new_last < prev_last:
             _log(f"  prev tail corrupt (spx null @ {prev_last}) — regression allowed (corrupt tail auto-heal)")
         elif new_last < prev_last:
-            _log(f"::error::regression detected: new last_date={new_last} < prev last_date={prev_last}. "
-                 f"Refusing to overwrite. (max_tickers={max_tickers})")
-            _write_health_json(
-                run_started=run_started, status="FAIL_REGRESSION",
-                spx_source=spx_source, spx_attempts=spx_attempts,
-                constituents=constituent_health,
-                last_date=new_last,
-                extra={"reason": "regression", "prev_last": prev_last},
-            )
-            sys.exit(2)
+            # 2026-10-31: 기존 파일이 이미 더 최신(06:55 cron-job.org dispatch 가 먼저 성공)인데
+            #   지연 발화한 안전망 cron 이 최신일 0/503 응답을 받아 하루 짧은 결과를 낸 경우.
+            #   덮어쓰기 거부는 그대로, 단 실패(exit 2)가 아니라 "건너뜀"으로 정상 종료한다 —
+            #   매일 실패 알림 메일 + health.json 이 FAIL 로 덮이는 문제 방지 (health 는 손대지 않음).
+            _log(f"::notice::skip — existing data is newer (prev last_date={prev_last} > new {new_last}). "
+                 f"Keeping existing file; health untouched. (max_tickers={max_tickers})")
+            return
         if new_last == prev_last:
             _log(f"  no new trading day (last_date unchanged: {new_last}) — proceeding to update meta only")
 
