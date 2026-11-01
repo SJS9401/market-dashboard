@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-10-30T16:32+09:00",
- "run_date_kst": "2026-10-30",
+ "generated_at_kst": "2026-11-01T12:31+09:00",
+ "run_date_kst": "2026-11-01",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -9,7 +9,7 @@
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "TOP OF MIND",
+    "title": "Higher Bond Yields: How Concerning?",
     "date": "2026-10-19",
     "url": "https://www.goldmansachs.com/insights/top-of-mind/higher-bond-yields-how-concerning"
    }
@@ -38,13 +38,13 @@
   },
   "소시에테제네랄": {
    "status": "ok",
-   "count": 13,
+   "count": 9,
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "10-year treasury yield is attractive",
-    "date": "2026-10-29",
-    "url": "https://www.cnbc.com/video/2026/10/26/10-year-treasury-yield-is-attractive-says-societe-generales-subadra-rajappa-ahead-of-fed-meeting.html?&qsearchterm=societe%20generale"
+    "title": "As the bond market bares its teeth, it’s not a good time to be swimming naked",
+    "date": "2026-10-22",
+    "url": "https://insight-public.sgmarkets.com/alternative-view/bond-market-bares-teeth-notgood-time-to-be-swimming-naked"
    }
   },
   "JP모건": {
@@ -61,18 +61,18 @@
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "RESEARCH GLOBAL MARKETS AND ECONOMY E91: El Niño: Rising Tides and Prices Rob Rowe sits down with Arkady Gevorkyan to discuss all things El Niño: what it is, how a range of agricultural commodities co",
-    "date": null,
-    "url": "https://www.citigroup.com/global/insights/e91-el-nino-rising-tides-and-prices"
+    "title": "The Global Economy’s Tenuous Balance: Resilience Amid Uncertainty",
+    "date": "2026-10-30",
+    "url": "https://www.citigroup.com/global/insights/the-global-economys-tenuous-balance-resilience-amid-uncertainty"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 17,
-   "new_today": 0,
+   "count": 18,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
     "title": "The Next Stage of the Market Correction",
@@ -82,13 +82,13 @@
   },
   "Jefferies": {
    "status": "ok",
-   "count": 10,
+   "count": 8,
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "Leadership Spotlight",
+    "title": "Secondaries Get a Second Wind",
     "date": null,
-    "url": "https://www.jefferies.com/insights/category/leadership-spotlight/"
+    "url": "https://www.jefferies.com/insights/markets/secondaries-get-a-second-wind/"
    }
   },
   "RBC": {
@@ -97,11 +97,26 @@
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "INSIGHTS Midterm musings We review our thoughts on the US midterm elections, where we think it makes sense to be prepared for all outcomes. 7 min listen",
+    "title": "Margins matter in US midterm elections",
     "date": "2026-10-01",
-    "url": "https://www.rbccm.com/en/insights/2026/10/midterm-musings"
+    "url": "https://www.rbccm.com/en/insights/2026/10/margins-matter-in-us-midterm-elections"
    }
   }
  },
- "recent_new": []
+ "recent_new": [
+  {
+   "bank": "씨티",
+   "title": "The Global Economy’s Tenuous Balance: Resilience Amid Uncertainty",
+   "url": "https://www.citigroup.com/global/insights/the-global-economys-tenuous-balance-resilience-amid-uncertainty",
+   "date": "2026-10-30",
+   "first_seen_kst": "2026-11-01T12:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "The Curious Calm of Credit Markets",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/credit-markets-ai-investment-bond-issuance-andrew-sheets",
+   "date": null,
+   "first_seen_kst": "2026-11-01T12:31+09:00"
+  }
+ ]
 }
