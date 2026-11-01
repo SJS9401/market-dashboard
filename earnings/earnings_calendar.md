@@ -13,7 +13,7 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | AAPL | Apple | 소비자 수요, 서비스 매출 |
-| AMZN | Amazon | 클라우드(AWS) CAPEX, 소비 |
+| AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
 | META | Meta | 광고 시장, AI CAPEX |
 | MSFT | Microsoft | 클라우드(Azure) CAPEX, AI 수익화 |
