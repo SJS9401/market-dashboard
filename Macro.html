@@ -141,6 +141,9 @@
   const lastIdx = a => { for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return i; return -1; };
   const SER = id => S[id] ? toMonthly(S[id].data, (id === 'ICSA' || id === 'CCSA') ? 'avg' : 'last') : new Array(N).fill(null);
   const ISMS = k => M.ism && M.ism[k] ? toMonthly(M.ism[k].data, 'prev') : new Array(N).fill(null);
+  // ISM 제조업 세부지수 (ISM 보도자료, 2012-09~, 데이터월 기준) — 2026-11-01
+  const ISMD = k => { const a = new Array(N).fill(null), D = M.ism_detail; if (!D) return a; const j = D.keys.indexOf(k); if (j < 0) return a;
+    D.data.forEach(r => { const i = midx[r[0]]; if (i != null && r[j + 1] != null) a[i] = r[j + 1]; }); return a; };
   const REC = (M.recessions || []).map(([a, b]) => [midx[ymOf(a)], midx[ymOf(b)]]).filter(x => x[0] != null);
 
   // 소매판매 컨트롤그룹 = 전체 − 자동차 − 주유소 − 건자재 − 음식서비스 (GDP 소비 산정에 쓰이는 핵심 소매)
@@ -190,7 +193,15 @@
       subs: [{ key: 'aco', label: '전체 원자재(1913~)', data: yoy(SER('PPIACO')), color: C.e, axis: 'y1' }, { key: 'svc', label: '최종수요 서비스', data: yoy(SER('WPSFD4131')), color: C.h }, { key: 'ppi_mom', label: '최종수요 MoM', data: mom(SER('PPIFIS')), color: C.f, type: 'bar' }],
       chg: 'pp', match: /미.*PPI/ },
     { id: 'ism_mfg', rule: 'ism1', name: 'ISM 제조업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('mfg_pmi'), color: C.a }],
-      subs: [{ key: 'prices', label: '가격지수', data: ISMS('mfg_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('mfg_employment'), color: C.d }, { key: 'no', label: '신규주문', data: ISMS('mfg_neworders'), color: C.c }],
+      subs: [{ key: 'prices', label: '가격지수', data: ISMS('mfg_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('mfg_employment'), color: C.d }, { key: 'no', label: '신규주문', data: ISMS('mfg_neworders'), color: C.c },
+        { key: 'prod', label: '생산', data: ISMD('production'), color: C.g },
+        { key: 'sd', label: '공급자 납기(50↑ 지연)', data: ISMD('supplier_deliveries'), color: C.h },
+        { key: 'inv', label: '재고', data: ISMD('inventories'), color: C.b },
+        { key: 'cinv', label: '고객재고(50↓ 부족)', data: ISMD('customers_inventories'), color: C.j },
+        { key: 'bl', label: '수주잔고', data: ISMD('backlog'), color: C.i },
+        { key: 'exp', label: '신규 수출주문', data: ISMD('export_orders'), color: C.k },
+        { key: 'imp', label: '수입', data: ISMD('imports'), color: C.l },
+        { key: 'noinv', label: '신규주문 − 재고 (pt)', data: (() => { const n = ISMD('new_orders'), v = ISMD('inventories'); return n.map((x, i) => x != null && v[i] != null ? +(x - v[i]).toFixed(1) : null); })(), color: C.f, type: 'bar', axis: 'y1' }],
       chg: 'abs', match: /ISM 제조업/, ism: 'mfg_pmi' },
     { id: 'ism_svc', rule: 'ism3', name: 'ISM 서비스업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('svc_pmi'), color: C.a }],
       subs: [{ key: 'no', label: '신규주문', data: ISMS('svc_neworders'), color: C.c }, { key: 'prices', label: '가격지수', data: ISMS('svc_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('svc_employment'), color: C.d }],

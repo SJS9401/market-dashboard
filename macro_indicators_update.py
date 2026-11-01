@@ -136,6 +136,89 @@ def fred_first_release(sid, obs_date):
     except Exception as e:
         log(f'  {sid}: release parse error {e}'); return None
 
+# ── ISM 제조업 세부지수 (2026-11-01 BT) ─────────────────────────────────────
+#   investing.com 에 재고·공급자납기 등이 없어 ISM 공식 보도자료(PR Newswire)에서 수집.
+#   과거 2012-09~ 는 scripts/ism_mfg_detail_seed.csv (보도자료 전수 파싱, 다음달 보도자료의 '전월' 칸 = 수정치 우선).
+#   매일: 최근 제조업 보도자료 2건의 "MANUFACTURING AT A GLANCE" 표 → 당월 값 + 전월 수정치 반영.
+#   PR Newswire 실패 시 ismworld.org 월별 페이지로 폴백. 둘 다 실패하면 이전 JSON 유지.
+ISMD_KEYS = ['pmi', 'new_orders', 'production', 'employment', 'supplier_deliveries', 'inventories',
+             'customers_inventories', 'prices', 'backlog', 'export_orders', 'imports']
+ISMD_PAT = [(r'^(manufacturing )?pmi', 'pmi'), (r'^new orders', 'new_orders'), (r'^production', 'production'),
+            (r'^employment', 'employment'), (r'^supplier deliveries', 'supplier_deliveries'), (r'^inventories', 'inventories'),
+            (r'^customers', 'customers_inventories'), (r'^prices', 'prices'), (r'^backlog', 'backlog'),
+            (r'^new export', 'export_orders'), (r'^imports', 'imports')]
+MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+
+def _strip(h):
+    import html as _h
+    return re.sub(r'\s+', ' ', _h.unescape(re.sub(r'<[^>]+>', ' ', h))).strip()
+
+def _ism_glance(page):
+    """보도자료 HTML → (ym, {k:v}, pym, {k:v}) 또는 None"""
+    tabs = re.findall(r'<table.*?</table>', page, flags=re.S | re.I)
+    tab = next((t for t in tabs if re.search(r'AT A GLANCE', t, re.I)), None) or next((t for t in tabs if re.search(r'Series\s*Index', _strip(t), re.I)), None)
+    if not tab: return None
+    txt = _strip(tab) + ' ' + _strip(re.search(r'<title>(.*?)</title>', page, re.S | re.I).group(1) if re.search(r'<title>', page, re.I) else '')
+    m = re.search(r'(' + '|'.join(MONTHS) + r')\s+(\d{4})', txt, re.I)
+    if not m: return None
+    y, mo = int(m.group(2)), MONTHS.index(m.group(1).lower()) + 1
+    py, pm = (y, mo - 1) if mo > 1 else (y - 1, 12)
+    cur, prv = {}, {}
+    for row in re.findall(r'<tr.*?</tr>', tab, flags=re.S | re.I):
+        cells = [_strip(c) for c in re.findall(r'<t[dh][^>]*>(.*?)</t[dh]>', row, flags=re.S | re.I)]
+        if len(cells) < 3: continue
+        nm = re.sub(r"[®’']", '', cells[0].lower()).strip()
+        k = next((k for pat, k in ISMD_PAT if re.match(pat, nm)), None)
+        if not k: continue
+        try: cur[k] = float(cells[1])
+        except ValueError: pass
+        try: prv[k] = float(cells[2])
+        except ValueError: pass
+    if len(cur) < 8: return None
+    return f'{y}-{mo:02d}', cur, f'{py}-{pm:02d}', prv
+
+def ism_detail(prev):
+    base = {}
+    seed = os.path.join(ROOT, 'scripts', 'ism_mfg_detail_seed.csv')
+    if os.path.exists(seed):
+        for r in csv.reader(open(seed, encoding='utf-8')):
+            if not r or r[0].startswith('#') or r[0] == 'ym': continue
+            base[r[0]] = {k: (float(v) if v not in ('', 'null') else None) for k, v in zip(ISMD_KEYS, r[1:])}
+    for row in ((prev or {}).get('ism_detail') or {}).get('data', []):
+        base[row[0]] = dict(zip(ISMD_KEYS, row[1:]))
+    got = []
+    raw, st = get('https://www.prnewswire.com/news/institute-for-supply-management/', retry=2, timeout=40)
+    links = []
+    if raw:
+        for href, txt in re.findall(r'<a[^>]+href="([^"]*news-releases/[^"]+)"[^>]*>(.*?)</a>', raw, flags=re.S | re.I):
+            t = _strip(txt)
+            if re.search(r'Manufacturing PMI', t, re.I) and not re.search(r'Services', t, re.I):
+                u = href if href.startswith('http') else 'https://www.prnewswire.com' + href
+                u = u.split('?')[0]
+                if u not in links: links.append(u)
+    else: log(f'  ISM detail: PR Newswire list HTTP {st}')
+    for u in links[:2][::-1]:          # 오래된 것부터 → 최신이 마지막에 덮어씀
+        pg, st = get(u, retry=2, timeout=40)
+        g = _ism_glance(pg) if pg else None
+        if g: got.append(g)
+        else: log(f'  ISM detail: parse fail {u[-60:]} ({st})')
+        time.sleep(1)
+    if not got:     # 폴백: ismworld 월별 페이지 (최근 2개월명)
+        now = datetime.now(timezone.utc)
+        for back in (2, 1):
+            mo = (now.month - back - 1) % 12
+            pg, st = get(f'https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/pmi/{MONTHS[mo]}/', retry=2, timeout=40)
+            g = _ism_glance(pg) if pg else None
+            if g: got.append(g)
+            else: log(f'  ISM detail: ismworld {MONTHS[mo]} fail ({st})')
+    for ym, cur, pym, prv in got:
+        base[ym] = {**base.get(ym, {}), **cur}
+        if prv: base[pym] = {**base.get(pym, {}), **prv}
+        log(f'  ISM detail: {ym} {cur.get("pmi")} / revised {pym} {prv.get("pmi")}')
+    if not base: return None
+    rows = [[ym] + [base[ym].get(k) for k in ISMD_KEYS] for ym in sorted(base)]
+    return {'keys': ISMD_KEYS, 'source': 'ISM Report On Business (PR Newswire / ismworld.org)', 'data': rows}
+
 def oecd():
     raw, st = get(OECD_URL, headers={'Accept': 'text/csv'})
     if not raw: log('OECD fail', st); return None
@@ -222,11 +305,14 @@ def main():
     else:
         for k, v in prev.get('ism', {}).items(): ism_d.setdefault(k, v)
     spx = spx_monthly() or prev.get('spx_monthly')
+    try: ismd = ism_detail(prev) or prev.get('ism_detail')
+    except Exception as e: log('ISM detail error', e); ismd = prev.get('ism_detail')
+    if ismd: log('ISM detail rows', len(ismd['data']), ismd['data'][-1][:3])
     out = {
       'meta': {'updated': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                'sources': 'FRED / OECD SDMX / investing.com(ISM) / yfinance(^GSPC)',
                'ism_cached_at': datetime.now(timezone.utc).isoformat(timespec='seconds') if ism_d else None},
-      'series': series, 'release': release, 'recessions': rec, 'oecd_cli': cli, 'ism': ism_d, 'spx_monthly': spx,
+      'series': series, 'release': release, 'recessions': rec, 'oecd_cli': cli, 'ism': ism_d, 'ism_detail': ismd, 'spx_monthly': spx,
     }
     # 데이터가 그대로면 파일을 건드리지 않음 (meta 제외 비교) → 불필요한 커밋 방지
     strip = lambda d: {k: v for k, v in d.items() if k != 'meta'}
