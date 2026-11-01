@@ -15,7 +15,7 @@
 | AAPL | Apple | 소비자 수요, 서비스 매출 |
 | AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
-| META | Meta | 광고 시장, AI CAPEX |
+| META | Meta | 4Q 조정OP YoY 0% 방어·27 비용 가이던스, Muse 유료 구독·글로벌 출시, $95B 증자 희석·ATM, 광고 노출 10%+, 법적비용 |
 | MSFT | Microsoft | Azure FQ2 49~50% 실현, FQ2 FCF 흑자·첫 채권 발행, M365 cc 19% 가속, RPO $680B 탈피, OpenAI 비중 11% |
 | NVDA | Nvidia | Vera Rubin 시점·디테일, Q3 가이던스 $100B+ 진입, 자사주 분기 $20B+ 페이스, China H20/C200 재개, ACIE Sovereign AI 메가딜 verify |
 | TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
@@ -31,7 +31,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| MU | Micron | ★GPM 81% + Q4 톤, HBM4 12H ramp, 추가 SCA 체결, FY27 가이던스 첫 시그널, Singapore fab |
+| MU | Micron | OP QoQ +14%·GPM 87% 반등, 12/9 주주환원, DRAM 계약가 둔화, 2028 CapEx·de-spec, SCA 30건+ |
 | — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
 | — | SK하이닉스 | OPM 76% 돌파, ADR 6월 결정, HBM4 양산, NAND Bit 회복, DDR5 ASP 둔화 |
 
