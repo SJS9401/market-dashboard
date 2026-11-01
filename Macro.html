@@ -37,6 +37,8 @@
   .card .d { font-size:12px; font-weight:700; }
   .card .m { font-size:11px; color:#8b949e; }
   .card .next { font-size:10.5px; color:#8b949e; margin-top:2px; min-height:14px; }
+  .card .next b.rel { color:#7ee2b8; }
+  .card .next .rm { color:#6e7681; }
   .card .next b { color:#d2a8ff; font-weight:600; }
   .card .cv { position:relative; height:150px; margin-top:6px; }
   .card .lg { display:flex; gap:10px; font-size:10.5px; color:#8b949e; margin-top:4px; flex-wrap:wrap; }
@@ -191,6 +193,18 @@
       case 'retail': return `${m}월 15일 전후 미 ${tm} 소매판매`;
       case 'pce': return `${m}월 말 미 ${tm} PCE`;
       default: return null; } };
+  // 최근 데이터 발표일 (2026-11-01 BT) — FRED 는 서버가 ALFRED 최초 발표일을 받아 둔 M.release,
+  //   ISM 은 데이터 날짜 자체가 발표일(investing.com 이벤트 시각). 미 지표는 ET 08:30/10:00 → 한국 같은 날 밤.
+  const REL_FRED = { unemp: 'UNRATE', payrolls: 'PAYEMS', retail: 'RSAFS', cpi: 'CPIAUCSL', pce: 'PCEPI', ppi: 'PPIFIS' };
+  const REL_ISM = { ism_mfg: 'mfg_pmi', ism_svc: 'svc_pmi' };
+  const WD = '일월화수목금토';
+  const relOf = (ind, ym) => { if (!ym) return null; let d = null;
+    const sid = REL_FRED[ind.id];
+    if (sid) { const r = (M.release || {})[sid]; if (r && r.obs && r.obs.slice(0, 7) === ym) d = r.date; }
+    const ik = REL_ISM[ind.id];
+    if (ik && M.ism && M.ism[ik]) { const [y, m] = addM(ym, 1), want = y + '-' + String(m).padStart(2, '0'); const hit = M.ism[ik].data.filter(x => x[0].slice(0, 7) === want).pop(); if (hit) d = hit[0]; }
+    if (!d) return null; const dt = new Date(d + 'T00:00:00Z');
+    return (dt.getUTCMonth() + 1) + '/' + String(dt.getUTCDate()).padStart(2, '0') + '(' + WD[dt.getUTCDay()] + ')'; };
   const nextEv = re => { if (!re) return null; const ev = (E.events || []).filter(e => e.sd >= today && e.cat === '경제지표' && re.test(e.ev) && !/중국|독일|유로|한국|영국|일본/.test(e.ev)).sort((a, b) => a.sd.localeCompare(b.sd))[0]; return ev ? ev.sd.slice(5).replace('-', '/') + ' ' + ev.ev.replace(/\(KST[^)]*\)|\s*★\s*/g, '').trim().slice(0, 34) : null; };
 
   // ── 공통 차트 ──
@@ -230,7 +244,7 @@
       const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b></span>`; })() : '';
       return `<div class="card" data-id="${ind.id}"><div class="top"><span class="nm">${ind.name}</span><span class="src">${ind.src}</span></div>
         <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small></span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
-        <div class="next">${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>
+        <div class="next">${(() => { const r = relOf(ind, s.ym); return r ? `최근 발표 <b class="rel">${r}</b> <span class="rm">(${+s.ym.slice(5)}월분)</span> · ` : ''; })()}${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>
         <div class="cv"><canvas></canvas></div>
         <div class="lg">${ind.main.map(l => `<span><i style="background:${l.color}"></i>${l.label}</span>`).join('')}</div></div>`; }).join('');
     IND.forEach(ind => { const el = $(`.card[data-id="${ind.id}"]`); charts[ind.id] = makeChart(el.querySelector('canvas'), ind, ind.main, Math.max(0, N - n), N, true); el.onclick = () => openDetail(ind.id); });
@@ -266,7 +280,7 @@
     const m0 = ind.main[0].data, i = lastIdx(m0); const v = m0[i];
     const hist = m0.slice(0, i + 1).filter(x => x != null); const pct = hist.filter(x => x <= v).length / hist.length * 100;
     const win = m0.slice(Math.max(0, i - 119), i + 1).filter(x => x != null);
-    $('#dStats').innerHTML = [['최신 (' + months[i] + ')', fmt(v, ind.p) + ind.unit], ['전월', fmt(m0[i - 1], ind.p)], ['3개월 전', fmt(m0[i - 3], ind.p)], ['12개월 전', fmt(m0[i - 12], ind.p)], ['10년 범위', fmt(Math.min(...win), ind.p) + ' ~ ' + fmt(Math.max(...win), ind.p)], ['역사적 백분위', fmt(pct, 0) + '%']]
+    $('#dStats').innerHTML = [['최신 (' + months[i] + (relOf(ind, months[i]) ? ' · ' + relOf(ind, months[i]) + ' 발표' : '') + ')', fmt(v, ind.p) + ind.unit], ['전월', fmt(m0[i - 1], ind.p)], ['3개월 전', fmt(m0[i - 3], ind.p)], ['12개월 전', fmt(m0[i - 12], ind.p)], ['10년 범위', fmt(Math.min(...win), ind.p) + ' ~ ' + fmt(Math.max(...win), ind.p)], ['역사적 백분위', fmt(pct, 0) + '%']]
       .map(([k, vv]) => `<div class="item"><div class="k">${k}</div><div class="v">${vv}</div></div>`).join('');
     // 표 (최근 24개월, 전 라인)
     const rows = []; for (let k = i; k >= Math.max(0, i - 23); k--) rows.push(`<tr><td>${months[k]}</td>${lines.map(l => `<td>${fmt(l.data[k], ind.p)}</td>`).join('')}</tr>`);

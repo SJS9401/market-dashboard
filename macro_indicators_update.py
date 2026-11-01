@@ -97,6 +97,21 @@ def fred(sid):
         except ValueError: pass
     return out or None
 
+# 카드 대표 시리즈 — 최신 월 값이 "처음 발표된 날" (2026-11-01 BT: 최근 데이터 발표일 표시)
+#   ALFRED 실시간(vintage) 조회: 그 관측월 값의 모든 버전 중 가장 이른 realtime_start = 최초 발표일.
+REL_SIDS = ['UNRATE', 'PAYEMS', 'RSAFS', 'CPIAUCSL', 'PCEPI', 'PPIFIS']
+
+def fred_first_release(sid, obs_date):
+    if not FRED_KEY or not obs_date: return None
+    raw, st = get(f'https://api.stlouisfed.org/fred/series/observations?series_id={sid}&api_key={FRED_KEY}&file_type=json'
+                  f'&observation_start={obs_date}&observation_end={obs_date}&realtime_start=1990-01-01&realtime_end=9999-12-31', retry=2, timeout=40)
+    if not raw: log(f'  {sid}: release HTTP {st}'); return None
+    try:
+        rs = [o['realtime_start'] for o in json.loads(raw).get('observations', []) if o.get('value') not in ('.', '', None)]
+        return min(rs) if rs else None
+    except Exception as e:
+        log(f'  {sid}: release parse error {e}'); return None
+
 def oecd():
     raw, st = get(OECD_URL, headers={'Accept': 'text/csv'})
     if not raw: log('OECD fail', st); return None
@@ -158,6 +173,16 @@ def main():
         series[sid] = {'label': label, 'unit': unit, 'group': grp, 'tf': tf, 'data': d}
         log(f'{sid:16s} {len(d):5d} pts  {d[0][0]} ~ {d[-1][0]}  last={d[-1][1]}')
         time.sleep(0.3)
+    # 최신 데이터 발표일
+    release = {}
+    for sid in REL_SIDS:
+        if sid not in series: continue
+        last = series[sid]['data'][-1][0]
+        r = fred_first_release(sid, last)
+        if not r and prev.get('release', {}).get(sid, {}).get('obs') == last: r = prev['release'][sid]['date']
+        if r: release[sid] = {'obs': last, 'date': r}
+        log(f'  release {sid:10s} {last} → {r}')
+        time.sleep(0.3)
     # 침체 구간
     rec = []
     if 'USREC' in series:
@@ -177,7 +202,7 @@ def main():
       'meta': {'updated': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                'sources': 'FRED / OECD SDMX / investing.com(ISM) / yfinance(^GSPC)',
                'ism_cached_at': datetime.now(timezone.utc).isoformat(timespec='seconds') if ism_d else None},
-      'series': series, 'recessions': rec, 'oecd_cli': cli, 'ism': ism_d, 'spx_monthly': spx,
+      'series': series, 'release': release, 'recessions': rec, 'oecd_cli': cli, 'ism': ism_d, 'spx_monthly': spx,
     }
     # 데이터가 그대로면 파일을 건드리지 않음 (meta 제외 비교) → 불필요한 커밋 방지
     strip = lambda d: {k: v for k, v in d.items() if k != 'meta'}
