@@ -19,7 +19,7 @@
 | META | Meta | 4Q 조정OP YoY 0% 방어·27 비용 가이던스, Muse 유료 구독·글로벌 출시, $95B 증자 희석·ATM, 광고 노출 10%+, 법적비용 |
 | MSFT | Microsoft | Azure FQ2 49~50% 실현, FQ2 FCF 흑자·첫 채권 발행, M365 cc 19% 가속, RPO $680B 탈피, OpenAI 비중 11% |
 | NVDA | Nvidia | Vera Rubin 시점·디테일, Q3 가이던스 $100B+ 진입, 자사주 분기 $20B+ 페이스, China H20/C200 재개, ACIE Sovereign AI 메가딜 verify |
-| TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
+| TSLA | Tesla | 4Q OP $0.94B·OPM 3%↑, 12월 EU FSD 승인, SpaceX 합병 위원회 결론, Optimus 시연·Cybercab 확장, ESS 15GWh 회복 |
 
 ### 소프트웨어/클라우드
 
@@ -33,7 +33,7 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | MU | Micron | OP QoQ +14%·GPM 87% 반등, 12/9 주주환원, DRAM 계약가 둔화, 2028 CapEx·de-spec, SCA 30건+ |
-| — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
+| — | 삼성전자 | 4Q 영업익 130조+, 1월말 주주환원 55~75조, 1Q27 모바일 DRAM +30%, HBM 점유율 40%, MX 적자 |
 | — | SK하이닉스 | 4Q 영업익 100조 돌파, 1Q27 DRAM가 인상, 2028 LTA 추가, 중국 범용 증설, 4Q 자사주 10조+ |
 
 ### 반도체 — CPU
