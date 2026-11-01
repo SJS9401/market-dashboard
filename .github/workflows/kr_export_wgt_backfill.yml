@@ -1,0 +1,44 @@
+# 수출 탭 과거 중량·단가 백필 (1회성, 수동 실행) — 2026-11-01
+# kr_export_wgt_backfill.py: 관세청 HS10 합산으로 K-stat 구간(2000~2026-08) 수출 중량을 채운다.
+# 이미 채워진 달은 건너뛰므로 실패 시 다시 실행하면 이어서 채움.
+name: KR Export Weight Backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_year:
+        description: '시작 연도'
+        required: false
+        default: '2000'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kr-export-items-update
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 중량 백필
+        env:
+          START_YEAR: ${{ github.event.inputs.start_year || '2000' }}
+        run: python -u kr_export_wgt_backfill.py
+      - name: 커밋
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kr_export_items.json
+          if git diff --cached --quiet; then echo "변경 없음"; else
+            git commit -m "chore(data): 수출 탭 과거 중량·단가 백필 ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            git pull --rebase origin main
+            git push
+          fi

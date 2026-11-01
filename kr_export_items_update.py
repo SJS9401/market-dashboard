@@ -119,7 +119,7 @@ def main():
         if n == len(obj[key_months]): return False
         obj[key_months] = obj[key_months][:n]
         for sid, ser in obj['series'].items():
-            for k in ('exp', 'imp', 'wgt'):
+            for k in ('exp', 'imp', 'wgt', 'wexp'):
                 if k in ser: ser[k] = ser[k][:n]
         return True
     k_items = items['meta'].get('kstat_last') or '2026-08'
@@ -133,15 +133,19 @@ def main():
             for sb in lst:
                 sb['exp'] = sb['exp'][:ns]
                 if 'wgt' in sb: sb['wgt'] = sb['wgt'][:ns]
+                if 'wexp' in sb: sb['wexp'] = sb['wexp'][:ns]
         changed = True
     # ── 0b. 중량(wgt, 톤) 배열 보장 — 과거치(K-stat 구간)는 아직 없음 → None 으로 채움 (2026-10-15 신설) ──
+    #     wexp = 중량과 같은 HS10 묶음의 금액 (과거 구간 단가 분자, 2026-11-01 백필 도입). 관세청 구간은 exp 와 동일.
     for ser in items['series'].values():
-        if len(ser.setdefault('wgt', [])) != len(items['months']):
-            ser['wgt'] = (ser['wgt'] + [None] * len(items['months']))[:len(items['months'])]; changed = True
+        for k in ('wgt', 'wexp'):
+            if len(ser.setdefault(k, [])) != len(items['months']):
+                ser[k] = (ser[k] + [None] * len(items['months']))[:len(items['months'])]; changed = True
     for lst in items['subs'].values():
         for sb in lst:
-            if len(sb.setdefault('wgt', [])) != len(items['sub_months']):
-                sb['wgt'] = (sb['wgt'] + [None] * len(items['sub_months']))[:len(items['sub_months'])]; changed = True
+            for k in ('wgt', 'wexp'):
+                if len(sb.setdefault(k, [])) != len(items['sub_months']):
+                    sb[k] = (sb[k] + [None] * len(items['sub_months']))[:len(items['sub_months'])]; changed = True
 
     # ── 1. 품목 월 확정치 (K-stat 과거치 이후) ──
     fr = ym_add(items['months'][-1], 1)
@@ -166,14 +170,16 @@ def main():
                     e, im, w = per_item[iid].get(m, (0.0, 0.0, 0.0))
                     items['series'][iid]['exp'].append(M(e)); items['series'][iid]['imp'].append(M(im))
                     items['series'][iid]['wgt'].append(T(w))          # 수출 중량(톤) — 관세청 kg 합산
+                    items['series'][iid]['wexp'].append(M(e))
                 # 총액은 국가별 총계(전 품목)로 — 아래 국가 단계에서 채움. 임시로 품목합. (총액 중량은 국가별 통계에 없음 → None)
-                items['series']['total']['exp'].append(None); items['series']['total']['imp'].append(None); items['series']['total']['wgt'].append(None)
+                items['series']['total']['exp'].append(None); items['series']['total']['imp'].append(None); items['series']['total']['wgt'].append(None); items['series']['total']['wexp'].append(None)
                 items['sub_months'].append(m)
                 for parent, lst in items['subs'].items():
                     for s in lst:
                         e = per_sub.get(s['id'], {}).get(m)
                         s['exp'].append(M(e[0]) if e else None)
                         s['wgt'].append(T(e[2]) if e else None)
+                        s['wexp'].append(M(e[0]) if e else None)
             items['meta']['last_month'] = new_months[-1]
             changed = True
     else:
