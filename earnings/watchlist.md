@@ -5,7 +5,7 @@
 >
 > **명칭 컨벤션**: 본 워치리스트의 T1-T3은 "섹터 T1·T2·T3"로 호칭한다 (이슈 워치리스트의 T1-T3과 구분).
 >
-> **종목 정렬 룰 (2026-05-03 신설)**: 각 섹터 내 종목은 **실적 발표일 빠른 순**으로 정렬. 선제적 발표 글로벌 피어부터 분석 → 한국 동종 종목 프리뷰·리뷰 작성 시 사이클 모멘텀 cue로 활용.
+> **종목 정렬 룰 (2026-11-01 변경)**: 각 섹터 내 종목은 **서브섹터(세부 테마) 순** — 아래 "섹터 리뷰 단위" 표의 서브섹터 순서, 각 서브섹터 안에서는 핵심 → 확장 순. 대시보드 섹터 카드도 같은 순서로 서브섹터별 구분 표시. (이전: 실적 발표일 순)
 > 섹터 안에 한국 + 글로벌 피어 통합 운영 (예: 전력 인프라 = 한국 3사 + 글로벌 6사).
 
 ---
@@ -44,17 +44,17 @@
 
 ## 섹터 T1 — 메인 (분기 주도 섹터)
 
-- **미국 빅테크** (SpaceX(SPCX, industry=클라우드|우주|통신), Tesla(TSLA, industry=자동차|자율주행), Amazon(AMZN, industry=이커머스|클라우드), Alphabet(GOOGL, industry=광고|클라우드), Meta(META, industry=광고), Microsoft(MSFT, industry=클라우드), Apple(AAPL, industry=소비자 전자제품), Nvidia(NVDA, industry=반도체))
-- **반도체** (삼성전자, SK하이닉스, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), Intel(INTC), AMD(AMD), ARM(ARM))
+- **미국 빅테크** (Microsoft(MSFT, industry=클라우드), Alphabet(GOOGL, industry=광고|클라우드), Amazon(AMZN, industry=이커머스|클라우드), Meta(META, industry=광고), SpaceX(SPCX, industry=클라우드|우주|통신), Apple(AAPL, industry=소비자 전자제품), Tesla(TSLA, industry=자동차|자율주행), Nvidia(NVDA, industry=반도체))
+- **반도체** (SK하이닉스, 삼성전자, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), AMD(AMD), Intel(INTC), ARM(ARM))
 
 ## 섹터 T2 — 주도 후보
 
-- **반도체 소부장** (삼성전기, 한미반도체, 리노공업, ASML(ASML), Applied Materials(AMAT), Lam Research(LRCX), KLA(KLAC), BESI(BESI), Tokyo Electron(8035.T), Advantest(6857.T), Disco(6146.T))
-- **전력 인프라** (ABB(ABB), LS일렉트릭, GE Vernova(GEV), 효성중공업, HD현대일렉트릭, Schneider Electric(SU), Hitachi Energy(HE), Eaton(ETN), Siemens Energy(ENR))
-- **배터리** (LG에너지솔루션, 포스코퓨처엠, 삼성SDI, 엘앤에프, 에코프로비엠)
-- **조선** (한화오션, 삼성중공업, HD현대중공업)
-- **방산** (LIG D&A, 한화시스템, 한화에어로스페이스, 현대로템, 한국항공우주)
-- **원전** (현대건설, 두산에너빌리티, 대우건설)
+- **반도체 소부장** (ASML(ASML), Applied Materials(AMAT), Lam Research(LRCX), KLA(KLAC), Tokyo Electron(8035.T), 한미반도체, BESI(BESI), Disco(6146.T), Advantest(6857.T), 리노공업, 삼성전기)
+- **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
+- **배터리** (LG에너지솔루션, 삼성SDI, 에코프로비엠, 포스코퓨처엠, 엘앤에프)
+- **조선** (한화오션, HD현대중공업, 삼성중공업)
+- **방산** (한화에어로스페이스, 현대로템, LIG D&A, 한화시스템, 한국항공우주)
+- **원전** (두산에너빌리티, 현대건설, 대우건설)
 - **로봇** (현대차, 현대모비스, 현대오토에버)
 
 ## 섹터 T3 — 트래킹

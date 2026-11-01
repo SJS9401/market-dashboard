@@ -500,26 +500,27 @@ function renderSectorCard(sectorObj, tier) {
     el('th', { class: 'col-report' }, '리포트')
   ]));
   table.appendChild(thead);
-  // 발표일 오름차순 정렬 (currentQuarter 기준), 발표일 없는 종목은 마지막
-  const sortedStocks = sectorObj.stocks.slice().sort((a, b) => {
-    const calA = state.calendar[a.name] && state.calendar[a.name][state.currentQuarter];
-    const calB = state.calendar[b.name] && state.calendar[b.name][state.currentQuarter];
-    const dateA = calA && calA.date ? calA.date : 'zz';  // 'zz' → 마지막 정렬
-    const dateB = calB && calB.date ? calB.date : 'zz';
-    // M/D 형식이라 단순 lexical sort 안 됨 — 월·일 분리 비교
-    const parseDate = (d) => {
-      const m = d.match(/^(\d{1,2})\/(\d{1,2})/);
-      if (!m) return [99, 99];
-      return [parseInt(m[1]), parseInt(m[2])];
-    };
-    const [mA, dA] = parseDate(dateA);
-    const [mB, dB] = parseDate(dateB);
-    if (mA !== mB) return mA - mB;
-    return dA - dB;
+  // 2026-11-01 변경: 발표일순 → 서브섹터(세부 테마)순 정렬
+  //   watchlist "섹터 리뷰 단위" 표 순서 → 각 서브섹터 안에서 핵심 → 확장 순. 표에 없는 종목은 맨 뒤(원래 순서 유지)
+  //   한 종목이 여러 서브섹터에 있으면 표에서 처음 나오는 서브섹터 기준 (예: SpaceX → 하이퍼스케일러)
+  const subRank = getSubsectorRank();
+  const ranked = sectorObj.stocks.map((s, i) => ({ s, i, r: subRank[s.name] }));
+  ranked.sort((a, b) => {
+    const ra = a.r ? a.r.order : 1e9, rb = b.r ? b.r.order : 1e9;
+    return (ra - rb) || (a.i - b.i);
   });
+  const groupNames = new Set(ranked.map(x => x.r ? x.r.sub : '기타'));
+  const showGroups = groupNames.size > 1;
   const tbody = el('tbody');
+  let lastGroup = null;
   // 5/18 변경: stock 객체에 sector inject (산업기초 버튼 매칭용)
-  for (const stock of sortedStocks) {
+  for (const { s: stock, r } of ranked) {
+    const group = r ? r.sub : '기타';
+    if (showGroups && group !== lastGroup) {
+      const td = el('td', { class: 'sub-group', colspan: '3' }, group);
+      tbody.appendChild(el('tr', { class: 'sub-group-row' }, [td]));
+      lastGroup = group;
+    }
     stock.sector = sectorObj.sector;
     tbody.appendChild(renderStockRow(stock));
   }
@@ -607,6 +608,19 @@ function parseSubsectors(md) {
     rows.push({ sector: cells[0], sub: cells[1], core: split(cells[2]), ext: split(cells[3]) });
   }
   return rows;
+}
+
+// 종목명 → { order, sub } (서브섹터 표 순서 기반 정렬 키). 첫 등장 서브섹터 우선
+function getSubsectorRank() {
+  if (state._subRank) return state._subRank;
+  const rank = {};
+  (state.subsectors || []).forEach((row, gi) => {
+    row.core.concat(row.ext).forEach((name, si) => {
+      if (!(name in rank)) rank[name] = { order: gi * 100 + si, sub: row.sub };
+    });
+  });
+  state._subRank = rank;
+  return rank;
 }
 
 function parseSectorReviewStatus(md) {
