@@ -16,7 +16,7 @@
 | AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
 | META | Meta | 광고 시장, AI CAPEX |
-| MSFT | Microsoft | 클라우드(Azure) CAPEX, AI 수익화 |
+| MSFT | Microsoft | Azure FQ2 49~50% 실현, FQ2 FCF 흑자·첫 채권 발행, M365 cc 19% 가속, RPO $680B 탈피, OpenAI 비중 11% |
 | NVDA | Nvidia | Vera Rubin 시점·디테일, Q3 가이던스 $100B+ 진입, 자사주 분기 $20B+ 페이스, China H20/C200 재개, ACIE Sovereign AI 메가딜 verify |
 | TSLA | Tesla | Auto GPM 17%+ 유지, HW3 retrofit 충당금, Optimus 양산 7~8월, Robotaxi 12개주, EU/중국 FSD 승인 |
 
