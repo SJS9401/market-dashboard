@@ -113,7 +113,7 @@
     h.data.forEach(([d, c]) => { KOSPI[d.slice(0, 7)] = c; }); ((y.data['^KS11'] || {}).candles || []).forEach(c => { KOSPI[c.time.slice(0, 7)] = c.close; });
   } catch (e) {}
   // ISM 실시간 (브라우저 직접) — 성공하면 캐시 대체
-  const ISM_IDS = { mfg_pmi: 173, mfg_prices: 174, mfg_employment: 1046, svc_pmi: 176, svc_neworders: 1050, svc_employment: 1048, svc_prices: 1049 };
+  const ISM_IDS = { mfg_pmi: 173, mfg_prices: 174, mfg_employment: 1046, mfg_neworders: 1483, svc_pmi: 176, svc_neworders: 1050, svc_employment: 1048, svc_prices: 1049 };
   let ismLive = false;
   await Promise.all(Object.entries(ISM_IDS).map(async ([k, id]) => {
     try { const j = await fetch('https://sbcharts.investing.com/events_charts/us/' + id + '.json').then(r => r.json());
@@ -139,34 +139,58 @@
   const diff = a => a.map((v, i) => i >= 1 && v != null && a[i - 1] != null ? v - a[i - 1] : null);
   const ma3 = a => a.map((v, i) => { const w = [a[i], a[i - 1], a[i - 2]].filter(x => x != null); return w.length === 3 ? (w[0] + w[1] + w[2]) / 3 : null; });
   const lastIdx = a => { for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return i; return -1; };
-  const SER = id => S[id] ? toMonthly(S[id].data, id === 'ICSA' ? 'avg' : 'last') : new Array(N).fill(null);
+  const SER = id => S[id] ? toMonthly(S[id].data, (id === 'ICSA' || id === 'CCSA') ? 'avg' : 'last') : new Array(N).fill(null);
   const ISMS = k => M.ism && M.ism[k] ? toMonthly(M.ism[k].data, 'prev') : new Array(N).fill(null);
   const REC = (M.recessions || []).map(([a, b]) => [midx[ymOf(a)], midx[ymOf(b)]]).filter(x => x[0] != null);
 
+  // 소매판매 컨트롤그룹 = 전체 − 자동차 − 주유소 − 건자재 − 음식서비스 (GDP 소비 산정에 쓰이는 핵심 소매)
+  const CTRL = (() => { const t = SER('RSAFS'), parts = ['RSMVPD', 'RSGASS', 'RSBMGESD', 'RSFSDP'].map(SER);
+    return t.map((v, i) => v == null || parts.some(p => p[i] == null) ? null : v - parts.reduce((s, p) => s + p[i], 0)); })();
   // ── 지표 정의 ──
   // lines: {key,label,data,color,axis('y'|'y1'),type('line'|'bar'),dash}
-  const C = { a: '#58a6ff', b: '#ff7b72', c: '#3fb950', d: '#d2a8ff', e: '#f0b429', f: '#8b949e', g: '#79c0ff', h: '#ffa657' };
+  const C = { a: '#58a6ff', b: '#ff7b72', c: '#3fb950', d: '#d2a8ff', e: '#f0b429', f: '#8b949e', g: '#79c0ff', h: '#ffa657', i: '#56d4dd', j: '#db61a2', k: '#7ee787', l: '#e3b341' };
   const IND = [
     { id: 'unemp', rule: 'nfp', name: '실업률', src: 'BLS · 월간', unit: '%', p: 1, zero: null, main: [{ key: 'u3', label: '실업률 U-3', data: SER('UNRATE'), color: C.a }],
-      subs: [{ key: 'u6', label: 'U-6 광의 실업률', data: SER('U6RATE'), color: C.d }, { key: 'icsa', label: '신규 실업수당(주평균, 만건)', data: SER('ICSA').map(v => v == null ? null : v / 1e4), color: C.e, axis: 'y1' }],
+      subs: [{ key: 'u6', label: 'U-6 광의 실업률', data: SER('U6RATE'), color: C.d }, { key: 'icsa', label: '신규 실업수당(주평균, 만건)', data: SER('ICSA').map(v => v == null ? null : v / 1e4), color: C.e, axis: 'y1' },
+        { key: 'ccsa', label: '연속 실업수당(주평균, 만건)', data: SER('CCSA').map(v => v == null ? null : v / 1e4), color: C.l, axis: 'y1' },
+        { key: 'lfpr', label: '경제활동참가율(%)', data: SER('CIVPART'), color: C.i, axis: 'y1' },
+        { key: 'epop', label: '25~54세 고용률(%)', data: SER('LNS12300060'), color: C.k, axis: 'y1' }],
       chg: 'pp', match: /고용보고서/ },
     { id: 'payrolls', rule: 'nfp', name: '비농업 고용', src: 'BLS · 월간 증감', unit: '천명', p: 0, zero: 0, clip: [3, 97], main: [{ key: 'nfp', label: '비농업 고용 증감(천명)', data: diff(SER('PAYEMS')), color: C.c, type: 'bar' }, { key: 'nfp3', label: '3개월 평균', data: ma3(diff(SER('PAYEMS'))), color: C.e }],
-      subs: [{ key: 'jolts', label: 'JOLTS 구인(천건)', data: SER('JTSJOL'), color: C.d, axis: 'y1' }, { key: 'ahe', label: '시간당 임금 YoY(%)', data: yoy(SER('CES0500000003')), color: C.b, axis: 'y1' }],
+      subs: [{ key: 'jolts', label: 'JOLTS 구인(천건)', data: SER('JTSJOL'), color: C.d, axis: 'y1' }, { key: 'ahe', label: '시간당 임금 YoY(%)', data: yoy(SER('CES0500000003')), color: C.b, axis: 'y1' },
+        { key: 'man', label: '제조업 고용 증감(천명)', data: diff(SER('MANEMP')), color: C.g },
+        { key: 'cons', label: '건설업 고용 증감(천명)', data: diff(SER('USCONS')), color: C.h },
+        { key: 'gov', label: '정부 고용 증감(천명)', data: diff(SER('USGOVT')), color: C.i },
+        { key: 'temp', label: '임시직 고용 증감(천명)', data: diff(SER('TEMPHELPS')), color: C.j },
+        { key: 'hours', label: '주당 근로시간(시간)', data: SER('AWHAETP'), color: C.k, axis: 'y1' },
+        { key: 'quits', label: 'JOLTS 자발적 퇴직률(%)', data: SER('JTSQUR'), color: C.l, axis: 'y1' },
+        { key: 'layoffs', label: 'JOLTS 해고(천건)', data: SER('JTSLDL'), color: C.f, axis: 'y1' }],
       chg: 'abs', match: /고용보고서/ },
     { id: 'retail', rule: 'retail', name: '소매판매', src: 'Census · 월간', unit: '%', p: 1, zero: 0, clip: [3, 97], main: [{ key: 'rs_yoy', label: '소매판매 YoY(%)', data: yoy(SER('RSAFS')), color: C.a }, { key: 'rs_mom', label: 'MoM(%)', data: mom(SER('RSAFS')), color: C.c, type: 'bar', axis: 'y1' }],
-      subs: [{ key: 'rs_xmv', label: '자동차 제외 YoY', data: yoy(SER('RSFSXMV')), color: C.d }, { key: 'rs_xfs', label: '음식서비스 제외 YoY', data: yoy(SER('RSXFS')), color: C.h }],
+      subs: [{ key: 'rs_xmv', label: '자동차 제외 YoY', data: yoy(SER('RSFSXMV')), color: C.d }, { key: 'rs_xfs', label: '음식서비스 제외 YoY', data: yoy(SER('RSXFS')), color: C.h },
+        { key: 'rs_ctrl', label: '컨트롤그룹 YoY', data: yoy(CTRL), color: C.b },
+        { key: 'rs_ctrl_mom', label: '컨트롤그룹 MoM(%)', data: mom(CTRL), color: C.i, type: 'bar', axis: 'y1' }],
       chg: 'pp', match: /미.*소매판매|소매판매.*Census/ },
     { id: 'cpi', rule: 'cpi', name: 'CPI 소비자물가', src: 'BLS · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'cpi', label: '헤드라인 YoY', data: yoy(SER('CPIAUCSL')), color: C.a }, { key: 'core', label: '근원 YoY', data: yoy(SER('CPILFESL')), color: C.b }],
-      subs: [{ key: 'shelter', label: '주거', data: yoy(SER('CUSR0000SAH1')), color: C.d }, { key: 'energy', label: '에너지', data: yoy(SER('CPIENGSL')), color: C.e, axis: 'y1' }, { key: 'food', label: '식품', data: yoy(SER('CPIUFDSL')), color: C.c }, { key: 'svc', label: '서비스(에너지 제외)', data: yoy(SER('CUSR0000SASLE')), color: C.h }, { key: 'goods', label: '상품(식품·에너지 제외)', data: yoy(SER('CUSR0000SACL1E')), color: C.g }, { key: 'cpi_mom', label: '헤드라인 MoM', data: mom(SER('CPIAUCSL')), color: C.f, type: 'bar' }],
+      subs: [{ key: 'shelter', label: '주거', data: yoy(SER('CUSR0000SAH1')), color: C.d }, { key: 'energy', label: '에너지', data: yoy(SER('CPIENGSL')), color: C.e, axis: 'y1' }, { key: 'food', label: '식품', data: yoy(SER('CPIUFDSL')), color: C.c }, { key: 'svc', label: '서비스(에너지 제외)', data: yoy(SER('CUSR0000SASLE')), color: C.h }, { key: 'goods', label: '상품(식품·에너지 제외)', data: yoy(SER('CUSR0000SACL1E')), color: C.g }, { key: 'cpi_mom', label: '헤드라인 MoM', data: mom(SER('CPIAUCSL')), color: C.f, type: 'bar' },
+        { key: 'sc', label: '서비스(주거 임대료 제외)', data: yoy(SER('CUSR0000SASL2RS')), color: C.b },
+        { key: 'oer', label: '자가주거비(OER)', data: yoy(SER('CUSR0000SEHC')), color: C.i },
+        { key: 'newcar', label: '신차', data: yoy(SER('CUSR0000SETA01')), color: C.k },
+        { key: 'usedcar', label: '중고차', data: yoy(SER('CUSR0000SETA02')), color: C.j, axis: 'y1' },
+        { key: 'med', label: '의료서비스', data: yoy(SER('CUSR0000SAM2')), color: C.l },
+        { key: 'trans', label: '운송서비스', data: yoy(SER('CUSR0000SAS4')), color: C.a },
+        { key: 'sticky', label: '끈적 근원CPI(애틀랜타연준)', data: SER('CORESTICKM159SFRBATL'), color: C.g }],
       chg: 'pp', match: /미.*CPI/ },
     { id: 'pce', rule: 'pce', name: 'PCE 물가', src: 'BEA · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'pce', label: '헤드라인 YoY', data: yoy(SER('PCEPI')), color: C.a }, { key: 'pcecore', label: '근원 YoY', data: yoy(SER('PCEPILFE')), color: C.b }],
-      subs: [{ key: 'goods', label: '상품', data: yoy(SER('DGDSRG3M086SBEA')), color: C.g }, { key: 'svc', label: '서비스', data: yoy(SER('DSERRG3M086SBEA')), color: C.h }, { key: 'pce_mom', label: '근원 MoM', data: mom(SER('PCEPILFE')), color: C.f, type: 'bar' }],
+      subs: [{ key: 'goods', label: '상품', data: yoy(SER('DGDSRG3M086SBEA')), color: C.g }, { key: 'svc', label: '서비스', data: yoy(SER('DSERRG3M086SBEA')), color: C.h }, { key: 'pce_mom', label: '근원 MoM', data: mom(SER('PCEPILFE')), color: C.f, type: 'bar' },
+        { key: 'supercore', label: '슈퍼코어(서비스, 주거·에너지 제외)', data: yoy(SER('IA001260M')), color: C.d },
+        { key: 'trim', label: '댈러스연준 절사평균', data: SER('PCETRIM12M159SFRBDAL'), color: C.k }],
       chg: 'pp', match: /PCE/ },
     { id: 'ppi', rule: 'ppi', name: 'PPI 생산자물가', src: 'BLS · YoY', unit: '%', p: 1, zero: 0, main: [{ key: 'ppi', label: '최종수요 YoY', data: yoy(SER('PPIFIS')), color: C.a }, { key: 'ppicore', label: '근원 YoY', data: yoy(SER('PPIFES')), color: C.b }],
       subs: [{ key: 'aco', label: '전체 원자재(1913~)', data: yoy(SER('PPIACO')), color: C.e, axis: 'y1' }, { key: 'svc', label: '최종수요 서비스', data: yoy(SER('WPSFD4131')), color: C.h }, { key: 'ppi_mom', label: '최종수요 MoM', data: mom(SER('PPIFIS')), color: C.f, type: 'bar' }],
       chg: 'pp', match: /미.*PPI/ },
     { id: 'ism_mfg', rule: 'ism1', name: 'ISM 제조업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('mfg_pmi'), color: C.a }],
-      subs: [{ key: 'prices', label: '가격지수', data: ISMS('mfg_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('mfg_employment'), color: C.d }],
+      subs: [{ key: 'prices', label: '가격지수', data: ISMS('mfg_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('mfg_employment'), color: C.d }, { key: 'no', label: '신규주문', data: ISMS('mfg_neworders'), color: C.c }],
       chg: 'abs', match: /ISM 제조업/, ism: 'mfg_pmi' },
     { id: 'ism_svc', rule: 'ism3', name: 'ISM 서비스업 PMI', src: 'ISM · 50 = 경기 분기점', unit: '', p: 1, zero: 50, main: [{ key: 'pmi', label: 'PMI', data: ISMS('svc_pmi'), color: C.a }],
       subs: [{ key: 'no', label: '신규주문', data: ISMS('svc_neworders'), color: C.c }, { key: 'prices', label: '가격지수', data: ISMS('svc_prices'), color: C.e }, { key: 'emp', label: '고용지수', data: ISMS('svc_employment'), color: C.d }],
@@ -176,6 +200,7 @@
       subs: [['JPN', '일본', C.c], ['EA20', '유로존', C.h]].filter(([k]) => M.oecd_cli && M.oecd_cli[k]).map(([k, l, c]) => ({ key: k, label: l, data: toMonthly(M.oecd_cli[k], 'last'), color: c })),
       chg: 'abs', match: null },
   ];
+  IND.forEach(ind => { ind.subs = ind.subs.filter(sb => sb.data.some(v => v != null)); });   // 수집 실패한 세부지표는 숨김
   // 다음 발표
   const today = new Date().toISOString().slice(0, 10);
   // 달력에 없으면 발표 규칙으로 추정: 발표 대상월 = 최신 데이터월 + 1, 발표월 = +2

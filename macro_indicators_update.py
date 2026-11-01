@@ -27,10 +27,25 @@ FRED = {
   'ICSA':     ('신규 실업수당 청구', '건', 'labor', 'level'),
   'CES0500000003': ('시간당 임금(민간)', '$', 'labor', 'yoy'),
   'U6RATE':   ('U-6 광의 실업률', '%', 'labor', 'level'),
+  # 2026-11-01 세부지표 확장 (BT "전부 추가")
+  'CCSA':     ('연속 실업수당 청구', '건', 'labor', 'level'),
+  'CIVPART':  ('경제활동참가율', '%', 'labor', 'level'),
+  'LNS12300060': ('25~54세 고용률', '%', 'labor', 'level'),
+  'MANEMP':   ('제조업 고용', '천명', 'labor', 'diff'),
+  'USCONS':   ('건설업 고용', '천명', 'labor', 'diff'),
+  'USGOVT':   ('정부 고용', '천명', 'labor', 'diff'),
+  'TEMPHELPS': ('임시직 고용', '천명', 'labor', 'diff'),
+  'AWHAETP':  ('주당 근로시간(민간)', '시간', 'labor', 'level'),
+  'JTSQUR':   ('JOLTS 자발적 퇴직률', '%', 'labor', 'level'),
+  'JTSLDL':   ('JOLTS 해고', '천건', 'labor', 'level'),
   # 소매판매
   'RSAFS':    ('소매판매', '백만$', 'retail', 'yoy'),
   'RSFSXMV':  ('소매판매(자동차 제외)', '백만$', 'retail', 'yoy'),
   'RSXFS':    ('소매판매(음식서비스 제외)', '백만$', 'retail', 'yoy'),
+  'RSMVPD':   ('소매: 자동차·부품', '백만$', 'retail', 'level'),
+  'RSGASS':   ('소매: 주유소', '백만$', 'retail', 'level'),
+  'RSBMGESD': ('소매: 건자재·원예', '백만$', 'retail', 'level'),
+  'RSFSDP':   ('소매: 음식서비스', '백만$', 'retail', 'level'),
   # CPI
   'CPIAUCSL': ('CPI 헤드라인', 'idx', 'cpi', 'yoy'),
   'CPILFESL': ('CPI 근원', 'idx', 'cpi', 'yoy'),
@@ -39,11 +54,20 @@ FRED = {
   'CPIUFDSL': ('CPI 식품', 'idx', 'cpi', 'yoy'),
   'CUSR0000SASLE': ('CPI 서비스(에너지 제외)', 'idx', 'cpi', 'yoy'),
   'CUSR0000SACL1E': ('CPI 상품(식품·에너지 제외)', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SASL2RS': ('CPI 서비스(주거 임대료 제외)', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SEHC': ('CPI 자가주거비(OER)', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SETA01': ('CPI 신차', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SETA02': ('CPI 중고차', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SAM2': ('CPI 의료서비스', 'idx', 'cpi', 'yoy'),
+  'CUSR0000SAS4': ('CPI 운송서비스', 'idx', 'cpi', 'yoy'),
+  'CORESTICKM159SFRBATL': ('애틀랜타연준 끈적 근원CPI', '%', 'cpi', 'level'),
   # PCE
   'PCEPI':    ('PCE 헤드라인', 'idx', 'pce', 'yoy'),
   'PCEPILFE': ('PCE 근원', 'idx', 'pce', 'yoy'),
   'DGDSRG3M086SBEA': ('PCE 상품', 'idx', 'pce', 'yoy'),
   'DSERRG3M086SBEA': ('PCE 서비스', 'idx', 'pce', 'yoy'),
+  'IA001260M': ('PCE 서비스(주거·에너지 제외)', 'idx', 'pce', 'yoy'),
+  'PCETRIM12M159SFRBDAL': ('댈러스연준 절사평균 PCE', '%', 'pce', 'level'),
   # PPI
   'PPIFIS':   ('PPI 최종수요', 'idx', 'ppi', 'yoy'),
   'PPIFES':   ('PPI 최종수요 근원(식품·에너지 제외)', 'idx', 'ppi', 'yoy'),
@@ -56,7 +80,7 @@ FRED = {
 MIN_PTS = {'UNRATE': 700, 'PAYEMS': 700, 'CPIAUCSL': 700, 'PCEPI': 600, 'PPIACO': 700, 'USREC': 700, 'RSAFS': 350}
 
 ISM = {  # investing.com event id → (키, 라벨)
-  173: ('mfg_pmi', 'ISM 제조업 PMI'), 174: ('mfg_prices', 'ISM 제조업 가격'), 1046: ('mfg_employment', 'ISM 제조업 고용'),
+  173: ('mfg_pmi', 'ISM 제조업 PMI'), 174: ('mfg_prices', 'ISM 제조업 가격'), 1046: ('mfg_employment', 'ISM 제조업 고용'), 1483: ('mfg_neworders', 'ISM 제조업 신규주문'),
   176: ('svc_pmi', 'ISM 서비스업 PMI'), 1050: ('svc_neworders', 'ISM 서비스업 신규주문'), 1048: ('svc_employment', 'ISM 서비스업 고용'), 1049: ('svc_prices', 'ISM 서비스업 가격'),
 }
 OECD_URL = 'https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_CLI,/USA+KOR+CHN+G20+JPN+EA20.M.LI...AA...H?startPeriod=1990-01&format=csvfilewithlabels'
