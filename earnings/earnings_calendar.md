@@ -15,7 +15,7 @@
 | SPCX | SpaceX | 4Q 매출 $19.7B+·12월 ARR $100B, 1Q27 $33~37B 가이던스, 4Q CapEx $35~40B 조달, Flight 15 완전회수, 12/9 락업 |
 | AAPL | Apple | 소비자 수요, 서비스 매출 |
 | AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
-| GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
+| GOOGL | Alphabet | 4Q 검색 YoY 10% 사수, 4Q 조정OP YoY 20%↑, FCF 흑자 복귀·27 CapEx 조달, 클라우드 OPM 33%↑, SpaceX 평가손 |
 | META | Meta | 4Q 조정OP YoY 0% 방어·27 비용 가이던스, Muse 유료 구독·글로벌 출시, $95B 증자 희석·ATM, 광고 노출 10%+, 법적비용 |
 | MSFT | Microsoft | Azure FQ2 49~50% 실현, FQ2 FCF 흑자·첫 채권 발행, M365 cc 19% 가속, RPO $680B 탈피, OpenAI 비중 11% |
 | NVDA | Nvidia | Vera Rubin 시점·디테일, Q3 가이던스 $100B+ 진입, 자사주 분기 $20B+ 페이스, China H20/C200 재개, ACIE Sovereign AI 메가딜 verify |
