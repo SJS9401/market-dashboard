@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceX 4Q26 팔로업 리포트</title>
+<style>
+:root { --bg: #0d1117; --bg-elevated: #161b22; --bg-table-alt: #1c2128; --text: #e6edf3; --text-secondary: #8b949e; --accent: #58a6ff; --accent-2: #2ea043; --warn: #f85149; --border: #30363d; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif; font-size: 15px; line-height: 1.65; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+h1 { font-size: 28px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-top: 32px; color: #fff; }
+h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 40px; color: var(--accent); }
+h3 { font-size: 18px; margin-top: 28px; color: var(--text); }
+blockquote { background: var(--bg-elevated); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 16px 0; color: var(--text-secondary); font-size: 14px; border-radius: 0 6px 6px 0; }
+blockquote p { margin: 4px 0; }
+table { border-collapse: collapse; width: 100%; margin: 14px 0 24px; font-size: 13px; background: var(--bg-elevated); border-radius: 6px; overflow: hidden; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; white-space: nowrap; }
+th { background: #1c2630; color: var(--accent); font-weight: 600; }
+tr:nth-child(even) td { background: var(--bg-table-alt); }
+strong { color: #fff; font-weight: 600; }
+em { color: var(--accent-2); }
+code { background: var(--bg-table-alt); border-radius: 3px; padding: 1px 5px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+figure.chart { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin: 18px 0; text-align: center; }
+figure.chart img { max-width: 100%; height: auto; border-radius: 4px; }
+figure.chart figcaption { margin-top: 8px; font-size: 12px; color: var(--text-secondary); font-style: italic; }
+ul, ol { padding-left: 22px; }
+li { margin: 4px 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+p { margin: 8px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>SpaceX 4Q26 팔로업 리포트</h1>
+<blockquote>
+<p>분기: 2026-Q4 (모니터링 시점)<br />
+직전 분기 자료: <code>2026-Q3_SPCX_리뷰.md</code> (2026-10-20 발표, 국내 셀사이드 9개사 + 해외 IB TP 변경 기반)<br />
+작성 시각: 2026-11-01 14:40 KST<br />
+편입 메모: 2026-11-01 "미국 빅테크" 섹터 신규 편입 (AI 인프라 매출 52% → 하이퍼스케일러 성격)</p>
+</blockquote>
+<hr />
+<h2>1. 3Q26 숫자와 판정</h2>
+<blockquote>
+<p>성장 델타: <strong>가속</strong> | 내러티브: <strong>강화</strong> ("우주 + 통신" → "AI 인프라 하이퍼스케일러") → <strong>적극 구간</strong> (단 4Q CapEx 2배·12/9 락업이 변동성 변수)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>3Q26</th>
+<th>직전 분기 대비</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매출</td>
+<td>$14.6B (컨센 +13%)</td>
+<td>YoY 91.9% → <strong>161.4%</strong>, QoQ +$6.8B</td>
+</tr>
+<tr>
+<td>영업이익</td>
+<td><strong>$2.8B</strong> (상장 후 첫 흑자, 컨센 +25~40%)</td>
+<td>-$0.1B → $2.8B</td>
+</tr>
+<tr>
+<td>OPM / 조정 EBITDA 마진</td>
+<td>19.1% / <strong>60.4%</strong></td>
+<td>-1.8% / 45.3%</td>
+</tr>
+<tr>
+<td>SI (AI 인프라)</td>
+<td>$7.6B (+830%, 전사 52%), EBITDA 마진 65.5%</td>
+<td>컴퓨팅 1.4 → 1.7GW</td>
+</tr>
+<tr>
+<td>Connectivity</td>
+<td>$5.2B (+70%), OPM 45.1%</td>
+<td>가입자 1,360만 (컨센 -4.4%)</td>
+</tr>
+<tr>
+<td>CapEx / FCF</td>
+<td>$19.6B / -$10.0B</td>
+<td>4Q CapEx 가이던스 $35~40B</td>
+</tr>
+</tbody>
+</table>
+<p>1Q27 매출 가이던스 $33~37B는 발표 전 컨센 $24.4B를 중간값 기준 +43% 상회 → 2027E 매출 컨센 +60% 상향. 컨센 평균 TP $227 → $257(+13%). 주가는 락업 물량(10/22 13억 주)에 상승분을 반납.</p>
+<h2>2. 지난 분기 체크 결과</h2>
+<blockquote>
+<p>첫 작성 — 직전 분기 자료 없음 (신규 편입). 다음 분기부터 정상 비교 시작.</p>
+</blockquote>
+<h2>3. 핵심 쟁점 요약</h2>
+<p><strong>(1) SI — GPU 임대 사업의 지속성</strong> — 와트당 $50+·회수 1년 미만. 고객 계약은 180일 단기·현물형이라 임대료 상승을 즉시 반영하지만, 하락도 즉시 반영되는 구조.</p>
+<p><strong>(2) 1Q27 가이던스 실현 가능성</strong> — SI가 3Q의 약 3.5배($25~30B)가 돼야 하고 GW당 매출이 약 1.5배 올라야 성립(키움). 머스크 "2027년 말 ARR $500B~1T"는 CEO 개인 발언으로 할인 필요.</p>
+<p><strong>(3) CapEx 2배와 조달</strong> — SI CapEx는 회수가 빠른 "좋은 CapEx"라는 데 공감대. 테라팹·궤도 DC·스타베이스 루이지애나 등 SI 외 CapEx의 회수는 미검증.</p>
+<p><strong>(4) Starlink</strong> — 가입자 2분기 연속 컨센 미달, 대신 ARPU 반등·OPM 45%(관세 환급 약 3%p 포함). 성장 축이 기업·정부·항공으로 이동.</p>
+<p><strong>(5) 수급·지배구조</strong> — 12/9 락업 약 53억 주(유통주식의 약 1.8배), 테슬라 합병 특별위원회(조건 미합의), Starship Flight 15(11월).</p>
+<h2>4. 4Q26 봐야 할 것</h2>
+<p><strong>(1) 4Q 매출 $19.7B 이상 + 12월 ARR $100B + GW당 매출 상승 — 1순위</strong>
+1Q27 가이던스 $33~37B의 신뢰도를 가르는 첫 시험. 3Q GW당 매출 약 $17B(SI 솔루션·인프라 연환산 ÷ 1.7GW)에서 오르는지.
+<em>모니터링: 4Q26 실적(2027년 1월 하순), 연말 컴퓨팅 용량 2.5~3GW 달성 / 뉴스 키워드 "SpaceX ARR $100 billion", "SpaceX compute GW", "Colossus II"</em></p>
+<p><strong>(2) GPU 임대 단가($/W)와 계약 구조</strong>
+$50/W 이상 유지 여부, 장기(Take-or-Pay) 계약 고객 확보. 단가 하락 신호가 나오면 델타 판정 즉시 재검토.
+<em>모니터링: 신규 CSA 공시(Anthropic·Google 갱신), 네오클라우드(CoreWeave) 임대가·회사채 스프레드 / 뉴스 키워드 "GPU rental price", "SpaceX cloud services agreement", "CoreWeave bonds"</em></p>
+<p><strong>(3) 4Q CapEx $35~40B 조달 방식</strong>
+채권(투자등급) vs 주식 vs 벤더 파이낸싱 구성, FCF 적자 폭. 주식 위주면 희석 리스크.
+<em>모니터링: SEC 8-K·424B, NVIDIA $40B 조달 보도 후속, 4Q 현금흐름표 / 뉴스 키워드 "SpaceX bond offering", "SpaceX Nvidia financing"</em></p>
+<p><strong>(4) Starship Flight 15 완전 회수</strong>
+부스터·상단 동시 타워 회수 성공 시 완전 재사용 → V3 배치 속도·발사 단가 혁신. 2027년 상반기 주 1회 발사 목표의 전제.
+<em>모니터링: FAA 승인, 발사 결과(11월) / 뉴스 키워드 "Starship Flight 15", "Mechazilla catch ship"</em></p>
+<p><strong>(5) 12/9 락업 53억 주 + 테슬라 합병</strong>
+이전 6차례 해제는 숏커버·나스닥100 비중 상향이 흡수했지만 이번은 체급이 다른 물량. 합병 조건이 SpaceX 주주에 불리하게 나오면 디스카운트.
+<em>모니터링: 락업일 거래량·주가, 나스닥100 비중, 양사 특별위원회 공시 / 뉴스 키워드 "SpaceX lockup expiration", "Tesla SpaceX merger special committee"</em></p>
+</div>
+</body>
+</html>

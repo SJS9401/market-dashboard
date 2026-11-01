@@ -12,6 +12,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
+| SPCX | SpaceX | 4Q 매출 $19.7B+·12월 ARR $100B, 1Q27 $33~37B 가이던스, 4Q CapEx $35~40B 조달, Flight 15 완전회수, 12/9 락업 |
 | AAPL | Apple | 소비자 수요, 서비스 매출 |
 | AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
 | GOOGL | Alphabet | Cloud 백로그 $500B+, Cloud OPM 30%+ 유지, CapEx $45B+ 페이스, AI 광고 coverage 25%+, Gemini 4 출시 |
@@ -33,7 +34,7 @@
 |------|--------|--------|
 | MU | Micron | OP QoQ +14%·GPM 87% 반등, 12/9 주주환원, DRAM 계약가 둔화, 2028 CapEx·de-spec, SCA 30건+ |
 | — | 삼성전자 | 메모리/파운드리, HBM, AI 반도체 |
-| — | SK하이닉스 | OPM 76% 돌파, ADR 6월 결정, HBM4 양산, NAND Bit 회복, DDR5 ASP 둔화 |
+| — | SK하이닉스 | 4Q 영업익 100조 돌파, 1Q27 DRAM가 인상, 2028 LTA 추가, 중국 범용 증설, 4Q 자사주 10조+ |
 
 ### 반도체 — CPU
 
