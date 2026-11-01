@@ -555,21 +555,28 @@ function renderThemeReviews() {
   }
   // 테마별 그룹핑
   const themeMap = {};
+  // 2026-11-01: 종료 리포트 = {테마}_테마리뷰_{분기}_종료.html → "종료" 배지, 활성 테마 먼저 정렬
   list.forEach(file => {
-    const m = file.match(/^(.+)_테마리뷰_(.+)\.html$/);
+    const m = file.match(/^(.+)_테마리뷰_(.+?)(_종료)?\.html$/);
     if (m) {
-      const theme = m[1], quarter = m[2];
+      const theme = m[1], quarter = m[2], ended = !!m[3];
       if (!themeMap[theme]) themeMap[theme] = [];
-      themeMap[theme].push({ quarter, file });
+      themeMap[theme].push({ quarter, file, ended });
     }
   });
-  // 카드 렌더링 (테마명 ABC순)
-  const themeNames = Object.keys(themeMap).sort();
+  const isEnded = (t) => themeMap[t].some(r => r.ended);
+  const themeNames = Object.keys(themeMap).sort((a, b) => (isEnded(a) - isEnded(b)) || a.localeCompare(b));
   for (const theme of themeNames) {
     const reviews = themeMap[theme].slice().sort((a, b) => b.quarter.localeCompare(a.quarter));
-    const card = el('div', { class: 'theme-card' });
+    const ended = reviews.find(r => r.ended);
+    const card = el('div', { class: 'theme-card' + (ended ? ' theme-ended' : '') });
     card.appendChild(el('div', { class: 'theme-name' }, theme));
-    card.appendChild(el('div', { class: 'theme-meta' }, '분기 리뷰: ' + reviews.length + '회'));
+    if (ended) {
+      const badges = el('div', { class: 'sr-badges' });
+      badges.appendChild(el('span', { class: 'sr-badge delta-꺾임' }, '종료 ' + ended.quarter));
+      card.appendChild(badges);
+    }
+    card.appendChild(el('div', { class: 'theme-meta' }, '분기 리뷰: ' + reviews.length + '회' + (ended ? '' : ' · 진행 중')));
     const links = el('div', { class: 'theme-reviews' });
     for (const r of reviews) {
       links.appendChild(el('a', {
@@ -582,6 +589,97 @@ function renderThemeReviews() {
     card.appendChild(links);
     container.appendChild(card);
   }
+}
+
+// 2026-11-01 신규 — 섹터 리뷰 (서브섹터 단위 상시 레이어)
+// 데이터: watchlist.md "## 섹터 리뷰 단위 (서브섹터)" 표 → 서브섹터별 living doc
+//   earnings/sector-review/{서브섹터}_섹터리뷰.md 의 상단 상태 블록(> 키: 값)을 읽어 카드 표시
+//   (분기 무관 영구 문서라 manifest 없이 파일명으로 직접 조회)
+function parseSubsectors(md) {
+  const rows = [];
+  let inSection = false;
+  for (const line of md.split('\n')) {
+    if (/^##\s/.test(line)) { inSection = /섹터 리뷰 단위/.test(line); continue; }
+    if (!inSection || !/^\|/.test(line) || /^\|\s*-/.test(line)) continue;
+    const cells = line.split('|').slice(1, -1).map(c => c.trim());
+    if (cells.length < 4 || cells[0] === '섹터') continue;
+    const split = s => (s && s !== '-') ? s.split(',').map(x => x.trim()).filter(Boolean) : [];
+    rows.push({ sector: cells[0], sub: cells[1], core: split(cells[2]), ext: split(cells[3]) });
+  }
+  return rows;
+}
+
+function parseSectorReviewStatus(md) {
+  const get = (key) => {
+    const m = md.match(new RegExp('^>\\s*' + key + '\\s*:\\s*(.+)$', 'm'));
+    return m ? m[1].trim() : null;
+  };
+  const deltaLine = get('섹터 델타') || '';
+  const dm = deltaLine.match(/^([^|]+?)\s*\|\s*내러티브\s*:\s*(.+)$/);
+  return {
+    quarter: get('최신 분기'),
+    delta: dm ? dm[1].trim() : (deltaLine || null),
+    narrative: dm ? dm[2].trim() : null,
+    signal: get('모멘텀 신호'),
+    theme: get('활성 테마'),
+    members: get('편입 종목')
+  };
+}
+
+async function fetchQuiet(path) {
+  try { const r = await fetch(path, { cache: 'no-cache' }); return r.ok ? await r.text() : null; }
+  catch (e) { return null; }
+}
+
+async function renderSectorReviews() {
+  const container = $('sectorReviews');
+  const pendingBox = $('sectorReviewsPending');
+  if (!container) return;
+  const subs = state.subsectors || [];
+  if (subs.length === 0) {
+    container.innerHTML = '';
+    container.appendChild(el('div', { class: 'empty-state' }, 'watchlist.md에 "섹터 리뷰 단위 (서브섹터)" 표가 없습니다.'));
+    return;
+  }
+  const base = 'earnings/sector-review/';
+  const results = await Promise.all(subs.map(async (s) => {
+    const md = await fetchQuiet(base + encodeURIComponent(s.sub + '_섹터리뷰') + '.md');
+    return { s, status: md ? parseSectorReviewStatus(md) : null };
+  }));
+  container.innerHTML = '';
+  const pending = [];
+  for (const { s, status } of results) {
+    if (!status) { pending.push(s.sub); continue; }
+    const card = el('div', { class: 'theme-card sr-card' });
+    card.appendChild(el('div', { class: 'theme-name' }, s.sub));
+    const metaParts = [s.sector];
+    if (status.quarter) metaParts.push('최신 ' + displayQuarter(status.quarter));
+    metaParts.push(status.members ? status.members : ('핵심 ' + s.core.join(', ')));
+    card.appendChild(el('div', { class: 'theme-meta' }, metaParts.join(' · ')));
+    const badges = el('div', { class: 'sr-badges' });
+    if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + status.delta }, '델타 ' + status.delta));
+    if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
+    card.appendChild(badges);
+    if (status.signal && !/^없음/.test(status.signal)) {
+      card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + status.signal.replace(/</g, '&lt;') + '</b>' }));
+    }
+    if (status.theme && !/^없음/.test(status.theme)) {
+      card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
+    }
+    const links = el('div', { class: 'theme-reviews' });
+    links.appendChild(el('a', {
+      class: 'theme-review-link',
+      href: base + encodeURIComponent(s.sub + '_섹터리뷰') + '.html',
+      target: '_blank'
+    }, '섹터 리뷰 열기'));
+    card.appendChild(links);
+    container.appendChild(card);
+  }
+  if (container.children.length === 0) {
+    container.appendChild(el('div', { class: 'empty-state' },
+      '아직 작성된 섹터 리뷰가 없습니다. 핵심 종목 리뷰 후 [섹터 리뷰 모드] {서브섹터}로 첫 리뷰 작성.'));
+  }
+  if (pendingBox) pendingBox.textContent = pending.length ? ('미작성: ' + pending.join(' · ')) : '';
 }
 
 function setupSearch() {
@@ -610,8 +708,12 @@ function setupQuarterSelector() {
 
 async function init() {
   const wlText = await fetchText(DATA_PATHS.watchlist);
-  if (wlText) state.watchlist = parseWatchlist(wlText);
+  if (wlText) {
+    state.watchlist = parseWatchlist(wlText);
+    state.subsectors = parseSubsectors(wlText);
+  }
   else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
+  renderSectorReviews();  // 비동기 — 다른 렌더를 막지 않음
   const calText = await fetchText(DATA_PATHS.calendar);
   if (calText) {
     const parsed = parseCalendar(calText);

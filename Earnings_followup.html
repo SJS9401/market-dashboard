@@ -81,6 +81,18 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .theme-review-link { padding:0.18rem 0.5rem; background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); border-radius:3px; font-size:0.72rem; text-decoration:none; transition:all 0.15s; }
 .theme-review-link:hover { background:var(--accent); color:var(--text-bright); border-color:var(--accent); }
 .empty-state { color:var(--text-dim); font-style:italic; padding:1rem; text-align:center; grid-column:1/-1; background:var(--bg-2); border:1px dashed var(--border-2); border-radius:6px; }
+/* 2026-11-01 신규 — 섹터 리뷰 카드 (서브섹터 단위) */
+.sr-card { border-left-color:#5b8def; }
+.sr-badges { display:flex; gap:0.3rem; flex-wrap:wrap; margin-bottom:0.45rem; }
+.sr-badge { padding:0.12rem 0.45rem; border-radius:3px; font-size:0.7rem; font-weight:600; border:1px solid var(--border-2); background:var(--bg-3); color:var(--text); }
+.sr-badge.delta-가속 { background:#1f4d2e; border-color:#3fa565; color:#bff0cf; }
+.sr-badge.delta-유지 { background:#2e3a4d; border-color:#5b7fb0; color:#d3e2f7; }
+.sr-badge.delta-둔화 { background:#4d421f; border-color:#c9a23f; color:#f5e6b8; }
+.sr-badge.delta-꺾임 { background:#4d1f1f; border-color:#c44; color:#f5c6c6; }
+.sr-signal { font-size:0.72rem; color:var(--text); margin-bottom:0.45rem; }
+.sr-signal b { color:#f0b85a; }
+.theme-card.theme-ended { opacity:0.6; border-left-color:var(--border-2); }
+.sr-pending { font-size:0.72rem; color:var(--text-dim); margin:-1rem 0 1.5rem; }
 /* 5/18 신규 — multi-industry 종목 ([산업기초] 버튼 dropdown UX) */
 .mode-btn-wrapper { position:relative; display:inline-flex; }
 .mode-btn-multi { position:relative; }
@@ -109,6 +121,10 @@ footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); 
 <div class="watchlist-box"><h3 style="margin-top:0;">워치리스트 — <span id="currentQuarterLabel">-</span></h3><div id="watchlistSummary" class="loading">워치리스트 로딩...</div></div>
 <div class="progress-box"><h3 style="margin-top:0;">진행률</h3><div id="progressStats" class="progress-stats"><div class="stat"><div class="stat-value" id="statR">-</div></div></div></div>
 </div>
+<!-- 2026-11-01 신규 — 섹터 리뷰 카드 섹션 (테마 리뷰 위, 서브섹터 단위 상시 레이어) -->
+<h2>섹터 리뷰</h2>
+<div id="sectorReviews" class="theme-grid"><div class="loading">섹터 리뷰 로딩...</div></div>
+<div id="sectorReviewsPending" class="sr-pending"></div>
 <!-- 5/18 신규 — 테마 리뷰 카드 섹션 (워치리스트와 Tier 1 사이) -->
 <h2>테마 리뷰</h2>
 <div id="themeReviews" class="theme-grid"><div class="loading">테마 리뷰 로딩...</div></div>
