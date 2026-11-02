@@ -797,6 +797,13 @@ SECTOR_CATEGORY = {
     ("sk_hynix","kr_ai_2025"):"인프라", ("samsung_elec","kr_ai_2025"):"인프라",
 }
 _SECTOR_ORDER = ["인프라", "기술", "소비", "참고"]
+# 섹터 박스 종료일 보정 (종목 자체 중장기 박스는 그대로, 섹터 박스 기여분만 자름) — BT 지시 2026-11-03
+#   알테오젠: 2025년부터 코스피가 코스닥을 아웃퍼폼하는 시장 → 2024년 말로 종료
+#   기아: 차화정 동반 붕괴(2011-08) 시점에 맞춤 (현대차 8/3, LG화학 8/4, S-Oil 8/10)
+SECTOR_END_OVERRIDES = {
+    ("alteogen", "kr_battery_2023"): "2024-12-31",
+    ("kia", "kr_chahwajeong_2009"): "2011-08-10",
+}
 # 사이클·분류별 섹터 박스 = 해당 분류 주도주 중장기 박스의 합집합 (가장 이른 시작 ~ 가장 늦은 종료)
 _sector_zones = {}   # cycle_id -> [ {cat, start, end, status, stocks}, ... ]
 _sector_union = {}   # cycle_id -> {start, end, status}
@@ -809,11 +816,14 @@ for _s in LEADING_STOCKS:
     _lst = _sector_zones.setdefault(_cid, [])
     _z = next((z for z in _lst if z["cat"] == _cat), None)
     _closed = _lt.get("status") == "종료"
+    _lt_end = _lt["end"]
+    if (_sid, _cid) in SECTOR_END_OVERRIDES:
+        _lt_end = min(_lt_end, SECTOR_END_OVERRIDES[(_sid, _cid)]); _closed = True
     if _z is None:
-        _lst.append({"cat": _cat, "start": _lt["start"], "end": _lt["end"],
+        _lst.append({"cat": _cat, "start": _lt["start"], "end": _lt_end,
                      "status": "종료" if _closed else "진행중", "stocks": [_s[1]]})
     else:
-        _z["start"] = min(_z["start"], _lt["start"]); _z["end"] = max(_z["end"], _lt["end"])
+        _z["start"] = min(_z["start"], _lt["start"]); _z["end"] = max(_z["end"], _lt_end)
         if not _closed: _z["status"] = "진행중"
         if _s[1] not in _z["stocks"]: _z["stocks"].append(_s[1])
 for _cid, _lst in _sector_zones.items():
