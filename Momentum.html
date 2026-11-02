@@ -24,6 +24,7 @@
   .pane { position:relative; border:1px solid #30363d; margin-top:4px; }
   .pane .lg { position:absolute; left:6px; top:3px; z-index:5; font-size:11px; color:#111; pointer-events:none; font-family:Consolas,monospace; white-space:nowrap; }
   .pane .lg b { color:#000; margin-right:6px; font-family:-apple-system,'Malgun Gothic',sans-serif; }
+  .pane .sel { position:absolute; top:0; bottom:0; background:rgba(31,111,235,0.18); border-left:1px solid #1f6feb; border-right:1px solid #1f6feb; z-index:6; pointer-events:none; display:none; }
   .note { font-size:11px; color:#6e7681; margin-top:4px; }
   .ma i { font-style:normal; margin-right:8px; font-weight:700; }
 </style>
@@ -50,7 +51,7 @@
   <div class="sec"><h2>3분봉 <small>종목</small></h2>
     <div class="pane" id="m3_stk" style="height:420px"></div>
   </div>
-  <div class="note">분봉 = 한국투자증권 1분봉(약 1년 보관)을 3분·15분으로 합성. 15분 지수는 KIS 가 과거 지수 분봉을 주지 않아 지수 추종 ETF(코스피 → KODEX 200, 코스닥 → KODEX 코스닥150) 가격으로 대신 표시. 일봉 = Yahoo Finance. 붉은 음영 = 관성(모멘텀) 구간. 거래대금 막대(억원)는 차트 하단.</div>
+  <div class="note">조작: 마우스 휠 위/아래 = 과거/최근으로 이동 · 오른쪽으로 드래그 = 그 구간 확대 · 왼쪽으로 드래그 = 축소 · 더블클릭 = 처음 보기 · 우측 가격축 드래그 = 세로 배율<br>분봉 = 한국투자증권 1분봉(약 1년 보관)을 3분·15분으로 합성. 15분 지수는 KIS 가 과거 지수 분봉을 주지 않아 지수 추종 ETF(코스피 → KODEX 200, 코스닥 → KODEX 코스닥150) 가격으로 대신 표시. 일봉 = Yahoo Finance. 붉은 음영 = 관성(모멘텀) 구간. 거래대금 막대(억원)는 차트 하단.</div>
 </div>
 <script>
 (async function () {
@@ -82,7 +83,12 @@
     const chart = LW.createChart(el, { width: el.clientWidth, height: el.clientHeight,
       layout: { background: { type: 'solid', color: '#A4A4A4' }, textColor: '#232323', fontSize: 10 },
       grid: { vertLines: { color: '#959595' }, horzLines: { color: '#828282' } },
-      crosshair: { mode: LW.CrosshairMode.Normal },
+      crosshair: { mode: LW.CrosshairMode.Normal,
+        vertLine: { color: '#000000', width: 1, style: LW.LineStyle.Solid, labelBackgroundColor: '#000000' },
+        horzLine: { color: '#000000', width: 1, style: LW.LineStyle.Solid, labelBackgroundColor: '#000000' } },
+      // 2026-11-02 BT: 휠 = 날짜 앞뒤 이동, 드래그 = 구간 확대/축소 (기본 동작은 끄고 아래에서 직접 처리)
+      handleScroll: { mouseWheel: false, pressedMouseMove: false, horzTouchDrag: true, vertTouchDrag: false },
+      handleScale: { mouseWheel: false, pinch: true, axisPressedMouseMove: { time: false, price: true }, axisDoubleClickReset: true },
       rightPriceScale: { minimumWidth: 78, borderColor: '#6e6e6e', scaleMargins: { top: 0.12, bottom: amt ? 0.22 : 0.06 } },
       timeScale: { borderColor: '#6e6e6e', timeVisible: intraday, secondsVisible: false, rightOffset: 4,
         tickMarkFormatter: intraday ? (t, type) => { const d = new Date(t * 1000); return type >= 3 ? d.toISOString().slice(11, 16) : (d.getUTCMonth() + 1) + '/' + d.getUTCDate(); } : undefined },
@@ -95,6 +101,7 @@
     const mas = MA.map(([n, c]) => chart.addLineSeries({ color: c, lineWidth: n >= 120 ? 1.6 : 1.2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }));
     const o = { id, chart, candle, mas, vol, shade, title, rows: [], amtMap: {}, el, lg: el.querySelector('.lg'), maData: [] };
     charts[id] = o;
+    bindMouse(o);
     chart.subscribeCrosshairMove(p => legend(o, p && p.time));
     return o;
   }
@@ -110,6 +117,24 @@
     const ma = MA.map(([n, c], i) => o.maData[i][r.time] != null ? `<span style="color:${c}">${n}:${fmt(o.maData[i][r.time])}</span>` : '').join(' ');
     const a = o.amtMap[r.time];
     o.lg.innerHTML = `<b>${o.title}</b>${fmtT(r.time)} 시${fmt(r.open)} 고${fmt(r.high)} 저${fmt(r.low)} 종<span style="color:${ch >= 0 ? UP : DN}">${fmt(r.close)}${ch != null ? ` (${ch >= 0 ? '+' : ''}${ch.toFixed(2)}%)` : ''}</span>${a != null ? ` 대금${fmt(a)}억` : ''}<br>${ma}`;
+  }
+  // 휠: 위 = 과거로, 아래 = 최근으로 (보이는 봉 수의 10%씩). 드래그: 오른쪽으로 끌면 선택 구간 확대, 왼쪽으로 끌면 2배 축소. 더블클릭 = 처음 보기
+  function bindMouse(o) {
+    const el = o.el, ts = () => o.chart.timeScale();
+    el.addEventListener('wheel', e => { e.preventDefault(); const r = ts().getVisibleLogicalRange(); if (!r) return;
+      const w = r.to - r.from, step = Math.max(1, Math.round(w * 0.1)) * (e.deltaY < 0 ? -1 : 1);
+      ts().setVisibleLogicalRange({ from: r.from + step, to: r.to + step }); }, { passive: false });
+    const box = document.createElement('div'); box.className = 'sel'; el.appendChild(box);
+    let x0 = null;
+    const px = e => e.clientX - el.getBoundingClientRect().left;
+    el.addEventListener('mousedown', e => { if (e.button !== 0) return; const w = el.clientWidth - 80; const x = px(e); if (x > w) return; x0 = x; box.style.left = x + 'px'; box.style.width = '0px'; box.style.display = 'block'; });
+    window.addEventListener('mousemove', e => { if (x0 == null) return; const x = Math.max(0, Math.min(px(e), el.clientWidth - 80)); box.style.left = Math.min(x0, x) + 'px'; box.style.width = Math.abs(x - x0) + 'px'; });
+    window.addEventListener('mouseup', e => { if (x0 == null) return; const x1 = Math.max(0, Math.min(px(e), el.clientWidth - 80)); box.style.display = 'none';
+      const a = x0; x0 = null; if (Math.abs(x1 - a) < 6) return;
+      const r = ts().getVisibleLogicalRange(); if (!r) return;
+      if (x1 > a) { const l1 = ts().coordinateToLogical(a), l2 = ts().coordinateToLogical(x1); if (l1 != null && l2 != null && l2 - l1 >= 3) ts().setVisibleLogicalRange({ from: l1, to: l2 }); }
+      else { const c = (r.from + r.to) / 2, w = (r.to - r.from); ts().setVisibleLogicalRange({ from: c - w, to: c + w }); } });
+    el.addEventListener('dblclick', () => focus(currentPeriod));
   }
   // 같은 섹션 차트끼리 X 범위·크로스헤어 연동 (시간 기준 — 휴장일이 달라도 맞음)
   function link(list) {
@@ -156,7 +181,9 @@
   const ts = (d, h, m) => Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10), h, m) / 1000;
   const addDays = (d, k) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + k); return x.toISOString().slice(0, 10); };
   function setRange(o, from, to) { if (!o.rows.length) return; try { o.chart.timeScale().setVisibleRange({ from, to }); } catch (e) {} }
+  let currentPeriod = null;
   function focus(p) {
+    currentPeriod = p;
     const D = ['d_ix', 'd_idx', 'd_stk'].map(k => charts[k]), M = ['m15_idx', 'm15_stk'].map(k => charts[k]), T = charts['m3_stk'];
     if (!p) {
       const last = D[2].rows.length ? D[2].rows[D[2].rows.length - 1].time : null; if (last) D.forEach(o => setRange(o, addDays(last, -365), last));
