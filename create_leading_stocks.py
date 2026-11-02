@@ -950,6 +950,72 @@ else:
     print(f"[WARN] {_mc_path} 없음 — 미국 사이클 박스 비활성")
 
 # ===== 4. GENERATE HTML =====
+# ===== 산업 사이클 (유형별 / 시계열별 탭, 2026-11-03 BT 확정) =====
+# type: 재가동형(과거 공급이 줄었다가 다시 도는 산업) / 개척형(처음부터 공급이 없던 산업)
+# term: 장기(14~30년) / 중기(4~8년) / 단기(2~5년) / 1회
+# cycles: (시작 YYYY-MM, 끝 YYYY-MM 또는 None=진행중, 메모). 시작 = 60·120일선 정배열 진입,
+#         산업 가격지표 우선(없으면 영업이익, 바이오만 주가). 근거는 대화 기록·메모리 korea-leadership-cycles 참조
+SECTOR_CYCLES_SPEC = [
+    {"sector": "건설", "sid": "hyundai_const", "name": "현대건설", "type": "재가동형", "term": "장기", "from": "19850101",
+     "cycles": [("1986-01", "1991-12", "3저·주택 200만 호"), ("2004-09", "2008-01", "해외 플랜트·주택"), ("2025-02", None, "")],
+     "note": "1975~1982 중동 건설 붐은 주가 데이터 없음"},
+    {"sector": "조선", "sid": "hd_ksoe", "name": "HD한국조선해양", "type": "재가동형", "term": "장기", "from": "19990101",
+     "cycles": [("2004-10", "2011-07", "중국 인프라"), ("2024-02", None, "")], "note": "2010년대 도크 축소 후 재가동"},
+    {"sector": "해운", "sid": "hmm", "name": "HMM", "type": "재가동형", "term": "장기", "from": "19990101",
+     "cycles": [("2002-05", "2008-09", "중국 인프라"), ("2021-02", "2022-12", "공급망 병목")], "note": "기준: 미국 원양화물 PPI. 2016 한진해운 파산"},
+    {"sector": "전력", "sid": "ls_electric", "name": "LS ELECTRIC", "type": "재가동형", "term": "장기", "from": "20000101",
+     "cycles": [("2004-05", "2008-10", "송전 투자 재개"), ("2020-08", None, "교체·재생에너지·AI")], "note": "기준: 미국 변압기 PPI. 1970년대 전력망 구축기 이후 세 번째"},
+    {"sector": "원전", "sid": "doosan_enerbil", "name": "두산에너빌리티", "type": "재가동형", "term": "장기", "from": "20000101",
+     "cycles": [("2001-03", "2008-02", "원전 르네상스"), ("2021-05", None, "에너지 안보·AI 전력")], "note": "기준: 우라늄 가격. 1970년대 이후 세 번째, 체르노빌·후쿠시마로 공급 축소"},
+    {"sector": "방산", "sid": "hanwha_aero", "name": "한화에어로스페이스", "type": "재가동형", "term": "장기", "from": "19900101",
+     "cycles": [("2001-09", "2010-12", "9·11 (한국 미참여)"), ("2022-02", None, "글로벌 재무장")], "note": "글로벌 1980년대/2001/2022, 한국 실적은 2023~ 첫 사이클. 2015년 이전은 삼성테크윈"},
+    {"sector": "자동차", "sid": "hyundai_motor", "name": "현대차", "type": "재가동형", "term": "장기", "from": "19850101",
+     "cycles": [("1986-01", "1988-12", "3저 (추정)"), ("2009-03", "2011-08", ""), ("2020-07", "2021-05", "")], "note": "2003년은 멀티플만, 2025년은 로봇 테마라 제외"},
+    {"sector": "철강", "sid": "posco", "name": "POSCO홀딩스", "type": "재가동형", "term": "중기", "from": "19900101",
+     "cycles": [("2003-10", "2008-10", "중국 인프라"), ("2009-09", "2010-08", ""), ("2016-05", "2018-12", "중국 공급개혁"), ("2020-11", "2022-01", ""), ("2026-01", None, "")],
+     "note": "기준: 미국 강판 PPI. 한국 기업은 중국에 밀려 주가 반응이 약함"},
+    {"sector": "화학", "sid": "lotte_chem", "name": "롯데케미칼", "type": "재가동형", "term": "중기", "from": "19900101",
+     "cycles": [("2004-05", "2008-09", ""), ("2009-06", "2010-04", ""), ("2012-09", "2017-04", "에틸렌 스프레드 최대"), ("2020-05", "2021-05", "")],
+     "note": "기준: 2009년 이후 에틸렌 스프레드(KB증권), 이전은 미국 석유화학 PPI"},
+    {"sector": "정유", "sid": "s_oil", "name": "S-Oil", "type": "재가동형", "term": "중기", "from": "19900101",
+     "cycles": [("2004-01", "2008-11", ""), ("2012-02", "2018-09", ""), ("2019-04", "2022-12", ""), ("2025-01", None, "")], "note": "기준: 정제마진 (휘발유·경유 − 브렌트)"},
+    {"sector": "반도체", "sid": "sk_hynix", "name": "SK하이닉스", "type": "재가동형", "term": "단기", "from": "19970101",
+     "cycles": [("2005-02", "2007-10", "PC·낸드"), ("2009-04", "2011-07", "PC 교체"), ("2012-10", "2013-08", "스마트폰"), ("2016-07", "2018-02", "서버"), ("2020-11", "2021-06", "비대면"), ("2025-06", "2026-09", "AI")],
+     "note": "2023~2024 HBM은 하이닉스 단독이라 제외"},
+    {"sector": "배터리", "sid": "samsung_sdi", "name": "삼성SDI", "type": "재가동형", "term": "단기", "from": "20100101",
+     "cycles": [("2017-02", "2018-04", "태동기"), ("2020-02", "2022-01", ""), ("2022-06", "2023-10", "")], "note": "2023년 이후 공급 과잉으로 재가동형. 2025~2026은 지수 대비 약해 제외"},
+    {"sector": "바이오", "sid": "celltrion", "name": "셀트리온", "type": "개척형", "term": "단기", "from": "20050101",
+     "cycles": [("2011-08", "2014-05", "바이오시밀러"), ("2014-09", "2015-10", "기술이전"), ("2017-04", "2018-06", "시밀러·신약"), ("2019-12", "2021-03", "진단·CMO"), ("2023-02", "2025-01", "플랫폼(알테오젠)")],
+     "note": "매번 세부 분야 교체. 주가 기준 예외(바이오만)"},
+    {"sector": "통신", "sid": "sk_telecom", "name": "SK텔레콤", "type": "개척형", "term": "1회", "from": "19900101",
+     "cycles": [("1998-12", "2000-03", "휴대폰 보급")], "note": ""},
+    {"sector": "플랫폼", "sid": "kakao", "name": "카카오", "type": "개척형", "term": "1회", "from": "20100101",
+     "cycles": [("2020-03", "2021-07", "플랫폼·비대면")], "note": ""},
+]
+_sector_seed = {}
+_seed_path = os.path.join(os.path.dirname(__file__), "sector_weekly_seed.json")
+if os.path.exists(_seed_path):
+    with open(_seed_path, encoding="utf-8") as _f:
+        _sector_seed = json.load(_f)
+def _to_weekly(rows):
+    import datetime as _dt
+    out = {}
+    for r in rows:
+        d = r[0]; c = r[4]
+        if not c or c <= 0: continue
+        k = _dt.date(int(d[:4]), int(d[4:6]), int(d[6:8])).isocalendar()[:2]
+        out[k] = [d, round(float(c), 2)]
+    return list(out.values())
+sector_cycles = []
+for _sp in SECTOR_CYCLES_SPEC:
+    _rows = raw["stocks"].get(_sp["sid"])
+    _w = _to_weekly(_rows) if _rows else _sector_seed.get(_sp["sid"], [])
+    _w = [x for x in _w if x[0] >= _sp.get("from", "19000101")]
+    _e = {k: v for k, v in _sp.items() if k != "cycles"}
+    _e["cycles"] = [{"start": a, "end": b, "label": c} for a, b, c in _sp["cycles"]]
+    _e["series"] = _w
+    sector_cycles.append(_e)
+
 html = """<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1052,6 +1118,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 .view-panel { display: none; }
 .view-panel.active { display: block; }
+
+/* ===== 산업 사이클 매트릭스 (SECTOR_VIEW_V1) ===== */
+.sec-intro { padding: 12px 28px 0; font-size: 12px; color: #8b949e; line-height: 1.6; }
+.sec-matrix { display: grid; gap: 16px; padding: 12px 28px 28px; align-items: start; }
+.sec-col h3 { font-size: 14px; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid #30363d; }
+.sec-col h3 .sub { font-size: 11px; color: #8b949e; font-weight: 400; margin-left: 8px; }
+.sec-sub2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.sec-group { grid-column: 1 / -1; font-size: 11.5px; color: #c9d1d9; font-weight: 600; margin: 4px 0 6px; }
+.sec-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 8px 10px 6px; margin-bottom: 10px; }
+.sec-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.sec-name { font-size: 13px; font-weight: 700; color: #e6edf3; }
+.sec-stock { font-size: 11px; color: #8b949e; }
+.sec-tag { font-size: 10px; padding: 0 6px; border-radius: 8px; border: 1px solid; }
+.sec-gap { font-size: 11px; color: #c9d1d9; margin: 3px 0 4px; }
+.sec-canvas { position: relative; height: 140px; }
+.sec-note { font-size: 10.5px; color: #6e7681; margin-top: 3px; line-height: 1.45; }
+.sec-empty { font-size: 11px; color: #6e7681; padding: 50px 0; text-align: center; }
+@media (max-width: 1100px) { .sec-sub2 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1069,12 +1153,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 </div>
 
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchView(event,'v1')">전체 사이클</button>
-  <button class="tab-btn" onclick="switchView(event,'v2')">개별 사이클</button>
+  <button class="tab-btn active" onclick="switchView(event,'vtype')">유형별</button>
+  <button class="tab-btn" onclick="switchView(event,'vterm')">시계열별</button>
+  <button class="tab-btn" onclick="switchView(event,'v2')">주도주</button>
+</div>
+
+<!-- SECTOR_VIEW_V1: 산업 사이클 매트릭스 (2026-11-03) -->
+<div class="view-panel active" id="view-vtype">
+  <div class="sec-intro">산업 사이클이 어느 정도 주기로 도는지 가늠하기 위한 화면. 대표종목 주봉(로그) 위에 업사이클 구간을 음영으로 표시. 업사이클 시작 = 60·120일선 정배열 진입, 산업 가격지표 우선(없으면 영업이익, 바이오만 주가). 점선 = 진행 중.</div>
+  <div class="sec-matrix" id="sec-type"></div>
+</div>
+<div class="view-panel" id="view-vterm">
+  <div class="sec-intro">같은 산업 사이클을 주기 길이별로 배치. 장기 14~30년 · 중기 4~8년 · 단기 2~5년 · 1회. 카드 색 태그 = 재가동형(파랑) / 개척형(초록).</div>
+  <div class="sec-matrix" id="sec-term"></div>
 </div>
 
 <!-- VIEW 1 -->
-<div class="view-panel active" id="view-v1">
+<div class="view-panel" id="view-v1">
   <div class="nav-section"><div class="nav-row" id="v1-stock-btns"></div></div>
   <div class="ctrl-row">
     <span class="ctrl-label">스케일:</span>
@@ -1237,6 +1332,7 @@ const CYCLES = """ + json.dumps(cycle_order) + """;
 const STOCK_COLORS = """ + json.dumps(STOCK_COLORS) + """;
 const STOCK_ZONES = """ + json.dumps(stock_zones) + """;
 const US_MARKET_CYCLES = """ + json.dumps(us_market_cycles) + """;
+const SECTOR_CYCLES = """ + json.dumps(sector_cycles, ensure_ascii=False, separators=(",", ":")) + """;
 
 const stockColorMap = {};
 UNIQUE_STOCKS.forEach((s, i) => { stockColorMap[s.id] = STOCK_COLORS[i % STOCK_COLORS.length]; });
@@ -2934,11 +3030,118 @@ function switchView(evt, viewId) {
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('view-' + viewId).classList.add('active');
   evt.target.classList.add('active');
+  if (viewId === 'vtype') renderSecType();
+  if (viewId === 'vterm') renderSecTerm();
+}
+
+// ===== 산업 사이클 매트릭스 (SECTOR_VIEW_V1, 2026-11-03) =====
+const SEC_TERM_ORDER = ['장기', '중기', '단기', '1회'];
+const SEC_TERM_COLOR = { '장기': '#7986cb', '중기': '#4db6ac', '단기': '#ffb74d', '1회': '#a1887f' };
+const SEC_TYPE_COLOR = { '재가동형': '#58a6ff', '개척형': '#3fb950' };
+const SEC_TERM_DESC = { '장기': '14~30년', '중기': '4~8년', '단기': '2~5년', '1회': '한 번' };
+const SEC_X_MIN = new Date('1985-01-01').getTime(), SEC_X_MAX = new Date('2027-06-30').getTime();
+const secRendered = {};
+function _secDate(ym, endOfMonth) {
+  const p = ym.split('-').map(Number);
+  return endOfMonth ? new Date(p[0], p[1], 0).getTime() : new Date(p[0], p[1] - 1, 1).getTime();
+}
+function _secGapText(sp) {
+  const st = sp.cycles.map(c => Number(c.start.slice(0, 4)) + (Number(c.start.slice(5, 7)) - 1) / 12);
+  if (st.length < 2) return sp.cycles.length + '회';
+  const g = [];
+  for (let i = 1; i < st.length; i++) g.push(Math.round((st[i] - st[i - 1]) * 10) / 10);
+  return '간격 ' + g.join(' / ') + '년';
+}
+function _secCard(sp, canvasId) {
+  const col = SEC_TERM_COLOR[sp.term] || '#8b949e', tcol = SEC_TYPE_COLOR[sp.type] || '#8b949e';
+  const starts = sp.cycles.map(c => c.start.slice(0, 4)).join(' · ');
+  const body = (sp.series && sp.series.length) ? '<div class="sec-canvas"><canvas id="' + canvasId + '"></canvas></div>'
+                                               : '<div class="sec-empty">주가 데이터 준비 중</div>';
+  return '<div class="sec-card"><div class="sec-head"><span class="sec-name">' + sp.sector + '</span>'
+    + '<span class="sec-stock">' + sp.name + '</span>'
+    + '<span class="sec-tag" style="color:' + tcol + ';border-color:' + tcol + '66">' + sp.type + '</span>'
+    + '<span class="sec-tag" style="color:' + col + ';border-color:' + col + '66">' + sp.term + '</span></div>'
+    + '<div class="sec-gap">업사이클 시작 ' + starts + ' · ' + _secGapText(sp) + '</div>'
+    + body + (sp.note ? '<div class="sec-note">' + sp.note + '</div>' : '') + '</div>';
+}
+function _secChart(sp, canvasId) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const data = (sp.series || []).map(r => ({ x: new Date(r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8)).getTime(), y: r[1] }));
+  const col = SEC_TERM_COLOR[sp.term] || '#8b949e';
+  const lastX = data.length ? data[data.length - 1].x : SEC_X_MAX;
+  const ann = {};
+  sp.cycles.forEach((c, i) => {
+    const open = !c.end;
+    ann['b' + i] = {
+      type: 'box', xMin: _secDate(c.start, false), xMax: open ? lastX : _secDate(c.end, true),
+      backgroundColor: col + '30', borderColor: col + 'b0', borderWidth: 1, borderDash: open ? [4, 3] : undefined,
+      label: { display: true, content: "'" + c.start.slice(2, 4) + (c.label ? ' ' + c.label : ''), position: { x: 'start', y: 'start' },
+               color: '#e6edf3', font: { size: 9 }, padding: 2 }
+    };
+  });
+  new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: { datasets: [{ data, borderColor: '#c9d1d9', borderWidth: 1, pointRadius: 0, tension: 0 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { title: items => new Date(items[0].parsed.x).toISOString().slice(0, 10), label: it => Math.round(it.parsed.y).toLocaleString() } },
+        annotation: { annotations: ann }
+      },
+      scales: {
+        x: { type: 'time', min: SEC_X_MIN, max: SEC_X_MAX, time: { unit: 'year', displayFormats: { year: 'yy' } },
+             ticks: { color: '#6e7681', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 22 }, grid: { color: '#21262d' } },
+        y: { type: 'logarithmic', ticks: { color: '#6e7681', font: { size: 9 }, maxTicksLimit: 4,
+             callback: v => { const n = Number(v); return n >= 10000 ? Math.round(n / 10000) + '만' : n.toLocaleString(); } },
+             grid: { color: '#21262d' } }
+      }
+    }
+  });
+}
+function renderSecType() {
+  if (secRendered.type) return;
+  secRendered.type = true;
+  const host = document.getElementById('sec-type');
+  host.style.gridTemplateColumns = '2fr 1fr';
+  let html = '';
+  const plan = [];
+  [['재가동형', '과거 공급이 줄었다가 다시 도는 산업'], ['개척형', '처음부터 공급이 거의 없던 산업']].forEach(([t, desc]) => {
+    html += '<div class="sec-col"><h3 style="color:' + SEC_TYPE_COLOR[t] + '">' + t + '<span class="sub">' + desc + '</span></h3>';
+    html += t === '재가동형' ? '<div class="sec-sub2">' : '<div>';
+    SEC_TERM_ORDER.forEach(tm => {
+      const items = SECTOR_CYCLES.map((s, i) => [s, i]).filter(([s]) => s.type === t && s.term === tm);
+      if (!items.length) return;
+      html += '<div class="sec-group">' + tm + ' (' + SEC_TERM_DESC[tm] + ')</div>';
+      items.forEach(([s, i]) => { const id = 'secc_type_' + i; html += _secCard(s, id); plan.push([s, id]); });
+    });
+    html += '</div></div>';
+  });
+  host.innerHTML = html;
+  plan.forEach(([s, id]) => _secChart(s, id));
+}
+function renderSecTerm() {
+  if (secRendered.term) return;
+  secRendered.term = true;
+  const host = document.getElementById('sec-term');
+  host.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  let html = '';
+  const plan = [];
+  SEC_TERM_ORDER.forEach(tm => {
+    html += '<div class="sec-col"><h3 style="color:' + SEC_TERM_COLOR[tm] + '">' + tm + '<span class="sub">' + SEC_TERM_DESC[tm] + '</span></h3>';
+    SECTOR_CYCLES.forEach((s, i) => { if (s.term !== tm) return; const id = 'secc_term_' + i; html += _secCard(s, id); plan.push([s, id]); });
+    html += '</div>';
+  });
+  host.innerHTML = html;
+  plan.forEach(([s, id]) => _secChart(s, id));
 }
 
 // ===== INIT =====
 initV1();
 initV2();
+renderSecType();
 </script>
 </body>
 </html>"""

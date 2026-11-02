@@ -58,6 +58,12 @@ STOCK_TICKERS_FALLBACK = {
     "kakao":           "035720.KS",
     "samsung_bio":     "207940.KS",
     "ncsoft":          "036570.KS",
+    # 2026-11-03 추가 — 산업 사이클 탭(유형별/시계열별) 대표종목 (LEADING_STOCKS 밖)
+    "hd_ksoe":         "009540.KS",
+    "ls_electric":     "010120.KS",
+    "lotte_chem":      "011170.KS",
+    "samsung_sdi":     "006400.KS",
+    "hanwha_aero":     "012450.KS",
 }
 
 # 2026-11-03: ls_data 에 없는 종목은 전체 히스토리를 seed (yfinance, 분할 반영 Close)
@@ -66,6 +72,11 @@ SEED_STOCKS = {
     "kakao":       {"name": "카카오",         "era": "2021", "cycle": "kr_covid_bull"},
     "samsung_bio": {"name": "삼성바이오로직스", "era": "2021", "cycle": "kr_covid_bull"},
     "ncsoft":      {"name": "엔씨소프트",     "era": "2021", "cycle": "kr_covid_bull"},
+    "hd_ksoe":     {"name": "HD한국조선해양", "era": "", "cycle": "sector_view"},
+    "ls_electric": {"name": "LS ELECTRIC",    "era": "", "cycle": "sector_view"},
+    "lotte_chem":  {"name": "롯데케미칼",     "era": "", "cycle": "sector_view"},
+    "samsung_sdi": {"name": "삼성SDI",        "era": "", "cycle": "sector_view"},
+    "hanwha_aero": {"name": "한화에어로스페이스", "era": "", "cycle": "sector_view"},
 }
 
 
