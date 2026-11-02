@@ -25,6 +25,9 @@
   .pane .lg { position:absolute; left:6px; top:3px; z-index:5; font-size:11px; color:#111; pointer-events:none; font-family:Consolas,monospace; white-space:nowrap; }
   .pane .lg b { color:#000; margin-right:6px; font-family:-apple-system,'Malgun Gothic',sans-serif; }
   .pane .sel { position:absolute; top:0; bottom:0; background:rgba(31,111,235,0.18); border-left:1px solid #1f6feb; border-right:1px solid #1f6feb; z-index:6; pointer-events:none; display:none; }
+  .ed { margin-left:auto; display:inline-flex; align-items:center; gap:4px; }
+  .ed input { background:#161b22; color:#f0f6fc; border:1px solid #30363d; border-radius:6px; padding:3px 6px; font-size:12px; color-scheme:dark; }
+  .ed button { background:#21262d; color:#c9d1d9; border:1px solid #30363d; border-radius:6px; padding:3px 8px; font-size:12px; cursor:pointer; } .ed button:hover { border-color:#58a6ff; }
   .note { font-size:11px; color:#6e7681; margin-top:4px; }
   .ma i { font-style:normal; margin-right:8px; font-weight:700; }
 </style>
@@ -38,6 +41,7 @@
     <span>구간</span><select id="periodSel"></select>
     <span class="ma"><i style="color:#000">5</i><i style="color:#0000FF">10</i><i style="color:#B8860B">20</i><i style="color:#9900CC">60</i><i style="color:#008000">120</i></span>
     <span id="dataNote"></span>
+    <span class="ed" title="키움 차트 우상단 날짜처럼 — 이 날까지의 봉만 보여 줌 (일봉·15분·3분 공통)">기준일 <button id="edPrev">◀</button><input type="date" id="endDate"><button id="edNext">▶</button><button id="edNow">최신</button></span>
   </div>
   <div class="sec"><h2>일봉 <small>나스닥 · 지수 · 종목 (X축 연동)</small></h2>
     <div class="pane" id="d_ix" style="height:170px"></div>
@@ -93,7 +97,7 @@
       timeScale: { borderColor: '#6e6e6e', timeVisible: intraday, secondsVisible: false, rightOffset: 4,
         tickMarkFormatter: intraday ? (t, type) => { const d = new Date(t * 1000); return type >= 3 ? d.toISOString().slice(11, 16) : (d.getUTCMonth() + 1) + '/' + d.getUTCDate(); } : undefined },
       localization: { timeFormatter: t => fmtT(t), priceFormatter: p => fmt(p) } });
-    const shade = chart.addHistogramSeries({ priceScaleId: 'shade', color: 'rgba(255,90,90,0.28)', priceLineVisible: false, lastValueVisible: false });
+    const shade = chart.addHistogramSeries({ priceScaleId: 'shade', color: 'rgba(255,40,40,0.33)', priceLineVisible: false, lastValueVisible: false });
     chart.priceScale('shade').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
     const vol = amt ? chart.addHistogramSeries({ priceScaleId: 'amt', priceLineVisible: false, lastValueVisible: false, priceFormat: { type: 'volume' } }) : null;
     if (vol) chart.priceScale('amt').applyOptions({ scaleMargins: { top: 0.82, bottom: 0 }, visible: false });
@@ -105,7 +109,12 @@
     chart.subscribeCrosshairMove(p => legend(o, p && p.time));
     return o;
   }
-  function setData(o, rows, amts) {
+  // 기준일(endDate) — 2026-11-02 BT: 일봉·15분·3분을 같은 마지막 날짜로 맞춰 비교 (키움 우상단 날짜 기능)
+  let endDate = null, PER = [];
+  function setData(o, rows, amts) { o.full = rows; o.fullAmt = amts || []; draw(o); }
+  function draw(o) {
+    let rows = o.full, amts = o.fullAmt;
+    if (endDate) { let n = rows.length; while (n > 0 && ymdOf(rows[n - 1].time) > endDate) n--; rows = rows.slice(0, n); amts = amts.slice(0, n); }
     o.rows = rows; o.candle.setData(rows);
     o.maData = MA.map(([n], i) => { const d = sma(rows, n); o.mas[i].setData(d); return Object.fromEntries(d.map(x => [x.time, x.value])); });
     if (o.vol) { o.vol.setData(rows.map((r, i) => ({ time: r.time, value: amts[i] ?? 0, color: r.close >= r.open ? 'rgba(214,16,34,0.55)' : 'rgba(23,80,224,0.55)' }))); o.amtMap = Object.fromEntries(rows.map((r, i) => [r.time, amts[i]])); }
@@ -152,6 +161,13 @@
   const ymdOf = t => typeof t === 'string' ? t : new Date(t * 1000).toISOString().slice(0, 10);
   function applyShade(o, periods) {
     o.shade.setData(o.rows.map(r => { const d = ymdOf(r.time); const hit = periods.some(p => d >= p.start && d <= p.end); return { time: r.time, value: hit ? 1 : 0 }; }));
+    // 종목 차트에는 구간 시작·끝 표시
+    if (!o.vol) return;
+    const mk = [];
+    periods.forEach(p => { const a = o.rows.find(r => ymdOf(r.time) >= p.start && ymdOf(r.time) <= p.end); let b = null; for (let i = o.rows.length - 1; i >= 0; i--) { const d = ymdOf(o.rows[i].time); if (d <= p.end && d >= p.start) { b = o.rows[i]; break; } }
+      if (a) mk.push({ time: a.time, position: 'belowBar', color: '#b00000', shape: 'arrowUp', text: (p.label || '모멘텀') + ' 시작' });
+      if (b && b !== a && p.end <= ymdOf(o.rows[o.rows.length - 1].time)) mk.push({ time: b.time, position: 'aboveBar', color: '#b00000', shape: 'arrowDown', text: '종료' }); });
+    mk.sort((x, y) => (x.time > y.time ? 1 : -1)); o.candle.setMarkers(mk);
   }
 
   let cur = STOCKS[0];
@@ -172,19 +188,36 @@
     const M1 = makeChart('m15_idx', PROXY_NAME[s.proxy] || idxName, { amt: false, intraday: true }), M2 = makeChart('m15_stk', s.name + ' 15분', { intraday: true });
     const p15 = mRows(px15), s15 = mRows(st15); setData(M1, p15); setData(M2, s15, s15.map(r => r.amt));
     const T1 = makeChart('m3_stk', s.name + ' 3분', { intraday: true }); const s3 = mRows(st3); setData(T1, s3, s3.map(r => r.amt));
-    [D1, D2, D3, M1, M2, T1].forEach(o => applyShade(o, periods));
+    PER = periods; [D1, D2, D3, M1, M2, T1].forEach(o => applyShade(o, periods));
     link([D1, D2, D3]); link([M1, M2]);
     const first = s15[0], last = s15[s15.length - 1];
     $('#dataNote').textContent = first ? `분봉 ${ymdOf(first.time)} ~ ${ymdOf(last.time)} · 일봉 ${ds.length ? ds[ds.length - 1].time : '—'}` : '분봉 데이터 수집 전';
-    focus(null);
+    if (endDate) applyEnd(); else focus(null);
     $('#periodSel').onchange = () => focus($('#periodSel').value === '' ? null : periods[+$('#periodSel').value]);
   }
   const ts = (d, h, m) => Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10), h, m) / 1000;
   const addDays = (d, k) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + k); return x.toISOString().slice(0, 10); };
   function setRange(o, from, to) { if (!o.rows.length) return; try { o.chart.timeScale().setVisibleRange({ from, to }); } catch (e) {} }
   let currentPeriod = null;
+  // 기준일 적용: 모든 차트를 그 날 장마감까지 자르고, 지금 보고 있는 봉 수(없으면 기본값)를 유지한 채 오른쪽 끝에 맞춤
+  const DEF_W = { d_ix: 120, d_idx: 120, d_stk: 120, m15_idx: 260, m15_stk: 260, m3_stk: 390 };
+  function applyEnd() {
+    $('#endDate').value = endDate || '';
+    Object.values(charts).forEach(o => {
+      const r = o.chart.timeScale().getVisibleLogicalRange(); const w = r && o.rows.length ? Math.max(20, Math.round(r.to - r.from)) : DEF_W[o.id] || 200;
+      draw(o); applyShade(o, PER); const n = o.rows.length; if (n) o.chart.timeScale().setVisibleLogicalRange({ from: n - w, to: n + 3 }); });
+  }
+  const tradeDays = () => (charts['d_stk'] ? charts['d_stk'].full.map(r => r.time) : []);
+  $('#endDate').onchange = () => { endDate = $('#endDate').value || null; applyEnd(); };
+  $('#edNow').onclick = () => { endDate = null; applyEnd(); };
+  const stepDay = k => { const D = tradeDays(); if (!D.length) return; const last = D.length - 1; let i;
+    if (k < 0) { i = last; if (endDate) { while (i >= 0 && D[i] > endDate) i--; if (i >= 0 && D[i] === endDate) i--; } else i = last - 1; i = Math.max(0, i); endDate = D[i]; }
+    else { if (!endDate) return; i = D.findIndex(d => d > endDate); endDate = i < 0 || i >= last ? null : D[i]; }
+    applyEnd(); };
+  $('#edPrev').onclick = () => stepDay(-1); $('#edNext').onclick = () => stepDay(1);
   function focus(p) {
     currentPeriod = p;
+    if (p && endDate) { endDate = null; Object.values(charts).forEach(o => { draw(o); applyShade(o, PER); }); $('#endDate').value = ''; }
     const D = ['d_ix', 'd_idx', 'd_stk'].map(k => charts[k]), M = ['m15_idx', 'm15_stk'].map(k => charts[k]), T = charts['m3_stk'];
     if (!p) {
       const last = D[2].rows.length ? D[2].rows[D[2].rows.length - 1].time : null; if (last) D.forEach(o => setRange(o, addDays(last, -365), last));
