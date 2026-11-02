@@ -119,5 +119,59 @@ def fetch():
         json.dump(store, open(path, "w"), separators=(",", ":"))
         log(f"{code}: saved {len(store['days'])} days → {path} ({os.path.getsize(path)//1024} KB)")
 
+# ── 3분·15분 합성 + 일봉 (페이지용 경량 파일) ─────────────────────────────
+#   1분봉 시각 = 그 1분의 시작(090000~152900) + 153000(종가 단일가). 봉 라벨 = 구간 시작 시각.
+#   15:30 단일가 1분봉은 직전 구간(15:15~ / 15:27~)에 합친다 → 키움 분봉과 같은 봉 수.
+#   거래대금 = 누적 거래대금(acml_tr_pbmn) 차분. 시간은 KST 벽시계를 UTC 초로 저장(차트가 그대로 표시).
+def agg(days, n):
+    out = []
+    for ymd in sorted(days):
+        rows = days[ymd]; groups = {}; prev_cum = 0
+        for t, o, h, l, c, v, cum in rows:
+            hh, mm = int(t[:2]), int(t[2:4]); m = (hh - 9) * 60 + mm
+            if m >= 390: m = 389
+            if m < 0: continue
+            g = (m // n) * n
+            amt = max(0, cum - prev_cum) if cum else 0; prev_cum = cum or prev_cum
+            b = groups.get(g)
+            if b is None: groups[g] = [o, h, l, c, v, amt]
+            else: b[1] = max(b[1], h); b[2] = min(b[2], l); b[3] = c; b[4] += v; b[5] += amt
+        base = int(datetime(int(ymd[:4]), int(ymd[4:6]), int(ymd[6:]), 9, 0, tzinfo=timezone.utc).timestamp())
+        for g in sorted(groups):
+            o, h, l, c, v, a = groups[g]
+            out.append([base + g * 60, o, h, l, c, v, round(a / 1e8, 2)])   # 거래대금 억원
+    return out
+
+def build():
+    import glob
+    for path in glob.glob(os.path.join(OUTDIR, "*_1m.json")):
+        st = json.load(open(path)); code = st["code"]
+        for n in (3, 15):
+            bars = agg(st["days"], n)
+            json.dump({"code": code, "tf": f"{n}m", "fields": ["t", "o", "h", "l", "c", "v", "amt_eok"], "bars": bars},
+                      open(os.path.join(OUTDIR, f"{code}_{n}m.json"), "w"), separators=(",", ":"))
+            log(f"build {code} {n}m: {len(bars)} bars")
+    # 일봉: 나스닥·코스피·코스닥·종목 (yfinance, 2015~)
+    try:
+        import yfinance as yf
+        syms = {"IXIC": "^IXIC", "KOSPI": "^KS11", "KOSDAQ": "^KQ11"}
+        for path in glob.glob(os.path.join(OUTDIR, "*_1m.json")):
+            c = json.load(open(path))["code"]
+            if c not in ("069500", "229200"): syms[c] = c + ".KS"
+        for c in os.environ.get("DAILY_EXTRA", "").split(","):
+            if c.strip(): syms[c.strip()] = c.strip() + ".KS"
+        daily = {}
+        for k, y in syms.items():
+            h = yf.Ticker(y).history(start="2015-01-01", interval="1d", auto_adjust=False)
+            rows = [[str(i.date()), round(float(r.Open), 2), round(float(r.High), 2), round(float(r.Low), 2), round(float(r.Close), 2), int(r.Volume)]
+                    for i, r in h.iterrows() if r.Close == r.Close and r.Open > 0]
+            daily[k] = rows; log(f"daily {k}: {len(rows)} rows, last {rows[-1] if rows else None}")
+        json.dump({"updated": datetime.now(KST).isoformat(timespec="seconds"), "fields": ["d", "o", "h", "l", "c", "v"], "series": daily},
+                  open(os.path.join(OUTDIR, "daily.json"), "w"), separators=(",", ":"))
+    except Exception as e:
+        log("daily build error", e)
+
 if __name__ == "__main__":
-    probe() if MODE == "probe" else fetch()
+    if MODE == "probe": probe()
+    elif MODE == "build": build()
+    else: fetch(); build()

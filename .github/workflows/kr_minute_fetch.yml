@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'probe = 가능 여부 점검 / fetch = 수집·저장'
+        description: 'probe = 점검 / fetch = 수집+합성 / build = 합성만'
         required: false
         default: 'probe'
       codes:
@@ -26,6 +26,10 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q yfinance
       - name: Fetch
         env:
           KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
@@ -35,7 +39,7 @@ jobs:
           DAYS: ${{ github.event.inputs.days || '400' }}
         run: python3 scripts/kr_minute_fetch.py
       - name: Commit
-        if: ${{ github.event.inputs.mode == 'fetch' }}
+        if: ${{ github.event.inputs.mode != 'probe' }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
