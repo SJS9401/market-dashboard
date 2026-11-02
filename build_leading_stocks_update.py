@@ -53,6 +53,19 @@ STOCK_TICKERS_FALLBACK = {
     "hyundai_motor":   "005380.KS",
     "lg_chem":         "051910.KS",
     "s_oil":           "010950.KS",
+    # 2026-11-03 추가 — LEADING_STOCKS 에 있었지만 ls_data 에 OHLC 가 없던 4종목 (patch() 가 자동 seed)
+    "hanmi_pharm":     "128940.KS",
+    "kakao":           "035720.KS",
+    "samsung_bio":     "207940.KS",
+    "ncsoft":          "036570.KS",
+}
+
+# 2026-11-03: ls_data 에 없는 종목은 전체 히스토리를 seed (yfinance, 분할 반영 Close)
+SEED_STOCKS = {
+    "hanmi_pharm": {"name": "한미약품",       "era": "2015", "cycle": "kr_kbeauty_2015"},
+    "kakao":       {"name": "카카오",         "era": "2021", "cycle": "kr_covid_bull"},
+    "samsung_bio": {"name": "삼성바이오로직스", "era": "2021", "cycle": "kr_covid_bull"},
+    "ncsoft":      {"name": "엔씨소프트",     "era": "2021", "cycle": "kr_covid_bull"},
 }
 
 
@@ -97,7 +110,27 @@ def patch(fp, dry_run=False):
     changed_stocks = 0
     new_rows_total = 0
 
-    for stock_id, ts in stocks.items():
+    # --- seed: ls_data 에 없는 종목 전체 히스토리 (2026-11-03) ---
+    for stock_id, info0 in SEED_STOCKS.items():
+        if stock_id in stocks and stocks[stock_id]:
+            continue
+        ticker = STOCK_TICKERS_FALLBACK.get(stock_id)
+        try:
+            rows = fetch_yfinance(ticker, "1990-01-01", (today + timedelta(days=1)).strftime("%Y-%m-%d"))
+        except Exception as e:
+            print(f"  [seed fail] {stock_id} ({ticker}): {e}")
+            continue
+        if not rows:
+            print(f"  [seed empty] {stock_id} ({ticker})")
+            continue
+        stocks[stock_id] = rows
+        meta[stock_id] = dict(info0, ticker=ticker, start=rows[0][0], end=rows[-1][0],
+                              count=len(rows), vol_unit="eok_yf", source_pre="yfinance")
+        changed_stocks += 1
+        new_rows_total += len(rows)
+        print(f"  ✓ seed {stock_id:15s} ({ticker}) {len(rows)} rows ({rows[0][0]}~{rows[-1][0]})")
+
+    for stock_id, ts in list(stocks.items()):
         if stock_id == "last_merge":  # meta 마커
             continue
         if not isinstance(ts, list) or not ts:
@@ -241,6 +274,16 @@ def rebuild_html():
             print("[WARN] 기존 HTML 에서 marker 못 찾음 — 통째 재생성으로 fallback")
             return _rebuild_html_fallback(builder)
 
+        # 정적 영역 1회 마이그레이션 (2026-11-03 주도 섹터 박스) — 새 템플릿에만 있는 JS 를 기존 HTML 에 이식
+        if "SECTOR_BOX_COLORS" in new_html and "SECTOR_BOX_COLORS" not in old_html:
+            migrated = _migrate_sector_boxes(old_html)
+            if migrated is None:
+                print("[WARN] 섹터 박스 마이그레이션 anchor 불일치 — 통째 재생성으로 fallback")
+                return _rebuild_html_fallback(builder)
+            old_html = migrated
+            old_match = re.search(marker_pattern, old_html)
+            print("✓ 정적 영역 마이그레이션: 지수 박스 → 주도 섹터 박스")
+
         # 새 데이터 영역으로 교체 (start_marker + new_data + end_marker)
         new_data_block = new_match.group(1) + new_match.group(2) + new_match.group(3)
         patched = (
@@ -260,6 +303,19 @@ def rebuild_html():
             tmp_path.unlink(missing_ok=True)
         except Exception:
             pass
+
+
+_SB_OLD1 = "  } else {\n    CYCLES.forEach((c, i) => {\n      const z = c.indexZones && c.indexZones[idxId];\n      if (!z || !z.start || !z.end) return;\n      const closed = z.status === '종료';\n      const lbl = c.name + (z.status ? ' [' + z.status + ']' : '');\n      ann['c_' + idxId + '_' + i] = {\n        type: 'box',\n        xMin: new Date(z.start).getTime(),\n        xMax: new Date(z.end).getTime(),\n        backgroundColor: 'rgba(40, 53, 147, 0.07)',\n        borderColor: 'rgba(40, 53, 147, 0.75)',\n        borderWidth: 1,\n        borderDash: closed ? undefined : [4, 4],\n        // 개별 사이클 탭과 동일하게 박스마다 사이클 이름 표시\n        label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 9, weight: 'bold' } },\n        display: () => !!toggleStates[view][k],\n      };\n    });\n  }\n  return ann;\n}"
+_SB_NEW1 = "  } else {\n    // 한국: 주도 섹터 박스 (지수와 무관) — kospi 호출에서 한 번만 생성\n    if (idxId !== 'kospi') return ann;\n    CYCLES.forEach((c, i) => Object.assign(ann, _sectorBoxes(c, i, view, 9)));\n  }\n  return ann;\n}\n\n// ===== 주도 섹터 박스 (2026-11-03) =====\n// 사이클·분류별 박스 = 해당 분류 주도주 중장기 박스의 합집합 (create_leading_stocks.py SECTOR_CATEGORY)\n//   인프라 = B2B + 설비투자 필요 / 기술 = B2B + 설비 불필요 / 소비 = B2C / 참고 = 1998 이전\nconst SECTOR_BOX_COLORS = {\n  '인프라': { bg: 'rgba(40, 53, 147, 0.08)', border: 'rgba(40, 53, 147, 0.75)', text: '#283593' },\n  '기술':   { bg: 'rgba(191, 96, 0, 0.10)',  border: 'rgba(191, 96, 0, 0.80)',  text: '#A35200' },\n  '소비':   { bg: 'rgba(46, 125, 50, 0.10)', border: 'rgba(46, 125, 50, 0.80)', text: '#2E7D32' },\n  '참고':   { bg: 'rgba(97, 97, 97, 0.06)',  border: 'rgba(97, 97, 97, 0.55)',  text: '#616161' },\n};\nfunction _sectorBoxes(c, i, view, fontSize) {\n  const out = {};\n  (c.sectorZones || []).forEach((z, j) => {\n    if (!z.start || !z.end) return;\n    const col = SECTOR_BOX_COLORS[z.cat] || SECTOR_BOX_COLORS['참고'];\n    const closed = z.status === '종료';\n    const txt = (j === 0 ? c.name + ' · ' : '') + z.cat + (closed ? '' : ' [' + z.status + ']');\n    out['sec_' + i + '_' + j] = {\n      type: 'box',\n      xMin: new Date(z.start).getTime(),\n      xMax: new Date(z.end).getTime(),\n      backgroundColor: col.bg,\n      borderColor: col.border,\n      borderWidth: 1,\n      borderDash: closed ? undefined : [4, 4],\n      label: { display: true, content: txt, position: 'start', yAdjust: j * (fontSize + 5), color: col.text, font: { size: fontSize, weight: 'bold' } },\n      display: () => !!(toggleStates[view].kr_kospi || toggleStates[view].kr_kosdaq),\n    };\n  });\n  return out;\n}"
+_SB_OLD2 = "  // KR 패널 — 기존 로직\n  const z = cycle && cycle.indexZones && cycle.indexZones[idxId];\n  if (!z || !z.start || !z.end) return {};\n  const closed = z.status === '종료';\n  const lbl = cycle.name + (z.status ? ' [' + z.status + ']' : '');\n  return {\n    cycleZoneIdx: {\n      type: 'box',\n      xMin: new Date(z.start).getTime(),\n      xMax: new Date(z.end).getTime(),\n      backgroundColor: 'rgba(40, 53, 147, 0.07)',\n      borderColor: 'rgba(40, 53, 147, 0.75)',\n      borderWidth: 1,\n      borderDash: closed ? undefined : [4, 4],\n      label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 10, weight: 'bold' } },\n      display: () => !!toggleStates[view][k],\n    }\n  };\n}"
+_SB_NEW2 = "  // KR 패널 — 주도 섹터 박스 (2026-11-03). kospi 호출에서만 생성\n  if (idxId !== 'kospi' || !cycle) return {};\n  return _sectorBoxes(cycle, 0, view, 10);\n}"
+
+
+def _migrate_sector_boxes(html):
+    """KR 지수 박스(indexZones) 렌더링을 주도 섹터 박스(sectorZones)로 교체. anchor 불일치 시 None."""
+    if html.count(_SB_OLD1) != 1 or html.count(_SB_OLD2) != 1:
+        return None
+    return html.replace(_SB_OLD1, _SB_NEW1).replace(_SB_OLD2, _SB_NEW2)
 
 
 def _rebuild_html_fallback(builder):

@@ -37,41 +37,41 @@ LEADING_STOCKS = [
     ("hyundai_motor", "현대차",        "1994 자동차 수출 확대",        "kr_bluechip_1990",   "1990~1994 블루칩",            "1990-01-01", "1994-12-31", "1993-01-01", "1994-06-01"),
     ("spc_samlib",    "SPC삼립",       "1993 삼립호빵 내수",           "kr_bluechip_1990",   "1990~1994 블루칩",            "1990-01-01", "1994-12-31", "1993-01-01", "1994-12-31"),
     # 1998~2000 IT강세장
-    ("sk_telecom",    "SK텔레콤",      "1999 휴대폰 대중화",           "kr_it_1998",         "1998~2000 IT강세장",          "1998-06-01", "2000-01-15", "1999-01-01", "2000-03-01"),
+    ("sk_telecom",    "SK텔레콤",      "1999 휴대폰 대중화",           "kr_it_1998",         "1998~2000 IT 버블 (통신·반도체)",          "1998-06-01", "2000-01-15", "1999-01-01", "2000-03-01"),
     # 2001~2002 내수/카드버블
-    ("coway",         "코웨이",        "2002 정수기 렌탈 개척",        "kr_card_2002",       "2001~2002 내수/카드버블",     "2001-01-01", "2002-12-31", "2001-06-01", "2002-06-01"),
+    ("coway",         "코웨이",        "2002 정수기 렌탈 개척",        "kr_card_2002",       "2001~2002 내수/카드버블 (렌탈)",     "2001-01-01", "2002-12-31", "2001-06-01", "2002-06-01"),
     # 2003~2007 중국 중후장대
-    ("hyundai_elev",  "현대엘리베이터", "2004 중국 고층빌딩",           "kr_china_2003",      "2003~2007 중국 중후장대",     "2003-03-01", "2007-10-31", "2003-06-01", "2005-06-01"),
-    ("hyundai_mipo",  "현대미포조선",   "2007 조선 슈퍼사이클",         "kr_china_2003",      "2003~2007 중국 중후장대",     "2003-03-01", "2007-10-31", "2005-01-01", "2007-10-01"),
-    ("posco",         "POSCO홀딩스",   "2007 중국 철강 수요",          "kr_china_2003",      "2003~2007 중국 중후장대",     "2003-03-01", "2007-10-31", "2005-06-01", "2007-10-01"),
+    ("hyundai_elev",  "현대엘리베이터", "2004 중국 고층빌딩",           "kr_china_2003",      "2004~2007 중국 인프라 1 (조선·건설·철강)",     "2003-03-01", "2007-10-31", "2003-06-01", "2005-06-01"),
+    ("hyundai_mipo",  "현대미포조선",   "2007 조선 슈퍼사이클",         "kr_china_2003",      "2004~2007 중국 인프라 1 (조선·건설·철강)",     "2003-03-01", "2007-10-31", "2005-01-01", "2007-10-01"),
+    ("posco",         "POSCO홀딩스",   "2007 중국 철강 수요",          "kr_china_2003",      "2004~2007 중국 인프라 1 (조선·건설·철강)",     "2003-03-01", "2007-10-31", "2005-06-01", "2007-10-01"),
     # 2009~2011 차화정 (자동차·화학·정유)
-    ("hyundai_motor", "현대차",        "2010 현대차 美 점유율 급등",   "kr_chahwajeong_2009","2009~2011 차화정",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
-    ("kia",           "기아",          "2010 K5 턴어라운드",           "kr_chahwajeong_2009","2009~2011 차화정",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
-    ("lg_chem",       "LG화학",        "2010 석유화학 호황",           "kr_chahwajeong_2009","2009~2011 차화정",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
-    ("s_oil",         "S-Oil",         "2010 정제마진 확대",           "kr_chahwajeong_2009","2009~2011 차화정",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
+    ("hyundai_motor", "현대차",        "2010 현대차 美 점유율 급등",   "kr_chahwajeong_2009","2009~2011 중국 인프라 2 (차화정)",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
+    ("kia",           "기아",          "2010 K5 턴어라운드",           "kr_chahwajeong_2009","2009~2011 중국 인프라 2 (차화정)",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
+    ("lg_chem",       "LG화학",        "2010 석유화학 호황",           "kr_chahwajeong_2009","2009~2011 중국 인프라 2 (차화정)",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
+    ("s_oil",         "S-Oil",         "2010 정제마진 확대",           "kr_chahwajeong_2009","2009~2011 중국 인프라 2 (차화정)",            "2009-01-01", "2011-04-30", "2009-03-01", "2011-04-01"),
     # 2011~2016 횡보 순환매장 (이름 변경, 삼성전자 2012~2013 스마트폰 신규 추가)
-    ("samsung_elec",  "삼성전자",      "2012~2013 갤럭시S 히트",       "kr_sideways_2011",   "2011~2016 횡보 순환매장",     "2011-04-01", "2016-02-29", "2012-01-01", "2013-05-31"),
-    ("amorepacific",  "아모레퍼시픽",   "2014~2015 중국 따이공 K-뷰티", "kr_sideways_2011",   "2011~2016 횡보 순환매장",     "2011-04-01", "2016-02-29", "2014-06-01", "2015-11-01"),
-    ("hanmi_pharm",   "한미약품",      "2015 제약 사상 최대 기술수출", "kr_sideways_2011",   "2011~2016 횡보 순환매장",     "2011-04-01", "2016-02-29", "2014-06-01", "2015-11-01"),
+    ("samsung_elec",  "삼성전자",      "2012~2013 갤럭시S 히트",       "kr_smartphone_2012", "2012~2013 스마트폰 탄생",     "2011-08-01", "2013-12-31", "2012-01-01", "2013-05-31"),
+    ("amorepacific",  "아모레퍼시픽",   "2014~2015 중국 따이공 K-뷰티", "kr_kbeauty_2015",    "2015~2016 중국 화장품·바이오 기술이전",     "2014-01-01", "2016-06-30", "2014-06-01", "2015-11-01"),
+    ("hanmi_pharm",   "한미약품",      "2015 제약 사상 최대 기술수출", "kr_kbeauty_2015",    "2015~2016 중국 화장품·바이오 기술이전",     "2014-01-01", "2016-06-30", "2014-06-01", "2015-11-01"),
     # 2016~2018 반도체·바이오
-    ("sk_hynix",      "SK하이닉스",    "2017 서버 D램 슈퍼사이클",     "kr_semi_2016",       "2016~2018 반도체·바이오",     "2016-02-01", "2018-01-31", "2016-06-01", "2017-11-01"),
-    ("celltrion",     "셀트리온",      "2017 바이오시밀러 미국 진출",  "kr_semi_2016",       "2016~2018 반도체·바이오",     "2016-02-01", "2018-01-31", "2016-06-01", "2018-06-01"),
+    ("sk_hynix",      "SK하이닉스",    "2017 서버 D램 슈퍼사이클",     "kr_semi_2016",       "2017~2018 반도체 서버·바이오시밀러",     "2016-02-01", "2018-01-31", "2016-06-01", "2017-11-01"),
+    ("celltrion",     "셀트리온",      "2017 바이오시밀러 미국 진출",  "kr_semi_2016",       "2017~2018 반도체 서버·바이오시밀러",     "2016-02-01", "2018-01-31", "2016-06-01", "2018-06-01"),
     # 2020~2021 코로나 강세장 (BBIG)
-    ("seegene",       "씨젠",          "2020 코로나 진단키트",         "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-01-01", "2020-08-01"),
-    ("hmm",           "HMM",           "2020 컨테이너 운임 폭등",      "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-06-01"),
-    ("kakao",         "카카오",        "2021 자회사 IPO 붐",           "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-06-24"),
-    ("ecopro",        "에코프로",      "2020 K-배터리 양극재",         "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-09-01"),
-    ("samsung_bio",   "삼성바이오로직스","2021 백신 위탁생산",          "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-08-18"),
-    ("ncsoft",        "엔씨소프트",    "2021 리니지W 출시",            "kr_covid_bull",      "2020~2021 코로나 강세장",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-02-08"),
+    ("seegene",       "씨젠",          "2020 코로나 진단키트",         "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-01-01", "2020-08-01"),
+    ("hmm",           "HMM",           "2020 컨테이너 운임 폭등",      "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-06-01"),
+    ("kakao",         "카카오",        "2021 자회사 IPO 붐",           "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-06-24"),
+    ("ecopro",        "에코프로",      "2020 K-배터리 양극재",         "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-09-01"),
+    ("samsung_bio",   "삼성바이오로직스","2021 백신 위탁생산",          "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-08-18"),
+    ("ncsoft",        "엔씨소프트",    "2021 리니지W 출시",            "kr_covid_bull",      "2020~2021 진단키트·플랫폼·해운",     "2020-01-01", "2021-08-31", "2020-06-01", "2021-02-08"),
     # 2023~2024 횡보 순환매장 (이름 변경)
-    ("ecopro",        "에코프로",      "2023 美 IRA 수혜",             "kr_sideways_2023",   "2023~2024 횡보 순환매장",     "2022-10-01", "2025-03-31", "2023-01-01", "2023-07-01"),
-    ("hanmi_semi",    "한미반도체",    "2023 엔비디아 HBM 본더",       "kr_sideways_2023",   "2023~2024 횡보 순환매장",     "2022-10-01", "2025-03-31", "2023-06-01", "2024-07-01"),
-    ("alteogen",      "알테오젠",      "2024 SC 제형 플랫폼 기술이전", "kr_sideways_2023",   "2023~2024 횡보 순환매장",     "2022-10-01", "2025-03-31", "2024-01-01", "2025-01-01"),
+    ("ecopro",        "에코프로",      "2023 美 IRA 수혜",             "kr_battery_2023",    "2023~2024 배터리·바이오 플랫폼",     "2022-10-01", "2025-03-31", "2023-01-01", "2023-07-01"),
+    ("hanmi_semi",    "한미반도체",    "2023 엔비디아 HBM 본더",       "kr_battery_2023",    "2023~2024 배터리·바이오 플랫폼",     "2022-10-01", "2025-03-31", "2023-06-01", "2024-07-01"),
+    ("alteogen",      "알테오젠",      "2024 SC 제형 플랫폼 기술이전", "kr_battery_2023",    "2023~2024 배터리·바이오 플랫폼",     "2022-10-01", "2025-03-31", "2024-01-01", "2025-01-01"),
     # 2025~ AI·조선·원전
-    ("hanwha_ocean",  "한화오션",      "2025 미 해군 MRO",             "kr_ai_2025",         "2025~ AI·조선·원전",          "2025-04-01", "2026-04-16", "2024-06-01", "2026-04-16"),
-    ("doosan_enerbil","두산에너빌리티","2025 SMR 원전",                "kr_ai_2025",         "2025~ AI·조선·원전",          "2025-04-01", "2026-04-16", "2024-06-01", "2026-04-16"),
-    ("sk_hynix",      "SK하이닉스",    "2025 에이전트 AI",             "kr_ai_2025",         "2025~ AI·조선·원전",          "2025-04-01", "2026-04-16", "2024-06-01", "2025-02-01"),
-    ("samsung_elec",  "삼성전자",      "2025 에이전트 AI",             "kr_ai_2025",         "2025~ AI·조선·원전",          "2025-04-01", "2026-04-16", "2025-10-01", "2026-04-16"),
+    ("hanwha_ocean",  "한화오션",      "2025 미 해군 MRO",             "kr_ai_2025",         "2025~2026 조선·원전·반도체 / 방산·전력",          "2025-04-01", "2026-04-16", "2024-06-01", "2026-04-16"),
+    ("doosan_enerbil","두산에너빌리티","2025 SMR 원전",                "kr_ai_2025",         "2025~2026 조선·원전·반도체 / 방산·전력",          "2025-04-01", "2026-04-16", "2024-06-01", "2026-04-16"),
+    ("sk_hynix",      "SK하이닉스",    "2025 에이전트 AI",             "kr_ai_2025",         "2025~2026 조선·원전·반도체 / 방산·전력",          "2025-04-01", "2026-04-16", "2024-06-01", "2025-02-01"),
+    ("samsung_elec",  "삼성전자",      "2025 에이전트 AI",             "kr_ai_2025",         "2025~2026 조선·원전·반도체 / 방산·전력",          "2025-04-01", "2026-04-16", "2025-10-01", "2026-04-16"),
 ]
 
 # ===== AUTO-COMPUTE Longterm Zones (MA120 기반 중장기 박스, 2026-04-19 재구성) =====
@@ -776,6 +776,53 @@ for _cid in _cycle_order_for_index:
     if _zone_per_idx:
         _per_index_zones[_cid] = _zone_per_idx
 
+# ===== SECTOR CATEGORY (2026-11-03, BT 확정) =====
+# 인프라 = B2B + 설비투자 필요 / 기술 = B2B + 설비 불필요(기술이전·플랫폼) / 소비 = B2C / 참고 = 1998 이전
+SECTOR_CATEGORY = {
+    ("hyundai_const","kr_troika_1986"):"참고", ("daishin_sec","kr_troika_1986"):"참고",
+    ("kepco","kr_bluechip_1990"):"참고", ("posco","kr_bluechip_1990"):"참고",
+    ("hyundai_motor","kr_bluechip_1990"):"참고", ("spc_samlib","kr_bluechip_1990"):"참고",
+    ("sk_telecom","kr_it_1998"):"인프라",
+    ("coway","kr_card_2002"):"소비",
+    ("hyundai_elev","kr_china_2003"):"인프라", ("hyundai_mipo","kr_china_2003"):"인프라", ("posco","kr_china_2003"):"인프라",
+    ("hyundai_motor","kr_chahwajeong_2009"):"인프라", ("kia","kr_chahwajeong_2009"):"인프라",
+    ("lg_chem","kr_chahwajeong_2009"):"인프라", ("s_oil","kr_chahwajeong_2009"):"인프라",
+    ("samsung_elec","kr_smartphone_2012"):"소비",
+    ("amorepacific","kr_kbeauty_2015"):"소비", ("hanmi_pharm","kr_kbeauty_2015"):"기술",
+    ("sk_hynix","kr_semi_2016"):"인프라", ("celltrion","kr_semi_2016"):"인프라",
+    ("seegene","kr_covid_bull"):"인프라", ("hmm","kr_covid_bull"):"인프라", ("kakao","kr_covid_bull"):"소비",
+    ("ecopro","kr_covid_bull"):"인프라", ("samsung_bio","kr_covid_bull"):"인프라", ("ncsoft","kr_covid_bull"):"소비",
+    ("ecopro","kr_battery_2023"):"인프라", ("hanmi_semi","kr_battery_2023"):"인프라", ("alteogen","kr_battery_2023"):"기술",
+    ("hanwha_ocean","kr_ai_2025"):"인프라", ("doosan_enerbil","kr_ai_2025"):"인프라",
+    ("sk_hynix","kr_ai_2025"):"인프라", ("samsung_elec","kr_ai_2025"):"인프라",
+}
+_SECTOR_ORDER = ["인프라", "기술", "소비", "참고"]
+# 사이클·분류별 섹터 박스 = 해당 분류 주도주 중장기 박스의 합집합 (가장 이른 시작 ~ 가장 늦은 종료)
+_sector_zones = {}   # cycle_id -> [ {cat, start, end, status, stocks}, ... ]
+_sector_union = {}   # cycle_id -> {start, end, status}
+for _s in LEADING_STOCKS:
+    _sid, _cid = _s[0], _s[3]
+    _lt = _computed_longterms.get((_sid, _cid))
+    if not _lt or not _lt.get("start") or not _lt.get("end"):
+        continue
+    _cat = SECTOR_CATEGORY.get((_sid, _cid), "참고")
+    _lst = _sector_zones.setdefault(_cid, [])
+    _z = next((z for z in _lst if z["cat"] == _cat), None)
+    _closed = _lt.get("status") == "종료"
+    if _z is None:
+        _lst.append({"cat": _cat, "start": _lt["start"], "end": _lt["end"],
+                     "status": "종료" if _closed else "진행중", "stocks": [_s[1]]})
+    else:
+        _z["start"] = min(_z["start"], _lt["start"]); _z["end"] = max(_z["end"], _lt["end"])
+        if not _closed: _z["status"] = "진행중"
+        if _s[1] not in _z["stocks"]: _z["stocks"].append(_s[1])
+for _cid, _lst in _sector_zones.items():
+    _lst.sort(key=lambda z: _SECTOR_ORDER.index(z["cat"]))
+    _sector_union[_cid] = {
+        "start": min(z["start"] for z in _lst), "end": max(z["end"] for z in _lst),
+        "status": "종료" if all(z["status"] == "종료" for z in _lst) else "진행중",
+    }
+
 # Build cycle groups for View 2
 cycle_order = []
 seen_cycles = set()
@@ -783,7 +830,7 @@ for s in LEADING_STOCKS:
     cid = s[3]
     if cid not in seen_cycles:
         seen_cycles.add(cid)
-        _idx = _computed_index_cycles.get(cid)
+        _idx = _sector_union.get(cid) or _computed_index_cycles.get(cid)
         if _idx:
             _cstart, _cend, _cstatus = _idx["start"], _idx["end"], _idx.get("status")
         else:
@@ -793,7 +840,8 @@ for s in LEADING_STOCKS:
             "start": _cstart, "end": _cend,
             "status": _cstatus,
             "manualStart": s[5], "manualEnd": s[6],  # 백업용 (복원 가능)
-            "indexZones": _per_index_zones.get(cid, {}),  # idx_id -> {start,end,status}
+            "indexZones": _per_index_zones.get(cid, {}),  # idx_id -> {start,end,status} (구 지수 박스, 미사용)
+            "sectorZones": _sector_zones.get(cid, []),    # 주도 섹터 박스 (2026-11-03)
             "stocks": []
         })
     _lt = _computed_longterms.get((s[0], cid))
@@ -2319,26 +2367,42 @@ function buildAllCyclesIndexAnn(idxId, view) {
       };
     });
   } else {
-    CYCLES.forEach((c, i) => {
-      const z = c.indexZones && c.indexZones[idxId];
-      if (!z || !z.start || !z.end) return;
-      const closed = z.status === '종료';
-      const lbl = c.name + (z.status ? ' [' + z.status + ']' : '');
-      ann['c_' + idxId + '_' + i] = {
-        type: 'box',
-        xMin: new Date(z.start).getTime(),
-        xMax: new Date(z.end).getTime(),
-        backgroundColor: 'rgba(40, 53, 147, 0.07)',
-        borderColor: 'rgba(40, 53, 147, 0.75)',
-        borderWidth: 1,
-        borderDash: closed ? undefined : [4, 4],
-        // 개별 사이클 탭과 동일하게 박스마다 사이클 이름 표시
-        label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 9, weight: 'bold' } },
-        display: () => !!toggleStates[view][k],
-      };
-    });
+    // 한국: 주도 섹터 박스 (지수와 무관) — kospi 호출에서 한 번만 생성
+    if (idxId !== 'kospi') return ann;
+    CYCLES.forEach((c, i) => Object.assign(ann, _sectorBoxes(c, i, view, 9)));
   }
   return ann;
+}
+
+// ===== 주도 섹터 박스 (2026-11-03) =====
+// 사이클·분류별 박스 = 해당 분류 주도주 중장기 박스의 합집합 (create_leading_stocks.py SECTOR_CATEGORY)
+//   인프라 = B2B + 설비투자 필요 / 기술 = B2B + 설비 불필요 / 소비 = B2C / 참고 = 1998 이전
+const SECTOR_BOX_COLORS = {
+  '인프라': { bg: 'rgba(40, 53, 147, 0.08)', border: 'rgba(40, 53, 147, 0.75)', text: '#283593' },
+  '기술':   { bg: 'rgba(191, 96, 0, 0.10)',  border: 'rgba(191, 96, 0, 0.80)',  text: '#A35200' },
+  '소비':   { bg: 'rgba(46, 125, 50, 0.10)', border: 'rgba(46, 125, 50, 0.80)', text: '#2E7D32' },
+  '참고':   { bg: 'rgba(97, 97, 97, 0.06)',  border: 'rgba(97, 97, 97, 0.55)',  text: '#616161' },
+};
+function _sectorBoxes(c, i, view, fontSize) {
+  const out = {};
+  (c.sectorZones || []).forEach((z, j) => {
+    if (!z.start || !z.end) return;
+    const col = SECTOR_BOX_COLORS[z.cat] || SECTOR_BOX_COLORS['참고'];
+    const closed = z.status === '종료';
+    const txt = (j === 0 ? c.name + ' · ' : '') + z.cat + (closed ? '' : ' [' + z.status + ']');
+    out['sec_' + i + '_' + j] = {
+      type: 'box',
+      xMin: new Date(z.start).getTime(),
+      xMax: new Date(z.end).getTime(),
+      backgroundColor: col.bg,
+      borderColor: col.border,
+      borderWidth: 1,
+      borderDash: closed ? undefined : [4, 4],
+      label: { display: true, content: txt, position: 'start', yAdjust: j * (fontSize + 5), color: col.text, font: { size: fontSize, weight: 'bold' } },
+      display: () => !!(toggleStates[view].kr_kospi || toggleStates[view].kr_kosdaq),
+    };
+  });
+  return out;
 }
 
 // V2 사이클 단위: 현재 사이클의 박스 (지수별)
@@ -2378,24 +2442,9 @@ function buildCycleIndexAnn(cycle, idxId, view) {
     return ann;
   }
 
-  // KR 패널 — 기존 로직
-  const z = cycle && cycle.indexZones && cycle.indexZones[idxId];
-  if (!z || !z.start || !z.end) return {};
-  const closed = z.status === '종료';
-  const lbl = cycle.name + (z.status ? ' [' + z.status + ']' : '');
-  return {
-    cycleZoneIdx: {
-      type: 'box',
-      xMin: new Date(z.start).getTime(),
-      xMax: new Date(z.end).getTime(),
-      backgroundColor: 'rgba(40, 53, 147, 0.07)',
-      borderColor: 'rgba(40, 53, 147, 0.75)',
-      borderWidth: 1,
-      borderDash: closed ? undefined : [4, 4],
-      label: { display: true, content: lbl, position: 'start', color: '#283593', font: { size: 10, weight: 'bold' } },
-      display: () => !!toggleStates[view][k],
-    }
-  };
+  // KR 패널 — 주도 섹터 박스 (2026-11-03). kospi 호출에서만 생성
+  if (idxId !== 'kospi' || !cycle) return {};
+  return _sectorBoxes(cycle, 0, view, 10);
 }
 
 function makeVolumeChart(canvasId, ohlcData, view) {
