@@ -1,0 +1,46 @@
+# 주도주 모멘텀 스터디 — KIS 분봉 수집 (수동 실행, 2026-11-02)
+name: KR Minute Fetch (KIS)
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe = 가능 여부 점검 / fetch = 수집·저장'
+        required: false
+        default: 'probe'
+      codes:
+        description: '종목코드 (쉼표 구분)'
+        required: false
+        default: '005930,000660'
+      days:
+        description: '며칠 전까지 (달력 기준)'
+        required: false
+        default: '400'
+permissions:
+  contents: write
+concurrency:
+  group: kr-minute-fetch
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch
+        env:
+          KIS_APP_KEY: ${{ secrets.KIS_APP_KEY }}
+          KIS_APP_SECRET: ${{ secrets.KIS_APP_SECRET }}
+          MODE: ${{ github.event.inputs.mode || 'probe' }}
+          CODES: ${{ github.event.inputs.codes || '005930,000660' }}
+          DAYS: ${{ github.event.inputs.days || '400' }}
+        run: python3 scripts/kr_minute_fetch.py
+      - name: Commit
+        if: ${{ github.event.inputs.mode == 'fetch' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/momentum/ || true
+          if git diff --cached --quiet; then echo "변경 없음"; else
+            git commit -m "chore(data): 모멘텀 스터디 분봉 수집 ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            git pull --rebase origin main && git push
+          fi
