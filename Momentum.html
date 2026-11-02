@@ -203,9 +203,11 @@
   const DEF_W = { d_ix: 120, d_idx: 120, d_stk: 120, m15_idx: 260, m15_stk: 260, m3_stk: 390 };
   function applyEnd() {
     $('#endDate').value = endDate || '';
-    Object.values(charts).forEach(o => {
-      const r = o.chart.timeScale().getVisibleLogicalRange(); const w = r && o.rows.length ? Math.max(20, Math.round(r.to - r.from)) : DEF_W[o.id] || 200;
-      draw(o); applyShade(o, PER); const n = o.rows.length; if (n) o.chart.timeScale().setVisibleLogicalRange({ from: n - w, to: n + 3 }); });
+    // 종목 차트(일봉·15분·3분)를 기준으로 봉 수 유지 → 같은 섹션의 지수 차트는 종목 차트의 날짜 범위를 그대로 따라감 (X축 정렬)
+    const widths = {}; ['d_stk', 'm15_stk', 'm3_stk'].forEach(k => { const o = charts[k]; const r = o && o.chart.timeScale().getVisibleLogicalRange(); widths[k] = r && o.rows.length ? Math.max(20, Math.round(r.to - r.from)) : DEF_W[k]; });
+    Object.values(charts).forEach(o => { draw(o); applyShade(o, PER); });
+    ['d_stk', 'm15_stk', 'm3_stk'].forEach(k => { const o = charts[k]; const n = o && o.rows.length; if (n) o.chart.timeScale().setVisibleLogicalRange({ from: n - widths[k], to: n + 3 }); });
+    setTimeout(() => [['d_stk', ['d_ix', 'd_idx']], ['m15_stk', ['m15_idx']]].forEach(([lead, fol]) => { const r = charts[lead].chart.timeScale().getVisibleRange(); if (r) fol.forEach(k => { try { charts[k].chart.timeScale().setVisibleRange(r); } catch (e) {} }); }), 60);
   }
   const tradeDays = () => (charts['d_stk'] ? charts['d_stk'].full.map(r => r.time) : []);
   $('#endDate').onchange = () => { endDate = $('#endDate').value || null; applyEnd(); };
