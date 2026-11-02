@@ -76,7 +76,7 @@
 
   const fmt = v => v == null ? '—' : Math.abs(v) >= 1000 ? v.toLocaleString('ko-KR', { maximumFractionDigits: 0 }) : v.toLocaleString('ko-KR', { maximumFractionDigits: 2 });
   const fmtT = t => typeof t === 'string' ? t : new Date(t * 1000).toISOString().slice(5, 16).replace('T', ' ');
-  function sma(rows, n) { const out = []; let s = 0; for (let i = 0; i < rows.length; i++) { s += rows[i].close; if (i >= n) s -= rows[i - n].close; if (i >= n - 1) out.push({ time: rows[i].time, value: s / n }); } return out; }
+  function sma(all, n) { const rows = all.filter(r => r.close != null); const out = []; let s = 0; for (let i = 0; i < rows.length; i++) { s += rows[i].close; if (i >= n) s -= rows[i - n].close; if (i >= n - 1) out.push({ time: rows[i].time, value: s / n }); } return out; }
 
   // ── 차트 팩토리 (회색 HTS 테마) ──
   const charts = {};
@@ -117,12 +117,12 @@
     if (endDate) { let n = rows.length; while (n > 0 && ymdOf(rows[n - 1].time) > endDate) n--; rows = rows.slice(0, n); amts = amts.slice(0, n); }
     o.rows = rows; o.candle.setData(rows);
     o.maData = MA.map(([n], i) => { const d = sma(rows, n); o.mas[i].setData(d); return Object.fromEntries(d.map(x => [x.time, x.value])); });
-    if (o.vol) { o.vol.setData(rows.map((r, i) => ({ time: r.time, value: amts[i] ?? 0, color: r.close >= r.open ? 'rgba(214,16,34,0.55)' : 'rgba(23,80,224,0.55)' }))); o.amtMap = Object.fromEntries(rows.map((r, i) => [r.time, amts[i]])); }
+    if (o.vol) { o.vol.setData(rows.map((r, i) => r.close == null || amts[i] == null ? { time: r.time } : ({ time: r.time, value: amts[i], color: r.close >= r.open ? 'rgba(214,16,34,0.55)' : 'rgba(23,80,224,0.55)' }))); o.amtMap = Object.fromEntries(rows.map((r, i) => [r.time, amts[i]])); }
     legend(o, null);
   }
   function legend(o, t) {
-    const r = t != null ? o.rows.find(x => x.time === t) : o.rows[o.rows.length - 1]; if (!r) { o.lg.innerHTML = `<b>${o.title}</b>`; return; }
-    const prev = o.rows[o.rows.indexOf(r) - 1], ch = prev ? (r.close / prev.close - 1) * 100 : null;
+    const real = o.rows.filter(x => x.close != null); const r = t != null ? real.find(x => x.time === t) : real[real.length - 1]; if (!r) { o.lg.innerHTML = `<b>${o.title}</b>`; return; }
+    const prev = real[real.indexOf(r) - 1], ch = prev ? (r.close / prev.close - 1) * 100 : null;
     const ma = MA.map(([n, c], i) => o.maData[i][r.time] != null ? `<span style="color:${c}">${n}:${fmt(o.maData[i][r.time])}</span>` : '').join(' ');
     const a = o.amtMap[r.time];
     o.lg.innerHTML = `<b>${o.title}</b>${fmtT(r.time)} 시${fmt(r.open)} 고${fmt(r.high)} 저${fmt(r.low)} 종<span style="color:${ch >= 0 ? UP : DN}">${fmt(r.close)}${ch != null ? ` (${ch >= 0 ? '+' : ''}${ch.toFixed(2)}%)` : ''}</span>${a != null ? ` 대금${fmt(a)}억` : ''}<br>${ma}`;
@@ -150,23 +150,26 @@
   function link(list) {
     let busy = false;
     list.forEach(a => {
-      a.chart.timeScale().subscribeVisibleTimeRangeChange(() => { if (busy) return; const r = a.chart.timeScale().getVisibleRange(); if (!r) return; busy = true; list.forEach(b => { if (b !== a && b.rows.length) try { b.chart.timeScale().setVisibleRange(r); } catch (e) {} }); busy = false; });
-      a.chart.subscribeCrosshairMove(p => { list.forEach(b => { if (b === a) return; if (!p || p.time == null) { b.chart.clearCrosshairPosition(); return; } const r = b.rows.find(x => x.time === p.time); if (r) b.chart.setCrosshairPosition(r.close, p.time, b.candle); else b.chart.clearCrosshairPosition(); }); });
+      a.chart.timeScale().subscribeVisibleLogicalRangeChange(r => { if (busy || !r) return; busy = true; list.forEach(b => { if (b !== a && b.rows.length) b.chart.timeScale().setVisibleLogicalRange(r); }); busy = false; });
+      a.chart.subscribeCrosshairMove(p => { list.forEach(b => { if (b === a) return; if (!p || p.time == null) { b.chart.clearCrosshairPosition(); return; } const r = b.rows.find(x => x.time === p.time && x.close != null); if (r) b.chart.setCrosshairPosition(r.close, p.time, b.candle); else b.chart.clearCrosshairPosition(); }); });
     });
   }
   const dRows = key => ((DAILY && DAILY.series[key]) || []).map(([d, o, h, l, c, v]) => ({ time: d, open: o, high: h, low: l, close: c, vol: v }));
   const mRows = J => (J ? J.bars : []).map(([t, o, h, l, c, v, a]) => ({ time: t, open: o, high: h, low: l, close: c, amt: a }));
+  // X축 정렬: 같은 섹션 차트들을 공통 날짜(시각) 축으로 맞춤 — 한쪽에만 있는 날(휴장 차이)은 빈칸으로 채움 → 봉 위치가 정확히 일치
+  const unionT = (...L) => [...new Set(L.flatMap(r => r.map(x => x.time)))].sort((a, b) => (a > b ? 1 : a < b ? -1 : 0));
+  const pad = (rows, T) => { const m = new Map(rows.map(r => [r.time, r])); return T.map(t => m.get(t) || { time: t }); };
 
   // ── 음영 ──
   const ymdOf = t => typeof t === 'string' ? t : new Date(t * 1000).toISOString().slice(0, 10);
   function applyShade(o, periods) {
-    o.shade.setData(o.rows.map(r => { const d = ymdOf(r.time); const hit = periods.some(p => d >= p.start && d <= p.end); return hit ? { time: r.time, value: 1 } : { time: r.time }; }));
+    o.shade.setData(o.rows.map(r => { const d = ymdOf(r.time); const hit = periods.some(p => d >= p.start && d <= p.end); return { time: r.time, value: hit ? 1 : 0 }; }));
     // 종목 차트에는 구간 시작·끝 표시
     if (!o.vol) return;
     const mk = [];
-    periods.forEach(p => { const a = o.rows.find(r => ymdOf(r.time) >= p.start && ymdOf(r.time) <= p.end); let b = null; for (let i = o.rows.length - 1; i >= 0; i--) { const d = ymdOf(o.rows[i].time); if (d <= p.end && d >= p.start) { b = o.rows[i]; break; } }
+    const RR = o.rows.filter(r => r.close != null); periods.forEach(p => { const a = RR.find(r => ymdOf(r.time) >= p.start && ymdOf(r.time) <= p.end); let b = null; for (let i = RR.length - 1; i >= 0; i--) { const d = ymdOf(RR[i].time); if (d <= p.end && d >= p.start) { b = RR[i]; break; } }
       if (a) mk.push({ time: a.time, position: 'belowBar', color: '#b00000', shape: 'arrowUp', text: (p.label || '모멘텀') + ' 시작' });
-      if (b && b !== a && p.end <= ymdOf(o.rows[o.rows.length - 1].time)) mk.push({ time: b.time, position: 'aboveBar', color: '#b00000', shape: 'arrowDown', text: '종료' }); });
+      if (b && b !== a && RR.length && p.end <= ymdOf(RR[RR.length - 1].time)) mk.push({ time: b.time, position: 'aboveBar', color: '#b00000', shape: 'arrowDown', text: '종료' }); });
     mk.sort((x, y) => (x.time > y.time ? 1 : -1)); o.candle.setMarkers(mk);
   }
 
@@ -180,13 +183,14 @@
     $('#periodSel').innerHTML = '<option value="">최근</option>' + periods.map((p, i) => `<option value="${i}">${p.start} ~ ${p.end}${p.label ? ' · ' + p.label : ''}</option>`).join('');
     // 일봉
     const D1 = makeChart('d_ix', '나스닥', { amt: false }), D2 = makeChart('d_idx', idxName, { amt: false }), D3 = makeChart('d_stk', s.name + ' 일봉');
-    setData(D1, dRows('IXIC')); setData(D2, dRows(s.mkt));
-    const ds = dRows(s.code); setData(D3, ds, ds.map(r => r.close * r.vol / 1e8));
+    const dsRaw = dRows(s.code), ixRaw = dRows('IXIC'), mkRaw = dRows(s.mkt);
+    const DT = unionT(dsRaw.filter(r => r.time >= '2016-01-01'), ixRaw.filter(r => r.time >= '2016-01-01'), mkRaw.filter(r => r.time >= '2016-01-01'));
+    const ds = pad(dsRaw, DT); setData(D1, pad(ixRaw, DT)); setData(D2, pad(mkRaw, DT)); setData(D3, ds, ds.map(r => r.close != null ? r.close * r.vol / 1e8 : null));
     // 15분봉 / 3분봉
     const [st15, px15, st3] = await Promise.all([loadTf(s.code, '15m'), loadTf(s.proxy, '15m'), loadTf(s.code, '3m')]);
     $('#m15sub').textContent = `${PROXY_NAME[s.proxy] || idxName} · ${s.name}`;
     const M1 = makeChart('m15_idx', PROXY_NAME[s.proxy] || idxName, { amt: false, intraday: true }), M2 = makeChart('m15_stk', s.name + ' 15분', { intraday: true });
-    const p15 = mRows(px15), s15 = mRows(st15); setData(M1, p15); setData(M2, s15, s15.map(r => r.amt));
+    const MT = unionT(mRows(px15), mRows(st15)); const p15 = pad(mRows(px15), MT), s15 = pad(mRows(st15), MT); setData(M1, p15); setData(M2, s15, s15.map(r => r.amt));
     const T1 = makeChart('m3_stk', s.name + ' 3분', { intraday: true }); const s3 = mRows(st3); setData(T1, s3, s3.map(r => r.amt));
     PER = periods; [D1, D2, D3, M1, M2, T1].forEach(o => applyShade(o, periods));
     link([D1, D2, D3]); link([M1, M2]);
@@ -207,9 +211,9 @@
     const widths = {}; ['d_stk', 'm15_stk', 'm3_stk'].forEach(k => { const o = charts[k]; const r = o && o.chart.timeScale().getVisibleLogicalRange(); widths[k] = r && o.rows.length ? Math.max(20, Math.round(r.to - r.from)) : DEF_W[k]; });
     Object.values(charts).forEach(o => { draw(o); applyShade(o, PER); });
     ['d_stk', 'm15_stk', 'm3_stk'].forEach(k => { const o = charts[k]; const n = o && o.rows.length; if (n) o.chart.timeScale().setVisibleLogicalRange({ from: n - widths[k], to: n + 3 }); });
-    setTimeout(() => [['d_stk', ['d_ix', 'd_idx']], ['m15_stk', ['m15_idx']]].forEach(([lead, fol]) => { const r = charts[lead].chart.timeScale().getVisibleRange(); if (r) fol.forEach(k => { try { charts[k].chart.timeScale().setVisibleRange(r); } catch (e) {} }); }), 60);
+    setTimeout(() => [['d_stk', ['d_ix', 'd_idx']], ['m15_stk', ['m15_idx']]].forEach(([lead, fol]) => { const r = charts[lead].chart.timeScale().getVisibleLogicalRange(); if (r) fol.forEach(k => charts[k].chart.timeScale().setVisibleLogicalRange(r)); }), 60);
   }
-  const tradeDays = () => (charts['d_stk'] ? charts['d_stk'].full.map(r => r.time) : []);
+  const tradeDays = () => (charts['d_stk'] ? charts['d_stk'].full.filter(r => r.close != null).map(r => r.time) : []);
   $('#endDate').onchange = () => { endDate = $('#endDate').value || null; applyEnd(); };
   $('#edNow').onclick = () => { endDate = null; applyEnd(); };
   const stepDay = k => { const D = tradeDays(); if (!D.length) return; const last = D.length - 1; let i;
