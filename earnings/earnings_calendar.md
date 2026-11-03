@@ -89,7 +89,7 @@
 | ABB | ABB | 변압기·차단기·GIS 글로벌 1위, 산업 사이클 첫 cue (한국 3사 9~12일 선행) |
 | — | LS일렉트릭 | 빅테크 B사 수주 5,000억+ 도달, 미국 관세 환급 (3개월 후 7월), 다른 증권사 2차 갱신 TP 250,000+ 정착, 2Q26 OPM 10%+ 회복 + 부산공장 가동률 90%, DC SST 첫 수주 |
 | GEV | GE Vernova | 765kV 변압기·HVDC·SST·AI 데이터센터, 멀티플 reference (한국 3사 PER 50배 reference) |
-| — | 효성중공업 | OPM 16% 회복, 765kV 후속 수주 2~3조, HD현대일렉트릭 비교, SST 초도 수주, 미국 관세 환급 |
+| — | 효성중공업 | 4Q OP 3,800억↑(이연 2,650억), 수주 12조 초과, 11/3 중간선거 DC 주민투표→12월 FERC·ERCOT, 美매출 35%↑, 건설 충당 재발 |
 | — | HD현대일렉트릭 | 2Q26 OPM 27% 회복 (이연분 인식), 신규수주 가이던스 상향 50~60억$, AIDC 온사이트 발전 후속 수주, 유럽 SF6-Free 420kV GIS 개발 완료, 미국 관세 환급 vs LS 비교 |
 | SU | Schneider Electric | LVDC·MVDC·데이터센터 (LS와 직접 비교), 글로벌 피어 PER reference |
 | HE | Hitachi Energy | HVDC 변압기 글로벌 1위, 백로그 fully booked through 2030 |
