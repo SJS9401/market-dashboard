@@ -87,10 +87,10 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | ABB | ABB | 변압기·차단기·GIS 글로벌 1위, 산업 사이클 첫 cue (한국 3사 9~12일 선행) |
-| — | LS일렉트릭 | 빅테크 B사 수주 5,000억+ 도달, 미국 관세 환급 (3개월 후 7월), 다른 증권사 2차 갱신 TP 250,000+ 정착, 2Q26 OPM 10%+ 회복 + 부산공장 가동률 90%, DC SST 첫 수주 |
+| — | LS일렉트릭 | 4Q OP 2,450억↑, 수주 6.5조↑, 11/3선거→12월 FERC·ERCOT, 전력기기 OPM 16%, 中흑전 |
 | GEV | GE Vernova | 765kV 변압기·HVDC·SST·AI 데이터센터, 멀티플 reference (한국 3사 PER 50배 reference) |
 | — | 효성중공업 | 4Q OP 3,800억↑(이연 2,650억), 수주 12조 초과, 11/3 중간선거 DC 주민투표→12월 FERC·ERCOT, 美매출 35%↑, 건설 충당 재발 |
-| — | HD현대일렉트릭 | 2Q26 OPM 27% 회복 (이연분 인식), 신규수주 가이던스 상향 50~60억$, AIDC 온사이트 발전 후속 수주, 유럽 SF6-Free 420kV GIS 개발 완료, 미국 관세 환급 vs LS 비교 |
+| — | HD현대일렉트릭 | 4Q OP 3,340억↑, 빅테크 LTA 11월말, 12월 FERC 결론, 환율 1,300원대, 초고압 증설 |
 | SU | Schneider Electric | LVDC·MVDC·데이터센터 (LS와 직접 비교), 글로벌 피어 PER reference |
 | HE | Hitachi Energy | HVDC 변압기 글로벌 1위, 백로그 fully booked through 2030 |
 | ETN | Eaton | 전력 인프라 CAPEX, 데이터센터 전력 (LS와 가장 직접 비교, OPM 24%) |
