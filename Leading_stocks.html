@@ -120,6 +120,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .sec-tag { font-size: 10px; padding: 0 6px; border-radius: 8px; border: 1px solid; }
 .sec-gap { font-size: 11px; color: #c9d1d9; margin: 3px 0 4px; }
 .sec-canvas { position: relative; height: 140px; }
+.sec-canvas.big { height: 300px; }
+#sec-type .sec-col + .sec-col { margin-top: 10px; }
+#sec-type .sec-group { font-size: 13px; margin: 10px 0 8px; }
 .sec-note { font-size: 10.5px; color: #6e7681; margin-top: 3px; line-height: 1.45; }
 .sec-empty { font-size: 11px; color: #6e7681; padding: 50px 0; text-align: center; }
 @media (max-width: 1100px) { .sec-sub2 { grid-template-columns: 1fr; } }
@@ -2035,10 +2038,10 @@ function _secGapText(sp) {
   for (let i = 1; i < st.length; i++) g.push(Math.round((st[i] - st[i - 1]) * 10) / 10);
   return '간격 ' + g.join(' / ') + '년';
 }
-function _secCard(sp, canvasId) {
+function _secCard(sp, canvasId, big) {
   const col = SEC_TERM_COLOR[sp.term] || '#8b949e', tcol = SEC_TYPE_COLOR[sp.type] || '#8b949e';
   const starts = sp.cycles.map(c => c.start.slice(0, 4)).join(' · ');
-  const body = (sp.series && sp.series.length) ? '<div class="sec-canvas"><canvas id="' + canvasId + '"></canvas></div>'
+  const body = (sp.series && sp.series.length) ? '<div class="sec-canvas' + (big ? ' big' : '') + '"><canvas id="' + canvasId + '"></canvas></div>'
                                                : '<div class="sec-empty">주가 데이터 준비 중</div>';
   return '<div class="sec-card"><div class="sec-head"><span class="sec-name">' + sp.sector + '</span>'
     + '<span class="sec-stock">' + sp.name + '</span>'
@@ -2060,7 +2063,7 @@ function _secChart(sp, canvasId) {
       type: 'box', xMin: _secDate(c.start, false), xMax: open ? lastX : _secDate(c.end, true),
       backgroundColor: col + '30', borderColor: col + 'b0', borderWidth: 1, borderDash: open ? [4, 3] : undefined,
       label: { display: true, content: "'" + c.start.slice(2, 4) + (c.label ? ' ' + c.label : ''), position: { x: 'start', y: 'start' },
-               color: '#e6edf3', font: { size: 9 }, padding: 2 }
+               yAdjust: (i % 2) * 14, color: '#e6edf3', font: { size: 10 }, padding: 2, backgroundColor: 'rgba(13,17,23,0.55)' }
     };
   });
   new Chart(el.getContext('2d'), {
@@ -2088,17 +2091,17 @@ function renderSecType() {
   if (secRendered.type) return;
   secRendered.type = true;
   const host = document.getElementById('sec-type');
-  host.style.gridTemplateColumns = '2fr 1fr';
+  host.style.gridTemplateColumns = '1fr';
   let html = '';
   const plan = [];
   [['재가동형', '과거 공급이 줄었다가 다시 도는 산업'], ['개척형', '처음부터 공급이 거의 없던 산업']].forEach(([t, desc]) => {
     html += '<div class="sec-col"><h3 style="color:' + SEC_TYPE_COLOR[t] + '">' + t + '<span class="sub">' + desc + '</span></h3>';
-    html += t === '재가동형' ? '<div class="sec-sub2">' : '<div>';
+    html += '<div>';
     SEC_TERM_ORDER.forEach(tm => {
       const items = SECTOR_CYCLES.map((s, i) => [s, i]).filter(([s]) => s.type === t && s.term === tm);
       if (!items.length) return;
       html += '<div class="sec-group">' + tm + ' (' + SEC_TERM_DESC[tm] + ')</div>';
-      items.forEach(([s, i]) => { const id = 'secc_type_' + i; html += _secCard(s, id); plan.push([s, id]); });
+      items.forEach(([s, i]) => { const id = 'secc_type_' + i; html += _secCard(s, id, true); plan.push([s, id]); });
     });
     html += '</div></div>';
   });
