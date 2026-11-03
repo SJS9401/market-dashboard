@@ -34,7 +34,10 @@ MEMBERS = set("""
 373220 006400 086520 247540 066970 003670 068270 091990 207940 128940 008930 000100 096530
 196170 215600 017670 030200 032640 032500 050890 088800 039560 010170 043260 073490 218410
 035420 035720 036570 264450 178320
+006800 071050 016360 005940 039490 003540 090430 002790 051900 192820 161890 214150 214450 335890
+278470 145020 017800 021240 005610 026960
 """.split())
+MVER = 2   # MEMBERS 목록 버전 — 올리면 과거 날짜를 다시 받아 빠진 구성 종목 시총을 채움 (리필)
 
 
 def log(m):
@@ -112,6 +115,7 @@ def main():
                 h["dates"].append(bas)
                 h["tot"].append(tot)
                 h["days"].append(day)
+                h.setdefault("mver", [1] * (len(h["dates"]) - 1)).append(MVER)
                 done += 1
                 if done % 100 == 0:
                     log(f"  {bas} done={done} calls={calls}")
@@ -126,6 +130,38 @@ def main():
                         log(f"[ABORT] 20 consecutive empty weekdays at {bas} — rate limit? saving & stop")
                         break
         cur += timedelta(days=1)
+    # ---- 리필: MEMBERS 가 늘어난 뒤 과거 날짜의 빠진 구성 종목 채우기 (남은 예산만큼) ----
+    mv = h.setdefault("mver", [1] * len(h["dates"]))
+    if len(mv) < len(h["dates"]):
+        mv.extend([1] * (len(h["dates"]) - len(mv)))
+    fails = 0
+    for i, bas in enumerate(h["dates"]):
+        if done >= MAX_DAYS or fails >= 20:
+            break
+        if mv[i] >= MVER:
+            continue
+        ok = True
+        for mk, ep in EPS:
+            try:
+                rows = fetch(ep, bas); calls += 1
+            except Exception as e:
+                log(f"  refill {mk} {bas} fail: {e}"); rows = []
+            time.sleep(0.12)
+            if not rows:
+                ok = False; break
+            for r in rows:
+                code = short(r.get("ISU_CD", ""))
+                cap = num(r.get("MKTCAP"))
+                if code in MEMBERS and cap and cap > 0:
+                    h["days"][i][code] = int(cap / 1e8)
+                    h["codes"].setdefault(code, str(r.get("ISU_NM", "")).strip())
+                    h["mkt"][code] = mk
+        if ok:
+            mv[i] = MVER; done += 1; fails = 0
+            if done % 100 == 0:
+                log(f"  refill {bas} done={done} calls={calls}"); save(h)
+        else:
+            fails += 1
     save(h)
     log(f"saved {done} days, total {len(h['dates'])}, first={h['dates'][0] if h['dates'] else None}, "
         f"last={h.get('last_date')}, codes={len(h['codes'])}, calls={calls}, size={OUT.stat().st_size/1e6:.1f}MB")
