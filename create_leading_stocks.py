@@ -1139,8 +1139,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 #sec-term .sec-card { cursor: zoom-in; }
 #sec-term .sec-card:hover { border-color: #58a6ff88; }
 #sec-modal { display: none; position: fixed; inset: 0; background: rgba(1,4,9,0.78); z-index: 1000; padding: 3vh 1.5vw; }
-#sec-modal.open { display: block; }
-.sec-modal-box { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; width: 100%; height: 94vh; padding: 12px 16px; display: flex; flex-direction: column; }
+#sec-modal.open { display: flex; align-items: center; }
+.sec-modal-box { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; width: 100%; height: min(830px, 94vh); padding: 12px 16px; display: flex; flex-direction: column; }
 .sec-modal-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 .sec-modal-x { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; padding: 4px 12px; cursor: pointer; font-size: 12px; }
 .sec-modal-x:hover { color: #fff; border-color: #58a6ff; }
