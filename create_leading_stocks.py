@@ -1136,8 +1136,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .sec-canvas.big { height: 300px; }
 #sec-type .sec-col + .sec-col { margin-top: 10px; }
 #sec-type .sec-group { font-size: 13px; margin: 10px 0 8px; }
-#sec-term .sec-card { cursor: zoom-in; }
-#sec-term .sec-card:hover { border-color: #58a6ff88; }
+#sec-term .sec-card, #sec-type .sec-card { cursor: zoom-in; }
+#sec-term .sec-card:hover, #sec-type .sec-card:hover { border-color: #58a6ff88; }
 #sec-modal { display: none; position: fixed; inset: 0; background: rgba(1,4,9,0.78); z-index: 1000; padding: 3vh 1.5vw; }
 #sec-modal.open { display: flex; align-items: center; }
 .sec-modal-box { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; width: 100%; height: min(830px, 94vh); padding: 12px 16px; display: flex; flex-direction: column; }
@@ -1172,7 +1172,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 <!-- SECTOR_VIEW_V1: 산업 사이클 매트릭스 (2026-11-03) -->
 <div class="view-panel active" id="view-vtype">
-  <div class="sec-intro">산업 사이클이 어느 정도 주기로 도는지 가늠하기 위한 화면. 대표종목 주봉(로그) 위에 업사이클 구간을 음영으로 표시. 업사이클 시작 = 60·120일선 정배열 진입, 산업 가격지표 우선(없으면 영업이익, 바이오만 주가). 점선 = 진행 중.</div>
+  <div class="sec-intro">산업 사이클이 어느 정도 주기로 도는지 가늠하기 위한 화면. 대표종목 주봉(로그) 위에 업사이클 구간을 음영으로 표시. 업사이클 시작 = 60·120일선 정배열 진입, 산업 가격지표 우선(없으면 영업이익, 바이오만 주가). 점선 = 진행 중. 카드를 누르면 크게 열려.</div>
   <div class="sec-matrix" id="sec-type"></div>
 </div>
 <div class="view-panel" id="view-vterm">
@@ -3061,7 +3061,7 @@ function _secGapText(sp) {
   const st = sp.cycles.map(c => Number(c.start.slice(0, 4)) + (Number(c.start.slice(5, 7)) - 1) / 12);
   if (st.length < 2) return sp.cycles.length + '회';
   const g = [];
-  for (let i = 1; i < st.length; i++) g.push(Math.round((st[i] - st[i - 1]) * 10) / 10);
+  for (let i = 1; i < st.length; i++) g.push(Math.round(st[i] - st[i - 1]));
   return '간격 ' + g.join(' / ') + '년';
 }
 function _secCard(sp, canvasId, big) {
@@ -3117,22 +3117,34 @@ function renderSecType() {
   if (secRendered.type) return;
   secRendered.type = true;
   const host = document.getElementById('sec-type');
-  host.style.gridTemplateColumns = '1fr';
+  host.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  const cols = [
+    ['재가동형', '장기', SEC_TYPE_COLOR['재가동형'], '재가동형 · 장기', SEC_TERM_DESC['장기']],
+    ['재가동형', '중기', SEC_TYPE_COLOR['재가동형'], '재가동형 · 중기', SEC_TERM_DESC['중기']],
+    ['재가동형', '단기', SEC_TYPE_COLOR['재가동형'], '재가동형 · 단기', SEC_TERM_DESC['단기']],
+    ['개척형', null, SEC_TYPE_COLOR['개척형'], '개척형', '처음부터 공급이 거의 없던 산업'],
+  ];
   let html = '';
   const plan = [];
-  [['재가동형', '과거 공급이 줄었다가 다시 도는 산업'], ['개척형', '처음부터 공급이 거의 없던 산업']].forEach(([t, desc]) => {
-    html += '<div class="sec-col"><h3 style="color:' + SEC_TYPE_COLOR[t] + '">' + t + '<span class="sub">' + desc + '</span></h3>';
-    html += '<div>';
-    SEC_TERM_ORDER.forEach(tm => {
-      const items = SECTOR_CYCLES.map((s, i) => [s, i]).filter(([s]) => s.type === t && s.term === tm);
-      if (!items.length) return;
-      html += '<div class="sec-group">' + tm + ' (' + SEC_TERM_DESC[tm] + ')</div>';
-      items.forEach(([s, i]) => { const id = 'secc_type_' + i; html += _secCard(s, id, true); plan.push([s, id]); });
+  cols.forEach(([t, tm, color, title, desc]) => {
+    html += '<div class="sec-col"><h3 style="color:' + color + '">' + title + '<span class="sub">' + desc + '</span></h3>';
+    SECTOR_CYCLES.forEach((s, i) => {
+      if (s.type !== t || (tm && s.term !== tm)) return;
+      const id = 'secc_type_' + i; html += _secCard(s, id); plan.push([s, id]);
     });
-    html += '</div></div>';
+    html += '</div>';
   });
   host.innerHTML = html;
   plan.forEach(([s, id]) => _secChart(s, id));
+  _secBindModal(host, 'secc_type_');
+}
+function _secBindModal(host, prefix) {
+  host.querySelectorAll('.sec-card').forEach(card => {
+    const cv = card.querySelector('canvas');
+    if (!cv) return;
+    const idx = Number(cv.id.replace(prefix, ''));
+    card.addEventListener('click', () => openSecModal(idx));
+  });
 }
 function renderSecTerm() {
   if (secRendered.term) return;
@@ -3149,12 +3161,7 @@ function renderSecTerm() {
   host.innerHTML = html;
   plan.forEach(([s, id]) => _secChart(s, id));
   // 카드 클릭 → 화면 폭 전체 팝업으로 확대
-  host.querySelectorAll('.sec-card').forEach(card => {
-    const cv = card.querySelector('canvas');
-    if (!cv) return;
-    const idx = Number(cv.id.replace('secc_term_', ''));
-    card.addEventListener('click', () => openSecModal(idx));
-  });
+  _secBindModal(host, 'secc_term_');
 }
 
 // ===== 섹터 카드 확대 팝업 =====
