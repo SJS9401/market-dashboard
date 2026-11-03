@@ -1016,6 +1016,67 @@ for _sp in SECTOR_CYCLES_SPEC:
     _e["series"] = _w
     sector_cycles.append(_e)
 
+# ===== 섹터 시총 합산 (2026-11-03) — 좌축: 섹터 시총 합산(억원), 우축: 코스피+코스닥 대비 비중(%) =====
+# (code, sector, from YYYYMMDD, to YYYYMMDD) — 해당 섹터 사업이 본업인 기간만 합산
+SECTOR_MEMBERS = [
+ ("000720","건설","0","9"),("006360","건설","0","9"),("047040","건설","0","9"),("000210","건설","0","20210430"),("375500","건설","20210501","9"),
+ ("009540","조선","0","9"),("329180","조선","0","9"),("010140","조선","0","9"),("042660","조선","0","9"),("010620","조선","0","9"),
+ ("011200","해운","0","9"),("028670","해운","0","9"),
+ ("010120","전력","0","9"),("267260","전력","0","9"),("298040","전력","0","9"),("103590","전력","0","9"),
+ ("034020","원전","0","9"),("052690","원전","0","9"),("051600","원전","0","9"),("015760","원전","20091201","9"),
+ ("012450","방산","0","9"),("079550","방산","0","9"),("047810","방산","0","9"),("064350","방산","0","9"),("103140","방산","0","9"),
+ ("005380","자동차","0","9"),("000270","자동차","0","9"),("012330","자동차","0","9"),
+ ("005490","철강","0","9"),("004020","철강","0","9"),
+ ("051910","화학","0","20191231"),("051910","배터리","20200101","20220126"),("051910","화학","20220127","9"),
+ ("011170","화학","0","9"),("011780","화학","0","9"),("009830","화학","0","9"),
+ ("010950","정유","0","9"),("096770","정유","0","20191231"),("096770","배터리","20200101","9"),
+ ("005930","반도체","0","9"),("000660","반도체","0","9"),
+ ("373220","배터리","0","9"),("006400","배터리","20140701","9"),("086520","배터리","0","9"),("247540","배터리","0","9"),
+ ("066970","배터리","20120101","9"),("003670","배터리","20190401","9"),
+ ("068270","바이오","0","9"),("091990","바이오","0","9"),("207940","바이오","0","9"),("128940","바이오","0","9"),
+ ("008930","바이오","0","9"),("000100","바이오","0","9"),("096530","바이오","0","9"),("196170","바이오","0","9"),("215600","바이오","0","9"),
+ ("017670","통신","0","9"),("030200","통신","0","9"),("032640","통신","0","9"),
+ ("032500","통신","0","9"),("050890","통신","0","9"),("088800","통신","0","9"),("039560","통신","0","9"),
+ ("010170","통신","0","9"),("043260","통신","0","9"),("073490","통신","0","9"),("218410","통신","0","9"),
+ ("035420","플랫폼","0","9"),("035720","플랫폼","0","9"),("036570","플랫폼","0","9"),
+]
+def _load_mcap():
+    import gzip as _gz, datetime as _dt
+    snap, names = {}, {}
+    base = os.path.dirname(os.path.abspath(__file__))
+    for fn, combined in (("kr_mcap_pre2010.json.gz", True), ("kr_mcap_history.json.gz", False)):
+        fp = os.path.join(base, "data", fn)
+        if not os.path.exists(fp):
+            continue
+        try:
+            h = json.loads(_gz.decompress(open(fp, "rb").read()).decode("utf-8"))
+        except Exception as _ex:
+            print(f"[WARN] {fn} 로드 실패: {_ex}"); continue
+        names.update(h.get("codes", {}))
+        for d, t, caps in zip(h["dates"], h["tot"], h["days"]):
+            snap[d] = (t if combined else t[0] + t[1], caps)
+    last = {}
+    for d in sorted(snap):
+        last[_dt.date(int(d[:4]), int(d[4:6]), int(d[6:8])).isocalendar()[:2]] = d
+    return snap, sorted(last.values()), names
+try:
+    _snap, _wdays, _mnames = _load_mcap()
+except Exception as _ex:
+    print(f"[WARN] 섹터 시총 로드 실패: {_ex}"); _snap, _wdays, _mnames = {}, [], {}
+_sec_mcap = {}
+for _d in _wdays:
+    _tot, _caps = _snap[_d]
+    _acc = {}
+    for _c, _sec, _a, _b in SECTOR_MEMBERS:
+        if _a <= _d <= _b and _c in _caps:
+            _acc[_sec] = _acc.get(_sec, 0) + _caps[_c]
+    for _sec, _v in _acc.items():
+        _sec_mcap.setdefault(_sec, []).append([_d, _v, round(_v / _tot * 100, 2) if _tot else None])
+for _e in sector_cycles:
+    _e["mcap"] = _sec_mcap.get(_e["sector"], [])
+    _e["members"] = sorted({_mnames.get(_c, _c) for _c, _sec, _a, _b in SECTOR_MEMBERS if _sec == _e["sector"]})
+print(f"[*] 섹터 시총: {len(_wdays)}주, 섹터 {len(_sec_mcap)}개")
+
 html = """<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -3067,10 +3128,11 @@ function _secGapText(sp) {
 function _secCard(sp, canvasId, big) {
   const col = SEC_TERM_COLOR[sp.term] || '#8b949e', tcol = SEC_TYPE_COLOR[sp.type] || '#8b949e';
   const starts = sp.cycles.map(c => c.start.slice(0, 4)).join(' · ');
-  const body = (sp.series && sp.series.length) ? '<div class="sec-canvas' + (big ? ' big' : '') + '"><canvas id="' + canvasId + '"></canvas></div>'
-                                               : '<div class="sec-empty">주가 데이터 준비 중</div>';
+  const hasM = sp.mcap && sp.mcap.length;
+  const body = (hasM || (sp.series && sp.series.length)) ? '<div class="sec-canvas' + (big ? ' big' : '') + '"><canvas id="' + canvasId + '"></canvas></div>'
+                                               : '<div class="sec-empty">데이터 준비 중</div>';
   return '<div class="sec-card"><div class="sec-head"><span class="sec-name">' + sp.sector + '</span>'
-    + '<span class="sec-stock">' + sp.name + '</span>'
+    + '<span class="sec-stock" title="' + (sp.members || []).join(', ') + '">' + (hasM ? '시총 합산 ' + (sp.members || []).length + '종목' : sp.name) + '</span>'
     + '<span class="sec-tag" style="color:' + tcol + ';border-color:' + tcol + '66">' + sp.type + '</span>'
     + '<span class="sec-tag" style="color:' + col + ';border-color:' + col + '66">' + sp.term + '</span></div>'
     + '<div class="sec-gap">업사이클 시작 ' + starts + ' · ' + _secGapText(sp) + '</div>'
@@ -3079,7 +3141,12 @@ function _secCard(sp, canvasId, big) {
 function _secChart(sp, canvasId) {
   const el = document.getElementById(canvasId);
   if (!el) return;
-  const data = (sp.series || []).map(r => ({ x: new Date(r[0].slice(0, 4) + '-' + r[0].slice(4, 6) + '-' + r[0].slice(6, 8)).getTime(), y: r[1] }));
+  const _ts = d => new Date(d.slice(0, 4) + '-' + d.slice(4, 6) + '-' + d.slice(6, 8)).getTime();
+  const hasM = sp.mcap && sp.mcap.length;
+  const _gap = arr => { const o = []; arr.forEach((p, i) => { if (i && p.x - arr[i - 1].x > 75 * 864e5) o.push({ x: p.x - 864e5, y: null }); o.push(p); }); return o; };
+  const data = hasM ? _gap(sp.mcap.map(r => ({ x: _ts(r[0]), y: r[1] / 10000 })))
+                    : (sp.series || []).map(r => ({ x: _ts(r[0]), y: r[1] }));
+  const share = hasM ? _gap(sp.mcap.map(r => ({ x: _ts(r[0]), y: r[2] }))) : [];
   const col = SEC_TERM_COLOR[sp.term] || '#8b949e';
   const lastX = data.length ? data[data.length - 1].x : SEC_X_MAX;
   const ann = {};
@@ -3094,21 +3161,28 @@ function _secChart(sp, canvasId) {
   });
   new Chart(el.getContext('2d'), {
     type: 'line',
-    data: { datasets: [{ data, borderColor: '#c9d1d9', borderWidth: 1, pointRadius: 0, tension: 0 }] },
+    data: { datasets: hasM ? [
+        { label: '섹터 시총(조원, 좌)', data, yAxisID: 'y', borderColor: '#c9d1d9', borderWidth: 1.2, pointRadius: 0, tension: 0, spanGaps: false },
+        { label: '시장 비중(%, 우)', data: share, yAxisID: 'y2', borderColor: '#f0883e', borderWidth: 1, borderDash: [3, 2], pointRadius: 0, tension: 0, spanGaps: false }
+      ] : [{ data, borderColor: '#c9d1d9', borderWidth: 1, pointRadius: 0, tension: 0 }] },
     options: {
       responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
       interaction: { mode: 'nearest', axis: 'x', intersect: false },
       plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { title: items => new Date(items[0].parsed.x).toISOString().slice(0, 10), label: it => Math.round(it.parsed.y).toLocaleString() } },
+        legend: { display: !!hasM, position: 'top', align: 'end', labels: { color: '#8b949e', font: { size: 9 }, boxWidth: 10, boxHeight: 2, padding: 6 } },
+        tooltip: { callbacks: { title: items => new Date(items[0].parsed.x).toISOString().slice(0, 10),
+          label: it => hasM ? (it.dataset.yAxisID === 'y2' ? '시장 비중 ' + it.parsed.y.toFixed(2) + '%' : '섹터 시총 ' + it.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 1 }) + '조원')
+                            : Math.round(it.parsed.y).toLocaleString() } },
         annotation: { annotations: ann }
       },
       scales: {
         x: { type: 'time', min: SEC_X_MIN, max: SEC_X_MAX, time: { unit: 'year', displayFormats: { year: 'yy' } },
              ticks: { color: '#6e7681', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 22 }, grid: { color: '#21262d' } },
-        y: { type: 'logarithmic', ticks: { color: '#6e7681', font: { size: 9 }, maxTicksLimit: 4,
-             callback: v => { const n = Number(v); return n >= 10000 ? Math.round(n / 10000) + '만' : n.toLocaleString(); } },
-             grid: { color: '#21262d' } }
+        y: { type: 'logarithmic', position: 'left', ticks: { color: '#6e7681', font: { size: 9 }, maxTicksLimit: 4,
+             callback: v => { const n = Number(v); if (hasM) return (n >= 10 ? Math.round(n) : n.toFixed(1)) + '조'; return n >= 10000 ? Math.round(n / 10000) + '만' : n.toLocaleString(); } },
+             grid: { color: '#21262d' } },
+        y2: { display: !!hasM, type: 'linear', position: 'right', min: 0, ticks: { color: '#f0883e', font: { size: 9 }, maxTicksLimit: 4, callback: v => Number(v).toFixed(0) + '%' },
+              grid: { drawOnChartArea: false } }
       }
     }
   });
@@ -3188,7 +3262,7 @@ function openSecModal(idx) {
   }
   const col = SEC_TERM_COLOR[sp.term] || '#8b949e', tcol = SEC_TYPE_COLOR[sp.type] || '#8b949e';
   document.getElementById('sec-modal-head').innerHTML = '<span class="sec-name" style="font-size:16px">' + sp.sector + '</span> '
-    + '<span class="sec-stock">' + sp.name + '</span> '
+    + '<span class="sec-stock">' + ((sp.mcap && sp.mcap.length) ? '시총 합산: ' + (sp.members || []).join(', ') : sp.name) + '</span> '
     + '<span class="sec-tag" style="color:' + tcol + ';border-color:' + tcol + '66">' + sp.type + '</span> '
     + '<span class="sec-tag" style="color:' + col + ';border-color:' + col + '66">' + sp.term + '</span>'
     + '<div class="sec-gap">업사이클 시작 ' + sp.cycles.map(c => c.start.slice(0, 4)).join(' · ') + ' · ' + _secGapText(sp) + '</div>';

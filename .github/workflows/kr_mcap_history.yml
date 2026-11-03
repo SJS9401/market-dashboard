@@ -2,6 +2,8 @@ name: kr-mcap-history-backfill
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '20 8 * * 1-5'   # 17:20 KST 평일 — 당일 시총 추가 (Leading_stocks 17:30 빌드 전)
 
 permissions:
   contents: write
@@ -13,16 +15,18 @@ concurrency:
 jobs:
   backfill:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Run backfill chunk
         env:
           KRX_AUTH_KEY: ${{ secrets.KRX_AUTH_KEY }}
-          MAX_DAYS: '1200'
+          MAX_DAYS: '2000'
           START: '20100104'
         run: python kr_mcap_history_backfill.py
       - name: Validate
