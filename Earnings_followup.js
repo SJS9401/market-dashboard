@@ -198,6 +198,12 @@ function mapDateToQuarter(dateStr, currentYear, note) {
   }
   const m = dateStr.match(/(\d{1,2})\//);
   let month;
+  const iso = dateStr.match(/(\d{4})-(\d{2})-\d{2}/);  // 노션 동기화 행은 보통 [YYYY-Qn] override가 있어 여기 안 옴
+  if (iso) {
+    const y = parseInt(iso[1]), mo = parseInt(iso[2]);
+    if (mo <= 3) return (y - 1) + '-Q4';
+    return y + '-Q' + (Math.floor((mo - 1) / 3));
+  }
   if (m) {
     month = parseInt(m[1]);
   } else {
@@ -215,6 +221,9 @@ function mapDateToQuarter(dateStr, currentYear, note) {
 // 발표일 표시 양식: "M/D" → "YY/MM/DD" (currentQuarter year 기준)
 function formatDate(rawDate, currentQuarter) {
   if (!rawDate) return '';
+  // 2026-11-03: 노션 동기화 형식 "YYYY-MM-DD" / "~YYYY-MM-DD"(추정) → "YY/MM/DD" / "~YY/MM/DD"
+  const iso = rawDate.match(/^(~)?(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return (iso[1] || '') + iso[2].slice(2) + '/' + iso[3] + '/' + iso[4];
   const yearMatch = currentQuarter && currentQuarter.match(/^(\d{4})/);
   const year = yearMatch ? yearMatch[1] : '26';
   const yy = year.slice(2);
