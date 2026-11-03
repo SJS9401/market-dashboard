@@ -1137,8 +1137,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 #sec-type .sec-col + .sec-col { margin-top: 10px; }
 #sec-type .sec-group { font-size: 13px; margin: 10px 0 8px; }
 #sec-term .sec-card { cursor: zoom-in; }
-#sec-term .sec-card.expanded { cursor: zoom-out; border-color: #58a6ff88; }
-#sec-term .sec-card.expanded .sec-canvas { height: 820px; }
+#sec-term .sec-card:hover { border-color: #58a6ff88; }
+#sec-modal { display: none; position: fixed; inset: 0; background: rgba(1,4,9,0.78); z-index: 1000; padding: 3vh 1.5vw; }
+#sec-modal.open { display: block; }
+.sec-modal-box { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; width: 100%; height: 94vh; padding: 12px 16px; display: flex; flex-direction: column; }
+.sec-modal-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.sec-modal-x { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; padding: 4px 12px; cursor: pointer; font-size: 12px; }
+.sec-modal-x:hover { color: #fff; border-color: #58a6ff; }
+.sec-modal-canvas { position: relative; flex: 1; min-height: 0; margin-top: 6px; }
 .sec-note { font-size: 10.5px; color: #6e7681; margin-top: 3px; line-height: 1.45; }
 .sec-empty { font-size: 11px; color: #6e7681; padding: 50px 0; text-align: center; }
 @media (max-width: 1100px) { .sec-sub2 { grid-template-columns: 1fr; } }
@@ -1170,7 +1176,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
   <div class="sec-matrix" id="sec-type"></div>
 </div>
 <div class="view-panel" id="view-vterm">
-  <div class="sec-intro">같은 산업 사이클을 주기 길이별로 배치. 장기 14~30년 · 중기 4~8년 · 단기 2~5년 · 1회. 카드 색 태그 = 재가동형(파랑) / 개척형(초록). 카드를 누르면 세로로 확대되고, 다시 누르면 원래 크기로 돌아가.</div>
+  <div class="sec-intro">같은 산업 사이클을 주기 길이별로 배치. 장기 14~30년 · 중기 4~8년 · 단기 2~5년 · 1회. 카드 색 태그 = 재가동형(파랑) / 개척형(초록). 카드를 누르면 화면 폭 전체로 크게 열리고, 닫기·바깥 클릭·Esc로 닫혀.</div>
   <div class="sec-matrix" id="sec-term"></div>
 </div>
 
@@ -3142,8 +3148,48 @@ function renderSecTerm() {
   });
   host.innerHTML = html;
   plan.forEach(([s, id]) => _secChart(s, id));
-  // 카드 클릭 → 세로 확대 (높이 약 카드 4개, 폭은 그대로). 다시 누르면 원래 크기
-  host.querySelectorAll('.sec-card').forEach(card => card.addEventListener('click', () => card.classList.toggle('expanded')));
+  // 카드 클릭 → 화면 폭 전체 팝업으로 확대
+  host.querySelectorAll('.sec-card').forEach(card => {
+    const cv = card.querySelector('canvas');
+    if (!cv) return;
+    const idx = Number(cv.id.replace('secc_term_', ''));
+    card.addEventListener('click', () => openSecModal(idx));
+  });
+}
+
+// ===== 섹터 카드 확대 팝업 =====
+let _secModalChart = null;
+function closeSecModal() {
+  const m = document.getElementById('sec-modal');
+  if (!m) return;
+  m.classList.remove('open');
+  if (_secModalChart) { _secModalChart.destroy(); _secModalChart = null; }
+}
+function openSecModal(idx) {
+  const sp = SECTOR_CYCLES[idx];
+  if (!sp) return;
+  let m = document.getElementById('sec-modal');
+  if (!m) {
+    m = document.createElement('div');
+    m.id = 'sec-modal';
+    m.innerHTML = '<div class="sec-modal-box"><div class="sec-modal-top"><div id="sec-modal-head"></div>'
+      + '<button class="sec-modal-x" onclick="closeSecModal()">닫기 ✕</button></div>'
+      + '<div class="sec-modal-canvas"><canvas id="sec-modal-cv"></canvas></div><div class="sec-note" id="sec-modal-note"></div></div>';
+    m.addEventListener('click', e => { if (e.target === m) closeSecModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSecModal(); });
+    document.body.appendChild(m);
+  }
+  const col = SEC_TERM_COLOR[sp.term] || '#8b949e', tcol = SEC_TYPE_COLOR[sp.type] || '#8b949e';
+  document.getElementById('sec-modal-head').innerHTML = '<span class="sec-name" style="font-size:16px">' + sp.sector + '</span> '
+    + '<span class="sec-stock">' + sp.name + '</span> '
+    + '<span class="sec-tag" style="color:' + tcol + ';border-color:' + tcol + '66">' + sp.type + '</span> '
+    + '<span class="sec-tag" style="color:' + col + ';border-color:' + col + '66">' + sp.term + '</span>'
+    + '<div class="sec-gap">업사이클 시작 ' + sp.cycles.map(c => c.start.slice(0, 4)).join(' · ') + ' · ' + _secGapText(sp) + '</div>';
+  document.getElementById('sec-modal-note').textContent = sp.note || '';
+  m.classList.add('open');
+  if (_secModalChart) { _secModalChart.destroy(); _secModalChart = null; }
+  _secChart(sp, 'sec-modal-cv');
+  _secModalChart = Chart.getChart('sec-modal-cv') || null;
 }
 
 // ===== INIT =====
