@@ -1,12 +1,12 @@
 {
- "generated_at_kst": "2026-11-03T09:31+09:00",
- "run_date_kst": "2026-11-03",
+ "generated_at_kst": "2026-11-04T09:31+09:00",
+ "run_date_kst": "2026-11-04",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Music in the Air: 10 Years On",
@@ -28,12 +28,12 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Navigating the AI rotation in Asia",
-    "date": "2026-10-27",
-    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/navigating-the-ai-rotation-in-asia.html"
+    "title": "Chips, chokepoints and the battle for AI supremacy",
+    "date": "2026-11-03",
+    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/chips-chokepoints-and-the-battle-for-ai-supremacy.html"
    }
   },
   "소시에테제네랄": {
@@ -49,24 +49,24 @@
   },
   "JP모건": {
    "status": "ok",
-   "count": 7,
+   "count": 6,
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "What unprecedented AI capex means for markets and investors",
-    "date": "2026-10-19",
-    "url": "https://www.jpmorgan.com/insights/global-research/artificial-intelligence/ai-capex"
+    "title": "What’s the Fed’s next move?",
+    "date": "2026-11-03",
+    "url": "https://www.jpmorgan.com/insights/global-research/economy/fed-rate-cuts"
    }
   },
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "The Global Economy’s Tenuous Balance: Resilience Amid Uncertainty",
-    "date": null,
-    "url": "https://www.citigroup.com/global/insights/the-global-economys-tenuous-balance-resilience-amid-uncertainty"
+    "title": "Markets Edition: Halloween Pullback — Tactical or Something More Sinister?",
+    "date": "2026-11-03",
+    "url": "https://www.citigroup.com/global/insights/markets-edition-halloween-pullback-tactical-or-something-more-sinister"
    }
   },
   "모건스탠리": {
@@ -104,6 +104,27 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "바클레이스",
+   "title": "Chips, chokepoints and the battle for AI supremacy",
+   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/chips-chokepoints-and-the-battle-for-ai-supremacy.html",
+   "date": "2026-11-03",
+   "first_seen_kst": "2026-11-04T09:31+09:00"
+  },
+  {
+   "bank": "씨티",
+   "title": "Markets Edition: Halloween Pullback — Tactical or Something More Sinister?",
+   "url": "https://www.citigroup.com/global/insights/markets-edition-halloween-pullback-tactical-or-something-more-sinister",
+   "date": "2026-11-03",
+   "first_seen_kst": "2026-11-04T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Solving AI’s Power Bottleneck",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-power-demand-data-centers-energy-storage-andrew-percoco-david-arcaro",
+   "date": null,
+   "first_seen_kst": "2026-11-04T09:31+09:00"
+  },
   {
    "bank": "골드만삭스",
    "title": "Music in the Air: 10 Years On",
