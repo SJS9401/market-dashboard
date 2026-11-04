@@ -1161,6 +1161,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 .cycle-btn { padding: 4px 11px; border: 1px solid #30363d; border-radius: 14px; background: transparent; color: #8b949e; font-size: 11px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .cycle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
 .cycle-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+.v2all-panel { margin-top: 8px; border: 1px solid #30363d; border-radius: 6px; background: #0d1117; overflow: hidden; }
+.v2all-label { display: inline-block; padding: 4px 12px; font-size: 13px; font-weight: 700; color: #0d1117; background: var(--lc); border-bottom-right-radius: 6px; letter-spacing: 0.2px; }
+.v2all-cv { position: relative; padding: 2px 6px 4px; }
+.v2all-sel { position: absolute; top: 0; bottom: 0; background: rgba(88,166,255,0.18); border: 1px solid #58a6ff; pointer-events: none; display: none; }
+.v2all-stats { margin: 6px 0 2px; font-size: 12px; color: #e6edf3; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; line-height: 1.6; }
+.v2all-stats b { color: #e3b341; }
 
 .ctrl-row { display: flex; gap: 6px; align-items: center; padding: 6px 28px; flex-wrap: wrap; }
 .ctrl-label { font-size: 11px; color: #484f58; margin-right: 2px; }
@@ -1377,12 +1383,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <button class="expand-btn" id="v2-expand" onclick="toggleExpand()">전체차트 보기</button>
   </div>
   <div class="main" id="v2-all" style="display:none;">
-    <div class="chart-info"><span class="chart-title">전체 사이클 — 주도주 모멘텀 구간 연결</span></div>
-    <div class="chart-meta">지수는 전체 기간, 주도주는 박스(모멘텀) 구간만 표시 · 각 구간 시작 = 100 (로그)</div>
-    <div class="panel"><div class="panel-header"><span class="panel-label">NASDAQ</span></div><div style="height:170px;position:relative;"><canvas id="v2all-nasdaq"></canvas></div></div>
-    <div class="panel"><div class="panel-header"><span class="panel-label">KOSPI</span></div><div style="height:170px;position:relative;"><canvas id="v2all-kospi"></canvas></div></div>
-    <div class="panel"><div class="panel-header"><span class="panel-label">KOSDAQ</span></div><div style="height:170px;position:relative;"><canvas id="v2all-kosdaq"></canvas></div></div>
-    <div class="panel"><div class="panel-header"><span class="panel-label">주도주 (모멘텀 구간, 시작=100)</span></div><div style="height:340px;position:relative;"><canvas id="v2all-stock"></canvas></div></div>
+    <div class="chart-info"><span class="chart-title">전체 사이클 — 주도주 모멘텀 구간 연결</span>
+      <button class="zoom-reset-btn" onclick="_allResetZoom()" style="margin-left:12px;">줌 리셋</button></div>
+    <div class="chart-meta">지수는 전체 기간, 주도주는 박스(모멘텀) 구간만 표시 · 각 구간 시작 = 100 (로그) · 드래그 = 확대, 휠 = 확대/축소, 더블클릭 = 리셋</div>
+    <div class="v2all-stats" id="v2all-stats"></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#58a6ff">NASDAQ</div><div class="v2all-cv" style="height:160px;"><canvas id="v2all-nasdaq"></canvas></div></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#f0883e">KOSPI</div><div class="v2all-cv" style="height:160px;"><canvas id="v2all-kospi"></canvas></div></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#a371f7">KOSDAQ</div><div class="v2all-cv" style="height:160px;"><canvas id="v2all-kosdaq"></canvas></div></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#3fb950">주도주 · 모멘텀 구간 (시작=100)</div><div class="v2all-cv" style="height:340px;"><canvas id="v2all-stock"></canvas></div></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#e3b341">매매 가능 구간 · 대기 기간</div><div class="v2all-cv" style="height:70px;"><canvas id="v2all-win"></canvas></div></div>
   </div>
   <div class="main" id="v2-main">
     <div class="chart-info">
@@ -2999,7 +3008,7 @@ function toggleExpand() {
 }
 
 // ===== 전체 사이클 (2026-11-04) — 지수 전체 + 주도주 모멘텀 구간만 연결 =====
-let _allCharts = [];
+let _allCharts = [], _allX = null;
 function _allSetMode(on) {
   const v = document.getElementById('view-v2');
   document.getElementById('v2-all').style.display = on ? '' : 'none';
@@ -3018,45 +3027,105 @@ function _allWeekly(raw, a, b) {
   });
   return o;
 }
+function _allApplyX(min, max) {
+  _allX = (min == null) ? null : [min, max];
+  _allCharts.forEach(c => { c.options.scales.x.min = min == null ? c.$x0 : min; c.options.scales.x.max = max == null ? c.$x1 : max; c.update('none'); });
+}
+function _allResetZoom() { _allApplyX(null, null); }
+function _allBindZoom(chart) {
+  const cv = chart.canvas, wrap = cv.parentElement;
+  let sel = wrap.querySelector('.v2all-sel');
+  if (!sel) { sel = document.createElement('div'); sel.className = 'v2all-sel'; wrap.appendChild(sel); }
+  let x0 = null;
+  const px = e => e.clientX - cv.getBoundingClientRect().left;
+  cv.onmousedown = e => { x0 = px(e); sel.style.left = (cv.offsetLeft + x0) + 'px'; sel.style.width = '0px'; sel.style.display = 'block'; };
+  cv.onmousemove = e => { if (x0 == null) return; const x = px(e); sel.style.left = (cv.offsetLeft + Math.min(x0, x)) + 'px'; sel.style.width = Math.abs(x - x0) + 'px'; };
+  const end = e => {
+    if (x0 == null) return; sel.style.display = 'none';
+    const x = px(e), sc = chart.scales.x;
+    if (Math.abs(x - x0) > 6) { const a = sc.getValueForPixel(Math.min(x0, x)), b = sc.getValueForPixel(Math.max(x0, x)); _allApplyX(a, b); }
+    x0 = null;
+  };
+  cv.onmouseup = end; cv.onmouseleave = e => { if (x0 != null) { sel.style.display = 'none'; x0 = null; } };
+  cv.ondblclick = () => _allResetZoom();
+  cv.onwheel = e => {
+    e.preventDefault();
+    const sc = chart.scales.x, c = sc.getValueForPixel(px(e)), lo = sc.min, hi = sc.max, f = e.deltaY > 0 ? 1.25 : 0.8;
+    let a = c - (c - lo) * f, b = c + (hi - c) * f;
+    if (a <= chart.$x0 && b >= chart.$x1) { _allResetZoom(); return; }
+    _allApplyX(Math.max(a, chart.$x0), Math.min(b, chart.$x1));
+  };
+}
+function _allMerge(zones) {
+  const w = [];
+  zones.forEach(z => { const l = w[w.length - 1]; if (l && z.a <= l.b) { l.b = Math.max(l.b, z.b); l.n.push(z.name); } else w.push({ a: z.a, b: z.b, n: [z.name] }); });
+  return w;
+}
 function selectAllCycles(btn) {
   document.querySelectorAll('#v2-cycle-btns .cycle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _allSetMode(true);
-  _allCharts.forEach(c => c.destroy()); _allCharts = [];
+  _allCharts.forEach(c => c.destroy()); _allCharts = []; _allX = null;
   const X0 = Date.UTC(1985, 0, 1), X1 = Date.now() + 120 * 864e5;
   const zones = STOCK_ZONES.filter(z => z.longterm && z.longterm.start && z.longterm.end && STOCKS_RAW[z.stockId])
     .map(z => ({ id: z.stockId, label: z.label || z.stockId, a: _allTs(z.longterm.start), b: _allTs(z.longterm.end),
                  color: (typeof stockColorMap !== 'undefined' && stockColorMap[z.stockId]) || '#c9d1d9',
                  name: ((UNIQUE_STOCKS.find(u => u.id === z.stockId) || {}).name) || z.stockId }))
     .sort((p, q) => p.a - q.a);
+  zones.forEach(z => z.days = Math.round((z.b - z.a) / 864e5));
+  const wins = _allMerge(zones.map(z => Object.assign({}, z)));
+  const gaps = []; for (let i = 1; i < wins.length; i++) gaps.push(Math.round((wins[i].a - wins[i - 1].b) / 864e5));
+  wins.forEach(w => w.days = Math.round((w.b - w.a) / 864e5));
+  const avg = a => a.length ? Math.round(a.reduce((s, v) => s + v, 0) / a.length) : 0;
+  const med = a => { if (!a.length) return 0; const s = a.slice().sort((p, q) => p - q); return s[Math.floor(s.length / 2)]; };
+  const yr = d => (d / 365).toFixed(1) + '년';
+  const totW = wins.reduce((s, w) => s + w.days, 0), span = Math.round((wins[wins.length - 1].b - wins[0].a) / 864e5);
+  document.getElementById('v2all-stats').innerHTML =
+    '주도주 구간 <b>' + zones.length + '개</b> → 겹치는 구간을 합친 <b>매매 가능 구간 ' + wins.length + '개</b> · '
+    + '매매 구간 평균 <b>' + avg(wins.map(w => w.days)) + '일</b>(' + yr(avg(wins.map(w => w.days))) + ', 중앙값 ' + med(wins.map(w => w.days)) + '일) · '
+    + '다음 매매까지 대기 평균 <b>' + avg(gaps) + '일</b>(' + yr(avg(gaps)) + ', 중앙값 ' + med(gaps) + '일, 최장 ' + Math.max.apply(null, gaps) + '일) · '
+    + '전체 ' + yr(span) + ' 중 매매 가능 ' + Math.round(totW / span * 100) + '%';
   const boxes = {};
   zones.forEach((z, i) => { boxes['z' + i] = { type: 'box', xMin: z.a, xMax: z.b, backgroundColor: z.color + '1f', borderWidth: 0 }; });
-  const xs = { type: 'time', min: X0, max: X1, time: { unit: 'year', displayFormats: { year: 'yy' } },
-               ticks: { color: '#6e7681', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 44 }, grid: { color: '#21262d' } };
-  const ys = (cb) => ({ type: 'logarithmic', ticks: { color: '#6e7681', font: { size: 9 }, maxTicksLimit: 5, callback: cb }, grid: { color: '#21262d' } });
+  const xs = () => ({ type: 'time', min: X0, max: X1, time: { unit: 'year', displayFormats: { year: 'yy', month: 'yy.MM' } },
+               ticks: { color: '#8b949e', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 44 }, grid: { color: '#21262d' } });
+  const ys = (cb) => ({ type: 'logarithmic', ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 5, callback: cb }, grid: { color: '#21262d' } });
   const base = (ann, tip) => ({ responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
     interaction: { mode: 'nearest', axis: 'x', intersect: false },
     plugins: { legend: { display: false }, annotation: { annotations: ann },
                tooltip: { callbacks: { title: it => new Date(it[0].parsed.x).toISOString().slice(0, 10), label: tip } } } });
   const fmt = v => Number(v).toLocaleString();
+  const mk = (id, cfg) => { const el = document.getElementById(id); if (!el) return; const c = new Chart(el.getContext('2d'), cfg); c.$x0 = X0; c.$x1 = X1; _allCharts.push(c); _allBindZoom(c); };
   [['v2all-nasdaq', NASDAQ_RAW, '#58a6ff'], ['v2all-kospi', KOSPI_RAW, '#f0883e'], ['v2all-kosdaq', KOSDAQ_RAW, '#a371f7']].forEach(([id, raw, col]) => {
-    const el = document.getElementById(id); if (!el) return;
     const opt = base(Object.assign({}, boxes), it => fmt(Math.round(it.parsed.y)));
-    opt.scales = { x: xs, y: ys(v => fmt(v)) };
-    _allCharts.push(new Chart(el.getContext('2d'), { type: 'line', data: { datasets: [{ data: _allWeekly(raw), borderColor: col, borderWidth: 1, pointRadius: 0, tension: 0 }] }, options: opt }));
+    opt.scales = { x: xs(), y: ys(v => fmt(v)) };
+    mk(id, { type: 'line', data: { datasets: [{ data: _allWeekly(raw), borderColor: col, borderWidth: 1, pointRadius: 0, tension: 0 }] }, options: opt });
   });
   const ds = [], labs = {};
   zones.forEach((z, i) => {
     const w = _allWeekly(STOCKS_RAW[z.id], z.a, z.b); if (!w.length) return;
     const b0 = w[0].y;
-    ds.push({ label: z.label, data: w.map(p => ({ x: p.x, y: p.y / b0 * 100 })), borderColor: z.color, borderWidth: 1.4, pointRadius: 0, tension: 0 });
-    labs['l' + i] = { type: 'label', xValue: z.a, yValue: 100, content: z.name, color: z.color, font: { size: 9, weight: '600' },
-                      position: { x: 'start', y: 'end' }, yAdjust: -6 - (i % 3) * 11, backgroundColor: 'rgba(13,17,23,0.6)', padding: 1 };
+    ds.push({ label: z.label + ' (' + z.days + '일)', data: w.map(p => ({ x: p.x, y: p.y / b0 * 100 })), borderColor: z.color, borderWidth: 1.4, pointRadius: 0, tension: 0 });
+    labs['l' + i] = { type: 'label', xValue: z.a, yValue: 100, content: z.name + '(' + z.days + '일)', color: z.color, font: { size: 9, weight: '600' },
+                      position: { x: 'start', y: 'end' }, yAdjust: -6 - (i % 3) * 11, backgroundColor: 'rgba(13,17,23,0.65)', padding: 1 };
   });
-  const el = document.getElementById('v2all-stock');
   const opt = base(Object.assign({}, boxes, labs), it => it.dataset.label + ' ' + (it.parsed.y / 100).toFixed(2) + '배');
-  opt.scales = { x: xs, y: ys(v => (Number(v) / 100).toFixed(Number(v) < 100 ? 1 : 0) + '배') };
-  _allCharts.push(new Chart(el.getContext('2d'), { type: 'line', data: { datasets: ds }, options: opt }));
+  opt.scales = { x: xs(), y: ys(v => (Number(v) / 100).toFixed(Number(v) < 100 ? 1 : 0) + '배') };
+  mk('v2all-stock', { type: 'line', data: { datasets: ds }, options: opt });
+  const wa = {};
+  wins.forEach((w, i) => {
+    wa['w' + i] = { type: 'box', xMin: w.a, xMax: w.b, yMin: 0.15, yMax: 0.85, backgroundColor: 'rgba(63,185,80,0.55)', borderColor: '#3fb950', borderWidth: 1,
+                    label: { display: true, content: w.days + '일', color: '#e6edf3', font: { size: 9 }, position: 'center' } };
+    if (i) {
+      const g = gaps[i - 1], p = wins[i - 1];
+      wa['g' + i] = { type: 'box', xMin: p.b, xMax: w.a, yMin: 0.4, yMax: 0.6, backgroundColor: 'rgba(227,179,65,0.18)', borderWidth: 0,
+                      label: { display: true, content: '대기 ' + g + '일', color: '#e3b341', font: { size: 9 }, position: 'center' } };
+    }
+  });
+  const wopt = base(wa, () => '');
+  wopt.plugins.tooltip = { enabled: false };
+  wopt.scales = { x: xs(), y: { min: 0, max: 1, display: false } };
+  mk('v2all-win', { type: 'line', data: { datasets: [{ data: [{ x: X0, y: null }, { x: X1, y: null }], pointRadius: 0 }] }, options: wopt });
 }
 
 function renderV2() {
