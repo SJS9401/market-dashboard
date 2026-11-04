@@ -1175,6 +1175,7 @@ TRADE_ZONES_SPEC = [
     {"stockId": "ecopro", "cycleId": "kr_battery_2023", "start": "2023-02-23", "end": "2023-05-03"},
     {"stockId": "ecopro", "cycleId": "kr_battery_2023", "start": "2023-06-30", "end": "2023-08-04"},
     {"stockId": "alteogen", "cycleId": "kr_battery_2023", "start": "2024-02-22", "end": "2024-03-29"},
+    {"stockId": "hanmi_semi", "cycleId": "kr_battery_2023", "start": "2024-02-22", "end": "2024-04-16", "note": "알테오젠과 겹쳐 실제 매매는 제외 — Tier 2 후보"},
     {"stockId": "alteogen", "cycleId": "kr_battery_2023", "start": "2024-06-03", "end": "2024-06-17"},
     {"stockId": "hanwha_ocean", "cycleId": "kr_ai_2025", "start": "2025-01-07", "end": "2025-03-10"},
     {"stockId": "doosan_enerbil", "cycleId": "kr_ai_2025", "start": "2025-05-14", "end": "2025-07-01"},
