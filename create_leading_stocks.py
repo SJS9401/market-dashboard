@@ -1298,6 +1298,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 
 /* ===== 산업 사이클 매트릭스 (SECTOR_VIEW_V1) ===== */
 .sec-intro { padding: 12px 28px 0; font-size: 12px; color: #8b949e; line-height: 1.6; }
+.st-wrap { padding: 8px 28px 40px; }
+.st-h { font-size: 15px; color: #f0f6fc; margin: 22px 0 8px; padding-left: 8px; border-left: 3px solid #e3b341; }
+.st-tbl-wrap { overflow-x: auto; }
+.st-tbl { border-collapse: collapse; font-size: 12px; width: 100%; }
+.st-tbl th { background: #161b22; color: #e6edf3; font-weight: 600; padding: 6px 8px; border: 1px solid #30363d; white-space: nowrap; }
+.st-tbl td { padding: 5px 8px; border: 1px solid #21262d; color: #c9d1d9; text-align: right; white-space: nowrap; }
+.st-tbl td.l { text-align: left; }
+.st-tbl tr:hover td { background: #161b22; }
+.st-tbl td.hi { color: #e3b341; font-weight: 700; }
+.st-note { font-size: 11px; color: #8b949e; line-height: 1.6; margin-top: 6px; }
+.st-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; margin-top: 10px; font-size: 13px; color: #e6edf3; line-height: 1.75; }
+.st-card b { color: #e3b341; }
+.st-card h4 { margin: 10px 0 4px; font-size: 13px; color: #58a6ff; }
+.st-chip { display: inline-block; padding: 1px 7px; margin: 2px 3px 2px 0; border-radius: 10px; font-size: 11px; border: 1px solid; }
+.st-row { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid #21262d; }
+.st-row .nm { width: 230px; flex: none; font-size: 12px; color: #e6edf3; }
+.st-row .nm span { color: #8b949e; font-size: 11px; }
+.st-bar { height: 8px; background: #58a6ff; border-radius: 4px; margin-top: 4px; }
 .sec-matrix { display: grid; gap: 16px; padding: 12px 28px 28px; align-items: start; }
 .sec-col h3 { font-size: 14px; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid #30363d; }
 .sec-col h3 .sub { font-size: 11px; color: #8b949e; font-weight: 400; margin-left: 8px; }
@@ -1345,6 +1363,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
   <button class="tab-btn active" onclick="switchView(event,'v2')">주도주</button>
   <button class="tab-btn" onclick="switchView(event,'vtype')">유형별</button>
   <button class="tab-btn" onclick="switchView(event,'vterm')">시계열별</button>
+  <button class="tab-btn" onclick="switchView(event,'vstudy')">스터디</button>
 </div>
 
 <!-- SECTOR_VIEW_V1: 산업 사이클 매트릭스 (2026-11-03) -->
@@ -1355,6 +1374,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 <div class="view-panel" id="view-vterm">
   <div class="sec-intro">같은 산업 사이클을 주기 길이별로 배치. 장기 14~30년 · 중기 4~8년 · 단기 2~5년 · 1회. 카드 색 태그 = 재가동형(파랑) / 개척형(초록). 카드를 누르면 화면 폭 전체로 크게 열리고, 닫기·바깥 클릭·Esc로 닫혀.</div>
   <div class="sec-matrix" id="sec-term"></div>
+</div>
+
+<!-- STUDY (2026-11-05) -->
+<div class="view-panel" id="view-vstudy">
+  <div class="sec-intro">모멘텀 트레이더 관점 정리 — 상승 사이클(주도주 탭 파란 박스) 안에서 매매 구간(초록 박스)만 실제 매매한다고 볼 때, 얼마나 참여하고 얼마나 기다려야 하는지. 표와 통계는 주도주 탭 데이터에서 자동 계산(매매 구간을 추가하면 같이 갱신).</div>
+  <div class="st-wrap">
+    <h2 class="st-h">1. 사이클별 정리</h2>
+    <div class="st-tbl-wrap"><table class="st-tbl" id="st-cycles"></table></div>
+    <div class="st-note">상승일수 = 주도주 탭 사이클 박스 시작~끝. 매매일수 = 같은 사이클 안 매매 구간을 겹침 없이 합산. 첫 매매까지 = 사이클 시작 → 첫 매매 시작. 매매 사이 대기 = 사이클 안에서 매매가 끝나고 다음 매매가 시작되기까지. 다음 사이클까지 = 이 사이클 끝 → 다음 사이클 시작(겹치면 0). 다음 매매까지 = 이 사이클 마지막 매매 끝 → 다음 사이클 첫 매매 시작. 동시 업사이클 섹터 = 유형별 섹터 카드의 업사이클이 이 사이클 기간과 겹친 섹터 수(괄호 = 그중 재가동형·장기).</div>
+    <h2 class="st-h">2. 일수 통계</h2>
+    <div class="st-tbl-wrap"><table class="st-tbl" id="st-stats"></table></div>
+    <div class="st-note">최빈 구간 평균 = 값 범위를 5칸 안팎(30일 단위)으로 나눠 가장 많이 몰린 칸의 평균. 이상치에 덜 흔들리는 "보통 이 정도" 값.</div>
+    <h2 class="st-h">3. 섹터로 본 사이클 길이</h2>
+    <div id="st-sectors"></div>
+    <div class="st-card" id="st-sector-text"></div>
+    <h2 class="st-h">4. 트레이더 관점 결론</h2>
+    <div class="st-card" id="st-conclusion"></div>
+  </div>
 </div>
 
 <!-- VIEW 1 -->
@@ -3397,7 +3434,103 @@ function switchView(evt, viewId) {
   evt.target.classList.add('active');
   if (viewId === 'vtype') renderSecType();
   if (viewId === 'vterm') renderSecTerm();
+  if (viewId === 'vstudy') renderStudy();
 }
+
+// ===== 스터디 탭 (2026-11-05) =====
+let _studyDone = false;
+function renderStudy() {
+  if (_studyDone) return; _studyDone = true;
+  const DAY = 864e5, td = s => new Date(s.slice(0, 10) + 'T00:00:00Z').getTime();
+  const ymA = s => { const p = s.split('-').map(Number); return Date.UTC(p[0], p[1] - 1, 1); };
+  const ymB = s => { const p = s.split('-').map(Number); return Date.UTC(p[0], p[1], 0); };
+  const nm = id => ((UNIQUE_STOCKS.find(u => u.id === id) || {}).name) || id;
+  const cys = CYCLES.slice().sort((a, b) => td(a.start) - td(b.start));
+  const TZ = typeof TRADE_ZONES !== 'undefined' ? TRADE_ZONES : [];
+  const rows = cys.map(c => {
+    const a = td(c.start), b = td(c.end);
+    const T = TZ.filter(t => t.cycleId === c.id).map(t => ({ a: td(t.start), b: td(t.end), id: t.stockId })).sort((p, q) => p.a - q.a);
+    const M = []; T.forEach(t => { const l = M[M.length - 1]; if (l && t.a <= l.b) l.b = Math.max(l.b, t.b); else M.push({ a: t.a, b: t.b }); });
+    const waits = []; for (let i = 1; i < M.length; i++) waits.push(Math.round((M[i].a - M[i - 1].b) / DAY));
+    const secs = [];
+    SECTOR_CYCLES.forEach(s => s.cycles.forEach(u => {
+      const ua = ymA(u.start), ub = u.end ? ymB(u.end) : Date.now();
+      if (ua <= b && ub >= a && !secs.find(x => x.sector === s.sector)) secs.push({ sector: s.sector, type: s.type, term: s.term, label: u.label });
+    }));
+    return { c, a, b, dur: Math.round((b - a) / DAY), stocks: [...new Set(T.map(t => t.id))].map(nm), trades: T.length,
+             tlen: T.map(t => Math.round((t.b - t.a) / DAY)), tdays: M.reduce((s, m) => s + Math.round((m.b - m.a) / DAY), 0),
+             entry: M.length ? Math.round((M[0].a - a) / DAY) : null, waits, first: M.length ? M[0].a : null, last: M.length ? M[M.length - 1].b : null, secs };
+  });
+  rows.forEach((r, i) => { const n = rows[i + 1];
+    r.gap = n ? Math.max(0, Math.round((n.a - r.b) / DAY)) : null;
+    r.tgap = (n && r.last && n.first) ? Math.round((n.first - r.last) / DAY) : null; });
+  const f = v => v == null ? '-' : Number(v).toLocaleString();
+  const ds = t => new Date(t).toISOString().slice(0, 10);
+  let h = '<tr><th>사이클</th><th>상승 기간</th><th>상승일수</th><th>매매 종목</th><th>매매 건수</th><th>매매일수</th><th>참여율</th><th>첫 매매까지</th><th>매매 사이 대기(평균)</th><th>다음 사이클까지</th><th>다음 매매까지</th><th>동시 업사이클 섹터</th></tr>';
+  rows.forEach(r => {
+    const lng = r.secs.filter(s => s.type === '재가동형' && s.term === '장기').length;
+    h += '<tr><td class="l">' + r.c.name + '</td><td class="l">' + ds(r.a) + ' ~ ' + ds(r.b) + '</td><td>' + f(r.dur) + '</td><td class="l">' + (r.stocks.join(', ') || '-') + '</td><td>' + r.trades
+      + '</td><td>' + f(r.tdays) + '</td><td>' + (r.dur ? Math.round(r.tdays / r.dur * 100) + '%' : '-') + '</td><td>' + f(r.entry) + '</td><td>'
+      + (r.waits.length ? f(Math.round(r.waits.reduce((s, v) => s + v, 0) / r.waits.length)) + ' <span style="color:#6e7681">(' + r.waits.join('·') + ')</span>' : '-') + '</td><td>' + f(r.gap) + '</td><td>' + f(r.tgap)
+      + '</td><td>' + r.secs.length + ' (' + lng + ')</td></tr>';
+  });
+  document.getElementById('st-cycles').innerHTML = h;
+  const stat = (v, isCount, u) => {
+    v = v.filter(x => x != null); if (!v.length) return null;
+    const s = v.slice().sort((p, q) => p - q), avg = v.reduce((a, b) => a + b, 0) / v.length;
+    const med = s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2;
+    let mode;
+    if (isCount) { const c = {}; v.forEach(x => c[x] = (c[x] || 0) + 1); const k = Object.keys(c).sort((p, q) => c[q] - c[p] || p - q)[0]; mode = k + ' (' + c[k] + '회)'; }
+    else { const lo = s[0], w = Math.max(30, Math.ceil((s[s.length - 1] - lo) / 5 / 30) * 30), bins = {};
+      v.forEach(x => { const k = Math.floor((x - lo) / w); (bins[k] = bins[k] || []).push(x); });
+      const k = Object.keys(bins).sort((p, q) => bins[q].length - bins[p].length || p - q)[0], b = bins[k];
+      mode = Math.round(b.reduce((a, x) => a + x, 0) / b.length).toLocaleString() + ' <span style="color:#6e7681">(' + (lo + k * w) + '~' + (lo + (+k + 1) * w) + (u || '일') + ', ' + b.length + '건)</span>'; }
+    return { n: v.length, avg: Math.round(avg), med: Math.round(med), mode, min: s[0], max: s[s.length - 1] };
+  };
+  const all = (k) => rows.flatMap(r => r[k]);
+  const M = [
+    ['상승 사이클 길이', rows.map(r => r.dur), '일'], ['사이클 안 매매일수 합', rows.map(r => r.tdays), '일'],
+    ['참여율 (매매일수 ÷ 상승일수)', rows.map(r => r.dur ? Math.round(r.tdays / r.dur * 100) : null), '%'],
+    ['매매 1회 기간', all('tlen'), '일'], ['사이클 시작 → 첫 매매', rows.map(r => r.entry), '일'],
+    ['사이클 안 매매 사이 대기', all('waits'), '일'], ['사이클 끝 → 다음 사이클 시작', rows.map(r => r.gap), '일'],
+    ['마지막 매매 → 다음 사이클 첫 매매', rows.map(r => r.tgap), '일'],
+    ['사이클당 매매 종목 수', rows.map(r => r.stocks.length), '개', true], ['사이클당 매매 건수', rows.map(r => r.trades), '건', true]];
+  let sh = '<tr><th>항목</th><th>표본</th><th>평균</th><th>중앙값</th><th>최빈 구간 평균</th><th>최소</th><th>최대</th></tr>';
+  M.forEach(([t, v, u, cnt]) => { const s = stat(v, cnt, u); if (!s) return;
+    sh += '<tr><td class="l">' + t + ' <span style="color:#6e7681">(' + u + ')</span></td><td>' + s.n + '</td><td>' + f(s.avg) + '</td><td class="hi">' + f(s.med) + '</td><td>' + s.mode + '</td><td>' + f(s.min) + '</td><td>' + f(s.max) + '</td></tr>'; });
+  document.getElementById('st-stats').innerHTML = sh;
+  const maxDur = Math.max.apply(null, rows.map(r => r.dur));
+  const tcol = s => s.type === '개척형' ? '#3fb950' : (s.term === '장기' ? '#58a6ff' : s.term === '중기' ? '#4db6ac' : '#ffb74d');
+  let sx = '<div class="st-note" style="margin-bottom:4px">칩 색: <span style="color:#58a6ff">재가동형·장기</span> · <span style="color:#4db6ac">재가동형·중기</span> · <span style="color:#ffb74d">재가동형·단기</span> · <span style="color:#3fb950">개척형</span> — 막대 = 상승일수</div>';
+  rows.forEach(r => {
+    sx += '<div class="st-row"><div class="nm">' + r.c.name + '<br><span>' + f(r.dur) + '일 · 섹터 ' + r.secs.length + '개</span><div class="st-bar" style="width:' + Math.round(r.dur / maxDur * 100) + '%"></div></div><div>'
+      + r.secs.map(s => '<span class="st-chip" style="color:' + tcol(s) + ';border-color:' + tcol(s) + '66" title="' + (s.label || '') + '">' + s.sector + '</span>').join('') + '</div></div>';
+  });
+  document.getElementById('st-sectors').innerHTML = sx;
+  document.getElementById('st-sector-text').innerHTML = STUDY_SECTOR_TEXT;
+  document.getElementById('st-conclusion').innerHTML = STUDY_CONCLUSION_TEXT;
+}
+const STUDY_SECTOR_TEXT = `
+<h4>길었던 사이클 = 재가동형·장기(인프라) 섹터가 여러 개 동시에 켜졌을 때</h4>
+· <b>2004~2007 중국 인프라 1 (1,786일, 최장)</b> — 건설·조선·해운·전력·원전·방산 6개 장기 섹터와 철강·화학·정유 중기 섹터가 한꺼번에 업사이클. 설비투자 사이클은 수주 → 건조·시공 → 실적까지 수년이 걸려서 지수 상승도 길게 간다. 대신 매매 사이 대기도 최장(2004 현대엘리베이터 → 2005 미래에셋증권 587일).<br>
+· <b>1986~1989 3저호황 (1,248일)</b> — 건설·자동차 장기 섹터가 중심. 1990년 이전은 섹터 데이터가 적어 과소평가됐을 가능성.<br>
+· <b>2009~2011 중국 인프라 2 (950일)</b> — 장기 4개(조선·원전·방산·자동차) + 화학·철강. 인프라형이지만 1차보다 짧았던 건 조선이 2011년에 먼저 꺾였기 때문.<br>
+<h4>짧았던 사이클 = 개척형·단기 섹터나 단일 테마가 이끌었을 때</h4>
+· <b>2020~2021 코로나 (627일, 최단)</b> — 섹터 수는 15개로 많지만 진단키트·플랫폼(개척형)과 반도체·배터리(단기)가 주도한 유동성 V자 반등. 짧고 강해서 참여율은 29%로 높다.<br>
+· <b>2012~2013 스마트폰 (671일)</b> — 반도체(단기) 한 축. 지수는 사실상 횡보장이라 매매 1건(삼성전자)뿐.<br>
+· <b>2001~2002 내수/카드버블 (757일)</b> — 겹친 장기 섹터(해운·원전·방산)는 글로벌 사이클이라 한국 주가와는 무관. 실질은 내수 소비 단발이라 매매 1건(코웨이).<br>
+<h4>중간 길이(820~950일) = 개척형 테마 + 일부 인프라 혼합</h4>
+· 2015~2016 중국 화장품·바이오, 2017~2018 반도체 서버·바이오시밀러, 2023~2024 배터리·바이오 플랫폼은 개척형(뷰티·바이오) 비중이 크고 지수는 박스권. 2023~2024는 장기 섹터 5개가 겹쳤지만 코스닥 배터리·바이오가 주도해 코스피 지수 사이클은 길게 이어지지 않았다.<br>
+· <b>2025~2026 조선·원전·반도체 (943일, 진행 중)</b> — 장기 5개(건설·조선·전력·원전·방산) + 반도체. 구성은 중국 인프라 1과 가장 비슷한 인프라형이라, 섹터 기준으로는 사이클이 더 길어질 여지가 있는 구조.<br>
+<h4>요약</h4>
+· 재가동형·장기 섹터가 <b>4개 이상</b> 동시 업사이클 → 950~1,800일. 개척형·단기 위주 → 630~860일.<br>
+· 섹터 수 자체보다 <b>"어떤 성격의 섹터가 지수를 끌었는지"</b>가 길이를 정한다(코로나는 섹터 15개지만 최단).`;
+const STUDY_CONCLUSION_TEXT = `
+<b>① 상승 사이클 안에서 얼마나 참여하나</b> — 상승 사이클 중앙값 약 <b>900일(2.5년)</b> 중 실제 매매는 약 <b>180일(6개월), 참여율 약 20%</b>. 사이클당 매매는 보통 <b>2~3종목·4건</b>, 매매 1회는 중앙값 <b>약 50일</b>(2개월 안팎). "상승장 = 계속 들고 있는 시간"이 아니라 상승장의 5분의 1만 실제로 포지션을 잡는 구조.<br><br>
+<b>② 상승 사이클 안에서의 인내</b> — 사이클이 시작돼도 첫 매매까지 중앙값 <b>약 7개월(217일)</b>, 보통 135~225일. 지수 바닥 이후 주도주가 확인되기까지 반년 정도는 관망이 기본. 매매와 매매 사이는 중앙값 <b>약 80일</b>(보통 2~3개월, 최장 587일). 매매가 끝났다고 사이클이 끝난 게 아니고, 다음 주도주가 나올 때까지 2~3개월 기다리는 구간이 반복된다.<br><br>
+<b>③ 상승장이 끝난 뒤의 인내</b> — 마지막 매매 후 다음 사이클 첫 매매까지 중앙값 <b>약 660일(1.8년)</b>, 보통 1.3~2년, 짧으면 약 7개월(204일), 길면 약 4년(1,492일 · 1994→1998). 사이클 박스 자체는 다음 사이클과 거의 붙어 있지만(중앙값 200일), 트레이더 입장에서 다시 "매매할 만한" 구간이 오기까지는 그보다 1년 이상 더 걸린다.<br><br>
+<b>④ 정리</b> — 40년(1986~2026) 동안 실제 매매 기간은 약 15%. 한 사이클 주기로 보면 <b>[첫 매매까지 6~7개월 대기] → [약 2개월 매매 × 2~4회, 사이 2~3개월 대기] → [사이클 종료 후 1~2년 대기]</b>. 인프라형 사이클(장기 섹터 다수)일수록 사이클은 길고 매매 사이 대기도 길어지며, 개척형·유동성 사이클은 짧지만 참여율이 높다.<br><br>
+<span style="color:#8b949e;font-size:12px">2026-11-05 기준 BT 정리 매매 구간 42건으로 작성. 위 표·통계는 매매 구간이 추가되면 자동 갱신되지만, 이 결론 문장은 고정 텍스트.</span>`;
 
 // ===== 산업 사이클 매트릭스 (SECTOR_VIEW_V1, 2026-11-03) =====
 const SEC_TERM_ORDER = ['장기', '중기', '단기', '1회'];
