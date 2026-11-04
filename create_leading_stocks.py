@@ -2875,7 +2875,7 @@ function renderV1() {
       };
     }
     // Inner lifecycle box (관성~전고점 트라이) — 보라 점선
-    if (z.lifecycle && z.lifecycle.box_start && z.lifecycle.box_end) {
+    if (false && z.lifecycle && z.lifecycle.box_start && z.lifecycle.box_end) {  // 2026-11-04 Lifecycle 표시 제거 (공통 파란 박스만)
       zoneAnn['lc_' + i] = {
         type: 'box',
         xMin: new Date(z.lifecycle.box_start).getTime(),
@@ -3283,7 +3283,7 @@ function renderV2() {
     };
   }
   // Lifecycle box (관성~전고점 트라이)
-  if (stock.lifecycle && stock.lifecycle.box_start && stock.lifecycle.box_end) {
+  if (false && stock.lifecycle && stock.lifecycle.box_start && stock.lifecycle.box_end) {  // 2026-11-04 Lifecycle·F·전고점 트라이 제거
     const lc = stock.lifecycle;
     stockAnn.lifecycleZone = {
       type: 'box',
