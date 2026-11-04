@@ -1844,7 +1844,11 @@ function selectCycle(cycleId, btn) {
 
   const sb = document.getElementById('v2-stock-btns');
   sb.innerHTML = '';
-  v2CurrentCycle.stocks.forEach((s, i) => {
+  // 매매 구간 시작이 빠른 순 → 매매 구간 없는 종목은 뒤로 (원래 순서 유지)
+  const _tz = (typeof TRADE_ZONES !== 'undefined' ? TRADE_ZONES : []).filter(t => t.cycleId === v2CurrentCycle.id);
+  const _first = id => { const d = _tz.filter(t => t.stockId === id).map(t => t.start).sort(); return d.length ? d[0] : '9999'; };
+  const _ordered = v2CurrentCycle.stocks.map((s, i) => [s, i]).sort((p, q) => (_first(p[0].id) < _first(q[0].id) ? -1 : _first(p[0].id) > _first(q[0].id) ? 1 : p[1] - q[1])).map(x => x[0]);
+  _ordered.forEach((s, i) => {
     const color = stockColorMap[s.id];
     const b = document.createElement('button');
     b.className = 'stock-btn';
@@ -1859,7 +1863,7 @@ function selectCycle(cycleId, btn) {
     };
     sb.appendChild(b);
   });
-  if (v2CurrentCycle.stocks.length > 0) v2CurrentStock = v2CurrentCycle.stocks[0];
+  if (_ordered.length > 0) v2CurrentStock = _ordered[0];
   renderV2();
 }
 
