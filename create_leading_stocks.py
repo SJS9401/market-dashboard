@@ -1168,6 +1168,15 @@ TRADE_ZONES_SPEC = [
     {"stockId": "seegene", "cycleId": "kr_covid_bull", "start": "2020-07-03", "end": "2020-08-19"},
     {"stockId": "kakao", "cycleId": "kr_covid_bull", "start": "2021-04-06", "end": "2021-07-04"},
     {"stockId": "hmm", "cycleId": "kr_covid_bull", "start": "2021-04-26", "end": "2021-06-02"},
+    {"stockId": "ecopro", "cycleId": "kr_battery_2023", "start": "2023-02-23", "end": "2023-05-03"},
+    {"stockId": "ecopro", "cycleId": "kr_battery_2023", "start": "2023-06-30", "end": "2023-08-04"},
+    {"stockId": "alteogen", "cycleId": "kr_battery_2023", "start": "2024-02-22", "end": "2024-03-29"},
+    {"stockId": "alteogen", "cycleId": "kr_battery_2023", "start": "2024-06-03", "end": "2024-06-17"},
+    {"stockId": "hanwha_ocean", "cycleId": "kr_ai_2025", "start": "2025-01-07", "end": "2025-03-10"},
+    {"stockId": "doosan_enerbil", "cycleId": "kr_ai_2025", "start": "2025-05-14", "end": "2025-07-01"},
+    {"stockId": "sk_hynix", "cycleId": "kr_ai_2025", "start": "2025-09-09", "end": "2025-11-18"},
+    {"stockId": "samsung_elec", "cycleId": "kr_ai_2025", "start": "2025-12-17", "end": "2026-03-20"},
+    {"stockId": "sk_hynix", "cycleId": "kr_ai_2025", "start": "2026-04-10", "end": "2026-07-01"},
 ]
 
 html = """<!DOCTYPE html>
