@@ -983,33 +983,33 @@ SECTOR_CYCLES_SPEC = [
     {"sector": "방산", "sid": "hanwha_aero", "name": "한화에어로스페이스", "type": "재가동형", "term": "장기", "from": "19900101",
      "cycles": [("2001-09", "2010-12", "9·11 (한국 미참여)"), ("2022-02", None, "글로벌 재무장")], "note": "글로벌 1980년대/2001/2022, 한국 실적은 2023~ 첫 사이클. 2015년 이전은 삼성테크윈"},
     {"sector": "자동차", "sid": "hyundai_motor", "name": "현대차", "type": "재가동형", "term": "장기", "from": "19850101",
-     "cycles": [("1986-01", "1988-12", "3저 호황·수출 호조"), ("2009-03", "2011-08", "금융위기 후 점유율 확대"), ("2020-07", "2021-05", "보복소비·전기차")], "note": "2003년은 멀티플만, 2025년은 로봇 테마라 제외"},
+     "cycles": [("1986-01", "1988-12", "3저 호황·수출 호조"), ("1993-11", "1994-12", "블루칩 수출 확대"), ("2009-03", "2011-08", "금융위기 후 점유율 확대"), ("2020-07", "2021-05", "보복소비·전기차")], "note": "2003년은 멀티플만, 2025년은 로봇 테마라 제외"},
     {"sector": "철강", "sid": "posco", "name": "POSCO홀딩스", "type": "재가동형", "term": "중기", "from": "19900101",
-     "cycles": [("2003-10", "2008-10", "중국 인프라"), ("2009-09", "2010-08", "중국 부양책"), ("2016-05", "2018-12", "중국 공급개혁"), ("2020-11", "2022-01", "원자재 랠리"), ("2026-01", None, "강판 가격 반등")],
-     "note": "기준: 미국 강판 PPI. 한국 기업은 중국에 밀려 주가 반응이 약함"},
+     "cycles": [("1993-11", "1994-12", "블루칩 설비투자"), ("2003-10", "2008-10", "중국 인프라"), ("2009-09", "2010-08", "중국 부양책"), ("2016-05", "2018-12", "중국 공급개혁"), ("2020-11", "2022-01", "원자재 랠리"), ("2026-01", None, "강판 가격 반등")],
+     "note": "1993~94는 POSCO 주가 정배열 기준. 기준: 미국 강판 PPI. 한국 기업은 중국에 밀려 주가 반응이 약함"},
     {"sector": "화학", "sid": "lotte_chem", "name": "롯데케미칼", "type": "재가동형", "term": "중기", "from": "19900101",
      "cycles": [("2004-05", "2008-09", "중국 인프라"), ("2009-06", "2010-04", "중국 부양책"), ("2012-09", "2017-04", "에틸렌 스프레드 최대"), ("2020-05", "2021-05", "코로나 후 수요 회복")],
      "note": "기준: 2009년 이후 에틸렌 스프레드(KB증권), 이전은 미국 석유화학 PPI"},
     {"sector": "정유", "sid": "s_oil", "name": "S-Oil", "type": "재가동형", "term": "중기", "from": "19900101",
      "cycles": [("2004-01", "2008-11", "중국 인프라·고유가"), ("2012-02", "2018-09", "저유가·정제마진 강세"), ("2019-04", "2022-12", "IMO2020·러우 전쟁"), ("2025-01", None, "정제설비 폐쇄")], "note": "기준: 정제마진 (휘발유·경유 − 브렌트)"},
     {"sector": "반도체", "sid": "sk_hynix", "name": "SK하이닉스", "type": "재가동형", "term": "단기", "from": "19970101",
-     "cycles": [("2005-02", "2007-10", "PC·낸드"), ("2009-04", "2011-07", "PC 교체"), ("2012-10", "2013-08", "스마트폰"), ("2016-07", "2018-02", "서버"), ("2020-11", "2021-06", "비대면"), ("2025-06", "2026-09", "AI")],
-     "note": "2023~2024 HBM은 하이닉스 단독이라 제외"},
+     "cycles": [("1985-09", "1986-12", "D램 진입"), ("1993-11", "1995-01", "4M·16M D램 호황"), ("2005-02", "2007-10", "PC·낸드"), ("2009-04", "2011-07", "PC 교체"), ("2012-10", "2013-08", "스마트폰"), ("2016-07", "2018-02", "서버"), ("2020-11", "2021-06", "비대면"), ("2025-06", "2026-09", "AI")],
+     "note": "2023~2024 HBM은 하이닉스 단독이라 제외. 1985~1995 구간은 삼성전자 주가 정배열 기준(지표 없음)"},
     {"sector": "배터리", "sid": "samsung_sdi", "name": "삼성SDI", "type": "재가동형", "term": "단기", "from": "20100101",
      "cycles": [("2017-02", "2018-04", "태동기"), ("2020-02", "2022-01", "전기차 침투율 급증"), ("2022-06", "2023-10", "미국 IRA")], "note": "2023년 이후 공급 과잉으로 재가동형. 2025~2026은 지수 대비 약해 제외"},
     {"sector": "바이오", "sid": "celltrion", "name": "셀트리온", "type": "개척형", "term": "단기", "from": "20050101",
      "cycles": [("2011-08", "2014-05", "바이오시밀러"), ("2014-09", "2015-10", "기술이전"), ("2017-04", "2018-06", "시밀러·신약"), ("2019-12", "2021-03", "진단·CMO"), ("2023-02", "2025-01", "플랫폼(알테오젠)"), ("2026-01", "2026-04", "경구 비만약 기대(삼천당, 데이터 실패)")],
      "note": "매번 세부 분야 교체. 주가 기준 예외(바이오만)"},
     {"sector": "통신", "sid": "telecom_chain", "name": "SK텔레콤 → 통신장비", "type": "재가동형", "term": "중기", "from": "19900101",
-     "cycles": [("1998-12", "2000-03", "휴대폰 보급"), ("2005-01", "2007-10", "3G·와이브로"), ("2012-01", "2013-10", "LTE"),
+     "cycles": [("1991-02", "1992-08", "이동통신 성장"), ("1993-09", "1995-01", "이동통신 황제주"), ("1998-12", "2000-03", "휴대폰 보급"), ("2005-01", "2007-10", "3G·와이브로"), ("2012-01", "2013-10", "LTE"),
                 ("2017-03", "2019-12", "5G"), ("2025-07", "2026-07", "AI 광통신")],
-     "note": "2004년까지 SK텔레콤, 2005년~ 통신장비 8종 동일가중(케이엠더블유·쏠리드·에이스테크·다산네트웍스·대한광통신·성호전자·LIG아큐버·RFHIC). 업사이클은 장비사 영업이익 기준"},
+     "note": "1991~1995는 한국이동통신(SK텔레콤) 주가 정배열 기준. 2004년까지 SK텔레콤, 2005년~ 통신장비 8종 동일가중(케이엠더블유·쏠리드·에이스테크·다산네트웍스·대한광통신·성호전자·LIG아큐버·RFHIC). 업사이클은 장비사 영업이익 기준"},
     {"sector": "플랫폼", "sid": "kakao", "name": "카카오", "type": "개척형", "term": "1회", "from": "20100101",
      "cycles": [("2020-03", "2021-07", "플랫폼·비대면")], "note": ""},
-    {"sector": "증권", "sid": "daishin_sec", "name": "대신증권", "type": "재가동형", "term": "중기", "from": "19900101",
-     "cycles": [("1998-10", "1999-09", "바이코리아 유동성"), ("2004-11", "2007-10", "펀드 붐"), ("2020-06", "2021-04", "동학개미"),
+    {"sector": "증권", "sid": "daishin_sec", "name": "대신증권", "type": "재가동형", "term": "중기", "from": "19850101",
+     "cycles": [("1985-12", "1988-05", "3저 트로이카(증권)"), ("1998-10", "1999-09", "바이코리아 유동성"), ("2004-11", "2007-10", "펀드 붐"), ("2020-06", "2021-04", "동학개미"),
                 ("2025-03", "2026-07", "비상장 지분 리레이팅")],
-     "note": "상승장마다 증시 호황으로 사이클. 2025~26은 스페이스X·앤트로픽 등 비상장 지분가치로 글로벌 IB형 리레이팅"},
+     "note": "1985~88은 대신증권 주가 정배열 기준. 상승장마다 증시 호황으로 사이클. 2025~26은 스페이스X·앤트로픽 등 비상장 지분가치로 글로벌 IB형 리레이팅"},
     {"sector": "뷰티", "sid": "amorepacific", "name": "아모레퍼시픽", "type": "개척형", "term": "단기", "from": "20060101",
      "cycles": [("2013-12", "2015-09", "중국 화장품"), ("2022-11", "2024-02", "에스테틱 장비"), ("2024-05", "2026-08", "리쥬란·K-뷰티 디바이스")],
      "note": "화장품 → 에스테틱(클래시스·파마리서치·비올) → 에이피알. 바이오처럼 매번 세부 분야 교체. 주가 기준"},
@@ -3071,9 +3071,14 @@ function selectCycle(cycleId, btn) {
   sb.innerHTML = '';
   // 매매 구간 시작이 빠른 순 → 매매 구간 없는 종목은 뒤로 (원래 순서 유지)
   const _tz = (typeof TRADE_ZONES !== 'undefined' ? TRADE_ZONES : []).filter(t => t.cycleId === v2CurrentCycle.id);
-  const _first = id => { const d = _tz.filter(t => t.stockId === id).map(t => t.start).sort(); return d.length ? d[0] : '9999'; };
+  const _isT2 = id => TIER2_FORCE.includes(id + '|' + v2CurrentCycle.id) || !_tz.some(t => t.stockId === id);
+  const _first = id => { if (_isT2(id)) return 'T2' + id; const d = _tz.filter(t => t.stockId === id).map(t => t.start).sort(); return d.length ? d[0] : '9999'; };
   const _ordered = v2CurrentCycle.stocks.map((s, i) => [s, i]).sort((p, q) => (_first(p[0].id) < _first(q[0].id) ? -1 : _first(p[0].id) > _first(q[0].id) ? 1 : p[1] - q[1])).map(x => x[0]);
+  const _tlab = (txt, col) => { const l = document.createElement('span'); l.textContent = txt; l.style.cssText = 'font-size:11px;font-weight:700;color:#0d1117;background:' + col + ';padding:2px 8px;border-radius:4px;margin:0 4px 0 ' + (sb.children.length ? '14px' : '0'); sb.appendChild(l); };
+  let _t2shown = false;
+  if (_ordered.length && !_isT2(_ordered[0].id)) _tlab('Tier 1', '#3fb950');
   _ordered.forEach((s, i) => {
+    if (_isT2(s.id) && !_t2shown) { _tlab('Tier 2', '#8b949e'); _t2shown = true; }
     const color = stockColorMap[s.id];
     const b = document.createElement('button');
     b.className = 'stock-btn';
@@ -3437,6 +3442,14 @@ function switchView(evt, viewId) {
   if (viewId === 'vstudy') renderStudy();
 }
 
+// ===== Tier 구분 (2026-11-05) — Tier 1 = 당시 거래대금 최상위로 지수를 주도한 섹터/종목, Tier 2 = 같은 시기 업사이클이지만 주도는 아님 =====
+const TIER2_FORCE = ['hanmi_semi|kr_battery_2023'];   // 매매 구간은 있지만 Tier 2로 분류할 종목
+const TIER1_SECTORS = {
+  kr_troika_1986: ['건설', '증권'], kr_bluechip_1990: ['철강', '반도체'], kr_it_1998: ['통신', '반도체', '증권'],
+  kr_card_2002: ['개별주'], kr_china_2003: ['조선', '건설', '철강', '증권'], kr_chahwajeong_2009: ['자동차', '화학', '정유'],
+  kr_smartphone_2012: ['반도체'], kr_kbeauty_2015: ['뷰티', '바이오'], kr_semi_2016: ['반도체', '바이오'],
+  kr_covid_bull: ['바이오', '플랫폼', '해운', '반도체'], kr_battery_2023: ['배터리', '바이오'], kr_ai_2025: ['조선', '원전', '반도체', '방산', '전력'] };
+const STUDY_FROM = '1998';   // 통계는 IT 버블부터 (그 이전은 섹터·종목 데이터 부족)
 // ===== 스터디 탭 (2026-11-05) =====
 let _studyDone = false;
 function renderStudy() {
@@ -3452,27 +3465,31 @@ function renderStudy() {
     const T = TZ.filter(t => t.cycleId === c.id).map(t => ({ a: td(t.start), b: td(t.end), id: t.stockId })).sort((p, q) => p.a - q.a);
     const M = []; T.forEach(t => { const l = M[M.length - 1]; if (l && t.a <= l.b) l.b = Math.max(l.b, t.b); else M.push({ a: t.a, b: t.b }); });
     const waits = []; for (let i = 1; i < M.length; i++) waits.push(Math.round((M[i].a - M[i - 1].b) / DAY));
-    const secs = [];
+    const t1 = TIER1_SECTORS[c.id] || [], secs = [];
     SECTOR_CYCLES.forEach(s => s.cycles.forEach(u => {
       const ua = ymA(u.start), ub = u.end ? ymB(u.end) : Date.now();
-      if (ua <= b && ub >= a && !secs.find(x => x.sector === s.sector)) secs.push({ sector: s.sector, type: s.type, term: s.term, label: u.label });
+      if (ua <= b && ub >= a && !secs.find(x => x.sector === s.sector)) secs.push({ sector: s.sector, type: s.type, term: s.term, label: u.label, t1: t1.includes(s.sector) });
     }));
+    t1.forEach(n => { if (!secs.find(x => x.sector === n)) { const s = SECTOR_CYCLES.find(x => x.sector === n) || {}; secs.push({ sector: n, type: s.type, term: s.term, label: '이 기간 업사이클 미정의', t1: true, miss: true }); } });
+    secs.sort((p, q) => (q.t1 - p.t1));
     return { c, a, b, dur: Math.round((b - a) / DAY), stocks: [...new Set(T.map(t => t.id))].map(nm), trades: T.length,
              tlen: T.map(t => Math.round((t.b - t.a) / DAY)), tdays: M.reduce((s, m) => s + Math.round((m.b - m.a) / DAY), 0),
-             entry: M.length ? Math.round((M[0].a - a) / DAY) : null, waits, first: M.length ? M[0].a : null, last: M.length ? M[M.length - 1].b : null, secs };
+             entry: M.length ? Math.round((M[0].a - a) / DAY) : null, waits, first: M.length ? M[0].a : null, last: M.length ? M[M.length - 1].b : null,
+             secs, inStat: c.start.slice(0, 4) >= STUDY_FROM };
   });
   rows.forEach((r, i) => { const n = rows[i + 1];
     r.gap = n ? Math.max(0, Math.round((n.a - r.b) / DAY)) : null;
     r.tgap = (n && r.last && n.first) ? Math.round((n.first - r.last) / DAY) : null; });
   const f = v => v == null ? '-' : Number(v).toLocaleString();
   const ds = t => new Date(t).toISOString().slice(0, 10);
-  let h = '<tr><th>사이클</th><th>상승 기간</th><th>상승일수</th><th>매매 종목</th><th>매매 건수</th><th>매매일수</th><th>참여율</th><th>첫 매매까지</th><th>매매 사이 대기(평균)</th><th>다음 사이클까지</th><th>다음 매매까지</th><th>동시 업사이클 섹터</th></tr>';
+  const isLong = s => s.type === '재가동형' && s.term === '장기';
+  let h = '<tr><th>사이클</th><th>상승 기간</th><th>상승일수</th><th>매매 종목</th><th>매매 건수</th><th>매매일수</th><th>참여율</th><th>첫 매매까지</th><th>매매 사이 대기(평균)</th><th>다음 사이클까지</th><th>다음 매매까지</th><th>Tier 1 섹터</th><th>Tier 2 섹터 수</th></tr>';
   rows.forEach(r => {
-    const lng = r.secs.filter(s => s.type === '재가동형' && s.term === '장기').length;
-    h += '<tr><td class="l">' + r.c.name + '</td><td class="l">' + ds(r.a) + ' ~ ' + ds(r.b) + '</td><td>' + f(r.dur) + '</td><td class="l">' + (r.stocks.join(', ') || '-') + '</td><td>' + r.trades
+    const t1 = r.secs.filter(s => s.t1), t2n = r.secs.filter(s => !s.t1).length;
+    h += '<tr' + (r.inStat ? '' : ' style="opacity:0.55"') + '><td class="l">' + r.c.name + (r.inStat ? '' : ' <span style="color:#f85149;font-size:10px">통계 제외</span>') + '</td><td class="l">' + ds(r.a) + ' ~ ' + ds(r.b) + '</td><td>' + f(r.dur) + '</td><td class="l">' + (r.stocks.join(', ') || '-') + '</td><td>' + r.trades
       + '</td><td>' + f(r.tdays) + '</td><td>' + (r.dur ? Math.round(r.tdays / r.dur * 100) + '%' : '-') + '</td><td>' + f(r.entry) + '</td><td>'
       + (r.waits.length ? f(Math.round(r.waits.reduce((s, v) => s + v, 0) / r.waits.length)) + ' <span style="color:#6e7681">(' + r.waits.join('·') + ')</span>' : '-') + '</td><td>' + f(r.gap) + '</td><td>' + f(r.tgap)
-      + '</td><td>' + r.secs.length + ' (' + lng + ')</td></tr>';
+      + '</td><td class="l">' + t1.map(s => s.sector + (isLong(s) ? '★' : '')).join(', ') + '</td><td>' + t2n + '</td></tr>';
   });
   document.getElementById('st-cycles').innerHTML = h;
   const stat = (v, isCount, u) => {
@@ -3487,50 +3504,51 @@ function renderStudy() {
       mode = Math.round(b.reduce((a, x) => a + x, 0) / b.length).toLocaleString() + ' <span style="color:#6e7681">(' + (lo + k * w) + '~' + (lo + (+k + 1) * w) + (u || '일') + ', ' + b.length + '건)</span>'; }
     return { n: v.length, avg: Math.round(avg), med: Math.round(med), mode, min: s[0], max: s[s.length - 1] };
   };
-  const all = (k) => rows.flatMap(r => r[k]);
+  const SR = rows.filter(r => r.inStat), SG = rows.filter((r, i) => r.inStat && rows[i + 1]);
+  const all = (k) => SR.flatMap(r => r[k]);
   const M = [
-    ['상승 사이클 길이', rows.map(r => r.dur), '일'], ['사이클 안 매매일수 합', rows.map(r => r.tdays), '일'],
-    ['참여율 (매매일수 ÷ 상승일수)', rows.map(r => r.dur ? Math.round(r.tdays / r.dur * 100) : null), '%'],
-    ['매매 1회 기간', all('tlen'), '일'], ['사이클 시작 → 첫 매매', rows.map(r => r.entry), '일'],
-    ['사이클 안 매매 사이 대기', all('waits'), '일'], ['사이클 끝 → 다음 사이클 시작', rows.map(r => r.gap), '일'],
-    ['마지막 매매 → 다음 사이클 첫 매매', rows.map(r => r.tgap), '일'],
-    ['사이클당 매매 종목 수', rows.map(r => r.stocks.length), '개', true], ['사이클당 매매 건수', rows.map(r => r.trades), '건', true]];
+    ['상승 사이클 길이', SR.map(r => r.dur), '일'], ['사이클 안 매매일수 합', SR.map(r => r.tdays), '일'],
+    ['참여율 (매매일수 ÷ 상승일수)', SR.map(r => r.dur ? Math.round(r.tdays / r.dur * 100) : null), '%'],
+    ['매매 1회 기간', all('tlen'), '일'], ['사이클 시작 → 첫 매매', SR.map(r => r.entry), '일'],
+    ['사이클 안 매매 사이 대기', all('waits'), '일'], ['사이클 끝 → 다음 사이클 시작', SG.map(r => r.gap), '일'],
+    ['마지막 매매 → 다음 사이클 첫 매매', SG.map(r => r.tgap), '일'],
+    ['사이클당 매매 종목 수', SR.map(r => r.stocks.length), '개', true], ['사이클당 매매 건수', SR.map(r => r.trades), '건', true]];
   let sh = '<tr><th>항목</th><th>표본</th><th>평균</th><th>중앙값</th><th>최빈 구간 평균</th><th>최소</th><th>최대</th></tr>';
   M.forEach(([t, v, u, cnt]) => { const s = stat(v, cnt, u); if (!s) return;
     sh += '<tr><td class="l">' + t + ' <span style="color:#6e7681">(' + u + ')</span></td><td>' + s.n + '</td><td>' + f(s.avg) + '</td><td class="hi">' + f(s.med) + '</td><td>' + s.mode + '</td><td>' + f(s.min) + '</td><td>' + f(s.max) + '</td></tr>'; });
   document.getElementById('st-stats').innerHTML = sh;
   const maxDur = Math.max.apply(null, rows.map(r => r.dur));
   const tcol = s => s.type === '개척형' ? '#3fb950' : (s.term === '장기' ? '#58a6ff' : s.term === '중기' ? '#4db6ac' : '#ffb74d');
-  let sx = '<div class="st-note" style="margin-bottom:4px">칩 색: <span style="color:#58a6ff">재가동형·장기</span> · <span style="color:#4db6ac">재가동형·중기</span> · <span style="color:#ffb74d">재가동형·단기</span> · <span style="color:#3fb950">개척형</span> — 막대 = 상승일수</div>';
+  let sx = '<div class="st-note" style="margin-bottom:4px">Tier 1 칩 색: <span style="color:#58a6ff">재가동형·장기</span> · <span style="color:#4db6ac">재가동형·중기</span> · <span style="color:#ffb74d">재가동형·단기</span> · <span style="color:#3fb950">개척형</span> — 회색 작은 칩 = Tier 2 (같은 시기 업사이클이지만 지수 주도는 아님) · 막대 = 상승일수</div>';
   rows.forEach(r => {
-    sx += '<div class="st-row"><div class="nm">' + r.c.name + '<br><span>' + f(r.dur) + '일 · 섹터 ' + r.secs.length + '개</span><div class="st-bar" style="width:' + Math.round(r.dur / maxDur * 100) + '%"></div></div><div>'
-      + r.secs.map(s => '<span class="st-chip" style="color:' + tcol(s) + ';border-color:' + tcol(s) + '66" title="' + (s.label || '') + '">' + s.sector + '</span>').join('') + '</div></div>';
+    sx += '<div class="st-row"' + (r.inStat ? '' : ' style="opacity:0.55"') + '><div class="nm">' + r.c.name + '<br><span>' + f(r.dur) + '일 · Tier 1 ' + r.secs.filter(s => s.t1).length + ' / Tier 2 ' + r.secs.filter(s => !s.t1).length + '</span><div class="st-bar" style="width:' + Math.round(r.dur / maxDur * 100) + '%"></div></div><div>'
+      + r.secs.map(s => s.t1
+          ? '<span class="st-chip" style="color:' + tcol(s) + ';border-color:' + tcol(s) + ';font-weight:700;' + (s.miss ? 'border-style:dashed;' : '') + '" title="' + (s.label || '') + '">' + s.sector + '</span>'
+          : '<span class="st-chip" style="color:#6e7681;border-color:#30363d;font-size:10px" title="' + (s.label || '') + '">' + s.sector + '</span>').join('') + '</div></div>';
   });
   document.getElementById('st-sectors').innerHTML = sx;
   document.getElementById('st-sector-text').innerHTML = STUDY_SECTOR_TEXT;
   document.getElementById('st-conclusion').innerHTML = STUDY_CONCLUSION_TEXT;
 }
 const STUDY_SECTOR_TEXT = `
-<h4>길었던 사이클 = 재가동형·장기(인프라) 섹터가 여러 개 동시에 켜졌을 때</h4>
-· <b>2004~2007 중국 인프라 1 (1,786일, 최장)</b> — 건설·조선·해운·전력·원전·방산 6개 장기 섹터와 철강·화학·정유 중기 섹터가 한꺼번에 업사이클. 설비투자 사이클은 수주 → 건조·시공 → 실적까지 수년이 걸려서 지수 상승도 길게 간다. 대신 매매 사이 대기도 최장(2004 현대엘리베이터 → 2005 미래에셋증권 587일).<br>
-· <b>1986~1989 3저호황 (1,248일)</b> — 건설·자동차 장기 섹터가 중심. 1990년 이전은 섹터 데이터가 적어 과소평가됐을 가능성.<br>
-· <b>2009~2011 중국 인프라 2 (950일)</b> — 장기 4개(조선·원전·방산·자동차) + 화학·철강. 인프라형이지만 1차보다 짧았던 건 조선이 2011년에 먼저 꺾였기 때문.<br>
-<h4>짧았던 사이클 = 개척형·단기 섹터나 단일 테마가 이끌었을 때</h4>
-· <b>2020~2021 코로나 (627일, 최단)</b> — 섹터 수는 15개로 많지만 진단키트·플랫폼(개척형)과 반도체·배터리(단기)가 주도한 유동성 V자 반등. 짧고 강해서 참여율은 29%로 높다.<br>
-· <b>2012~2013 스마트폰 (671일)</b> — 반도체(단기) 한 축. 지수는 사실상 횡보장이라 매매 1건(삼성전자)뿐.<br>
-· <b>2001~2002 내수/카드버블 (757일)</b> — 겹친 장기 섹터(해운·원전·방산)는 글로벌 사이클이라 한국 주가와는 무관. 실질은 내수 소비 단발이라 매매 1건(코웨이).<br>
-<h4>중간 길이(820~950일) = 개척형 테마 + 일부 인프라 혼합</h4>
-· 2015~2016 중국 화장품·바이오, 2017~2018 반도체 서버·바이오시밀러, 2023~2024 배터리·바이오 플랫폼은 개척형(뷰티·바이오) 비중이 크고 지수는 박스권. 2023~2024는 장기 섹터 5개가 겹쳤지만 코스닥 배터리·바이오가 주도해 코스피 지수 사이클은 길게 이어지지 않았다.<br>
-· <b>2025~2026 조선·원전·반도체 (943일, 진행 중)</b> — 장기 5개(건설·조선·전력·원전·방산) + 반도체. 구성은 중국 인프라 1과 가장 비슷한 인프라형이라, 섹터 기준으로는 사이클이 더 길어질 여지가 있는 구조.<br>
-<h4>요약</h4>
-· 재가동형·장기 섹터가 <b>4개 이상</b> 동시 업사이클 → 950~1,800일. 개척형·단기 위주 → 630~860일.<br>
-· 섹터 수 자체보다 <b>"어떤 성격의 섹터가 지수를 끌었는지"</b>가 길이를 정한다(코로나는 섹터 15개지만 최단).`;
+<h4>Tier 1(지수 주도) 섹터 기준으로 보면</h4>
+· <b>Tier 1에 재가동형·장기(인프라) 섹터가 있던 사이클 → 길다</b><br>
+&nbsp;&nbsp;2004~2007 중국 인프라 1 <b>1,786일</b>(조선·건설 + 철강·증권) · 2009~2011 차화정 <b>950일</b>(자동차 + 화학·정유) · 2025~2026 조선·원전·반도체 <b>944일, 진행 중</b>(조선·원전·방산·전력 + 반도체). 평균 약 <b>1,230일</b>.<br>
+· <b>Tier 1이 중·단기 재가동형이나 개척형뿐인 사이클 → 짧다</b><br>
+&nbsp;&nbsp;IT 버블 846일(통신·증권·반도체) · 카드버블 757일(코웨이 단독) · 스마트폰 671일(반도체) · 화장품·바이오 938일 · 반도체 서버·바이오시밀러 863일 · 배터리·바이오 플랫폼 819일. 평균 약 <b>820일</b>.<br>
+· <b>예외 — 2020~2021 코로나 627일(최단)</b>: Tier 1에 해운(장기)이 있었지만 운임 급등은 공급망 병목이라는 일회성 충격이었고, 지수는 진단키트·플랫폼·반도체가 이끈 유동성 V자 반등. 인프라 설비투자 사이클이 아니라 짧았다.<br>
+<h4>Tier 2 섹터 수는 길이와 거의 무관</h4>
+· 같은 시기에 업사이클이던 섹터는 많아도(코로나 Tier 2 다수) 거래대금이 몰리지 않으면 지수 사이클을 늘리지 못한다. 차화정 때 엔터·게임처럼 Tier 2는 따로 보고, 사이클 길이 판단은 Tier 1 섹터의 성격으로 한다.<br>
+<h4>지금 사이클(2025~2026)</h4>
+· Tier 1 구성(장기 인프라 4개 + 반도체)이 중국 인프라 1과 가장 비슷하다. 섹터 성격으로만 보면 평균(820일)보다는 인프라형 평균(1,230일) 쪽에 가까운 구조.<br>
+<span style="color:#8b949e;font-size:12px">Tier 1 섹터 = 당시 주도주(매매 종목)의 섹터 + 사이클 이름의 섹터. 2014년 이후는 거래대금 데이터로 검증 가능하지만 아직 미검증. 1998년 이전 섹터 업사이클은 주가 정배열 기준으로 보완(3저 증권, 블루칩 철강·반도체·자동차·통신).</span>`;
 const STUDY_CONCLUSION_TEXT = `
-<b>① 상승 사이클 안에서 얼마나 참여하나</b> — 상승 사이클 중앙값 약 <b>900일(2.5년)</b> 중 실제 매매는 약 <b>180일(6개월), 참여율 약 20%</b>. 사이클당 매매는 보통 <b>2~3종목·4건</b>, 매매 1회는 중앙값 <b>약 50일</b>(2개월 안팎). "상승장 = 계속 들고 있는 시간"이 아니라 상승장의 5분의 1만 실제로 포지션을 잡는 구조.<br><br>
-<b>② 상승 사이클 안에서의 인내</b> — 사이클이 시작돼도 첫 매매까지 중앙값 <b>약 7개월(217일)</b>, 보통 135~225일. 지수 바닥 이후 주도주가 확인되기까지 반년 정도는 관망이 기본. 매매와 매매 사이는 중앙값 <b>약 80일</b>(보통 2~3개월, 최장 587일). 매매가 끝났다고 사이클이 끝난 게 아니고, 다음 주도주가 나올 때까지 2~3개월 기다리는 구간이 반복된다.<br><br>
-<b>③ 상승장이 끝난 뒤의 인내</b> — 마지막 매매 후 다음 사이클 첫 매매까지 중앙값 <b>약 660일(1.8년)</b>, 보통 1.3~2년, 짧으면 약 7개월(204일), 길면 약 4년(1,492일 · 1994→1998). 사이클 박스 자체는 다음 사이클과 거의 붙어 있지만(중앙값 200일), 트레이더 입장에서 다시 "매매할 만한" 구간이 오기까지는 그보다 1년 이상 더 걸린다.<br><br>
-<b>④ 정리</b> — 40년(1986~2026) 동안 실제 매매 기간은 약 15%. 한 사이클 주기로 보면 <b>[첫 매매까지 6~7개월 대기] → [약 2개월 매매 × 2~4회, 사이 2~3개월 대기] → [사이클 종료 후 1~2년 대기]</b>. 인프라형 사이클(장기 섹터 다수)일수록 사이클은 길고 매매 사이 대기도 길어지며, 개척형·유동성 사이클은 짧지만 참여율이 높다.<br><br>
-<span style="color:#8b949e;font-size:12px">2026-11-05 기준 BT 정리 매매 구간 42건으로 작성. 위 표·통계는 매매 구간이 추가되면 자동 갱신되지만, 이 결론 문장은 고정 텍스트.</span>`;
+<span style="color:#8b949e;font-size:12px">통계 기준: 1998 IT 버블 이후 10개 사이클 · 매매 구간 34건 (3저호황·블루칩은 표에만 표시)</span><br><br>
+<b>① 상승 사이클 안에서 얼마나 참여하나</b> — 상승 사이클 중앙값 약 <b>850일(2.3년)</b> 중 실제 매매는 약 <b>180일(6개월), 참여율 약 22%</b>. 사이클당 보통 <b>2~3종목·3~4건</b>, 매매 1회는 중앙값 <b>약 60일</b>(보통 1.5~2.5개월). 상승장의 5분의 1 정도만 실제로 포지션을 잡는 구조.<br><br>
+<b>② 상승 사이클 안에서의 인내</b> — 사이클이 시작돼도 첫 매매까지 중앙값 <b>약 7개월(217일)</b>, 가장 흔한 구간은 135~195일. 지수 바닥 이후 주도주가 확인되기까지 반년은 관망이 기본. 매매와 매매 사이는 중앙값 <b>약 75일</b>(보통 2~3개월, 최장 587일). 매매가 끝나도 사이클이 끝난 게 아니라, 다음 주도주까지 2~3개월 기다리는 구간이 반복된다.<br><br>
+<b>③ 상승장이 끝난 뒤의 인내</b> — 마지막 매매 후 다음 사이클 첫 매매까지 중앙값 <b>약 600일(1.6년)</b>, 짧으면 약 7개월(204일), 길면 약 3년(1,063일 · 2013→2016). 사이클 박스끼리는 거의 붙어 있지만(중앙값 85일), 다시 "매매할 만한" 구간이 오기까지는 그보다 1년 이상 더 걸린다.<br><br>
+<b>④ 정리</b> — 1998~2026년 동안 실제 매매 기간은 약 20%. 한 사이클 주기로 보면 <b>[첫 매매까지 6~7개월 대기] → [약 2개월 매매 × 2~4회, 사이 2~3개월 대기] → [사이클 종료 후 1~2년 대기]</b>. Tier 1에 인프라(장기) 섹터가 있으면 사이클이 길고(평균 약 1,230일) 매매 사이 대기도 길어지며, 개척형·유동성 사이클은 짧지만(약 820일) 참여율이 높다.<br><br>
+<span style="color:#8b949e;font-size:12px">2026-11-05 기준 BT 정리 매매 구간으로 작성. 표·통계는 매매 구간이 추가되면 자동 갱신되지만, 이 문장은 고정 텍스트.</span>`;
 
 // ===== 산업 사이클 매트릭스 (SECTOR_VIEW_V1, 2026-11-03) =====
 const SEC_TERM_ORDER = ['장기', '중기', '단기', '1회'];
