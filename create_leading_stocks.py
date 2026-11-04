@@ -22,6 +22,15 @@ if not os.path.exists(DATA_PATH):
 
 with open(DATA_PATH, encoding='utf-8') as f:
     raw = json.load(f)
+# 보강 OHLC (ls_data_v3.json 에 없는 주도주 — 상장폐지 종목 등). 이미 있으면 덮어쓰지 않음
+_extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "extra_stocks.json")
+if os.path.exists(_extra_path):
+    with open(_extra_path, encoding="utf-8") as _f:
+        _extra = json.load(_f)
+    for _k, _v in _extra.get("stocks", {}).items():
+        if _k not in raw["stocks"]:
+            raw["stocks"][_k] = _v
+            raw.setdefault("meta", {})[_k] = _extra.get("meta", {}).get(_k, {})
 
 # ===== 2. STOCK / CYCLE DEFINITIONS =====
 LEADING_STOCKS = [
@@ -41,6 +50,7 @@ LEADING_STOCKS = [
     ("sk_telecom",    "SK텔레콤",      "1999 휴대폰 대중화",           "kr_it_1998",         "1998~2000 IT 버블 (통신·반도체)",          "1998-06-01", "2000-01-15", "1999-01-01", "2000-03-01"),
     ("samsung_elec",  "삼성전자",      "1999 반도체 회복·IT 버블",     "kr_it_1998",         "1998~2000 IT 버블 (통신·반도체)",          "1998-06-01", "2000-01-15", "1998-10-01", "2000-03-01"),
     ("daishin_sec",   "대신증권",      "1999 바이코리아 유동성",       "kr_it_1998",         "1998~2000 IT 버블 (통신·반도체)",          "1998-06-01", "2000-01-15", "1998-10-01", "1999-12-31"),
+    ("hyundai_sec",   "현대증권",      "1999 바이코리아 펀드",         "kr_it_1998",         "1998~2000 IT 버블 (통신·반도체)",          "1998-06-01", "2000-01-15", "1998-10-01", "1999-12-31"),
     # 2001~2002 내수/카드버블
     ("coway",         "코웨이",        "2002 정수기 렌탈 개척",        "kr_card_2002",       "2001~2002 내수/카드버블 (렌탈)",     "2001-01-01", "2002-12-31", "2001-06-01", "2002-06-01"),
     # 2003~2007 중국 중후장대
@@ -782,7 +792,7 @@ SECTOR_CATEGORY = {
     ("hyundai_const","kr_troika_1986"):"참고", ("daishin_sec","kr_troika_1986"):"참고",
     ("kepco","kr_bluechip_1990"):"참고", ("posco","kr_bluechip_1990"):"참고",
     ("hyundai_motor","kr_bluechip_1990"):"참고", ("spc_samlib","kr_bluechip_1990"):"참고",
-    ("sk_telecom","kr_it_1998"):"인프라", ("samsung_elec","kr_it_1998"):"인프라", ("daishin_sec","kr_it_1998"):"참고", ("samsung_elec","kr_bluechip_1990"):"참고",
+    ("sk_telecom","kr_it_1998"):"인프라", ("samsung_elec","kr_it_1998"):"인프라", ("daishin_sec","kr_it_1998"):"참고", ("hyundai_sec","kr_it_1998"):"참고", ("samsung_elec","kr_bluechip_1990"):"참고",
     ("coway","kr_card_2002"):"소비",
     ("hyundai_elev","kr_china_2003"):"인프라", ("hyundai_mipo","kr_china_2003"):"인프라", ("posco","kr_china_2003"):"인프라",
     ("hyundai_motor","kr_chahwajeong_2009"):"인프라", ("kia","kr_chahwajeong_2009"):"인프라",
@@ -1149,6 +1159,15 @@ TRADE_ZONES_SPEC = [
     {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2010-03-17", "end": "2010-05-24"},
     {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2010-09-06", "end": "2010-11-25"},
     {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2011-03-29", "end": "2011-05-02"},
+    {"stockId": "samsung_elec", "cycleId": "kr_smartphone_2012", "start": "2012-01-19", "end": "2012-04-12"},
+    {"stockId": "amorepacific", "cycleId": "kr_kbeauty_2015", "start": "2015-03-11", "end": "2015-06-01"},
+    {"stockId": "hanmi_pharm", "cycleId": "kr_kbeauty_2015", "start": "2015-11-03", "end": "2015-11-27"},
+    {"stockId": "sk_hynix", "cycleId": "kr_semi_2016", "start": "2017-04-20", "end": "2017-07-27"},
+    {"stockId": "sk_hynix", "cycleId": "kr_semi_2016", "start": "2017-09-06", "end": "2017-10-17"},
+    {"stockId": "celltrion", "cycleId": "kr_semi_2016", "start": "2017-12-27", "end": "2018-02-01"},
+    {"stockId": "seegene", "cycleId": "kr_covid_bull", "start": "2020-07-03", "end": "2020-08-19"},
+    {"stockId": "kakao", "cycleId": "kr_covid_bull", "start": "2021-04-06", "end": "2021-07-04"},
+    {"stockId": "hmm", "cycleId": "kr_covid_bull", "start": "2021-04-26", "end": "2021-06-02"},
 ]
 
 html = """<!DOCTYPE html>
