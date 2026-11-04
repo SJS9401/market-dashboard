@@ -1126,6 +1126,25 @@ for _e in sector_cycles:
     _e["members"] = sorted({_mnames.get(_c, _c) for _c, _sec, _a, _b in SECTOR_MEMBERS if _sec == _e["sector"]})
 print(f"[*] 섹터 시총: {len(_wdays)}주, 섹터 {len(_sec_mcap)}개")
 
+# ===== 매매 구간 (BT 직접 정리, 2026-11-04) — 현재 로직으로 매매했을 구간 =====
+TRADE_ZONES_SPEC = [
+    {"stockId": "hyundai_const", "cycleId": "kr_troika_1986", "start": "1987-07-06", "end": "1987-08-24"},
+    {"stockId": "hyundai_const", "cycleId": "kr_troika_1986", "start": "1988-07-21", "end": "1988-08-29"},
+    {"stockId": "hyundai_const", "cycleId": "kr_troika_1986", "start": "1988-12-01", "end": "1989-01-16"},
+    {"stockId": "kepco", "cycleId": "kr_bluechip_1990", "start": "1992-10-21", "end": "1992-12-01"},
+    {"stockId": "posco", "cycleId": "kr_bluechip_1990", "start": "1993-11-03", "end": "1993-11-20"},
+    {"stockId": "posco", "cycleId": "kr_bluechip_1990", "start": "1993-11-30", "end": "1994-02-05"},
+    {"stockId": "sk_telecom", "cycleId": "kr_it_1998", "start": "1999-11-09", "end": "2000-01-11"},
+    {"stockId": "coway", "cycleId": "kr_card_2002", "start": "2002-01-25", "end": "2002-04-15"},
+    {"stockId": "hyundai_elev", "cycleId": "kr_china_2003", "start": "2003-10-22", "end": "2003-11-14"},
+    {"stockId": "posco", "cycleId": "kr_china_2003", "start": "2006-11-21", "end": "2007-07-26"},
+    {"stockId": "posco", "cycleId": "kr_china_2003", "start": "2007-09-14", "end": "2007-10-12"},
+    {"stockId": "lg_chem", "cycleId": "kr_chahwajeong_2009", "start": "2009-07-30", "end": "2009-10-12"},
+    {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2010-03-17", "end": "2010-05-24"},
+    {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2010-09-06", "end": "2010-11-25"},
+    {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2011-03-29", "end": "2011-05-02"},
+]
+
 html = """<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1391,7 +1410,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <div class="v2all-panel"><div class="v2all-label" style="--lc:#f0883e">KOSPI</div><div class="v2all-cv" style="height:160px;"><canvas id="v2all-kospi"></canvas></div></div>
     <div class="v2all-panel"><div class="v2all-label" style="--lc:#a371f7">KOSDAQ</div><div class="v2all-cv" style="height:160px;"><canvas id="v2all-kosdaq"></canvas></div></div>
     <div class="v2all-panel"><div class="v2all-label" style="--lc:#3fb950">주도주 · 모멘텀 구간 (시작=100)</div><div class="v2all-cv" style="height:340px;"><canvas id="v2all-stock"></canvas></div></div>
-    <div class="v2all-panel"><div class="v2all-label" style="--lc:#e3b341">매매 가능 구간 · 대기 기간</div><div class="v2all-cv" style="height:70px;"><canvas id="v2all-win"></canvas></div></div>
+    <div class="v2all-panel"><div class="v2all-label" style="--lc:#e3b341">매매 가능 구간 · 대기 기간</div><span style="margin-left:10px;font-size:11px;color:#8b949e;">기준:</span><button class="ctrl-btn" id="v2all-b-long" onclick="_allSetBasis('long')" style="margin-left:4px;">장기 구간(정배열)</button><button class="ctrl-btn" id="v2all-b-trade" onclick="_allSetBasis('trade')" style="margin-left:4px;">매매 구간(BT)</button><div class="v2all-cv" style="height:70px;"><canvas id="v2all-win"></canvas></div></div>
   </div>
   <div class="main" id="v2-main">
     <div class="chart-info">
@@ -1472,6 +1491,7 @@ const STOCK_COLORS = """ + json.dumps(STOCK_COLORS) + """;
 const STOCK_ZONES = """ + json.dumps(stock_zones) + """;
 const US_MARKET_CYCLES = """ + json.dumps(us_market_cycles) + """;
 const SECTOR_CYCLES = """ + json.dumps(sector_cycles, ensure_ascii=False, separators=(",", ":")) + """;
+const TRADE_ZONES = """ + json.dumps(TRADE_ZONES_SPEC, ensure_ascii=False, separators=(",", ":")) + """;
 
 const stockColorMap = {};
 UNIQUE_STOCKS.forEach((s, i) => { stockColorMap[s.id] = STOCK_COLORS[i % STOCK_COLORS.length]; });
@@ -3008,7 +3028,8 @@ function toggleExpand() {
 }
 
 // ===== 전체 사이클 (2026-11-04) — 지수 전체 + 주도주 모멘텀 구간만 연결 =====
-let _allCharts = [], _allX = null;
+let _allCharts = [], _allX = null, _allBasis = 'trade';
+function _allSetBasis(b) { _allBasis = b; const btn = document.querySelector('#v2-cycle-btns .cycle-btn'); if (btn) selectAllCycles(btn); }
 function _allSetMode(on) {
   const v = document.getElementById('view-v2');
   document.getElementById('v2-all').style.display = on ? '' : 'none';
@@ -3073,15 +3094,24 @@ function selectAllCycles(btn) {
                  name: ((UNIQUE_STOCKS.find(u => u.id === z.stockId) || {}).name) || z.stockId }))
     .sort((p, q) => p.a - q.a);
   zones.forEach(z => z.days = Math.round((z.b - z.a) / 864e5));
-  const wins = _allMerge(zones.map(z => Object.assign({}, z)));
+  const nameOf = id => ((UNIQUE_STOCKS.find(u => u.id === id) || {}).name) || id;
+  const trades = (typeof TRADE_ZONES !== 'undefined' ? TRADE_ZONES : []).map(t => ({ id: t.stockId, name: nameOf(t.stockId), a: _allTs(t.start), b: _allTs(t.end),
+                   color: (typeof stockColorMap !== 'undefined' && stockColorMap[t.stockId]) || '#3fb950' })).sort((p, q) => p.a - q.a);
+  trades.forEach(t => t.days = Math.round((t.b - t.a) / 864e5));
+  const useTrade = _allBasis === 'trade' && trades.length > 1;
+  ['long', 'trade'].forEach(k => { const e = document.getElementById('v2all-b-' + k); if (e) e.classList.toggle('active', (k === 'trade') === useTrade); });
+  const wins = _allMerge((useTrade ? trades : zones).map(z => Object.assign({}, z)));
   const gaps = []; for (let i = 1; i < wins.length; i++) gaps.push(Math.round((wins[i].a - wins[i - 1].b) / 864e5));
   wins.forEach(w => w.days = Math.round((w.b - w.a) / 864e5));
   const avg = a => a.length ? Math.round(a.reduce((s, v) => s + v, 0) / a.length) : 0;
   const med = a => { if (!a.length) return 0; const s = a.slice().sort((p, q) => p - q); return s[Math.floor(s.length / 2)]; };
   const yr = d => (d / 365).toFixed(1) + '년';
   const totW = wins.reduce((s, w) => s + w.days, 0), span = Math.round((wins[wins.length - 1].b - wins[0].a) / 864e5);
+  const lastT = trades.length ? new Date(trades[trades.length - 1].b).toISOString().slice(0, 7) : '';
   document.getElementById('v2all-stats').innerHTML =
-    '주도주 구간 <b>' + zones.length + '개</b> → 겹치는 구간을 합친 <b>매매 가능 구간 ' + wins.length + '개</b> · '
+    (useTrade ? '<b>[매매 구간 기준]</b> BT 정리 매매 ' + trades.length + '건 (~' + lastT + '까지 입력) → '
+              : '<b>[장기 구간 기준]</b> 주도주 구간 ' + zones.length + '개 → ')
+    + '겹치는 구간을 합친 <b>매매 가능 구간 ' + wins.length + '개</b> · '
     + '매매 구간 평균 <b>' + avg(wins.map(w => w.days)) + '일</b>(' + yr(avg(wins.map(w => w.days))) + ', 중앙값 ' + med(wins.map(w => w.days)) + '일) · '
     + '다음 매매까지 대기 평균 <b>' + avg(gaps) + '일</b>(' + yr(avg(gaps)) + ', 중앙값 ' + med(gaps) + '일, 최장 ' + Math.max.apply(null, gaps) + '일) · '
     + '전체 ' + yr(span) + ' 중 매매 가능 ' + Math.round(totW / span * 100) + '%';
@@ -3109,7 +3139,10 @@ function selectAllCycles(btn) {
     labs['l' + i] = { type: 'label', xValue: z.a, yValue: 100, content: z.name + '(' + z.days + '일)', color: z.color, font: { size: 9, weight: '600' },
                       position: { x: 'start', y: 'end' }, yAdjust: -6 - (i % 3) * 11, backgroundColor: 'rgba(13,17,23,0.65)', padding: 1 };
   });
-  const opt = base(Object.assign({}, boxes, labs), it => it.dataset.label + ' ' + (it.parsed.y / 100).toFixed(2) + '배');
+  const tb = {};
+  trades.forEach((t, i) => { tb['t' + i] = { type: 'box', xMin: t.a, xMax: t.b, backgroundColor: 'rgba(46,160,67,0.30)', borderColor: '#3fb950', borderWidth: 1,
+    label: { display: true, content: t.name + ' 매매 ' + t.days + '일', position: { x: 'center', y: 'start' }, color: '#e6edf3', font: { size: 9, weight: '600' }, backgroundColor: 'rgba(26,127,55,0.85)', padding: 2, yAdjust: (i % 2) * 14 } }; });
+  const opt = base(Object.assign({}, boxes, tb, labs), it => it.dataset.label + ' ' + (it.parsed.y / 100).toFixed(2) + '배');
   opt.scales = { x: xs(), y: ys(v => (Number(v) / 100).toFixed(Number(v) < 100 ? 1 : 0) + '배') };
   mk('v2all-stock', { type: 'line', data: { datasets: ds }, options: opt });
   const wa = {};
@@ -3240,6 +3273,12 @@ function renderV2() {
   if (_kqAnn.cycleZoneIdx) krAnn.cycleZoneIdxKq = _kqAnn.cycleZoneIdx;
   const usIndexCh = makeIndexChart('v2-us-price', nasdaqProc, sp500Proc, v2Scale, 'v2', 'us-price', usAnn);
   const priceCh = makeIndexChart('v2-price', kospiProc, kosdaqProc, v2Scale, 'v2', 'price', krAnn);
+  // 매매 구간 (BT 정리) — 진한 초록 박스
+  (typeof TRADE_ZONES !== 'undefined' ? TRADE_ZONES : []).filter(t => t.stockId === stock.id && t.cycleId === cycle.id).forEach((t, i) => {
+    const a = new Date(t.start).getTime(), b = new Date(t.end).getTime();
+    stockAnn['trade' + i] = { type: 'box', xMin: a, xMax: b, backgroundColor: 'rgba(46, 160, 67, 0.28)', borderColor: 'rgba(46, 160, 67, 0.95)', borderWidth: 1.5,
+      label: { display: true, content: '매매 ' + Math.round((b - a) / 864e5) + '일', position: { x: 'center', y: 'start' }, color: '#1a7f37', font: { size: 10, weight: 'bold' }, backgroundColor: 'rgba(255,255,255,0.75)' } };
+  });
   const stockCh = makePriceChart('v2-stock', stockProc, stock.name, color, stockAnn, v2Scale, 'v2', 'stock');
   const volCh = makeVolumeChart('v2-volume', stockProc, 'v2');
   chartRegistry.v2 = [usIndexCh, priceCh, stockCh, volCh];
