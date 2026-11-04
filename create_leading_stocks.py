@@ -1376,7 +1376,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
     <button class="ctrl-btn" id="v2-weekly" onclick="setV2Interval('weekly')">주봉</button>
     <button class="expand-btn" id="v2-expand" onclick="toggleExpand()">전체차트 보기</button>
   </div>
-  <div class="main">
+  <div class="main" id="v2-all" style="display:none;">
+    <div class="chart-info"><span class="chart-title">전체 사이클 — 주도주 모멘텀 구간 연결</span></div>
+    <div class="chart-meta">지수는 전체 기간, 주도주는 박스(모멘텀) 구간만 표시 · 각 구간 시작 = 100 (로그)</div>
+    <div class="panel"><div class="panel-header"><span class="panel-label">NASDAQ</span></div><div style="height:170px;position:relative;"><canvas id="v2all-nasdaq"></canvas></div></div>
+    <div class="panel"><div class="panel-header"><span class="panel-label">KOSPI</span></div><div style="height:170px;position:relative;"><canvas id="v2all-kospi"></canvas></div></div>
+    <div class="panel"><div class="panel-header"><span class="panel-label">KOSDAQ</span></div><div style="height:170px;position:relative;"><canvas id="v2all-kosdaq"></canvas></div></div>
+    <div class="panel"><div class="panel-header"><span class="panel-label">주도주 (모멘텀 구간, 시작=100)</span></div><div style="height:340px;position:relative;"><canvas id="v2all-stock"></canvas></div></div>
+  </div>
+  <div class="main" id="v2-main">
     <div class="chart-info">
       <span class="chart-title" id="v2-title">사이클을 선택하세요</span>
     </div>
@@ -2928,6 +2936,12 @@ let v2Expanded = false;
 
 function initV2() {
   const container = document.getElementById('v2-cycle-btns');
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cycle-btn';
+  allBtn.textContent = '전체 사이클';
+  allBtn.style.fontWeight = '700';
+  allBtn.onclick = () => selectAllCycles(allBtn);
+  container.appendChild(allBtn);
   CYCLES.forEach(c => {
     const btn = document.createElement('button');
     btn.className = 'cycle-btn';
@@ -2940,6 +2954,7 @@ function initV2() {
 function selectCycle(cycleId, btn) {
   document.querySelectorAll('#v2-cycle-btns .cycle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  _allSetMode(false);
   v2CurrentCycle = CYCLES.find(c => c.id === cycleId);
   v2Expanded = false;
   document.getElementById('v2-expand').classList.remove('active');
@@ -2981,6 +2996,67 @@ function toggleExpand() {
   v2Expanded = !v2Expanded;
   document.getElementById('v2-expand').classList.toggle('active');
   renderV2();
+}
+
+// ===== 전체 사이클 (2026-11-04) — 지수 전체 + 주도주 모멘텀 구간만 연결 =====
+let _allCharts = [];
+function _allSetMode(on) {
+  const v = document.getElementById('view-v2');
+  document.getElementById('v2-all').style.display = on ? '' : 'none';
+  document.getElementById('v2-main').style.display = on ? 'none' : '';
+  const sb = document.getElementById('v2-stock-btns'); if (sb) sb.parentElement.style.display = on ? 'none' : '';
+  v.querySelectorAll('.ctrl-row').forEach(r => r.style.display = on ? 'none' : '');
+}
+function _allTs(d) { d = String(d).replace(/-/g, ''); return Date.UTC(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8)); }
+function _allWeekly(raw, a, b) {
+  const o = []; let lk = null;
+  (raw || []).forEach(r => {
+    const t = _allTs(r[0]); if ((a && t < a) || (b && t > b) || !r[4]) return;
+    const wk = Math.floor((t / 864e5 + 3) / 7);
+    if (wk === lk) o[o.length - 1] = { x: t, y: r[4] }; else o.push({ x: t, y: r[4] });
+    lk = wk;
+  });
+  return o;
+}
+function selectAllCycles(btn) {
+  document.querySelectorAll('#v2-cycle-btns .cycle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _allSetMode(true);
+  _allCharts.forEach(c => c.destroy()); _allCharts = [];
+  const X0 = Date.UTC(1985, 0, 1), X1 = Date.now() + 120 * 864e5;
+  const zones = STOCK_ZONES.filter(z => z.longterm && z.longterm.start && z.longterm.end && STOCKS_RAW[z.stockId])
+    .map(z => ({ id: z.stockId, label: z.label || z.stockId, a: _allTs(z.longterm.start), b: _allTs(z.longterm.end),
+                 color: (typeof stockColorMap !== 'undefined' && stockColorMap[z.stockId]) || '#c9d1d9',
+                 name: ((UNIQUE_STOCKS.find(u => u.id === z.stockId) || {}).name) || z.stockId }))
+    .sort((p, q) => p.a - q.a);
+  const boxes = {};
+  zones.forEach((z, i) => { boxes['z' + i] = { type: 'box', xMin: z.a, xMax: z.b, backgroundColor: z.color + '1f', borderWidth: 0 }; });
+  const xs = { type: 'time', min: X0, max: X1, time: { unit: 'year', displayFormats: { year: 'yy' } },
+               ticks: { color: '#6e7681', font: { size: 9 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 44 }, grid: { color: '#21262d' } };
+  const ys = (cb) => ({ type: 'logarithmic', ticks: { color: '#6e7681', font: { size: 9 }, maxTicksLimit: 5, callback: cb }, grid: { color: '#21262d' } });
+  const base = (ann, tip) => ({ responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    plugins: { legend: { display: false }, annotation: { annotations: ann },
+               tooltip: { callbacks: { title: it => new Date(it[0].parsed.x).toISOString().slice(0, 10), label: tip } } } });
+  const fmt = v => Number(v).toLocaleString();
+  [['v2all-nasdaq', NASDAQ_RAW, '#58a6ff'], ['v2all-kospi', KOSPI_RAW, '#f0883e'], ['v2all-kosdaq', KOSDAQ_RAW, '#a371f7']].forEach(([id, raw, col]) => {
+    const el = document.getElementById(id); if (!el) return;
+    const opt = base(Object.assign({}, boxes), it => fmt(Math.round(it.parsed.y)));
+    opt.scales = { x: xs, y: ys(v => fmt(v)) };
+    _allCharts.push(new Chart(el.getContext('2d'), { type: 'line', data: { datasets: [{ data: _allWeekly(raw), borderColor: col, borderWidth: 1, pointRadius: 0, tension: 0 }] }, options: opt }));
+  });
+  const ds = [], labs = {};
+  zones.forEach((z, i) => {
+    const w = _allWeekly(STOCKS_RAW[z.id], z.a, z.b); if (!w.length) return;
+    const b0 = w[0].y;
+    ds.push({ label: z.label, data: w.map(p => ({ x: p.x, y: p.y / b0 * 100 })), borderColor: z.color, borderWidth: 1.4, pointRadius: 0, tension: 0 });
+    labs['l' + i] = { type: 'label', xValue: z.a, yValue: 100, content: z.name, color: z.color, font: { size: 9, weight: '600' },
+                      position: { x: 'start', y: 'end' }, yAdjust: -6 - (i % 3) * 11, backgroundColor: 'rgba(13,17,23,0.6)', padding: 1 };
+  });
+  const el = document.getElementById('v2all-stock');
+  const opt = base(Object.assign({}, boxes, labs), it => it.dataset.label + ' ' + (it.parsed.y / 100).toFixed(2) + '배');
+  opt.scales = { x: xs, y: ys(v => (Number(v) / 100).toFixed(Number(v) < 100 ? 1 : 0) + '배') };
+  _allCharts.push(new Chart(el.getContext('2d'), { type: 'line', data: { datasets: ds }, options: opt }));
 }
 
 function renderV2() {
