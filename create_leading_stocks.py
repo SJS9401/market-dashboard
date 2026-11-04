@@ -1161,6 +1161,8 @@ TRADE_ZONES_SPEC = [
     {"stockId": "mirae_sec", "cycleId": "kr_china_2003", "start": "2005-06-23", "end": "2005-07-29"},
     {"stockId": "mirae_sec", "cycleId": "kr_china_2003", "start": "2005-11-10", "end": "2006-01-19"},
     {"stockId": "posco", "cycleId": "kr_china_2003", "start": "2006-11-21", "end": "2007-07-26"},
+    {"stockId": "hyundai_mipo", "cycleId": "kr_china_2003", "start": "2007-02-02", "end": "2007-08-01"},
+    {"stockId": "hyundai_mipo", "cycleId": "kr_china_2003", "start": "2007-09-21", "end": "2007-11-12"},
     {"stockId": "posco", "cycleId": "kr_china_2003", "start": "2007-09-14", "end": "2007-10-12"},
     {"stockId": "lg_chem", "cycleId": "kr_chahwajeong_2009", "start": "2009-07-30", "end": "2009-10-12"},
     {"stockId": "kia", "cycleId": "kr_chahwajeong_2009", "start": "2010-03-17", "end": "2010-05-24"},
