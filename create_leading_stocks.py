@@ -1149,6 +1149,8 @@ TRADE_ZONES_SPEC = [
     {"stockId": "posco", "cycleId": "kr_bluechip_1990", "start": "1993-11-30", "end": "1994-02-05"},
     {"stockId": "samsung_elec", "cycleId": "kr_bluechip_1990", "start": "1994-04-28", "end": "1994-05-31"},
     {"stockId": "samsung_elec", "cycleId": "kr_bluechip_1990", "start": "1994-08-11", "end": "1994-09-28"},
+    {"stockId": "daishin_sec", "cycleId": "kr_it_1998", "start": "1998-10-29", "end": "1998-12-22"},
+    {"stockId": "hyundai_sec", "cycleId": "kr_it_1998", "start": "1999-03-25", "end": "1999-05-12"},
     {"stockId": "samsung_elec", "cycleId": "kr_it_1998", "start": "1999-06-10", "end": "1999-09-27"},
     {"stockId": "sk_telecom", "cycleId": "kr_it_1998", "start": "1999-11-09", "end": "2000-01-11"},
     {"stockId": "coway", "cycleId": "kr_card_2002", "start": "2002-01-25", "end": "2002-04-15"},
@@ -1334,13 +1336,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 </div>
 
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchView(event,'vtype')">유형별</button>
+  <button class="tab-btn active" onclick="switchView(event,'v2')">주도주</button>
+  <button class="tab-btn" onclick="switchView(event,'vtype')">유형별</button>
   <button class="tab-btn" onclick="switchView(event,'vterm')">시계열별</button>
-  <button class="tab-btn" onclick="switchView(event,'v2')">주도주</button>
 </div>
 
 <!-- SECTOR_VIEW_V1: 산업 사이클 매트릭스 (2026-11-03) -->
-<div class="view-panel active" id="view-vtype">
+<div class="view-panel" id="view-vtype">
   <div class="sec-intro">산업 사이클이 어느 정도 주기로 도는지 가늠하기 위한 화면. 대표종목 주봉(로그) 위에 업사이클 구간을 음영으로 표시. 업사이클 시작 = 60·120일선 정배열 진입, 산업 가격지표 우선(없으면 영업이익, 바이오만 주가). 점선 = 진행 중. 카드를 누르면 크게 열려.</div>
   <div class="sec-matrix" id="sec-type"></div>
 </div>
@@ -1423,7 +1425,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 </div>
 
 <!-- VIEW 2 -->
-<div class="view-panel" id="view-v2">
+<div class="view-panel active" id="view-v2">
   <div class="nav-section"><div class="nav-row" id="v2-cycle-btns"></div></div>
   <div class="nav-section" style="padding-top:0;"><div class="nav-row" id="v2-stock-btns"></div></div>
   <div class="ctrl-row">
@@ -3556,7 +3558,7 @@ function openSecModal(idx) {
 // ===== INIT =====
 initV1();
 initV2();
-renderSecType();
+{ const _b0 = document.querySelector('#v2-cycle-btns .cycle-btn'); if (_b0) selectAllCycles(_b0); }  // 첫 화면 = 주도주 · 전체 사이클
 </script>
 </body>
 </html>"""
