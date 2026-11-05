@@ -7,7 +7,7 @@ GitHub 서버(클라우드 IP)는 YouTube 가 봇으로 차단한다(2026-10-09 
 그래서 BT PC 의 작업 스케줄러가 KST 화~토 06:40 에 이 파일을 실행한다.
 
   1) 로컬 리포 git pull (최신 스크립트 반영)
-  2) scripts/ibd_smt_relay.py 실행 — 5분 간격 재시도, 마지막 확인 08:00 KST (미국 서머타임 해제 기간 08:15)
+  2) scripts/ibd_smt_relay.py 실행 — 5분 간격 재시도, 마지막 확인 08:45 KST (2026-11-05 BT 지시, 계절 무관)
      (2026-10-10 BT 지시: 15분 → 07:20까지 연장. 10/9 방송(65분)은 06:15 종료 후
       35분이 지나도 자동자막이 안 나와 06:55 마감에 걸렸다. 데일리가 IBD를 맨 마지막에 읽는다)
   3) data/ibd_smt_*.json 변경분만 commit → push (토큰은 Scheduled/.github_token)
@@ -19,7 +19,7 @@ GitHub 서버(클라우드 IP)는 YouTube 가 봇으로 차단한다(2026-10-09 
 
 데일리 프리뷰(07:01 시작)는 수집 묶음이 끝난 뒤 맨 마지막(07:18~07:22 전후)에
 GitHub Pages 의 data/ibd_smt_latest.json 을 읽는다. 07:20까지 못 받으면 데일리에는 「IBD 자막 미수신」, 08:20 사후 채우기가 보완한다.
-※ 작업 스케줄러 「IBD-SMT-Relay」의 실행 시간 제한은 2시간이어야 한다(1시간이면 07:40에 강제 종료).
+※ 작업 스케줄러 「IBD-SMT-Relay」의 실행 시간 제한은 3시간이어야 한다(06:40 시작 → 08:45 마감 + 여유. 2시간이면 08:40에 강제 종료).
 """
 import os, subprocess, sys, datetime
 
@@ -29,8 +29,8 @@ TOKEN_FILE = os.path.join(SCHED, ".github_token")
 LOG_DIR = os.path.join(SCHED, "deploy_logs")
 REMOTE = "github.com/SJS9401/market-dashboard.git"
 
-DEADLINE_DST = (8, 2)    # 미국 서머타임 기간: KST 08:00 전후 마지막 확인 (5분 간격 오차 흡수)
-DEADLINE_STD = (8, 17)   # 서머타임 해제 기간(11월 첫 일요일 ~ 3월 둘째 일요일): 방송 1시간 늦음 → 08:15
+DEADLINE_DST = (8, 47)   # 2026-11-05 BT 지시: 계절 무관 08:45 전후 마지막 확인 (5분 간격 오차 흡수)
+DEADLINE_STD = (8, 47)   # 서머타임 해제 기간도 동일 08:45 (11/4분 자막이 08:11까지 안 나와 놓침 → 연장)
 
 def us_dst(d):
     """미국 서머타임 여부 — 3월 둘째 일요일 ~ 11월 첫 일요일 (tz 데이터 없이 계산)"""
@@ -60,8 +60,15 @@ def run(cmd, env=None, secret=None, timeout=None):
     if secret:
         out = out.replace(secret, "***")
     log(f"$ {shown} -> rc={r.returncode}")
-    if out:
-        log(out[-3000:])
+    # 2026-11-05: yt-dlp 의 JS 런타임 경고가 수십 줄 반복돼 마지막 3000자를 다 차지하고
+    # 정작 시도별 진행 기록(회차 없음/자막 없음/GIVE UP)이 잘려 나갔다 → 경고 줄은 개수만 남긴다
+    lines = out.splitlines()
+    noise = [l for l in lines if "JavaScript runtime" in l or "JS runtime" in l]
+    keep = [l for l in lines if l not in noise]
+    if noise:
+        log(f"(yt-dlp JS 런타임 경고 {len(noise)}줄 생략)")
+    if keep:
+        log("\n".join(keep)[-6000:])
     return r.returncode
 
 
