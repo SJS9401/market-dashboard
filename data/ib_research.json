@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-11-04T09:31+09:00",
- "run_date_kst": "2026-11-04",
+ "generated_at_kst": "2026-11-05T09:31+09:00",
+ "run_date_kst": "2026-11-05",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -28,7 +28,7 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Chips, chokepoints and the battle for AI supremacy",
@@ -61,18 +61,18 @@
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Markets Edition: Halloween Pullback — Tactical or Something More Sinister?",
-    "date": "2026-11-03",
+    "date": null,
     "url": "https://www.citigroup.com/global/insights/markets-edition-halloween-pullback-tactical-or-something-more-sinister"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 18,
-   "new_today": 1,
+   "count": 22,
+   "new_today": 4,
    "initial_load": false,
    "latest": {
     "title": "The Next Stage of the Market Correction",
@@ -94,16 +94,51 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Margins matter in US midterm elections",
-    "date": "2026-10-01",
-    "url": "https://www.rbccm.com/en/insights/2026/10/margins-matter-in-us-midterm-elections"
+    "title": "Still on the sidelines with Tech",
+    "date": "2026-11-01",
+    "url": "https://www.rbccm.com/en/insights/2026/11/still-on-the-sidelines-with-tech"
    }
   }
  },
  "recent_new": [
+  {
+   "bank": "모건스탠리",
+   "title": "Investing in Europe Means Looking Beyond the Index",
+   "url": "https://www.morganstanley.com/insights/articles/europe-new-investment-era-guides-economic-outlook-2026",
+   "date": null,
+   "first_seen_kst": "2026-11-05T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "What the Democratic Midterm Sweep Could Mean for Markets",
+   "url": "https://www.morganstanley.com/insights/articles/2026-us-midterm-election-results-market-impact",
+   "date": null,
+   "first_seen_kst": "2026-11-05T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Building a Company That’s Ready for Liquidity",
+   "url": "https://www.morganstanley.com/insights/articles/ipo-readiness-private-company-liquidity-carta-charly-kevers",
+   "date": null,
+   "first_seen_kst": "2026-11-05T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Midterm Election Results: Three Key Takeaways",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/us-midterm-elections-market-policy-outlook-ariana-salvatore",
+   "date": null,
+   "first_seen_kst": "2026-11-05T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "Still on the sidelines with Tech",
+   "url": "https://www.rbccm.com/en/insights/2026/11/still-on-the-sidelines-with-tech",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-05T09:31+09:00"
+  },
   {
    "bank": "바클레이스",
    "title": "Chips, chokepoints and the battle for AI supremacy",
