@@ -238,6 +238,8 @@
   .ag-item .top { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
   .ag-item .tx { font-size:15px; line-height:1.5; color:#f0f6fc; word-break:keep-all; overflow-wrap:anywhere; }
   .ag-item .nt { font-size:12.5px; line-height:1.5; color:#9da5ae; margin-top:4px; }
+  .ag-item .nt.clamp { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; cursor:pointer; }
+  .ag-item .nt b { color:#c9d1d9; }
   .ag-item.cont .tx { font-size:13.5px; color:#c9d1d9; }
   .ag-empty { padding:28px 16px; color:#6e7681; font-size:13px; text-align:center; }
   /* 바로가기 전폭 한 줄 (2026-11-12) */
@@ -2936,6 +2938,12 @@ function evTime(ev){
 }
 const evPlain=t=>String(t||'').replace(/<[^>]*>/g,'');
 const EV_DOW=['일','월','화','수','목','금','토'];
+// 비고(note) 에서 Notion 관리용 메타 문장(데일리 신규 등록·DB 누락 보강·중복 대조 등)은 빼고 내용만 보여준다.
+function evNoteClean(n){
+  const parts=String(n||'').split(/(?<=[.。])\s+/);
+  const kept=parts.filter(x=>!/(신규 등록|DB 상습|누락 보강|중복 대조|대조 보강|대조 완료|ehdwl|insidertracking)/.test(x));
+  return evEsc(kept.join(' ').trim()).replace(/관측 포인트\s*[:：]?/g,'<b>관측 포인트</b> ');
+}
 
 function drawEvCal(){
   const host=document.getElementById('evcal-body');
@@ -2990,10 +2998,10 @@ function drawAgenda(){
   const list=EVCAL.byDay[EVCAL.sel]||[];
   const main=list.filter(x=>!x.cont),cont=list.filter(x=>x.cont);
   const item=(x)=>{
-    const e=x.e,tm=evTime(e.ev);
+    const e=x.e,tm=evTime(e.ev),nt=e.note?evNoteClean(e.note):'';
     const sched=(String(e.d||'').length>6||x.cont)?`<div class="nt">일정: ${evEsc(e.d)}</div>`:'';
     return `<div class="ag-item c-${e.cat}${x.cont?' cont':''}"><div class="top"><span class="ev-cat ${e.cat}">${e.cat}</span>${tm?`<span class="tm">${tm}</span>`:''}</div>`
-      +`<div class="tx">${e.ev}</div>`+(e.note?`<div class="nt">${evEsc(e.note)}</div>`:'')+sched+'</div>';
+      +`<div class="tx">${e.ev}</div>`+(nt?`<div class="nt clamp" onclick="this.classList.toggle('clamp')" title="눌러서 펼치기/접기">${nt}</div>`:'')+sched+'</div>';
   };
   el.innerHTML=`<div class="ag-head"><span class="d">${d.getMonth()+1}/${d.getDate()}(${EV_DOW[d.getDay()]})</span><span class="s">${rel} · ${main.length}건</span>`
     +`<span class="series-toggle"><button data-s="m" onclick="evSelStep(-1)" title="전날">◀</button><button data-s="m" onclick="evSelStep(1)" title="다음날">▶</button></span></div>`
