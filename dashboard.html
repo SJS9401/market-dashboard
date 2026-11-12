@@ -183,6 +183,42 @@
   .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
   .ev-table tr.today td, .ev-table tr.today-first td, .ev-table tr.today-last td, .ev-table tr.today-only td { color: #e2c571; }
   .ev-table tr.soon td { color: #e2c571; }
+  /* ── 이벤트 캘린더 월 달력 (2026-11-12 BT) ── */
+  .ev-cat.신규상장 { background: #1f3a2e; color: #7ee0b0; }
+  .evcal-legend { display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px 0; }
+  .evcal-scroll { overflow-x:auto; }
+  .evm { padding:12px 14px 16px; }
+  .evm-title { font-size:16px; font-weight:800; color:#f0f6fc; margin:4px 2px 8px; }
+  .evm-title span { font-size:11px; color:#8b949e; font-weight:400; margin-left:6px; }
+  .evm-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); border-top:1px solid #2e2e2e; border-left:1px solid #2e2e2e; min-width:760px; }
+  .evm-dow { font-size:12px; font-weight:700; color:#8b949e; text-align:center; padding:6px 0; background:#202020; border-right:1px solid #2e2e2e; border-bottom:1px solid #2e2e2e; }
+  .evm-dow.sat, .evm-dn.sat { color:#58a6ff; }
+  .evm-dow.sun, .evm-dn.sun { color:#f85149; }
+  .evm-cell { min-height:92px; padding:5px 6px 7px; border-right:1px solid #2e2e2e; border-bottom:1px solid #2e2e2e; background:#161616; min-width:0; }
+  .evm-cell.out { background:#0d0d0d; }
+  .evm-cell.wkend { background:#121212; }
+  .evm-cell.past > * { opacity:.42; }
+  .evm-cell.today { background:#2a2410; box-shadow:inset 0 0 0 2px #e2c571; }
+  .evm-dn { font-size:13px; font-weight:700; color:#c9d1d9; margin-bottom:3px; display:flex; align-items:center; gap:6px; }
+  .evm-dn b { font-size:10px; background:#e2c571; color:#0f0f0f; border-radius:3px; padding:0 5px; }
+  .evm-ev { font-size:12.5px; line-height:1.38; color:#e6edf3; padding:2px 5px; margin-top:3px; border-left:3px solid var(--c,#8b949e); background:rgba(139,148,158,.08); border-radius:0 3px 3px 0; word-break:keep-all; overflow-wrap:anywhere; cursor:default; }
+  .evm-ev i { font-style:normal; color:#8b949e; }
+  .evm-ev.c-실적 { --c:#56d364; background:rgba(86,211,100,.11); }
+  .evm-ev.c-정책 { --c:#e2a44e; background:rgba(226,164,78,.11); }
+  .evm-ev.c-산업 { --c:#58a6ff; background:rgba(88,166,255,.11); }
+  .evm-ev.c-경제지표 { --c:#bc8cff; background:rgba(188,140,255,.11); }
+  .evm-ev.c-지정학 { --c:#f85149; background:rgba(248,81,73,.11); }
+  .evm-ev.c-IPO { --c:#56d3c4; background:rgba(86,211,196,.11); }
+  .evm-ev.c-신규상장 { --c:#7ee0b0; background:rgba(126,224,176,.11); }
+  .evm-ev.c-시장구조 { --c:#c9b45c; background:rgba(201,180,92,.11); }
+  .evm-ev.c-학회 { --c:#79c0ff; background:rgba(121,192,255,.11); }
+  .evm-ev.c-정치 { --c:#f778ba; background:rgba(247,120,186,.11); }
+  .evm-ev.c-기타 { --c:#8b949e; background:rgba(139,148,158,.11); }
+  .evm-ev.c-방산 { --c:#e2a44e; background:rgba(226,164,78,.11); }
+  /* 바로가기 전폭 한 줄 (2026-11-12) */
+  .links-wide .links-grid { grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); }
+  .links-wide .links-grid a, .links-wide .links-grid a:nth-child(odd), .links-wide .links-grid a:nth-last-child(-n+2) { padding:13px 16px; border-right:1px solid #1e2229; border-bottom:1px solid #1e2229; }
+  .links-wide .links-grid .link-spacer { display:none; }
   .ev-date-badge { display: inline-block; background: #e2c571; color: #0f0f0f; padding: 1px 6px; border-radius: 3px; font-weight: 700; font-size: 12px; }
   .ev-cat { display: inline-block; padding: 2px 10px; border-radius: 3px; font-size: 11px; font-weight: 600; white-space: nowrap; }
   .ev-cat.실적 { background: #1f3a24; color: #56d364; }
@@ -237,6 +273,27 @@
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
 <div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
+<!-- 2026-11-12 BT: 수시로 확인하는 카드라 페이지 최상단(헤더 바로 아래)으로 이동 -->
+<!-- 해외 실시간 추정가 (2026-08-21 BT 요청): Binance 주식 무기한선물 × USD/KRW.
+     코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
+<div class="events" style="margin-top:10px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
+      <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
+      <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
+      <span class="series-toggle" style="display:flex;"><button data-s="m" onclick="nnRefresh()" title="시세·환율·종가 즉시 갱신">↻ 새로고침</button></span>
+    </h2>
+    <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
+      <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
+    </div>
+    <!-- 4시간봉 (2026-09-16 BT): 프리장 전 "전일 20시 대비 어디" 를 보기 위한 차트.
+         기준선 = 직전 영업일 20:00 KST (일/월 아침이면 금요일 20:00). Binance 1h klines 를
+         20:00 KST 정렬 4시간봉으로 합성 — 라이브러리 기본 UTC 정렬은 20시가 봉 경계가 아니라서. -->
+    <div id="nn-mini" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 14px 14px;"></div>
+    <div class="nnc-note" id="nn-chart-note"></div>
+  </div>
+</div>
+
 <div class="row-label">미국</div>
 <div class="main">
   <!-- LEFT: 나스닥 -->
@@ -501,26 +558,6 @@
   </div>
 </div>
 
-<!-- 해외 실시간 추정가 (2026-08-21 BT 요청): Binance 주식 무기한선물 × USD/KRW.
-     코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
-<div class="events" style="margin-top:20px;">
-  <div class="events-card" style="flex:1;">
-    <h2 style="display:flex;align-items:baseline;gap:10px;">해외 실시간 추정가
-      <span style="color:#8b949e;font-weight:400;font-size:11px;">Binance 선물 × USD/KRW · 24시간</span>
-      <span id="nn-updated" style="margin-left:auto;color:#8b949e;font-weight:400;font-size:11px;"></span>
-      <span class="series-toggle" style="display:flex;"><button data-s="m" onclick="nnRefresh()" title="시세·환율·종가 즉시 갱신">↻ 새로고침</button></span>
-    </h2>
-    <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
-      <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
-    </div>
-    <!-- 4시간봉 (2026-09-16 BT): 프리장 전 "전일 20시 대비 어디" 를 보기 위한 차트.
-         기준선 = 직전 영업일 20:00 KST (일/월 아침이면 금요일 20:00). Binance 1h klines 를
-         20:00 KST 정렬 4시간봉으로 합성 — 라이브러리 기본 UTC 정렬은 20시가 봉 경계가 아니라서. -->
-    <div id="nn-mini" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 14px 14px;"></div>
-    <div class="nnc-note" id="nn-chart-note"></div>
-  </div>
-</div>
-
 <!-- 마켓맵 (2026-08-21 개편): 한국 = 자체 canvas 트리맵 (kr_marketmap.json — KRX 시세·시총 + 네이버 업종,
      TradingView 임베드가 KRX 미지원이라 자체 구축). 미국 = TradingView Stock Heatmap 위젯.
      각 한 줄 전폭 (BT: 절반씩은 한눈에 안 들어옴). -->
@@ -559,16 +596,9 @@
   </div>
 </div>
 
-<div class="events">
-  <div class="events-card">
-    <h2>이벤트 캘린더</h2>
-    <table class="ev-table">
-      <thead><tr><th class="ev-d">날짜</th><th class="ev-c">카테고리</th><th>이벤트</th></tr></thead>
-      <tbody id="ev-body"></tbody>
-    </table>
-    <div id="ev-ongoing" hidden></div>
-  </div>
-  <div class="links-card">
+<!-- 2026-11-12 BT: 이벤트 캘린더(표)와 바로가기 좌우 배치 해체 — 바로가기 한 줄, 그 아래 달력이 전폭 -->
+<div class="events" style="margin-top:20px;">
+  <div class="links-card links-wide">
     <h2>바로가기</h2>
     <div class="links-grid">
       <a href="https://esignal.co.kr/kospi200-futures-day-night/" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=esignal.co.kr&sz=32" alt=""><span class="link-label">야간선물</span></a>
@@ -592,6 +622,24 @@
       <a href="https://www.silicondata.com/products/silicon-index/llm-token-expenditure-index" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=silicondata.com&sz=32" alt=""><span class="link-label">LLM 토큰 가격</span></a>
       <a href="https://blog.tickertrends.io/p/openai-and-anthropic-arr-tracking" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=tickertrends.io&sz=32" alt=""><span class="link-label">AI LAB ARR 추적</span></a>
     </div>
+  </div>
+</div>
+
+<!-- 이벤트 캘린더 — 2026-11-12 BT: 표 → 월 달력 (이번 달 + 다음 달), 경제 캘린더와 같은 전폭.
+     데이터는 그대로 data/events_calendar.json (Notion 동기화). 기간형(11/30~12/3)은 각 날짜에 ↳ 로 이어서 표시. -->
+<div class="events" style="margin-top:20px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">이벤트 캘린더
+      <span id="evcal-range" style="color:#8b949e;font-weight:400;font-size:12px;"></span>
+      <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button data-s="m" onclick="evCalShift(-1)" title="이전 달">◀</button>
+        <button data-s="m" onclick="evCalShift(0)">이번 달</button>
+        <button data-s="m" onclick="evCalShift(1)" title="다음 달">▶</button>
+      </span>
+    </h2>
+    <div class="evcal-legend" id="evcal-legend"></div>
+    <div class="evcal-scroll"><div id="evcal-body"><div style="color:#6e7681;padding:16px;font-size:12px;">로딩 중...</div></div></div>
+    <div id="ev-ongoing" hidden style="padding:0 16px 14px;"></div>
   </div>
 </div>
 
@@ -2782,12 +2830,14 @@ function setupScrollbar(col, mainId) {
   });
 }
 
-// ── Event Calendar ──
+// ── Event Calendar (2026-11-12 BT: 표 → 월 달력. 이번 달 + 다음 달, ◀ ▶ 로 이동) ──
+// 데이터: data/events_calendar.json (2026-09-13 런타임 fetch 구조 — sync-calendar.yml 이 갱신).
+// 날짜 계산은 e.sd(Notion 정렬일 ISO) 우선, 없으면 e.d 안의 첫 유효 M/D, 그것도 없으면 '진행형' 목록.
+const EVCAL={byDay:{},offset:0,loaded:false};
+const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const evYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); }
 (async function renderEvents(){
-  // 2026-09-13: 이벤트 배열을 HTML 에서 분리 -> data/events_calendar.json 런타임 fetch.
-  // 이유: sync-calendar.yml 이 HTML 을 직접 치환하면 deploy_dashboard.bat 의 xcopy 가
-  //       Scheduled 사본으로 덮어써서 배포할 때마다 동기화분이 날아갔다.
-  //       data/*.json 은 보호 목록(extract_protected_files.ps1)이 지켜준다.
   let events=[];
   try{
     const r=await fetch('./data/events_calendar.json?_t='+Date.now());
@@ -2796,22 +2846,11 @@ function setupScrollbar(col, mainId) {
     events=Array.isArray(j)?j:(j.events||[]);
   }catch(err){
     console.error('events_calendar',err);
-    const tb=document.getElementById('ev-body');
-    if(tb)tb.innerHTML='<tr><td colspan="3" style="color:#8b949e">⚠ 이벤트 캘린더 로드 실패</td></tr>';
+    const b=document.getElementById('evcal-body');
+    if(b)b.innerHTML='<div style="color:#8b949e;padding:16px;font-size:12px">⚠ 이벤트 캘린더 로드 실패</div>';
     return;
   }
-  const today=new Date();today.setHours(0,0,0,0);
-  const limit=new Date(today);limit.setDate(limit.getDate()+30);
-  const year=today.getFullYear();
-  const tbody=document.getElementById('ev-body');
-  // find last today index
-  const dow=today.getDay(),monOff=dow===0?-6:1-dow;
-  const weekStart=new Date(today);weekStart.setDate(today.getDate()+monOff);
-  const weekEnd=new Date(weekStart);weekEnd.setDate(weekStart.getDate()+6);
-  // 2026-09-12 날짜 파싱 fix — 표시는 e.d(사람이 쓴 자유 텍스트), 계산은 e.sd(Notion 정렬일 ISO).
-  // 기존엔 e.d 를 'M/D' 로만 가정해 split → '8/23~8/26' / '청약 8/26~27' 등이 NaN →
-  // Invalid Date 가 필터를 통째로 우회해 과거 이벤트가 영구히 남고 요일이 (undefined) 로 찍혔다.
-  // sd 없으면 e.d 안의 첫 '유효' M/D 로 fallback, 그것도 없으면 진행형 목록으로 분리.
+  const year=new Date().getFullYear();
   const parseEvDate=e=>{
     if(e.sd){const d=new Date(String(e.sd).slice(0,10)+'T00:00:00');if(!isNaN(d))return d;}
     const src=String(e.d||''),re=/(\d{1,2})\s*\/\s*(\d{1,2})/g;let m;
@@ -2821,48 +2860,79 @@ function setupScrollbar(col, mainId) {
     }
     return null;
   };
-  const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;')
-                                     .replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const ongoing=[];
-  const filtered=events.map(e=>{
-    const evDate=parseEvDate(e);
-    if(!evDate){ongoing.push(e);return null;}
-    if(evDate<today||evDate>limit)return null;
-    const diff=Math.floor((evDate-today)/(86400000));
-    const isThisWeek=evDate>=weekStart&&evDate<=weekEnd;
-    return {...e,evDate,diff,isThisWeek};
-  }).filter(Boolean);
-  let firstTodayIdx=-1,lastTodayIdx=-1;
-  filtered.forEach((e,i)=>{if(e.diff===0){if(firstTodayIdx===-1)firstTodayIdx=i;lastTodayIdx=i;}});
-  filtered.forEach((e,i)=>{
-    let cls='';
-    if(e.diff===0){
-      if(firstTodayIdx===lastTodayIdx){cls='today-only';}
-      else if(i===firstTodayIdx){cls='today-first';}
-      else if(i===lastTodayIdx){cls='today-last';}
-      else{cls='today';}
-    }else if(e.isThisWeek){cls='soon';}
-    const dowNames=['일','월','화','수','목','금','토'];
-    // 2026-11-12: 날짜 원문이 긴 항목(예: '11/10 로드쇼 → 11/18 공모가…')이 nowrap 이라 날짜 칸 전체가 600px 로 늘어났다.
-    // 원문이 짧으면 그대로, 길면 날짜 칸은 M/D 만 두고 원문은 이벤트 칸 아래 회색 줄로 옮긴다.
-    const dShort=String(e.d||'').length<=13;
-    const dLabel=(dShort?e.d:`${e.evDate.getMonth()+1}/${e.evDate.getDate()}`)+`(${dowNames[e.evDate.getDay()]})`;
-    const dNote=dShort?'':`<span class="ev-dnote">일정: ${evEsc(e.d)}</span>`;
-    const dateCell=e.diff===0?`<span class="ev-date-badge">${dLabel}</span>`:dLabel;
-    // 비고 열 제거 (2026-09-17 BT) — note 는 json 에 남아 있고 title 로만 노출한다
-    const noteAttr = e.note ? ` title="${evEsc(e.note)}"` : '';
-    tbody.innerHTML+=`<tr class="${cls}"><td class="ev-d">${dateCell}</td><td class="ev-c"><span class="ev-cat ${e.cat}">${e.cat}</span></td><td class="ev-e"${noteAttr}>${e.ev}${dNote}</td></tr>`;
-  });
-  // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 / 10월 하순 ...) — 표 아래 별도 표기
+  // 기간형 '11/30~12/3', '청약 8/26~27' → 종료일. 시작 M/D 가 sd 와 같을 때만, 1~14일 범위만 인정.
+  const parseEnd=(e,st)=>{
+    const m=/(\d{1,2})\s*\/\s*(\d{1,2})\s*[~∼–]\s*(?:(\d{1,2})\s*\/\s*)?(\d{1,2})/.exec(String(e.d||''));
+    if(!m||+m[1]!==st.getMonth()+1||+m[2]!==st.getDate())return null;
+    const em=m[3]?+m[3]:+m[1],ed=+m[4];
+    let end=new Date(st.getFullYear(),em-1,ed);
+    if(end<st)end=new Date(st.getFullYear()+1,em-1,ed);
+    const span=Math.round((end-st)/864e5);
+    return (span>=1&&span<=14)?end:null;
+  };
+  const ongoing=[],cats={};
+  for(const e of events){
+    const st=parseEvDate(e);
+    if(!st){ongoing.push(e);continue;}
+    cats[e.cat]=1;
+    (EVCAL.byDay[evYmd(st)]=EVCAL.byDay[evYmd(st)]||[]).push({e,cont:false});
+    const en=parseEnd(e,st);
+    if(en){
+      const d=new Date(st);
+      while(true){d.setDate(d.getDate()+1);if(d>en)break;
+        (EVCAL.byDay[evYmd(d)]=EVCAL.byDay[evYmd(d)]||[]).push({e,cont:true});}
+    }
+  }
+  EVCAL.loaded=true;
+  const lg=document.getElementById('evcal-legend');
+  if(lg)lg.innerHTML=Object.keys(cats).map(c=>`<span class="ev-cat ${c}">${c}</span>`).join('')
+    +'<span style="font-size:11px;color:#6e7681;align-self:center;margin-left:6px">마우스를 올리면 원문 일정·비고 표시 · ↳ = 기간 이벤트 이어짐</span>';
+  drawEvCal();
+  // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 ...) — 달력 아래 별도 표기
   const ongEl=document.getElementById('ev-ongoing');
   if(ongEl){
     if(ongoing.length){
       ongEl.hidden=false;
-      ongEl.innerHTML='<div style="font-size:11px;color:#8b949e;margin:8px 0 4px;border-top:1px solid #2a2a2a;padding-top:6px">진행형 · 날짜 미정 '+ongoing.length+'건</div>'
-        +ongoing.map(e=>`<div style="font-size:11px;color:#8b949e;padding:1px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}</div>`).join('');
+      ongEl.innerHTML='<div style="font-size:12px;color:#8b949e;margin:4px 0 4px;border-top:1px solid #2a2a2a;padding-top:8px">진행형 · 날짜 미정 '+ongoing.length+'건</div>'
+        +ongoing.map(e=>`<div style="font-size:12.5px;color:#c9d1d9;padding:2px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}</div>`).join('');
     }else{ongEl.hidden=true;}
   }
 })();
+
+function drawEvCal(){
+  const host=document.getElementById('evcal-body');
+  if(!host||!EVCAL.loaded)return;
+  const today=new Date();today.setHours(0,0,0,0);
+  const base=new Date(today.getFullYear(),today.getMonth()+EVCAL.offset,1);
+  const months=[0,1].map(k=>new Date(base.getFullYear(),base.getMonth()+k,1));
+  host.innerHTML=months.map(m0=>evMonthHtml(m0,today)).join('');
+  const rg=document.getElementById('evcal-range');
+  if(rg)rg.textContent=months.map(m=>m.getFullYear()+'.'+(m.getMonth()+1)).join(' ~ ');
+}
+
+function evMonthHtml(m0,today){
+  const y=m0.getFullYear(),mo=m0.getMonth();
+  const first=(m0.getDay()+6)%7;                 // 월요일 시작
+  const days=new Date(y,mo+1,0).getDate();
+  const cells=Math.ceil((first+days)/7)*7;
+  let cnt=0,body='';
+  for(let i=0;i<cells;i++){
+    const dn=i-first+1;
+    if(dn<1||dn>days){body+='<div class="evm-cell out"></div>';continue;}
+    const dt=new Date(y,mo,dn),dw=i%7,list=EVCAL.byDay[evYmd(dt)]||[];
+    cnt+=list.filter(x=>!x.cont).length;
+    const isT=+dt===+today,past=dt<today;
+    body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${dw>=5?' wkend':''}">`
+      +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}</div>`
+      +list.map(x=>{
+        const e=x.e,tip=`[${e.cat}] ${e.d||''}\n${String(e.ev||'').replace(/<[^>]*>/g,'')}`+(e.note?`\n— ${e.note}`:'');
+        return `<div class="evm-ev c-${e.cat}" title="${evEsc(tip)}">${x.cont?'<i>↳</i> ':''}${e.ev}</div>`;
+      }).join('')
+      +'</div>';
+  }
+  const dow=['월','화','수','목','금','토','일'].map((w,i)=>`<div class="evm-dow${i===5?' sat':i===6?' sun':''}">${w}</div>`).join('');
+  return `<div class="evm"><div class="evm-title">${y}년 ${mo+1}월<span>${cnt}건</span></div><div class="evm-grid">${dow}${body}</div></div>`;
+}
 
 // ── Auto-refresh at fixed :00 :15 :30 :45 ──
 let lastRefreshSlot = -1;
