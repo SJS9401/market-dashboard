@@ -6,6 +6,9 @@
 <title>테마주 사이클</title>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <script src="nav-loader.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, 'Pretendard', "Segoe UI", "Malgun Gothic", sans-serif; background: #0d1117; color: #c9d1d9; }
@@ -15,22 +18,96 @@
   .header { padding: 14px 28px; background: #161b22; border-bottom: 2px solid #a371f7; }
   .header h1 { font-size: 20px; color: #fff; }
   .header p { font-size: 11px; color: #8b949e; margin-top: 2px; }
-  .wrap { padding: 24px 28px; }
-  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; font-size: 13px; line-height: 1.8; color: #e6edf3; max-width: 900px; }
-  .card b { color: #a371f7; }
+  .sub-bar { display: flex; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 28px; }
+  .sub-btn { padding: 10px 20px; font-size: 13px; font-weight: 600; color: #8b949e; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; }
+  .sub-btn:hover { color: #e6edf3; } .sub-btn.active { color: #a371f7; border-bottom-color: #a371f7; }
+  .view { display: none; padding: 14px 28px 40px; } .view.active { display: block; }
+  .intro { font-size: 12px; color: #8b949e; line-height: 1.7; margin-bottom: 10px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+  .card h3 { font-size: 15px; color: #f0f6fc; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 10px; border: 1px solid; }
+  .tag.대선 { color: #f85149; border-color: #f8514988; } .tag.산업 { color: #3fb950; border-color: #3fb95088; } .tag.경영권 { color: #e3b341; border-color: #e3b34188; }
+  .meta { font-size: 11px; color: #8b949e; margin: 4px 0 6px; }
+  .cv { position: relative; height: 300px; }
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .col h2 { font-size: 14px; margin-bottom: 8px; padding-left: 8px; border-left: 3px solid; }
+  .col .cv { height: 220px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; margin-top: 8px; }
+  th { background: #0d1117; color: #e6edf3; font-weight: 600; padding: 5px 8px; border: 1px solid #30363d; text-align: right; white-space: nowrap; }
+  td { padding: 4px 8px; border: 1px solid #21262d; text-align: right; white-space: nowrap; }
+  td.l, th.l { text-align: left; }
+  tr.lead td { color: #f0f6fc; font-weight: 700; }
+  .note { font-size: 11px; color: #6e7681; margin-top: 6px; line-height: 1.6; }
+  @media (max-width: 1300px) { .cards-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="tab-bar" data-active="theme"></div>
 <div class="header">
   <h1>테마주 사이클</h1>
-  <p>주도주(Tier 1)가 아닌 테마성 모멘텀 — 세력주·이벤트 테마·Tier 2 종목의 사이클 정리</p>
+  <p>한국 증시 트레이딩 역사에서 모두가 기억할 만한 테마주 — 대선 · 산업 · 경영권 분쟁</p>
 </div>
-<div class="wrap">
-  <div class="card">
-    <b>준비 중</b> — 페이지 틀만 만들어 둔 상태입니다.<br>
-    구성(테마 분류, 대상 종목, 매매 구간 기준)은 다음 작업에서 정해서 채웁니다.
-  </div>
+<div class="sub-bar">
+  <button class="sub-btn active" data-v="time">테마주</button>
+  <button class="sub-btn" data-v="type">유형별</button>
 </div>
+<div class="view active" id="view-time">
+  <div class="intro">시계열 순서로 배치. 각 차트는 테마 구간 시작일 = 100 으로 맞춘 종가(로그 축), 회색 점선 = 코스피·코스닥. 빨간 세로선 = 대선일. 표의 배수 = 구간 안 저점 → 고점 종가 배수(1차 리서치 기준이며, 정확한 매매 구간은 이후 스터디로 확정).</div>
+  <div id="time-list"></div>
+</div>
+<div class="view" id="view-type">
+  <div class="intro">유형별 배치 — 대선(Tier 1) · 산업 테마(Tier 1급) · 경영권 분쟁·지분 매입(Tier 1.5~2).</div>
+  <div class="cards-grid" id="type-grid"></div>
+</div>
+<script>
+const COLORS = ['#ff6b6b', '#4ecdc4', '#ffd166', '#a29bfe', '#74b9ff', '#fd79a8', '#55efc4', '#fab1a0', '#81ecec'];
+const TYPE_COLOR = { '대선': '#f85149', '산업': '#3fb950', '경영권': '#e3b341' };
+const TYPE_DESC = { '대선': '대선 테마 (Tier 1)', '산업': '산업 테마 (Tier 1급)', '경영권': '경영권 분쟁·지분 매입 (Tier 1.5~2)' };
+let DATA = null; const drawn = {};
+const ts = d => Date.UTC(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8));
+const fd = d => d.slice(0, 4) + '-' + d.slice(4, 6) + '-' + d.slice(6, 8);
+function cardHTML(e, cid, compact) {
+  const rows = e.members.map((m, i) => '<tr' + (i === 0 ? ' class="lead"' : '') + '><td class="l">' + (i === 0 ? '★ ' : '') + m.name + '</td><td>' + m.mult.toFixed(1) + '배</td><td>' + fd(m.low) + ' → ' + fd(m.peak) + '</td><td>' + m.days + '일</td><td>' + Math.round(m.maxval).toLocaleString() + '</td></tr>').join('');
+  return '<div class="card"><h3>' + e.title + ' <span class="tag ' + e.type + '">' + e.type + '</span></h3>'
+    + '<div class="meta">구간 ' + e.start + ' ~ ' + e.end + (e.event ? ' · 대선일 ' + e.event : '') + ' · 종목 ' + e.members.length + '개</div>'
+    + '<div class="cv"><canvas id="' + cid + '"></canvas></div>'
+    + (compact ? '' : '<table><tr><th class="l">종목 (★ = 배수 1위)</th><th>저점→고점 배수</th><th>저점 → 고점</th><th>영업일</th><th>최대 거래대금(억, 근사)</th></tr>' + rows + '</table>')
+    + '</div>';
+}
+function drawChart(e, cid) {
+  if (drawn[cid]) return; const el = document.getElementById(cid); if (!el) return; drawn[cid] = true;
+  const a = e.start.replace(/-/g, ''), base = s => { const p = s.find(x => x[0] >= a) || s[0]; return p[1]; };
+  const ds = e.members.map((m, i) => { const b = base(m.series); return { label: m.name, data: m.series.map(x => ({ x: ts(x[0]), y: x[1] / b * 100 })), borderColor: COLORS[i % COLORS.length], borderWidth: i === 0 ? 2 : 1.2, pointRadius: 0, tension: 0 }; });
+  ['KOSPI', 'KOSDAQ'].forEach((k, j) => { const s = e.index[k]; if (!s || !s.length) return; const b = base(s);
+    ds.push({ label: k, data: s.map(x => ({ x: ts(x[0]), y: x[1] / b * 100 })), borderColor: j ? '#6e7681' : '#8b949e', borderDash: [4, 3], borderWidth: 1, pointRadius: 0 }); });
+  const ann = {};
+  if (e.event) ann.ev = { type: 'line', scaleID: 'x', value: Date.parse(e.event), borderColor: '#f85149', borderWidth: 1.5, borderDash: [5, 4], label: { display: true, content: '대선', position: 'start', color: '#f85149', backgroundColor: 'rgba(13,17,23,0.7)', font: { size: 10 } } };
+  ann.win = { type: 'box', xMin: Date.parse(e.start), xMax: Date.parse(e.end), backgroundColor: TYPE_COLOR[e.type] + '10', borderWidth: 0 };
+  new Chart(el.getContext('2d'), { type: 'line', data: { datasets: ds }, options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    plugins: { legend: { labels: { color: '#c9d1d9', font: { size: 10 }, boxWidth: 12, boxHeight: 2 } }, annotation: { annotations: ann },
+      tooltip: { callbacks: { title: it => new Date(it[0].parsed.x).toISOString().slice(0, 10), label: it => it.dataset.label + ' ' + (it.parsed.y / 100).toFixed(2) + '배' } } },
+    scales: { x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'yy.MM' } }, ticks: { color: '#8b949e', font: { size: 9 }, maxRotation: 0, autoSkip: true }, grid: { color: '#21262d' } },
+      y: { type: 'logarithmic', ticks: { color: '#8b949e', font: { size: 9 }, callback: v => (v / 100).toFixed(v < 100 ? 1 : 0) + '배' }, grid: { color: '#21262d' } } } } });
+}
+function renderTime() {
+  const eps = DATA.episodes.slice().sort((p, q) => p.start.localeCompare(q.start));
+  document.getElementById('time-list').innerHTML = eps.map(e => cardHTML(e, 't_' + e.id, false)).join('');
+  eps.forEach(e => drawChart(e, 't_' + e.id));
+}
+function renderType() {
+  if (document.getElementById('type-grid').children.length) return;
+  document.getElementById('type-grid').innerHTML = ['대선', '산업', '경영권'].map(t => '<div class="col"><h2 style="color:' + TYPE_COLOR[t] + ';border-color:' + TYPE_COLOR[t] + '">' + TYPE_DESC[t] + '</h2>'
+    + DATA.episodes.filter(e => e.type === t).sort((p, q) => p.start.localeCompare(q.start)).map(e => cardHTML(e, 'y_' + e.id, true)).join('') + '</div>').join('');
+  DATA.episodes.forEach(e => drawChart(e, 'y_' + e.id));
+}
+document.querySelectorAll('.sub-btn').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.sub-btn').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + b.dataset.v));
+  if (b.dataset.v === 'type') renderType();
+});
+fetch('data/theme_episodes.json', { cache: 'no-store' }).then(r => r.json()).then(d => { DATA = d; renderTime(); })
+  .catch(e => { document.getElementById('time-list').innerHTML = '<div class="card">데이터를 불러오지 못했습니다: ' + e + '</div>'; });
+</script>
 </body>
 </html>
