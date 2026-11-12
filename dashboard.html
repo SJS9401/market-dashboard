@@ -183,39 +183,63 @@
   .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
   .ev-table tr.today td, .ev-table tr.today-first td, .ev-table tr.today-last td, .ev-table tr.today-only td { color: #e2c571; }
   .ev-table tr.soon td { color: #e2c571; }
-  /* ── 이벤트 캘린더 월 달력 (2026-11-12 BT) ── */
+  /* ── 이벤트 캘린더 v2 (2026-11-12 BT "가독성 확실히 개선") ──
+     왼쪽 = 월 달력(칸마다 최대 4건·각 2줄, 나머지 +N), 오른쪽 = 선택한 날의 상세 목록(큰 글씨, 고정).
+     주말 칸은 좁게, 기간 이벤트의 이어지는 날은 달력에서 빼고 상세 목록 '진행 중' 으로만. */
   .ev-cat.신규상장 { background: #1f3a2e; color: #7ee0b0; }
-  .evcal-legend { display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px 0; }
-  .evcal-scroll { overflow-x:auto; }
-  .evm { padding:12px 14px 16px; }
-  .evm-title { font-size:16px; font-weight:800; color:#f0f6fc; margin:4px 2px 8px; }
-  .evm-title span { font-size:11px; color:#8b949e; font-weight:400; margin-left:6px; }
-  .evm-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); border-top:1px solid #2e2e2e; border-left:1px solid #2e2e2e; min-width:760px; }
-  .evm-dow { font-size:12px; font-weight:700; color:#8b949e; text-align:center; padding:6px 0; background:#202020; border-right:1px solid #2e2e2e; border-bottom:1px solid #2e2e2e; }
+  .c-실적 { --c:#56d364; --bg:rgba(86,211,100,.14); }
+  .c-정책 { --c:#e2a44e; --bg:rgba(226,164,78,.14); }
+  .c-산업 { --c:#58a6ff; --bg:rgba(88,166,255,.14); }
+  .c-경제지표 { --c:#bc8cff; --bg:rgba(188,140,255,.14); }
+  .c-지정학 { --c:#f85149; --bg:rgba(248,81,73,.14); }
+  .c-IPO { --c:#56d3c4; --bg:rgba(86,211,196,.14); }
+  .c-신규상장 { --c:#7ee0b0; --bg:rgba(126,224,176,.14); }
+  .c-시장구조 { --c:#c9b45c; --bg:rgba(201,180,92,.14); }
+  .c-학회 { --c:#79c0ff; --bg:rgba(121,192,255,.14); }
+  .c-정치 { --c:#f778ba; --bg:rgba(247,120,186,.14); }
+  .c-기타 { --c:#8b949e; --bg:rgba(139,148,158,.14); }
+  .c-방산 { --c:#e2a44e; --bg:rgba(226,164,78,.14); }
+  .evcal-legend { display:flex; gap:6px; flex-wrap:wrap; align-items:center; padding:10px 16px 0; }
+  .evcal-wrap { display:grid; grid-template-columns:minmax(0,1fr) 420px; align-items:start; }
+  .evcal-scroll { overflow-x:auto; min-width:0; }
+  .evcal-agenda { position:sticky; top:8px; margin:14px 14px 16px 0; background:#101010; border:1px solid #2e2e2e; border-radius:10px; max-height:calc(100vh - 24px); overflow-y:auto; }
+  @media (max-width:1150px) { .evcal-wrap { grid-template-columns:1fr; } .evcal-agenda { position:static; margin:0 14px 16px; max-height:none; } }
+  .evm { padding:14px 14px 10px; }
+  .evm-title { font-size:17px; font-weight:800; color:#f0f6fc; margin:0 2px 10px; }
+  .evm-title span { font-size:12px; color:#8b949e; font-weight:400; margin-left:8px; }
+  .evm-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)) repeat(2,minmax(0,.5fr)); gap:5px; min-width:760px; }
+  .evm-dow { font-size:12px; font-weight:700; color:#8b949e; text-align:center; padding:2px 0 4px; }
   .evm-dow.sat, .evm-dn.sat { color:#58a6ff; }
   .evm-dow.sun, .evm-dn.sun { color:#f85149; }
-  .evm-cell { min-height:92px; padding:5px 6px 7px; border-right:1px solid #2e2e2e; border-bottom:1px solid #2e2e2e; background:#161616; min-width:0; }
-  .evm-cell.out { background:#0d0d0d; }
-  .evm-cell.wkend { background:#121212; }
-  .evm-cell.past > * { opacity:.42; }
-  .evm-cell.today { background:#2a2410; box-shadow:inset 0 0 0 2px #e2c571; }
-  .evm-dn { font-size:13px; font-weight:700; color:#c9d1d9; margin-bottom:3px; display:flex; align-items:center; gap:6px; }
-  .evm-dn b { font-size:10px; background:#e2c571; color:#0f0f0f; border-radius:3px; padding:0 5px; }
-  .evm-ev { font-size:12.5px; line-height:1.38; color:#e6edf3; padding:2px 5px; margin-top:3px; border-left:3px solid var(--c,#8b949e); background:rgba(139,148,158,.08); border-radius:0 3px 3px 0; word-break:keep-all; overflow-wrap:anywhere; cursor:default; }
-  .evm-ev i { font-style:normal; color:#8b949e; }
-  .evm-ev.cont { font-size:11px; color:#8b949e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; background:transparent; }   /* 기간 이어짐은 한 줄로 흐리게 */
-  .evm-ev.c-실적 { --c:#56d364; background:rgba(86,211,100,.11); }
-  .evm-ev.c-정책 { --c:#e2a44e; background:rgba(226,164,78,.11); }
-  .evm-ev.c-산업 { --c:#58a6ff; background:rgba(88,166,255,.11); }
-  .evm-ev.c-경제지표 { --c:#bc8cff; background:rgba(188,140,255,.11); }
-  .evm-ev.c-지정학 { --c:#f85149; background:rgba(248,81,73,.11); }
-  .evm-ev.c-IPO { --c:#56d3c4; background:rgba(86,211,196,.11); }
-  .evm-ev.c-신규상장 { --c:#7ee0b0; background:rgba(126,224,176,.11); }
-  .evm-ev.c-시장구조 { --c:#c9b45c; background:rgba(201,180,92,.11); }
-  .evm-ev.c-학회 { --c:#79c0ff; background:rgba(121,192,255,.11); }
-  .evm-ev.c-정치 { --c:#f778ba; background:rgba(247,120,186,.11); }
-  .evm-ev.c-기타 { --c:#8b949e; background:rgba(139,148,158,.11); }
-  .evm-ev.c-방산 { --c:#e2a44e; background:rgba(226,164,78,.11); }
+  .evm-cell { min-height:116px; padding:6px 6px 7px; background:#1c1c1c; border:1px solid #2a2a2a; border-radius:7px; cursor:pointer; min-width:0; }
+  .evm-cell:hover { border-color:#555; }
+  .evm-cell.out { background:transparent; border-color:transparent; cursor:default; min-height:0; }
+  .evm-cell.wkend { background:#161616; }
+  .evm-cell.past { background:#141414; }
+  .evm-cell.past .evm-ev, .evm-cell.past .evm-more { opacity:.4; }
+  .evm-cell.past .evm-dn { color:#5a6068; }
+  .evm-cell.today { background:#24200f; border:2px solid #e2c571; padding:5px 5px 6px; }
+  .evm-cell.sel { box-shadow:0 0 0 2px #58a6ff; border-color:#58a6ff; }
+  .evm-dn { display:flex; align-items:center; gap:6px; font-size:14px; font-weight:800; color:#e6edf3; margin:0 2px 5px; }
+  .evm-dn b { font-size:10.5px; background:#e2c571; color:#0f0f0f; border-radius:3px; padding:0 5px; }
+  .evm-dn .cnt { margin-left:auto; font-size:11px; font-weight:600; color:#8b949e; }
+  .evm-ev { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:12.5px; line-height:1.36; color:#f0f6fc; padding:2px 6px; margin-top:3px; border-left:3px solid var(--c,#8b949e); background:var(--bg,rgba(139,148,158,.1)); border-radius:0 4px 4px 0; word-break:keep-all; overflow-wrap:anywhere; }
+  .evm-ev .tm, .ag-item .tm { font-weight:700; color:#e2c571; font-variant-numeric:tabular-nums; }
+  .evm-ev .tm { margin-right:4px; }
+  .evm-more { font-size:12px; color:#58a6ff; font-weight:700; margin:5px 0 0 6px; }
+  .evm-wk .evm-ev { -webkit-line-clamp:1; font-size:11.5px; }
+  /* 오른쪽 상세 목록 */
+  .ag-head { display:flex; align-items:center; gap:8px; padding:12px 14px; border-bottom:1px solid #2e2e2e; background:#181818; position:sticky; top:0; z-index:1; }
+  .ag-head .d { font-size:18px; font-weight:800; color:#f0f6fc; }
+  .ag-head .s { font-size:12px; color:#8b949e; }
+  .ag-head .series-toggle { margin-left:auto; display:flex; gap:4px; }
+  .ag-sub { padding:12px 16px 4px; font-size:12px; color:#8b949e; font-weight:700; }
+  .ag-item { padding:10px 14px 11px 13px; border-bottom:1px solid #1f1f1f; border-left:4px solid var(--c,#8b949e); }
+  .ag-item .top { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+  .ag-item .tx { font-size:15px; line-height:1.5; color:#f0f6fc; word-break:keep-all; overflow-wrap:anywhere; }
+  .ag-item .nt { font-size:12.5px; line-height:1.5; color:#9da5ae; margin-top:4px; }
+  .ag-item.cont .tx { font-size:13.5px; color:#c9d1d9; }
+  .ag-empty { padding:28px 16px; color:#6e7681; font-size:13px; text-align:center; }
   /* 바로가기 전폭 한 줄 (2026-11-12) */
   .links-card.links-half { flex:none; width:calc(50% - 25px); }
   @media (max-width: 900px) { .links-card.links-half { width:100%; } }
@@ -612,7 +636,10 @@
       </span>
     </h2>
     <div class="evcal-legend" id="evcal-legend"></div>
-    <div class="evcal-scroll"><div id="evcal-body"><div style="color:#6e7681;padding:16px;font-size:12px;">로딩 중...</div></div></div>
+    <div class="evcal-wrap">
+      <div class="evcal-scroll"><div id="evcal-body"><div style="color:#6e7681;padding:16px;font-size:12px;">로딩 중...</div></div></div>
+      <aside class="evcal-agenda" id="evcal-agenda"></aside>
+    </div>
     <div id="ev-ongoing" hidden style="padding:0 16px 14px;"></div>
   </div>
 </div>
@@ -2836,7 +2863,7 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar (2026-11-12 BT: 표 → 월 달력. 이번 달 + 다음 달, ◀ ▶ 로 이동) ──
 // 데이터: data/events_calendar.json (2026-09-13 런타임 fetch 구조 — sync-calendar.yml 이 갱신).
 // 날짜 계산은 e.sd(Notion 정렬일 ISO) 우선, 없으면 e.d 안의 첫 유효 M/D, 그것도 없으면 '진행형' 목록.
-const EVCAL={byDay:{},offset:0,loaded:false};
+const EVCAL={byDay:{},offset:0,loaded:false,sel:null};
 const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const evYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); }
@@ -2889,7 +2916,7 @@ function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); 
   EVCAL.loaded=true;
   const lg=document.getElementById('evcal-legend');
   if(lg)lg.innerHTML=Object.keys(cats).map(c=>`<span class="ev-cat ${c}">${c}</span>`).join('')
-    +'<span style="font-size:11px;color:#6e7681;align-self:center;margin-left:6px">마우스를 올리면 원문 일정·비고 표시 · ↳ = 기간 이벤트 이어짐</span>';
+    +'<span style="font-size:12px;color:#8b949e;margin-left:8px">날짜를 누르면 오른쪽에 그날 일정이 크게 펼쳐집니다</span>';
   drawEvCal();
   // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 ...) — 달력 아래 별도 표기
   const ongEl=document.getElementById('ev-ongoing');
@@ -2902,15 +2929,76 @@ function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); 
   }
 })();
 
+// 'KST 22:30' / 'KST 11/13 02:00' → 시각 표시용
+function evTime(ev){
+  const m=/KST\s*((?:\d{1,2}\/\d{1,2}\s+)?\d{1,2}:\d{2})/.exec(String(ev||''));
+  return m?m[1]:'';
+}
+const evPlain=t=>String(t||'').replace(/<[^>]*>/g,'');
+const EV_DOW=['일','월','화','수','목','금','토'];
+
 function drawEvCal(){
   const host=document.getElementById('evcal-body');
   if(!host||!EVCAL.loaded)return;
   const today=new Date();today.setHours(0,0,0,0);
   const base=new Date(today.getFullYear(),today.getMonth()+EVCAL.offset,1);
   const months=[0,1].map(k=>new Date(base.getFullYear(),base.getMonth()+k,1));
+  const lo=evYmd(months[0]),hi=evYmd(new Date(base.getFullYear(),base.getMonth()+2,0));
+  if(!EVCAL.sel||EVCAL.sel<lo||EVCAL.sel>hi){
+    const t=evYmd(today);
+    EVCAL.sel=(t>=lo&&t<=hi)?t:lo;
+  }
   host.innerHTML=months.map(m0=>evMonthHtml(m0,today)).join('');
   const rg=document.getElementById('evcal-range');
   if(rg)rg.textContent=months.map(m=>m.getFullYear()+'.'+(m.getMonth()+1)).join(' ~ ');
+  if(!host._bound){
+    host._bound=true;
+    host.addEventListener('click',ev=>{
+      const c=ev.target.closest('.evm-cell[data-d]');
+      if(!c)return;
+      EVCAL.sel=c.dataset.d;
+      host.querySelectorAll('.evm-cell.sel').forEach(x=>x.classList.remove('sel'));
+      c.classList.add('sel');
+      drawAgenda();
+    });
+  }
+  drawAgenda();
+}
+
+function evSelStep(n){
+  const d=new Date(EVCAL.sel+'T00:00:00');d.setDate(d.getDate()+n);
+  EVCAL.sel=evYmd(d);
+  const host=document.getElementById('evcal-body');
+  const c=host&&host.querySelector('.evm-cell[data-d="'+EVCAL.sel+'"]');
+  if(!c){                                    // 화면 밖 달로 넘어가면 달력도 이동
+    const t=new Date();t.setHours(0,0,0,0);
+    EVCAL.offset=(d.getFullYear()-t.getFullYear())*12+d.getMonth()-t.getMonth()-(n<0?1:0);
+    drawEvCal();return;
+  }
+  host.querySelectorAll('.evm-cell.sel').forEach(x=>x.classList.remove('sel'));
+  c.classList.add('sel');
+  drawAgenda();
+}
+
+function drawAgenda(){
+  const el=document.getElementById('evcal-agenda');
+  if(!el||!EVCAL.sel)return;
+  const d=new Date(EVCAL.sel+'T00:00:00');
+  const t=new Date();t.setHours(0,0,0,0);
+  const diff=Math.round((d-t)/864e5);
+  const rel=diff===0?'오늘':diff===1?'내일':diff===-1?'어제':diff>0?diff+'일 후':(-diff)+'일 전';
+  const list=EVCAL.byDay[EVCAL.sel]||[];
+  const main=list.filter(x=>!x.cont),cont=list.filter(x=>x.cont);
+  const item=(x)=>{
+    const e=x.e,tm=evTime(e.ev);
+    const sched=(String(e.d||'').length>6||x.cont)?`<div class="nt">일정: ${evEsc(e.d)}</div>`:'';
+    return `<div class="ag-item c-${e.cat}${x.cont?' cont':''}"><div class="top"><span class="ev-cat ${e.cat}">${e.cat}</span>${tm?`<span class="tm">${tm}</span>`:''}</div>`
+      +`<div class="tx">${e.ev}</div>`+(e.note?`<div class="nt">${evEsc(e.note)}</div>`:'')+sched+'</div>';
+  };
+  el.innerHTML=`<div class="ag-head"><span class="d">${d.getMonth()+1}/${d.getDate()}(${EV_DOW[d.getDay()]})</span><span class="s">${rel} · ${main.length}건</span>`
+    +`<span class="series-toggle"><button data-s="m" onclick="evSelStep(-1)" title="전날">◀</button><button data-s="m" onclick="evSelStep(1)" title="다음날">▶</button></span></div>`
+    +(main.length?main.map(item).join(''):'<div class="ag-empty">이 날 등록된 일정이 없습니다</div>')
+    +(cont.length?'<div class="ag-sub">진행 중인 기간 일정</div>'+cont.map(item).join(''):'');
 }
 
 function evMonthHtml(m0,today){
@@ -2918,19 +3006,24 @@ function evMonthHtml(m0,today){
   const first=(m0.getDay()+6)%7;                 // 월요일 시작
   const days=new Date(y,mo+1,0).getDate();
   const cells=Math.ceil((first+days)/7)*7;
+  const MAX=4;
   let cnt=0,body='';
   for(let i=0;i<cells;i++){
     const dn=i-first+1;
     if(dn<1||dn>days){body+='<div class="evm-cell out"></div>';continue;}
-    const dt=new Date(y,mo,dn),dw=i%7,list=EVCAL.byDay[evYmd(dt)]||[];
-    cnt+=list.filter(x=>!x.cont).length;
-    const isT=+dt===+today,past=dt<today;
-    body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${dw>=5?' wkend':''}">`
-      +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}</div>`
-      +list.map(x=>{
-        const e=x.e,tip=`[${e.cat}] ${e.d||''}\n${String(e.ev||'').replace(/<[^>]*>/g,'')}`+(e.note?`\n— ${e.note}`:'');
-        return `<div class="evm-ev c-${e.cat}${x.cont?' cont':''}" title="${evEsc(tip)}">${x.cont?'<i>↳</i> ':''}${e.ev}</div>`;
+    const dt=new Date(y,mo,dn),dw=i%7,key=evYmd(dt);
+    const list=(EVCAL.byDay[key]||[]).filter(x=>!x.cont);
+    cnt+=list.length;
+    const isT=+dt===+today,past=dt<today,wk=dw>=5,mx=wk?2:MAX;
+    const shown=list.length>mx?list.slice(0,mx-1):list;
+    body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${wk?' wkend evm-wk':''}${key===EVCAL.sel?' sel':''}" data-d="${key}">`
+      +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}${list.length>1?`<span class="cnt">${list.length}건</span>`:''}</div>`
+      +shown.map(x=>{
+        const e=x.e,tm=evTime(e.ev);
+        const tip=`[${e.cat}] ${e.d||''}\n${evPlain(e.ev)}`+(e.note?`\n— ${e.note}`:'');
+        return `<div class="evm-ev c-${e.cat}" title="${evEsc(tip)}">${tm?`<span class="tm">${tm.replace(/^\d{1,2}\/\d{1,2}\s+/,'')}</span>`:''}${e.ev}</div>`;
       }).join('')
+      +(list.length>shown.length?`<div class="evm-more">+${list.length-shown.length}건 더보기</div>`:'')
       +'</div>';
   }
   const dow=['월','화','수','목','금','토','일'].map((w,i)=>`<div class="evm-dow${i===5?' sat':i===6?' sun':''}">${w}</div>`).join('');
