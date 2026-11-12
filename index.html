@@ -110,6 +110,7 @@
   .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #2e2e2e; font-weight: 500; }
   .ev-table td { padding: 6px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; line-height: 1.5; vertical-align: middle; }
   .ev-table tr:last-child td { border-bottom: none; }
+  .ev-tz { font-size: 11px; color: #8b949e; font-weight: 400; }  /* 2026-11-12 현지시각 · (KST) 병기 */
   .ev-table tr.past td { color: #484f58; text-decoration: line-through; }
   .ev-table tr.today td, .ev-table tr.today-first td, .ev-table tr.today-last td, .ev-table tr.today-only td { color: #e2c571; }
   .ev-table tr.soon td { color: #e2c571; }
@@ -2090,6 +2091,9 @@ function setupScrollbar(col, mainId) {
 }
 
 // ── Event Calendar ──
+// 2026-11-12 (BT 승인) 날짜 = 현지 날짜. ev 뒤에 ' · 현지시각 (KST …)' — lt/kst 없는 옛 JSON 이면 빈 문자열.
+const evTz=e=>{const t=(e&&e.lt?' · '+e.lt:'')+(e&&e.kst?' (KST '+e.kst+')':'');
+  return t?'<span class="ev-tz">'+t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>':'';};
 (async function renderEvents(){
   // 2026-09-13: 이벤트 배열을 HTML 에서 분리 -> data/events_calendar.json 런타임 fetch.
   // 이유: sync-calendar.yml 이 HTML 을 직접 치환하면 deploy_dashboard.bat 의 xcopy 가
@@ -2150,7 +2154,7 @@ function setupScrollbar(col, mainId) {
     const dowNames=['일','월','화','수','목','금','토'];
     const dLabel=`${e.d}(${dowNames[e.evDate.getDay()]})`;
     const dateCell=e.diff===0?`<span class="ev-date-badge">${dLabel}</span>`:dLabel;
-    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}</td><td style="color:#8b949e">${e.note}</td></tr>`;
+    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td>${e.ev}${evTz(e)}</td><td style="color:#8b949e">${e.note}</td></tr>`;
   });
   // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 / 10월 하순 ...) — 표 아래 별도 표기
   const ongEl=document.getElementById('ev-ongoing');
@@ -2158,7 +2162,7 @@ function setupScrollbar(col, mainId) {
     if(ongoing.length){
       ongEl.hidden=false;
       ongEl.innerHTML='<div style="font-size:11px;color:#8b949e;margin:8px 0 4px;border-top:1px solid #2a2a2a;padding-top:6px">진행형 · 날짜 미정 '+ongoing.length+'건</div>'
-        +ongoing.map(e=>`<div style="font-size:11px;color:#8b949e;padding:1px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}</div>`).join('');
+        +ongoing.map(e=>`<div style="font-size:11px;color:#8b949e;padding:1px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}${evTz(e)}</div>`).join('');
     }else{ongEl.hidden=true;}
   }
 })();

@@ -177,6 +177,7 @@
   .ev-table td.ev-c, .ev-table th.ev-c { width: 1%; white-space: nowrap; }
   .ev-table td.ev-e { font-size: 14.5px; }
   .ev-table .ev-dnote { display: block; font-size: 11px; color: #8b949e; margin-top: 2px; }
+  .ev-tz { font-size: 12px; color: #8b949e; font-weight: 400; }  /* 2026-11-12 현지시각 · (KST) 병기 */
   .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #2e2e2e; font-weight: 500; }
   .ev-table td { padding: 6px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; line-height: 1.5; vertical-align: middle; }
   .ev-table tr:last-child td { border-bottom: none; }
@@ -2867,6 +2868,9 @@ function setupScrollbar(col, mainId) {
 // 날짜 계산은 e.sd(Notion 정렬일 ISO) 우선, 없으면 e.d 안의 첫 유효 M/D, 그것도 없으면 '진행형' 목록.
 const EVCAL={byDay:{},offset:0,loaded:false,sel:null};
 const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// 2026-11-12 (BT 승인) 날짜 = 현지 날짜. ev 뒤에 ' · 현지시각 (KST …)' — lt/kst 없는 옛 JSON 이면 빈 문자열.
+const evTzPlain=e=>(e&&e.lt?' · '+e.lt:'')+(e&&e.kst?' (KST '+e.kst+')':'');
+const evTz=e=>{const t=evTzPlain(e);return t?`<span class="ev-tz">${evEsc(t)}</span>`:'';};
 const evYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); }
 (async function renderEvents(){
@@ -2926,7 +2930,7 @@ function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); 
     if(ongoing.length){
       ongEl.hidden=false;
       ongEl.innerHTML='<div style="font-size:12px;color:#8b949e;margin:4px 0 4px;border-top:1px solid #2a2a2a;padding-top:8px">진행형 · 날짜 미정 '+ongoing.length+'건</div>'
-        +ongoing.map(e=>`<div style="font-size:12.5px;color:#c9d1d9;padding:2px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}</div>`).join('');
+        +ongoing.map(e=>`<div style="font-size:12.5px;color:#c9d1d9;padding:2px 0;line-height:1.5"><span style="color:#6e7681">${e.d}</span> <span class="ev-cat ${e.cat}">${e.cat}</span> ${e.ev}${evTz(e)}</div>`).join('');
     }else{ongEl.hidden=true;}
   }
 })();
@@ -3002,7 +3006,7 @@ function drawAgenda(){
     const e=x.e,tm=evTime(e.ev),nt=e.note?evNoteClean(e.note):'';
     const sched=(String(e.d||'').length>6||x.cont)?`<div class="nt">일정: ${evEsc(e.d)}</div>`:'';
     return `<div class="ag-item c-${e.cat}${x.cont?' cont':''}"><div class="top"><span class="ev-cat ${e.cat}">${e.cat}</span>${tm?`<span class="tm">${tm}</span>`:''}</div>`
-      +`<div class="tx">${e.ev}</div>`+(nt?`<div class="nt clamp" onclick="this.classList.toggle('clamp')" title="눌러서 펼치기/접기">${nt}</div>`:'')+sched+'</div>';
+      +`<div class="tx">${e.ev}${evTz(e)}</div>`+(nt?`<div class="nt clamp" onclick="this.classList.toggle('clamp')" title="눌러서 펼치기/접기">${nt}</div>`:'')+sched+'</div>';
   };
   el.innerHTML=`<div class="ag-head"><span class="d">${d.getMonth()+1}/${d.getDate()}(${EV_DOW[d.getDay()]})</span><span class="s">${rel} · ${main.length}건</span>`
     +`<span class="series-toggle"><button data-s="m" onclick="evSelStep(-1)" title="전날">◀</button><button data-s="m" onclick="evSelStep(1)" title="다음날">▶</button></span></div>`
@@ -3028,8 +3032,8 @@ function evMonthHtml(m0,today){
     body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${wk?' wkend evm-wk':''}${key===EVCAL.sel?' sel':''}" data-d="${key}">`
       +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}${list.length>1?`<span class="cnt">${list.length}건</span>`:''}</div>`
       +shown.map(x=>{
-        const e=x.e,tm=evTime(e.ev);
-        const tip=`[${e.cat}] ${e.d||''}\n${evPlain(e.ev)}`+(e.note?`\n— ${e.note}`:'');
+        const e=x.e,tm=evTime(e.ev)||(e.lt||'');   // 2026-11-12: 칸에는 현지시각(ET 08:30) — KST 는 툴팁·오른쪽 상세
+        const tip=`[${e.cat}] ${e.d||''}\n${evPlain(e.ev)}${evTzPlain(e)}`+(e.note?`\n— ${e.note}`:'');
         return `<div class="evm-ev c-${e.cat}" title="${evEsc(tip)}">${tm?`<span class="tm">${tm.replace(/^\d{1,2}\/\d{1,2}\s+/,'')}</span>`:''}${e.ev}</div>`;
       }).join('')
       +(list.length>shown.length?`<div class="evm-more">+${list.length-shown.length}건 더보기</div>`:'')
