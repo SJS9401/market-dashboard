@@ -3461,7 +3461,7 @@ function switchView(evt, viewId) {
     if (!mf.src) {
       mf.src = 'Momentum.html?embed=1';
       const fit = () => { try { const d = mf.contentDocument; mf.style.height = Math.max(1400, d.documentElement.scrollHeight) + 'px'; } catch (e) {} };
-      mf.onload = () => { fit(); setTimeout(fit, 1000); setTimeout(fit, 3000); };
+      mf.onload = () => { try { const d = mf.contentDocument; const st = d.createElement('style'); st.textContent = '[data-active]{display:none !important;}'; (d.head || d.documentElement).appendChild(st); } catch (e) {} fit(); setTimeout(fit, 1000); setTimeout(fit, 3000); };
     }
   }
 }

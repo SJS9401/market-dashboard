@@ -45,6 +45,17 @@
   function fit(f) {
     try { const d = f.contentDocument; if (d && d.body) f.style.height = Math.max(900, d.documentElement.scrollHeight, d.body.scrollHeight) + 'px'; } catch (e) {}
   }
+  // iframe 안 페이지의 상단 메뉴를 부모에서 직접 숨김 (브라우저에 예전 nav-loader.js 가 캐시돼 있어도 확실히 숨김)
+  function hideNav(f) {
+    try {
+      const d = f.contentDocument; if (!d) return;
+      if (!d.getElementById('embed-hide-nav')) {
+        const st = d.createElement('style'); st.id = 'embed-hide-nav';
+        st.textContent = '[data-active]{display:none !important;}';
+        (d.head || d.documentElement).appendChild(st);
+      }
+    } catch (e) {}
+  }
   function show(k) {
     const btn = bar.querySelector('[data-k="' + k + '"]') || bar.querySelector('.sub-btn');
     k = btn.dataset.k;
@@ -52,7 +63,7 @@
     if (!frames[k]) {
       const f = document.createElement('iframe');
       f.src = btn.dataset.src + '?embed=1';
-      f.onload = () => { fit(f); setTimeout(() => fit(f), 800); setTimeout(() => fit(f), 2500); };
+      f.onload = () => { hideNav(f); fit(f); setTimeout(() => fit(f), 800); setTimeout(() => fit(f), 2500); };
       wrap.appendChild(f); frames[k] = f;
     }
     Object.entries(frames).forEach(([kk, f]) => f.classList.toggle('on', kk === k));
