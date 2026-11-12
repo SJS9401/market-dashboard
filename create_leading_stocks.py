@@ -1368,6 +1368,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
   <button class="tab-btn" onclick="switchView(event,'vtype')">유형별</button>
   <button class="tab-btn" onclick="switchView(event,'vterm')">시계열별</button>
   <button class="tab-btn" onclick="switchView(event,'vstudy')">스터디</button>
+  <button class="tab-btn" onclick="switchView(event,'vmomentum')">모멘텀 스터디</button>
 </div>
 
 <!-- SECTOR_VIEW_V1: 산업 사이클 매트릭스 (2026-11-03) -->
@@ -1378,6 +1379,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-s
 <div class="view-panel" id="view-vterm">
   <div class="sec-intro">같은 산업 사이클을 주기 길이별로 배치. 장기 14~30년 · 중기 4~8년 · 단기 2~5년 · 1회. 카드 색 태그 = 재가동형(파랑) / 개척형(초록). 카드를 누르면 화면 폭 전체로 크게 열리고, 닫기·바깥 클릭·Esc로 닫혀.</div>
   <div class="sec-matrix" id="sec-term"></div>
+</div>
+
+<!-- MOMENTUM STUDY (2026-11-12) — Momentum.html 을 iframe 으로 융합 -->
+<div class="view-panel" id="view-vmomentum">
+  <iframe id="momentum-frame" style="width:100%;border:0;min-height:1400px;background:#0d1117;display:block;"></iframe>
 </div>
 
 <!-- STUDY (2026-11-05) -->
@@ -3450,6 +3456,14 @@ function switchView(evt, viewId) {
   if (viewId === 'vtype') renderSecType();
   if (viewId === 'vterm') renderSecTerm();
   if (viewId === 'vstudy') renderStudy();
+  if (viewId === 'vmomentum') {
+    const mf = document.getElementById('momentum-frame');
+    if (!mf.src) {
+      mf.src = 'Momentum.html?embed=1';
+      const fit = () => { try { const d = mf.contentDocument; mf.style.height = Math.max(1400, d.documentElement.scrollHeight) + 'px'; } catch (e) {} };
+      mf.onload = () => { fit(); setTimeout(fit, 1000); setTimeout(fit, 3000); };
+    }
+  }
 }
 
 // ===== Tier 구분 (2026-11-05) — Tier 1 = 당시 거래대금 최상위로 지수를 주도한 섹터/종목, Tier 2 = 같은 시기 업사이클이지만 주도는 아님 =====
