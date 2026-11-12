@@ -2940,6 +2940,7 @@ const evPlain=t=>String(t||'').replace(/<[^>]*>/g,'');
 const EV_DOW=['일','월','화','수','목','금','토'];
 // 비고(note) 에서 Notion 관리용 메타 문장(데일리 신규 등록·DB 누락 보강·중복 대조 등)은 빼고 내용만 보여준다.
 function evNoteClean(n){
+  n=String(n||'').replace(/[✅⚠️]*\s*\d{4}-\d{2}-\d{2}\s*(?:데일리|위클리|Phase\s*\d[\w-]*)?\s*(?:정기|신규)?\s*(?:등록|정정|점검)\s*(?:\([^)]*\))?\s*[.—:]?\s*/g,'');
   const parts=String(n||'').split(/(?<=[.。])\s+/);
   const kept=parts.filter(x=>!/(신규 등록|DB 상습|누락 보강|중복 대조|대조 보강|대조 완료|ehdwl|insidertracking)/.test(x));
   return evEsc(kept.join(' ').trim()).replace(/관측 포인트\s*[:：]?/g,'<b>관측 포인트</b> ');
