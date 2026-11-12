@@ -203,6 +203,7 @@
   .evm-dn b { font-size:10px; background:#e2c571; color:#0f0f0f; border-radius:3px; padding:0 5px; }
   .evm-ev { font-size:12.5px; line-height:1.38; color:#e6edf3; padding:2px 5px; margin-top:3px; border-left:3px solid var(--c,#8b949e); background:rgba(139,148,158,.08); border-radius:0 3px 3px 0; word-break:keep-all; overflow-wrap:anywhere; cursor:default; }
   .evm-ev i { font-style:normal; color:#8b949e; }
+  .evm-ev.cont { font-size:11px; color:#8b949e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; background:transparent; }   /* 기간 이어짐은 한 줄로 흐리게 */
   .evm-ev.c-실적 { --c:#56d364; background:rgba(86,211,100,.11); }
   .evm-ev.c-정책 { --c:#e2a44e; background:rgba(226,164,78,.11); }
   .evm-ev.c-산업 { --c:#58a6ff; background:rgba(88,166,255,.11); }
@@ -2926,7 +2927,7 @@ function evMonthHtml(m0,today){
       +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}</div>`
       +list.map(x=>{
         const e=x.e,tip=`[${e.cat}] ${e.d||''}\n${String(e.ev||'').replace(/<[^>]*>/g,'')}`+(e.note?`\n— ${e.note}`:'');
-        return `<div class="evm-ev c-${e.cat}" title="${evEsc(tip)}">${x.cont?'<i>↳</i> ':''}${e.ev}</div>`;
+        return `<div class="evm-ev c-${e.cat}${x.cont?' cont':''}" title="${evEsc(tip)}">${x.cont?'<i>↳</i> ':''}${e.ev}</div>`;
       }).join('')
       +'</div>';
   }
