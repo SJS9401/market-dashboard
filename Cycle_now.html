@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>현재 사이클</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<script src="nav-loader.js" defer></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Pretendard', "Segoe UI", "Malgun Gothic", sans-serif; background: #0d1117; color: #c9d1d9; }
+  .tab-bar { display: flex; gap: 0; background: #010409; border-bottom: 1px solid #21262d; padding: 0 24px; overflow-x: auto; }
+  .tab-bar a { display: inline-block; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #8b949e; text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .tab-bar a:hover { color: #f0f6fc; } .tab-bar a.active { color: #f0f6fc; border-bottom-color: #1f6feb; }
+  .header { padding: 14px 28px; background: #161b22; border-bottom: 2px solid #F39C12; }
+  .header h1 { font-size: 20px; color: #fff; }
+  .header p { font-size: 11px; color: #8b949e; margin-top: 2px; }
+  .sub-bar { display: flex; gap: 0; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 28px; position: sticky; top: 0; z-index: 10; }
+  .sub-btn { padding: 10px 20px; font-size: 13px; font-weight: 600; color: #8b949e; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; }
+  .sub-btn:hover { color: #e6edf3; }
+  .sub-btn.active { color: #F39C12; border-bottom-color: #F39C12; }
+  .frame-wrap { width: 100%; }
+  iframe { width: 100%; border: 0; display: none; min-height: 900px; background: #0d1117; }
+  iframe.on { display: block; }
+</style>
+</head>
+<body>
+<div class="tab-bar" data-active="cycle_now"></div>
+<div class="header">
+  <h1>현재 사이클</h1>
+  <p>현재 사이클 시나리오 · 닷컴 vs 현재 · 중국 인프라 vs 현재 · 메모리 PBR 밴드를 한 곳에 모은 페이지</p>
+</div>
+<div class="sub-bar" id="subBar">
+  <button class="sub-btn" data-k="scenario" data-src="Current_cycle.html">현재 사이클 시나리오</button>
+  <button class="sub-btn" data-k="dotcom" data-src="Dotcom_vs_now.html">닷컴 vs 현재</button>
+  <button class="sub-btn" data-k="china" data-src="China_vs_now.html">중국 vs 현재</button>
+  <button class="sub-btn" data-k="memory" data-src="Memory_pb_band.html">메모리 PBR 밴드</button>
+</div>
+<div class="frame-wrap" id="frames"></div>
+<script>
+// 세부 탭 = 기존 페이지를 iframe 으로 그대로 불러옴 (각 페이지는 단독으로도 계속 동작, iframe 안에서는 상단 메뉴 자동 숨김)
+(function () {
+  const bar = document.getElementById('subBar'), wrap = document.getElementById('frames');
+  const frames = {};
+  function fit(f) {
+    try { const d = f.contentDocument; if (d && d.body) f.style.height = Math.max(900, d.documentElement.scrollHeight, d.body.scrollHeight) + 'px'; } catch (e) {}
+  }
+  function show(k) {
+    const btn = bar.querySelector('[data-k="' + k + '"]') || bar.querySelector('.sub-btn');
+    k = btn.dataset.k;
+    bar.querySelectorAll('.sub-btn').forEach(b => b.classList.toggle('active', b === btn));
+    if (!frames[k]) {
+      const f = document.createElement('iframe');
+      f.src = btn.dataset.src + '?embed=1';
+      f.onload = () => { fit(f); setTimeout(() => fit(f), 800); setTimeout(() => fit(f), 2500); };
+      wrap.appendChild(f); frames[k] = f;
+    }
+    Object.entries(frames).forEach(([kk, f]) => f.classList.toggle('on', kk === k));
+    fit(frames[k]);
+    if (location.hash.slice(1) !== k) history.replaceState(null, '', '#' + k);
+  }
+  bar.querySelectorAll('.sub-btn').forEach(b => b.onclick = () => show(b.dataset.k));
+  setInterval(() => { Object.values(frames).forEach(f => { if (f.classList.contains('on')) fit(f); }); }, 1500);
+  show(location.hash.slice(1) || 'scenario');
+})();
+</script>
+</body>
+</html>

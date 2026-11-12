@@ -17,6 +17,10 @@
   // data-active 속성을 가진 첫 컨테이너 (클래스명 무관)
   const nav = document.querySelector('[data-active]');
   if (!nav) return;
+  // 2026-11-12: 다른 페이지 안(iframe, 예: 현재 사이클 세부 탭)에 들어가 있으면 상단 메뉴를 숨김
+  let embedded = /[?&]embed=1/.test(location.search);
+  try { embedded = embedded || window.self !== window.top; } catch (e) { embedded = true; }
+  if (embedded) { nav.style.display = 'none'; return; }
   fetch('nav-include.html', { cache: 'no-store' })
     .then(r => {
       if (!r.ok) throw new Error('fetch failed: ' + r.status);

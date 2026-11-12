@@ -217,6 +217,8 @@
   .evm-ev.c-기타 { --c:#8b949e; background:rgba(139,148,158,.11); }
   .evm-ev.c-방산 { --c:#e2a44e; background:rgba(226,164,78,.11); }
   /* 바로가기 전폭 한 줄 (2026-11-12) */
+  .links-card.links-half { flex:none; width:calc(50% - 25px); }
+  @media (max-width: 900px) { .links-card.links-half { width:100%; } }
   .links-wide .links-grid { grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); }
   .links-wide .links-grid a, .links-wide .links-grid a:nth-child(odd), .links-wide .links-grid a:nth-last-child(-n+2) { padding:13px 16px; border-right:1px solid #1e2229; border-bottom:1px solid #1e2229; }
   .links-wide .links-grid .link-spacer { display:none; }
@@ -597,9 +599,27 @@
   </div>
 </div>
 
-<!-- 2026-11-12 BT: 이벤트 캘린더(표)와 바로가기 좌우 배치 해체 — 바로가기 한 줄, 그 아래 달력이 전폭 -->
+<!-- 이벤트 캘린더 — 2026-11-12 BT: 표 → 월 달력 (이번 달 + 다음 달), 경제 캘린더와 같은 전폭.
+     데이터는 그대로 data/events_calendar.json (Notion 동기화). 기간형(11/30~12/3)은 각 날짜에 ↳ 로 이어서 표시. -->
 <div class="events" style="margin-top:20px;">
-  <div class="links-card links-wide">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">이벤트 캘린더
+      <span id="evcal-range" style="color:#8b949e;font-weight:400;font-size:12px;"></span>
+      <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button data-s="m" onclick="evCalShift(-1)" title="이전 달">◀</button>
+        <button data-s="m" onclick="evCalShift(0)">이번 달</button>
+        <button data-s="m" onclick="evCalShift(1)" title="다음 달">▶</button>
+      </span>
+    </h2>
+    <div class="evcal-legend" id="evcal-legend"></div>
+    <div class="evcal-scroll"><div id="evcal-body"><div style="color:#6e7681;padding:16px;font-size:12px;">로딩 중...</div></div></div>
+    <div id="ev-ongoing" hidden style="padding:0 16px 14px;"></div>
+  </div>
+</div>
+
+<!-- 2026-11-12 BT 정정: 경제 캘린더 → 이벤트 달력(전폭) → 바로가기(좌측 절반, 기존 2열 그리드) 순 -->
+<div class="events" style="margin-top:20px;">
+  <div class="links-card links-half">
     <h2>바로가기</h2>
     <div class="links-grid">
       <a href="https://esignal.co.kr/kospi200-futures-day-night/" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=esignal.co.kr&sz=32" alt=""><span class="link-label">야간선물</span></a>
@@ -623,24 +643,6 @@
       <a href="https://www.silicondata.com/products/silicon-index/llm-token-expenditure-index" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=silicondata.com&sz=32" alt=""><span class="link-label">LLM 토큰 가격</span></a>
       <a href="https://blog.tickertrends.io/p/openai-and-anthropic-arr-tracking" target="_blank"><img class="link-icon" src="https://www.google.com/s2/favicons?domain=tickertrends.io&sz=32" alt=""><span class="link-label">AI LAB ARR 추적</span></a>
     </div>
-  </div>
-</div>
-
-<!-- 이벤트 캘린더 — 2026-11-12 BT: 표 → 월 달력 (이번 달 + 다음 달), 경제 캘린더와 같은 전폭.
-     데이터는 그대로 data/events_calendar.json (Notion 동기화). 기간형(11/30~12/3)은 각 날짜에 ↳ 로 이어서 표시. -->
-<div class="events" style="margin-top:20px;">
-  <div class="events-card" style="flex:1;">
-    <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">이벤트 캘린더
-      <span id="evcal-range" style="color:#8b949e;font-weight:400;font-size:12px;"></span>
-      <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
-        <button data-s="m" onclick="evCalShift(-1)" title="이전 달">◀</button>
-        <button data-s="m" onclick="evCalShift(0)">이번 달</button>
-        <button data-s="m" onclick="evCalShift(1)" title="다음 달">▶</button>
-      </span>
-    </h2>
-    <div class="evcal-legend" id="evcal-legend"></div>
-    <div class="evcal-scroll"><div id="evcal-body"><div style="color:#6e7681;padding:16px;font-size:12px;">로딩 중...</div></div></div>
-    <div id="ev-ongoing" hidden style="padding:0 16px 14px;"></div>
   </div>
 </div>
 
