@@ -171,7 +171,12 @@
   .links-grid a:hover { background: #232323; color: #58a6ff; }
   .links-card .link-icon { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; }
   .links-card .link-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ev-table { border-collapse: collapse; font-size: 13px; }
+  .ev-table { border-collapse: collapse; font-size: 13px; width: 100%; }
+  /* 2026-11-12 BT: 날짜 칸은 최소폭, 이벤트 칸이 나머지를 모두 쓰고 글씨도 키움 */
+  .ev-table td.ev-d, .ev-table th.ev-d { width: 1%; white-space: nowrap; font-size: 12px; }
+  .ev-table td.ev-c, .ev-table th.ev-c { width: 1%; white-space: nowrap; }
+  .ev-table td.ev-e { font-size: 14.5px; }
+  .ev-table .ev-dnote { display: block; font-size: 11px; color: #8b949e; margin-top: 2px; }
   .ev-table th { text-align: left; padding: 6px 8px; color: #8b949e; border-bottom: 1px solid #2e2e2e; font-weight: 500; }
   .ev-table td { padding: 6px 8px; border-bottom: 1px solid #1e2229; color: #c9d1d9; line-height: 1.5; vertical-align: middle; }
   .ev-table tr:last-child td { border-bottom: none; }
@@ -558,7 +563,7 @@
   <div class="events-card">
     <h2>이벤트 캘린더</h2>
     <table class="ev-table">
-      <thead><tr><th>날짜</th><th>카테고리</th><th>이벤트</th></tr></thead>
+      <thead><tr><th class="ev-d">날짜</th><th class="ev-c">카테고리</th><th>이벤트</th></tr></thead>
       <tbody id="ev-body"></tbody>
     </table>
     <div id="ev-ongoing" hidden></div>
@@ -2838,11 +2843,15 @@ function setupScrollbar(col, mainId) {
       else{cls='today';}
     }else if(e.isThisWeek){cls='soon';}
     const dowNames=['일','월','화','수','목','금','토'];
-    const dLabel=`${e.d}(${dowNames[e.evDate.getDay()]})`;
+    // 2026-11-12: 날짜 원문이 긴 항목(예: '11/10 로드쇼 → 11/18 공모가…')이 nowrap 이라 날짜 칸 전체가 600px 로 늘어났다.
+    // 원문이 짧으면 그대로, 길면 날짜 칸은 M/D 만 두고 원문은 이벤트 칸 아래 회색 줄로 옮긴다.
+    const dShort=String(e.d||'').length<=13;
+    const dLabel=(dShort?e.d:`${e.evDate.getMonth()+1}/${e.evDate.getDate()}`)+`(${dowNames[e.evDate.getDay()]})`;
+    const dNote=dShort?'':`<span class="ev-dnote">일정: ${evEsc(e.d)}</span>`;
     const dateCell=e.diff===0?`<span class="ev-date-badge">${dLabel}</span>`:dLabel;
     // 비고 열 제거 (2026-09-17 BT) — note 는 json 에 남아 있고 title 로만 노출한다
     const noteAttr = e.note ? ` title="${evEsc(e.note)}"` : '';
-    tbody.innerHTML+=`<tr class="${cls}"><td style="white-space:nowrap">${dateCell}</td><td><span class="ev-cat ${e.cat}">${e.cat}</span></td><td${noteAttr}>${e.ev}</td></tr>`;
+    tbody.innerHTML+=`<tr class="${cls}"><td class="ev-d">${dateCell}</td><td class="ev-c"><span class="ev-cat ${e.cat}">${e.cat}</span></td><td class="ev-e"${noteAttr}>${e.ev}${dNote}</td></tr>`;
   });
   // 날짜가 없는 항목 (진행형 / 연말까지 / 2026 하반기 / 10월 하순 ...) — 표 아래 별도 표기
   const ongEl=document.getElementById('ev-ongoing');
@@ -3190,7 +3199,12 @@ const NN_STOCKS = [
   { sym: 'KODEX200USDT', name: 'KODEX 200',  ks: '069500.KS' },   // 야간 코스피 지수 프록시 (2026-08-21 BT: 현대차 교체)
   { sym: 'SAMSUNGUSDT',  name: '삼성전자',   ks: '005930.KS' },
   { sym: 'SKHYNIXUSDT',  name: 'SK하이닉스', ks: '000660.KS' },
+  // 2026-11-12 BT: 비상장 AI 2종 (Binance pre-IPO 무기한선물). 한국 종목이 아니라 달러가가 주 표시,
+  // 등락은 전일 종가가 없으므로 2시간봉 차트와 같은 '직전 영업일 20:00 KST' 대비.
+  { sym: 'ANTHROPICUSDT', name: 'Anthropic', usd: true },
+  { sym: 'OPENAIUSDT',    name: 'OpenAI',    usd: true },
 ];
+const nnFmtUsd = v => (v == null || !isFinite(v)) ? '—' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NN = { fx: null, close: {}, closeDate: '', timer: null };
 
 async function initNightPrice() {
@@ -3342,7 +3356,8 @@ function nnPaintHead(sym, usd) {
   const info = nnCharts[sym];
   const pe = document.getElementById('nnc-p-' + sym);
   const de = document.getElementById('nnc-d-' + sym);
-  if (pe) pe.textContent = (usd == null) ? '—' : (NN.fx ? nnFmtKrw(usd * NN.fx) : '$' + usd.toFixed(2));
+  const isUsd = NN_STOCKS.some(s => s.sym === sym && s.usd);
+  if (pe) pe.textContent = (usd == null) ? '—' : (isUsd ? nnFmtUsd(usd) : (NN.fx ? nnFmtKrw(usd * NN.fx) : '$' + usd.toFixed(2)));
   const basePx = info && info.basePx;
   const pct = (basePx && usd) ? (usd / basePx - 1) * 100 : null;
   if (de) { de.textContent = nnFmtPct(pct); de.style.color = nnPctColor(pct); }
@@ -3423,7 +3438,7 @@ async function loadNightCharts() {
         + '% 는 달러 기준(환율 변동 제외), 원화 표시가는 현재 환율 적용 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
-  }
+  }  nnPoll();   // 2026-11-12: 기준가(basePx) 확보 직후 카드 등락(Anthropic/OpenAI) 즉시 반영
 }
 
 async function nnPoll() {
@@ -3443,6 +3458,27 @@ async function nnPoll() {
     for (const st of NN_STOCKS) {
       const usd = map[st.sym];
       if (nnCharts[st.sym]) nnPaintHead(st.sym, usd);   // 미니 차트 헤더도 같은 시세로
+      if (st.usd) {
+        const bp = nnCharts[st.sym] && nnCharts[st.sym].basePx;
+        let ch = '<span style="color:#8b949e">기준가 대기 중</span>';
+        if (usd && bp) {
+          const d = usd - bp, p = d / bp * 100, up = d >= 0;
+          ch = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲' : '▼') + ' $'
+             + Math.abs(d).toFixed(2) + ' · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
+        }
+        const bd = nnBaseUtc ? new Date((nnBaseUtc + NN_KST) * 1000) : null;
+        html += '<div style="background:#101010;border:1px solid #2e2e2e;border-radius:8px;padding:13px 16px;">'
+          + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+          + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name
+          + ' <span style="font-size:10px;font-weight:600;color:#e2c571;border:1px solid #5a4d22;border-radius:3px;padding:0 4px;">Pre-IPO</span></span>'
+          + '<span style="font-size:10px;color:#6e7681;">' + st.sym + '</span></div>'
+          + '<div style="font-size:24px;font-weight:800;color:#f0f6fc;margin:6px 0 2px;">' + nnFmtUsd(usd) + '</div>'
+          + '<div style="font-size:12px;color:#8b949e;">≈ ' + ((usd && NN.fx) ? nnFmtKrw(usd * NN.fx) : '—') + '</div>'
+          + '<div style="font-size:12px;margin-top:7px;">'
+          + (bd ? (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 대비 ' : '') + ch + '</div>'
+          + '</div>';
+        continue;
+      }
       const krw = (usd && NN.fx) ? usd * NN.fx : null;
       const prev = NN.close[st.ks];
       let chg = '<span style="color:#8b949e">전일 종가 대기 중</span>';
