@@ -180,7 +180,7 @@ function mkCandle(box, rows, opt) {
     if (y == null || !w) { tag.style.display = 'none'; return; }
     tag.style.display = 'block'; tag.style.top = (y - 9) + 'px'; tag.style.width = w + 'px';
     tag.innerHTML = '<div class="p" style="background:' + col + '">' + nf(c) + '</div><div class="c" style="color:' + (ch >= 0 ? '#ff6b6b' : '#6ea8ff') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%</div>'; };
-  const lastLblAsync = () => requestAnimationFrame(() => requestAnimationFrame(lastLbl));
+  const lastLblAsync = () => setTimeout(lastLbl, 30);
   chart.timeScale().subscribeVisibleLogicalRangeChange(lastLblAsync);
   chart.subscribeCrosshairMove(lastLblAsync);
   new ResizeObserver(lastLblAsync).observe(box);
