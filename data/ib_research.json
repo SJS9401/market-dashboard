@@ -1,12 +1,12 @@
 {
- "generated_at_kst": "2026-11-12T15:07+09:00",
- "run_date_kst": "2026-11-12",
+ "generated_at_kst": "2026-11-13T09:31+09:00",
+ "run_date_kst": "2026-11-13",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Global Sovereign Bond Issuance in 2027—Leveling Out",
@@ -17,7 +17,7 @@
   "UBS": {
    "status": "ok",
    "count": 10,
-   "new_today": 4,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Where will global trade go next?",
@@ -28,7 +28,7 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Food security: a global risk",
@@ -42,15 +42,15 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Stock correlations is both an opportunity and a challenge – a quant motion picture perspective",
-    "date": "2026-11-09",
-    "url": "https://insight-public.sgmarkets.com/quant-motion-pictures/stock-correlations-is-both-an-opportunity-and-a-challenge"
+    "title": "Red screens: Why is (almost) no-one talking about liquidity?",
+    "date": "2026-11-12",
+    "url": "https://insight-public.sgmarkets.com/alternative-view/red-screens-why-is-almost-no-one-talking-about-liquidity"
    }
   },
   "JP모건": {
    "status": "ok",
    "count": 6,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "US midterms results: What’s next for markets?",
@@ -64,15 +64,15 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Markets Edition: Reassessing the Balance of Risks",
-    "date": "2026-11-10",
-    "url": "https://www.citigroup.com/global/insights/markets-edition-reassessing-the-balance-of-risks"
+    "title": "E92: Latin America: Room to Run, Risks to Watch",
+    "date": "2026-11-12",
+    "url": "https://www.citigroup.com/global/insights/e92-latin-america-room-to-run-risks-to-watch"
    }
   },
   "모건스탠리": {
    "status": "ok",
    "count": 20,
-   "new_today": 7,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "A Stock Market Bottom in Sight",
@@ -83,11 +83,11 @@
   "Jefferies": {
    "status": "ok",
    "count": 8,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Europe’s Defense Innovators Are Building for the Long Term",
-    "date": "2026-10-19",
+    "date": null,
     "url": "https://www.jefferies.com/insights/markets/europes-defense-innovators-are-building-for-the-long-term/"
    }
   },
@@ -104,6 +104,20 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "소시에테제네랄",
+   "title": "Red screens: Why is (almost) no-one talking about liquidity?",
+   "url": "https://insight-public.sgmarkets.com/alternative-view/red-screens-why-is-almost-no-one-talking-about-liquidity",
+   "date": "2026-11-12",
+   "first_seen_kst": "2026-11-13T09:31+09:00"
+  },
+  {
+   "bank": "씨티",
+   "title": "E92: Latin America: Room to Run, Risks to Watch",
+   "url": "https://www.citigroup.com/global/insights/e92-latin-america-room-to-run-risks-to-watch",
+   "date": "2026-11-12",
+   "first_seen_kst": "2026-11-13T09:31+09:00"
+  },
   {
    "bank": "골드만삭스",
    "title": "Global Sovereign Bond Issuance in 2027—Leveling Out",
