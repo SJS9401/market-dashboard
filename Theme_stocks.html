@@ -57,6 +57,25 @@
   .ohlc .barcnt input:focus { border-color: #58a6ff; }
   .ohlc .barcnt span { font-size: 10px; color: #8b949e; }
   .ohlc .dttag { position: absolute; right: 0; bottom: 0; z-index: 4; display: none; pointer-events: none; text-align: center; font-size: 10.5px; font-family: Consolas, monospace; color: #f0f6fc; background: #30363d; border-left: 1px solid #484f58; }
+  .evt tr.detail td { background: #0d1117 !important; cursor: default; padding: 0; }
+  .dt-wrap { padding: 10px 14px 12px; border-left: 3px solid #a371f7; }
+  .dt-h { font-size: 11px; color: #a371f7; font-weight: 700; margin: 6px 0 6px; }
+  .dt-ev { margin-bottom: 10px; }
+  .dt-sum { font-size: 12px; margin-bottom: 4px; }
+  .dt-my { color: #8b949e; }
+  .dt-news { display: block; text-decoration: none !important; margin: 4px 0 4px 18px; padding: 6px 10px; border: 1px solid #30363d; border-radius: 6px; background: #161b22; font-size: 12px !important; color: #c9d1d9 !important; }
+  .dt-news:hover { border-color: #58a6ff; }
+  .dt-meta { font-size: 10.5px; color: #58a6ff; }
+  .dt-title { font-size: 13px; font-weight: 700; color: #f0f6fc; margin-top: 2px; }
+  .dt-sub { font-size: 11.5px; color: #8b949e; margin-top: 2px; }
+  .dt-none { font-size: 11px; color: #6e7681; margin-left: 18px; }
+  .dt-dc { margin: 3px 0 3px 4px; font-size: 12px; }
+  .dt-dc summary { cursor: pointer; color: #e6edf3; }
+  .dt-dc pre { white-space: pre-wrap; font-family: Consolas, 'Malgun Gothic', monospace; font-size: 11px; color: #c9d1d9; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 8px 10px; margin: 4px 0 6px; max-height: 320px; overflow: auto; }
+  .dt-dart { font-size: 11px !important; margin-left: 4px !important; }
+  .dt-foot { margin-top: 8px; }
+  .dt-go { font-size: 11px; padding: 3px 10px; border-radius: 12px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; cursor: pointer; }
+  .dt-go:hover { border-color: #58a6ff; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -332,7 +351,7 @@ function renderMNA(key) {
       const big = Math.abs(ch) >= 8 || evs.some(e => e.m);
       return '<tr data-d="' + r[0] + '" class="' + (big ? 'big' : '') + '" data-f="' + (evs.length ? 'e' : '') + (dc.length ? 'p' : '') + '"><td class="nw l">' + fd(r[0]) + '</td><td class="nw ' + (ch >= 0 ? 'up' : 'dn') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(1) + '%</td><td class="nw">' + r[4].toLocaleString() + '</td><td class="nw">' + Math.round(r[5]).toLocaleString() + '</td><td class="l">'
         + evs.map(e => '<div class="ev"><span class="act" style="background:' + ACOL[e.a] + '">' + d.actors[e.a] + '</span><span class="tm">' + e.k + ' · ' + e.t + (e.d !== r[0] ? ' (' + e.d.slice(4, 6) + '/' + e.d.slice(6) + ' 발생)' : '') + '</span>' + e.x + e.u.map((u, j) => '<a href="' + u + '" target="_blank" rel="noopener">[' + (j + 1) + ']</a>').join('') + '</div>').join('')
-        + (dc.length ? '<div class="dc">공시: ' + dc.join(' · ') + '</div>' : '') + (!evs.length && !dc.length ? '<div class="dc">이벤트 미확인</div>' : '') + '</td></tr>'; }).join('');
+        + (dc.length ? '<div class="dc">공시: ' + dc.map(x => x.t || x).join(' · ') + '</div>' : '') + (!evs.length && !dc.length ? '<div class="dc">이벤트 미확인</div>' : '') + '</td></tr>'; }).join('');
     const comps = d.companions || Object.keys(d.ohlc).filter(c => c !== d.lead);
     body.innerHTML = '<div class="card"><h3>' + d.title + ' <span class="tag 경영권">경영권</span></h3><div class="meta">' + d.note + '</div>'
       + '<div class="phase-strip">' + ph + '</div>'
@@ -343,7 +362,7 @@ function renderMNA(key) {
       + '<div class="ohlc-bar" id="mna-sub">잡주 대장(분위기 메이커): ' + comps.map((c, i) => '<button data-c="' + c + '"' + (i === 0 ? ' class="on"' : '') + '>' + d.names[c] + '</button>').join('') + '<button data-c="">OFF</button><span style="margin-left:8px">위 차트와 기간·크로스헤어 연동</span></div>'
       + '<div class="ohlc" id="mna-chart2" style="height:300px"></div>'
       + '<div class="lesson">' + (MNA_LESSON[key] || []).map(s => '<div>' + s + '</div>').join('') + '</div>'
-      + '<div class="flt">표 필터: <label><input type="radio" name="mf" value="all" checked> 전체</label><label><input type="radio" name="mf" value="e"> 뉴스·법원·규제 이벤트 있는 날</label><label><input type="radio" name="mf" value="big"> 큰 날(±8% 또는 핵심 이벤트)</label> · 행 클릭 = 차트 이동</div>'
+      + '<div class="flt">표 필터: <label><input type="radio" name="mf" value="all" checked> 전체</label><label><input type="radio" name="mf" value="e"> 뉴스·법원·규제 이벤트 있는 날</label><label><input type="radio" name="mf" value="big"> 큰 날(±8% 또는 핵심 이벤트)</label> · 행 클릭 = 그날 기사 원문 헤드라인·공시 원문 펼치기 / 다시 클릭 = 닫기</div>'
       + '<div class="evt-wrap"><table class="evt"><tr><th class="l">반응일</th><th>등락</th><th>종가</th><th>거래대금(억)</th><th class="l">이벤트 (주체 · 구분 · 시점)</th></tr>' + rows + '</table></div></div>';
     const PHC = ['#a371f7', '#f85149', '#e3b341', '#3fb950'];
     const bgFn = day => { const i = d.phases.findIndex(p => day >= p.s && day <= p.e); return i < 0 ? null : PHC[i % PHC.length] + '14'; };
@@ -365,9 +384,34 @@ function renderMNA(key) {
     drawSub(comps[0]);
     document.querySelectorAll('#mna-sub button').forEach(b => b.onclick = () => { document.querySelectorAll('#mna-sub button').forEach(x => x.classList.toggle('on', x === b)); drawSub(b.dataset.c); });
     body.querySelectorAll('.phase').forEach(p => p.onclick = () => top.show(p.dataset.s, p.dataset.e));
-    body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.onclick = () => { body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel');
-      const i = idx[tr.dataset.d]; top.chart.timeScale().setVisibleLogicalRange({ from: i - 25, to: i + 25 }); document.getElementById('mna-chart').scrollIntoView({ block: 'center', behavior: 'smooth' }); });
-    body.querySelectorAll('input[name=mf]').forEach(r => r.onchange = () => { const v = r.value;
+    // 표 행 클릭 = 그날 뉴스(원문 헤드라인·부제·매체·시각·링크)와 공시 원문을 행 아래에 펼침 (차트 이동 없음)
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const host = u => { try { return new URL(u).hostname.replace(/^www\.|^m\.|^mobile\./, ''); } catch (e) { return u; } };
+    const detailHTML = day => {
+      const evs = evBy[day] || [], dc = d.disc[day] || [], N = d.news || {};
+      let s = '<div class="dt-wrap">';
+      if (evs.length) { s += '<div class="dt-h">뉴스 · 법원 · 규제 — 페이지 요약 vs 기사 원문 헤드라인</div>';
+        evs.forEach(e => { s += '<div class="dt-ev"><div class="dt-sum"><span class="act" style="background:' + ACOL[e.a] + '">' + d.actors[e.a] + '</span><span class="tm">' + e.k + ' · ' + e.t + ' · 발생 ' + fd(e.d) + '</span> <span class="dt-my">요약: ' + esc(e.x) + '</span></div>';
+          if (!e.u.length) s += '<div class="dt-none">원문 링크 없음 (기사 미확인 또는 공시·법원 사건 목록 기준)</div>';
+          e.u.forEach(u => { const m = N[u] || {};
+            s += '<a class="dt-news" href="' + esc(u) + '" target="_blank" rel="noopener"><div class="dt-meta">' + esc(m.media || host(u)) + (m.time ? ' · ' + esc(m.time) : '') + ' ↗</div><div class="dt-title">' + esc(m.title || u) + '</div>' + (m.sub ? '<div class="dt-sub">' + esc(m.sub) + '</div>' : '') + '</a>'; });
+          s += '</div>'; }); }
+      if (dc.length) { s += '<div class="dt-h">공시 원문 (네이버·KOSCOM 공시 전문) — 제목을 누르면 펼침</div>';
+        dc.forEach(x => { s += '<details class="dt-dc"><summary>' + esc(x.t || x) + '</summary>' + (x.x ? '<pre>' + esc(x.x) + '</pre>' : '') + '</details>'; });
+        s += '<a class="dt-dart" href="https://dart.fss.or.kr/dsab007/main.do?option=corp&textCrpNm=' + encodeURIComponent(d.names[d.lead]) + '" target="_blank" rel="noopener">DART에서 ' + esc(d.names[d.lead]) + ' 공시 검색 ↗</a>'; }
+      if (!evs.length && !dc.length) s += '<div class="dt-none">이 날짜에 수집된 뉴스·공시가 없습니다 (주가 원인 미확인).</div>';
+      s += '<div class="dt-foot"><button class="dt-go">차트에서 이 날짜 보기</button></div></div>';
+      return s; };
+    body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.onclick = ev => {
+      if (ev.target.closest('a')) return;   // 표 안 [1][2] 링크는 그대로 열기
+      const nx = tr.nextElementSibling, open = nx && nx.classList.contains('detail');
+      body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel'));
+      if (open) { nx.remove(); return; }
+      tr.classList.add('sel');
+      const dr = document.createElement('tr'); dr.className = 'detail'; dr.innerHTML = '<td colspan="5">' + detailHTML(tr.dataset.d) + '</td>'; tr.after(dr);
+      dr.querySelector('.dt-go').onclick = () => { const i = idx[tr.dataset.d]; top.chart.timeScale().setVisibleLogicalRange({ from: i - 25, to: i + 25 }); document.getElementById('mna-chart').scrollIntoView({ block: 'center', behavior: 'smooth' }); };
+    });
+    body.querySelectorAll('input[name=mf]').forEach(r => r.onchange = () => { const v = r.value; body.querySelectorAll('.evt tr.detail').forEach(x => x.remove());
       body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.style.display = v === 'all' || (v === 'e' && tr.dataset.f.includes('e')) || (v === 'big' && tr.classList.contains('big')) ? '' : 'none'); });
   };
   if (MNA[key]) return go(MNA[key]);
