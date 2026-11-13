@@ -49,6 +49,9 @@
   .ohlc .pxtag { position: absolute; right: 0; z-index: 4; pointer-events: none; display: none; font-size: 11px; font-family: Consolas, monospace; text-align: left; }
   .ohlc .pxtag .p { color: #fff; padding: 1px 6px; line-height: 16px; }
   .ohlc .pxtag .c { padding: 0 6px; line-height: 14px; font-weight: 700; background: #0d1117cc; }
+  .ohlc .ctip { position: absolute; z-index: 7; display: none; pointer-events: none; background: #f6f8fa; color: #111; border: 1px solid #57606a; font-family: Consolas, 'Malgun Gothic', monospace; font-size: 11.5px; line-height: 1.45; padding: 4px 8px; white-space: nowrap; box-shadow: 2px 2px 6px rgba(0,0,0,0.5); }
+  .ohlc .ctip .k { display: inline-block; width: 58px; padding-left: 8px; }
+  .ohlc .ctip .nm { font-weight: 700; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -167,6 +170,29 @@ function mkCandle(box, rows, opt) {
       + MAS.map(([n, c], j) => maMap[j][tt] != null ? '<span style="color:' + c + '">' + n + ' ' + nf(maMap[j][tt]) + '</span>' : '').join('  '); };
   legend(null);
   chart.subscribeCrosshairMove(p => { const t = p && p.time != null ? (typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')) : null; legend(t); if (opt.onHover) opt.onHover(t ? t.replace(/-/g, '') : null); });
+  // 캔들 위에 마우스가 올라가면 키움식 툴팁 (시고저종 = 전일 종가 대비 %, 거래대금 = 전일 대비 %, 이평 = 종가 대비 이평 위치 %)
+  const tipEl = document.createElement('div'); tipEl.className = 'ctip'; box.appendChild(tipEl);
+  const WD = ['일', '월', '화', '수', '목', '금', '토'];
+  const sg = v => (v >= 0 ? '' : '') + v.toFixed(2) + '%';
+  chart.subscribeCrosshairMove(p => {
+    if (!p || p.time == null || !p.point) { tipEl.style.display = 'none'; return; }
+    const t = typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0');
+    const i = idx[t]; if (i === undefined) { tipEl.style.display = 'none'; return; }
+    const r = rows[i], yH = cs.priceToCoordinate(r[2]), yL = cs.priceToCoordinate(r[3]);
+    if (yH == null || yL == null || p.point.y < yH - 4 || p.point.y > yL + 4) { tipEl.style.display = 'none'; return; }
+    const pc = i ? rows[i - 1][4] : r[1], pv = i ? rows[i - 1][5] : null, q = v => '(' + sg((v / pc - 1) * 100) + ')';
+    const dt = new Date(t + 'T00:00:00'), tt = tD(r[0]);
+    const line = (k, v, e) => '<div><span class="k">' + k + '</span>: ' + v + (e ? ' ' + e : '') + '</div>';
+    tipEl.innerHTML = line('일자', tt.replace(/-/g, '/') + '(' + WD[dt.getDay()] + ')') + '<div class="nm">' + opt.title.replace('★ ', '') + '</div>'
+      + line('시가', nf(r[1]), q(r[1])) + line('고가', nf(r[2]), q(r[2])) + line('저가', nf(r[3]), q(r[3])) + line('종가', '<b>' + nf(r[4]) + '</b>', q(r[4]))
+      + line('거래대금', nf(r[5]) + '억', pv ? '(' + sg((r[5] / pv - 1) * 100) + ')' : '')
+      + '<div class="nm">[가격 이동평균]</div>' + MAS.map(([n], j) => maMap[j][tt] != null ? line(String(n), nf(maMap[j][tt]), '(' + sg((maMap[j][tt] / r[4] - 1) * 100) + ')') : '').join('');
+    tipEl.style.display = 'block';
+    const W = box.clientWidth, H = box.clientHeight, tw = tipEl.offsetWidth, th = tipEl.offsetHeight;
+    let x = p.point.x + 16, y = p.point.y + 12; if (x + tw > W - 74) x = p.point.x - tw - 16; if (y + th > H) y = Math.max(0, H - th - 4);
+    tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+  });
+  box.addEventListener('mouseleave', () => { tipEl.style.display = 'none'; });
   if (opt.onClick) chart.subscribeClick(p => { if (p && p.time != null) opt.onClick((typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')).replace(/-/g, '')); });
   const o = { chart, cs, rows, idx, box };
   // 우측 가격축: 화면에 보이는 마지막 캔들 종가 박스 + 그 아래 전일 대비 등락률 (키움 HTS 방식)
