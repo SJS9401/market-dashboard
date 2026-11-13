@@ -184,9 +184,10 @@ function mkCandle(box, rows, opt) {
   chart.timeScale().subscribeVisibleLogicalRangeChange(lastLblAsync);
   chart.subscribeCrosshairMove(lastLblAsync);
   new ResizeObserver(lastLblAsync).observe(box);
-  o.show = (a, b) => { const i = rows.findIndex(r => r[0] >= a), j = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= b); chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, i) - 5, to: j + 5 }); };
+  o.show = (a, b) => { const i = rows.findIndex(r => r[0] >= a), j = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= b); chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, i) - 5, to: j + 5 }); setTimeout(() => o.refreshTag && o.refreshTag(), 60); };
   o.home = () => o.show(opt.from || rows[0][0], opt.to || rows[rows.length - 1][0]);
-  o.home();
+  o.home(); setTimeout(lastLbl, 60); setTimeout(lastLbl, 700);
+  o.refreshTag = lastLbl;
   // 마우스: 휠·드래그 (컨테이너에 1번만 연결, 차트 교체 시 box._ch 갱신)
   box._ch = o;
   if (!box._bound) { box._bound = true;
