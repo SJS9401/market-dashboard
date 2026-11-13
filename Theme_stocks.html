@@ -182,7 +182,7 @@ function mkCandle(box, rows, opt) {
     const a = Math.max(0, Math.ceil(r.from)), b = Math.min(rows.length - 1, Math.floor(r.to)); bIn.value = Math.max(0, b - a + 1); };
   const applyCnt = () => { const n = parseInt(bIn.value, 10); if (!n || n < 5) { syncCnt(); return; } const r = chart.timeScale().getVisibleLogicalRange(); if (!r) return;
     const end = Math.min(rows.length - 1, Math.floor(r.to)), m = Math.min(n, rows.length);
-    let from = end - m + 1; if (from < 0) from = 0; chart.timeScale().setVisibleLogicalRange({ from: from - 0.5, to: from + m - 0.5 }); setTimeout(lastLbl, 60); };
+    let from = end - m + 1; if (from < 0) from = 0; chart.timeScale().setVisibleLogicalRange({ from: from, to: from + m - 1 }); setTimeout(lastLbl, 60); };
   bIn.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCnt(); bIn.blur(); } });
   bIn.addEventListener('blur', () => setTimeout(syncCnt, 50));
   chart.timeScale().subscribeVisibleLogicalRangeChange(() => setTimeout(syncCnt, 30));
