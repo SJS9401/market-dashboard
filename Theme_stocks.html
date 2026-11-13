@@ -77,6 +77,9 @@
   .dt-foot { margin-top: 8px; }
   .dt-go { font-size: 11px; padding: 3px 10px; border-radius: 12px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; cursor: pointer; }
   .dt-go:hover { border-color: #58a6ff; }
+  .hscroll { position: relative; height: 12px; margin: 3px 0 2px; background: #0d1117; border: 1px solid #21262d; border-radius: 6px; cursor: pointer; }
+  .hscroll .th { position: absolute; top: 1px; bottom: 1px; left: 0; width: 40px; background: #484f58; border-radius: 5px; cursor: grab; }
+  .hscroll .th:hover, .hscroll .th.on { background: #8b949e; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -195,6 +198,22 @@ function mkCandle(box, rows, opt) {
       + MAS.map(([n, c], j) => maMap[j][tt] != null ? '<span style="color:' + c + '">' + n + ' ' + nf(maMap[j][tt]) + '</span>' : '').join('  '); };
   legend(null);
   chart.subscribeCrosshairMove(p => { const t = p && p.time != null ? (typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')) : null; legend(t); if (opt.onHover) opt.onHover(t ? t.replace(/-/g, '') : null); });
+  // 차트 하단 가로 스크롤바 (빠른 좌우 이동): 손잡이 드래그 = 이동, 트랙 클릭 = 그 위치로 점프, 스크롤바 위 휠 = 5캔들씩
+  if (!box._sb) { const sb = document.createElement('div'); sb.className = 'hscroll'; sb.innerHTML = '<div class="th"></div>'; box.after(sb); box._sb = sb;
+    const th = sb.querySelector('.th'); let drag = null;
+    const W = () => sb.clientWidth - 72;
+    th.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); const c = box._ch; if (!c) return; const r = c.chart.timeScale().getVisibleLogicalRange(); drag = { x: e.clientX, r }; th.classList.add('on'); });
+    window.addEventListener('mousemove', e => { if (!drag || !box._ch) return; const c = box._ch, n = c.rows.length, dx = (e.clientX - drag.x) / W() * n;
+      c.chart.timeScale().setVisibleLogicalRange({ from: drag.r.from + dx, to: drag.r.to + dx }); });
+    window.addEventListener('mouseup', () => { if (drag) { drag = null; th.classList.remove('on'); } });
+    sb.addEventListener('mousedown', e => { if (e.target === th || !box._ch) return; const c = box._ch, n = c.rows.length, r = c.chart.timeScale().getVisibleLogicalRange(); if (!r) return;
+      const x = e.clientX - sb.getBoundingClientRect().left; if (x > W()) return; const mid = x / W() * n, w = r.to - r.from; c.chart.timeScale().setVisibleLogicalRange({ from: mid - w / 2, to: mid + w / 2 }); });
+    sb.addEventListener('wheel', e => { if (!box._ch) return; e.preventDefault(); const ts = box._ch.chart.timeScale(), r = ts.getVisibleLogicalRange(); if (!r) return; const s = (e.deltaY || e.deltaX) < 0 ? -5 : 5; ts.setVisibleLogicalRange({ from: r.from + s, to: r.to + s }); }, { passive: false });
+  }
+  const sbSync = () => { if (o.dead || !box._sb) return; const r = chart.timeScale().getVisibleLogicalRange(); if (!r) return; const n = rows.length, sb = box._sb, th = sb.querySelector('.th'), W = sb.clientWidth - 72;
+    const a = Math.max(0, r.from) / n, b = Math.min(n, r.to + 1) / n; th.style.left = (a * W) + 'px'; th.style.width = Math.max(14, (b - a) * W) + 'px'; };
+  chart.timeScale().subscribeVisibleLogicalRangeChange(() => setTimeout(sbSync, 0));
+  box._sb.style.display = '';
   // 우측 상단 봉수 입력 (대시보드 미국장/한국장 카드와 같은 방식) — 입력 후 Enter: 화면 오른쪽 끝 캔들 기준으로 N봉 표시
   const bc = document.createElement('div'); bc.className = 'barcnt'; bc.innerHTML = '<input type="text" title="표시 봉 수 (5~' + rows.length + ', Enter)"><span>봉</span>'; box.appendChild(bc);
   const bIn = bc.querySelector('input');
@@ -251,7 +270,7 @@ function mkCandle(box, rows, opt) {
   new ResizeObserver(lastLblAsync).observe(box);
   o.show = (a, b) => { const i = rows.findIndex(r => r[0] >= a), j = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= b); chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, i) - 5, to: j + 5 }); setTimeout(() => o.refreshTag && o.refreshTag(), 60); };
   o.home = () => o.show(opt.from || rows[0][0], opt.to || rows[rows.length - 1][0]);
-  o.home(); setTimeout(lastLbl, 60); setTimeout(lastLbl, 700); setTimeout(syncCnt, 80); setTimeout(syncCnt, 700);
+  o.home(); setTimeout(lastLbl, 60); setTimeout(lastLbl, 700); setTimeout(sbSync, 80); setTimeout(sbSync, 700); setTimeout(syncCnt, 80); setTimeout(syncCnt, 700);
   o.refreshTag = lastLbl;
   // 마우스: 휠·드래그 (컨테이너에 1번만 연결, 차트 교체 시 box._ch 갱신)
   box._ch = o;
@@ -377,7 +396,7 @@ function renderMNA(key) {
     MNA_CH = top;
     let sub = null;
     const drawSub = code => { const box = document.getElementById('mna-chart2');
-      if (!code) { if (box._ch) { box._ch.dead = true; box._ch.chart.remove(); box._ch = null; } box.style.display = 'none'; sub = null; return; }
+      if (!code) { if (box._ch) { box._ch.dead = true; box._ch.chart.remove(); box._ch = null; } box.style.display = 'none'; if (box._sb) box._sb.style.display = 'none'; sub = null; return; }
       box.style.display = '';
       const r = top.chart.timeScale().getVisibleRange();
       sub = mkCandle(box, d.ohlc[code], { title: d.names[code], from: vf, to: vt, markers: evMk(false), bgFn, onClick: selRow, onHover: hover });
