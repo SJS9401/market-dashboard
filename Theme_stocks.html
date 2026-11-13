@@ -46,6 +46,29 @@
   .ohlc { position: relative; height: 380px; border: 1px solid #21262d; border-radius: 6px; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
+  .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
+  .phase { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 8px 10px; font-size: 11px; line-height: 1.55; cursor: pointer; }
+  .phase:hover { border-color: #a371f7; }
+  .phase b { color: #f0f6fc; font-size: 12px; display: block; margin-bottom: 2px; }
+  .phase .r { font-weight: 700; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: #8b949e; margin: 6px 0; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+  .lesson { background: #0d1117; border: 1px solid #a371f755; border-radius: 6px; padding: 10px 14px; font-size: 12px; line-height: 1.75; margin: 10px 0; }
+  .lesson b { color: #a371f7; }
+  .evt-wrap { max-height: 640px; overflow: auto; border: 1px solid #21262d; border-radius: 6px; margin-top: 10px; }
+  .evt td { vertical-align: top; white-space: normal; }
+  .evt td.nw { white-space: nowrap; }
+  .evt tr.big td { background: #a371f70d; }
+  .evt tr.sel td { background: #1f6feb33; }
+  .evt tr:hover td { background: #161b22; cursor: pointer; }
+  .evt .ev { margin: 1px 0; }
+  .evt .act { font-size: 10px; font-weight: 700; padding: 0 6px; border-radius: 8px; margin-right: 4px; color: #0d1117; }
+  .evt .tm { font-size: 10px; color: #8b949e; margin-right: 4px; }
+  .evt .dc { color: #6e7681; font-size: 11px; }
+  .evt a { color: #58a6ff; font-size: 10px; margin-left: 4px; text-decoration: none; }
+  .up { color: #ff6b6b; } .dn { color: #58a6ff; }
+  .flt { display: flex; gap: 6px; align-items: center; font-size: 11px; color: #8b949e; margin-top: 8px; flex-wrap: wrap; }
+  .flt label { cursor: pointer; }
   @media (max-width: 1300px) { .cards-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -58,6 +81,7 @@
 <div class="sub-bar">
   <button class="sub-btn active" data-v="time">테마주</button>
   <button class="sub-btn" data-v="type">유형별</button>
+  <button class="sub-btn" data-v="mna">경영권 분쟁·지분 매입</button>
 </div>
 <div class="view active" id="view-time">
   <div class="intro">시계열 순서로 배치. 각 차트는 테마 구간 시작일 = 100 으로 맞춘 종가(로그 축), 회색 점선 = 코스피·코스닥. 빨간 세로선 = 대선일. ★ 대장 = 테마 구간 거래대금 합계 1위. 표의 배수 = 구간 안 저점 → 고점 종가 배수(1차 리서치 기준이며, 정확한 매매 구간은 이후 스터디로 확정). 카드 아래 캔들 차트는 종목 버튼으로 전환.</div>
@@ -66,6 +90,11 @@
 <div class="view" id="view-type">
   <div class="intro">유형별 배치 — 대선(Tier 1) · 산업 테마(Tier 1급) · 경영권 분쟁·지분 매입(Tier 1.5~2).</div>
   <div class="cards-grid" id="type-grid"></div>
+</div>
+<div class="view" id="view-mna">
+  <div class="intro">경영권 분쟁은 이해관계자의 코멘트·공시·법원 결정 하나가 주가를 압도한다. 케이스별로 데일리 이벤트(공시·뉴스·법원·규제)를 캔들 위에 겹쳐 보고, 어떤 이벤트가 어떤 방향으로 반응했는지 추적한다.</div>
+  <div class="ohlc-bar" id="mna-cases">케이스: <button class="on" data-k="koreazinc">고려아연 2024~25</button><button disabled title="준비 중">한진칼 2025~26 (준비 중)</button><button disabled title="준비 중">에스엠 2023 (준비 중)</button></div>
+  <div id="mna-body"></div>
 </div>
 <script>
 const COLORS = ['#ff6b6b', '#4ecdc4', '#ffd166', '#a29bfe', '#74b9ff', '#fd79a8', '#55efc4', '#fab1a0', '#81ecec'];
@@ -155,11 +184,97 @@ function renderType() {
     + DATA.episodes.filter(e => e.type === t).sort((p, q) => p.start.localeCompare(q.start)).map(e => cardHTML(e, 'y_' + e.id, true)).join('') + '</div>').join('');
   DATA.episodes.forEach(e => drawChart(e, 'y_' + e.id));
 }
+// ===== 경영권 분쟁 세부 탭 =====
+const ACOL = { Y: '#ff7b72', K: '#79c0ff', C: '#d2a8ff', R: '#e3b341', M: '#8b949e' };
+const MNA_LESSON = {
+  koreazinc: [
+    '<b>① 공개매수가 = 첫 기준선.</b> 9/13 시가가 정확히 공개매수가 66만원(장전 발표). 주가가 공개매수가를 넘은 9/19부터 시장은 가격 인상·대항 공개매수에 베팅했고, 실제 인상(9/26, 75만)은 이미 주가에 반영돼 당일은 약세였다.',
+    '<b>② 가장 강한 레그는 "공개매수 종료 + 양측 과반 실패" 직후.</b> 10/23 종료 → 10/24 상한가 → 10/29 154.3만(4거래일 +76%). 표 대결이 장내 매집으로 넘어가는 순간이 핵심 트리거.',
+    '<b>③ 주총 기준일 매집 레그는 기준일보다 훨씬 먼저 끝났다.</b> 임시주총 가시화(11/27) → 12/5 종가 200만(7거래일 +113%) → 12/6 장중 240.7만 고점 후 반락. 마지막 매수일(12/18) 종가는 106.6만으로 이미 고점 대비 -56%. 양측 지분 계산이 굳으면(12/19 MBK 46.7%) 매집 수요가 먼저 사라진다.',
+    '<b>④ 회사 측 희석성 조달 = 하한가, 당국 제동 = 되돌림.</b> 10/30 2.5조 유증 발표에 하한가, 금감원 검사·정정 요구 구간(10/31~11/5)에 반등, 철회(11/13)는 오히려 -14% — 분쟁 종결 신호로 해석.',
+    '<b>⑤ 법원 결정 시점이 반응 시점.</b> 장중 결정(10/2·10/21·1/21)은 당일 방향을 바꾸고, 장후 결정(3/7 금요일)은 다음 거래일 갭(3/10 +14%). 가처분 심문·결정 일정을 미리 달력에 넣어야 한다.',
+    '<b>⑥ 동반주(영풍·영풍정밀)는 실익이 적었다.</b> 발표일 시초 상한가 잠김(거래대금 131·38억). 대장 하나(고려아연)를 이벤트 캘린더와 함께 보는 것이 효율적.'
+  ]
+};
+let MNA = {}, MNA_CH = null;
+function pct(a, b) { return (a / b - 1) * 100; }
+function renderMNA(key) {
+  const body = document.getElementById('mna-body');
+  const go = d => {
+    const k = d.ohlc[d.lead], idx = {}; k.forEach((r, i) => idx[r[0]] = i);
+    const evBy = {}; d.events.forEach(e => { const r = e.r || e.d; (evBy[r] = evBy[r] || []).push(e); });
+    const ph = d.phases.map((p, i) => { const w = k.filter(r => r[0] >= p.s && r[0] <= p.e), pre = k.filter(r => r[0] < p.s).pop() || w[0];
+      const hi = w.reduce((m, r) => r[2] > m[2] ? r : m, w[0]), ret = pct(w[w.length - 1][4], pre[4]);
+      return '<div class="phase" data-s="' + p.s + '" data-e="' + p.e + '"><b>' + p.n + '</b>' + fd(p.s) + ' ~ ' + fd(p.e) + '<br>구간 <span class="r ' + (ret >= 0 ? 'up' : 'dn') + '">' + (ret >= 0 ? '+' : '') + ret.toFixed(0) + '%</span> · 고가 ' + (hi[2] / 1e4).toFixed(1) + '만(' + hi[0].slice(4, 6) + '/' + hi[0].slice(6) + ')<br>' + p.x + '</div>'; }).join('');
+    const rows = k.map((r, i) => { const pc = i ? k[i - 1][4] : r[1], ch = pct(r[4], pc), evs = evBy[r[0]] || [], dc = d.disc[r[0]] || [];
+      if (!evs.length && !dc.length && Math.abs(ch) < 5) return '';
+      const big = Math.abs(ch) >= 8 || evs.some(e => e.m);
+      return '<tr data-d="' + r[0] + '" class="' + (big ? 'big' : '') + '" data-f="' + (evs.length ? 'e' : '') + (dc.length ? 'p' : '') + '"><td class="nw l">' + fd(r[0]) + '</td><td class="nw ' + (ch >= 0 ? 'up' : 'dn') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(1) + '%</td><td class="nw">' + r[4].toLocaleString() + '</td><td class="nw">' + Math.round(r[5]).toLocaleString() + '</td><td class="l">'
+        + evs.map(e => '<div class="ev"><span class="act" style="background:' + ACOL[e.a] + '">' + d.actors[e.a] + '</span><span class="tm">' + e.k + ' · ' + e.t + (e.d !== r[0] ? ' (' + e.d.slice(4, 6) + '/' + e.d.slice(6) + ' 발생)' : '') + '</span>' + e.x + e.u.map((u, j) => '<a href="' + u + '" target="_blank" rel="noopener">[' + (j + 1) + ']</a>').join('') + '</div>').join('')
+        + (dc.length ? '<div class="dc">공시: ' + dc.join(' · ') + '</div>' : '') + (!evs.length && !dc.length ? '<div class="dc">이벤트 미확인</div>' : '') + '</td></tr>'; }).join('');
+    body.innerHTML = '<div class="card"><h3>' + d.title + ' <span class="tag 경영권">경영권</span></h3><div class="meta">' + d.note + '</div>'
+      + '<div class="phase-strip">' + ph + '</div>'
+      + '<div class="ohlc-bar" id="mna-stk">종목: ' + Object.keys(d.ohlc).map(c => '<button data-c="' + c + '"' + (c === d.lead ? ' class="on"' : '') + '>' + (c === d.lead ? '★ ' : '') + d.names[c] + '</button>').join('') + '<span style="margin-left:8px">구간 배경색 = 국면, 원 = 이벤트(반응일 기준), ▲ = 상한가·▼ = 하한가</span></div>'
+      + '<div class="legend">' + Object.entries(d.actors).map(([a, n]) => '<span><i style="background:' + ACOL[a] + '"></i>' + n + '</span>').join('') + '</div>'
+      + '<div class="ohlc" id="mna-chart" style="height:460px"></div><div class="ohlc-info" id="mna-info"></div>'
+      + '<div class="lesson">' + (MNA_LESSON[key] || []).map(s => '<div>' + s + '</div>').join('') + '</div>'
+      + '<div class="flt">표 필터: <label><input type="radio" name="mf" value="all" checked> 전체</label><label><input type="radio" name="mf" value="e"> 뉴스·법원·규제 이벤트 있는 날</label><label><input type="radio" name="mf" value="big"> 큰 날(±8% 또는 핵심 이벤트)</label> · 행 클릭 = 차트 이동</div>'
+      + '<div class="evt-wrap"><table class="evt"><tr><th class="l">반응일</th><th>등락</th><th>종가</th><th>거래대금(억)</th><th class="l">이벤트 (주체 · 구분 · 시점)</th></tr>' + rows + '</table></div></div>';
+    const drawStk = code => {
+      const box = document.getElementById('mna-chart'); if (MNA_CH) MNA_CH.remove();
+      const rows2 = d.ohlc[code], UP = '#DC0000', DN = '#003CC8', t = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+      const ch = LightweightCharts.createChart(box, { autoSize: true, layout: { background: { color: '#0d1117' }, textColor: '#8b949e', fontSize: 10 },
+        grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } }, rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.08, bottom: 0.28 } },
+        timeScale: { borderColor: '#30363d' }, crosshair: { mode: 0 }, localization: { locale: 'ko-KR', priceFormatter: p => Math.round(p).toLocaleString() } });
+      MNA_CH = ch;
+      // 국면 배경 (히스토그램을 별도 축에 꽉 채워 그림)
+      const PHC = ['#a371f7', '#f85149', '#e3b341', '#3fb950'];
+      const bg = ch.addHistogramSeries({ priceScaleId: 'bg', priceLineVisible: false, lastValueVisible: false });
+      ch.priceScale('bg').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
+      bg.setData(rows2.map(r => { const i = d.phases.findIndex(p => r[0] >= p.s && r[0] <= p.e); return { time: t(r[0]), value: 1, color: i < 0 ? 'rgba(0,0,0,0)' : PHC[i] + '14' }; }));
+      const cs = ch.addCandlestickSeries({ upColor: UP, downColor: DN, borderUpColor: UP, borderDownColor: DN, wickUpColor: UP, wickDownColor: DN, priceLineVisible: false });
+      const vs = ch.addHistogramSeries({ priceScaleId: 'v', priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false });
+      ch.priceScale('v').applyOptions({ scaleMargins: { top: 0.76, bottom: 0 } });
+      cs.setData(rows2.map(r => ({ time: t(r[0]), open: r[1], high: r[2], low: r[3], close: r[4] })));
+      vs.setData(rows2.map((r, i) => ({ time: t(r[0]), value: r[5], color: (r[4] >= (i ? rows2[i - 1][4] : r[1]) ? UP : DN) + '88' })));
+      const mk = [];
+      for (let i = 1; i < rows2.length; i++) { const c = rows2[i][4] / rows2[i - 1][4];
+        if (c >= 1.295) mk.push({ time: t(rows2[i][0]), position: 'aboveBar', color: '#ffd166', shape: 'arrowUp', text: '' });
+        if (c <= 0.705) mk.push({ time: t(rows2[i][0]), position: 'belowBar', color: '#58a6ff', shape: 'arrowDown', text: '' }); }
+      if (code === d.lead) Object.entries(evBy).forEach(([day, evs]) => { if (idx[day] === undefined) return;
+        const main = evs.find(e => e.m) || evs[0]; mk.push({ time: t(day), position: 'aboveBar', color: ACOL[main.a], shape: 'circle', text: evs.filter(e => e.m).map(e => e.m).join('·') }); });
+      mk.sort((a, b) => a.time > b.time ? 1 : a.time < b.time ? -1 : 0); cs.setMarkers(mk);
+      ch.timeScale().fitContent();
+      const info = document.getElementById('mna-info'), nm = d.names[code];
+      ch.subscribeCrosshairMove(p => { if (!p.time) { info.textContent = ''; return; } const kk = p.time.replace(/-/g, ''), i = rows2.findIndex(r => r[0] === kk); if (i < 0) return; const r = rows2[i], pc = i ? rows2[i - 1][4] : r[1];
+        const ev = (evBy[kk] || []).map(e => '[' + d.actors[e.a] + '] ' + e.x).join(' / ');
+        info.textContent = nm + ' ' + fd(r[0]) + ' · 시 ' + r[1].toLocaleString() + ' 고 ' + r[2].toLocaleString() + ' 저 ' + r[3].toLocaleString() + ' 종 ' + r[4].toLocaleString() + ' (' + pct(r[4], pc).toFixed(1) + '%) · 거래대금 ' + Math.round(r[5]).toLocaleString() + '억' + (ev ? ' — ' + ev : ''); });
+      ch.subscribeClick(p => { if (!p.time) return; const tr = body.querySelector('tr[data-d="' + p.time.replace(/-/g, '') + '"]'); if (!tr) return;
+        body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel'); tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+    };
+    drawStk(d.lead);
+    document.querySelectorAll('#mna-stk button').forEach(b => b.onclick = () => { document.querySelectorAll('#mna-stk button').forEach(x => x.classList.toggle('on', x === b)); drawStk(b.dataset.c); });
+    const t2 = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+    const zoom = (a, b) => { const i = k.findIndex(r => r[0] >= a), j = k.length - 1 - [...k].reverse().findIndex(r => r[0] <= b); MNA_CH.timeScale().setVisibleLogicalRange({ from: i - 5, to: j + 5 }); };
+    body.querySelectorAll('.phase').forEach(p => p.onclick = () => zoom(p.dataset.s, p.dataset.e));
+    body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.onclick = () => { body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel');
+      const i = idx[tr.dataset.d]; MNA_CH.timeScale().setVisibleLogicalRange({ from: i - 25, to: i + 25 }); document.getElementById('mna-chart').scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+    body.querySelectorAll('input[name=mf]').forEach(r => r.onchange = () => { const v = r.value;
+      body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.style.display = v === 'all' || (v === 'e' && tr.dataset.f.includes('e')) || (v === 'big' && tr.classList.contains('big')) ? '' : 'none'); });
+  };
+  if (MNA[key]) return go(MNA[key]);
+  body.innerHTML = '<div class="card">불러오는 중…</div>';
+  fetch('data/mna_' + key + '.json', { cache: 'no-store' }).then(r => r.json()).then(d => { MNA[key] = d; go(d); })
+    .catch(e => { body.innerHTML = '<div class="card">데이터를 불러오지 못했습니다: ' + e + '</div>'; });
+}
 document.querySelectorAll('.sub-btn').forEach(b => b.onclick = () => {
   document.querySelectorAll('.sub-btn').forEach(x => x.classList.toggle('active', x === b));
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + b.dataset.v));
   if (b.dataset.v === 'type') renderType();
+  if (b.dataset.v === 'mna' && !MNA_CH) renderMNA('koreazinc');
+  if (location.hash.slice(1) !== b.dataset.v) history.replaceState(null, '', '#' + b.dataset.v);
 });
+if (location.hash === '#mna' || location.hash === '#type') setTimeout(() => { const b = document.querySelector('.sub-btn[data-v="' + location.hash.slice(1) + '"]'); if (b && DATA) b.click(); else if (b) { const iv = setInterval(() => { if (DATA) { clearInterval(iv); b.click(); } }, 200); } }, 0);
 fetch('data/theme_episodes.json', { cache: 'no-store' }).then(r => r.json()).then(d => { DATA = d; renderTime(); })
   .catch(e => { document.getElementById('time-list').innerHTML = '<div class="card">데이터를 불러오지 못했습니다: ' + e + '</div>'; });
 </script>
