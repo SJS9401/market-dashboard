@@ -56,6 +56,7 @@
   .ohlc .barcnt input { width: 42px; background: #0f0f0f; border: 1px solid #3a3a3a; color: #c9d1d9; padding: 1px 4px; border-radius: 4px; font-size: 10px; text-align: center; outline: none; }
   .ohlc .barcnt input:focus { border-color: #58a6ff; }
   .ohlc .barcnt span { font-size: 10px; color: #8b949e; }
+  .ohlc .dttag { position: absolute; right: 0; bottom: 0; z-index: 4; display: none; pointer-events: none; text-align: center; font-size: 10.5px; font-family: Consolas, monospace; color: #f0f6fc; background: #30363d; border-left: 1px solid #484f58; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -213,6 +214,7 @@ function mkCandle(box, rows, opt) {
   const o = { chart, cs, rows, idx, box };
   // 우측 가격축: 화면에 보이는 마지막 캔들 종가 박스 + 그 아래 전일 대비 등락률 (키움 HTS 방식)
   const tag = document.createElement('div'); tag.className = 'pxtag'; box.appendChild(tag);
+  const dtag = document.createElement('div'); dtag.className = 'dttag'; box.appendChild(dtag);   // 우하단: 화면 마지막 캔들 날짜 (키움식)
   let pl = null;
   const lastLbl = () => { if (o.dead) return; const r = chart.timeScale().getVisibleLogicalRange(); if (!r) return;
     const i = Math.max(0, Math.min(rows.length - 1, Math.floor(r.to))), c = rows[i][4], pc = i ? rows[i - 1][4] : rows[i][1], ch = (c / pc - 1) * 100, col = ch >= 0 ? UPC : DNC;
@@ -220,6 +222,7 @@ function mkCandle(box, rows, opt) {
     if (pl) pl.applyOptions(lo); else pl = cs.createPriceLine(lo);
     const y = cs.priceToCoordinate(c), w = chart.priceScale('right').width();
     if (y == null || !w) { tag.style.display = 'none'; return; }
+    const th = chart.timeScale().height(); dtag.style.width = w + 'px'; dtag.style.height = th + 'px'; dtag.style.lineHeight = th + 'px'; dtag.textContent = tD(rows[i][0]).replace(/-/g, '/'); dtag.style.display = 'block';
     tag.style.display = 'block'; tag.style.top = (y - 9) + 'px'; tag.style.width = w + 'px';
     tag.innerHTML = '<div class="p" style="background:' + col + '">' + nf(c) + '</div><div class="c" style="color:' + (ch >= 0 ? '#ff6b6b' : '#6ea8ff') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%</div>'; };
   const lastLblAsync = () => setTimeout(lastLbl, 30);
