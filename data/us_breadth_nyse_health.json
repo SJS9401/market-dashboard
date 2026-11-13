@@ -1,13 +1,15 @@
 {
- "run_at": "2026-11-13T03:27:34Z",
+ "run_at": "2026-11-13T10:04:08Z",
  "mode": "incremental",
  "status": "OK",
  "trimmed_tail": [],
  "universe_source": "nasdaqtrader",
- "n_universe": 1914,
+ "n_universe": 1915,
  "n_downloaded": 1914,
- "n_failed": 0,
- "failed_sample": [],
+ "n_failed": 1,
+ "failed_sample": [
+  "VVVV"
+ ],
  "last_date": "2026-11-12",
  "stale_n": 0,
  "stale_pct": 0.0,
