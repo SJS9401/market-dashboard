@@ -46,6 +46,9 @@
   .ohlc { position: relative; height: 380px; border: 1px solid #21262d; border-radius: 6px; }
   .ohlc .lg { position: absolute; left: 8px; top: 4px; z-index: 5; font-size: 11px; color: #c9d1d9; pointer-events: none; font-family: Consolas, monospace; white-space: nowrap; line-height: 1.5; text-shadow: 0 0 3px #0d1117; }
   .ohlc .selbox { position: absolute; top: 0; bottom: 0; background: rgba(31,111,235,0.18); border-left: 1px solid #1f6feb; border-right: 1px solid #1f6feb; z-index: 6; pointer-events: none; display: none; }
+  .ohlc .pxtag { position: absolute; right: 0; z-index: 4; pointer-events: none; display: none; font-size: 11px; font-family: Consolas, monospace; text-align: left; }
+  .ohlc .pxtag .p { color: #fff; padding: 1px 6px; line-height: 16px; }
+  .ohlc .pxtag .c { padding: 0 6px; line-height: 14px; font-weight: 700; background: #0d1117cc; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -141,7 +144,7 @@ function mkCandle(box, rows, opt) {
     timeScale: { borderColor: '#30363d', rightOffset: 3 }, crosshair: { mode: 0 },
     handleScroll: { mouseWheel: false, pressedMouseMove: false, horzTouchDrag: true, vertTouchDrag: false },
     handleScale: { mouseWheel: false, pinch: true, axisPressedMouseMove: { time: false, price: true }, axisDoubleClickReset: true },
-    localization: { locale: 'ko-KR', priceFormatter: p => nf(p) } });
+    localization: { locale: 'ko-KR', priceFormatter: p => p < 0 ? '' : nf(p) } });
   if (opt.bgFn) { const bg = chart.addHistogramSeries({ priceScaleId: 'bg', priceLineVisible: false, lastValueVisible: false });
     chart.priceScale('bg').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
     bg.setData(rows.map(r => ({ time: tD(r[0]), value: 1, color: opt.bgFn(r[0]) || 'rgba(0,0,0,0)' }))); }
@@ -166,14 +169,21 @@ function mkCandle(box, rows, opt) {
   chart.subscribeCrosshairMove(p => { const t = p && p.time != null ? (typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')) : null; legend(t); if (opt.onHover) opt.onHover(t ? t.replace(/-/g, '') : null); });
   if (opt.onClick) chart.subscribeClick(p => { if (p && p.time != null) opt.onClick((typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')).replace(/-/g, '')); });
   const o = { chart, cs, rows, idx, box };
-  // 우측 가격축: 화면에 보이는 마지막 캔들의 종가 + 전일 대비 등락률 (키움 HTS 방식)
-  let pl = null, plI = -1;
+  // 우측 가격축: 화면에 보이는 마지막 캔들 종가 박스 + 그 아래 전일 대비 등락률 (키움 HTS 방식)
+  const tag = document.createElement('div'); tag.className = 'pxtag'; box.appendChild(tag);
+  let pl = null;
   const lastLbl = () => { if (o.dead) return; const r = chart.timeScale().getVisibleLogicalRange(); if (!r) return;
-    const i = Math.max(0, Math.min(rows.length - 1, Math.floor(r.to))); if (i === plI) return; plI = i;
-    const c = rows[i][4], pc = i ? rows[i - 1][4] : rows[i][1], ch = (c / pc - 1) * 100, col = ch >= 0 ? UPC : DNC;
-    const opt2 = { price: c, color: col, lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%', axisLabelColor: col, axisLabelTextColor: '#ffffff' };
-    if (pl) pl.applyOptions(opt2); else pl = cs.createPriceLine(opt2); };
-  chart.timeScale().subscribeVisibleLogicalRangeChange(lastLbl);
+    const i = Math.max(0, Math.min(rows.length - 1, Math.floor(r.to))), c = rows[i][4], pc = i ? rows[i - 1][4] : rows[i][1], ch = (c / pc - 1) * 100, col = ch >= 0 ? UPC : DNC;
+    const lo = { price: c, color: col, lineWidth: 1, lineStyle: 2, axisLabelVisible: false, title: '' };
+    if (pl) pl.applyOptions(lo); else pl = cs.createPriceLine(lo);
+    const y = cs.priceToCoordinate(c), w = chart.priceScale('right').width();
+    if (y == null || !w) { tag.style.display = 'none'; return; }
+    tag.style.display = 'block'; tag.style.top = (y - 9) + 'px'; tag.style.width = w + 'px';
+    tag.innerHTML = '<div class="p" style="background:' + col + '">' + nf(c) + '</div><div class="c" style="color:' + (ch >= 0 ? '#ff6b6b' : '#6ea8ff') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%</div>'; };
+  const lastLblAsync = () => requestAnimationFrame(() => requestAnimationFrame(lastLbl));
+  chart.timeScale().subscribeVisibleLogicalRangeChange(lastLblAsync);
+  chart.subscribeCrosshairMove(lastLblAsync);
+  new ResizeObserver(lastLblAsync).observe(box);
   o.show = (a, b) => { const i = rows.findIndex(r => r[0] >= a), j = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= b); chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, i) - 5, to: j + 5 }); };
   o.home = () => o.show(opt.from || rows[0][0], opt.to || rows[rows.length - 1][0]);
   o.home();
