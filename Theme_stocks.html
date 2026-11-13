@@ -44,6 +44,8 @@
   .ohlc-bar button { font-size: 11px; padding: 3px 10px; border-radius: 12px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; cursor: pointer; }
   .ohlc-bar button.on { border-color: #a371f7; color: #f0f6fc; background: #a371f722; }
   .ohlc { position: relative; height: 380px; border: 1px solid #21262d; border-radius: 6px; }
+  .ohlc .lg { position: absolute; left: 8px; top: 4px; z-index: 5; font-size: 11px; color: #c9d1d9; pointer-events: none; font-family: Consolas, monospace; white-space: nowrap; line-height: 1.5; text-shadow: 0 0 3px #0d1117; }
+  .ohlc .selbox { position: absolute; top: 0; bottom: 0; background: rgba(31,111,235,0.18); border-left: 1px solid #1f6feb; border-right: 1px solid #1f6feb; z-index: 6; pointer-events: none; display: none; }
   .ohlc-info { font-size: 11px; color: #8b949e; margin-top: 4px; min-height: 16px; }
   td.warn { color: #e3b341; }
   .phase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
@@ -116,35 +118,89 @@ function cardHTML(e, cid, compact) {
     + (e.note && !compact ? '<div class="case-note">' + e.note + '</div>' : '')
     + '<div class="cv"><canvas id="' + cid + '"></canvas></div>'
     + (compact ? '' : '<table><tr><th class="l">종목 (★ = 구간 거래대금 1위)</th><th>구간 거래대금 합계(억)</th><th>최대 일 거래대금(억)</th><th>저점→고점 배수</th><th>저점 → 고점</th><th>영업일</th></tr>' + rows + '</table>'
-      + '<div class="ohlc-bar" id="ob_' + e.id + '">캔들(시고저종) · 막대 = 거래대금(억) · ▲ = 상한가:' + e.members.map(m => '<button data-c="' + m.code + '"' + (m === ld ? ' class="on"' : '') + '>' + (m === ld ? '★ ' : '') + m.name + '</button>').join('') + '</div>'
+      + '<div class="ohlc-bar" id="ob_' + e.id + '">캔들 · 이평 5/10/20/60/120 · 막대 = 거래대금(억) · ▲ 상한가 · 휠 = 1캔들 이동 · 드래그 → 확대 / ← 축소 · 더블클릭 = 처음:' + e.members.map(m => '<button data-c="' + m.code + '"' + (m === ld ? ' class="on"' : '') + '>' + (m === ld ? '★ ' : '') + m.name + '</button>').join('') + '</div>'
       + '<div class="ohlc" id="oc_' + e.id + '"></div><div class="ohlc-info" id="oi_' + e.id + '"></div>'
       + '<div class="note">거래대금 = 네이버 수정주가 × 거래량 근사. 과거 감자·병합이 있던 종목은 왜곡될 수 있음(⚠ 표시).</div>')
     + '</div>';
+}
+// ===== 공통 캔들 차트 (2026-11-13 BT) =====
+// 이동평균 5·10·20·60·120일, 휠 = 1캔들씩 이동(위 = 과거 / 아래 = 최근), 드래그 오른쪽 = 선택 구간 확대 / 왼쪽 = 2배 축소, 더블클릭 = 처음 보기
+// 범례 = 크로스헤어 위치 캔들의 시고저종 + 종가 등락률(전일 종가 대비) + 거래대금 + 이평 값
+const UPC = '#DC0000', DNC = '#003CC8';
+const MAS = [[5, '#f0f6fc'], [10, '#58a6ff'], [20, '#e3b341'], [60, '#d2a8ff'], [120, '#3fb950']];
+const tD = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+const nf = v => Math.round(v).toLocaleString();
+function smaD(rows, n) { const out = []; let s = 0; for (let i = 0; i < rows.length; i++) { s += rows[i][4]; if (i >= n) s -= rows[i - n][4]; if (i >= n - 1) out.push({ time: tD(rows[i][0]), value: s / n }); } return out; }
+// rows = [[YYYYMMDD,o,h,l,c,거래대금억]], opt = { title, from, to, markers, bgFn, onClick, onHover }
+function mkCandle(box, rows, opt) {
+  if (box._ch) { box._ch.dead = true; box._ch.chart.remove(); box._ch = null; }
+  box.style.position = 'relative'; box.innerHTML = '<div class="lg"></div><div class="selbox"></div>';
+  const chart = LightweightCharts.createChart(box, { autoSize: true, layout: { background: { color: '#0d1117' }, textColor: '#8b949e', fontSize: 10 },
+    grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+    rightPriceScale: { borderColor: '#30363d', minimumWidth: 70, scaleMargins: { top: 0.14, bottom: 0.24 } },
+    timeScale: { borderColor: '#30363d', rightOffset: 3 }, crosshair: { mode: 0 },
+    handleScroll: { mouseWheel: false, pressedMouseMove: false, horzTouchDrag: true, vertTouchDrag: false },
+    handleScale: { mouseWheel: false, pinch: true, axisPressedMouseMove: { time: false, price: true }, axisDoubleClickReset: true },
+    localization: { locale: 'ko-KR', priceFormatter: p => nf(p) } });
+  if (opt.bgFn) { const bg = chart.addHistogramSeries({ priceScaleId: 'bg', priceLineVisible: false, lastValueVisible: false });
+    chart.priceScale('bg').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
+    bg.setData(rows.map(r => ({ time: tD(r[0]), value: 1, color: opt.bgFn(r[0]) || 'rgba(0,0,0,0)' }))); }
+  const vs = chart.addHistogramSeries({ priceScaleId: 'v', priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false });
+  chart.priceScale('v').applyOptions({ scaleMargins: { top: 0.8, bottom: 0 }, visible: false });
+  const cs = chart.addCandlestickSeries({ upColor: UPC, downColor: DNC, borderUpColor: UPC, borderDownColor: DNC, wickUpColor: UPC, wickDownColor: DNC, priceLineVisible: false });
+  const maMap = MAS.map(([n, c]) => { const s = chart.addLineSeries({ color: c, lineWidth: n >= 60 ? 1.6 : 1.1, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+    const d = smaD(rows, n); s.setData(d); return Object.fromEntries(d.map(x => [x.time, x.value])); });
+  cs.setData(rows.map(r => ({ time: tD(r[0]), open: r[1], high: r[2], low: r[3], close: r[4] })));
+  vs.setData(rows.map((r, i) => ({ time: tD(r[0]), value: r[5], color: (r[4] >= (i ? rows[i - 1][4] : r[1]) ? UPC : DNC) + '88' })));
+  const mk = (opt.markers || []).slice();
+  for (let i = 1; i < rows.length; i++) { const c = rows[i][4] / rows[i - 1][4];
+    if (c >= 1.295) mk.push({ time: tD(rows[i][0]), position: 'belowBar', color: '#ffd166', shape: 'arrowUp', text: '' });
+    if (c <= 0.705) mk.push({ time: tD(rows[i][0]), position: 'belowBar', color: '#58a6ff', shape: 'arrowDown', text: '' }); }
+  mk.sort((a, b) => a.time > b.time ? 1 : a.time < b.time ? -1 : 0); cs.setMarkers(mk);
+  const idx = {}; rows.forEach((r, i) => idx[tD(r[0])] = i);
+  const lg = box.querySelector('.lg');
+  const legend = t => { const i = t != null && idx[t] !== undefined ? idx[t] : rows.length - 1; const r = rows[i]; if (!r) return; const pc = i ? rows[i - 1][4] : r[1], ch = (r[4] / pc - 1) * 100, col = ch >= 0 ? '#ff6b6b' : '#58a6ff', tt = tD(r[0]);
+    lg.innerHTML = '<b>' + opt.title + '</b> ' + tt + '  시 ' + nf(r[1]) + '  고 ' + nf(r[2]) + '  저 ' + nf(r[3]) + '  종 <span style="color:' + col + '">' + nf(r[4]) + ' (' + (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%)</span>  대금 ' + nf(r[5]) + '억<br>'
+      + MAS.map(([n, c], j) => maMap[j][tt] != null ? '<span style="color:' + c + '">' + n + ' ' + nf(maMap[j][tt]) + '</span>' : '').join('  '); };
+  legend(null);
+  chart.subscribeCrosshairMove(p => { const t = p && p.time != null ? (typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')) : null; legend(t); if (opt.onHover) opt.onHover(t ? t.replace(/-/g, '') : null); });
+  if (opt.onClick) chart.subscribeClick(p => { if (p && p.time != null) opt.onClick((typeof p.time === 'string' ? p.time : p.time.year + '-' + String(p.time.month).padStart(2, '0') + '-' + String(p.time.day).padStart(2, '0')).replace(/-/g, '')); });
+  const o = { chart, cs, rows, idx, box };
+  o.show = (a, b) => { const i = rows.findIndex(r => r[0] >= a), j = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= b); chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, i) - 5, to: j + 5 }); };
+  o.home = () => o.show(opt.from || rows[0][0], opt.to || rows[rows.length - 1][0]);
+  o.home();
+  // 마우스: 휠·드래그 (컨테이너에 1번만 연결, 차트 교체 시 box._ch 갱신)
+  box._ch = o;
+  if (!box._bound) { box._bound = true;
+    const ts = () => box._ch.chart.timeScale(), sb = () => box.querySelector('.selbox'), px = e => e.clientX - box.getBoundingClientRect().left;
+    box.addEventListener('wheel', e => { if (!box._ch) return; e.preventDefault(); const r = ts().getVisibleLogicalRange(); if (!r) return; const s = e.deltaY < 0 ? -1 : 1; ts().setVisibleLogicalRange({ from: r.from + s, to: r.to + s }); }, { passive: false });
+    let x0 = null;
+    box.addEventListener('mousedown', e => { if (e.button !== 0 || !box._ch) return; const x = px(e); if (x > box.clientWidth - 72) return; x0 = x; const b = sb(); b.style.left = x + 'px'; b.style.width = '0px'; b.style.display = 'block'; });
+    window.addEventListener('mousemove', e => { if (x0 == null) return; const x = Math.max(0, Math.min(px(e), box.clientWidth - 72)), b = sb(); b.style.left = Math.min(x0, x) + 'px'; b.style.width = Math.abs(x - x0) + 'px'; });
+    window.addEventListener('mouseup', e => { if (x0 == null) return; const x1 = Math.max(0, Math.min(px(e), box.clientWidth - 72)); sb().style.display = 'none'; const a = x0; x0 = null; if (Math.abs(x1 - a) < 6) return;
+      const r = ts().getVisibleLogicalRange(); if (!r) return;
+      if (x1 > a) { const l1 = ts().coordinateToLogical(a), l2 = ts().coordinateToLogical(x1); if (l1 != null && l2 != null && l2 - l1 >= 3) ts().setVisibleLogicalRange({ from: l1, to: l2 }); }
+      else { const c = (r.from + r.to) / 2, w = r.to - r.from; ts().setVisibleLogicalRange({ from: c - w, to: c + w }); } });
+    box.addEventListener('dblclick', () => box._ch && box._ch.home());
+  }
+  return o;
+}
+// 두 차트 X축·크로스헤어 연동 (날짜 기준)
+function linkCharts(a, b) {
+  if (!a || !b) return; let busy = false;
+  const sync = (x, y) => x.chart.timeScale().subscribeVisibleLogicalRangeChange(() => { if (busy || x.dead || y.dead) return; const r = x.chart.timeScale().getVisibleRange(); if (!r) return; busy = true; try { y.chart.timeScale().setVisibleRange(r); } catch (e) {} busy = false; });
+  sync(a, b); sync(b, a);
+  const ch = (x, y) => x.chart.subscribeCrosshairMove(p => { if (x.dead || y.dead) return; if (!p || p.time == null) { y.chart.clearCrosshairPosition(); return; } const t = typeof p.time === 'string' ? p.time : null; const i = t ? y.idx[t] : undefined; if (i === undefined) { y.chart.clearCrosshairPosition(); return; } y.chart.setCrosshairPosition(y.rows[i][4], t, y.cs); });
+  ch(a, b); ch(b, a);
 }
 const OHLC = {}, OCH = {};
 function drawOHLC(e, code) {
   const box = document.getElementById('oc_' + e.id); if (!box || !window.LightweightCharts) return;
   const go = d => {
     const rows = d.members[code]; if (!rows) { box.innerHTML = '<div class="note" style="padding:10px">캔들 데이터 없음</div>'; return; }
-    if (OCH[e.id]) { OCH[e.id].remove(); }
-    const UP = '#DC0000', DN = '#003CC8', t = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
-    const ch = LightweightCharts.createChart(box, { autoSize: true, layout: { background: { color: '#0d1117' }, textColor: '#8b949e', fontSize: 10 },
-      grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } }, rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.05, bottom: 0.3 } },
-      timeScale: { borderColor: '#30363d' }, crosshair: { mode: 0 }, localization: { locale: 'ko-KR', priceFormatter: p => Math.round(p).toLocaleString() } });
-    OCH[e.id] = ch;
-    const cs = ch.addCandlestickSeries({ upColor: UP, downColor: DN, borderUpColor: UP, borderDownColor: DN, wickUpColor: UP, wickDownColor: DN, priceLineVisible: false });
-    const vs = ch.addHistogramSeries({ priceScaleId: 'v', priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false });
-    ch.priceScale('v').applyOptions({ scaleMargins: { top: 0.75, bottom: 0 } });
-    cs.setData(rows.map(r => ({ time: t(r[0]), open: r[1], high: r[2], low: r[3], close: r[4] })));
-    vs.setData(rows.map((r, i) => ({ time: t(r[0]), value: r[5], color: (r[4] >= (i ? rows[i - 1][4] : r[1]) ? UP : DN) + '88' })));
-    const mk = []; for (let i = 1; i < rows.length; i++) if (rows[i][4] / rows[i - 1][4] >= 1.295) mk.push({ time: t(rows[i][0]), position: 'aboveBar', color: '#ffd166', shape: 'arrowDown', text: '상' });
-    cs.setMarkers(mk);
-    const s0 = e.start.replace(/-/g, ''), s1 = e.end.replace(/-/g, '');
-    const fr = rows.findIndex(r => r[0] >= s0), to = rows.length - 1 - [...rows].reverse().findIndex(r => r[0] <= s1);
-    ch.timeScale().setVisibleLogicalRange({ from: Math.max(0, fr - 10), to: to + 10 });
-    const info = document.getElementById('oi_' + e.id), m = e.members.find(x => x.code === code);
-    ch.subscribeCrosshairMove(p => { if (!p.time) { info.textContent = ''; return; } const k = typeof p.time === 'string' ? p.time.replace(/-/g, '') : ''; const i = rows.findIndex(r => r[0] === k); if (i < 0) return; const r = rows[i], pc = i ? rows[i - 1][4] : r[1];
-      info.textContent = m.name + ' ' + fd(r[0]) + ' · 시 ' + r[1].toLocaleString() + ' 고 ' + r[2].toLocaleString() + ' 저 ' + r[3].toLocaleString() + ' 종 ' + r[4].toLocaleString() + ' (' + ((r[4] / pc - 1) * 100).toFixed(1) + '%) · 거래대금 ' + Math.round(r[5]).toLocaleString() + '억'; });
+    const m = e.members.find(x => x.code === code);
+    OCH[e.id] = mkCandle(box, rows, { title: m.name, from: e.viewStart, to: e.viewEnd });
+    OCH[e.id].show(e.start.replace(/-/g, ''), e.end.replace(/-/g, ''));
   };
   if (OHLC[e.id]) return go(OHLC[e.id]);
   fetch('data/theme_ohlc/' + e.id + '.json', { cache: 'no-store' }).then(r => r.json()).then(d => { OHLC[e.id] = d; go(d); })
@@ -207,58 +263,46 @@ function renderMNA(key) {
       const hi = w.reduce((m, r) => r[2] > m[2] ? r : m, w[0]), ret = pct(w[w.length - 1][4], pre[4]);
       return '<div class="phase" data-s="' + p.s + '" data-e="' + p.e + '"><b>' + p.n + '</b>' + fd(p.s) + ' ~ ' + fd(p.e) + '<br>구간 <span class="r ' + (ret >= 0 ? 'up' : 'dn') + '">' + (ret >= 0 ? '+' : '') + ret.toFixed(0) + '%</span> · 고가 ' + (hi[2] / 1e4).toFixed(1) + '만(' + hi[0].slice(4, 6) + '/' + hi[0].slice(6) + ')<br>' + p.x + '</div>'; }).join('');
     const rows = k.map((r, i) => { const pc = i ? k[i - 1][4] : r[1], ch = pct(r[4], pc), evs = evBy[r[0]] || [], dc = d.disc[r[0]] || [];
+      if (d.viewFrom && r[0] < d.viewFrom) return '';
       if (!evs.length && !dc.length && Math.abs(ch) < 5) return '';
       const big = Math.abs(ch) >= 8 || evs.some(e => e.m);
       return '<tr data-d="' + r[0] + '" class="' + (big ? 'big' : '') + '" data-f="' + (evs.length ? 'e' : '') + (dc.length ? 'p' : '') + '"><td class="nw l">' + fd(r[0]) + '</td><td class="nw ' + (ch >= 0 ? 'up' : 'dn') + '">' + (ch >= 0 ? '+' : '') + ch.toFixed(1) + '%</td><td class="nw">' + r[4].toLocaleString() + '</td><td class="nw">' + Math.round(r[5]).toLocaleString() + '</td><td class="l">'
         + evs.map(e => '<div class="ev"><span class="act" style="background:' + ACOL[e.a] + '">' + d.actors[e.a] + '</span><span class="tm">' + e.k + ' · ' + e.t + (e.d !== r[0] ? ' (' + e.d.slice(4, 6) + '/' + e.d.slice(6) + ' 발생)' : '') + '</span>' + e.x + e.u.map((u, j) => '<a href="' + u + '" target="_blank" rel="noopener">[' + (j + 1) + ']</a>').join('') + '</div>').join('')
         + (dc.length ? '<div class="dc">공시: ' + dc.join(' · ') + '</div>' : '') + (!evs.length && !dc.length ? '<div class="dc">이벤트 미확인</div>' : '') + '</td></tr>'; }).join('');
+    const comps = d.companions || Object.keys(d.ohlc).filter(c => c !== d.lead);
     body.innerHTML = '<div class="card"><h3>' + d.title + ' <span class="tag 경영권">경영권</span></h3><div class="meta">' + d.note + '</div>'
       + '<div class="phase-strip">' + ph + '</div>'
-      + '<div class="ohlc-bar" id="mna-stk">종목: ' + Object.keys(d.ohlc).map(c => '<button data-c="' + c + '"' + (c === d.lead ? ' class="on"' : '') + '>' + (c === d.lead ? '★ ' : '') + d.names[c] + '</button>').join('') + '<span style="margin-left:8px">구간 배경색 = 국면, 원 = 이벤트(반응일 기준), ▲ = 상한가·▼ = 하한가</span></div>'
-      + '<div class="legend">' + Object.entries(d.actors).map(([a, n]) => '<span><i style="background:' + ACOL[a] + '"></i>' + n + '</span>').join('') + '</div>'
-      + '<div class="ohlc" id="mna-chart" style="height:460px"></div><div class="ohlc-info" id="mna-info"></div>'
+      + '<div class="legend">' + Object.entries(d.actors).map(([a, n]) => '<span><i style="background:' + ACOL[a] + '"></i>' + n + '</span>').join('')
+      + '<span>· 배경색 = 국면 · 원 = 이벤트(반응일 기준) · 노란 ▲ = 상한가 · 파란 ▼ = 하한가</span><span>· 이평 ' + MAS.map(([n, c]) => '<b style="color:' + c + '">' + n + '</b>').join(' ') + '</span></div>'
+      + '<div class="ohlc-bar"><b style="color:#f0f6fc">거래대금 대장 ★ ' + d.names[d.lead] + '</b><span style="margin-left:8px">휠 = 1캔들 이동(위 과거·아래 최근) · 오른쪽 드래그 = 확대 · 왼쪽 드래그 = 축소 · 더블클릭 = 처음 보기</span></div>'
+      + '<div class="ohlc" id="mna-chart" style="height:440px"></div><div class="ohlc-info" id="mna-info"></div>'
+      + '<div class="ohlc-bar" id="mna-sub">잡주 대장(분위기 메이커): ' + comps.map((c, i) => '<button data-c="' + c + '"' + (i === 0 ? ' class="on"' : '') + '>' + d.names[c] + '</button>').join('') + '<button data-c="">OFF</button><span style="margin-left:8px">위 차트와 기간·크로스헤어 연동</span></div>'
+      + '<div class="ohlc" id="mna-chart2" style="height:300px"></div>'
       + '<div class="lesson">' + (MNA_LESSON[key] || []).map(s => '<div>' + s + '</div>').join('') + '</div>'
       + '<div class="flt">표 필터: <label><input type="radio" name="mf" value="all" checked> 전체</label><label><input type="radio" name="mf" value="e"> 뉴스·법원·규제 이벤트 있는 날</label><label><input type="radio" name="mf" value="big"> 큰 날(±8% 또는 핵심 이벤트)</label> · 행 클릭 = 차트 이동</div>'
       + '<div class="evt-wrap"><table class="evt"><tr><th class="l">반응일</th><th>등락</th><th>종가</th><th>거래대금(억)</th><th class="l">이벤트 (주체 · 구분 · 시점)</th></tr>' + rows + '</table></div></div>';
-    const drawStk = code => {
-      const box = document.getElementById('mna-chart'); if (MNA_CH) MNA_CH.remove();
-      const rows2 = d.ohlc[code], UP = '#DC0000', DN = '#003CC8', t = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
-      const ch = LightweightCharts.createChart(box, { autoSize: true, layout: { background: { color: '#0d1117' }, textColor: '#8b949e', fontSize: 10 },
-        grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } }, rightPriceScale: { borderColor: '#30363d', scaleMargins: { top: 0.08, bottom: 0.28 } },
-        timeScale: { borderColor: '#30363d' }, crosshair: { mode: 0 }, localization: { locale: 'ko-KR', priceFormatter: p => Math.round(p).toLocaleString() } });
-      MNA_CH = ch;
-      // 국면 배경 (히스토그램을 별도 축에 꽉 채워 그림)
-      const PHC = ['#a371f7', '#f85149', '#e3b341', '#3fb950'];
-      const bg = ch.addHistogramSeries({ priceScaleId: 'bg', priceLineVisible: false, lastValueVisible: false });
-      ch.priceScale('bg').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
-      bg.setData(rows2.map(r => { const i = d.phases.findIndex(p => r[0] >= p.s && r[0] <= p.e); return { time: t(r[0]), value: 1, color: i < 0 ? 'rgba(0,0,0,0)' : PHC[i] + '14' }; }));
-      const cs = ch.addCandlestickSeries({ upColor: UP, downColor: DN, borderUpColor: UP, borderDownColor: DN, wickUpColor: UP, wickDownColor: DN, priceLineVisible: false });
-      const vs = ch.addHistogramSeries({ priceScaleId: 'v', priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false });
-      ch.priceScale('v').applyOptions({ scaleMargins: { top: 0.76, bottom: 0 } });
-      cs.setData(rows2.map(r => ({ time: t(r[0]), open: r[1], high: r[2], low: r[3], close: r[4] })));
-      vs.setData(rows2.map((r, i) => ({ time: t(r[0]), value: r[5], color: (r[4] >= (i ? rows2[i - 1][4] : r[1]) ? UP : DN) + '88' })));
-      const mk = [];
-      for (let i = 1; i < rows2.length; i++) { const c = rows2[i][4] / rows2[i - 1][4];
-        if (c >= 1.295) mk.push({ time: t(rows2[i][0]), position: 'aboveBar', color: '#ffd166', shape: 'arrowUp', text: '' });
-        if (c <= 0.705) mk.push({ time: t(rows2[i][0]), position: 'belowBar', color: '#58a6ff', shape: 'arrowDown', text: '' }); }
-      if (code === d.lead) Object.entries(evBy).forEach(([day, evs]) => { if (idx[day] === undefined) return;
-        const main = evs.find(e => e.m) || evs[0]; mk.push({ time: t(day), position: 'aboveBar', color: ACOL[main.a], shape: 'circle', text: evs.filter(e => e.m).map(e => e.m).join('·') }); });
-      mk.sort((a, b) => a.time > b.time ? 1 : a.time < b.time ? -1 : 0); cs.setMarkers(mk);
-      ch.timeScale().fitContent();
-      const info = document.getElementById('mna-info'), nm = d.names[code];
-      ch.subscribeCrosshairMove(p => { if (!p.time) { info.textContent = ''; return; } const kk = p.time.replace(/-/g, ''), i = rows2.findIndex(r => r[0] === kk); if (i < 0) return; const r = rows2[i], pc = i ? rows2[i - 1][4] : r[1];
-        const ev = (evBy[kk] || []).map(e => '[' + d.actors[e.a] + '] ' + e.x).join(' / ');
-        info.textContent = nm + ' ' + fd(r[0]) + ' · 시 ' + r[1].toLocaleString() + ' 고 ' + r[2].toLocaleString() + ' 저 ' + r[3].toLocaleString() + ' 종 ' + r[4].toLocaleString() + ' (' + pct(r[4], pc).toFixed(1) + '%) · 거래대금 ' + Math.round(r[5]).toLocaleString() + '억' + (ev ? ' — ' + ev : ''); });
-      ch.subscribeClick(p => { if (!p.time) return; const tr = body.querySelector('tr[data-d="' + p.time.replace(/-/g, '') + '"]'); if (!tr) return;
-        body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel'); tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
-    };
-    drawStk(d.lead);
-    document.querySelectorAll('#mna-stk button').forEach(b => b.onclick = () => { document.querySelectorAll('#mna-stk button').forEach(x => x.classList.toggle('on', x === b)); drawStk(b.dataset.c); });
-    const t2 = s => s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
-    const zoom = (a, b) => { const i = k.findIndex(r => r[0] >= a), j = k.length - 1 - [...k].reverse().findIndex(r => r[0] <= b); MNA_CH.timeScale().setVisibleLogicalRange({ from: i - 5, to: j + 5 }); };
-    body.querySelectorAll('.phase').forEach(p => p.onclick = () => zoom(p.dataset.s, p.dataset.e));
+    const PHC = ['#a371f7', '#f85149', '#e3b341', '#3fb950'];
+    const bgFn = day => { const i = d.phases.findIndex(p => day >= p.s && day <= p.e); return i < 0 ? null : PHC[i % PHC.length] + '14'; };
+    const evMk = (withText) => Object.entries(evBy).map(([day, evs]) => { const main = evs.find(e => e.m) || evs[0];
+      return { time: tD(day), position: 'aboveBar', color: ACOL[main.a], shape: 'circle', text: withText ? evs.filter(e => e.m).map(e => e.m).join('·') : '' }; });
+    const info = document.getElementById('mna-info');
+    const selRow = day => { const tr = body.querySelector('tr[data-d="' + day + '"]'); if (!tr) return; body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel'); tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
+    const hover = day => { const ev = day ? (evBy[day] || []).map(e => '[' + d.actors[e.a] + '] ' + e.x).join(' / ') : ''; info.textContent = ev; };
+    const vf = d.viewFrom || k[0][0], vt = d.viewTo || k[k.length - 1][0];
+    const top = mkCandle(document.getElementById('mna-chart'), k, { title: '★ ' + d.names[d.lead], from: vf, to: vt, markers: evMk(true), bgFn, onClick: selRow, onHover: hover });
+    MNA_CH = top;
+    let sub = null;
+    const drawSub = code => { const box = document.getElementById('mna-chart2');
+      if (!code) { if (box._ch) { box._ch.dead = true; box._ch.chart.remove(); box._ch = null; } box.style.display = 'none'; sub = null; return; }
+      box.style.display = '';
+      const r = top.chart.timeScale().getVisibleRange();
+      sub = mkCandle(box, d.ohlc[code], { title: d.names[code], from: vf, to: vt, markers: evMk(false), bgFn, onClick: selRow, onHover: hover });
+      linkCharts(top, sub); if (r) sub.chart.timeScale().setVisibleRange(r); };
+    drawSub(comps[0]);
+    document.querySelectorAll('#mna-sub button').forEach(b => b.onclick = () => { document.querySelectorAll('#mna-sub button').forEach(x => x.classList.toggle('on', x === b)); drawSub(b.dataset.c); });
+    body.querySelectorAll('.phase').forEach(p => p.onclick = () => top.show(p.dataset.s, p.dataset.e));
     body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.onclick = () => { body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel');
-      const i = idx[tr.dataset.d]; MNA_CH.timeScale().setVisibleLogicalRange({ from: i - 25, to: i + 25 }); document.getElementById('mna-chart').scrollIntoView({ block: 'center', behavior: 'smooth' }); });
+      const i = idx[tr.dataset.d]; top.chart.timeScale().setVisibleLogicalRange({ from: i - 25, to: i + 25 }); document.getElementById('mna-chart').scrollIntoView({ block: 'center', behavior: 'smooth' }); });
     body.querySelectorAll('input[name=mf]').forEach(r => r.onchange = () => { const v = r.value;
       body.querySelectorAll('.evt tr[data-d]').forEach(tr => tr.style.display = v === 'all' || (v === 'e' && tr.dataset.f.includes('e')) || (v === 'big' && tr.classList.contains('big')) ? '' : 'none'); });
   };
