@@ -389,7 +389,9 @@ function renderMNA(key) {
     const evMk = (withText) => Object.entries(evBy).map(([day, evs]) => { const main = evs.find(e => e.m) || evs[0];
       return { time: tD(day), position: 'aboveBar', color: ACOL[main.a], shape: 'circle', text: withText ? evs.filter(e => e.m).map(e => e.m).join('·') : '' }; });
     const info = document.getElementById('mna-info');
-    const selRow = day => { const tr = body.querySelector('tr[data-d="' + day + '"]'); if (!tr) return; body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel'); tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
+    const selRow = day => { const tr = body.querySelector('tr[data-d="' + day + '"]'); if (!tr) return; body.querySelectorAll('tr.sel').forEach(x => x.classList.remove('sel')); tr.classList.add('sel');
+      // 페이지는 그대로 두고 표 상자 안에서만 스크롤 (차트가 화면 위로 밀려나지 않게)
+      const wrap = tr.closest('.evt-wrap'); if (wrap) wrap.scrollTo({ top: wrap.scrollTop + tr.getBoundingClientRect().top - wrap.getBoundingClientRect().top - 34, behavior: 'smooth' }); };
     const hover = day => { const ev = day ? (evBy[day] || []).map(e => '[' + d.actors[e.a] + '] ' + e.x).join(' / ') : ''; info.textContent = ev; };
     const vf = d.viewFrom || k[0][0], vt = d.viewTo || k[k.length - 1][0];
     const top = mkCandle(document.getElementById('mna-chart'), k, { title: '★ ' + d.names[d.lead], from: vf, to: vt, markers: evMk(true), bgFn, onClick: selRow, onHover: hover });
