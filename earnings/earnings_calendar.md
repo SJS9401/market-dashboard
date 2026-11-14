@@ -119,7 +119,7 @@
 | RTX | RTX | 1월 27년 가이던스 Raytheon +10%↑, 4Q 매출 +5% 내재, 방산잔고 $164B 매출전환, 중동 방공 수주, GTF |
 | GD | General Dynamics | 27년 가이던스 1월, 4Q OP $1.54B, Marine OPM 7.5%, Combat OPM 14% 회복, CR 12/11 |
 | RHM | Rheinmetall AG | Arminius 12월 예산위, CMD 11/26 2030목표, 4Q OP €1.1bn·W&A 28%, 순차입 €2.9bn |
-| BAE | BAE Systems | 유럽 방산, 자주포·장갑차, 해군/전자전 (반기 실적) |
+| BAE | BAE Systems | 27 가이던스 2/19, Maritime 마진 6.5%↑, 미 FY27 국방예산, CV90 6개국 계약 |
 | LDO | Leonardo | 4Q EBITA €909m 상회, 3/4 산업계획, DE ROS 12.5%, LRMV €3.7bn, FOCF €1.44bn |
 | HO | Thales | 3월 H2마진 12.9%·방산 13%↑, 4Q 방산수주 €5bn, SAMP/T NG 수출, 중동 방공 |
 | SAAB | Saab | 4Q EBIT SEK 4.0bn·+37%, Dynamics 마진 회복, NATO·캐나다 GlobalEye, 28~ 목표 22% |
@@ -169,6 +169,11 @@
 | — | 삼성SDI | 2Q26 BEP 근접·컨센 +44%↑, 4Q26 분기 흑전, SDC 매각 연내, 헝가리 가동률 65%↑, LFP ESS 4Q26 양산 |
 | — | 에코프로비엠 | 헝가리 1라인 5월 가동, 2Q26 OPM 3% 유지, 코발트 55$ 추세, 헝가리 2공장 신규 수주, 순차입금비율 110% |
 | — | 포스코퓨처엠 | GM 얼티엄셀 가동 재개, LFP 시제품 5월 출하·하반기 양산, 양극재 ASP +6% QoQ, 음극재 일본향 회복, 순차입금비율 75%+ |
+| — | SK온 | 3Q26 리뷰 작성 중 (SK이노베이션 배터리 부문) |
+| 300750.SZ | CATL | 3Q26 리뷰 작성 중 |
+| 6752.T | Panasonic Energy | 3Q26 리뷰 작성 중 (Energy 부문) |
+| 688005.SS | Ronbay | 3Q26 리뷰 작성 중 |
+| 300073.SZ | Easpring | 3Q26 리뷰 작성 중 |
 
 ### 제약/바이오
 

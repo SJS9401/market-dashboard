@@ -29,8 +29,10 @@
 | 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton | ABB, LS일렉트릭 | - |
 | 전력 인프라 | 발전 | GE Vernova, Siemens Energy | - | - |
 | 전력 인프라 | 전력 인프라 | GE Vernova, Siemens Energy, Hitachi Energy, Schneider Electric, ABB, Eaton, 효성중공업, HD현대일렉트릭, LS일렉트릭 | - | - |
-| 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI | - | - |
+| 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI | SK온 | - |
 | 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 | - |
+| 배터리 | 배터리 셀 글로벌 | CATL, Panasonic Energy | - | - |
+| 배터리 | 양극재 글로벌 | Ronbay, Easpring | - | - |
 | 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업 | - | - |
 | 조선 | 조선 글로벌 | 중국선박공업, 양쯔장조선, Seatrium, HII, Fincantieri, TKMS | - | General Dynamics(Marine Systems 부문) |
 | 방산 | 방산 | 한화에어로스페이스, 현대로템, LIG D&A | 한화시스템, 한국항공우주 | - |
@@ -48,10 +50,12 @@
 
 ## 섹터 T1 — 집중 (BT가 필요할 때 배치)
 
-- **미국 빅테크** [테크] (Microsoft(MSFT, industry=클라우드), Alphabet(GOOGL, industry=광고|클라우드), Amazon(AMZN, industry=이커머스|클라우드), Meta(META, industry=광고), SpaceX(SPCX, industry=클라우드|우주|통신), Apple(AAPL, industry=소비자 전자제품), Tesla(TSLA, industry=자동차|자율주행), Nvidia(NVDA, industry=반도체))
-- **반도체** [테크] (SK하이닉스, 삼성전자, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), AMD(AMD), Intel(INTC), ARM(ARM))
+(현재 없음 — 집중해서 볼 섹터를 여기로 옮기고 `[대분류]` 표시를 붙인다)
 
 ## 대분류: 테크
+
+- **미국 빅테크** (Microsoft(MSFT, industry=클라우드), Alphabet(GOOGL, industry=광고|클라우드), Amazon(AMZN, industry=이커머스|클라우드), Meta(META, industry=광고), SpaceX(SPCX, industry=클라우드|우주|통신), Apple(AAPL, industry=소비자 전자제품), Tesla(TSLA, industry=자동차|자율주행), Nvidia(NVDA, industry=반도체))
+- **반도체** (SK하이닉스, 삼성전자, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), AMD(AMD), Intel(INTC), ARM(ARM))
 
 ## 대분류: 산업재
 
@@ -62,7 +66,7 @@
 
 ## 대분류: 모빌리티·에너지전환
 
-- **배터리** (LG에너지솔루션, 삼성SDI, 에코프로비엠, 포스코퓨처엠, 엘앤에프)
+- **배터리** (LG에너지솔루션, 삼성SDI, SK온, 에코프로비엠, 포스코퓨처엠, 엘앤에프, CATL(300750.SZ), Panasonic Energy(6752.T), Ronbay(688005.SS), Easpring(300073.SZ))
 - **로봇** (현대차, 현대모비스, 현대오토에버)
 
 ## 대분류: 소비재
