@@ -34,6 +34,7 @@
 | 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 |
 | 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업 | - |
 | 방산 | 방산 | 한화에어로스페이스, 현대로템, LIG D&A | 한화시스템, 한국항공우주 |
+| 방산 | 방산 글로벌 | Lockheed Martin, RTX, General Dynamics, Rheinmetall, BAE Systems, Leonardo, Thales, Saab, Elbit Systems, Aselsan | - |
 | 원전 | 원전 설계 | 한전기술 | - |
 | 원전 | 원전 기자재 | 두산에너빌리티 | - |
 | 원전 | 원전 시공 | 현대건설 | 대우건설 |
@@ -56,7 +57,7 @@
 - **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
 - **배터리** (LG에너지솔루션, 삼성SDI, 에코프로비엠, 포스코퓨처엠, 엘앤에프)
 - **조선** (한화오션, HD현대중공업, 삼성중공업)
-- **방산** (한화에어로스페이스, 현대로템, LIG D&A, 한화시스템, 한국항공우주)
+- **방산** (한화에어로스페이스, 현대로템, LIG D&A, 한화시스템, 한국항공우주, Lockheed Martin(LMT), RTX(RTX), General Dynamics(GD), Rheinmetall(RHM), BAE Systems(BAE), Leonardo(LDO), Thales(HO), Saab(SAAB), Elbit Systems(ESLT), Aselsan(ASELS))
 - **원전** (한전기술, 두산에너빌리티, 현대건설, 대우건설, 한전KPS)
 - **로봇** (현대차, 현대모비스, 현대오토에버)
 
