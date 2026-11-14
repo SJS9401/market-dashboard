@@ -273,7 +273,7 @@
     $('#pgrid').innerHTML = L.map((x, j) => `<div class="card" data-pj="${j}" title="클릭하면 중량·단가 상세"><div class="top"><span class="nm">${x.name}</span><span class="grp">${x.grp || ''}</span></div>
       <div class="top"><span class="val">$${fmtU(x.px[x.k])}<small> /kg</small></span><span class="yoy ${cls(x.c.yoy)}">${fmtP(x.c.yoy)}</span></div>
       <div class="meta"><span class="badge st-${x.c.st}">${x.c.label}</span><span title="단가 YoY 지지난달 → 지난달 → 이번달">${x.c.path.map(v => fmtP(v)).join(' → ')}</span></div>
-      <div class="prov">금액 <b class="${cls(x.ey)}">${fmtP(x.ey)}</b> = 판가 × 물량 <b class="${cls(x.wy)}">${fmtP(x.wy)}</b></div><div class="cv"><canvas></canvas></div></div>`).join('') || '<div class="note">단가 데이터가 있는 항목이 없습니다.</div>';
+      <div class="prov" title="금액 YoY ≈ 판가 YoY × 물량(중량) YoY">금액 YoY <b class="${cls(x.ey)}">${fmtP(x.ey)}</b> · 물량 YoY <b class="${cls(x.wy)}">${fmtP(x.wy)}</b></div><div class="cv"><canvas></canvas></div></div>`).join('') || '<div class="note">단가 데이터가 있는 항목이 없습니다.</div>';
     const lab = (pxScope === 'item' ? months : ITEMS.sub_months).slice(-spanN);
     $('#pgrid').querySelectorAll('.card').forEach(el => { const x = L[+el.dataset.pj];
       pxCharts.push(new Chart(el.querySelector('canvas'), { type: 'bar', data: { labels: lab, datasets: [
