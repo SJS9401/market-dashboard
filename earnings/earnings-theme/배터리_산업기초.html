@@ -1,0 +1,1861 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>배터리 산업 기초 분석 v2 — EV·ESS 이중 수요축 · 2026-11-14</title><style>
+:root {
+  color-scheme: light;
+  --bg:#f7f7f5; --surface-1:#fcfcfb; --border:#e2e1dc; --border-strong:#c9c8c1;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7975; --grid:#e8e7e2;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --pos:#2a78d6; --neg:#e34948; --accent-bg:#eef4fd;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+          "Malgun Gothic", "Noto Sans KR", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text-primary);
+  font-family:var(--sans); font-size:15px; line-height:1.72; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:1000px; margin:0 auto; padding:40px 24px 96px; }
+header.doc { border-bottom:2px solid var(--text-primary); padding-bottom:20px; margin-bottom:36px; }
+header.doc .eyebrow { font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-muted); font-weight:600; margin:0 0 10px; }
+header.doc h1 { font-size:30px; line-height:1.25; margin:0 0 12px; letter-spacing:-.02em; }
+header.doc .meta { font-size:13px; color:var(--text-secondary); margin:0; }
+h1 { font-size:25px; margin:64px 0 18px; padding-bottom:10px; border-bottom:2px solid var(--border-strong); letter-spacing:-.015em; }
+h2 { font-size:20px; margin:44px 0 14px; padding-bottom:7px; border-bottom:1px solid var(--border-strong); letter-spacing:-.01em; }
+h3 { font-size:16.5px; margin:28px 0 10px; }
+h4 { font-size:15px; margin:22px 0 8px; color:var(--text-secondary); }
+p { margin:0 0 14px; }
+ul, ol { margin:0 0 16px; padding-left:22px; }
+li { margin-bottom:5px; }
+li::marker { color:var(--text-muted); }
+strong { font-weight:650; }
+code { font-family:var(--mono); font-size:.88em; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+pre { background:var(--surface-1); border:1px solid var(--border); border-radius:8px;
+  padding:14px 16px; overflow-x:auto; font-size:12.5px; line-height:1.6; }
+pre code { background:none; border:none; padding:0; }
+hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
+blockquote { margin:18px 0; padding:12px 18px; background:var(--accent-bg);
+  border-left:3px solid var(--series-1); border-radius:0 6px 6px 0; }
+blockquote p:last-child { margin-bottom:0; }
+.tablewrap { overflow-x:auto; margin:0 0 20px; }
+table { border-collapse:collapse; width:100%; font-size:12.5px; line-height:1.55;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:8px; }
+th, td { padding:8px 11px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+th { background:var(--bg); font-weight:650; font-size:11.5px; color:var(--text-secondary); white-space:nowrap; }
+tr:last-child td { border-bottom:none; }
+em { color:var(--text-secondary); }
+.chart-intro { color:var(--text-secondary); font-size:14px; }
+.fig { margin:0 0 28px; padding:18px 18px 12px; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:10px; }
+.fig-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+@media (max-width:800px) { .fig-row { grid-template-columns:1fr; } }
+.fig-cap { display:block; margin-bottom:14px; }
+.fig-title { display:block; font-weight:650; font-size:14.5px; }
+.fig-sub { display:block; font-size:12.5px; color:var(--text-secondary); margin-top:3px; }
+.chart { position:relative; }
+.chart svg { display:block; width:100%; height:auto; overflow:visible; }
+.tbl { margin-top:8px; }
+.tbl summary { cursor:pointer; color:var(--text-muted); font-size:12px; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin:0 0 10px; font-size:12px; color:var(--text-secondary); }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+.tip { position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--text-primary); color:var(--bg); font-size:11.5px; line-height:1.45;
+  padding:6px 9px; border-radius:6px; white-space:nowrap; z-index:5; transform:translate(-50%,-125%); }
+.ax { font-size:11px; fill:var(--text-muted); }
+.axl { font-size:11.5px; fill:var(--text-secondary); }
+.vlab { font-size:11.5px; fill:var(--text-primary); font-weight:600; }
+.gl { stroke:var(--grid); stroke-width:1; }
+footer.doc { margin-top:60px; padding-top:20px; border-top:1px solid var(--border);
+  font-size:12px; color:var(--text-muted); }
+</style></head><body><div class="wrap"><header class="doc"><p class="eyebrow">산업 기초 분석 · 대분류 · v2</p><h1>배터리 산업 기초 분석 — EV와 ESS, 두 개의 수요축을 동시에</h1><p class="meta">작성 2026-11-14 · 이전 판 2차전지_산업기초(2026-08-30) 대비 Delta 반영 · 수치는 본문에 출처·시점 병기</p></header>
+<p><strong>작성일: 2026-11-14 | 분석 단위: 대분류(major) | 모드: [산업 기초 분석 모드]</strong>
+<strong>이전 판: <code>2차전지_산업기초.md</code>(2026-08-30, v1) — 167년 역사 chunk 상세(1859~2008)·밸류체인 레이어별 원가 앵커는 v1을 그대로 참조. 본 v2는 산업을 "EV축 + ESS축"의 합으로 다시 짜고, 그 사이 2.5개월의 Delta를 반영한다.</strong>
+<strong>연계: <code>ESS_테마분석.md</code>(08-30, 10-12 보강), <code>LGES_3Q26잠정실적_분해.md</code>(10-10), <code>ESS_경쟁vs시장정의_검증.md</code>(09-05)</strong></p>
+<blockquote>
+<p><strong>표기 규칙</strong> — 사실(Fact)은 그대로, 전망은 <strong>[전망]</strong>, 내가 계산한 값은 <strong>(계산)</strong>, 회사가 확인하지 않은 증권사 추정은 <strong>(추정)</strong>. 모든 수치에 출처·시점 병기. <strong>EV 수치(SNE '탑재량' = 등록 차량에 실린 배터리)와 ESS 수치(SNE '출하량' = 셀 메이커가 내보낸 물량)는 정의가 다르다.</strong> 비교는 방향·비율로만 읽을 것.</p>
+</blockquote>
+<hr />
+<h2>Executive Summary</h2>
+<ol>
+<li><strong>배터리 수요는 이제 경제학이 다른 두 시장의 합이다.</strong> EV는 <em>소비자의 지갑과 보조금</em>이, ESS는 <em>전력 프로젝트의 수익률(IRR)</em>이 사러 온다. 고객·계약·필요 기술·정책·지역이 모두 다르고, 두 시장을 묶는 것은 <strong>공장(CAPA)과 리튬 두 가지뿐</strong>이다. 그래서 한쪽의 수급이 다른 쪽의 가격을 결정한다.</li>
+<li><strong>규모 격차가 빠르게 닫혔다.</strong> 2026년 1~9월 ESS 출하 <strong>779.9GWh(+73%)</strong> vs EV 탑재 <strong>994.5GWh(+19.7%)</strong> — ESS가 EV의 <strong>78%</strong> 규모(2025년 연간 46%). 같은 기간 <strong>증분(늘어난 양)의 2/3가 ESS</strong>였다 (EV +164GWh vs ESS +328GWh, 계산). v1이 "EV 비중 75%"라고 썼던 산업은 9개월 만에 사실상 2축 산업이 됐다.</li>
+<li><strong>[v1 대비 핵심 Delta] "ESS = EV 과잉설비의 배출구"에서 "ESS = 가격을 정하는 한계 수요"로 역할이 바뀌는 중이다.</strong> 2025년엔 남는 EV 라인이 ESS로 쏟아져 ESS 팩 가격이 −45% 붕괴했다. 2026년엔 반대로 ESS 주력 셀(314Ah)이 <strong>구조적 부족</strong>에 빠져 셀 가격이 0.32→<strong>0.365위안/Wh(+14%)</strong> 올랐다(SMM). 처음으로 ESS가 공급을 앞질렀다. 다만 <strong>이 가격 상승은 마진으로 내려가지 않았다</strong> — CATL 분기 총이익률 20.69%(2분기 연속 하락), Fluence 연간 가이던스 두 차례 하향.</li>
+<li><strong>두 축이 한국에 정반대 방향으로 작동한다.</strong> EV축에서 한국 3사 글로벌 점유율은 1~9월 <strong>12.6%(−4.1%p)</strong>, 비중국에서도 <strong>37.9%→26.8%</strong>로 밀렸다. ESS축에서는 북미 점유율(LGES+삼성SDI)이 <strong>13.4%→20.9%</strong>로 올랐다. 3Q26 셀 3사 실적은 "ESS 전환 속도" 순서 그대로 갈렸다(LGES·SDI 흑자, SK온 적자). 한국의 ESS 우위는 기술이 아니라 <strong>FEOC라는 규제 격리 시장 접근권</strong>이라는 v1·ESS 테마 판정은 유지된다.</li>
+<li><strong>수급 위치: 산업 전체는 여전히 F(공급 과잉) 후반 → G(구조조정) 이행 중. EV축 = F, ESS축 = D(동반 확대)이되 2026 하반기는 국지적으로 B(수요 견인)처럼 타이트.</strong> v1 대비 달라진 점은 중국이 <strong>소비세 부과(2026-09, 2%→2027-09 4%) + 수출 증치세 환급 폐지(2027-01)</strong>로 스스로 공급에 비용을 물리기 시작했다는 것 — G 진입 신호가 2개 늘었다. 다만 <strong>중국 플레이어 수의 실제 감소는 아직 관측되지 않았다.</strong></li>
+</ol>
+<hr />
+<h2>1-pager — 두 축을 나란히</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th><strong>EV 수요축</strong></th>
+<th><strong>ESS 수요축</strong></th>
+<th>두 축의 연결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>규모 (2026.1~9)</td>
+<td>994.5GWh 탑재, <strong>+19.7%</strong> (SNE)</td>
+<td>779.9GWh 출하, <strong>+73%</strong> (SNE)</td>
+<td>ESS/EV = <strong>78%</strong> (2025년 46%) (계산)</td>
+</tr>
+<tr>
+<td>대당/건당 단위</td>
+<td>차량 대수 9M <strong>+3%</strong> (Benchmark, BEV+PHEV)</td>
+<td>프로젝트 GWh. 미국 2Q26 GW −7%인데 GWh +16% (WoodMac)</td>
+<td>둘 다 <strong>"개수보다 용량이 빨리 큼"</strong> — 대당 kWh·듀레이션 확대</td>
+</tr>
+<tr>
+<td>누가 사나</td>
+<td>완성차(B2B) → 소비자(B2C)</td>
+<td>유틸리티·발전사업자·하이퍼스케일러(B2B 인프라)</td>
+<td>같은 셀 공장의 다른 고객</td>
+</tr>
+<tr>
+<td>구매 결정 변수</td>
+<td>차값·보조금·충전·선호. <strong>정책 탄력성</strong> −1.8~−2.3 (v1)</td>
+<td>프로젝트 IRR. <strong>원가 탄력성</strong> — 리튬 20만 위안/t 초과 시 중국 ESS 관망 (SMM)</td>
+<td>리튬 가격이 두 수요의 공통 변수</td>
+</tr>
+<tr>
+<td>필요 기술</td>
+<td>에너지밀도·급속충전 → NCM/LFP 혼합</td>
+<td>수명·안전·$/kWh → <strong>LFP 90%+</strong>, 314Ah→500Ah+ 대형 각형</td>
+<td>LFP 라인은 양쪽 겸용 가능</td>
+</tr>
+<tr>
+<td>지역</td>
+<td><strong>중국 57%</strong> (계산, 9M)</td>
+<td><strong>비중국 60%</strong> (중국 40.1%, 9M)</td>
+<td>거울상 — 중국은 EV, 서구는 ESS</td>
+</tr>
+<tr>
+<td>공급 집중도</td>
+<td>중국 7사 <strong>73.0%</strong>, CR3 62.9% → 과점화</td>
+<td>CR3 47.5%, CR10 89.8% (H1) → 분산</td>
+<td>EV에서 밀린 2·3티어가 ESS로</td>
+</tr>
+<tr>
+<td>셀 이익률 (CATL)</td>
+<td>총이익률 <strong>20.63%</strong> (H1, −1.78%p)</td>
+<td>총이익률 <strong>23.96%</strong> (H1, −1.56%p)</td>
+<td>둘 다 하락 — 물량은 늘고 마진은 깎임</td>
+</tr>
+<tr>
+<td>한국 3사 위치</td>
+<td>글로벌 12.6% / 비중국 26.8% — <strong>하락</strong></td>
+<td>북미 20.9% (LGES+SDI) — <strong>상승</strong></td>
+<td>3Q26 실적이 ESS 전환 속도 순으로 갈림</td>
+</tr>
+<tr>
+<td>핵심 정책</td>
+<td>美 30D 폐지, 中 구매세 50% 감면, EU 2035 완화(미확정)</td>
+<td>美 48E 존치+FEOC, 中 136호(의무→시장), 韓 중앙계약시장</td>
+<td>美: EV 폐지·ESS 존치 비대칭이 전환을 강제</td>
+</tr>
+<tr>
+<td>수급 매트릭스</td>
+<td><strong>F (공급 과잉)</strong></td>
+<td><strong>D (동반 확대)</strong>, 2026H2 국지적 B</td>
+<td>산업 전체 <strong>F 후반 → G 이행</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="charts">핵심 차트</h2><p class="chart-intro">7개 차트가 두 수요축 비교의 정량 골자다. 막대·점에 마우스를 올리면 수치·비고가 보인다.</p><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 1 · EV vs ESS — 두 수요축의 규모</span><span class="fig-sub">GWh, 출처: SNE리서치. EV=탑재량, ESS=출하량(정의 상이). 2024 EV·2025.1~9 EV는 성장률로 역산.</span></figcaption><div id="c1" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c1t"></div></details></figure><div class="fig-row"><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 2 · ESS ÷ EV 비율</span><span class="fig-sub">%, 계산. 2025년 연간 46% → 2026년 1~9월 <b>78%</b>.</span></figcaption><div id="c2" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c2t"></div></details></figure><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 3 · 증분 수요 — 2/3가 ESS</span><span class="fig-sub">GWh, 2026.1~9 YoY 증가분(계산). EV +164 vs ESS +328.</span></figcaption><div id="c3" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c3t"></div></details></figure></div><div class="fig-row"><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 4 · 지역 구성의 거울상</span><span class="fig-sub">%, 중국 vs 비중국. EV는 계산(SNE 글로벌−비중국), ESS는 SNE 1~3Q.</span></figcaption><div id="c4" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c4t"></div></details></figure><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 5 · 한국의 두 궤적</span><span class="fig-sub">%, SNE. EV축 점유율 하락 vs ESS축(북미) 상승.</span></figcaption><div id="c5" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c5t"></div></details></figure></div><div class="fig-row"><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 6 · CATL 사업부별 총이익률</span><span class="fig-sub">%, CATL 반기보고서. 물량↑에도 두 축 모두 마진 하락.</span></figcaption><div id="c6" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c6t"></div></details></figure><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 7 · Tesla Energy 분기 총이익률</span><span class="fig-sub">%, Tesla IR. 일회성(관세)·보증 비용으로 분기 변동이 극단적 — ESS 이익의 질 문제.</span></figcaption><div id="c7" class="chart"></div><details class="tbl"><summary>표로 보기</summary><div id="c7t"></div></details></figure></div><hr /><h2>v1(2026-08-30) 대비 Delta 요약</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>항목</th>
+<th>v1 (08-30)</th>
+<th>v2 (11-14)</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ESS/EV 규모 비율</td>
+<td>ESS +71% vs EV +16% (성장률만)</td>
+<td><strong>ESS = EV의 78%</strong>, 증분의 2/3</td>
+<td>2축 산업으로 확정</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ESS 셀 가격</td>
+<td>팩 $70/kWh, <strong>−45%</strong> (2025)</td>
+<td>314Ah 셀 <strong>+14%</strong> YTD (2026)</td>
+<td>ESS가 처음 가격을 올림</td>
+</tr>
+<tr>
+<td>3</td>
+<td>중국 공급 규율</td>
+<td>MIIT "내권 시정" 소집(2025-11)</td>
+<td><strong>소비세 2%(9/1)→4%(2027-09), 수출 환급 9→6%→0(2027-01)</strong></td>
+<td>G 진입 신호 +2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>중국 수출통제 제58호</td>
+<td>2026-11-10 유예 만료 = 최대 리스크</td>
+<td><strong>2027-01-10까지 2개월 재유예</strong> (철회 아님)</td>
+<td>리스크 2개월 이연</td>
+</tr>
+<tr>
+<td>5</td>
+<td>한국 EV 점유율</td>
+<td>H1 비중국 27.6%</td>
+<td>1~9월 비중국 <strong>26.8%</strong>, 글로벌 <strong>12.6%</strong></td>
+<td>EV축 후퇴 지속</td>
+</tr>
+<tr>
+<td>6</td>
+<td>한국 ESS 점유율</td>
+<td>H1 북미 19.7%</td>
+<td>1~9월 북미 <strong>20.9%</strong></td>
+<td>ESS축 상승 지속</td>
+</tr>
+<tr>
+<td>7</td>
+<td>한국 셀 실적</td>
+<td>2Q: AMPC 빼면 SDI만 흑자</td>
+<td>3Q: LGES OP 7,560억·SDI 4,078억 흑자, SK온 −805억</td>
+<td>단, LGES는 고객 보상금 포함</td>
+</tr>
+<tr>
+<td>8</td>
+<td>한국 LFP 양극재</td>
+<td><strong>점유율 0%, Top6 무진입</strong></td>
+<td>엘앤에프가 <strong>3사 모두와 LFP 계약</strong> (LGES 1.035조, 2028~31)</td>
+<td>공백 레이어에 첫 진입 (양산 전)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>미국 EV</td>
+<td>점유율 5.8%(1Q)</td>
+<td>3Q <strong>6.5%</strong>, 분기 판매 1년 내 최대</td>
+<td>바닥 통과 신호, 1~9월은 −29.9%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>미국 ESS</td>
+<td>2026 정체 우려</td>
+<td>2Q <strong>사상 최대 18.9~20.2GWh</strong>, 장기 전망 상향(2031 누적 715GWh)</td>
+<td>듀레이션 확대가 GWh를 끌어올림</td>
+</tr>
+<tr>
+<td>11</td>
+<td>ESS 이익의 질</td>
+<td>Tesla Energy 20.4%, Fluence 5.1%</td>
+<td>Tesla Energy <strong>33.1%</strong>(관세 환급 효과), Fluence 가이던스 $2.4B·EBITDA −$2억</td>
+<td>수요는 강한데 이익은 체인에 고르게 가지 않음</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>1단계. 역사 — 두 개의 수요축이 갈라지고 다시 만나는 과정</h1>
+<blockquote>
+<p><strong>chunk 분할 기준</strong> — 수요·기술·패권·사이클·규제 5축이 동시에 변하는 시점. v2는 각 chunk를 <strong>EV축(이동하는 배터리)</strong>과 <strong>ESS축(고정된 배터리)</strong>으로 나눠 읽는다. 1859~2008년의 6 layer 상세(매크로·패권·주가·규제)는 v1 Chunk 1~4에 있으므로 여기서는 <strong>두 축의 관점에서 다시 해석한 요약 + v1에 없던 ESS 역사</strong>만 쓴다.</p>
+</blockquote>
+<h3>먼저 큰 그림 — "고정형이 먼저였다"</h3>
+<p>흔히 ESS를 "EV 다음 수요처"로 생각하지만 역사 순서는 반대다. <strong>배터리의 첫 대규모 용도는 고정형 저장이었다.</strong> 발전소가 막 생기던 1880~1910년대, 직류(DC) 전력망은 저녁 피크를 감당하려고 대형 납축전지를 발전소·변전소에 깔았다. 오늘날 ESS가 하는 "남는 시간에 담아 두었다 피크에 꺼내 쓰기"를 그때도 했다. 교류(AC) 송전과 대형 발전기가 표준이 되면서 이 역할은 사라졌고, 계통 저장은 이후 100년간 <strong>양수발전</strong>(물을 위로 퍼올렸다 떨어뜨리는 방식, 1890년대 이탈리아·스위스에서 시작)이 맡았다.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>EV축 (이동형)</th>
+<th>ESS축 (고정형)</th>
+<th>누가 이겼나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1880~1912</td>
+<td>1900년 미국 차 38%가 전기차 → 1907 EVC 파산</td>
+<td>DC 전력망 피크 대응용 축전지</td>
+<td>둘 다 <strong>내연기관·AC 송전에 패배</strong></td>
+</tr>
+<tr>
+<td>1912~1970</td>
+<td>시동용(SLI) 부품으로 강등</td>
+<td>양수발전이 계통 저장 독점</td>
+<td>배터리는 "부품"</td>
+</tr>
+<tr>
+<td>1970~2008</td>
+<td>리튬이온 발명(1976~91), 소형 IT가 학습곡선을 태움</td>
+<td>NaS(NGK, 2002), 납축 실증 수준</td>
+<td>소형 IT</td>
+</tr>
+<tr>
+<td>2009~2021</td>
+<td><strong>EV 1축 성장</strong>, 중국 패권 확립</td>
+<td>실증·사고(한국 화재)·정책 의무(중국)의 시대</td>
+<td>EV</td>
+</tr>
+<tr>
+<td>2022~현재</td>
+<td>캐즘(미국 −28%), 중국 둔화, 유럽만 성장</td>
+<td><strong>급팽창 (+79% → +73%)</strong></td>
+<td><strong>ESS가 증분을 가져감</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>비유</strong> — 같은 반죽(셀)으로 빵(EV)만 굽던 제과점이 케이크(ESS) 주문을 받기 시작한 상황이다. 2025년까진 빵이 안 팔려 남는 반죽으로 케이크를 헐값에 구웠다. 2026년엔 케이크 주문이 너무 몰려 케이크 틀(314Ah 라인)이 모자란다. 반죽 값(리튬)은 빵·케이크 주문 합계로 정해진다.</p>
+</blockquote>
+<hr />
+<h2>Chunk 1~4 (1859~2008) — 두 축 관점의 재해석 (상세는 v1)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>chunk</th>
+<th>EV축에서 본 교훈</th>
+<th>ESS축에서 본 교훈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 (1859~1912)</strong></td>
+<td>에너지밀도 격차 57배(납축 35 vs 가솔린 2,000Wh/kg)를 정책·자본이 못 이김 → <strong>이동형은 밀도가 결정</strong></td>
+<td>고정형은 무게가 문제 안 됨 → 초기 DC 전력망에서 실제로 쓰였음. <strong>고정형은 밀도가 아니라 원가·수명이 결정</strong> — 이 구분이 오늘 LFP가 ESS를 90% 장악한 이유와 같다</td>
+</tr>
+<tr>
+<td><strong>2 (1912~1970)</strong></td>
+<td>SLI 부품화 — 완성차 판매의 종속변수</td>
+<td>AC 송전 + 양수발전에 밀려 계통 저장 수요 소멸. 잠수함(전시)이 최대 고객</td>
+</tr>
+<tr>
+<td><strong>3 (1970~1991)</strong></td>
+<td>오일쇼크가 리튬이온 R&amp;D를 낳음. 1990 CARB ZEV 규제는 "없는 배터리를 전제한 규제"</td>
+<td>오일쇼크 이후 전력망 저장 실증 시작. 1988년 미국 Chino(캘리포니아) 10MW/40MWh 납축 설비 등 — <strong>경제성 부족으로 확산 실패</strong></td>
+</tr>
+<tr>
+<td><strong>4 (1991~2008)</strong></td>
+<td>일본 소형전지 93%→48%. 패권 상실은 기술이 아니라 자본배분</td>
+<td>NGK가 NaS 전지를 2002년 상용화 — <strong>일본이 계통용 배터리의 원조</strong>. 그러나 단가가 리튬이온 학습곡선을 못 따라감</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>두 축을 관통하는 첫 번째 법칙</strong>: <strong>이동형은 밀도로, 고정형은 원가·수명으로 화학이 선택된다.</strong> 1900년에도 2026년에도 같다. 그래서 EV는 NCM과 LFP가 지역별로 섞이고, ESS는 LFP 하나로 수렴했다.</p>
+</blockquote>
+<hr />
+<h2>Chunk 5 — 2009~2021: EV 1축 성장기, ESS는 "실증·사고·의무"의 시대</h2>
+<h3>(a) 매크로 배경</h3>
+<p>금융위기 후 "전기차 = 산업정책" 프레임, 중국 추월 전략(弯道超车), 2020~21 제로금리 유동성. 전력 부문에선 태양광·풍력 원가가 급락하며 <strong>"남는 재생에너지를 어디에 담나"</strong>라는 문제가 처음 생겼다 — ESS 수요의 씨앗.</p>
+<h3>(b) 패권자</h3>
+<ul>
+<li><strong>EV축</strong>: CATL이 2017년 세계 1위 등극 후 한 번도 내주지 않음. 2021년이 한국 3사 합(30.4%)이 CATL 단독(32.6%)과 대등했던 마지막 해 (SNE, v1).</li>
+<li><strong>ESS축</strong>: 초기 계통용 리튬 ESS는 <strong>한국 셀(LG화학·삼성SDI)이 주력</strong>이었다. 2018년 한국은 정책(태양광+ESS에 REC 가중치 5.0 부여, ESS 충전 전기요금 할인) 덕에 세계 최대 ESS 설치국 중 하나였다(정량 순위 확인 불가). <strong>이 시장이 화재로 무너졌다.</strong></li>
+</ul>
+<h3>(c) 산업 변화 — 두 축의 분기</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2009</td>
+<td>미국 ARRA 배터리 그랜트 24억 달러 (공급만 보조 → A123 파산)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2010~13</td>
+<td>—</td>
+<td>캘리포니아 AB 2514(2010) → CPUC가 2020년까지 <strong>1,325MW 저장 조달 의무</strong>(2013) — 세계 최초 계통 저장 의무</td>
+</tr>
+<tr>
+<td>2015~19</td>
+<td>중국 화이트리스트로 한·일 배제, CATL 육성</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2017</strong></td>
+<td>CATL 세계 1위</td>
+<td>호주 Hornsdale(Tesla, 100MW/129MWh) — "100일 안에 짓기" 내기로 유명, <strong>ESS가 대중에게 알려진 순간</strong>. 중국 칭하이성이 신재생 발전소에 저장 의무 부과 시작 (energytrend)</td>
+</tr>
+<tr>
+<td><strong>2017~19</strong></td>
+<td>—</td>
+<td><strong>한국 ESS 화재 연쇄</strong> (2017-08 이후 20여 건, 2019년 정부 조사). 가동 중단·안전 규제 강화 → <strong>한국 ESS 내수 붕괴, 한국 셀 3사가 ESS에서 손을 뗀 계기</strong></td>
+</tr>
+<tr>
+<td>2018</td>
+<td>—</td>
+<td>미국 FERC Order 841 — 저장장치가 도매 전력시장에 직접 참여할 길 열림</td>
+</tr>
+<tr>
+<td>2020~21</td>
+<td>셀 버블 (삼성SDI 2021-08 고점)</td>
+<td>중국 2021년 "2025년 신형 저장 30GW" 목표</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>ESS축 역사에서 가장 중요한 한 줄</strong>: <strong>한국은 ESS 시장을 먼저 열었다가 안전 사고로 스스로 닫았다.</strong> 2017~19년 화재가 한국 셀 3사를 "ESS는 위험하고 돈이 안 된다"는 결론으로 몰았고, 그 사이 중국 LFP 업체(CATL·EVE·Hithium 등)가 ESS 학습곡선을 독식했다. <strong>v1 패턴 ③(안전 사고가 경로를 바꾼다)의 ESS판</strong>이다. 2026년 한국 3사가 "ESS 후발주자"로 불리는 이유가 기술이 아니라 이 7년의 공백이다.</p>
+</blockquote>
+<h3>(d) 사이클 단계</h3>
+<p>EV: 태동(2009~15) → 성장(2016~19) → <strong>버블(2020~21)</strong>. ESS: 실증(2010~16) → 정책 의무 기반 초기 성장(2017~21), 한국은 붕괴.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>EV축 셀 고점이 7~22개월에 걸쳐 분산(LG화학 2021-01 → 삼성SDI 2021-08 → CATL 2021-12 → LGES 2022-11). ESS 순수주 Fluence는 <strong>2021-10 상장 직후 약 $40 고점</strong>(energy-storage.news) — EV 버블의 끝자락에 ESS 첫 상장이 겹쳤다.</p>
+<h3>(f) 규제</h3>
+<p>EV는 <strong>보조금(수요)과 화이트리스트(시장 접근)</strong>, ESS는 <strong>조달 의무(캘리포니아·중국 칭하이)와 안전 규제(한국)</strong> — 두 축은 처음부터 다른 정책 도구로 움직였다.</p>
+<hr />
+<h2>Chunk 6 — 2022~2026: 이중 수요축 — 공장은 하나, 시장은 둘</h2>
+<h3>6-A. 2022~2024 — EV 캐즘, ESS는 "배출구"로 성장</h3>
+<p><strong>(a) 매크로</strong>: Fed +425bp(2022) → EV가 할부 내구재로서 금리에 약하다는 게 드러남. 중국 부동산 침체 → 과잉설비가 수출·가격전쟁으로 전환.</p>
+<p><strong>(b)(c) 산업 변화 — 두 축의 역할 분담이 고착됨</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정책</td>
+<td>IRA(2022-08): 30D(수요)+45X AMPC(공급)+FEOC</td>
+<td>IRA가 <strong>단독형 저장에도 투자세액공제(ITC)</strong> 부여 — 태양광 없이 ESS만 지어도 공제</td>
+</tr>
+<tr>
+<td>수요</td>
+<td>2023 하반기 캐즘 (Ford 120억 달러 투자 연기, 독일 보조금 중단 → 2024 −27%)</td>
+<td>중국 의무 저장 + 미국 ITC로 가파른 성장. 2024년 출하 <strong>307GWh</strong> (SNE)</td>
+</tr>
+<tr>
+<td>공급</td>
+<td>중국 CAPA 2TWh 초과 (2024)</td>
+<td>280Ah→<strong>314Ah</strong> 대형 셀로 표준 이동(2023~, Benchmark) — EV 셀과 규격이 갈라지기 시작</td>
+</tr>
+<tr>
+<td>가격</td>
+<td>LFP 셀 ~$110 → $50~60/kWh (2023→2024)</td>
+<td><strong>EV 과잉설비가 ESS로 쏟아져</strong> ESS 팩 2025년 $70/kWh (−45%, BNEF)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>이 시기 ESS의 정체성 = EV 과잉설비의 배출구.</strong> v1의 판정("ESS는 공급이 만든 D")이 정확히 이 국면을 가리킨다.</p>
+</blockquote>
+<p><strong>(d) 사이클</strong>: Phase 3 다운사이클 — 2024 Q4 한국 3사 합산 영업손실 8,416억원 (v1).</p>
+<h3>6-B. 2025~2026 — 수요축의 무게중심 이동</h3>
+<p><strong>(a) 매크로</strong>: 트럼프 2기, OBBBA(2025-07-04), <strong>AI 데이터센터 전력 병목</strong>이 최대 변수. 2026년 미·이란 전쟁(2~3월), KOSPI 극단 변동(9,063 → 6,806, v1).</p>
+<p><strong>(b) 패권자</strong> — CATL이 두 축 모두 1위. 다만 이익 구조가 바뀜:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>CATL</th>
+<th>H1 2025</th>
+<th>H1 2026</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EV 배터리 매출 / 총이익률</td>
+<td>— / 22.41%</td>
+<td>1,921억 위안 / <strong>20.63%</strong></td>
+<td>−1.78%p</td>
+</tr>
+<tr>
+<td>ESS 배터리 매출 / 총이익률</td>
+<td>— / 25.52%</td>
+<td>532.6억 위안(+87.5%) / <strong>23.96%</strong></td>
+<td>−1.56%p</td>
+</tr>
+<tr>
+<td>ESS 매출 비중</td>
+<td>—</td>
+<td><strong>19.2%</strong></td>
+<td>2030년 50% 목표 (경향신문 인용)</td>
+</tr>
+<tr>
+<td>해외 총이익률 vs 중국</td>
+<td>—</td>
+<td><strong>29.97% vs 21.16%</strong></td>
+<td>해외가 8.8%p 높음</td>
+</tr>
+<tr>
+<td>3Q26 분기 총이익률</td>
+<td>—</td>
+<td><strong>20.69%</strong> (2분기 연속 하락), 순이익 QoQ −5.77%</td>
+<td>소비세·수출 환급 축소 반영</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: CATL 반기·3분기 보고서 (ESS-News 2026-07-27, CnEVPost 2026-10-20, battery-tech.net)</em></p>
+<blockquote>
+<p>CATL조차 <strong>매출 +58.6%인데 순이익 +14.5%</strong> (3Q26 YoY). 물량은 두 축 모두 늘지만 이익은 늘지 않는다 — 이것이 v1 "F 후반" 판정의 현재 진행형 증거다.</p>
+</blockquote>
+<p><strong>(c) 산업 변화 — 6개의 변곡</strong></p>
+<p><strong>① 미국: EV 폐지·ESS 존치의 정책 비대칭 (2025-07 OBBBA)</strong>
+30D(EV $7,500) 2025-09-30 종료 vs 48E(ESS 투자세액공제) 조기 종료 대상에서 제외 + FEOC(중국 기업 배제) 강화. <strong>같은 법이 EV 수요는 꺼뜨리고 ESS 수요의 '비중국 자리'는 만들었다.</strong> 한국 3사의 EV→ESS 라인 전환은 이 비대칭의 직접 결과다.</p>
+<p><strong>② 미국 EV — 붕괴 후 바닥 통과 신호 [Delta]</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>분기</th>
+<th>판매(대)</th>
+<th>YoY</th>
+<th>신차 점유율</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3Q25</td>
+<td>약 43.7만 (사상 최대, 선수요)</td>
+<td>—</td>
+<td>10%+</td>
+</tr>
+<tr>
+<td>1Q26</td>
+<td>약 21.6만 (계산: H1 462,892 − 2Q)</td>
+<td>−27.3%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2Q26</td>
+<td>247,226</td>
+<td>−20.5%</td>
+<td>5.8%</td>
+</tr>
+<tr>
+<td><strong>3Q26</strong></td>
+<td><strong>266,630</strong> (QoQ +7.7%)</td>
+<td>1~9월 누적 <strong>−29.9%</strong></td>
+<td><strong>6.5%</strong> (정정 6.4%)</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: Cox Automotive (2026-10-13). 하이브리드 포함 전동화 비중 ~25%. v1은 1Q 5.8%로 기재했으나 Cox 최신 자료는 2Q 5.8% — 집계 기준 차이로 보이며 본 문서는 Cox 최신치 채택.</em></p>
+<blockquote>
+<p>1년 내 최대 분기 판매 + 점유율 반등. <strong>"미국 EV 캐즘의 바닥은 2Q26"</strong> 가능성이 생겼다. 단 4Q부터는 비교 기준이 보조금 소멸 직후 월들이라 YoY가 좋아 보일 뿐(Benchmark 경고) — <strong>YoY 숫자 개선을 수요 회복으로 오독하지 말 것.</strong></p>
+</blockquote>
+<p><strong>③ 글로벌 EV — 대수는 멈췄는데 GWh는 20% 성장 [Delta]</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>지역</th>
+<th>2026.9 YoY</th>
+<th>1~9월 누적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌</td>
+<td>−2% (215만 대)</td>
+<td><strong>+3%</strong> (1,550만 대)</td>
+</tr>
+<tr>
+<td>유럽</td>
+<td><strong>+39%</strong> (월간 사상 최대 약 60만 대)</td>
+<td><strong>+30%</strong></td>
+</tr>
+<tr>
+<td>북미</td>
+<td>−44%</td>
+<td>−24%</td>
+</tr>
+<tr>
+<td>중국</td>
+<td>−18%</td>
+<td>−13%</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: Benchmark Mineral Intelligence (2026-10-16), BEV+PHEV 기준. 10월 글로벌 수치는 확인 불가.</em></p>
+<blockquote>
+<p><strong>대수 +3% vs 배터리 GWh +19.7%</strong> — 차는 거의 안 늘었는데 배터리는 20% 늘었다. 원인 후보는 ① 대당 탑재량 증가(장거리 BEV·대형 PHEV/EREV) ② 상용차(트럭·버스) 전동화 ③ SNE는 HEV 포함·Benchmark는 미포함이라는 집계 차이. <strong>각 요인의 기여도는 분해 불가</strong>(공개 데이터 없음). CATL이 3Q 콜에서 2027년 수요 성장 동인으로 <strong>상용차 전동화</strong>를 첫 번째로 꼽은 것은 ②의 방증이다.</p>
+</blockquote>
+<p><strong>④ ESS — 급팽창과 지역 이동 [Delta]</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>기간</th>
+<th>글로벌 ESS 출하 (SNE)</th>
+<th>YoY</th>
+<th>중국 비중</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>307GWh</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2025</td>
+<td><strong>550GWh</strong></td>
+<td>+79%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1H26</td>
+<td>461.3GWh</td>
+<td>+71%</td>
+<td>43.9%</td>
+</tr>
+<tr>
+<td><strong>1~3Q26</strong></td>
+<td><strong>779.9GWh</strong></td>
+<td><strong>+73%</strong></td>
+<td><strong>40.1%</strong> (전년 48.9%)</td>
+</tr>
+<tr>
+<td>3Q26 단독</td>
+<td><strong>286.8GWh</strong> (분기 최대)</td>
+<td>+58% (QoQ +7%)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>지역별 1~3Q 성장률: 중국 +42% / <strong>북미 +71% / 유럽 +87%</strong> (SNE, 2026-11-05 보도).</p>
+<p><strong>⑤ 중국의 공급 규율 — 처음으로 스스로 비용을 물림 [Delta, 가장 중요한 정책 변화]</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>조치</th>
+<th>시점</th>
+<th>내용</th>
+<th>대상 축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>수출 증치세 환급 축소</td>
+<td>2026-04-01</td>
+<td>배터리 <strong>9% → 6%</strong></td>
+<td>EV·ESS 모두 (수출분)</td>
+</tr>
+<tr>
+<td><strong>배터리 소비세 부과</strong></td>
+<td><strong>2026-09-01</strong></td>
+<td>리튬이온 <strong>2%</strong>, 2027-09-01부터 <strong>4%</strong>. 11년 면세 종료. <strong>나트륨이온·전고체는 2028년까지 면세</strong></td>
+<td>EV·ESS 모두 (중국 내 생산·수입)</td>
+</tr>
+<tr>
+<td><strong>수출 환급 폐지</strong></td>
+<td><strong>2027-01-01</strong></td>
+<td>배터리 수출 증치세 환급 <strong>0%</strong></td>
+<td>수출 — ESS 수출에 직격</td>
+</tr>
+<tr>
+<td>NEV 수출 환급 축소</td>
+<td>2027-04-01</td>
+<td>13% → 9% (Benchmark)</td>
+<td>EV 완성차 수출</td>
+</tr>
+<tr>
+<td>차량·선박세 면제 폐지</td>
+<td>2027-01-01</td>
+<td>전기 상용차·PHEV 등</td>
+<td>EV</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: 중국 재정부·해관총서·국가세무총국 공고(2026-07-16), pv-magazine(2026-09-01), registrationchina, 전자신문(2026-09-01)</em></p>
+<ul>
+<li>소비세 부담: 60kWh 팩 기준 약 <strong>468위안</strong>(2%) → 936위안(4%) (CITIC 추정). 완성차 업계 평균 이익률 약 1.5%(2026.1~5) 환경에서 가볍지 않음 (전자신문).</li>
+<li>가격 영향 [전망]: Roland Berger — 초기 EV 배터리 +2~3%, <strong>ESS 배터리 +2~4%</strong>, 2027년 환급 완전 폐지 후 누적 <strong>+6~9%</strong> (Jiemian).</li>
+<li><strong>해석</strong>: 중국 정부가 "싸게 많이 만들어 해외로 밀어내는" 모델에 세금을 매겼다. v1이 "중국은 구조조정 미착수"라고 판정한 근거(화이트리스트 퇴출 0곳)에 대해, <strong>정부가 가격 하한을 끌어올리는 방식으로 개입을 시작</strong>한 것. 도태(플레이어 수 감소)는 아직이지만, <strong>G(구조조정) 진입 신호로 분류</strong>한다. 동시에 <strong>나트륨이온 면세는 산업정책</strong> — 다음 ESS 화학을 중국이 선점하려는 의도.</li>
+<li>수출통제 제58호(인조흑연·LFP 양극재·제조장비 등): 2026-11-10 유예 만료 예정이었으나 <strong>2027-01-10까지 2개월 재유예</strong> (중국 상무부 2026-11-09 공고). 철회 아님. 한국 인조흑연 중국 의존도 <strong>98.8%</strong>, 삼원계 전구체 94.1% (무역협회, 2024).</li>
+</ul>
+<p><strong>⑥ ESS 셀 가격 반등 — 공급 부족의 첫 신호 [Delta]</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+<th>출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>314Ah ESS 셀 가격</td>
+<td>0.32위안/Wh(연초) → <strong>약 0.365</strong>(5월~8월 유지)</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>원인</td>
+<td>① 리튬 12만→18만 위안/t (1월→5월) ② 500Ah+ 대형 셀로 라인 개조하며 314Ah CAPA 일시 감소 ③ 주문 급증</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>리튬 → 셀 원가 전달</td>
+<td>탄산리튬 1만 위안/t ↑ → 셀 원가 약 <strong>0.006위안/Wh</strong> ↑</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>마진</td>
+<td>314Ah 현물 총마진 약 <strong>10%</strong> 회복, 대형 고객 장기계약은 <strong>6~8%</strong></td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>대응</td>
+<td>긴급 314Ah 증설 <strong>40GWh</strong> 연내 가동</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>대형 셀</td>
+<td>500Ah+ 출하 1H 42GWh(8.6%) → 하반기 ~15% [전망]</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>4Q [전망]</td>
+<td>2027 수출 환급 폐지 전 <strong>수출 밀어내기</strong> → 셀 가격 연중 최고 가능성 → 2027년 증설 가동·리튬 하향 시 완화</td>
+<td>SMM</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>비유로 정리</strong> — 2025년 ESS는 "재고떨이 시장"이었고 2026년엔 "줄 서는 시장"이 됐다. 하지만 SMM 수치를 그대로 읽으면 셀 가격 상승분(+0.045위안/Wh)이 원가 상승분(리튬 6만 위안 × 0.006 = +0.036 + 보조재, 누적 0.04위안 초과)과 거의 같다. <strong>가격은 올랐지만 대부분 원가 전가였다</strong> — <code>ESS_테마분석.md</code>의 "ASP가 올라도 마진으로 전환되지 않는다" 프레임이 셀 레이어에서도 재확인된다.</p>
+</blockquote>
+<p><strong>(d) 사이클 단계</strong>
+Phase 4 — 바닥 통과 / 수요축 교체(EV → ESS). v1 판정 유지. v2 추가: <strong>ESS축 안에서 "배출구 국면(2024~25)" → "타이트 국면(2026H2)"으로 한 단계 진행.</strong> 2027년 증설·환급 폐지 이후 다시 느슨해질 가능성 [전망].</p>
+<p><strong>(e) 대표 기업 — 3Q26 실적이 두 축의 명암을 그대로 보여줌</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>기업</th>
+<th>3Q26 매출</th>
+<th>3Q26 영업이익</th>
+<th>보조금·일회성</th>
+<th>두 축 해석</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LG에너지솔루션</strong></td>
+<td>9조 6,434억 (+59% YoY, 분기 최대)</td>
+<td>7,560억</td>
+<td>AMPC 4,169억 → 제외 시 3,391억(OPM 3.7%). <strong>EV 고객 보상금 포함, 금액 미공시</strong> — MS·JPM은 약 4,000억으로 추정(→ 본업 약 −600억, <code>LGES_3Q26잠정실적_분해.md</code>). 순손실 2,969억</td>
+<td>ESS 출하 급증. <strong>ESS 수주잔고 약 160GWh</strong>(2Q 140→). 북미 ESS CAPA 2026말 <strong>50GWh+ → 2027말 70GWh+</strong>. "2028년 북미 ESS 물량 대부분 확보, 고객 수요 &gt; 공급 가능량". 2026 매출 성장 가이던스 <strong>35~40%로 상향</strong>, CAPEX −40%+. 4Q: ESS 출하 +40% QoQ, 수익성은 둔화(일회성 소멸·혼다JV ESS 라인 초기 고정비)</td>
+</tr>
+<tr>
+<td><strong>삼성SDI</strong></td>
+<td>4조 6,856억 (+52.6%)</td>
+<td>4,078억 (컨센 1,913억)</td>
+<td>AMPC 1,225억 → 제외 시 2,853억. 고객 보상금 반영 (추정치 상향 사유로 보도, 금액 미공시)</td>
+<td>2023년 3분기 이후 최대. <strong>2026년 미국 ESS 수주 60GWh+</strong>. SPE(인디애나) LFP ESS 셀 <strong>10월 양산 개시</strong>, 12월 인도. BBU(데이터센터 백업) 판매 증가</td>
+</tr>
+<tr>
+<td><strong>SK온</strong></td>
+<td>1조 5,263억 (QoQ −48.2%)</td>
+<td><strong>−805억</strong></td>
+<td>2Q 일회성(약 1조) 소멸</td>
+<td>ESS 전환이 가장 늦음. 미국·국내 ESS 수주 공급은 2027년부터 본격화</td>
+</tr>
+<tr>
+<td><strong>CATL</strong></td>
+<td>1,652억 위안 (+58.6%)</td>
+<td>순이익 212.5억 위안 (+14.5%, QoQ −5.8%)</td>
+<td>소비세·수출 환급 축소</td>
+<td>총이익률 20.69%. 1~3Q 판매 260GWh+, 그중 ESS 약 1/4(+~60%)</td>
+</tr>
+<tr>
+<td><strong>Tesla Energy</strong></td>
+<td>28.8억 달러 (<strong>−16%</strong>)</td>
+<td>총이익률 <strong>33.1%</strong> (2Q 20.4%)</td>
+<td>관세 환급 반영 (CFO 발언)</td>
+<td>배치 13.7GWh(+10%) — <strong>물량↑ 매출↓</strong>. "역대 최대 수주·백로그". Megafactory Texas 50GWh 가동, 네바다 자체 LFP 셀 7GWh</td>
+</tr>
+<tr>
+<td><strong>Fluence</strong></td>
+<td>FY26 가이던스 <strong>약 24억 달러</strong> (최초 32~36억 → 2회 하향)</td>
+<td>조정 EBITDA <strong>약 −2억 달러</strong></td>
+<td>휴스턴 위탁생산 램프업 지연</td>
+<td>백로그 <strong>64억 달러</strong>(사상 최대), 데이터센터 수주 8.5억 달러. 주가 $6.37 (11/4, 시총 약 11.8억 달러) — 백로그의 약 1/5.4</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: 각사 공시·컨퍼런스콜 보도 (뉴스토마토·비즈워치 2026-11-03, zdnet 2026-10-29, CnEVPost 2026-10-20, Electrek·energy-storage.news 2026-10-21, Fluence 8-K 2026-09-16, Kalkine 2026-11-04)</em></p>
+<blockquote>
+<p><strong>ESS축의 이익 수수께끼</strong> — Fluence는 사상 최대 백로그를 들고 연간 EBITDA 적자, Tesla는 물량이 늘었는데 매출이 줄었다. <strong>수요는 확실한데 "돈은 누가 버나"가 불분명한 것이 ESS축의 본질이다.</strong> 3단계에서 체인별로 분해한다.</p>
+</blockquote>
+<p><strong>(f) 규제 layer — 두 축 정책 대조표 (2026-11 기준)</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>지역</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>미국</td>
+<td>30D 폐지(2025-09) / 45X 존치 / PFE(구 FEOC) 2027 본격</td>
+<td><strong>48E 존치</strong>(2033년말 착공분까지) / FEOC MACR 2026 55% → 2030 75% / LGES 콜: PFE 관련 소재 허용 비중 올해 40% → 내년 35% 이하</td>
+</tr>
+<tr>
+<td>중국</td>
+<td>NEV 구매세 50% 감면(2026~27, 상한 1.5만 위안) / 소비세 2% / 차량·선박세 면제 폐지(2027)</td>
+<td><strong>136호(2025-02-09): 신재생 저장 의무 폐지 → 시장 가격제</strong> / 「신형 저장 대규모 발전 특별행동방안(2025~27)」(2025-09-12) / 2030년 300GW 목표 (Ember) / 소비세 2% / 수출 환급 폐지(2027)</td>
+</tr>
+<tr>
+<td>유럽</td>
+<td>2035 내연기관 금지 → 90% 감축으로 완화 제안(2025-12, 미확정) / 국가별 보조금</td>
+<td>국가별 용량시장·보조서비스 (정량 확인 불가)</td>
+</tr>
+<tr>
+<td>한국</td>
+<td>보조금 체계 확인 불가</td>
+<td><strong>ESS 중앙계약시장</strong>: 1차 563MW·2차 565MW → 2026년 3차 <strong>1,180MW</strong> 공고. 1·2차 누적 삼성SDI 629MW(55.8%)·SK온 284MW(25.2%) (딜사이트)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>중국 ESS 정책의 핵심 전환 — <strong>136호 이전 ESS는 "발전소 인허가를 받기 위한 비용 항목"이었고, 이후엔 "전력시장에서 돈을 버는 수익 항목"이 됐다.</strong> 의무로 지은 저장은 가동률이 낮았다(정량 확인 불가). 시장형이 되면서 ESS 수요는 <strong>전력가격 스프레드와 셀 원가</strong>에 민감해졌다 — 리튬 20만 위안 초과 시 중국 ESS 프로젝트 관망(SMM)이 그 증거다. 중국 신형 저장 누적 <strong>144.7GW</strong>(2025말, 세계 51.9%, China Daily).</p>
+</blockquote>
+<hr />
+<h1>2단계. 주가 사이클 — EV 사이클과 ESS 사이클은 박자가 다르다</h1>
+<h2>2-1. 통합 사이클 (v1 framework 유지)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값 (v1)</th>
+<th>v2 코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>고점→고점</td>
+<td>약 56개월</td>
+<td><strong>EV축 사이클</strong>의 수치. ESS축은 독립 표본 1회뿐</td>
+</tr>
+<tr>
+<td>하락기</td>
+<td>23개월 −75.2% (KRX 2차전지 TOP10, 2023-07 → 2025-06)</td>
+<td>EV·소재 주도 하락</td>
+</tr>
+<tr>
+<td>반등기</td>
+<td>2025-06 → 2026-04 +112.9%</td>
+<td><strong>ESS가 주도한 첫 반등</strong></td>
+</tr>
+<tr>
+<td>셀 vs 소재 고점 시차</td>
+<td>약 24개월</td>
+<td>ESS 국면에선 <strong>소재가 따라오지 못함</strong> (아래)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>2-2. 축별 주가 사이클 — 새로 보이는 것</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>사이클</th>
+<th>기간</th>
+<th>주도 수요축</th>
+<th>오른 것</th>
+<th>못 오른 것</th>
+<th>증거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 셀 버블</td>
+<td>2020-03 ~ 2021-08</td>
+<td>EV</td>
+<td>셀 메이커 전부</td>
+<td>—</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>② 소재 버블 (한국 고유)</td>
+<td>2022-10 ~ 2023-07</td>
+<td>EV (IRA 기대)</td>
+<td>삼원계 양극재 (에코프로 +571%)</td>
+<td>—</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>③ 캐즘 하락</td>
+<td>2023-07 ~ 2025-06</td>
+<td>(EV 둔화)</td>
+<td>없음</td>
+<td>전부</td>
+<td>v1</td>
+</tr>
+<tr>
+<td><strong>④ ESS 반등</strong></td>
+<td>2025-10 ~ 현재</td>
+<td><strong>ESS</strong></td>
+<td><strong>ESS 노출 셀</strong>(삼성SDI 3/30까지 YTD +57.1% vs LGES +13.6%, 교보), Panasonic(AI DC, YTD +110%, v1)</td>
+<td><strong>ESS 순수 인티그레이터</strong>(Fluence 2026-05 $20+ → 11-04 $6.37), 삼원계 양극재</td>
+<td>교보증권, energy-storage.news, Kalkine</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>ESS 사이클의 특징 3가지</strong>
+<strong>① 수혜가 체인 전체로 퍼지지 않는다.</strong> EV 사이클(①②)은 셀 → 소재 순으로 번졌다. ESS 사이클은 <strong>셀(정책 격리 시장 + 물량)</strong>에만 머물고, 인티그레이터(Fluence)는 오히려 폭락했다. 소재 중에서는 <strong>LFP 수주를 딴 곳(엘앤에프)만</strong> 선별적으로 반응(교보: 소재사 YTD 1위 엘앤에프).
+<strong>② "백로그 = 주가"가 성립하지 않는다.</strong> Fluence는 백로그 사상 최대인데 주가는 고점 대비 −70%. ESS축 주가는 <strong>수주가 아니라 납품 실행력과 마진</strong>에 반응한다 — 프로젝트 사업의 전형.
+<strong>③ 정책 뉴스에 대한 민감도가 EV보다 크다.</strong> 11월 미국 중간선거 결과 발표일 국내에서 LGES +3%대, 삼성SDI +9%대(supple.kr 보도) — IRA·48E 정책 지속성 기대가 주가에 바로 반영. 한국 셀의 ESS 가치가 "FEOC 자리"라는 정책 자산에서 나온다는 방증.</p>
+</blockquote>
+<h2>2-3. 원자재 — 리튬 사이클의 3번째 파동</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시점</th>
+<th>탄산리튬 (중국, 위안/t)</th>
+<th>출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022-11</td>
+<td>약 600,000 (사상 최고)</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>2024-08</td>
+<td>72,000 (−88%)</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>2025 연저점</td>
+<td>약 58,000 (선물)</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>2026-01 초</td>
+<td>약 120,000</td>
+<td>SMM</td>
+</tr>
+<tr>
+<td>2026-05</td>
+<td><strong>약 180,000~200,000</strong> (연고점)</td>
+<td>SMM, BNC</td>
+</tr>
+<tr>
+<td>2026-07-11</td>
+<td>154,000 (상하이 배터리급)</td>
+<td>Guidechem</td>
+</tr>
+<tr>
+<td>2026 하반기</td>
+<td>약 142,750 부근 횡보</td>
+<td>BNC (일자 미표기)</td>
+</tr>
+<tr>
+<td>2026-11 현재</td>
+<td><strong>확인 불가</strong> (Mysteel·SMM 유료)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>두 축과 리튬</strong> — 리튬 가격은 EV+ESS 합계 수요로 정해지지만, <strong>가격 상한은 ESS가 정한다.</strong> ESS 프로젝트는 IRR로 의사결정하므로 원가가 오르면 발주를 미룬다(SMM: 20만 위안 초과 시 중국 ESS 관망). EV는 차값의 일부라 덜 민감하다. ESS 비중이 커질수록 <strong>리튬 랠리는 ESS 수요 둔화로 스스로 꺾이는 구조</strong>가 강해진다 [가설 — 2026년 5월 고점 후 하락이 첫 사례로 보이나 단일 관측].</p>
+</blockquote>
+<hr />
+<h1>3단계. 비즈니스 구조 + 밸류체인 — 같은 셀, 다른 체인</h1>
+<h2>3-1. 두 체인의 구조</h2>
+<pre><code>[공통 업스트림] 광물(리튬·니켈·흑연) → 정제 → 소재(양극·음극·분리막·전해액) → 셀
+                                                                              │
+          ┌───────────────────────────────────────────────────────────────────┴──────────────────────┐
+     [EV 체인]                                                                                [ESS 체인]
+  셀 → 모듈/팩(완성차 내재화 증가) → 완성차(OEM) → 소비자         셀 → DC블록/컨테이너 → PCS·EMS(인티그레이터) → EPC → 발전사·유틸리티·하이퍼스케일러
+</code></pre>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>비교 항목</th>
+<th>EV 체인</th>
+<th>ESS 체인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>셀의 최종 고객</td>
+<td>소수 완성차 (고객 집중 극단 — 에코프로비엠 매출의 94.7%가 2사, v1)</td>
+<td>다수 디벨로퍼·유틸리티, 단 인티그레이터(Tesla·Fluence·Sungrow)가 중간 관문</td>
+</tr>
+<tr>
+<td>계약 형태</td>
+<td>차종 플랫폼 단위 장기계약(5~7년), <strong>수량 보장 약함</strong> → 물량 미달 시 "보상금"(3Q26 한국 셀 실적의 핵심 변수)</td>
+<td>프로젝트 단위 수주(1~4년), <strong>수주잔고(GWh)로 가시성</strong> 확보 (LGES 160GWh)</td>
+</tr>
+<tr>
+<td>셀 원가 중 양극재</td>
+<td>NMC 40~50% / LFP 25~30% (IEA, v1)</td>
+<td>LFP 25~30% → <strong>양극재 레이어 협상력 구조적으로 더 약함</strong></td>
+</tr>
+<tr>
+<td>시스템 원가 중 셀</td>
+<td>차값 대비 작음 (정량 확인 불가)</td>
+<td>BESS 장비 원가의 <strong>약 52%</strong> (IRS safe harbor, v1) — 셀이 시스템 원가의 절반</td>
+</tr>
+<tr>
+<td>진짜 병목</td>
+<td>충전 인프라·소비자 수요</td>
+<td><strong>계통 연계(인터커넥션 중위 5년)·변압기(100~150주)</strong> — 셀이 아니다 (<code>ESS_테마분석.md</code>)</td>
+</tr>
+<tr>
+<td>셀 포맷</td>
+<td>파우치·원통·각형 혼재</td>
+<td>대형 각형 LFP 수렴 (314Ah → 500Ah+)</td>
+</tr>
+<tr>
+<td>화학</td>
+<td>중국 내수 LFP 80%+, 서구 NCM 비중 높음</td>
+<td><strong>LFP 90%+</strong> (SNE), 나트륨 진입 시작</td>
+</tr>
+<tr>
+<td>보증</td>
+<td>차량 보증(8년/16만km 수준)</td>
+<td><strong>15~20년 수명·가용률 보증</strong> → 장기 부채성 비용 (Tesla 1H26 "보증·믹스 비용" 마진 하락)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>3-2. 이익은 어디에 있나 — 축별 마진 지도 (2026 실측)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>광물</td>
+<td>Albemarle 조정 EBITDA 49%, SQM 53% (2Q26, v1) — 두 축 공통 수혜</td>
+<td>〃</td>
+</tr>
+<tr>
+<td>양극재</td>
+<td>한국 4사 OPM <strong>3.08%</strong> (2Q26, 삼원계 중심, v1)</td>
+<td>LFP 양극재: 중국 SMM "양극재·인산철 CAPA 한계치" (2026-07) — 마진 수치 확인 불가</td>
+</tr>
+<tr>
+<td>셀 (중국)</td>
+<td>CATL EV 총이익률 <strong>20.63%</strong></td>
+<td>CATL ESS 총이익률 <strong>23.96%</strong> / 314Ah 현물 셀 총마진 약 10% (SMM)</td>
+</tr>
+<tr>
+<td>셀 (한국)</td>
+<td>LGES EV 부문: 보상금 포함 흑자(JPM 추정)</td>
+<td>LGES ESS 부문 OPM <strong>약 −3%</strong> (3Q26 JPM 추정, 회사 미공시)</td>
+</tr>
+<tr>
+<td>시스템·인티그레이션</td>
+<td>완성차 (Tesla 자동차 총이익률 18.5%, 3Q26)</td>
+<td>Tesla Energy <strong>20.4~39.5%</strong> (분기별 변동, 일회성 혼재) / Fluence GAAP <strong>5.1%</strong> (FQ3)</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>ESS축의 이익 분포는 EV축과 다르다.</strong> EV축은 "양 끝단(광물·CATL 규모)"에 이익이 몰리는 스마일 커브(v1). ESS축은 <strong>CATL처럼 셀+시스템을 수직 통합한 곳, Tesla처럼 브랜드·소프트웨어(가상발전소·입찰 최적화)를 가진 곳</strong>이 이익을 잡고, <strong>셀만 파는 후발주자(한국)와 셀을 사다 조립하는 인티그레이터(Fluence)는 얇다.</strong> Fluence가 셀 장기공급 계약 관련 1,500만 달러 비용을 언급한 것(FQ3 콜)은 인티그레이터가 셀 가격 상승을 떠안는 구조를 보여준다.</p>
+</blockquote>
+<h2>3-3. 한국 기업 포지션 — 축별로 다시 그린 지도</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>EV축 포지션</th>
+<th>직접성</th>
+<th>ESS축 포지션</th>
+<th>직접성</th>
+<th>Delta (v1→v2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>셀</td>
+<td>LGES·SDI·SK온. 글로벌 <strong>12.6%</strong> (1~9월, −4.1%p), 비중국 <strong>26.8%</strong></td>
+<td>높음</td>
+<td>북미 LGES+SDI <strong>20.9%</strong> (1~3Q, +7.5%p). LGES 1~3Q 출하 +355%, SDI +46%. 글로벌은 2025년 4% (22GWh)</td>
+<td>높음</td>
+<td>EV↓ ESS↑ 가속</td>
+</tr>
+<tr>
+<td>시스템 통합(SI)</td>
+<td>—</td>
+<td>—</td>
+<td>LGES Vertech(북미 SI), SDI "SBB 2.0" 모듈형 솔루션 — 셀만 파는 구조 탈피 시도</td>
+<td>중간</td>
+<td>빅테크와 첫 BESS 직접 공급계약, 엔비디아 "DSX Ready BESS 파트너" 선정 (LGES, 3Q 콜)</td>
+</tr>
+<tr>
+<td>양극재 — 삼원계</td>
+<td>에코프로비엠·엘앤에프·포스코퓨처엠 (OPM 3.08%)</td>
+<td>높음</td>
+<td>SDI NCA 기반 ESS·BBU에 일부</td>
+<td>낮음</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>양극재 — LFP</strong></td>
+<td>—</td>
+<td>—</td>
+<td><strong>엘앤에프: SDI 1.6조(2026-03), LGES 1.035조(2026-11, 2028~31 공급), SK온</strong> → 3사 모두. 포스코퓨처엠: LGES 오창 ESS향 (중앙계약시장)</td>
+<td>높음</td>
+<td><strong>0% → 첫 진입 (양산은 2026H2~2028)</strong></td>
+</tr>
+<tr>
+<td>음극재(흑연)</td>
+<td>포스코퓨처엠 (2.3%)</td>
+<td>중간</td>
+<td>동일</td>
+<td>중간</td>
+<td>포스코퓨처엠 베트남 인조흑연 공장 — 현대차그룹 약 1,000억 지분투자 검토, 2028 양산 목표 (미확정)</td>
+</tr>
+<tr>
+<td>분리막</td>
+<td>SKIET (2027-01 흡수합병)</td>
+<td>중간</td>
+<td>동일</td>
+<td>중간</td>
+<td>철수 확정 경로 유지</td>
+</tr>
+<tr>
+<td>ESS 부품</td>
+<td>—</td>
+<td>—</td>
+<td>서진시스템(인클로저), 덕산테코피아 등 (하나증권 언급)</td>
+<td>중간</td>
+<td>정량 데이터 확인 불가</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>한국 한 문장 요약 (v2)</strong>: EV축에서 한국은 <strong>"중국에 밀리는 셀 + 저마진 삼원계"</strong>, ESS축에서 한국은 <strong>"미국 정책이 만든 자리에 셀을 대는 공급자 + 이제 막 LFP 소재 공급망을 국산화하는 중"</strong>이다. 하나증권은 ESS 매출 비중을 LGES 2026E 32% → 2028E 38%, 삼성SDI 29% → 36%로 전망한다 [전망].</p>
+</blockquote>
+<h2>3-4. 진입장벽 — 축별로 다르다</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>셀 공장</td>
+<td>$80M/GWh, 수율이 진짜 장벽 (Northvolt €150억 → 목표의 0.13%, v1)</td>
+<td><strong>LFP 각형은 EV 하이니켈보다 공정 난이도 낮음</strong> → 진입이 상대적으로 쉬움 → CR10 하락의 원인</td>
+</tr>
+<tr>
+<td>고객 인증</td>
+<td>완성차 인증 2~3년 (정량 확인 불가)</td>
+<td><strong>은행이 대출해 줄 수 있는가(bankability)</strong> — 장기 보증을 감당할 재무력</td>
+</tr>
+<tr>
+<td>정책</td>
+<td>지역 보조금</td>
+<td><strong>FEOC 적합성</strong> — 미국 시장에서 가장 높은 장벽</td>
+</tr>
+<tr>
+<td>라인 전환</td>
+<td>—</td>
+<td>EV→ESS 전환 <strong>6~12개월</strong> (그린필드보다 빠름, <code>ESS_테마분석.md</code> 10-10 보강) → 분모(자리 CAPA) 고정 전제가 약함</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>4단계. 공급 구조 — 하나의 공장, 두 개의 시장</h1>
+<h2>4-1. 공유 CAPA와 가동률 — 개선은 ESS 덕분</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>2025</th>
+<th>2026 [추정]</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글로벌 nameplate CAPA</td>
+<td><strong>4TWh 초과</strong> (IEA)</td>
+<td>확인 불가 (증설 지속)</td>
+<td>v1</td>
+</tr>
+<tr>
+<td>EV 수요</td>
+<td>1,187GWh (SNE 탑재)</td>
+<td>약 1,350~1,420GWh (계산: 1~9월 994.5 + 4Q 전년 356 × 1.0~1.15)</td>
+<td>SNE</td>
+</tr>
+<tr>
+<td>ESS 수요</td>
+<td>550GWh (SNE 출하)</td>
+<td>약 1,050~1,100GWh (계산: 1~9월 779.9 + 4Q ≥ 3Q 286.8) — SNE 공식 전망 984GWh는 4Q를 204GWh로 가정한 셈으로 <strong>상향 가능성</strong></td>
+<td>SNE</td>
+</tr>
+<tr>
+<td>소형 IT·기타</td>
+<td>약 80GWh (Benchmark)</td>
+<td>약 80~100</td>
+<td>v1</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>약 1.8TWh</strong> (SNE 기준 합산, 계산)</td>
+<td><strong>약 2.5TWh</strong> (계산)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>함의 가동률</strong></td>
+<td>약 40~45%</td>
+<td><strong>약 50~60%</strong> (CAPA 4.2~5.0TWh 가정 시, 계산)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ 정의 혼합(탑재+출하)·CAPA 미확인으로 <strong>방향만 신뢰할 것</strong>. 그럼에도 결론은 분명하다: <strong>2026년 가동률 개선분의 대부분은 ESS가 메웠다</strong> (증분 수요의 2/3가 ESS). 한국 3사 가동률도 같은 구조 — LGES H1 57.8%(+10.2%p), SK온 36.4%(−12.3%p) (ZDNet, v1). "ESS 전환 속도 = 가동률".</p>
+</blockquote>
+<h2>4-2. 라인의 3분류 — 두 축을 잇는 물리적 연결고리</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>라인 유형</th>
+<th>예시</th>
+<th>전환 가능성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EV 전용 (하이니켈 NCM 파우치·원통)</td>
+<td>한국 3사 미국 JV 다수</td>
+<td>ESS로 전환하려면 화학(LFP)·폼팩터 교체 필요 → 6~12개월</td>
+</tr>
+<tr>
+<td><strong>겸용 (LFP 각형·파우치)</strong></td>
+<td>중국 LFP 라인 대부분, SK온 조지아 LFP 파우치, SDI SPE LFP</td>
+<td><strong>수요에 따라 즉시 스윙</strong> — 두 축의 가격을 연결하는 핵심</td>
+</tr>
+<tr>
+<td>ESS 전용 (314Ah·500Ah+ 대형 각형)</td>
+<td>Hithium·EVE·CATL ESS 라인, Tesla 네바다 LFP</td>
+<td>대형 셀은 EV 탑재 불가 → 일방향</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>이것이 두 축이 연결되는 메커니즘이다.</strong> 중국의 거대한 겸용 LFP CAPA가 EV 수요가 약할 때 ESS로, ESS가 타이트할 때 다시 ESS로 쏠린다. 2026년 ESS 셀 부족이 "CAPA는 남는데 314Ah 틀이 모자라다"는 형태로 나타난 것은, <strong>ESS 전용 대형 셀로의 규격 분리</strong>가 진행되면서 겸용 CAPA의 스윙 능력이 줄었다는 뜻이다 — 두 축이 <strong>물리적으로 분리되기 시작했다</strong> (가설, 2027 하반기 500Ah+ 양산 확대 시 검증 가능).</p>
+</blockquote>
+<h2>4-3. 공급 집중도 — 거울상</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>지표</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1위</td>
+<td>CATL (글로벌 39.9%, H1)</td>
+<td>CATL (27.1%, H1)</td>
+</tr>
+<tr>
+<td>중국계 합</td>
+<td>7사 <strong>73.0%</strong> (1~9월, +3.5%p) / 비중국 시장에서도 6사 <strong>56.4%</strong> (+13.3%p)</td>
+<td>글로벌 다수 — 정확한 합계 확인 불가</td>
+</tr>
+<tr>
+<td>CR3</td>
+<td>62.9% (H1)</td>
+<td>47.5% (H1)</td>
+</tr>
+<tr>
+<td>CR10</td>
+<td>87.8%</td>
+<td><strong>89.8% — 사상 처음 90% 하회</strong> (InfoLink)</td>
+</tr>
+<tr>
+<td>방향</td>
+<td><strong>과점화 진행</strong></td>
+<td><strong>분산 진행</strong></td>
+</tr>
+<tr>
+<td>신규 진입</td>
+<td>비중국 Top10에 CALB·EVE 진입, Gotion 1~9월 +153.8%로 SDI 추월</td>
+<td>2·3티어 중국 + 한국 3사 + Tesla 자체 셀</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>출처: SNE리서치 (2026-08~11), InfoLink</em></p>
+<blockquote>
+<p>EV에서 밀린 2·3티어가 ESS로 몰린다 — v1 판정 유지. <strong>CATL은 ESS 매출 비중을 25% → 2030년 50%로 올리겠다고 밝혔고</strong>(경향신문), 이는 ESS가 "블루오션"이 아니라 "1위가 정조준한 시장"이 됐다는 뜻이다.</p>
+</blockquote>
+<h2>4-4. 구조조정 이력 — v1 이후 추가분</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시점</th>
+<th>이벤트</th>
+<th>축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-08-25</td>
+<td>SKIET 흡수합병 발표 (2027-01-01)</td>
+<td>공통 (분리막)</td>
+</tr>
+<tr>
+<td>2026-09-01</td>
+<td><strong>중국 배터리 소비세 2% 시행</strong></td>
+<td>공통 — 저마진 업체 부담 (2선 업체는 완성차 60%·배터리 40% 분담 협상 거론, 전자신문)</td>
+</tr>
+<tr>
+<td>2026-09-16</td>
+<td>Fluence 2차 가이던스 하향 + 구조조정</td>
+<td>ESS (인티그레이터)</td>
+</tr>
+<tr>
+<td>2026-11-02</td>
+<td>Fluence 경영진 교체·운영 혁신 위원회 신설</td>
+<td>ESS</td>
+</tr>
+<tr>
+<td>2027-01-01 [예정]</td>
+<td><strong>중국 배터리 수출 증치세 환급 폐지</strong></td>
+<td>공통 — ESS 수출 직격</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>G(구조조정) 판정 조건 체크 (v1 → v2)</strong>
+- 중국 공급사 수 감소: <strong>미확인</strong> (CABIA 35개사 이후 데이터 없음)
+- ESS CR10 재상승: <strong>미확인</strong> (H1 89.8%가 최신)
+- 정부의 가격 하한 개입: <strong>신규 2건</strong> (소비세, 환급 폐지) ✅
+- 서구 파산·취소: 지속 ✅
+→ <strong>G 이행 중, 미완</strong> (v1과 동일 결론, 근거 강화)</p>
+</blockquote>
+<hr />
+<h1>5단계. 수요 구조 — 두 축 9개 항목 나란히</h1>
+<h2>5-1. 수요처 구성</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026.1~9 규모</td>
+<td>994.5GWh (+19.7%)</td>
+<td>779.9GWh (+73%)</td>
+</tr>
+<tr>
+<td>두 축 합계 중 비중</td>
+<td>56.0% (계산) — 2025.1~9 64.8%</td>
+<td><strong>44.0%</strong> (계산) — 2025.1~9 35.2%</td>
+</tr>
+<tr>
+<td>증분 기여 (1~9월 YoY)</td>
+<td>+163.7GWh (33%)</td>
+<td><strong>+328.4GWh (67%)</strong></td>
+</tr>
+<tr>
+<td>세부 용도</td>
+<td>BEV·PHEV·HEV·상용차</td>
+<td>북미 물량의 95%가 <strong>전력망용</strong> (SNE, H1). 가정용 ESS 셀 비중 약 14% (SMM). AI 데이터센터 직접(BBU/UPS) 2025년 12GWh (GGII)</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-2. 수요 집중도</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B2B 고객</td>
+<td>셀사별 상위 고객 비중 전 사 미공시 (v1). 소재사는 극단 (에코프로비엠 2사 94.7%)</td>
+<td>디벨로퍼·유틸리티 분산. 다만 미국 1~3Q 설치의 상위 5개 주(캘리포니아·텍사스·푸에르토리코·애리조나·일리노이)에 집중 (WoodMac 2Q)</td>
+</tr>
+<tr>
+<td>지역</td>
+<td><strong>중국 57%</strong> / 비중국 43% (계산, 1~9월)</td>
+<td><strong>비중국 60%</strong> / 중국 40% (1~3Q)</td>
+</tr>
+<tr>
+<td>미국 내 지역</td>
+<td>—</td>
+<td>2Q 설치의 약 3/4이 2024 대선 공화당 승리 주(애리조나·텍사스·유타) (SEIA) — <strong>정치 지형과 무관한 수요</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-3. 수요 사이클 위치</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>장기 트렌드</td>
+<td>S-curve. 중국 50%+ 침투(후기 다수), 유럽 얼리 머저리티, 미국 캐즘 후퇴 후 바닥 (v1)</td>
+<td>초기 가속기 (+79% → +73%, 성장률 둔화 시작)</td>
+</tr>
+<tr>
+<td>단기 위치</td>
+<td><strong>대수 정체(+3%), GWh 성장(+20%)</strong> — 상용차·대형 팩이 받침</td>
+<td>2026H2 <strong>공급 부족 국면</strong> (314Ah), 2027 증설 가동 시 완화 [전망, SMM]</td>
+</tr>
+<tr>
+<td>2027 [전망]</td>
+<td>CATL: 동력+저장 합계 <strong>+20~30%</strong> (상용차·유럽·해외 ESS)</td>
+<td>SNE: 984 → <strong>1,150GWh(+17%)</strong> — 단 2026 실적이 984를 넘을 가능성 높아 재추정 필요</td>
+</tr>
+<tr>
+<td>사이클 특성</td>
+<td><strong>내구소비재</strong> — 금리·보조금·신차 사이클</td>
+<td><strong>인프라 CAPEX</strong> — 전력수요·계통 연계 대기열·세액공제 일정</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-4. 메가 트렌드 수요 비중 — ESS는 AI 전력 병목의 파생 수요</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>지표</th>
+<th>값</th>
+<th>출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI DC 직접 수요 (BBU·UPS)</td>
+<td>2025 <strong>12GWh</strong> → 2027E 61 → 2030E 272GWh</td>
+<td>GGII (v1)</td>
+</tr>
+<tr>
+<td>미국 저장 전망</td>
+<td>2031 누적 <strong>207GW / 715GWh</strong> (이전 655GWh에서 상향) — "데이터센터 건설이 모든 세그먼트 전망을 끌어올림"</td>
+<td>Wood Mackenzie Q3 2026</td>
+</tr>
+<tr>
+<td>〃</td>
+<td>2030 누적 <strong>683GWh</strong>, 2026 설치 <strong>71GWh</strong>(2025 59GWh 대비 +20%)</td>
+<td>SEIA/Benchmark Q3 2026</td>
+</tr>
+<tr>
+<td>미국 2Q26 설치</td>
+<td><strong>18.9GWh</strong>(WoodMac) / <strong>20.2GWh</strong>(SEIA) — 사상 최대. GW 기준 −7%인데 GWh +16%</td>
+<td>두 기관</td>
+</tr>
+<tr>
+<td>기업 수주</td>
+<td>Fluence DC 관련 수주 8.5억 달러, LGES 빅테크 첫 직접 계약, Tesla "데이터센터 가동률에 필수"</td>
+<td>각사</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>분류 유지</strong>: ESS는 메가 트렌드 자체가 아니라 <strong>AI 전력 병목의 파생 수요</strong> (<code>ESS_테마분석.md</code> 판정 유지). DC 직접용(BTM BESS)은 약 1시간 듀레이션(씨티, ESS 테마 10-12 보강) → MW 시장. GWh 성장은 <strong>계통 측 듀레이션 연장</strong>에서 나온다. 미국 2Q26 "GW 감소·GWh 증가"는 그 경로가 실제로 작동 중이라는 증거. BT 감시지표(유틸리티 GWh÷GW ≥4.0h 두 분기 연속)는 별도 핸드오프로 추적.</p>
+</blockquote>
+<h2>5-5. 대체재·보완재</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대체재</td>
+<td><strong>하이브리드(HEV)</strong> — 미국 BEV 반토막 기간 HEV +57%. HEV 대당 배터리는 BEV의 1/50~1/100 (v1)</td>
+<td><strong>가스터빈·연료전지</strong>(Bloom), <strong>철-공기</strong>(Form Energy, Google 30GWh), 양수·플로우</td>
+</tr>
+<tr>
+<td>화학 내부 대체</td>
+<td>LFP vs NCM (중국 내수 LFP 80%+)</td>
+<td><strong>나트륨이온</strong> — CATL TENER 나트륨 ESS 유럽 다수 계약, LGES 나트륨 ESS 2027 북미 테스트 출하. <strong>중국 소비세 2028년까지 면제</strong> = 정책 가속</td>
+</tr>
+<tr>
+<td>보완재</td>
+<td>충전 인프라</td>
+<td><strong>계통 연계·변압기</strong> — 이것이 진짜 병목</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-6. 가격탄력성 — 축마다 "무엇에" 탄력적인지가 다르다</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>무엇에 반응하나</td>
+<td><strong>소비자 실효 가격 (보조금 포함)</strong></td>
+<td><strong>셀·시스템 원가 → 프로젝트 IRR</strong></td>
+</tr>
+<tr>
+<td>정량</td>
+<td>미국 −1.8~−2.3, 중국 약 −2.7 (v1 역산)</td>
+<td>리튬 20만 위안/t 초과 시 중국 ESS 관망 (SMM) — 임계값형 반응. 2025년 팩 −45% 해에 출하 +79%</td>
+</tr>
+<tr>
+<td>배터리 원가 하락의 효과</td>
+<td><strong>약함</strong> — 팩 $99/kWh 돌파했는데 미국 −28% (v1, "$100 임계선 가설 기각")</td>
+<td><strong>강함</strong> — 원가가 곧 IRR. 원가 하락이 새 지역·용도를 연다 (WoodMac: "저원가가 저장을 새 지역·용도로 확장")</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>두 축의 가장 본질적 차이</strong>: EV는 배터리가 싸져도 수요가 자동으로 늘지 않았다(정책·선호가 지배). ESS는 배터리가 싸지면 수요가 늘어난다(경제성이 지배). <strong>그래서 원가 하락(학습곡선)의 과실은 앞으로 ESS축이 더 많이 가져간다</strong> — v1 패턴 ⑥(학습곡선은 소비재가 태워준다: 소형IT→EV→ESS)의 정량 근거.</p>
+</blockquote>
+<h2>5-7. 수요 driver 분해</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Driver</th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정책</td>
+<td><strong>최대 단일 driver, 약 30%</strong> (v1 자연실험 3건)</td>
+<td>미국 48E·FEOC, 중국 136호 이후 <strong>의무 → 시장</strong>으로 전환 중. 정책 기인 비중 정량화 불가</td>
+</tr>
+<tr>
+<td>원가</td>
+<td>약함</td>
+<td><strong>강함</strong></td>
+</tr>
+<tr>
+<td>전력 수요 (AI·전기화)</td>
+<td>간접</td>
+<td><strong>직접</strong> (미국 DC, 중국 재생에너지 통합)</td>
+</tr>
+<tr>
+<td>재생에너지 보급</td>
+<td>간접</td>
+<td><strong>직접</strong> — 2Q 미국 설치의 44%가 태양광 연계 (SEIA)</td>
+</tr>
+<tr>
+<td>소비 패턴</td>
+<td>BEV→HEV 이탈, 중고 EV +12%</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-8. 정부 정책 (수요 측) — 1단계 (f) 대조표 참조</h2>
+<p>핵심만: <strong>미국은 EV 수요 보조를 끊고 ESS 공급 자리를 지켰고, 중국은 ESS 의무를 끊고 시장에 맡겼으며, 양쪽 모두에 소비세를 매겼다.</strong> 한국은 중앙계약시장으로 국내 ESS 수요를 정부가 직접 만든다(3차 1,180MW).</p>
+<h2>5-9. 글로벌 vs 한국 접근 가능 시장</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>EV축</th>
+<th>ESS축</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한국 접근 가능 TAM</td>
+<td>비중국 EV: 1~9월 <strong>426.7GWh</strong>(+24.7%)</td>
+<td>북미 ESS: H1 75.9GWh(+83%), 1~3Q +71% / 미국 2026 설치 71GWh [전망, SEIA]</td>
+</tr>
+<tr>
+<td>한국 실적</td>
+<td>비중국 점유율 <strong>26.8%</strong> (약 114GWh, 계산) — 시장 +24.7%인데 SDI −34.4%, 북미 SDI −66.2%</td>
+<td>북미 LGES+SDI <strong>20.9%</strong></td>
+</tr>
+<tr>
+<td>방향</td>
+<td>시장 성장 &lt; 중국계 성장 → <strong>점유율 하락</strong></td>
+<td>FEOC로 중국 자리 이동 → <strong>점유율 상승</strong> (단 2028 이후 자리 공급 과잉 위험, ESS 테마 판정)</td>
+</tr>
+<tr>
+<td>한국 내수</td>
+<td>확인 불가</td>
+<td>중앙계약시장 누적 2,308MW (1~3차 공고 합계, 계산)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>4+5 종합: 수급 매트릭스 현재 위치 【필수 결론】</h1>
+<h2>축별 판정</h2>
+<p><strong>[EV축]</strong>
+- 공급: 과잉 지속 (공유 CAPA, 중국 7사 73%, 가격 경쟁). 수요: 대수 +3% 정체, GWh +20% (대당 kWh·상용차), 지역 극단 분화
+- → <strong>F (공급 과잉)</strong>. 지역별: 미국 F 심화 → <strong>바닥 통과 신호</strong>(3Q 점유율 6.5%) / 중국 F → 정부 비용 부과로 <strong>G 초기</strong> / 유럽 <strong>B (수요 견인)</strong>, 단 보조금 의존</p>
+<p><strong>[ESS축]</strong>
+- 공급: 빠르게 증가(중국 2·3티어 + 한국 전환 + 긴급 증설 40GWh), 집중도 하락. 수요: +73%, 비중국 60%, 미국 GWh 사상 최대
+- → <strong>D (동반 확대)</strong>. 단 <strong>2026 하반기는 314Ah 구조적 부족·셀 가격 +14%로 국지적 B(수요 견인) 성격.</strong> 가격 상승분 대부분은 원가 전가 → 마진 레이어로 미전환
+- 북미 FEOC 세그먼트: <code>ESS_테마분석.md</code> 판정 그대로 — 자리 가동률 2027 52% → 2029 80%(BEP 돌파) [전망], <strong>2027년 상반기 재판정</strong></p>
+<p><strong>[산업 전체]</strong>
+- <strong>F (공급 과잉) 후반 → G (구조조정) 이행 중</strong> — v1 판정 유지
+- Delta: ① 가동률 약 40% → 50~60%대로 개선 [추정, 대부분 ESS 기여] ② 중국 정부 가격 하한 개입 2건 추가 (G 신호) ③ 플레이어 수 감소는 여전히 미확인</p>
+<h2>【두 축의 결합 메커니즘 — 이 문서의 핵심 결론】</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>연결고리</th>
+<th>작동 방식</th>
+<th>2026 현재 상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td><strong>공유 CAPA (겸용 LFP 라인)</strong></td>
+<td>EV가 약하면 남는 라인이 ESS로 → ESS 가격 하락</td>
+<td>2024~25 작동(팩 −45%) → <strong>2026 역전</strong>: ESS 전용 대형 셀 분리로 스윙 능력 감소, ESS가 부족</td>
+</tr>
+<tr>
+<td>②</td>
+<td><strong>공유 원가 (리튬)</strong></td>
+<td>두 축 합계가 리튬 가격 결정, <strong>ESS가 상한을 정함</strong></td>
+<td>2026-05 고점(18~20만) 후 하락 — ESS 관망 효과 가설</td>
+</tr>
+<tr>
+<td>③</td>
+<td><strong>정책 비대칭</strong></td>
+<td>미국: EV 보조 폐지 + ESS 존치 → 라인 전환 강제</td>
+<td>한국 3사 실적이 전환 속도 순으로 정렬</td>
+</tr>
+<tr>
+<td>④</td>
+<td><strong>학습곡선 이전</strong></td>
+<td>EV 10년이 낮춘 원가가 ESS 경제성을 열었음</td>
+<td>ESS가 원가 하락의 주 수혜자로 이동 (5-6)</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td><strong>경쟁 이동</strong></td>
+<td>EV에서 밀린 플레이어가 ESS로 → ESS 집중도 하락</td>
+<td>CATL도 ESS 50% 목표 — 1위까지 이동</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td><strong>가동률 헤지</strong></td>
+<td>한 축이 약할 때 다른 축이 고정비를 흡수</td>
+<td>한국 셀 가동률·흑전의 원천</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>한 문장 결론</strong>: <strong>2026년 배터리 산업의 "한계 수요(마지막 1GWh를 결정하는 수요)"는 EV에서 ESS로 넘어갔다.</strong> 2025년까지 ESS는 EV 과잉의 배출구였지만, 2026년 하반기 ESS는 처음으로 공급을 앞질러 가격을 움직였다. 그러나 ① 그 가격 상승은 원가 전가였고 ② ESS 공급은 1위(CATL)부터 2·3티어까지 몰려들고 있으며 ③ 중국 정부의 비용 부과(2027-01 환급 폐지)가 4Q 수출 밀어내기 → 2027년 수요 공백을 만들 수 있다. <strong>"ESS가 산업을 구했다"가 아니라 "ESS가 산업의 가동률을 구했고, 이익은 아직 구하지 못했다"가 정확하다.</strong></p>
+</blockquote>
+<h2>테마 분석으로의 핸드오프</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>받는 문서</th>
+<th>넘기는 결론</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ESS_테마분석.md</code></td>
+<td>① 병목 유형 D 유지, 2026H2 국지적 B 기록 ② <strong>관찰 지표 "총이익률" 프레임이 셀 레이어(SMM 314Ah 마진 ~10%, CATL GM 하락)에서도 재확인</strong> ③ 주도 섹터 ★☆☆ 판정을 바꿀 Delta 없음 — LGES "2028 물량 대부분 확보·수요 &gt; CAPA" 발언은 R3(수요 상향)의 약한 신호이나, BT 기준(셀사이드 수요 추정치 상향 이벤트)에는 미달. 재판정 시점 2027 상반기 유지</td>
+</tr>
+<tr>
+<td>신규 감시 항목</td>
+<td>① 2027-01-10 수출통제 제58호 재유예 여부 ② 2027-01-01 수출 환급 폐지 후 중국 ESS 수출 월간 추이(4Q 밀어내기 → 1Q 공백 여부) ③ 314Ah 셀 가격 4Q 고점·2027 하락 폭 ④ 500Ah+ 비중(두 축 물리적 분리의 속도) ⑤ CATL 분기 총이익률 20% 하회 여부 ⑥ Fluence FY26 실적·FY27 계획 (2026-11-23 발표)</td>
+</tr>
+<tr>
+<td>EV 관련 (향후 테마)</td>
+<td>미국 EV 바닥 통과 여부는 <strong>YoY가 아니라 점유율·QoQ</strong>로 판단 (4Q부터 기저효과). 상용차 전동화가 EV축 GWh의 새 받침인지 별도 검증 필요</td>
+</tr>
+</tbody>
+</table></div>
+<h2>향후 전환 경로</h2>
+<pre><code>현재: 산업 F 후반 (EV축 F / ESS축 D, 2026H2 국지적 B)
+  │
+  ├─ 경로 1 (확률 中): 중국 비용 부과(소비세·환급 폐지)가 2·3티어 도태로 이어짐
+  │    → G 본격화 → ESS CR10 재상승 → 생존자 가격결정력 → A 가능성
+  │    관찰: 중국 공급사 수, ESS CR10, CATL 해외 마진 유지
+  │
+  ├─ 경로 2 (확률 中): 2027 증설 가동 + 4Q 수출 밀어내기 반작용 → ESS 다시 과잉
+  │    → ESS도 D→F. &quot;ESS = 두 번째 EV&quot; 시나리오. 2027년 최대 논쟁
+  │    관찰: 314Ah 가격 2027 1Q, 중국 ESS 수출 월간 추이
+  │
+  └─ 경로 3 (확률 低~中, 2028~): EV 재가속(유럽 지속 + 미국 바닥 + 상용차) + ESS 듀레이션 연장 동시 진행
+       → 두 축이 같이 CAPA를 채움 → 산업 전체 B
+       관찰: 글로벌 EV 대수 YoY 두 자릿수 복귀, 미국 유틸리티 듀레이션 ≥4.0h
+</code></pre>
+<p><strong>[전망] ESS가 EV를 연간 GWh로 추월하는 시점은 알 수 없다.</strong> 시나리오: EV +15%/년, ESS +25%/년이면 2028~29년; ESS가 SNE 전망대로 2027 +17%로 둔화하면 2030년 이후. 정의 차이(출하 vs 탑재)로 "추월" 자체가 지표에 따라 다르게 보도될 것.</p>
+<hr />
+<h1>부록 A. 두 축을 관통하는 7개 패턴 (v1 6개 + 신규 1)</h1>
+<ol>
+<li><strong>에너지밀도 격차는 정책으로 못 넘는다</strong> — 단 <strong>고정형(ESS)에는 적용되지 않는다.</strong> 밀도가 아니라 원가·수명이 결정 (v2 보강)</li>
+<li><strong>배터리는 항상 타 산업의 병목으로만 성장한다</strong> — 조명 → 잠수함 → 캠코더 → EV → <strong>AI 전력</strong>. ESS도 자율 수요가 아니라 AI·재생에너지의 파생</li>
+<li><strong>안전 사고가 경로를 바꾼다</strong> — 1916 · 1989 · 2006 + <strong>2017~19 한국 ESS 화재</strong>(한국이 ESS 학습곡선을 7년 놓친 원인) (v2 추가)</li>
+<li><strong>발명국 ≠ 상용화국</strong> — 계통용 배터리도 일본(NGK NaS)·미국(Chino 실증)이 먼저였지만 상용화 규모는 중국 LFP</li>
+<li><strong>패권 상실은 기술이 아니라 자본배분</strong> — 일본 DRAM·배터리. 한국 ESS는 "사고 후 자본 회수"로 같은 경로</li>
+<li><strong>학습곡선은 소비재가 태워준다</strong> — 소형IT → EV → ESS. <strong>5-6에서 정량 확인: 원가 하락의 과실은 ESS가 더 크게 가져간다</strong></li>
+<li><strong>[신규] 같은 공장에서 나오는 두 시장은 서로의 가격을 정한다</strong> — 한쪽이 약하면 다른 쪽이 싸지고(2024~25), 한쪽이 타이트하면 다른 쪽 CAPA를 빼앗는다(2026). <strong>분석할 때 한 축만 보면 반드시 틀린다.</strong></li>
+</ol>
+<h1>부록 B. 자료 한계 (확인 불가)</h1>
+<ul>
+<li>2026-11 현재 탄산리튬·314Ah 셀 현물가 (유료 DB)</li>
+<li>2026년 글로벌 nameplate CAPA, 중국 공급사 수 최신치, ESS CR10 1~3Q</li>
+<li>글로벌 EV 10월 (Benchmark 2026-10), 한국 EV·ESS 내수 규모</li>
+<li>LGES·SDI 3Q26 고객 보상금 정확한 금액 (회사 미공시), 부문별(EV/ESS) 영업이익 (회사 미공시 — JPM 추정만)</li>
+<li>대수 +3% vs GWh +20% 괴리의 요인별 분해</li>
+<li>1880~1910년대 DC 전력망 축전지 설치 규모, 1988 Chino 설비 상세 (교과서적 사실이나 1차 출처 미대조)</li>
+<li>한국 ESS 화재 정확한 건수 (2017-08~2019: 20여 건으로 기재, 공식 조사 범위에 따라 상이)</li>
+<li>중국 136호 이후 의무 저장 설비 가동률</li>
+</ul>
+<p><strong>출처 간 상충</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>본 문서 채택</th>
+<th>다른 값</th>
+<th>판단</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>미국 2Q26 ESS 설치</td>
+<td>18.9GWh (WoodMac/ACP) <strong>및</strong> 20.2GWh (SEIA/Benchmark) 병기</td>
+<td>—</td>
+<td>기관별 집계 기준 차이</td>
+</tr>
+<tr>
+<td>미국 EV 점유율 2Q26</td>
+<td>5.8% (Cox 최신)</td>
+<td>v1: 1Q 5.8%·2Q 6%</td>
+<td>Cox 최신치 채택</td>
+</tr>
+<tr>
+<td>3Q26 미국 EV 점유율</td>
+<td>6.5%</td>
+<td>정정본 6.4%</td>
+<td>둘 다 기재</td>
+</tr>
+<tr>
+<td>SNE ESS 2035 전망</td>
+<td>1,870GWh (경북매일)</td>
+<td>1,970GWh (경향신문)</td>
+<td>인용 매체 차이, 원문 미확인</td>
+</tr>
+<tr>
+<td>LGES AMPC 제외 영업이익</td>
+<td>3,391억 (회사 발표)</td>
+<td>본업 약 −600억 (보상금 추정치 차감, MS·JPM)</td>
+<td>보상금 미공시 — 둘 다 기재</td>
+</tr>
+</tbody>
+</table></div>
+<h1>부록 C. 주요 출처</h1>
+<p><strong>v2 신규</strong>
+- SNE리서치: 1~9월 글로벌 EV 배터리 사용량 (더팩트 2026-11-02), 비중국 (더팩트·연합 2026-11-04), 1~3Q ESS 출하 (더팩트 2026-11-05, 헤럴드), 2025 ESS 550GWh (아시아경제 2026-01-28), H1 ESS (아이뉴스24)
+- Benchmark Mineral Intelligence: 글로벌 EV 2026-09 (<a href="https://source.benchmarkminerals.com/article/global-ev-sales-reach-2-15-million-units-in-september-2026">source.benchmarkminerals.com</a>)
+- Cox Automotive: <a href="https://coxautoinc.com/insights/q3-2026-ev-sales-report-commentary">Q3 2026 EV Sales</a>
+- Wood Mackenzie/ACP Q3 2026 US Energy Storage Monitor (<a href="https://www.energy-storage.news/data-centre-buildout-uplifting-us-bess-market-outlook-wood-mackenzie-says/">energy-storage.news</a>), SEIA/Benchmark ESMO Q3 2026 (<a href="https://seia.org/news/largest-quarter-on-record-for-energy-storage/">seia.org</a>)
+- SMM: <a href="https://news.metal.com/ko/newscontent/103999667">2026 ESS 셀 반기 리뷰</a>, 8월 6일 주간 리뷰, 5월 6일 리튬 분석
+- 중국 소비세·환급: <a href="https://www.pv-magazine.com/2026/09/01/china-restores-2-lithium-ion-battery-tax-after-11-year-exemption/">pv-magazine 2026-09-01</a>, <a href="https://m.etnews.com/20260901000374">전자신문 2026-09-01</a>, <a href="https://en.jiemian.com/article/14014040.html">Jiemian</a>, <a href="https://battery-tech.net/why-china-is-taxing-lithium-ion-batteries-again-and-handing-sodium-ion-a-two-year-head-start/">battery-tech.net</a>
+- 수출통제 재유예: <a href="https://sateconomy.co.kr/news/view/1065612142706504">시사경제 2026-11-09</a>
+- 중국 136호: <a href="https://news.metal.com/en/newscontent/103253272-SMM-Analysis-Analysis-of-the-Cancellation-of-Mandatory-Energy-Storage-Allocation-Policy-Interpretation-of-Document-136">SMM 2025-03-28</a>, <a href="https://www.energytrend.com/print/49397">energytrend</a>, <a href="https://www.chinadailyhk.com/article/632432">China Daily 2026-04-23</a>, <a href="https://www.pv-magazine.com/2026/07/17/chinas-battery-boom-pivoting-from-scale-to-utilization-says-ember/">Ember via pv-magazine</a>
+- 실적: <a href="https://newstomato.com/ReadNews.aspx?no=1319046">뉴스토마토 3사 2026-11-03</a>, <a href="https://news.bizwatch.co.kr/article/industry/2026/11/03/0014">비즈워치 LGES 2026-11-03</a>, <a href="https://zdnet.co.kr/view?no=20261029091450">zdnet SDI 2026-10-29</a>, <a href="https://cnevpost.com/2026/10/20/catl-q3-2026-earnings/">CnEVPost CATL</a>, <a href="https://www.ess-news.com/2026/07/27/catl-storage-revenue-jumps-88-as-h1-profit-hits-cny-43-3-billion/">ESS-News CATL H1</a>, <a href="https://electrek.co/2026/10/21/tesla-tsla-q3-2026-financial-results/">Electrek Tesla Energy</a>, <a href="https://www.energy-storage.news/tesla-q3-2026-energy-storage-revenues-fall-despite-second-highest-quarterly-deployments/">energy-storage.news Tesla</a>, <a href="https://www.sec.gov/Archives/edgar/data/0001868941/000110465926108270/tm2625477d1_ex99-1.htm">Fluence 8-K</a>, <a href="https://www.zacks.com/stock/news/2992105/flnc-revises-fy2026-outlook-on-manufacturing-delays-whats-ahead">Zacks Fluence</a>, <a href="https://kalkine.ca/news/energy/why-did-fluence-energy-nasdaqflnc-gain-158-shortly-after-a-management-overhaul">Kalkine Fluence 2026-11-04</a>
+- 소재: <a href="https://www.specialtimes.co.kr/news/articleView.html?idxno=480993">엘앤에프-LGES 공시 (스페셜타임즈)</a>, <a href="https://www.fnnews.com/news/202603241148169395">엘앤에프-SDI (fnnews)</a>, <a href="https://dealsite.co.kr/articles/169817">딜사이트 LGES-포스코퓨처엠·중앙계약시장</a>
+- 증권사: 하나증권 2차전지 Weekly(2026-05-11 ESS 매출 비중 전망), 교보증권(2026-04-08 YTD 수익률), 경향신문 CATL ESS 50% 목표(2026-10-21)</p>
+<p><strong>v1 출처는 <code>2차전지_산업기초.md</code> 부록 C 참조.</strong></p>
+<hr />
+<p><em>본 문서는 영구 reference다. narrative shift 또는 산업 구조 변화 시에만 갱신한다. 분기 실적은 실적 분석 세션 영역이며, 여기에는 두 축의 구조를 보여주는 데 필요한 범위만 인용했다.</em></p><script>const D={"c1": {"x": ["2024", "2025", "2025.1~9", "2026.1~9"], "series": [{"n": "EV 탑재", "c": 1, "v": [901, 1187, 830.8, 994.5]}, {"n": "ESS 출하", "c": 3, "v": [307, 550, 451.5, 779.9]}], "unit": "GWh", "wide": 1, "max": 1250, "ticks": [0, 250, 500, 750, 1000, 1250], "note": ["2024 EV는 2025 +31.7%로 역산", "", "2025.1~9 EV는 2026 +19.7%로 역산", ""]}, "c2": {"x": ["2024", "2025", "2025.1~9", "2026.1~9"], "series": [{"n": "ESS ÷ EV", "c": 2, "v": [34, 46, 54, 78]}], "unit": "%", "max": 100, "ticks": [0, 25, 50, 75, 100]}, "c3": {"x": ["EV 탑재 증가분", "ESS 출하 증가분"], "series": [{"n": "YoY 증가 GWh", "c": 1, "v": [163.7, 328.4]}], "unit": "GWh", "max": 400, "ticks": [0, 100, 200, 300, 400], "colors": [1, 3]}, "c4": {"x": ["EV (1~9월)", "ESS (1~3Q)"], "series": [{"n": "중국", "c": 2, "v": [57.1, 40.1]}, {"n": "비중국", "c": 1, "v": [42.9, 59.9]}], "unit": "%", "max": 70, "ticks": [0, 20, 40, 60]}, "c5": {"x": ["EV 비중국 점유율 (한국 3사)", "북미 ESS 점유율 (LGES+SDI)"], "series": [{"n": "2025.1~9", "c": 4, "v": [37.9, 13.4]}, {"n": "2026.1~9", "c": 1, "v": [26.8, 20.9]}], "unit": "%", "max": 40, "ticks": [0, 10, 20, 30, 40]}, "c6": {"x": ["EV 배터리", "ESS 배터리"], "series": [{"n": "H1 2025", "c": 4, "v": [22.41, 25.52]}, {"n": "H1 2026", "c": 1, "v": [20.63, 23.96]}], "unit": "%", "max": 30, "ticks": [0, 10, 20, 30]}, "c7": {"x": ["3Q25", "4Q25", "1Q26", "2Q26", "3Q26"], "series": [{"n": "Tesla Energy 총이익률", "c": 2, "v": [31.4, 28.6, 39.5, 20.4, 33.1]}], "unit": "%", "max": 45, "ticks": [0, 15, 30, 45], "note": ["배치 12.5GWh · 매출 $3.42B", "14.2GWh · $3.84B", "8.8GWh · $2.41B (관세 일회성 이익)", "13.5GWh · $3.14B (보증·믹스 비용)", "13.7GWh · $2.88B (관세 환급 반영)"]}};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function tip(host){ const t=document.createElement('div'); t.className='tip'; host.appendChild(t);
+  return { show(x,y,h){t.innerHTML=h;t.style.left=x+'px';t.style.top=y+'px';t.style.opacity=1;},
+           hide(){t.style.opacity=0;} }; }
+function svgEl(w,h){ const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  s.setAttribute('viewBox',`0 0 ${w} ${h}`); s.setAttribute('role','img'); return s; }
+function mk(tag,a,t){ const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const k in a) e.setAttribute(k,a[k]); if(t!=null) e.textContent=t; return e; }
+function table(id,cols,rows){ const h=document.getElementById(id); if(!h) return;
+  h.innerHTML='<div class="tablewrap"><table><thead><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join('')+
+  '</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+
+  '</tbody></table></div>'; }
+function hover(host,el,tp,html){ el.style.cursor='pointer';
+  el.addEventListener('mouseenter',()=>{ const b=host.getBoundingClientRect(), r=el.getBoundingClientRect();
+    tp.show(r.left+r.width/2-b.left, r.top-b.top, html); });
+  el.addEventListener('mouseleave',()=>tp.hide()); }
+
+
+/* grouped bars */
+function gbar(id){ const dd=D[id], host=document.getElementById(id); host.innerHTML='';
+  const ns=dd.series.length, W=dd.wide?880:430,H=dd.wide?300:270,pL=46,pR=12,pT=22,pB=50; const s=svgEl(W,H), tp=tip(host);
+  if(ns>1){ const lg=document.createElement('div'); lg.className='legend';
+    lg.innerHTML=dd.series.map(se=>'<span><i style="background:'+css('--series-'+se.c)+'"></i>'+esc(se.n)+'</span>').join(''); host.appendChild(lg); }
+  const Y=v=>pT+(H-pT-pB)*(1-v/dd.max);
+  dd.ticks.forEach(g=>{ s.appendChild(mk('line',{x1:pL,x2:W-pR,y1:Y(g),y2:Y(g),class:'gl'}));
+    s.appendChild(mk('text',{x:pL-8,y:Y(g)+4,'text-anchor':'end',class:'ax'},g.toLocaleString())); });
+  const gw=(W-pL-pR)/dd.x.length, bw=Math.min(46,(gw-18)/ns);
+  dd.x.forEach((lab,i)=>{ const cx=pL+gw*(i+0.5);
+    dd.series.forEach((se,k)=>{ const v=se.v[i]; const x=cx-(ns*bw+(ns-1)*2)/2+k*(bw+2);
+      const ci=dd.colors?dd.colors[i]:se.c; const col=css('--series-'+ci);
+      const r=mk('rect',{x:x,y:Y(v),width:bw,height:Math.max(Y(0)-Y(v),1),fill:col,rx:4,ry:4});
+      hover(host,r,tp,'<b>'+esc(lab)+'</b> · '+esc(se.n)+'<br>'+v.toLocaleString()+' '+dd.unit+(dd.note&&dd.note[i]?'<br>'+esc(dd.note[i]):''));
+      s.appendChild(r); s.appendChild(mk('text',{x:x+bw/2,y:Y(v)-6,'text-anchor':'middle',class:'vlab'},v.toLocaleString())); });
+    const words=lab.length>14?[lab.slice(0,lab.indexOf(' ')>0?lab.indexOf(' '):12),lab.slice(lab.indexOf(' ')+1)]:[lab];
+    words.forEach((w,j)=>s.appendChild(mk('text',{x:cx,y:H-pB+18+j*14,'text-anchor':'middle',class:'axl'},w))); });
+  host.appendChild(s);
+  table(id+'t',['구분'].concat(dd.series.map(se=>se.n+' ('+dd.unit+')')).concat(dd.note?['비고']:[]),
+    dd.x.map((l,i)=>[l].concat(dd.series.map(se=>se.v[i].toLocaleString())).concat(dd.note?[dd.note[i]]:[])));
+}
+function line(id){ const dd=D[id], host=document.getElementById(id); host.innerHTML='';
+  const W=430,H=260,pL=44,pR=20,pT=24,pB=40; const s=svgEl(W,H), tp=tip(host); const se=dd.series[0], col=css('--series-'+se.c);
+  const Y=v=>pT+(H-pT-pB)*(1-v/dd.max), X=i=>pL+(W-pL-pR)*(i/(dd.x.length-1));
+  dd.ticks.forEach(g=>{ s.appendChild(mk('line',{x1:pL,x2:W-pR,y1:Y(g),y2:Y(g),class:'gl'}));
+    s.appendChild(mk('text',{x:pL-8,y:Y(g)+4,'text-anchor':'end',class:'ax'},g+dd.unit)); });
+  s.appendChild(mk('path',{d:se.v.map((v,i)=>(i?'L':'M')+X(i)+' '+Y(v)).join(' '),fill:'none',stroke:col,'stroke-width':2,'stroke-linejoin':'round'}));
+  se.v.forEach((v,i)=>{ const c=mk('circle',{cx:X(i),cy:Y(v),r:5,fill:col,stroke:css('--surface-1'),'stroke-width':2});
+    hover(host,c,tp,'<b>'+esc(dd.x[i])+'</b><br>'+v+dd.unit+(dd.note?'<br>'+esc(dd.note[i]):'')); s.appendChild(c);
+    s.appendChild(mk('text',{x:X(i),y:Y(v)-11,'text-anchor':'middle',class:'vlab'},v+dd.unit));
+    s.appendChild(mk('text',{x:X(i),y:H-pB+20,'text-anchor':'middle',class:'axl'},dd.x[i])); });
+  host.appendChild(s);
+  table(id+'t',['구분',se.n].concat(dd.note?['비고']:[]),dd.x.map((l,i)=>[l,se.v[i]+dd.unit].concat(dd.note?[dd.note[i]]:[])));
+}
+function draw(){ gbar('c1'); line('c2'); gbar('c3'); gbar('c4'); gbar('c5'); gbar('c6'); line('c7'); }
+draw();
+if(window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+</script></div></body></html>
