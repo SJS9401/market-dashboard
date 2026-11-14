@@ -41,7 +41,7 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | INTC | Intel | DCAI $5.5B+ 가시화, ASIC 분기 매출·고객 공개, Foundry OM -50% 회복, PC TAM 2H -10~-15% 검증, AMD/ARM 점유율 |
-| AMD | AMD | Q2 server CPU +70% YoY 달성, MI450 Helios Q3 ramp·Meta 1 GW 출하, Verano AI-optimized 출시, Samsung HBM4 supply, Gaming 2H 둔화·GM 56% 유지 |
+| AMD | AMD | 4Q 매출 $17B·DC +50% QoQ, 1Q27 GPM 54%+, HBM4 배정·원가, 재고·FCF 회복, Helios 신규 고객 |
 | ARM | ARM Holdings | Smartphone royalty 정상화 (+20% 약속), Cloud AI royalty 2x+ 지속, AGI CPU Meta 출하·추가 고객, FY27 license+royalty +20% verify, NVIDIA Vera 256 rack 양산 |
 
 ### 반도체 — ASIC (AI 가속기)
@@ -117,7 +117,7 @@
 |------|--------|--------|
 | LMT | Lockheed Martin | 미국 국방 수주, F-35, 미사일방어 (PAC-3) |
 | RTX | RTX | 방공·미사일(패트리어트), 항공 엔진, 수주잔고 |
-| GD | General Dynamics | 지상장비(에이브럼스), 잠수함, 걸프스트림 |
+| GD | General Dynamics | 27년 가이던스 1월, 4Q OP $1.54B, Marine OPM 7.5%, Combat OPM 14% 회복, CR 12/11 |
 | RHM | Rheinmetall AG | 유럽 방산, 장갑차/탄약, 독일 재무장 |
 | BAE | BAE Systems | 유럽 방산, 자주포·장갑차, 해군/전자전 (반기 실적) |
 | LDO | Leonardo | 헬기·훈련기, 방산전자, 이탈리아 국방예산 |
