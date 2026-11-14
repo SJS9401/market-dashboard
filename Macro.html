@@ -125,7 +125,7 @@
       if (data.length > 100) { M.ism[k] = { label: (M.ism[k] || {}).label || k, data, forecast: fc }; ismLive = true; }
     } catch (e) {} }));
 
-  // 발표 당시 컨센서스 (2026-11-14 BT) — investing.com 이벤트 차트 attr[]: timestamp(발표시각)·actual(최초 발표치)·forecast(컨센)
+  // 발표 당시 컨센서스 (2026-11-14 BT) — investing.com 이벤트 차트 attr[]: timestamp(발표시각, 날짜는 미 현지 기준)·actual(최초 발표치)·forecast(컨센)
   //   비교 기준은 FRED 수정치가 아니라 investing 최초 발표치. CPI YoY(733)는 investing 쪽 갱신이 밀려 있어 MoM 으로 비교.
   const CONS = {
     unemp: [{ eid: 300, lab: '실업률', ax: 'y' }],
@@ -140,9 +140,9 @@
     try { const j = await fetch('https://sbcharts.investing.com/events_charts/us/' + id + '.json').then(r => r.json());
       const recs = (j.attr || []).filter(a => a.actual != null || a.forecast != null).sort((a, b) => a.timestamp - b.timestamp);
       // 데이터월 = 발표월 − 1. 한 달에 두 번 발표(셧다운 후 몰아치기 등)되면 앞선 발표를 한 달 더 당김
-      const ym = ts => { const d = new Date(ts + 9 * 3600e3); let y = d.getUTCFullYear(), m = d.getUTCMonth(); if (m < 1) { m += 12; y--; } return y + '-' + String(m).padStart(2, '0'); };
+      const ym = ts => { const d = new Date(ts - 5 * 3600e3); let y = d.getUTCFullYear(), m = d.getUTCMonth(); if (m < 1) { m += 12; y--; } return y + '-' + String(m).padStart(2, '0'); };
       const back = s => { let y = +s.slice(0, 4), m = +s.slice(5) - 1; if (m < 1) { m = 12; y--; } return y + '-' + String(m).padStart(2, '0'); };
-      const out = recs.map(a => ({ ym: ym(a.timestamp), rel: new Date(a.timestamp + 9 * 3600e3).toISOString().slice(0, 10), act: a.actual, fc: a.forecast, actF: a.actual_formatted, fcF: a.forecast_formatted }));
+      const out = recs.map(a => ({ ym: ym(a.timestamp), rel: new Date(a.timestamp - 5 * 3600e3).toISOString().slice(0, 10), act: a.actual, fc: a.forecast, actF: a.actual_formatted, fcF: a.forecast_formatted }));
       for (let i = out.length - 2; i >= 0; i--) if (out[i].ym >= out[i + 1].ym) out[i].ym = back(out[i + 1].ym);
       if (out.length) CRAW[id] = out;
     } catch (e) {} }));
