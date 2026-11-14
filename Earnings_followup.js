@@ -481,7 +481,8 @@ function renderStockRow(stock) {
   // td 3: 리포트 버튼 4개
   const buttons = el('div', { class: 'mode-buttons' });
   // 2026-10-30: 프리뷰·인뎁스 모드 폐지 → 버튼 제거 (실적은 리뷰 v11 하나)
-  for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['theme', '테마분석'], ['review', '실적 리뷰']]) {
+  // 2026-11-14: 산업기초 → 기업개요 → 실적 리뷰. 테마분석은 종목 행에서 빼고 "테마 리뷰" 칸에서만 연결
+  for (const pair of [['industry-basic', '산업기초'], ['company', '기업개요'], ['review', '실적 리뷰']]) {
     const mode = pair[0], label = pair[1];
     // 5/18 추가: industry-basic + multi-industry (예: Alphabet=광고|클라우드) → dropdown UX
     if (mode === 'industry-basic' && stock.industries && stock.industries.length > 1) {
@@ -581,13 +582,21 @@ function renderThemeReviews() {
   if (!container) return;
   container.innerHTML = '';
   const list = state.manifest['theme-review'] || [];
-  if (list.length === 0) {
+  // 2026-11-14: 테마분석(earnings-theme/{테마}_테마분석.html)도 이 칸에서만 연결 — 종목 행 버튼에서 제거
+  const analysisFiles = (state.manifest.theme || []).filter(f => /_테마분석\.html$/.test(f));
+  if (list.length === 0 && analysisFiles.length === 0) {
     container.appendChild(el('div', { class: 'empty-state' },
-      '아직 작성된 테마 리뷰가 없습니다. theme-analysis 통합본 작성 후 [테마 리뷰 모드] {테마}로 첫 리뷰 작성.'));
+      '아직 작성된 테마 분석·리뷰가 없습니다. 새 모멘텀이 나오면 테마 분석 후 [테마 리뷰 모드] {테마}로 리뷰 작성.'));
     return;
   }
-  // 테마별 그룹핑
+  // 테마별 그룹핑 (테마 분석만 있고 리뷰가 아직 없는 테마도 카드로 표시)
   const themeMap = {};
+  const analysisOf = {};
+  analysisFiles.forEach(f => {
+    const t = f.replace(/_테마분석\.html$/, '');
+    analysisOf[t] = f;
+    if (!themeMap[t]) themeMap[t] = [];
+  });
   // 2026-11-01: 종료 리포트 = {테마}_테마리뷰_{분기}_종료.html → "종료" 배지, 활성 테마 먼저 정렬
   list.forEach(file => {
     const m = file.match(/^(.+)_테마리뷰_(.+?)(_종료)?\.html$/);
@@ -609,8 +618,16 @@ function renderThemeReviews() {
       badges.appendChild(el('span', { class: 'sr-badge delta-꺾임' }, '종료 ' + ended.quarter));
       card.appendChild(badges);
     }
-    card.appendChild(el('div', { class: 'theme-meta' }, '분기 리뷰: ' + reviews.length + '회' + (ended ? '' : ' · 진행 중')));
+    card.appendChild(el('div', { class: 'theme-meta' }, '분기 리뷰: ' + reviews.length + '회' + (ended ? '' : (reviews.length ? ' · 진행 중' : ' · 리뷰 전'))));
     const links = el('div', { class: 'theme-reviews' });
+    if (analysisOf[theme]) {
+      links.appendChild(el('a', {
+        class: 'theme-review-link',
+        href: 'earnings/earnings-theme/' + analysisOf[theme],
+        target: '_blank',
+        title: analysisOf[theme]
+      }, '테마 분석'));
+    }
     for (const r of reviews) {
       links.appendChild(el('a', {
         class: 'theme-review-link',
