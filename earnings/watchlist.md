@@ -29,7 +29,7 @@
 | 전력 인프라 | 송변전 | 효성중공업, HD현대일렉트릭, Hitachi Energy | - |
 | 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton | ABB, LS일렉트릭 |
 | 전력 인프라 | 발전 | GE Vernova, Siemens Energy | - |
-| 전력 인프라 | 전력 인프라 | 효성중공업, HD현대일렉트릭, LS일렉트릭 | - |
+| 전력 인프라 | 전력 인프라 | GE Vernova, Siemens Energy, Hitachi Energy, Schneider Electric, ABB, Eaton, 효성중공업, HD현대일렉트릭, LS일렉트릭 | - |
 | 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI | - |
 | 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 |
 | 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업 | - |
