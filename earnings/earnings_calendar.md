@@ -93,7 +93,7 @@
 | — | HD현대일렉트릭 | 4Q OP 3,340억↑, 빅테크 LTA 11월말, 12월 FERC 결론, 환율 1,300원대, 초고압 증설 |
 | SU | Schneider Electric | 4Q org +8%↑, 2H마진 20.3%, DC 3자리수·北美 재가속, 11/3선거→12월 FERC·ERCOT, PTC €240 |
 | HE | Hitachi Energy | 4Q 달러 EBITA 마진 16%↑·매출 +15%↑, PG B2B 1.3x↑·잔고 $70B, 12월 FERC·ERCOT, FY27 가이던스 4월 |
-| ETN | Eaton | 전력 인프라 CAPEX, 데이터센터 전력 (LS와 가장 직접 비교, OPM 24%) |
+| ETN | Eaton | 4Q 마진 25.4~25.8%·EA 31%↑, EA 롤링수주 35%↑·DC 세자릿수, 12월 FERC, 2027 가이던스 2월, Dana RMT 종결 |
 | ENR | Siemens Energy | 1Q FY27 마진 14%+(2/11), SRA 39GW 수주 전환, Gamesa 흑자 지속, GT 마진 21%+, 12월 FERC |
 | BE | Bloom Energy | 분산발전, 연료전지 (AIDC 온사이트 발전 인접) |
 | NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
