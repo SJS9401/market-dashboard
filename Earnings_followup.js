@@ -140,6 +140,9 @@ function parseWatchlist(md) {
   // 2026-11-14: 우선순위(T1/T2/T3) → "섹터 T1(집중)" + 산업 대분류 그룹 ("## 대분류: 테크" 등)
   //   T1 줄은 "- **섹터** [대분류] (종목…)" 형식으로 원래 대분류를 남긴다
   const result = { T1: [], groups: [] };
+  // 2026-11-14: 반기 공시 종목 목록 (헤더 노트 "> **반기 공시 종목** (...): A, B")
+  const hm = md.match(/^>\s*\*\*반기 공시 종목\*\*[^:]*:\s*(.+)$/m);
+  result.halfYear = hm ? hm[1].split(',').map(x => x.trim()).filter(Boolean) : [];
   let current = null;  // 'T1' | group 객체
   const lines = md.split('\n');
   for (const line of lines) {
@@ -489,9 +492,19 @@ function renderStockRow(stock) {
       buttons.appendChild(renderIndustryBasicDropdown(stock, label));
       continue;
     }
-    const file = getModeFile(stock, mode);
+    let file = getModeFile(stock, mode);
+    let shownLabel = label;
+    // 2026-11-14: 반기 공시 종목은 손익이 나온 분기(Q2·Q4)에만 리뷰 → 1·3분기 화면은 직전 반기 리뷰를 "(2Q)"로 표시
+    if (!file && mode === 'review' && (state.watchlist.halfYear || []).includes(stock.name)) {
+      const prevQ = getPreviousQuarter(state.currentQuarter);
+      const prevFile = prevQ && (prevQ + '_' + (stock.ticker || stock.name) + '_' + SUFFIX.review + '.html');
+      if (prevFile && (state.manifest.review || []).includes(prevFile)) {
+        file = prevFile;
+        shownLabel = label + '(' + displayQuarter(prevQ).slice(0, 2) + ')';
+      }
+    }
     if (file) {
-      buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));
+      buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: shownLabel + ': ' + file }, shownLabel));
     } else {
       buttons.appendChild(el('span', { class: 'mode-btn disabled', title: label + ': 미작성' }, label));
     }
