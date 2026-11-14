@@ -490,18 +490,8 @@ function renderStockRow(stock) {
       continue;
     }
     const file = getModeFile(stock, mode);
-    // 2026-11-14: 이번 분기 리뷰가 아직 없으면 직전 분기 리뷰로 연결 (예: Elbit 3Q 발표 전 → 2Q 리뷰). 리뷰 집계(rCount)에는 넣지 않음
-    let prevFile = null, prevQ = null;
-    if (!file && mode === 'review') {
-      prevQ = getPreviousQuarter(state.currentQuarter);
-      const cand = prevQ ? prevQ + '_' + (stock.ticker || stock.name) + '_리뷰.html' : null;
-      if (cand && (state.manifest.review || []).includes(cand)) prevFile = cand;
-    }
     if (file) {
       buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: label + ': ' + file }, label));
-    } else if (prevFile) {
-      const qLabel = prevQ.replace(/^\d{4}-Q(\d)$/, '$1Q');
-      buttons.appendChild(el('a', { class: 'mode-btn', style: 'opacity:0.75;border-style:dashed;', href: buildHtmlPath(mode, prevFile), target: '_blank', title: label + ': 이번 분기 미발표 — 직전 분기 ' + prevFile }, label + '(' + qLabel + ')'));
     } else {
       buttons.appendChild(el('span', { class: 'mode-btn disabled', title: label + ': 미작성' }, label));
     }
