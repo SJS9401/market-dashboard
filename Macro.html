@@ -326,7 +326,7 @@
     const n = rangeY ? rangeY * 12 : N;
     $('#grid').innerHTML = IND.map(ind => { const s = stat(ind); const ne = nextEv(ind.match) || ruleEv(ind, s.ym);
       let fc = ''; if (ind.ism && M.ism[ind.ism]) { const d = M.ism[ind.ism].data, last = d[d.length - 1]; const f = M.ism[ind.ism].forecast[last[0]]; if (f != null) fc = ` · 예상 ${fmt(f, 1)}`; }
-      const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b></span>`; })() : '';
+      const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b>${estOf(a).has(j) ? '<sup class="est">*</sup>' : ''}</span>`; })() : '';
       return `<div class="card" data-id="${ind.id}"><div class="top"><span class="nm">${ind.name}</span><span class="src">${ind.src}</span></div>
         <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small>${s.est ? '<sup class="est" title="2025-10 BLS 미발표(셧다운) → BLS 권장 근사 √(9월×11월) 로 계산한 비공식 추정치">*</sup>' : ''}</span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
         <div class="next">${(() => { const r = relOf(ind, s.ym); return r ? `최근 발표 <b class="rel">${r}</b> <span class="rm">(${+s.ym.slice(5)}월분)</span> · ` : ''; })()}${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>${consLine(ind)}
