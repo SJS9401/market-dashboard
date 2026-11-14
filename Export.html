@@ -98,6 +98,20 @@
   </div>
   <div class="grid" id="grid"></div>
 
+  <h2>판가 모멘텀 — 단가($/kg) YoY 기준
+    <span class="legend">
+      <span class="badge st-accel">가속</span><span class="badge st-rebound">반등</span><span class="badge st-flat">횡보</span><span class="badge st-decel">감속</span><span class="badge st-break">꺾임</span>
+    </span>
+    <span class="sub">단가 = 수출액 ÷ 중량 · 판정 규칙은 위와 같음(단가 YoY 2개월 연속 상승 = 가속, 연속 하락 = 감속, 부호 전환 = 반등/꺾임) · 카드를 누르면 중량·단가 상세</span>
+  </h2>
+  <div class="ctl">
+    <span>대상</span>
+    <span class="seg" id="pxScope"><button data-v="item" class="on">품목</button><button data-v="sub">세부품목</button></span>
+    <span>정렬</span>
+    <span class="seg" id="pxSort"><button data-s="default" class="on">기본</button><button data-s="accel">가속순</button><button data-s="decel">감속순</button><button data-s="yoy">판가 YoY순</button></span>
+  </div>
+  <div class="grid" id="pgrid"></div>
+
   <div class="detail" id="detail">
     <div class="hd">
       <h3 id="dTitle">—</h3>
@@ -160,8 +174,9 @@
   //   가속 = YoY 가 2개월 연속 상승 (m-2 < m-1 < m, 예: +40 → +45 → +50) / 감속 = 2개월 연속 하락
   //   반등 = 최근 마이너스 → 플러스 전환 / 꺾임 = 플러스 → 마이너스 전환 (부호 전환이 가속·감속보다 우선)
   //   score = 2개월간 YoY 변화폭 (m − m-2) → 가속순/감속순 정렬 기준
-  function classify(exp) {
-    const y = yoyOf(exp), i = exp.length - 1;
+  function classify(exp) { return classifyY(yoyOf(exp)); }
+  function classifyY(y) {
+    const i = y.length - 1;
     const a = y[i], b = y[i - 1], c = y[i - 2];
     if (a == null || b == null) return { st: 'flat', label: '횡보', score: 0, yoy: a, path: [c, b, a] };
     let st = 'flat';
@@ -239,8 +254,40 @@
     $('#cgrid').querySelectorAll('.card').forEach(el => { const id = el.dataset.id.slice(2); charts['c:' + id] = miniChart(el.querySelector('canvas'), CTRY.series[id].exp, spanN); el.onclick = () => openDetail('country', id); });
   }
   renderGrid();
+
+  // ── 판가 모멘텀 (2026-11-14 BT) — 단가($/kg) YoY 에 같은 가속/감속 규칙 적용 ──
+  //   단가 분자 = 중량과 같은 HS10 묶음 금액(wexp), 없으면 품목 금액. 금액 YoY ≈ 단가 YoY × 물량 YoY 로 분해해 같이 표시
+  const pxOf = o => o.exp.map((v, k) => unitPrice(Array.isArray(o.wexp) && o.wexp[k] != null ? o.wexp[k] : v, Array.isArray(o.wgt) ? o.wgt[k] : null));
+  let pxScope = 'item', pxSort = 'default'; const pxCharts = [];
+  function pxList() {
+    const out = [];
+    if (pxScope === 'item') ITEMS.items.filter(it => it.id !== 'total').forEach(it => out.push({ kind: 'item', id: it.id, name: it.name, grp: it.group, o: ser[it.id] }));
+    else Object.entries(ITEMS.subs).forEach(([pid, arr]) => { const pn = (ITEMS.items.find(x => x.id === pid) || {}).name || pid; arr.forEach(sb => out.push({ kind: 'sub', id: sb.id, parent: pid, name: sb.name, grp: pn, o: sb })); });
+    return out.map(x => { const px = pxOf(x.o), k = px.length - 1; if (px[k] == null) return null;
+      const py = yoyOf(px), wy = yoyOf(x.o.wgt || []), ey = yoyOf(x.o.exp); return { ...x, px, py, c: classifyY(py), k, wy: wy[k], ey: ey[k] }; }).filter(x => x && x.py[x.k] != null);
+  }
+  function renderPx() {
+    pxCharts.splice(0).forEach(c => c.destroy());
+    const L = pxList();
+    if (pxSort === 'accel') L.sort((a, b) => b.c.score - a.c.score); else if (pxSort === 'decel') L.sort((a, b) => a.c.score - b.c.score); else if (pxSort === 'yoy') L.sort((a, b) => b.py[b.k] - a.py[a.k]);
+    $('#pgrid').innerHTML = L.map((x, j) => `<div class="card" data-pj="${j}" title="클릭하면 중량·단가 상세"><div class="top"><span class="nm">${x.name}</span><span class="grp">${x.grp || ''}</span></div>
+      <div class="top"><span class="val">$${fmtU(x.px[x.k])}<small> /kg</small></span><span class="yoy ${cls(x.c.yoy)}">${fmtP(x.c.yoy)}</span></div>
+      <div class="meta"><span class="badge st-${x.c.st}">${x.c.label}</span><span title="단가 YoY 지지난달 → 지난달 → 이번달">${x.c.path.map(v => fmtP(v)).join(' → ')}</span></div>
+      <div class="prov">금액 <b class="${cls(x.ey)}">${fmtP(x.ey)}</b> = 판가 × 물량 <b class="${cls(x.wy)}">${fmtP(x.wy)}</b></div><div class="cv"><canvas></canvas></div></div>`).join('') || '<div class="note">단가 데이터가 있는 항목이 없습니다.</div>';
+    const lab = (pxScope === 'item' ? months : ITEMS.sub_months).slice(-spanN);
+    $('#pgrid').querySelectorAll('.card').forEach(el => { const x = L[+el.dataset.pj];
+      pxCharts.push(new Chart(el.querySelector('canvas'), { type: 'bar', data: { labels: lab, datasets: [
+        { type: 'bar', data: x.px.slice(-spanN), backgroundColor: 'rgba(210,168,255,0.40)', borderWidth: 0, yAxisID: 'y', order: 2 },
+        { type: 'line', data: x.py.slice(-spanN), borderColor: '#f778ba', borderWidth: 1.4, pointRadius: 0, yAxisID: 'y1', tension: 0.25, order: 1 }] },
+        options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          scales: { x: { display: false }, y: { display: false, beginAtZero: true }, y1: { display: false, position: 'right', grid: { drawOnChartArea: false } } } } }));
+      el.onclick = () => { $('#chkWgt').checked = true; if (x.kind === 'sub') openDetail('sub', x.id, x.parent); else openDetail('item', x.id); }; });
+  }
+  renderPx();
+  $('#pxScope').onclick = e => { const b = e.target.closest('button'); if (!b) return; pxScope = b.dataset.v; $('#pxScope').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderPx(); };
+  $('#pxSort').onclick = e => { const b = e.target.closest('button'); if (!b) return; pxSort = b.dataset.s; $('#pxSort').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderPx(); };
   $('#sortSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; sortMode = b.dataset.s; $('#sortSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
-  $('#spanSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; spanN = +b.dataset.n; $('#spanSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
+  $('#spanSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; spanN = +b.dataset.n; $('#spanSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); renderPx(); };
 
   // ── 상세 ──
   let big = null, wgtCh = null, cur = null, rangeY = 5;
