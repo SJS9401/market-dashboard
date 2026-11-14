@@ -141,8 +141,10 @@ function parseWatchlist(md) {
   //   T1 줄은 "- **섹터** [대분류] (종목…)" 형식으로 원래 대분류를 남긴다
   const result = { T1: [], groups: [] };
   // 2026-11-14: 반기 공시 종목 목록 (헤더 노트 "> **반기 공시 종목** (...): A, B")
-  const hm = md.match(/^>\s*\*\*반기 공시 종목\*\*.*:\s*(.+)$/m);
+  const hm = md.match(/^>[ \t]*\*\*반기 공시 종목\*\*[^\n]*:[ \t]*([^\n]*)$/m);
   result.halfYear = hm ? hm[1].split(',').map(x => x.trim()).filter(Boolean) : [];
+  const am = md.match(/^>[ \t]*\*\*연간 공시 종목\*\*[^\n]*:[ \t]*([^\n]*)$/m);
+  result.annual = am ? am[1].split(',').map(x => x.trim()).filter(Boolean) : [];
   let current = null;  // 'T1' | group 객체
   const lines = md.split('\n');
   for (const line of lines) {
@@ -479,7 +481,14 @@ function renderStockRow(stock) {
     ticker ? el('span', { class: 'ticker' }, ' (' + ticker + ')') : null
   ]);
   tr.appendChild(nameTd);
-  // td 2: 발표일 (YY/MM/DD)
+  // td 2 (2026-11-14): 공시 주기 — 분기 / 반기 / 연간. 반기·연간은 1·3분기에 손익이 없어 섹터 리뷰 전 확인용
+  const cycle = (state.watchlist.annual || []).includes(stock.name) ? '연간'
+    : (state.watchlist.halfYear || []).includes(stock.name) ? '반기' : '분기';
+  const cycleTitle = cycle === '분기' ? '분기마다 손익 공시'
+    : cycle === '반기' ? '손익은 반기(1H→Q2·2H→Q4 리뷰)만 — 1·3분기는 수주·매출 업데이트를 직전 반기 리뷰에 덧붙임'
+    : '손익은 연간(Q4 리뷰)만';
+  tr.appendChild(el('td', { class: 'col-cycle' }, el('span', { class: 'cycle-badge cycle-' + cycle, title: cycleTitle }, cycle)));
+  // td 3: 발표일 (YY/MM/DD)
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
   // td 3: 리포트 버튼 4개
   const buttons = el('div', { class: 'mode-buttons' });
@@ -536,6 +545,7 @@ function renderSectorCard(sectorObj, tier) {
   const thead = el('thead');
   thead.appendChild(el('tr', null, [
     el('th', { class: 'col-name' }, '종목명'),
+    el('th', { class: 'col-cycle' }, '공시 주기'),
     el('th', { class: 'col-date' }, '발표일'),
     el('th', { class: 'col-report' }, '리포트')
   ]));
@@ -557,7 +567,7 @@ function renderSectorCard(sectorObj, tier) {
   for (const { s: stock, r } of ranked) {
     const group = r ? r.sub : '기타';
     if (showGroups && group !== lastGroup) {
-      const td = el('td', { class: 'sub-group', colspan: '3' }, group);
+      const td = el('td', { class: 'sub-group', colspan: '4' }, group);
       tbody.appendChild(el('tr', { class: 'sub-group-row' }, [td]));
       lastGroup = group;
     }

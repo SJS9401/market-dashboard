@@ -57,7 +57,11 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .col-name { width:140px; }
 .col-followup { color:var(--signal); font-size:0.78rem; opacity:0.9; word-break:keep-all; line-height:1.4; }
 .col-date { width:90px; font-size:0.8rem; color:var(--text-dim); }
-.col-report { width:300px; }
+.col-report { width:240px; }
+.col-cycle { width:64px; text-align:center; }
+.cycle-badge { display:inline-block; font-size:0.7rem; padding:0.1rem 0.45rem; border-radius:3px; border:1px solid var(--border-2); color:var(--text-dim); }
+.cycle-badge.cycle-반기 { color:#e8b44f; border-color:#e8b44f; font-weight:600; }
+.cycle-badge.cycle-연간 { color:#e87f7f; border-color:#e87f7f; font-weight:600; }
 /* 데이터(td) 컬럼별 정렬: 종목명·팔로업=좌측, 발표일·리포트=가운데 */
 .stock-table tbody .col-name { text-align:left; }
 .stock-table tbody .col-followup { text-align:left; }
