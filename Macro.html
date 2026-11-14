@@ -40,6 +40,7 @@
   .card .next b.rel { color:#7ee2b8; }
   .card .next .rm { color:#6e7681; }
   .card .next b { color:#d2a8ff; font-weight:600; }
+  .est { color:#f0b429; font-weight:700; margin-left:1px; cursor:help; }
   .card .cons { font-size:10.5px; color:#8b949e; margin-top:2px; }
   .card .cons b { color:#f0f6fc; font-weight:600; }
   .card .cons .cl { color:#6e7681; }
@@ -159,12 +160,20 @@
       const i = midx[ym]; if (i == null) return; if (mode === 'avg') { a[i] = (a[i] || 0) + v; cnt[i]++; } else a[i] = v; });
     if (mode === 'avg') for (let i = 0; i < N; i++) if (cnt[i]) a[i] = a[i] / cnt[i];
     return a; };
-  const yoy = a => a.map((v, i) => i >= 12 && v != null && a[i - 12] ? (v / a[i - 12] - 1) * 100 : null);
-  const mom = a => a.map((v, i) => i >= 1 && v != null && a[i - 1] ? (v / a[i - 1] - 1) * 100 : null);
-  const diff = a => a.map((v, i) => i >= 1 && v != null && a[i - 1] != null ? v - a[i - 1] : null);
-  const ma3 = a => a.map((v, i) => { const w = [a[i], a[i - 1], a[i - 2]].filter(x => x != null); return w.length === 3 ? (w[0] + w[1] + w[2]) / 3 : null; });
+  // 추정치 표시 (2026-11-14 BT) — 2025-10 은 셧다운으로 BLS 미발표. BLS 권장 근사 √(9월×11월)로 채우고,
+  //   그 값에 기대는 칸(해당 월, 그 달을 쓰는 YoY·MoM)을 EST 로 추적해 카드 '*'·차트 점선·표 '*' 로 구분 (비공식 추정)
+  const EST = new WeakMap(); const estOf = a => EST.get(a) || new Set();
+  const tag = (out, srcs, shifts) => { const e = new Set(); srcs.forEach(a => estOf(a).forEach(i => shifts.forEach(k => { if (i + k < N) e.add(i + k); }))); if (e.size) EST.set(out, e); return out; };
+  const yoy = a => tag(a.map((v, i) => i >= 12 && v != null && a[i - 12] ? (v / a[i - 12] - 1) * 100 : null), [a], [0, 12]);
+  const mom = a => tag(a.map((v, i) => i >= 1 && v != null && a[i - 1] ? (v / a[i - 1] - 1) * 100 : null), [a], [0, 1]);
+  const diff = a => tag(a.map((v, i) => i >= 1 && v != null && a[i - 1] != null ? v - a[i - 1] : null), [a], [0, 1]);
+  const ma3 = a => tag(a.map((v, i) => { const w = [a[i], a[i - 1], a[i - 2]].filter(x => x != null); return w.length === 3 ? (w[0] + w[1] + w[2]) / 3 : null; }), [a], [0, 1, 2]);
   const lastIdx = a => { for (let i = a.length - 1; i >= 0; i--) if (a[i] != null) return i; return -1; };
-  const SER = id => S[id] ? toMonthly(S[id].data, (id === 'ICSA' || id === 'CCSA') ? 'avg' : 'last') : new Array(N).fill(null);
+  const GAP = ['2025-10'];   // 미발표 월 (2025 셧다운)
+  const SER = id => { if (!S[id]) return new Array(N).fill(null); const a = toMonthly(S[id].data, (id === 'ICSA' || id === 'CCSA') ? 'avg' : 'last');
+    GAP.forEach(ym => { const i = midx[ym]; if (i == null || a[i] != null || a[i - 1] == null || a[i + 1] == null) return;
+      a[i] = a[i - 1] > 0 && a[i + 1] > 0 ? Math.sqrt(a[i - 1] * a[i + 1]) : (a[i - 1] + a[i + 1]) / 2; tag(a, [], []); const e = estOf(a); e.add(i); EST.set(a, e); });
+    return a; };
   const ISMS = k => M.ism && M.ism[k] ? toMonthly(M.ism[k].data, 'prev') : new Array(N).fill(null);
   // ISM 제조업 세부지수 (ISM 보도자료, 2012-09~, 데이터월 기준) — 2026-11-01
   const ISMD = k => { const a = new Array(N).fill(null), D = M.ism_detail; if (!D) return a; const j = D.keys.indexOf(k); if (j < 0) return a;
@@ -173,7 +182,7 @@
 
   // 소매판매 컨트롤그룹 = 전체 − 자동차 − 주유소 − 건자재 − 음식서비스 (GDP 소비 산정에 쓰이는 핵심 소매)
   const CTRL = (() => { const t = SER('RSAFS'), parts = ['RSMVPD', 'RSGASS', 'RSBMGESD', 'RSFSDP'].map(SER);
-    return t.map((v, i) => v == null || parts.some(p => p[i] == null) ? null : v - parts.reduce((s, p) => s + p[i], 0)); })();
+    return tag(t.map((v, i) => v == null || parts.some(p => p[i] == null) ? null : v - parts.reduce((s, p) => s + p[i], 0)), [t, ...parts], [0]); })();
   // ── 지표 정의 ──
   // lines: {key,label,data,color,axis('y'|'y1'),type('line'|'bar'),dash}
   const C = { a: '#58a6ff', b: '#ff7b72', c: '#3fb950', d: '#d2a8ff', e: '#f0b429', f: '#8b949e', g: '#79c0ff', h: '#ffa657', i: '#56d4dd', j: '#db61a2', k: '#7ee787', l: '#e3b341' };
@@ -290,7 +299,9 @@
   const tickCb = (lab, n) => (v, i) => { const m = lab[i]; if (!m) return ''; if (n <= 72) return m.endsWith('-01') ? m.slice(0, 4) : (m.endsWith('-07') ? '7월' : ''); if (n <= 300) return m.endsWith('-01') ? m.slice(0, 4) : ''; return m.endsWith('-01') && (+m.slice(0, 4)) % 5 === 0 ? m.slice(0, 4) : ''; };
   function mkDatasets(lines, from, to, mini) {
     return lines.map(l => l.dots ? ({ type: 'line', label: l.label, data: l.data.slice(from, to), showLine: false, borderColor: l.color, backgroundColor: l.dots === 'fc' ? 'rgba(0,0,0,0)' : l.color, borderWidth: 1.4, pointRadius: mini ? 0 : 3.2, pointHoverRadius: 5, pointStyle: 'circle', yAxisID: l.axis || 'y', spanGaps: false, order: 0 })
-      : ({ type: l.type || 'line', label: l.label, data: l.data.slice(from, to), borderColor: l.color, backgroundColor: l.type === 'bar' ? l.color + '88' : l.color, borderWidth: mini ? 1.4 : 1.7, pointRadius: 0, tension: 0.15, yAxisID: l.axis || 'y', borderDash: l.dash, spanGaps: true, order: l.type === 'bar' ? 3 : 1 }));
+      : ({ type: l.type || 'line', label: l.label, data: l.data.slice(from, to), _est: estOf(l.data), _from: from,
+        segment: { borderDash: c => { const e = estOf(l.data); return e.has(c.p0DataIndex + from) || e.has(c.p1DataIndex + from) ? [3, 3] : undefined; } },
+        pointRadius: c => !mini && l.type !== 'bar' && estOf(l.data).has(c.dataIndex + from) ? 2.5 : 0, pointStyle: 'rectRot', borderColor: l.color, backgroundColor: l.type === 'bar' ? (c => estOf(l.data).has(c.dataIndex + from) ? l.color + '33' : l.color + '88') : l.color, borderWidth: mini ? 1.4 : 1.7, tension: 0.15, yAxisID: l.axis || 'y', borderDash: l.dash, spanGaps: true, order: l.type === 'bar' ? 3 : 1 }));
   }
   function makeChart(canvas, ind, lines, from, to, mini) {
     const lab = months.slice(from, to), n = to - from;
@@ -300,7 +311,7 @@
       if (vals.length < 24) return; const lo = vals[Math.floor(vals.length * ind.clip[0] / 100)], hi = vals[Math.ceil(vals.length * ind.clip[1] / 100) - 1], pad = (hi - lo) * 0.25 || 1; const st = Math.pow(10, Math.floor(Math.log10((hi - lo + 2 * pad) / 5))); lim[ax] = { min: Math.floor((lo - pad) / st) * st, max: Math.ceil((hi + pad) / st) * st }; });
     return new Chart(canvas, { data: { labels: lab, datasets: mkDatasets(lines, from, to, mini) },
       options: { animation: false, responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
-        plugins: { legend: { display: !mini, labels: { boxWidth: 10 } }, tooltip: { enabled: !mini, callbacks: { label: c => c.dataset.label + ': ' + fmt(c.parsed.y, ind.p) } }, rec: { from }, zero: { v: ind.zero } },
+        plugins: { legend: { display: !mini, labels: { boxWidth: 10 } }, tooltip: { enabled: !mini, callbacks: { label: c => c.dataset.label + ': ' + fmt(c.parsed.y, ind.p) + (c.dataset._est && c.dataset._est.has(c.dataIndex + c.dataset._from) ? ' (추정)' : '') } }, rec: { from }, zero: { v: ind.zero } },
         scales: { x: { ticks: { autoSkip: false, maxRotation: 0, callback: tickCb(lab, n) }, grid: { display: !mini } },
           y: { position: 'left', ticks: { callback: v => fmt(v, ind.p === 0 ? 0 : 1) }, grid: { color: '#21262d' }, afterFit: mini ? undefined : (sc => { sc.width = 60; }), ...(lim.y || {}) },
           y1: { display: hasY1, position: 'right', grid: { drawOnChartArea: false }, afterFit: mini ? undefined : (sc => { sc.width = 44; }), ...(lim.y1 || {}) } } } });
@@ -309,7 +320,7 @@
   // ── 카드 ──
   let rangeY = 10; const charts = {};
   function stat(ind) { const m = ind.main[0].data, i = lastIdx(m); const prev = m[i - 1], v = m[i];
-    const ch = ind.chg === 'pp' ? v - prev : v - prev; return { i, v, prev, ch, ym: months[i] }; }
+    const ch = ind.chg === 'pp' ? v - prev : v - prev; return { i, v, prev, ch, ym: months[i], est: estOf(m).has(i) }; }
   function renderGrid() {
     Object.values(charts).forEach(c => c.destroy());
     const n = rangeY ? rangeY * 12 : N;
@@ -317,7 +328,7 @@
       let fc = ''; if (ind.ism && M.ism[ind.ism]) { const d = M.ism[ind.ism].data, last = d[d.length - 1]; const f = M.ism[ind.ism].forecast[last[0]]; if (f != null) fc = ` · 예상 ${fmt(f, 1)}`; }
       const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b></span>`; })() : '';
       return `<div class="card" data-id="${ind.id}"><div class="top"><span class="nm">${ind.name}</span><span class="src">${ind.src}</span></div>
-        <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small></span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
+        <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small>${s.est ? '<sup class="est" title="2025-10 BLS 미발표(셧다운) → BLS 권장 근사 √(9월×11월) 로 계산한 비공식 추정치">*</sup>' : ''}</span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
         <div class="next">${(() => { const r = relOf(ind, s.ym); return r ? `최근 발표 <b class="rel">${r}</b> <span class="rm">(${+s.ym.slice(5)}월분)</span> · ` : ''; })()}${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>${consLine(ind)}
         <div class="cv"><canvas></canvas></div>
         <div class="lg">${ind.main.map(l => `<span><i style="background:${l.color}"></i>${l.label}</span>`).join('')}</div></div>`; }).join('');
@@ -327,7 +338,7 @@
   $('#rangeSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; rangeY = +b.dataset.y; $('#rangeSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
   const upd = (M.meta.updated || '').slice(0, 10);
   $('#hdsub').textContent = `FRED·OECD·ISM · 서버 갱신 ${upd}${ismLive ? ' · ISM 실시간' : ' · ISM 캐시'}`;
-  $('#foot').textContent = '출처: FRED(BLS·BEA·Census), OECD SDMX, ISM(investing.com 차트 데이터), S&P500 yfinance. ISM·CLI 는 발표월(전월 데이터) 기준으로 해당 월에 배치. 모든 YoY/MoM 은 원지수에서 직접 계산. 컨센서스·최초 발표치는 investing.com 경제캘린더(발표 당시 값, 이후 수정 미반영).';
+  $('#foot').textContent = '출처: FRED(BLS·BEA·Census), OECD SDMX, ISM(investing.com 차트 데이터), S&P500 yfinance. ISM·CLI 는 발표월(전월 데이터) 기준으로 해당 월에 배치. 모든 YoY/MoM 은 원지수에서 직접 계산. 컨센서스·최초 발표치는 investing.com 경제캘린더(발표 당시 값, 이후 수정 미반영). * = 비공식 추정: 2025년 10월은 셧다운으로 BLS 미발표 → BLS 권장 근사 √(9월×11월)로 채움. 그 값을 쓰는 2025-10·2025-11(MoM)·2026-10(YoY)은 점선·별표로 표시.';
 
   // ── 상세 ──
   let cur = null, dRangeY = 10, idxMode = 'none', big = null, idxCh = null;
@@ -354,10 +365,10 @@
     const m0 = ind.main[0].data, i = lastIdx(m0); const v = m0[i];
     const hist = m0.slice(0, i + 1).filter(x => x != null); const pct = hist.filter(x => x <= v).length / hist.length * 100;
     const win = m0.slice(Math.max(0, i - 119), i + 1).filter(x => x != null);
-    $('#dStats').innerHTML = [['최신 (' + months[i] + (relOf(ind, months[i]) ? ' · ' + relOf(ind, months[i]) + ' 발표' : '') + ')', fmt(v, ind.p) + ind.unit], ['전월', fmt(m0[i - 1], ind.p)], ['3개월 전', fmt(m0[i - 3], ind.p)], ['12개월 전', fmt(m0[i - 12], ind.p)], ['10년 범위', fmt(Math.min(...win), ind.p) + ' ~ ' + fmt(Math.max(...win), ind.p)], ['역사적 백분위', fmt(pct, 0) + '%']]
+    $('#dStats').innerHTML = [['최신 (' + months[i] + (relOf(ind, months[i]) ? ' · ' + relOf(ind, months[i]) + ' 발표' : '') + ')', fmt(v, ind.p) + ind.unit + (estOf(m0).has(i) ? '*' : '')], ['전월', fmt(m0[i - 1], ind.p)], ['3개월 전', fmt(m0[i - 3], ind.p)], ['12개월 전', fmt(m0[i - 12], ind.p)], ['10년 범위', fmt(Math.min(...win), ind.p) + ' ~ ' + fmt(Math.max(...win), ind.p)], ['역사적 백분위', fmt(pct, 0) + '%']]
       .map(([k, vv]) => `<div class="item"><div class="k">${k}</div><div class="v">${vv}</div></div>`).join('');
     // 표 (최근 24개월, 전 라인)
-    const rows = []; for (let k = i; k >= Math.max(0, i - 23); k--) rows.push(`<tr><td>${months[k]}</td>${lines.map(l => `<td>${fmt(l.data[k], ind.p)}</td>`).join('')}</tr>`);
+    const rows = []; for (let k = i; k >= Math.max(0, i - 23); k--) rows.push(`<tr><td>${months[k]}</td>${lines.map(l => `<td>${fmt(l.data[k], ind.p)}${estOf(l.data).has(k) && l.data[k] != null ? '<span class="est">*</span>' : ''}</td>`).join('')}</tr>`);
     $('#dTable').innerHTML = `<table><thead><tr><th>월</th>${lines.map(l => `<th>${l.label}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
   }
   $('#dRange').onclick = e => { const b = e.target.closest('button'); if (!b) return; dRangeY = +b.dataset.y; $('#dRange').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); drawDetail(); };
