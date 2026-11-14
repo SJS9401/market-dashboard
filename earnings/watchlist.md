@@ -21,6 +21,7 @@
 > 대시보드 카드 위치(섹터 T1·대분류)와 별개 — 예: Nvidia는 카드는 미국 빅테크, 섹터 리뷰는 반도체 로직·CPU.
 > 파일: `earnings\sector-review\{서브섹터}_섹터리뷰.md`
 > **합산 제외 핵심 종목 (2026-11-14)**: 로봇 부품의 Sanhua·Tuopu는 핵심 부품 기업 위치를 유지하되, 로봇 매출이 미분리·미미해 섹터 델타 합산에서는 제외한다 (개별 리뷰·숫자 표는 계속).
+> **원전 글로벌 편입 (2026-11-14)**: SMR·차세대 원자로(NuScale·Oklo·X-energy)는 적자 개발사라 섹터 델타 합산에서 제외 — 인허가·수주 마일스톤과 현금 소진을 추적. Mitsubishi Heavy는 원자력 부문만 추출. GE Vernova(GE-히타치 SMR)는 전력 인프라 '발전'에서 교차 참조. **Westinghouse는 상장 시 원전 기자재 글로벌 핵심으로 편입** (2026-07-31 S-1 비공개 제출, 공모 미확정) — 그전까지는 Cameco(지분 49%)로 간접 추적.
 > 트래킹 피어 = 개별 리뷰 없이 섹터 리뷰 안 숫자 표로만 따라가는 비교 대상 (셀사이드 없음, 합산 제외). 글로벌 편입 종목(숫자 중심 리뷰 작성)은 핵심·확장 열에 넣는다 — 섹터 리뷰 스킬 "글로벌 피어 편입 원칙" (2026-11-14)
 
 | 섹터 | 서브섹터 | 핵심 | 확장 | 트래킹 피어 |
@@ -43,10 +44,14 @@
 | 조선 | 조선 글로벌 | 중국선박공업, 양쯔장조선, Seatrium, HII, Fincantieri, TKMS | - | General Dynamics(Marine Systems 부문) |
 | 방산 | 방산 | 한화에어로스페이스, 현대로템, LIG D&A | 한화시스템, 한국항공우주 | - |
 | 방산 | 방산 글로벌 | Lockheed Martin, RTX, General Dynamics, Rheinmetall, BAE Systems, Leonardo, Thales, Saab, Elbit Systems, Aselsan | - | - |
+| 원전 | 원전 연료 글로벌 | Cameco, Centrus | - | - |
 | 원전 | 원전 설계 | 한전기술 | - | - |
 | 원전 | 원전 기자재 | 두산에너빌리티 | - | - |
+| 원전 | 원전 기자재 글로벌 | BWXT, Mitsubishi Heavy(원자력 부문) | - | - |
+| 원전 | SMR·차세대 원자로 | NuScale, Oklo, X-energy | - | - |
 | 원전 | 원전 시공 | 현대건설 | 대우건설 | - |
 | 원전 | 원전 정비 | 한전KPS | - | - |
+| 원전 | 원전 운영 | 한국전력, Constellation | Vistra | - |
 | 로봇 | 휴머노이드 완성체 | 현대차, 레인보우로보틱스, Unitree, UBTech | Tesla | - |
 | 로봇 | 로봇 부품 | Sanhua, Tuopu, 현대모비스 | Leaderdrive, 로보티즈 | 에스비비테크 |
 | 로봇 | 산업·물류 자동화 | 두산로보틱스, 현대오토에버, Symbotic | - | Teradyne(Universal Robots 부문) |
@@ -70,7 +75,7 @@
 ## 대분류: 산업재
 
 - **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
-- **원전** (한전기술, 두산에너빌리티, 현대건설, 대우건설, 한전KPS)
+- **원전** (Cameco(CCJ), Centrus(LEU), 한전기술, 두산에너빌리티, BWXT(BWXT), Mitsubishi Heavy(7011.T), NuScale(SMR), Oklo(OKLO), X-energy(XE), 현대건설, 대우건설, 한전KPS, 한국전력, Constellation(CEG), Vistra(VST))
 - **조선** (한화오션, HD현대중공업, 삼성중공업, 중국선박공업(600150.SS), 양쯔장조선(BS6.SI), Seatrium(5E2.SI), HII(HII), Fincantieri(FCT.MI), TKMS(TKMS.DE))
 - **방산** (한화에어로스페이스, 현대로템, LIG D&A, 한화시스템, 한국항공우주, Lockheed Martin(LMT), RTX(RTX), General Dynamics(GD), Rheinmetall(RHM), BAE Systems(BAE), Leonardo(LDO), Thales(HO), Saab(SAAB), Elbit Systems(ESLT), Aselsan(ASELS))
 
