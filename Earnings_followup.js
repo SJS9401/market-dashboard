@@ -468,6 +468,49 @@ function renderIndustryBasicDropdown(stock, label) {
   return wrapper;
 }
 
+// 2026-11-14: 실적 리뷰 파일 결정 — 반기·연간 공시 종목의 업데이트 분기는 직전 손익 리뷰에 덧붙인 경우만 연결
+//   updateQuarter = 그 분기에 손익이 없는 분기 (반기: Q1·Q3, 연간: Q1~Q3)
+function resolveReview(stock, cycle) {
+  const qn = parseInt(state.currentQuarter.slice(-1));
+  const updateQuarter = (cycle === '반기' && qn % 2 === 1) || (cycle === '연간' && qn !== 4);
+  const own = getModeFile(stock, 'review');
+  if (own || !updateQuarter) return { file: own, suffix: '', updateQuarter };
+  // 직전 손익 리뷰 (반기: 직전 분기, 연간: 직전 Q4) md의 "> 분기 업데이트: 3Q26 ..." 줄에 현재 분기가 있어야 켠다
+  let baseQ = getPreviousQuarter(state.currentQuarter);
+  if (cycle === '연간') baseQ = (parseInt(state.currentQuarter.slice(0, 4)) - 1) + '-Q4';
+  const baseFile = baseQ + '_' + (stock.ticker || stock.name) + '_' + SUFFIX.review + '.html';
+  const upd = (state.halfUpdates || {})[baseFile] || '';
+  if ((state.manifest.review || []).includes(baseFile) && upd.includes(displayQuarter(state.currentQuarter))) {
+    return { file: baseFile, suffix: '(' + displayQuarter(baseQ).slice(0, 2) + ')', updateQuarter };
+  }
+  return { file: null, suffix: '', updateQuarter };
+}
+
+// 캘린더 날짜 → Date. ISO("~2026-11-19") 우선, 구 형식 "M/D"는 분기 연도 기준 (Q4 화면의 1~3월은 익년)
+function parseCalDate(raw) {
+  if (!raw) return null;
+  const iso = raw.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return new Date(+iso[1], +iso[2] - 1, +iso[3]);
+  const m = raw.match(/^~?(\d{1,2})\/(\d{1,2})/);
+  if (!m) return null;
+  let y = parseInt(state.currentQuarter.slice(0, 4));
+  if (state.currentQuarter.endsWith('Q4') && +m[1] <= 3) y += 1;
+  return new Date(y, +m[1] - 1, +m[2]);
+}
+
+function renderReleaseStatus(cal, rv) {
+  const noun = rv.updateQuarter ? '덧붙임' : '리뷰';
+  const d = parseCalDate(cal && cal.date);
+  if (!d) return el('span', { class: 'st-badge st-none', title: '캘린더에 이번 분기 발표일 없음 — 노션 확인' }, '미정');
+  const estimated = /^~/.test(cal.date);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const days = Math.round((d - today) / 86400000);
+  if (days > 0) return el('span', { class: 'st-badge st-upcoming', title: estimated ? '추정 발표일' : '확정 발표일' }, 'D-' + days + (estimated ? '?' : ''));
+  if (rv.file) return el('span', { class: 'st-badge st-done', title: '발표 후 ' + noun + ' 반영됨' }, noun + ' 완료');
+  if (days === 0) return el('span', { class: 'st-badge st-today', title: '오늘 발표' }, '오늘 발표');
+  return el('span', { class: 'st-badge st-missing', title: '발표 ' + (-days) + '일 경과' + (estimated ? ' (추정일 — 실제 발표 여부 확인)' : '') + ', ' + noun + ' 없음' }, noun + ' 대기');
+}
+
 function renderStockRow(stock) {
   const calByQuarter = state.calendar[stock.name];
   const cal = calByQuarter ? calByQuarter[state.currentQuarter] : null;
@@ -490,6 +533,9 @@ function renderStockRow(stock) {
   tr.appendChild(el('td', { class: 'col-cycle' }, el('span', { class: 'cycle-badge cycle-' + cycle, title: cycleTitle }, cycle)));
   // td 3: 발표일 (YY/MM/DD)
   tr.appendChild(el('td', { class: 'col-date' }, (cal && cal.date) ? formatDate(cal.date, state.currentQuarter) : '발표일 미정'));
+  // td 4 (2026-11-14): 발표 여부 — 발표 전 D-n / 발표 후 리뷰 완료 / 발표 후 리뷰 대기(놓침 방지 경고)
+  const rv = resolveReview(stock, cycle);
+  tr.appendChild(el('td', { class: 'col-status' }, renderReleaseStatus(cal, rv)));
   // td 3: 리포트 버튼 4개
   const buttons = el('div', { class: 'mode-buttons' });
   // 2026-10-30: 프리뷰·인뎁스 모드 폐지 → 버튼 제거 (실적은 리뷰 v11 하나)
@@ -501,19 +547,8 @@ function renderStockRow(stock) {
       buttons.appendChild(renderIndustryBasicDropdown(stock, label));
       continue;
     }
-    let file = getModeFile(stock, mode);
-    let shownLabel = label;
-    // 2026-11-14: 반기 공시 종목은 손익이 나온 분기(Q2·Q4)에만 리뷰 → 1·3분기 화면은 직전 반기 리뷰를 "(2Q)"로 표시
-    if (!file && mode === 'review' && (state.watchlist.halfYear || []).includes(stock.name)) {
-      const prevQ = getPreviousQuarter(state.currentQuarter);
-      const prevFile = prevQ && (prevQ + '_' + (stock.ticker || stock.name) + '_' + SUFFIX.review + '.html');
-      // 직전 반기 리뷰 md의 "> 분기 업데이트: 3Q26 ..." 줄에 현재 분기가 있어야 켠다 (업데이트 없는 분기는 비활성)
-      const upd = (state.halfUpdates || {})[prevFile] || '';
-      if (prevFile && (state.manifest.review || []).includes(prevFile) && upd.includes(displayQuarter(state.currentQuarter))) {
-        file = prevFile;
-        shownLabel = label + '(' + displayQuarter(prevQ).slice(0, 2) + ')';
-      }
-    }
+    let file = mode === 'review' ? rv.file : getModeFile(stock, mode);
+    const shownLabel = mode === 'review' ? label + rv.suffix : label;
     if (file) {
       buttons.appendChild(el('a', { class: 'mode-btn', href: buildHtmlPath(mode, file), target: '_blank', title: shownLabel + ': ' + file }, shownLabel));
     } else {
@@ -547,6 +582,7 @@ function renderSectorCard(sectorObj, tier) {
     el('th', { class: 'col-name' }, '종목명'),
     el('th', { class: 'col-cycle' }, '공시 주기'),
     el('th', { class: 'col-date' }, '발표일'),
+    el('th', { class: 'col-status' }, '발표 여부'),
     el('th', { class: 'col-report' }, '리포트')
   ]));
   table.appendChild(thead);
@@ -567,7 +603,7 @@ function renderSectorCard(sectorObj, tier) {
   for (const { s: stock, r } of ranked) {
     const group = r ? r.sub : '기타';
     if (showGroups && group !== lastGroup) {
-      const td = el('td', { class: 'sub-group', colspan: '4' }, group);
+      const td = el('td', { class: 'sub-group', colspan: '5' }, group);
       tbody.appendChild(el('tr', { class: 'sub-group-row' }, [td]));
       lastGroup = group;
     }
@@ -801,7 +837,7 @@ function setupQuarterSelector() {
 // 2026-11-14: 반기 공시 종목 리뷰 md에서 "> 분기 업데이트:" 줄을 읽어 둔다 (파일명 → 줄 내용)
 async function loadHalfYearUpdates() {
   state.halfUpdates = {};
-  const names = state.watchlist.halfYear || [];
+  const names = (state.watchlist.halfYear || []).concat(state.watchlist.annual || []);
   if (!names.length) return;
   const keys = [];
   for (const sec of allSectors()) for (const s of sec.stocks) if (names.includes(s.name)) keys.push(s.ticker || s.name);
