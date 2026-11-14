@@ -24,9 +24,6 @@
 | 미국 빅테크 | 소비자·모빌리티 | Apple, Tesla | SpaceX | - |
 | 반도체 | 메모리 | SK하이닉스, 삼성전자, Micron | SanDisk, Western Digital, Seagate | - |
 | 반도체 | 로직·CPU | Nvidia, AMD | Intel, ARM | - |
-| 반도체 소부장 | 전공정 장비 | ASML, Applied Materials, Lam Research | KLA, Tokyo Electron | - |
-| 반도체 소부장 | 후공정·HBM | 한미반도체, BESI | Disco, Advantest, 리노공업 | - |
-| 반도체 소부장 | 기판·부품 | 삼성전기 | - | - |
 | 전력 인프라 | 송변전 | 효성중공업, HD현대일렉트릭, Hitachi Energy | - | - |
 | 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton | ABB, LS일렉트릭 | - |
 | 전력 인프라 | 발전 | GE Vernova, Siemens Energy | - | - |
@@ -55,7 +52,6 @@
 
 ## 섹터 T2 — 주도 후보
 
-- **반도체 소부장** (ASML(ASML), Applied Materials(AMAT), Lam Research(LRCX), KLA(KLAC), Tokyo Electron(8035.T), 한미반도체, BESI(BESI), Disco(6146.T), Advantest(6857.T), 리노공업, 삼성전기)
 - **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
 - **배터리** (LG에너지솔루션, 삼성SDI, 에코프로비엠, 포스코퓨처엠, 엘앤에프)
 - **조선** (한화오션, HD현대중공업, 삼성중공업, 중국선박공업(600150.SS), 양쯔장조선(BS6.SI), Seatrium(5E2.SI), HII(HII), Fincantieri(FCT.MI), TKMS(TKMS.DE))
