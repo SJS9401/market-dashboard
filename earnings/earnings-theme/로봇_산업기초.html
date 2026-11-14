@@ -1,0 +1,1796 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>로봇 산업 기초 분석 · 2026-11-14</title><style>
+:root {
+  color-scheme: light;
+  --bg:#f7f7f5; --surface-1:#fcfcfb; --border:#e2e1dc; --border-strong:#c9c8c1;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7975; --grid:#e8e7e2;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --pos:#2a78d6; --neg:#e34948; --accent-bg:#eef4fd;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+          "Malgun Gothic", "Noto Sans KR", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text-primary);
+  font-family:var(--sans); font-size:15px; line-height:1.72; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:1000px; margin:0 auto; padding:40px 24px 96px; }
+header.doc { border-bottom:2px solid var(--text-primary); padding-bottom:20px; margin-bottom:36px; }
+header.doc .eyebrow { font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-muted); font-weight:600; margin:0 0 10px; }
+header.doc h1 { font-size:30px; line-height:1.25; margin:0 0 12px; letter-spacing:-.02em; }
+header.doc .meta { font-size:13px; color:var(--text-secondary); margin:0; }
+h1 { font-size:25px; margin:64px 0 18px; padding-bottom:10px; border-bottom:2px solid var(--border-strong); letter-spacing:-.015em; }
+h2 { font-size:20px; margin:44px 0 14px; padding-bottom:7px; border-bottom:1px solid var(--border-strong); letter-spacing:-.01em; }
+h3 { font-size:16.5px; margin:28px 0 10px; }
+h4 { font-size:15px; margin:22px 0 8px; color:var(--text-secondary); }
+p { margin:0 0 14px; }
+ul, ol { margin:0 0 16px; padding-left:22px; }
+li { margin-bottom:5px; }
+li::marker { color:var(--text-muted); }
+strong { font-weight:650; }
+code { font-family:var(--mono); font-size:.88em; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+pre { background:var(--surface-1); border:1px solid var(--border); border-radius:8px;
+  padding:14px 16px; overflow-x:auto; font-size:12.5px; line-height:1.6; }
+pre code { background:none; border:none; padding:0; }
+hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
+blockquote { margin:18px 0; padding:12px 18px; background:var(--accent-bg);
+  border-left:3px solid var(--series-1); border-radius:0 6px 6px 0; }
+blockquote p:last-child { margin-bottom:0; }
+.tablewrap { overflow-x:auto; margin:0 0 20px; }
+table { border-collapse:collapse; width:100%; font-size:12.5px; line-height:1.55;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:8px; }
+th, td { padding:8px 11px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+th { background:var(--bg); font-weight:650; font-size:11.5px; color:var(--text-secondary); white-space:nowrap; }
+tr:last-child td { border-bottom:none; }
+em { color:var(--text-secondary); }
+.chart-intro { color:var(--text-secondary); font-size:14px; }
+.fig { margin:0 0 28px; padding:18px 18px 12px; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:10px; }
+.fig-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+@media (max-width:800px) { .fig-row { grid-template-columns:1fr; } }
+.fig-cap { display:block; margin-bottom:14px; }
+.fig-title { display:block; font-weight:650; font-size:14.5px; }
+.fig-sub { display:block; font-size:12.5px; color:var(--text-secondary); margin-top:3px; }
+.chart { position:relative; }
+.chart svg { display:block; width:100%; height:auto; overflow:visible; }
+.tbl { margin-top:8px; }
+.tbl summary { cursor:pointer; color:var(--text-muted); font-size:12px; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin:0 0 10px; font-size:12px; color:var(--text-secondary); }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+.tip { position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--text-primary); color:var(--bg); font-size:11.5px; line-height:1.45;
+  padding:6px 9px; border-radius:6px; white-space:nowrap; z-index:5; transform:translate(-50%,-125%); }
+.ax { font-size:11px; fill:var(--text-muted); }
+.axl { font-size:11.5px; fill:var(--text-secondary); }
+.vlab { font-size:11.5px; fill:var(--text-primary); font-weight:600; }
+.gl { stroke:var(--grid); stroke-width:1; }
+footer.doc { margin-top:60px; padding-top:20px; border-top:1px solid var(--border);
+  font-size:12px; color:var(--text-muted); }
+</style></head><body><div class="wrap">
+<header class="doc"><p class="eyebrow">산업 기초 분석 · 대분류(major)</p><h1>로봇 산업 기초 분석</h1><p class="meta">작성일 2026-11-14 · [산업 기초 분석 모드] · 산업용·협동·서비스·수술·휴머노이드·정밀부품 + 피지컬 AI 브릿지</p></header>
+<p><strong>작성일: 2026-11-14 | 분석 단위: 대분류(major) | 모드: [산업 기초 분석 모드]</strong>
+<strong>연계: 이후 '피지컬 AI / 휴머노이드' 테마 분석의 Step 0 자동 참조 문서. 중분류(정밀감속기·액추에이터 / 휴머노이드 / 수술로봇)는 필요 시 별도 .md로 확장.</strong></p>
+<blockquote>
+<p>표기: 사실은 그대로, 전망·추정은 <strong>[전망]</strong>·<strong>[추정]</strong>, 애널리스트 판단은 <strong>[판단]</strong>. 주가 정량은 Yahoo Finance 월간 수정종가(2026-11-13 기준)로 직접 계산했다. 일본 주가는 명목 엔화 기준(2001~2026 일본 누적 물가상승률이 10%대로 낮아 실질화 생략), 한국·중국·미국 종목은 현지통화 명목.
+설치대수 등 산업 통계의 1차 출처는 IFR(국제로봇연맹) World Robotics. IFR은 매년 과거치를 소폭 개정하므로 연도별 수치는 ±1~2% 차이가 날 수 있다.</p>
+</blockquote>
+<hr />
+<h2>Executive Summary</h2>
+<ol>
+<li><strong>로봇은 '혼자 크는 산업'이 아니라 '남의 설비투자에 올라타는 산업'이다.</strong> 산업용 로봇 수요의 약 65%가 전자(23.6%)·자동차(22.9%)·금속기계(18%) 세 업종에서 나온다(IFR, 2025). 그래서 로봇 주가는 제조업 CapEx의 <strong>고베타 증폭기</strong>로 움직였다 — 일본 로봇 4사(화낙·야스카와·하모닉드라이브·나브테스코) 동일가중 지수는 2002년 이후 30% 넘는 하락이 6번 있었고(−35~−70%), 매번 닛케이 낙폭의 1.3배 이상이었다 — 2023~24년에는 닛케이가 +39% 오르는 동안 로봇 4사만 −46% 빠졌다.</li>
+<li><strong>이익은 '몸통(로봇 팔)'이 아니라 '관절(정밀부품)'과 '생태계 독점'에 몰렸다 — 단, 관절의 이익은 극단적으로 출렁인다.</strong> 하모닉드라이브(HDS) 경상이익률은 29%(FY3/2015) → 0.3%(FY3/2025) → 회사 전망 11%(FY3/2027)로 움직였다. 반면 생태계를 쥔 인튜이티브서지컬(다빈치)은 매출의 84%가 소모품·서비스 반복매출이고 영업이익률 37%(2025)를 낸다. <strong>같은 '로봇'이라도 BM이 '장비 판매'냐 '설치기반 과금'이냐가 마진을 결정한다.</strong></li>
+<li><strong>패권은 '발명국 → 양산국'으로 두 번 이동했고, 지금 세 번째 이동 중이다.</strong> 미국이 발명(1961 유니메이트)했지만 일본이 양산 패권을 가져갔고(1980년대 세계 가동대수의 과반 [추정]), 2013년부터는 중국이 최대 시장, 2024년부터는 <strong>중국 브랜드가 자국 시장 과반(57%→2025년 55%)</strong>을 차지했다. 2025년 세계 설치 60.3만 대 중 <strong>59%(35.4만 대)가 중국</strong>이다. 휴머노이드에서는 이 이동이 처음부터 일어났다 — 2025년 휴머노이드 출하 약 1.3~1.6만 대 중 중국이 80% 이상.</li>
+<li><strong>2026년은 '휴머노이드 내러티브의 첫 고점'이었다.</strong> 일본 로봇 4사는 2024-11 → 2026-05 +202%, 한국 레인보우로보틱스는 2024-12 → 2026-02 +269%, 로보티즈는 +1,251% 올랐다가 고점 대비 각각 −31%(일본4사, 2026-10), −58%, −28% 빠졌다(2026-11). 같은 시기 유니트리는 상장 첫날 +629%(2026-08). 그러나 <strong>수요는 꺾이지 않았다</strong>: 산업용 로봇 설치 +11%(2025, 사상 최고), 전문 서비스로봇 +24%, Goldman은 2035년 휴머노이드 전망을 140만 → 648만 대로 4.7배 상향(2026-08). 2026년 하락은 '수요 고점'이 아니라 '밸류에이션 고점'에 가깝다 [판단].</li>
+<li><strong>결론: 현재 수급 위치는 C(일시적 사이클 반등) — 4년간의 '55만 대 박스권'을 뚫은 회복 국면. 단, 휴머노이드 완제품은 D(동반 확대, 공급 계획이 실수요를 앞서는 F 전조), 중국 중저가 산업용·협동로봇은 F(공급 과잉·가격전쟁), 수술로봇은 E(점진적 가격결정력)로 분기한다.</strong> 진짜 A(구조적 메가 병목)는 아직 '휴머노이드용 고정밀 액추에이터·행성 롤러스크류·희토류 자석'이라는 <strong>전망 속에만</strong> 존재한다. 상위 트렌드 판정: 로봇 전체는 <strong>세큘러 성장(인구·리쇼어링 기반 자동화) + 사이클</strong>이며, 그 위에 <strong>피지컬 AI(메가 트렌드 후보)</strong>가 올라타는 구조.</li>
+</ol>
+<hr />
+<h2>1-pager — 5단계 핵심 결론</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>핵심 결론</th>
+<th>결정적 수치</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 역사</strong></td>
+<td>6개 시대. 패권: 미국(발명) → 일본(양산·부품 독점) → 일·유럽 빅4 과점 → 중국(시장·양산) → 미·중 분업(미국 두뇌 vs 중국 몸통). 매 전환마다 <strong>'인건비 상승·인구 감소 + 신산업 CapEx'</strong>가 트리거</td>
+<td>세계 설치 6만(2009) → 40만(2017) → 55.3만(2022) → 60.3만(2025)</td>
+</tr>
+<tr>
+<td><strong>2. 주가 사이클</strong></td>
+<td>일본 로봇 4사: 상승기 10~74개월·+34~+822%, 하락기 6~21개월·−35~−70%. <strong>주요 하락 4회 평균 −56%·약 17개월, 주요 상승 5회 평균 +410%·약 40개월.</strong> 2001~2026 누적 21배(닛케이 4.4배)</td>
+<td>4사 지수 2001-01=100 → 2007-06 432 → 2009-01 129 → 2018-01 2,718 → 2026-05 3,255 → 2026-10 2,244</td>
+</tr>
+<tr>
+<td><strong>3. 밸류체인</strong></td>
+<td>이익의 두 봉우리 = <strong>정밀부품(호황기)</strong>과 <strong>설치기반 과금 생태계(상시)</strong>. 조립형 로봇 팔은 중국 가격전쟁으로 중간 레이어화. 휴머노이드 원가의 40~60%가 관절(액추에이터)</td>
+<td>ISRG OPM 37%(2025) / 화낙 21.4%(FY3/26) / ABB로보틱스 EBITA 12.1%(2024) / HDS 4.3%(FY3/26) / 두산로보틱스 −180%(2025)</td>
+</tr>
+<tr>
+<td><strong>4. 공급 구조</strong></td>
+<td>빅4 과점은 <strong>중국에서 붕괴 중</strong>(중국 브랜드 내수 28%→55%). 정밀감속기는 일본 2사 독점이 <strong>중국 국산화로 균열</strong>(중국 내 RV 국산 60.8%, 하모닉 80%+). 휴머노이드는 중국 수십 개 업체 난립</td>
+<td>중국 산업용 로봇 생산 59.5만 대(2025 1~3Q, 2024 연간 초과) vs 설치 35.4만 대(2025)</td>
+</tr>
+<tr>
+<td><strong>5. 수요 구조</strong></td>
+<td>B2B 100%(소비자로봇 제외). 수요처 상위 3업종 65%. 국가 집중 극단적(중국 59%, 상위 5개국 80%). 단기 사이클은 제조업 CapEx, 장기는 <strong>노동 공급 감소</strong></td>
+<td>한국 로봇밀도 1,220대/만 명(세계 1위, 2024) / 휴머노이드 2025 약 1.3~1.6만 대 → Goldman 2035 648만 대 [전망]</td>
+</tr>
+<tr>
+<td><strong>4+5 종합</strong></td>
+<td><strong>C (일시적 사이클 반등)</strong>, 세그먼트 분기: 휴머노이드 D / 중국 중저가·협동 F / 수술 E / 물류 B / 휴머노이드 핵심부품 A 후보 [전망]</td>
+<td>설치 +11%(2025), +9%(2026F) / 중국 가격전쟁 / 유니트리 ASP −72%(2023→2025 1~3Q)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>주요 차트</h1><p class="chart-intro">아래 8개 차트는 본문 각 단계의 핵심 정량을 요약한다. 각 차트의 수치는 본문과 캡션에 출처·시점이 명시돼 있다.</p><figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 1 · 세계 산업용 로봇 연간 설치대수 — 6만에서 60만으로</span><span class="fig-sub">천 대. 출처: IFR World Robotics 각 연도(2014·2015·2022·2024·2025는 IFR 공표치 확인, 그 외 연도는 IFR 과거 공표치 기준 — 이후 개정으로 ±1~2% 차이 가능). 26F·29F는 IFR 전망. 2009 금융위기 −47%, 2022~24 박스권, 2025 사상 최고.</span></figcaption><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="300.0" y2="300.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="304.0" text-anchor="end" font-size="11" fill="var(--text-muted)">0</text><line x1="56" x2="896" y1="237.3" y2="237.3" stroke="var(--grid)" stroke-width="1"/><text x="48" y="241.3" text-anchor="end" font-size="11" fill="var(--text-muted)">200</text><line x1="56" x2="896" y1="174.7" y2="174.7" stroke="var(--grid)" stroke-width="1"/><text x="48" y="178.7" text-anchor="end" font-size="11" fill="var(--text-muted)">400</text><line x1="56" x2="896" y1="112.0" y2="112.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="116.0" text-anchor="end" font-size="11" fill="var(--text-muted)">600</text><line x1="56" x2="896" y1="49.3" y2="49.3" stroke="var(--grid)" stroke-width="1"/><text x="48" y="53.3" text-anchor="end" font-size="11" fill="var(--text-muted)">800</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="61.9" y="264.6" width="30.2" height="35.4" rx="3" fill="var(--series-1)" opacity="0.55"><title>08: 113</title></rect><text x="77.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">08</text><rect x="103.9" y="281.2" width="30.2" height="18.8" rx="3" fill="var(--series-1)" opacity="1"><title>09: 60</title></rect><text x="119.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">09</text><text x="119.0" y="275.2" text-anchor="middle" font-size="11" fill="var(--text-secondary)">60</text><rect x="145.9" y="262.1" width="30.2" height="37.9" rx="3" fill="var(--series-1)" opacity="0.55"><title>10: 121</title></rect><text x="161.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">10</text><rect x="187.9" y="248.0" width="30.2" height="52.0" rx="3" fill="var(--series-1)" opacity="0.55"><title>11: 166</title></rect><text x="203.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">11</text><rect x="229.9" y="250.2" width="30.2" height="49.8" rx="3" fill="var(--series-1)" opacity="0.55"><title>12: 159</title></rect><text x="245.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">12</text><rect x="271.9" y="244.2" width="30.2" height="55.8" rx="3" fill="var(--series-1)" opacity="0.55"><title>13: 178</title></rect><text x="287.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">13</text><rect x="313.9" y="230.8" width="30.2" height="69.2" rx="3" fill="var(--series-1)" opacity="0.55"><title>14: 221</title></rect><text x="329.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">14</text><rect x="355.9" y="220.4" width="30.2" height="79.6" rx="3" fill="var(--series-1)" opacity="0.55"><title>15: 254</title></rect><text x="371.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">15</text><rect x="397.9" y="207.9" width="30.2" height="92.1" rx="3" fill="var(--series-1)" opacity="0.55"><title>16: 294</title></rect><text x="413.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">16</text><rect x="439.9" y="174.7" width="30.2" height="125.3" rx="3" fill="var(--series-1)" opacity="1"><title>17: 400</title></rect><text x="455.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">17</text><text x="455.0" y="168.7" text-anchor="middle" font-size="11" fill="var(--text-secondary)">400</text><rect x="481.9" y="167.8" width="30.2" height="132.2" rx="3" fill="var(--series-1)" opacity="0.55"><title>18: 422</title></rect><text x="497.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">18</text><rect x="523.9" y="183.1" width="30.2" height="116.9" rx="3" fill="var(--series-1)" opacity="0.55"><title>19: 373</title></rect><text x="539.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">19</text><text x="539.0" y="177.1" text-anchor="middle" font-size="11" fill="var(--text-secondary)">373</text><rect x="565.9" y="177.8" width="30.2" height="122.2" rx="3" fill="var(--series-1)" opacity="0.55"><title>20: 390</title></rect><text x="581.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">20</text><rect x="607.9" y="138.0" width="30.2" height="162.0" rx="3" fill="var(--series-1)" opacity="0.55"><title>21: 517</title></rect><text x="623.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">21</text><rect x="649.9" y="126.7" width="30.2" height="173.3" rx="3" fill="var(--series-1)" opacity="1"><title>22: 553</title></rect><text x="665.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">22</text><text x="665.0" y="120.7" text-anchor="middle" font-size="11" fill="var(--text-secondary)">553</text><rect x="691.9" y="130.5" width="30.2" height="169.5" rx="3" fill="var(--series-1)" opacity="0.55"><title>23: 541</title></rect><text x="707.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">23</text><rect x="733.9" y="130.2" width="30.2" height="169.8" rx="3" fill="var(--series-1)" opacity="0.55"><title>24: 542</title></rect><text x="749.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">24</text><rect x="775.9" y="111.1" width="30.2" height="188.9" rx="3" fill="var(--series-1)" opacity="1"><title>25: 603</title></rect><text x="791.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">25</text><text x="791.0" y="105.1" text-anchor="middle" font-size="11" fill="var(--text-secondary)">603</text><rect x="817.9" y="94.8" width="30.2" height="205.2" rx="3" fill="var(--series-1)" opacity="0.25"><title>26F: 655</title></rect><text x="833.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">26F</text><text x="833.0" y="88.8" text-anchor="middle" font-size="11" fill="var(--text-secondary)">655</text><rect x="859.9" y="47.5" width="30.2" height="252.5" rx="3" fill="var(--series-1)" opacity="0.25"><title>29F: 806</title></rect><text x="875.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">29F</text><text x="875.0" y="41.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">806</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>연도</th><th>천 대</th></tr></thead><tbody><tr><td>2008</td><td>113</td></tr><tr><td>2009</td><td>60</td></tr><tr><td>2010</td><td>121</td></tr><tr><td>2011</td><td>166</td></tr><tr><td>2012</td><td>159</td></tr><tr><td>2013</td><td>178</td></tr><tr><td>2014</td><td>221</td></tr><tr><td>2015</td><td>254</td></tr><tr><td>2016</td><td>294</td></tr><tr><td>2017</td><td>400</td></tr><tr><td>2018</td><td>422</td></tr><tr><td>2019</td><td>373</td></tr><tr><td>2020</td><td>390</td></tr><tr><td>2021</td><td>517</td></tr><tr><td>2022</td><td>553</td></tr><tr><td>2023</td><td>541</td></tr><tr><td>2024</td><td>542</td></tr><tr><td>2025</td><td>603</td></tr><tr><td>2026F</td><td>655</td></tr><tr><td>2029F</td><td>806</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 2 · 일본 로봇 4사 vs 닛케이 — 25년 21배, 하락은 짧고 깊다</span><span class="fig-sub">2001-01=100, 명목, 로그. 로봇 4사 = 화낙·야스카와·하모닉드라이브·나브테스코 동일가중(월간 수정종가, Yahoo Finance). 음영 = 주요 하락 구간. 2023~24는 닛케이 상승 속 로봇만 −46%.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>로봇 4사</span><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>닛케이225</span></div><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="287.0" y2="287.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="291.0" text-anchor="end" font-size="11" fill="var(--text-muted)">50</text><line x1="56" x2="896" y1="246.5" y2="246.5" stroke="var(--grid)" stroke-width="1"/><text x="48" y="250.5" text-anchor="end" font-size="11" fill="var(--text-muted)">100</text><line x1="56" x2="896" y1="206.0" y2="206.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="210.0" text-anchor="end" font-size="11" fill="var(--text-muted)">200</text><line x1="56" x2="896" y1="152.5" y2="152.5" stroke="var(--grid)" stroke-width="1"/><text x="48" y="156.5" text-anchor="end" font-size="11" fill="var(--text-muted)">500</text><line x1="56" x2="896" y1="112.0" y2="112.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="116.0" text-anchor="end" font-size="11" fill="var(--text-muted)">1,000</text><line x1="56" x2="896" y1="71.5" y2="71.5" stroke="var(--grid)" stroke-width="1"/><text x="48" y="75.5" text-anchor="end" font-size="11" fill="var(--text-muted)">2,000</text><line x1="56" x2="896" y1="18.0" y2="18.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="22.0" text-anchor="end" font-size="11" fill="var(--text-muted)">5,000</text><text x="56.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2001</text><text x="152.9" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2004</text><text x="249.8" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2007</text><text x="346.8" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2010</text><text x="443.7" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2013</text><text x="540.6" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2016</text><text x="637.5" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2019</text><text x="734.5" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2022</text><text x="831.4" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2025</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="263.3" y="18" width="51.2" height="282" fill="var(--neg)" opacity="0.08"/><rect x="605.2" y="18" width="29.6" height="282" fill="var(--neg)" opacity="0.08"/><rect x="699.5" y="18" width="43.1" height="282" fill="var(--neg)" opacity="0.08"/><rect x="769.5" y="18" width="56.5" height="282" fill="var(--neg)" opacity="0.08"/><rect x="874.5" y="18" width="16.2" height="282" fill="var(--neg)" opacity="0.08"/><path d="M56.0,246.5 L58.7,250.7 L61.4,250.2 L64.1,246.1 L66.8,249.0 L69.5,250.3 L72.2,255.5 L74.8,261.5 L77.5,266.8 L80.2,263.4 L82.9,261.5 L85.6,262.4 L88.3,265.5 L91.0,262.1 L93.7,259.8 L96.4,257.4 L99.1,256.0 L101.8,262.0 L104.5,266.2 L107.2,267.7 L109.8,269.2 L112.5,274.0 L115.2,270.3 L117.9,274.4 L120.6,276.1 L123.3,275.9 L126.0,278.7 L128.7,279.8 L131.4,275.5 L134.1,271.1 L136.8,268.1 L139.5,263.5 L142.2,264.2 L144.8,262.3 L147.5,264.9 L150.2,261.7 L152.9,261.1 L155.6,259.7 L158.3,256.2 L161.0,256.0 L163.7,258.7 L166.4,255.5 L169.1,258.2 L171.8,259.5 L174.5,260.9 L177.2,261.1 L179.8,260.4 L182.5,257.4 L185.2,257.9 L187.9,256.1 L190.6,256.5 L193.3,259.9 L196.0,258.5 L198.7,256.9 L201.4,255.3 L204.1,252.9 L206.8,247.6 L209.5,247.5 L212.2,242.3 L214.8,237.6 L217.5,235.7 L220.2,237.3 L222.9,234.3 L225.6,234.8 L228.3,240.0 L231.0,239.9 L233.7,240.0 L236.4,237.5 L239.1,237.6 L241.8,236.6 L244.5,237.0 L247.2,233.7 L249.8,233.2 L252.5,232.4 L255.2,233.5 L257.9,233.1 L260.6,231.6 L263.3,230.7 L266.0,233.6 L268.7,236.0 L271.4,235.2 L274.1,235.4 L276.8,239.2 L279.5,240.6 L282.2,247.6 L284.8,247.5 L287.5,252.3 L290.2,246.5 L292.9,244.4 L295.6,248.0 L298.3,248.5 L301.0,249.8 L303.7,258.5 L306.4,274.4 L309.1,274.9 L311.8,272.6 L314.5,278.6 L317.2,281.8 L319.8,277.7 L322.5,272.8 L325.2,268.3 L327.9,265.7 L330.6,263.4 L333.3,262.7 L336.0,264.7 L338.7,265.3 L341.4,269.4 L344.1,262.4 L346.8,264.3 L349.5,264.7 L352.2,259.4 L354.8,259.6 L357.5,266.8 L360.2,269.2 L362.9,268.2 L365.6,272.8 L368.3,269.3 L371.0,270.3 L373.7,265.8 L376.4,264.2 L379.1,264.1 L381.8,261.9 L384.5,266.9 L387.2,266.4 L389.8,267.3 L392.5,266.6 L395.2,266.5 L397.9,271.9 L400.6,273.6 L403.3,271.7 L406.0,275.4 L408.7,275.3 L411.4,272.9 L414.1,267.1 L416.8,265.0 L419.5,268.3 L422.2,274.7 L424.8,271.6 L427.5,273.6 L430.2,272.7 L432.9,272.5 L435.6,272.1 L438.3,268.8 L441.0,263.2 L443.7,259.2 L446.4,257.0 L449.1,252.9 L451.8,246.4 L454.5,246.8 L457.2,247.2 L459.8,247.2 L462.5,248.4 L465.2,244.0 L467.9,244.5 L470.6,239.3 L473.3,237.0 L476.0,242.1 L478.7,242.4 L481.4,242.5 L484.1,244.6 L486.8,243.2 L489.5,241.2 L492.2,239.4 L494.8,240.2 L497.5,237.4 L500.2,236.5 L502.9,232.9 L505.6,233.0 L508.3,232.2 L511.0,228.6 L513.7,227.4 L516.4,226.4 L519.1,223.4 L521.8,224.3 L524.5,223.3 L527.2,228.3 L529.8,233.2 L532.5,227.7 L535.2,225.7 L537.9,227.9 L540.6,232.7 L543.3,237.9 L546.0,235.3 L548.7,235.6 L551.4,233.7 L554.1,239.6 L556.8,236.0 L559.5,234.9 L562.2,236.4 L564.8,233.0 L567.5,230.2 L570.2,227.6 L572.9,227.9 L575.6,227.6 L578.3,228.3 L581.0,227.4 L583.7,226.0 L586.4,224.9 L589.1,225.2 L591.8,226.0 L594.5,224.0 L597.2,219.4 L599.8,217.5 L602.5,217.4 L605.2,216.6 L607.9,219.2 L610.6,220.9 L613.3,218.2 L616.0,218.9 L618.7,218.6 L621.4,218.0 L624.1,217.2 L626.8,214.1 L629.5,219.6 L632.2,218.5 L634.8,225.0 L637.5,222.8 L640.2,221.1 L642.9,221.6 L645.6,218.7 L648.3,223.3 L651.0,221.4 L653.7,220.7 L656.4,223.0 L659.1,220.1 L661.8,217.0 L664.5,216.1 L667.2,215.2 L669.8,216.3 L672.5,221.7 L675.2,228.2 L677.9,224.4 L680.6,219.8 L683.3,218.7 L686.0,220.2 L688.7,216.5 L691.4,216.4 L694.1,216.9 L696.8,208.7 L699.5,206.5 L702.2,206.1 L704.8,203.4 L707.5,202.9 L710.2,203.7 L712.9,203.6 L715.6,203.7 L718.3,206.9 L721.0,205.2 L723.7,202.4 L726.4,203.5 L729.1,205.7 L731.8,203.7 L734.5,207.5 L737.2,208.5 L739.8,205.7 L742.5,207.8 L745.2,206.9 L747.9,208.8 L750.6,205.8 L753.3,205.2 L756.0,209.8 L758.7,206.2 L761.4,205.4 L764.1,209.5 L766.8,206.8 L769.5,206.5 L772.2,205.3 L774.8,203.6 L777.5,199.6 L780.2,195.4 L782.9,195.4 L785.6,196.4 L788.3,197.8 L791.0,199.7 L793.7,194.9 L796.4,194.9 L799.1,190.2 L801.8,185.7 L804.5,184.0 L807.2,186.9 L809.8,186.8 L812.5,185.1 L815.2,185.8 L817.9,186.5 L820.6,187.6 L823.3,185.9 L826.0,187.2 L828.7,184.7 L831.4,185.1 L834.1,188.8 L836.8,191.3 L839.5,190.6 L842.2,187.6 L844.8,183.8 L847.5,183.0 L850.2,180.7 L852.9,177.7 L855.6,168.7 L858.3,171.2 L861.0,171.1 L863.7,167.7 L866.4,162.0 L869.1,170.2 L871.8,161.5 L874.5,155.0 L877.2,151.8 L879.8,156.7 L882.5,155.0 L885.2,154.6 L887.9,157.7 L890.6,159.7" fill="none" stroke="var(--series-2)" stroke-width="2"/><path d="M56.0,246.5 L58.7,247.8 L61.4,250.7 L64.1,248.4 L66.8,251.3 L69.5,253.9 L72.2,259.2 L74.8,265.2 L77.5,272.9 L80.2,267.3 L82.9,264.2 L85.6,266.1 L88.3,264.4 L91.0,252.3 L93.7,250.9 L96.4,252.0 L99.1,251.0 L101.8,252.9 L104.5,257.8 L107.2,263.2 L109.8,269.0 L112.5,276.9 L115.2,271.7 L117.9,271.6 L120.6,267.5 L123.3,263.5 L126.0,263.7 L128.7,262.0 L131.4,255.6 L134.1,248.4 L136.8,233.1 L139.5,218.8 L142.2,223.0 L144.8,222.4 L147.5,221.4 L150.2,215.8 L152.9,211.5 L155.6,215.2 L158.3,212.0 L161.0,202.7 L163.7,210.6 L166.4,209.1 L169.1,212.0 L171.8,217.1 L174.5,220.3 L177.2,221.4 L179.8,222.9 L182.5,217.3 L185.2,208.7 L187.9,209.2 L190.6,209.8 L193.3,211.0 L196.0,211.0 L198.7,206.5 L201.4,204.3 L204.1,201.3 L206.8,195.0 L209.5,196.7 L212.2,182.2 L214.8,176.7 L217.5,170.6 L220.2,177.9 L222.9,172.0 L225.6,173.8 L228.3,179.2 L231.0,175.9 L233.7,173.5 L236.4,173.6 L239.1,172.5 L241.8,168.9 L244.5,169.1 L247.2,166.9 L249.8,165.0 L252.5,166.8 L255.2,164.3 L257.9,162.9 L260.6,161.9 L263.3,161.0 L266.0,161.9 L268.7,168.3 L271.4,162.7 L274.1,163.3 L276.8,168.9 L279.5,166.1 L282.2,182.2 L284.8,178.3 L287.5,183.3 L290.2,175.0 L292.9,171.7 L295.6,173.1 L298.3,183.2 L301.0,189.4 L303.7,202.5 L306.4,222.7 L309.1,221.2 L311.8,228.2 L314.5,231.7 L317.2,225.6 L319.8,220.4 L322.5,211.7 L325.2,206.9 L327.9,202.8 L330.6,197.8 L333.3,198.9 L336.0,197.8 L338.7,198.0 L341.4,206.3 L344.1,198.1 L346.8,195.1 L349.5,193.8 L352.2,185.2 L354.8,182.2 L357.5,185.2 L360.2,178.8 L362.9,181.5 L365.6,187.3 L368.3,181.9 L371.0,180.4 L373.7,176.1 L376.4,167.8 L379.1,163.1 L381.8,161.4 L384.5,155.4 L387.2,156.7 L389.8,162.0 L392.5,159.7 L395.2,159.3 L397.9,167.7 L400.6,174.7 L403.3,166.4 L406.0,171.2 L408.7,175.5 L411.4,167.6 L414.1,159.8 L416.8,160.9 L419.5,163.5 L422.2,164.9 L424.8,164.5 L427.5,166.0 L430.2,174.5 L432.9,173.9 L435.6,171.8 L438.3,170.4 L441.0,159.5 L443.7,159.7 L446.4,164.0 L449.1,159.1 L451.8,151.8 L454.5,150.6 L457.2,152.7 L459.8,152.6 L462.5,153.2 L465.2,146.4 L467.9,146.5 L470.6,146.0 L473.3,141.0 L476.0,140.4 L478.7,134.0 L481.4,137.7 L484.1,142.3 L486.8,139.3 L489.5,134.0 L492.2,132.7 L494.8,128.1 L497.5,123.9 L500.2,126.8 L502.9,120.6 L505.6,118.8 L508.3,116.3 L511.0,111.0 L513.7,102.0 L516.4,104.4 L519.1,107.0 L521.8,108.1 L524.5,119.1 L527.2,121.6 L529.8,127.2 L532.5,117.8 L535.2,110.9 L537.9,109.3 L540.6,117.6 L543.3,114.6 L546.0,107.5 L548.7,112.6 L551.4,105.4 L554.1,107.9 L556.8,101.8 L559.5,105.5 L562.2,104.0 L564.8,100.9 L567.5,101.7 L570.2,103.8 L572.9,96.2 L575.6,94.1 L578.3,94.5 L581.0,93.6 L583.7,90.3 L586.4,89.0 L589.1,79.4 L591.8,77.4 L594.5,69.0 L597.2,66.5 L599.8,58.8 L602.5,61.7 L605.2,53.6 L607.9,60.7 L610.6,65.2 L613.3,71.9 L616.0,73.9 L618.7,78.9 L621.4,81.4 L624.1,82.9 L626.8,85.3 L629.5,95.4 L632.2,88.0 L634.8,101.9 L637.5,90.2 L640.2,91.0 L642.9,87.2 L645.6,80.4 L648.3,92.3 L651.0,84.7 L653.7,84.9 L656.4,84.2 L659.1,78.1 L661.8,74.4 L664.5,77.5 L667.2,73.9 L669.8,76.5 L672.5,82.4 L675.2,84.0 L677.9,77.3 L680.6,67.8 L683.3,69.9 L686.0,71.3 L688.7,71.7 L691.4,62.4 L694.1,61.2 L696.8,51.1 L699.5,46.4 L702.2,51.8 L704.8,50.7 L707.5,52.2 L710.2,53.7 L712.9,60.6 L715.6,62.0 L718.3,63.0 L721.0,61.9 L723.7,66.1 L726.4,70.9 L729.1,75.5 L731.8,72.6 L734.5,76.1 L737.2,77.0 L739.8,79.2 L742.5,89.2 L745.2,88.3 L747.9,82.3 L750.6,73.7 L753.3,72.5 L756.0,79.6 L758.7,75.1 L761.4,83.3 L764.1,83.3 L766.8,74.9 L769.5,72.0 L772.2,75.5 L774.8,77.9 L777.5,72.7 L780.2,72.9 L782.9,79.8 L785.6,82.5 L788.3,87.8 L791.0,90.0 L793.7,77.5 L796.4,78.7 L799.1,83.6 L801.8,82.1 L804.5,80.5 L807.2,79.7 L809.8,79.7 L812.5,76.2 L815.2,78.7 L817.9,87.6 L820.6,87.0 L823.3,94.6 L826.0,107.6 L828.7,88.1 L831.4,77.6 L834.1,79.6 L836.8,93.6 L839.5,94.6 L842.2,92.7 L844.8,96.2 L847.5,93.4 L850.2,94.9 L852.9,92.1 L855.6,84.4 L858.3,85.4 L861.0,75.8 L863.7,76.0 L866.4,62.9 L869.1,79.2 L871.8,58.6 L874.5,43.1 L877.2,44.5 L879.8,56.1 L882.5,58.9 L885.2,54.6 L887.9,64.8 L890.6,68.3" fill="none" stroke="var(--series-1)" stroke-width="2"/><text x="886.6" y="60.3" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-1)">로봇 4사 2,113</text><text x="886.6" y="151.7" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-2)">닛케이 442</text><circle cx="112.5" cy="276.9" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2002-10: 59</title></circle><circle cx="263.3" cy="161.0" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2007-06: 432</title></circle><circle cx="314.5" cy="231.7" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2009-01: 129</title></circle><circle cx="513.7" cy="102.0" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2015-03: 1,188</title></circle><circle cx="605.2" cy="53.6" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2018-01: 2,718</title></circle><circle cx="634.8" cy="101.9" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2018-12: 1,189</title></circle><circle cx="699.5" cy="46.4" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2020-12: 3,076</title></circle><circle cx="742.5" cy="89.2" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2022-04: 1,479</title></circle><circle cx="826.0" cy="107.6" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2024-11: 1,079</title></circle><circle cx="874.5" cy="43.1" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"><title>2026-05: 3,255</title></circle></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>월</th><th>로봇 4사</th><th>닛케이</th></tr></thead><tbody><tr><td>2001-01</td><td>100</td><td>100</td></tr><tr><td>2002-10</td><td>59</td><td>62</td></tr><tr><td>2007-06</td><td>432</td><td>131</td></tr><tr><td>2009-01</td><td>129</td><td>58</td></tr><tr><td>2015-03</td><td>1,188</td><td>139</td></tr><tr><td>2018-01</td><td>2,718</td><td>167</td></tr><tr><td>2018-12</td><td>1,189</td><td>145</td></tr><tr><td>2020-12</td><td>3,076</td><td>198</td></tr><tr><td>2022-04</td><td>1,479</td><td>194</td></tr><tr><td>2023-02</td><td>1,982</td><td>198</td></tr><tr><td>2024-11</td><td>1,079</td><td>276</td></tr><tr><td>2026-05</td><td>3,255</td><td>479</td></tr><tr><td>2026-11</td><td>2,113</td><td>442</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 3 · 2024~26 휴머노이드 사이클 — 한국 소형주가 가장 많이 오르고 가장 많이 빠졌다</span><span class="fig-sub">2024-01=100, 로그, 월간 수정종가(Yahoo Finance). 음영 = 2026-02 이후 하락기. 로보티즈 2024-12→2026-01 +1,251%, 레인보우 고점 대비 −58%(2026-11). KOSPI도 2026-05 이후 급락 — 상대수익률로 볼 것.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>레인보우</span><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-3);vertical-align:middle;margin-right:6px;border-radius:2px"></i>로보티즈</span><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-4);vertical-align:middle;margin-right:6px;border-radius:2px"></i>일본 4사</span><span><i style="display:inline-block;width:14px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>KOSPI</span></div><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="300.0" y2="300.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="304.0" text-anchor="end" font-size="11" fill="var(--text-muted)">50</text><line x1="56" x2="896" y1="247.0" y2="247.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="251.0" text-anchor="end" font-size="11" fill="var(--text-muted)">100</text><line x1="56" x2="896" y1="194.0" y2="194.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="198.0" text-anchor="end" font-size="11" fill="var(--text-muted)">200</text><line x1="56" x2="896" y1="124.0" y2="124.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="128.0" text-anchor="end" font-size="11" fill="var(--text-muted)">500</text><line x1="56" x2="896" y1="71.0" y2="71.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="75.0" text-anchor="end" font-size="11" fill="var(--text-muted)">1,000</text><line x1="56" x2="896" y1="18.0" y2="18.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="22.0" text-anchor="end" font-size="11" fill="var(--text-muted)">2,000</text><text x="56.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2024</text><text x="196.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">24.07</text><text x="336.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2025</text><text x="476.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">25.07</text><text x="616.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">2026</text><text x="756.0" y="318" text-anchor="middle" font-size="11" fill="var(--text-muted)">26.07</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="639.3" y="18" width="210.0" height="282" fill="var(--neg)" opacity="0.08"/><path d="M56.0,247.0 L79.3,243.8 L102.7,232.3 L126.0,237.5 L149.3,245.2 L172.7,244.7 L196.0,258.7 L219.3,252.3 L242.7,257.1 L266.0,266.3 L289.3,248.5 L312.7,215.7 L336.0,196.5 L359.3,186.3 L382.7,205.6 L406.0,203.7 L429.3,206.0 L452.7,205.0 L476.0,207.3 L499.3,203.5 L522.7,194.5 L546.0,167.7 L569.3,168.0 L592.7,158.3 L616.0,128.6 L639.3,115.9 L662.7,151.4 L686.0,135.6 L709.3,131.4 L732.7,158.5 L756.0,168.3 L779.3,163.9 L802.7,165.5 L826.0,181.8 L849.3,181.7" fill="none" stroke="var(--series-1)" stroke-width="2"/><path d="M56.0,247.0 L79.3,246.0 L102.7,247.4 L126.0,257.0 L149.3,259.8 L172.7,256.9 L196.0,272.5 L219.3,270.9 L242.7,274.1 L266.0,280.0 L289.3,262.9 L312.7,252.3 L336.0,212.2 L359.3,237.4 L382.7,231.0 L406.0,228.7 L429.3,185.8 L452.7,177.5 L476.0,166.3 L499.3,153.8 L522.7,112.0 L546.0,86.0 L569.3,81.7 L592.7,70.7 L616.0,53.3 L639.3,65.5 L662.7,77.7 L686.0,58.4 L709.3,56.3 L732.7,83.7 L756.0,100.0 L779.3,61.4 L802.7,59.8 L826.0,74.6 L849.3,78.6" fill="none" stroke="var(--series-3)" stroke-width="2"/><path d="M56.0,247.0 L79.3,245.0 L102.7,243.0 L126.0,241.8 L149.3,241.9 L172.7,237.3 L196.0,240.6 L219.3,252.2 L242.7,251.4 L266.0,261.4 L289.3,278.4 L312.7,252.9 L336.0,239.2 L359.3,241.8 L382.7,260.1 L406.0,261.5 L429.3,259.0 L452.7,263.5 L476.0,259.9 L499.3,261.8 L522.7,258.2 L546.0,248.0 L569.3,249.3 L592.7,236.7 L616.0,237.0 L639.3,219.9 L662.7,241.3 L686.0,214.3 L709.3,194.0 L732.7,195.9 L756.0,211.0 L779.3,214.7 L802.7,209.0 L826.0,222.4 L849.3,227.0" fill="none" stroke="var(--series-4)" stroke-width="2"/><path d="M56.0,247.0 L79.3,242.7 L102.7,239.7 L126.0,241.3 L149.3,242.9 L172.7,238.3 L196.0,239.1 L219.3,241.8 L242.7,244.1 L266.0,245.2 L289.3,248.3 L312.7,250.1 L336.0,246.4 L359.3,245.9 L382.7,247.5 L406.0,245.2 L429.3,241.1 L452.7,231.2 L476.0,227.0 L499.3,228.4 L522.7,222.9 L546.0,209.0 L569.3,212.4 L592.7,207.0 L616.0,190.6 L639.3,176.9 L662.7,193.1 L686.0,172.7 L709.3,153.6 L732.7,153.6 L756.0,172.8 L779.3,170.2 L802.7,170.0 L826.0,183.5 L849.3,189.6" fill="none" stroke="var(--series-2)" stroke-width="2"/><text x="845.3" y="70.6" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-3)">로보티즈 905</text><text x="845.3" y="173.7" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-1)">레인보우 235</text><text x="845.3" y="187.7" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-2)">KOSPI 212</text><text x="845.3" y="219.0" text-anchor="end" font-size="11" font-weight="600" fill="var(--series-4)">일본 4사 130</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>월</th><th>레인보우</th><th>로보티즈</th><th>일본 4사</th><th>KOSPI</th></tr></thead><tbody><tr><td>2024-01</td><td>100</td><td>100</td><td>100</td><td>100</td></tr><tr><td>2024-11</td><td>98</td><td>81</td><td>66</td><td>98</td></tr><tr><td>2024-12</td><td>151</td><td>93</td><td>93</td><td>96</td></tr><tr><td>2025-06</td><td>173</td><td>248</td><td>81</td><td>123</td></tr><tr><td>2025-12</td><td>319</td><td>1,004</td><td>114</td><td>169</td></tr><tr><td>2026-01</td><td>471</td><td>1,261</td><td>114</td><td>209</td></tr><tr><td>2026-02</td><td>556</td><td>1,074</td><td>143</td><td>250</td></tr><tr><td>2026-05</td><td>454</td><td>1,212</td><td>200</td><td>339</td></tr><tr><td>2026-08</td><td>297</td><td>1,134</td><td>153</td><td>273</td></tr><tr><td>2026-11</td><td>235</td><td>905</td><td>130</td><td>212</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 4 · 2025년 산업용 로봇 설치 — 중국 한 나라가 59%</span><span class="fig-sub">천 대. 출처: IFR World Robotics 2026(2026-09-24). 상위 5개국 약 80%. 한국은 2019년 이후 연 3.1만 대 안팎에서 정체.</span></figcaption><svg viewBox="0 0 920 286" role="img" style="width:100%;height:auto;font-family:var(--sans)"><text x="290" y="46" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">중국</text><rect x="300.0" y="34" width="522.0" height="20" rx="4" fill="var(--series-1)"><title>중국: 354.2천 대 (59%)</title></rect><text x="830.0" y="49" text-anchor="start" font-size="12" fill="var(--text-primary)">354.2천 대 (59%)</text><text x="290" y="88" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">미국</text><rect x="300.0" y="76" width="56.6" height="20" rx="4" fill="var(--series-2)"><title>미국: 38.4 (+12%, 2위)</title></rect><text x="364.6" y="91" text-anchor="start" font-size="12" fill="var(--text-primary)">38.4 (+12%, 2위)</text><text x="290" y="130" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">일본</text><rect x="300.0" y="118" width="53.3" height="20" rx="4" fill="var(--series-2)"><title>일본: 36.2</title></rect><text x="361.3" y="133" text-anchor="start" font-size="12" fill="var(--text-primary)">36.2</text><text x="290" y="172" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">한국</text><rect x="300.0" y="160" width="44.5" height="20" rx="4" fill="var(--series-3)"><title>한국: 30.2</title></rect><text x="352.5" y="175" text-anchor="start" font-size="12" fill="var(--text-primary)">30.2</text><text x="290" y="214" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">독일</text><rect x="300.0" y="202" width="36.5" height="20" rx="4" fill="var(--series-2)"><title>독일: 24.8 (−8%)</title></rect><text x="344.5" y="217" text-anchor="start" font-size="12" fill="var(--text-primary)">24.8 (−8%)</text><text x="290" y="256" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">인도</text><rect x="300.0" y="244" width="15.5" height="20" rx="4" fill="var(--series-2)"><title>인도: 10.5 (+15%)</title></rect><text x="323.5" y="259" text-anchor="start" font-size="12" fill="var(--text-primary)">10.5 (+15%)</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>국가</th><th>천 대</th></tr></thead><tbody><tr><td>중국</td><td>354.2</td></tr><tr><td>미국</td><td>38.4</td></tr><tr><td>일본</td><td>36.2</td></tr><tr><td>한국</td><td>30.2</td></tr><tr><td>독일</td><td>24.8</td></tr><tr><td>인도</td><td>10.5</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 5 · 같은 로봇, 다른 마진 — 설치기반 과금 &gt; 부품 내재화 &gt; 장비 판매 &gt; 협동로봇</span><span class="fig-sub">%. 출처: Intuitive 2025 실적, 유니트리 상장 공시(2026 상반기 매출 10.5~11.3억 위안·순이익 2.6~3.1억 위안 중간값), 화낙 FY3/2026 결산, ABB 발표(2025-10), HDS 결산단신, 레인보우·두산로보틱스 2025 실적 보도. 이익 정의가 서로 다름에 유의.</span></figcaption><svg viewBox="0 0 920 328" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="486.7" x2="486.7" y1="20" y2="322" stroke="var(--border-strong)"/><text x="290" y="46" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">인튜이티브서지컬 (2025, 영업이익률)</text><rect x="486.7" y="34" width="345.3" height="20" rx="4" fill="var(--series-1)"><title>인튜이티브서지컬 (2025, 영업이익률): 37%</title></rect><text x="840.0" y="49" text-anchor="start" font-size="12" fill="var(--text-primary)">37%</text><text x="290" y="88" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">유니트리 (2026 상반기 예상, 순이익률)</text><rect x="486.7" y="76" width="233.3" height="20" rx="4" fill="var(--series-1)"><title>유니트리 (2026 상반기 예상, 순이익률): 약 25% [추정]</title></rect><text x="728.0" y="91" text-anchor="start" font-size="12" fill="var(--text-primary)">약 25% [추정]</text><text x="290" y="130" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">화낙 (FY3/26, 영업이익률)</text><rect x="486.7" y="118" width="199.7" height="20" rx="4" fill="var(--series-3)"><title>화낙 (FY3/26, 영업이익률): 21.4%</title></rect><text x="694.4" y="133" text-anchor="start" font-size="12" fill="var(--text-primary)">21.4%</text><text x="290" y="172" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">ABB 로보틱스 (2024, EBITA)</text><rect x="486.7" y="160" width="112.9" height="20" rx="4" fill="var(--series-3)"><title>ABB 로보틱스 (2024, EBITA): 12.1%</title></rect><text x="607.6" y="175" text-anchor="start" font-size="12" fill="var(--text-primary)">12.1%</text><text x="290" y="214" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">하모닉드라이브 (FY3/26, 영업이익률)</text><rect x="486.7" y="202" width="40.1" height="20" rx="4" fill="var(--series-4)"><title>하모닉드라이브 (FY3/26, 영업이익률): 4.3%</title></rect><text x="534.8" y="217" text-anchor="start" font-size="12" fill="var(--text-primary)">4.3%</text><text x="290" y="256" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">레인보우로보틱스 (2025, 영업이익률)</text><rect x="418.5" y="244" width="68.1" height="20" rx="4" fill="var(--series-2)"><title>레인보우로보틱스 (2025, 영업이익률): −7.3%</title></rect><text x="494.7" y="259" text-anchor="start" font-size="12" fill="var(--text-primary)">−7.3%</text><text x="290" y="298" text-anchor="end" font-size="12.5" fill="var(--text-secondary)">두산로보틱스 (2025, 영업이익률)</text><rect x="300.0" y="286" width="186.7" height="20" rx="4" fill="var(--series-2)"><title>두산로보틱스 (2025, 영업이익률): −180% (축 밖)</title></rect><text x="494.7" y="301" text-anchor="start" font-size="12" fill="var(--text-primary)">−180% (축 밖)</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>기업</th><th>이익률</th></tr></thead><tbody><tr><td>인튜이티브서지컬 (2025, 영업이익률)</td><td>37%</td></tr><tr><td>유니트리 (2026 상반기 예상, 순이익률)</td><td>약 25% [추정]</td></tr><tr><td>화낙 (FY3/26, 영업이익률)</td><td>21.4%</td></tr><tr><td>ABB 로보틱스 (2024, EBITA)</td><td>12.1%</td></tr><tr><td>하모닉드라이브 (FY3/26, 영업이익률)</td><td>4.3%</td></tr><tr><td>레인보우로보틱스 (2025, 영업이익률)</td><td>−7.3%</td></tr><tr><td>두산로보틱스 (2025, 영업이익률)</td><td>−180% (축 밖)</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 6 · 관절(감속기)의 이익은 극단적으로 출렁인다 — 하모닉드라이브 경상이익률</span><span class="fig-sub">%, 3월 결산 회계연도(FY3/2013~FY3/2026), 27E는 회사 전망(경상이익 82억 엔 ÷ 매출 745억 엔). 출처: finboard(경상이익률 시계열), HDS 결산단신(2026-05-13)·Traders. 29% → 0.3% → 11%.</span></figcaption><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="300.0" y2="300.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="304.0" text-anchor="end" font-size="11" fill="var(--text-muted)">0</text><line x1="56" x2="896" y1="211.9" y2="211.9" stroke="var(--grid)" stroke-width="1"/><text x="48" y="215.9" text-anchor="end" font-size="11" fill="var(--text-muted)">10</text><line x1="56" x2="896" y1="123.8" y2="123.8" stroke="var(--grid)" stroke-width="1"/><text x="48" y="127.8" text-anchor="end" font-size="11" fill="var(--text-muted)">20</text><line x1="56" x2="896" y1="35.6" y2="35.6" stroke="var(--grid)" stroke-width="1"/><text x="48" y="39.6" text-anchor="end" font-size="11" fill="var(--text-muted)">30</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="63.8" y="126.4" width="40.3" height="173.6" rx="3" fill="var(--series-4)" opacity="1"><title>13: 20</title></rect><text x="84.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">13</text><text x="84.0" y="120.4" text-anchor="middle" font-size="11" fill="var(--text-secondary)">19.7</text><rect x="119.8" y="98.2" width="40.3" height="201.8" rx="3" fill="var(--series-4)" opacity="1"><title>14: 23</title></rect><text x="140.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">14</text><text x="140.0" y="92.2" text-anchor="middle" font-size="11" fill="var(--text-secondary)">22.9</text><rect x="175.8" y="44.4" width="40.3" height="255.6" rx="3" fill="var(--series-4)" opacity="1"><title>15: 29</title></rect><text x="196.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">15</text><text x="196.0" y="38.4" text-anchor="middle" font-size="11" fill="var(--text-secondary)">29</text><rect x="231.8" y="55.9" width="40.3" height="244.1" rx="3" fill="var(--series-4)" opacity="1"><title>16: 28</title></rect><text x="252.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">16</text><text x="252.0" y="49.9" text-anchor="middle" font-size="11" fill="var(--text-secondary)">27.7</text><rect x="287.8" y="66.5" width="40.3" height="233.5" rx="3" fill="var(--series-4)" opacity="1"><title>17: 26</title></rect><text x="308.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">17</text><text x="308.0" y="60.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">26.5</text><rect x="343.8" y="101.7" width="40.3" height="198.3" rx="3" fill="var(--series-4)" opacity="1"><title>18: 22</title></rect><text x="364.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">18</text><text x="364.0" y="95.7" text-anchor="middle" font-size="11" fill="var(--text-secondary)">22.5</text><rect x="399.8" y="72.6" width="40.3" height="227.4" rx="3" fill="var(--series-4)" opacity="1"><title>19: 26</title></rect><text x="420.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">19</text><text x="420.0" y="66.6" text-anchor="middle" font-size="11" fill="var(--text-secondary)">25.8</text><rect x="455.8" y="288.5" width="40.3" height="11.5" rx="3" fill="var(--series-4)" opacity="1"><title>20: 1.3</title></rect><text x="476.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">20</text><text x="476.0" y="282.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">1.3</text><rect x="511.8" y="267.4" width="40.3" height="32.6" rx="3" fill="var(--series-4)" opacity="1"><title>21: 3.7</title></rect><text x="532.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">21</text><text x="532.0" y="261.4" text-anchor="middle" font-size="11" fill="var(--text-secondary)">3.7</text><rect x="567.8" y="159.0" width="40.3" height="141.0" rx="3" fill="var(--series-4)" opacity="1"><title>22: 16</title></rect><text x="588.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">22</text><text x="588.0" y="153.0" text-anchor="middle" font-size="11" fill="var(--text-secondary)">16</text><rect x="623.8" y="167.8" width="40.3" height="132.2" rx="3" fill="var(--series-4)" opacity="1"><title>23: 15</title></rect><text x="644.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">23</text><text x="644.0" y="161.8" text-anchor="middle" font-size="11" fill="var(--text-secondary)">15</text><rect x="679.8" y="291.2" width="40.3" height="8.8" rx="3" fill="var(--series-4)" opacity="1"><title>24: 1.0</title></rect><text x="700.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">24</text><text x="700.0" y="285.2" text-anchor="middle" font-size="11" fill="var(--text-secondary)">1</text><rect x="735.8" y="297.4" width="40.3" height="2.6" rx="3" fill="var(--series-4)" opacity="1"><title>25: 0.3</title></rect><text x="756.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">25</text><text x="756.0" y="291.4" text-anchor="middle" font-size="11" fill="var(--text-secondary)">0.3</text><rect x="791.8" y="262.1" width="40.3" height="37.9" rx="3" fill="var(--series-4)" opacity="1"><title>26: 4.3</title></rect><text x="812.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">26</text><text x="812.0" y="256.1" text-anchor="middle" font-size="11" fill="var(--text-secondary)">4.3</text><rect x="847.8" y="203.1" width="40.3" height="96.9" rx="3" fill="var(--series-4)" opacity="0.35"><title>27E: 11</title></rect><text x="868.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">27E</text><text x="868.0" y="197.1" text-anchor="middle" font-size="11" fill="var(--text-secondary)">11</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>회계연도</th><th>경상이익률 %</th></tr></thead><tbody><tr><td>FY3/2013</td><td>19.7</td></tr><tr><td>FY3/2014</td><td>22.9</td></tr><tr><td>FY3/2015</td><td>29.0</td></tr><tr><td>FY3/2016</td><td>27.7</td></tr><tr><td>FY3/2017</td><td>26.5</td></tr><tr><td>FY3/2018</td><td>22.5</td></tr><tr><td>FY3/2019</td><td>25.8</td></tr><tr><td>FY3/2020</td><td>1.3</td></tr><tr><td>FY3/2021</td><td>3.7</td></tr><tr><td>FY3/2022</td><td>16.0</td></tr><tr><td>FY3/2023</td><td>15.0</td></tr><tr><td>FY3/2024</td><td>1.0</td></tr><tr><td>FY3/2025</td><td>0.3</td></tr><tr><td>FY3/2026</td><td>4.3</td></tr><tr><td>FY3/2027E</td><td>11.0</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 7 · 휴머노이드 출하 — 실적 1.3만 대에서 2035년 648만 대 전망까지</span><span class="fig-sub">대, 로그. 2025 실적은 Omdia(1.3만)·Counterpoint(1.6만)·IFR 풀사이즈 상업용(약 7천) 사이. 전망은 Goldman Sachs(2026-08 개정, 이전 2035년 140만 대). 중국 GGII는 2026년 중국 생산 10~20만 대 전망.</span></figcaption><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="274.3" y2="274.3" stroke="var(--grid)" stroke-width="1"/><text x="48" y="278.3" text-anchor="end" font-size="11" fill="var(--text-muted)">1만</text><line x1="56" x2="896" y1="188.9" y2="188.9" stroke="var(--grid)" stroke-width="1"/><text x="48" y="192.9" text-anchor="end" font-size="11" fill="var(--text-muted)">10만</text><line x1="56" x2="896" y1="103.4" y2="103.4" stroke="var(--grid)" stroke-width="1"/><text x="48" y="107.4" text-anchor="end" font-size="11" fill="var(--text-muted)">100만</text><line x1="56" x2="896" y1="18.0" y2="18.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="22.0" text-anchor="end" font-size="11" fill="var(--text-muted)">1,000만</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="85.4" y="264.5" width="151.2" height="35.5" rx="3" fill="var(--series-1)" opacity="1"><title>2025 실적: 13,000</title></rect><text x="161.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2025 실적</text><text x="161.0" y="258.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">약 1.3만 (Omdia)</text><rect x="295.4" y="199.5" width="151.2" height="100.5" rx="3" fill="var(--series-1)" opacity="0.4"><title>2026F: 75,000</title></rect><text x="371.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2026F</text><text x="371.0" y="193.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">7.5만</text><rect x="505.4" y="107.8" width="151.2" height="192.2" rx="3" fill="var(--series-1)" opacity="0.4"><title>2030F: 89만</title></rect><text x="581.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2030F</text><text x="581.0" y="101.8" text-anchor="middle" font-size="11" fill="var(--text-secondary)">89만</text><rect x="715.4" y="34.1" width="151.2" height="265.9" rx="3" fill="var(--series-1)" opacity="0.4"><title>2035F: 648만</title></rect><text x="791.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2035F</text><text x="791.0" y="28.1" text-anchor="middle" font-size="11" fill="var(--text-secondary)">648만</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>구분</th><th>대</th></tr></thead><tbody><tr><td>2025 실적</td><td>13,000</td></tr><tr><td>2026F</td><td>75,000</td></tr><tr><td>2030F</td><td>890,000</td></tr><tr><td>2035F</td><td>6,480,000</td></tr></tbody></table></details></figure>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 8 · 휴머노이드 가격 붕괴 — 유니트리 휴머노이드 평균판매가 −72%</span><span class="fig-sub">만 위안/대. 출처: 유니트리 투자설명서(China Daily, 2026-06). 같은 기간 생산원가는 7.32만 → 6.22만 위안(2025 3Q). 레주 Kuafu 시리즈 −26%(2025). 원가 하락이 가격결정력보다 빠르다.</span></figcaption><svg viewBox="0 0 920 340" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="56" x2="896" y1="300.0" y2="300.0" stroke="var(--grid)" stroke-width="1"/><text x="48" y="304.0" text-anchor="end" font-size="11" fill="var(--text-muted)">0</text><line x1="56" x2="896" y1="213.2" y2="213.2" stroke="var(--grid)" stroke-width="1"/><text x="48" y="217.2" text-anchor="end" font-size="11" fill="var(--text-muted)">20</text><line x1="56" x2="896" y1="126.5" y2="126.5" stroke="var(--grid)" stroke-width="1"/><text x="48" y="130.5" text-anchor="end" font-size="11" fill="var(--text-muted)">40</text><line x1="56" x2="896" y1="39.7" y2="39.7" stroke="var(--grid)" stroke-width="1"/><text x="48" y="43.7" text-anchor="end" font-size="11" fill="var(--text-muted)">60</text><line x1="56" x2="896" y1="300" y2="300" stroke="var(--border-strong)"/><rect x="95.2" y="42.7" width="201.6" height="257.3" rx="3" fill="var(--series-2)" opacity="1"><title>2023: 59</title></rect><text x="196.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2023</text><text x="196.0" y="36.7" text-anchor="middle" font-size="11" fill="var(--text-secondary)">59.3</text><rect x="375.2" y="187.2" width="201.6" height="112.8" rx="3" fill="var(--series-2)" opacity="1"><title>2024: 26</title></rect><text x="476.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2024</text><text x="476.0" y="181.2" text-anchor="middle" font-size="11" fill="var(--text-secondary)">26.0</text><rect x="655.2" y="227.5" width="201.6" height="72.5" rx="3" fill="var(--series-2)" opacity="1"><title>2025 1~3Q: 17</title></rect><text x="756.0" y="316" text-anchor="middle" font-size="10.5" fill="var(--text-muted)">2025 1~3Q</text><text x="756.0" y="221.5" text-anchor="middle" font-size="11" fill="var(--text-secondary)">16.7</text></svg><details class="tbl"><summary>표로 보기</summary><table><thead><tr><th>연도</th><th>만 위안</th></tr></thead><tbody><tr><td>2023</td><td>59.3</td></tr><tr><td>2024</td><td>26.0</td></tr><tr><td>2025 1~3Q</td><td>16.7</td></tr></tbody></table></details></figure>
+
+
+<h1>1단계. 역사 — 시대 chunk × 6 layer</h1>
+<blockquote>
+<p><strong>chunk 분할 기준</strong>: 수요(고객 산업)·기술·패권·사이클·규제 5축이 <strong>동시에</strong> 변곡하는 시점. 산업 발생 시점은 '프로그래밍 가능한 산업용 로봇'이 특허로 등장한 <strong>1954년(조지 디볼 특허)</strong>으로 잡았다.
+<strong>로봇의 layer 가중치</strong>: (c) 산업 변화(기술·고객산업)와 (a) 매크로 중 <strong>노동시장(인건비·인구)</strong>이 가장 두껍다. 반도체가 '기술 미세화', 방산이 '전쟁→예산'으로 움직였다면 로봇은 <strong>'사람을 구하기 어려워지는 곳 × 새 공장이 지어지는 곳'</strong>으로 움직인다. 규제(f)는 2016년 이전까지 얇다가 KUKA 인수 이후 급격히 두꺼워졌다.</p>
+</blockquote>
+<hr />
+<h2>Chunk 1 — 1954~1979: 미국이 발명하고, 일본이 라이선스를 사 가다</h2>
+<h3>(a) 매크로 배경</h3>
+<p>전후 미국 제조업의 황금기. 자동차 공장은 용접·도장·주조처럼 위험하고 반복적인 작업을 대량의 노동자로 처리했다. 같은 시기 일본은 고도성장(1955~73 연평균 9%대)으로 <strong>농촌 노동력이 바닥나기 시작</strong>했고, 1973년 1차 오일쇼크는 일본 제조업에 '감량경영·자동화'를 강제했다.</p>
+<h3>(b) 패권자 — 미국의 발명가, 일본의 학생</h3>
+<ul>
+<li><strong>Unimation(미국)</strong>: 발명가 조지 디볼(1954 특허)과 사업가 조셉 엥겔버거가 세운 세계 최초 산업용 로봇 회사. <strong>1961년 GM 뉴저지 공장에 '유니메이트' 1호기</strong>가 다이캐스팅 부품을 옮기는 일에 투입됐다.</li>
+<li><strong>일본</strong>: 가와사키중공업이 1968~69년 유니메이션 기술을 <strong>라이선스</strong>로 도입해 국산화. 1971년 일본산업용로봇협회 설립, 1972년 후지쯔의 NC 사업부가 분사해 <strong>화낙</strong> 설립(1974년 첫 로봇).</li>
+<li><strong>유럽</strong>: 독일 KUKA의 FAMULUS(1973), 스웨덴 ASEA의 IRB 6(1974, 최초의 전기구동·마이크로프로세서 제어 로봇).</li>
+<li>비유하면 이 시기 로봇은 <strong>'미국이 만든 신약을 일본 제약사가 라이선스로 들여와 대량 생산하기 시작한 단계'</strong>다.</li>
+</ul>
+<h3>(c) 산업 변화</h3>
+<ul>
+<li>초기 로봇은 유압 구동 — 무겁고 기름이 새고 정밀도가 낮았다. <strong>1970년대 전기 서보모터 + 마이크로프로세서</strong>로 전환되며 '프로그램만 바꾸면 다른 일을 하는 기계'가 됐다.</li>
+<li><strong>정밀감속기의 탄생</strong>: 하모닉 드라이브(파동기어)는 1955년 미국 C.W. 머서가 발명했고, 1970년 일본 하세가와기어와 미국 USM의 합작으로 <strong>하모닉드라이브시스템즈(HDS)</strong>가 설립됐다. 로봇 관절의 '손목 힘줄'에 해당하는 부품이 처음부터 일본으로 넘어갔다는 점이 이후 50년의 구조를 결정했다.</li>
+</ul>
+<h3>(d) 사이클 단계</h3>
+<p>태동기. 판매량 연 수천 대 수준이었고 사이클이라 부를 만한 변동은 없었다.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>상장 데이터 연속성 없음. 유니메이션은 수익성을 내지 못한 채 1983년 웨스팅하우스에 매각(약 1.07억 달러 [통설])된 뒤 소멸했다 — <strong>발명가가 산업의 승자가 되지 못한 첫 사례</strong>.</p>
+<h3>(f) 규제 layer</h3>
+<p>사실상 없음. 기술 이전·라이선스가 자유로웠고, 이것이 일본 추격의 통로가 됐다.</p>
+<hr />
+<h2>Chunk 2 — 1980~1991: 일본의 '로봇 원년'과 미국 제조업의 자동화 실패</h2>
+<h3>(a) 매크로 배경</h3>
+<p>엔화 약세·미일 무역마찰·일본 자동차의 미국 시장 잠식. 1985 플라자합의 후 엔고가 오자 일본 제조업은 <strong>'엔고를 자동화로 흡수'</strong>했고, 1986~91 자산버블기에 설비투자가 폭증했다.</p>
+<h3>(b) 패권자 — 일본</h3>
+<ul>
+<li>일본은 1980년을 <strong>'로봇 보급 원년'</strong>으로 불렀다. 1980년대 내내 세계 로봇 가동대수의 과반이 일본에 있었다 [추정, 업계 통설].</li>
+<li>화낙·야스카와·가와사키·후지코시(나치)·덴소 등 수직계열화된 일본 기업군. 서보모터·NC(화낙), 인버터·모션제어(야스카와), 감속기(HDS·테이진세이키)까지 <strong>부품부터 완제품까지 일본 안에서 완결</strong>됐다.</li>
+<li>미국: GM이 화낙과 합작해 <strong>GMF Robotics(1982)</strong>를 세웠으나 주도권은 화낙 쪽이었다.</li>
+</ul>
+<h3>(c) 산업 변화</h3>
+<ul>
+<li><strong>GM의 자동화 실패</strong>: 1980년대 GM 로저 스미스 회장은 약 400억 달러 이상을 공장 자동화에 투입했지만 [통설], 햄트램크 공장에서 도장 로봇이 서로에게 페인트를 뿌리는 등 생산성 개선에 실패했다. 교훈: <strong>로봇은 '공정 노하우·통합(SI)'과 결합하지 않으면 비싼 고철</strong>이다 — 2026년 휴머노이드 현장 투입 논쟁에서도 반복되는 논점.</li>
+<li>미국 로봇 제조사들은 하나둘 철수했다(유니메이션 1983 매각, 신시내티 밀라크론 로봇사업 1990 ABB에 매각). <strong>1988년 ASEA + BBC = ABB</strong> 합병으로 유럽 강자가 탄생.</li>
+<li>1986년 테이진세이키(현 나브테스코)가 RV 감속기 개발 착수 — 고하중 관절용 감속기까지 일본이 장악.</li>
+</ul>
+<h3>(d) 사이클 단계</h3>
+<p>1980~90 장기 성장 → <strong>1991~ 일본 버블 붕괴와 함께 첫 대형 수요 절벽</strong>.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>연속 월간 데이터 미확보(Yahoo 기준 화낙 2000년~). 정성적으로 일본 로봇·공작기계주는 1989년 버블 정점에서 고점을 찍고 1990년대 장기 하락했다.</p>
+<h3>(f) 규제 layer</h3>
+<p>미일 무역마찰(자동차 수출자율규제 1981)이 <strong>일본 자동차 업체의 미국 현지공장 건설</strong>을 유도 → 일본 로봇의 미국 수출 경로가 됐다. 규제가 오히려 일본 로봇의 해외 확산을 도왔다.</p>
+<hr />
+<h2>Chunk 3 — 1992~2008: 빅4 과점의 완성, 그리고 '자동차 한 업종'에 묶인 산업</h2>
+<h3>(a) 매크로 배경</h3>
+<p>일본 '잃어버린 10년', 한국·미국·유럽 자동차의 글로벌 증설, 2000년대 중국 WTO 가입(2001)과 세계의 공장화. 2008년 금융위기로 마무리.</p>
+<h3>(b) 패권자 — 일·유럽 '빅4' + 일본 부품 2사</h3>
+<ul>
+<li><strong>화낙·야스카와(일본), ABB(스위스·스웨덴), KUKA(독일)</strong> — 이른바 '빅4' 과점이 이 시기에 굳었다.</li>
+<li><strong>부품</strong>: HDS(하모닉 감속기)와 나브테스코(RV 감속기, 2003년 테이진세이키+NABCO 합병)가 사실상 세계 정밀감속기를 양분.</li>
+<li><strong>한국</strong>: 현대중공업이 1984년 로봇 사업을 시작해 현대·기아 공장을 캡티브 고객으로 성장(→ 2020 현대로보틱스, 현 HD현대로보틱스). 2003년 정부가 '지능형 로봇'을 10대 성장동력에 포함, 2004년 KAIST 휴보 공개.</li>
+</ul>
+<h3>(c) 산업 변화</h3>
+<ul>
+<li>수요의 절반 가까이가 자동차 — 로봇 산업의 운명이 자동차 CapEx에 묶였다.</li>
+<li><strong>새 영역의 탄생</strong>: 인튜이티브서지컬 다빈치 FDA 승인(2000) → '장비를 팔고 수술할 때마다 소모품으로 돈 버는' 로봇 BM의 원형. 아이로봇 룸바(2002) → 소비자 로봇 시장 개척(그러나 2025-12 파산·중국 PICEA로 넘어감 [보도 기준]).</li>
+<li>비유: 이 시기 로봇은 <strong>'자동차 회사의 전속 납품업체'</strong>였다. 고객이 하나의 업종이니 그 업종이 기침하면 로봇이 몸살을 앓았다.</li>
+</ul>
+<h3>(d) 사이클 단계</h3>
+<p>1990년대 중반 바닥 → 2000년대 중반 자동차·전자 증설 붐 → <strong>2008~09 금융위기로 세계 설치대수가 11.3만 대(2008) → 6만 대(2009)로 약 −47%</strong> (IFR) — 로봇 역사상 최대 낙폭.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>일본 로봇 4사 동일가중 지수(2001-01=100): 2002-10 59 → <strong>2007-06 432(+628%, 56개월)</strong> → 2009-01 129(<strong>−70%, 19개월</strong>). 같은 하락기 닛케이는 −56%. 화낙 −56%, 야스카와 −76%, HDS −75%, 나브테스코 −68%. <strong>부품주(HDS·나브테스코)와 사이클 민감주(야스카와)의 낙폭이 완성품 대장(화낙)보다 깊다</strong>는 패턴이 처음 확인된다.</p>
+<h3>(f) 규제 layer</h3>
+<p>여전히 얇다. 일본은 감속기·서보 기술의 해외 이전을 사실상 통제 없이 했지만 노하우가 쉽게 넘어가지 않았다(RV 감속기의 ±0.001mm 가공 공차 등).</p>
+<hr />
+<h2>Chunk 4 — 2009~2017: 중국이 최대 시장이 되다, 그리고 협동·물류·M&amp;A의 시대</h2>
+<h3>(a) 매크로 배경</h3>
+<p>중국 인건비 급등(2010년대 연 10%대 임금 상승), 생산가능인구 감소 전환(2012년 전후), 스마트폰 혁명(전자 조립 수요). 2015년 <strong>'중국제조 2025'</strong>가 로봇을 10대 전략산업으로 지정.</p>
+<h3>(b) 패권자 — 빅4가 중국에서 돈을 벌고, 중국은 '사들이기' 시작</h3>
+<ul>
+<li><strong>2013년 중국이 세계 최대 로봇 시장</strong>이 됐다(IFR). 빅4는 중국 공장을 짓고 최대 수혜를 입었다.</li>
+<li>중국은 '사들이기'로 추격: <strong>메이디(Midea)가 2016~17년 KUKA를 약 45억 유로에 인수</strong> — 빅4 중 하나가 중국 손에 들어갔다. 이 한 건으로 중국 시장 내 KUKA 점유율(10~15%)이 '외산'에서 '국산'으로 넘어갔다(Robotics &amp; Automation News).</li>
+<li>미국은 '새 영역'으로 우회: 아마존의 키바 인수(2012, 7.75억 달러) → 물류로봇, 구글의 보스턴다이내믹스 인수(2013) → 이후 소프트뱅크(2017) → 현대차그룹(2021).</li>
+<li><strong>협동로봇(cobot)</strong>: 유니버설로봇(덴마크)이 2008년 첫 상용 cobot 출시 → 테라다인이 2015년 인수.</li>
+</ul>
+<h3>(c) 산업 변화</h3>
+<ul>
+<li>수요처가 자동차에서 <strong>전자(스마트폰)·배터리·일반산업</strong>으로 다변화. 폭스콘의 '100만 대 로봇' 구호(2011)가 상징.</li>
+<li>세계 설치: 2009년 6만 → 2014년 22.1만 → 2015년 25.4만 → <strong>2017년 약 40만 대</strong>(IFR). 8년 만에 6.7배.</li>
+<li>중국 로컬 브랜드(에스툰·이노밴스·시아순·EFORT)가 중저가 시장에서 성장 시작. 2015년 중국 브랜드의 자국 점유율은 약 28%(IFR).</li>
+</ul>
+<h3>(d) 사이클 단계</h3>
+<p>2009 바닥 → 2010~11 V자 → 2012 정체 → 2013~17 <strong>중국발 장기 상승</strong>. 2017년이 사이클 정점.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>일본 4사 지수 2009-01 129 → <strong>2015-03 1,188(+822%, 74개월)</strong> — 25년 중 최장·최대 상승기. 이후 2015-09 −35%(중국 증시 쇼크) → <strong>2018-01 2,718(+253%, 28개월)</strong>. HDS는 2018-01 7,150엔으로 당시 고점 — 하모닉 감속기가 '중국 로봇 붐의 병목'으로 인식되던 시기. <strong>경상이익률 29%(FY3/2015)·25.8%(FY3/2019)</strong> 가 그 정점의 증거.</p>
+<h3>(f) 규제 layer — 처음으로 두꺼워지다</h3>
+<ul>
+<li>중국: 중국제조 2025(2015), 로봇 보조금·지방정부 산업단지.</li>
+<li>서방: KUKA 인수 이후 <strong>독일이 외국인투자 심사법을 강화(2017·2018)</strong> — 로봇이 '안보 자산'으로 재분류되는 시작점.</li>
+</ul>
+<hr />
+<h2>Chunk 5 — 2018~2022: 무역전쟁의 급랭, 코로나 이후 EV·배터리 붐으로 사상 최고</h2>
+<h3>(a) 매크로 배경</h3>
+<p>2018 미중 무역전쟁 → 중국 제조업 CapEx 급랭. 2020 코로나 → 2021~22 공급망 재편·EV·배터리·반도체 증설 붐, 미국 IRA(2022).</p>
+<h3>(b) 패권자 — 빅4 유지, 그러나 중국 로컬의 '조용한 점유율 잠식'</h3>
+<ul>
+<li>화낙·야스카와·ABB·KUKA(메이디) 체제 유지. 이노밴스(서보 내수 1위)·에스툰이 중국 내 상위권 진입.</li>
+<li><strong>현대차그룹이 보스턴다이내믹스 지분 80% 인수(2020-12 발표, 2021 완료, 약 1조 원 규모)</strong>. 테슬라는 2021년 'Tesla Bot(옵티머스)' 발표.</li>
+</ul>
+<h3>(c) 산업 변화</h3>
+<ul>
+<li>설치대수: 2017년 40만 → 2018년 42.2만 → <strong>2019년 37.3만(−12%)</strong> → 2020년 39만 → 2021년 51.7만 → <strong>2022년 55.3만 대(사상 최고, IFR)</strong>.</li>
+<li>수요 엔진이 '스마트폰·자동차'에서 <strong>'EV·2차전지·태양광'</strong>으로 교체. 2차전지 공장의 대규모 증설이 로봇 수요의 새 축이 됐다.</li>
+</ul>
+<h3>(d) 사이클 단계</h3>
+<p>2018~19 침체(무역전쟁) → 2020 바닥 → 2021~22 사상 최고. <strong>로봇 사이클 ≒ 중국 제조업 CapEx 사이클</strong>이 확립된 구간.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>일본 4사 2018-01 2,718 → 2018-12 1,189(<strong>−56%, 11개월</strong>, 닛케이 −13%) — 무역전쟁 하락. 화낙 −41%, 야스카와 −51%, HDS −60%, 나브테스코 −52%. 이후 2020-12 3,076(+159%, 24개월) → 2022-04 1,479(−52%, 16개월, 닛케이 −2%). <strong>HDS는 2020-12 8,935엔 사상 최고가 이후 2024-12까지 −63%</strong> — 감속기 국산화(중국)와 재고 조정이 겹친 결과.</p>
+<h3>(f) 규제 layer</h3>
+<p>미국 대중 관세(2018~) 대상에 산업용 로봇 포함. 중국은 '전정특신(专精特新)' 정책으로 부품 국산화 지원.</p>
+<hr />
+<h2>Chunk 6 — 2023~2026: 박스권의 4년, 휴머노이드와 피지컬 AI, 그리고 공급망 디커플링</h2>
+<blockquote>
+<p>이 chunk는 아직 진행 중이며, 2개 sub-chunk로 나눈다.</p>
+</blockquote>
+<h3>6-A. 2023~2025 — '55만 대 박스권'과 중국 가격전쟁, 휴머노이드의 탄생</h3>
+<h4>(a) 매크로 배경</h4>
+<p>고금리·중국 경기 둔화·EV 증설 사이클 종료. 동시에 2022-11 ChatGPT 이후 <strong>생성형 AI가 '말'에서 '몸'으로 확장</strong>되는 기대가 형성. 한국 합계출산율 0.75(2024)·일본·중국 노동인구 감소가 '로봇 = 인구 문제의 해법' 내러티브를 강화.</p>
+<h4>(b) 패권자 — 산업용은 중국 로컬, 휴머노이드는 중국 양산 vs 미국 자본</h4>
+<ul>
+<li><strong>2024년 중국 브랜드가 처음으로 자국 시장 과반(57%)</strong> 을 차지(IFR, 2015년 약 28%).</li>
+<li>휴머노이드: 중국 공업정보화부가 2023-11 '인형로봇 혁신발전 지도의견'으로 양산 목표 제시. 유니트리·애지봇(AgiBot)·UBTech가 양산 경쟁. 미국은 Figure AI(2025-09 기업가치 390억 달러), 테슬라 옵티머스, 어질리티, 앱트로닉.</li>
+<li>한국: <strong>삼성전자가 레인보우로보틱스 최대주주(지분 약 35%, 2024-12)</strong>. 산업부 주도 'K-휴머노이드 연합' 출범(2025-04, 2030년까지 R&amp;D·펀드·M&amp;A 1조 원 이상 민관투자 목표).</li>
+<li><strong>소프트뱅크가 ABB 로보틱스를 53.75억 달러에 인수 합의(2025-10)</strong> — ABB로보틱스는 2024년 매출 23억 달러, EBITA 마진 12.1%. KUKA(→중국)에 이어 ABB(→일본)까지 <strong>유럽의 빅4가 모두 아시아로 넘어갔다</strong>.</li>
+</ul>
+<h4>(c) 산업 변화</h4>
+<ul>
+<li>세계 설치: 2022년 55.3만 → 2023년 54.1만 → 2024년 54.2만 대 — <strong>4년 연속 55만 안팎 박스권</strong>(IFR).</li>
+<li><strong>중국 가격전쟁</strong>: 중국 산업용 로봇 생산이 2025년 1~3분기에만 59.5만 대로 2024년 연간을 넘었지만, 업계는 "더 많이 팔고 덜 번다"(중국기계공업연합회, 2025-11). 시아순은 2025 상반기 산업용 로봇 매출 −46%.</li>
+<li><strong>협동로봇 정체</strong>: 세계 cobot 설치 5.8만(2022) → 5.7만(2023) → 6.5만(2024) → 6.6만 대(2025, 전체의 11%). 두산로보틱스 매출은 530억(2023) → 330억(2025)으로 줄고 영업손실 595억(2025).</li>
+<li><strong>휴머노이드의 첫 양산 해</strong>: 2025년 출하 약 1.3만 대(Omdia) ~ 1.6만 대(Counterpoint), IFR 기준 140cm 이상 '풀사이즈' 상업용은 약 7,000대. 유니트리 휴머노이드 ASP는 59.3만 위안(2023) → 26만(2024) → 16.7만(2025 1~3Q)으로 <strong>−72%</strong>.</li>
+</ul>
+<h4>(d) 사이클 단계</h4>
+<p>산업용은 <strong>박스권 조정(2023~24) → 2025년 반등</strong>. 휴머노이드는 <strong>도입기 + 투자 버블 초기</strong>(중국 국가발전개혁위원회가 2025-11 휴머노이드 버블 가능성을 공개 경고).</p>
+<h4>(e) 대표 기업 주가</h4>
+<p>일본 4사 2023-02 1,982 → <strong>2024-11 1,079(−46%, 21개월, 같은 기간 닛케이 +39%)</strong> — 일본 증시 대세 상승 속에서 로봇주만 역행한 '박스권 디레이팅'. 한국: 레인보우로보틱스 2023년 +411%(KOSPI +19%)로 국내 로봇 테마 첫 랠리, 두산로보틱스 상장(2023-10) 직후 고점(2023-12) 이후 장기 하락.</p>
+<h4>(f) 규제 layer</h4>
+<p>중국: 휴머노이드 지도의견(2023-11), 지방정부 펀드. 한국: 지능형로봇법 기반 K-휴머노이드 연합. 미국: 공식 로봇 전략 부재(백악관은 AI Action Plan으로 갈음, 2026-03 보도).</p>
+<h3>6-B. 2026 — 사상 최고 설치, 휴머노이드 상장 붐, 그리고 미국의 '중국 로봇 차단'</h3>
+<h4>(a) 매크로 배경</h4>
+<p>AI 데이터센터·반도체 CapEx 붐이 전자 업종 로봇 수요를 끌어올리고, 미국 리쇼어링·관세가 미국 공장 자동화를 자극. 한국 증시는 KOSPI 9,000선 돌파 후 급락(2026-05 → 11 월말 기준 −38%).</p>
+<h4>(b) 패권자 — '중국 몸통 vs 미국 두뇌'의 분업, 그리고 디커플링</h4>
+<ul>
+<li><strong>몸통(하드웨어 양산)</strong>: 유니트리가 2025년 휴머노이드 5,215대·사족 23,037대를 판매하고 2026-08 상하이 STAR 상장(공모가 기준 약 610억 위안, 첫날 +629%, 시총 약 3,570억 위안). 2026년 상반기 매출 10.5~11.3억 위안·순이익 2.6~3.1억 위안(예상). UBTech는 2026년 1만 대 생산 목표.</li>
+<li><strong>두뇌(파운데이션 모델·컴퓨트)</strong>: 엔비디아(GR00T N1.6·N2 프리뷰, Cosmos, Jetson Thor), Skild AI(2026-01, 기업가치 140억 달러), Physical Intelligence(2026-03 110억 달러 이상에 투자 협상 보도), Figure AI(390억 달러).</li>
+<li><strong>미국 양산 진영</strong>: 테슬라가 2026년 3분기 프리몬트 고용량 라인에서 옵티머스 Gen3 '초기 양산' 시작(외부 판매는 2027년 말 예상), 텍사스 2공장 2027 예정. 현대차그룹-보스턴다이내믹스는 CES 2026에서 양산형 아틀라스 공개, <strong>2028년까지 연 3만 대 생산 체제</strong>, 그룹 공장에 2.5만 대 이상 투입 계획.</li>
+</ul>
+<h4>(c) 산업 변화</h4>
+<ul>
+<li><strong>세계 설치 60.3만 대(+11%) — 4년 박스권 돌파, 사상 최고</strong>(IFR WR2026, 2026-09). 중국 35.4만(+20%, 59%), 미국 3.84만(+12%, 일본 추월해 2위), 일본 3.62만, 한국 3.02만, 독일 2.48만. 가동대수 500만 대 돌파.</li>
+<li>전문 서비스로봇 약 25만 대(+24%), 이 중 물류 11.75만(+21%, 47%). 수술로봇 8,400대(+57%).</li>
+<li>일본 로봇공업회는 2026년 수주 1조 300억 엔(+3.2%) 전망, 2025년 전자부품 실장기 수주가 +47%로 AI 서버 수요를 반영.</li>
+</ul>
+<h4>(d) 사이클 단계</h4>
+<p>산업용: <strong>회복 초입~중반</strong> (IFR 2026F +9%, 2029F 80.6만 대). 휴머노이드: <strong>내러티브 1차 고점 통과</strong> — 주가는 2026-01~05 고점 후 급락, 펀더멘털(출하·자금조달)은 확대 중.</p>
+<h4>(e) 대표 기업 주가 (2024-11 저점 → 2026-05 고점 → 2026-11)</h4>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>종목</th>
+<th>저점→고점</th>
+<th>고점→현재</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>일본 4사 지수</td>
+<td><strong>+202%</strong> (2024-11→2026-05)</td>
+<td><strong>−31%</strong> (→2026-10)</td>
+<td>화낙·야스카와·나브테스코 2026-05 사상 최고가</td>
+</tr>
+<tr>
+<td>화낙</td>
+<td>+110%</td>
+<td>−29%</td>
+<td></td>
+</tr>
+<tr>
+<td>야스카와</td>
+<td>+89%</td>
+<td>−47%</td>
+<td></td>
+</tr>
+<tr>
+<td>HDS</td>
+<td><strong>+325%</strong></td>
+<td>−39%</td>
+<td>사상 최고가는 여전히 2020-12</td>
+</tr>
+<tr>
+<td>나브테스코</td>
+<td>+139%</td>
+<td>−24%</td>
+<td></td>
+</tr>
+<tr>
+<td>레인보우로보틱스</td>
+<td>+269% (2024-12→2026-02)</td>
+<td><strong>−58%</strong></td>
+<td>같은 기간 KOSPI +118% → −15%</td>
+</tr>
+<tr>
+<td>로보티즈</td>
+<td><strong>+1,251%</strong> (2024-12→2026-01)</td>
+<td>−28%</td>
+<td>액추에이터 '다이나믹셀'</td>
+</tr>
+<tr>
+<td>두산로보틱스</td>
+<td>+146% (2025-03→2026-01)</td>
+<td>−55%</td>
+<td></td>
+</tr>
+<tr>
+<td>UBTech(HK)</td>
+<td>—</td>
+<td>사상 최고(2024-03) 대비 −68%</td>
+<td></td>
+</tr>
+<tr>
+<td>BOTZ(글로벌 로봇 ETF)</td>
+<td>—</td>
+<td>2026-05 고점 대비 −22%</td>
+<td></td>
+</tr>
+<tr>
+<td>인튜이티브서지컬</td>
+<td>—</td>
+<td>2026-05 대비 +4%</td>
+<td>고점(2025-11) 대비 −23%</td>
+</tr>
+</tbody>
+</table></div>
+<p>→ <strong>'관절(감속기)·한국 소형주'가 가장 많이 오르고 가장 많이 빠졌다. 수술로봇(설치기반 과금)은 거의 흔들리지 않았다.</strong> 2단계에서 정량화.</p>
+<h4>(f) 규제 layer — 로봇이 '반도체급 안보 품목'이 되다</h4>
+<ul>
+<li><strong>미국 FCC, 외국산 휴머노이드·사족로봇 신규 수입 금지(2026-07-27)</strong> — 원격 장악 위험을 근거로 '국가안보 위험 장비 목록'에 추가. 2025년 미국 내 판매 휴머노이드의 상당수가 중국산(중국산 세계 점유율 약 85% 추정 보도).</li>
+<li><strong>미국 대통령 포고, 로봇·산업기계 수입을 무역확장법 232조 국가안보 위협으로 판정(2026-10-28)</strong> — 즉시 관세는 보류, 180일 협상 후 관세·쿼터·투자 인센티브 검토.</li>
+<li>한국: '바이 아메리칸' 강화 속 K-휴머노이드 수혜 기대(딜사이트, 2026-09), 2027년 예산에 국산 휴머노이드 200대 현장 실증(300억 원)·핵심부품 국산화 사업 편성.</li>
+<li><strong>함의 [판단]</strong>: 반도체가 2018~2022년 겪은 '안보화 → 공급망 분리'가 로봇에서 2026년 시작됐다. 한국·일본 로봇 기업에게는 <strong>'중국을 대체하는 비(非)중국 공급자'</strong> 라는 새 자리가 열리지만, FCC 조치가 '외국산 전체'를 대상으로 하는 만큼 <strong>미국 현지 생산 여부</strong>가 조건이 될 가능성이 높다(현대차-보스턴다이내믹스가 구조적으로 유리) — 세부 규정은 현재 확인 불가.</li>
+</ul>
+<hr />
+<h2>1단계 종합 — 70년 로봇 산업사가 반복한 5가지 패턴 (Why)</h2>
+<ol>
+<li><strong>로봇은 늘 '사람이 비싸지거나 사라지는 곳'으로 이동했다.</strong> 1970년대 일본(고도성장 노동부족) → 2010년대 중국(임금 급등·인구 정점) → 2020년대 한국(출산율 0.75, 로봇밀도 세계 1위). 다음 후보는 미국(리쇼어링 × 숙련공 부족)과 인도(설치 +15%, 6위).</li>
+<li><strong>발명국이 아니라 '양산하는 나라'가 이긴다.</strong> 유니메이트(미국 발명) → 일본 패권, 하모닉 드라이브(미국 발명) → 일본 HDS 독점, 휴머노이드(미국 보스턴다이내믹스가 30년 선행) → 2025년 출하는 중국이 80%+. 2차전지·반도체에서 본 '발명국 ≠ 상용화국' 패턴과 동일.</li>
+<li><strong>로봇은 '독자 수요'가 아니라 '남의 CapEx'로 큰다.</strong> 자동차(1980~2010) → 스마트폰(2010s) → EV·배터리(2020~22) → AI서버·반도체(2025~). 2차전지가 '항상 타 산업의 병목으로만 성장'한 것과 같은 구조 — 그래서 <strong>로봇의 사이클은 고객 산업의 CapEx 사이클과 동기화</strong>된다.</li>
+<li><strong>마진은 '관절'과 '설치기반'에 있다.</strong> 50년간 감속기·서보는 일본 소수 기업이 쥐었고(HDS 이익률 29%), 수술로봇은 소모품 과금으로 37% 영업이익률을 낸다. 반면 '팔을 조립해 파는' 사업은 중국 진입과 함께 가격전쟁으로 수렴했다.</li>
+<li><strong>'범용 로봇' 기대는 30년마다 돌아왔고, 매번 '현장 통합'에서 막혔다.</strong> GM의 1980년대 자동화 실패, 2010년대 소프트뱅크 페퍼의 상업적 실패, 2025년 "옵티머스 중 유용한 일을 하는 로봇은 아직 없다"(머스크, 2026-01). <strong>피지컬 AI가 다른 점은 '소프트웨어로 범용성을 푼다'는 시도 자체</strong> — 이번에도 같은 벽에 막힐지는 현재 알 수 없다(6단계 시나리오).</li>
+</ol>
+<hr />
+<h1>2단계. 주가 사이클</h1>
+<h2>2-1. 일본 로봇 4사 25년 통합 view (명목, 로그)</h2>
+<blockquote>
+<p><strong>지수 구성</strong>: 화낙(6954.T)·야스카와(6506.T)·하모닉드라이브(6324.T)·나브테스코(6268.T) 동일가중, 2001-01=100, 월간 수정종가. 로봇 완성품(화낙·야스카와) 2 + 정밀부품(HDS·나브테스코) 2로 <strong>산업 전체의 '몸통 + 관절'</strong>을 대표하도록 구성. ABB는 로봇 비중이 7%(2024)에 불과해 제외, KUKA는 2022 상장폐지로 제외.
+비교: 닛케이225(같은 기준). 결과: <strong>2001-01 → 2026-11 지수 2,113 vs 닛케이 442 — 로봇 4사 21배, 닛케이 4.4배.</strong></p>
+</blockquote>
+<p>(위 「주요 차트」의 차트 2 참조)</p>
+<h2>2-2. 사이클 구간 표 (일본 4사, 고점·저점 = 30% 이상 반전 기준)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>기간</th>
+<th>길이</th>
+<th>4사 지수</th>
+<th>같은 기간 닛케이</th>
+<th>트리거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>하락</td>
+<td>2002-03 → 2002-10</td>
+<td>7개월</td>
+<td>−36%</td>
+<td>−22%</td>
+<td>IT 버블 붕괴 여진</td>
+</tr>
+<tr>
+<td><strong>상승 ①</strong></td>
+<td>2002-10 → 2007-06</td>
+<td>56개월</td>
+<td><strong>+628%</strong></td>
+<td>+110%</td>
+<td>중국 WTO·자동차·LCD 증설</td>
+</tr>
+<tr>
+<td><strong>하락 ①</strong></td>
+<td>2007-06 → 2009-01</td>
+<td>19개월</td>
+<td><strong>−70%</strong></td>
+<td>−56%</td>
+<td>금융위기, 설치 −47%</td>
+</tr>
+<tr>
+<td><strong>상승 ②</strong></td>
+<td>2009-01 → 2015-03</td>
+<td>74개월</td>
+<td><strong>+822%</strong></td>
+<td>+140%</td>
+<td>중국 최대 시장화, 스마트폰</td>
+</tr>
+<tr>
+<td>하락</td>
+<td>2015-03 → 2015-09</td>
+<td>6개월</td>
+<td>−35%</td>
+<td>−9%</td>
+<td>중국 증시 쇼크(미니)</td>
+</tr>
+<tr>
+<td><strong>상승 ③</strong></td>
+<td>2015-09 → 2018-01</td>
+<td>28개월</td>
+<td><strong>+253%</strong></td>
+<td>+33%</td>
+<td>중국제조2025, 사상 최고 40만 대</td>
+</tr>
+<tr>
+<td><strong>하락 ②</strong></td>
+<td>2018-01 → 2018-12</td>
+<td>11개월</td>
+<td><strong>−56%</strong></td>
+<td>−13%</td>
+<td>미중 무역전쟁</td>
+</tr>
+<tr>
+<td><strong>상승 ④</strong></td>
+<td>2018-12 → 2020-12</td>
+<td>24개월</td>
+<td><strong>+159%</strong></td>
+<td>+37%</td>
+<td>코로나 후 EV·배터리</td>
+</tr>
+<tr>
+<td><strong>하락 ③</strong></td>
+<td>2020-12 → 2022-04</td>
+<td>16개월</td>
+<td><strong>−52%</strong></td>
+<td>−2%</td>
+<td>금리 인상, 공급망 재고조정</td>
+</tr>
+<tr>
+<td>반등</td>
+<td>2022-04 → 2023-02</td>
+<td>10개월</td>
+<td>+34%</td>
+<td>+2%</td>
+<td>리오프닝</td>
+</tr>
+<tr>
+<td><strong>하락 ④</strong></td>
+<td>2023-02 → 2024-11</td>
+<td>21개월</td>
+<td><strong>−46%</strong></td>
+<td><strong>+39%</strong></td>
+<td>박스권·중국 가격전쟁·HDS 적자권</td>
+</tr>
+<tr>
+<td><strong>상승 ⑤</strong></td>
+<td>2024-11 → 2026-05</td>
+<td>18개월</td>
+<td><strong>+202%</strong></td>
+<td>+74%</td>
+<td>휴머노이드·피지컬 AI, 설치 반등</td>
+</tr>
+<tr>
+<td>하락(진행)</td>
+<td>2026-05 → 2026-10</td>
+<td>5개월+</td>
+<td>−31%</td>
+<td>−5%(→2026-10)</td>
+<td>휴머노이드 디레이팅, 한국 급락</td>
+</tr>
+</tbody>
+</table></div>
+<h2>2-3. 사이클 패턴 framework 【정량】</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+<th>해석</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>주요 고점 간격</strong></td>
+<td>2007-06 → 2018-01(127개월) → 2020-12(35개월) → 2026-05(65개월)</td>
+<td>평균 약 76개월(6.3년). <strong>단 2018→2020은 무역전쟁 V자로 인한 짧은 주기</strong></td>
+</tr>
+<tr>
+<td><strong>상승기</strong></td>
+<td>10~74개월, +34~+822% (주요 5회 평균 약 +410%·40개월)</td>
+<td>상승은 길고 크다 — 신규 고객 산업이 등장할 때</td>
+</tr>
+<tr>
+<td><strong>하락기</strong></td>
+<td>6~21개월, −35~−70% (주요 4회 평균 <strong>−56%·17개월</strong>)</td>
+<td>하락은 짧고 깊다 — CapEx 취소는 한꺼번에 온다</td>
+</tr>
+<tr>
+<td><strong>닛케이 대비 베타</strong></td>
+<td>하락기 4사 낙폭 ÷ 닛케이 낙폭 = 1.25배(2008)~25배(2022)</td>
+<td><strong>시장이 아니라 고객 CapEx에 반응</strong>. 2023~24는 닛케이 +39% 속 −46%로 '역행'</td>
+</tr>
+<tr>
+<td><strong>부품 vs 완성품</strong></td>
+<td>하락기마다 HDS·야스카와 낙폭 &gt; 화낙 (2008: −75%/−76% vs −56%, 2018: −60%/−51% vs −41%)</td>
+<td><strong>관절(부품)이 몸통보다 1.3~1.5배 더 흔들린다</strong> — 2차전지 '소재 &gt; 셀' 패턴과 동일</td>
+</tr>
+<tr>
+<td><strong>이익률 진폭(HDS)</strong></td>
+<td>경상이익률 29%(FY3/15) → 1.3%(FY3/20) → 16%(FY3/22) → 0.3%(FY3/25) → 회사전망 11%(FY3/27)</td>
+<td>부품주는 <strong>가동률 레버리지</strong>가 극단적 — 주가 2~3배 진폭의 원천</td>
+</tr>
+<tr>
+<td><strong>바닥 신호</strong></td>
+<td>설치대수 YoY 마이너스 2년 차 + 부품사 이익률 한 자릿수 초반 + 일본 로봇공업회 수주 YoY 전환</td>
+<td>2009-01, 2018-12, 2024-11 모두 해당 [판단]</td>
+</tr>
+<tr>
+<td><strong>고점 신호</strong></td>
+<td>사상 최고 설치 + '새 범용 로봇 내러티브' + 소형 테마주 시총이 매출 대비 수백 배(PSR)</td>
+<td>레인보우 PSR 260배(2026-03 보도), 유니트리 상장 첫날 +629% [판단]</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>[판단] 이 framework의 한계</strong>: 관측 사이클이 4~5회뿐이고, 2001년 이전(버블기) 데이터가 없다. 특히 <strong>휴머노이드라는 신규 수요가 '스마트폰·EV'급 신규 고객 산업이 된다면 2009~2015형 장기 상승(74개월·+822%)이, 실패하면 2023~24형 박스권 디레이팅이 재현</strong>된다.</p>
+<h2>2-4. 2023~26 휴머노이드 사이클 (한국·중국 vs 일본)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>그룹</th>
+<th>기점 → 고점</th>
+<th>상승률</th>
+<th>고점 → 2026-11</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한국 2사(레인보우·로보티즈) 동일가중</td>
+<td>2021-02=100 → 2025-12 1,809</td>
+<td><strong>18배</strong></td>
+<td>2026-11 1,466(−19%, 레인보우 −58%·로보티즈 −28%)</td>
+<td>삼성·LG 거래 확대가 촉매</td>
+</tr>
+<tr>
+<td>일본 4사</td>
+<td>2024-11 → 2026-05</td>
+<td>+202%</td>
+<td>−31%</td>
+<td>부품(HDS) +325%가 주도</td>
+</tr>
+<tr>
+<td>UBTech(HK)</td>
+<td>2023-12 상장 → 2024-03</td>
+<td>+149%</td>
+<td>−68%</td>
+<td>상장 직후 고점 → 장기 하락</td>
+</tr>
+<tr>
+<td>유니트리(STAR)</td>
+<td>2026-08 상장</td>
+<td>첫날 +629%</td>
+<td>데이터 축적 전</td>
+<td>중국 휴머노이드 가격 기준점</td>
+</tr>
+</tbody>
+</table></div>
+<p>→ <strong>한국 로봇주는 '실적 0에 가까운 상태에서 기대가 가격에 먼저 반영'되는 구조</strong>. 레인보우의 2025년 매출은 341억 원(영업손실 24.8억), 두산로보틱스는 330억(영업손실 595억)이다. 2차전지 메모리의 'PER 500배 = 버블 신호'와 같은 맥락에서, 로봇 소형주의 PSR 수백 배 구간은 고점 영역으로 기록해 둔다 [판단].</p>
+<h2>2-5. chunk ↔ 사이클 매핑</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>chunk</th>
+<th>주가 사이클</th>
+<th>일치 여부</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 (1992~2008)</td>
+<td>상승 ①(2002~07) → 하락 ①(2007~09)</td>
+<td><strong>일치</strong> — chunk 경계(2008)가 하락 ① 저점</td>
+</tr>
+<tr>
+<td>4 (2009~2017)</td>
+<td>상승 ② + ③ (2009~2018-01)</td>
+<td><strong>일치</strong> — 2018-01 고점이 chunk 4/5 경계</td>
+</tr>
+<tr>
+<td>5 (2018~2022)</td>
+<td>하락 ② → 상승 ④ → 하락 ③</td>
+<td><strong>일치</strong> — 2022-04 저점이 chunk 5/6 경계</td>
+</tr>
+<tr>
+<td>6-A (2023~25)</td>
+<td>반등 → 하락 ④(박스권 디레이팅) → 상승 ⑤ 초입</td>
+<td><strong>부분 일치</strong> — 주가 바닥(2024-11)이 설치 반등(2025)보다 약 6~12개월 선행</td>
+</tr>
+<tr>
+<td>6-B (2026)</td>
+<td>상승 ⑤ 고점(2026-05) → 하락 진행</td>
+<td>진행 중</td>
+</tr>
+</tbody>
+</table></div>
+<p>→ <strong>주가는 설치대수보다 6~12개월 선행</strong>한다(2009-01 주가 바닥 vs 2009 연간 설치 바닥, 2024-11 주가 바닥 vs 2025 설치 반등). 방산(주가가 예산보다 2~3년 선행)보다 짧다 — 로봇 수요는 CapEx라 예산보다 가시성이 짧기 때문 [판단].</p>
+<hr />
+<h1>3단계. 비즈니스 구조 + 밸류체인</h1>
+<h2>3-0. 구조의 앵커 — '로봇 = 관절 덩어리 + 두뇌 + 통합'</h2>
+<p>비유하면 로봇은 <strong>'사람의 팔다리를 모터로 다시 만든 것'</strong>이다.
+- <strong>관절(액추에이터)</strong> = 모터(근육) + 감속기(힘줄·뼈의 지렛대) + 엔코더·토크센서(감각) + 드라이버(신경). 산업용 6축 로봇은 관절 6개, 휴머노이드는 <strong>28~44개</strong>.
+- <strong>두뇌</strong> = 컨트롤러(전통 로봇) → AI 모델·컴퓨트(피지컬 AI).
+- <strong>통합(SI)</strong> = 공장 라인에 맞춰 로봇·지그·비전·안전설비를 엮는 일. 전통 산업용 로봇에서는 <strong>로봇 본체 가격의 2~3배가 SI·주변설비 비용</strong> [업계 통설].</p>
+<p>→ 그래서 로봇 산업의 이익은 (1) 대체 불가능한 관절 부품, (2) 고객을 묶는 설치기반(소프트웨어·소모품·서비스), (3) 특정 공정의 통합 노하우 — 세 곳에 쌓인다.</p>
+<h2>3-1. 레이어 매핑</h2>
+<pre><code>[업스트림: 소재·부품]                [미드스트림: 로봇 본체]            [다운스트림: 통합·서비스]
+희토류 영구자석(NdFeB) ──┐
+특수강·베어링 ──────────┼─▶ 정밀감속기(하모닉/RV/행성) ─┐
+서보모터·드라이브 ──────┤                              ├─▶ 산업용 로봇(빅4·중국 로컬) ─▶ SI(라인 통합)
+롤러/볼 스크류 ─────────┤                              ├─▶ 협동로봇(UR·두산·레인보우)   ─▶ 공장·물류센터
+엔코더·토크/힘 센서 ────┤                              ├─▶ 물류 AMR(아마존·지브라 등)   ─▶ RaaS(구독)
+비전 카메라·라이다 ─────┘                              ├─▶ 수술로봇(인튜이티브·스트라이커)─▶ 병원(소모품·서비스)
+                                                       └─▶ 휴머노이드(유니트리·테슬라·BD) ─▶ 공장·연구·가정
+[두뇌 레이어] AI 칩(엔비디아 Jetson Thor) · 파운데이션 모델(GR00T·Skild·PI) · 시뮬레이션/합성데이터(Cosmos·Isaac)
+</code></pre>
+<h2>3-2. 레이어별 BM 정량</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>대표 기업</th>
+<th>BM</th>
+<th>capabilities</th>
+<th>진입장벽</th>
+<th>이익률 (출처·시점)</th>
+<th>자본집약도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>정밀감속기</strong></td>
+<td>HDS, 나브테스코, 리더드라이브(중), 한국 에스피지</td>
+<td>부품 판매</td>
+<td>미크론급 가공·열처리·수명 검증(2~3년 실사용)</td>
+<td><strong>노하우·특허·고객 검증</strong></td>
+<td>HDS 경상 0.3%(FY3/25) ~ 29%(FY3/15), 진폭 극단</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>서보·모션제어</strong></td>
+<td>야스카와, 이노밴스(중), 화낙(내재화)</td>
+<td>부품·시스템 판매</td>
+<td>모터·인버터·제어 알고리즘</td>
+<td>규모·제품군</td>
+<td>이노밴스 중국 서보 점유율 27.6%(2024, 1위)</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>산업용 로봇(빅4)</strong></td>
+<td>화낙, 야스카와, ABB, KUKA</td>
+<td>장비 판매 + 서비스</td>
+<td>신뢰성(MTBF), 글로벌 서비스망, 설치기반</td>
+<td><strong>설치기반·고객 라인 표준화</strong></td>
+<td>화낙 전사 OPM 21.4%(FY3/26, 로봇 매출 44%) / ABB로보틱스 EBITA 12.1%(2024)</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>산업용 로봇(중국 로컬)</strong></td>
+<td>에스툰, 이노밴스, 시아순, EFORT</td>
+<td>장비 판매(저가)</td>
+<td>원가·납기·보조금</td>
+<td>낮아지는 중</td>
+<td>"더 많이 팔고 덜 번다"(2025) — 시아순·EFORT 적자</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>협동로봇</strong></td>
+<td>UR(테라다인), 화낙 CRX, 두산·레인보우, 중국 JAKA·Elite</td>
+<td>장비 판매</td>
+<td>안전·쉬운 티칭</td>
+<td><strong>낮음</strong></td>
+<td>두산로보틱스 영업손실률 180%(2025)</td>
+<td>저</td>
+</tr>
+<tr>
+<td><strong>물류 AMR</strong></td>
+<td>아마존(내재화), 지브라, 오토스토어</td>
+<td>판매 + <strong>RaaS</strong></td>
+<td>플릿 소프트웨어</td>
+<td>중</td>
+<td>RaaS가 미국 전문서비스로봇의 지배적 모델(IFR 2026)</td>
+<td>저~중</td>
+</tr>
+<tr>
+<td><strong>수술로봇</strong></td>
+<td>인튜이티브서지컬, 스트라이커(MAKO)</td>
+<td><strong>장비 + 소모품·서비스 반복매출</strong></td>
+<td>임상 데이터·FDA·외과의 훈련 생태계</td>
+<td><strong>최상</strong> (규제·학습곡선 lock-in)</td>
+<td>ISRG 영업이익률 37%(2025 pro forma), 반복매출 84%</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>휴머노이드(중국)</strong></td>
+<td>유니트리, 애지봇, UBTech</td>
+<td>판매(연구·교육·전시 → 산업)</td>
+<td>부품 내재화(유니트리 90% 이상)·원가</td>
+<td>낮아지는 중(업체 난립)</td>
+<td>유니트리 순이익률 약 25%(2026 상반기 예상치 기준 [추정]) / UBTech 2025 상반기 순손실 4.39억 위안</td>
+<td>중</td>
+</tr>
+<tr>
+<td><strong>휴머노이드(미국)</strong></td>
+<td>테슬라, Figure, 어질리티, BD</td>
+<td>내부 투입 → RaaS(어질리티 대당 월 약 8,500달러)</td>
+<td>AI·자본·자체 공장</td>
+<td>자본</td>
+<td>적자(미공개)</td>
+<td>고</td>
+</tr>
+<tr>
+<td><strong>두뇌(모델·컴퓨트)</strong></td>
+<td>엔비디아, Skild, PI, 구글 딥마인드</td>
+<td>칩·플랫폼·라이선스</td>
+<td>데이터·연산·인재</td>
+<td><strong>데이터·컴퓨트 규모</strong></td>
+<td>엔비디아 로보틱스+자동차 매출 ≈ 전사의 약 1%(분기 6억 달러 내외, 2026)</td>
+<td>고</td>
+</tr>
+</tbody>
+</table></div>
+<h2>3-3. 이익은 어디에 있는가 — '두 봉우리 + 꺼진 중간'</h2>
+<ol>
+<li><strong>봉우리 ① 생태계 과금(상시)</strong>: 인튜이티브는 설치기반 11,106대(2025말)에 시술 315만 건(+18%)이 얹히며 소모품 매출 60.2억 달러(+19%). <strong>로봇을 '팔고 끝'이 아니라 '쓸 때마다 과금'</strong>하는 구조가 37% 마진을 만든다. 화낙도 서비스 부문(매출 16.5%)이 설치기반과 함께 안정 성장.</li>
+<li><strong>봉우리 ② 관절 부품(호황기)</strong>: 사이클 상승기에는 감속기가 병목이 되며 마진이 폭발(HDS 29%). 하락기에는 고정비 레버리지가 역으로 작동(0.3%).</li>
+<li><strong>꺼진 중간 — 조립형 로봇 팔·협동로봇</strong>: 중국 로컬 진입 후 가격전쟁. 6kg급 6축 로봇이 중국에서 2만 위안대(2023, GGII). 협동로봇은 진입장벽이 낮아 한국 업체들도 적자.</li>
+<li><strong>새 봉우리 후보 — 두뇌 레이어 [전망]</strong>: Figure AI 기업가치 390억 달러는 Goldman의 2024년판 2035년 휴머노이드 TAM(380억 달러)과 비슷하다. <strong>시장은 '몸통'보다 '두뇌'에 이익이 쌓일 것으로 가격을 매기고 있다</strong> — 실제 매출(Skild 2025 약 3,000만 달러 [미감사 주장])은 아직 미미하다.</li>
+</ol>
+<h2>3-4. 휴머노이드 원가 구조 — 관절이 원가의 절반</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>구성</th>
+<th>비중</th>
+<th>출처·시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>액추에이터(모터+감속기+스크류+센서)</td>
+<td><strong>약 50~56%</strong></td>
+<td>모건스탠리 옵티머스 Gen2급 BOM 약 5.5만 달러 기준 약 56%(머스크 언급 수치와 일치) / humanoid.guide 50% (2026)</td>
+</tr>
+<tr>
+<td>손(엔드이펙터)</td>
+<td>15~31%</td>
+<td>옵티머스 V3 22자유도 손이 BOM의 약 20%(Counterpoint, 2026 하반기 대당 제조원가 6만 달러 이상 추정)</td>
+</tr>
+<tr>
+<td>센서</td>
+<td>~10~14%</td>
+<td>X.PIN 중국 BOM(2026)</td>
+</tr>
+<tr>
+<td>컴퓨트(칩)</td>
+<td>5~10%</td>
+<td>Meticulous(2026) — <strong>AI 칩은 팔꿈치 관절 하나보다 싸다</strong></td>
+</tr>
+<tr>
+<td>배터리·구조·배선</td>
+<td>나머지</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>중국 BOM 분해(X.PIN, 2026): 정밀감속기 21%, 모터 19%, 리드스크류 19%, 센서 14%, 컨트롤러 12%, 구조물 10% — <strong>감속기·모터·스크류 합계 59%</strong>.</li>
+<li><strong>행성 롤러스크류</strong>는 옵티머스 1대에 14~16개, 초기 단가 개당 1,350~2,700달러(모건스탠리)이며, <strong>나사산 연삭 설비가 생산능력의 병목</strong> — 4단계·5단계의 'A 후보'.</li>
+<li>원가 하락 속도: BofA는 2025년말 대당 BOM 3.5만 달러 → 2030~35년 1.3~1.7만 달러 [전망]. 유니트리 생산원가 7.32만 위안(2023) → 6.22만 위안(2025 3Q).</li>
+</ul>
+<h2>3-5. 한국 기업의 레이어별 포지션 【핵심】 (테마 직접성 = '피지컬 AI·휴머노이드 수요의 직접 수혜도')</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>레이어</th>
+<th>한국 기업</th>
+<th>포지션·근거</th>
+<th>직접성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>휴머노이드 완제품(미국 양산)</td>
+<td><strong>현대차그룹(보스턴다이내믹스)</strong></td>
+<td>아틀라스 2028년 연 3만 대 체제, 그룹 공장 2.5만 대+ 투입 계획, 미국 내 생산 → FCC 외국산 금지의 <strong>구조적 수혜 위치</strong>. 단 현대차 매출 대비 비중은 미미</td>
+<td>중간 (그룹 전체 기준 낮음)</td>
+</tr>
+<tr>
+<td>액추에이터(휴머노이드용)</td>
+<td><strong>현대모비스</strong></td>
+<td>아틀라스용 액추에이터, 미국 내 연 30만 개 이상 생산 계획(2026-05 보도)</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>휴머노이드·협동로봇</td>
+<td><strong>레인보우로보틱스</strong></td>
+<td>삼성전자 최대주주(약 35%, 콜옵션 행사 시 59.94%), 2025 매출 341억(+76%)·영업손실 24.8억, 협동로봇이 매출 85%, 이동형 양팔로봇 RB-Y1 쿠팡 실증</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>스마트 액추에이터·로봇손</td>
+<td><strong>로보티즈</strong></td>
+<td>모터·감속기·제어기 일체형 '다이나믹셀' 자체 생산, 로봇손·AI Worker로 확장, LG와 거래 개시</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>협동로봇·솔루션</td>
+<td><strong>두산로보틱스</strong></td>
+<td>매출 530억(2023) → 330억(2025), 영업손실 595억, 북미 비중 51%(1Q26), 2027 흑자전환 가이던스</td>
+<td>높음 (단 실적 역행)</td>
+</tr>
+<tr>
+<td>산업용 로봇</td>
+<td><strong>HD현대로보틱스</strong>(비상장)</td>
+<td>국내 산업용 로봇 1위권, 현대·기아 캡티브</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>정밀감속기</td>
+<td>에스피지 등</td>
+<td>감속기 국산화 — 글로벌 점유율 미미 [확인 필요]</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>로봇 고객(수요처)</td>
+<td><strong>삼성전자·LG전자·현대차</strong></td>
+<td>삼성 RX사업추진실·구미 휴머노이드 체계, 'Bot' 계열 / LG는 베어로보틱스 인수(2025)</td>
+<td>낮음 (매출 비중)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>한국 위치 요약 [판단]</strong>: 한국은 <strong>세계 1위 '로봇 사용국'(밀도 1,220대)이지만 '로봇 공급국'으로는 존재감이 작다</strong> — 2025년 세계 산업용 로봇 점유율 상위 10위권에 두산로보틱스가 1%로 겨우 이름을 올린 수준(Manufacturing Digital, 2025-12). 핵심부품(감속기·서보·센서)은 일본·중국 수입 의존(KITA). 기회는 (1) 미국 '비중국 공급망'의 대체자, (2) 대기업 캡티브 수요(삼성·현대·LG)를 실증장으로 쓰는 구조 — 두 가지다.</p>
+<h2>3-6. 진입장벽 정량 — '자본'이 아니라 '검증 시간'</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>장벽</th>
+<th>정량</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RV 감속기 수명 검증</td>
+<td><strong>최소 2~3년 실사용 테스트</strong></td>
+<td>Zane Robotics(2025) — 고객이 수명을 믿어 주기까지 걸리는 시간</td>
+</tr>
+<tr>
+<td>RV 감속기 가공 공차</td>
+<td>±0.001mm(프리미엄 ±0.0005mm)</td>
+<td>사이클로이드 디스크 치형</td>
+</tr>
+<tr>
+<td>나브테스코 기술 축적</td>
+<td>1986년 개발 착수 → 약 40년</td>
+<td>특허 포트폴리오로 구조·공정·시험법까지 방어</td>
+</tr>
+<tr>
+<td>수술로봇</td>
+<td>FDA 인허가 + 외과의 수백 건 학습곡선</td>
+<td>다빈치 2000년 승인 후 25년 독주</td>
+</tr>
+<tr>
+<td>휴머노이드 양산</td>
+<td>부품 1만 개 이상이 '처음 대량생산'</td>
+<td>테슬라 옵티머스(머스크, 2026-04) — 차량보다 공급망 구축이 어렵다</td>
+</tr>
+<tr>
+<td>휴머노이드 손</td>
+<td>22자유도, 테슬라도 '가장 만들기 어려운 부품'</td>
+<td>TechRepublic(2026-10)</td>
+</tr>
+</tbody>
+</table></div>
+<p>→ 2차전지에서 확인한 '진짜 장벽은 CapEx가 아니라 수율·양산 노하우 + 적자를 견디는 기간'과 같은 결론. 다만 로봇은 <strong>'고객이 신뢰할 때까지의 검증 시간'</strong>이 하나 더 붙는다.</p>
+<hr />
+<h1>4단계. 공급 구조 점검 — 현재 정량 snapshot</h1>
+<h2>4-1. 구조조정 이력</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시기</th>
+<th>이벤트</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1983</td>
+<td>유니메이션 → 웨스팅하우스 매각 후 소멸</td>
+<td>발명국 미국의 로봇 제조 퇴장 시작</td>
+</tr>
+<tr>
+<td>1988</td>
+<td>ASEA + BBC = ABB</td>
+<td>유럽 통합</td>
+</tr>
+<tr>
+<td>1990</td>
+<td>신시내티 밀라크론 로봇사업 → ABB</td>
+<td>미국 산업용 로봇 제조사 사실상 소멸</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>테이진세이키 + NABCO = 나브테스코</td>
+<td>RV 감속기 독점 강화</td>
+</tr>
+<tr>
+<td>2015</td>
+<td>유니버설로봇 → 테라다인</td>
+<td>협동로봇의 미국 편입</td>
+</tr>
+<tr>
+<td>2016~17</td>
+<td><strong>KUKA → 메이디(중국)</strong></td>
+<td>빅4 중 하나 중국화</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>보스턴다이내믹스 → 현대차그룹</td>
+<td>휴머노이드 원조의 한국 편입</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>아마존의 아이로봇 인수 무산(EU 반대) → 2025-12 아이로봇 파산</td>
+<td>소비자 로봇의 중국 가격 경쟁 패배</td>
+</tr>
+<tr>
+<td>2025~26</td>
+<td><strong>ABB 로보틱스 → 소프트뱅크(53.75억 달러, 2026 하반기 종결 예정)</strong></td>
+<td>빅4 중 유럽 소유 0곳</td>
+</tr>
+<tr>
+<td>2025~</td>
+<td>중국 산업용 로봇 가격전쟁(시아순·EFORT 적자, 에스툰 마진 압박·고가 인수)</td>
+<td><strong>중국 로컬의 구조조정은 아직 미착수</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>→ <strong>산업용 로봇의 구조조정은 '국경 간 소유권 이전'으로 진행됐다(통폐합보다 매각)</strong>. 플레이어 수가 줄었다기보다 <strong>국적이 바뀌었다</strong>. 중국 로컬은 2차전지와 마찬가지로 '공급 과잉 속에서 퇴출 없이 버티는' 단계 [판단].</p>
+<h2>4-2. 플레이어 수와 집중도</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>과거</th>
+<th>현재</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>빅4의 글로벌 점유율</td>
+<td>2010년대 중반 과반 [추정]</td>
+<td>하락 중 [추정]</td>
+<td>공식 점유율 통계 부재. 중국 시장 잠식이 주 요인</td>
+</tr>
+<tr>
+<td>중국 시장 중국 브랜드 점유율</td>
+<td>약 28%(2015)</td>
+<td><strong>57%(2024) → 55%(2025)</strong></td>
+<td>IFR. 2025년엔 외산 +27% vs 로컬 +15%로 외산이 반격</td>
+</tr>
+<tr>
+<td>중국 내 1위</td>
+<td>외산(화낙 등)</td>
+<td><strong>에스툰, 출하 기준 중국 내 1위(2025-10)</strong></td>
+<td>국내 업체 최초</td>
+</tr>
+<tr>
+<td>하모닉 감속기</td>
+<td>HDS 압도적</td>
+<td><strong>HDS 1위, 리더드라이브 글로벌 약 12%(2025)</strong>, 중국 내 국산 비중 80%+</td>
+<td>상위 5사 약 93%(QYResearch 과거 추정) — 고집중 유지, 국적만 분산</td>
+</tr>
+<tr>
+<td>RV 감속기</td>
+<td>나브테스코 독점</td>
+<td>나브테스코 글로벌 53%+, <strong>중국 내 국산 비중 60.8%(2024, 수량)</strong></td>
+<td>프리미엄은 여전히 나브테스코</td>
+</tr>
+<tr>
+<td>수술로봇</td>
+<td>인튜이티브 독점</td>
+<td>다빈치 설치기반 11,106대 vs MAKO 3,000대+</td>
+<td>사실상 1강</td>
+</tr>
+<tr>
+<td>휴머노이드</td>
+<td>—</td>
+<td>2025 출하 상위: 애지봇 ~5,100·유니트리 4,200~5,500·UBTech 1,000 → <strong>상위 3사 ≈ 80%(Omdia 기준)</strong></td>
+<td>중국 '수십 개' 업체, 미국은 테슬라·Figure 각 수백 대</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>HHI 개략 [추정]</strong>: 휴머노이드 상위 3사 점유율 39%·32%·8%(Omdia 기준)로 HHI ≈ 2,700 이상 — 고집중. 그러나 2026년 생산계획(중국 10만~20만 대, GGII)이 현실화되면 <strong>신규 진입자 증가로 집중도가 낮아질 가능성</strong> — 2차전지 2021~23과 같은 경로.</p>
+<h2>4-3. 공급 능력(CAPA) — '설치 &lt; 생산'의 중국</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+<th>출처·시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>중국 산업용 로봇 생산</td>
+<td>59.5만 대(2025 1~3Q) — 2024 연간 초과</td>
+<td>중국기계공업연합회(2025-11)</td>
+</tr>
+<tr>
+<td>중국 산업용 로봇 설치</td>
+<td>35.4만 대(2025)</td>
+<td>IFR</td>
+</tr>
+<tr>
+<td>중국 산업용 로봇 수출</td>
+<td>2025 상반기 +약 60%(7.46억 달러)</td>
+<td>업계 보도</td>
+</tr>
+<tr>
+<td>휴머노이드 중국 생산</td>
+<td>2025 출하 1.44만 대 → <strong>2026 10만~20만 대 [전망]</strong></td>
+<td>GGII(2026-06)</td>
+</tr>
+<tr>
+<td>테슬라 옵티머스</td>
+<td>2026 Q2 주 수십 대 → 8월 주 수백 대 → 연말 주 1,000대+ 라인 목표</td>
+<td>The Information 인용(2026-10)</td>
+</tr>
+<tr>
+<td>현대차-BD 아틀라스</td>
+<td>현재 월 4대(2026-05 보도) → 2028 연 3만 대</td>
+<td>Pulse/eWeek</td>
+</tr>
+<tr>
+<td>UBTech</td>
+<td>2026년 1만 대 목표</td>
+<td>Caixin</td>
+</tr>
+</tbody>
+</table></div>
+<p>→ 산업용 로봇: <strong>중국 생산(연환산 약 80만 대 [추정]) &gt; 세계 설치(60.3만 대)</strong> — 수출 밀어내기 구조. 휴머노이드: <strong>2026년 공급 계획(10만~20만 대) vs Goldman 2026 수요 추정 7.5만 대</strong> — 공급이 수요를 2배 이상 앞설 수 있다 [전망].</p>
+<h2>4-4. 핵심 투입재 병목</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>투입재</th>
+<th>집중</th>
+<th>병목 수준 [판단]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>희토류 영구자석(NdFeB)</strong></td>
+<td>중국이 정제·자석 생산 압도적(방산 문서: 희토류 자석 중국 약 90%)</td>
+<td><strong>높음</strong> — 모든 서보·액추에이터의 근육. 중국 수출통제 카드</td>
+</tr>
+<tr>
+<td><strong>행성 롤러스크류</strong></td>
+<td>소수 업체, 나사산 연삭 설비가 율속</td>
+<td><strong>높음(휴머노이드 한정)</strong> — 대당 12~16개, 산업용엔 거의 안 씀</td>
+</tr>
+<tr>
+<td>하모닉 감속기</td>
+<td>HDS·리더드라이브·중국 다수</td>
+<td>중간 — 중국 국산화로 완화</td>
+</tr>
+<tr>
+<td>RV 감속기</td>
+<td>나브테스코(프리미엄)</td>
+<td>중간 — 중국 국산 60%로 저가 구간 완화</td>
+</tr>
+<tr>
+<td>고성능 토크·촉각 센서</td>
+<td>분산</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>엣지 AI 칩</td>
+<td>엔비디아 Jetson 계열</td>
+<td>낮음~중간 — BOM의 5~10%</td>
+</tr>
+</tbody>
+</table></div>
+<h2>4-5. 가격결정력 변화</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>구간</th>
+<th>가격 추이</th>
+<th>결정력</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산업용 로봇(중국 중저가)</td>
+<td>6kg 6축 2만 위안대, 시아순 매출 −46%(2025 상반기)</td>
+<td><strong>상실</strong></td>
+</tr>
+<tr>
+<td>산업용 로봇(빅4 고급)</td>
+<td>중국산 대비 20~50% 비싸도 '실패 불가 공정'의 기본값</td>
+<td><strong>유지</strong></td>
+</tr>
+<tr>
+<td>감속기</td>
+<td>HDS 마진 0.3%→11%(전망) 회복은 가동률 덕분, 가격 인상 아님</td>
+<td>약화(중국 국산화)</td>
+</tr>
+<tr>
+<td>휴머노이드</td>
+<td>유니트리 ASP −72%(2023→2025 1~3Q), 레주 −26%(2025)</td>
+<td><strong>'규모의 경제형 하락'</strong> — 가격결정력보다 원가 하락 경쟁</td>
+</tr>
+<tr>
+<td>수술로봇</td>
+<td>다빈치 ASP 상승(2025 4Q), 사용량 기반 리스 매출 +57%</td>
+<td><strong>강화</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h2>4-6. 진입장벽 변화 (시대별)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시대</th>
+<th>핵심 장벽</th>
+<th>변화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1970~90s</td>
+<td>서보·감속기·제어 기술</td>
+<td>일본 수직계열화가 장벽</td>
+</tr>
+<tr>
+<td>2000~10s</td>
+<td>글로벌 서비스망·설치기반·자동차 고객 인증</td>
+<td>빅4 과점</td>
+</tr>
+<tr>
+<td>2015~24</td>
+<td>(중저가) 원가·보조금 / (고급) 신뢰성</td>
+<td><strong>중저가 장벽 붕괴</strong></td>
+</tr>
+<tr>
+<td>2025~</td>
+<td><strong>AI·데이터(두뇌) + 관절 양산 원가(몸통)</strong></td>
+<td>장벽이 '하드웨어 정밀도'에서 '데이터·규모'로 이동 [판단]</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>5단계. 수요 구조 점검 — 현재 정량 snapshot</h1>
+<h2>5-1. 수요처 구성 (B2B 압도적)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>세그먼트</th>
+<th>2025 판매량</th>
+<th>증감</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산업용 로봇</td>
+<td><strong>60.3만 대</strong></td>
+<td>+11%</td>
+<td>사상 최고</td>
+</tr>
+<tr>
+<td>전문 서비스로봇</td>
+<td>약 25만 대</td>
+<td>+24%</td>
+<td>물류 11.75만(47%)</td>
+</tr>
+<tr>
+<td>의료로봇 중 수술로봇</td>
+<td>8,400대</td>
+<td>+57%</td>
+<td>의료로봇 전체 +19%</td>
+</tr>
+<tr>
+<td>휴머노이드(풀사이즈 상업용)</td>
+<td>약 7,000대</td>
+<td>신규</td>
+<td>IFR 기준. 업계 집계는 1.3만~1.6만</td>
+</tr>
+<tr>
+<td>소비자 서비스로봇</td>
+<td>약 3,420만 대</td>
+<td>+37%</td>
+<td>청소기 등, <strong>B2C</strong> — 금액 비중은 낮고 중국 가격경쟁</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>산업용 로봇 고객 산업 (글로벌, 2025, IFR)</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>고객 산업</th>
+<th>설치대수</th>
+<th>비중</th>
+<th>증감</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전기·전자</td>
+<td>142,235</td>
+<td>23.6%</td>
+<td>+10%</td>
+</tr>
+<tr>
+<td>자동차</td>
+<td>138,429</td>
+<td>22.9%</td>
+<td>+10% (사상 최고)</td>
+</tr>
+<tr>
+<td>금속·기계</td>
+<td>약 10.9만</td>
+<td>18%</td>
+<td>+22%</td>
+</tr>
+<tr>
+<td>기타(식품·화학·플라스틱·미분류)</td>
+<td>약 21만</td>
+<td>약 35%</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-2. 수요 집중도 (B2B형 = 국가·고객 산업 집중)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>국가</th>
+<th>2025 설치</th>
+<th>비중</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>중국</td>
+<td>354,200</td>
+<td><strong>59%</strong></td>
+<td>전자 27%·자동차 7.9만(+38%)·금속기계 7.9만(+44%)</td>
+</tr>
+<tr>
+<td>미국</td>
+<td>38,400</td>
+<td>6.4%</td>
+<td>일본 추월 2위, 식품 +30%, 자동차 1.35만(−1%)</td>
+</tr>
+<tr>
+<td>일본</td>
+<td>36,200</td>
+<td>6.0%</td>
+<td></td>
+</tr>
+<tr>
+<td>한국</td>
+<td>30,200</td>
+<td>5.0%</td>
+<td>2019년 이후 연 3.1만 대 안팎 정체</td>
+</tr>
+<tr>
+<td>독일</td>
+<td>24,800</td>
+<td>4.1%</td>
+<td>−8%, EU −11%</td>
+</tr>
+<tr>
+<td>인도</td>
+<td>약 10,500</td>
+<td>1.7%</td>
+<td>+15%, 6위</td>
+</tr>
+<tr>
+<td><strong>상위 5개국</strong></td>
+<td></td>
+<td><strong>약 80%</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>→ <strong>수요 집중도가 극단적</strong>이다. '중국 제조업 CapEx = 세계 로봇 수요의 6할'. 메모리 반도체의 '상위 5개 고객 50%+'보다 더 쏠린 구조.</p>
+<h2>5-3. 수요 사이클 위치</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시계</th>
+<th>위치</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>장기(10~20년)</td>
+<td><strong>구조적 성장</strong></td>
+<td>세계 설치 10년 2배(2014 22.1만 → 2024 54.2만), 가동대수 500만(2025)</td>
+</tr>
+<tr>
+<td>중기 사이클</td>
+<td><strong>회복 1~2년차</strong></td>
+<td>4년 박스권(2022~24) 돌파, IFR 2026F +9%·2029F 80.6만(2026~29 CAGR +7%)</td>
+</tr>
+<tr>
+<td>단기 선행지표</td>
+<td>혼조</td>
+<td>일본 로봇공업회 2026 수주 +3.2% 전망 / 화낙 1Q(1~3월) 수주 2,520억 엔 사상 최고(+19.2%) / EU 설치 −11%</td>
+</tr>
+<tr>
+<td>주기 길이</td>
+<td>설치대수 기준 고점→고점 약 5년(2017→2022)</td>
+<td>주가 고점 간격 평균 약 6.3년</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-4. 메가 트렌드 수요 비중 (상위 트렌드 적합성 판정)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>수요 원천</th>
+<th>성격</th>
+<th>2025 수요 내 비중 [추정]</th>
+<th>판정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>노동력 부족·고령화(한·일·중·유럽)</td>
+<td><strong>메가 트렌드</strong>(인구)</td>
+<td>전 업종에 걸친 기저 수요</td>
+<td>세큘러</td>
+</tr>
+<tr>
+<td>AI 서버·반도체·전자 증설</td>
+<td>메가 트렌드(AI) 파생</td>
+<td>전자 23.6% 중 상당 부분 + 일본 실장기 수주 +47%</td>
+<td>메가 견인</td>
+</tr>
+<tr>
+<td>EV·배터리</td>
+<td>메가 트렌드(전동화)였으나 증설 사이클 둔화</td>
+<td>자동차 22.9% 중 일부</td>
+<td>사이클</td>
+</tr>
+<tr>
+<td>리쇼어링·공급망 재편(미국·인도)</td>
+<td>정책 주도</td>
+<td>미국 +12%, 인도 +15%</td>
+<td>세큘러 후보</td>
+</tr>
+<tr>
+<td>물류·식품·의료</td>
+<td>노동 부족 + 이커머스</td>
+<td>서비스로봇 +24%</td>
+<td>세큘러</td>
+</tr>
+<tr>
+<td><strong>휴머노이드·피지컬 AI</strong></td>
+<td><strong>메가 트렌드 후보</strong></td>
+<td>금액 기준 1% 미만</td>
+<td><strong>아직 '기대'</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>판정 [판단]</strong>: 전체 로봇 수요의 <strong>약 40~50%가 메가 트렌드(인구·AI·리쇼어링) 견인</strong>이고 나머지는 고객 산업 CapEx 사이클이다. 따라서 로봇 산업 전체는 <strong>'세큘러 성장 + 사이클'</strong>이며, <strong>피지컬 AI는 아직 수요가 아니라 밸류에이션에만 반영된 메가 트렌드 후보</strong>다. 이것이 '메가 트렌드 안에서 실적+스토리를 겸비'라는 주도주 조건에서 로봇이 현재 <strong>스토리는 A급, 실적은 C급</strong>인 이유다.</p>
+<h2>5-5. 대체재·보완재</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>대상</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>대체재</strong></td>
+<td>저임금 노동(신흥국 이전), 전용 자동화 설비(하드 오토메이션)</td>
+<td>인도·동남아 인건비가 낮을수록 로봇 도입 지연</td>
+</tr>
+<tr>
+<td>대체재(휴머노이드 관점)</td>
+<td><strong>바퀴형·단일목적 로봇</strong> — IFR은 2025년 물류 서비스로봇 17대당 풀사이즈 휴머노이드 1대</td>
+<td>휴머노이드의 실제 경쟁자는 '사람'보다 '싸고 검증된 전용 로봇' [판단]</td>
+</tr>
+<tr>
+<td>대체재(의료)</td>
+<td>GLP-1 비만치료제 → 미국 다빈치 비만수술 고한자릿수 감소(2025)</td>
+<td>수술로봇 수요의 일부 잠식</td>
+</tr>
+<tr>
+<td><strong>보완재</strong></td>
+<td>AI 칩·시뮬레이션·비전, 머신비전, SI</td>
+<td>피지컬 AI가 로봇의 범용성을 높여 수요를 키움</td>
+</tr>
+<tr>
+<td>보완재</td>
+<td>공작기계·FA(화낙 CNC), 반도체 장비</td>
+<td>같은 CapEx 사이클을 공유 — 동조화</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-6. 가격탄력성 — '가격'보다 '회수기간'</h2>
+<ul>
+<li>산업용 로봇은 <strong>회수기간(payback)</strong>으로 사는 재화다. 인건비가 오를수록, 로봇 가격이 내릴수록 회수기간이 짧아져 수요가 늘어난다 → <strong>중간~높은 탄력성</strong>. 중국 가격전쟁은 공급자에겐 악재지만 <strong>수요 확대(중소 제조업 침투)에는 촉매</strong>.</li>
+<li>휴머노이드: 어질리티 디지트 RaaS 연 약 10만 달러(월 8,500달러, 2026-06) vs 미국 2교대 공장 노동자 인건비 → <strong>대당 가격이 2~3만 달러로 내려오고 가동률이 사람의 1.5배 이상이 될 때 수요가 비선형으로 폭발</strong> [전망]. 현재 유니트리 ASP 16.7만 위안(약 2.3만 달러)은 이미 그 구간 하단에 진입했지만, <strong>'유용한 일을 하는가'</strong>가 미검증.</li>
+<li>수술로봇: 저탄력(병원 경쟁·환자 결과 중심) → 가격결정력 유지.</li>
+</ul>
+<h2>5-7. 수요 driver 분해 [판단]</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>driver</th>
+<th>기여도</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>고객 산업 CapEx(전자·자동차·배터리)</td>
+<td><strong>약 45%</strong></td>
+<td>고객 3업종 65%, 주가가 CapEx에 동조</td>
+</tr>
+<tr>
+<td>노동 공급 감소·인건비</td>
+<td>약 25%</td>
+<td>한국 로봇밀도 1,220(연 5% 증가), 미국 식품·물류</td>
+</tr>
+<tr>
+<td>정책(보조금·리쇼어링·안보)</td>
+<td>약 15%</td>
+<td>중국제조2025, 미국 232조·FCC, K-휴머노이드</td>
+</tr>
+<tr>
+<td>기술 채택(AI·cobot·AMR)</td>
+<td>약 15%</td>
+<td>서비스로봇 +24%, 휴머노이드 신규</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-8. 정부 정책 영향</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>국가</th>
+<th>정책</th>
+<th>영향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>중국</td>
+<td>중국제조2025(2015), 휴머노이드 지도의견(2023-11), 지방정부 펀드, STAR 상장 사전심사</td>
+<td>공급 측 과잉 유발 + 국산화</td>
+</tr>
+<tr>
+<td>미국</td>
+<td><strong>FCC 외국산 휴머노이드·사족로봇 수입 금지(2026-07)</strong>, 로봇·산업기계 232조 판정(2026-10), AI Action Plan</td>
+<td>수요를 '미국산'으로 강제 → 미국 내 생산자 수혜</td>
+</tr>
+<tr>
+<td>한국</td>
+<td>K-휴머노이드 연합(2025-04), 2027 예산 휴머노이드 200대 실증 300억·핵심부품 국산화, K-문샷(기계연·KIST 약 1,350억)</td>
+<td>수요 창출(실증) + 부품 국산화</td>
+</tr>
+<tr>
+<td>일본</td>
+<td>생산성 향상 설비투자 지원, AI로보틱스 산업 네트워크(일본로봇공업회 2026)</td>
+<td>완만</td>
+</tr>
+<tr>
+<td>EU</td>
+<td>KUKA·ABB 해외 매각 이후 '피지컬 AI 주권' 논쟁</td>
+<td>수요보다 공급 소유권 이슈</td>
+</tr>
+</tbody>
+</table></div>
+<h2>5-9. 글로벌 vs 한국 수요 분리 (한국 접근 가능 TAM)</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>규모</th>
+<th>한국 기업 접근성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한국 내수 산업용</td>
+<td>연 3.02만 대(2025, 세계 5%)</td>
+<td>높음 — 단 대기업 캡티브(현대·삼성) 중심</td>
+</tr>
+<tr>
+<td>중국 시장(59%)</td>
+<td>35.4만 대</td>
+<td><strong>낮음</strong> — 로컬 55%, 가격전쟁</td>
+</tr>
+<tr>
+<td>미국 시장</td>
+<td>3.84만 대 + 휴머노이드 신규</td>
+<td><strong>중간~높음</strong> — 비중국 공급망 + 현지 생산 시 (현대차-BD, 두산 북미 51%)</td>
+</tr>
+<tr>
+<td>휴머노이드 핵심부품(글로벌)</td>
+<td>Goldman 2035 1,380억 달러 TAM의 약 50%가 관절 [전망]</td>
+<td>중간 — 액추에이터(로보티즈·현대모비스), 감속기 국산화 진행</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h1>4+5 종합: 수급 매트릭스 현재 위치 결론</h1>
+<pre><code>[4번 공급 fact]
+- 산업용: 중국 생산(연환산 ~80만 대 [추정]) &gt; 세계 설치 60.3만 대 → 수출 밀어내기, 가격전쟁
+- 중국 로컬 퇴출 없음(구조조정 미착수), 빅4는 소유권만 이전(KUKA→중국, ABB→일본)
+- 정밀감속기: 일본 독점 → 중국 국산화(RV 60.8%, 하모닉 80%+)로 저가 구간 완화
+- 휴머노이드: 2026 중국 생산 계획 10~20만 대 vs 수요 추정 7.5만 대(Goldman) [전망]
+- 병목 후보: 행성 롤러스크류(연삭 설비), 희토류 자석(중국), 고자유도 손
+
+[5번 수요 fact]
+- 산업용 설치 +11%(2025) 4년 박스권 돌파, 2026F +9%, 2029F 80.6만(CAGR 7%)
+- 수요 집중: 중국 59%, 상위 5개국 80%, 고객 3업종 65%
+- 서비스로봇 +24%(물류 47%), 수술로봇 +57%
+- 메가 트렌드 견인 비중 ~40~50% [판단], 휴머노이드는 금액 기준 1% 미만
+
+→ 현재 로봇 산업 전체는 C(일시적 사이클 반등) 위치
+→ 근거: 공급 측 '중국발 공급 증가 + 퇴출 부재' + 수요 측 '4년 정체 후 +11% 반등, 그러나 고객 산업 CapEx 의존'
+   (수요 급증이 아닌 '회복'이고, 공급은 제한이 아니라 '증가' — A/B가 아님)
+</code></pre>
+<p><strong>세그먼트별 분기 (테마 분석 Step 3에서 이 표부터 참조)</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>세그먼트</th>
+<th>카테고리</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>산업용 로봇 — 빅4 고급(자동차·반도체 정밀)</td>
+<td><strong>C</strong> (사이클 반등)</td>
+<td>화낙 1Q 수주 사상 최고, 이익률 21.4%, 중국산 대비 20~50% 프리미엄 유지</td>
+</tr>
+<tr>
+<td>산업용 로봇 — 중국 중저가</td>
+<td><strong>F</strong> (공급 과잉)</td>
+<td>생산 &gt; 설치, 가격전쟁, 로컬 적자, 퇴출 없음</td>
+</tr>
+<tr>
+<td>협동로봇</td>
+<td><strong>F</strong> (공급 과잉)</td>
+<td>설치 11%에서 정체(6.5만→6.6만), 진입장벽 낮음, 한국 업체 적자</td>
+</tr>
+<tr>
+<td>정밀감속기(산업용)</td>
+<td><strong>C</strong> (재고 사이클 회복)</td>
+<td>HDS 이익률 0.3%→4.3%→11%(전망), 단 중국 국산화로 가격결정력 약화</td>
+</tr>
+<tr>
+<td><strong>휴머노이드 핵심부품(롤러스크류·고토크 액추에이터·손·자석)</strong></td>
+<td><strong>A 후보 [전망]</strong></td>
+<td>대당 수량 많고(스크류 12~16개, 관절 28~44개), 연삭·자석이 율속 — <strong>단 현재 수요 절대량이 작아 아직 '전망'</strong></td>
+</tr>
+<tr>
+<td>휴머노이드 완제품</td>
+<td><strong>D</strong> (동반 확대) → F 전조</td>
+<td>출하 5배+(2025), 생산 계획이 수요 추정의 2배, 중국 정부의 버블 경고</td>
+</tr>
+<tr>
+<td>물류·서비스 로봇</td>
+<td><strong>B</strong> (수요 견인)</td>
+<td>+21~24%, RaaS 확산, 공급 적당</td>
+</tr>
+<tr>
+<td>수술로봇</td>
+<td><strong>E</strong> (점진적 가격결정력)</td>
+<td>1강 구조, 시술 +18%, ASP 상승, 반복매출 84%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>테마 분석으로 넘길 시사점 [판단]</strong>
+1. <strong>주도주는 'A 후보' 세그먼트(휴머노이드 관절 부품)에서 나올 가능성이 높지만, 지금은 '스토리 A, 실적 C'</strong>다. 진짜 변곡점은 (1) 테슬라·현대차-BD·유니트리의 월간 생산량이 <strong>수천 대 단위</strong>로 확인되는 시점, (2) 부품사(HDS·리더드라이브·스크류 업체·한국 액추에이터)의 <strong>휴머노이드향 매출 비중이 10%를 넘는 시점</strong>.
+2. <strong>로봇 주가는 설치대수보다 6~12개월 선행, 고객 CapEx에 동조</strong>한다. 1순위 트래킹: IFR 연간(9월)·일본 로봇공업회 분기 수주·화낙 분기 수주·중국 산업용 로봇 월간 생산·HDS 분기 가동률.
+3. <strong>2026년 하락은 '내러티브 고점'에 가깝다.</strong> 2023~24 박스권 디레이팅(−46%)과 달리 수요는 확장 중이다. 다만 한국 로봇 소형주는 KOSPI 급락(−38%)과 겹쳐 하락 원인 분리가 필요 — <strong>상대수익률로 재계산할 것</strong>(레인보우 2026-02→11 절대 −58% vs KOSPI −15%).
+4. <strong>미국의 '중국 로봇 차단'(FCC·232조)은 한국 로봇 산업의 최대 구조 변수</strong>다. 반도체·배터리의 FEOC처럼, '비중국 + 미국 현지생산' 조건을 충족하는 기업에 프리미엄이 붙는 구조로 갈 가능성 [전망].</p>
+<hr />
+<h1>6단계(브릿지). 로봇 → 피지컬 AI로 이어지는 연결고리</h1>
+<blockquote>
+<p>이 섹션은 산업기초의 범위를 넘어 <strong>다음 테마 분석('피지컬 AI / 휴머노이드')의 출발점</strong>을 정리한다. 테마 분석 시 Step 0 입력으로 쓴다.</p>
+</blockquote>
+<h2>6-1. 피지컬 AI란 무엇이 다른가 — 비유</h2>
+<p>전통 산업용 로봇은 <strong>'악보를 그대로 연주하는 자동 피아노'</strong>다. 사람이 좌표를 하나하나 가르쳐야 하고(티칭), 부품 위치가 1cm만 달라져도 실패한다. 피지컬 AI는 <strong>'처음 보는 곡도 보고 따라 치는 연주자'</strong>를 목표로 한다 — 카메라로 보고, 언어로 지시받고, 시뮬레이션·시연 데이터로 배운 정책(VLA 모델: 시각-언어-행동)으로 움직인다. IFR 스스로 "범용 피지컬 AI와 시뮬레이션·경험 학습은 아직 산업 등급이 아니다"(WR2026)라고 평가한다.</p>
+<h2>6-2. 피지컬 AI 스택과 이익의 위치 [판단]</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>스택</th>
+<th>현재 플레이어</th>
+<th>2026 현황</th>
+<th>이익 잠재력</th>
+<th>병목 가능성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 두뇌(파운데이션 모델)</td>
+<td>엔비디아 GR00T, Skild, PI, 구글 딥마인드, 테슬라</td>
+<td>기업가치 급등(Skild 140억·Figure 390억 달러), 매출 미미</td>
+<td>높음(성공 시 소프트웨어 마진)</td>
+<td><strong>데이터</strong></td>
+</tr>
+<tr>
+<td>② 데이터·시뮬레이션</td>
+<td>엔비디아 Cosmos·Isaac, 원격조작 데이터팩토리, 한국 '국가 제조데이터 라이브러리'(2027 예산 검토)</td>
+<td>원격조작 + 합성데이터 혼합</td>
+<td>중간</td>
+<td><strong>높음 — 현재 최대 병목 후보</strong></td>
+</tr>
+<tr>
+<td>③ 컴퓨트(엣지 칩)</td>
+<td>엔비디아 Jetson Thor, 테슬라 AI5</td>
+<td>BOM의 5~10%</td>
+<td>중간</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>④ 몸통(완제품)</td>
+<td>유니트리·애지봇·UBTech / 테슬라·BD·Figure</td>
+<td>출하 1.3~1.6만(2025), 중국 80%+</td>
+<td><strong>낮음~중간</strong>(가격전쟁 경로)</td>
+<td>낮음(공급 과잉 위험)</td>
+</tr>
+<tr>
+<td>⑤ 관절(액추에이터·감속기·스크류·모터)</td>
+<td>HDS·나브테스코·리더드라이브·산화(Sanhua)·투오푸(Tuopu)·현대모비스·로보티즈</td>
+<td>BOM 40~60%</td>
+<td><strong>중간~높음</strong>(양산 초기 병목)</td>
+<td><strong>높음 — 롤러스크류·자석</strong></td>
+</tr>
+<tr>
+<td>⑥ 손(엔드이펙터)</td>
+<td>테슬라 내재화, 다수 스타트업</td>
+<td>BOM 15~31%, '가장 어려운 부품'</td>
+<td>높음</td>
+<td>높음</td>
+</tr>
+</tbody>
+</table></div>
+<h2>6-3. 시나리오 (2030년 기준) — 예측 불가 영역</h2>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>시나리오</th>
+<th>조건</th>
+<th>결과</th>
+<th>로봇 산업 수급</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 스마트폰형 폭발</strong></td>
+<td>휴머노이드가 공장에서 사람 1.5배 생산성 입증 + 대당 2만 달러 이하</td>
+<td>Goldman 2030 89만 대 상회, 관절 부품 A 병목, 2009~15형 장기 상승 재현</td>
+<td>A</td>
+</tr>
+<tr>
+<td><strong>B. 전용 로봇 우위</strong></td>
+<td>범용성이 비용을 정당화 못 함 → 바퀴형·양팔형·전용 AMR이 수요 흡수</td>
+<td>휴머노이드는 연 수십만 대 니치, 산업용·물류 로봇이 피지컬 AI의 실제 수혜</td>
+<td>B~C</td>
+</tr>
+<tr>
+<td><strong>C. 2차전지형 공급 과잉</strong></td>
+<td>중국 생산 계획(2026 10~20만 대)이 실수요를 크게 초과</td>
+<td>휴머노이드 가격 붕괴·업체 난립 후 구조조정, 부품도 F</td>
+<td>F → G</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>현재 확인 불가</strong>: 어느 시나리오가 될지는 알 수 없다. 판별 지표는 ① 테슬라·BD의 <strong>외부 고객 납품 대수</strong>(2027~28), ② 휴머노이드 <strong>RaaS 가동률·재계약률</strong>, ③ 중국 휴머노이드 <strong>재고·가격 추이</strong>, ④ 파운데이션 모델의 <strong>'처음 보는 작업' 성공률</strong> 공개 여부.</p>
+<h2>6-4. 테마 분석에서 반드시 풀어야 할 질문</h2>
+<ol>
+<li>피지컬 AI 테마는 <strong>메가 트렌드인가, 2023~24 '생성형 AI → 로봇' 기대의 일시적 테마인가?</strong> (현재 판정: 메가 트렌드 후보, 실적 미확인)</li>
+<li>병목은 <strong>두뇌(데이터)</strong>인가 <strong>관절(롤러스크류·자석)</strong>인가? — 두 병목의 Moat 기업은 전혀 다르다.</li>
+<li>미국의 '중국 로봇 차단'이 만든 <strong>비중국 공급망 프리미엄</strong>은 한국 기업에 실제로 열리는가? (FCC 규정의 '외국산' 범위·면제 조건 확인 필요)</li>
+<li>한국 기업 중 <strong>휴머노이드향 매출이 실제로 찍히는 곳</strong>은 어디인가? (현재: 레인보우 2025 매출 341억 원 중 삼성전자향 약 104억 원 [보도 기준], 매출의 85%가 협동로봇 — 휴머노이드 매출은 아직 의미 없는 수준)</li>
+</ol>
+<hr />
+<h2>부록. 주요 출처</h2>
+<ul>
+<li>IFR World Robotics 2026 Industrial Robots Executive Summary·보도자료(2026-09-24: 세계·중국·미국·독일/EU), World Robotics 2026 Service Robots(보도), World Robotics 2025 보도자료(2025-09-25), 로봇밀도 보도(2026-04-08)</li>
+<li>Omdia General-Purpose Embodied Robotics Market Radar(2026-01), Counterpoint(2026-01), GGII(China Daily HK, 2026-06-12), Caixin(2026-01-24, 2026-05-26)</li>
+<li>유니트리 투자설명서·IPO 보도(TrendForce 2026-08-07, eHangzhou 2026-08-07, humanoid.guide, Seedtable), Leju 투자설명서(Gasgoo)</li>
+<li>Tesla Q1·Q3 2026 실적발표(Electrek 2026-04-22, Not a Tesla App, Drive Tesla Canada), TechRepublic(2026-10-12, The Information 인용)</li>
+<li>Hyundai Motor Group CES 2026(Automotive World, InsideEVs, The Register 2026-01-06), Boston Dynamics RMAC(The Robot Report 2026-09-21), Pulse(2026-05)</li>
+<li>SoftBank–ABB Robotics(ABB 발표, tech.eu 2025-10-08, TechRepublic 2025-10-09)</li>
+<li>NVIDIA GTC 2026 보도자료(2026-03-16), CES 2026 보도자료, 247WallSt(2026-08-15)</li>
+<li>Skild AI(Fintool·Bloomberg 2026-01-14), Physical Intelligence(Dealroom 2026-03), Figure AI(2025-09 Series C)</li>
+<li>Goldman Sachs Physical AI 리포트(247WallSt 2026-09-14, humanoid.guide), Goldman 2024-02-27, Morgan Stanley Humanoid 100·Global Humanoid Model(2025)</li>
+<li>휴머노이드 BOM: Morgan Stanley(GrabaRobot, humanoid.guide 2026), X.PIN(2026), Counterpoint 옵티머스 V3, BofA Institute(2025-04, 2026-03), Meticulous Research</li>
+<li>감속기: Zane Robotics Substack(2025), faxiangongchang China reducer deep dive(2026), QYResearch</li>
+<li>화낙 FY3/2026 결산(2026-04-24, MoneyDJ·stockanalysis), HDS 2026년 3월기 결산단신(2026-05-13)·Traders·finboard, Intuitive Surgical 2025 실적(2026-01-14), 일본로봇공업회 2026 신년 전망(전파신문 2026-01-09), crex-data</li>
+<li>중국 가격전쟁: Jiemian(2025-11), Yicai(2024-12), SCMP, itiger(에스툰)</li>
+<li>미국 규제: FCC National Security Determination(2026-07-27, AP·BBC·CNN·DW 보도), White House 232조 포고(2026-10-28, Ars Technica·Reuters·AJOT), Semafor(2026-02·03)</li>
+<li>한국: 산업통상자원부 K-휴머노이드 연합(2025-04), 파이낸셜뉴스(2026-09-02), 딜사이트(2026-09-07, 2025-11-10), 비즈워치(2026-11-06, 2026-02-11), 다음/아주경제·스마트투데이(레인보우 2026-10-01), 신한투자증권(로보티즈, 2026-09), 두산로보틱스 실적(뉴스·네이버리서치 2026-05-29), Korea Business Review(2026-06-19), KITA</li>
+<li>주가: Yahoo Finance 월간 수정종가(6954.T, 6506.T, 6324.T, 6268.T, ^N225, ABBN.SW, ISRG, TER, ^GSPC, 277810.KQ, 108490.KQ, 454910.KS, ^KS11, 9880.HK, 300124.SZ, TSLA, BOTZ), 2026-11-13 기준</li>
+</ul>
+</div></body></html>
