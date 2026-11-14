@@ -42,6 +42,8 @@ h3 { color:var(--text-bright); margin:0.8rem 0 0.4rem; font-size:1rem; }
 .sector-card.t1 { border-left:4px solid var(--t1); }
 .sector-card.t2 { border-left:4px solid var(--t2); }
 .sector-card.t3 { border-left:4px solid var(--t3); }
+.sector-card.grp { border-left:4px solid var(--t2); }
+.tier-grp { background:var(--bg-3); color:var(--text); border:1px solid var(--border-2); }
 .sector-card:hover { border-color:var(--accent); }
 .sector-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; }
 .sector-name { color:var(--text-bright); font-size:1.05rem; font-weight:600; }
@@ -130,12 +132,10 @@ footer { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border); 
 <!-- 5/18 신규 — 테마 리뷰 카드 섹션 (워치리스트와 Tier 1 사이) -->
 <h2>테마 리뷰</h2>
 <div id="themeReviews" class="theme-grid"><div class="loading">테마 리뷰 로딩...</div></div>
-<h2>Tier 1</h2>
+<!-- 2026-11-14: Tier 1(집중 칸) + 산업 대분류 섹션 (테크 / 산업재 / 모빌리티·에너지전환 / 소비재) -->
+<h2>Tier 1 <span style="font-size:0.75rem;color:var(--text-dim);font-weight:400;">집중 섹터</span></h2>
 <div id="t1Sectors" class="sector-grid"><div class="loading">섹터 데이터 로딩...</div></div>
-<h2>Tier 2</h2>
-<div id="t2Sectors" class="sector-grid"></div>
-<h2>Tier 3</h2>
-<div id="t3Sectors" class="sector-grid"></div>
+<div id="groupSections"></div>
 <footer>최종 갱신: <span id="lastUpdate">-</span> · 데이터 source: watchlist.md, earnings_calendar.md, manifest.json</footer>
 </div>
 <script src="nav-loader.js" defer></script>

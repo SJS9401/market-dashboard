@@ -7,7 +7,7 @@ const DATA_PATHS = {
 
 let state = {
   currentQuarter: '2026-Q1',
-  watchlist: { T1: [], T2: [], T3: [] },
+  watchlist: { T1: [], groups: [] },
   calendar: {},
   signals: {},
   manifest: { preview: [], review: [], 'in-depth': [], followup: [], company: [], analysis: [], theme: [], 'theme-review': [] }
@@ -137,20 +137,26 @@ function changeQuarter(newQ) {
 }
 
 function parseWatchlist(md) {
-  const result = { T1: [], T2: [], T3: [] };
-  let currentTier = null;
+  // 2026-11-14: 우선순위(T1/T2/T3) → "섹터 T1(집중)" + 산업 대분류 그룹 ("## 대분류: 테크" 등)
+  //   T1 줄은 "- **섹터** [대분류] (종목…)" 형식으로 원래 대분류를 남긴다
+  const result = { T1: [], groups: [] };
+  let current = null;  // 'T1' | group 객체
   const lines = md.split('\n');
-  const T1 = '섹터';  // 섹터
   for (const line of lines) {
-    if (line.match(new RegExp('^##\\s+' + T1 + '\\s*T1'))) currentTier = 'T1';
-    else if (line.match(new RegExp('^##\\s+' + T1 + '\\s*T2'))) currentTier = 'T2';
-    else if (line.match(new RegExp('^##\\s+' + T1 + '\\s*T3'))) currentTier = 'T3';
-    else if (/^##\s/.test(line)) currentTier = null;
-    else if (currentTier && /^\s*-\s+\*\*/.test(line)) {
-      // 섹터명: **섹터** 다음 (...) 안의 종목 리스트 추출
-      const m = line.match(/^\s*-\s+\*\*([^*]+)\*\*\s*\((.+)\)\s*$/);
+    let gm;
+    if (/^##\s+섹터\s*T1/.test(line)) current = 'T1';
+    else if ((gm = line.match(/^##\s+대분류\s*[:：]\s*(.+?)\s*$/))) {
+      current = { name: gm[1], sectors: [] };
+      result.groups.push(current);
+    }
+    else if (/^##\s/.test(line)) current = null;
+    else if (current && /^\s*-\s+\*\*/.test(line)) {
+      // 섹터명: **섹터** [대분류]? 다음 (...) 안의 종목 리스트 추출
+      const m = line.match(/^\s*-\s+\*\*([^*]+)\*\*\s*(?:\[([^\]]+)\]\s*)?\((.+)\)\s*$/);
       if (m) {
         const sector = m[1].trim();
+        const category = current === 'T1' ? (m[2] ? m[2].trim() : '') : current.name;
+        m[2] = m[3];  // 아래 종목 파싱은 m[2] = 종목 리스트 기준
         // 5/18 변경: 종목 안의 괄호에 ticker + industry 들어갈 수 있음 (예: "Tesla(TSLA, industry=자동차)")
         // 괄호 안 콤마는 분리 안 하도록 negative lookahead split 사용
         const stocks = m[2].split(/,(?![^()]*\))/).map(s => s.trim()).filter(Boolean);
@@ -180,7 +186,8 @@ function parseWatchlist(md) {
           }
           return { name: s, ticker: '', industry: null, industries: null };
         });
-        result[currentTier].push({ sector, stocks: stockObjs });
+        const secObj = { sector, category, stocks: stockObjs };
+        if (current === 'T1') result.T1.push(secObj); else current.sectors.push(secObj);
       }
     }
   }
@@ -373,27 +380,31 @@ function buildHtmlPath(mode, file) {
   return 'earnings/earnings-' + mode + '/' + file;
 }
 
+// 2026-11-14: T1 + 대분류 그룹의 모든 섹터
+function allSectors() {
+  const wl = state.watchlist;
+  return (wl.T1 || []).concat(...(wl.groups || []).map(g => g.sectors));
+}
+
 function renderWatchlistSummary() {
   const wl = state.watchlist;
   const lines = [];
-  for (const tier of ['T1', 'T2', 'T3']) {
-    const sectors = wl[tier];
-    if (sectors.length === 0) continue;
+  const line = (badgeCls, label, sectors) => {
     const sectorNames = sectors.map(s => s.sector).join(' · ');
     const stockCount = sectors.reduce((sum, s) => sum + s.stocks.length, 0);
-    lines.push('<div class="tier-line"><span class="tier-badge tier-' + tier + '">' + tier + '</span>' + sectorNames + ' <span style="color:var(--text-dim);">(' + sectors.length + '개 섹터, ' + stockCount + '개 종목)</span></div>');
-  }
+    lines.push('<div class="tier-line"><span class="tier-badge ' + badgeCls + '">' + label + '</span>' + sectorNames + ' <span style="color:var(--text-dim);">(' + sectors.length + '개 섹터, ' + stockCount + '개 종목)</span></div>');
+  };
+  if ((wl.T1 || []).length) line('tier-T1', 'T1', wl.T1);
+  for (const g of (wl.groups || [])) if (g.sectors.length) line('tier-grp', g.name, g.sectors);
   $('watchlistSummary').innerHTML = lines.join('') || '<div class="loading">no data</div>';
 }
 
 function renderProgress() {
   let totalStocks = 0, r = 0;
-  for (const tier of ['T1', 'T2', 'T3']) {
-    for (const sec of state.watchlist[tier]) {
-      for (const stock of sec.stocks) {
-        totalStocks++;
-        if (getModeFile(stock, 'review')) r++;
-      }
+  for (const sec of allSectors()) {
+    for (const stock of sec.stocks) {
+      totalStocks++;
+      if (getModeFile(stock, 'review')) r++;
     }
   }
   const pct = totalStocks > 0 ? Math.round((r / totalStocks) * 100) : 0;
@@ -489,10 +500,14 @@ function renderStockRow(stock) {
 }
 
 function renderSectorCard(sectorObj, tier) {
+  // tier: 'T1' (집중 칸) | 'grp' (대분류 그룹). T1 카드는 원래 대분류를 배지로 함께 표시
   const card = el('div', { class: 'sector-card ' + tier.toLowerCase() });
+  const metaBits = ['종목 ' + sectorObj.stocks.length + '개'];
+  if (tier === 'T1') metaBits.push('T1');
+  if (sectorObj.category) metaBits.push(sectorObj.category);
   card.appendChild(el('div', { class: 'sector-header' }, [
     el('div', { class: 'sector-name' }, sectorObj.sector),
-    el('div', { class: 'sector-meta' }, '종목 ' + sectorObj.stocks.length + '개 · ' + tier)
+    el('div', { class: 'sector-meta' }, metaBits.join(' · '))
   ]));
   let rCount = 0;
   for (const stock of sectorObj.stocks) {
@@ -539,14 +554,22 @@ function renderSectorCard(sectorObj, tier) {
 }
 
 function renderSectors() {
-  const t1 = $('t1Sectors'), t2 = $('t2Sectors'), t3 = $('t3Sectors');
-  t1.innerHTML = ''; t2.innerHTML = ''; t3.innerHTML = '';
-  for (const sec of state.watchlist.T1) t1.appendChild(renderSectorCard(sec, 'T1'));
-  for (const sec of state.watchlist.T2) t2.appendChild(renderSectorCard(sec, 'T2'));
-  for (const sec of state.watchlist.T3) t3.appendChild(renderSectorCard(sec, 'T3'));
-  if (state.watchlist.T1.length === 0) t1.innerHTML = '<div class="loading">no data</div>';
-  if (state.watchlist.T2.length === 0) t2.innerHTML = '<div class="loading">no data</div>';
-  if (state.watchlist.T3.length === 0) t3.innerHTML = '<div class="loading">no data</div>';
+  // 2026-11-14: Tier 1(집중 칸) + 산업 대분류 섹션 (대분류끼리 합산·델타 비교는 하지 않음)
+  const t1 = $('t1Sectors'), box = $('groupSections');
+  const wl = state.watchlist;
+  t1.innerHTML = '';
+  for (const sec of (wl.T1 || [])) t1.appendChild(renderSectorCard(sec, 'T1'));
+  if (!(wl.T1 || []).length) t1.appendChild(el('div', { class: 'empty-state' }, '집중 섹터 없음 — watchlist.md "섹터 T1" 칸에 섹터를 옮기면 여기에 표시됩니다.'));
+  if (!box) return;
+  box.innerHTML = '';
+  for (const g of (wl.groups || [])) {
+    box.appendChild(el('h2', null, g.name));
+    const inT1 = (wl.T1 || []).filter(s => s.category === g.name).map(s => s.sector);
+    if (inT1.length) box.appendChild(el('div', { class: 'sr-pending', style: 'margin:-0.4rem 0 0.6rem;' }, 'T1에 배치: ' + inT1.join(' · ')));
+    const grid = el('div', { class: 'sector-grid' });
+    for (const sec of g.sectors) grid.appendChild(renderSectorCard(sec, 'grp'));
+    if (g.sectors.length) box.appendChild(grid);
+  }
 }
 
 // 5/18 신규 — 테마 리뷰 카드 렌더링

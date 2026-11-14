@@ -115,16 +115,16 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| LMT | Lockheed Martin | 미국 국방 수주, F-35, 미사일방어 (PAC-3) |
+| LMT | Lockheed Martin | 4Q 사업부OP $2.41B, F-35 Lot20 확정계약, 27년 매출 +8%·OPM 11%, MFC OPM 13%+, FY27 예산 CR |
 | RTX | RTX | 1월 27년 가이던스 Raytheon +10%↑, 4Q 매출 +5% 내재, 방산잔고 $164B 매출전환, 중동 방공 수주, GTF |
 | GD | General Dynamics | 27년 가이던스 1월, 4Q OP $1.54B, Marine OPM 7.5%, Combat OPM 14% 회복, CR 12/11 |
 | RHM | Rheinmetall AG | Arminius 12월 예산위, CMD 11/26 2030목표, 4Q OP €1.1bn·W&A 28%, 순차입 €2.9bn |
 | BAE | BAE Systems | 유럽 방산, 자주포·장갑차, 해군/전자전 (반기 실적) |
-| LDO | Leonardo | 헬기·훈련기, 방산전자, 이탈리아 국방예산 |
-| HO | Thales | 방산전자·레이더, 프랑스 국방예산 (1·3Q 매출만) |
+| LDO | Leonardo | 4Q EBITA €909m 상회, 3/4 산업계획, DE ROS 12.5%, LRMV €3.7bn, FOCF €1.44bn |
+| HO | Thales | 3월 H2마진 12.9%·방산 13%↑, 4Q 방산수주 €5bn, SAMP/T NG 수출, 중동 방공 |
 | SAAB | Saab | 4Q EBIT SEK 4.0bn·+37%, Dynamics 마진 회복, NATO·캐나다 GlobalEye, 28~ 목표 22% |
-| ESLT | Elbit Systems | 다연장(PULS)·방산전자, 이스라엘·유럽 수출 |
-| ASELS | Aselsan | 방공·전자, 튀르키예 수출 (리라 인플레 주의) |
+| ESLT | Elbit Systems | 11/17 3Q 영업이익 YoY 25%↑ 유지, Non-GAAP OPM 10%+, 잔고 $32B→33B+, 이스라엘 37% 정상화, PULS 유럽 |
+| ASELS | Aselsan | 4Q 매출 $2.4~2.8B, 순차입/EBITDA 0.8x→1x, 수출 비중 20%, 27 가이던스 2월, 잔고 $30.7B |
 | — | 한화에어로스페이스 | 4Q 지상방산 3.58조·OPM 20%↑, 폴란드 K9 EC3 조건, UAE 기본계약, 1Q27 수출OPM 20%, 27년 수주 17조 |
 | — | 한화시스템 | UAE 대공망 본계약 11월, 1Q27 수출비중 30%, 4Q 개발비 370~620억, 방산잔고 8.4조 반등 |
 | — | 현대로템 | 폴란드 EC3 초청장 연내, 페루 11월 예산·1H27 계약, 4Q 인도 44대·OP 2,760억, 루마니아 RFP, 27년 방산 감익 폭 |
