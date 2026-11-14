@@ -645,6 +645,7 @@ function parseSectorReviewStatus(md) {
     narrative: dm ? dm[2].trim() : null,
     signal: get('모멘텀 신호'),
     theme: get('활성 테마'),
+    positioning: get('포지셔닝'),  // 2026-11-14: ⑦ 글로벌 PM 포지셔닝 결론 압축
     members: get('편입 종목')
   };
 }
@@ -688,6 +689,9 @@ async function renderSectorReviews() {
     }
     if (status.theme && !/^없음/.test(status.theme)) {
       card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
+    }
+    if (status.positioning) {
+      card.appendChild(el('div', { class: 'sr-signal sr-pm', html: 'PM: <b>' + status.positioning.replace(/</g, '&lt;') + '</b>' }));
     }
     const links = el('div', { class: 'theme-reviews' });
     links.appendChild(el('a', {
