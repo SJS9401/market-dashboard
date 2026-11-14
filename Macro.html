@@ -40,6 +40,9 @@
   .card .next b.rel { color:#7ee2b8; }
   .card .next .rm { color:#6e7681; }
   .card .next b { color:#d2a8ff; font-weight:600; }
+  .card .cons { font-size:10.5px; color:#8b949e; margin-top:2px; }
+  .card .cons b { color:#f0f6fc; font-weight:600; }
+  .card .cons .cl { color:#6e7681; }
   .card .cv { position:relative; height:150px; margin-top:6px; }
   .card .lg { display:flex; gap:10px; font-size:10.5px; color:#8b949e; margin-top:4px; flex-wrap:wrap; }
   .lg i { display:inline-block; width:10px; height:3px; vertical-align:middle; margin-right:4px; border-radius:2px; }
@@ -120,6 +123,28 @@
       const data = j.data.filter(d => d[1] != null).map(d => [new Date(d[0]).toISOString().slice(0, 10), +d[1]]);
       const fc = {}; (j.attr || []).forEach(a => { if (a.forecast != null) fc[new Date(a.timestamp).toISOString().slice(0, 10)] = a.forecast; });
       if (data.length > 100) { M.ism[k] = { label: (M.ism[k] || {}).label || k, data, forecast: fc }; ismLive = true; }
+    } catch (e) {} }));
+
+  // 발표 당시 컨센서스 (2026-11-14 BT) — investing.com 이벤트 차트 attr[]: timestamp(발표시각)·actual(최초 발표치)·forecast(컨센)
+  //   비교 기준은 FRED 수정치가 아니라 investing 최초 발표치. CPI YoY(733)는 investing 쪽 갱신이 밀려 있어 MoM 으로 비교.
+  const CONS = {
+    unemp: [{ eid: 300, lab: '실업률', ax: 'y' }],
+    payrolls: [{ eid: 227, lab: '비농업 고용', ax: 'y' }],
+    retail: [{ eid: 256, lab: '소매판매 MoM', ax: 'y1' }, { eid: 63, lab: '자동차 제외 MoM', ax: 'y1' }],
+    cpi: [{ eid: 69, lab: '헤드라인 MoM', ax: 'y' }, { eid: 56, lab: '근원 MoM', ax: 'y' }],
+    pce: [{ eid: 61, lab: '근원 MoM', ax: 'y' }, { eid: 905, lab: '근원 YoY', ax: 'y' }],
+    ppi: [{ eid: 238, lab: '최종수요 MoM', ax: 'y' }, { eid: 734, lab: '최종수요 YoY', ax: 'y' }],
+    ism_mfg: [{ eid: 173, lab: 'PMI', ax: 'y' }], ism_svc: [{ eid: 176, lab: 'PMI', ax: 'y' }] };
+  const CRAW = {};
+  await Promise.all([...new Set(Object.values(CONS).flat().map(c => c.eid))].map(async id => {
+    try { const j = await fetch('https://sbcharts.investing.com/events_charts/us/' + id + '.json').then(r => r.json());
+      const recs = (j.attr || []).filter(a => a.actual != null || a.forecast != null).sort((a, b) => a.timestamp - b.timestamp);
+      // 데이터월 = 발표월 − 1. 한 달에 두 번 발표(셧다운 후 몰아치기 등)되면 앞선 발표를 한 달 더 당김
+      const ym = ts => { const d = new Date(ts + 9 * 3600e3); let y = d.getUTCFullYear(), m = d.getUTCMonth(); if (m < 1) { m += 12; y--; } return y + '-' + String(m).padStart(2, '0'); };
+      const back = s => { let y = +s.slice(0, 4), m = +s.slice(5) - 1; if (m < 1) { m = 12; y--; } return y + '-' + String(m).padStart(2, '0'); };
+      const out = recs.map(a => ({ ym: ym(a.timestamp), rel: new Date(a.timestamp + 9 * 3600e3).toISOString().slice(0, 10), act: a.actual, fc: a.forecast, actF: a.actual_formatted, fcF: a.forecast_formatted }));
+      for (let i = out.length - 2; i >= 0; i--) if (out[i].ym >= out[i + 1].ym) out[i].ym = back(out[i + 1].ym);
+      if (out.length) CRAW[id] = out;
     } catch (e) {} }));
 
   // ── 월 축 ──
@@ -211,7 +236,19 @@
       subs: [['JPN', '일본', C.c], ['EA20', '유로존', C.h]].filter(([k]) => M.oecd_cli && M.oecd_cli[k]).map(([k, l, c]) => ({ key: k, label: l, data: toMonthly(M.oecd_cli[k], 'last'), color: c })),
       chg: 'abs', match: null },
   ];
-  IND.forEach(ind => { ind.subs = ind.subs.filter(sb => sb.data.some(v => v != null)); });   // 수집 실패한 세부지표는 숨김
+  // 컨센서스 오버레이: 지표마다 '컨센(속 빈 점)' · '최초 발표치(점)' 세부지표 추가 — 체크하면 표에도 열이 생김
+  IND.forEach(ind => { (CONS[ind.id] || []).forEach((c, ci) => { const r = CRAW[c.eid]; if (!r) return;
+    const fc = new Array(N).fill(null), act = new Array(N).fill(null); r.forEach(x => { const i = midx[x.ym]; if (i == null) return; fc[i] = x.fc; act[i] = x.act; });
+    const col = ci ? '#ffa657' : '#f0f6fc';
+    ind.subs.push({ key: 'cact' + ci, label: c.lab + ' 최초 발표치', data: act, color: col, axis: c.ax, dots: 'act' },
+                  { key: 'cfc' + ci, label: c.lab + ' 컨센', data: fc, color: col, axis: c.ax, dots: 'fc' }); }); });
+  IND.forEach(ind => { ind.subs = ind.subs.filter(sb => sb.data.some(v => v != null)); });
+  // 카드용: 가장 최근 발표의 실제·컨센 (FRED 반영 전이어도 표시)
+  const WD0 = '일월화수목금토';
+  const consLine = ind => { const cs = (CONS[ind.id] || []).map(c => [c, (CRAW[c.eid] || []).slice(-1)[0]]).filter(x => x[1]); if (!cs.length) return '';
+    const L = cs[0][1], dt = new Date(L.rel + 'T00:00:00Z'), rd = (dt.getUTCMonth() + 1) + '/' + String(dt.getUTCDate()).padStart(2, '0') + '(' + WD0[dt.getUTCDay()] + ')';
+    const one = (c, x) => `${cs.length > 1 || CONS[ind.id].length > 1 ? c.lab + ' ' : ''}실제 <b>${x.actF || '—'}</b> · 컨센 ${x.fcF || '—'}`;
+    return `<div class="cons"><span class="cl">${+L.ym.slice(5)}월분 ${rd} 발표 —</span> ${cs.map(([c, x]) => one(c, x)).join(' <span class="cl">/</span> ')}</div>`; };   // 수집 실패한 세부지표는 숨김
   // 다음 발표
   const today = new Date().toISOString().slice(0, 10);
   // 달력에 없으면 발표 규칙으로 추정: 발표 대상월 = 최신 데이터월 + 1, 발표월 = +2
@@ -252,7 +289,8 @@
   Chart.register(recPlugin, zeroPlugin);
   const tickCb = (lab, n) => (v, i) => { const m = lab[i]; if (!m) return ''; if (n <= 72) return m.endsWith('-01') ? m.slice(0, 4) : (m.endsWith('-07') ? '7월' : ''); if (n <= 300) return m.endsWith('-01') ? m.slice(0, 4) : ''; return m.endsWith('-01') && (+m.slice(0, 4)) % 5 === 0 ? m.slice(0, 4) : ''; };
   function mkDatasets(lines, from, to, mini) {
-    return lines.map(l => ({ type: l.type || 'line', label: l.label, data: l.data.slice(from, to), borderColor: l.color, backgroundColor: l.type === 'bar' ? l.color + '88' : l.color, borderWidth: mini ? 1.4 : 1.7, pointRadius: 0, tension: 0.15, yAxisID: l.axis || 'y', borderDash: l.dash, spanGaps: true, order: l.type === 'bar' ? 3 : 1 }));
+    return lines.map(l => l.dots ? ({ type: 'line', label: l.label, data: l.data.slice(from, to), showLine: false, borderColor: l.color, backgroundColor: l.dots === 'fc' ? 'rgba(0,0,0,0)' : l.color, borderWidth: 1.4, pointRadius: mini ? 0 : 3.2, pointHoverRadius: 5, pointStyle: 'circle', yAxisID: l.axis || 'y', spanGaps: false, order: 0 })
+      : ({ type: l.type || 'line', label: l.label, data: l.data.slice(from, to), borderColor: l.color, backgroundColor: l.type === 'bar' ? l.color + '88' : l.color, borderWidth: mini ? 1.4 : 1.7, pointRadius: 0, tension: 0.15, yAxisID: l.axis || 'y', borderDash: l.dash, spanGaps: true, order: l.type === 'bar' ? 3 : 1 }));
   }
   function makeChart(canvas, ind, lines, from, to, mini) {
     const lab = months.slice(from, to), n = to - from;
@@ -280,7 +318,7 @@
       const second = ind.main[1] && ind.main[1].type !== 'bar' && ind.id !== 'payrolls' ? (() => { const a = ind.main[1].data, j = lastIdx(a); return `<span class="m">${ind.main[1].label.split(' ')[0]} <b style="color:#f0f6fc">${fmt(a[j], ind.p)}${ind.unit}</b></span>`; })() : '';
       return `<div class="card" data-id="${ind.id}"><div class="top"><span class="nm">${ind.name}</span><span class="src">${ind.src}</span></div>
         <div class="vals"><span class="v">${fmt(s.v, ind.p)}<small>${ind.unit}</small></span><span class="d ${cls(s.ch)}">${sgn(s.ch, ind.p, ind.chg === 'pp' ? 'p' : '')}</span><span class="m">${s.ym} · 전월 ${fmt(s.prev, ind.p)}${fc}</span>${second}</div>
-        <div class="next">${(() => { const r = relOf(ind, s.ym); return r ? `최근 발표 <b class="rel">${r}</b> <span class="rm">(${+s.ym.slice(5)}월분)</span> · ` : ''; })()}${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>
+        <div class="next">${(() => { const r = relOf(ind, s.ym); return r ? `최근 발표 <b class="rel">${r}</b> <span class="rm">(${+s.ym.slice(5)}월분)</span> · ` : ''; })()}${ne ? '다음 발표 <b>' + ne + '</b>' : (ind.id === 'cli' ? '다음 발표 <b>매월 둘째 주 (OECD)</b>' : '')}</div>${consLine(ind)}
         <div class="cv"><canvas></canvas></div>
         <div class="lg">${ind.main.map(l => `<span><i style="background:${l.color}"></i>${l.label}</span>`).join('')}</div></div>`; }).join('');
     IND.forEach(ind => { const el = $(`.card[data-id="${ind.id}"]`); charts[ind.id] = makeChart(el.querySelector('canvas'), ind, ind.main, Math.max(0, N - n), N, true); el.onclick = () => openDetail(ind.id); });
@@ -289,7 +327,7 @@
   $('#rangeSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; rangeY = +b.dataset.y; $('#rangeSeg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); renderGrid(); };
   const upd = (M.meta.updated || '').slice(0, 10);
   $('#hdsub').textContent = `FRED·OECD·ISM · 서버 갱신 ${upd}${ismLive ? ' · ISM 실시간' : ' · ISM 캐시'}`;
-  $('#foot').textContent = '출처: FRED(BLS·BEA·Census), OECD SDMX, ISM(investing.com 차트 데이터), S&P500 yfinance. ISM·CLI 는 발표월(전월 데이터) 기준으로 해당 월에 배치. 모든 YoY/MoM 은 원지수에서 직접 계산.';
+  $('#foot').textContent = '출처: FRED(BLS·BEA·Census), OECD SDMX, ISM(investing.com 차트 데이터), S&P500 yfinance. ISM·CLI 는 발표월(전월 데이터) 기준으로 해당 월에 배치. 모든 YoY/MoM 은 원지수에서 직접 계산. 컨센서스·최초 발표치는 investing.com 경제캘린더(발표 당시 값, 이후 수정 미반영).';
 
   // ── 상세 ──
   let cur = null, dRangeY = 10, idxMode = 'none', big = null, idxCh = null;
