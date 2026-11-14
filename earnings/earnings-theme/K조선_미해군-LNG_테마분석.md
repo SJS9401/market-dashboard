@@ -19,7 +19,7 @@ active_companies:
     - {ticker: "097230", name: "HJ중공업", country: KR, theme_relevance: low}
 sunset_companies: []
 last_updated: 2026-11-03
-last_theme_review_date: null
+last_theme_review_date: 2026-Q3-2026-11-14
 narrative_shift_log:
   - {date: 2024-08, event: "한화오션, 한국 조선소 최초 미 해군 함정 MRO 수주(USNS 월리 쉬라)"}
   - {date: 2024-12, event: "한화, 필리조선소 1억 달러 인수 — 미국 내 건조 거점 확보"}
