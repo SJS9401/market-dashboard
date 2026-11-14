@@ -92,9 +92,9 @@
 | — | 효성중공업 | 4Q OP 3,800억↑(이연 2,650억), 수주 12조 초과, 11/3 중간선거 DC 주민투표→12월 FERC·ERCOT, 美매출 35%↑, 건설 충당 재발 |
 | — | HD현대일렉트릭 | 4Q OP 3,340억↑, 빅테크 LTA 11월말, 12월 FERC 결론, 환율 1,300원대, 초고압 증설 |
 | SU | Schneider Electric | 4Q org +8%↑, 2H마진 20.3%, DC 3자리수·北美 재가속, 11/3선거→12월 FERC·ERCOT, PTC €240 |
-| HE | Hitachi Energy | HVDC 변압기 글로벌 1위, 백로그 fully booked through 2030 |
+| HE | Hitachi Energy | 4Q 달러 EBITA 마진 16%↑·매출 +15%↑, PG B2B 1.3x↑·잔고 $70B, 12월 FERC·ERCOT, FY27 가이던스 4월 |
 | ETN | Eaton | 전력 인프라 CAPEX, 데이터센터 전력 (LS와 가장 직접 비교, OPM 24%) |
-| ENR | Siemens Energy | 그리드 송전·HVDC·풍력, 한국 3사 후 발표 (확정실적·인뎁스 분석 단계 cue) |
+| ENR | Siemens Energy | 1Q FY27 마진 14%+(2/11), SRA 39GW 수주 전환, Gamesa 흑자 지속, GT 마진 21%+, 12월 FERC |
 | BE | Bloom Energy | 분산발전, 연료전지 (AIDC 온사이트 발전 인접) |
 | NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
 
@@ -345,10 +345,12 @@
 
 ---
 
+---
+
 ## 실적 발표 일정 (노션 동기화)
 
 > 원본: 노션 「실적 캘린더」 DB (`collection://a5dfe05a-3bf5-4a79-a45b-73666af21689`). 이 섹션은 `_internal/_tools/notion_calendar_sync.py`가 통째로 다시 쓴다 — **직접 수정 금지, 노션에서 수정 후 동기화.**
-> 최종 동기화: 2026-11-14 15:33 KST · 워치리스트 종목 50건 (노션 실적 행 51건 중)
+> 최종 동기화: 2026-11-14 15:35 KST · 워치리스트 종목 50건 (노션 실적 행 250건 중)
 > 날짜 앞 `~` = 노션 검증상태 "추정". 비고 끝 `[YYYY-Qn]` = 대시보드 캘린더 분기 (한국 nQyy·미국 Qn YYYY는 그대로, 회계분기는 발표일에서 역산). 잠정·확정이 둘 다 있으면 이른 날짜 표시 + 비고에 둘 다.
 > 노션에 없는 워치리스트 종목: Advantest, BESI, Disco, HD현대중공업, Hitachi Energy, Schneider Electric, SpaceX, Tokyo Electron, 대우건설, 리노공업, 삼양식품, 에스엠, 에이피알, 엘앤에프, 와이지엔터, 한미반도체, 한전기술, 한화시스템, 현대건설, 현대모비스, 현대오토에버
 
