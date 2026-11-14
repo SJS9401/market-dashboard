@@ -141,7 +141,7 @@ function parseWatchlist(md) {
   //   T1 줄은 "- **섹터** [대분류] (종목…)" 형식으로 원래 대분류를 남긴다
   const result = { T1: [], groups: [] };
   // 2026-11-14: 반기 공시 종목 목록 (헤더 노트 "> **반기 공시 종목** (...): A, B")
-  const hm = md.match(/^>\s*\*\*반기 공시 종목\*\*[^:]*:\s*(.+)$/m);
+  const hm = md.match(/^>\s*\*\*반기 공시 종목\*\*.*:\s*(.+)$/m);
   result.halfYear = hm ? hm[1].split(',').map(x => x.trim()).filter(Boolean) : [];
   let current = null;  // 'T1' | group 객체
   const lines = md.split('\n');
@@ -498,7 +498,9 @@ function renderStockRow(stock) {
     if (!file && mode === 'review' && (state.watchlist.halfYear || []).includes(stock.name)) {
       const prevQ = getPreviousQuarter(state.currentQuarter);
       const prevFile = prevQ && (prevQ + '_' + (stock.ticker || stock.name) + '_' + SUFFIX.review + '.html');
-      if (prevFile && (state.manifest.review || []).includes(prevFile)) {
+      // 직전 반기 리뷰 md의 "> 분기 업데이트: 3Q26 ..." 줄에 현재 분기가 있어야 켠다 (업데이트 없는 분기는 비활성)
+      const upd = (state.halfUpdates || {})[prevFile] || '';
+      if (prevFile && (state.manifest.review || []).includes(prevFile) && upd.includes(displayQuarter(state.currentQuarter))) {
         file = prevFile;
         shownLabel = label + '(' + displayQuarter(prevQ).slice(0, 2) + ')';
       }
@@ -786,6 +788,21 @@ function setupQuarterSelector() {
   });
 }
 
+// 2026-11-14: 반기 공시 종목 리뷰 md에서 "> 분기 업데이트:" 줄을 읽어 둔다 (파일명 → 줄 내용)
+async function loadHalfYearUpdates() {
+  state.halfUpdates = {};
+  const names = state.watchlist.halfYear || [];
+  if (!names.length) return;
+  const keys = [];
+  for (const sec of allSectors()) for (const s of sec.stocks) if (names.includes(s.name)) keys.push(s.ticker || s.name);
+  const files = (state.manifest.review || []).filter(f => keys.some(k => f.endsWith('_' + k + '_' + SUFFIX.review + '.html')));
+  await Promise.all(files.map(async (f) => {
+    const md = await fetchQuiet(buildHtmlPath('review', f).replace(/\.html$/, '.md'));
+    const m = md && md.match(/^>\s*분기 업데이트\s*:\s*(.+)$/m);
+    state.halfUpdates[f] = m ? m[1] : '';
+  }));
+}
+
 async function init() {
   const wlText = await fetchText(DATA_PATHS.watchlist);
   if (wlText) {
@@ -802,6 +819,7 @@ async function init() {
   }
   const manifest = await fetchJson(DATA_PATHS.manifest);
   if (manifest) state.manifest = manifest;
+  await loadHalfYearUpdates();
   state.currentQuarter = getCurrentQuarter();
   $('currentQuarterLabel').textContent = displayQuarter(state.currentQuarter);
   populateQuarterSelector();
