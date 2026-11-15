@@ -756,6 +756,37 @@ async function fetchQuiet(path) {
   catch (e) { return null; }
 }
 
+// 2026-11-15: 섹터 리뷰 칸 = 섹터(워치리스트 표 "섹터" 열) 카드만. 카드를 누르면 세부 섹터(서브섹터) 리뷰가 펼쳐진다
+//   대표 문서 = 서브섹터명이 섹터명과 같은 행(섹터 통합 리뷰, 예: 방산·전력 인프라·조선).
+//   통합 리뷰가 없고 작성된 서브섹터가 하나뿐이면 그 서브섹터를 대표로 보여준다 (예: 반도체 → 메모리)
+function buildSrBody(card, s, status, metaPrefix) {
+  const metaParts = [metaPrefix || s.sector];
+  if (status.quarter) metaParts.push('최신 ' + displayQuarter(status.quarter));
+  metaParts.push(status.members ? status.members : ('핵심 ' + s.core.join(', ')));
+  card.appendChild(el('div', { class: 'theme-meta' }, metaParts.join(' · ')));
+  const badges = el('div', { class: 'sr-badges' });
+  if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + status.delta }, '델타 ' + status.delta));
+  if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
+  card.appendChild(badges);
+  if (status.signal && !/^없음/.test(status.signal)) {
+    card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + status.signal.replace(/</g, '&lt;') + '</b>' }));
+  }
+  if (status.theme && !/^없음/.test(status.theme)) {
+    card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
+  }
+  if (status.positioning) {
+    card.appendChild(el('div', { class: 'sr-signal sr-pm', html: 'PM: <b>' + status.positioning.replace(/</g, '&lt;') + '</b>' }));
+  }
+}
+
+function srLink(sub, label) {
+  return el('a', {
+    class: 'theme-review-link',
+    href: 'earnings/sector-review/' + encodeURIComponent(sub + '_섹터리뷰') + '.html',
+    target: '_blank'
+  }, label);
+}
+
 async function renderSectorReviews() {
   const container = $('sectorReviews');
   const pendingBox = $('sectorReviewsPending');
@@ -771,43 +802,59 @@ async function renderSectorReviews() {
     const md = await fetchQuiet(base + encodeURIComponent(s.sub + '_섹터리뷰') + '.md');
     return { s, status: md ? parseSectorReviewStatus(md) : null };
   }));
+  // 섹터별 묶기 (표 순서 유지)
+  const order = [], bySector = {};
+  for (const r of results) {
+    if (!bySector[r.s.sector]) { bySector[r.s.sector] = []; order.push(r.s.sector); }
+    bySector[r.s.sector].push(r);
+  }
   container.innerHTML = '';
-  const pending = [];
-  for (const { s, status } of results) {
-    if (!status) { pending.push(s.sub); continue; }
-    const card = el('div', { class: 'theme-card sr-card' });
-    card.appendChild(el('div', { class: 'theme-name' }, s.sub));
-    const metaParts = [s.sector];
-    if (status.quarter) metaParts.push('최신 ' + displayQuarter(status.quarter));
-    metaParts.push(status.members ? status.members : ('핵심 ' + s.core.join(', ')));
-    card.appendChild(el('div', { class: 'theme-meta' }, metaParts.join(' · ')));
-    const badges = el('div', { class: 'sr-badges' });
-    if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + status.delta }, '델타 ' + status.delta));
-    if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
-    card.appendChild(badges);
-    if (status.signal && !/^없음/.test(status.signal)) {
-      card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + status.signal.replace(/</g, '&lt;') + '</b>' }));
-    }
-    if (status.theme && !/^없음/.test(status.theme)) {
-      card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
-    }
-    if (status.positioning) {
-      card.appendChild(el('div', { class: 'sr-signal sr-pm', html: 'PM: <b>' + status.positioning.replace(/</g, '&lt;') + '</b>' }));
+  const untouched = [];
+  for (const sector of order) {
+    const rows = bySector[sector];
+    const written = rows.filter(r => r.status);
+    if (!written.length) { untouched.push(sector); continue; }
+    const parent = written.find(r => r.s.sub === sector) || (written.length === 1 ? written[0] : null);
+    const children = written.filter(r => r !== parent);
+    const pendingSubs = rows.filter(r => !r.status && r.s.sub !== sector).map(r => r.s.sub);
+    const card = el('div', { class: 'theme-card sr-card sr-sector' + (children.length ? ' sr-expandable' : '') });
+    const head = el('div', { class: 'sr-head' }, [el('div', { class: 'theme-name' }, sector)]);
+    if (children.length) head.appendChild(el('span', { class: 'sr-toggle' }, '세부 섹터 ' + children.length + ' ▾'));
+    card.appendChild(head);
+    if (parent) {
+      buildSrBody(card, parent.s, parent.status, parent.s.sub === sector ? '섹터 통합' : '세부 섹터 ' + parent.s.sub);
+    } else {
+      card.appendChild(el('div', { class: 'theme-meta' }, '섹터 통합 리뷰 미작성 — 세부 섹터 리뷰 ' + children.length + '개'));
     }
     const links = el('div', { class: 'theme-reviews' });
-    links.appendChild(el('a', {
-      class: 'theme-review-link',
-      href: base + encodeURIComponent(s.sub + '_섹터리뷰') + '.html',
-      target: '_blank'
-    }, '섹터 리뷰 열기'));
+    if (parent) links.appendChild(srLink(parent.s.sub, parent.s.sub === sector ? '섹터 리뷰 열기' : parent.s.sub + ' 리뷰 열기'));
     card.appendChild(links);
+    if (children.length) {
+      const inner = el('div', { class: 'sr-children theme-grid' });
+      for (const c of children) {
+        const sc = el('div', { class: 'theme-card sr-card sr-child' });
+        sc.appendChild(el('div', { class: 'theme-name' }, c.s.sub));
+        buildSrBody(sc, c.s, c.status, '세부 섹터');
+        const l = el('div', { class: 'theme-reviews' });
+        l.appendChild(srLink(c.s.sub, '세부 섹터 리뷰 열기'));
+        sc.appendChild(l);
+        inner.appendChild(sc);
+      }
+      card.appendChild(inner);
+      if (pendingSubs.length) card.appendChild(el('div', { class: 'sr-pending sr-pending-in' }, '미작성 세부 섹터: ' + pendingSubs.join(' · ')));
+      card.addEventListener('click', (ev) => {
+        if (ev.target.closest('a') || ev.target.closest('.sr-child')) return;  // 리뷰 링크·세부 카드 클릭은 접지 않음
+        const open = card.classList.toggle('sr-open');
+        head.querySelector('.sr-toggle').textContent = '세부 섹터 ' + children.length + (open ? ' ▴' : ' ▾');
+      });
+    }
     container.appendChild(card);
   }
   if (container.children.length === 0) {
     container.appendChild(el('div', { class: 'empty-state' },
       '아직 작성된 섹터 리뷰가 없습니다. 핵심 종목 리뷰 후 [섹터 리뷰 모드] {서브섹터}로 첫 리뷰 작성.'));
   }
-  if (pendingBox) pendingBox.textContent = pending.length ? ('미작성: ' + pending.join(' · ')) : '';
+  if (pendingBox) pendingBox.textContent = untouched.length ? ('섹터 리뷰 미작성: ' + untouched.join(' · ')) : '';
 }
 
 function setupSearch() {
