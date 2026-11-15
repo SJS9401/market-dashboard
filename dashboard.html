@@ -229,6 +229,8 @@
   .evm-ev .tm { margin-right:4px; }
   .evm-more { font-size:12px; color:#58a6ff; font-weight:700; margin:5px 0 0 6px; }
   .evm-wk .evm-ev { -webkit-line-clamp:1; font-size:11.5px; }
+  /* 2026-11-15: 이번 주(토·일이면 다음 주) 줄은 일정 전부·전문 표시 — 높이 자동 확장 */
+  .evm-cell.focus .evm-ev { display:block; -webkit-line-clamp:unset; overflow:visible; }
   /* 오른쪽 상세 목록 */
   .ag-head { display:flex; align-items:center; gap:8px; padding:12px 14px; border-bottom:1px solid #2e2e2e; background:#181818; position:sticky; top:0; z-index:1; }
   .ag-head .d { font-size:18px; font-weight:800; color:#f0f6fc; }
@@ -633,6 +635,7 @@
     <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">이벤트 캘린더
       <span id="evcal-range" style="color:#8b949e;font-weight:400;font-size:12px;"></span>
       <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button data-s="m" id="evcal-2w" onclick="evCal2w()" title="이번 주 월요일~다음 주 일요일 2주만 크게 보기 (토·일이면 다음 주부터)" style="margin-right:6px">2주</button>
         <button data-s="m" onclick="evCalShift(-1)" title="이전 달">◀</button>
         <button data-s="m" onclick="evCalShift(0)">이번 달</button>
         <button data-s="m" onclick="evCalShift(1)" title="다음 달">▶</button>
@@ -2866,13 +2869,20 @@ function setupScrollbar(col, mainId) {
 // ── Event Calendar (2026-11-12 BT: 표 → 월 달력. 이번 달 + 다음 달, ◀ ▶ 로 이동) ──
 // 데이터: data/events_calendar.json (2026-09-13 런타임 fetch 구조 — sync-calendar.yml 이 갱신).
 // 날짜 계산은 e.sd(Notion 정렬일 ISO) 우선, 없으면 e.d 안의 첫 유효 M/D, 그것도 없으면 '진행형' 목록.
-const EVCAL={byDay:{},offset:0,loaded:false,sel:null};
+const EVCAL={byDay:{},offset:0,loaded:false,sel:null,two:false,woff:0};
+// 2026-11-15 BT: 「2주」 켜기·끄기 — 이번 주 월요일~다음 주 일요일만, 일정 전부 펼침. 설정은 이 브라우저에 기억
+try{EVCAL.two=localStorage.getItem('evcal2w')==='1';}catch(_){}
+// 이번 주 월요일 — 토·일이면 다음 주 월요일 (2026-11-15 BT 정의)
+function evFocusMon(today){const d=new Date(today);d.setDate(d.getDate()-((today.getDay()+6)%7)+(today.getDay()===6||today.getDay()===0?7:0));return d;}
+function evCal2w(){EVCAL.two=!EVCAL.two;EVCAL.woff=0;try{localStorage.setItem('evcal2w',EVCAL.two?'1':'0');}catch(_){}drawEvCal();}
 const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 // 2026-11-12 (BT 승인) 날짜 = 현지 날짜. ev 뒤에 ' · 현지시각 (KST …)' — lt/kst 없는 옛 JSON 이면 빈 문자열.
 const evTzPlain=e=>(e&&e.lt?' · '+e.lt:'')+(e&&e.kst?' (KST '+e.kst+')':'');
 const evTz=e=>{const t=evTzPlain(e);return t?`<span class="ev-tz">${evEsc(t)}</span>`:'';};
 const evYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-function evCalShift(n){ EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); }
+function evCalShift(n){
+  if(EVCAL.two){ EVCAL.woff = n===0 ? 0 : EVCAL.woff+n*2; drawEvCal(); return; }   // 2주 모드: ◀ ▶ = 2주씩
+  EVCAL.offset = n===0 ? 0 : EVCAL.offset+n; drawEvCal(); }
 (async function renderEvents(){
   let events=[];
   try{
@@ -2954,6 +2964,17 @@ function drawEvCal(){
   const host=document.getElementById('evcal-body');
   if(!host||!EVCAL.loaded)return;
   const today=new Date();today.setHours(0,0,0,0);
+  const tw=document.getElementById('evcal-2w');if(tw)tw.classList.toggle('active',EVCAL.two);
+  if(EVCAL.two){
+    const st=evFocusMon(today);st.setDate(st.getDate()+EVCAL.woff*7);
+    const en=new Date(st);en.setDate(st.getDate()+13);
+    const lo2=evYmd(st),hi2=evYmd(en);
+    if(!EVCAL.sel||EVCAL.sel<lo2||EVCAL.sel>hi2){const t=evYmd(today);EVCAL.sel=(t>=lo2&&t<=hi2)?t:lo2;}
+    host.innerHTML=evTwoWeekHtml(st,today);
+    const rg2=document.getElementById('evcal-range');
+    if(rg2)rg2.textContent=`${st.getMonth()+1}/${st.getDate()}(월) ~ ${en.getMonth()+1}/${en.getDate()}(일) · 2주`;
+    evBindClick(host);drawAgenda();return;
+  }
   const base=new Date(today.getFullYear(),today.getMonth()+EVCAL.offset,1);
   const months=[0,1].map(k=>new Date(base.getFullYear(),base.getMonth()+k,1));
   const lo=evYmd(months[0]),hi=evYmd(new Date(base.getFullYear(),base.getMonth()+2,0));
@@ -2964,6 +2985,10 @@ function drawEvCal(){
   host.innerHTML=months.map(m0=>evMonthHtml(m0,today)).join('');
   const rg=document.getElementById('evcal-range');
   if(rg)rg.textContent=months.map(m=>m.getFullYear()+'.'+(m.getMonth()+1)).join(' ~ ');
+  evBindClick(host);
+  drawAgenda();
+}
+function evBindClick(host){
   if(!host._bound){
     host._bound=true;
     host.addEventListener('click',ev=>{
@@ -2975,7 +3000,6 @@ function drawEvCal(){
       drawAgenda();
     });
   }
-  drawAgenda();
 }
 
 function evSelStep(n){
@@ -2985,6 +3009,7 @@ function evSelStep(n){
   const c=host&&host.querySelector('.evm-cell[data-d="'+EVCAL.sel+'"]');
   if(!c){                                    // 화면 밖 달로 넘어가면 달력도 이동
     const t=new Date();t.setHours(0,0,0,0);
+    if(EVCAL.two){EVCAL.woff+=n<0?-2:2;drawEvCal();return;}
     EVCAL.offset=(d.getFullYear()-t.getFullYear())*12+d.getMonth()-t.getMonth()-(n<0?1:0);
     drawEvCal();return;
   }
@@ -3014,12 +3039,38 @@ function drawAgenda(){
     +(cont.length?'<div class="ag-sub">진행 중인 기간 일정</div>'+cont.map(item).join(''):'');
 }
 
+// 2주 보기 — 월요일 st 부터 14일, 칸마다 일정 전부·전문 표시
+function evTwoWeekHtml(st,today){
+  let cnt=0,body='';
+  for(let i=0;i<14;i++){
+    const dt=new Date(st);dt.setDate(st.getDate()+i);
+    const dw=i%7,key=evYmd(dt),dn=dt.getDate();
+    const list=(EVCAL.byDay[key]||[]).filter(x=>!x.cont);
+    cnt+=list.length;
+    const isT=+dt===+today,past=dt<today,wk=dw>=5;
+    const lab=(i===0||dn===1)?`${dt.getMonth()+1}/${dn}`:dn;
+    body+=`<div class="evm-cell focus${past?' past':''}${isT?' today':''}${wk?' wkend evm-wk':''}${key===EVCAL.sel?' sel':''}" data-d="${key}">`
+      +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${lab}${isT?'<b>오늘</b>':''}${list.length>1?`<span class="cnt">${list.length}건</span>`:''}</div>`
+      +list.map(x=>{
+        const e=x.e,tm=evTime(e.ev)||(e.lt||'');
+        const tip=`[${e.cat}] ${e.d||''}\n${evPlain(e.ev)}${evTzPlain(e)}`+(e.note?`\n— ${e.note}`:'');
+        return `<div class="evm-ev c-${e.cat}" title="${evEsc(tip)}">${tm?`<span class="tm">${tm.replace(/^\d{1,2}\/\d{1,2}\s+/,'')}</span>`:''}${e.ev}</div>`;
+      }).join('')+'</div>';
+  }
+  const dow=['월','화','수','목','금','토','일'].map((w,i)=>`<div class="evm-dow${i===5?' sat':i===6?' sun':''}">${w}</div>`).join('');
+  const en=new Date(st);en.setDate(st.getDate()+13);
+  return `<div class="evm"><div class="evm-title">${st.getMonth()+1}/${st.getDate()} ~ ${en.getMonth()+1}/${en.getDate()}<span>${cnt}건</span></div><div class="evm-grid">${dow}${body}</div></div>`;
+}
+
 function evMonthHtml(m0,today){
   const y=m0.getFullYear(),mo=m0.getMonth();
   const first=(m0.getDay()+6)%7;                 // 월요일 시작
   const days=new Date(y,mo+1,0).getDate();
   const cells=Math.ceil((first+days)/7)*7;
   const MAX=4;
+  // 2026-11-15 BT: 이번 주 줄은 전부 펼친다. 토·일이면 다음 주(월~일)를 펼친다
+  const fw=evFocusMon(today);
+  const fwEnd=new Date(fw);fwEnd.setDate(fw.getDate()+7);
   let cnt=0,body='';
   for(let i=0;i<cells;i++){
     const dn=i-first+1;
@@ -3027,9 +3078,9 @@ function evMonthHtml(m0,today){
     const dt=new Date(y,mo,dn),dw=i%7,key=evYmd(dt);
     const list=(EVCAL.byDay[key]||[]).filter(x=>!x.cont);
     cnt+=list.length;
-    const isT=+dt===+today,past=dt<today,wk=dw>=5,mx=wk?2:MAX;
-    const shown=list.length>mx?list.slice(0,mx-1):list;
-    body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${wk?' wkend evm-wk':''}${key===EVCAL.sel?' sel':''}" data-d="${key}">`
+    const isT=+dt===+today,past=dt<today,wk=dw>=5,mx=wk?2:MAX,foc=dt>=fw&&dt<fwEnd;
+    const shown=foc?list:(list.length>mx?list.slice(0,mx-1):list);
+    body+=`<div class="evm-cell${past?' past':''}${isT?' today':''}${wk?' wkend evm-wk':''}${foc?' focus':''}${key===EVCAL.sel?' sel':''}" data-d="${key}">`
       +`<div class="evm-dn${dw===5?' sat':dw===6?' sun':''}">${dn}${isT?'<b>오늘</b>':''}${list.length>1?`<span class="cnt">${list.length}건</span>`:''}</div>`
       +shown.map(x=>{
         const e=x.e,tm=evTime(e.ev)||(e.lt||'');   // 2026-11-12: 칸에는 현지시각(ET 08:30) — KST 는 툴팁·오른쪽 상세
