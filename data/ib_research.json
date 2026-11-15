@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-11-13T09:31+09:00",
- "run_date_kst": "2026-11-13",
+ "generated_at_kst": "2026-11-15T12:31+09:00",
+ "run_date_kst": "2026-11-15",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -39,7 +39,7 @@
   "소시에테제네랄": {
    "status": "ok",
    "count": 9,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Red screens: Why is (almost) no-one talking about liquidity?",
@@ -50,29 +50,29 @@
   "JP모건": {
    "status": "ok",
    "count": 6,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "US midterms results: What’s next for markets?",
-    "date": "2026-11-06",
-    "url": "https://www.jpmorgan.com/insights/global-research/current-events/us-midterms-markets"
+    "title": "Consumer spending trends: Saving less, borrowing more",
+    "date": "2026-11-13",
+    "url": "https://www.jpmorgan.com/insights/global-research/economy/consumer-spending"
    }
   },
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "E92: Latin America: Room to Run, Risks to Watch",
-    "date": "2026-11-12",
+    "date": null,
     "url": "https://www.citigroup.com/global/insights/e92-latin-america-room-to-run-risks-to-watch"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 20,
-   "new_today": 0,
+   "count": 21,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
     "title": "A Stock Market Bottom in Sight",
@@ -104,6 +104,27 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "JP모건",
+   "title": "Consumer spending trends: Saving less, borrowing more",
+   "url": "https://www.jpmorgan.com/insights/global-research/economy/consumer-spending",
+   "date": "2026-11-13",
+   "first_seen_kst": "2026-11-15T12:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Can AI Chip Demand Outrun the Power Crunch?",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-data-centers-power-demand-semiconductors-joe-moore-stephen-byrd",
+   "date": null,
+   "first_seen_kst": "2026-11-15T12:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "From AI to Air Conditioning: The Power Boom in Asia",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/asia-growing-power-demands-mayank-maheshwari",
+   "date": null,
+   "first_seen_kst": "2026-11-15T12:31+09:00"
+  },
   {
    "bank": "소시에테제네랄",
    "title": "Red screens: Why is (almost) no-one talking about liquidity?",
@@ -306,20 +327,6 @@
    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-hotel-bookings-travel-industry-stephen-grambling",
    "date": null,
    "first_seen_kst": "2026-11-03T09:31+09:00"
-  },
-  {
-   "bank": "씨티",
-   "title": "The Global Economy’s Tenuous Balance: Resilience Amid Uncertainty",
-   "url": "https://www.citigroup.com/global/insights/the-global-economys-tenuous-balance-resilience-amid-uncertainty",
-   "date": "2026-10-30",
-   "first_seen_kst": "2026-11-01T12:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "The Curious Calm of Credit Markets",
-   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/credit-markets-ai-investment-bond-issuance-andrew-sheets",
-   "date": null,
-   "first_seen_kst": "2026-11-01T12:31+09:00"
   }
  ]
 }
