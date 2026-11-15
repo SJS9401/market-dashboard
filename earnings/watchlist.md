@@ -40,10 +40,14 @@
 | 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 | - |
 | 배터리 | 배터리 셀 글로벌 | CATL, Panasonic Energy | - | - |
 | 배터리 | 양극재 글로벌 | Ronbay, Easpring | - | - |
-| 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업 | - | - |
-| 조선 | 조선 글로벌 | 중국선박공업, 양쯔장조선, Seatrium, HII, Fincantieri, TKMS | - | General Dynamics(Marine Systems 부문) |
-| 방산 | 방산 | 한화에어로스페이스, 현대로템, LIG D&A | 한화시스템, 한국항공우주 | - |
-| 방산 | 방산 글로벌 | Lockheed Martin, RTX, General Dynamics, Rheinmetall, BAE Systems, Leonardo, Thales, Saab, Elbit Systems, Aselsan | - | - |
+| 조선 | 상선·해양 | 한화오션, HD현대중공업, 삼성중공업, 중국선박공업, 양쯔장조선 | Seatrium | - |
+| 조선 | 함정·특수선 | HII, TKMS, Fincantieri | 한화오션, HD현대중공업 | General Dynamics(Marine Systems 부문) |
+| 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업, 중국선박공업, 양쯔장조선, Seatrium, HII, Fincantieri, TKMS | - | General Dynamics(Marine Systems 부문) |
+| 방산 | 지상장비 | 한화에어로스페이스, 현대로템, Rheinmetall | General Dynamics, BAE Systems | - |
+| 방산 | 방공·미사일 | LIG D&A, RTX | Aselsan | - |
+| 방산 | 항공 | 한국항공우주, Lockheed Martin | Leonardo, Saab | - |
+| 방산 | 방산전자 | 한화시스템, Thales | Elbit Systems | - |
+| 방산 | 방산 | 한화에어로스페이스, 현대로템, Rheinmetall, General Dynamics, BAE Systems, LIG D&A, RTX, Aselsan, 한국항공우주, Lockheed Martin, Leonardo, Saab, 한화시스템, Thales, Elbit Systems | - | - |
 | 원전 | 원전 연료 글로벌 | Cameco, Centrus | - | - |
 | 원전 | 원전 설계 | 한전기술 | - | - |
 | 원전 | 원전 기자재 | 두산에너빌리티 | - | - |
@@ -58,6 +62,7 @@
 | 뷰티 | 브랜드사 | 에이피알, 달바글로벌, 아모레퍼시픽, 브이티 | - | - |
 | 뷰티 | ODM | 코스맥스, 한국콜마, 코스메카코리아 | - | - |
 | 뷰티 | 유통 | 실리콘투 | - | - |
+| 뷰티 | 미용의료 | 파마리서치, 클래시스, 엘앤씨바이오, 휴젤 | - | - |
 | 엔터 | 엔터 | 하이브, JYP, 에스엠, 와이지엔터 | - | - |
 | 음식료 | 음식료 | 삼양식품 | - | - |
 
@@ -77,7 +82,7 @@
 - **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
 - **원전** (Cameco(CCJ), Centrus(LEU), 한전기술, 두산에너빌리티, BWXT(BWXT), Mitsubishi Heavy(7011.T), NuScale(SMR), Oklo(OKLO), X-energy(XE), 현대건설, 대우건설, 한전KPS, 한국전력, Constellation(CEG), Vistra(VST))
 - **조선** (한화오션, HD현대중공업, 삼성중공업, 중국선박공업(600150.SS), 양쯔장조선(BS6.SI), Seatrium(5E2.SI), HII(HII), Fincantieri(FCT.MI), TKMS(TKMS.DE))
-- **방산** (한화에어로스페이스, 현대로템, LIG D&A, 한화시스템, 한국항공우주, Lockheed Martin(LMT), RTX(RTX), General Dynamics(GD), Rheinmetall(RHM), BAE Systems(BAE), Leonardo(LDO), Thales(HO), Saab(SAAB), Elbit Systems(ESLT), Aselsan(ASELS))
+- **방산** (한화에어로스페이스, 현대로템, Rheinmetall(RHM), General Dynamics(GD), BAE Systems(BAE), LIG D&A, RTX(RTX), Aselsan(ASELS), 한국항공우주, Lockheed Martin(LMT), Leonardo(LDO), Saab(SAAB), 한화시스템, Thales(HO), Elbit Systems(ESLT))
 
 ## 대분류: 모빌리티·에너지전환
 
@@ -86,7 +91,7 @@
 
 ## 대분류: 소비재
 
-- **뷰티** (에이피알, 달바글로벌, 아모레퍼시픽, 브이티, 코스맥스, 한국콜마, 코스메카코리아, 실리콘투)
+- **뷰티** (에이피알, 달바글로벌, 아모레퍼시픽, 브이티, 코스맥스, 한국콜마, 코스메카코리아, 실리콘투, 파마리서치, 클래시스, 엘앤씨바이오, 휴젤)
 - **엔터** (하이브, JYP, 에스엠, 와이지엔터)
 - **음식료** (삼양식품)
 
