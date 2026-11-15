@@ -34,9 +34,9 @@
 | 반도체 | 파운드리 | TSMC | - | - |
 | 반도체 | 커스텀 ASIC | Broadcom, Marvell | - | - |
 | 전력 인프라 | 송변전 | 효성중공업, HD현대일렉트릭, Hitachi Energy | - | - |
-| 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton | ABB, LS일렉트릭 | - |
-| 전력 인프라 | 발전 | GE Vernova, Siemens Energy | - | - |
-| 전력 인프라 | 전력 인프라 | GE Vernova, Siemens Energy, Hitachi Energy, Schneider Electric, ABB, Eaton, 효성중공업, HD현대일렉트릭, LS일렉트릭 | - | - |
+| 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton, Vertiv | ABB, LS일렉트릭 | - |
+| 전력 인프라 | 발전 | GE Vernova, Siemens Energy, 두산에너빌리티 | - | - |
+| 전력 인프라 | 전력 인프라 | GE Vernova, Siemens Energy, Hitachi Energy, Schneider Electric, ABB, Eaton, Vertiv, 효성중공업, HD현대일렉트릭, LS일렉트릭, 두산에너빌리티 | - | - |
 | 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI | SK온 | - |
 | 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 | - |
 | 배터리 | 배터리 셀 글로벌 | CATL, Panasonic Energy | - | - |
@@ -84,7 +84,7 @@
 
 ## 대분류: 산업재
 
-- **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR))
+- **전력 인프라** (효성중공업, HD현대일렉트릭, Hitachi Energy(HE), LS일렉트릭, Schneider Electric(SU), Eaton(ETN), ABB(ABB), GE Vernova(GEV), Siemens Energy(ENR), Vertiv(VRT), 두산에너빌리티 — 발전 서브섹터 겸임, 주 섹터는 원전)
 - **원전** (Cameco(CCJ), Centrus(LEU), 한전기술, 두산에너빌리티, BWXT(BWXT), Mitsubishi Heavy(7011.T), NuScale(SMR), Oklo(OKLO), X-energy(XE), 현대건설, 대우건설, 한전KPS, 한국전력, Constellation(CEG), Vistra(VST))
 - **조선** (한화오션, HD현대중공업, 삼성중공업, 중국선박공업(600150.SS), 양쯔장조선(BS6.SI), Seatrium(5E2.SI), HII(HII), Fincantieri(FCT.MI), TKMS(TKMS.DE))
 - **방산** (한화에어로스페이스, 현대로템, Rheinmetall(RHM), General Dynamics(GD), BAE Systems(BAE), LIG D&A, RTX(RTX), Aselsan(ASELS), 한국항공우주, Lockheed Martin(LMT), Leonardo(LDO), Saab(SAAB), 한화시스템, Thales(HO), Elbit Systems(ESLT))

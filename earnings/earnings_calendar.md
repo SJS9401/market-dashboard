@@ -95,6 +95,7 @@
 | HE | Hitachi Energy | 4Q 달러 EBITA 마진 16%↑·매출 +15%↑, PG B2B 1.3x↑·잔고 $70B, 12월 FERC·ERCOT, FY27 가이던스 4월 |
 | ETN | Eaton | 4Q 마진 25.4~25.8%·EA 31%↑, EA 롤링수주 35%↑·DC 세자릿수, 12월 FERC, 2027 가이던스 2월, Dana RMT 종결 |
 | ENR | Siemens Energy | 1Q FY27 마진 14%+(2/11), SRA 39GW 수주 전환, Gamesa 흑자 지속, GT 마진 21%+, 12월 FERC |
+| VRT | Vertiv | 데이터센터 전력·냉각 (배전·DC 편입 2026-11-15, 3Q 리뷰 대기) |
 | BE | Bloom Energy | 분산발전, 연료전지 (AIDC 온사이트 발전 인접) |
 | NXT | Nextracker | 태양광 트래커, 재생에너지 CAPEX |
 
@@ -107,7 +108,7 @@
 | OKLO | Oklo | SMR 진척, 규제 |
 | SMR | NuScale Power | SMR 수주/인허가 |
 | VST | Vistra | 원전+가스 발전, 전력 가격 |
-| — | 두산에너빌리티 | 원전 기자재, 한미 원전 수출 |
+| — | 두산에너빌리티 | 원전 기자재, 한미 원전 수출, 가스터빈 (전력 발전 서브섹터 겸임 2026-11-15) |
 | — | 한국전력 | 전력 요금, 원전 가동 |
 | — | 현대건설 | 원전 건설, 한미 원전 협력 |
 
