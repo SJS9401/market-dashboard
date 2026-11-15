@@ -5,12 +5,12 @@
 **작성일**: 2026-05-19
 **대상 기업**: Alphabet Inc. (NASDAQ: GOOGL Class A, GOOG Class C, CIK 0001652044)
 **작성 표준**: company-overview v4.8 (US 분기 — SEC EDGAR + Alphabet IR Press Release 1차 병용)
-**시계열 깊이**: 12년 연간 (FY2014~FY2025) + **43분기 (Q3 2015~Q1 2026, ~10.5년 연속)**
+**시계열 깊이**: 12년 연간 (FY2014\~FY2025) + **43분기 (Q3 2015\~Q1 2026, \~10.5년 연속)**
 
 **자료 수집 패턴 (AMZN 검증 패턴 적용)**:
 - SEC EDGAR 10-K/10-Q/8-K **149개** batch (sec_edgar_download_reports)
 - Alphabet IR press release **43개** (q4cdn PDF 16 + SEC 8-K Exhibit 99.1 HTM 27)
-- Yahoo Finance v8 monthly OHLC 237개 (2005-09~2025-05, 20년)
+- Yahoo Finance v8 monthly OHLC 237개 (2005-09\~2025-05, 20년)
 - SEC EDGAR submissions JSON API로 모든 8-K accession 추출
 
 ---
@@ -22,7 +22,7 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (12년 평균, FY2014~FY2025):**
+**📊 Summary Box (12년 평균, FY2014\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
@@ -30,9 +30,9 @@
 | OPM 평균 (12년) | **26.4%** |
 | **OPM 정점 평균** | **33.9%** (FY24·FY25 2회 평균, AI 슈퍼사이클) |
 | **OPM 저점 평균** | **20.6%** (FY17·FY18 2회 평균, EU 반독점 벌금) |
-| **OPM range (12년)** | 20.1% ~ 35.9% = **15.8%pt** ← 사이클 cutoff 10%pt 초과하지만 동인이 일회성(EU 벌금) |
-| 사이클 주기 | ~4년 (CapEx → 마진 압축 → 회복) |
-| 사이클 회수 (12년) | 정점 2회 (FY21·FY25) / 압축 2회 (FY17~18 EU 벌금, FY22 ChatGPT 쇼크) |
+| **OPM range (12년)** | 20.1% \~ 35.9% = **15.8%pt** ← 사이클 cutoff 10%pt 초과하지만 동인이 일회성(EU 벌금) |
+| 사이클 주기 | \~4년 (CapEx → 마진 압축 → 회복) |
+| 사이클 회수 (12년) | 정점 2회 (FY21·FY25) / 압축 2회 (FY17\~18 EU 벌금, FY22 ChatGPT 쇼크) |
 
 **📊 손익 표 (12년, narrative annotation 직접 통합):**
 
@@ -51,7 +51,7 @@
 | 2024 | 350.0 | 112.4 | 32.1 | 28.6 | 52.5 | **← Gemini 성공 + AI Overviews 출시** |
 | **2025** | **402.8** | **144.5** | **35.9** | **36.0** | **75.0** | **← AI 슈퍼사이클 정점 (Cloud +63% YoY, OPM 12년 최고)** |
 
-→ (출처: Alphabet 10-K FY2015~FY2025, SEC EDGAR)
+→ (출처: Alphabet 10-K FY2015\~FY2025, SEC EDGAR)
 
 ![GOOGL 연간 매출 & OPM/NPM 추이](GOOGL_chart1_매출OPM.png)
 
@@ -71,8 +71,8 @@
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 PER (Forward 12M)** — Services 81% 안정 매출 + Cloud 18% 가속 → PER 기반 합리. 2025 EPS $11.95 (+44% YoY), 시장 PER ~24x.
-- **2순위 EV/EBITDA Sum-of-Parts** — Google Services (cash cow ~12x EV/EBITDA) + Google Cloud (high-growth ~10x EV/Rev) + Other Bets (option value Waymo) + Antitrust risk discount (-10~15% multiple).
+- **1순위 PER (Forward 12M)** — Services 81% 안정 매출 + Cloud 18% 가속 → PER 기반 합리. 2025 EPS $11.95 (+44% YoY), 시장 PER \~24x.
+- **2순위 EV/EBITDA Sum-of-Parts** — Google Services (cash cow \~12x EV/EBITDA) + Google Cloud (high-growth \~10x EV/Rev) + Other Bets (option value Waymo) + Antitrust risk discount (-10\~15% multiple).
 - **3순위 PEG ratio** — Cloud +63% 가속 + AI Overviews monetization 효과 → PER re-rating 동인.
 - **PBR 부적합** — Cloud 비중 확대 + 자사주 매입($60B+/년) + 자본 $364B vs 시가총액 (작성 시점 $2.5T+ → **2026-06-03 현재 $4.63T, 글로벌 #2, +85%** [Source: companiesmarketcap.com]).
 - **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, GOOGL은 지속성장 → **PER + SOTP** (Cloud secular + Antitrust discount 차별화).
@@ -95,11 +95,11 @@
 
 - **회사명**: Alphabet Inc. (홀딩스), 자회사 Google LLC
 - **본사**: Mountain View, California, USA
-- **CEO**: Sundar Pichai (Alphabet & Google 양쪽, 2019.12~)
+- **CEO**: Sundar Pichai (Alphabet & Google 양쪽, 2019.12\~)
 - **창립자**: Larry Page + Sergey Brin (Google 창립 1998.09.04; Alphabet 형성 2015.10.02)
 - **상장**: NASDAQ (GOOGL Class A 의결권 1주 1표, GOOG Class C 비의결권). IPO 2004.08.19 ($85). Class B 비공개 (Page+Brin 보유, 1주 10표)
 - **종업원**: 187,103 (2025년말 기준, 2024 183,323 대비 +2%)
-- **회계연도**: 1월~12월
+- **회계연도**: 1월\~12월
 
 **비전**: "Organize the world's information and make it universally accessible and useful" (Google), Alphabet은 "moonshot innovation" 우산
 
@@ -122,18 +122,18 @@
 | 2024 | 350.02 | 112.39 | 100.12 | 325.08 | +14.7 | 450.26 |
 | **2025** | **402.84** | **144.49** | **144.84** | **364.20** | **+12.0** | **502.61** |
 
-→ (출처: Alphabet 10-K FY2015~FY2025)
+→ (출처: Alphabet 10-K FY2015\~FY2025)
 
 ![GOOGL 매출·영업이익·순이익·자본 추이](GOOGL_chart12_손익자본추이.png)
 
 ### ③ 회사 주가 역사
 
-![GOOGL+GOOG 시가총액 추이 2005~2025](GOOGL_chart11_시가총액20년.png)
+![GOOGL+GOOG 시가총액 추이 2005\~2025](GOOGL_chart11_시가총액20년.png)
 
-→ (1) 2004 IPO $85 → 2005~2014 첫 십년 안정 성장
+→ (1) 2004 IPO $85 → 2005\~2014 첫 십년 안정 성장
 → (2) 2014.04.03 Class A/C 분할 (의결권 분리)
 → (3) 2015.10.02 **Alphabet 홀딩스 전환** — moonshot 사업 분리·관리
-→ (4) 2017~2018 OPM 압축기 (EU 반독점 €6.76B 누적 벌금)
+→ (4) 2017\~2018 OPM 압축기 (EU 반독점 €6.76B 누적 벌금)
 → (5) 2020 COVID — 광고 단기 충격 후 디지털 가속
 → (6) 2021 매출 +41% 폭증, 시가총액 $2T 돌파
 → (7) **2022.11.30 ChatGPT 쇼크** — AI 검색 위협 우려, 주가 -40%
@@ -190,9 +190,9 @@ Alphabet은 **3개 reportable segment** (Google Services, Google Cloud, Other Be
 | 2024 | 305.61 | 43.23 | 1.65 | (0.46) | 350.02 |
 | **2025** | **343.73** | **60.05** | **1.63** | **(2.59)** | **402.84** |
 
-→ (출처: Alphabet 10-K FY2020~FY2025, Note 15 Segment Information)
+→ (출처: Alphabet 10-K FY2020\~FY2025, Note 15 Segment Information)
 
-#### Revenue Breakdown 6 카테고리 (Q1 2021~Q1 2026, 21분기 stacked)
+#### Revenue Breakdown 6 카테고리 (Q1 2021\~Q1 2026, 21분기 stacked)
 
 ![GOOGL 분기 매출 stacked](GOOGL_chart3_분기stacked.png)
 
@@ -212,11 +212,11 @@ Alphabet은 **3개 reportable segment** (Google Services, Google Cloud, Other Be
 
 → (출처: Alphabet Q1 2026 IR Press Release)
 
-#### Google Cloud 장기 시계열 (Q1 2019~Q1 2026, 29분기)
+#### Google Cloud 장기 시계열 (Q1 2019\~Q1 2026, 29분기)
 
 ![GOOGL Google Cloud 분기 매출 & YoY](GOOGL_chart13_GCP장기.png)
 
-→ (1-1) Google Cloud 6년 CAGR ~**40%**. Q1 2019 $1.33B → Q1 2026 $20.03B (15배 성장).
+→ (1-1) Google Cloud 6년 CAGR \~**40%**. Q1 2019 $1.33B → Q1 2026 $20.03B (15배 성장).
 → (1-2) **2024년 흑자 전환** — Q1 2024 OI $900M, FY2024 OI $6.1B, OPM 14.1% 달성. 이전까지 적자.
 → (1-3) **Q1 2026 +63% YoY** = 11분기 만의 가속, AI 인프라 + GCP 신규 entreprise 수요.
 → (1-4) Backlog 급증 — Q1 2026 backlog "nearly all-time high" 회사 코멘트.
@@ -245,14 +245,14 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 #### (2-2) Google Cloud (FY2025 매출 $60.1B, 비중 15%)
 
 - Google Cloud Platform (GCP) + Google Workspace + AI Solutions
-- 글로벌 점유율 ~12% (AWS 30%, Azure 22% 다음 3위)
+- 글로벌 점유율 \~12% (AWS 30%, Azure 22% 다음 3위)
 - 핵심 product: BigQuery, Compute Engine, Cloud Storage, Vertex AI, Gemini API, **TPU (자체 AI 칩)**
 - **AI Solutions** segment 가속 — Anthropic·기타 AI 스타트업 GCP 사용
 - 2025년 OPM 22.7% (FY2024 14.1%) — 마진 가속
 
 #### (2-3) Other Bets (FY2025 매출 $1.63B, 비중 0.4%)
 
-- **Waymo** (자율주행 — 가장 큰 매출 기여) — 2025년 SF·LA·Phoenix 대중 상용 서비스, 2026 Q1 매출 ~$300M 추정
+- **Waymo** (자율주행 — 가장 큰 매출 기여) — 2025년 SF·LA·Phoenix 대중 상용 서비스, 2026 Q1 매출 \~$300M 추정
 - Verily (생명과학)
 - Wing (드론 배송)
 - X (R&D moonshot lab)
@@ -298,7 +298,7 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 ### ⑥ 생산 CAPA + 임직원 추이
 
 - **데이터센터**: 40+ 글로벌 지역 (FY2025), 신규 데이터센터 2025년 6개 착공
-- **임직원**: 187,103 (FY2025년말). 2022년 정점 190,234 → 2023 layoff 12,000명 → 2024~2025 안정화
+- **임직원**: 187,103 (FY2025년말). 2022년 정점 190,234 → 2023 layoff 12,000명 → 2024\~2025 안정화
 - **TPU 생산**: Broadcom 위탁 생산 (자체 디자인)
 
 ---
@@ -345,34 +345,34 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 
 | FY | CapEx($B) | CapEx/Rev(%) | 비고 |
 |----|----------|-------------|------|
-| 2014~2016 | 10~13 | 11~15% | 안정 |
+| 2014\~2016 | 10\~13 | 11\~15% | 안정 |
 | 2018 | 25.1 | 18.4 | 1차 폭증 (데이터센터 확장) |
-| 2020~2022 | 22~31 | 11~12% | 안정 |
+| 2020\~2022 | 22\~31 | 11\~12% | 안정 |
 | 2024 | 52.5 | 15.0 | AI 1차 폭증 |
 | **2025** | **75.0** | **18.6** | **AI 슈퍼사이클** |
-| 2026E | ~100E | ~22E | TPU + 데이터센터 확장 |
+| 2026E | \~100E | \~22E | TPU + 데이터센터 확장 |
 
-→ Q1 2026 단독 CapEx ~$22B (연간 환산 $88B+). AI 인프라 슈퍼사이클 본격화.
+→ Q1 2026 단독 CapEx \~$22B (연간 환산 $88B+). AI 인프라 슈퍼사이클 본격화.
 
 ### ⑤ 부채구조
 
 - **Long-term debt** (FY2025): $12.5B (변동 거의 없음, 2020년 처음으로 채권 발행)
 - **신용등급**: S&P AA+ (US Treasury 다음 수준), Moody's Aa2
-- **현금 + 마켓 시큐리티**: FY2025 ~$140B (cash + ST/LT marketable securities)
-- **Net cash position**: ~+$128B (현금 - 부채)
+- **현금 + 마켓 시큐리티**: FY2025 \~$140B (cash + ST/LT marketable securities)
+- **Net cash position**: \~+$128B (현금 - 부채)
 
 ### ⑥ 배당·자사주
 
 ![GOOGL 주주환원 추이](GOOGL_chart9_주주환원.png)
 
 - **첫 배당 (2024.04 시작)**: $0.20/share quarterly → 2025 $0.21/share = 연 $0.84/share
-  - 2024 총 배당 ~$5.2B
-  - 2025 총 배당 ~$8.0B
+  - 2024 총 배당 \~$5.2B
+  - 2025 총 배당 \~$8.0B
 - **자사주 매입**:
   - 2022년 $70B authorization → 2023 $61.5B 매입
   - 2024년 $70B 추가 authorization → 2024 $62.2B 매입
   - 2025년 $65B 매입 (FY 추정)
-  - **누적 자사주 매입 12년 ~$367B**
+  - **누적 자사주 매입 12년 \~$367B**
 - **2024.07.01 20:1 액면분할** — split-adjusted EPS 표시
 
 ### ⑦ 재무비율 (FY2025 기준)
@@ -405,26 +405,26 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 
 | 구분 | GOOGL+GOOG 합산 비중 | 비고 |
 |------|----------------------|------|
-| 기관투자자 | ~78% | Vanguard, BlackRock, State Street |
-| 인사이더 (Page+Brin+Pichai) | ~5.5% | 경제권 |
-| 소액·기타 (Retail) | ~16.5% | |
+| 기관투자자 | \~78% | Vanguard, BlackRock, State Street |
+| 인사이더 (Page+Brin+Pichai) | \~5.5% | 경제권 |
+| 소액·기타 (Retail) | \~16.5% | |
 
 **3-Class 의결권 구조** (Alphabet의 핵심 governance 특징):
 
 | 클래스 | 주식수 (대략) | 의결권 | 거래여부 | 보유자 |
 |--------|--------------|--------|---------|--------|
-| Class A (GOOGL) | ~6.0B | 1주 1표 | 거래 가능 | 일반 투자자 |
-| Class B | ~0.86B | **1주 10표** | **비공개** | **Larry Page (43%) + Sergey Brin (43%) + 임직원** |
-| Class C (GOOG) | ~5.4B | 0표 (비의결권) | 거래 가능 | 일반 투자자 |
+| Class A (GOOGL) | \~6.0B | 1주 1표 | 거래 가능 | 일반 투자자 |
+| Class B | \~0.86B | **1주 10표** | **비공개** | **Larry Page (43%) + Sergey Brin (43%) + 임직원** |
+| Class C (GOOG) | \~5.4B | 0표 (비의결권) | 거래 가능 | 일반 투자자 |
 
-→ **Page + Brin은 Class B로 합산 의결권 ~51% 보유** — 사실상 회사 지배. 외부 적대적 인수 불가능.
+→ **Page + Brin은 Class B로 합산 의결권 \~51% 보유** — 사실상 회사 지배. 외부 적대적 인수 불가능.
 
 ### ③ 임원·이사회
 
-- **CEO**: Sundar Pichai (2019.12~ Alphabet & Google 통합)
-- **CFO**: Anat Ashkenazi (2024.07~, 전 Eli Lilly)
+- **CEO**: Sundar Pichai (2019.12\~ Alphabet & Google 통합)
+- **CFO**: Anat Ashkenazi (2024.07\~, 전 Eli Lilly)
 - **President & CIO**: Ruth Porat (전 CFO, 2024.09부터 사장 승진)
-- **Cloud CEO**: Thomas Kurian (2018.11~)
+- **Cloud CEO**: Thomas Kurian (2018.11\~)
 - **DeepMind CEO**: Demis Hassabis
 - **이사회 (Board)**: 11명 (2025년 기준)
 - **주요 이사**: John L. Hennessy (Chair, 전 Stanford President), Larry Page, Sergey Brin, Sundar Pichai, Ruth Porat, K. Ram Shriram, Frances Arnold (Nobel Prize 화학상)
@@ -438,8 +438,8 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 ![GOOGL R&D 투자 추이](GOOGL_chart7_R&D.png)
 
 - **FY2025 R&D**: $54.5B (매출의 13.5%)
-- 12년 누적 R&D ~$355B
-- **AI 연구 인프라**: DeepMind (London), Google Brain (Mountain View) 통합. 연구원 ~5,000명
+- 12년 누적 R&D \~$355B
+- **AI 연구 인프라**: DeepMind (London), Google Brain (Mountain View) 통합. 연구원 \~5,000명
 - **AI 모델**: Gemini, Imagen, Veo, MusicLM, AlphaFold, AlphaCode
 
 ### ② 진행 중 corporate action (10년)
@@ -506,19 +506,19 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 
 ### ✅ 확보 자료 (1차 출처)
 
-- **SEC EDGAR 10-K**: 11개 (FY2015~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001652044`
-- **SEC EDGAR 10-Q**: ~32개 (Q3 2015~Q1 2026)
+- **SEC EDGAR 10-K**: 11개 (FY2015\~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001652044`
+- **SEC EDGAR 10-Q**: \~32개 (Q3 2015\~Q1 2026)
 - **SEC EDGAR 8-K**: 149개 (전체)
-- **Alphabet IR Press Release**: **43개** (Q3 2015~Q1 2026, ~10.5년 연속)
-  - q4cdn.com IR PDF 16개 (Q1 2022~Q1 2026 + 일부)
-  - SEC 8-K Exhibit 99.1 HTM 27개 (Q3 2015~Q4 2021 + 누락 분기)
-- **Yahoo Finance v8**: GOOGL 월간 OHLC 237개 (2005-09~2025-05, 20년)
+- **Alphabet IR Press Release**: **43개** (Q3 2015\~Q1 2026, \~10.5년 연속)
+  - q4cdn.com IR PDF 16개 (Q1 2022\~Q1 2026 + 일부)
+  - SEC 8-K Exhibit 99.1 HTM 27개 (Q3 2015\~Q4 2021 + 누락 분기)
+- **Yahoo Finance v8**: GOOGL 월간 OHLC 237개 (2005-09\~2025-05, 20년)
 - **Q1 2026 Press Release**: https://s206.q4cdn.com/479360582/files/doc_financials/2026/q1/2026q1-alphabet-earnings-release.pdf
 - **Q4 2025 Press Release**: https://s206.q4cdn.com/479360582/files/doc_financials/2025/q4/2025q4-alphabet-earnings-release.pdf
 
 ### ❌ 누락 / ⚠️ 추정 데이터
 
-- **2015 Q1-Q2 (Alphabet 형성 전)**: Google Inc CIK 0001288776 별도 filings. 본 리포트는 Alphabet 시점 (Q3 2015~)으로 시작.
+- **2015 Q1-Q2 (Alphabet 형성 전)**: Google Inc CIK 0001288776 별도 filings. 본 리포트는 Alphabet 시점 (Q3 2015\~)으로 시작.
 - **GPM 시계열**: Alphabet은 GPM 직접 보고하지 않음 — (Revenue - TAC - Cost of Revenue) / Revenue 추정.
 - **Other Bets 사업별 매출**: Waymo/Verily/Wing 등 개별 매출 미공시.
 - **TPU 자체 사용 vs 외부 판매 매출 비중**: 미공시.
@@ -540,7 +540,7 @@ Google Services는 광고 + 구독 + 디바이스의 통합 매출.
 ## Version Log
 
 **v1.0 (2026-05-19)**:
-- 최초 작성. 12년 연간 (FY2014~FY2025) + 43분기 (Q3 2015~Q1 2026, ~10.5년 연속) 시계열 반영
+- 최초 작성. 12년 연간 (FY2014\~FY2025) + 43분기 (Q3 2015\~Q1 2026, \~10.5년 연속) 시계열 반영
 - AMZN 검증 패턴 적용: SEC EDGAR (10-K/10-Q/8-K 149개) + q4cdn IR PDF 16개 + SEC 8-K Ex991 HTM 27개 + Yahoo Finance 20년
 - 14종 차트 임베드 (chart1, chart1b, chart2, chart3 분기stacked, chart4-13)
 - Q1 2026 Cloud +63%, AI 슈퍼사이클 진입 반영

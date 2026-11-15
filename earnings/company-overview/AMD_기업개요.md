@@ -2,8 +2,8 @@
 > 섹터: 반도체 (CPU + GPU + AI accelerator + FPGA + Embedded — Fabless)
 > 작성 시각: 2026-05-18 KST
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트)
-> 데이터: 12년 연간 (2014~2025) + 직전 12분기 (Q2 23~Q1 26)
-> 출처: SEC EDGAR 10-K 15개 (FY11~FY25, CIK 0000002488) + 10-Q 47개, AMD IR Earnings Slides 8개 (Q2 24~Q1 26), Yahoo Finance v8 (AMD 20년), FY25 10-K Item 1·8
+> 데이터: 12년 연간 (2014\~2025) + 직전 12분기 (Q2 23\~Q1 26)
+> 출처: SEC EDGAR 10-K 15개 (FY11\~FY25, CIK 0000002488) + 10-Q 47개, AMD IR Earnings Slides 8개 (Q2 24\~Q1 26), Yahoo Finance v8 (AMD 20년), FY25 10-K Item 1·8
 
 ## ★ Executive Update (Q1 2026 — Data Center 폭증, +38% YoY)
 
@@ -11,7 +11,7 @@
 → **Data Center $5.8B (+57% YoY)** — 5세대 EPYC + MI350 Series GPU
 → **MI355X 출하 시작** — MLPerf benchmark에서 NVIDIA 대비 경쟁력 입증
 → **FY25 (2025.12.27 마감)**: Revenue **$34.64B (+34% YoY)**, GAAP OP $2.74B, GAAP NI $4.09B
-→ **CEO Lisa Su 12년 재임** (2014.10~) — AMD 시총 $3B → $290B+, 100배 폭등 turnaround 영웅
+→ **CEO Lisa Su 12년 재임** (2014.10\~) — AMD 시총 $3B → $290B+, 100배 폭등 turnaround 영웅
 
 ---
 
@@ -26,7 +26,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY2014~FY2025 12년 평균):**
+**📊 Summary Box (FY2014\~FY2025 12년 평균):**
 
 | 지표 | 값 |
 |------|-----|
@@ -34,7 +34,7 @@
 | GAAP OPM 평균 | **4.4%** (저점 적자 + Xilinx 무형자산 상각 영향 — Non-GAAP 기준 큰 폭 상위) |
 | OPM 정점 평균 | **21.5%** (FY18·FY21 — Zen·Ryzen 3차 cycle peak, 코로나 IT cycle peak) |
 | OPM 저점 평균 | **-7.5%** (FY15·FY16 — pre-Zen 시기 적자) |
-| 사이클 주기 | 약 3~4년 (CPU·GPU 사이클) + secular growth overlay |
+| 사이클 주기 | 약 3\~4년 (CPU·GPU 사이클) + secular growth overlay |
 | 사이클 회수 (12년) | 정점 3회 (FY18·FY21·FY25 진행 중) / 저점 2회 (FY15·FY16) |
 
 ```
@@ -77,20 +77,20 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
    - Data Center 48% 중 AI GPU $7B+ (MI300/MI350/MI355X) → AI 인프라 secular 압도
    - 서버 CPU 점유율 1%→35% (5년) → CPU 시장 점유율 잠식 secular trend
    - Lisa Su turnaround 12년 (시총 $3B → $290B+, 100배) → 구조적 high growth 명확
-   - 다만 PC·Gaming은 cyclical (FY22~23 dip 경험)
+   - 다만 PC·Gaming은 cyclical (FY22\~23 dip 경험)
 
 (3) **Boundary case 처리**: Secular high growth + 일부 cyclical (PC·Gaming) 섞임 → **Primary 고성장 + secular + Secondary 사이클 일부** 표기. AI GPU 비중 30%+ 도달 시 Primary Secular 격상
 
 (4) **글로벌 피어 cross-reference**:
-   - **Intel 대비**: 동일 x86. AMD 점유율 잠식 + AI MI300/MI400 성공 vs Intel 미진. 멀티플 갭 5배+ (AMD PER 30~40x vs Intel PER N/A)
-   - **NVIDIA 대비**: AI GPU 96% 압도 vs AMD 3% 진입. 멀티플 갭 1.5~2배 (AMD PER 50배 vs NVIDIA 60배 FY26 forward)
+   - **Intel 대비**: 동일 x86. AMD 점유율 잠식 + AI MI300/MI400 성공 vs Intel 미진. 멀티플 갭 5배+ (AMD PER 30\~40x vs Intel PER N/A)
+   - **NVIDIA 대비**: AI GPU 96% 압도 vs AMD 3% 진입. 멀티플 갭 1.5\~2배 (AMD PER 50배 vs NVIDIA 60배 FY26 forward)
    - **ARM 대비**: ARM-based CPU (Apple Silicon, Qualcomm) → 모바일·일부 데이터센터 위협. AMD는 x86 진영
    - **AMD 차별점**: Lisa Su 12년 turnaround track record + Xilinx 인수로 FPGA 추가 + ZT Systems 인수 ($4.9B, 2024) AI 시스템 통합
 
 ### (4) 적정 밸류에이션 방법
 
 - **Forward PER** 우선 — AI GPU TAM 성장 모델 적용 (TAM 2028 $500B+ 추정)
-  - secular growth band 30~50x (정점) vs 사이클 dip 15~25x (저점)
+  - secular growth band 30\~50x (정점) vs 사이클 dip 15\~25x (저점)
 - **Sum-of-Parts** — Data Center + Client + Gaming + Embedded 분리 valuation. Data Center valuation 우위
 - **Data Center GPU vs NVIDIA 갭** — AMD PER 50배 vs NVIDIA 60배 (FY26 forward). AI GPU 점유율 5%pt 추격 시 멀티플 갭 축소
 - **Lisa Su premium** — CEO 신뢰도 (12년 100배 turnaround) → execution multiplier 정당화
@@ -120,18 +120,18 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 | 상장일 | 1972년 (NYSE), 현재 NASDAQ |
 | 본사 주소 | 2485 Augustine Drive, Santa Clara, California 95054 USA |
 | 홈페이지 | https://www.amd.com / https://ir.amd.com |
-| **CEO** | **Dr. Lisa Su** (1969.11.07생, **2014.10~ 현직 (12년+ 재임)**, MIT EE 박사, 前 IBM·Freescale·AMD CTO·COO) |
-| President | Jean Hu (2024.07~ President, 前 CFO Marvell) |
-| CFO | Devinder Kumar (2014~ , 30년+ AMD 재직) |
+| **CEO** | **Dr. Lisa Su** (1969.11.07생, **2014.10\~ 현직 (12년+ 재임)**, MIT EE 박사, 前 IBM·Freescale·AMD CTO·COO) |
+| President | Jean Hu (2024.07\~ President, 前 CFO Marvell) |
+| CFO | Devinder Kumar (2014\~ , 30년+ AMD 재직) |
 | Chairman | Mark Papermaster (CTO·EVP) |
 | 발행주식수 (FY25말) | 1,630M 보통주 (issued 1,695M) |
-| 회계연도 | **12월 마지막 토요일 마감** (FY25 = 2024-12-29 ~ 2025-12-27, calendar year에 근사) |
+| 회계연도 | **12월 마지막 토요일 마감** (FY25 = 2024-12-29 \~ 2025-12-27, calendar year에 근사) |
 | 직원 수 | 약 28,000명 (FY25말, Xilinx 통합 후 안정) |
 | 신용등급 | A3 (Moody's, 2023 상향), A- (S&P), A- (Fitch) — **Investment Grade** |
 | 제조 위치 | **자체 fab 없음** (Fabless) — TSMC (Taiwan, 3nm·4nm·5nm·7nm) + Samsung Foundry + GlobalFoundries (WSA 합의) |
 | R&D 센터 | Austin TX·San Jose CA·Markham Canada·Bangalore India·Shanghai China·Taipei Taiwan·Hyderabad India |
 
-(2) 12년 손익·자본 추이 (FY14~FY25, USD $B)
+(2) 12년 손익·자본 추이 (FY14\~FY25, USD $B)
 
 | FY | Revenue | GAAP GPM | GAAP OP | GAAP OPM | NI | Total Equity | Total Assets | OCF | CapEx | R&D |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -160,7 +160,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 
 (3) 주가 역사 (20년 narrative)
 
-![AMD 20년 Market Cap (2006~2026) — 100배 폭등](charts/AMD_chart11_시가총액_20년.png)
+![AMD 20년 Market Cap (2006\~2026) — 100배 폭등](charts/AMD_chart11_시가총액_20년.png)
 
 → **시가총액 변천사 (20년)**:
 - 2006년 시총 $20B (주가 $30대, Intel 추격 실패 후 침체 진입)
@@ -182,10 +182,10 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 |---|---|
 | 1969.05.01 | AMD 설립 (Sunnyvale, CA) — Jerry Sanders·John Carey·Sven Simonsen·Edwin Turney·Frank Botte·Larry Stenger·Jack Gifford 7명 공동창업 |
 | 1972 | 첫 IPO |
-| 1982~ | Intel 호환 x86 CPU 생산 시작 |
+| 1982\~ | Intel 호환 x86 CPU 생산 시작 |
 | 2003 | Opteron (64-bit x86) 출시 |
 | 2006 | ATI Technologies 인수 ($5.4B) — GPU 사업 진입 |
-| 2008~2014 | Bulldozer 실패 + Phenom 부진 + 적자 지속 |
+| 2008\~2014 | Bulldozer 실패 + Phenom 부진 + 적자 지속 |
 | **2014.10.08** | **Lisa Su CEO 취임** (前 AMD CTO·COO) — turnaround 시작 |
 | 2017.03 | **Ryzen 1세대 + Zen 아키텍처** 출시 — 데스크탑 PC 점유율 회복 |
 | 2017.06 | EPYC 1세대 — 서버 CPU 진입 |
@@ -220,7 +220,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 → **Data Center 비중 FY23 29% → FY25 48%** — AI GPU + 서버 CPU 핵심 driver
 → **Embedded (Xilinx) 다운사이클** — FY22 정점 후 -35%, 회복 추세 약함
 
-![AMD 4사업부 매출 추이 (FY23~FY25)](charts/AMD_chart2_사업부별_3년.png)
+![AMD 4사업부 매출 추이 (FY23\~FY25)](charts/AMD_chart2_사업부별_3년.png)
 
 (2) 핵심 제품 라인업
 
@@ -229,8 +229,8 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 | **AI GPU** | **Instinct MI350 / MI355X** | 2025 양산 |
 | AI GPU | Instinct MI300X / MI325X | 2023.06 / 2024.06 |
 | **서버 CPU** | **5세대 EPYC "Turin"** (Zen 5) | 2024.10 |
-| 서버 CPU | EPYC "Genoa" / "Bergamo" (Zen 4) | 2022~2023 |
-| **클라이언트 CPU** | **Ryzen 9000 + Strix Halo** | 2024.08~ |
+| 서버 CPU | EPYC "Genoa" / "Bergamo" (Zen 4) | 2022\~2023 |
+| **클라이언트 CPU** | **Ryzen 9000 + Strix Halo** | 2024.08\~ |
 | 클라이언트 CPU | Ryzen 7000 | 2022.09 |
 | **GPU** | Radeon RX 9000 + 9070 XT | 2025 |
 | GPU | Radeon RX 7000 | 2022 |
@@ -274,7 +274,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 ![AMD 12년 Cash Flow (Fabless 모델)](charts/AMD_chart6_현금흐름_12년.png)
 
 → **OCF FY25 $4.10B** — 사상 최고
-→ **CapEx FY25 $0.71B** — Fabless 특성상 매우 낮음 (Intel·메모리 IDM 대비 5~30배 작음)
+→ **CapEx FY25 $0.71B** — Fabless 특성상 매우 낮음 (Intel·메모리 IDM 대비 5\~30배 작음)
 → **FCF FY25 $3.39B** — 강한 cash generation
 
 (3) 12년 R&D
@@ -288,7 +288,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 
 ![AMD 12년 CapEx — Fabless 모델](charts/AMD_chart8_CapEx_12년.png)
 
-→ CapEx/Revenue **평균 2~3%** — Intel(20%+)·메모리 IDM(30%+) 대비 매우 낮음
+→ CapEx/Revenue **평균 2\~3%** — Intel(20%+)·메모리 IDM(30%+) 대비 매우 낮음
 → TSMC + Samsung Foundry에 위탁생산
 
 (5) 12년 주주환원
@@ -296,8 +296,8 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 ![AMD 12년 주주환원 — 무배당, 자사주 매입만](charts/AMD_chart9_주주환원_12년.png)
 
 → **무배당 정책** — 성장 재투자 우선
-→ **자사주 매입 2021년 시작** — 누적 약 $9B 매입 (FY21~FY25)
-→ 자사주 매입 program 확대 가능성 (FY26~)
+→ **자사주 매입 2021년 시작** — 누적 약 $9B 매입 (FY21\~FY25)
+→ 자사주 매입 program 확대 가능성 (FY26\~)
 
 (6) 주요 재무 지표 (FY25)
 
@@ -305,7 +305,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 |---|---|---|---|
 | GAAP GPM | 53.0% | 49.4% | +3.6pp |
 | GAAP OPM | 7.9% | 7.4% | +0.5pp |
-| Non-GAAP OPM | 23~27% (분기별) | 22~26% | 안정 |
+| Non-GAAP OPM | 23\~27% (분기별) | 22\~26% | 안정 |
 | NPM | 11.8% | 6.3% | +5.5pp |
 | ROE | 6.9% | 2.9% | +4.0pp |
 | Debt/Equity | 0.27 | 0.20 | +0.07 |
@@ -334,8 +334,8 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 
 | 성명 | 직위 | 주요 경력 |
 |---|---|---|
-| **Dr. Lisa Su** | CEO, Chair, President | 2014.10~ CEO, 2022~ Chair, MIT EE 박사, 前 IBM·Freescale·AMD CTO |
-| **Jean Hu** | EVP, CFO·President | 2024.07~ President, 前 Marvell·QLogic CFO |
+| **Dr. Lisa Su** | CEO, Chair, President | 2014.10\~ CEO, 2022\~ Chair, MIT EE 박사, 前 IBM·Freescale·AMD CTO |
+| **Jean Hu** | EVP, CFO·President | 2024.07\~ President, 前 Marvell·QLogic CFO |
 | Devinder Kumar | EVP, Strategic Finance | 30년+ AMD 재직 |
 | **Mark Papermaster** | EVP, CTO | 16년+ AMD, 前 IBM Apple |
 | Forrest Norrod | EVP, Data Center Solutions | EPYC + AI GPU |
@@ -352,8 +352,8 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
   - 클라이언트 PC: Intel 72% / AMD **28%** (5년 연속 점유율 상승)
   - 서버 CPU: Intel 65% / **AMD 35%** (2018 1% → 2025 35%)
 → **AI GPU 점유율 (Jon Peddie Research)**:
-  - NVIDIA **96%+** / **AMD ~3%** / Intel <1%
-→ **FPGA 시장 (글로벌 1위)**: Xilinx (AMD) ~55% / Intel Altera ~30% / Lattice·Microchip ~15%
+  - NVIDIA **96%+** / **AMD \~3%** / Intel <1%
+→ **FPGA 시장 (글로벌 1위)**: Xilinx (AMD) \~55% / Intel Altera \~30% / Lattice·Microchip \~15%
 
 (2) M&A 이력 (10년)
 
@@ -371,7 +371,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 → **NVIDIA 협력 부재** (직접 경쟁) — Intel과 정반대
 → **TSMC 다년 계약** — N3·N4·N5·N7 capacity 확보
 → **OpenAI partnership 2024.10** — MI300X·MI350 채택
-→ **Microsoft·Meta·Oracle Azure** — MI300X 채택 (FY24~)
+→ **Microsoft·Meta·Oracle Azure** — MI300X 채택 (FY24\~)
 → **Cisco·HPE·Dell·Lenovo** — EPYC 서버 OEM
 
 (4) 리스크 분석
@@ -389,7 +389,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 (5) 향후 catalysts
 
 → **MI355X·MI400 Series 양산 ramp** (CY2026)
-→ **ZT Systems 인수 마감 → Data Center systems 매출 추가** (2025~)
+→ **ZT Systems 인수 마감 → Data Center systems 매출 추가** (2025\~)
 → **5세대 EPYC + Zen 6 로드맵** (서버 점유율 40% 돌파 가능성)
 → **Hyperscaler AI GPU 채택 확대** (Meta·Microsoft·Oracle·OpenAI 외 추가)
 → **자사주 매입 확대 가능**
@@ -421,7 +421,7 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 
 ---
 
-> **데이터 소스**: SEC EDGAR AMD 10-K FY11~FY25 (15개) + 10-Q (47분기), **AMD IR Earnings Slides 8개** (Q2 24~Q1 26, cloudfront URL 패턴 발견 후 batch fetch), Yahoo Finance v8 (NASDAQ:AMD 20년), FY25 10-K (CIK 0000002488) Item 1·8.
+> **데이터 소스**: SEC EDGAR AMD 10-K FY11\~FY25 (15개) + 10-Q (47분기), **AMD IR Earnings Slides 8개** (Q2 24\~Q1 26, cloudfront URL 패턴 발견 후 batch fetch), Yahoo Finance v8 (NASDAQ:AMD 20년), FY25 10-K (CIK 0000002488) Item 1·8.
 > **차트 12종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (4사업부), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: Intel (직접 x86 경쟁) + NVIDIA (AI GPU 경쟁) 기업 개요와 cross-reference. AMD = "Intel turnaround 실패 + NVIDIA AI 압도" 사이 niche에서 폭발적 성장.
 
@@ -429,13 +429,13 @@ OPM range: -12.0% ~ +22.2% = 34.2%pt
 
 AMD는 calendar year fiscal. SKILL 60+분기 표준 대비 56분기 (93%) 달성. IR Earnings Deck 옛 분기는 d1io3yog0oux5.cloudfront.net 패턴이지만 자동 다운로드 0개 — SEC 8-K로 보강. 추가 4분기 (FY11) 가능.
 
-![AMD 56분기 매출·OPM (Q1 2012~Q4 2025) — Lisa Su 100배 turnaround](charts/AMD_chart10_long_56분기시계열.png)
+![AMD 56분기 매출·OPM (Q1 2012\~Q4 2025) — Lisa Su 100배 turnaround](charts/AMD_chart10_long_56분기시계열.png)
 
-*AMD 56분기 매출·OPM (Q1 2012~Q4 2025) — Lisa Su 100배 turnaround*
+*AMD 56분기 매출·OPM (Q1 2012\~Q4 2025) — Lisa Su 100배 turnaround*
 
 ---
 
 ## Version Log
 
-- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 204 + DEF 14A 16 batch 추가 (이전 IR 0개 → 8-K로 대체). **chart10_long 56분기 시계열 신규** — Q1 2012~Q4 2025 풀. 매출 $0.83B 저점 (Q1 2016) → $10.3B 정점 (Q4 2025, +57% YoY) = **12.4배 폭등**. OPM 적자기 -39% (Q4 2012) → 흑자기 +34% (FY22) → AI Data Center 회복기 +15% (Q4 2025).**
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 204 + DEF 14A 16 batch 추가 (이전 IR 0개 → 8-K로 대체). **chart10_long 56분기 시계열 신규** — Q1 2012\~Q4 2025 풀. 매출 $0.83B 저점 (Q1 2016) → $10.3B 정점 (Q4 2025, +57% YoY) = **12.4배 폭등**. OPM 적자기 -39% (Q4 2012) → 흑자기 +34% (FY22) → AI Data Center 회복기 +15% (Q4 2025).**
 

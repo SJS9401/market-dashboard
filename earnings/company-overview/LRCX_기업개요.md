@@ -16,7 +16,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY2014~FY2025 12년 평균):**
+**📊 Summary Box (FY2014\~FY2025 12년 평균):**
 
 | 지표 | 값 |
 |------|-----|
@@ -24,7 +24,7 @@
 | OPM 평균 | **27.5%** |
 | OPM 정점 평균 | **32.0%** (FY22·FY25 — 코로나 IT 사이클 정점·AI 가속 정점) |
 | OPM 저점 평균 | **18.7%** (FY14·FY15 — pre-cycle 시기) |
-| 사이클 주기 | 약 3~4년 (WFE capex + 첨단 노드 ramp) |
+| 사이클 주기 | 약 3\~4년 (WFE capex + 첨단 노드 ramp) |
 | 사이클 회수 (12년) | 정점 3회 (FY18·FY22·FY25 진행 중) / 저점 2회 (FY15·FY19) |
 
 ```
@@ -57,33 +57,33 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 - SEC SIC 분류: 3559 — Special Industry Machinery (Semiconductor Equipment)
 - GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
 - 워치리스트 섹터: **T2 — 반도체 소부장** (피어: ASML·AMAT·KLAC·BESI·Tokyo Electron·Advantest·Disco)
-- 글로벌 점유: **WFE 시장 ~15~18%** (글로벌 #2, AMAT 1위 ~20% / TEL 3위 ~14%), **Etch 시장 ~50%** (글로벌 1위, vs TEL·AMAT), **Deposition (CVD/ALD) ~30%** (글로벌 2위)
+- 글로벌 점유: **WFE 시장 \~15\~18%** (글로벌 #2, AMAT 1위 \~20% / TEL 3위 \~14%), **Etch 시장 \~50%** (글로벌 1위, vs TEL·AMAT), **Deposition (CVD/ALD) \~30%** (글로벌 2위)
 
 ### (3) 분류 결정 논리
 
-(1) **가장 매출 큰 사업부 기준** 적용 시 Systems (~75%) > Customer Support-related (~25%) → 일견 cyclical (장비 capex 사이클)
+(1) **가장 매출 큰 사업부 기준** 적용 시 Systems (\~75%) > Customer Support-related (\~25%) → 일견 cyclical (장비 capex 사이클)
 
 (2) **단, secular 변수 영향력 sub-rule 적용**:
    - 3D NAND scaling (96L → 128L → 256L → 400L+) → 매 노드 ramp 시 etch step 수 + ALD step 수 증가 = Lam 매출 secular lift
    - HBM 12-hi → 16-hi → 20-hi stacking → Lam Etch + Deposition 핵심
-   - Customer Support (recurring spare parts + service) ~25% → 사이클 buffer 안정
+   - Customer Support (recurring spare parts + service) \~25% → 사이클 buffer 안정
    - **결론: Secular component 강함 (3D NAND·HBM 노드 ramp), 사이클은 분기 변동성으로만**
 
 (3) **Boundary case 처리**: Secular + WFE Capex 사이클 + 메모리 다운사이클 노출 (China export control 영향) 섞임 → **Primary Secular Growth + Secondary Cyclical** 표기. Customer Support 비중 35%+ 도달 시 Primary Secular 격상
 
 (4) **글로벌 피어 cross-reference**:
-   - **ASML 대비**: ASML EUV 독점 secular vs LRCX Etch/Deposition cyclical 일부. ASML PER 30~45x vs LRCX PER 18~25x = **secular premium 갭 12~20x**
+   - **ASML 대비**: ASML EUV 독점 secular vs LRCX Etch/Deposition cyclical 일부. ASML PER 30\~45x vs LRCX PER 18\~25x = **secular premium 갭 12\~20x**
    - **AMAT 대비**: 동일 WFE 종합. AMAT는 implant + RTP까지 multi-tool (LRCX는 etch+depo+clean 집중). 멀티플 비슷
    - **KLAC 대비**: KLAC metrology + inspection 독점 → secular 강함. LRCX cyclical 약간 더 높음
    - **TEL (Tokyo Electron) 대비**: 일본 WFE 종합. coater/developer + etch 강점. LRCX와 직접 etch 경쟁
-   - **LRCX 차별점**: **Etch 글로벌 #1 (~50%)**, ALD (Atomic Layer Deposition) 우위, 3D NAND·HBM stacking enabler
+   - **LRCX 차별점**: **Etch 글로벌 #1 (\~50%)**, ALD (Atomic Layer Deposition) 우위, 3D NAND·HBM stacking enabler
 
 ### (4) 적정 밸류에이션 방법
 
 - **Forward PER** (Secular + Cyclical) 우선 — WFE 글로벌 #2 secular position + 사이클 정점/저점 변동성 반영
-  - PER band: 정점 22~28x (FY25 AI 가속) vs 저점 15~20x (FY19·FY24 다운사이클)
-  - ASML PER 30~45x vs LRCX PER 18~25x = **EUV 독점 부재로 discount 12~20x**
-- **EV/EBITDA** 보조 — capex 부담 작음 (FY25 CapEx $537M = 3% of revenue, asset-light) → 15~20x band
+  - PER band: 정점 22\~28x (FY25 AI 가속) vs 저점 15\~20x (FY19·FY24 다운사이클)
+  - ASML PER 30\~45x vs LRCX PER 18\~25x = **EUV 독점 부재로 discount 12\~20x**
+- **EV/EBITDA** 보조 — capex 부담 작음 (FY25 CapEx $537M = 3% of revenue, asset-light) → 15\~20x band
 - **DCF** — AI HBM + 3D NAND scaling secular 모델
 - **PBR** — 자사주 환원 활발로 인위적 자본 축소 → 비교 의미 한정
 - **삼성전자 비교**: 삼성전자 PBR + PER 혼합 (multi-segment cyclical) vs **LRCX PER + EV/EBITDA 혼합** (WFE secular). cycle 진폭 작아 PER 비중 우위
@@ -105,7 +105,7 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 → **회사명**: Lam Research Corporation
 → **비전**: "Enabling our customers to make smaller and better-performing devices"
-→ **사업 한 줄 정의**: **반도체 fab의 etch·deposition·clean·strip 핵심 공정 장비 글로벌 공급사**. 3D NAND·DRAM·Logic 공정에서 silicon wafer 식각 + 박막 증착 + 표면 처리 단계를 담당. 단일 etch system ASP $1~10M, 한 fab당 100~500대 필요. 핵심 제품군: Sense.i (conductor etch), Striker (ALD), Kiyo (dielectric etch), Coronus (wafer clean)
+→ **사업 한 줄 정의**: **반도체 fab의 etch·deposition·clean·strip 핵심 공정 장비 글로벌 공급사**. 3D NAND·DRAM·Logic 공정에서 silicon wafer 식각 + 박막 증착 + 표면 처리 단계를 담당. 단일 etch system ASP $1\~10M, 한 fab당 100\~500대 필요. 핵심 제품군: Sense.i (conductor etch), Striker (ALD), Kiyo (dielectric etch), Coronus (wafer clean)
 
 ### ② 12년 손익 추이
 
@@ -124,7 +124,7 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 | 2024 | 14.9 | 47.3 | 28.6 | 3.83 | 2.90 |
 | **2025** | **18.4** | **48.7** | **32.0** | **5.36** | **4.15** |
 
-→ 출처: SEC EDGAR 10-K FY23·FY24·FY25 + IR PR 22분기 합산 (FY18~FY22) + 알려진 historical (FY14~FY17)
+→ 출처: SEC EDGAR 10-K FY23·FY24·FY25 + IR PR 22분기 합산 (FY18\~FY22) + 알려진 historical (FY14\~FY17)
 
 ![Lam Research 손익 추이 12년](LRCX_chart12_손익자본추이.png)
 
@@ -135,11 +135,11 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 ![Lam Research 시가총액 21년](LRCX_chart11_시가총액20년.png)
 
-→ 2005년 시총 ~$3B → **2026-05-26 ATH $416B (139배 성장)** [Source: companiesmarketcap.com / stockanalysis.com, 2026-06]
+→ 2005년 시총 \~$3B → **2026-05-26 ATH $416B (139배 성장)** [Source: companiesmarketcap.com / stockanalysis.com, 2026-06]
 → 핵심 모멘텀 milestone:
-   - 2018: 1차 슈퍼사이클 정점 ~$30B (3D NAND ramp + 메모리 슈퍼사이클)
-   - 2021-12: 2차 정점 ~$110B (코로나 IT 사이클)
-   - 2024-07: 3차 mid-peak ~$143B (post-split, AI 사이클 가속 시작)
+   - 2018: 1차 슈퍼사이클 정점 \~$30B (3D NAND ramp + 메모리 슈퍼사이클)
+   - 2021-12: 2차 정점 \~$110B (코로나 IT 사이클)
+   - 2024-07: 3차 mid-peak \~$143B (post-split, AI 사이클 가속 시작)
    - **2026-05-26: ATH $416B** (주가 $322.68, AI 인프라 + 3D NAND 256L ramp + HBM stacking 가속)
 → 주가 (post-2024 10:1 split 기준): $1.96 (2005) → **$318 (2026-05 현재) — 1주당 162배 성장**
 → 최근 30일 +15.8% / 1년 +85.07% 누적
@@ -170,23 +170,23 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 | 2023 | 17.4 | +1% | 44.6 | 29.7 | 4.51 |
 | 2024 | 14.9 | -14% | 47.3 | 28.6 | 3.83 |
 | **2025** | **18.4** | **+24%** | **48.7** | **32.0** | **5.36** |
-| 2026E | 20~22 | +9~20% | 48~49% | 31~33% | 5.8~6.5 |
+| 2026E | 20\~22 | +9\~20% | 48\~49% | 31\~33% | 5.8\~6.5 |
 
-**분기 시계열 (PR 기반, FY19 Q4 ~ FY23 Q1):**
+**분기 시계열 (PR 기반, FY19 Q4 \~ FY23 Q1):**
 
 ![Lam Research 분기 매출 & 마진](LRCX_chart10_12분기시계열.png)
 
-→ FY21~FY22 강세, FY23 Q1 record $5.07B (Sep 2022)
-→ FY23 Q2 이후 분기 (Dec 2022 ~ March 2026)는 SEC 8-K HTM에서 v2 보강 예정
+→ FY21\~FY22 강세, FY23 Q1 record $5.07B (Sep 2022)
+→ FY23 Q2 이후 분기 (Dec 2022 \~ March 2026)는 SEC 8-K HTM에서 v2 보강 예정
 
 ### ② 사업부별 개요 (FY25 기준)
 
-(1) **Systems Revenue** (~75%, FY25 약 $14B)
+(1) **Systems Revenue** (\~75%, FY25 약 $14B)
 - **Etch** (50%) — Conductor etch (Sense.i, Vector·Versys) + Dielectric etch (Kiyo)
 - **Deposition** (30%) — CVD (Sequel), ALD (Striker·Voyager), Diffusion·LPCVD
 - **Clean / Strip** (20%) — Coronus, GAMMA
 
-(2) **Customer Support-Related Revenue** (~25%, FY25 약 $4.4B)
+(2) **Customer Support-Related Revenue** (\~25%, FY25 약 $4.4B)
 - Service contracts (multi-year)
 - Spare parts (recurring)
 - Reliant (refurbished tools)
@@ -195,18 +195,18 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 ### ③ 사업부별 디테일
 
 (1) **Etch — Lam의 핵심 leadership**
-- 글로벌 점유 ~50% (1위), TEL·AMAT 추격
+- 글로벌 점유 \~50% (1위), TEL·AMAT 추격
 - 3D NAND scaling 핵심 (256L → 400L+ ramp 시 step 수 2배+)
 - HBM stacking 핵심 (12-hi → 20-hi ramp 시 추가 step)
-- 단일 system ASP $5~12M (high-NA gap-fill 등 고급은 $20M+)
+- 단일 system ASP $5\~12M (high-NA gap-fill 등 고급은 $20M+)
 
 (2) **Deposition (ALD·CVD) — Lam의 secular 동력**
-- 글로벌 ALD ~30% (2위, AMAT 1위 ~40%)
+- 글로벌 ALD \~30% (2위, AMAT 1위 \~40%)
 - DRAM 1c·1d nm 노드 + HBM TSV (Through-Silicon Via) 핵심
 - 차세대 GAA (Gate-All-Around) 트랜지스터 enabler
 
 (3) **Customer Support — recurring buffer**
-- 누적 install base ~70,000+ tools (40+년 누적)
+- 누적 install base \~70,000+ tools (40+년 누적)
 - Spare parts margin 60%+로 system 마진보다 높음
 - 사이클 하방 시 매출 buffer 역할
 
@@ -214,23 +214,23 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 | 영역 | 경쟁사 | LRCX 위치 |
 |---|---|---|
-| Etch | TEL, AMAT | **#1 (~50%)** |
-| CVD | AMAT | #2 (~30%) |
-| ALD | AMAT, ASM Intl | #2 (~30%) |
-| Clean | TEL, SEMES | #1 (~35%) |
+| Etch | TEL, AMAT | **#1 (\~50%)** |
+| CVD | AMAT | #2 (\~30%) |
+| ALD | AMAT, ASM Intl | #2 (\~30%) |
+| Clean | TEL, SEMES | #1 (\~35%) |
 | Lithography | (LRCX 진출 없음) | N/A (ASML 영역) |
 
 → **Etch leadership 압도적** — 3D NAND·HBM·GAA 모든 차세대 노드의 enabler
 
 ### ⑤ 주요 매출처 (FY25 추정)
 
-→ **Memory (DRAM + NAND + HBM)**: ~60~70% (SK하이닉스·Samsung·Micron·Kioxia + WD/Sandisk JV)
-→ **Foundry/Logic**: ~30~40% (TSMC·Samsung Foundry·Intel·UMC·SMIC)
-→ **Top 3 고객 합산**: ~50%+ 추정 (SK하이닉스·Samsung·TSMC)
+→ **Memory (DRAM + NAND + HBM)**: \~60\~70% (SK하이닉스·Samsung·Micron·Kioxia + WD/Sandisk JV)
+→ **Foundry/Logic**: \~30\~40% (TSMC·Samsung Foundry·Intel·UMC·SMIC)
+→ **Top 3 고객 합산**: \~50%+ 추정 (SK하이닉스·Samsung·TSMC)
 
 ### ⑥ 생산 CAPA + 임직원
 
-→ FY25말 임직원 **~18,500명** (FTE)
+→ FY25말 임직원 **\~18,500명** (FTE)
 → 핵심 fab: Fremont CA (본사), Tualatin OR, Livermore CA, 말레이시아 페낭 (penang), 한국 용인 R&D
 → Foundry: 자체 제조 (Fremont·말레이시아) + outsource hybrid
 
@@ -238,7 +238,7 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 ## 4. 재무 구조 (12년 시계열)
 
-### ① 손익계산서 (FY2014~FY2025)
+### ① 손익계산서 (FY2014\~FY2025)
 
 → 매출 $5.3B → $18.4B (3.5배). GPM 43.8% → 48.7% (+4.9pp). OPM 18.2% → 32.0% (+13.8pp)
 → R&D $0.8B → $2.1B (2.5배), R&D% 15.6% → 11.4% (매출 성장이 R&D보다 빠름 = 효율 향상)
@@ -257,22 +257,22 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 ![Lam Research R&D 투자 12년](LRCX_chart7_R&D.png)
 
 → R&D $0.8B → $2.1B (2.5배)
-→ R&D / Revenue: 11~16% range. FY25 11.4%로 정착 (operating leverage)
+→ R&D / Revenue: 11\~16% range. FY25 11.4%로 정착 (operating leverage)
 → 핵심 R&D: 3D NAND scaling, HBM stacking, GAA transistor, EUV companion etch
 
 ### ④ 자사주·배당 (12년)
 
 → FY25 분기 dividend $2.30/share (annualized $9.20, +15% YoY)
 → Q1 FY23 단일 분기 자사주 매입 $1.1B 등 capital return 활발
-→ 누적 자사주 매입 ~$20B+ (10년 누적)
+→ 누적 자사주 매입 \~$20B+ (10년 누적)
 
 ### ⑤ 재무비율 (FY2025)
 
 | 비율 | 값 | 비교 |
 |---|---|---|
-| ROE | ~70% | 자사주 매입 누적으로 자본 축소 + 순이익 폭증 |
-| ROA | ~24% | 매출 $18.4B / 총자산 $22B |
-| 부채비율 | ~100% | Net debt < $0 (cash positive) |
+| ROE | \~70% | 자사주 매입 누적으로 자본 축소 + 순이익 폭증 |
+| ROA | \~24% | 매출 $18.4B / 총자산 $22B |
+| 부채비율 | \~100% | Net debt < $0 (cash positive) |
 | Operating Margin | 32.0% | 글로벌 WFE 최고 수준 |
 | FCF Margin | 30% | Asset-light 효과 |
 
@@ -288,17 +288,17 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 ### ② 주주 구분 (FY25말 추정)
 
-→ Free float ~95% (institutional)
-→ 5%+ 주주: BlackRock (~9%), Vanguard (~8%), Capital Group (~5%)
-→ 외국인 비중 ~25% (US 본사 + global investor)
+→ Free float \~95% (institutional)
+→ 5%+ 주주: BlackRock (\~9%), Vanguard (\~8%), Capital Group (\~5%)
+→ 외국인 비중 \~25% (US 본사 + global investor)
 → Insider 보유 < 1%
 
 ### ③ 임원·이사회 (2026 기준)
 
-→ **President & CEO**: Tim Archer (2018-12~ ; 前 COO)
-→ **CFO**: Doug Bettinger (2013~)
+→ **President & CEO**: Tim Archer (2018-12\~ ; 前 COO)
+→ **CFO**: Doug Bettinger (2013\~)
 → **CTO**: Vahid Vahedi
-→ Board of Directors ~10명
+→ Board of Directors \~10명
 
 ---
 
@@ -306,14 +306,14 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 
 ### ① R&D 인프라
 
-→ FY25 R&D 비용 분기 $0.5~0.6B (annual **$2.1B = 매출의 11.4%**)
-→ R&D 헤드카운트: 전체 FTE의 ~45%
+→ FY25 R&D 비용 분기 $0.5\~0.6B (annual **$2.1B = 매출의 11.4%**)
+→ R&D 헤드카운트: 전체 FTE의 \~45%
 → 핵심 R&D site: Fremont CA 본사, Tualatin OR, Livermore CA, 용인 한국 R&D Center
 
 ### ② 진행 중 corporate action
 
 → **분기 dividend $2.30/share** 유지 (annualized $9.20)
-→ **자사주 매입 program**: 분기 $0.5~1B 페이스 (FY25 누적 ~$3B+)
+→ **자사주 매입 program**: 분기 $0.5\~1B 페이스 (FY25 누적 \~$3B+)
 → **3D NAND 256L+ ramp 대응** — Etch step 수 확대로 매출 단위 lift
 
 ### ③ R&D 마일스톤
@@ -321,11 +321,11 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 → **2013**: 3D NAND 본격 ramp 시작 (Etch step 수 폭증)
 → **2017**: Striker ALD 출시 (DRAM 1z nm enabler)
 → **2022**: Sense.i 3rd-gen conductor etch
-→ **2024~2026**: HBM 12-hi → 16-hi → 20-hi ramp + GAA transistor enabler
+→ **2024\~2026**: HBM 12-hi → 16-hi → 20-hi ramp + GAA transistor enabler
 
 ### ④ 주요 리스크
 
-→ **미·중 export control**: FY23~FY24 China DPRK 우려로 매출 영향. FY25 normalize. China 매출 ~30% 유지
+→ **미·중 export control**: FY23\~FY24 China DPRK 우려로 매출 영향. FY25 normalize. China 매출 \~30% 유지
 → **메모리 사이클 노출**: Memory customer 60%+ 비중 → 메모리 다운사이클 시 매출 직접 영향
 → **첨단 노드 ramp 시점 변동**: TSMC N3·N2, Intel 18A 등 customer roadmap 지연 시 분기 매출 변동
 → **단일 제품 의존 부재**: Etch + Deposition + Clean 다양 → 한 제품 의존도 < 50%
@@ -341,15 +341,15 @@ WFE 장비 cyclical (메모리 종목 ±50%pt+ 대비 1/4 진폭) + secular grow
 ## Version Log
 
 → **v1.0** (2026-05-25): 첫 작성. SEC 10-K 15개 + 10-Q 44개 + 8-K 168개 + Lam IR PR 23개 + Yahoo 21.5년 주가 기반. 7종 차트 + 6개 섹션 + 1번 섹션 표준 5가지 + 삼성전자 dark theme 적용.
-→ **v2 보강 후보**: (1) SEC 8-K HTM에서 FY23 Q2 ~ FY26 Q3 (~12분기) 분기 PR 추출 → 60+분기 시계열 완성, (2) 10-K에서 자산/자본/부채 12년 BS·CF 시계열 추출 → chart4·9 추가, (3) Geographic mix (China·Korea·Taiwan·Japan·US) 분기별 시계열, (4) System vs Customer Support split 분기별 시계열, (5) WFE share competitive analysis (vs AMAT·TEL·KLAC).
+→ **v2 보강 후보**: (1) SEC 8-K HTM에서 FY23 Q2 \~ FY26 Q3 (\~12분기) 분기 PR 추출 → 60+분기 시계열 완성, (2) 10-K에서 자산/자본/부채 12년 BS·CF 시계열 추출 → chart4·9 추가, (3) Geographic mix (China·Korea·Taiwan·Japan·US) 분기별 시계열, (4) System vs Customer Support split 분기별 시계열, (5) WFE share competitive analysis (vs AMAT·TEL·KLAC).
 
 ---
 
 ## Source
 
-→ SEC EDGAR 10-K 15개 (FY2010 ~ FY2025) — annual P&L + BS + CF
-→ SEC EDGAR 10-Q 44개 (FY2015 ~ FY2026 Q3)
-→ SEC EDGAR 8-K 168개 (2010 ~ 2026-04, 분기 PR + 기타) — 최근 분기 보강용
-→ Lam IR Press Release 23개 (FY17 Q2 ~ FY23 Q1) — investor.lamresearch.com
+→ SEC EDGAR 10-K 15개 (FY2010 \~ FY2025) — annual P&L + BS + CF
+→ SEC EDGAR 10-Q 44개 (FY2015 \~ FY2026 Q3)
+→ SEC EDGAR 8-K 168개 (2010 \~ 2026-04, 분기 PR + 기타) — 최근 분기 보강용
+→ Lam IR Press Release 23개 (FY17 Q2 \~ FY23 Q1) — investor.lamresearch.com
 → Lam IR Earnings Deck 1개 (Q1 FY23, Sep 2022)
-→ Yahoo Finance v8 API — LRCX monthly close (2005-01 ~ 2026-05, 258 months)
+→ Yahoo Finance v8 API — LRCX monthly close (2005-01 \~ 2026-05, 258 months)

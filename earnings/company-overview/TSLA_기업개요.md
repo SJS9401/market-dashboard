@@ -1,8 +1,8 @@
 # Tesla, Inc. (TSLA) — 기업 개요
 
 > **버전 v5.1** · 작성일 2026-05-19 · 종목 분류 T1 (미국 빅테크) · industry=자동차|자율주행
-> 데이터 소스: SEC 10-K 16건 (FY10~FY25), 10-Q 48건 (FY10Q2~FY26Q1), 8-K 174건, DEF 14A 11건 (2025-09-17 머스크 보상안 + 운영 milestone 상세), Tesla IR Update Letter 8건 (Q3 2023 ~ Q1 2026), Yahoo Finance monthly 16년+
-> **시계열 깊이**: 12년 연간 (FY14~FY25) + 64분기 (FY10Q2~FY26Q1, 16년) + 모델별 인도 33분기 + Energy GWh 18 entry + Supercharger 15 entry + FSD subs 5분기 + Regional 매출 12년 + **EV credits 9분기 + Region별 차량 인도 8년 + Segment GPM 5년 + 머스크 12 운영 milestones 정확치 + OBBBA/IRA 영향 narrative**
+> 데이터 소스: SEC 10-K 16건 (FY10\~FY25), 10-Q 48건 (FY10Q2\~FY26Q1), 8-K 174건, DEF 14A 11건 (2025-09-17 머스크 보상안 + 운영 milestone 상세), Tesla IR Update Letter 8건 (Q3 2023 \~ Q1 2026), Yahoo Finance monthly 16년+
+> **시계열 깊이**: 12년 연간 (FY14\~FY25) + 64분기 (FY10Q2\~FY26Q1, 16년) + 모델별 인도 33분기 + Energy GWh 18 entry + Supercharger 15 entry + FSD subs 5분기 + Regional 매출 12년 + **EV credits 9분기 + Region별 차량 인도 8년 + Segment GPM 5년 + 머스크 12 운영 milestones 정확치 + OBBBA/IRA 영향 narrative**
 > **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
 
 
@@ -15,16 +15,16 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (12년 평균, FY2014~FY2025):**
+**📊 Summary Box (12년 평균, FY2014\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
 | 매출 CAGR (FY14→FY25) | **+36.4%** ($3.2B → $94.8B, 30배) |
 | OPM 평균 (12년) | **+1.2%** (적자 7년 + 흑자 5년) |
 | **OPM 정점 평균** | **+12.7%** (FY21·FY22·FY23 3회 평균) |
-| **OPM 저점 평균** | **−11.7%** (FY14~FY17 4회 평균, Model S/X/3 ramp 손실) |
-| **OPM range (12년)** | -17.7% ~ +16.8% = **34.5%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 |
-| 사이클 주기 | 약 6~8년 (Model 출시 → ramp → profitability 변곡) |
+| **OPM 저점 평균** | **−11.7%** (FY14\~FY17 4회 평균, Model S/X/3 ramp 손실) |
+| **OPM range (12년)** | -17.7% \~ +16.8% = **34.5%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 |
+| 사이클 주기 | 약 6\~8년 (Model 출시 → ramp → profitability 변곡) |
 | 사이클 회수 (12년) | 정점 1회 (FY22) / 저점 1회 (FY15) — 1차 적자 → 2차 흑자 정점 → 재침체 패턴 |
 
 **📊 손익 표 (12년, narrative annotation 직접 통합):**
@@ -44,7 +44,7 @@
 | FY24 | 97,690 | 7,076 | 7.2% | +7.3% | $2.04 | Cybertruck 부진 + Auto 매출 -7% YoY |
 | FY25 | 94,827 | 4,355 | **+4.6%** | +4.0% | $1.08 | **← 재침체 저점 (Auto -10% YoY, 매출 사상 첫 -2.9% YoY)** |
 
-→ (출처: Tesla 10-K FY2014~FY2025, SEC EDGAR)
+→ (출처: Tesla 10-K FY2014\~FY2025, SEC EDGAR)
 
 ![TSLA 매출·OPM 추이](TSLA_chart1_매출OPM.png)
 
@@ -58,14 +58,14 @@
 ### ③ 분류 결정 논리 (4단계 sub-logic)
 
 (1) **가장 매출 큰 사업부 기준** 적용 시 Automotive 73% → "EV OEM = capacity ramp 사이클" 명확. 12년 CAGR +36.4%로 고성장 동시 보유.
-(2) **단, OPM 변동성 sub-rule** 적용: **OPM range 34.5%pt = 사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 + **2회 명확 cycle phase** (FY14~19 적자 ramp + FY20~22 흑자 정점 + FY23~25 재침체). 단순 사이클 OEM이 아닌 ramp + 가격 사이클 중첩.
+(2) **단, OPM 변동성 sub-rule** 적용: **OPM range 34.5%pt = 사이클 cutoff 10%pt 큰 폭 초과** = 극심한 사이클성 + **2회 명확 cycle phase** (FY14\~19 적자 ramp + FY20\~22 흑자 정점 + FY23\~25 재침체). 단순 사이클 OEM이 아닌 ramp + 가격 사이클 중첩.
 (3) **Boundary case 처리**: Primary "고성장 + 사이클" + Secondary "AI/Robotaxi/Optimus optionality". **Auto 매출 비중 65% 이하 + Services 비중 25%+ 도달 시** → "지속성장 + Optionality" 격상 가능 (현재 Auto 73%/Services 14%). Cybercab + Optimus 양산 시작 (2026 H2) 시 분류 영향.
-(4) **글로벌 피어 cross-reference**: **BYD vs TSLA = EV 중국 #1 vs 글로벌 #1** (BYD OPM ~6% steady vs TSLA OPM range 34.5%pt). **Toyota vs TSLA = ICE legacy vs EV new** (Toyota OPM 8~10% 안정). Robotaxi 차원: **Waymo vs TSLA = 5위 도시 vs 11+ 도시** 경쟁. 삼성전자 비교: 삼성 메모리 사이클 vs TSLA EV ramp 사이클 (사이클 source는 완전 다른 산업).
+(4) **글로벌 피어 cross-reference**: **BYD vs TSLA = EV 중국 #1 vs 글로벌 #1** (BYD OPM \~6% steady vs TSLA OPM range 34.5%pt). **Toyota vs TSLA = ICE legacy vs EV new** (Toyota OPM 8\~10% 안정). Robotaxi 차원: **Waymo vs TSLA = 5위 도시 vs 11+ 도시** 경쟁. 삼성전자 비교: 삼성 메모리 사이클 vs TSLA EV ramp 사이클 (사이클 source는 완전 다른 산업).
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 PSR + EV/EBITDA (중기 3~5년)** — 사업부별 매출 다양화 (Auto + Energy + Services), Energy/Robotics 성장 가시화. **Auto PSR ~5x + Energy PSR ~15x (high-growth) + Services PSR ~25x (FSD ARR)** SOTP.
-- **2순위 PER (단기 12M)** — Auto 사업 흑자, 그러나 실적 변동성 큼 (OPM 4~17% range) → 이익 가시성 낮음. FY25 EPS $1.08, PER ~250x (분류 cycle low 기준 정상 패턴).
+- **1순위 PSR + EV/EBITDA (중기 3\~5년)** — 사업부별 매출 다양화 (Auto + Energy + Services), Energy/Robotics 성장 가시화. **Auto PSR \~5x + Energy PSR \~15x (high-growth) + Services PSR \~25x (FSD ARR)** SOTP.
+- **2순위 PER (단기 12M)** — Auto 사업 흑자, 그러나 실적 변동성 큼 (OPM 4\~17% range) → 이익 가시성 낮음. FY25 EPS $1.08, PER \~250x (분류 cycle low 기준 정상 패턴).
 - **3순위 Terminal/Optionality** — **FSD/Robotaxi/Optimus가 TSLA PER 100배+ 프리미엄의 핵심** (별도 테마 분석 통합 모드에서 다룸). $225B+ commitments 추정.
 - **PBR 부적합** — Tesla 기술기업 성격, 자본 회전율보다 자본효율(ROIC) 핵심.
 - **삼성전자 비교**: 삼성은 multi-segment 사이클 → **PBR + PER 혼합**, TSLA는 고성장 + 사이클 + Optionality → **PSR + EV/EBITDA + Terminal 옵션 가치** (Optionality 별도 모드 차별화).
@@ -92,8 +92,8 @@
 - **티커**: TSLA (NASDAQ)
 - **CIK**: 0001318605 (SEC)
 - **회계연도**: 12월말 결산 (FY)
-- **CEO**: Elon Musk (2008~)
-- **CFO**: Vaibhav Taneja (2023-08~)
+- **CEO**: Elon Musk (2008\~)
+- **CFO**: Vaibhav Taneja (2023-08\~)
 - **임직원**: 약 125,665명 (FY24말, FY25는 약 110,000명으로 감소 — 2024년 4월 10%+ 구조조정)
 
 > **비전 한 줄**: "지속 가능한 에너지로의 세계 전환 가속화"
@@ -108,21 +108,21 @@
 ![chart1b 손익4지표](TSLA_chart1b_손익4지표.png)
 
 > **변곡 요약** (괄호는 5년 누적 변화)
-> (2-1) FY14~FY19 (적자 사이클): 매출 7.7배 (3.2B→24.6B), 자본 7.5배 (0.9B→6.6B). 자기자본은 IPO·전환사채·secondary offering으로 누적.
-> (2-2) FY20~FY22 (이익 폭발): 매출 2.6배 (31.5B→81.5B), 자본 4.6배 (22.2B→44.7B). 처음으로 OCF로 자본 확충.
-> (2-3) FY23~FY25 (이익 감소·자본 증가): 매출 정체 (96.8B→94.8B), 자본 1.3배 (62.6B→81.6B). 이익은 감소하지만 retained earnings 누적 + SBC.
+> (2-1) FY14\~FY19 (적자 사이클): 매출 7.7배 (3.2B→24.6B), 자본 7.5배 (0.9B→6.6B). 자기자본은 IPO·전환사채·secondary offering으로 누적.
+> (2-2) FY20\~FY22 (이익 폭발): 매출 2.6배 (31.5B→81.5B), 자본 4.6배 (22.2B→44.7B). 처음으로 OCF로 자본 확충.
+> (2-3) FY23\~FY25 (이익 감소·자본 증가): 매출 정체 (96.8B→94.8B), 자본 1.3배 (62.6B→81.6B). 이익은 감소하지만 retained earnings 누적 + SBC.
 
 ### ③ 회사 주가 역사 (시가총액 16년 추이)
 
 ![chart11 시가총액](TSLA_chart11_시가총액20년.png)
 
-- (3-1) **2010~2019**: IPO 이후 9년간 small-cap → mid-cap. 시총 $5B → $60B. 적자 누적 7년.
+- (3-1) **2010\~2019**: IPO 이후 9년간 small-cap → mid-cap. 시총 $5B → $60B. 적자 누적 7년.
 - (3-2) **2020 폭등기**: 코로나 후 EV 수요 + S&P 500 편입 (2020-12) → 시총 $60B → $700B (12배, 1년).
 - (3-3) **2021 정점**: 시총 $1.2조 (2021-10). PER 200배 영역. 모건스탠리·우드 강세 보고서.
 - (3-4) **2022 하락**: 머스크 트위터(X) 인수 + Tesla 주식 매도 + EV 경쟁 (BYD·Rivian) → 시총 $1.2조 → $400B (-67%).
 - (3-5) **2023 회복**: 가격인하·Model Y ramp → 시총 반등 $800B.
-- (3-6) **2024~2025**: 트럼프 행정부 친밀 관계 + FSD/Robotaxi 기대 → 사상 최고 시총 ~$1.4조 (2024-12). 2025년 상반기 정치 리스크로 $700B대 조정.
-- (3-7) **2025~현재 (2026-05)**: $1.1조대 (PER ~300배, PSR ~12배 영역). 이익 대비 valuation premium은 Robotaxi/Optimus optionality.
+- (3-6) **2024\~2025**: 트럼프 행정부 친밀 관계 + FSD/Robotaxi 기대 → 사상 최고 시총 \~$1.4조 (2024-12). 2025년 상반기 정치 리스크로 $700B대 조정.
+- (3-7) **2025\~현재 (2026-05)**: $1.1조대 (PER \~300배, PSR \~12배 영역). 이익 대비 valuation premium은 Robotaxi/Optimus optionality.
 
 ### ④ 주요 연혁
 
@@ -146,7 +146,7 @@
 | 2022-08 | 3:1 주식분할 |
 | 2023-01 | 글로벌 가격 인하 (Model 3/Y 최대 -20%) — 경쟁 대응 |
 | 2023-11 | Cybertruck 첫 인도 |
-| 2024-04 | 구조조정 — 직원 10%+ 감원 (~14,000명) |
+| 2024-04 | 구조조정 — 직원 10%+ 감원 (\~14,000명) |
 | 2024-10 | Robotaxi (Cybercab) 컨셉 공개 + Optimus 시연 |
 | 2025-01 | Model Y "Juniper" refresh 출시 |
 | 2025-06 | Robotaxi 서비스 Austin 첫 출시 (10대, 한정) |
@@ -172,7 +172,7 @@
 > **YoY (FY24→FY25)**: Auto −9.8% / Energy +26.6% / Services +18.9%. **Auto 비중 79% → 73%로 6%p 감소** — 사업 다각화 진행.
 > **FY26Q1 (vs FY25Q1)**: Total Rev +15.8% (22.4B vs 19.3B) / Auto Total +16.2% / Energy −11.8% / Services +42.0%. **Services 사상 첫 17% 비중 돌파** (Supercharger 매출 + Tesla Insurance + FSD subscription 누적 효과).
 
-#### 사업부별 64분기 시계열 (FY10Q2 ~ FY26Q1)
+#### 사업부별 64분기 시계열 (FY10Q2 \~ FY26Q1)
 
 ![chart2 Automotive](TSLA_chart2_Automotive.png)
 
@@ -180,18 +180,18 @@
 
 ![chart2 Services](TSLA_chart2_Services.png)
 
-#### 차량 인도 분기 시계열 (64분기, IPO 직후 ~ 현재)
+#### 차량 인도 분기 시계열 (64분기, IPO 직후 \~ 현재)
 
 ![chart3 차량인도](TSLA_chart3_차량인도.png)
 
-#### 차량 모델별 인도 분기 시계열 (FY18Q1 ~ FY26Q1, 33분기)
+#### 차량 모델별 인도 분기 시계열 (FY18Q1 \~ FY26Q1, 33분기)
 
 ![chart13 모델별인도](TSLA_chart13_모델별인도.png)
 
 > **모델 전환 narrative**
-> (1-1) **FY18~FY19**: Model S/X premium 비중 25~30% → Model 3 ramp로 일순 압도. FY18Q3 첫 Model 3 양산 분기 (55.8k / 전체 83.5k의 67%).
-> (1-2) **FY20Q2~FY21Q4**: Model Y 추가 (2020-03 첫 인도). Model 3/Y 합산이 90%+ 차지. S/X는 Plaid version 출시에도 분기 1.9~11.8k 미니멀.
-> (1-3) **FY24~**: Tesla disclosure 변경. Model S/X를 "Other models" (Cybertruck/Semi/Roadster 2 포함)에 합산. Cybertruck 첫 인도 2023-11. FY24~FY25 Other 분기 12~24k 수준 — Cybertruck ramp 부진 (당초 가이던스 25만대/년 vs 실제 약 60~80k/년).
+> (1-1) **FY18\~FY19**: Model S/X premium 비중 25\~30% → Model 3 ramp로 일순 압도. FY18Q3 첫 Model 3 양산 분기 (55.8k / 전체 83.5k의 67%).
+> (1-2) **FY20Q2\~FY21Q4**: Model Y 추가 (2020-03 첫 인도). Model 3/Y 합산이 90%+ 차지. S/X는 Plaid version 출시에도 분기 1.9\~11.8k 미니멀.
+> (1-3) **FY24\~**: Tesla disclosure 변경. Model S/X를 "Other models" (Cybertruck/Semi/Roadster 2 포함)에 합산. Cybertruck 첫 인도 2023-11. FY24\~FY25 Other 분기 12\~24k 수준 — Cybertruck ramp 부진 (당초 가이던스 25만대/년 vs 실제 약 60\~80k/년).
 
 | 분기 | 인도 (천대) | YoY |
 |------|-----------:|------:|
@@ -207,7 +207,7 @@
 | **FY25 합계** | **1,636** | **-8.5%** |
 | FY26Q1 | 358.0 | +6.3% (회복 신호) |
 
-#### 12분기 시계열 (FY23Q2~FY26Q1)
+#### 12분기 시계열 (FY23Q2\~FY26Q1)
 
 ![chart10 12분기](TSLA_chart10_12분기.png)
 
@@ -238,7 +238,7 @@
   - FY22Q4 4,678 / 42,419 (Magic Dock + NACS 발표 직전)
   - FY24Q4 6,975 / 65,495
   - FY26Q1 **8,463 sites / 79,918 connectors** (5년간 sites 4.7배, connectors 5.0배)
-  - 2023~2024 GM·Ford·Rivian·BMW·현대 NACS 채택 → Tesla 외 차량 매출 본격화 (FY26Q1 Services 매출 YoY +42%의 주요 driver)
+  - 2023\~2024 GM·Ford·Rivian·BMW·현대 NACS 채택 → Tesla 외 차량 매출 본격화 (FY26Q1 Services 매출 YoY +42%의 주요 driver)
 - (2-3-3) **FSD Subscriptions (chart16)**: Q1 2025 첫 disclose 시작 — FY25Q1 0.85M → FY26Q1 **1.28M (YoY +51%)**. ARPU $99/월 가정 시 연환산 매출 약 $1.5B (Services 매출의 약 10%, 추정).
 
 #### Supercharger 사이트/스톨 누적 시계열
@@ -254,10 +254,10 @@
 #### (3-1) Automotive — 최근 추이
 - (3-1-1) **Top-seller**: Model Y. FY25 글로벌 인도의 약 75% 차지 추정. Juniper refresh (2025-01)로 ASP 안정화.
 - (3-1-2) **Growth driver**: Energy/Services. Auto는 정체.
-- (3-1-3) **Outlier**: FY25 Auto GPM (ex. credits/leasing) 약 17~19% — 사상 최저. FY22 28%+ 대비 −10%p. 가격인하 + 인센티브 증가가 주요 원인.
+- (3-1-3) **Outlier**: FY25 Auto GPM (ex. credits/leasing) 약 17\~19% — 사상 최저. FY22 28%+ 대비 −10%p. 가격인하 + 인센티브 증가가 주요 원인.
 
 #### (3-2) Energy — 고성장
-- (3-2-1) Megapack: Lathrop·Shanghai 공장 ramp. FY26 ramp-up 가이던스 100 GWh/년 (현재 ~50 GWh 능력).
+- (3-2-1) Megapack: Lathrop·Shanghai 공장 ramp. FY26 ramp-up 가이던스 100 GWh/년 (현재 \~50 GWh 능력).
 - (3-2-2) Powerwall: 미국·호주 강세, 유럽 ramp. 그리드 불안정 시장에서 PV+ESS 결합 수요.
 
 #### (3-3) Services & Other — 안정 성장
@@ -290,7 +290,7 @@
 | 시설 | 위치 | 가동 | 연간 CAPA | 주력 제품 |
 |------|------|------|----------:|----------|
 | Gigafactory Nevada | 미 네바다 | 2016 | 35 GWh (배터리) | 2170 cell, Powerwall, Semi 모터 |
-| Fremont Factory | 미 캘리포니아 | 1962 (Tesla 2010~) | 650,000대/년 | Model S/X/3/Y |
+| Fremont Factory | 미 캘리포니아 | 1962 (Tesla 2010\~) | 650,000대/년 | Model S/X/3/Y |
 | Gigafactory Shanghai | 中 상하이 | 2019-12 | 950,000대/년 | Model 3/Y (export hub) |
 | Gigafactory Berlin | 독 베를린 | 2022-03 | 375,000대/년 | Model Y (EU) |
 | Gigafactory Texas | 미 텍사스 | 2022-04 | 375,000대/년 | Model Y, Cybertruck, 4680 cell |
@@ -323,7 +323,7 @@
 | FY24 | 97,690 | 79% | 10% | 11% | 17.9% | 7.2% | 7.3% | $2.04 |
 | FY25 | 94,827 | 73% | 13% | 13% | 18.0% | 4.6% | 4.0% | $1.08 |
 
-> *FY23 NPM 15.5%는 일회성 deferred tax asset 인식 ($5.0B benefit) 효과. 정상화 시 ~10% 수준.
+> *FY23 NPM 15.5%는 일회성 deferred tax asset 인식 ($5.0B benefit) 효과. 정상화 시 \~10% 수준.
 
 ### ① -b. Segment GPM Divergence (Auto vs Energy)
 
@@ -339,7 +339,7 @@
 
 > **사상 첫 Energy GPM > Auto GPM (FY25 변곡)**
 > (1b-1) FY22까지 Energy GPM은 한 자리수 미약 (6%, capex 부담 단계). FY23 본격 흑자 진입 (18.9%).
-> (1b-2) FY24~FY25: Energy GPM **+10.9%p 가속** (18.9% → 29.8%). Megapack ASP 상승 + 4680 cell 자체 생산 + utility-scale 규모의 경제.
+> (1b-2) FY24\~FY25: Energy GPM **+10.9%p 가속** (18.9% → 29.8%). Megapack ASP 상승 + 4680 cell 자체 생산 + utility-scale 규모의 경제.
 > (1b-3) Auto+Services GPM은 단조 하락 (18.2% → 16.2%). 가격 인하 + 인센티브 + 경쟁심화.
 > (1b-4) **Energy 매출 비중 13.5%이나 GP 비중 22% 차지** (FY25 $3.8B Energy GP / $17.1B Total GP). 사업 mix 변환 점진 가속.
 
@@ -368,8 +368,8 @@
 
 ![chart6 현금흐름](TSLA_chart6_현금흐름.png)
 
-- (3-1) **FY14~FY17 적자 + 음(-)의 OCF 시대**: 7년 누적 OCF -2.0B + CapEx 11B → 자본확충(transition: convertible note + secondary offering)으로 buffer
-- (3-2) **FY18~FY19 OCF 흑자 전환**: OCF $2.1~$2.4B/년 (Model 3 ramp 효과)
+- (3-1) **FY14\~FY17 적자 + 음(-)의 OCF 시대**: 7년 누적 OCF -2.0B + CapEx 11B → 자본확충(transition: convertible note + secondary offering)으로 buffer
+- (3-2) **FY18\~FY19 OCF 흑자 전환**: OCF $2.1\~$2.4B/년 (Model 3 ramp 효과)
 - (3-3) **FY20 이후 cash generation 본격화**: OCF $5.9B → $14.7B (FY25). FCF는 OCF에서 CapEx 차감
 - (3-4) **FY25 OCF $14.7B, CapEx $8.5B → FCF $6.2B**. CapEx/Rev 9.0%로 안정화 (FY24 11.6% 대비 -2.6%p, 일부 capex deferral)
 - (3-5) **FY26Q1**: OCF $3.9B / CapEx $2.5B / FCF $1.4B — 연환산 OCF $15.6B 페이스 (가속 신호)
@@ -378,8 +378,8 @@
 
 ![chart8 CapEx](TSLA_chart8_CapEx.png)
 
-- (4-1) Tesla CapEx 사이클은 **신규 Gigafactory 건설** 단위. FY17 Model 3 ramp 사이클 ($3.4B), FY21~FY22 Berlin/Texas ($7~8B), FY24 AI compute/training ($11.3B).
-- (4-2) FY24~FY25 CapEx의 약 35~40%는 AI 데이터센터 (Cortex cluster, Dojo 후속) — Auto·Energy capacity 외에 FSD/Robotaxi/Optimus 학습용.
+- (4-1) Tesla CapEx 사이클은 **신규 Gigafactory 건설** 단위. FY17 Model 3 ramp 사이클 ($3.4B), FY21\~FY22 Berlin/Texas ($7\~8B), FY24 AI compute/training ($11.3B).
+- (4-2) FY24\~FY25 CapEx의 약 35\~40%는 AI 데이터센터 (Cortex cluster, Dojo 후속) — Auto·Energy capacity 외에 FSD/Robotaxi/Optimus 학습용.
 - (4-3) FY26 가이던스: CapEx > $9B (FY25 $10.9B와 유사 수준). AI 비중 더 증가 예상.
 
 ### ⑤ 부채구조 + 채무증권 발행 history
@@ -390,7 +390,7 @@
 - 2019-05: $1.84B convertible + $0.86B equity (combo offering)
 - 2020-02 / 2020-09 / 2020-12: 3차례 secondary offerings 총 $12.3B (S&P 편입 직후)
 - 2021-02: convertible notes 만기 redemption (3.5B+)
-- 2022~2024: 사업자금은 OCF 충당, 채무증권 거의 미발행
+- 2022\~2024: 사업자금은 OCF 충당, 채무증권 거의 미발행
 - 2024-07: $5B private debt (Auto Lease ABS, 시설용)
 
 ### ⑥ 배당·자사주
@@ -413,7 +413,7 @@
 
 > *FY23 ROA는 deferred tax benefit 효과. *FY25 ROE 4.9%는 OPM 4.6%·NPM 4.0%로 단조 하락의 결과. 자본효율 회복은 FSD/Robotaxi/Optimus 모멘텀 필요.
 
-### ⑧ Regional Revenue 12년 (FY14~FY25)
+### ⑧ Regional Revenue 12년 (FY14\~FY25)
 
 ![chart17 Regional매출](TSLA_chart17_Regional매출.png)
 
@@ -435,10 +435,10 @@
 > **Regional 변곡 포인트**
 > (8-1) FY18: Model 3 ramp + 미국 EV 보조금 효과로 US 비중 69%까지 상승 (사상 최고). 이후 정상화.
 > (8-2) FY21: 중국 비중 26% 정점 — Shanghai Gigafactory 본격 가동 + 중국 EV 수요 폭발기.
-> (8-3) FY23~: 중국 21~22% 안정화 (BYD 등 경쟁 심화로 추가 비중 확대 어려움). Other Int'l (유럽·기타) 30%대 안정.
+> (8-3) FY23\~: 중국 21\~22% 안정화 (BYD 등 경쟁 심화로 추가 비중 확대 어려움). Other Int'l (유럽·기타) 30%대 안정.
 > (8-4) FY25 신호: Other Int'l 매출 −10% YoY (29.0B→26.2B) — Berlin Gigafactory 가동률 + 유럽 정치 리스크 (머스크 정치 발언 보이콧) 영향.
 
-### ⑨ EV Regulatory Credits 분기·연간 시계열 (FY19~FY26Q1)
+### ⑨ EV Regulatory Credits 분기·연간 시계열 (FY19\~FY26Q1)
 
 ![chart21 EVcredits](TSLA_chart21_EVcredits.png)
 
@@ -467,9 +467,9 @@
 > **EV Credits 변곡 narrative**
 > (9-1) **FY24 정점 후 단조 하락**: 2025-07-04 발효된 **OBBBA (One Big Beautiful Bill Act)**로 IRA EV consumer tax credit 폐지 + 규제 크레딧 시장 위축. FY26Q1 $380M = FY24Q2 정점 대비 −57%.
 > (9-2) **OP 영향**: EV credits는 **거의 100% GP / OP에 직접 기여** (cost 없음). FY26Q1 OP $941M 중 credits 비중 40%. credits 빠지면 OPM 약 -1.7%p 하락.
-> (9-3) **FY26 전망**: OBBBA의 점진적 phase-out → FY26 연 credits $1.5B → FY27 ~$1.0B 추정. FY26 base case OP 가이던스 하향 조정 가능성.
+> (9-3) **FY26 전망**: OBBBA의 점진적 phase-out → FY26 연 credits $1.5B → FY27 \~$1.0B 추정. FY26 base case OP 가이던스 하향 조정 가능성.
 
-### ⑩ Region별 차량 인도 8년 시계열 (FY18~FY25)
+### ⑩ Region별 차량 인도 8년 시계열 (FY18\~FY25)
 
 ![chart22 Region인도](TSLA_chart22_Region인도.png)
 
@@ -485,11 +485,11 @@
 | **FY25** | **650** | **550** | **350** | **86** | **1,636** | **40%** | **34%** |
 
 > **Region 인도 변곡 narrative**
-> (10-1) **글로벌화 (FY18~FY21)**: 북미 비중 85% → 36%, 중국 4% → 34%. Shanghai Gigafactory (2019-12) + Berlin (2022-03) 가동.
-> (10-2) **균형 도달 (FY22~FY25)**: 북미·중국·유럽 균형 (대략 40·33·22%). FY25 NA 49% / EU 26% / CN 22% / 기타 3% (Tesla 자체 narrative).
+> (10-1) **글로벌화 (FY18\~FY21)**: 북미 비중 85% → 36%, 중국 4% → 34%. Shanghai Gigafactory (2019-12) + Berlin (2022-03) 가동.
+> (10-2) **균형 도달 (FY22\~FY25)**: 북미·중국·유럽 균형 (대략 40·33·22%). FY25 NA 49% / EU 26% / CN 22% / 기타 3% (Tesla 자체 narrative).
 > (10-3) **중국 의존도 우려**: 중국 인도 비중 34% — 미중 갈등 / 추가 관세 시 직접 영향. 다만 Shanghai 차량은 글로벌 export hub (EU, APAC 분산) 역할.
 
-### ⑪ FSD/Connectivity Deferred Revenue (FY24~FY26E roll-forward)
+### ⑪ FSD/Connectivity Deferred Revenue (FY24\~FY26E roll-forward)
 
 ![chart18 FSDdeferred](TSLA_chart18_FSDdeferred.png)
 
@@ -525,22 +525,22 @@
 
 | 구분 | 지분율 (2026-04 기준) | 비고 |
 |------|---------------------:|------|
-| Elon Musk (CEO 개인) | ~13.5% | 2024-11 2018 보상안 환원 + 2025 신규 보상안 검토 중 |
-| Vanguard Group | ~7.1% | 인덱스 |
-| BlackRock | ~5.7% | 인덱스 |
-| State Street | ~3.4% | 인덱스 |
-| 기타 기관 (Fidelity, T. Rowe, Geode 등) | ~27.8% | |
-| **기관 합계** | **~44.0%** | |
-| 개인/리테일 | ~42.0% | Robinhood 등 retail-heavy |
-| 기타 임원/이사회 | ~0.5% | |
+| Elon Musk (CEO 개인) | \~13.5% | 2024-11 2018 보상안 환원 + 2025 신규 보상안 검토 중 |
+| Vanguard Group | \~7.1% | 인덱스 |
+| BlackRock | \~5.7% | 인덱스 |
+| State Street | \~3.4% | 인덱스 |
+| 기타 기관 (Fidelity, T. Rowe, Geode 등) | \~27.8% | |
+| **기관 합계** | **\~44.0%** | |
+| 개인/리테일 | \~42.0% | Robinhood 등 retail-heavy |
+| 기타 임원/이사회 | \~0.5% | |
 
-> Tesla의 retail 지분이 42%로 미국 대형주 중 매우 높은 편 (S&P 500 평균 ~15%). 머스크 개인 영향력 + retail 강세가 valuation premium의 한 축.
+> Tesla의 retail 지분이 42%로 미국 대형주 중 매우 높은 편 (S&P 500 평균 \~15%). 머스크 개인 영향력 + retail 강세가 valuation premium의 한 축.
 
 ### ③ 임원·이사회
 
-- **CEO**: Elon Musk (1971년생, 남아공) — 2008~ 현직. Tesla 외 SpaceX, X, xAI, Boring Co, Neuralink 동시 CEO/Chair.
-- **CFO**: Vaibhav Taneja (2023-08~). 前 Tesla CAO (Chief Accounting Officer).
-- **이사회**: Chair Robyn Denholm (호주, 2018-11~), 총 8명 — 머스크 형제 Kimbal Musk 포함, James Murdoch, Larry Ellison (Oracle 설립자, 2018~2023 보임), Joe Gebbia (Airbnb 공동창업자, 2022~)
+- **CEO**: Elon Musk (1971년생, 남아공) — 2008\~ 현직. Tesla 외 SpaceX, X, xAI, Boring Co, Neuralink 동시 CEO/Chair.
+- **CFO**: Vaibhav Taneja (2023-08\~). 前 Tesla CAO (Chief Accounting Officer).
+- **이사회**: Chair Robyn Denholm (호주, 2018-11\~), 총 8명 — 머스크 형제 Kimbal Musk 포함, James Murdoch, Larry Ellison (Oracle 설립자, 2018\~2023 보임), Joe Gebbia (Airbnb 공동창업자, 2022\~)
 - **주요 임원**:
   - Tom Zhu (Senior VP, Automotive) — 글로벌 차량 사업
   - Vaibhav Taneja (CFO)
@@ -559,9 +559,9 @@
 | **Total Size** | 423,743,904 shares of Tesla common stock (= **Tesla 발행주식의 12%**) |
 | **Tranche 수** | 12 tranches × 35,311,992 shares 각각 |
 | **Equity Type** | Performance-based restricted common stock |
-| **시총 milestone** | Tranche 1: $2T → Tr#2~10: 각 +$500B → $6.5T → Tr#11: +$1T → $7.5T → Tr#12: +$1T → **$8.5T (2035년 목표)** |
+| **시총 milestone** | Tranche 1: $2T → Tr#2\~10: 각 +$500B → $6.5T → Tr#11: +$1T → $7.5T → Tr#12: +$1T → **$8.5T (2035년 목표)** |
 | **운영 milestone** | Robotaxi 100만대 배포 + Optimus 100만대 생산 + 차량 누적 2,000만대 + FSD active subscriptions 등 |
-| **기간** | 10년 이내 (~2035) 모든 tranche vesting 가능 |
+| **기간** | 10년 이내 (\~2035) 모든 tranche vesting 가능 |
 | **현재 시총** (2026-05) | 약 **$1.1조** (첫 Tranche $2T까지 +83% 필요) |
 
 > **시총 milestone significance**: $8.5T = "approximately equal to the combined market capitalizations of Meta + Microsoft + Alphabet as of the date of this proxy" (DEF 14A 인용). 즉 현 시점 글로벌 1위 기업 합산 가치를 Tesla 단독으로 달성하라는 요구.
@@ -601,7 +601,7 @@
 | EV consumer tax credit 폐지 | Auto sales 수요 영향 (FY26 인도 가이던스 하향 압력) |
 | Residential energy property credit 폐지 | Powerwall·Solar Roof 시장 위축 |
 | Section 45X AMP credit 잔존 (조건부) | 4680 cell 자체 생산 Texas 등 일부 혜택 유지 |
-| 규제 크레딧 시장 위축 | Tesla Auto regulatory credits 매출 FY24 $2.8B → FY26E ~$1.5B 추정 |
+| 규제 크레딧 시장 위축 | Tesla Auto regulatory credits 매출 FY24 $2.8B → FY26E \~$1.5B 추정 |
 
 > **FY25 10-K 인용**: "IRA incentives were subsequently substantially curtailed by the One Big Beautiful Bill Act (the "OBBBA") enacted on July 4, 2025, which repeals individual consumer tax credits for electric vehicles and residential energy property, and imposes more stringent eligibility requirements, accelerated phase-outs, and termination of certain provisions, although some of the IRA incentives remain available under the revised requirements"
 
@@ -609,7 +609,7 @@
 > (6-1) **Auto** (가장 큰 영향): 미국 EV 보조금 폐지로 가격 경쟁력 -10% → 수요 위축. 그러나 Tesla brand premium + 가격 인하 여력 보유.
 > (6-2) **Energy** (혼합 영향): Residential (Powerwall) 직접 위축, Utility-scale (Megapack)는 영향 작음. 데이터센터 수요는 IRA와 무관 — Megapack 신규 수요 동력 유지.
 > (6-3) **Services** (직접 영향 없음): Supercharger 매출은 IRA 의존도 낮음. FSD subscription도 무관.
-> (6-4) **Net 영향**: FY26 OP 추정 -$1.5B~-$2.5B (EV credits 감소 + Auto demand drop). 그러나 Energy GPM 가속 + Services 매출 확대로 부분 상쇄.
+> (6-4) **Net 영향**: FY26 OP 추정 -$1.5B\~-$2.5B (EV credits 감소 + Auto demand drop). 그러나 Energy GPM 가속 + Services 매출 확대로 부분 상쇄.
 
 ---
 
@@ -622,11 +622,11 @@
 - (1-1) **R&D 비용 12년 시계열**: $465M (FY14) → $6,411M (FY25). 14배 증가.
 - (1-2) **R&D/매출 비율**: FY14 14.5% → FY21 4.8% (저점) → FY25 6.8% (재상승)
 - (1-3) **R&D 주요 분야** (FY25 $6.4B 추정 분류):
-  - **FSD AI / Compute**: ~$2.5B (39%) — Cortex training cluster + HW5 inference chip + Dojo (단계적 축소)
-  - **차량 신차/플랫폼**: ~$1.5B (24%) — Model 2/Affordable + Cybercab + Roadster 2 + Semi
-  - **Optimus humanoid**: ~$1.2B (19%) — Gen 3 양산 라인 (Fremont/Texas)
-  - **Energy/배터리**: ~$0.8B (12%) — 4680 cell production (Texas), Megapack 3, LFP 자체 생산
-  - **기타**: ~$0.4B (6%) — Tesla Insurance, Supercharger 인프라
+  - **FSD AI / Compute**: \~$2.5B (39%) — Cortex training cluster + HW5 inference chip + Dojo (단계적 축소)
+  - **차량 신차/플랫폼**: \~$1.5B (24%) — Model 2/Affordable + Cybercab + Roadster 2 + Semi
+  - **Optimus humanoid**: \~$1.2B (19%) — Gen 3 양산 라인 (Fremont/Texas)
+  - **Energy/배터리**: \~$0.8B (12%) — 4680 cell production (Texas), Megapack 3, LFP 자체 생산
+  - **기타**: \~$0.4B (6%) — Tesla Insurance, Supercharger 인프라
 > *Tesla는 R&D 세부 분류를 별도 disclose하지 않음. 위 분류는 earnings call narrative + CapEx 분배 패턴 + 임직원 배치 추정.
 
 - (1-4) **R&D 가속 신호 (FY24→FY25)**: $4.5B → $6.4B (+41%). 매출 정체에도 R&D 폭발 — FY26Q1 R&D $1.9B (연환산 $7.8B 페이스, R&D/Rev 8.7%) — Robotaxi/Optimus 양산 준비 막바지.
@@ -647,20 +647,20 @@
 | 2023 | Wiferion | wireless charging | undisclosed |
 | 2024 | (M&A 없음 — 자체 개발 위주) | | |
 
-### ② 차종 출시 Timeline (2008~2026E)
+### ② 차종 출시 Timeline (2008\~2026E)
 
 ![chart20 차종Timeline](TSLA_chart20_차종Timeline.png)
 
-| 모델 | 첫 인도 | 누적 인도 (~FY25말) | 비고 |
+| 모델 | 첫 인도 | 누적 인도 (\~FY25말) | 비고 |
 |------|--------|-------------------:|------|
-| Roadster Gen1 | 2008-Q4 | ~2,450대 | 단종 2012, Gen2 출시 미정 |
-| Model S | 2012-Q2 | ~750,000+ 추정 | Plaid version 2021 출시. FY24~ "Other models"로 합산 |
-| Model X | 2015-Q3 | ~330,000+ 추정 | Falcon door SUV |
-| Model 3 | 2017-Q3 | ~3,500,000+ 추정 | 이익 변곡점 (FY20 흑자 전환). FY25 글로벌 best-seller car (전체 차종 1위) |
-| Model Y | 2020-Q1 | ~5,500,000+ 추정 | FY25 인도의 ~75% 비중. Juniper refresh 2025-01 |
-| Semi (트럭) | 2022-Q4 | ~수백 대 (제한 ramp) | Class 8 트럭, 양산 2026 가이던스 |
-| Cybertruck | 2023-Q4 | ~150,000 추정 | 픽업, FY25 ramp 부진 (~60-80k/년 vs 목표 250k) |
-| Roadster Gen2 | 2026~ 연기 | - | 5년+ 누적 연기, 미확정 |
+| Roadster Gen1 | 2008-Q4 | \~2,450대 | 단종 2012, Gen2 출시 미정 |
+| Model S | 2012-Q2 | \~750,000+ 추정 | Plaid version 2021 출시. FY24\~ "Other models"로 합산 |
+| Model X | 2015-Q3 | \~330,000+ 추정 | Falcon door SUV |
+| Model 3 | 2017-Q3 | \~3,500,000+ 추정 | 이익 변곡점 (FY20 흑자 전환). FY25 글로벌 best-seller car (전체 차종 1위) |
+| Model Y | 2020-Q1 | \~5,500,000+ 추정 | FY25 인도의 \~75% 비중. Juniper refresh 2025-01 |
+| Semi (트럭) | 2022-Q4 | \~수백 대 (제한 ramp) | Class 8 트럭, 양산 2026 가이던스 |
+| Cybertruck | 2023-Q4 | \~150,000 추정 | 픽업, FY25 ramp 부진 (\~60-80k/년 vs 목표 250k) |
+| Roadster Gen2 | 2026\~ 연기 | - | 5년+ 누적 연기, 미확정 |
 | Model 2 / Affordable | 2026 H2 가이던스 | - | 핵심 신차 — $25-30k 가격대, 글로벌 ramp 잠재력 |
 | Cybercab (Robotaxi) | 2026 양산 가이던스 | - | L4 autonomous, steering wheel 없음 (한국 등 일부 도시 적용) |
 | Optimus Gen3 | 2026말 양산 시작 | - | Humanoid robot, 목표 1M units/year, Fremont/Texas factory |
@@ -683,8 +683,8 @@
 
 - (4-1) **자율주행 책임 / 규제**: FSD 사고 시 책임 소재 (NHTSA 조사 다수), 규제 강화 가능성
 - (4-2) **중국 의존도**: Shanghai Gigafactory가 글로벌 인도의 약 40% — 미중 갈등 시 직접 영향
-- (4-3) **머스크 개인 리스크**: 정치 활동 (DOGE, 트럼프 행정부 관여 2025~) → 브랜드 보이콧 + 머스크-주주 이해상충 우려
-- (4-4) **EV 보조금 / IRA 변동**: 미국 EV 세액공제 단계적 축소 (FY26~), 규제크레딧 매출 감소
+- (4-3) **머스크 개인 리스크**: 정치 활동 (DOGE, 트럼프 행정부 관여 2025\~) → 브랜드 보이콧 + 머스크-주주 이해상충 우려
+- (4-4) **EV 보조금 / IRA 변동**: 미국 EV 세액공제 단계적 축소 (FY26\~), 규제크레딧 매출 감소
 - (4-5) **경쟁심화**: BYD 글로벌 진출, 中 EV 가격 경쟁, 전통 OEM EV 라인업 확장
 - (4-6) **소송**: 2018 머스크 보상안 (DE Court), Autopilot 관련 wrongful death 소송 다수, SolarCity 인수 관련 주주소송 (2022 판결 Tesla 승)
 - (4-7) **공급망**: 리튬·니켈·코발트·구리 가격 변동, 반도체 부족 재발 가능성
@@ -701,7 +701,7 @@
 
 - (6-1) **자동차 인증**: NHTSA (미), Euro NCAP (EU), C-NCAP (中) — Model 3/Y 모두 5-star
 - (6-2) **자율주행**: NHTSA L2 Autopilot/FSD (미국), L3 인증 없음 (Mercedes·BMW와 달리)
-- (6-3) **Robotaxi**: 텍사스 driverless 운영 허가 (2025-06~, 한정 지역)
+- (6-3) **Robotaxi**: 텍사스 driverless 운영 허가 (2025-06\~, 한정 지역)
 - (6-4) **충전 표준**: NACS (North American Charging Standard) → SAE J3400으로 표준화 (2023). GM·Ford·Rivian·BMW·현대 등 채택.
 
 ---
@@ -710,19 +710,19 @@
 
 ### v5.1 (2026-05-19, v5.0 잔여 보완 후보 7종 통합)
 
-- **EV Regulatory Credits 분기·연간 시계열** — 9분기 (FY24Q1~FY26Q1) + 7년 연간. FY24 $2.8B 정점 → FY26Q1 $380M (-57% from peak). OBBBA 영향 직접 추적.
-- **Region별 차량 인도 8년** (FY18~FY25) — 북미 85%→40%, 중국 4%→34%, 유럽 9%→21%. Shanghai/Berlin Gigafactory 가동 효과 정량화.
+- **EV Regulatory Credits 분기·연간 시계열** — 9분기 (FY24Q1\~FY26Q1) + 7년 연간. FY24 $2.8B 정점 → FY26Q1 $380M (-57% from peak). OBBBA 영향 직접 추적.
+- **Region별 차량 인도 8년** (FY18\~FY25) — 북미 85%→40%, 중국 4%→34%, 유럽 9%→21%. Shanghai/Berlin Gigafactory 가동 효과 정량화.
 - **Segment GPM Divergence (Auto vs Energy)** — 5년 시계열. FY25 Energy GPM 29.8% > Auto+Services 16.2% (**사상 첫 Energy 우위**). Energy 매출 13.5%지만 GP 22% 차지.
 - **머스크 2025 Award Operational Milestones 정확치** — 12개 milestone 모두 매핑. Adjusted EBITDA $400B/년 (FY25 $14B의 ×28배), 20M 차량 누적 (×2.2), 1M Robotaxi (×100,000), 1M Optimus (×10,000+).
-- **OBBBA / IRA 정책 영향 narrative** — 2025-07-04 발효. EV consumer tax credit 폐지 / Residential energy 인센티브 폐지 / Section 45X AMP 잔존. FY26 OP 추정 -$1.5B~-$2.5B 영향.
+- **OBBBA / IRA 정책 영향 narrative** — 2025-07-04 발효. EV consumer tax credit 폐지 / Residential energy 인센티브 폐지 / Section 45X AMP 잔존. FY26 OP 추정 -$1.5B\~-$2.5B 영향.
 - **차트 추가 4종**: chart21 EVcredits / chart22 Region인도 / chart23 SegmentGPM / chart24 OpMilestones (총 27종)
 
 ### v5.0 (2026-05-19, v4.9 잔여 보완 후보 7종 통합)
 
-- **Regional Revenue 12년 시계열** (FY14~FY25) 추가 — 미국·중국·기타 분리. US 50% / China 22% / Other 28% (FY25)
-- **FSD/Connectivity Deferred Revenue** roll-forward (FY24~FY26E) — FY25말 누적 $7,055M (current $3,424 + LT $3,631), FY26 예상 인식 $904M
-- **머스크 2025 CEO Performance Award** (DEF 14A 2025-09-17 parse) — 423.7M shares (12%) × 12 tranches × $2T~$8.5T 시총 milestone
-- **차종 출시 Timeline** (2008~2026E) — Roadster→Model S/X/3/Y→Semi/Cybertruck→Cybercab/Optimus 11모델 매핑
+- **Regional Revenue 12년 시계열** (FY14\~FY25) 추가 — 미국·중국·기타 분리. US 50% / China 22% / Other 28% (FY25)
+- **FSD/Connectivity Deferred Revenue** roll-forward (FY24\~FY26E) — FY25말 누적 $7,055M (current $3,424 + LT $3,631), FY26 예상 인식 $904M
+- **머스크 2025 CEO Performance Award** (DEF 14A 2025-09-17 parse) — 423.7M shares (12%) × 12 tranches × $2T\~$8.5T 시총 milestone
+- **차종 출시 Timeline** (2008\~2026E) — Roadster→Model S/X/3/Y→Semi/Cybertruck→Cybercab/Optimus 11모델 매핑
 - **R&D 세부 분류 narrative** — FSD AI 39% / 차량 24% / Optimus 19% / Energy 12% / 기타 6% (추정)
 - **FY25 CF 정정** — OCF $14,747M, CapEx $8,527M, FCF $6,220M (이전 v4.9 추정치 정정)
 - **차트 추가 4종**: chart17 Regional매출 / chart18 FSDdeferred / chart19 Musk2025보상안 / chart20 차종Timeline (총 23종)
@@ -730,8 +730,8 @@
 
 ### v4.9 (2026-05-19, 7대 보완 완료)
 
-- **데이터 소스 확장**: 10-K 11→16건 (FY10~FY25 풀), 10-Q 31→48건 (FY10Q2~FY26Q1), IR Update Letter 5→7건 (Q3 2024 추가)
-- **시계열 확장**: 41분기 → **64분기** (FY10Q2 ~ FY26Q1, 16년)
+- **데이터 소스 확장**: 10-K 11→16건 (FY10\~FY25 풀), 10-Q 31→48건 (FY10Q2\~FY26Q1), IR Update Letter 5→7건 (Q3 2024 추가)
+- **시계열 확장**: 41분기 → **64분기** (FY10Q2 \~ FY26Q1, 16년)
 - **신규 데이터셋**:
   - 차량 모델별 인도 시계열 33분기 (Model S/X vs 3/Y vs Other)
   - Energy Storage GWh 시계열 18 entry (분기 11 + 연간 7)
@@ -742,16 +742,16 @@
 
 ### v4.8 (2026-05-19, 초안)
 
-- 신규 작성. 12년 손익 시계열 (FY14~FY25) + 41분기 시계열 (FY16Q1~FY26Q1) + 16종 차트
+- 신규 작성. 12년 손익 시계열 (FY14\~FY25) + 41분기 시계열 (FY16Q1\~FY26Q1) + 16종 차트
 - 데이터 소스: SEC 10-K 11건, 10-Q 31건, 8-K 174건, DEF 14A 11건, Tesla IR Update Letter 5건, Yahoo Finance 16년+
 - 잔여 보완 후보 7종 → v4.9에서 통합 반영
 
 ### 잔여 보완 후보 (v5.2에서)
 
-- (1) **분기별 P&D press release 36건 batch parse** — FY11~FY17 Model S/X 정확 분기 인도. 현 시계열 hardcode 검증 + 옛 분기 (FY11Q1~FY15Q4) 모델별 정밀 정량화
-- (2) **Tesla earnings call transcript** parsing — Motley Fool auto-listing 0건이라 수동 검색. FY23~FY25 8개 분기 conference call narrative 추출
+- (1) **분기별 P&D press release 36건 batch parse** — FY11\~FY17 Model S/X 정확 분기 인도. 현 시계열 hardcode 검증 + 옛 분기 (FY11Q1\~FY15Q4) 모델별 정밀 정량화
+- (2) **Tesla earnings call transcript** parsing — Motley Fool auto-listing 0건이라 수동 검색. FY23\~FY25 8개 분기 conference call narrative 추출
 - (3) **머스크 시총 milestone vesting timing 시나리오** — 12 tranche 각각 가정 (예: 5년 / 7년 / 10년) 별 dilution + 누적 보상 가치 동적 시뮬레이션
-- (4) **Tesla AI compute (Cortex) CapEx 분리** — FY24~FY26 AI cluster CapEx 비중 정확 (Auto/Energy/Service capacity와 분리). H100·B200·B300 chip 수량 추정 통합
+- (4) **Tesla AI compute (Cortex) CapEx 분리** — FY24\~FY26 AI cluster CapEx 비중 정확 (Auto/Energy/Service capacity와 분리). H100·B200·B300 chip 수량 추정 통합
 - (5) **분기별 영업비용 분류 (R&D / SG&A / Restructuring)** — 64분기 시계열. 현재 연 단위만 정리됨
 - (6) **인구 통계 + Cybertruck 지역별 인도** — Cybertruck Q별 인도 (FY23Q4 이후 11분기)
 - (7) **Tesla Insurance 매출 분리** — Services 매출 중 보험 비중 + UBI premium 누적

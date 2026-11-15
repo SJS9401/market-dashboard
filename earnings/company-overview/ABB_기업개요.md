@@ -1,8 +1,8 @@
 > Ticker: ABBNY (ADR OTC, 구 NYSE:ABB 2024.04 자진 상장폐지) / ABBN.SW (SIX Swiss Exchange) / ABB Ltd
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (Power Grids 매각 변곡점·secular 진입 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0\~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (Power Grids 매각 변곡점·secular 진입 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트 표준)
-> 데이터: 12년 연결 연간(2014~2025) + 9분기(Q1 24~Q1 26) 사업부별 + 20년 Yahoo 시가총액 + Q1 2026 통합
+> 데이터: 12년 연결 연간(2014\~2025) + 9분기(Q1 24\~Q1 26) 사업부별 + 20년 Yahoo 시가총액 + Q1 2026 통합
 > 출처: **ABB Financial Report 2025 (142 페이지, IR /library 자동 fetch) — FY24-FY25 정확값**, **Form 20-F 2020/2021 (SEC filing, FY19-FY21 정확값)**, **ABB IR 분기 Earnings Presentation/Press/Financial PDFs (Q1 26 + Q4 25 + Q3 25 + Q2 25)**, **ABB Integrated Report 2024**, **Yahoo Finance ABBNY 20년 월간 시계열**, 1Q26 review 통합
 
 # ABB Ltd 기업 개요 (v1.4 — 전력 인프라 T1, 기업 분류 룰셋 v1.4 재정렬)
@@ -35,7 +35,7 @@
 
 (2) Summary Box (12년 연결 시계열 + 사이클 통계, continuing ops 기준)
 
-| 지표 | 12년 평균 (2014~2025) | 정점 | 저점 | 2025년 |
+| 지표 | 12년 평균 (2014\~2025) | 정점 | 저점 | 2025년 |
 |---|---|---|---|---|
 | Revenue ($M) | 31,608 | **40,000+ (2014, pre-Power Grids)** | 26,134 (2020, post-divest) | **33,220** |
 | OP ($M, Income from Ops) | 3,164 | **6,047 (2025)** | 1,786 (2020) | **6,047** |
@@ -64,7 +64,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 사이클 cutoff (±10%pt, continuing 기준): 미달 → 지속성장 분류
 ```
 
-**📊 사이클 통계 (continuing ops 5년, FY20~FY25)**
+**📊 사이클 통계 (continuing ops 5년, FY20\~FY25)**
 
 | 지표 | 값 |
 |---|---|
@@ -94,7 +94,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 
 (3) 정량적 분류 근거
 
-→ **글로벌 Electrification 시장 1위** — ABB Electrification BA FY25 매출 ~$17.3B, Op EBITA $4,081M, **23.6% margin** (글로벌 최상위)
+→ **글로벌 Electrification 시장 1위** — ABB Electrification BA FY25 매출 \~$17.3B, Op EBITA $4,081M, **23.6% margin** (글로벌 최상위)
 
 → **140년 역사** — 1883 Asea AB 설립 → 1988 Asea + BBC Brown Boveri 합병으로 현 ABB 출범
 
@@ -158,7 +158,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 | Tickers | **ABBN.SW** (SIX Swiss, primary), **ABB.ST** (Nasdaq Stockholm), **ABBNY** (NYSE OTC ADR 1:1, 구 NYSE:ABB 2024.04 자진 상장폐지) |
 | Founded | **1988** (Asea AB + BBC Brown Boveri AG 합병) / 1883 (Asea 최초 설립, 140년 역사) |
 | Headquarters | **Zurich, Switzerland** |
-| CEO | **Morten Wierod** (2024.08~ , 전 Motion BA President) |
+| CEO | **Morten Wierod** (2024.08\~ , 전 Motion BA President) |
 | Employees | **111,900** (FY25말, FY24말 109,900) |
 | Operations | Approximately **100 countries**, 3 regions (Europe 47% / Americas 25% / AMEA 28% by employee count) |
 | Accounting | **US GAAP** (NYSE 시절 사용), 2024 NYSE delisting 이후 **IFRS** 전환 검토 중 |
@@ -238,23 +238,23 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 
 | 사업부 | Revenue ($M) | 비중 | Op EBITA ($M) | Margin | 핵심 제품·솔루션 |
 |---|---|---|---|---|---|
-| **Electrification (EL)** | **~17,335** | **52%** | **4,081** | **23.6%** | Distribution Solutions, Smart Power, Smart Buildings, Installation Products |
-| **Motion (MO)** | **~7,800** | **23%** | **1,600** | **20.5%** | Drives, Motors (Industrial + NEMA), Service, Traction |
-| **Automation (PA→AU)** | **~7,900** | **24%** | **1,132** | **14.3%** | Process Industries, Measurement & Analytics, Marine & Ports, Machine Automation |
-| **Corporate & Other** | ~185 | <1% | -499 | — | E-mobility, stranded costs, corporate |
+| **Electrification (EL)** | **\~17,335** | **52%** | **4,081** | **23.6%** | Distribution Solutions, Smart Power, Smart Buildings, Installation Products |
+| **Motion (MO)** | **\~7,800** | **23%** | **1,600** | **20.5%** | Drives, Motors (Industrial + NEMA), Service, Traction |
+| **Automation (PA→AU)** | **\~7,900** | **24%** | **1,132** | **14.3%** | Process Industries, Measurement & Analytics, Marine & Ports, Machine Automation |
+| **Corporate & Other** | \~185 | <1% | -499 | — | E-mobility, stranded costs, corporate |
 | **합계 (Continuing)** | **33,220** | 100% | **6,314** | **19.0%** | — |
 
 → **Discontinued Operations (Robotics)**: 분사 진행 중 (2025.10.08 announcement, SoftBank Group 매각 예정)
 
 ![ABB Product Matrix](charts/ABB_chart3_product_matrix.png)
 
-(2) 분기 사업부별 매출 (Q1 25 ~ Q1 26)
+(2) 분기 사업부별 매출 (Q1 25 \~ Q1 26)
 
 ![ABB 분기 사업부별 매출](charts/ABB_chart2_segment_quarterly.png)
 
 ![ABB 분기 매출 & Op EBITA Margin (Q3 18-Q1 26, 31Q)](charts/ABB_chart10_quarterly_31Q.png)
 
-→ (출처: **ABB IR Financial Information PDFs 28건 자동 fetch — Q1 2015~Q4 2020 24건 + Q1 2023~Q1 2026 7건 + Financial Reports 2023/2025**. 2021-2022 + Q2 2023 + Q1-Q3 2024 4-5분기는 IR 페이지 archive 누락 — 추정값으로 보완)
+→ (출처: **ABB IR Financial Information PDFs 28건 자동 fetch — Q1 2015\~Q4 2020 24건 + Q1 2023\~Q1 2026 7건 + Financial Reports 2023/2025**. 2021-2022 + Q2 2023 + Q1-Q3 2024 4-5분기는 IR 페이지 archive 누락 — 추정값으로 보완)
 → **31Q 시계열에서 보이는 핵심 패턴**:
   - **Q1-Q3 2020 COVID 영향** (Revenue $6.2-6.6B, Op EBITA Margin 12-14%)
   - **2021-2023 회복 + 가격 인상 사이클** (Margin 13%→17% 점진 상승)
@@ -281,7 +281,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 → **Measurement & Analytics**: instrumentation, gas analysis
 → **Marine & Ports**: shipboard automation, port automation
 → **Machine Automation** (2025.1 통합): 기존 Robotics & Discrete Automation에서 이관
-→ Process Auto + Machine Auto 통합으로 ~ 24% 매출 확대
+→ Process Auto + Machine Auto 통합으로 \~ 24% 매출 확대
 
 (3-4) **Robotics (Discontinued)**
 → **2025.10.08 분사 발표** — SoftBank Group에 매각 예정
@@ -298,7 +298,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 
 **Power Grids 부문 (구 ABB, 2020 매각 후 자체 BU 없음)**
 
-→ 글로벌 경쟁사 — **Hitachi Energy (2022~ 100%)** (구 ABB Power Grids) · GE Vernova · Siemens Energy
+→ 글로벌 경쟁사 — **Hitachi Energy (2022\~ 100%)** (구 ABB Power Grids) · GE Vernova · Siemens Energy
 
 → 한국 경쟁사 — 한국 3사 (효성·HD·LS)
 
@@ -325,13 +325,13 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 **Geographical Markets (FY24 → FY25)**:
 | 지역 | FY24 ($M) | FY24 % | FY25 (추정) |
 |---|---|---|---|
-| Europe | 10,138 | 33% | ~11,000 |
-| **The Americas** | **11,370** | **37%** | **~12,500** |
-| of which: **United States** | **8,623** | **28%** | **~9,800** |
-| Asia, Middle East and Africa | 9,075 | 30% | ~9,800 |
-| of which: China | 3,705 | 12% | ~3,800 |
+| Europe | 10,138 | 33% | \~11,000 |
+| **The Americas** | **11,370** | **37%** | **\~12,500** |
+| of which: **United States** | **8,623** | **28%** | **\~9,800** |
+| Asia, Middle East and Africa | 9,075 | 30% | \~9,800 |
+| of which: China | 3,705 | 12% | \~3,800 |
 
-→ **US가 FY25 단일 최대 시장 (~30%+)** — secular 사이클 1차 수혜
+→ **US가 FY25 단일 최대 시장 (\~30%+)** — secular 사이클 1차 수혜
 → **중국 12% 비중** — 산업 자동화 + 모터 메인 시장
 → **5% 이상 단일 고객 없음** (분산된 B2B 매출 portfolio)
 
@@ -379,7 +379,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 (5) 부채구조
 
 → FY25 Long-term debt $7,829M / Short-term $475M = Total debt $8,304M
-→ Debt-to-Equity ratio ~ 50% — 보수적 자본 구조
+→ Debt-to-Equity ratio \~ 50% — 보수적 자본 구조
 → **신용등급 추정**: A+ / A1 등 (보수적 자본 운용, 글로벌 우량)
 → 차입금 대부분 EUR/USD bond — Swiss 본사 글로벌 funding
 
@@ -388,7 +388,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 ![ABB Shareholder Returns](charts/ABB_chart9_shareholder_returns_12y.png)
 
 → **FY25 Dividend CHF 0.94/share proposed** (FY24 CHF 0.87, +8%) — Swiss-style annual dividend
-→ **Cumulative buybacks 2014-2025: ~$15B+** — 주주환원 정책 핵심
+→ **Cumulative buybacks 2014-2025: \~$15B+** — 주주환원 정책 핵심
 → **$2.0B 새 buyback program FY26** (Q1 26 announcement)
 → **Capital allocation**: dividends + buybacks + 보장된 R&D + selective M&A
 
@@ -426,8 +426,8 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 | **UBS Fund Management (Switzerland) AG** | 93,047,279 | **5.001%** | **2024.09.19 (SIX 공시)** |
 | **BlackRock Inc. (USA)** | 82,027,197 | **4.17%** | **2023.06.01 (SIX 공시)** |
 | Treasury (ABB self-held) | 26M | 1.4% | FY25말 |
-| Other Institutional (<3% individually) | ~ | ~50% | 글로벌 인덱스 + 액티브 |
-| Free Float (Retail) | ~ | ~25% | — |
+| Other Institutional (<3% individually) | \~ | \~50% | 글로벌 인덱스 + 액티브 |
+| Free Float (Retail) | \~ | \~25% | — |
 
 → (출처: ABB IR Major Shareholders 페이지 + SIX Swiss Exchange 공시 직접 확인)
 → **Swiss notification threshold**: 3%, 5%, 10%, 15%, 20%, 25%, 33.33%, 50%, 66.66% — 이 thresholds를 cross할 때만 공시 의무
@@ -443,14 +443,14 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 | 직위 | 성명 | 비고 |
 |---|---|---|
 | **CEO** | **Morten Wierod** | 2024.08 취임, 전 Motion BA President (1998-2024 ABB 경력) |
-| CFO | Timo Ihamuotila | 2020.04~ |
+| CFO | Timo Ihamuotila | 2020.04\~ |
 | President, Electrification | Giampiero Frisio | |
 | President, Motion | Tarak Mehta | |
 | President, Automation | Brandon Spencer | |
 
 **(3-2) Board of Directors (BoD)**
 
-→ **Chairman**: Peter Voser (전 Shell CEO, 2014~ ABB Chairman)
+→ **Chairman**: Peter Voser (전 Shell CEO, 2014\~ ABB Chairman)
 → Non-Executive Directors 대부분, 글로벌 산업 출신
 → 사외이사 비중 80%+ (Swiss governance code)
 → Compensation Committee · Audit Committee · Governance & Nomination Committee 운영
@@ -467,7 +467,7 @@ Continuing ops 5년 (FY20-25) Op EBITA Margin range: 11.1% ~ 19.0% = +7.9%pt (�
 → **글로벌 R&D footprint**: 20+ R&D centers across Switzerland, Sweden, Germany, Italy, US, China, India
 → **핵심 R&D**: SiC power electronics, AI for industrial automation, digital twin, energy efficiency, eMobility
 → **Patent portfolio**: 6,000+ active patents
-→ **ABB Way digital transformation**: $144M FY25 + $199M FY24 (누적 ~$500M 투자)
+→ **ABB Way digital transformation**: $144M FY25 + $199M FY24 (누적 \~$500M 투자)
 
 (2) 진행 중 corporate action
 

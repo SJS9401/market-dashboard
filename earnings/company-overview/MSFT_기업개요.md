@@ -5,14 +5,14 @@
 **작성일**: 2026-05-19
 **대상 기업**: Microsoft Corporation (NASDAQ: MSFT, CIK 0000789019)
 **작성 표준**: company-overview v4.8 (US 분기 — SEC EDGAR + MSFT IR Press Release 1차 병용)
-**시계열 깊이**: 12년 회계연도 (FY2014~FY2025) + **20분기 IR press release (FY15Q4~FY26Q3)**
+**시계열 깊이**: 12년 회계연도 (FY2014\~FY2025) + **20분기 IR press release (FY15Q4\~FY26Q3)**
 
-**중요 주의**: Microsoft 회계연도 = **7월~6월** (일반 회계연도와 다름). FY2026 = 2025.07~2026.06. 최신 분기 = **Q3 FY2026 = 2026.01~03** (4월 29일 발표).
+**중요 주의**: Microsoft 회계연도 = **7월\~6월** (일반 회계연도와 다름). FY2026 = 2025.07\~2026.06. 최신 분기 = **Q3 FY2026 = 2026.01\~03** (4월 29일 발표).
 
 **자료 수집 패턴 (AMZN/GOOGL 검증 패턴 적용)**:
 - SEC EDGAR 10-K/10-Q/8-K **229개** batch
-- MSFT IR Press Release **20개** (SEC 8-K Exhibit 99.1 HTM, FY15Q4~FY26Q3)
-- Yahoo Finance v8 monthly OHLC (2000-01~2025-05, 25년)
+- MSFT IR Press Release **20개** (SEC 8-K Exhibit 99.1 HTM, FY15Q4\~FY26Q3)
+- Yahoo Finance v8 monthly OHLC (2000-01\~2025-05, 25년)
 - SEC EDGAR submissions JSON API로 73개 earnings 8-K accession 일괄 추출
 
 ---
@@ -24,7 +24,7 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (12년 평균, FY2014~FY2025):**
+**📊 Summary Box (12년 평균, FY2014\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
@@ -32,13 +32,13 @@
 | OPM 평균 (12년) | **35.4%** |
 | **OPM 정점 평균** | **45.5%** (FY24·FY25 2회 평균) |
 | **OPM 저점 평균** | **21.6%** (FY15·FY16 2회 평균, Nokia 손상 + 전환기) |
-| **OPM range (12년)** | 19.4% ~ 46.3% = **26.9%pt** ← but 일회성(Nokia) 제외 시 단조 우상향 = **secular 성장** 진입 패턴 |
-| 사이클 주기 | ~5년 (platform shift: Win8 → Cloud → AI) |
+| **OPM range (12년)** | 19.4% \~ 46.3% = **26.9%pt** ← but 일회성(Nokia) 제외 시 단조 우상향 = **secular 성장** 진입 패턴 |
+| 사이클 주기 | \~5년 (platform shift: Win8 → Cloud → AI) |
 | 사이클 회수 (12년) | 정점 N/A — secular 우상향 / 압축 1회 (FY15 Nokia 일회성) |
 
 **📊 손익 표 (12년, narrative annotation 직접 통합):**
 
-| FY (Jul~Jun) | 매출($B) | OP($B) | OPM(%) | NPM(%) | CapEx($B) | 사이클 이벤트 |
+| FY (Jul\~Jun) | 매출($B) | OP($B) | OPM(%) | NPM(%) | CapEx($B) | 사이클 이벤트 |
 |---|---|---|---|---|---|---|
 | FY14 | 86.83 | 27.76 | 32.0 | 25.4 | 10.9 | Satya Nadella CEO 취임 (2014.02) |
 | FY15 | 93.58 | 18.16 | **19.4** | 13.0 | 5.9 | **← Nokia 손상차손 -$7.5B 일회성 (12년 OPM 최저)** |
@@ -48,12 +48,12 @@
 | FY19 | 125.84 | 42.96 | 34.1 | 31.2 | 13.9 | Cloud scale 효과 |
 | FY20 | 143.02 | 52.96 | 37.0 | 31.0 | 15.4 | COVID 클라우드 가속 |
 | FY21 | 168.09 | 69.92 | 41.6 | 36.4 | 20.6 | **← Cloud 슈퍼사이클 진입 (Azure +50%)** |
-| FY22 | 198.27 | 83.38 | 42.1 | 36.7 | 24.0 | **← 마진 안정화 (OPM 41~44% 박스)** |
+| FY22 | 198.27 | 83.38 | 42.1 | 36.7 | 24.0 | **← 마진 안정화 (OPM 41\~44% 박스)** |
 | FY23 | 211.92 | 88.52 | 41.8 | 34.1 | 28.1 | ChatGPT/OpenAI 파트너십 (2023.01 $10B) |
 | FY24 | 245.12 | 109.43 | **44.6** | 36.0 | 44.5 | **← AI Copilot launch (2024.04) — 가속 시작** |
 | **FY25** | **281.70** | **130.51** | **46.3** | **34.3** | **65.0** | **← AI 슈퍼사이클 정점 OPM (12년 최고)** |
 
-→ (출처: Microsoft 10-K FY2014~FY2025, SEC EDGAR)
+→ (출처: Microsoft 10-K FY2014\~FY2025, SEC EDGAR)
 
 ![MSFT 연간 매출 & OPM/NPM 추이](MSFT_chart1_매출OPM.png)
 
@@ -73,8 +73,8 @@
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 PER (Forward 12M)** — 매출 multi-platform + OPM 안정 (FY25 EPS $13.00, 시장 PER ~32x). 매크로 사이클 노출 거의 zero.
-- **2순위 EV/EBITDA + Microsoft Cloud ARR** — Office 365 Commercial + Azure + Dynamics 365 + LinkedIn 합산 ARR FY25 $175B+ = recurring 매출 안정. FY25 ~25x.
+- **1순위 PER (Forward 12M)** — 매출 multi-platform + OPM 안정 (FY25 EPS $13.00, 시장 PER \~32x). 매크로 사이클 노출 거의 zero.
+- **2순위 EV/EBITDA + Microsoft Cloud ARR** — Office 365 Commercial + Azure + Dynamics 365 + LinkedIn 합산 ARR FY25 $175B+ = recurring 매출 안정. FY25 \~25x.
 - **3순위 PEG ratio** — AI Business ARR +123% YoY 가속 시 PER re-rating 동인.
 - **PBR 부적합** — 자본 $327B vs 시가총액 $3.7T → PBR 11배, software 비즈니스로 의미 약함.
 - **삼성전자 비교**: 삼성은 PBR + PER 혼합(사이클 + 안정 BU), MSFT는 **PER 우선 + EV/EBITDA 보조** (secular 지속성장의 single-method).
@@ -83,7 +83,7 @@
 
 > 분류 자체가 바뀔 조건 (실적 추적용 변수 Azure 성장률·CapEx 등은 §6 "기타 팩트"로 분리)
 
-- **Azure 분기 성장률이 2분기 연속 +25% 이하로 둔화 시** → Cloud secular 가속이 정통 사이클로 전환 검토 (현재 +35~40% CC 박스 유지)
+- **Azure 분기 성장률이 2분기 연속 +25% 이하로 둔화 시** → Cloud secular 가속이 정통 사이클로 전환 검토 (현재 +35\~40% CC 박스 유지)
 - **OPM 2분기 연속 -5%pt 압축 시 (40% 미만 하락)** → "지속성장" 분류 → "사이클 + 지속성장" 재분류 검토
 - **AI Business ARR 성장률 +50% 이하로 둔화 시** → "AI 가속 sub-cycle" 노트 제거 후 "Cloud 성숙기" 분류 검토
 - **OpenAI 파트너십 exclusivity 변경 시** → AI Foundation 차별화 narrative 변화, multiple 재평가
@@ -98,11 +98,11 @@
 - **회사명**: Microsoft Corporation
 - **본사**: Redmond, Washington, USA
 - **창립**: 1975.04.04 (Bill Gates + Paul Allen, in Albuquerque NM)
-- **CEO**: **Satya Nadella** (2014.02.04 ~, Steve Ballmer 후임)
+- **CEO**: **Satya Nadella** (2014.02.04 \~, Steve Ballmer 후임)
 - **Chairman**: John W. Thompson → 2021.06부터 Nadella가 chairman 겸직
 - **상장**: NASDAQ MSFT, IPO 1986.03.13 ($21)
 - **종업원**: 228,000 (2025.06 FY25 말, +4% YoY)
-- **회계연도**: **7월~6월** (FY2026 = 2025.07~2026.06)
+- **회계연도**: **7월\~6월** (FY2026 = 2025.07\~2026.06)
 
 **비전**: "Empower every person and every organization on the planet to achieve more"
 
@@ -125,7 +125,7 @@
 | FY24 | 245.12 | 109.43 | 88.14 | 268.5 | +30.2 | 512.2 |
 | **FY25** | **281.70** | **130.51** | **96.64** | **327.0** | **+21.8** | **545.0** |
 
-→ (출처: Microsoft 10-K FY2014~FY2025)
+→ (출처: Microsoft 10-K FY2014\~FY2025)
 
 ![MSFT 매출·영업이익·순이익·자본 추이](MSFT_chart12_손익자본.png)
 
@@ -178,17 +178,17 @@
 
 ### ① 사업부별 시계열 + Microsoft Cloud + Azure 장기 추이
 
-#### 3-Segment 구조 (FY2016 Q1 ~, 이전 5-segment에서 재편)
+#### 3-Segment 구조 (FY2016 Q1 \~, 이전 5-segment에서 재편)
 
 Microsoft는 **2015년 8월 사업부 재편** 발표 → FY2016 Q1 (2015.10)부터 신 3-segment 보고:
 
-1. **Productivity and Business Processes** (PBP): Office 365, LinkedIn (2016.12~), Dynamics 365
+1. **Productivity and Business Processes** (PBP): Office 365, LinkedIn (2016.12\~), Dynamics 365
 2. **Intelligent Cloud** (IC): Azure, Server products, Enterprise Services, GitHub
 3. **More Personal Computing** (MPC): Windows, Devices(Surface), Gaming(Xbox + Activision), Search(Bing)
 
-![MSFT 사업부별 매출 (FY2014~FY2025)](MSFT_chart2_segment.png)
+![MSFT 사업부별 매출 (FY2014\~FY2025)](MSFT_chart2_segment.png)
 
-#### Segment 연간 매출 ($B, FY2016~FY2025)
+#### Segment 연간 매출 ($B, FY2016\~FY2025)
 
 | FY | PBP | IC | MPC | Total |
 |----|------|------|------|-------|
@@ -203,7 +203,7 @@ Microsoft는 **2015년 8월 사업부 재편** 발표 → FY2016 Q1 (2015.10)부
 | FY24 | 77.73 | 105.36 | 62.03 | 245.12 |
 | **FY25** | **87.95** | **124.00** | **69.80** | **281.70** |
 
-→ (출처: Microsoft 10-K FY2017~FY2025, Note 19 Segment Information)
+→ (출처: Microsoft 10-K FY2017\~FY2025, Note 19 Segment Information)
 
 → **Intelligent Cloud**가 FY25 매출 비중 44%로 최대 segment 등극. FY16 29% → FY25 44%로 10년간 비중 +15pp.
 
@@ -230,9 +230,9 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 ![MSFT Azure 분기 매출 YoY](MSFT_chart3_Azure장기.png)
 
-→ (1-1) Azure 9년 사이클: FY18 시작 ~+90% → FY20 평균 +60% → FY22 +50% → FY24Q1 +29% 저점 → **FY26Q3 +36% 재가속**.
+→ (1-1) Azure 9년 사이클: FY18 시작 \~+90% → FY20 평균 +60% → FY22 +50% → FY24Q1 +29% 저점 → **FY26Q3 +36% 재가속**.
 → (1-2) AI 워크로드 contribution: FY24Q2부터 회사 disclosure 시작. FY25Q2부터 "AI Services" 별도 contribution +13pp (Azure 성장 +33% 중 13pp가 AI).
-→ (1-3) Azure absolute revenue는 **FY25Q1부터** 공식 공시 시작 (이전엔 YoY % 만). FY25 Azure 매출 ~$80B+ 추정.
+→ (1-3) Azure absolute revenue는 **FY25Q1부터** 공식 공시 시작 (이전엔 YoY % 만). FY25 Azure 매출 \~$80B+ 추정.
 
 #### AI Business ARR 가속 (Q1 2026 disclosure)
 
@@ -256,7 +256,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 #### (2-1) Intelligent Cloud (FY25 매출 $124.0B, 비중 44%)
 
-- **Azure** ($80B+ FY25 추정, +30~36% YoY): AWS 다음 2위 클라우드. AI 슈퍼사이클 driver
+- **Azure** ($80B+ FY25 추정, +30\~36% YoY): AWS 다음 2위 클라우드. AI 슈퍼사이클 driver
 - **Server products** (on-prem Windows Server, SQL Server): 안정 캐쉬카우
 - **Enterprise Services**: Premier Support 등 컨설팅
 - **GitHub** (2018 인수): 100M+ developers, GitHub Copilot subscriber 1.8M+ (FY25)
@@ -282,7 +282,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 #### (3-1) OpenAI 파트너십 (Microsoft의 AI 핵심 자산)
 
 - **누적 투자**: $13B+ (2019 $1B + 2023 $10B + 2024 추가 $2B 등)
-- **지분 구조**: ~49% economic interest (수익 분배), capped profit 구조
+- **지분 구조**: \~49% economic interest (수익 분배), capped profit 구조
 - **Exclusivity**: GPT 모델을 Azure가 독점 제공 (2023.07까지) → 이후 변경
 - **OpenAI 매출 contribution to MSFT**: GPT API 매출의 일부, Microsoft 자체 Copilot 매출 가속
 - **2025년 OpenAI structuring**: 비영리 → 영리 전환 진행 중
@@ -308,7 +308,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 ### ⑤ 주요 매출처
 
-- **Enterprise customers**: Fortune 500의 ~95% Microsoft 365 사용
+- **Enterprise customers**: Fortune 500의 \~95% Microsoft 365 사용
 - **Cloud customers**: Cisco, Walmart, Bank of America, AT&T 등 대규모 enterprise
 - 단일 고객 10% 이상 없음 (분산형)
 - **OpenAI 자체가 Azure 최대 고객 중 하나** (Microsoft의 AI compute provider)
@@ -345,7 +345,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 - FY25 총자산 $545B 중 자본 $327B (60%)
 - 유이자부채 $80B (자본의 24%)
-- 현금 + 단기투자: ~$84B (FY25 추정)
+- 현금 + 단기투자: \~$84B (FY25 추정)
 - **Activision 인수 자금** (2022 채권 발행 + 자체 자금)
 
 ### ③ 현금흐름표
@@ -368,31 +368,31 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 | FY | CapEx($B) | CapEx/Rev(%) | 비고 |
 |----|----------|--------------|------|
-| FY14~17 | 5~11 | 7~10% | 안정기 |
-| FY18~22 | 12~24 | 11~12% | 클라우드 확장 |
+| FY14\~17 | 5\~11 | 7\~10% | 안정기 |
+| FY18\~22 | 12\~24 | 11\~12% | 클라우드 확장 |
 | FY24 | 44.5 | 18.2 | **AI 1차 폭증** |
 | **FY25** | **65.0** | **23.1** | **AI 슈퍼사이클** |
-| FY26E | ~100E | ~30E | OpenAI compute commitment |
+| FY26E | \~100E | \~30E | OpenAI compute commitment |
 
 → FY26Q3 단독 CapEx $24B+ (연간 환산 $96B+). OpenAI service contract + 자체 AI infrastructure.
 
 ### ⑤ 부채구조
 
-- **Long-term debt** (FY25): ~$60B
-- **Total debt** (lease + LTD): ~$80B
+- **Long-term debt** (FY25): \~$60B
+- **Total debt** (lease + LTD): \~$80B
 - **신용등급**: S&P AAA (가장 높은 등급), Moody's Aaa — **미국 기업 중 최상위 신용**
 - **2022년 Activision 자금**: $40B+ 차입
-- **현금/단기투자**: ~$84B → **Net Cash 흑자 회사**
+- **현금/단기투자**: \~$84B → **Net Cash 흑자 회사**
 
 ### ⑥ 배당·자사주
 
 ![MSFT 주주환원 추이](MSFT_chart9_주주환원.png)
 
 - **배당**: FY25 quarterly $0.83 (연 $3.32), 22년 연속 증액 (Aristocrat 자격)
-  - FY25 총 배당 ~$22.5B
-- **자사주 매입**: FY25 ~$17.3B
+  - FY25 총 배당 \~$22.5B
+- **자사주 매입**: FY25 \~$17.3B
 - **12년 누적 주주환원**: 자사주 $220B + 배당 $182B = **$402B+**
-- **배당+자사주 yield ~2.5%** (시총 $3T 기준)
+- **배당+자사주 yield \~2.5%** (시총 $3T 기준)
 
 ### ⑦ 재무비율 (FY25 기준)
 
@@ -423,23 +423,23 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 | 구분 | 비중 (2026.05) |
 |------|---------------|
-| 기관투자자 | ~73% |
-| 인사이더 (임직원) | ~0.05% (매우 낮음, Gates 매각으로 거의 0) |
-| 소액·기타 | ~26.95% |
+| 기관투자자 | \~73% |
+| 인사이더 (임직원) | \~0.05% (매우 낮음, Gates 매각으로 거의 0) |
+| 소액·기타 | \~26.95% |
 
 **5% 이상 주주** (2025 Proxy):
 - Vanguard Group: 9.0%
 - BlackRock: 7.5%
 - State Street: 3.9%
 - Capital Research: 2.8%
-- **Bill Gates** (창립자): ~1% (지속 매각 중, Gates Foundation 자선기부)
+- **Bill Gates** (창립자): \~1% (지속 매각 중, Gates Foundation 자선기부)
 
 ### ③ 임원·이사회
 
-- **CEO/Chairman**: Satya Nadella (2014.02~ CEO, 2021.06~ Chairman 겸직)
-- **CFO**: Amy Hood (2013.07~, 12년+ CFO)
-- **President & CCO**: Brad Smith (President 2015~)
-- **Cloud + AI 부문 EVP**: Scott Guthrie, Judson Althoff, Mustafa Suleyman (AI CEO, 2024.03~)
+- **CEO/Chairman**: Satya Nadella (2014.02\~ CEO, 2021.06\~ Chairman 겸직)
+- **CFO**: Amy Hood (2013.07\~, 12년+ CFO)
+- **President & CCO**: Brad Smith (President 2015\~)
+- **Cloud + AI 부문 EVP**: Scott Guthrie, Judson Althoff, Mustafa Suleyman (AI CEO, 2024.03\~)
 - **이사회**: 11명 (2025)
 - **창립자 자문**: Bill Gates (Technology Advisor, 2020.03부터 이사 사임)
 
@@ -468,7 +468,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 | 2021 | Nuance (헬스케어 AI) | $19.7B |
 | 2022 | **Activision Blizzard** 발표 | $68.7B (2023.10 완료) |
 | 2019, 2023 | OpenAI | $13B+ (누적 다년) |
-| 2024 | Inflection AI 팀 영입 | ~$650M (deal) |
+| 2024 | Inflection AI 팀 영입 | \~$650M (deal) |
 
 ### ③ R&D 마일스톤 (10년)
 
@@ -516,18 +516,18 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 
 ### ✅ 확보 자료 (1차 출처)
 
-- **SEC EDGAR 10-K**: 11개 (FY2015~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000789019`
-- **SEC EDGAR 10-Q**: ~30개 (FY2015~FY2026)
+- **SEC EDGAR 10-K**: 11개 (FY2015\~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000789019`
+- **SEC EDGAR 10-Q**: \~30개 (FY2015\~FY2026)
 - **SEC EDGAR 8-K**: 229개 (전체)
 - **MSFT IR Press Release**: **20개** (SEC 8-K Exhibit 99.1 HTM)
   - FY15Q4, FY16Q4, FY17Q4, FY18Q4, FY19Q4, FY20Q4, FY21Q4, FY22Q4, FY23Q1, FY23Q2, FY23Q3, FY23Q4, FY24 Q1-Q4, FY25 Q1-Q4, FY26 Q1-Q3
-- **Yahoo Finance v8**: MSFT 월간 OHLC ~305개 (2000-01~2025-05, 25년)
+- **Yahoo Finance v8**: MSFT 월간 OHLC \~305개 (2000-01\~2025-05, 25년)
 - **Q3 FY26 Press Release**: https://www.sec.gov/Archives/edgar/data/789019/000119312526191457/msft-ex99_1.htm
 - **Q2 FY26 Press Release**: https://www.sec.gov/Archives/edgar/data/789019/000119312526027198/msft-ex99_1.htm
 
 ### ❌ 누락 / ⚠️ 추정 데이터
 
-- **FY15Q1~FY23Q3 비-Q4 분기 IR HTM**: 일부만 다운로드 (Q4만 우선). 모두 SEC EDGAR에서 fetch 가능 (URL 패턴 정리됨).
+- **FY15Q1\~FY23Q3 비-Q4 분기 IR HTM**: 일부만 다운로드 (Q4만 우선). 모두 SEC EDGAR에서 fetch 가능 (URL 패턴 정리됨).
 - **Azure absolute $ revenue**: FY25Q1 (2024.10)부터만 공식 disclosure. 이전 분기는 YoY% 만 공시 → AWS·GCP 비교로 추정.
 - **Other Bets · OpenAI 매출 contribution**: 일부 estimate.
 - **Activision 통합 후 Gaming 매출 분해**: 일부 추정.
@@ -542,7 +542,7 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 ### MSFT IR URL 패턴 (작업용)
 
 - **SEC 8-K Ex99.1 (2024+)**: `https://www.sec.gov/Archives/edgar/data/789019/{accession_clean}/msft-ex99_1.htm`
-- **SEC 8-K Ex99.1 (2011~2023)**: `https://www.sec.gov/Archives/edgar/data/789019/{accession_clean}/d{prefix}dex991.htm` (prefix = 8-K 파일명 d{prefix}d8k.htm에서 추출)
+- **SEC 8-K Ex99.1 (2011\~2023)**: `https://www.sec.gov/Archives/edgar/data/789019/{accession_clean}/d{prefix}dex991.htm` (prefix = 8-K 파일명 d{prefix}d8k.htm에서 추출)
 - **Microsoft IR direct**: `https://www.microsoft.com/en-us/investor/earnings/fy-{YYYY}-q{N}/press-release-webcast`
 
 ---
@@ -550,9 +550,9 @@ Microsoft Cloud = Azure + Office 365 Commercial + LinkedIn + Dynamics 365 통합
 ## Version Log
 
 **v1.0 (2026-05-19)**:
-- 최초 작성. 12년 회계연도 (FY2014~FY2025) + 20분기 IR press release (FY15Q4~FY26Q3) 시계열
+- 최초 작성. 12년 회계연도 (FY2014\~FY2025) + 20분기 IR press release (FY15Q4\~FY26Q3) 시계열
 - AMZN/GOOGL 검증 패턴 적용: SEC EDGAR (10-K/10-Q/8-K 229개) + SEC 8-K Ex991 HTM 20개 + Yahoo Finance 25년
-- **MSFT 회계연도 (7월~6월) 특이성** 명시 — 분기 표기 FY{Y}Q{N} 통일
+- **MSFT 회계연도 (7월\~6월) 특이성** 명시 — 분기 표기 FY{Y}Q{N} 통일
 - 15종 차트 임베드 (chart1, chart1b, chart2 segment, chart3 Azure 35Q, chart4-14)
 - FY26Q3 AI Business ARR $37B (+123%) 반영
 - OpenAI 49% economic interest + Activision $68.7B 인수 후 통합 분석

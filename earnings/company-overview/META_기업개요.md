@@ -5,12 +5,12 @@
 **작성일**: 2026-05-19
 **대상 기업**: Meta Platforms, Inc. (NASDAQ: META, CIK 0001326801)
 **작성 표준**: company-overview v4.8 (US 분기 — SEC EDGAR + Meta IR Press Release 1차 병용)
-**시계열 깊이**: 12년 연간 (FY2014~FY2025) + **38분기 (Q4 2016~Q1 2026, ~9.5년 연속)**
+**시계열 깊이**: 12년 연간 (FY2014\~FY2025) + **38분기 (Q4 2016\~Q1 2026, \~9.5년 연속)**
 
 **자료 수집 패턴 (AMZN/GOOGL 검증 패턴 적용)**:
 - SEC EDGAR 10-K/10-Q/8-K **185개** batch (sec_edgar_download_reports)
 - META IR Press Release **37개** (q4cdn PDF 1 + SEC 8-K Exhibit 99.1 HTM 36)
-- Yahoo Finance v8 monthly OHLC (2012-05 IPO~2025-05)
+- Yahoo Finance v8 monthly OHLC (2012-05 IPO\~2025-05)
 - SEC EDGAR submissions JSON API로 38개 earnings 8-K accession 추출
 - 시기별 URL 패턴 4종 자동 매핑 (`fb-…xex991`/`fb-…xexhibit991`/`meta…-exhibit991`/`meta-…xexhibit991`)
 
@@ -23,17 +23,17 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (12년 평균, FY2014~FY2025):**
+**📊 Summary Box (12년 평균, FY2014\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY14→FY25) | **+30.0%** ($12.47B → ~$219.4B, 17.6배) |
+| 매출 CAGR (FY14→FY25) | **+30.0%** ($12.47B → \~$219.4B, 17.6배) |
 | OPM 평균 (12년) | **35.0%** |
 | **OPM 정점 평균** | **47.4%** (FY16·FY17·FY25 3회 평균) |
 | **OPM 저점 평균** | **29.4%** (FY19·FY22 2회 평균, Cambridge + 메타버스) |
-| **OPM range (12년)** | 24.8% ~ 49.7% = **24.9%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 정통 사이클성 |
-| 사이클 주기 | ~3년 (성장 폭증 → 투자 폭증 → 효율화) |
-| 사이클 회수 (12년) | 정점 3회 (FY16~17·FY21·FY25) / 압축 3회 (FY15·FY19·FY22) |
+| **OPM range (12년)** | 24.8% \~ 49.7% = **24.9%pt** ← **사이클 cutoff 10%pt 큰 폭 초과** = 정통 사이클성 |
+| 사이클 주기 | \~3년 (성장 폭증 → 투자 폭증 → 효율화) |
+| 사이클 회수 (12년) | 정점 3회 (FY16\~17·FY21·FY25) / 압축 3회 (FY15·FY19·FY22) |
 
 **📊 손익 표 (12년, narrative annotation 직접 통합):**
 
@@ -50,9 +50,9 @@
 | 2022 | 116.61 | 28.94 | **24.8** | 19.9 | 31.43 | **← 3차 압축 저점 (메타버스 베팅 + 광고 위축, OPM 12년 최저)** |
 | 2023 | 134.90 | 46.75 | 34.7 | 29.0 | 27.27 | **← Year of Efficiency (21K layoff)** |
 | 2024 | 164.50 | 69.38 | 42.2 | 37.9 | 39.23 | AI 광고 monetization 시작 |
-| **2025** | **~219.4** | **~102.0** | **~46.5** | **~36.9** | **~75.0** | **← 3차 정점 (AI 광고 ARR $30B + Muse Spark 출시)** |
+| **2025** | **\~219.4** | **\~102.0** | **\~46.5** | **\~36.9** | **\~75.0** | **← 3차 정점 (AI 광고 ARR $30B + Muse Spark 출시)** |
 
-→ (출처: Meta 10-K FY2014~FY2024, FY2025 10-K filed 2026-01-29)
+→ (출처: Meta 10-K FY2014\~FY2024, FY2025 10-K filed 2026-01-29)
 
 ![META 연간 매출 & OPM/NPM 추이](META_chart1_매출OPM.png)
 
@@ -72,10 +72,10 @@
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 PER (Forward 12M)** — FoA 99% 안정 광고 매출 → PER 기반 합리. FY25 EPS ~$31.6, 시장 PER ~20x.
-- **2순위 EV/EBITDA (Reality Labs 적자 제외 normalized)** — RL FY25 적자 ~$17.7B 제외 시 정상화 OPM ~55%, multiple discount 보정. **META 고유의 "베팅 normalize" 평가 룰**.
+- **1순위 PER (Forward 12M)** — FoA 99% 안정 광고 매출 → PER 기반 합리. FY25 EPS \~$31.6, 시장 PER \~20x.
+- **2순위 EV/EBITDA (Reality Labs 적자 제외 normalized)** — RL FY25 적자 \~$17.7B 제외 시 정상화 OPM \~55%, multiple discount 보정. **META 고유의 "베팅 normalize" 평가 룰**.
 - **3순위 FCF Yield + 자본 환원** — 자사주 매입 FY25 약 $50B+ 정책. Q1 26 buyback $0 일시 중단 = CapEx 우선 시그널.
-- **PBR 부적합** — 자본 $220B vs 시가총액 $1.5T+ (PBR ~7배), 플랫폼 비즈니스로 의미 약함.
+- **PBR 부적합** — 자본 $220B vs 시가총액 $1.5T+ (PBR \~7배), 플랫폼 비즈니스로 의미 약함.
 - **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, META는 지속성장+사이클 → **PER + EV/EBITDA(RL 제외) 혼합** (베팅 사이클 normalize 차별화).
 
 ### ⑤ 분기 재평가 트리거 = 분류 변경 조건
@@ -83,7 +83,7 @@
 > 분류 자체가 바뀔 조건 (실적 추적용 변수 DAP·ARPP 등은 §6 "기타 팩트"로 분리)
 
 - **Reality Labs 흑자전환 시** (FY25 적자 -$17.7B) → "사이클" Secondary 노트 → "지속성장 only" 격상 가능
-- **OPM 2개 분기 연속 35% 이하 압축 시** → "사이클성" 가중치 격상 (현재 ~46% 정점 trajectory)
+- **OPM 2개 분기 연속 35% 이하 압축 시** → "사이클성" 가중치 격상 (현재 \~46% 정점 trajectory)
 - **AI 광고 ARR 매출 비중 25%+ 도달 시** → "AI secular sub-cycle" 정식 분류 진입 (현재 14%)
 - **EU LPA + 청소년 법적 사안 material loss 확정 시** → 광고 매출 -α 분류 영향 (Susan 직접 시인)
 - **자사주 매입 재개 시** (Q1 26 $0 halt) → 자본 정책 변경, 사이클 동인 재해석
@@ -96,10 +96,10 @@
 
 - **회사명**: Meta Platforms, Inc. (이전 Facebook, Inc., 2021.10.28 변경)
 - **본사**: Menlo Park, California, USA
-- **CEO**: Mark Zuckerberg (Founder & Chair, 2004.02~)
+- **CEO**: Mark Zuckerberg (Founder & Chair, 2004.02\~)
 - **상장**: NASDAQ META, **2012.05.18 IPO ($38)**
 - **종업원**: 76,834 (FY2025년말, FY2024 74,067 대비 +3.7%)
-- **회계연도**: 1월~12월
+- **회계연도**: 1월\~12월
 
 **비전**: "Give people the power to build community and bring the world closer together" — community-first.
 2021년부터 "metaverse 우산 회사" 비전 추가 (Zuckerberg).
@@ -116,18 +116,18 @@
 | 2022 | 116.61 | 28.94 | 23.20 | 125.71 | 185.73 | 86,482 |
 | 2023 | 134.90 | 46.75 | 39.10 | 153.17 | 229.62 | 67,317 |
 | 2024 | 164.50 | 69.38 | 62.36 | 182.64 | 276.05 | 74,067 |
-| **2025** | **~219.4** | **~102.0** | **~81.0** | **~220.0** | **~320.0** | **76,834** |
+| **2025** | **\~219.4** | **\~102.0** | **\~81.0** | **\~220.0** | **\~320.0** | **76,834** |
 
-→ (출처: Meta 10-K FY2014~FY2025)
+→ (출처: Meta 10-K FY2014\~FY2025)
 
 ![META 매출·영업이익·순이익·자본 추이](META_chart12_손익자본.png)
 
 ### ③ 회사 주가 역사
 
-![META 시가총액 추이 2012~2025](META_chart11_시가총액.png)
+![META 시가총액 추이 2012\~2025](META_chart11_시가총액.png)
 
 → (1) **2012.05.18 IPO $38** → 1년 내 $20대까지 하락 (broken IPO)
-→ (2) 2013~2017 폭발적 성장 (Instagram 인수 $1B 2012, WhatsApp $19B 2014)
+→ (2) 2013\~2017 폭발적 성장 (Instagram 인수 $1B 2012, WhatsApp $19B 2014)
 → (3) **2018.03 Cambridge Analytica 스캔들** → 주가 -23% 단일 거래일
 → (4) 2019 IDFA opt-in (Apple) 직격탄 시작
 → (5) **2021.10.28 회사명 Meta 변경 + 메타버스 베팅** ($1.7T 시총)
@@ -135,7 +135,7 @@
 → (7) **2023.02.01 "Year of Efficiency" 선언** — Zuckerberg 첫 발표
 → (8) 2023 정리해고 21,000명 + 효율화 성공
 → (9) **2024.03 첫 배당 시작** ($0.50/share, 2025 $0.525)
-→ (10) 2024~2025 AI 슈퍼사이클 + 광고 부활 → 주가 $700+ 도달
+→ (10) 2024\~2025 AI 슈퍼사이클 + 광고 부활 → 주가 $700+ 도달
 → (11) **2026 Q1 매출 $56.31B (+33%)**, OPM 40.6%, AI 인프라 본격 monetization
 
 ### ④ 주요 연혁
@@ -176,7 +176,7 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 | 2022 | 114.45 | 2.16 | 116.61 |
 | 2023 | 133.01 | 1.90 | 134.90 |
 | 2024 | 162.36 | 2.14 | 164.50 |
-| **2025** | **~217.5** | **~1.9** | **~219.4** |
+| **2025** | **\~217.5** | **\~1.9** | **\~219.4** |
 
 #### Segment 영업이익 ($B)
 
@@ -187,9 +187,9 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 | 2022 | 42.66 | (13.72) | 28.94 |
 | 2023 | 62.93 | (16.12) | 46.75 |
 | 2024 | 87.10 | (17.73) | 69.38 |
-| **2025** | **~120.0** | **~(17.7)** | **~102.0** |
+| **2025** | **\~120.0** | **\~(17.7)** | **\~102.0** |
 
-→ Reality Labs 누적 적자 ~**$72B** (2019-2025) — Zuckerberg의 메타버스 베팅 비용
+→ Reality Labs 누적 적자 \~**$72B** (2019-2025) — Zuckerberg의 메타버스 베팅 비용
 
 ![META Reality Labs 영업손실](META_chart2b_RealityLabs적자.png)
 
@@ -220,7 +220,7 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 
 ![META Family DAP 추이](META_chart13_DAP.png)
 
-→ DAP는 Q1 2022 2.87B → Q1 2026 **3.56B** (+24% 4년간). 글로벌 인구의 ~44%가 매일 Meta 앱 사용. 광고 monetization 기반.
+→ DAP는 Q1 2022 2.87B → Q1 2026 **3.56B** (+24% 4년간). 글로벌 인구의 \~44%가 매일 Meta 앱 사용. 광고 monetization 기반.
 
 ### ④ 사업부별 디테일
 
@@ -237,13 +237,13 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 #### (4-2) Reality Labs 제품
 
 - **Quest 시리즈** (VR): Quest 3, Quest 3S, Quest Pro
-- **Ray-Ban Meta** smart glasses (2023~) — 2025년 누적 판매 ~2M unit
+- **Ray-Ban Meta** smart glasses (2023\~) — 2025년 누적 판매 \~2M unit
 - **Meta AI Glasses** (2026 출시 예정 — Orion prototype)
 - **Horizon Worlds**: 메타버스 플랫폼
 
 #### (4-3) AI Infrastructure
 
-- **자체 GPU 클러스터**: H100/H200 ~600,000+ unit (2026E)
+- **자체 GPU 클러스터**: H100/H200 \~600,000+ unit (2026E)
 - **Llama 시리즈** (오픈소스):
   - Llama 1 (2023.02) → Llama 2 (2023.07) → Llama 3 (2024.04) → Llama 4 (2025)
   - 오픈소스 전략으로 ecosystem 장악 — Hugging Face/AWS Bedrock/Together AI 등 광범위 채택
@@ -281,7 +281,7 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 | 2020 | 86.0 | 80.6 | 38.0 | 33.9 |
 | 2022 | 116.6 | 78.3 | 24.8 | 19.9 |
 | 2024 | 164.5 | 82.5 | 42.2 | 37.9 |
-| **2025** | **219.4** | **~84.5** | **~46.5** | **~36.9** |
+| **2025** | **219.4** | **\~84.5** | **\~46.5** | **\~36.9** |
 
 → Meta GPM은 80% 이상 (디지털 광고 비즈니스 특성). 2022 메타버스 + CapEx 폭증에 따른 일시 압축.
 
@@ -294,9 +294,9 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 | 2020 | 159.3 | 128.3 | 24 | 61.9 |
 | 2022 | 185.7 | 125.7 | 48 | 40.7 |
 | 2024 | 276.1 | 182.6 | 51 | 77.8 |
-| **2025** | **~320** | **~220** | **45** | **~90** |
+| **2025** | **\~320** | **\~220** | **45** | **\~90** |
 
-→ Meta는 무차입 → 채권발행 시작 (2022 $10B issuance). FY2025 LTD $28.8B + Operating Lease 부채 ~$30B.
+→ Meta는 무차입 → 채권발행 시작 (2022 $10B issuance). FY2025 LTD $28.8B + Operating Lease 부채 \~$30B.
 
 ### ③ 현금흐름표
 
@@ -307,9 +307,9 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 | 2020 | 38.7 | 15.1 | 23.6 | 27.4 |
 | 2022 | 50.5 | 31.4 | 19.0 | 16.3 |
 | 2024 | 91.3 | 39.2 | 52.1 | 31.7 |
-| **2025** | **~130** | **~75** | **~55** | **25.1** |
+| **2025** | **\~130** | **\~75** | **\~55** | **25.1** |
 
-→ Q1 2026 OCF $32.2B, CapEx $19.0B → FCF $13.2B (Q1 alone). 연환산 OCF ~$130B+.
+→ Q1 2026 OCF $32.2B, CapEx $19.0B → FCF $13.2B (Q1 alone). 연환산 OCF \~$130B+.
 
 ### ④ CapEx + 사이클
 
@@ -317,37 +317,37 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 
 | FY | CapEx($B) | CapEx/Rev(%) | 비고 |
 |----|----------|-------------|------|
-| 2014~2017 | 1.8~6.7 | 11~15% | 안정 |
-| 2018~2021 | 13.9~19.2 | 16~25% | 데이터센터 확장 |
+| 2014\~2017 | 1.8\~6.7 | 11\~15% | 안정 |
+| 2018\~2021 | 13.9\~19.2 | 16\~25% | 데이터센터 확장 |
 | 2022 | 31.4 | 27.0% | **메타버스 + GPU 1차 폭증** |
 | 2023 | 27.3 | 20.2% | 효율화 |
 | 2024 | 39.2 | 23.8% | AI 2차 폭증 |
-| **2025** | **75.0** | **~34.2%** | **AI 슈퍼사이클** |
-| 2026E | ~100E | ~40E | Llama + GPU |
+| **2025** | **75.0** | **\~34.2%** | **AI 슈퍼사이클** |
+| 2026E | \~100E | \~40E | Llama + GPU |
 
-→ Q1 2026 CapEx $19.0B → 연간 환산 $76B+. FY2026 가이던스 ~$100B 추정 (Zuckerberg 코멘트).
+→ Q1 2026 CapEx $19.0B → 연간 환산 $76B+. FY2026 가이던스 \~$100B 추정 (Zuckerberg 코멘트).
 
 ### ⑤ 부채구조
 
-- **Long-term debt** (FY2025): ~$28.8B (2022 첫 채권 $10B 발행 후 점진 확대)
-- **Operating Lease 부채**: ~$30B
+- **Long-term debt** (FY2025): \~$28.8B (2022 첫 채권 $10B 발행 후 점진 확대)
+- **Operating Lease 부채**: \~$30B
 - **신용등급**: S&P AA-, Moody's A1
-- **현금+마켓 시큐리티**: ~$90B (FY2025)
-- **Net cash position**: ~+$60B
+- **현금+마켓 시큐리티**: \~$90B (FY2025)
+- **Net cash position**: \~+$60B
 
 ### ⑥ 배당·자사주
 
 ![META 주주환원 추이](META_chart9_주주환원.png)
 
 - **첫 배당 (2024.03 시작)**: $0.50/share quarterly → 2025 $0.525/share quarterly = 연 $2.10/share
-  - 2024 총 배당: ~$1.27B
-  - 2025 총 배당: ~$2.0B
+  - 2024 총 배당: \~$1.27B
+  - 2025 총 배당: \~$2.0B
 - **자사주 매입** (적극):
   - 2022: $27.9B
   - 2023: $19.8B
   - 2024: $31.5B
-  - 2025: ~$51B
-  - **누적 12년 ~$199B**
+  - 2025: \~$51B
+  - **누적 12년 \~$199B**
 
 ### ⑦ 재무비율 (FY2025 기준)
 
@@ -381,20 +381,20 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 
 | 클래스 | 의결권 | 거래 | 주요 보유자 |
 |--------|--------|------|----------|
-| Class A (META) | 1주 1표 | NASDAQ | 일반 투자자 (~78% 기관) |
+| Class A (META) | 1주 1표 | NASDAQ | 일반 투자자 (\~78% 기관) |
 | Class B | **1주 10표** | 비공개 | **Mark Zuckerberg** + 임원 |
 
-→ **Mark Zuckerberg가 Class B로 의결권 ~58% 보유** — 사실상 회사 지배. 적대적 인수 불가.
+→ **Mark Zuckerberg가 Class B로 의결권 \~58% 보유** — 사실상 회사 지배. 적대적 인수 불가.
 
 **5% 이상 주주 (2025 Proxy)**:
-- Mark Zuckerberg (Class B 50%+ + Class A 약간) → 의결권 ~58%
-- Vanguard, BlackRock, FMR 등 패시브 펀드 ~25% 합계
+- Mark Zuckerberg (Class B 50%+ + Class A 약간) → 의결권 \~58%
+- Vanguard, BlackRock, FMR 등 패시브 펀드 \~25% 합계
 
 ### ③ 임원·이사회
 
-- **CEO/Founder/Chair**: Mark Zuckerberg (2004.02~)
+- **CEO/Founder/Chair**: Mark Zuckerberg (2004.02\~)
 - **President of Global Affairs**: Joel Kaplan (전 Nick Clegg 2025년 사임 후)
-- **CFO**: Susan Li (2022.09~)
+- **CFO**: Susan Li (2022.09\~)
 - **CTO**: Andrew Bosworth ("Boz", Reality Labs 책임)
 - **Chief AI Officer**: Yann LeCun (FAIR, 향후 분리 예정 보도)
 - **Meta Superintelligence Labs**: Alexandr Wang (전 Scale AI CEO, 2025 영입)
@@ -408,8 +408,8 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 
 ![META R&D 투자 추이](META_chart7_R&D.png)
 
-- **FY2025 R&D**: ~$56B (매출의 25.5%)
-- 12년 누적 R&D ~$273B
+- **FY2025 R&D**: \~$56B (매출의 25.5%)
+- 12년 누적 R&D \~$273B
 - **AI 연구**: FAIR (Facebook AI Research) + GenAI Lab + Meta Superintelligence Labs (2025 설립)
 - **Reality Labs R&D**: 자체 칩(Reality Labs Silicon) + VR/AR 하드웨어 R&D
 
@@ -476,18 +476,18 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 
 ### ✅ 확보 자료 (1차 출처)
 
-- **SEC EDGAR 10-K**: 11개 (FY2014~FY2025)
-- **SEC EDGAR 10-Q**: ~33개 (Q1 2014~Q1 2026)
+- **SEC EDGAR 10-K**: 11개 (FY2014\~FY2025)
+- **SEC EDGAR 10-Q**: \~33개 (Q1 2014\~Q1 2026)
 - **SEC EDGAR 8-K**: 185개 (전체)
-- **Meta IR Press Release**: **37개** (Q4 2016~Q1 2026, ~9.5년 연속)
+- **Meta IR Press Release**: **37개** (Q4 2016\~Q1 2026, \~9.5년 연속)
   - q4cdn IR PDF 1개 (Q1 2026)
-  - SEC 8-K Exhibit 99.1 HTM 36개 (Q4 2016~Q4 2025 + 2026 직전 분기)
-- **Yahoo Finance v8**: META 월간 OHLC (2012-05 IPO~2025-05, ~14년)
+  - SEC 8-K Exhibit 99.1 HTM 36개 (Q4 2016\~Q4 2025 + 2026 직전 분기)
+- **Yahoo Finance v8**: META 월간 OHLC (2012-05 IPO\~2025-05, \~14년)
 - **Q1 2026 Press Release**: https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-First-Quarter-2026-Results-2026.pdf
 
 ### ❌ 누락 / ⚠️ 추정 데이터
 
-- **Q1 2014 ~ Q3 2016 (Pre-2017 분기 IR)**: SEC 8-K Item 2.02 filings 미존재 (Facebook이 그 당시 Form 8-K 사용하지 않고 그냥 Press release만 publish). 10-K로 보강.
+- **Q1 2014 \~ Q3 2016 (Pre-2017 분기 IR)**: SEC 8-K Item 2.02 filings 미존재 (Facebook이 그 당시 Form 8-K 사용하지 않고 그냥 Press release만 publish). 10-K로 보강.
 - **FY2025 추정 데이터**: Q4 2025 IR 자료 확보됐으나 일부 라인 추정 (annual aggregate)
 - **Reality Labs sub-category 매출** (Quest vs Ray-Ban vs AI Glasses 비중): 미공시
 - **AI Llama monetization 매출**: 오픈소스 → 직접 매출 없음, 광고 효율로 측정
@@ -504,8 +504,8 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 - **q4cdn**: `https://s21.q4cdn.com/399680738/files/doc_news/Meta-Reports-{Quarter}-Results-{YYYY}.pdf` (불규칙 naming)
 - **SEC 8-K Ex991 (시기별 4종 패턴)**:
   - 2017-2020: `fb-{MMDDYYYY}xex991.htm`
-  - 2021 Q1~2022 Q3: `fb-{MMDDYYYY}xexhibit991.htm`
-  - 2022 Q1~Q3: `meta{MMDDYYYY}-exhibit991.htm` (no hyphen before date)
+  - 2021 Q1\~2022 Q3: `fb-{MMDDYYYY}xexhibit991.htm`
+  - 2022 Q1\~Q3: `meta{MMDDYYYY}-exhibit991.htm` (no hyphen before date)
   - 2022 Q4+: `meta-{MMDDYYYY}xexhibit991.htm`
 
 ---
@@ -513,10 +513,10 @@ Meta는 **2개 segment**로 공시: **Family of Apps (FoA)** 와 **Reality Labs 
 ## Version Log
 
 **v1.0 (2026-05-19)**:
-- 최초 작성. 12년 연간 (FY2014~FY2025) + 38분기 (Q4 2016~Q1 2026, ~9.5년 연속) 시계열 반영
+- 최초 작성. 12년 연간 (FY2014\~FY2025) + 38분기 (Q4 2016\~Q1 2026, \~9.5년 연속) 시계열 반영
 - AMZN/GOOGL 검증 패턴 적용: SEC EDGAR (10-K/10-Q/8-K 185개) + q4cdn IR PDF 1개 + SEC 8-K Ex991 HTM 36개 + Yahoo Finance
 - 15종 차트 임베드 (chart1, chart1b, chart2 segment, chart2b RL 적자, chart3-13)
 - Q1 2026 매출 $56.3B (+33%), OPM 40.6%, DAP 3.56B 반영
 - Dual-class 의결권 (Zuckerberg 58% 의결권) + EU/미국 규제 리스크 정리
 - Reality Labs 누적 적자 $72B + AI CapEx 슈퍼사이클 ($75B 2025) 분석
-- 잔여 보완 후보 (v1.1): (1) Q1 2014~Q3 2016 IR 자료 보강, (2) Reality Labs 제품별 매출 정밀화, (3) Llama monetization 효과 정량화
+- 잔여 보완 후보 (v1.1): (1) Q1 2014\~Q3 2016 IR 자료 보강, (2) Reality Labs 제품별 매출 정밀화, (3) Llama monetization 효과 정량화

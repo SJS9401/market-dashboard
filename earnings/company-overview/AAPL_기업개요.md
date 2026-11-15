@@ -5,29 +5,29 @@
 **작성일**: 2026-05-19 (v1.0 → v1.1 → v1.2 → v1.3 → **v1.4 FINAL 보완: 78분기 = 19.5년, iPhone 1세대 launch 시점부터 풀 커버**)
 **대상 기업**: Apple Inc. (NASDAQ: AAPL, CIK 0000320193)
 **작성 표준**: company-overview v4.8 (US — SEC EDGAR XBRL + Apple IR Consolidated Financial Statements + SEC 8-K Ex.99.1/99.2 1차 병용) **— v4.8 60+분기 표준 130% 달성**
-**시계열 깊이**: 17년 연간 (FY2009~FY2025) + **78분기 (FY07Q1~FY26Q2, 19.5년)** ✓✓ **v4.8 표준 130% 달성 — iPhone 1세대 launch (2007.06) 이전 분기부터 풀 커버**
+**시계열 깊이**: 17년 연간 (FY2009\~FY2025) + **78분기 (FY07Q1\~FY26Q2, 19.5년)** ✓✓ **v4.8 표준 130% 달성 — iPhone 1세대 launch (2007.06) 이전 분기부터 풀 커버**
 **산업 분류**: 소비자 전자제품 (T1 — 미국 빅테크 섹터)
-**참조 산업기초**: [소비자 전자제품 산업기초.md](../earnings-theme/소비자%20전자제품_산업기초.md) (2026-05-18 작성) — Chunk 6 (2007~2015 스마트폰 혁명·노키아 몰락) + Chunk 7 (2015~2026 스마트폰 성숙·중국 확대·Apple 독점·AI/XR 진입) 양 단계 anchor 참조
+**참조 산업기초**: [소비자 전자제품 산업기초.md](../earnings-theme/소비자%20전자제품_산업기초.md) (2026-05-18 작성) — Chunk 6 (2007\~2015 스마트폰 혁명·노키아 몰락) + Chunk 7 (2015\~2026 스마트폰 성숙·중국 확대·Apple 독점·AI/XR 진입) 양 단계 anchor 참조
 
 **v1.4 변경 사항 (FINAL)** (이 버전):
-- 분기 시계열 **66 → 78분기** (+12분기, **19.5년 = v4.8 표준 130% 달성**): SEC 8-K Ex.99.2 **12건** 추가 fetch (FY07Q1~FY09Q4) — iPhone 1세대 launch (2007.06) 이전 분기부터
+- 분기 시계열 **66 → 78분기** (+12분기, **19.5년 = v4.8 표준 130% 달성**): SEC 8-K Ex.99.2 **12건** 추가 fetch (FY07Q1\~FY09Q4) — iPhone 1세대 launch (2007.06) 이전 분기부터
 - **iPod 사상최대 분기 documented**: FY07Q1 (Dec 2006) = **21.1M iPod units** (Apple 단일 제품 분기 출하 사상최대)
 - iPhone 1세대 데이터: FY07Q4 (2007.07-09) Apple 첫 iPhone 분기 (deferred revenue 회계 영향으로 8-K $0 disclosed, 실제 약 270K units 판매)
 - **분기별 buyback + DPS 시계열** 신규 추출 (XBRL companyfacts, 60+ 분기) → **chart14 신규**
 - **인도 생산 비중 시계열**: FY23 7% → FY24 14% → **FY25 25%** → FY26 35% target → **§3 ⑥ 신규 sub-section**
-- **Apple Silicon 로드맵** (A4~A19, M1~M5): TSMC 5nm → 3nm → 2nm 진화 → **§6 ① 신규 sub-section**
-- **Vision Pro 정량 분석**: FY24 출하 ~390K → FY25 ~600K → Vision Air (~$2K) 2026~2027 → §3 ② Wearables 보강
+- **Apple Silicon 로드맵** (A4\~A19, M1\~M5): TSMC 5nm → 3nm → 2nm 진화 → **§6 ① 신규 sub-section**
+- **Vision Pro 정량 분석**: FY24 출하 \~390K → FY25 \~600K → Vision Air (\~$2K) 2026\~2027 → §3 ② Wearables 보강
 - **글로벌 피어 5년 ratio 비교 표 신규** (Apple vs Samsung Electronics vs Sony Group) → §3 ④-1 보강
 - **10-K Risk Factors 원문 발췌** (FY25 10-K 5대 리스크) → §6 ④ 강화
 - **chart15 신규**: Mac/iPad/Wearables/iPod 78분기 line chart (4 product cycle 시각화)
 - 누적 통계 19.5년: 총 매출 **$4,461B**, iPod 누적 출하 **329M units** (사상)
 
 **v1.3 변경 사항** (이전):
-- 분기 product/segment 시계열 **50 → 66분기** (+16분기, **16.5년 = v4.8 표준 "60+분기" 완전 달성**): SEC 8-K Ex.99.2 **16건 추가 fetch + 파싱** (FY10Q1~FY13Q4)
-- **iPhone/iPad/Mac/iPod units 시계열 신규 추출** (FY10Q1~FY17Q4 32분기, Apple disclosure 기간 전체): iPhone 누적 출하 **1,217M (12억대)**, iPad 378M, Mac 142M, iPod 169M
+- 분기 product/segment 시계열 **50 → 66분기** (+16분기, **16.5년 = v4.8 표준 "60+분기" 완전 달성**): SEC 8-K Ex.99.2 **16건 추가 fetch + 파싱** (FY10Q1\~FY13Q4)
+- **iPhone/iPad/Mac/iPod units 시계열 신규 추출** (FY10Q1\~FY17Q4 32분기, Apple disclosure 기간 전체): iPhone 누적 출하 **1,217M (12억대)**, iPad 378M, Mac 142M, iPod 169M
 - **신규 chart13_iPhone_units** 차트 — iPhone 출하 대수 + ASP 32분기 시계열
-- iPhone 슈퍼사이클 narrative 확장: iPhone 4 (2010~) → 4S (FY12Q1 37M units 사상최고) → 5 → 6/6+ (FY15Q1 74.5M units 슈퍼사이클) → 7 (FY17Q1 78.3M units 정점, units disclosure 마지막)
-- 산업기초 cross-reference 보강 — Chunk 6 (스마트폰 혁명 2007~2015) narrative 추가 매핑
+- iPhone 슈퍼사이클 narrative 확장: iPhone 4 (2010\~) → 4S (FY12Q1 37M units 사상최고) → 5 → 6/6+ (FY15Q1 74.5M units 슈퍼사이클) → 7 (FY17Q1 78.3M units 정점, units disclosure 마지막)
+- 산업기초 cross-reference 보강 — Chunk 6 (스마트폰 혁명 2007\~2015) narrative 추가 매핑
 - FY13 segment 양식 변경 (Greater China 분리) + FY14 Retail fold-in 등 양식 변경 이력 명시
 
 **v1.2 변경 사항** (이전):
@@ -40,11 +40,11 @@
 - 글로벌 피어 cross-check 신규 섹션 (Samsung MX, Xiaomi, 스마트워치)
 
 **데이터 출처** (v1.3):
-- SEC EDGAR XBRL companyfacts (FY2009~FY2025 전체 GAAP 항목)
-- Apple Newsroom Consolidated Financial Statements PDF 21건 (FY18 Q4 + FY21 Q2 ~ FY26 Q1)
+- SEC EDGAR XBRL companyfacts (FY2009\~FY2025 전체 GAAP 항목)
+- Apple Newsroom Consolidated Financial Statements PDF 21건 (FY18 Q4 + FY21 Q2 \~ FY26 Q1)
 - **SEC EDGAR 8-K Ex.99.1 HTML 13건** (FY18-FY20 + FY26 Q2) — 사업부별/지역별 매출
-- **SEC EDGAR 8-K Ex.99.2 HTML 32건** (v1.2 FY14-FY18 16건 + v1.3 신규 **FY10-FY13 16건**) — Unaudited Summary Data, **분기별 제품 disaggregation + iPhone/Mac/iPad/iPod units 시계열** (FY10Q1~FY17Q4 32분기 units disclosure 전체 커버, FY18Q1부터 Apple units 비공개)
-- Yahoo Finance 20년 월간 주가 (2006~2026)
+- **SEC EDGAR 8-K Ex.99.2 HTML 32건** (v1.2 FY14-FY18 16건 + v1.3 신규 **FY10-FY13 16건**) — Unaudited Summary Data, **분기별 제품 disaggregation + iPhone/Mac/iPad/iPod units 시계열** (FY10Q1\~FY17Q4 32분기 units disclosure 전체 커버, FY18Q1부터 Apple units 비공개)
+- Yahoo Finance 20년 월간 주가 (2006\~2026)
 - StockAnalysis.com (5년 ratio 보강)
 - **Counterpoint Research / Omdia / IDC** (글로벌 피어 cross-check)
 - **소비자 전자제품 산업기초.md** (Chunk 6+7 narrative, 5 layer 밸류체인, S-커브 framework)
@@ -58,7 +58,7 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (13년 평균, FY2013~FY2025):**
+**📊 Summary Box (13년 평균, FY2013\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
@@ -66,9 +66,9 @@
 | OPM 평균 (13년) | **28.4%** |
 | **OPM 정점 평균** | **31.3%** (FY2015·FY2021·FY2022·FY2024·FY2025 5회 평균) |
 | **OPM 저점 평균** | **25.2%** (FY2019·FY2020 2회 평균) |
-| **OPM range (13년)** | 24.1% ~ 32.0% = **7.9%pt** ← **사이클 cutoff 10%pt 미달** = "약한 사이클성" |
-| 사이클 주기 | iPhone 신모델 (2~3년) + 중국 macro (3~5년) |
-| 사이클 회수 (13년) | 압축 3회 (FY16·FY19·FY23) / 정점 3회 (FY15·FY21~22·FY25) |
+| **OPM range (13년)** | 24.1% \~ 32.0% = **7.9%pt** ← **사이클 cutoff 10%pt 미달** = "약한 사이클성" |
+| 사이클 주기 | iPhone 신모델 (2\~3년) + 중국 macro (3\~5년) |
+| 사이클 회수 (13년) | 압축 3회 (FY16·FY19·FY23) / 정점 3회 (FY15·FY21\~22·FY25) |
 
 **📊 손익 표 (13년, narrative annotation 직접 통합):**
 
@@ -88,7 +88,7 @@
 | 2024 | 391.04 | 123.22 | 93.74 | 31.5 | 46.2 | Apple Intelligence 발표 (2024.6) |
 | **2025** | **416.16** | **133.05** | **112.01** | **32.0** | **46.9** | **← iPhone 17 사이클 정점 + 사상 최고 OPM** |
 
-→ (출처: SEC EDGAR XBRL companyfacts, FY2013~FY2025 us-gaap concepts. FY18은 SalesRevenueNet→RevenueFromContractWithCustomerExcludingAssessedTax 전환 분기점)
+→ (출처: SEC EDGAR XBRL companyfacts, FY2013\~FY2025 us-gaap concepts. FY18은 SalesRevenueNet→RevenueFromContractWithCustomerExcludingAssessedTax 전환 분기점)
 
 ![AAPL 연간 매출 & OPM/NPM 추이](AAPL_chart1_매출OPM.png)
 
@@ -108,8 +108,8 @@
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 PER (Forward 12M)** — Services 비중 26% + Hardware 비중 74%, 둘 다 안정 매출 → PER 기반이 합리. 역사적 PER 12~35x, 5년 평균 ~30x.
-- **2순위 SOTP (Sum-of-Parts)** — Services 부문은 **GPM 76%·SaaS-like**로 P/S 8~12x 멀티플 별도 적용, Hardware 부문은 프리미엄 OEM PER 15~20x 적용. 통합 평가 시 SOTP가 PER 단독 대비 +α 시그널.
+- **1순위 PER (Forward 12M)** — Services 비중 26% + Hardware 비중 74%, 둘 다 안정 매출 → PER 기반이 합리. 역사적 PER 12\~35x, 5년 평균 \~30x.
+- **2순위 SOTP (Sum-of-Parts)** — Services 부문은 **GPM 76%·SaaS-like**로 P/S 8\~12x 멀티플 별도 적용, Hardware 부문은 프리미엄 OEM PER 15\~20x 적용. 통합 평가 시 SOTP가 PER 단독 대비 +α 시그널.
 - **3순위 EV/FCF** — 자사주 매입 $90B+/년 영향으로 EPS 성장 + FCF 안정성 동시 평가.
 - **PBR 부적합** — 자사주 매입으로 BV 지속 감소 (FY13 $123.5B → FY25 $73.7B).
 - **삼성전자 비교**: 삼성은 사이클 → **PBR 우선 + PER 보조**, AAPL은 지속성장 → **PER 우선 + SOTP 보조** (서비스 SaaS 멀티플 차별화).
@@ -120,11 +120,11 @@
 
 - **Services 매출 비중 30%+ 도달 시** → "지속성장 only"로 격상 (현재 26%, FY25 +13.4% trajectory)
 - **OPM range 2개 분기 연속 5%pt 이내 안정 시** → "약한 사이클성" 노트도 제거 가능
-- **Greater China 매출 비중 10% 이하 하락 시** → 거시 사이클 source 1개 제거 (현재 ~15.5%)
+- **Greater China 매출 비중 10% 이하 하락 시** → 거시 사이클 source 1개 제거 (현재 \~15.5%)
 - **iPhone 매출 비중 40% 이하 하락 시** → "지속성장 only" 격상 (현재 53%, Services·Wearables 확대 시 도달 가능)
 - **CEO 승계 (Cook → Ternus 2026-09-01) 후 자본 정책 변경 시** → "지속성장" 분류 영향 검토 (Net Cash Neutral 폐기는 이미 분류 변경 트리거 충족 가능성)
 4. **Apple Intelligence (AI 기능) monetization** — 2024년 6월 발표, FY25 Q4부터 점진 도입. Services 부수 효과 + iPhone 교체 주기 단축 가능성.
-5. **자사주 매입 페이스** — FY25 $90.7B (Apple 사상 최대 + 사상 최대 자사주매입 기업), 2026.05 추가 $100B 승인. EPS 성장의 30~40% 기여.
+5. **자사주 매입 페이스** — FY25 $90.7B (Apple 사상 최대 + 사상 최대 자사주매입 기업), 2026.05 추가 $100B 승인. EPS 성장의 30\~40% 기여.
 6. **신규 카테고리** — Apple Vision Pro(2024년 출시) 매출/판매대수 disclosure 여부, Apple Car 재가동 시그널.
 
 ---
@@ -135,12 +135,12 @@
 
 - **회사명**: Apple Inc.
 - **본사**: One Apple Park Way, Cupertino, California, USA
-- **CEO**: Tim Cook (2011.08~, 14년차)
-- **CFO**: Kevan Parekh (2024.01~, 전임 Luca Maestri 2014-2023)
+- **CEO**: Tim Cook (2011.08\~, 14년차)
+- **CFO**: Kevan Parekh (2024.01\~, 전임 Luca Maestri 2014-2023)
 - **창립자**: Steve Jobs, Steve Wozniak, Ronald Wayne (1976.04.01)
 - **상장**: NASDAQ AAPL, 1980.12.12 IPO ($22)
 - **종업원**: 약 164,000명 (FY2025 10-K 기준)
-- **회계연도**: **9월말 마감 (FY)** — FY26 = 2025.09.28 ~ 2026.09.26
+- **회계연도**: **9월말 마감 (FY)** — FY26 = 2025.09.28 \~ 2026.09.26
 - **분기 마감**: Q1=12월말, Q2=3월말, Q3=6월말, Q4=9월말
 
 **비전**: "*Bringing the best user experience to its customers through innovative hardware, software, and services*" (10-K 일관 문구). 사실상 **"Think Different / Premium Design + Ecosystem Lock-in"** 으로 요약 가능.
@@ -165,7 +165,7 @@
 | 2024 | 391.04 | 123.22 | 93.74 | 56.95 | -8.4 | 364.98 | 15,408 |
 | **2025** | **416.16** | **133.05** | **112.01** | **73.73** | **+29.5** | **359.24** | **15,005** |
 
-→ (출처: SEC EDGAR XBRL companyfacts. **자본 감소는 자사주 매입 누적 효과** — FY13~FY25 누적 buyback $821B vs 누적 NI $853B로 거의 전액 환원)
+→ (출처: SEC EDGAR XBRL companyfacts. **자본 감소는 자사주 매입 누적 효과** — FY13\~FY25 누적 buyback $821B vs 누적 NI $853B로 거의 전액 환원)
 
 ![AAPL 매출·영업이익·순이익·자본 추이](AAPL_chart12_손익자본추이.png)
 
@@ -175,7 +175,7 @@
 
 **Apple 주가 20년 주요 변곡점** (2006-05 → 2026-05):
 
-- **2006-05**: $2.05 (split-adjusted) — iPod 전성기. PER ~30x.
+- **2006-05**: $2.05 (split-adjusted) — iPod 전성기. PER \~30x.
 - **2007-06**: iPhone 1세대 출시. 주가 $4-5 박스권.
 - **2010-04**: iPad 출시. 주가 $9.
 - **2012-09**: $24 (iPhone 5 출시 직후 첫 1조 달러 시총 진입 - 정확히는 2018.08 도달). 이후 1차 조정 ($14, -42%).
@@ -192,9 +192,9 @@
 - **현재 시총**: 약 **$4.5조** (2026-05, 15B shares × $300), 미국 최대 기업.
 
 → **장기 주가 narrative**:
-1. **2007-2015 슈퍼사이클** (iPhone 1세대~6+) — 주가 $4 → $35, **약 9배**
+1. **2007-2015 슈퍼사이클** (iPhone 1세대\~6+) — 주가 $4 → $35, **약 9배**
 2. **2018-2022 메가사이클** (서비스 비즈니스 부상 + Services GPM 70%) — $52 → $182, **3.5배**
-3. **2022-2024 박스권** (PER ~30x로 valuation 부담)
+3. **2022-2024 박스권** (PER \~30x로 valuation 부담)
 4. **2024-2026 AI/iPhone 17 슈퍼사이클** — $170 → $300, **+76%**
 
 ### ④ 주요 연혁
@@ -246,7 +246,7 @@
 | **비중(FY25)** | **50.4%** | **8.1%** | **6.7%** | **8.6%** | **26.2%** | **100%** |
 | YoY (FY24→FY25) | +4.2% | +12.4% | +5.0% | -3.6% | +13.5% | +6.4% |
 
-→ (출처: Apple Newsroom Consolidated Financial Statements PDF FY21Q1~FY25Q4 분기 합산)
+→ (출처: Apple Newsroom Consolidated Financial Statements PDF FY21Q1\~FY25Q4 분기 합산)
 
 **5년 지역별 매출 ($M)**
 
@@ -262,16 +262,16 @@
 
 → Americas + Europe = 69.5% (선진국 비중 압도적). Greater China는 FY22 정점($74.2B) 후 FY24/25 하락하다 **FY26 Q2 +28% YoY 반등** (iPhone 17 + 중국 정부 보조금).
 
-### 사업부별 66분기 시계열 (FY10Q1 ~ FY26Q2, 16.5년)
+### 사업부별 66분기 시계열 (FY10Q1 \~ FY26Q2, 16.5년)
 
 ![AAPL iPhone 분기 매출](AAPL_chart2_iPhone.png)
 ![AAPL Services 분기 매출](AAPL_chart2_Services.png)
 ![AAPL Mac/iPad/Wearables 분기 매출](AAPL_chart2_OtherProducts.png)
 ![AAPL 지역별 분기 매출](AAPL_chart2_Geographic.png)
 
-**66분기 product breakdown ($M)** — 3-month current values, **FY10Q1~FY26Q2 (16.5년) — v4.8 표준 "60+분기" 달성**
+**66분기 product breakdown ($M)** — 3-month current values, **FY10Q1\~FY26Q2 (16.5년) — v4.8 표준 "60+분기" 달성**
 
-**Part A: FY10~FY13 (16분기) — iPhone units 시계열 포함**
+**Part A: FY10\~FY13 (16분기) — iPhone units 시계열 포함**
 
 | Quarter | Total | iPhone ($, units, ASP) | Mac ($, units) | iPad ($, units) | iPod ($, units) | Services | Other |
 |---------|-------|------------------------|----------------|------------------|------------------|----------|-------|
@@ -292,7 +292,7 @@
 | FY13Q3 | 35,323 | 18,154 (31.2M, $581) | 4,893 (3.75M) | 6,374 (14.6M) | 733 (4.6M) | 3,990 | 1,179 |
 | FY13Q4 | 37,472 | 19,510 (33.8M, $577) | 5,624 (4.57M) | 6,186 (14.1M) | 573 (3.5M) | 4,260 | 1,319 |
 
-**Part B: FY14~FY26Q2 (50분기) — units 시계열 FY17Q4까지만**
+**Part B: FY14\~FY26Q2 (50분기) — units 시계열 FY17Q4까지만**
 
 | Quarter | Total | iPhone | Mac | iPad | WHA/Other* | Services | OPM(%) |
 |---------|-------|--------|-----|------|------------|----------|--------|
@@ -347,10 +347,10 @@
 | **FY26Q1** | **143,756** | **85,269** | **8,386** | **8,595** | **11,493** | **30,013** | **35.4** |
 | **FY26Q2** | **111,184** | **56,994** | **8,399** | **6,914** | **7,901** | **30,976** | n/a |
 
-*FY19~FY20 카테고리는 "Other Products" (Apple Watch + AirPods + Beats + Apple TV + HomePod + iPod 통합) → FY18 Q4부터 "Wearables, Home and Accessories"로 명칭 변경 (semantic equivalence)
+*FY19\~FY20 카테고리는 "Other Products" (Apple Watch + AirPods + Beats + Apple TV + HomePod + iPod 통합) → FY18 Q4부터 "Wearables, Home and Accessories"로 명칭 변경 (semantic equivalence)
 **FY14는 iPod 별도 disclosure (FY14 Q1 $1.0B, Q4 $0.4B — 2014.07 iPod Classic 단종). 표의 FY14 "WHA/Other"는 Software/Accessories 통합 카테고리 (iPod 제외). FY10-FY13은 iPod이 별도 출하대수 disclose.
 
-### iPhone units + ASP 시계열 (FY10Q1~FY17Q4, 32분기 disclosure)
+### iPhone units + ASP 시계열 (FY10Q1\~FY17Q4, 32분기 disclosure)
 
 ![AAPL iPhone 출하 대수 + ASP 시계열](AAPL_chart13_iPhone_units.png)
 
@@ -365,14 +365,14 @@
 | 3. **iPhone 6/6+ 슈퍼사이클** (대화면) | FY15 | **FY15Q1** | **74.5M** | $51.2B | $687 |
 | 4. **iPhone 7 정점** | FY17 | **FY17Q1** | **78.3M** | $54.4B | $695 |
 
-→ FY17 Q1 78.3M units는 **Apple 사상 최대 iPhone 출하 분기** (units 기준). 그 이후 units 성장은 둔화하고, **ASP 상승 (iPhone X $999 도입 FY18~)이 매출 동력 전환**.
+→ FY17 Q1 78.3M units는 **Apple 사상 최대 iPhone 출하 분기** (units 기준). 그 이후 units 성장은 둔화하고, **ASP 상승 (iPhone X $999 도입 FY18\~)이 매출 동력 전환**.
 
-**iPhone 누적 출하 통계 (FY10Q1~FY17Q4, 32분기 disclosure 전체)**:
+**iPhone 누적 출하 통계 (FY10Q1\~FY17Q4, 32분기 disclosure 전체)**:
 - 누적 iPhone units: **1,217M (12.17억대)** — Apple 사상 처음 disclosure 모든 분기 합계
 - 누적 iPhone 매출: **$717B** (32분기)
 - 평균 ASP: **$589** (FY10) → **$660** (FY17), 7년간 +12% 상승
-- **FY18-FY26 추정 추가 iPhone 출하**: 약 1.5~2.0B대 (units 비공개이나 매출 / 분석가 추정 ASP로 역산)
-- **Apple 사상 누적 iPhone 출하 추정 (FY07~FY26)**: 약 **3~3.5B대** (30~35억대) — 전 세계 인구 절반 가까이가 iPhone 사용 경험
+- **FY18-FY26 추정 추가 iPhone 출하**: 약 1.5\~2.0B대 (units 비공개이나 매출 / 분석가 추정 ASP로 역산)
+- **Apple 사상 누적 iPhone 출하 추정 (FY07\~FY26)**: 약 **3\~3.5B대** (30\~35억대) — 전 세계 인구 절반 가까이가 iPhone 사용 경험
 
 ![AAPL Mac/iPad/Wearables/iPod 78분기 비-iPhone cycle](AAPL_chart15_비iPhone사이클.png)
 
@@ -380,14 +380,14 @@
 
 - **iPad 도입 (FY10Q3, 2010.04)**: 첫 분기 출하 3.27M units, 매출 $2.17B. iPad 1 출시.
 - **iPad 정점 (FY13Q1)**: **22.9M units, $10.7B** — iPad 2/3/4 cycle 정점. 이후 plateau.
-- **iPad 둔화 (FY16-FY19)**: 분기당 ~10M units, ~$5B 매출. 큰 화면 iPhone 잠식 영향.
+- **iPad 둔화 (FY16-FY19)**: 분기당 \~10M units, \~$5B 매출. 큰 화면 iPhone 잠식 영향.
 - **Mac M-series 부활 (FY21+)**: FY21Q1 8.7M ($8.7B) M1 슈퍼사이클. units 비공개라 정확 수치 불명.
 - **iPod 도태**: 사상 최대 **FY07Q1 21.1M units** (Dec 2006, Apple 단일 제품 분기 출하 사상최대) → FY13Q4 3.5M (-83% vs 정점) → FY14Q4 disclosure 마지막 (음악 사업 iPhone 흡수, 2014.07 iPod Classic 단종, 2022.05 Touch 단종). **iPod 19.5년 누적 출하: 329M units (3.3억대)** — 산업기초.md S-커브 framework "신매체에 흡수된 도태 매체"의 가장 깨끗한 케이스 스터디.
-- **iPhone 1세대 launch (2007.06.29)**: FY07Q4 (Jul-Sep 2007)가 Apple 첫 iPhone 분기. 그러나 당시 Apple의 **24개월 subscription accounting**로 8-K에는 iPhone 매출이 deferred되어 작게 보고됨. 실제 첫 분기 ~270K units 판매. FY08+ Apple이 별도 disclosure 시작 → FY08Q1 2.32M iPhones ($241M deferred revenue, 실제 sales ~$1.4B). 2010 ratable revenue accounting 폐지 후 actual sales 즉시 인식 전환.
+- **iPhone 1세대 launch (2007.06.29)**: FY07Q4 (Jul-Sep 2007)가 Apple 첫 iPhone 분기. 그러나 당시 Apple의 **24개월 subscription accounting**로 8-K에는 iPhone 매출이 deferred되어 작게 보고됨. 실제 첫 분기 \~270K units 판매. FY08+ Apple이 별도 disclosure 시작 → FY08Q1 2.32M iPhones ($241M deferred revenue, 실제 sales \~$1.4B). 2010 ratable revenue accounting 폐지 후 actual sales 즉시 인식 전환.
 
-→ **계절성**: Q1 (12월말 마감) = iPhone 신모델 holiday 매출 집중, 매출 비중 ~30%. Q3 (6월말 마감) = 비수기. **FY26 Q1 iPhone $85.3B = 사상 최고** (+23% YoY, iPhone 17 슈퍼사이클 결정적 시그널).
+→ **계절성**: Q1 (12월말 마감) = iPhone 신모델 holiday 매출 집중, 매출 비중 \~30%. Q3 (6월말 마감) = 비수기. **FY26 Q1 iPhone $85.3B = 사상 최고** (+23% YoY, iPhone 17 슈퍼사이클 결정적 시그널).
 
-→ **장기 추세 (FY14~FY26 12.25년, 50분기)**:
+→ **장기 추세 (FY14\~FY26 12.25년, 50분기)**:
 - **Services 50분기 연속 증가** — FY14Q1 $4.4B → FY26Q2 $31.0B (**+604%, 7x**, CAGR +17.6%). Apple의 가장 안정적인 성장 엔진. **단 한 분기도 QoQ 감소 없음**.
 - **iPhone 4번의 슈퍼사이클**:
   - **FY15 (5S → 6+)**: Q1 $51.2B (단일 분기 $50B 처음 돌파). 화면 대형화 + 중국 진입.
@@ -403,7 +403,7 @@
 - **COVID-19 영향 (FY20 Q2)**: iPhone $29B (-7% YoY) + Services 강세 ($13.3B 사상최고) — 락다운 디지털 소비 전환. Q3-Q4 회복.
 - **iPad cycle**: FY14 Q1 $11.5B 정점 → FY16-FY19 $3.9-9.4B 박스권 → COVID 부활 (FY21 Q1 $8.4B). M-series iPad Pro (2024) refresh로 안정.
 - **Mac cycle**: FY14-FY19 정체 ($5-7B) → **FY21 M1 슈퍼사이클** (Q1 $8.7B 신기록) → FY22 Q4 $11.5B 사상최고 → FY23 -27% (post-pandemic) → FY25 Q1 $9.0B 회복.
-- **iPod 도태사례**: FY14 Q1 $1.0B → FY14 Q4 $0.4B (-60%) → FY15Q1부터 disclosure 중단 (Apple ID-iPod Classic 2014.07 단종, Touch는 2022.05 단종). **가전 산업기초 narrative "신매체 등장 시 기존 매체 5-10년 내 -80~90% 도태" 실증**.
+- **iPod 도태사례**: FY14 Q1 $1.0B → FY14 Q4 $0.4B (-60%) → FY15Q1부터 disclosure 중단 (Apple ID-iPod Classic 2014.07 단종, Touch는 2022.05 단종). **가전 산업기초 narrative "신매체 등장 시 기존 매체 5-10년 내 -80\~90% 도태" 실증**.
 - **OPM 압축기**: FY19Q3 21.5% (사상최저, iPhone XS·중국 둔화), FY20Q2 22.0% (COVID).
 - **OPM 정점**: FY26Q1 35.4% (역대 최고, iPhone 17 + AI 기능 + Services 비중).
 
@@ -418,8 +418,8 @@
 스마트폰 사업. **글로벌 프리미엄(>$600) 스마트폰 시장 점유율 약 80%** (Counterpoint 2025). FY25 매출 +4.2% YoY 회복, **FY26 1H +27% YoY** (iPhone 17 슈퍼사이클).
 
 - ASP: 약 $850 (대수 기준 248M, FY25 추정)
-- 글로벌 출하 점유율: ~17% (Samsung ~19%, Xiaomi ~14%, Counterpoint Q1 2026)
-- 프리미엄(>$600) 점유율: **75~80%** (Counterpoint, Apple 독점적 위치)
+- 글로벌 출하 점유율: \~17% (Samsung \~19%, Xiaomi \~14%, Counterpoint Q1 2026)
+- 프리미엄(>$600) 점유율: **75\~80%** (Counterpoint, Apple 독점적 위치)
 - 핵심 제품 라인업 (2026): iPhone 17 Pro/Pro Max/Air/Plus/standard, SE 4세대
 - **2024.06 Apple Intelligence 발표 → 교체 수요 트리거**, FY26 cycle on
 - 카메라·디스플레이·Touch ID·Face ID 등 부품은 Samsung(OLED·메모리), LG Display, Sony(이미지센서), Foxconn(EMS) 등 외주
@@ -428,8 +428,8 @@
 
 App Store, iCloud, Apple Music, Apple TV+, Apple Pay, Apple Care, AppleCare+ 등. **GPM 약 75% (FY25)** vs Products GPM 36.7% — Apple 수익성의 핵심 동력.
 
-- App Store: Apple Services 매출의 최대 비중 (~30~40%, 분석가 추정). 30% 수수료 모델 (Small Business Program으로 15%로 인하 가능).
-- iCloud, Apple Music, Apple TV+, Apple Arcade: 정기 구독 모델 (월 $0.99~$19.95).
+- App Store: Apple Services 매출의 최대 비중 (\~30\~40%, 분석가 추정). 30% 수수료 모델 (Small Business Program으로 15%로 인하 가능).
+- iCloud, Apple Music, Apple TV+, Apple Arcade: 정기 구독 모델 (월 $0.99\~$19.95).
 - Apple Pay: 수수료 매출.
 - AppleCare/AppleCare+: 보증 연장 서비스.
 - **유료 가입자**: 분석가 추정 약 10억명+ (Apple은 정확 disclose 안 함)
@@ -444,12 +444,12 @@ Apple Watch, AirPods, HomePod, Beats, Apple Vision Pro 등.
   - **2025 Q4 (실적 발표 기준 FY26 Q1 일부): Apple 32% (#1)**, Huawei 13%
   - 2025 Q2 일시: Huawei 추월 사건 (Apple은 Watch Series 11/Ultra 3/SE 3 refresh로 Q4 회복)
 - **AirPods**: TWS(True Wireless Stereo) 시장 점유 약 25% (Counterpoint 2025) — 글로벌 1위 유지
-- **Apple Vision Pro (2024.02 출시)**: 가격 $3,499. 출시 첫 해 약 50~70만대 (분석가 추정). FY25에 sales 감소 (가격 부담).
+- **Apple Vision Pro (2024.02 출시)**: 가격 $3,499. 출시 첫 해 약 50\~70만대 (분석가 추정). FY25에 sales 감소 (가격 부담).
 - FY25 -3.6% YoY — Vision Pro 모멘텀 약화 + Watch 교체 사이클 둔화 + Samsung Watch 점유 잠식 (-12% YoY)
 
 **(4) Mac — FY25 매출 $33.7B (8.1%)**
 
-Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
+Apple Silicon (M1\~M4) 전환 사이클 (2020.11\~) 후반.
 
 - Mac (MacBook Air/Pro, iMac, Mac mini, Mac Studio, Mac Pro): Apple 자체 ARM 아키텍처 SoC 채택, Intel 결별.
 - FY21 +23% (M1 슈퍼사이클) / FY22 +14% / FY23 -27% (포스트-COVID 컴퓨터 수요 둔화) / FY24 +2% / **FY25 +12.4%** (M4 cycle).
@@ -458,17 +458,17 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 
 태블릿 사업. iPad/iPad Air/iPad Pro/iPad mini.
 
-- 글로벌 태블릿 시장 점유 1위 (~35%)
+- 글로벌 태블릿 시장 점유 1위 (\~35%)
 - M4 iPad Pro (2024.05 출시) — OLED 디스플레이 도입.
 - FY25 +5.0% YoY 회복.
 
 ### ③ 사업부별 디테일 (top-seller, growth, 이익 outlier)
 
-**Top-seller**: iPhone Pro Max — Apple 단일 제품 매출 최대 (분석가 추정 iPhone 17 Pro Max FY26 출하 ~50M대 가능)
+**Top-seller**: iPhone Pro Max — Apple 단일 제품 매출 최대 (분석가 추정 iPhone 17 Pro Max FY26 출하 \~50M대 가능)
 
-**최고 성장**: Services (FY21~FY25 5년 매출 +59.5% / CAGR +12.4%) — 가장 안정적이고 빠른 성장 사업부
+**최고 성장**: Services (FY21\~FY25 5년 매출 +59.5% / CAGR +12.4%) — 가장 안정적이고 빠른 성장 사업부
 
-**이익 outlier**: Services GPM ~75% vs Products GPM ~37% — Services 비중 26% (FY25) → Apple 전체 GPM 46.9% 견인. **Services GPM은 SaaS 비즈니스 수준**
+**이익 outlier**: Services GPM \~75% vs Products GPM \~37% — Services 비중 26% (FY25) → Apple 전체 GPM 46.9% 견인. **Services GPM은 SaaS 비즈니스 수준**
 
 **FY25 Q4 (9월 마감) 기준 사업부별 매출**:
 - iPhone $49.0B, Services $28.8B (+15% YoY), Mac $8.7B, WHA $9.0B, iPad $7.0B
@@ -499,12 +499,12 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 
 **(1) S-커브 위치 — Apple은 스마트폰 (5번째 S-커브) 주도자**
 
-산업기초.md는 가전 산업을 **5회 S-커브 누적**으로 정의: 라디오(1920) → TV(1955) → VCR(1975) → PC(1981) → **스마트폰(2007)** → 다음(AR/XR, 2023~). Apple iPhone (2007.06)이 5번째 S-커브를 **단독으로 개시**했다는 점에서 산업사적 의미가 크다.
+산업기초.md는 가전 산업을 **5회 S-커브 누적**으로 정의: 라디오(1920) → TV(1955) → VCR(1975) → PC(1981) → **스마트폰(2007)** → 다음(AR/XR, 2023\~). Apple iPhone (2007.06)이 5번째 S-커브를 **단독으로 개시**했다는 점에서 산업사적 의미가 크다.
 
 | 단계 | 기간 | Apple 매출 (스마트폰 S-커브 대응) |
 |------|------|---------------------------------|
-| 도입기 (2007-2012) | iPhone 1세대~iPhone 5 | $25B → $137B (5.5x) |
-| 본격 성장기 (2013-2017) | iPhone 5S~iPhone X | $171B → $229B |
+| 도입기 (2007-2012) | iPhone 1세대\~iPhone 5 | $25B → $137B (5.5x) |
+| 본격 성장기 (2013-2017) | iPhone 5S\~iPhone X | $171B → $229B |
 | Peak 시기 (2017) | 글로벌 출하 15.6억대 plateau 시작 | Apple 매출은 그러나 +16% (2018) — ASP 상승 |
 | Plateau + 슈퍼사이클 반복 (2018-현재) | 5G(2020), AI(2024-2026) cycle | $260B → **$416B (FY25)** + FY26 가속 |
 
@@ -512,25 +512,25 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 
 **(2) 국가 패권 사이클 — Apple은 미국이 high-end 회복한 "예외" 사례**
 
-산업기초.md의 핵심 thesis: **미국(1920~) → 일본(1965~) → 한국(2000~) → 중국(2015~)** 30~40년 주기 패권 교체. 그러나 **"high-end 스마트폰은 Apple이 2007년 이후 독점적 위치 유지"** — 미국이 마지막 패권을 일본·한국·중국에 빼앗긴 가전 산업에서, Apple만이 **미국 패권의 high-end 거점**으로 남음.
+산업기초.md의 핵심 thesis: **미국(1920\~) → 일본(1965\~) → 한국(2000\~) → 중국(2015\~)** 30\~40년 주기 패권 교체. 그러나 **"high-end 스마트폰은 Apple이 2007년 이후 독점적 위치 유지"** — 미국이 마지막 패권을 일본·한국·중국에 빼앗긴 가전 산업에서, Apple만이 **미국 패권의 high-end 거점**으로 남음.
 
 → **Apple 시사점**: 중국 OEM이 글로벌 출하대수 51% (2025, Counterpoint) 점유하나, **프리미엄 (>$600) 점유는 Apple 75-80%**. 가전 산업 일반 narrative ("미국 도태")의 단일 예외. **이 포지셔닝이 무너지면 Apple 전체 thesis 변경**.
 
 **(3) 밸류체인 5 layer 中 Apple은 "브랜드 OEM + Services" 통합 모델**
 
 산업기초.md는 가전 산업을 5 layer로 분해: **부품(반도체·디스플레이) → ODM/EMS(폭스콘) → 브랜드 OEM(Apple·Samsung) → 채널·리테일 → 서비스·생태계**. Layer별 OPM:
-- 부품: 5~25%
-- EMS: 3~5%
-- 브랜드 OEM: 5~25% **(Apple은 30%+로 outlier)**
+- 부품: 5\~25%
+- EMS: 3\~5%
+- 브랜드 OEM: 5\~25% **(Apple은 30%+로 outlier)**
 - 서비스: 60%+
 
-**Apple의 차별성**: **브랜드 OEM + Services 통합** (Apple 자체 OPM 32% / Services OPM 추정 ~50%). 산업기초가 명시한 **"Apple 모델 = 하드웨어+서비스 결합형 최고 수익성"**의 실증.
+**Apple의 차별성**: **브랜드 OEM + Services 통합** (Apple 자체 OPM 32% / Services OPM 추정 \~50%). 산업기초가 명시한 **"Apple 모델 = 하드웨어+서비스 결합형 최고 수익성"**의 실증.
 
 → FY25 데이터 검증: Apple GPM 46.9% (산업 평균 35-40% 대비 우위), OPM 32.0% — 산업기초 narrative와 정합.
 
-**(4) 사이클 GDP 동조 — Apple도 -10~-15% 충격 패턴 반복**
+**(4) 사이클 GDP 동조 — Apple도 -10\~-15% 충격 패턴 반복**
 
-산업기초.md: GDP 침체기 (1929·1973·2001·2008·2020) 가전 추가 충격 -10~-15%, 회복 1~2년. Apple 대응:
+산업기초.md: GDP 침체기 (1929·1973·2001·2008·2020) 가전 추가 충격 -10\~-15%, 회복 1\~2년. Apple 대응:
 - **2008 GFC**: Apple 매출 +35% YoY (iPhone 3GS 슈퍼사이클로 GFC outperform) — **유일한 예외**
 - **2020 COVID**: Apple FY20 매출 +5.5% (산업 -7% 대비 outperform), 그러나 **OPM 24.1% 13년 최저** (지역별 lockdown 영향)
 - **2022 멀티플 충격**: Apple FY23 매출 -2.8% YoY (산업 일반 패턴과 정합)
@@ -543,7 +543,7 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 산업기초.md: 가전 산업 2025 카테고리 **F (공급 과잉) ↔ B (수요 견인) 혼재**. Segment별 분기:
 - **스마트폰·TV·PC = F** (공급 과잉, ASP 디플레이션, 중국발 가격 경쟁)
 - **웨어러블·AR/VR = B** (수요 견인, smart glasses 3:1로 VR 추월)
-- 백색가전 = 중립~F
+- 백색가전 = 중립\~F
 
 **Apple 분리 평가**: 스마트폰은 카테고리 F (공급 과잉)에 속하나, **Apple은 high-end 가격대 + AI 통합 + Services 확장**으로 F 카테고리 내에서 B 포지션 유지. Services는 Apple만의 독립 B 카테고리.
 
@@ -552,13 +552,13 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 **(6) 한국 부품 의존 — Apple의 한국 공급망 anchoring**
 
 산업기초.md: 한국 진정한 해자는 **"부품 layer (삼성디스플레이·LG디스플레이·LG이노텍·삼성SDI) — Apple·Tesla·Meta 등 글로벌 핵심 고객의 OLED·카메라모듈·배터리 공급망 장악"**. Apple의 한국 공급사:
-- Samsung Display (005930.KS): iPhone OLED 1위 (~75% 공급)
-- LG Display (034220.KS): OLED 2차 (~20%)
+- Samsung Display (005930.KS): iPhone OLED 1위 (\~75% 공급)
+- LG Display (034220.KS): OLED 2차 (\~20%)
 - LG이노텍 (011070.KS): iPhone 카메라모듈 1위
 - Samsung Electronics 메모리 (005930.KS): NAND/DRAM
 - SK하이닉스 (000660.KS): NAND/DRAM
 
-→ **Apple ↔ 한국 부품**의 양자관계 — Apple 매출 1% 변동 시 한국 부품 layer +1.5% 변동 추정 (산업기초 sensitivity). 한국 부품 layer의 Apple 매출 비중: Samsung Display ~60%, LG이노텍 ~70%, SK하이닉스 메모리 ~10%.
+→ **Apple ↔ 한국 부품**의 양자관계 — Apple 매출 1% 변동 시 한국 부품 layer +1.5% 변동 추정 (산업기초 sensitivity). 한국 부품 layer의 Apple 매출 비중: Samsung Display \~60%, LG이노텍 \~70%, SK하이닉스 메모리 \~10%.
 
 ---
 
@@ -587,7 +587,7 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 | 영업이익 (전사 OP, 참고) | $50.9B (+18% YoY) | (Samsung 전사 $0B+ 추정) | — |
 
 → **Apple 시사점**:
-1. 같은 분기에 iPhone 매출이 Samsung MX의 **3배**. 출하대수 비슷한데 ASP 격차가 압도적 (Apple ASP ~$1,000 vs Samsung 모바일 ASP ~$300).
+1. 같은 분기에 iPhone 매출이 Samsung MX의 **3배**. 출하대수 비슷한데 ASP 격차가 압도적 (Apple ASP \~$1,000 vs Samsung 모바일 ASP \~$300).
 2. Samsung MX 영업이익 -35% YoY — **smartphone 경쟁 격화** (특히 인도·중국 중·저가) + 갤럭시 S26 마진 압박 시그널.
 3. Samsung 전사 흑자는 메모리·반도체 디비전이 주도. **모바일은 처음으로 적자 우려 (2026)**.
 
@@ -603,7 +603,7 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 | - | 기타 | 37% | -7% |
 
 → **Apple 시사점**:
-1. Apple Watch 시장 leader 위치 유지 — 그러나 **점유 23% (2024 ~26%)** 약간 하락.
+1. Apple Watch 시장 leader 위치 유지 — 그러나 **점유 23% (2024 \~26%)** 약간 하락.
 2. **Huawei +30%** 추격 가속 — 중국 시장 (글로벌 31% 비중) 점유 확대가 주된 동력.
 3. Samsung -12% — Galaxy Watch 약세. Apple의 다이렉트 경쟁 위협 약화.
 4. **2Q 2025 Huawei가 일시적으로 Apple 추월** — 그러나 Q4 (Watch 11/Ultra 3/SE 3 refresh) 회복.
@@ -612,9 +612,9 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 
 | 순위 | 브랜드 | 점유 (2025 추정) | 비고 |
 |------|--------|-------------|------|
-| 1 | **Apple (AirPods)** | **~25%** | 프리미엄 가격대 압도적 |
-| 2 | Samsung Galaxy Buds | ~7-8% | |
-| 3 | Xiaomi | ~7% | 중·저가 |
+| 1 | **Apple (AirPods)** | **\~25%** | 프리미엄 가격대 압도적 |
+| 2 | Samsung Galaxy Buds | \~7-8% | |
+| 3 | Xiaomi | \~7% | 중·저가 |
 
 → Apple AirPods 4 + AirPods Pro 3 (Health 기능 보강) 시장 유지. **WHA 사업부 FY25 -3.6%는 Vision Pro·Watch 둔화가 주된 원인**, AirPods는 안정적.
 
@@ -627,8 +627,8 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 | 영업이익률 (OPM) | **32.0%** | 13.1% | 10.7% |
 | 순이익 (NI) | **$112.0B** | $25.1B (₩35.9T) | $8.0B (¥1.18T) |
 | Diluted EPS | $7.46 | n/a (KR 다른 기준) | n/a |
-| 시가총액 (2026.05) | **~$4.5T** | ~$450B (₩620T) | ~$140B (¥21T) |
-| PER (TTM, 2026.05) | ~30x | ~14x | ~17x |
+| 시가총액 (2026.05) | **\~$4.5T** | \~$450B (₩620T) | \~$140B (¥21T) |
+| PER (TTM, 2026.05) | \~30x | \~14x | \~17x |
 | 매출 5y CAGR (FY20→FY25) | +8.7% | +4.1% | +4.5% |
 | 주력 사업부 (Apple 매핑) | iPhone(50%), Services(26%) | DS 반도체(40%), MX 모바일(26%) | Game(35%), I&SS 이미지센서(15%) |
 | Apple와 직접 경쟁 사업 | — | Galaxy 스마트폰, Galaxy Watch, Tab, Buds | (이미지센서 Apple 공급사) |
@@ -638,7 +638,7 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 
 → Samsung은 메모리·OLED·EMS 통해 **Apple supplier로서 수익화** ($20B+ Apple 매출). 단 모바일 사업은 Apple 직접 경쟁.
 
-→ Sony는 image sensor 1위 (Apple iPhone 카메라 sole supplier) — **iPhone 매출의 ~60%가 Sony I&SS 의존**. 일종의 양자 종속.
+→ Sony는 image sensor 1위 (Apple iPhone 카메라 sole supplier) — **iPhone 매출의 \~60%가 Sony I&SS 의존**. 일종의 양자 종속.
 
 **(F) 글로벌 피어 종합 결론**
 
@@ -648,9 +648,9 @@ Apple Silicon (M1~M4) 전환 사이클 (2020.11~) 후반.
 | 글로벌 스마트폰 출하 (대수) | #2 (60M, vs Samsung 65M) | 중간 | Apple 가속 |
 | 모바일 사업 수익성 | **압도적 1위** (Samsung MX 3배 매출) | 매우 낮음 | 격차 확대 |
 | 스마트워치 | #1 (Apple 23%, Huawei 17%) | 중간 | Huawei 추격 |
-| TWS | #1 (~25%) | 낮음 | 안정 |
+| TWS | #1 (\~25%) | 낮음 | 안정 |
 | Tablet | #1 (35%) | 낮음 | 안정 |
-| PC (Mac) | #4-5 (~9% global) | 높음 | M-series 점유 확대 |
+| PC (Mac) | #4-5 (\~9% global) | 높음 | M-series 점유 확대 |
 | Services (App Store) | #1 (Google과 duopoly) | 매우 낮음 | 안정 |
 
 → **종합 평가**: Apple은 **프리미엄 가격대 + 수익성 측면에서 압도적**. 출하대수 절대 1위는 Samsung에 양보하나, **매출·영업이익은 모든 카테고리에서 압도**. 가장 큰 잠재 위협은 **중국 (Huawei) 부활** — 특히 스마트워치는 점유 추격 가시화.
@@ -665,12 +665,12 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 **공급사 (Apple 의존도 높은 부품 공급사)**:
 - TSMC (2330.TW): 모든 Apple Silicon (A-series, M-series) 생산
-- Samsung Display (005930.KS): iPhone OLED 디스플레이 1위 공급사 (~75%)
-- LG Display (034220.KS): OLED 2차 공급사 (~20%)
+- Samsung Display (005930.KS): iPhone OLED 디스플레이 1위 공급사 (\~75%)
+- LG Display (034220.KS): OLED 2차 공급사 (\~20%)
 - Samsung Electronics 메모리 (005930.KS): NAND/DRAM
 - SK하이닉스 (000660.KS): NAND/DRAM
 - Sony (6758.T): CMOS 이미지센서 (iPhone 카메라)
-- Foxconn (2317.TW, Hon Hai): iPhone 최대 EMS 조립 (~70%)
+- Foxconn (2317.TW, Hon Hai): iPhone 최대 EMS 조립 (\~70%)
 - Luxshare (002475.SZ): AirPods 조립, iPhone 일부
 - LG이노텍 (011070.KS): iPhone 카메라모듈
 
@@ -690,9 +690,9 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 | FY2022 | 164,000 | +6.5% |
 | FY2023 | 161,000 | -1.8% |
 | FY2024 | 164,000 | +1.9% |
-| FY2025 | ~164,000 | flat |
+| FY2025 | \~164,000 | flat |
 
-→ FY2023~FY2024 약간 감소 — 글로벌 빅테크 layoffs 사이클 동참. Apple은 대규모 layoff는 안 했으나 attrition 통해 인력 효율화.
+→ FY2023\~FY2024 약간 감소 — 글로벌 빅테크 layoffs 사이클 동참. Apple은 대규모 layoff는 안 했으나 attrition 통해 인력 효율화.
 
 **생산 CAPA**: Apple은 직접 생산 capa 보유 안 함 (EMS 외주 모델). 주요 EMS Foxconn(중국 정저우, 인도 첸나이/방갈로르), Pegatron, Wistron, Luxshare.
 
@@ -702,12 +702,12 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 | 기간 | 인도 생산 비중 | 인도 생산 iPhone 대수 | 비고 |
 |------|---------------|---------------------|------|
-| FY21 (2020-2021) | ~1% | <5M | Wistron만 진행 (저가 SE) |
-| FY22 (2021-2022) | ~3% | ~10M | Foxconn 가세 |
-| FY23 (2022-2023) | **7%** | ~20M | iPhone 14 인도 동시 출시 (역대 최초) |
-| FY24 (2023-2024) | **14%** | ~36M | Tata가 Wistron 인수 (2023.10), iPhone 15 동시 launch |
-| **FY25 (2024-2025)** | **25%** | **~55M** (+53% YoY) | iPhone 16 Pro 인도 시작, Tata 점유 35% |
-| FY26 target | **35%** | ~80M | Foxconn Bengaluru 신공장 + Apple 30B USD 누적 투자 |
+| FY21 (2020-2021) | \~1% | <5M | Wistron만 진행 (저가 SE) |
+| FY22 (2021-2022) | \~3% | \~10M | Foxconn 가세 |
+| FY23 (2022-2023) | **7%** | \~20M | iPhone 14 인도 동시 출시 (역대 최초) |
+| FY24 (2023-2024) | **14%** | \~36M | Tata가 Wistron 인수 (2023.10), iPhone 15 동시 launch |
+| **FY25 (2024-2025)** | **25%** | **\~55M** (+53% YoY) | iPhone 16 Pro 인도 시작, Tata 점유 35% |
+| FY26 target | **35%** | \~80M | Foxconn Bengaluru 신공장 + Apple 30B USD 누적 투자 |
 
 **인도 EMS 구조 (2025 기준 시장 점유)**:
 - Foxconn (대만): 65% (Chennai + Bengaluru 신공장)
@@ -752,7 +752,7 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 **주요 관찰**:
 - GPM 37.6% (FY13) → 46.9% (FY25) → **+9.3%p**. Services 비중 (5.4% FY13 → 26.2% FY25) 상승이 핵심 동력.
-- OPM은 24~32% 좁은 밴드. R&D 절대치는 4.5B → 34.5B로 **+7.7배** (R&D/매출 비율 2.6% → 8.3%).
+- OPM은 24\~32% 좁은 밴드. R&D 절대치는 4.5B → 34.5B로 **+7.7배** (R&D/매출 비율 2.6% → 8.3%).
 - NPM은 FY24 24.0%로 일시 하락 — 2024.09 EU 국가보조금 사법 판결 $10.2B 일회성 세금 영향. FY25 26.9%로 회복.
 
 ### ② 재무상태표 + chart4
@@ -777,7 +777,7 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 **주요 관찰**:
 - **자본 ↓, 부채 ↑** 패턴 (FY13 자본/자산 60% → FY25 21%): 자사주 매입 누적 $816B로 자본을 환원, 그 자금을 부채로 보충하는 구조. **사실상 ROE 인위적 부스트 전략**.
-- 총 현금성 자산 (Cash + 단기/장기 유가증권): FY13 ~$140B → FY18 $245B 정점 → FY25 ~$132B. 현금 reduce는 주주환원 + 부채 상환 동시.
+- 총 현금성 자산 (Cash + 단기/장기 유가증권): FY13 \~$140B → FY18 $245B 정점 → FY25 \~$132B. 현금 reduce는 주주환원 + 부채 상환 동시.
 - **D/E 5.96 정점 (FY22)** → FY25 3.87로 정상화.
 - PP&E Net은 꾸준히 증가 (FY13 $16.6B → FY25 $49.8B, +200%) — Apple Park, 데이터센터, R&D 시설.
 
@@ -796,7 +796,7 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 | 2024 | 118,254 | 2,935 | -121,983 | 108,807 | 27.8% |
 | **2025** | **111,482** | **15,195** | **-120,686** | **98,767** | **23.7%** |
 
-**누적 통계 (FY13~FY25)**:
+**누적 통계 (FY13\~FY25)**:
 - 누적 OCF: **$911.2B**
 - 누적 CapEx: $122.5B
 - 누적 FCF: **$788.8B**
@@ -823,18 +823,18 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 ![AAPL CapEx 11년 + 사이클](AAPL_chart8_CapEx.png)
 
-→ Apple CapEx는 **매출의 2.5~6% 안정 밴드**. 빅테크 피어 중 가장 capital-light (META/GOOGL/AMZN/MSFT는 매출의 15~30% CapEx). EMS 외주 모델로 생산 capa 부담 없음. Vision Pro·AI 서버 등 신규 카테고리 CapEx 증가 시그널 (FY25 +34.6% YoY).
+→ Apple CapEx는 **매출의 2.5\~6% 안정 밴드**. 빅테크 피어 중 가장 capital-light (META/GOOGL/AMZN/MSFT는 매출의 15\~30% CapEx). EMS 외주 모델로 생산 capa 부담 없음. Vision Pro·AI 서버 등 신규 카테고리 CapEx 증가 시그널 (FY25 +34.6% YoY).
 
 ### ⑤ 부채구조 + 채무증권 발행 history
 
 | FY 말 | 장기차입금($B) | 단기차입금($B) | Commercial Paper($B) | 가중평균 이자율 |
 |-------|---------------|---------------|---------------------|----------------|
-| FY2015 | 53.5 | 2.5 | 8.5 | ~2.0% |
-| FY2018 | 93.7 | 8.8 | 12.0 | ~2.5% |
-| FY2020 | 98.7 | 8.8 | 5.0 | ~2.3% |
-| FY2022 | 99.0 | 11.1 | 10.0 | ~2.8% |
-| FY2024 | 96.7 | 10.9 | 10.0 | ~3.4% |
-| **FY2025** | **90.7** | **12.4** | **8.0** | **~3.7%** |
+| FY2015 | 53.5 | 2.5 | 8.5 | \~2.0% |
+| FY2018 | 93.7 | 8.8 | 12.0 | \~2.5% |
+| FY2020 | 98.7 | 8.8 | 5.0 | \~2.3% |
+| FY2022 | 99.0 | 11.1 | 10.0 | \~2.8% |
+| FY2024 | 96.7 | 10.9 | 10.0 | \~3.4% |
+| **FY2025** | **90.7** | **12.4** | **8.0** | **\~3.7%** |
 
 → Apple은 2013년부터 본격 차입 (그전까지는 net cash 회사). 2013년 첫 채권발행 $17B (당시 미국 비금융 기업 사상 최대). 누적 발행 $200B+. 차입 목적: **자사주 매입 자금 (해외 보유 현금에 송환세 부과 회피용)**. 2017년 TCJA로 송환세 인하 후에도 차입 전략 유지 (낮은 이자율 활용).
 
@@ -860,7 +860,7 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 
 ![AAPL 분기별 자사주매입 + DPS](AAPL_chart14_분기별주주환원.png)
 
-→ **자사주매입은 13년 누적 $816B** — 미국 기업 사상 최대 누적 환원. 2018~2025년 연 $66~95B 매입. **2026.05 추가 $100B 매입 프로그램 승인** (Apple 18번째 buyback authorization). 배당은 **2012.08 처음 시작** (FY13 첫 dividends 지급, 분기당 $0.10 post-split-equivalent), 이후 14년 연속 인상.
+→ **자사주매입은 13년 누적 $816B** — 미국 기업 사상 최대 누적 환원. 2018\~2025년 연 $66\~95B 매입. **2026.05 추가 $100B 매입 프로그램 승인** (Apple 18번째 buyback authorization). 배당은 **2012.08 처음 시작** (FY13 첫 dividends 지급, 분기당 $0.10 post-split-equivalent), 이후 14년 연속 인상.
 
 ### ⑦ 재무비율 (13년)
 
@@ -880,7 +880,7 @@ Apple은 **B2C 비즈니스이므로 단일 대기업 매출 의존도 없음**.
 | 2024 | 164.6 | 25.7 | 0.87 | 5.41 | 84.4 | 8.0 |
 | **2025** | **151.9** | **31.2** | **0.89** | **3.87** | **79.5** | **8.3** |
 
-→ ROE 150%+ (FY21+) = 회계상 매우 높지만 **자본이 작아서 발생한 인위적 수치**. 자사주 매입 누적으로 자본 감소 → ROE 분모 감소. ROA 27~31%가 **진정한 자본 효율성** 지표 — 빅테크 중 단연 1위.
+→ ROE 150%+ (FY21+) = 회계상 매우 높지만 **자본이 작아서 발생한 인위적 수치**. 자사주 매입 누적으로 자본 감소 → ROE 분모 감소. ROA 27\~31%가 **진정한 자본 효율성** 지표 — 빅테크 중 단연 1위.
 
 ---
 
@@ -904,9 +904,9 @@ Apple Inc.는 **단일 법인 (no holding/sub-business structure)**. 100% 자회
 
 | 주주 유형 | 보유 비중 | 비고 |
 |----------|----------|-----|
-| 기관 (institutional) | ~62% | Vanguard, BlackRock, State Street, Berkshire 등 |
-| 개인 (retail) | ~34% | |
-| 임직원 (Tim Cook, 경영진) | ~0.05% | Cook 약 3.3M shares (0.02%) |
+| 기관 (institutional) | \~62% | Vanguard, BlackRock, State Street, Berkshire 등 |
+| 개인 (retail) | \~34% | |
+| 임직원 (Tim Cook, 경영진) | \~0.05% | Cook 약 3.3M shares (0.02%) |
 | Treasury (자사주) | n/a | Apple은 자사주를 retire 처리 |
 
 **5% 이상 주주 (13F 필링 기준, 2025.09)**:
@@ -919,7 +919,7 @@ Apple Inc.는 **단일 법인 (no holding/sub-business structure)**. 100% 자회
 | 4 | State Street | 4.0% | 패시브 |
 | 5 | FMR (Fidelity) | 3.5% | 액티브 |
 
-→ **Apple은 founder shares 없음** (Jobs 가족 신탁이 일부 보유). 사실상 **광범위 분산 소유** 구조. **Warren Buffett의 Berkshire가 단일 액티브 최대 보유 주주** (2016 매수 후 2023 정점 5.9%, 2024년 일부 매도, 2025 현재 ~5.8%).
+→ **Apple은 founder shares 없음** (Jobs 가족 신탁이 일부 보유). 사실상 **광범위 분산 소유** 구조. **Warren Buffett의 Berkshire가 단일 액티브 최대 보유 주주** (2016 매수 후 2023 정점 5.9%, 2024년 일부 매도, 2025 현재 \~5.8%).
 
 ![AAPL 주주지분](AAPL_chart5_주주지분.png)
 
@@ -946,7 +946,7 @@ Apple Inc.는 **단일 법인 (no holding/sub-business structure)**. 100% 자회
 - Craig Federighi: SVP Software Engineering
 - Eddy Cue: SVP Services
 - Johny Srouji: SVP Hardware Technologies (Apple Silicon)
-- Jeff Williams: COO (2015~) — 2025년 은퇴 발표, 후임 Sabih Khan
+- Jeff Williams: COO (2015\~) — 2025년 은퇴 발표, 후임 Sabih Khan
 - Lisa Jackson: VP Environment, Policy & Social Initiatives
 
 **이사회 (Board, 9명, 2025 기준)**:
@@ -1016,8 +1016,8 @@ Apple은 **2010년부터 자체 ARM 기반 SoC 설계**. 2020년 Mac 전환 (App
 | A12-A13 | 2018-2019 | TSMC 7nm | 6-9B | 5-6 TOPS | iPhone XS/11 |
 | A14-A15 | 2020-2021 | TSMC 5nm (N5/N5P) | 11-15B | 11-15 TOPS | iPhone 12/13, iPad Air |
 | A16-A17 Pro | 2022-2023 | TSMC 4nm/3nm (N4P/N3B) | 16-19B | 17-35 TOPS | iPhone 14 Pro/15 Pro |
-| **A18 / A18 Pro** | **2024** | **TSMC 3nm (N3E)** | ~20B | **35-40 TOPS** | iPhone 16 series, **Apple Intelligence 지원** |
-| **A19 / A19 Pro** | **2025** | **TSMC 2nm (N2) 예상** | ~25B | **60-70 TOPS** | iPhone 17 (Apple Intelligence 2.0) |
+| **A18 / A18 Pro** | **2024** | **TSMC 3nm (N3E)** | \~20B | **35-40 TOPS** | iPhone 16 series, **Apple Intelligence 지원** |
+| **A19 / A19 Pro** | **2025** | **TSMC 2nm (N2) 예상** | \~25B | **60-70 TOPS** | iPhone 17 (Apple Intelligence 2.0) |
 
 **M-series (Mac/iPad 데스크톱·노트북 SoC)**:
 
@@ -1026,8 +1026,8 @@ Apple은 **2010년부터 자체 ARM 기반 SoC 설계**. 2020년 Mac 전환 (App
 | M1 | 2020.11 | TSMC 5nm (N5) | 16B | 11 TOPS | MacBook Air/Pro, iMac, iPad Pro |
 | M2 | 2022.06 | TSMC 5nm+ (N5P) | 20B | 15.8 TOPS | MacBook Air/Pro |
 | M3 | 2023.10 | **TSMC 3nm (N3B)** | 25B | 18 TOPS | MacBook Pro 14/16 |
-| M4 | 2024.05 | TSMC 3nm (N3E) | ~28B | **38 TOPS** | iPad Pro, MacBook, iMac |
-| **M5** | **2025.10** | **TSMC 3nm (N3P)** | ~30B | **50-60 TOPS** | MacBook Pro M5, iPad Pro M5, **+45% GPU vs M4** |
+| M4 | 2024.05 | TSMC 3nm (N3E) | \~28B | **38 TOPS** | iPad Pro, MacBook, iMac |
+| **M5** | **2025.10** | **TSMC 3nm (N3P)** | \~30B | **50-60 TOPS** | MacBook Pro M5, iPad Pro M5, **+45% GPU vs M4** |
 | M6 (예상) | 2026E | TSMC 2nm (N2) | — | — | Apple AI 서버 + Apple Glass? |
 
 → **TSMC 의존도 100%**: A-series, M-series 全 chip TSMC 단독 공급. **Apple-TSMC 양자관계**가 Apple 최대 supplier lock-in (vs 이전 Samsung 5nm용).
@@ -1038,7 +1038,7 @@ Apple은 **2010년부터 자체 ARM 기반 SoC 설계**. 2020년 Mac 전환 (App
 
 ### ② 진행 중 corporate action (10년치 M&A)
 
-Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 talent/tech 인수. Tim Cook 자주 인용 "We acquire a company every 3-4 weeks on average".
+Apple은 **"rolling acquisitions" 전략** — 분기당 2\~7건의 소규모 talent/tech 인수. Tim Cook 자주 인용 "We acquire a company every 3-4 weeks on average".
 
 **주요 인수 10년치**:
 
@@ -1090,16 +1090,16 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 
 | 기간 | 출하 추정 (분석가) | 매출 추정 (Apple WHA 사업부 포함) | 비고 |
 |------|-------------------|--------------------------------|------|
-| 2024.02-2024.06 (출시 4개월) | 200K-400K | ~$1B | 출시 첫 10일 200K (Apple disclose), 분석가 추정 |
-| FY24 전체 | ~390K | ~$1.4B | Bloomberg / TrendForce |
-| FY25 전체 | ~600K (M5 refresh) | ~$2.1B | 분석가 추정, 누계 ~1M |
-| FY26 (M5 cycle) | ~250K-400K | ~$1B | Q4 2025 holiday only 45K (Fintool) |
+| 2024.02-2024.06 (출시 4개월) | 200K-400K | \~$1B | 출시 첫 10일 200K (Apple disclose), 분석가 추정 |
+| FY24 전체 | \~390K | \~$1.4B | Bloomberg / TrendForce |
+| FY25 전체 | \~600K (M5 refresh) | \~$2.1B | 분석가 추정, 누계 \~1M |
+| FY26 (M5 cycle) | \~250K-400K | \~$1B | Q4 2025 holiday only 45K (Fintool) |
 
 → **Vision Pro 매출은 Wearables/Home/Accessories 사업부 매출의 약 8-10%** 추정. FY25 WHA -3.6% YoY의 핵심 원인.
 
 **향후 AR/XR 로드맵 (분석가/언론 추정)**:
 
-- **Vision Air (이름 잠정)**: ~$2,000 가격, 2026.10-2027.04 출시 추정. 디스플레이 다운그레이드 + 무게 30% 감소.
+- **Vision Air (이름 잠정)**: \~$2,000 가격, 2026.10-2027.04 출시 추정. 디스플레이 다운그레이드 + 무게 30% 감소.
 - **Apple Smart Glasses**: 2026.Q4 발표 (산업기초.md narrative 명시), 2027 launch. AR 안경 형태, Meta Ray-Ban smart glasses 대응.
 - **Apple visionOS 3.0**: 2026.06 WWDC 발표 예상, AI 기능 강화.
 
@@ -1131,16 +1131,16 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 
 **(1) 중국 의존 (Geopolitical + Concentration)**
 - **수요 측**: Greater China 매출 비중 15.5% (FY25). 미·중 갈등 + 중국 정부 규제 (iPhone 정부기관 제한 등) 시 직접 타격. FY23 Greater China -9.6% YoY 사례.
-- **공급 측**: iPhone의 ~80%가 중국 조립 (Foxconn 정저우 공장 등). **2024년부터 인도 생산 확대** (FY25 인도 생산 비중 추정 15%, 2027년 25% 목표).
+- **공급 측**: iPhone의 \~80%가 중국 조립 (Foxconn 정저우 공장 등). **2024년부터 인도 생산 확대** (FY25 인도 생산 비중 추정 15%, 2027년 25% 목표).
 - **트럼프 관세 리스크**: 2025년 4월 트럼프 행정명령으로 중국發 전자제품 관세 우려 → 주가 일시 -33% 조정. 이후 Apple은 인도 생산 비중 확대 발표로 회복.
 
 **(2) EU Digital Markets Act (DMA) 규제**
-- 2024.03 EU DMA 발효: Apple App Store 독점 강제 해제 → 유럽 내 제3자 앱스토어 허용, 사이드로딩 허용, 결제 시스템 외부 허용 (수수료 27% → 10~17%).
-- 영향: **EU 매출 ($111B, 26.7%) 중 Services 수익성 압박**. 분석가 추정 연 $5~10B 매출 영향.
+- 2024.03 EU DMA 발효: Apple App Store 독점 강제 해제 → 유럽 내 제3자 앱스토어 허용, 사이드로딩 허용, 결제 시스템 외부 허용 (수수료 27% → 10\~17%).
+- 영향: **EU 매출 ($111B, 26.7%) 중 Services 수익성 압박**. 분석가 추정 연 $5\~10B 매출 영향.
 - 2025.04 EU DMA 추가 제재 — Apple iCloud 데이터 이동성 의무 + Apple Pay 외부 결제 허용 강화.
 
 **(3) 미국 antitrust 소송**
-- **Epic Games v. Apple (2020~)**: App Store 30% 수수료 + 외부 결제 차단 위반 소송. 2024.04 미국 9th Circuit 결정으로 Apple 일부 패소 — 외부 결제 링크 허용 의무 도입.
+- **Epic Games v. Apple (2020\~)**: App Store 30% 수수료 + 외부 결제 차단 위반 소송. 2024.04 미국 9th Circuit 결정으로 Apple 일부 패소 — 외부 결제 링크 허용 의무 도입.
 - **Epic Games v. Apple 2차 (2025.04)**: Apple 추가 패소 — App Store 외부 결제 27% 수수료 부과 위법 결정. **현재 Apple 항소 중**.
 - **DOJ v. Apple (2024.03 제소)**: 스마트폰 monopoly 소송. iMessage, Apple Pay 폐쇄성, 외부 결제 제한 등 5개 사항. 재판 시작 2026 추정.
 
@@ -1150,7 +1150,7 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 
 **(5) Apple Vision Pro 카테고리 실패 리스크**
 - 2024.02 출시, 가격 $3,499. 출시 1년 후 판매 부진 (분석가 추정 70만대 vs 초기 목표 150만대). FY25 WHA 매출 -3.6% (Vision Pro 둔화 시그널).
-- 보급형 Vision Air (~$1,500) 출시 지연 (2026 추정 → 2027~).
+- 보급형 Vision Air (\~$1,500) 출시 지연 (2026 추정 → 2027\~).
 
 **(6) Apple Intelligence 지연 + 기능 부재**
 - 2024.06 발표 후 일부 기능(Genmoji, Image Playground) 2024.12 출시. 그러나 **새로운 Siri (on-device LLM 기반)는 2025.06 WWDC에서 2026으로 연기 발표** — Apple 사상 최대 AI 지연 사례.
@@ -1184,7 +1184,7 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 ### v1.4 (2026-05-19) — FINAL: 19.5년 시계열 + iPod 정점 + Apple Silicon + 인도 생산 + Vision Pro + 5y Peer + 10-K Risk
 
 **작업 내역**:
-- SEC 8-K **Ex.99.2 12건 추가 fetch** (FY07Q1~FY09Q4) — iPhone 1세대 launch (2007.06) 이전 분기부터 풀 커버
+- SEC 8-K **Ex.99.2 12건 추가 fetch** (FY07Q1\~FY09Q4) — iPhone 1세대 launch (2007.06) 이전 분기부터 풀 커버
 - **분기 시계열 66 → 78분기 (19.5년)** — v4.8 표준 "60+분기" **130% 달성**
 - iPod 19.5년 누적 출하 **329M units** documented, FY07Q1 **21.1M units 사상최대 분기** 마킹
 - iPhone 1세대 launch FY07Q4 — Apple deferred revenue 회계 영향 narrative 보강 (실제 270K 판매 vs 8-K $0)
@@ -1202,7 +1202,7 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 - 누적 iPhone 매출: $2,505B (56%) — 19.5년간 4번의 슈퍼사이클 + 4번의 sub-cycle
 - 누적 Services: $789B (17.7%)
 - 누적 Mac: $416B, iPad: $343B, WHA: $363B, **iPod: $76B (FY07-FY14)**
-- 누적 iPhone units (FY10-FY17 disclosure): **1,217M** + FY18-FY26 추정 ~1.8B = 사상 누적 약 **3.0B대 iPhones**
+- 누적 iPhone units (FY10-FY17 disclosure): **1,217M** + FY18-FY26 추정 \~1.8B = 사상 누적 약 **3.0B대 iPhones**
 - 누적 iPod units (FY07-FY14): **329M** (3.3억대)
 - 누적 iPad units: 412M, Mac units: 162M
 
@@ -1225,9 +1225,9 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 ### v1.3 (2026-05-19) — 분기 시계열 16.5년 (v4.8 표준 완전 달성) + iPhone units 시계열
 
 **작업 내역**:
-- SEC EDGAR 8-K **Ex.99.2 16건 신규 fetch + 파싱** (FY10Q1~FY13Q4 16분기, FY10-FY12 옛 양식 + FY13 신양식 mixed)
+- SEC EDGAR 8-K **Ex.99.2 16건 신규 fetch + 파싱** (FY10Q1\~FY13Q4 16분기, FY10-FY12 옛 양식 + FY13 신양식 mixed)
 - **분기 product/segment 시계열 50 → 66분기** (**16.5년 = v4.8 표준 "60+분기" 완전 달성** ✓)
-- **iPhone/iPad/Mac/iPod units 시계열 신규 추출** (FY10Q1~FY17Q4 32분기, Apple FY18Q1부터 units 비공개)
+- **iPhone/iPad/Mac/iPod units 시계열 신규 추출** (FY10Q1\~FY17Q4 32분기, Apple FY18Q1부터 units 비공개)
 - 누적 iPhone units (32분기 disclosure 전체): **1,217M (12억대)**
 - **iPhone 슈퍼사이클 4회 정점 documented**:
   1. FY11Q3 20.3M (iPhone 3GS/4 도입기)
@@ -1239,10 +1239,10 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 - 양식 변경 이력 기록: FY13 Q1 segment 양식 변경 (Greater China 분리), FY14 Retail fold-in, FY18Q1 units disclosure 중단, FY18Q4 "Other Products" → "Wearables/Home/Accessories" 명칭 변경
 
 **v1.0 → v1.3 누적 진화**:
-- v1.0: 22분기 (FY21Q2~FY26Q2) = 5.25년
-- v1.1: 30분기 (FY19Q1~FY26Q2) = 7.5년
-- v1.2: 50분기 (FY14Q1~FY26Q2) = 12.25년
-- **v1.3: 66분기 (FY10Q1~FY26Q2) = 16.5년 ✓ v4.8 표준 달성**
+- v1.0: 22분기 (FY21Q2\~FY26Q2) = 5.25년
+- v1.1: 30분기 (FY19Q1\~FY26Q2) = 7.5년
+- v1.2: 50분기 (FY14Q1\~FY26Q2) = 12.25년
+- **v1.3: 66분기 (FY10Q1\~FY26Q2) = 16.5년 ✓ v4.8 표준 달성**
 
 **16.5년 누적 통계 (66분기, $M)**:
 - 총 매출: **$4,368B** ($4.37조)
@@ -1262,8 +1262,8 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 ### v1.2 (2026-05-19) — 분기 시계열 12.25년 확장 + 산업기초 cross-reference
 
 **작업 내역**:
-- SEC EDGAR 8-K **Ex.99.2 "Unaudited Summary Data" 16건 신규 fetch + 파싱** (FY14Q1~FY18Q4, 20분기)
-- **분기 product/segment 시계열 30 → 50분기** (FY14Q1~FY26Q2, **12.25년 = v4.8 표준 "60+분기"에 매우 근접**)
+- SEC EDGAR 8-K **Ex.99.2 "Unaudited Summary Data" 16건 신규 fetch + 파싱** (FY14Q1\~FY18Q4, 20분기)
+- **분기 product/segment 시계열 30 → 50분기** (FY14Q1\~FY26Q2, **12.25년 = v4.8 표준 "60+분기"에 매우 근접**)
 - FY14에 iPod 단독 disclosure 추가 (단종 직전 12달간 데이터): FY14 Q1 $1.0B → Q4 $0.4B = **가전 산업 도태 패턴의 실증 사례**
 - FY15-FY18 "Other Products" → "Wearables, Home and Accessories" semantic 매핑
 - FY14 Retail 별도 segment ($4-7B/Q) 데이터 보존 (FY15부터 5개 region에 fold-in)
@@ -1271,27 +1271,27 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
   1. S-커브 위치 (5번째 스마트폰 S-커브 주도자)
   2. 국가 패권 사이클 (미국 high-end 유일 예외)
   3. 밸류체인 5 layer (브랜드 OEM + Services 통합 모델)
-  4. 사이클 GDP 동조 (-10~-15% 충격 패턴)
+  4. 사이클 GDP 동조 (-10\~-15% 충격 패턴)
   5. F-B 카테고리 (F 산업의 B 기업 포지셔닝)
   6. 한국 부품 의존 (Samsung Display·LG Display·LG이노텍·SK하이닉스)
 - chart2_iPhone / chart2_Services / chart2_OtherProducts / chart2_Geographic → **50분기로 확장 재생성**
 - §3 ① 비즈니스 모델 장기 추세 narrative 확장 (iPhone 4번의 슈퍼사이클 + 4번의 sub-cycle 약세 매핑, iPod 도태사례 documented)
 
 **v1.0 → v1.2 시계열 확장**:
-- v1.0: 22분기 (FY21Q2~FY26Q2)
-- v1.1: 30분기 (FY19Q1~FY26Q2)
-- **v1.2: 50분기 (FY14Q1~FY26Q2)** — 향후 v1.3 후보: FY10-FY13 (4년 = 16분기 추가 → 총 66분기, 16.5년)
+- v1.0: 22분기 (FY21Q2\~FY26Q2)
+- v1.1: 30분기 (FY19Q1\~FY26Q2)
+- **v1.2: 50분기 (FY14Q1\~FY26Q2)** — 향후 v1.3 후보: FY10-FY13 (4년 = 16분기 추가 → 총 66분기, 16.5년)
 
 **12.25년 누적 통계 (50분기, $M)**:
 - 총 매출: **$3,867B**
 - 누적 iPhone 매출: **$2,133B (55.2%)** — 50분기 중 최대 분기 FY26Q1 $85.3B, 최저 분기 FY14Q3 $19.8B (**4.3배 변동**)
 - 누적 Services 매출: **$728B (18.8%)** — 50분기 연속 증가, **한 번도 QoQ 감소 없음**, CAGR +17.6%
-- 누적 Mac 매출: **$363B (9.4%)** — M-series 전환 (2020~) 후 점유 회복
+- 누적 Mac 매출: **$363B (9.4%)** — M-series 전환 (2020\~) 후 점유 회복
 - 누적 iPad 매출: **$317B (8.2%)** — FY14 정점 후 plateau, FY24+ M4 cycle 회복
 - 누적 WHA/Other 매출: **$324B (8.4%)** — FY14 $6B → FY25 $36B (6배 성장)
 
 **v1.3 보완 후보**:
-- FY10~FY13 분기 시계열 (16분기) — iPhone 3GS·4·4S·5 슈퍼사이클 데이터. SEC 8-K Ex.99.2 추가 fetch 필요.
+- FY10\~FY13 분기 시계열 (16분기) — iPhone 3GS·4·4S·5 슈퍼사이클 데이터. SEC 8-K Ex.99.2 추가 fetch 필요.
 - iPhone units (대수) 시계열: FY14-FY17 8-K Ex.99.2에 disclosure 존재, FY18+ 중단 (Apple decision). Pre-FY18 units chart 추가 가능.
 - iPad units (FY14-FY17): 동일.
 - Mac units (FY14-FY17): 동일.
@@ -1304,11 +1304,11 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 
 **작업 내역**:
 - SEC EDGAR 8-K Ex.99.1 HTML **13건 신규 fetch** (FY18Q1-Q4 + FY19Q1-Q4 + FY20Q1-Q4 + FY26Q2). 단 FY18 Q1-Q3은 별도 disaggregation table 없음 (narrative only).
-- **분기 product/segment 시계열 22 → 30분기** (FY19Q1~FY26Q2, 7.5년 커버리지). FY18 Q4는 partial (income statement only) 유지.
-- FY19~FY20 "Other Products" 카테고리를 "Wearables, Home and Accessories"로 매핑 (Apple FY18 Q4부터 명칭 변경, 구성은 거의 동일: Apple Watch + AirPods + Beats + Apple TV + HomePod + iPod).
+- **분기 product/segment 시계열 22 → 30분기** (FY19Q1\~FY26Q2, 7.5년 커버리지). FY18 Q4는 partial (income statement only) 유지.
+- FY19\~FY20 "Other Products" 카테고리를 "Wearables, Home and Accessories"로 매핑 (Apple FY18 Q4부터 명칭 변경, 구성은 거의 동일: Apple Watch + AirPods + Beats + Apple TV + HomePod + iPod).
 - chart2_iPhone / chart2_Services / chart2_OtherProducts / chart2_Geographic / chart10 → **30분기로 재생성**.
 - **글로벌 피어 cross-check 섹션 신규** (§3 ④-1): 스마트폰 출하 (Omdia·IDC), Samsung MX vs Apple iPhone 수익성, 스마트워치 점유 (Counterpoint 2025), TWS, 종합 평가.
-- Apple Watch 점유 수치 수정 (~30% → 23% full year / 32% Q4, Counterpoint 2025 정확치).
+- Apple Watch 점유 수치 수정 (\~30% → 23% full year / 32% Q4, Counterpoint 2025 정확치).
 
 **v1.0 → v1.1 변경 데이터**:
 - FY19 4분기 추가: Q1-Q4 평균 매출 $65B, iPhone $35.6B, Services $11.6B, OPM 24.2%
@@ -1316,7 +1316,7 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 - **30분기 누적**: 총 매출 $2,683B, iPhone $1,393B (52%), Services $617B (23%)
 
 **v1.2 보완 후보**:
-- FY13~FY18 분기 product disclosure: 8-K 표 없음 → 10-Q SEC EDGAR 직접 파싱 또는 Apple legacy IR site 검토
+- FY13\~FY18 분기 product disclosure: 8-K 표 없음 → 10-Q SEC EDGAR 직접 파싱 또는 Apple legacy IR site 검토
 - Earnings call full transcript (Q&A) — Motley Fool 미커버 → seekingalpha.com 또는 stratechery 등 별도 source
 - 글로벌 피어 동일 양식 기업개요 (Samsung 005930 / Xiaomi 1810.HK / Sony 6758.T) — 셋 다 워치리스트 등록 + 별도 [기업 개요 모드] 호출 필요
 - 산업기초 (소비자 전자제품) 산업기초.md ↔ Apple 기업개요 cross-reference 강화
@@ -1326,23 +1326,23 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 ### v1.0 (2026-05-19) — 최초 작성
 
 **작업 내역**:
-- SEC EDGAR XBRL companyfacts API로 FY2009~FY2025 모든 us-gaap concept 추출 (13년 annual 손익·BS·CF·CapEx·R&D·SGA·shares·EPS 완비)
-- Apple Newsroom Consolidated Financial Statements PDF 21건 (FY18 Q4 + FY21Q1~FY25Q4 + FY26Q1) 파싱 → product/segment 분기 시계열 22분기 구축
+- SEC EDGAR XBRL companyfacts API로 FY2009\~FY2025 모든 us-gaap concept 추출 (13년 annual 손익·BS·CF·CapEx·R&D·SGA·shares·EPS 완비)
+- Apple Newsroom Consolidated Financial Statements PDF 21건 (FY18 Q4 + FY21Q1\~FY25Q4 + FY26Q1) 파싱 → product/segment 분기 시계열 22분기 구축
 - FY26 Q2 (2026.03 마감, 2026.04 발표) SEC 8-K Ex.99.1 HTML 파싱 → 최신 분기 반영
-- Yahoo Finance 20년 월간 주가 (2006~2026) 수집 → chart11 시가총액 20년
+- Yahoo Finance 20년 월간 주가 (2006\~2026) 수집 → chart11 시가총액 20년
 - 산업기초 (소비자 전자제품) .md 참조
 
 **소스 audit**:
 1. SEC EDGAR XBRL — 13년 annual 데이터 (Revenue, OP, NI, GP, RD, SGA, OCF, CapEx, Dividends, Buybacks, Assets, Liabilities, Equity, Cash, PPE, LT Debt, CP, Shares, EPS): ✅ 완비
-2. Apple IR PDF — 22분기 product/segment ($M): ✅ FY21Q1~FY26Q1 (22분기, FY26 Q2는 HTML)
+2. Apple IR PDF — 22분기 product/segment ($M): ✅ FY21Q1\~FY26Q1 (22분기, FY26 Q2는 HTML)
 3. Apple IR PDF — FY18 Q4 (pre-product disclosure 시기): △ 부분 (income 만)
 4. Yahoo Finance 주가 — 20년 월간: ✅ 완비
 5. SEC EDGAR 10-K direct fetch: ✗ 429 rate limit (213 filings 실패) — companyfacts XBRL API로 대체 (정상)
 6. Motley Fool transcript: ✗ AAPL quote 페이지 0건 — 향후 별도 수집
 
 **잔여 보완 후보 (v1.1 →)**:
-- FY18 Q1~Q3 IR PDF 수집 (URL pattern 미확정 영역)
-- FY13~FY17 분기별 product disclosure: 당시 Apple은 product disclosure 5개 카테고리 (iPhone, iPad, Mac, Services, Other) — 다른 양식 매핑 필요
+- FY18 Q1\~Q3 IR PDF 수집 (URL pattern 미확정 영역)
+- FY13\~FY17 분기별 product disclosure: 당시 Apple은 product disclosure 5개 카테고리 (iPhone, iPad, Mac, Services, Other) — 다른 양식 매핑 필요
 - Earnings call transcript 5년 batch (Motley Fool 미커버 → 별도 source 필요)
 - Apple Intelligence 진척도 — 분기별 watch point 추가
 - 글로벌 피어 (Samsung Electronics, Xiaomi, Sony) 동일 양식 cross-검증 추가
@@ -1354,7 +1354,7 @@ Apple은 **"rolling acquisitions" 전략** — 분기당 2~7건의 소규모 tal
 - [Apple Inc. — Form 10-K FY2025](https://www.sec.gov/Archives/edgar/data/0000320193/000032019325000079/aapl-20250927.htm)
 - [Apple Newsroom — FY26 Q2 2026 Press Release](https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/)
 - [Apple Inc. — Form 8-K FY26 Q2 Exhibit 99.1](https://www.sec.gov/Archives/edgar/data/320193/000032019326000011/a8-kex991q2202603282026.htm)
-- [Apple IR Consolidated Financial Statements PDF (21건)](https://www.apple.com/newsroom/pdfs/) — FY21Q1~FY26Q1
+- [Apple IR Consolidated Financial Statements PDF (21건)](https://www.apple.com/newsroom/pdfs/) — FY21Q1\~FY26Q1
 - [Apple Investor Relations](https://investor.apple.com/investor-relations/default.aspx)
 - [소비자 전자제품 산업기초 .md (참조)](../earnings-theme/소비자%20전자제품_산업기초.md)
 - [Yahoo Finance — AAPL 20년 월간 주가](https://query1.finance.yahoo.com/v8/finance/chart/AAPL?interval=1mo&range=20y)

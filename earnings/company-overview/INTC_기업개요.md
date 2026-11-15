@@ -2,8 +2,8 @@
 > 섹터: 반도체 (CPU·Foundry — Intel Products + Intel Foundry)
 > 작성 시각: 2026-05-18 KST
 > 적용 구조: v4.8 (6개 섹션 + 13종 차트)
-> 데이터: 12년 연간 (2014~2025) + 직전 12분기 (Q2 23~Q1 26)
-> 출처: SEC EDGAR 10-K 16개 (FY10~FY25) + 10-Q 46개, Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Results Deck 9개, FY25 10-K Item 1·8
+> 데이터: 12년 연간 (2014\~2025) + 직전 12분기 (Q2 23\~Q1 26)
+> 출처: SEC EDGAR 10-K 16개 (FY10\~FY25) + 10-Q 46개, Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Results Deck 9개, FY25 10-K Item 1·8
 
 # Intel Corporation 기업 개요 (v4.9 — 1번 섹션 표준화)
 > **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
@@ -16,7 +16,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY2014~FY2025 12년 평균):**
+**📊 Summary Box (FY2014\~FY2025 12년 평균):**
 
 | 지표 | 값 |
 |------|-----|
@@ -79,13 +79,13 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 ### (4) 적정 밸류에이션 방법
 
 - **PBR** (Turnaround 기준) 우선 — 자본 회복 추적이 핵심.
-  - 작성 시점 (May 2026 초): 시총 $90~100B vs Equity $90B = **PBR ≈ 1.0** (역사적 저점)
-  - **2026-06-03 현재: 시총 $538B (+200% YTD, 글로벌 #24)** — Lip-Bu Tan turnaround 본격 가속 + NVIDIA $5B 지분 파트너십 + 18A 양산 가시화로 PBR ~6x로 멜팅. Turnaround 성공 narrative 정착 중
+  - 작성 시점 (May 2026 초): 시총 $90\~100B vs Equity $90B = **PBR ≈ 1.0** (역사적 저점)
+  - **2026-06-03 현재: 시총 $538B (+200% YTD, 글로벌 #24)** — Lip-Bu Tan turnaround 본격 가속 + NVIDIA $5B 지분 파트너십 + 18A 양산 가시화로 PBR \~6x로 멜팅. Turnaround 성공 narrative 정착 중
 - **Sum-of-Parts** — Intel Products + Intel Foundry + Mobileye 80% + Altera 49% 잔여 + IMS 68% 분해. 각 part 별도 가치
-- **EV/Sales** — CPU 사업만 별도 (Foundry 비용 제외) 평가, 통상 1~2x
+- **EV/Sales** — CPU 사업만 별도 (Foundry 비용 제외) 평가, 통상 1\~2x
 - **Catalysts 가중** — 18A 양산 진척, Foundry 외부 고객 확보, NVIDIA 파트너십 진척 발표 시점 점프
 - **PER 부적합** — 적자 또는 marginal EPS로 의미 없음
-- **AMD/TSMC 비교**: AMD PER 30~40x vs Intel PER N/A → Turnaround 성공 후 정상화 시 멀티플 reframe
+- **AMD/TSMC 비교**: AMD PER 30\~40x vs Intel PER N/A → Turnaround 성공 후 정상화 시 멀티플 reframe
 
 ### (5) 분기 재평가 트리거
 
@@ -110,12 +110,12 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 | 상장일 | 1971년 10월 13일 (NASDAQ, 메모리 회사로 시작) |
 | 본사 주소 | 2200 Mission College Blvd, Santa Clara, CA 95054 USA |
 | 홈페이지 | https://www.intel.com / https://www.intc.com |
-| **CEO (현)** | **Lip-Bu Tan** (1959년생, Penang/Malaysia 출생, 前 Cadence CEO, 2025.03.18~ 현직) |
-| 前 CEO | Pat Gelsinger (2021.02~2024.12, 4년 재임 후 사임) |
-| CFO | David Zinsner (2022.01~ 현직, 前 Micron CFO) |
-| Chairman | Frank D. Yeary (Independent Chair, 2024.12~) |
+| **CEO (현)** | **Lip-Bu Tan** (1959년생, Penang/Malaysia 출생, 前 Cadence CEO, 2025.03.18\~ 현직) |
+| 前 CEO | Pat Gelsinger (2021.02\~2024.12, 4년 재임 후 사임) |
+| CFO | David Zinsner (2022.01\~ 현직, 前 Micron CFO) |
+| Chairman | Frank D. Yeary (Independent Chair, 2024.12\~) |
 | 발행주식수 (FY25말) | 약 4.6B 주 |
-| 회계연도 | 12월 마지막 토요일 마감 (FY25 = 2024-12-29 ~ 2025-12-27, calendar year에 근사) |
+| 회계연도 | 12월 마지막 토요일 마감 (FY25 = 2024-12-29 \~ 2025-12-27, calendar year에 근사) |
 | 직원 수 | 약 99,500명 (FY25말, 2024 대비 -24,000명 구조조정) |
 | 신용등급 | A2 (Moody's, **2024.10 A1→A2 하향**), BBB+ (S&P, 2024.10 A→BBB+ 하향), BBB+ (Fitch) |
 | 제조 위치 | Arizona·Oregon·New Mexico·**Ohio (신설 중, 슬로우다운)**·Ireland·Israel·**Germany (취소)**·**Poland (취소)** |
@@ -143,7 +143,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 ![Intel 12년 매출·OPM·NPM (정점→침체→구조조정)](charts/INTC_chart1_매출OPM_12년.png)
 
-→ (출처: SEC EDGAR FY10~FY25 10-K Consolidated Statements of Operations)
+→ (출처: SEC EDGAR FY10\~FY25 10-K Consolidated Statements of Operations)
 
 ![Intel 12년 손익 4지표](charts/INTC_chart1b_손익4지표_12년.png)
 
@@ -151,12 +151,12 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 (3) 주가 역사 (20년 narrative)
 
-![Intel 20년 시가총액 추이 (2006~2026) — 한때 $290B → $90B 위기](charts/INTC_chart11_시가총액_20년.png)
+![Intel 20년 시가총액 추이 (2006\~2026) — 한때 $290B → $90B 위기](charts/INTC_chart11_시가총액_20년.png)
 
 → **시가총액 변천사 (20년)**:
 - 2006년 시총 $120B (주가 $20대)
 - 2008-12 글로벌 금융위기 저점 ($66B, $12)
-- 2012~2017 안정기 시총 $150~200B
+- 2012\~2017 안정기 시총 $150\~200B
 - **2020-01 시총 $290B (사상최고, 주가 $68)** — 데이터센터 + 클라이언트 PC 양 측면 정점
 - **2020-07 7nm 1년 지연 발표 → -15% 폭락** — TSMC·삼성과 격차 시작
 - 2021.02 Pat Gelsinger CEO 취임 ($60, 시총 $250B) — "IDM 2.0" 전략 발표
@@ -180,7 +180,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 | 1993 | Pentium 출시 |
 | 2006 | Apple Mac 인텔 CPU 채택 |
 | 2010 | Intel + AMD 점유율 95%+ 압도 |
-| 2014~2017 | Intel 14nm·10nm 어려움 — TSMC·삼성 추격 시작 |
+| 2014\~2017 | Intel 14nm·10nm 어려움 — TSMC·삼성 추격 시작 |
 | 2018 | Brian Krzanich CEO 사임 (개인사유) |
 | 2019.01 | Bob Swan CEO 취임 |
 | **2020.07.23** | **7nm 1년 지연 발표** — 주가 -16%, TSMC·삼성과 격차 본격화 |
@@ -222,7 +222,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 ![Intel 12년 사업부별 매출 추이 (CCG/DCG 분해)](charts/INTC_chart2_사업부별_12년.png)
 
-![Intel 사업부별 3년 (2023~2025) — 6 segment 시각화](charts/INTC_chart2_사업부별_3년.png)
+![Intel 사업부별 3년 (2023\~2025) — 6 segment 시각화](charts/INTC_chart2_사업부별_3년.png)
 
 (2) CCG 핵심 제품 (Client)
 
@@ -238,7 +238,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 → **Xeon 6 (P-core + E-core)** — 5세대 서버 CPU
 → **Granite Rapids** (P-core, 양산), **Sierra Forest** (E-core, 양산)
-→ **Diamond Rapids** (next-gen Xeon, 2026~2027)
+→ **Diamond Rapids** (next-gen Xeon, 2026\~2027)
 → **Gaudi 3 AI Accelerator** — NVIDIA H100 대체 시도, **매출 매우 미미**
 → **IPU (Infrastructure Processing Unit)** — 데이터센터 네트워크
 → **Custom ASICs** — 신사업, Broadcom·NVIDIA 추격
@@ -252,7 +252,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 | Intel 3 | 2nd-gen EUV | 2024 | Core Ultra Series 2 (일부) |
 | **Intel 18A** | **RibbonFET + PowerVia (세계 최초)** | **2025.10 양산** | Core Ultra Series 3 (Panther Lake) |
 | Intel 18A-P | 18A 파생, 성능 강화 | 2026 예정 | — |
-| Intel 14A | 외부 고객 전용 첫 노드 | 2027~2028 (외부 고객 미확정 시 중단 가능) | TBD |
+| Intel 14A | 외부 고객 전용 첫 노드 | 2027\~2028 (외부 고객 미확정 시 중단 가능) | TBD |
 
 → **Foundry 사업의 미래는 14A에 달림** — 외부 대형 고객 (Apple·NVIDIA·Microsoft) 확보 없으면 14A 중단 + 향후 TSMC 의존 전환
 
@@ -292,14 +292,14 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 ![Intel 12년 Cash Flow (OCF·CapEx·FCF) — FCF 2018 +$14B → 2024 -$15B](charts/INTC_chart6_현금흐름_12년.png)
 
 → **OCF FY18 정점 $29B → FY24 $8B (-72%)** — 영업 현금 창출력 폭락
-→ **CapEx FY21~24 평균 $23B → FY25 $8B (-66% 컷)** — 구조조정 단행
+→ **CapEx FY21\~24 평균 $23B → FY25 $8B (-66% 컷)** — 구조조정 단행
 → **FCF FY18 +$14B → FY24 -$15B → FY25 +$0.5B** — 최근 회복 초기
 
 (3) 12년 CapEx 추이
 
 ![Intel 12년 CapEx — 파운드리 투자 정점→구조조정](charts/INTC_chart8_CapEx_12년.png)
 
-→ **2021~2024 평균 $23B** — Pat Gelsinger "IDM 2.0" 전략 + CHIPS Act 매칭
+→ **2021\~2024 평균 $23B** — Pat Gelsinger "IDM 2.0" 전략 + CHIPS Act 매칭
 → **2025 $8.2B (-66% YoY)** — Lip-Bu Tan 부임 후 단행
 → 구체적 조치:
   - Ohio fab 슬로우다운
@@ -319,9 +319,9 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 ![Intel 12년 주주환원 — 자사주 매입 중단·배당 -90%](charts/INTC_chart9_주주환원_12년.png)
 
-→ **자사주 매입 (2014~2021 누적 약 $70B+, FY22~FY25 = 0)** — 다운사이클 중 즉시 중단
+→ **자사주 매입 (2014\~2021 누적 약 $70B+, FY22\~FY25 = 0)** — 다운사이클 중 즉시 중단
 → **분기 배당 변화**:
-  - 2014~2022 분기 $0.34~$0.365 (안정적)
+  - 2014\~2022 분기 $0.34\~$0.365 (안정적)
   - 2023.02 분기 $0.125로 -66% 컷 ($1.49→$0.50/year)
   - **2024.08 배당 중단 발표 (Q3 24부터)** — 90% 이상 종합 감소
   - FY25 $0.5B (재개 시점 미정)
@@ -363,7 +363,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 | 성명 | 역할 | 주요 경력 |
 |---|---|---|
-| **Frank D. Yeary** | Independent Chair | 前 UC Berkeley CFO, 2024.12~ 의장 |
+| **Frank D. Yeary** | Independent Chair | 前 UC Berkeley CFO, 2024.12\~ 의장 |
 | **Lip-Bu Tan** | CEO, Director | 前 Cadence CEO, Walden International 회장 |
 | Andrea J. Goldsmith | Director | Stanford EE 교수 |
 | Alyssa Henry | Director | 前 Square (Block) CEO |
@@ -379,10 +379,10 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 | 성명 | 직위 | 주요 경력 |
 |---|---|---|
-| **Lip-Bu Tan** | CEO | 2025.03~ |
-| **David Zinsner** | CFO·EVP | 2022.01~, 前 Micron CFO |
+| **Lip-Bu Tan** | CEO | 2025.03\~ |
+| **David Zinsner** | CFO·EVP | 2022.01\~, 前 Micron CFO |
 | Michelle Johnston Holthaus | EVP, **Intel Products** CEO | CCG·DCAI 총괄 |
-| Naga Chandrasekaran | EVP, COO, Foundry Manufacturing | 2025~ |
+| Naga Chandrasekaran | EVP, COO, Foundry Manufacturing | 2025\~ |
 | Sachin Katti | EVP, CTO, Chief AI Officer | 2025.04 신임 |
 | Saf Yeboah-Amankwah | EVP, Chief Strategy Officer | — |
 | Christoph Schell | EVP, CCRO | Customer & Revenue |
@@ -420,7 +420,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 (3) 주요 계약 (15년)
 
-→ **CHIPS Act funding** (2022.10~):
+→ **CHIPS Act funding** (2022.10\~):
   - Ohio fab direct funding $11.5B 예정
   - Arizona fab $8.5B 보조금
   - New Mexico fab 추가
@@ -437,16 +437,16 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 | **현금흐름** | FCF 적자 지속 + CapEx 부담 | 높음 |
 | **신용등급** | 추가 하향 가능성 (BBB- 진입 시 IG 경계선) | 중간 |
 | **CHIPS Act** | 정치 변화 시 funding 조정 가능 | 중간 |
-| **인력 감축** | 24,000명 감원 (FY24~FY25) 후 기술 인재 이탈 | 중간 |
+| **인력 감축** | 24,000명 감원 (FY24\~FY25) 후 기술 인재 이탈 | 중간 |
 | **NVIDIA 의존도 증가** | $5B 지분 인수 + 파트너십이 종속관계화 가능 | 중간 |
 
 (5) 핵심 turnaround catalysts
 
-→ **18A 양산 성공**: 2025.10 시작, 2026~2027 본격 ramp
+→ **18A 양산 성공**: 2025.10 시작, 2026\~2027 본격 ramp
 → **Foundry 외부 고객 확보**: Apple·NVIDIA·Microsoft 중 누구라도 메이저 wafer order
 → **AI 가속기 매출 본격화**: Gaudi 3 → 차세대 Falcon Shores
 → **분사·매각 추가**: Mobileye 추가 매각, Intel Foundry 분사 가능성
-→ **NVIDIA 파트너십 제품 출시**: 2026~2027 첫 통합 제품
+→ **NVIDIA 파트너십 제품 출시**: 2026\~2027 첫 통합 제품
 
 (6) ESG·인증
 
@@ -463,13 +463,13 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 (1) **18A 양산 진척 + 수율 향상** — 2026 Core Ultra Series 3 (Panther Lake) 본격 ramp
    → 모니터링: 분기 컨콜 18A wafer 출하량, yield rate 코멘트
 
-(2) **Intel 14A 외부 고객 확보** — 2026~2027 외부 고객 발표 여부
+(2) **Intel 14A 외부 고객 확보** — 2026\~2027 외부 고객 발표 여부
    → 미확보 시 14A 중단 + TSMC 의존 명시 (2025.10 10-K 경고)
 
 (3) **AI 가속기 매출 본격화** — Gaudi 3 → Falcon Shores 후속
    → NVIDIA 압도 시장에서 niche 진입 가능성
 
-(4) **NVIDIA 파트너십 제품 출시** — 2026~2027 첫 통합 제품 발표
+(4) **NVIDIA 파트너십 제품 출시** — 2026\~2027 첫 통합 제품 발표
    → 시장 반응 + 매출 영향
 
 (5) **Mobileye·Foundry 추가 분사 가능성**
@@ -482,7 +482,7 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 ---
 
-> **데이터 소스**: SEC EDGAR 10-K (FY10~FY25 16개) + 10-Q (46분기), Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Earnings Deck 9개, FY25 10-K Item 1·8 (Business + Financial Statements).
+> **데이터 소스**: SEC EDGAR 10-K (FY10\~FY25 16개) + 10-Q (46분기), Yahoo Finance v8 (INTC 20년), Intel IR Quarterly Earnings Deck 9개, FY25 10-K Item 1·8 (Business + Financial Statements).
 > **차트 13종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2 (사업부별 3년 + 12년), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 > **연계 참조**: 추후 Intel earnings preview/review 작성 시 본 기업 개요 참조.
 
@@ -490,13 +490,13 @@ OPM range: -22.0% ~ +32.9% = 54.9%pt
 
 Intel은 calendar year fiscal. SKILL 60+분기 표준 대비 57분기 (95%) 달성. 다른 3분기 보강은 SEC 10-K 5-year 표 / 10-Q에서 추출 가능.
 
-![Intel 57분기 매출·OPM (Q1 2012~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드](charts/INTC_chart10_long_57분기시계열.png)
+![Intel 57분기 매출·OPM (Q1 2012\~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드](charts/INTC_chart10_long_57분기시계열.png)
 
-*Intel 57분기 매출·OPM (Q1 2012~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드*
+*Intel 57분기 매출·OPM (Q1 2012\~Q1 2026) — PC·DC CPU 황금기 → AMD 추격 → Foundry 적자 → 턴어라운드*
 
 ---
 
 ## Version Log
 
-- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 263개 batch 추가. **chart10_long 57분기 시계열 신규** — Q1 2012~Q1 2026 풀. 매출 정점 Q3 2021 $19.7B → Q1 2024 $12.7B (-35%) → Q1 2026 $13.6B 턴어라운드 시작. OPM 정점 +42% (Q3 2018) → 저점 -37% (Q1 2023, Foundry 인프라 투자 + AMD 추격 데미지) → Q4 2025 +6% (회복).**
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 도달 보강. SEC 8-K 263개 batch 추가. **chart10_long 57분기 시계열 신규** — Q1 2012\~Q1 2026 풀. 매출 정점 Q3 2021 $19.7B → Q1 2024 $12.7B (-35%) → Q1 2026 $13.6B 턴어라운드 시작. OPM 정점 +42% (Q3 2018) → 저점 -37% (Q1 2023, Foundry 인프라 투자 + AMD 추격 데미지) → Q4 2025 +6% (회복).**
 

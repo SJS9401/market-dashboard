@@ -1,6 +1,6 @@
 > Ticker: **SU.PA** (Euronext Paris, primary) / **SBGSF** (US OTC ADR) / Schneider Electric SE
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (코로나·CMD 2030 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0\~v1.4 + 핸드오프 표준 5가지 retrofit: 12년 손익 표 narrative annotation 추가 (코로나·CMD 2030 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션 + 핵심 차트 3종)
 > 데이터: 12년 연간 (2014-2025E), Q1 2026 review 통합, 20년 Yahoo SU.PA 시계열
 > 출처: **기존 1Q26 review .md (이전 분기 작성 시 fetch한 정보)**, **공개 web search 데이터 (Q1 2026 release / FY24 results)**, **Yahoo Finance SU.PA + SBGSF**, **se.com IR page metadata**
@@ -16,8 +16,8 @@
 
 | 직위 | 성명 | 비고 |
 |---|---|---|
-| **CEO** | **Olivier Blum** | 2024.09~ |
-| **CFO** | **Hilary Maxson** | 2025~ (→ Nathan Fast 2026.04.06 신임) |
+| **CEO** | **Olivier Blum** | 2024.09\~ |
+| **CFO** | **Hilary Maxson** | 2025\~ (→ Nathan Fast 2026.04.06 신임) |
 | EVP, Energy Management | **Frédéric Godemel** | CMD 2025 EM presenter |
 | EVP, Industrial Automation | **Barbara Frei** → **Gwenaelle Avice-Huet** | CMD 2025 IA presenter (전 EVP Europe) |
 | CEO AVEVA | **Caspar Herzberg** | One Software / AVEVA |
@@ -26,7 +26,7 @@
 | EVP, France | **Laurent Bataille** | |
 | EVP, International | **Manish Pant** | India 포함 |
 | EVP, China & East Asia | **Zheng Yin** | |
-| **Chief Sustainability Officer** | **Chris Leong** → **Esther Finidori** (2025~) | |
+| **Chief Sustainability Officer** | **Chris Leong** → **Esther Finidori** (2025\~) | |
 | **Chief Innovation Officer** | **Nadège Petit** | |
 | **Chief Governance Officer** | **Hervé Coureil** | Secretary General 겸 |
 | **Chief Digital Officer** | **Peter Weckesser** | |
@@ -38,7 +38,7 @@
 
 **2030 Financial Targets (CMD 2025 신규)**:
 - **Organic Revenue Growth +7-10% CAGR 2023-2030** (4-year CAGR target 연장)
-- **Adj EBITA Margin +250bp 누적 expansion 2026-2030** (current 18.7% → ~21%+ target)
+- **Adj EBITA Margin +250bp 누적 expansion 2026-2030** (current 18.7% → \~21%+ target)
 - **ROCE ambition raised 15-20%** (current FY24 14.8%)
 - **Digital Flywheel >70% of Group revenue by 2030** (current 57%)
 - **Software & Services 25% of revenue** (current 19%)
@@ -59,7 +59,7 @@
 
 ### Backlog (FY24 Presentation page 28)
 - **Year-end 2024 Backlog €21.4B (+12.7% YoY, +€2.2B vs 2023)**
-- **~7 months of sales** (2019-2022 평균 ~5 months → 2024 ~7 months)
+- **\~7 months of sales** (2019-2022 평균 \~5 months → 2024 \~7 months)
 - Products: normalized levels / Systems & Services: elevated
 - Growth driven by Energy Management
 
@@ -89,7 +89,7 @@
 
 ### TSR (FY24 presentation page 40)
 - **3-year TSR (2022-2024) +48%** (Peers +41%, CAC40 +3%)
-- **1-year TSR (2024) ~+35%**
+- **1-year TSR (2024) \~+35%**
 
 ### R&D 정확값
 - **FY24 R&D / Sales: 5.6%** (P&L 기준) / **5.9% cash basis**
@@ -162,7 +162,7 @@
 
 **Primary 분류: 지속성장 (Secular) — Energy Management + Industrial Automation 글로벌 #1 / 4축 멀티 secular**
 
-→ 12년 Adj EBITA Margin 14.0%~19.4% (range +5.4pp, 단조 우상향, downcycle 부재), 사이클 회수 0회
+→ 12년 Adj EBITA Margin 14.0%\~19.4% (range +5.4pp, 단조 우상향, downcycle 부재), 사이클 회수 0회
 
 → EM (Data Center 24% · Buildings 30% · Industry 33% · Infrastructure 13%) 4축 end-market 모두 secular CAGR +5%+, EcoStruxure + AVEVA + Motivair digital flywheel
 
@@ -182,12 +182,12 @@
 
 (2) Summary Box (12년 연간 시계열 + 사이클 통계, EUR €M)
 
-| 지표 | 12년 평균 (2014~2025E) | 정점 | 저점 | 2024 (확정) | 2025E |
+| 지표 | 12년 평균 (2014\~2025E) | 정점 | 저점 | 2024 (확정) | 2025E |
 |---|---|---|---|---|---|
-| Revenue (€M) | 29,857 | **42,500E (2025E)** | 24,693 (2016) | **38,150** | ~42,500 |
-| Adj EBITA (€M) | 5,001 | **8,100E (2025E)** | 3,450 (2016) | **7,100** | ~8,100 |
-| **Adj EBITA Margin** | 16.7% | **19.4%E (2025E)** | 14.0% (2016) | **18.6%** | **~19.1-19.4%** |
-| Net Income (€M) | 2,832 | 4,900E (2025E) | 1,407 (2015) | **4,271** | ~4,900 |
+| Revenue (€M) | 29,857 | **42,500E (2025E)** | 24,693 (2016) | **38,150** | \~42,500 |
+| Adj EBITA (€M) | 5,001 | **8,100E (2025E)** | 3,450 (2016) | **7,100** | \~8,100 |
+| **Adj EBITA Margin** | 16.7% | **19.4%E (2025E)** | 14.0% (2016) | **18.6%** | **\~19.1-19.4%** |
+| Net Income (€M) | 2,832 | 4,900E (2025E) | 1,407 (2015) | **4,271** | \~4,900 |
 | Free Cash Flow (€B) | 2-4 | 4.2+ (2024) | — | **4.2+** | — |
 
 ```
@@ -210,7 +210,7 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 사이클 cutoff (±10%pt): 미달 → 지속성장 분류 (4 end-market secular pure-play)
 ```
 
-**📊 사이클 통계 (12년, FY14~FY25E)**
+**📊 사이클 통계 (12년, FY14\~FY25E)**
 
 | 지표 | 값 |
 |---|---|
@@ -304,13 +304,13 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 | Tickers | **SU.PA (Euronext Paris)** + **SBGSF (US OTC ADR)** + Frankfurt + Madrid (cross-listings) |
 | Founded | **1836 (Schneider family iron works, 프랑스)** — 189년 역사 |
 | Headquarters | **Rueil-Malmaison, France** |
-| **CEO** | **Olivier Blum** (2024.09~ , 전 Energy Management President) |
+| **CEO** | **Olivier Blum** (2024.09\~ , 전 Energy Management President) |
 | **CFO** | **Nathan Fast (2026.04.06 신임)** — 전 CFO Hilary Maxson |
-| **SVP Head of IR** | **Antoine Sage (2026.06.01~)** — 전 SVP Finance Power Systems & Secure Power (20년+ Schneider) |
-| **Chairman** | **Jean-Pascal Tricoire (2025.05~ 4년 재선임)** — 전 Schneider CEO + Léo Apotheker 16년 봉직 후 사임 |
+| **SVP Head of IR** | **Antoine Sage (2026.06.01\~)** — 전 SVP Finance Power Systems & Secure Power (20년+ Schneider) |
+| **Chairman** | **Jean-Pascal Tricoire (2025.05\~ 4년 재선임)** — 전 Schneider CEO + Léo Apotheker 16년 봉직 후 사임 |
 | Employees | **160,000 globally (Q1 2026 기준, FY24 150,000에서 +10,000)** + 1M+ partners |
 | Annual Dividend | **€3.90/share** (FY24 confirmed, +11% YoY, **15년 연속 progressive dividend**) |
-| Listed Shares | ~550M shares |
+| Listed Shares | \~550M shares |
 | Index Membership | CAC 40 component (France) + Euro Stoxx 50 |
 | Accounting | **IFRS** (EU 표준) |
 | Reporting Currency | **EUR (€)** |
@@ -374,7 +374,7 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 → **Residential** (China·US 약세)
 → Motivair 인수로 liquid cooling 추가
 
-**(3-2) Industrial Automation — 18%, Adj EBITA Margin ~14-15%**
+**(3-2) Industrial Automation — 18%, Adj EBITA Margin \~14-15%**
 → **AVEVA** (industrial software, ARR +12% Q1 26)
 → **Discrete Automation** (Q1 26 회복 지속, China·East Asia 견인)
 → **Process & Hybrid** (1H25 base 영향 일시 약세, 2H 회복)
@@ -420,10 +420,10 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 
 (7) 임직원·CAPA
 
-→ **~155,000 employees globally (FY24)**
-→ **~200개국 영업**, **100+ R&D centers**
-→ R&D 투자 ~5% of revenue = €2B+/year
-→ FY25 capex ~€1B (Sustainability + R&D + capacity 확장)
+→ **\~155,000 employees globally (FY24)**
+→ **\~200개국 영업**, **100+ R&D centers**
+→ R&D 투자 \~5% of revenue = €2B+/year
+→ FY25 capex \~€1B (Sustainability + R&D + capacity 확장)
 
 ---
 
@@ -433,19 +433,19 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 
 (2) 재무상태표 (FY24 추정, URD 직접 fetch 필요)
 
-→ Total assets ~€60B+ (AVEVA 100% 인수 후)
-→ Total equity ~€30B
-→ Net debt ~€10B (M&A financing)
+→ Total assets \~€60B+ (AVEVA 100% 인수 후)
+→ Total equity \~€30B
+→ Net debt \~€10B (M&A financing)
 
 (3) 현금흐름
 
 → **FCF FY24 €4.2B** (FY23 대비 +5% 추정)
 → **FCF 2년 연속 €4B 초과** (sustainable cash generation)
-→ Cash conversion ~100% (Adj net income 대비 FCF)
+→ Cash conversion \~100% (Adj net income 대비 FCF)
 
 (4) CapEx
 
-→ ~€1B/year (Sustainability + R&D + capacity)
+→ \~€1B/year (Sustainability + R&D + capacity)
 → Motivair 통합 후 추가 capex
 
 (5) 배당·자사주
@@ -462,8 +462,8 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 | **Adj EBITA Margin** | **18.6%** |
 | Net Income | €4.27B |
 | **FCF (€B)** | **4.2+** |
-| ROE | ~15% (추정) |
-| Dividend Yield | ~2.0% |
+| ROE | \~15% (추정) |
+| Dividend Yield | \~2.0% |
 
 ---
 
@@ -475,22 +475,22 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 → 자회사: AVEVA Group (100%, UK 기반 industrial software)
 → Motivair (US, liquid cooling, FY24 인수)
 → Pelco, APC, ETAP, RIB Software 등 100+ subsidiary
-→ 글로벌 ~200개국 사업장
+→ 글로벌 \~200개국 사업장
 
 (2) 주주 구성 (FY24 추정 — URD 직접 fetch 필요)
 
-→ **Institutional investors** ~75% (BlackRock, Vanguard, Norges Bank 등)
-→ **Retail/Float** ~22%
-→ **Treasury** ~1.5%
+→ **Institutional investors** \~75% (BlackRock, Vanguard, Norges Bank 등)
+→ **Retail/Float** \~22%
+→ **Treasury** \~1.5%
 → **Founder family (Schneider family)** : 직접 보유 미미 (1981 SA 전환 후 분산)
 → 정확 13G/AMF disclosure URD에서 보강 필요
 
 (3) 임원·이사회
 
-→ **CEO**: **Olivier Blum** (2024.09~, 전 Energy Management President — 28년+ Schneider 경력)
-→ **Chairman**: **Léo Apotheker** (2022~, 전 SAP CEO)
+→ **CEO**: **Olivier Blum** (2024.09\~, 전 Energy Management President — 28년+ Schneider 경력)
+→ **Chairman**: **Léo Apotheker** (2022\~, 전 SAP CEO)
 → Deputy CEO: Hilary Maxson (전 CFO, COO)
-→ CFO: Pascal Tricoire (2023~)
+→ CFO: Pascal Tricoire (2023\~)
 → Board of Directors 14명 (사외이사 다수, EU governance 표준)
 → 임원진 정확 명단 URD 2024 직접 fetch 필요
 
@@ -500,7 +500,7 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
 
 (1) R&D 인프라
 
-→ R&D ~5% of revenue = €2B+/year (~7,000 R&D engineers globally)
+→ R&D \~5% of revenue = €2B+/year (\~7,000 R&D engineers globally)
 → **100+ R&D centers**: France · India · China · US · Germany 중심
 → **EcoStruxure platform** + **AVEVA industrial software** = digital transformation 핵심
 → AI Data Center 솔루션 (Motivair · liquid cooling) 가속
@@ -607,10 +607,10 @@ Adj EBITA Margin range: 14.0% ~ 19.4% = +5.4%pt (12년 단조 우상향, downcyc
       - North America +14.4% / China & East Asia +14.2% (Korea Semicon 견인) / Europe +8.3% / S Asia & Int'l +6.5%
       - **FY26 Target reaffirmed**: Adj EBITA +10-15% organic, Revenue +7-10%, Margin +50-80bp → **19.1-19.4%**
   - **신규 거버넌스 정확값**:
-    - **Chairman: Jean-Pascal Tricoire** (2025.05~, 4년 재선임 — 전 Schneider CEO)
+    - **Chairman: Jean-Pascal Tricoire** (2025.05\~, 4년 재선임 — 전 Schneider CEO)
     - **Léo Apotheker** 16년 봉직 후 사임 (2025.05)
     - **CFO Nathan Fast** (2026.04.06 신임)
-    - **SVP Head of IR Antoine Sage** (2026.06.01~ 신임)
+    - **SVP Head of IR Antoine Sage** (2026.06.01\~ 신임)
     - Board members 신규 추천: Clotilde Delbos (전 Renault CFO/CEO 대행, 2024.11.01 co-optation), Anna Ohlsson-Leijon (전 Electrolux EVP 4년 재선임)
   - **신규 발견 — Capital Markets Day 2025.12.11**:
     - **€2.5-3.5B 누적 share buyback** by 2030

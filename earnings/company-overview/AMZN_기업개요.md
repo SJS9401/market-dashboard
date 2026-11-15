@@ -5,13 +5,13 @@
 **작성일**: 2026-05-19
 **대상 기업**: Amazon.com, Inc. (NASDAQ: AMZN, CIK 0001018724)
 **작성 표준**: company-overview v4.8 (US 분기 — SEC EDGAR + Amazon IR Earnings Release 1차 병용)
-**시계열 깊이**: 12년 연간 (FY2014~FY2025) + **45분기 (4Q14~1Q26, 11.5년)**
+**시계열 깊이**: 12년 연간 (FY2014\~FY2025) + **45분기 (4Q14\~1Q26, 11.5년)**
 
 **v1.2 변경** (장기 시계열 보강):
 - IR Press Release **47개** 추가 다운로드 (PDF 12개 + SEC 8-K Exhibit 99.1 HTM 35개)
-- 커버리지: **Q4 2014 ~ Q1 2026 (45분기, ~11.5년)** — 스킬 표준 "15년 60+분기"에 근접
+- 커버리지: **Q4 2014 \~ Q1 2026 (45분기, \~11.5년)** — 스킬 표준 "15년 60+분기"에 근접
 - Supplemental Financial Information 장기 panel 구축 (Online stores / Physical / 3P seller / Advertising / Subscription / AWS / Other)
-- IR 양식 변경 매핑: 2014~2016 (Media + EGM + Other + AWS) → 2017 Q3+ (Online + Physical + 3P + Sub + AWS + Other) → 2022 Q1+ (Advertising 별도 분리)
+- IR 양식 변경 매핑: 2014\~2016 (Media + EGM + Other + AWS) → 2017 Q3+ (Online + Physical + 3P + Sub + AWS + Other) → 2022 Q1+ (Advertising 별도 분리)
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### ① 정량 근거
 
-**📊 Summary Box (12년 평균, FY2014~FY2025):**
+**📊 Summary Box (12년 평균, FY2014\~FY2025):**
 
 | 지표 | 값 |
 |------|-----|
@@ -30,9 +30,9 @@
 | OPM 평균 (12년) | **5.6%** |
 | **OPM 정점 평균** | **11.0%** (FY24·FY25 2회 평균, AI 슈퍼사이클) |
 | **OPM 저점 평균** | **1.3%** (FY14·FY22 2회 평균, 투자 사이클 압축) |
-| **OPM range (12년)** | 0.2% ~ 11.2% = **11.0%pt** ← **사이클 cutoff 10%pt 초과** = 정통 사이클성 (단, 단조 우상향 추세) |
-| 사이클 주기 | 약 4~5년 (CapEx → 마진 압축 → 회복) |
-| 사이클 회수 (12년) | 정점 2회 (FY20·FY24~25) / 압축 2회 명확 (FY17·FY22) |
+| **OPM range (12년)** | 0.2% \~ 11.2% = **11.0%pt** ← **사이클 cutoff 10%pt 초과** = 정통 사이클성 (단, 단조 우상향 추세) |
+| 사이클 주기 | 약 4\~5년 (CapEx → 마진 압축 → 회복) |
+| 사이클 회수 (12년) | 정점 2회 (FY20·FY24\~25) / 압축 2회 명확 (FY17·FY22) |
 
 **📊 손익 표 (12년, narrative annotation 직접 통합):**
 
@@ -51,28 +51,28 @@
 | 2024 | 637.96 | 68.59 | 10.8 | 9.3 | AWS +19% YoY, 광고 $56B |
 | **2025** | **716.92** | **79.98** | **11.2** | **10.8** | **← 슈퍼사이클 정점 (AWS +28% 15-quarter high + 광고 TTM $70B)** |
 
-→ (출처: Amazon 10-K filings FY2014~FY2025, SEC EDGAR)
+→ (출처: Amazon 10-K filings FY2014\~FY2025, SEC EDGAR)
 
 ![AMZN 연간 매출 & OPM/NPM 추이](AMZN_chart1_매출OPM.png)
 
 ### ② 산업 분류
 
 - **GICS**: Consumer Discretionary > Broadline Retail (50203010)
-- **하위 산업 노출 (FY25 매출 비중)**: North America Stores 57% + International Stores 22% (e-commerce 합산 79%) / AWS 18% (OP 비중 ~60%) / Other 1% / **광고 별도 분류: 매출 약 10%, OP 비중 ~20%**
+- **하위 산업 노출 (FY25 매출 비중)**: North America Stores 57% + International Stores 22% (e-commerce 합산 79%) / AWS 18% (OP 비중 \~60%) / Other 1% / **광고 별도 분류: 매출 약 10%, OP 비중 \~20%**
 - **워치리스트 섹터/Tier**: T1 미국 빅테크 / Cloud Infrastructure + e-commerce + Digital Ad industry
 - **글로벌 피어**: MSFT Azure (Cloud), GOOGL Cloud (Cloud), Walmart/Costco (e-commerce + 그로서리), GOOGL+META (광고)
 
 ### ③ 분류 결정 논리 (4단계 sub-logic)
 
 (1) **가장 매출 큰 사업부 기준** 적용 시 Stores 79% (e-commerce 단일 동인) → "e-commerce = 사이클 OEM 유사" 일견. 그러나 매출 12년 CAGR +19.5% 단조 우상향 = 지속성장 명확.
-(2) **단, 영업이익 비중 우선 sub-rule** 적용: **AWS OP 비중 ~60%** (매출 비중 18% 대비 3.3x 영업이익 효율) → **AWS가 사실상 P&L driver**. AWS 자체는 secular cloud 성장 + CapEx 사이클 동시 보유. Stores 사이클(fulfillment 효율)과 AWS 사이클(인프라 CapEx) 양면.
+(2) **단, 영업이익 비중 우선 sub-rule** 적용: **AWS OP 비중 \~60%** (매출 비중 18% 대비 3.3x 영업이익 효율) → **AWS가 사실상 P&L driver**. AWS 자체는 secular cloud 성장 + CapEx 사이클 동시 보유. Stores 사이클(fulfillment 효율)과 AWS 사이클(인프라 CapEx) 양면.
 (3) **Boundary case 처리**: Primary "multi-segment 지속성장" + Secondary "사이클 (인프라 CapEx 2회 명확)". **OPM range 11.0%pt = 사이클 cutoff 직선상**, 그러나 단조 우상향 추세 (FY14 0.2% → FY25 11.2%). **AWS 매출 비중 25%+ 도달 시 + 광고 매출 비중 15%+ 도달 시** → "지속성장 + Cloud/AI secular" Primary 격상 가능.
 (4) **글로벌 피어 cross-reference**: **AWS vs Azure vs GCP = Cloud 빅3** (AWS $150B run rate / Azure $95B / GCP $80B). **AWS 가속률 +28% (15-quarter high)** = Azure +40% / GCP +63% 동기화 사이클. 삼성전자 비교: 삼성 multi-segment 메모리 사이클 vs **AMZN multi-segment Stores + Cloud 동시 운영** (사이클 동인 source 분산).
 
 ### ④ 적정 밸류에이션 방법 — 사업부 mix → method 연결
 
-- **1순위 EV/EBITDA + Sum-of-Parts** — Stores·AWS·Ads multi-segment 평가 필수. **AWS 단독 PSR ~7x** (FY25 매출 $128.7B × 7 = ~$900B) + Stores EV/EBITDA ~12x + 광고 PSR ~6x = SOTP.
-- **2순위 PER (Forward 12M)** — FY24부터 영업이익 정상화로 PER 의미 회복 (FY25 EPS $7.17, PER ~28x).
+- **1순위 EV/EBITDA + Sum-of-Parts** — Stores·AWS·Ads multi-segment 평가 필수. **AWS 단독 PSR \~7x** (FY25 매출 $128.7B × 7 = \~$900B) + Stores EV/EBITDA \~12x + 광고 PSR \~6x = SOTP.
+- **2순위 PER (Forward 12M)** — FY24부터 영업이익 정상화로 PER 의미 회복 (FY25 EPS $7.17, PER \~28x).
 - **3순위 FCF Yield** — Q1 26 TTM FCF $1.2B (-95% YoY) = CapEx 폭증 임팩트, **첫 자본 시험기 진입**. CapEx 정점 통과 후 회복 추정.
 - **PBR 부적합** — Stores·Cloud·플랫폼 비중 큼.
 - **삼성전자 비교**: 삼성은 사이클 → **PBR + PER 혼합**, AMZN은 multi-segment 지속성장 → **SOTP + EV/EBITDA** (AWS+Ads+Stores 다중 multiple 차별화).
@@ -83,7 +83,7 @@
 
 - **AWS 매출 비중 25%+ 도달 시 + OP 비중 65%+ 도달 시** → Primary "Cloud-led 지속성장"으로 격상 (현재 매출 18%/OP 60%)
 - **TTM FCF 2개 분기 연속 음수 진입 시** → "지속성장" 분류 → "사이클 + 인프라 CapEx 부담" 가중치 격상 (현재 +$1.2B 최저점)
-- **광고 매출 비중 15%+ 도달 시** → Primary "광고 multi-platform" Secondary 추가 (현재 ~10%)
+- **광고 매출 비중 15%+ 도달 시** → Primary "광고 multi-platform" Secondary 추가 (현재 \~10%)
 - **AWS 분기 성장률 +20% 이하로 둔화 시** → "AI secular sub-cycle 종료" 분류 검토 (현재 +28% 5분기 연속 가속)
 - **Anthropic 지분 평가이익 sustained 시** → 비현금 OCI but multiple 영향 (Q1 26 +$16.8B 일회성)
 
@@ -95,11 +95,11 @@
 
 - **회사명**: Amazon.com, Inc.
 - **본사**: Seattle, Washington, USA
-- **CEO**: Andy Jassy (2021.07~)
+- **CEO**: Andy Jassy (2021.07\~)
 - **창립자/Executive Chair**: Jeff Bezos (1994년 창립)
 - **상장**: NASDAQ AMZN, 1997.05.15 IPO
 - **종업원**: 1.56M (2025년말 기준, fulfillment + 사무직 합산)
-- **회계연도**: 1월~12월
+- **회계연도**: 1월\~12월
 
 **비전**: "Earth's most customer-centric company" — 고객 집착(Customer Obsession), 장기 사고(Long-term thinking), 발명·단순화(Invent & Simplify)
 
@@ -122,20 +122,20 @@
 | 2024 | 637.96 | 68.59 | 59.25 | 285.97 | +41.6 | 624.89 |
 | **2025** | **716.92** | **79.98** | **77.67** | **359.39** | **+25.7** | **720.20** |
 
-→ (출처: Amazon 10-K FY2014~FY2025, SEC EDGAR)
+→ (출처: Amazon 10-K FY2014\~FY2025, SEC EDGAR)
 
 ![AMZN 매출·영업이익·순이익·자본 추이](AMZN_chart12_손익자본추이.png)
 
 ### ③ 회사 주가 역사
 
-![AMZN 시가총액 추이 2000~2025](AMZN_chart11_시가총액20년.png)
+![AMZN 시가총액 추이 2000\~2025](AMZN_chart11_시가총액20년.png)
 
 → (1) 닷컴 버블 (2000): IPO 후 $107 → 2001년 12월 $6 (-94%)
 → (2) AWS 출범 (2006.03.14): S3 → EC2 → 이후 19년간 클라우드 leader
 → (3) Whole Foods 인수 (2017.06): $13.7B, 오프라인 grocery 진출
 → (4) COVID 폭증 (2020): Prime 가입자 +50M, AWS +30% YoY
 → (5) Bezos 사임 (2021.07.05): Andy Jassy CEO 승계, Bezos는 Executive Chair
-→ (6) ChatGPT 출시 후 (2022.11~): AI 슈퍼사이클 진입, AWS 재가속
+→ (6) ChatGPT 출시 후 (2022.11\~): AI 슈퍼사이클 진입, AWS 재가속
 → (7) **2024.02.09 20:1 액면분할** (Stock Split): Bezos 시대 처음
 → (8) 2025년: Anthropic 누적 $8B 투자, Trainium 자체 칩 본격 가동
 → (9) 2026.04.29 Q1 어닝: 매출 $181.5B (+17%), AWS +28% (15분기 최고), Anthropic 평가이익 $16.8B 반영
@@ -199,7 +199,7 @@
 | 2024 | 24.967 | 3.792 | 39.834 | 68.593 |
 | **2025** | **29.619** | **4.750** | **45.606** | **79.975** |
 
-→ (출처: Amazon 10-K FY2017~FY2025, SEC EDGAR Note 10 — Segment Information)
+→ (출처: Amazon 10-K FY2017\~FY2025, SEC EDGAR Note 10 — Segment Information)
 
 ![AMZN AWS 사업부 매출 & OPM](AMZN_chart2_AWS.png)
 
@@ -207,15 +207,15 @@
 
 ![AMZN International 사업부 매출 & OPM](AMZN_chart2_International.png)
 
-→ (1-1) AWS는 2015년 분리 보고 이후 11년 CAGR +28.6%. OPM은 2018~2024년 25~30% 박스권 유지, 2025년 35.4%로 점프 — AI 워크로드의 가격 결정력 증대 + 자체 칩(Trainium/Inferentia) 마진 기여.
+→ (1-1) AWS는 2015년 분리 보고 이후 11년 CAGR +28.6%. OPM은 2018\~2024년 25\~30% 박스권 유지, 2025년 35.4%로 점프 — AI 워크로드의 가격 결정력 증대 + 자체 칩(Trainium/Inferentia) 마진 기여.
 
 → (1-2) North America OPM은 2022년 -0.9% 저점에서 2024년 6.4% → 2025년 **6.9%** 로 회복. 광고·3P seller 수수료 비중 상승 (high-margin services) 효과.
 
 → (1-3) International은 2022년 -6.6% 적자 → 2024년 +2.7% 흑전 → 2025년 **+2.9%** 로 5분기 연속 흑자. 유럽 지역 fulfillment 효율화 + 광고 monetization.
 
-#### 최근 13분기 시계열 (1Q23~1Q26)
+#### 최근 13분기 시계열 (1Q23\~1Q26)
 
-![AMZN 분기 매출 & OPM 1Q23~1Q26](AMZN_chart10_12분기.png)
+![AMZN 분기 매출 & OPM 1Q23\~1Q26](AMZN_chart10_12분기.png)
 
 | 분기 | 매출($B) | OP($B) | OPM(%) | AWS($B) | AWS YoY% | AWS OPM(%) |
 |-----|---------|-------|--------|---------|----------|-----------|
@@ -233,9 +233,9 @@
 | 4Q25 | 213.39 | 24.98 | 11.7 | 35.58 | 24 | **35.0** |
 | **1Q26** | **181.52** | **23.85** | **13.1** | **37.59** | **28** | **37.7** |
 
-→ (출처: Amazon IR Earnings Release Supplemental Financial Information Q4 2023 ~ Q1 2026)
+→ (출처: Amazon IR Earnings Release Supplemental Financial Information Q4 2023 \~ Q1 2026)
 
-![AMZN 분기 매출 트렌드 + AWS·광고 비중 (4Q20~1Q26)](AMZN_chart10b_분기시계열_확장.png)
+![AMZN 분기 매출 트렌드 + AWS·광고 비중 (4Q20\~1Q26)](AMZN_chart10b_분기시계열_확장.png)
 
 ![AMZN AWS TTM Revenue & OPM 추이](AMZN_chart13_AWS_TTM.png)
 
@@ -265,7 +265,7 @@
 
 ### ②-A 제품·서비스 카테고리별 매출 분해 (IR Supplemental, 11년 장기 시계열)
 
-Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings Release의 Supplemental Financial Information에서는 **7개 product 카테고리**로 정밀 분해 공시. 이게 segment보다 비즈니스 본질을 더 잘 드러낸다. 본 리포트는 v1.2에서 **2015~2025 11년 연간 + Q3 2017~Q1 2026 35분기 시계열**로 확장.
+Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings Release의 Supplemental Financial Information에서는 **7개 product 카테고리**로 정밀 분해 공시. 이게 segment보다 비즈니스 본질을 더 잘 드러낸다. 본 리포트는 v1.2에서 **2015\~2025 11년 연간 + Q3 2017\~Q1 2026 35분기 시계열**로 확장.
 
 ![AMZN 제품·서비스별 매출 분해 11년](AMZN_chart3_제품별매출.png)
 
@@ -280,7 +280,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 | 2019 | 141.25 | 17.19 | 53.76 | (Other 내) | 19.21 | 35.03 | 37.95 | 304.39 |
 | 2020 | 197.35 | 16.22 | 80.44 | (Other 내) | 25.21 | 45.37 | 40.25 | 404.84 |
 | 2021 | 222.07 | 17.07 | 103.37 | **31.16**(첫 분리 공시 4Q21) | 31.77 | 62.20 | 2.18 | 469.82 |
-| 2022* | 220.00 | 18.96 | 117.72 | ~37.74E | 35.22 | 80.10 | ~4.27 | 513.98 |
+| 2022* | 220.00 | 18.96 | 117.72 | \~37.74E | 35.22 | 80.10 | \~4.27 | 513.98 |
 | 2023 | 231.87 | 20.03 | 140.05 | 46.91 | 40.21 | 90.76 | 4.96 | 574.79 |
 | 2024 | 247.03 | 21.21 | 156.15 | 56.21 | 44.37 | 107.56 | 5.42 | 637.96 |
 | **2025** | **269.29** | **22.56** | **172.16** | **68.64** | **49.62** | **128.72** | **5.93** | **716.92** |
@@ -289,25 +289,25 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 † 2017 양식 전환기 (Q3 2017부터 신 카테고리 시행, Q1-Q2 2017은 Retail products + Other 양식).
 ‡ 2018부터 신 양식 6 카테고리 안정화. Advertising은 Q4 2021까지 "Other" 라인에 포함되어 별도 분리 안 됨.
 
-→ (출처: Amazon IR Earnings Release Supplemental Financial Information **47개 분기 release** Q4 2014~Q1 2026)
+→ (출처: Amazon IR Earnings Release Supplemental Financial Information **47개 분기 release** Q4 2014\~Q1 2026)
 
-#### 분기 시계열 stacked chart (35분기, Q3 2017~Q1 2026)
+#### 분기 시계열 stacked chart (35분기, Q3 2017\~Q1 2026)
 
 ![AMZN 분기 제품별 매출 stacked](AMZN_chart14_분기제품stack.png)
 
-→ Q4 holiday spike 패턴 명확 (2017~2025 모든 4분기에 매출 점프). Q4 2025 $213B = Amazon 분기 사상 최대 매출.
+→ Q4 holiday spike 패턴 명확 (2017\~2025 모든 4분기에 매출 점프). Q4 2025 $213B = Amazon 분기 사상 최대 매출.
 
-#### AWS 분기 매출 장기 시계열 (Q1 2015~Q1 2026, 45분기)
+#### AWS 분기 매출 장기 시계열 (Q1 2015\~Q1 2026, 45분기)
 
 ![AMZN AWS 분기 매출 장기](AMZN_chart15_AWS장기.png)
 
 | 사이클 단계 | 기간 | AWS YoY 평균 | 핵심 driver |
 |------------|------|-------------|-----------|
-| 초기 가속 | 2015~2017 | +47% | EC2/S3 대중화, enterprise migration |
-| 안정기 | 2018~2020 | +33% | Lambda, ML services 출시 |
-| COVID 폭증 | 2020~2021 | +37% | 디지털 전환 가속 |
-| 둔화기 | 2022~2023 H1 | +20% → +12% | enterprise cost optimization |
-| AI 재가속 | 2023 H2~2026 Q1 | +13% → +28% | Bedrock, Trainium, OpenAI/Anthropic 계약 |
+| 초기 가속 | 2015\~2017 | +47% | EC2/S3 대중화, enterprise migration |
+| 안정기 | 2018\~2020 | +33% | Lambda, ML services 출시 |
+| COVID 폭증 | 2020\~2021 | +37% | 디지털 전환 가속 |
+| 둔화기 | 2022\~2023 H1 | +20% → +12% | enterprise cost optimization |
+| AI 재가속 | 2023 H2\~2026 Q1 | +13% → +28% | Bedrock, Trainium, OpenAI/Anthropic 계약 |
 
 → Q1 2026 +28% = **15분기 최고 가속**. Trainium2 GA 이후 AI 워크로드 monetization 본격화.
 
@@ -331,7 +331,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 **Subscription services** (5년간 +56%, $31.8B → $49.6B):
 - Prime 회원 200M+, $139/년 (US)
-- 안정적 +10~12% YoY 성장 박스권
+- 안정적 +10\~12% YoY 성장 박스권
 
 ### ② 사업부별 개요 (매출 비중 큰 순서)
 
@@ -343,7 +343,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 #### (2-2) AWS (FY2025 매출 $128.7B, 비중 18%, OP 비중 57%)
 
-- 글로벌 클라우드 시장 점유율 1위 (~30%, vs Azure ~22%, GCP ~12%)
+- 글로벌 클라우드 시장 점유율 1위 (\~30%, vs Azure \~22%, GCP \~12%)
 - 핵심 제품: EC2 (compute), S3 (storage), RDS (database), SageMaker (ML), Bedrock (AI 모델 marketplace), Trainium/Inferentia (자체 AI 칩)
 - OPM 2025년 **35.4%** — 자체 칩 + 가격 결정력 + 규모 경제
 
@@ -358,10 +358,10 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 #### (3-1) AWS — Top-seller / Growth
 
 - **AWS Top services (매출 추정 기준)**:
-  - EC2 (compute, ~35%)
-  - S3 + Storage (~15%)
-  - RDS/DynamoDB/Aurora (~12%)
-  - 기타 (SageMaker, Bedrock, Lambda, CloudFront 등 ~38%)
+  - EC2 (compute, \~35%)
+  - S3 + Storage (\~15%)
+  - RDS/DynamoDB/Aurora (\~12%)
+  - 기타 (SageMaker, Bedrock, Lambda, CloudFront 등 \~38%)
 - **AI 워크로드 비중**: 회사 공식 disclosure 없으나, Trainium2 GA 이후 AI 관련 매출 기여 가속.
 - **Custom silicon 비즈니스** (Q1 2026 IR 신규 공시):
   - Graviton (ARM 기반 범용 CPU) + Trainium (AI 학습) + Nitro (네트워킹) 합산
@@ -369,22 +369,22 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
   - **Triple-digit YoY growth** (100%+)
   - 지난 12개월간 **2.1M+ AI 칩 출하**, 그중 절반 이상이 Trainium
 - **AI 슈퍼딜 (Q1 2026 발표)**:
-  - **OpenAI**: ~2GW Trainium 컴퓨트 commitment (2027년부터 ramp-up)
+  - **OpenAI**: \~2GW Trainium 컴퓨트 commitment (2027년부터 ramp-up)
   - **Anthropic**: up to 5GW Trainium (다년간 multi-year)
   - 이로써 OpenAI도 AWS 인프라 활용 시작 (기존 Microsoft Azure에서 멀티 클라우드 전환)
-- **CapEx 배분**: 2025년 전사 CapEx $128.3B 중 추정 75% (~$96B) AWS 인프라 (서버·데이터센터·네트워크). Q1 2026 단독 CapEx $44.2B → 연간 환산 $176B+ 추정.
+- **CapEx 배분**: 2025년 전사 CapEx $128.3B 중 추정 75% (\~$96B) AWS 인프라 (서버·데이터센터·네트워크). Q1 2026 단독 CapEx $44.2B → 연간 환산 $176B+ 추정.
 
 #### (3-2) North America — Top-seller / Growth
 
 - **Online Stores (1P)**: 매출 비중 50%대, 성장률 +6% YoY 2025 (성숙기)
-- **Third-party seller (3P) services**: 매출 비중 25%대, 성장률 +10~12% YoY, 마진 매우 높음
-- **Advertising services**: 매출 비중 ~15%대로 상승, **2025년 +21% YoY**, 회사 OP의 큰 swing factor
+- **Third-party seller (3P) services**: 매출 비중 25%대, 성장률 +10\~12% YoY, 마진 매우 높음
+- **Advertising services**: 매출 비중 \~15%대로 상승, **2025년 +21% YoY**, 회사 OP의 큰 swing factor
 - **Subscription services (Prime)**: Prime 회원 200M+ global, $139/년 (US)
-- **Physical Stores**: 매출 비중 ~5%대, Whole Foods + Amazon Fresh
+- **Physical Stores**: 매출 비중 \~5%대, Whole Foods + Amazon Fresh
 
 #### (3-3) International — 이익 outlier
 
-- 2024~2025년 흑자 전환은 매출 성장보다 비용 효율화가 핵심 driver
+- 2024\~2025년 흑자 전환은 매출 성장보다 비용 효율화가 핵심 driver
 - Q1 2026 +19% YoY 매출 성장 (북미 +12%보다 빠름) — 환율 효과 + 신흥국 침투
 
 ### ④ 주요 경쟁사
@@ -408,7 +408,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 ### ⑥ 생산 CAPA + 임직원 추이
 
 - **데이터센터**: 36개 지역, 108개 가용 영역(AZ) 글로벌 (2025년말)
-- **Fulfillment Center**: 1,000+ 개 시설, 미국 내 ~250개 large FC
+- **Fulfillment Center**: 1,000+ 개 시설, 미국 내 \~250개 large FC
 - **임직원**: 1.56M (2025년말, full-time + part-time 합산. 2024년말 1.55M)
 - **임직원 추이**: 2014년 154K → 2020년 1.30M → 2022년 1.54M → 2025년 1.56M (peak 2022 후 안정화)
 
@@ -435,7 +435,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 \* GPM ≈ (매출 - Cost of sales) / 매출. Amazon은 GPM 직접 보고하지 않음 (다양한 서비스 비즈니스 때문). 추정치.
 
-→ (출처: Amazon 10-K FY2014~FY2025, SEC EDGAR. Cost of sales 비중 = 2024년 51.1% → 2025년 49.7%)
+→ (출처: Amazon 10-K FY2014\~FY2025, SEC EDGAR. Cost of sales 비중 = 2024년 51.1% → 2025년 49.7%)
 
 ![AMZN 손익 4지표 추이](AMZN_chart1b_손익4지표.png)
 
@@ -454,7 +454,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 \* 유이자부채 = Long-term debt + Long-term lease liabilities. FY2025 기준 LTD $65.6B + Lease $87.3B.
 
-→ (출처: Amazon 10-K FY2014~FY2025, Balance Sheet)
+→ (출처: Amazon 10-K FY2014\~FY2025, Balance Sheet)
 
 → 부채비율은 2017년 165% 정점 (Whole Foods 인수 자금조달)에서 2025년 43%까지 지속적 하락. 자본축적이 부채증가보다 빠른 페이스.
 
@@ -489,18 +489,18 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 | 2023 | 48.13 | 8.4 | 일시 둔화 |
 | 2024 | 77.66 | 12.2 | AI 인프라 시작 |
 | **2025** | **128.32** | **17.9** | **AI 슈퍼사이클 본격화** |
-| 2026E | 175~200E | ~25E | 회사 공식 가이던스 없음, 시장 추정 |
+| 2026E | 175\~200E | \~25E | 회사 공식 가이던스 없음, 시장 추정 |
 
 → (출처: Amazon 10-K Free Cash Flow Reconciliation)
 
-→ FY25 CapEx $128.3B 중 추정 ~$96B (75%)는 AWS 인프라 (서버·네트워크·데이터센터). 나머지 ~$32B는 fulfillment + Project Kuiper(위성).
+→ FY25 CapEx $128.3B 중 추정 \~$96B (75%)는 AWS 인프라 (서버·네트워크·데이터센터). 나머지 \~$32B는 fulfillment + Project Kuiper(위성).
 
 ### ⑤ 부채구조 + 채무증권 발행 history
 
 - **Long-term debt** (FY2025): $65.6B (2024 $52.6B 대비 +25%, 2025년 $25B 신규 발행)
 - **Long-term lease liabilities**: $87.3B (FY2024 $78.3B → FY2025 $87.3B)
 - **신용등급**: S&P AA (Aug 2024 기준), Moody's A1
-- **주요 채권 시리즈**: 다양한 만기 (2026~2061), 평균 쿠폰 ~3.5% (저금리기 발행 다수)
+- **주요 채권 시리즈**: 다양한 만기 (2026\~2061), 평균 쿠폰 \~3.5% (저금리기 발행 다수)
 - **2025년 $25B 신규 발행**: AWS CapEx 자금조달 목적
 - **Q1 2026 단독 $53.4B 신규 장기채 발행** — IR Cash Flow Statement disclosed. AI 인프라 슈퍼사이클 자금조달. 이로써 현금 보유액 $104.7B 도달 ($69.9B → $104.7B in Q1 2026)
 - **TTM Q1 2026 장기채 발행액 $68.4B** (vs 이전 TTM $0.7B) — 회사 역사상 최대 규모 채권 발행
@@ -517,7 +517,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
   - 2025년말 잔여 $4B authorization
 - **20:1 액면분할** (2024.02.09): 주가 접근성 개선 목적, valuation에는 영향 없음
 - **EPS 희석**: 2024년 11.26B → 2025년 10.83B 주식 (-3.8% YoY, SBC 발행 vs vest 차이)
-- **Stock-based awards outstanding** (IR Q1 2026 신규 공시): Q4 2024 283M → Q1 2026 **195M** (-31%). Common share 비중도 2.7% → 1.8%로 dilution 압력 완화. SBC 비용 자체도 TTM 기준 감소 추세 (2024 ~$22B → 2025 ~$20B)
+- **Stock-based awards outstanding** (IR Q1 2026 신규 공시): Q4 2024 283M → Q1 2026 **195M** (-31%). Common share 비중도 2.7% → 1.8%로 dilution 압력 완화. SBC 비용 자체도 TTM 기준 감소 추세 (2024 \~$22B → 2025 \~$20B)
 
 ### ⑦ 재무비율 (FY2025 기준)
 
@@ -528,7 +528,7 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 | 부채비율(D/E) | 42.5% | 45.8% |
 | 유동비율 | 1.07 | 1.06 |
 | 이자보상배율 | 35.0x | 28.6x |
-| EBITDA 마진 | ~22% | ~19% |
+| EBITDA 마진 | \~22% | \~19% |
 
 ---
 
@@ -547,25 +547,25 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 | 구분 | 비중(추정, 2026.05) |
 |------|--------------------|
-| 기관투자자 (Institutional) | ~62% |
-| Insiders (Bezos 외 임원) | ~10.5% |
-| 소액·기타 (Retail) | ~27.5% |
+| 기관투자자 (Institutional) | \~62% |
+| Insiders (Bezos 외 임원) | \~10.5% |
+| 소액·기타 (Retail) | \~27.5% |
 
 **5% 이상 주주 (2025 Proxy 기준 추정)**:
 
 | 주주 | 지분 | 비고 |
 |------|------|------|
-| Jeffrey P. Bezos (Founder) | ~8.6% | 자선재단·Blue Origin 매도로 점진적 감소 |
-| Vanguard Group | ~7.9% | 패시브 펀드 |
-| BlackRock | ~6.5% | 패시브 펀드 |
-| State Street | ~3.5% | 패시브 펀드 |
+| Jeffrey P. Bezos (Founder) | \~8.6% | 자선재단·Blue Origin 매도로 점진적 감소 |
+| Vanguard Group | \~7.9% | 패시브 펀드 |
+| BlackRock | \~6.5% | 패시브 펀드 |
+| State Street | \~3.5% | 패시브 펀드 |
 
 ### ③ 임원·이사회
 
-- **CEO/President**: Andy Jassy (2021.07~). AWS 출신, 1997년 Bezos technical assistant로 합류
+- **CEO/President**: Andy Jassy (2021.07\~). AWS 출신, 1997년 Bezos technical assistant로 합류
 - **Executive Chairman**: Jeff Bezos (창립자)
-- **CFO**: Brian T. Olsavsky (2015~)
-- **AWS CEO**: Matt Garman (2024.06~, Adam Selipsky 후임)
+- **CFO**: Brian T. Olsavsky (2015\~)
+- **AWS CEO**: Matt Garman (2024.06\~, Adam Selipsky 후임)
 - **이사회 (Board)**: 11명 (2025년 기준), majority independent
 
 **주요 이사 (2025 Proxy):**
@@ -650,13 +650,13 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 
 ### ✅ 확보 자료 (1차 출처)
 
-- **SEC EDGAR 10-K**: 16개 (FY2010~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K`
-- **SEC EDGAR 10-Q**: 46개 (1Q11~1Q26)
-- **Yahoo Finance v8**: AMZN 월간 OHLC 2000-01~2025-05 (305 months)
+- **SEC EDGAR 10-K**: 16개 (FY2010\~FY2025) — `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K`
+- **SEC EDGAR 10-Q**: 46개 (1Q11\~1Q26)
+- **Yahoo Finance v8**: AMZN 월간 OHLC 2000-01\~2025-05 (305 months)
 - **Amazon IR Earnings Release 47개** (v1.2 확장):
   - **IR PDF 12개** (s2.q4cdn.com): Q4 2019, Q1 2020, Q1 2022, Q3-Q4 2023, Q1-Q4 2024, Q1-Q4 2025, Q1 2026
-  - **SEC 8-K Exhibit 99.1 HTM 35개** (sec.gov): Q4 2014~Q3 2021 + 2022/2023 누락분 보강
-  - 커버리지: **Q4 2014 ~ Q1 2026 (45분기, ~11.5년 연속)**
+  - **SEC 8-K Exhibit 99.1 HTM 35개** (sec.gov): Q4 2014\~Q3 2021 + 2022/2023 누락분 보강
+  - 커버리지: **Q4 2014 \~ Q1 2026 (45분기, \~11.5년 연속)**
   - 추출 데이터: 7개 product 카테고리 매출 panel, TTM 지표, SBC 분해, 임직원, 매출 단위 성장률, AWS OPM 정확치 등 — 10-K/10-Q에는 없는 IR-only 데이터
 - **SEC 8-K 149개** 전체 다운로드 (2010-2026)
 - **Amazon 2023 Shareholder Letter PDF** (Andy Jassy)
@@ -689,29 +689,29 @@ Amazon은 SEC 10-K에서 3개 reportable segment만 보고하지만, IR Earnings
 ## Version Log
 
 **v1.0 (2026-05-19 초안)**:
-- 최초 작성. 12년 연간 (FY2014~FY2025) + 13분기 (1Q23~1Q26) 시계열 반영
+- 최초 작성. 12년 연간 (FY2014\~FY2025) + 13분기 (1Q23\~1Q26) 시계열 반영
 - SEC EDGAR 16개 10-K + 46개 10-Q + Yahoo Finance v8 305 monthly 데이터 기반
 - 14종 차트 임베드 (chart1, chart1b, chart2_AWS/NA/Intl, chart4-12)
 
 **v1.2 (2026-05-19 갱신, IR 장기 시계열 보강)**:
-- BT 피드백: v1.1의 IR 자료가 단기 (2022 이후 위주, ~5년)였음. 장기 시계열로 확장.
+- BT 피드백: v1.1의 IR 자료가 단기 (2022 이후 위주, \~5년)였음. 장기 시계열로 확장.
 - **추가 작업**:
   - SEC 8-K 149개 batch 다운로드 (Item 2.02 = earnings release 식별)
-  - SEC 8-K Exhibit 99.1 HTM 35개 다운로드 (Q4 2014~Q3 2021 + 누락 분기)
+  - SEC 8-K Exhibit 99.1 HTM 35개 다운로드 (Q4 2014\~Q3 2021 + 누락 분기)
   - IR PDF 추가 다운로드 (Q4 2019, Q1 2020)
-  - **총 47개 IR earnings release** 확보 → **45분기 연속 시계열 (~11.5년)**
+  - **총 47개 IR earnings release** 확보 → **45분기 연속 시계열 (\~11.5년)**
 - **추가 데이터**:
-  - 11년 연간 product breakdown (2015~2025) — 양식 변경 매핑 명시
-  - 35분기 stacked chart (Q3 2017~Q1 2026) — Q4 holiday spike + AWS 가속 시각화
-  - AWS 분기 매출 45분기 + YoY% (Q1 2015~Q1 2026)
+  - 11년 연간 product breakdown (2015\~2025) — 양식 변경 매핑 명시
+  - 35분기 stacked chart (Q3 2017\~Q1 2026) — Q4 holiday spike + AWS 가속 시각화
+  - AWS 분기 매출 45분기 + YoY% (Q1 2015\~Q1 2026)
   - 사이클 단계별 AWS 성장률 분석 (초기/안정/COVID/둔화/AI 재가속)
 - 신규 차트 3개 추가 (chart3 11년 연간 stack, chart14 35분기 stack, chart15 AWS 45분기 장기)
 
 **v1.1 (2026-05-19 갱신, IR 자료 보강)**:
 - BT 요청으로 **Amazon IR Earnings Release PDF 12개 추가 다운로드·parse**
 - 추가 데이터 통합:
-  - 7개 product 카테고리별 매출 시계열 (Online stores / Physical / 3P seller / Advertising / Subscription / AWS / Other) — IR Supplemental Financial Information page (4Q20~1Q26, 21분기)
-  - AWS 분기 OPM 정확치 (24.0% ~ 39.5% 변동) + AWS TTM OPM 추이 (37.0% → 35.2%)
+  - 7개 product 카테고리별 매출 시계열 (Online stores / Physical / 3P seller / Advertising / Subscription / AWS / Other) — IR Supplemental Financial Information page (4Q20\~1Q26, 21분기)
+  - AWS 분기 OPM 정확치 (24.0% \~ 39.5% 변동) + AWS TTM OPM 추이 (37.0% → 35.2%)
   - Q1 2026 TTM 8개 지표 (Revenue/OP/NI/CashFlow/CapEx/FCF/EPS/AWS 등)
   - **Custom silicon (Trainium/Graviton/Nitro) $20B+ annualized run rate** — IR-only 신규 공시
   - **OpenAI 2GW Trainium commitment + Anthropic 5GW** — Q1 2026 어닝 발표

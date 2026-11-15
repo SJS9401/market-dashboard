@@ -1,7 +1,7 @@
 > Ticker: **모회사 TYO:6501 (Hitachi Ltd) / ADR HTHIY** + **자회사 NSE:POWERINDIA (Hitachi Energy India Ltd)**
 > Entity: **Hitachi Energy Ltd.** (HQ: Zürich, Switzerland) — Hitachi Ltd 100% 자회사 (비상장 글로벌 본체) + Hitachi Energy India 75.43% 지분 (상장 자회사)
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어 (한국 3사·ABB·GEV·Schneider와 비교 가능)
-> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (사이클 변곡점 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0\~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (사이클 변곡점 marker), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션) + 다중 segment 글로벌 피어 하이브리드 (C) 룰 적용
 > 데이터: **5년 USD basis (FY21-FY25)** + **Hitachi Group FY24·FY25 segment 분해** + **HE India 분기 IR (Q4FY25·Q1FY26)** + **30년 6501.T + 3년 POWERINDIA 시계열**
 > 출처: **Hitachi Integrated Report 2025·2024 (11MB·5MB)**, **Hitachi Annual Securities Report FY2024 (39MB)**, **Hitachi FY2025 Annual·Q1·Q2·Q3 Press Releases**, **Hitachi Energy CFO IR Day Oct 2025 (Ismo Haka)**, **HE Sustainability Report 2025 (FY24 fiscal data)**, **HE India Q4FY25·Q1FY26 press release**, **HE Leadership Page (hitachienergy.com)**, **Hitachi Officers (hitachi.com)**, **Yahoo Finance 6501.T 30y + POWERINDIA.NS 3.3y + HTHIY ADR**
@@ -86,10 +86,10 @@
 | 지표 | FY21 | FY22 | FY23 | FY24 | FY25 |
 |---|---|---|---|---|---|
 | Revenue ($B) | 9.0 | 10.0 | 12.0 | 16.0 | **19.8** |
-| Adj EBITA ($B) | 0.55 | 0.71 | 1.02 | 1.78 | **~2.55** |
+| Adj EBITA ($B) | 0.55 | 0.71 | 1.02 | 1.78 | **\~2.55** |
 | **Adj EBITA Margin** | 6.1% | 7.1% | 8.5% | 11.1% | **12.0%** |
 | Orders ($B) | 12.4 | 16.9 | 23.8 | 27.9 | **35.0** |
-| **Order Backlog ($B, year-end)** | ~13 | ~18 | ~25 | 32.8 | **57.9** |
+| **Order Backlog ($B, year-end)** | \~13 | \~18 | \~25 | 32.8 | **57.9** |
 
 ```
 [Hitachi Energy 5년 손익·Backlog 시계열 (USD basis)]
@@ -122,7 +122,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 (3) 정량적 분류 근거
 
-**📊 Summary Box — 사이클 통계 (5년, FY21~FY25 USD basis)**
+**📊 Summary Box — 사이클 통계 (5년, FY21\~FY25 USD basis)**
 
 | 지표 | 값 |
 |------|-----|
@@ -155,7 +155,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 → Revenue **$33B+** (CAGR 13-15%) + Adj EBITA **16-20%** + ROIC **25-30%**
 
-→ **FY25 Backlog $57.9B (+33% YoY)** = 매출 ~3년치 → 5-6년 visibility 확보 (지속성장 분류 핵심 근거)
+→ **FY25 Backlog $57.9B (+33% YoY)** = 매출 \~3년치 → 5-6년 visibility 확보 (지속성장 분류 핵심 근거)
 
 → **$9B 투자 (2024-2030)** — capacity 확장 (Dry Capacitors 4x, Valves 2.5x, HVDC Transformers 2.5x) + 15,000명 신규 채용 (through 2027)
 
@@ -174,7 +174,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 (2) **사이클 vs 지속성장 sub-rule 적용**:
    - 5년 Margin range +5.9%pt (cutoff ±10%pt 미달)
    - downcycle 0회 (단조 우상향)
-   - Backlog $57.9B = 매출 ~3년치 visibility
+   - Backlog $57.9B = 매출 \~3년치 visibility
    → **지속성장 분류 유지**
 
 (3) **Boundary case 처리**: 턴어라운드 잔여 (FY21 6.1% → FY25 12.0%) + 일부 사이클 noise (원자재·환율) → Primary + Secondary 표기
@@ -223,9 +223,9 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 - **상장 구조** — 비상장 글로벌 본체 (Hitachi Ltd 100% 자회사) + Hitachi Energy India Ltd (NSE/BSE 상장, 75.43% 지분)
 - **모회사 Ticker** — TYO:6501 Hitachi, Ltd. / OTC ADR: HTHIY
 - **인도 자회사 Ticker** — NSE: POWERINDIA / BSE: 543187
-- **CEO (Hitachi Energy)** — Andreas Schierenbeck (2024.07~) — 전 Uniper CEO, 전 Thyssenkrupp Elevator CEO, 전 Siemens 20년
-- **CFO (Hitachi Energy)** — Ismo Antero Haka — CFO 2022~, 전 Chairman (2024.10 CEO 교체 시 CFO 복귀)
-- **CEO (Hitachi Ltd 모회사)** — Toshiaki Tokunaga (2024.04~)
+- **CEO (Hitachi Energy)** — Andreas Schierenbeck (2024.07\~) — 전 Uniper CEO, 전 Thyssenkrupp Elevator CEO, 전 Siemens 20년
+- **CFO (Hitachi Energy)** — Ismo Antero Haka — CFO 2022\~, 전 Chairman (2024.10 CEO 교체 시 CFO 복귀)
+- **CEO (Hitachi Ltd 모회사)** — Toshiaki Tokunaga (2024.04\~)
 - **CFO (Hitachi Ltd 모회사)** — Tomomi Kato (CFO/CRMO)
 - **CEO (Hitachi Energy India)** — N Venu (Managing Director & CEO India / Region Head Asia Pacific)
 - **직원 수** — **51,253명 (FY24말, HE 본체)** + Hitachi Group 전체 282,743명
@@ -244,7 +244,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 (3) 사명 변천사 / 주요 히스토리
 
-**1기 (1891~1988) — 유럽 전력기기 lineage**
+**1기 (1891\~1988) — 유럽 전력기기 lineage**
 
 → **1891년** — Brown Boveri & Cie (BBC) 설립 (스위스, Hitachi Energy 본거 lineage)
 
@@ -254,7 +254,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 → **1988년** — ASEA + BBC 합병 → **ABB 출범**
 
-**2기 (2014~2020) — Hitachi 인수 진행**
+**2기 (2014\~2020) — Hitachi 인수 진행**
 
 → **2014년** — Hitachi-ABB JV 형성 (Power Grids 분야 협력 시작)
 
@@ -262,7 +262,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 → **2020년 7월 1일** — **Hitachi ABB Power Grids Ltd. 출범** (Hitachi 80.1% + ABB 19.9% JV)
 
-**3기 (2021~2023) — Hitachi Energy 사명 + 100% 자회사 완성**
+**3기 (2021\~2023) — Hitachi Energy 사명 + 100% 자회사 완성**
 
 → **2021년 10월** — 사명 변경 → **Hitachi Energy Ltd.** (ABB 브랜드 제거)
 
@@ -270,13 +270,13 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 → **2023년 1월** — **Hitachi Ltd가 ABB 잔여 19.9% 인수 → 100% 자회사 전환**
 
-**4기 (2024~2026) — Schierenbeck 체제, Service·AI·HVDC 가속**
+**4기 (2024\~2026) — Schierenbeck 체제, Service·AI·HVDC 가속**
 
 → **2024년 7월** — Andreas Schierenbeck CEO 부임 (전 CEO Claudio Facchin 교체)
 
 → **2025년 4월** — **Service Business Unit 신설** (5번째 BU) — Service expansion 4-5x 가속 목표
 
-→ **2025년 4월** — Hitachi Energy India 75년 기념 (1949~)
+→ **2025년 4월** — Hitachi Energy India 75년 기념 (1949\~)
 
 → **2025년 7월** — Hitachi Energy India Bhadla-Fatehpur HVDC 대형 win (INR 11,339 crore Q1FY26 orders)
 
@@ -288,11 +288,11 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 (4) 5 Business Units 구조
 
-- **Transformers** — CEO Bruno Melles / 매출 ~30% / Power & Distribution Transformers, HVDC Transformers, Dry Transformers
-- **High Voltage Products (HVP)** — CEO Markus Heimbach / 매출 ~22% / Circuit Breakers, GIS (Gas Insulated Switchgear), Eco-efficient (SF6-free), Semiconductors
-- **Grid Integration** — CEO Niklas Persson / 매출 ~22% / HVDC Systems (Multi-terminal), FACTS, Substations, Grid Edge Solutions
-- **Grid Automation** — CEO Massimo Danieli / 매출 ~16% / Protection & Automation, Substation Automation, Microgrids, Ellipse EAM
-- **Service** (신설 2025.04) — CEO Wolf Müller / 매출 ~10% / Asset Management, Spares, Field Services, Lumada Energy, HMAX Energy (AI)
+- **Transformers** — CEO Bruno Melles / 매출 \~30% / Power & Distribution Transformers, HVDC Transformers, Dry Transformers
+- **High Voltage Products (HVP)** — CEO Markus Heimbach / 매출 \~22% / Circuit Breakers, GIS (Gas Insulated Switchgear), Eco-efficient (SF6-free), Semiconductors
+- **Grid Integration** — CEO Niklas Persson / 매출 \~22% / HVDC Systems (Multi-terminal), FACTS, Substations, Grid Edge Solutions
+- **Grid Automation** — CEO Massimo Danieli / 매출 \~16% / Protection & Automation, Substation Automation, Microgrids, Ellipse EAM
+- **Service** (신설 2025.04) — CEO Wolf Müller / 매출 \~10% / Asset Management, Spares, Field Services, Lumada Energy, HMAX Energy (AI)
 
 (5) 5개 Region 운영 구조
 
@@ -314,7 +314,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 - **Systems** — medium lead time (Year 2-3), HVDC·FACTS 대형 turnkey
 - **Services & Software** — long-tail recurring (Year 4-6), 가장 높은 마진
 
-→ Lead time from order to revenue: **1-6년** (Backlog $57.9B에 ~3년치 revenue 잠금)
+→ Lead time from order to revenue: **1-6년** (Backlog $57.9B에 \~3년치 revenue 잠금)
 
 **Order Backlog Quality 개선** (CFO IR Day)
 
@@ -324,18 +324,18 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 (2) 사업부별 개요 (매출 비중 큰 순서, 직관적 설명)
 
-**Transformers BU — 매출 비중 ~30%**
+**Transformers BU — 매출 비중 \~30%**
 
 > "전력망의 '변압' 역할을 하는 거대한 전력 변압기를 만드는 사업부. 발전소·송전·배전 전 영역을 커버하는 HE의 최대 매출원."
 
-- **Power Transformers (대형 전력 변압기)** — 송전 grid의 핵심. 100MVA~1,000MVA+, 765kV·800kV·1,100kV 초고압. 데이터센터·재생에너지·HVDC link 등 모든 그리드 인프라의 필수품. **글로벌 #1 점유율 (약 20%)**
-- **Distribution Transformers (배전 변압기)** — 도시·산업 단지 배전 grid용. 5MVA~63MVA. EconiQ™ 친환경 시리즈 (식물성 절연유)
+- **Power Transformers (대형 전력 변압기)** — 송전 grid의 핵심. 100MVA\~1,000MVA+, 765kV·800kV·1,100kV 초고압. 데이터센터·재생에너지·HVDC link 등 모든 그리드 인프라의 필수품. **글로벌 #1 점유율 (약 20%)**
+- **Distribution Transformers (배전 변압기)** — 도시·산업 단지 배전 grid용. 5MVA\~63MVA. EconiQ™ 친환경 시리즈 (식물성 절연유)
 - **HVDC Transformers** — 초고압 직류 송전용 특수 변압기 (HVDC 시스템 핵심 component). Bhadla-Fatehpur HVDC India 등 대형 프로젝트 공급
 - **Dry-Type Transformers** — 액체 절연유 없는 친환경 변압기 (실내·지하·해상풍력 등 화재 위험 지역)
 - **Traction Transformers** — 철도 전철화 전용 (모회사 Hitachi Mobility 시너지)
 - **TXpand™** — 폭발·화재 저항성 강화 친환경 변압기 시리즈 (출시 후 핵심 차별화 product)
 
-**High Voltage Products (HVP) BU — 매출 비중 ~22%**
+**High Voltage Products (HVP) BU — 매출 비중 \~22%**
 
 > "전력망의 '스위치·차단기·보호장치'를 만드는 사업부. 사고·고장 발생 시 grid를 보호하고 차단하는 critical safety 제품군."
 
@@ -350,7 +350,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 - **Semiconductors (반도체 — Power Semiconductor)** — IGBT·Thyristor 등 HVDC valve 핵심 반도체. 2024-2030 capacity 2x 확장
 - **Wallbox EV Chargers** — EV 충전 인프라 (신규 segment)
 
-**Grid Integration BU — 매출 비중 ~22%**
+**Grid Integration BU — 매출 비중 \~22%**
 
 > "전력망의 '대형 송전·연결 시스템'을 turnkey로 설계·제작·설치하는 사업부. HE의 대형 프로젝트·HVDC 본진."
 
@@ -364,7 +364,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 - **PowerStore™ BESS** — 송전급 대형 배터리 ESS turnkey 시스템
 - **Service Hub for HVDC** — HVDC 운영 후 service contracts (long-tail 수익원)
 
-**Grid Automation BU — 매출 비중 ~16%**
+**Grid Automation BU — 매출 비중 \~16%**
 
 > "전력망을 '소프트웨어·제어·통신·AI'로 운영·자동화하는 사업부. 디지털 grid의 두뇌 역할."
 
@@ -378,7 +378,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 - **Cybersecurity** — IEC 62443 + ISO 27001 (28개국 인증)
 - **Distributed Recording & Synchrophasors (PMU)** — 광역 grid 안정성 모니터링
 
-**Service BU (신설 2025.04) — 매출 비중 ~10% (성장 핵심)**
+**Service BU (신설 2025.04) — 매출 비중 \~10% (성장 핵심)**
 
 > "기존에 판매한 500,000+ installed assets ($230B value)를 점검·수리·업그레이드·디지털화하는 신설 사업부. Recurring·고마진 수익원으로 4-5x 확장 목표."
 
@@ -441,7 +441,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 (6) 시장 포지셔닝 (3대 글로벌 #1 + 점유율)
 
 - **HVDC Systems** — 글로벌 **#1** (압도적) / 1954년 세계 최초 → multi-terminal 2022
-- **Power Transformers** — 글로벌 **#1** / 500,000+ installed assets ($230B value) in 140+ countries / 글로벌 점유율 ~20%
+- **Power Transformers** — 글로벌 **#1** / 500,000+ installed assets ($230B value) in 140+ countries / 글로벌 점유율 \~20%
 - **High Voltage Switchgear (GIS)** — 글로벌 **#1** / 420kV SF₆-free GIS 신제품 (sustainability 차별화)
 - **Grid Automation** — Top 3 (Schneider·Siemens·HE)
 - **BESS Grid Edge** — Top 5 (Fluence·Tesla·BYD·Wartsila와 경쟁)
@@ -504,7 +504,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 | Adj EBITA ($B) | 0.55 | 0.71 | 1.02 | 1.78 | 2.55 | **46.7%** |
 | Adj EBITA Margin | 6.1% | 7.1% | 8.5% | 11.1% | 12.0% | **+590bp** |
 | Orders ($B) | 12.4 | 16.9 | 23.8 | 27.9 | 35.0 | **29.6%** |
-| Backlog year-end ($B) | ~13 | ~18 | ~25 | 32.8 | 57.9 | **45.2%** |
+| Backlog year-end ($B) | \~13 | \~18 | \~25 | 32.8 | 57.9 | **45.2%** |
 
 → Revenue CAGR 21% (산업 글로벌 #1·#2)
 → Adj EBITA CAGR 47% (산업 글로벌 #1)
@@ -535,12 +535,12 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 (5) 한국 3사 + 글로벌 피어 cross-ref (FY25 USD basis)
 
 - **Hitachi Energy** — Revenue **$19.8B** / Op Margin **12.0%** / **Backlog $57.9B** / 5 BU, 51,253명, 67개국
-- **ABB** — Revenue $32.8B / Op Margin 19.0% / Backlog ~$24B / 4 segment 동시 운영
+- **ABB** — Revenue $32.8B / Op Margin 19.0% / Backlog \~$24B / 4 segment 동시 운영
 - **GE Vernova** — Revenue $36.7B / Op Margin 8.3% / Backlog $122B / Power+Wind+Electrification
 - **Schneider Electric** — Revenue €38.1B / Op Margin 18.7% / Backlog €21.4B / EM+IA 4 end-market
 - **HD현대일렉트릭** — Revenue $3.3B / Op Margin 24.4% / Backlog $14B+ / 한국 1위, US 변압기 sweet spot
-- **효성중공업** — Revenue $5.5B / Op Margin 12.5% / Backlog ~$10B / 중공업 + 건설 mix
-- **LS일렉트릭** — Revenue $3.5B / Op Margin 8.6% / Backlog ~$3B / 전력기기 + 자동화
+- **효성중공업** — Revenue $5.5B / Op Margin 12.5% / Backlog \~$10B / 중공업 + 건설 mix
+- **LS일렉트릭** — Revenue $3.5B / Op Margin 8.6% / Backlog \~$3B / 전력기기 + 자동화
 
 ---
 
@@ -562,7 +562,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 - **Hitachi Energy Ltd. (Zürich, 비상장)** — **Hitachi Ltd 100%** (2023.01부터, ABB 잔여 19.9% 인수 완료)
 - **Hitachi Energy India Ltd. (NSE POWERINDIA)** — Hitachi Energy via Hitachi Power Asia 75.43%, 공모 24.57%
-- **Hitachi Ltd. (TYO:6501) 모회사** — Master Trust Bank 12.5%, JP Custody 5.5%, 외인 ~30%, 기관·개인
+- **Hitachi Ltd. (TYO:6501) 모회사** — Master Trust Bank 12.5%, JP Custody 5.5%, 외인 \~30%, 기관·개인
 
 → HE 자체 IPO 가능성: 현재 비상장 유지 방침 (Hitachi Group 통합 전략 — Lumada x Energy x Mobility 시너지)
 
@@ -576,8 +576,8 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 **CEO + Executive Team (Functional Heads)**
 
-- **CEO — Andreas Schierenbeck** (2024.07~, 독일, 전 Uniper·Thyssenkrupp·Siemens)
-- **CFO — Ismo Antero Haka** (2022~)
+- **CEO — Andreas Schierenbeck** (2024.07\~, 독일, 전 Uniper·Thyssenkrupp·Siemens)
+- **CFO — Ismo Antero Haka** (2022\~)
 - **Chief Transformation Officer / Chief Lumada Business Officer — Urs Dogwiler**
 - **Chief Human Resources Officer — Alice Hamann**
 - **Chief Legal & Integrity Officer — Andrew Law**
@@ -654,14 +654,14 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 (1) 신용도 & 시가총액 (2025.04.30 기준)
 
 - **Hitachi Ltd 주가** — **¥4,046 (역대 최고가)**
-- **Hitachi Ltd 시가총액** — ¥4,046 × 4,539M = **¥18.4 tn (~$122B USD)**
+- **Hitachi Ltd 시가총액** — ¥4,046 × 4,539M = **¥18.4 tn (\~$122B USD)**
 - **Hitachi Energy India 주가** — **INR 19,298** (IPO 2021.12 INR 3,122 대비 +518%)
-- **Hitachi Energy India 시가총액** — INR 19,298 × ~127M주 = **INR 2.45 tn (~$29B USD)**
-- **HTHIY ADR (OTC)** — ~$25-30 (Level 1 ADR, Hitachi Ltd 주식 대비 ratio 변동 있음)
+- **Hitachi Energy India 시가총액** — INR 19,298 × \~127M주 = **INR 2.45 tn (\~$29B USD)**
+- **HTHIY ADR (OTC)** — \~$25-30 (Level 1 ADR, Hitachi Ltd 주식 대비 ratio 변동 있음)
 
 (2) R&D 자원 (HE 본체 + Hitachi Group)
 
-→ **HE patent** — **~2,500 patent families** (FY24말, Sustainability Report)
+→ **HE patent** — **\~2,500 patent families** (FY24말, Sustainability Report)
 
 → **HE R&D 거점** — 전 세계 다수 (Switzerland Zürich HQ + 인도 Chennai R&D Center 등)
 
@@ -734,7 +734,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 
 → 1999.12 ¥1,521 → 2009.10 GFC trough ¥234 → 2020.07 (Power Grids 인수) ¥706 → **2025.04 ¥4,046 (역대 최고)**
 
-→ 2020-2025 5년 **~5.8x rally** — Power Grids 인수 후 그룹 가치 재평가
+→ 2020-2025 5년 **\~5.8x rally** — Power Grids 인수 후 그룹 가치 재평가
 
 **HTHIY ADR (USD, 25년 시계열)**
 
@@ -771,7 +771,7 @@ Margin range: 6.1% ~ 12.0% = +5.9%pt (5년 단조 우상향, downcycle 0회)
 ### ⚠️ 추정 데이터 표시
 
 - HE 5 BU별 매출 비중 (Transformers 30%, HVP 22%, Grid Integration 22%, Grid Automation 16%, Service 10%) — **추정**
-- HE R&D % of revenue (3.5~4.2%) — **추정** (ABB ~4% / GEV ~5% 글로벌 피어 + 2,500 patent families 기반)
+- HE R&D % of revenue (3.5\~4.2%) — **추정** (ABB \~4% / GEV \~5% 글로벌 피어 + 2,500 patent families 기반)
 - chart8 CapEx 연도별 분해 — CMD 총액 ($2.6B FY23-25, $2B FY26-28) **상수 추정 분포**
 - FY21-FY23 Backlog ($13B → $18B → $25B) — FY24·25 정확값 + CAGR 추정
 - Q1FY25 Adj EBITA — Q2·Q3 + 9M 누적 역산 추정

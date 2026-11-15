@@ -3,8 +3,8 @@
 > Sector: 전력 인프라 (T2) — 서브섹터 **발전 (핵심, GE Vernova와 페어)** / 글로벌 피어 (GEV·HE·ABB·SU·ETN·효성·HD·LS와 비교)
 > 작성 시각: **2026-11-03 KST** (**v1.0** — Phase 1 Source 전수 수집 + audit + 12종 차트 + v1.5 표준 ① 기업 분류 5요소)
 > 적용 구조: v4.8 (6개 섹션) + v1.5 ① 기업 분류 표준 (Summary Box 6지표 · 손익 narrative · 분류 sub-logic 4단계 · 밸류에이션 다이얼 · 분류 변경 조건 3종)
-> 데이터 범위: **연간 9년 (FY17~FY25, 10월~9월 회계연도)** — FY17~FY19 = 분사 Prospectus Combined Financial Statements / FY20~FY25 = Annual Report·Q4 Earnings Release + **FY26 9M (Q1~Q3 FY26, 2026-08-05 발표분까지)** + **분기 19Q (Q1 FY22 ~ Q3 FY26, 4개 사업부 기준)** + **ENR.DE 주가 (2020-09 상장 ~ 2026-11-02)**
-> 출처: **Siemens Energy IR (assets.siemens-energy.com) — Earnings Release 24건 (Q4 FY20~Q3 FY26), Annual Report FY2020·2021·2022·2025 + FY2024 분책(B·C), 2020 Listing Prospectus, CMD 2025 6건, Q3 FY26 Analyst Presentation·Shareholder Letter, Q4 FY26 Pre-close Call transcript (2026-09-30), 자사주 매입 공시 (2026-09-23), Sustainability Report 2023 + FY2025 Sustainability Statement**, **Yahoo Finance ENR.DE**, 보도 (Reuters/Börsen-Zeitung·Bloomberg 인용 기사)
+> 데이터 범위: **연간 9년 (FY17\~FY25, 10월\~9월 회계연도)** — FY17\~FY19 = 분사 Prospectus Combined Financial Statements / FY20\~FY25 = Annual Report·Q4 Earnings Release + **FY26 9M (Q1\~Q3 FY26, 2026-08-05 발표분까지)** + **분기 19Q (Q1 FY22 \~ Q3 FY26, 4개 사업부 기준)** + **ENR.DE 주가 (2020-09 상장 \~ 2026-11-02)**
+> 출처: **Siemens Energy IR (assets.siemens-energy.com) — Earnings Release 24건 (Q4 FY20\~Q3 FY26), Annual Report FY2020·2021·2022·2025 + FY2024 분책(B·C), 2020 Listing Prospectus, CMD 2025 6건, Q3 FY26 Analyst Presentation·Shareholder Letter, Q4 FY26 Pre-close Call transcript (2026-09-30), 자사주 매입 공시 (2026-09-23), Sustainability Report 2023 + FY2025 Sustainability Statement**, **Yahoo Finance ENR.DE**, 보도 (Reuters/Börsen-Zeitung·Bloomberg 인용 기사)
 > ⚠️ **FY2026 Q4·연간 실적은 2026-11-11 (수) 07:00 CET 발표 예정 — 본 v1.0 미반영. 발표 후 v1.1 갱신 예정** (FY26 연간 확정치 + FY27 가이던스 + FY30 목표 + FY30까지 자본배분 프레임 업데이트 예고, 2026-09-30 Pre-close Call 기준)
 
 # Siemens Energy 기업 개요 (v1.0 — 전력 인프라 T2 / 발전 핵심 / 분사 6년차 턴어라운드 후반)
@@ -61,15 +61,15 @@ Source 6종 audit:
 
 → FY23 그룹 PbSI 마진 **-8.9%** (Siemens Gamesa 온쇼어 품질 위기 손실 €4.3bn) → FY24 1.0% → FY25 6.0% → **FY26 9M 12.6%** (시계열 최고)
 
-→ 순이익 FY23 **-€4,588m** → FY24 +€1,335m → FY25 +€1,685m → FY26 9M +€2,769m (가이던스 연간 ~€4bn)
+→ 순이익 FY23 **-€4,588m** → FY24 +€1,335m → FY25 +€1,685m → FY26 9M +€2,769m (가이던스 연간 \~€4bn)
 
 → 턴어라운드의 마지막 조각인 **Siemens Gamesa가 Q3 FY26 PbSI +€75m (2.7%)로 FY22 이후 첫 분기 흑자** — "후반부"로 판단하는 근거
 
 **Secondary 노트: 사이클 (가스터빈·대형 프로젝트 장기 수주 사이클)**
 
-→ 분사 전 Siemens Power & Gas 시절 **FY17 정점 → FY18~FY20 가스터빈 시장 붕괴 저점**을 이미 한 번 겪은 장기 사이클 업종
+→ 분사 전 Siemens Power & Gas 시절 **FY17 정점 → FY18\~FY20 가스터빈 시장 붕괴 저점**을 이미 한 번 겪은 장기 사이클 업종
 
-→ 현재 이익의 43%(GS)가 가스터빈 신규 발주 사이클에 연동 — 데이터센터·석탄→가스 전환으로 **FY25~FY26 사상 최대 수주 국면** (GS 9M FY26 수주 €27.6bn, Book-to-bill 2.65 in Q3)
+→ 현재 이익의 43%(GS)가 가스터빈 신규 발주 사이클에 연동 — 데이터센터·석탄→가스 전환으로 **FY25\~FY26 사상 최대 수주 국면** (GS 9M FY26 수주 €27.6bn, Book-to-bill 2.65 in Q3)
 
 → 단, **Grid Technologies(이익 45%)는 지속성장 성격** (송전망 교체·HVDC·데이터센터 변압기, 백로그 €51bn) → Boundary case 처리 (아래 (5) 참조)
 
@@ -87,12 +87,12 @@ Source 6종 audit:
 
 | 지표 | 값 |
 |------|-----|
-| 매출 CAGR (FY17→FY25, 8년) | **+3.3%/yr** [계산] (분사 후 FY20→FY25 5년 CAGR **+7.3%**, FY26 가이던스 comparable **+14~16%**로 가속) |
+| 매출 CAGR (FY17→FY25, 8년) | **+3.3%/yr** [계산] (분사 후 FY20→FY25 5년 CAGR **+7.3%**, FY26 가이던스 comparable **+14\~16%**로 가속) |
 | OPM 평균 (9년, Adj.EBITA bSI→PbSI) | **2.1%** [계산] |
 | OPM 정점 평균 | **4.8%** — FY17 7.2% (Siemens PG 정점) · FY21 2.3% (국지 정점) / **현재 FY26 9M 12.6%로 시계열 최고 갱신 중** |
 | OPM 저점 평균 | **-4.5%** — FY20 -0.1% (분사·COVID) · FY23 -8.9% (Gamesa 품질 위기) |
-| 사이클 주기 | 약 **3~4년** (peak-to-peak FY17→FY21 4년, trough-to-trough FY20→FY23 3년) — 단 FY23 저점은 업황이 아닌 **기업 고유 이벤트(Gamesa)** |
-| 사이클 회수 (9년) | **정점 2회 / 저점 2회** + FY24~ 상승 국면 진행 중 |
+| 사이클 주기 | 약 **3\~4년** (peak-to-peak FY17→FY21 4년, trough-to-trough FY20→FY23 3년) — 단 FY23 저점은 업황이 아닌 **기업 고유 이벤트(Gamesa)** |
+| 사이클 회수 (9년) | **정점 2회 / 저점 2회** + FY24\~ 상승 국면 진행 중 |
 
 ```
 [Siemens Energy 9년 손익 시계열 (€m, 9월 결산)]  * 이익 = FY17~21 Adj.EBITA before SI / FY22~ Profit before SI (PbSI)
@@ -128,43 +128,43 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 **피어 비교 시사점**
 
-→ FY25 기준 ENR 마진은 피어 최하위 — **Gamesa 적자(-13.1%)가 그룹 마진을 약 7~8%pt 희석** (코어 3사업부 13.7%는 HE·효성과 동급)
+→ FY25 기준 ENR 마진은 피어 최하위 — **Gamesa 적자(-13.1%)가 그룹 마진을 약 7\~8%pt 희석** (코어 3사업부 13.7%는 HE·효성과 동급)
 
 → GEV와 구조가 가장 유사 (가스터빈 + 그리드 + 풍력 적자) — 두 회사 모두 **풍력 적자 축소가 그룹 마진 재평가의 핵심 변수**
 
-→ FY26 9M 12.6%로 HE·효성 수준 진입, CMD 2025 FY28 목표 **14~16%** 달성 시 ABB·SU 하단에 근접
+→ FY26 9M 12.6%로 HE·효성 수준 진입, CMD 2025 FY28 목표 **14\~16%** 달성 시 ABB·SU 하단에 근접
 
 (3) 정량적 분류 근거
 
-→ **수주 레코드 행진** — FY25 수주 €58.9bn (+19% comp.), FY26 Q1~Q3 각각 €17.6bn → €17.7bn → **€17.9bn (분기 레코드)**, Q3 FY26 Book-to-bill 1.57
+→ **수주 레코드 행진** — FY25 수주 €58.9bn (+19% comp.), FY26 Q1\~Q3 각각 €17.6bn → €17.7bn → **€17.9bn (분기 레코드)**, Q3 FY26 Book-to-bill 1.57
 
 → **백로그 €162bn (Q3 FY26말, 사상 최대)** — GS €73bn / GT €51bn / SG €31bn / TI €8bn. FY22말 €97bn 대비 +67% [계산]
 
-→ **가스터빈 공급 부족** — GS 신규 백로그 69 GW + 슬롯 예약(SRA) 26 GW (Q3 FY26), CMD 2025 기준 "FY28까지 생산능력 매진", FY25 가스터빈 194기 판매 (전년 대비 ~2배), 시장점유율 #1 (FY25, McCoy·10MW 초과·O&G 제외)
+→ **가스터빈 공급 부족** — GS 신규 백로그 69 GW + 슬롯 예약(SRA) 26 GW (Q3 FY26), CMD 2025 기준 "FY28까지 생산능력 매진", FY25 가스터빈 194기 판매 (전년 대비 \~2배), 시장점유율 #1 (FY25, McCoy·10MW 초과·O&G 제외)
 
-→ **Grid Technologies 마진 FY22 3.5% → FY26 9M 18.3%** — 백로그 마진 FY22 대비 +9pp (CMD 2025), FY26 마진 가이던스 16~18% → **18~20% 상향 (2026-05)**
+→ **Grid Technologies 마진 FY22 3.5% → FY26 9M 18.3%** — 백로그 마진 FY22 대비 +9pp (CMD 2025), FY26 마진 가이던스 16\~18% → **18\~20% 상향 (2026-05)**
 
 → **Siemens Gamesa 손실 축소** — PbSI FY23 -€4,347m → FY24 -€1,781m → FY25 -€1,364m → FY26 9M -€15m (Q3 +€75m)
 
-→ **현금 창출 전환** — FCF pre tax FY23 €0.8bn → FY25 €4.7bn → FY26 9M **€7.2bn** (가이던스 ~€8bn), 조정 순현금 €7.7bn (2026-06말)
+→ **현금 창출 전환** — FCF pre tax FY23 €0.8bn → FY25 €4.7bn → FY26 9M **€7.2bn** (가이던스 \~€8bn), 조정 순현금 €7.7bn (2026-06말)
 
 **FY26 가이던스 (2026-05-12 상향 → 2026-08-05 확인, 마진은 상단 지향)**
 
-→ Comparable 매출 성장 **+14~16%** (최초 +11~13%)
+→ Comparable 매출 성장 **+14\~16%** (최초 +11\~13%)
 
-→ PbSI 마진 **10~12%** (최초 9~11%) — Q3에 "상단 지향" 언급
+→ PbSI 마진 **10\~12%** (최초 9\~11%) — Q3에 "상단 지향" 언급
 
-→ 순이익 **~€4bn** (최초 €3~4bn) / FCF pre tax **~€8bn** (최초 €4~5bn)
+→ 순이익 **\~€4bn** (최초 €3\~4bn) / FCF pre tax **\~€8bn** (최초 €4\~5bn)
 
-→ 사업부: GS +16~18% / 14~16% · GT +25~27% / **18~20%** · TI +5~7% / 11~13% · SG +3~5% / break-even
+→ 사업부: GS +16\~18% / 14\~16% · GT +25\~27% / **18\~20%** · TI +5\~7% / 11\~13% · SG +3\~5% / break-even
 
 **CMD 2025 (2025-11-20) FY28 중기 목표**
 
-→ 그룹: 매출 low-teens CAGR (FY25 기준), **PbSI 마진 14~16%**, FY26~28 누적 FCF pre tax ~€20bn
+→ 그룹: 매출 low-teens CAGR (FY25 기준), **PbSI 마진 14\~16%**, FY26\~28 누적 FCF pre tax \~€20bn
 
-→ 사업부 마진: GS **18~20%** (기존 12~14%) / GT **18~20%** (기존 13~15%) / TI **12~14%** / SG **3~5%**
+→ 사업부 마진: GS **18\~20%** (기존 12\~14%) / GT **18\~20%** (기존 13\~15%) / TI **12\~14%** / SG **3\~5%**
 
-→ 자본배분: FY26~28 **최대 €10bn 주주환원** (배당 ~€4bn + 자사주 최대 €6bn), 배당성향 40~60%, CapEx 누적 ~€6bn
+→ 자본배분: FY26\~28 **최대 €10bn 주주환원** (배당 \~€4bn + 자사주 최대 €6bn), 배당성향 40\~60%, CapEx 누적 \~€6bn
 
 (4) 산업 분류
 
@@ -181,30 +181,30 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 (2) **secular 변수 sub-rule 적용** (이익 비중 우선):
    - 이익 기준으로는 GT 44% · GS 43% · TI 13% · SG ≈0% (FY26 9M 세그먼트 합계 대비) [계산]
    - 그룹 마진의 9년 진폭(16.1pp)을 만든 것은 업황이 아니라 SG 품질 사고(FY23) → **사이클 분류의 정량 cutoff는 충족하나, 진폭의 원인이 기업 고유 → Primary 턴어라운드**
-   - 코어 3사업부는 FY22~FY26 4년 단조 우상향 → 턴어라운드 졸업 후 Primary 후보는 "사이클"과 "지속성장" 사이
+   - 코어 3사업부는 FY22\~FY26 4년 단조 우상향 → 턴어라운드 졸업 후 Primary 후보는 "사이클"과 "지속성장" 사이
 
 (3) **Boundary case 처리 (Primary + Secondary)**:
    - Primary **턴어라운드 (후반부)** — SG break-even 도달 (FY26) 전까지 유지
-   - Secondary **사이클** — 가스터빈 신규 발주(GS 수주의 ~40%가 신규 장비, CMD) 의존, 분사 전 FY17→FY20 하강 이력
+   - Secondary **사이클** — 가스터빈 신규 발주(GS 수주의 \~40%가 신규 장비, CMD) 의존, 분사 전 FY17→FY20 하강 이력
    - 지속성장 요소(GT)는 Secondary 내 "부분 지속성장"으로 표기 — GT 이익 비중이 50%를 넘고 유지되면 분류 재검토 (② 분류 변경 조건 참조)
 
 (4) **글로벌 피어 cross-ref**:
-   - **GE Vernova** — 턴어라운드 (Primary) + 지속성장 (Secondary). 가스터빈·그리드·풍력 동일 3축 → **ENR과 가장 동일한 분류 경로**, 차이는 ENR이 풍력 손실 정상화에서 1~2분기 앞서 있고(Q3 FY26 SG 흑자) GEV는 가스 백로그 규모(122 GW, 2026 Q3)가 더 큼
+   - **GE Vernova** — 턴어라운드 (Primary) + 지속성장 (Secondary). 가스터빈·그리드·풍력 동일 3축 → **ENR과 가장 동일한 분류 경로**, 차이는 ENR이 풍력 손실 정상화에서 1\~2분기 앞서 있고(Q3 FY26 SG 흑자) GEV는 가스 백로그 규모(122 GW, 2026 Q3)가 더 큼
    - **Hitachi Energy** — 지속성장 (Primary). ENR GT와 직접 경쟁 (HVDC·변압기) — GT만 떼면 HE형 지속성장
    - **ABB · Schneider · Eaton** — 지속성장 (Primary). 저압·배전·자동화 중심으로 대형 프로젝트 사이클 노출이 작음
    - **효성중공업 · HD현대일렉트릭 · LS일렉트릭** — 사이클 (Primary) + 지속성장 진입 (Secondary). 변압기 업사이클 노출은 ENR GT와 공통
 
 (6) 적정 밸류에이션 방법 (단위 밸류는 분기 실적 분석, Terminal 밸류는 테마 통합 모드)
 
-→ **사업부 mix → method 연결**: 이익의 ~87%가 GS+GT (FY26 9M), SG는 손익분기, TI는 매각 검토 → **턴어라운드 기업은 trailing 지표가 왜곡**되므로 **정상화 이익(FY27~FY28) 기반 Forward PER가 1차**
+→ **사업부 mix → method 연결**: 이익의 \~87%가 GS+GT (FY26 9M), SG는 손익분기, TI는 매각 검토 → **턴어라운드 기업은 trailing 지표가 왜곡**되므로 **정상화 이익(FY27\~FY28) 기반 Forward PER가 1차**
 
-→ **1차 — Forward PER (정상화 이익)**: FY26 순이익 가이던스 ~€4bn (비지배 포함) ÷ 시총 ~€110bn → **~27.5x** [계산: 주가 €130 × 가중평균 주식수 848.6m(Q3 FY26)]. CMD FY28 마진 14~16% 달성 시 이익 레벨 상향 여지
+→ **1차 — Forward PER (정상화 이익)**: FY26 순이익 가이던스 \~€4bn (비지배 포함) ÷ 시총 \~€110bn → **\~27.5x** [계산: 주가 €130 × 가중평균 주식수 848.6m(Q3 FY26)]. CMD FY28 마진 14\~16% 달성 시 이익 레벨 상향 여지
 
 → **2차 — SOTP (사업부 분리 가치)**: GS(가스 사이클 multiple) + GT(HE·그리드 피어 premium multiple) + TI(매각 시 시장 가치 >€10bn 보도) + SG(턴어라운드 옵션). TI 지배지분 매각이 현실화되면 SOTP 비중 확대
 
-→ **3차 — EV/EBITA (FY28 목표 기준)**: EV ~€102bn [계산: 시총 €110bn − 조정 순현금 €7.7bn] ÷ FY28 PbSI €7.5~9.0bn [계산: FY25 매출 €39.1bn × 연 11~13% 성장 3년 × 마진 14~16%] → **~11~14x** [계산]
+→ **3차 — EV/EBITA (FY28 목표 기준)**: EV \~€102bn [계산: 시총 €110bn − 조정 순현금 €7.7bn] ÷ FY28 PbSI €7.5\~9.0bn [계산: FY25 매출 €39.1bn × 연 11\~13% 성장 3년 × 마진 14\~16%] → **\~11\~14x** [계산]
 
-→ **PBR 미사용 근거** — FY23 대규모 손실로 자본이 €17.1bn → €8.8bn 반감, 이후 자사주·배당으로 자본 레벨이 이익 체력을 반영 못함 (FY25 ROE 15.8%, P/B ~10x [계산] — 지표로서 의미 낮음)
+→ **PBR 미사용 근거** — FY23 대규모 손실로 자본이 €17.1bn → €8.8bn 반감, 이후 자사주·배당으로 자본 레벨이 이익 체력을 반영 못함 (FY25 ROE 15.8%, P/B \~10x [계산] — 지표로서 의미 낮음)
 
 → **삼성전자 대비**: 삼성전자는 메모리 사이클이 이익 진폭을 만드는 "사이클" → PBR 밴드 + PER 혼합, ENR은 진폭의 원인이 Gamesa 품질 사고인 "턴어라운드" → PBR 대신 **정상화 이익 기반 Forward PER + SOTP**. 분류 차이 = 밸류 방법론 차이
 
@@ -230,13 +230,13 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 - **법인명** — Siemens Energy AG (독일 주식회사, Aktiengesellschaft)
 - **본사** — Otto-Hahn-Ring 6, 81739 Munich, Germany
-- **상장** — Frankfurt Stock Exchange (XETRA: ENR), 2020-09-28 / DAX 40 (2021-03~) / OTC ADR SMNEY
-- **회계연도** — 10월 1일 ~ 9월 30일 (FY26 = 2025-10 ~ 2026-09)
+- **상장** — Frankfurt Stock Exchange (XETRA: ENR), 2020-09-28 / DAX 40 (2021-03\~) / OTC ADR SMNEY
+- **회계연도** — 10월 1일 \~ 9월 30일 (FY26 = 2025-10 \~ 2026-09)
 - **사업 한 줄 정의** — 발전(가스·스팀터빈), 송전(HVDC·변압기·GIS), 산업 공정(압축기·전해조), 풍력(Siemens Gamesa)을 한 지붕 아래 운영하는 **"전력 가치사슬 중 전기를 만들고(발전) 보내는(송전) 장비"** 전문 기업
 - **CEO** — Dr. Christian Bruch (President & CEO, 2020 분사 이후)
-- **CFO** — Maria Ferraro (2020~)
+- **CFO** — Maria Ferraro (2020\~)
 - **감독이사회 의장** — Joe Kaeser (전 Siemens AG CEO)
-- **직원 수** — **~106,000명** (2026-06말, 독일 29천·해외 77천) / FY25말 103,000명
+- **직원 수** — **\~106,000명** (2026-06말, 독일 29천·해외 77천) / FY25말 103,000명
 - **브랜드** — 2026-07-14 신규 브랜드 **Omterra** 발표 (Siemens 상표 라이선스 기한 만료 대응, Siemens Gamesa 포함 단일 브랜드로 단계 전환). Siemens 상표 수수료(GS·GT·TI 매출의 1.2%)는 FY30까지 존속 (CMD 2025)
 
 (2) 핵심 KPI 요약 (FY25 실적 + Q3 FY26 + FY26 가이던스)
@@ -244,24 +244,24 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | 항목 | FY25 실적 | Q3 FY26 실적 | FY26 9M 누적 | FY26 가이던스 (상향) |
 |---|---|---|---|---|
 | 수주 (€bn) | 58.9 | 17.9 (레코드) | 53.3 | — |
-| 매출 (€bn) | 39.1 (+15.2% comp.) | 11.4 (+18.5% comp.) | 31.4 | comp. +14~16% |
+| 매출 (€bn) | 39.1 (+15.2% comp.) | 11.4 (+18.5% comp.) | 31.4 | comp. +14\~16% |
 | PbSI (€m) | 2,355 | 1,623 | 3,946 | — |
-| PbSI 마진 | 6.0% | 14.2% | 12.6% | 10~12% (상단 지향) |
-| 순이익 (€m) | 1,685 | 1,188 | 2,769 | ~€4bn |
+| PbSI 마진 | 6.0% | 14.2% | 12.6% | 10\~12% (상단 지향) |
+| 순이익 (€m) | 1,685 | 1,188 | 2,769 | \~€4bn |
 | 기본 EPS (€) | 1.63 | 1.28 | 2.96 | — |
-| FCF pre tax (€m) | 4,663 | 2,319 | 7,163 | ~€8bn |
+| FCF pre tax (€m) | 4,663 | 2,319 | 7,163 | \~€8bn |
 | 백로그 (€bn) | 138 | 162 (레코드) | — | — |
 | 조정 순현금 (€m) | 4,790 | 7,719 (6월말) | — | — |
 
 (3) 주요 연혁 (시대별)
 
-**1기 (~2020-03) — Siemens 사업부 시절 (Power & Gas / Energy Management / Wind)**
+**1기 (\~2020-03) — Siemens 사업부 시절 (Power & Gas / Energy Management / Wind)**
 
 → **1969년** — Siemens·AEG 합작 Kraftwerk Union (KWU) 설립 → 1977년 Siemens 단독 — 독일 발전설비 본류
 
 → **1998년** — Westinghouse Power Generation 인수 — 미국 가스터빈(F-class) 기반 확보
 
-→ **2014~2015년** — Dresser-Rand 인수 (압축기, ~$7.6bn) + Rolls-Royce 항공전용 가스터빈 사업 인수 — 현 TI·GS 소형 라인업의 뿌리
+→ **2014\~2015년** — Dresser-Rand 인수 (압축기, \~$7.6bn) + Rolls-Royce 항공전용 가스터빈 사업 인수 — 현 TI·GS 소형 라인업의 뿌리
 
 → **2017-04** — Siemens Wind Power + Gamesa 합병 → **Siemens Gamesa Renewable Energy (SGRE)** 상장 (Siemens 59%)
 
@@ -269,9 +269,9 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 → **2019-05** — Siemens AG, Gas and Power 사업 분사 결정 발표
 
-**2기 (2020-04 ~ 2022) — 분사·상장과 SGRE 통합**
+**2기 (2020-04 \~ 2022) — 분사·상장과 SGRE 통합**
 
-→ **2020-02** — Iberdrola 보유 SGRE 지분 8% 인수 (~€1.1bn) → SGRE 지분 67%
+→ **2020-02** — Iberdrola 보유 SGRE 지분 8% 인수 (\~€1.1bn) → SGRE 지분 67%
 
 → **2020-04-01** — Siemens Energy 법인 분리 출범 / **2020-09-28 Frankfurt 상장** (Siemens AG 35.1% + Siemens Pension-Trust 9.9% 보유, Siemens 주주에 2주당 1주 분배) — 시초 €22 내외
 
@@ -279,9 +279,9 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 → **2022-03** — 러시아 사업 철수
 
-→ **2022-05** — SGRE 100% 공개매수 발표 (€18.05/주, ~€4bn) → 2022-09 강제전환사채 €960m + 10% 유상증자 (현금 유입 FY23 €1,243m) → **2023-02 SGRE 상장폐지**
+→ **2022-05** — SGRE 100% 공개매수 발표 (€18.05/주, \~€4bn) → 2022-09 강제전환사채 €960m + 10% 유상증자 (현금 유입 FY23 €1,243m) → **2023-02 SGRE 상장폐지**
 
-→ **FY23 (2022-10~)** — 4개 사업부(GS·GT·TI·SG) 체제로 재편, 주 이익 지표를 Adjusted EBITA → **Profit before Special items**로 변경
+→ **FY23 (2022-10\~)** — 4개 사업부(GS·GT·TI·SG) 체제로 재편, 주 이익 지표를 Adjusted EBITA → **Profit before Special items**로 변경
 
 **3기 (2023) — Gamesa 품질 위기와 정부 보증**
 
@@ -293,9 +293,9 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 → **2023-10-26** — 보증 한도 확보 위해 독일 정부와 협의 공시 → 주가 장중 €6.4 (상장 이후 최저)
 
-→ **2023-11** — **총 €15bn 보증 프레임** 합의 (은행 컨소시엄 보증 €12bn — 2023-12-22 체결 — 에 대해 연방정부 역보증; 조건: 보증 사용 기간 무배당·경영진 변동보수 금지) / Siemens Ltd India 지분 18% Siemens AG에 매각 (~€2.1bn) / CMD 2023 / Siemens AG가 지분 8%를 연금신탁으로 이전 (25.1% → 17.1%, 2023-12)
+→ **2023-11** — **총 €15bn 보증 프레임** 합의 (은행 컨소시엄 보증 €12bn — 2023-12-22 체결 — 에 대해 연방정부 역보증; 조건: 보증 사용 기간 무배당·경영진 변동보수 금지) / Siemens Ltd India 지분 18% Siemens AG에 매각 (\~€2.1bn) / CMD 2023 / Siemens AG가 지분 8%를 연금신탁으로 이전 (25.1% → 17.1%, 2023-12)
 
-**4기 (2024 ~ 현재) — 턴어라운드와 재평가**
+**4기 (2024 \~ 현재) — 턴어라운드와 재평가**
 
 → **2024-11** — FY24 흑전 (순이익 €1.3bn, India 매각 차익 포함) + 중기 목표 상향
 
@@ -305,15 +305,15 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 → **2025-06** — Siemens Ltd(India)에서 에너지 사업 분할 → **Siemens Energy India** 별도 상장 (Q3 FY25 Special items +€458m)
 
-→ **2025-11-20** — **CMD 2025**: FY28 PbSI 마진 14~16%, FY26~28 최대 €10bn 주주환원 (자사주 최대 €6bn)
+→ **2025-11-20** — **CMD 2025**: FY28 PbSI 마진 14\~16%, FY26\~28 최대 €10bn 주주환원 (자사주 최대 €6bn)
 
-→ **2026-02-26** — 주총: FY25 배당 **€0.70/주** (~€0.6bn) 승인
+→ **2026-02-26** — 주총: FY25 배당 **€0.70/주** (\~€0.6bn) 승인
 
 → **2026-04-02** — Siemens AG 보유 지분 10.1% → **5.5%** (선도계약 만기, €3.8bn) — "적절한 기간 내 전량 매각" 목표 유지 [Reuters/Börsen-Zeitung]
 
 → **2026-04 (주간)** — 주가 ATH €191.66 (장중)
 
-→ **2026-05-12** — FY26 가이던스 상향 (매출 +14~16%, 마진 10~12%, FCF ~€8bn)
+→ **2026-05-12** — FY26 가이던스 상향 (매출 +14\~16%, 마진 10\~12%, FCF \~€8bn)
 
 → **2026-07-14** — 신규 브랜드 **Omterra** 전환 발표
 
@@ -321,20 +321,20 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 → **2026-08 (보도)** — TI(산업용 스팀터빈·압축기) 지배지분 매각 위해 Goldman Sachs 선임 보도 (Bloomberg, 가치 >€10bn 거론) — **회사 공식 확인 없음**
 
-→ **2026-09-24** — 자사주 매입 개시 (최대 €2bn·5,000만 주, ~2027-03-31) — FY28까지 최대 €6bn 프로그램의 일부
+→ **2026-09-24** — 자사주 매입 개시 (최대 €2bn·5,000만 주, \~2027-03-31) — FY28까지 최대 €6bn 프로그램의 일부
 
 → **2026-11-11 (예정)** — Q4·FY26 실적 + **FY27 가이던스 + FY30 목표 + FY30까지 자본배분 프레임** 발표
 
 (4) 회사 주가 역사 (narrative 영역)
 
-![Siemens Energy 월간 주가 2020-09 ~ 2026-11](charts/ENR_chart11_주가6년.png)
+![Siemens Energy 월간 주가 2020-09 \~ 2026-11](charts/ENR_chart11_주가6년.png)
 
 **시가총액·주가 데이터** (Yahoo Finance ENR.DE, 주간 → 월말 종가)
 
-- 상장: 2020-09-28 ~€22 (첫 월말 €22.4)
-- 1차 고점: 2021-01~03 ~€31 (DAX 편입·수소 테마)
-- 최저: **2023-10 장중 €6.40** (보증 협의 공시 주간) — 시총 ~€5bn 수준 [계산: 약 8억 주 기준]
-- **ATH: 2026-04 주간 장중 €191.66** (주간 종가 고점 €187.6) — 저점 대비 ~30배 [계산]
+- 상장: 2020-09-28 \~€22 (첫 월말 €22.4)
+- 1차 고점: 2021-01\~03 \~€31 (DAX 편입·수소 테마)
+- 최저: **2023-10 장중 €6.40** (보증 협의 공시 주간) — 시총 \~€5bn 수준 [계산: 약 8억 주 기준]
+- **ATH: 2026-04 주간 장중 €191.66** (주간 종가 고점 €187.6) — 저점 대비 \~30배 [계산]
 - 현재: **€130.0 (2026-11-02 종가)** — ATH 대비 -32% [계산] / 시총 **$122.3B** [companiesmarketcap.com, 2026-11] ≈ €110bn [계산]
 - 연말 시총 (companiesmarketcap, USD): 2020 $14.9B → 2021 $18.3B → 2022 $13.5B → 2023 $10.5B → 2024 $41.2B → 2025 $121.2B
 
@@ -366,7 +366,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 (1) 실적 추이 통합 표 (5년, 사업부별·지역별·유형별)
 
-**연간 5년 통합 표 (€m, FY22~FY25 restated + FY26 9M)**
+**연간 5년 통합 표 (€m, FY22\~FY25 restated + FY26 9M)**
 
 | 항목 | FY22 | FY23 | FY24 | FY25 | FY26 9M |
 |------|------|------|------|------|------|
@@ -394,12 +394,12 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | &nbsp;&nbsp;&nbsp;&nbsp;└ Asia·Australia (그중 중국) | | | 6,120 (1,516) | 6,453 (1,465) | |
 | └ 유형별 매출 (FY25) | | | | | |
 | &nbsp;&nbsp;&nbsp;&nbsp;└ New Units (신규 장비) | | | 22,235 | 25,607 | |
-| &nbsp;&nbsp;&nbsp;&nbsp;└ 서비스 등 (잔여) | | | ~12,230 [계산] | ~13,470 [계산] | |
+| &nbsp;&nbsp;&nbsp;&nbsp;└ 서비스 등 (잔여) | | | \~12,230 [계산] | \~13,470 [계산] | |
 
 > **사업부 구성 변경 매핑**:
-> - **FY17~FY19 (Siemens 내부, Prospectus)**: Gas and Power (GP) = Generation + Transmission + Industrial Applications (+ New Energy Business) / SGRE
-> - **FY20~FY22 (분사 후 보고)**: GP + SGRE 2개 부문, 이익 지표 Adjusted EBITA
-> - **FY23~ (2022-10 재편)**: **Generation → Gas Services**, **Transmission → Grid Technologies**, **Industrial Applications + New Energy(전해조) → Transformation of Industry**, **SGRE → Siemens Gamesa** / 이익 지표 **Profit before Special items** (FY22 restated)
+> - **FY17\~FY19 (Siemens 내부, Prospectus)**: Gas and Power (GP) = Generation + Transmission + Industrial Applications (+ New Energy Business) / SGRE
+> - **FY20\~FY22 (분사 후 보고)**: GP + SGRE 2개 부문, 이익 지표 Adjusted EBITA
+> - **FY23\~ (2022-10 재편)**: **Generation → Gas Services**, **Transmission → Grid Technologies**, **Industrial Applications + New Energy(전해조) → Transformation of Industry**, **SGRE → Siemens Gamesa** / 이익 지표 **Profit before Special items** (FY22 restated)
 > - 이익 지표 차이: FY22 기준 Adjusted EBITA before SI €378m vs PbSI €225m — 시계열 단절은 FY22에서 1회
 > - 2026-07 Omterra 브랜드 발표 / TI 지배지분 매각 검토 보도 (미확정) — 확정 시 TI는 중단사업 분류 가능
 
@@ -409,21 +409,21 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 "발전소의 심장인 가스터빈·스팀터빈을 만들어 팔고, 이후 20년간 정비(서비스)로 돈을 버는 사업부."
 
-- **대형 가스터빈 (100~600 MW)**: **HL-class** (SGT5/6-9000HL, 440/593 MW급 — 65기 확보·15기 가동, FY25), **F-class** (260/385 MW급, FY25 점유율 ~37%)
-- **중형 가스터빈 (20~100 MW)**: **SGT-800** (62 MW급 — 해당 출력대 FY25 점유율 ~90%, 회사 자료) — 데이터센터 자가발전·산업용
-- **항공전용(Aero) 가스터빈 (~65 MW)**: SGT-A35·A65 (Rolls-Royce 사업 인수 계보) — 피크용·FPSO·Powership
-- **소형 가스터빈 (~20 MW)**: SGT-400 등
-- **스팀터빈·발전기**: 복합화력용 + 원자력 재래식 섬(conventional island, 1,000 MW+) + SMR 대응 (~500 MW)
-- **서비스**: 장기 서비스 계약(LTSA), 업그레이드, 부품 — 원전 스팀터빈 함대 >80 GW 서비스, GT 1GW당 서비스 수익 잠재력 ~€400m (CMD)
+- **대형 가스터빈 (100\~600 MW)**: **HL-class** (SGT5/6-9000HL, 440/593 MW급 — 65기 확보·15기 가동, FY25), **F-class** (260/385 MW급, FY25 점유율 \~37%)
+- **중형 가스터빈 (20\~100 MW)**: **SGT-800** (62 MW급 — 해당 출력대 FY25 점유율 \~90%, 회사 자료) — 데이터센터 자가발전·산업용
+- **항공전용(Aero) 가스터빈 (\~65 MW)**: SGT-A35·A65 (Rolls-Royce 사업 인수 계보) — 피크용·FPSO·Powership
+- **소형 가스터빈 (\~20 MW)**: SGT-400 등
+- **스팀터빈·발전기**: 복합화력용 + 원자력 재래식 섬(conventional island, 1,000 MW+) + SMR 대응 (\~500 MW)
+- **서비스**: 장기 서비스 계약(LTSA), 업그레이드, 부품 — 원전 스팀터빈 함대 >80 GW 서비스, GT 1GW당 서비스 수익 잠재력 \~€400m (CMD)
 - **수소 혼소/전소** 대응 가스터빈 개발
 
 **Grid Technologies (GT) — 매출 비중 31%**
 
 "발전소에서 만든 전기를 멀리, 안정적으로 보내는 송전망 장비(직류송전·변압기·개폐기)를 만드는 사업부."
 
-- **HVDC 솔루션**: **HVDC PLUS** (전압형 VSC), LCC — **글로벌 설치 HVDC의 ~30%** (회사 자료), 해상풍력 계통연계 (독일 TenneT 2 GW 표준 플랫폼 등)
+- **HVDC 솔루션**: **HVDC PLUS** (전압형 VSC), LCC — **글로벌 설치 HVDC의 \~30%** (회사 자료), 해상풍력 계통연계 (독일 TenneT 2 GW 표준 플랫폼 등)
 - **변전소 (Substations)**: AIS·GIS 턴키 / **Blue GIS** (SF₆-free 친환경 개폐기)
-- **변압기 (Products)**: 대형 전력용 변압기·HVDC 변압기·배전 변압기 — **글로벌 설치 전력변압기의 ~20%**
+- **변압기 (Products)**: 대형 전력용 변압기·HVDC 변압기·배전 변압기 — **글로벌 설치 전력변압기의 \~20%**
 - **개폐기·차단기**: 고압 GIS·AIS·Dead-tank 차단기
 - **계통 안정화**: FACTS·STATCOM·**eSTATCOM**·동기조상기
 - **디지털·서비스**: Sensformer (디지털 변압기), 자산관리 SW — 2030 서비스 수주 2배, 디지털 반복매출 >€1bn 목표
@@ -433,7 +433,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 "바다(오프쇼어)와 육지(온쇼어)에 세우는 풍력 터빈을 만들고 정비하는 사업부. 2023년 품질 사고 이후 정상화 중."
 
-- **오프쇼어 터빈**: **SG 14-222 DD / SG 14-236 DD** (Direct Drive, 14~15 MW급) — 설치 31 GW (>5,100기), 하루 ~1기 설치 속도, 글로벌 오프쇼어 리더
+- **오프쇼어 터빈**: **SG 14-222 DD / SG 14-236 DD** (Direct Drive, 14\~15 MW급) — 설치 31 GW (>5,100기), 하루 \~1기 설치 속도, 글로벌 오프쇼어 리더
 - **온쇼어 터빈**: **4.X / 5.X 플랫폼** (2023 품질 결함 → 기술 해결책 대부분 적용) → 재설계 **SG 5.0-145 (2.0)** · **SG 7.0-170** 판매 재개 / 설치 119 GW (>61,000기)
 - **서비스**: 온·오프쇼어 운영·정비 — 수익성 목표 회복 진행
 - **전략**: 온쇼어는 12개 핵심국 집중·서비스 중심으로 축소, 인도 풍력 사업 매각 추진 (FY25 보유자산 분류)
@@ -460,16 +460,16 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 **향후 큰 매출 기대 (growth)**:
 
-- **가스터빈 증설** — 생산능력 FY24 17 GW → FY25~27 평균 22 GW → FY28~30 평균 >30 GW (CMD 2025, 가스터빈 210~230기/년), "FY28까지 매진"
-- **GT 공장 증설** — FY23~25 ~€600m 투자(+20% 능력) → FY28까지 추가 ~€2bn, 변압기 능력 ~2배 계획
-- **HVDC·해상 계통연계** — 시장 FY22~24 ~€45bn → FY28~30 ~€95bn (2배, 회사 추정), GT Solutions 백로그 66%가 HVDC·오프쇼어 (평균 소화 5~7년)
+- **가스터빈 증설** — 생산능력 FY24 17 GW → FY25\~27 평균 22 GW → FY28\~30 평균 >30 GW (CMD 2025, 가스터빈 210\~230기/년), "FY28까지 매진"
+- **GT 공장 증설** — FY23\~25 \~€600m 투자(+20% 능력) → FY28까지 추가 \~€2bn, 변압기 능력 \~2배 계획
+- **HVDC·해상 계통연계** — 시장 FY22\~24 \~€45bn → FY28\~30 \~€95bn (2배, 회사 추정), GT Solutions 백로그 66%가 HVDC·오프쇼어 (평균 소화 5\~7년)
 - **원전 재래식 섬·SMR 스팀터빈** — 원전 재부상 수혜 옵션
 
 **이익 outlier (가이던스·CMD 기준)**:
 
-- **GS 서비스** — 백로그 마진 FY22 대비 신규장비 +~12pp, 서비스 +~3pp (CMD 2025) → FY28 마진 18~20%
-- **GT 백로그 마진** FY22 대비 +9pp → FY26 마진 가이던스 18~20% (FY28 목표를 2년 앞당김)
-- **SG** — FY26 break-even → FY28 3~5% 목표, 온쇼어 신규 백로그 ~€2bn으로 축소 (리스크 감소)
+- **GS 서비스** — 백로그 마진 FY22 대비 신규장비 +\~12pp, 서비스 +\~3pp (CMD 2025) → FY28 마진 18\~20%
+- **GT 백로그 마진** FY22 대비 +9pp → FY26 마진 가이던스 18\~20% (FY28 목표를 2년 앞당김)
+- **SG** — FY26 break-even → FY28 3\~5% 목표, 온쇼어 신규 백로그 \~€2bn으로 축소 (리스크 감소)
 
 (4) 주요 경쟁사 (사업부별)
 
@@ -484,7 +484,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 - **1. 유럽 송전망 운영사 (TSO)** — TenneT (독일·네덜란드 2 GW 해상 계통연계 프레임), Amprion·50Hertz (독일), National Grid (영국) — GT 최대 고객군 [추정]
 - **2. 미국 전력회사·IPP·데이터센터 개발사** — Williams (데이터센터 전용 5 GW, CMD 2025 사례) 등 — FY25 미국 수주 €17.0bn (+71% comp.)
-- **3. 중동 국영 전력·수전력 기관** — 사우디·UAE 가스 발전 프로그램 (~50 GW 계획, CMD) [추정]
+- **3. 중동 국영 전력·수전력 기관** — 사우디·UAE 가스 발전 프로그램 (\~50 GW 계획, CMD) [추정]
 - **4. 아시아 발전·제조사** — 대만 Mai Liao·Kuo Kuang (반도체 제조·석탄→가스 전환, CMD 사례)
 - **5. 해상풍력 개발사** — Ørsted·RWE·Iberdrola·Vattenfall 등 [추정]
 - **6. 석유·가스·화학 (TI)** — LNG·정유·석유화학 EPC [추정]
@@ -492,8 +492,8 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 (6) 생산 CAPA + 임직원 추이
 
-- **가스터빈 능력** — FY24 17 GW (~110기) → FY25~27 평균 22 GW (~160기) → FY28~30 평균 >30 GW (210~230기) / 주요 거점: 베를린 (대형 GT), Charlotte (미국, 제조 시간당 효율 +45%), Finspång (스웨덴, SGT-800), Görlitz·Mülheim (스팀터빈)
-- **변압기·GIS 능력** — FY23~25 +20% → 2배 확대 계획 / 거점: Nuremberg·Weiz (오스트리아)·Charlotte (미국)·Berlin (GIS)
+- **가스터빈 능력** — FY24 17 GW (\~110기) → FY25\~27 평균 22 GW (\~160기) → FY28\~30 평균 >30 GW (210\~230기) / 주요 거점: 베를린 (대형 GT), Charlotte (미국, 제조 시간당 효율 +45%), Finspång (스웨덴, SGT-800), Görlitz·Mülheim (스팀터빈)
+- **변압기·GIS 능력** — FY23\~25 +20% → 2배 확대 계획 / 거점: Nuremberg·Weiz (오스트리아)·Charlotte (미국)·Berlin (GIS)
 - **풍력** — Brande (덴마크), Cuxhaven (독일)·Hull (영국) 오프쇼어 나셀·블레이드
 - **임직원 (천 명)** — GS 엔지니어 7,400명, FY25 GS 4,700명 채용
     - FY19 89 / FY20 93 / FY21 91 / FY22 92
@@ -531,7 +531,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | Q2 FY26 | 10,294 | 17,749 | 1,164 | 11.3% | 15.9% | 17.1% | 12.0% | -1.7% | 가이던스 상향 |
 | Q3 FY26 | 11,447 | 17,926 | 1,623 | **14.2%** | **17.3%** | **19.9%** | **14.3%** | **2.7%** | ← 레코드 + SG 흑전 |
 
-> FY22 분기는 FY23 Earnings Release의 restated 전년 컬럼, FY23~FY25 분기는 다음 해 Earnings Release 전년 컬럼(최신 restated) 사용. 마진은 [계산].
+> FY22 분기는 FY23 Earnings Release의 restated 전년 컬럼, FY23\~FY25 분기는 다음 해 Earnings Release 전년 컬럼(최신 restated) 사용. 마진은 [계산].
 
 ---
 
@@ -552,13 +552,13 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | **FY25** | **39,077** | **6,579** | **16.8%** | **1,210** | **3,492** | **2,355** | **6.0%** | **1,685** | **4.3%** | **1.63** | **0.70** |
 | FY26 9M | 31,416 | — | — | — | — | 3,946 | 12.6% | 2,769 | 8.8% | 2.96 | — |
 
-> \* 이익 = FY17~FY21 Adjusted EBITA before Special items (FY17~19 Combined, Prospectus) / FY22~ Profit before Special items (회사 정의, FY22 restated). IFRS 순이익(비지배지분 포함) 병기. FY22 순이익·매출총이익은 FY23 보고서 restated 값.
-> FY20~FY21 Adjusted EBITA (SI 반영 후): -1,543 / -12 · FY22 Adjusted EBITA (구 기준) -75. Special items 누계 FY20 -€1,526m, FY21 -€673m.
+> \* 이익 = FY17\~FY21 Adjusted EBITA before Special items (FY17\~19 Combined, Prospectus) / FY22\~ Profit before Special items (회사 정의, FY22 restated). IFRS 순이익(비지배지분 포함) 병기. FY22 순이익·매출총이익은 FY23 보고서 restated 값.
+> FY20\~FY21 Adjusted EBITA (SI 반영 후): -1,543 / -12 · FY22 Adjusted EBITA (구 기준) -75. Special items 누계 FY20 -€1,526m, FY21 -€673m.
 > FY24 순이익 €1,335m은 Siemens Ltd India 지분 매각 차익(Special items +€2,038m) 포함 — 영업 체력 기준 PbSI는 €345m.
 
 → FY17→FY25 매출 +29.9%, CAGR +3.3%/yr [계산] — 분사 후 FY20→FY25 +42.3%, CAGR +7.3% [계산]
 → GPM: FY23 2.4% 바닥 → FY25 16.8% (FY17 Siemens PG 시절 17.5% 근접) — 품질 비용 소멸 + 가격 결정력
-→ SG&A/매출(CIR): 8.7%~11.3% 범위, FY25 8.9% — CMD 목표는 추가 하향 (Siemens 상표 수수료 0.8~0.9%p 포함)
+→ SG&A/매출(CIR): 8.7%\~11.3% 범위, FY25 8.9% — CMD 목표는 추가 하향 (Siemens 상표 수수료 0.8\~0.9%p 포함)
 
 (2) 재무상태표 (9년, €m) + chart4
 
@@ -575,7 +575,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | **FY25** | **56,637** | **45,962** | **10,675** | **431%** | **9,162** | **+4,790** |
 | 2026-06 | 63,836 | 52,665 [계산] | 11,171 | 471% [계산] | 11,088 | **+7,719** |
 
-> 부채비율 = 부채총계/자본총계 [계산]. 부채의 최대 항목은 **계약부채(고객 선수금) €22.3bn (FY25)** — 이자부 차입금(€4.0bn)이 아닌 선수금이 부채를 키우는 구조 → 부채비율보다 순현금·계약부채 추이가 의미 있음. FY20~FY22 조정 순현금은 본 수집 범위에서 미추출 (누락).
+> 부채비율 = 부채총계/자본총계 [계산]. 부채의 최대 항목은 **계약부채(고객 선수금) €22.3bn (FY25)** — 이자부 차입금(€4.0bn)이 아닌 선수금이 부채를 키우는 구조 → 부채비율보다 순현금·계약부채 추이가 의미 있음. FY20\~FY22 조정 순현금은 본 수집 범위에서 미추출 (누락).
 
 ![Siemens Energy 자산·자본·부채 9년](charts/ENR_chart4_자산자본부채.png)
 
@@ -602,8 +602,8 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 (4) CapEx + chart8
 
-→ FY17~FY22 €0.8~1.2bn (매출 대비 2.7~4.0%) → FY24 €1.5bn → FY25 €1.7bn (4.4%) → FY26 9M €1.1bn
-→ **CMD 2025: FY26~FY28 누적 ~€6bn** (GS 가스터빈·GT 변압기/GIS 증설), FY28 이후 매출 대비 ~3%·감가상각 이하로 정상화 목표
+→ FY17\~FY22 €0.8\~1.2bn (매출 대비 2.7\~4.0%) → FY24 €1.5bn → FY25 €1.7bn (4.4%) → FY26 9M €1.1bn
+→ **CMD 2025: FY26\~FY28 누적 \~€6bn** (GS 가스터빈·GT 변압기/GIS 증설), FY28 이후 매출 대비 \~3%·감가상각 이하로 정상화 목표
 → 증설 원칙 (GS "4가지 황금률"): 기존 부지 내 확장 · 서비스 연계성 · 프리미엄 가격 · 짧은 회수기간
 
 ![Siemens Energy CapEx 9년](charts/ENR_chart8_CapEx.png)
@@ -626,9 +626,9 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 | 자사주 매입 (€m) | 162 | 231 | 0 | 130 | 130 | 170 | 2026-09-24 €2bn 프로그램 개시 |
 | FCF pre tax (€m) | 977 | 1,358 | 1,503 | 784 | 1,859 | 4,663 | 7,163 (9M) |
 
-→ **FY22~FY24 무배당** — Gamesa 손실 + FY23 이후 정부 역보증 조건 (보증 사용 회계연도 배당 금지)
-→ **배당 정책**: 순이익(지배주주) 40~60% (비현금 특이요인 조정 가능)
-→ **FY26~FY28 최대 €10bn 환원** (배당 ~€4bn + 자사주 최대 €6bn, CMD 2025) — 1차 트랜치 €2bn (2026-09-24 ~ 2027-03-31)
+→ **FY22\~FY24 무배당** — Gamesa 손실 + FY23 이후 정부 역보증 조건 (보증 사용 회계연도 배당 금지)
+→ **배당 정책**: 순이익(지배주주) 40\~60% (비현금 특이요인 조정 가능)
+→ **FY26\~FY28 최대 €10bn 환원** (배당 \~€4bn + 자사주 최대 €6bn, CMD 2025) — 1차 트랜치 €2bn (2026-09-24 \~ 2027-03-31)
 
 ![Siemens Energy 주주환원](charts/ENR_chart9_주주환원.png)
 
@@ -653,27 +653,27 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 - **Siemens Energy (ENR)** — Revenue **€39.1B** / PbSI **6.0%** (FY26 9M 12.6%) / Backlog **€138B** (Q3 FY26 €162B) / 4 사업부 103K명
 - **GE Vernova (GEV)** — Revenue $36.7B / Adj EBITDA 8.3% / Backlog $122B / Power·Wind·Electrification
 - **Hitachi Energy (HE)** — Revenue $19.8B / Adj EBITA 12.0% / Backlog $57.9B / 송변전 순수
-- **ABB** — Revenue $32.8B / Op EBITA 19.0% / Backlog ~$24B / 전기화·모션·자동화
+- **ABB** — Revenue $32.8B / Op EBITA 19.0% / Backlog \~$24B / 전기화·모션·자동화
 - **Schneider Electric (SU)** — Revenue €38.1B / Adj EBITA 18.7% / Backlog €21.4B / 에너지관리·산업자동화
 - **Eaton (ETN)** — Revenue $27.4B / Segment OPM 24.5% / EA Backlog +44% YoY / 전기·항공
-- **효성중공업** — Revenue $5.5B / OPM 12.5% / Backlog ~$10B / 중공업+건설
+- **효성중공업** — Revenue $5.5B / OPM 12.5% / Backlog \~$10B / 중공업+건설
 - **HD현대일렉트릭** — Revenue $3.3B / OPM 24.4% / Backlog $14B+ / 변압기 중심
-- **LS일렉트릭** — Revenue $3.5B / OPM 8.6% / Backlog ~$3B / 전력기기+자동화
+- **LS일렉트릭** — Revenue $3.5B / OPM 8.6% / Backlog \~$3B / 전력기기+자동화
 
-> 피어 수치는 같은 폴더 각 기업개요(2026-05~06 작성)의 FY25 값. 지표 정의가 회사마다 다름 (PbSI ≈ EBITA 성격).
+> 피어 수치는 같은 폴더 각 기업개요(2026-05\~06 작성)의 FY25 값. 지표 정의가 회사마다 다름 (PbSI ≈ EBITA 성격).
 
 **직접 비교 1 — GE Vernova (가스터빈·그리드)**
 
-- **ENR 가스터빈**: 백로그 69 GW + 슬롯예약 26 GW = 95 GW (Q3 FY26), FY25 194기 판매, 능력 FY28~30 >30 GW/년
+- **ENR 가스터빈**: 백로그 69 GW + 슬롯예약 26 GW = 95 GW (Q3 FY26), FY25 194기 판매, 능력 FY28\~30 >30 GW/년
 - **GEV 가스터빈**: 백로그 + 슬롯예약 **122 GW** (2026 Q3, 연말 ≥130 GW 목표) — 규모는 GEV 우위 [Turbomachinery International, 2026-10-29]
 - **ENR 그리드**: GT 매출 €11.3bn (FY25), 마진 15.8% → 9M FY26 18.3%
-- **GEV 그리드**: Electrification 마진 17~19% 수준, 2026-02 Prolec GE 100% 인수 + 2026-10 Trench Group 인수 합의 ($9B) — 그리드 M&A로 확장 중
+- **GEV 그리드**: Electrification 마진 17\~19% 수준, 2026-02 Prolec GE 100% 인수 + 2026-10 Trench Group 인수 합의 ($9B) — 그리드 M&A로 확장 중
 - **풍력**: ENR SG Q3 FY26 흑전 vs GEV Wind 적자 지속 (FY25 -26.7%) — 풍력 정상화는 ENR이 선행
 
 **직접 비교 2 — Hitachi Energy (HVDC)**
 
-- **ENR GT**: 글로벌 설치 HVDC의 ~30%, 전력변압기 ~20% (회사 자료), GT Solutions 백로그 €24bn 중 66%가 HVDC·오프쇼어
-- **HE**: HVDC 원조 (1954 Gotland) 글로벌 #1, 전력변압기 ~20%, 백로그 $57.9B, 2024~2030 $9B 증설
+- **ENR GT**: 글로벌 설치 HVDC의 \~30%, 전력변압기 \~20% (회사 자료), GT Solutions 백로그 €24bn 중 66%가 HVDC·오프쇼어
+- **HE**: HVDC 원조 (1954 Gotland) 글로벌 #1, 전력변압기 \~20%, 백로그 $57.9B, 2024\~2030 $9B 증설
 - **차이**: HE는 송변전 순수 플레이 (지속성장), ENR GT는 그룹 내 이익 45% 비중 — GT만 떼면 HE와 동급 마진(18%대)
 
 ![Siemens Energy 손익·자본 trend 9년](charts/ENR_chart12_손익자본trend.png)
@@ -692,13 +692,13 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
     - **2026-04-02: 5.5%** (선도계약 만기 매각 €3.8bn) [Reuters/Börsen-Zeitung]
 - **Siemens 상표 라이선스** — GS·GT·TI 매출의 1.2% 수수료, FY30 종료 → **Omterra** 브랜드 전환 (2026-07 발표)
 - **주요 자회사** — Siemens Gamesa Renewable Energy (100%, 2023-02 상장폐지), Siemens Energy India Ltd (2025-06 분할 상장, 인도 NSE), Siemens Energy Global GmbH & Co. KG (운영 지주)
-- **관계 정리** — Siemens Ltd India 지분 18% Siemens AG에 매각 (FY24, ~€2.1bn) → 인도 에너지 사업은 Siemens Energy India로 분리
+- **관계 정리** — Siemens Ltd India 지분 18% Siemens AG에 매각 (FY24, \~€2.1bn) → 인도 에너지 사업은 Siemens Energy India로 분리
 
 (2) 주주 구분 + chart5
 
 - **Siemens AG** — 5.5% (2026-04, 보도 기준) — 10% 초과 보유자는 FY25말 공시상 Siemens AG가 유일
-- **von Siemens-Vermögensverwaltung (Siemens 가문)** — 4,448,480주 의결권 위임 (2025-09말, ~0.5% [계산])
-- **기타 (글로벌 기관·개인·자사주)** — ~94.5% [계산] — 기관별 지분 미확보 (누락)
+- **von Siemens-Vermögensverwaltung (Siemens 가문)** — 4,448,480주 의결권 위임 (2025-09말, \~0.5% [계산])
+- **기타 (글로벌 기관·개인·자사주)** — \~94.5% [계산] — 기관별 지분 미확보 (누락)
 - **발행주식수** — 861,104,914주 (2025-09말) / Q3 FY26 가중평균 848.6m주 (자사주 매입 반영)
 
 ![Siemens Energy 주주 구조](charts/ENR_chart5_주주구조.png)
@@ -730,16 +730,16 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 - **주가** — **€130.0** (ENR.DE 2026-11-02 종가) / ATH 2026-04 주간 장중 €191.66 [Yahoo Finance]
 - **시가총액** — **$122.3B** [companiesmarketcap.com, 2026-11] ≈ **€110bn** [계산: €130 × 848.6m주]
 - **조정 순현금** — €7.7bn (2026-06말) → **EV ≈ €102bn** [계산]
-- **P/E (FY26 가이던스 순이익 ~€4bn)** — **~27.5x** [계산]
-- **EV/Sales (FY26E)** — FY25 매출 €39.1bn × 1.15 ≈ €45bn [계산] → **~2.3x** [계산]
+- **P/E (FY26 가이던스 순이익 \~€4bn)** — **\~27.5x** [계산]
+- **EV/Sales (FY26E)** — FY25 매출 €39.1bn × 1.15 ≈ €45bn [계산] → **\~2.3x** [계산]
 
 (2) R&D 인프라 + chart7
 
-→ **FY25 R&D 비용 €1,210m** (매출 3.1%) / 9년 범위 €985m~€1,210m, 매출 대비 3.1~4.1%
+→ **FY25 R&D 비용 €1,210m** (매출 3.1%) / 9년 범위 €985m\~€1,210m, 매출 대비 3.1\~4.1%
 
-→ **특허** — 약 18,800건 등록 (2025-09말, 2024: ~19,200)
+→ **특허** — 약 18,800건 등록 (2025-09말, 2024: \~19,200)
 
-→ **GS R&D ~€500m/년** (CMD 2025) — HL-class 효율, 수소 연소, SMR 스팀터빈
+→ **GS R&D \~€500m/년** (CMD 2025) — HL-class 효율, 수소 연소, SMR 스팀터빈
 
 → **거점** — Berlin (가스터빈 시험), Finspång, Orlando·Charlotte (미국), Erlangen (그리드), Brande (풍력)
 
@@ -747,7 +747,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 (3) 진행 중 corporate action
 
-- **자사주 매입** — 최대 €2bn·5,000만 주 (2026-09-24 ~ 2027-03-31), FY28까지 최대 €6bn 프로그램
+- **자사주 매입** — 최대 €2bn·5,000만 주 (2026-09-24 \~ 2027-03-31), FY28까지 최대 €6bn 프로그램
 - **TI 지배지분 매각 검토 (보도)** — Goldman Sachs 선임 (Bloomberg, 2026-08-24), PE 5곳 관심 거론, 가치 >€10bn — 회사 미확인. 확정 시 SOTP·분류 재검토 트리거 ③
 - **Omterra 브랜드 전환** — 2026-07-14 발표, 단계 적용
 - **인도 풍력 사업 매각** — FY25 보유자산 분류 (AR 2025)
@@ -757,7 +757,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 (4) 주요 리스크
 
 - **가스터빈 사이클 반전** — 데이터센터·LNG 발전 투자 둔화 시 신규 수주 급감 → 선수금(계약부채 €22bn) 역류 위험
-- **대형 프로젝트 집행 리스크** — HVDC·해상 계통연계 고정가 계약 비용 초과 (GT Solutions 백로그 평균 5~7년)
+- **대형 프로젝트 집행 리스크** — HVDC·해상 계통연계 고정가 계약 비용 초과 (GT Solutions 백로그 평균 5\~7년)
 - **Siemens Gamesa 재발 리스크** — 온쇼어 4.X/5.X 품질 이슈 잔여, 오프쇼어 SG 14 램프업
 - **관세·공급망** — 미국 관세, 변압기 소재(전기강판·구리) 공급 병목
 - **지배구조·오버행** — Siemens AG 잔여 지분 매각, TI 매각 불확실성
@@ -768,7 +768,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 - **Scope 1+2** — FY19 440,363 tCO₂e → FY25 194,460 tCO₂e (**-56%** [계산]) / FY30 자체 운영 탄소중립 목표 (최소 -60% + 잔여 상쇄)
 - **재생에너지 전력 100%** — FY23부터 자체 운영 전력 100% 재생
 - **SF₆-free** — Blue GIS 확대 (GT)
-- **안전** — TRIR FY23→FY25 ~30% 감소 (CMD 2025)
+- **안전** — TRIR FY23→FY25 \~30% 감소 (CMD 2025)
 - **보고** — FY25부터 CSRD 기반 Group Sustainability Statement (제한적 검증)
 
 (6) 인증·라이선스
@@ -783,9 +783,9 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 ### ✅ 확보 자료 (48개 파일)
 
-- **Earnings Release 24건** (Q4 FY20 ~ Q3 FY26) — 분기 19Q 사업부 시계열 + FY19~FY25 연간 재무제표
+- **Earnings Release 24건** (Q4 FY20 \~ Q3 FY26) — 분기 19Q 사업부 시계열 + FY19\~FY25 연간 재무제표
 - **Annual Report** FY2020·2021·2022·2025 + FY2024 분책 — 지배구조·배당정책·R&D·보증 history
-- **2020 Prospectus** — FY17~FY19 Combined (분사 전 3년)
+- **2020 Prospectus** — FY17\~FY19 Combined (분사 전 3년)
 - **CMD 2025 6건** — FY28 목표·사업부 포지션·자본배분
 - **Q3 FY26 Analyst Presentation · Shareholder Letter · Q4 Pre-close transcript · 자사주 공시**
 - **Sustainability 2건 · Yahoo ENR.DE**
@@ -796,14 +796,14 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 - FY16 이전 재무 (분사 기업 — 9년 시계열 한계)
 - SMNEY ADR 시세 (Yahoo 404)
 - 기관별 주주 명부 (10% 초과만 공시)
-- FY20~FY22 조정 순현금 (미추출)
+- FY20\~FY22 조정 순현금 (미추출)
 
 ### ⚠️ 추정·계산 데이터 표시
 
 - [계산]: CAGR, 마진, 재무비율, 시총(€), EV, P/E, EV/EBITA, FY28 이익 범위, 서비스 매출(=매출−New Units), 지역 비중
 - [추정]: 매출처 순서·고객군, Siemens 가문 지분율
 - 보도 기반 (회사 공시 아님): Siemens AG 5.5% 지분, TI 매각 검토, Omterra 세부 일정
-- 이익 지표 단절: FY17~FY21 Adj.EBITA before SI ↔ FY22~ PbSI
+- 이익 지표 단절: FY17\~FY21 Adj.EBITA before SI ↔ FY22\~ PbSI
 
 ### 🔗 핵심 source URL
 
@@ -816,7 +816,7 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 ### Data Quality Confidence: **93%**
 
 - 연간·분기 손익·재무제표 (회사 Earnings Release·AR 직접 parse): 100%
-- FY17~FY19 Combined (Prospectus): 100% (단 이익 정의 차이)
+- FY17\~FY19 Combined (Prospectus): 100% (단 이익 정의 차이)
 - 사업부 제품·포지션 (CMD 2025 회사 자료): 95%
 - 주주 구조·TI 매각·Omterra (보도): 75%
 - 매출처: 60% [추정]
@@ -825,10 +825,10 @@ Gamesa 제외 코어 3사업부(GS+GT+TI) PbSI 마진: FY22 4.5% → FY23 8.0% �
 
 ## Version Log
 
-- **v1.0** (2026-11-03) — 초안. Phase 1 source 48개 일괄 수집 (Earnings Release 24건·AR·Prospectus·CMD 2025·Q3 FY26·Pre-close) + audit. 9년 연간 (FY17~FY25, FY17~19 Combined) + FY26 9M + 분기 19Q 사업부 시계열. v1.5 표준 ① 기업 분류 (Primary 턴어라운드 후반부 + Secondary 사이클, Summary Box 6지표·손익 narrative·sub-logic 4단계·밸류 다이얼·분류 변경 조건 3종). 12종 차트 + 다크 .html 동시 생성.
+- **v1.0** (2026-11-03) — 초안. Phase 1 source 48개 일괄 수집 (Earnings Release 24건·AR·Prospectus·CMD 2025·Q3 FY26·Pre-close) + audit. 9년 연간 (FY17\~FY25, FY17\~19 Combined) + FY26 9M + 분기 19Q 사업부 시계열. v1.5 표준 ① 기업 분류 (Primary 턴어라운드 후반부 + Secondary 사이클, Summary Box 6지표·손익 narrative·sub-logic 4단계·밸류 다이얼·분류 변경 조건 3종). 12종 차트 + 다크 .html 동시 생성.
 - **잔여 보완 (v1.1, 2026-11-11 Q4 FY26 발표 후)**:
-  - FY26 연간 확정치 (매출·PbSI·순이익·FCF·DPS 제안) → 연간 표를 FY17~FY26 10년으로 확장, chart1·1b·4·6·7·8·9·12 갱신
+  - FY26 연간 확정치 (매출·PbSI·순이익·FCF·DPS 제안) → 연간 표를 FY17\~FY26 10년으로 확장, chart1·1b·4·6·7·8·9·12 갱신
   - Q4 FY26 분기 추가 (20Q) → chart2·10 갱신, Gamesa 2분기 연속 흑자 여부 = 분류 변경 조건 ① 판정
   - FY27 가이던스 + **FY30 목표** + FY30까지 자본배분 프레임 반영 (① 밸류에이션 다이얼·③ 사업부 목표)
   - TI 매각/분할 결정 여부, 신용등급 변동, Siemens AG 잔여 지분, 시총·주가 verify
-  - FY2023 AR 통합본·FY20~22 순현금 보강
+  - FY2023 AR 통합본·FY20\~22 순현금 보강

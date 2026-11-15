@@ -2,8 +2,8 @@
 > 섹터: 반도체 (메모리 — DRAM/NAND/HBM IDM)
 > 작성 시각: 2026-05-18 KST
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트)
-> 데이터: 12년 연간 (FY14~FY25) + 직전 12분기 (FY23 Q3~FY26 Q2)
-> 출처: SEC EDGAR 10-K 15개 (FY11~FY25) + 10-Q 47개, Yahoo Finance v8 (MU 20년), Micron IR Quarterly Results, FY25 10-K Item 1·8
+> 데이터: 12년 연간 (FY14\~FY25) + 직전 12분기 (FY23 Q3\~FY26 Q2)
+> 출처: SEC EDGAR 10-K 15개 (FY11\~FY25) + 10-Q 47개, Yahoo Finance v8 (MU 20년), Micron IR Quarterly Results, FY25 10-K Item 1·8
 
 # Micron Technology 기업 개요 (v4.9 — 1번 섹션 표준화)
 > **Fact verify cutoff**: 2026-06-03 (시총·ATH·점유율 등 시장 데이터는 다음 갱신 시 web search verify 필요)
@@ -16,7 +16,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY14~FY25 12년 평균):**
+**📊 Summary Box (FY14\~FY25 12년 평균):**
 
 | 지표 | 값 |
 |------|-----|
@@ -57,7 +57,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 - SEC SIC 분류: 3674 — Semiconductors
 - GICS Sector: Information Technology — Semiconductors & Semiconductor Equipment
 - 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·Intel·SanDisk·Seagate·WDC·AMD·ARM)
-- 글로벌 점유: **DRAM 22~25%** (3위), **NAND 12~14%** (5위), **HBM 20%** (1년 만에 0→20%)
+- 글로벌 점유: **DRAM 22\~25%** (3위), **NAND 12\~14%** (5위), **HBM 20%** (1년 만에 0→20%)
 
 ### (3) 분류 결정 논리
 
@@ -72,7 +72,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 (4) **글로벌 피어 cross-reference**:
    - **삼성전자 대비**: 삼성전자는 multi-segment 종합 → 사이클 진폭 흡수. Micron은 **순수 메모리 pureplay** → 사이클 진폭 더 큼
-   - **SK하이닉스 대비**: 동일 메모리 pureplay. 다만 SK하이닉스 HBM 1위 (57~70%) vs Micron 후발 (20%) → SK하이닉스 secular premium 우위
+   - **SK하이닉스 대비**: 동일 메모리 pureplay. 다만 SK하이닉스 HBM 1위 (57\~70%) vs Micron 후발 (20%) → SK하이닉스 secular premium 우위
    - **Micron 차별점**: CHIPS Act funding 직접 수혜 (Idaho·NY fab) + SCA 계약 가시성 → US 정책 dependant
 
 ### (4) 적정 밸류에이션 방법
@@ -108,10 +108,10 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 | 상장일 | 1984년 6월 1일 (NASDAQ) |
 | 본사 주소 | 8000 S. Federal Way, Boise, Idaho 83716 USA |
 | 홈페이지 | https://www.micron.com |
-| CEO | Sanjay Mehrotra (1958년생, Stanford BS/MS, 前 SanDisk 공동창업자, 2017.05~ 현직) |
-| CFO | Mark J. Murphy (2024.10~ 현직, 前 Qorvo CFO) |
+| CEO | Sanjay Mehrotra (1958년생, Stanford BS/MS, 前 SanDisk 공동창업자, 2017.05\~ 현직) |
+| CFO | Mark J. Murphy (2024.10\~ 현직, 前 Qorvo CFO) |
 | 발행주식수 (FY25말) | 1,266M 보통주 (자기주식 144M 제외 시 outstanding 1,122M) |
-| 회계연도 | 8월 마지막 목요일 마감 (FY25 = 2024-08-30 ~ 2025-08-28) |
+| 회계연도 | 8월 마지막 목요일 마감 (FY25 = 2024-08-30 \~ 2025-08-28) |
 | 직원 수 | 약 53,000명 (FY25말) |
 | 특허 | 누적 60,000+건, active US 15,000건 + 해외 7,500건 (FY25말) |
 | 신용등급 | Baa1 (Moody's, 2025.12.12 상향 from Baa2), BBB+ (S&P, 2026.02 상향 from BBB), BBB (Fitch) |
@@ -139,7 +139,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 ![Micron 12년 매출·OPM·NPM (사이클 4회)](charts/MU_chart1_매출OPM_12년.png)
 
-→ (출처: SEC EDGAR FY11~FY25 10-K Consolidated Statements of Operations)
+→ (출처: SEC EDGAR FY11\~FY25 10-K Consolidated Statements of Operations)
 
 ![Micron 12년 손익 4지표 (Revenue·GPM·OPM·NPM)](charts/MU_chart1b_손익4지표_12년.png)
 
@@ -147,7 +147,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 (3) 주가 역사 (20년 narrative)
 
-![Micron 20년 시가총액 (2006~2026)](charts/MU_chart11_시가총액_20년.png)
+![Micron 20년 시가총액 (2006\~2026)](charts/MU_chart11_시가총액_20년.png)
 
 → **시가총액 변천사 (20년)**:
 - 2006년 시총 $12B (주가 $15, NAND 가격 폭락 직후 후폭풍)
@@ -176,7 +176,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 | 2008.09 | Inotera (DRAM 합작사) 지분 인수 |
 | 2010.06 | Numonyx 인수 ($1.3B, NOR Flash) |
 | 2013.07 | **Elpida Memory 인수** ($2.5B, 일본 DRAM 제조사) — Hiroshima fab 확보, 글로벌 DRAM 3위 → 2위 도약 |
-| 2014~15 | 1차 사이클 회복, FY14 매출 $16B (전년 $9B 대비 +80%) |
+| 2014\~15 | 1차 사이클 회복, FY14 매출 $16B (전년 $9B 대비 +80%) |
 | 2016.12 | Inotera 100% 인수 ($4B) |
 | 2017.05 | **Sanjay Mehrotra CEO 취임** (前 SanDisk 공동창업자) |
 | 2018 | 2차 메모리 슈퍼사이클 정점, FY18 Revenue $30B / OPM 46% / NI $14B (사상최고) |
@@ -184,7 +184,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 | 2019 | 메모리 다운사이클, OPM 28%로 감소 |
 | 2020.04 | COVID dip |
 | 2021.08 | **분기 배당 첫 발표** ($0.07/share, 향후 점진 인상) |
-| 2021~22 | 3차 사이클 회복 |
+| 2021\~22 | 3차 사이클 회복 |
 | 2022.10 | CHIPS Act 발효 → Boise·Manassas·New York fab 보조금 확보 시작 |
 | 2023.05 | China CAC 결정: 마이크론 제품 critical 인프라 사용 금지 |
 | 2023 | 메모리 다운사이클 적자전환 (FY23 OP -$5.75B) — 역대 최대 적자 |
@@ -216,9 +216,9 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 → **CMBU 폭발 ($1.87B → $13.52B in 2년 = +624%)** — HBM3E 본격 양산 + AI 가속기 수요 폭증
 → 사업부 비중 (FY25): CMBU 36% / CDBU 19% / MCBU 32% / AEBU 13%
 
-![Micron 4사업부 매출 추이 (FY23~FY25)](charts/MU_chart2_사업부분기시계열_30Q.png)
+![Micron 4사업부 매출 추이 (FY23\~FY25)](charts/MU_chart2_사업부분기시계열_30Q.png)
 
-### 30분기 사업부별 매출 시계열 (FY19 Q1 ~ FY26 Q2)
+### 30분기 사업부별 매출 시계열 (FY19 Q1 \~ FY26 Q2)
 
 → **FY25 Q4에 segment 재편** — 옛 4 BU (CNBU/MBU/SBU/EBU) → 신 4 BU (CMBU/CDBU/MCBU/AEBU)
 → 옛 segment 27분기 + 신 segment 3분기 시계열로 사이클 동조성 + AI HBM 폭발 확인
@@ -283,10 +283,10 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 ![Micron 12년 DRAM/NAND/Other 제품별 매출 (사이클 4회)](charts/MU_chart2_제품별_12년.png)
 
-→ DRAM 비중 70~76% (12년 평균 72%) — 메모리 IDM 중 DRAM 의존도 가장 높음
+→ DRAM 비중 70\~76% (12년 평균 72%) — 메모리 IDM 중 DRAM 의존도 가장 높음
 → HBM은 DRAM 안에 포함 (별도 공시 없음) — FY25 HBM 매출 추정 $6B+
 
-(3) 직전 12분기 시계열 (FY23 Q3 ~ FY26 Q2)
+(3) 직전 12분기 시계열 (FY23 Q3 \~ FY26 Q2)
 
 ![Micron 직전 12분기 Revenue & Non-GAAP OPM](charts/MU_chart10_12분기시계열.png)
 
@@ -367,7 +367,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 ![Micron 12년 Shareholder Return (Dividends + Buyback)](charts/MU_chart9_주주환원_12년.png)
 
 → **분기 배당 시작**: 2021-08 ($0.07/share) → 점진 인상
-→ **Buyback 누적 $13.6B** (FY15~FY25): FY17~18 $4.2B 집중, FY22 $2.8B
+→ **Buyback 누적 $13.6B** (FY15\~FY25): FY17\~18 $4.2B 집중, FY22 $2.8B
 → FY23 다운사이클 이후 buyback 일시 중단, FY25 슈퍼사이클 후 재개 가능성
 
 (6) 주요 재무 지표 (FY25)
@@ -426,11 +426,11 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 | 성명 | 직위 | 주요 경력 |
 |---|---|---|
-| **Sanjay Mehrotra** | CEO·President | 2017.05~ 현직 |
-| **Mark J. Murphy** | CFO·EVP | 2024.10~ 현직, 前 Qorvo CFO |
+| **Sanjay Mehrotra** | CEO·President | 2017.05\~ 현직 |
+| **Mark J. Murphy** | CFO·EVP | 2024.10\~ 현직, 前 Qorvo CFO |
 | **Manish Bhatia** | EVP, Global Operations | Global manufacturing 책임 |
 | **April S. Arnzen** | EVP, Chief People Officer | 1996년 입사 |
-| **Scott R. Allen** | VP, Chief Accounting Officer | 2020.10~ |
+| **Scott R. Allen** | VP, Chief Accounting Officer | 2020.10\~ |
 | Sumit Sadana | EVP, Chief Business Officer | 메모리 segment 책임 |
 | Scott DeBoer | EVP, Technology & Products | 차세대 노드 R&D 책임 |
 | Naga Chandrasekaran | EVP, COO | 글로벌 operations |
@@ -439,7 +439,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 ## ⑥ 기타 팩트
 
-(1) R&D 마일스톤 (FY23~FY25 핵심)
+(1) R&D 마일스톤 (FY23\~FY25 핵심)
 
 → **FY25 (마지막 10-K)**
 - **1γ (1-gamma) DRAM 첫 양산** — Micron 최초 EUV 적용 노드, 1β 대비 power 효율/density 개선
@@ -473,7 +473,7 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 (3) 주요 계약 (10년치)
 
-→ **CHIPS Act funding** (2022.08~): Boise/Clay NY direct funding (수십억 달러), Manassas VA 추가 보조금, India central + Gujarat state 보조금
+→ **CHIPS Act funding** (2022.08\~): Boise/Clay NY direct funding (수십억 달러), Manassas VA 추가 보조금, India central + Gujarat state 보조금
 → **Strategic Customer Agreements (SCA)**: 최근 첫 5년 SCA 체결 (3/2025 발표), HBM3E + HBM4 multi-year sold out CY2026
 
 (4) 리스크 분석
@@ -503,8 +503,8 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 - NAND: $67.7B (전년 +7%)
 - HBM (DRAM 안): 추정 $25B+ (글로벌)
 → **Micron 점유율**:
-- DRAM: 22~25% (글로벌 3위)
-- NAND: 12~14% (글로벌 5위)
+- DRAM: 22\~25% (글로벌 3위)
+- NAND: 12\~14% (글로벌 5위)
 - HBM: 약 20% (글로벌 3위, SK하이닉스 70%·삼성 23% 대비)
 
 → **공급-수요 균형 (회사 공식)**:
@@ -535,17 +535,17 @@ OPM range: -37.0% ~ +46.5% = 83.5%pt
 
 ---
 
-> **데이터 소스**: SEC EDGAR FY11~FY25 10-K (15개) + 10-Q (47분기), Yahoo Finance v8 (MU 20년), Gartner 2026.01 memory market report, IDC DRAM/NAND market share, Micron FY25 10-K Item 1·8 (Business + Financial Statements).
+> **데이터 소스**: SEC EDGAR FY11\~FY25 10-K (15개) + 10-Q (47분기), Yahoo Finance v8 (MU 20년), Gartner 2026.01 memory market report, IDC DRAM/NAND market share, Micron FY25 10-K Item 1·8 (Business + Financial Statements).
 > **연계 참조**: `earnings-review/2026-Q1_MU_리뷰.md` (FY26 Q2 실적 리뷰 v2), `earnings-followup/2026-Q2_MU_팔로업.md` (FY26 Q3 팔로업 v6).
-> **차트 13종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2_사업부별 (FY23~25 4 BU), chart2_제품별 (12년 DRAM/NAND), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
+> **차트 13종**: chart1 (매출OPM 12년), chart1b (손익4지표), chart2_사업부별 (FY23\~25 4 BU), chart2_제품별 (12년 DRAM/NAND), chart4 (자산자본부채), chart5 (주주지분), chart6 (현금흐름), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 20년), chart12 (손익자본추이).
 
 ## Long Timeseries 보강 — 58분기 (14.5년)
 
 Micron은 fiscal year 8월말 마감. FY12 Q1 = Sep 2011, FY26 Q2 = Feb 2026. SKILL.md 60+분기 표준 대비 58분기 (96%) 달성. FY11 (4분기) 분기별 디테일은 10-K Item 7 추가 parse로 보강 가능.
 
-![MU 58분기 매출·OPM (Q1FY12~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17~18, 2차 슈퍼사이클 FY21~22, AI HBM 폭증 FY25~)](charts/MU_chart10_long_58분기시계열.png)
+![MU 58분기 매출·OPM (Q1FY12\~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17\~18, 2차 슈퍼사이클 FY21\~22, AI HBM 폭증 FY25\~)](charts/MU_chart10_long_58분기시계열.png)
 
-*MU 58분기 매출·OPM (Q1FY12~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17~18, 2차 슈퍼사이클 FY21~22, AI HBM 폭증 FY25~)*
+*MU 58분기 매출·OPM (Q1FY12\~Q2FY26) — 3대 DRAM 사이클 (1차 슈퍼사이클 FY17\~18, 2차 슈퍼사이클 FY21\~22, AI HBM 폭증 FY25\~)*
 
 ![DRAM vs NAND 58분기 — DRAM 비중 65% → 81% (HBM 폭증 효과)](charts/MU_chart2_long_제품별_58분기.png)
 
@@ -555,5 +555,5 @@ Micron은 fiscal year 8월말 마감. FY12 Q1 = Sep 2011, FY26 Q2 = Feb 2026. SK
 
 ## Version Log
 
-- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 (15년) 도달 보강. SEC 8-K 232개 batch 추가, IR 62개 + 10-K 15개. **chart10_long·chart2_long_제품별 58분기 시계열 신규** — Q1FY12~Q2FY26 풀 커버. 부족: 8-K transcript 다운로드 (Motley Fool 0) → SEC 8-K exhibit 또는 별도 source.**
+- **v2.0 (2026-05-19): SKILL.md 표준 60+분기 (15년) 도달 보강. SEC 8-K 232개 batch 추가, IR 62개 + 10-K 15개. **chart10_long·chart2_long_제품별 58분기 시계열 신규** — Q1FY12\~Q2FY26 풀 커버. 부족: 8-K transcript 다운로드 (Motley Fool 0) → SEC 8-K exhibit 또는 별도 source.**
 

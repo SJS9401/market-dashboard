@@ -2,7 +2,7 @@
 > 섹터: 반도체 (NAND Flash 전용 — Memory Pureplay)
 > 작성 시각: 2026-05-18 KST (v2 — Q3 FY26 폭발적 회복 반영)
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트)
-> 데이터: FY25 + FY26 Q1~Q3 standalone 정확 + Q4 FY26 가이던스 + FY14~FY24 historical 추정 (WD Flash segment 기반)
+> 데이터: FY25 + FY26 Q1\~Q3 standalone 정확 + Q4 FY26 가이던스 + FY14\~FY24 historical 추정 (WD Flash segment 기반)
 > 출처: SEC EDGAR Sandisk Corp 10-K FY25 + 10-Q 5개 (CIK 0002023554), Sandisk IR Earnings Release 4개 (FY26 Q1·Q3 등), Yahoo Finance v8, Western Digital historical 10-K Flash segment
 
 ## ★ Executive Update (2026.04.30 Q3 FY26 발표 기준)
@@ -14,8 +14,8 @@
 → **NBM (New Business Model) 5개 계약** — multi-year customer engagement + firm financial commitment (마이크론 SCA와 유사 패턴)
 → **Zero-debt balance sheet 달성** (모든 부채 상환, Net cash positive)
 → **$6B 자사주 매입 프로그램 발표** (분사 후 첫 capital return)
-→ Q4 FY26 가이던스: 매출 **$7.75~8.25B**, Non-GAAP EPS **$30~33**
-→ **FY26 전체 매출 추정 $18~19B** (FY25 $7.66B의 2.4배+)
+→ Q4 FY26 가이던스: 매출 **$7.75\~8.25B**, Non-GAAP EPS **$30\~33**
+→ **FY26 전체 매출 추정 $18\~19B** (FY25 $7.66B의 2.4배+)
 
 ---
 
@@ -31,7 +31,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY14~FY25 12년 평균):**
+**📊 Summary Box (FY14\~FY25 12년 평균):**
 
 | 지표 | 값 |
 |------|-----|
@@ -73,7 +73,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 - SEC SIC 분류: 3674 — Semiconductors
 - GICS Sector: Information Technology — Semiconductors
 - 워치리스트 섹터: **T1 — 반도체** (피어: 삼성전자·SK하이닉스·MU·INTC·STX·WDC·AMD·ARM)
-- 글로벌 점유: **NAND 13~15%** (4위, Samsung 35%·SK하이닉스 20%·Kioxia 17% 다음), **DRAM 0%**, **HBM 0%**
+- 글로벌 점유: **NAND 13\~15%** (4위, Samsung 35%·SK하이닉스 20%·Kioxia 17% 다음), **DRAM 0%**, **HBM 0%**
 
 ### (3) 분류 결정 논리
 
@@ -127,16 +127,16 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 | 상장일 | **2025년 2월 21일** (Western Digital 분사 후 신규 상장) |
 | 본사 주소 | 951 SanDisk Drive, Milpitas, California 95035 USA |
 | 홈페이지 | https://www.sandisk.com |
-| CEO | David V. Goeckeler (前 WD CEO, 2025.02~ 신임 Sandisk CEO) |
+| CEO | David V. Goeckeler (前 WD CEO, 2025.02\~ 신임 Sandisk CEO) |
 | CFO | Luis Visoso (前 Cisco / VMware CFO) |
 | 발행주식수 (FY25말) | 약 144M 주 |
-| 회계연도 | **6월 마지막 금요일 마감** (FY25 = 2024-06-29 ~ 2025-06-27) |
+| 회계연도 | **6월 마지막 금요일 마감** (FY25 = 2024-06-29 \~ 2025-06-27) |
 | 직원 수 | 약 9,600명 (FY25말) |
 | 특허 | 약 7,900건 등록 + 3,200건 출원 (FY25말) |
 | 제조 위치 | **자체 fab 없음** — Flash Ventures JV (Kioxia 운영, Yokkaichi 6개 + Kitakami 1개 + 신규 8번째 fab CY2025) + Penang (Malaysia) 조립·테스트 |
 | 핵심 JV | **Flash Partners Ltd. / Flash Alliance Ltd.** (2029.12 만료) + **Flash Forward Ltd.** (2034.12 만료) |
 
-(2) 12년 손익·자본 추이 (FY14~FY25, USD $B)
+(2) 12년 손익·자본 추이 (FY14\~FY25, USD $B)
 
 | FY | Revenue | GAAP GP | GAAP OP | GAAP OPM | NI | Total Equity | Total Assets | OCF | CapEx (direct) |
 |---|---|---|---|---|---|---|---|---|---|
@@ -168,9 +168,9 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 ![SanDisk 시가총액 추이 — NAND 슈퍼사이클로 30배+ 폭등](charts/SNDK_chart11_시가총액_분사후.png)
 
-→ **시가총액 변천사 (2025.02 분사 ~ 2026.05)**:
+→ **시가총액 변천사 (2025.02 분사 \~ 2026.05)**:
 - **2016.05** old SanDisk → Western Digital에 **$19B 인수** (WD 자회사로 편입)
-- 2016~2024 WD 자회사 시절 — 별도 주가 데이터 없음
+- 2016\~2024 WD 자회사 시절 — 별도 주가 데이터 없음
 - **2024.10.30** WD가 NAND 사업 분사 발표
 - **2025.02.21** Sandisk Corporation NASDAQ 신규 상장 — WD 주주에 1:2 비율 SNDK 주식 배분, 주가 $35 (시총 $5B)
 - 2025.04 주가 $37 (분사 직후 multiple 형성 초기)
@@ -188,19 +188,19 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 | 1995.11 | NYSE 상장 (옛 NASDAQ) |
 | 2000년대 | NAND flash memory cards 시장 1위 등극 |
 | 2004 | iPod nano 채택 → 모바일 시장 진출 |
-| 2006~2007 | NAND 시장 호황, 매출 $4B 도달 |
+| 2006\~2007 | NAND 시장 호황, 매출 $4B 도달 |
 | 2008 | Samsung의 인수 시도 (적대적), SanDisk 거부 |
 | 2012 | Sanjay Mehrotra CEO 취임 (2017까지) |
 | 2013 | Smart Storage Systems 인수 (SSD 강화) |
 | 2014.10 | Fusion-io 인수 ($1.1B, 데이터센터 SSD) |
 | **2016.05** | **Western Digital이 $19B 인수** → SanDisk WD 자회사 편입, Mehrotra Micron 이직 |
-| 2016~2024 | WD 자회사 시절, "Western Digital" 브랜드와 "SanDisk" 브랜드 병행 |
+| 2016\~2024 | WD 자회사 시절, "Western Digital" 브랜드와 "SanDisk" 브랜드 병행 |
 | 2020 | David Goeckeler WD CEO 취임 |
 | 2022 | NAND 다운사이클 진입 |
 | **2024.10.30** | **WD가 NAND 사업 분사 발표** |
 | **2025.02.21** | **Sandisk Corporation NASDAQ 신규 상장** (SNDK) — David Goeckeler가 신임 Sandisk CEO 취임 |
 | 2025.02 | WD는 HDD 사업만 유지 — 양분 완료 |
-| 2025.05 | FY25 Q3 (1월~3월) 결산 발표 — 첫 standalone 분기 |
+| 2025.05 | FY25 Q3 (1월\~3월) 결산 발표 — 첫 standalone 분기 |
 | 2025.08 | FY25 (6월 마감) 결산 발표 — 첫 standalone 회계연도 완료, Revenue $7.66B / OP -$0.50B |
 | 2025 CY | Flash Ventures 8번째 fab in Japan 가동 시작 (Kioxia 운영) |
 
@@ -220,7 +220,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 → **Cloud +195% 폭발** — AI workload 수요로 enterprise SSD 출하 +153%, ASP +17%
 → Client·Consumer는 정체 — PC·모바일 수요 안정
 
-![SanDisk 사업부별 매출 (3 end-markets, FY23~FY25) — Cloud +195%](charts/SNDK_chart2_사업부별_3년.png)
+![SanDisk 사업부별 매출 (3 end-markets, FY23\~FY25) — Cloud +195%](charts/SNDK_chart2_사업부별_3년.png)
 
 (2) 제품 라인업 (FY25 기준)
 
@@ -238,7 +238,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 (3) 핵심 NAND 기술
 
 → **BiCS 8** (3D NAND, 8세대) — 양산 진행 중
-→ **BiCS 9** (FY25~) — 차세대 노드
+→ **BiCS 9** (FY25\~) — 차세대 노드
 → Kioxia와 공동 개발·생산
 
 (4) Kioxia 파트너십 — Flash Ventures JV (3개 entity)
@@ -256,9 +256,9 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 (5) 직전 12분기 시계열
 
-![SanDisk 직전 12분기 Revenue & OPM 추정 (Q3 23~Q2 26)](charts/SNDK_chart10_12분기시계열.png)
+![SanDisk 직전 12분기 Revenue & OPM 추정 (Q3 23\~Q2 26)](charts/SNDK_chart10_12분기시계열.png)
 
-→ FY23~FY25 분기 매출 $1.5B~$2.0B 범위에서 변동
+→ FY23\~FY25 분기 매출 $1.5B\~$2.0B 범위에서 변동
 → FY26 Q2 추정 $2.31B + OPM +7% (NAND 사이클 회복)
 
 ---
@@ -279,7 +279,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 → **OCF FY25 $0.6B** — NAND 다운사이클 영향 잔존
 → **Direct CapEx FY25 $0.21B** — 매우 작음 (Flash Ventures JV가 wafer fab 부담)
-→ **Flash Ventures JV 50% 부담 별도** — 실제 NAND fab 투자는 별도 분담 (FY25 약 $0.5~1B 추정 추가)
+→ **Flash Ventures JV 50% 부담 별도** — 실제 NAND fab 투자는 별도 분담 (FY25 약 $0.5\~1B 추정 추가)
 
 (3) 12년 R&D
 
@@ -292,7 +292,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 ![SanDisk 12년 Direct CapEx](charts/SNDK_chart8_CapEx_12년.png)
 
-→ **자체 CapEx는 $0.2~$0.9B 수준** — 마이크론 $13.9B 대비 매우 작음
+→ **자체 CapEx는 $0.2\~$0.9B 수준** — 마이크론 $13.9B 대비 매우 작음
 → 실제 NAND fab 투자는 Flash Ventures를 통해 50% 분담
 
 (5) 주주환원
@@ -336,17 +336,17 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 | 성명 | 역할 | 주요 경력 |
 |---|---|---|
-| **David V. Goeckeler** | CEO, Director | 前 WD CEO (2020~2025), 前 Cisco EVP |
+| **David V. Goeckeler** | CEO, Director | 前 WD CEO (2020\~2025), 前 Cisco EVP |
 | Luis Visoso | EVP, CFO | 前 Cisco·VMware CFO |
 | (Board 구성 — Independent Directors) | | 분사 후 신규 구성, WD 일부 이사 인계 |
 
-→ Sandisk는 분사 직후라 이사회 구성 진행 중 (FY26~ 안정화 예정)
+→ Sandisk는 분사 직후라 이사회 구성 진행 중 (FY26\~ 안정화 예정)
 
 (3) 핵심 경영진
 
 | 성명 | 직위 | 주요 경력 |
 |---|---|---|
-| David V. Goeckeler | CEO | 2025.02~ 신임 |
+| David V. Goeckeler | CEO | 2025.02\~ 신임 |
 | Luis Visoso | CFO·EVP | |
 | (CTO·COO 등) | | 분사 후 인사 안정화 진행 |
 
@@ -358,7 +358,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 → **글로벌 NAND 시장 (Gartner 2026.01)**: $67.7B (+7% YoY)
 → **NAND 점유율 (TrendForce 2025 4Q)**:
-  - Samsung **35%** / SK Hynix(Solidigm) 20% / Kioxia 17% / **Sandisk 13~15%** / Micron 12% / 기타 2%
+  - Samsung **35%** / SK Hynix(Solidigm) 20% / Kioxia 17% / **Sandisk 13\~15%** / Micron 12% / 기타 2%
 → **enterprise SSD (Cloud)** 시장 — AI workload 폭발로 +30%대 성장 (2025)
 
 (2) M&A·역사 (15년)
@@ -370,16 +370,16 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 | 2013 | SMART Storage Systems 인수 | $0.31B | enterprise SSD 강화 |
 | 2014.10 | **Fusion-io 인수** | $1.1B | data center SSD 도약 |
 | **2016.05.12** | **Western Digital이 SanDisk 인수** | **$19B** | NAND·HDD 통합 메가딜 |
-| 2016~2024 | WD 자회사 시절 | — | NAND 부문 통합 운영 |
+| 2016\~2024 | WD 자회사 시절 | — | NAND 부문 통합 운영 |
 | **2024.10.30** | **WD가 NAND 사업 분사 발표** | — | HDD/NAND 양분 결정 |
 | **2025.02.21** | **Sandisk Corporation NASDAQ 신규 상장** | — | 독립 |
 
 (3) 주요 계약 (10년+)
 
 → **Kioxia와 Flash Ventures JV** (1999년 SanDisk·Toshiba 협력 시작 → 현재까지 연장)
-  - Flash Partners Ltd. (~2029.12)
-  - Flash Alliance Ltd. (~2029.12)
-  - Flash Forward Ltd. (~2034.12)
+  - Flash Partners Ltd. (\~2029.12)
+  - Flash Alliance Ltd. (\~2029.12)
+  - Flash Forward Ltd. (\~2034.12)
 → **8번째 fab CY2025 가동** — 추가 capacity expansion
 
 (4) 리스크 분석
@@ -423,7 +423,7 @@ NAND pureplay (DRAM·HBM 노출 0) — 사이클 진폭 메모리 종목 중 최
 
 ## Long Timeseries 보강 — 17분기 (분사 시점 부근, 4년)
 
-SanDisk는 2025.02 WDC에서 분사된 신규 상장사. SKILL 60+분기 표준은 historical 데이터 부재로 도달 불가능. 분사 시점 cross-checking 위해 WDC 옛 Flash 사업부 데이터(FY22 Q3~FY24 Q4, 10분기, 참고용)와 분사 후 standalone (FY25 Q1~FY26 Q3, 7분기) 합산.
+SanDisk는 2025.02 WDC에서 분사된 신규 상장사. SKILL 60+분기 표준은 historical 데이터 부재로 도달 불가능. 분사 시점 cross-checking 위해 WDC 옛 Flash 사업부 데이터(FY22 Q3\~FY24 Q4, 10분기, 참고용)와 분사 후 standalone (FY25 Q1\~FY26 Q3, 7분기) 합산.
 
 ![SNDK 17분기 매출·OPM](charts/SNDK_chart10_long_17분기시계열.png)
 

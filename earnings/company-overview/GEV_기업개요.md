@@ -1,6 +1,6 @@
 > Ticker: **NYSE: GEV** / GE Vernova Inc.
 > Sector: 전력 인프라 (T1 메인) — 글로벌 피어
-> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (분사·Wind 적자·턴어라운드 마커), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
+> 작성 시각: 2026-05-25 KST (**v1.5** — v1.0\~v1.4 + 핸드오프 표준 5가지 retrofit: 손익 표 narrative annotation 추가 (분사·Wind 적자·턴어라운드 마커), 밸류에이션에 삼성전자 비교 1줄 추가, 재평가 트리거를 실적 추적 변수에서 '분류 변경 조건' 3종으로 재정의)
 > 적용 구조: v4.8 (6개 섹션, GEV 신규 분사로 historical 부족 명시)
 > 데이터: **2024.04.02 GE 분사 후 standalone (2년)** + Form 10 (FY22-23 legacy) + Yahoo 시계열 + Q1 2026 IR 통합
 > 출처: **GEV Form 10-K 2025 + 10-K 2024 (SEC EDGAR 자동 fetch, CIK 0001996810)**, **10-Q 7건 (Q1 2024-Q1 2026)**, **GEV Annual Report 2025 (8.6MB)**, **Form 10 Registration Statement 2024.03 (분사 historical)**, **GEV IR Q1 2026 press + presentation**, **Yahoo Finance GEV 5년 (2024.04 상장 이후)**
@@ -85,7 +85,7 @@ Adj EBITDA Margin range: -0.9% ~ 8.3% = +9.2%pt (4년 단조 우상향, 턴어�
 Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 핵심 trigger)
 ```
 
-**📊 사이클 통계 (4년, FY22~FY25)**
+**📊 사이클 통계 (4년, FY22\~FY25)**
 
 | 지표 | 값 |
 |---|---|
@@ -177,9 +177,9 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 | Ticker | **NYSE: GEV** |
 | Founded | **2024.04.02** (GE 분사 후 IPO) |
 | Headquarters | Cambridge, Massachusetts, USA |
-| **CEO** | **Scott Strazik** (전 GE Gas Power CEO, 2024.04~ ) |
-| Employees | ~80,000 (FY25 추정) |
-| Listed Shares | ~270M shares |
+| **CEO** | **Scott Strazik** (전 GE Gas Power CEO, 2024.04\~ ) |
+| Employees | \~80,000 (FY25 추정) |
+| Listed Shares | \~270M shares |
 | Quarterly Dividend | $0.50/share (FY26 declared) |
 | Annual Buyback | **$1.3B Q1 2026** (FY26 active) |
 | Credit Rating | **S&P BBB / Fitch BBB+** (Q1 2026 senior notes issuance) |
@@ -198,7 +198,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 ![GE Vernova Market Cap Trend](charts/GEV_chart11_market_cap_5y.png)
 
-→ **2024.04.02 분사 직후 시가총액 ~$40B → 2026.05 시가총액 ~$200B+ → 2026-05-08 ATH $266.5B (6.7배 폭등)** [Source: companiesmarketcap.com] — 한국 3사 대비 더 가파른 secular 수혜, AI 데이터센터 전력 인프라 수요 폭증 가속
+→ **2024.04.02 분사 직후 시가총액 \~$40B → 2026.05 시가총액 \~$200B+ → 2026-05-08 ATH $266.5B (6.7배 폭등)** [Source: companiesmarketcap.com] — 한국 3사 대비 더 가파른 secular 수혜, AI 데이터센터 전력 인프라 수요 폭증 가속
 
 (4) 주요 연혁
 
@@ -220,9 +220,9 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 | 사업부 | 매출 비중 | FY25 매출 (추정, $M) | EBITDA Margin (Q1 26) |
 |---|---|---|---|
-| **Power** | **54%** | ~20,000 | **16.3% (+470bp YoY)** |
-| **Wind** | **23%** | ~8,400 | **-26.7% (적자, -1,880bp YoY)** |
-| **Electrification** | **23%** | ~8,300 | **~17-19% (Prolec GE 통합 영향)** |
+| **Power** | **54%** | \~20,000 | **16.3% (+470bp YoY)** |
+| **Wind** | **23%** | \~8,400 | **-26.7% (적자, -1,880bp YoY)** |
+| **Electrification** | **23%** | \~8,300 | **\~17-19% (Prolec GE 통합 영향)** |
 | **합계** | 100% | **36,733** | **9.6% Adj EBITDA (Q1 26)** |
 
 (2) 분기 사업부별 매출 (Q1 25 - Q1 26)
@@ -275,7 +275,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 (6) 생산 CAPA + 임직원
 
-→ **~80,000 employees globally** (FY25)
+→ **\~80,000 employees globally** (FY25)
 → **6 R&D centers** + **manufacturing across US, Europe, India, China**
 → Q1 2026 CapEx $0.4B (2025-2028 누적 $6B + Prolec GE 2026-2028 $1B)
 
@@ -289,31 +289,31 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 (2) 재무상태표 (FY24-FY25, 10-K 기반)
 
-→ FY25 Total Assets ~$50B+ (Prolec GE 통합 후 +$15B 추정)
-→ FY25 Stockholders' Equity ~$10B
+→ FY25 Total Assets \~$50B+ (Prolec GE 통합 후 +$15B 추정)
+→ FY25 Stockholders' Equity \~$10B
 → **Q1 2026 Cash $10.2B (+ $2.6B senior notes issuance for Prolec GE 인수)**
 
 (3) 현금흐름 (FY25)
 
-→ Cash from Operations FY25 ~$3B
+→ Cash from Operations FY25 \~$3B
 → Q1 2026 Cash from Ops $5.2B / **FCF $4.8B (4x YoY)** = 분기 사상 최대
 → Capital allocation: dividends $0.50/q + $2B+ buybacks + Prolec GE 인수
 
 (4) CapEx
 
-→ FY25 CapEx ~$1.0B
+→ FY25 CapEx \~$1.0B
 → 가이던스: **2025-2028 누적 $6B + Prolec GE 추가 $1B = 총 $7B**
 → Power capacity 확대 (Gas turbine 생산) + Electrification 확대
 
 (5) 부채구조
 
 → FY24말 Total Debt $5B
-→ **2026.Q1 senior notes $2.6B 발행** (Prolec GE financing) → Total Debt ~$8B
+→ **2026.Q1 senior notes $2.6B 발행** (Prolec GE financing) → Total Debt \~$8B
 → **신용등급: S&P BBB / Fitch BBB+** (둘 다 investment grade)
 
 (6) 배당·자사주
 
-→ Quarterly Dividend $0.50/share (annual ~$540M)
+→ Quarterly Dividend $0.50/share (annual \~$540M)
 → **Q1 2026 buyback $1.3B** (1.8M shares avg $720)
 → Capital allocation framework: organic + inorganic + buyback + dividend
 
@@ -323,7 +323,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 |---|---|
 | Revenue ($B) | 36.7 |
 | Adj EBITDA Margin | **8.3%** |
-| Operating Income margin | ~5% |
+| Operating Income margin | \~5% |
 | FCF | $2.6B |
 | Q1 26 EPS Margin | 50.9% (M&A gain 포함, normalized 8-10%) |
 
@@ -352,8 +352,8 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 (3) 임원·이사회
 
-→ **CEO**: **Scott Strazik** (2024.04~) — 전 GE Gas Power CEO
-→ CFO: Kenneth Parks (2024~)
+→ **CEO**: **Scott Strazik** (2024.04\~) — 전 GE Gas Power CEO
+→ CFO: Kenneth Parks (2024\~)
 → Chief Commercial Officer: Pablo Koziner
 → **Chairman**: Larry Culp (전 GE CEO, GEV 분사 주도)
 → Board of Directors: 9명, 사외이사 7명 (US governance 표준)
@@ -364,7 +364,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 (1) R&D 인프라
 
-→ R&D ~$1.5B/year (4%+ of revenue) — Gas turbine·SMR·Wind·HVDC 전반
+→ R&D \~$1.5B/year (4%+ of revenue) — Gas turbine·SMR·Wind·HVDC 전반
 → 6 R&D centers (US · Europe · India)
 → **BWRX-300 SMR** — Ontario Power Generation 첫 상용 SMR (2030 운영 목표)
 
@@ -407,7 +407,7 @@ Wind segment FY25 OPM -26.7% 적자 잔여 (흑전 시점이 분류 재정의 �
 
 ✅ **확보 자료** (16건):
 - SEC EDGAR 10-K 2건 (FY24·FY25)
-- 10-Q 7건 (Q1 2024 ~ Q1 2026)
+- 10-Q 7건 (Q1 2024 \~ Q1 2026)
 - GEV IR Q1 2026 press + presentation
 - GEV Annual Report 2025 (8.6MB)
 - Form 10 Registration Statement (분사 시점 historical)

@@ -3,7 +3,7 @@
 > Sector: 전력 인프라 (T2 메인) — 글로벌 피어 (한국 3사·ABB·GEV·SU·HE와 비교)
 > 작성 시각: 2026-05-25 KST (**v1.0** — Source 6종 일괄 수집 + Phase 1 audit + 12종 차트 + v1.5 표준 ① 기업 분류)
 > 적용 구조: v4.8 (6개 섹션) + v1.5 ① 기업 분류 표준 (Summary Box·손익 narrative·분류 sub-rule·밸류 다이얼·재평가 트리거 5가지)
-> 데이터: **12년 시계열 (FY14~FY25)** + **Q1 2026 (May 5, 2026 release)** + **분기 13Q (Q1 2023~Q1 2026)** + **25년 ETN 주가 (Yahoo Finance monthly)**
+> 데이터: **12년 시계열 (FY14\~FY25)** + **Q1 2026 (May 5, 2026 release)** + **분기 13Q (Q1 2023\~Q1 2026)** + **25년 ETN 주가 (Yahoo Finance monthly)**
 > 출처: **SEC EDGAR 168건 (10-K 13건 + 10-Q 30+건 + 8-K 100+건)**, **Eaton Q1 2026 Earnings Release (May 5, 2026)**, **Sustainability Report 2024 (4.3MB)**, **Yahoo Finance ETN monthly 25y**
 
 # Eaton Corporation 기업 개요 (v1.0 — 전력 인프라 T2 / 글로벌 피어 / Mobility 분사 진행 중)
@@ -51,9 +51,9 @@ Source 6종 audit:
 
 (1) Primary / Secondary 분류
 
-**Primary 분류: 지속성장 (Secular)** — Electrification + Data Center + Aerospace 메가트렌드 직접 수혜, FY21~FY25 OPM 18.9% → 24.5% 단조 우상향 (5년 연속 record)
+**Primary 분류: 지속성장 (Secular)** — Electrification + Data Center + Aerospace 메가트렌드 직접 수혜, FY21\~FY25 OPM 18.9% → 24.5% 단조 우상향 (5년 연속 record)
 
-→ **5년 연속 record Year** (FY21~FY25) — Segment OPM 18.9% → 24.5% (+5.6pt), 매출 $19.6B → $27.4B (+40%)
+→ **5년 연속 record Year** (FY21\~FY25) — Segment OPM 18.9% → 24.5% (+5.6pt), 매출 $19.6B → $27.4B (+40%)
 
 → **Backlog 압도적 가속** — Q1 2026 Electrical Americas Backlog **+44% YoY**, 12-mo orders **+42% organic** — 데이터센터 secular driver 본격화
 
@@ -65,7 +65,7 @@ Source 6종 audit:
 
 → **Industrial capex 일부** — Aerospace OEM cycle + 일부 vehicle aftermarket noise
 
-→ **FY14~FY20 long-cycle phase** — Hydraulics 매각 (2021.8 Danfoss $3.3B), Cooper Industries 인수 (2012) 후 통합 후반, 매출 정체 ($20B 부근 oscillate)
+→ **FY14\~FY20 long-cycle phase** — Hydraulics 매각 (2021.8 Danfoss $3.3B), Cooper Industries 인수 (2012) 후 통합 후반, 매출 정체 ($20B 부근 oscillate)
 
 **5 segment 구조 (FY25 실적)**
 
@@ -132,7 +132,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (3) 정량적 분류 근거
 
-**📊 Summary Box — 사이클 통계 (12년, FY14~FY25)**
+**📊 Summary Box — 사이클 통계 (12년, FY14\~FY25)**
 
 | 지표 | 값 |
 |------|-----|
@@ -141,11 +141,11 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 | Margin 정점 | **24.5%** (FY25, 진행 중) |
 | Margin 저점 | **14.7%** (FY14) |
 | Margin range | **+9.8%pt** (long-cycle, FY21 변곡점 후 단조 우상향) |
-| 사이클 회수 | **0회** (정점·저점 없음, FY14~FY20 정체 phase 후 FY21~FY25 5년 단조 우상향) |
+| 사이클 회수 | **0회** (정점·저점 없음, FY14\~FY20 정체 phase 후 FY21\~FY25 5년 단조 우상향) |
 | 사이클 cutoff (±10%pt) | **미달** → **지속성장으로 분류** (FY21 변곡점 후 secular phase 진입) |
 
-→ **FY14~FY20** = post-Cooper 통합 후반 + Hydraulics drag = 매출 정체 phase
-→ **FY21~FY25** = Hydraulics 매각 + 전기화 secular = 매출 +40%, OPM +5.6pt 단조 우상향
+→ **FY14\~FY20** = post-Cooper 통합 후반 + Hydraulics drag = 매출 정체 phase
+→ **FY21\~FY25** = Hydraulics 매각 + 전기화 secular = 매출 +40%, OPM +5.6pt 단조 우상향
 → FY21이 변곡점, 5년 연속 record로 지속성장 분류 강하게 충족
 
 **시장 지위**
@@ -186,7 +186,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (2) **사이클 vs 지속성장 sub-rule 적용**:
    - 12년 Margin range +9.8%pt (cutoff ±10%pt 미달)
-   - FY14~FY20 매출 정체 + FY21~FY25 5년 단조 우상향 → 변곡점 명확
+   - FY14\~FY20 매출 정체 + FY21\~FY25 5년 단조 우상향 → 변곡점 명확
    - Backlog Electrical +44% YoY visibility 2-3년
    → **지속성장 분류 (FY21 이후 phase)**
 
@@ -200,7 +200,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (6) 적정 밸류에이션 방법 (단위 밸류는 분기 실적 분석, Terminal 밸류는 테마 통합 모드)
 
-→ **1차 — Forward PER (지속성장 분류 표준)** : FY25 EPS $10.45 (GAAP) / Adj EPS ~$11.86 (추정) → FY26F Adj EPS $13.05-$13.50 midpoint $13.28 → P/E 22-25x (글로벌 전력 인프라 premium peer range), 데이터센터 secular premium 더해질 경우 28-32x도 가능
+→ **1차 — Forward PER (지속성장 분류 표준)** : FY25 EPS $10.45 (GAAP) / Adj EPS \~$11.86 (추정) → FY26F Adj EPS $13.05-$13.50 midpoint $13.28 → P/E 22-25x (글로벌 전력 인프라 premium peer range), 데이터센터 secular premium 더해질 경우 28-32x도 가능
 
 → **2차 — EV/EBITDA (자본구조 비교)** : Net debt $9.3B + Equity 시총 $130B (May 2026 작성 시점) → **2026-05-22 ATH $156B** [Source: companiesmarketcap.com] → EV/EBITDA 25-30x (peer premium 적용 시)
 
@@ -235,11 +235,11 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 - **운영본사** — 1000 Eaton Boulevard, Beachwood, Ohio 44122, USA
 - **설립** — 1911년 (Joseph O. Eaton, Viggo V. Torbensen이 New York Truck Equipment 인수로 출범 → 1916 The Torbensen Axle Company → 1925 Eaton Manufacturing Company)
 - **현 Corporate 구조** — 2012년 Cooper Industries 인수와 함께 Irish parent 재구조 (tax inversion)
-- **상장** — NYSE:ETN (S&P 500 + Dow Jones Industrial Average constituent 2023.08~)
-- **CEO** — **Paulo Ruiz** (2025.06~, 신임) — 전 Chief Operating Officer (2023.06~2025.05)
-- **전 CEO** — Craig Arnold (2016.06~2025.05) — 9년 재임 후 retire
-- **CFO** — Olivier Leonetti (2024.06~)
-- **이사회 Chair** — Craig Arnold (Executive Chair 2025.06~)
+- **상장** — NYSE:ETN (S&P 500 + Dow Jones Industrial Average constituent 2023.08\~)
+- **CEO** — **Paulo Ruiz** (2025.06\~, 신임) — 전 Chief Operating Officer (2023.06\~2025.05)
+- **전 CEO** — Craig Arnold (2016.06\~2025.05) — 9년 재임 후 retire
+- **CFO** — Olivier Leonetti (2024.06\~)
+- **이사회 Chair** — Craig Arnold (Executive Chair 2025.06\~)
 - **직원 수** — **97,000명** (FY25말, Sustainability Report)
 - **운영 국가** — 175+ 개국
 - **회계연도** — Calendar year (FY25 = 2025.01-12)
@@ -250,7 +250,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 |---|---|---|---|
 | Revenue ($B) | 27.4 | 7.5 (+17% YoY) | Organic +9-11% |
 | Segment OPM | 24.5% | 22.7% (-120bp) | 24.1-24.5% |
-| Adj EPS ($) | ~11.86 (추정) | 2.81 record | 13.05-13.50 (+10% YoY) |
+| Adj EPS ($) | \~11.86 (추정) | 2.81 record | 13.05-13.50 (+10% YoY) |
 | GAAP EPS ($) | 10.45 | 2.22 | 10.88-11.33 |
 | Operating CF ($M) | 4,472 | 507 (+113%) | — |
 | Free CF ($M) | 3,553 | 314 (+245%) | — |
@@ -260,7 +260,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (3) 사명 변천사 / 주요 히스토리
 
-**1기 (1911~1978) — 차량 axle 제조 출발**
+**1기 (1911\~1978) — 차량 axle 제조 출발**
 
 → **1911년** — Joseph Eaton + Viggo Torbensen, New York Truck Equipment 인수 → axle·brake 제조
 
@@ -272,7 +272,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → **1971년** — **Eaton Corporation** 사명 변경 (truck → diversified industrial로 확장)
 
-**2기 (1978~2011) — Power Management 다각화**
+**2기 (1978\~2011) — Power Management 다각화**
 
 → **1978년** — Cutler-Hammer (electrical) 인수 — 전력 사업 본격 진입
 
@@ -286,7 +286,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → **2010년** — Wright Line 인수 (data center cooling)
 
-**3기 (2012~2020) — Cooper Industries Mega-deal + Irish 재구조**
+**3기 (2012\~2020) — Cooper Industries Mega-deal + Irish 재구조**
 
 → **2012년 5월** — **Cooper Industries plc 인수 발표** ($11.8B cash+stock, 가장 큰 deal)
 
@@ -298,7 +298,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → **2017년** — Hydraulics 일부 매각 (gain $1,077M)
 
-**4기 (2020~2026) — 전기화 secular + 포트폴리오 정제**
+**4기 (2020\~2026) — 전기화 secular + 포트폴리오 정제**
 
 → **2020년 9월** — **Souriau-Sunbank Connection Technologies $920M 인수** (Aerospace + military connector)
 
@@ -320,17 +320,17 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → **2025년 6월** — **Paulo Ruiz CEO 부임** (전 COO, Craig Arnold → Executive Chair)
 
-→ **2026년 1월 26일** — **Mobility (Vehicle + eMobility) Q1 2027 spin-off 계획 발표** — ~$3B 매출 분사 → Electrical+Aerospace pure-play 전환
+→ **2026년 1월 26일** — **Mobility (Vehicle + eMobility) Q1 2027 spin-off 계획 발표** — \~$3B 매출 분사 → Electrical+Aerospace pure-play 전환
 
 → **2026년 Q1** — **Boyd Thermal $11B 인수 close** (data center thermal) + **Ultra PCS Limited 인수 close** (aerospace mission-critical electronics)
 
 (4) 5 Business Segment 구조 (FY25 기준)
 
-- **Electrical Americas (EA)** — 매출 ~48% ($13.3B) — North/South America electrical solutions: Power Distribution (LV·MV Switchgear) + Data Center Solutions (UPS·BMS·PowerXpert) + Industrial Controls + Residential. **Data Center secular driver 본진**
-- **Electrical Global (EG)** — 매출 ~25% ($6.8B) — EMEA·APAC electrical: Switchgear (IEC), Power Quality·Components, Industrial Automation
-- **Aerospace** — 매출 ~15% ($4.2B) — Fuel·Hydraulic·Air Management·Pneumatic 등 Aerospace systems for OEM (Boeing, Airbus, Embraer, Bombardier) + Aftermarket + Military·Defense (F-35, F-18, B-2, defense aircraft)
-- **Vehicle** — 매출 ~9% ($2.5B) — Commercial Vehicle Powertrain: Engine Valves·Differentials·Clutches·Filters·Transmissions for trucks·buses·off-highway. **Mobility 분사 → Q1 2027**
-- **eMobility** — 매출 ~2% ($0.6B) — DC-DC converters·Inverters·Onboard Chargers·High-voltage 분배 for EV·Hybrid powertrains. **Mobility 분사 → Q1 2027**
+- **Electrical Americas (EA)** — 매출 \~48% ($13.3B) — North/South America electrical solutions: Power Distribution (LV·MV Switchgear) + Data Center Solutions (UPS·BMS·PowerXpert) + Industrial Controls + Residential. **Data Center secular driver 본진**
+- **Electrical Global (EG)** — 매출 \~25% ($6.8B) — EMEA·APAC electrical: Switchgear (IEC), Power Quality·Components, Industrial Automation
+- **Aerospace** — 매출 \~15% ($4.2B) — Fuel·Hydraulic·Air Management·Pneumatic 등 Aerospace systems for OEM (Boeing, Airbus, Embraer, Bombardier) + Aftermarket + Military·Defense (F-35, F-18, B-2, defense aircraft)
+- **Vehicle** — 매출 \~9% ($2.5B) — Commercial Vehicle Powertrain: Engine Valves·Differentials·Clutches·Filters·Transmissions for trucks·buses·off-highway. **Mobility 분사 → Q1 2027**
+- **eMobility** — 매출 \~2% ($0.6B) — DC-DC converters·Inverters·Onboard Chargers·High-voltage 분배 for EV·Hybrid powertrains. **Mobility 분사 → Q1 2027**
 
 ---
 
@@ -356,7 +356,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (2) 사업부별 개요 (매출 비중 큰 순서, 직관적 설명)
 
-**Electrical Americas (EA) BU — 매출 비중 ~48%**
+**Electrical Americas (EA) BU — 매출 비중 \~48%**
 
 > "북미·중남미 전력 인프라의 핵심 제공자. 데이터센터 폭증 수혜의 단일 최대 segment, ETN의 OPM·Backlog 가속 driver."
 
@@ -370,7 +370,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 - **B-Line** — Cable trays·support systems
 - **Pre-Engineered Buildings (Fibrebond 인수 2024)** — Data center 모듈 구조물
 
-**Electrical Global (EG) BU — 매출 비중 ~25%**
+**Electrical Global (EG) BU — 매출 비중 \~25%**
 
 > "EMEA·APAC 지역 동일 사업부 — IEC 표준 기반, 글로벌 brand 분산. **Q1 2026 Backlog +73% YoY 폭증** (EA 대비 더 빠른 가속)."
 
@@ -380,7 +380,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 - **Smart Buildings** — KNX·BACnet HVAC controls
 - **Components** — Connectors·Sensors·Relays
 
-**Aerospace BU — 매출 비중 ~15%**
+**Aerospace BU — 매출 비중 \~15%**
 
 > "Commercial + Defense 동시 cycle high. **Q1 2026 OPM 26.7% Record + Ultra PCS 인수 close (2026.01)** — defense electronics 강화."
 
@@ -392,7 +392,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 - **Defense Products** — F-35, F-18, B-2, Apache helicopter systems
 - **Aftermarket Services** — MRO (Maintenance·Repair·Overhaul) — 고마진 recurring revenue
 
-**Vehicle BU (분사 진행 — Mobility 통합 reporting Q1 2026~) — 매출 비중 ~9%**
+**Vehicle BU (분사 진행 — Mobility 통합 reporting Q1 2026\~) — 매출 비중 \~9%**
 
 > "Commercial Vehicle Powertrain. **2027 Q1 Mobility(Vehicle+eMobility) 분사 → 독립 회사로 separation**. 사이클 노출 제거 진행 중."
 
@@ -402,7 +402,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 - **Eaton Engine Air Mgmt** — Superchargers, Roots blowers
 - **Aftermarket Filters** — Air·Oil·Fuel filtration
 
-**eMobility BU (분사 진행 — Mobility 통합 reporting Q1 2026~) — 매출 비중 ~2%**
+**eMobility BU (분사 진행 — Mobility 통합 reporting Q1 2026\~) — 매출 비중 \~2%**
 
 > "EV·Hybrid 전용 platform. **2027 Q1 Mobility 분사 → Vehicle과 합쳐 독립 회사**. 전기화 cycle 일부 노출."
 
@@ -469,16 +469,16 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (7) End-Market 분포 (FY25 추정)
 
-- **Data Centers (Hyperscaler·AI)** — 가속 segment, FY25 매출 ~15% 추정, FY26F 20%+ (Backlog driver)
-- **Utility·Grid** — 안정 segment, 매출 ~15%
-- **Commercial & Industrial Construction** — 매출 ~20%, 단기 cycle
-- **Commercial Aircraft (OEM + Aftermarket)** — 매출 ~12%
-- **Military·Defense** — 매출 ~5%, 안정 budget
-- **Commercial Vehicle (Truck·Off-highway)** — 매출 ~9%, 분사 예정
-- **EV·Hybrid (eMobility)** — 매출 ~2%, 분사 예정
-- **Oil & Gas (Crouse-Hinds)** — 매출 ~5%
-- **Residential** — 매출 ~5%
-- **기타** — ~10%
+- **Data Centers (Hyperscaler·AI)** — 가속 segment, FY25 매출 \~15% 추정, FY26F 20%+ (Backlog driver)
+- **Utility·Grid** — 안정 segment, 매출 \~15%
+- **Commercial & Industrial Construction** — 매출 \~20%, 단기 cycle
+- **Commercial Aircraft (OEM + Aftermarket)** — 매출 \~12%
+- **Military·Defense** — 매출 \~5%, 안정 budget
+- **Commercial Vehicle (Truck·Off-highway)** — 매출 \~9%, 분사 예정
+- **EV·Hybrid (eMobility)** — 매출 \~2%, 분사 예정
+- **Oil & Gas (Crouse-Hinds)** — 매출 \~5%
+- **Residential** — 매출 \~5%
+- **기타** — \~10%
 
 (8) Growth Engine — 3대 high-growth segments (Q1 2026 + CMD 2024 가이던스)
 
@@ -488,7 +488,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (9) Mobility Spin-off Strategy (2027 Q1 separation)
 
-→ **Vehicle + eMobility segment 통합 분사** — ~$3B 매출 (FY25 기준 11%)
+→ **Vehicle + eMobility segment 통합 분사** — \~$3B 매출 (FY25 기준 11%)
 
 → **2026.01.26 공시 발표** — Form-10 filing 2026 하반기 예정
 
@@ -510,7 +510,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 ## ④ 재무 구조
 
-(1) 12년 매출·OP·OPM 시계열 (FY14~FY25, 정확값 USD basis)
+(1) 12년 매출·OP·OPM 시계열 (FY14\~FY25, 정확값 USD basis)
 
 | FY | Revenue ($B) | Segment OP ($B) | Segment OPM | Net Income ($B) | Diluted EPS ($) | DPS ($) |
 |----|---|---|---|---|---|---|
@@ -531,7 +531,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 → FY14→FY25 Segment OPM **+9.8pt** — FY21 변곡점, 5년 단조 우상향
 → FY14→FY25 EPS **+178%** — buyback + margin 동시 driver
 
-(2) 12년 segment 매출 시계열 (FY14~FY25, 정확값)
+(2) 12년 segment 매출 시계열 (FY14\~FY25, 정확값)
 
 | FY | EP/EA | ES/EG | Hydraulics | Aerospace | Vehicle | eMobility | Total |
 |----|---|---|---|---|---|---|---|
@@ -549,12 +549,12 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 | **2025** | **13,276** | **6,815** | - | **4,249** | **2,505** | **604** | **27,448** |
 
 > **Segment 재편 history**:
-> - FY14~FY18: 5 segment (Electrical Products / Electrical Systems and Services / Hydraulics / Aerospace / Vehicle)
-> - FY18 Q1~Q4 (Eaton 4 사명): eMobility 신설 (Vehicle에서 분리)
+> - FY14\~FY18: 5 segment (Electrical Products / Electrical Systems and Services / Hydraulics / Aerospace / Vehicle)
+> - FY18 Q1\~Q4 (Eaton 4 사명): eMobility 신설 (Vehicle에서 분리)
 > - FY19 reorganization: Electrical Products + Electrical Systems and Services를 Electrical Americas (EA) + Electrical Global (EG)로 재편
 > - FY21: Hydraulics segment Danfoss 매각 close (2021.08) → Hydraulics 제거
-> - FY22 ~ FY25: 5 segment (Electrical Americas / Electrical Global / Aerospace / Vehicle / eMobility)
-> - FY26 Q1~: Vehicle + eMobility를 "Mobility" segment로 통합 reporting (분사 진행 중)
+> - FY22 \~ FY25: 5 segment (Electrical Americas / Electrical Global / Aerospace / Vehicle / eMobility)
+> - FY26 Q1\~: Vehicle + eMobility를 "Mobility" segment로 통합 reporting (분사 진행 중)
 > - FY27 Q1: Mobility separation 완료 예정 → 4 segment (EA / EG / Aerospace / + standalone Mobility 회사)
 
 (3) Q1 2026 vs Q1 2025 segment 분기 비교
@@ -595,21 +595,21 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 - **Eaton (ETN)** — Revenue **$27.4B** / Segment OPM **24.5%** / Backlog EA +44% / **5 segment 97K명, 175+개국**
 - **HD현대일렉트릭** — Revenue $3.3B / OPM 24.4% / Backlog $14B+ / 한국 1위, US 변압기 sweet spot
-- **ABB** — Revenue $32.8B / Op EBITDA 19.0% / Backlog ~$24B / 4 segment 멀티
+- **ABB** — Revenue $32.8B / Op EBITDA 19.0% / Backlog \~$24B / 4 segment 멀티
 - **Schneider Electric** — Revenue €38.1B / Adj EBITA 18.7% / Backlog €21.4B / EM+IA 멀티
 - **GE Vernova** — Revenue $36.7B / Adj EBITA 8.3% / Backlog $122B / Power+Wind+Electrification
 - **Hitachi Energy** — Revenue $19.8B / Adj EBITA 12.0% / Backlog $57.9B / 5 BU 51K명
-- **효성중공업** — Revenue $5.5B / OPM 12.5% / Backlog ~$10B / 중공업+건설 mix
-- **LS일렉트릭** — Revenue $3.5B / OPM 8.6% / Backlog ~$3B / 전력기기+자동화
+- **효성중공업** — Revenue $5.5B / OPM 12.5% / Backlog \~$10B / 중공업+건설 mix
+- **LS일렉트릭** — Revenue $3.5B / OPM 8.6% / Backlog \~$3B / 전력기기+자동화
 
 (6) FY26 가이던스 (Raised May 5, 2026)
 
 | 항목 | FY25 Actual | FY26 Guidance (Raised) | YoY |
 |---|---|---|---|
-| Organic Growth | +9% | **+9% ~ +11% (midpoint +10%)** | (raised from +8%) |
-| Segment OPM | 24.5% | **24.1% ~ 24.5%** | flat~-40bp |
-| GAAP EPS | $10.45 | $10.88 ~ $11.33 | +5% midpoint |
-| **Adj EPS** | ~$11.86 (est) | **$13.05 ~ $13.50** | **+10% midpoint** |
+| Organic Growth | +9% | **+9% \~ +11% (midpoint +10%)** | (raised from +8%) |
+| Segment OPM | 24.5% | **24.1% \~ 24.5%** | flat\~-40bp |
+| GAAP EPS | $10.45 | $10.88 \~ $11.33 | +5% midpoint |
+| **Adj EPS** | \~$11.86 (est) | **$13.05 \~ $13.50** | **+10% midpoint** |
 
 → Organic growth target 상향 — Data Center backlog +44% + 12-mo orders +42% organic 가속 반영
 → OPM 24.1-24.5% — 일부 M&A integration drag (Boyd Thermal·Ultra PCS Q1 close)
@@ -632,13 +632,13 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (1) 주주 구조 (대형 기관 중심)
 
-- **Vanguard Group** — ~9.5% (S&P 500 + DJIA 동시 index 효과)
-- **BlackRock** — ~8.2% (iShares ETF + active funds)
-- **State Street** — ~4.5% (SPDR ETF)
-- **Geode Capital Management** — ~2.1%
-- **JPMorgan Asset Management** — ~1.8%
-- **Other Institutional** — ~54.9% (Capital Group, Wellington, T. Rowe Price 등 50+ 기관)
-- **Retail & Other** — ~19.0%
+- **Vanguard Group** — \~9.5% (S&P 500 + DJIA 동시 index 효과)
+- **BlackRock** — \~8.2% (iShares ETF + active funds)
+- **State Street** — \~4.5% (SPDR ETF)
+- **Geode Capital Management** — \~2.1%
+- **JPMorgan Asset Management** — \~1.8%
+- **Other Institutional** — \~54.9% (Capital Group, Wellington, T. Rowe Price 등 50+ 기관)
+- **Retail & Other** — \~19.0%
 
 → Eaton ordinary shares — 100% public float (대주주 그룹 없음)
 → Insider holdings — CEO·임원·이사회 minimal (<1%)
@@ -650,9 +650,9 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 **CEO + Executive Team**
 
-- **CEO — Paulo Ruiz** (2025.06~) — 전 Chief Operating Officer (2023.06~2025.05) / Brazil 출신, 전 Industrial Sector President
-- **Executive Chair — Craig Arnold** (2025.06~) — 전 CEO (2016.06~2025.05), 9년 재임 후 retire to chairman role
-- **CFO — Olivier Leonetti** (2024.06~) — 전 Western Digital·NCR·VeriSign CFO 경력
+- **CEO — Paulo Ruiz** (2025.06\~) — 전 Chief Operating Officer (2023.06\~2025.05) / Brazil 출신, 전 Industrial Sector President
+- **Executive Chair — Craig Arnold** (2025.06\~) — 전 CEO (2016.06\~2025.05), 9년 재임 후 retire to chairman role
+- **CFO — Olivier Leonetti** (2024.06\~) — 전 Western Digital·NCR·VeriSign CFO 경력
 - **Chief Operating Officer (President of Industrial Sector)** — 신규 후임 미공시 (Paulo Ruiz 승격으로 공석)
 - **Chief Legal Officer (General Counsel) — Ken D. Davis**
 - **Chief Human Resources Officer — Heather B. Cisar**
@@ -712,12 +712,12 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 | 항목 | FY23 | FY24 | FY25 | Q1 2026 |
 |---|---|---|---|---|
 | DPS ($) | 3.44 | 3.76 | 4.16 | 1.04 (Q1) |
-| Dividends Paid ($M) | 1,379 | 1,500 | 1,626 | ~407 |
+| Dividends Paid ($M) | 1,379 | 1,500 | 1,626 | \~407 |
 | Buyback ($M) | 0 | 2,492 | 1,862 | (Q1 M&A 우선) |
 | Payout Ratio (Div / NI) | 43% | 40% | 40% | — |
 | Total Return / FCF | 48% | 113% | 98% | M&A 우선 |
 
-→ **15년 연속 dividend 인상** trajectory (FY10~FY25)
+→ **15년 연속 dividend 인상** trajectory (FY10\~FY25)
 → **2030 Capital Allocation (CMD 2024)** — $5B+ M&A headroom, dividend payout 30-35% target, buyback $5B multi-year
 → Q1 2026 $11B M&A close 후 buyback 일시 감속 (Boyd + Ultra PCS 인수 우선)
 
@@ -729,18 +729,18 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 (1) 신용도 & 시가총액 (2026.05 기준)
 
-- **NYSE:ETN 주가** — **~$320** (2025.05 monthly close) — all-time high $375.42 (2024.11)
-- **Eaton 시가총액** — $320 × 391.2M shares = **~$125B USD**
-- **Net Debt** — Long-term debt $8.8B + Short-term debt $1.1B - Cash $0.6B - ST Investments $0.2B = **~$9.1B Net Debt**
-- **Enterprise Value** — $125B + $9.1B = **~$134B EV**
-- **EV/EBITDA** — $134B / ~$8.5B (FY25 EBITDA est) = **~16x** (peer median)
-- **Forward P/E** — $320 / $13.28 (FY26F Adj EPS midpoint) = **~24x** (premium peer range)
+- **NYSE:ETN 주가** — **\~$320** (2025.05 monthly close) — all-time high $375.42 (2024.11)
+- **Eaton 시가총액** — $320 × 391.2M shares = **\~$125B USD**
+- **Net Debt** — Long-term debt $8.8B + Short-term debt $1.1B - Cash $0.6B - ST Investments $0.2B = **\~$9.1B Net Debt**
+- **Enterprise Value** — $125B + $9.1B = **\~$134B EV**
+- **EV/EBITDA** — $134B / \~$8.5B (FY25 EBITDA est) = **\~16x** (peer median)
+- **Forward P/E** — $320 / $13.28 (FY26F Adj EPS midpoint) = **\~24x** (premium peer range)
 
 (2) R&D 자원
 
 → **FY25 R&D 비용** — **$797M** (매출 2.9%)
 
-→ **12년 R&D 비율** — 2.6% ~ 3.1% range, 점진 안정
+→ **12년 R&D 비율** — 2.6% \~ 3.1% range, 점진 안정
 
 → **Sustainable R&D 누적** — $1.7B since 2020 (Sustainability Report 2024)
 
@@ -773,7 +773,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 **Spin-off 구조**
 
-→ **분사 대상**: Vehicle segment ($2.5B FY25) + eMobility segment ($0.6B FY25) = **~$3B 매출**
+→ **분사 대상**: Vehicle segment ($2.5B FY25) + eMobility segment ($0.6B FY25) = **\~$3B 매출**
 
 → **분사 방식**: Tax-free spin-off (Eaton 주주에 신규 회사 주식 dispatched per share)
 
@@ -795,7 +795,7 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 **분사 후 신규 회사 (Mobility)**
 
-→ **~$3B 매출 + ~$0.4B Segment OP** (FY25 기준)
+→ **\~$3B 매출 + \~$0.4B Segment OP** (FY25 기준)
 
 → **Commercial Vehicle cycle 직접 노출**
 
@@ -809,15 +809,15 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 → 2000.01 $15.50 → 2009.02 GFC trough $20.71 → 2020.03 코로나 trough $66.32 → **2024.11 all-time high $375.42** → 2025.05 $320.20
 
-→ 2020-2024 4년 **~5.7x rally** — Hydraulics 매각 + 전기화 secular + 데이터센터 cycle
+→ 2020-2024 4년 **\~5.7x rally** — Hydraulics 매각 + 전기화 secular + 데이터센터 cycle
 
 → 2024.11 → 2025.05 **-15% pullback** — 데이터센터 수요 sustainability + Mobility 분사 발표 uncertainty
 
-→ 25년 누적 +1,966% (2000.01 vs 2025.05) — S&P 500 (~370%) 5x outperform
+→ 25년 누적 +1,966% (2000.01 vs 2025.05) — S&P 500 (\~370%) 5x outperform
 
-→ Dividend reinvested total return — 25년 ~+4,500% (배당 재투자 시)
+→ Dividend reinvested total return — 25년 \~+4,500% (배당 재투자 시)
 
-![Eaton 25년 주가 (2000.01 ~ 2025.05)](charts/ETN_chart11_주가25년.png)
+![Eaton 25년 주가 (2000.01 \~ 2025.05)](charts/ETN_chart11_주가25년.png)
 
 ---
 
@@ -825,10 +825,10 @@ Margin 정점: 24.5% (FY25 진행 중), 저점: 14.7% (FY14)
 
 ### 확보 자료 (17 source)
 
-- **SEC EDGAR 168건** — 10-K 13건 (FY13~FY25 12년 완전 cover) + 10-Q 30+건 + 8-K 100+건
+- **SEC EDGAR 168건** — 10-K 13건 (FY13\~FY25 12년 완전 cover) + 10-Q 30+건 + 8-K 100+건
 - **Eaton Q1 2026 자료 2건** — Earnings Release (HTML) + Press Release
 - **Sustainability Report 2024** (4.3MB) — ESG metrics + 97,000 employees + Net Zero 2050 + sustainability-enabling 76%
-- **Yahoo Finance** — ETN monthly 25y (2000.01 ~ 2025.05)
+- **Yahoo Finance** — ETN monthly 25y (2000.01 \~ 2025.05)
 
 ### 누락 자료 (3)
 

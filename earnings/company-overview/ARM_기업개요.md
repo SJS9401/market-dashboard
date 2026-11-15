@@ -2,8 +2,8 @@
 > 섹터: 반도체 (CPU IP Licensing — Fabless 중 Fabless)
 > 작성 시각: 2026-05-18 KST
 > 적용 구조: v4.8 (6개 섹션 + 12종 차트) — 신규 상장사 history 한계로 일부 수정
-> 데이터: 7년 연간 (FY20~FY26) + 직전 12분기 (Q1 24~Q4 26)
-> 출처: SEC EDGAR ARM 20-F 2개 (FY24·FY25) + 6-K 24개 + F-1 + DEF 14A (CIK 0001973239), ARM IR Earnings PDF 6개 (FYE25 Q4~FYE26 Q4 Investor Presentation + Shareholder Letter + Transcript), Yahoo Finance v8, 웹 검색 Q4 FY26 결과 보강
+> 데이터: 7년 연간 (FY20\~FY26) + 직전 12분기 (Q1 24\~Q4 26)
+> 출처: SEC EDGAR ARM 20-F 2개 (FY24·FY25) + 6-K 24개 + F-1 + DEF 14A (CIK 0001973239), ARM IR Earnings PDF 6개 (FYE25 Q4\~FYE26 Q4 Investor Presentation + Shareholder Letter + Transcript), Yahoo Finance v8, 웹 검색 Q4 FY26 결과 보강
 
 ## ★ Executive Update (Q4 FY26 — Record 매출 + AI Inflection Point)
 
@@ -11,9 +11,9 @@
 → **Royalty Revenue +11% YoY ($671M)** — Edge AI + Physical AI + Cloud AI 폭증
 → **Data center royalty more than doubled YoY** (NVIDIA Grace·Microsoft Cobalt·Amazon Graviton·Google Axion 채택)
 → **Licensing Revenue +29% YoY ($819M)** — ARM Compute Subsystems (CSS) IP 채택 확대
-→ **FY26 전체 (2025.04~2026.03)**: Revenue **$4.92B (+23% YoY, record)**
+→ **FY26 전체 (2025.04\~2026.03)**: Revenue **$4.92B (+23% YoY, record)**
 → **2026 YTD 주가 +84%** — AI 인프라 ARM 채택 narrative
-→ **CEO Rene Haas** (2022.02~ 현직) + CFO Jason Child (2023.09 IPO 직전 부임)
+→ **CEO Rene Haas** (2022.02\~ 현직) + CFO Jason Child (2023.09 IPO 직전 부임)
 → **SoftBank 88% 보유** (점진 매각 중)
 
 ---
@@ -29,7 +29,7 @@
 
 ### (1) 정량 근거
 
-**📊 Summary Box (FY20~FY26 7년 평균 — 2023.09 IPO 후 history 짧음):**
+**📊 Summary Box (FY20\~FY26 7년 평균 — 2023.09 IPO 후 history 짧음):**
 
 | 지표 | 값 |
 |------|-----|
@@ -38,7 +38,7 @@
 | OPM 정점 평균 | **40.7%** (FY26 — AI 채택 본격화 정점) |
 | OPM 저점 평균 | **24.4%** (FY23 — IPO 직전, 일시 마진 후퇴) |
 | 사이클 주기 | **N/A — Secular 성장** (royalty/licensing 안정 매출, 사이클 진폭 매우 작음) |
-| 사이클 회수 (7년) | 정점 1회 진행 중 (FY26~) / 저점 부재 (적자 history 0) |
+| 사이클 회수 (7년) | 정점 1회 진행 중 (FY26\~) / 저점 부재 (적자 history 0) |
 
 ```
 [ARM Non-GAAP OPM 시계열 (7년)]
@@ -90,8 +90,8 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 ### (4) 적정 밸류에이션 방법
 
 - **Forward PER** 우선 — ARM 평균 **100배+** (산업 최고급, secular 성장 multiple)
-  - PER band: 정점 120~150x (FY26 AI inflection) vs 저점 70~90x (FY23 IPO 직전)
-- **P/S** 보조 — ARM ~70배 (NVIDIA ~30배 대비도 비싼 multiple). secular royalty growth 정당화
+  - PER band: 정점 120\~150x (FY26 AI inflection) vs 저점 70\~90x (FY23 IPO 직전)
+- **P/S** 보조 — ARM \~70배 (NVIDIA \~30배 대비도 비싼 multiple). secular royalty growth 정당화
 - **Royalty rate 변동 분석** — ARMv8 → ARMv9 royalty rate 2x → ARMv10 추가 2x → multi-year EPS lift
 - **TAM expansion** — 모바일 → 데이터센터 → IoT/auto/edge AI 다층 확장. 각 layer per-chip royalty 모델
 - **PBR 부적합**: IP licensing 모델로 자본 구조 작음, FCF 우위
@@ -122,18 +122,18 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 | **상장일** | **2023.09.14 (NASDAQ 재상장)** — SoftBank 부분 IPO, 원래 LSE 상장 → 2016.07 SoftBank 인수 ($32B) 후 비공개化 |
 | 본사 주소 | 110 Fulbourn Road, Cambridge CB1 9NJ, **United Kingdom** |
 | 홈페이지 | https://www.arm.com / https://investors.arm.com |
-| **CEO** | **Rene Haas** (1962년생, **2022.02~ 현직**, 前 ARM IP Products Group President, 전 NVIDIA·TSMC) |
-| CFO | Jason Child (2023.07~ 현직, 前 Splunk·Opower CFO) |
+| **CEO** | **Rene Haas** (1962년생, **2022.02\~ 현직**, 前 ARM IP Products Group President, 전 NVIDIA·TSMC) |
+| CFO | Jason Child (2023.07\~ 현직, 前 Splunk·Opower CFO) |
 | Chairman | Masayoshi Son (SoftBank CEO) — ARM Chairman 겸직 |
 | 발행주식수 (FY26말) | 약 1,050M 보통주 |
-| 회계연도 | **3월 마지막 마감** (FY26 = 2025.04.01 ~ 2026.03.31, **영국식 fiscal year**) |
+| 회계연도 | **3월 마지막 마감** (FY26 = 2025.04.01 \~ 2026.03.31, **영국식 fiscal year**) |
 | 직원 수 | 약 7,000명 (FY26말, 9개국) |
 | Foreign Private Issuer | 예 (10-K 대신 **20-F**, 10-Q 대신 **6-K** SEC 제출) |
 | 신용등급 | A+ (S&P, 2024 신규 부여, 우량 Investment Grade) |
 | R&D 센터 | **Cambridge UK (본사) + Austin TX + San Jose CA + Bangalore India + Sophia Antipolis France + Shanghai China + Trondheim Norway + Tokyo Japan + Cataluña Spain** (9개국) |
 | 사업 모델 | **IP Licensing + Royalty pureplay** — 자체 칩·생산시설 zero |
 
-(2) 7년 손익 추이 (FY20~FY26, USD $B)
+(2) 7년 손익 추이 (FY20\~FY26, USD $B)
 
 | FY | Revenue | YoY% | Non-GAAP OP | OPM | Licensing | Royalty | 핵심 이벤트 |
 |---|---|---|---|---|---|---|---|
@@ -147,9 +147,9 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 → Revenue 7년 CAGR: **+17.0%** / OPM 27%→41% = +14pp 본질적 개선
 
-![ARM 7년 Revenue & Non-GAAP OPM (FY20~FY26)](charts/ARM_chart1_매출OPM_7년.png)
+![ARM 7년 Revenue & Non-GAAP OPM (FY20\~FY26)](charts/ARM_chart1_매출OPM_7년.png)
 
-![ARM Revenue Breakdown — Licensing vs Royalty (FY20~FY26)](charts/ARM_chart1b_License_Royalty.png)
+![ARM Revenue Breakdown — Licensing vs Royalty (FY20\~FY26)](charts/ARM_chart1b_License_Royalty.png)
 
 (3) Royalty Revenue Mix (FY26 추정)
 
@@ -163,7 +163,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 (4) 주가 역사 (IPO 후 narrative)
 
-![ARM Market Cap (2023.09 IPO ~ 2026.05) — 2.5년+ 7배 폭등](charts/ARM_chart11_시가총액_IPO후.png)
+![ARM Market Cap (2023.09 IPO \~ 2026.05) — 2.5년+ 7배 폭등](charts/ARM_chart11_시가총액_IPO후.png)
 
 → **시가총액 변천사 (2023.09 IPO 이후)**:
 - 2016.07 SoftBank가 **$32B로 ARM 인수** (비공개化, LSE 상장폐지)
@@ -171,7 +171,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 - **2023.09.14 NASDAQ 재상장** ($51 IPO, 시총 $54B, SoftBank 사상 최대 IPO)
 - 2024.02 FY24 Q3 +40% YoY 폭등 ($120, 시총 $126B)
 - 2024.07 SoftBank 일부 매각 (5%, $1.5B)
-- 2025년 평균 $130~$160
+- 2025년 평균 $130\~$160
 - **2026 YTD +84%** — AI inflection
 - 2026.05 현재 **$350, 시총 $370B**
 - IPO 후 **2.5년 만에 7배 폭등**
@@ -191,7 +191,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 | 2023.07 | Jason Child CFO 합류 |
 | **2023.09.14** | **NASDAQ 재상장 (IPO)** — $51 가격, $4.9B 조달, 시총 $54B, SoftBank 사상 최대 IPO |
 | 2024.02 | FY24 Q3 발표 — 주가 +40% 폭등 (NVIDIA Grace + AI workload narrative) |
-| 2024.07 | SoftBank 5% 매각 (~$1.5B) |
+| 2024.07 | SoftBank 5% 매각 (\~$1.5B) |
 | 2025.05 | **FY25 결산** — Revenue $4.01B (+24% YoY) |
 | **2025.10** | **ARM Compute Subsystems v3 (CSS)** 발표 — 차세대 IP framework |
 | 2026.02 | FY26 Q3 발표 |
@@ -205,14 +205,14 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 → **2개 핵심 수익원**:
   1. **Licensing (라이선스 fee)** — IP 사용권 1회/다년 계약, 신규 chip design 시 일회성 fee
-  2. **Royalty (per-chip fee)** — 칩 출하당 royalty, 일반적으로 ASP의 약 1~3% (ARMv8) / 약 2~6% (ARMv9)
+  2. **Royalty (per-chip fee)** — 칩 출하당 royalty, 일반적으로 ASP의 약 1\~3% (ARMv8) / 약 2\~6% (ARMv9)
 
 → **자체 칩 제조 zero, 자체 fab zero** — IP만 판매
 → **고객 = 칩 설계 회사**: Apple·Qualcomm·MediaTek·NVIDIA·AMD·Samsung·HiSilicon·Mobileye·Amazon·Google·Microsoft·Tesla 등 거의 모든 반도체·테크 회사
 
 (2) 직전 12분기 시계열
 
-![ARM 직전 12분기 Revenue & Non-GAAP OPM (Q1 24~Q4 26)](charts/ARM_chart10_12분기시계열.png)
+![ARM 직전 12분기 Revenue & Non-GAAP OPM (Q1 24\~Q4 26)](charts/ARM_chart10_12분기시계열.png)
 
 | Quarter | Revenue ($B) | Non-GAAP OPM | 이벤트 |
 |---|---|---|---|
@@ -255,7 +255,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 ## ④ 재무 구조
 
-(1) 자산·자본·부채 (FY22~FY26)
+(1) 자산·자본·부채 (FY22\~FY26)
 
 ![ARM 5년 Assets·Equity·Liabilities — IPO 후 자본 4배 증가](charts/ARM_chart4_자산자본부채.png)
 
@@ -273,7 +273,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 (3) R&D 투자
 
-![ARM 5년 R&D — Revenue의 ~50% 투자 (산업 최고)](charts/ARM_chart7_R&D투자.png)
+![ARM 5년 R&D — Revenue의 \~50% 투자 (산업 최고)](charts/ARM_chart7_R&D투자.png)
 
 → **R&D FY22 $0.74B → FY26 $2.45B** = +231%
 → **R&D/Revenue 평균 약 50%** — 산업 최고 (NVIDIA 25%·AMD 21%·Intel 26% 대비 압도)
@@ -284,7 +284,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 ![ARM 5년 CapEx (산업 최저)](charts/ARM_chart8_CapEx.png)
 
 → **CapEx FY26 $65M** = 매출의 1.3%
-→ Intel·메모리 IDM (20~30%) 대비 **15~25배 작음**
+→ Intel·메모리 IDM (20\~30%) 대비 **15\~25배 작음**
 
 (5) 주주환원 (IPO 후 무배당·무자사주)
 
@@ -297,7 +297,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 | 지표 | FY26 | FY25 | 변화 |
 |---|---|---|---|
-| Non-GAAP GPM | 95~96% (IP licensing) | 95% | 안정 |
+| Non-GAAP GPM | 95\~96% (IP licensing) | 95% | 안정 |
 | Non-GAAP OPM | **40.7%** | 37.4% | +3.3pp |
 | FCF Margin | 36% | 30% | +6pp |
 | ROE | 18% | 16% | +2pp |
@@ -325,8 +325,8 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 | 성명 | 직위 | 주요 경력 |
 |---|---|---|
-| **Rene Haas** | CEO | 2022.02~, 前 ARM IP Products Group President, 前 NVIDIA VP, 前 TSMC|
-| **Jason Child** | CFO·EVP | 2023.07~, 前 Splunk·Opower·Amazon CFO |
+| **Rene Haas** | CEO | 2022.02\~, 前 ARM IP Products Group President, 前 NVIDIA VP, 前 TSMC|
+| **Jason Child** | CFO·EVP | 2023.07\~, 前 Splunk·Opower·Amazon CFO |
 | **Masayoshi Son** | Chairman | SoftBank CEO 겸직 |
 | Will Abbey | Chief Commercial Officer | |
 | Inder Singh | EVP, Chief Strategy & Business Development | |
@@ -357,7 +357,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 | 시점 | 거래 | 규모 | 의의 |
 |---|---|---|---|
-| 2014~2015 | 다수 IoT·embedded 회사 인수 | 합계 ~$0.5B | IoT 진출 |
+| 2014\~2015 | 다수 IoT·embedded 회사 인수 | 합계 \~$0.5B | IoT 진출 |
 | **2016.07** | **SoftBank가 ARM 인수** | **$32B** | LSE 상장폐지, 비공개化 |
 | 2020.09 | NVIDIA-ARM 인수 합의 | $40B | 2022.02 무산 |
 | **2023.09.14** | **NASDAQ 재상장 IPO** | $4.9B 조달 (시총 $54B) | SoftBank 사상 최대 IPO |
@@ -368,8 +368,8 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 (3) 주요 계약 / Strategic Partnerships
 
 → **Apple Silicon Architectural License** (다년 계약, 2040 만료) — 가장 큰 royalty 고객
-→ **Qualcomm 분쟁** (2022.08~2024 중재) — Nuvia 인수 관련 IP 분쟁
-→ **NVIDIA Grace CPU 채택** (2023~) — Data center AI workload
+→ **Qualcomm 분쟁** (2022.08\~2024 중재) — Nuvia 인수 관련 IP 분쟁
+→ **NVIDIA Grace CPU 채택** (2023\~) — Data center AI workload
 → **AWS Graviton 4** (2023) / **Microsoft Cobalt 100** (2024) / **Google Axion** (2024)
 → **Tesla Dojo·Mobileye EyeQ** — automotive AI
 
@@ -382,7 +382,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 | **AI 가속기 NVIDIA** | NVIDIA GPU 비중 증가 → ARM CPU royalty 비중 상대적 감소 | 중간 |
 | **밸류에이션** | Forward P/E 100배+ — AI hype 조정 시 압박 | 매우 높음 |
 | **Qualcomm 분쟁** | Nuvia 라이선스 분쟁 미해결 (2024 중재 결과 부분 ARM 승) | 중간 |
-| **Apple 의존도** | Apple 단일 고객 매출 ~25% 추정 | 중간 |
+| **Apple 의존도** | Apple 단일 고객 매출 \~25% 추정 | 중간 |
 | **R&D 50% 부담** | 매출의 절반 R&D 투입, 정상화 시점 | 중간 |
 | **Cambridge·SoftBank 거버넌스** | 영국 본사 + SoftBank 일본 + 미국 상장 — 다국적 거버넌스 복잡성 | 중간 |
 
@@ -405,7 +405,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 ## ⑦ 향후 관찰 포인트
 
-(1) **Q1 FY27 (2026.04~2026.06) 분기 결과** — Q4 FY26 record 후 momentum 지속
+(1) **Q1 FY27 (2026.04\~2026.06) 분기 결과** — Q4 FY26 record 후 momentum 지속
    → Royalty +20%+ YoY 지속 여부
 
 (2) **ARMv9 adoption 진척** — CY25 25% → CY27 50% 목표
@@ -422,7 +422,7 @@ OPM range: 24.4% ~ 40.7% = 16.3%pt
 
 ---
 
-> **데이터 소스**: SEC EDGAR ARM 20-F 2개 (FY24·FY25, CIK 0001973239) + 6-K 24개 + F-1 + DEF 14A, ARM IR Earnings PDF **6개** (FYE25 Q4 ~ FYE26 Q4 Investor Presentation + Shareholder Letter + Transcript), Yahoo Finance v8 (2.5년 history), 웹 검색 Q4 FY26 결과 보강.
+> **데이터 소스**: SEC EDGAR ARM 20-F 2개 (FY24·FY25, CIK 0001973239) + 6-K 24개 + F-1 + DEF 14A, ARM IR Earnings PDF **6개** (FYE25 Q4 \~ FYE26 Q4 Investor Presentation + Shareholder Letter + Transcript), Yahoo Finance v8 (2.5년 history), 웹 검색 Q4 FY26 결과 보강.
 > **차트 12종**: chart1 (매출OPM 7년), chart1b (License vs Royalty), chart2 (Chip Shipments + ARMv9), chart4 (자산자본부채 5년), chart5 (주주지분), chart6 (현금흐름 5년), chart7 (R&D), chart8 (CapEx), chart9 (주주환원), chart10 (12분기), chart11 (시가총액 IPO 후), chart12 (Royalty Mix).
 > **연계 참조**: NVIDIA·AMD·Intel·Apple 기업 개요와 cross-reference. ARM = "모든 fabless·통합 회사의 공통 backbone" (NVIDIA Grace·Apple M-series·AWS Graviton 등 모두 ARM IP 기반).
 
@@ -432,7 +432,7 @@ ARM은 2023.09 NASDAQ IPO + FPI(Foreign Private Issuer)로 SEC 양식 20-F/6-K. 
 
 ![ARM 12분기 매출·OPM](charts/ARM_chart10_long_12분기시계열.png)
 
-*ARM 12분기 (Q1FY24~Q4FY26) — 매출 $0.68B → $1.49B record (+120%), OPM 16% → 62%*
+*ARM 12분기 (Q1FY24\~Q4FY26) — 매출 $0.68B → $1.49B record (+120%), OPM 16% → 62%*
 
 ![License vs Royalty](charts/ARM_chart2_long_License_Royalty_12분기.png)
 
