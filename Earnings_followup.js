@@ -173,9 +173,15 @@ function parseWatchlist(md) {
           if (tm) {
             const name = tm[1].trim();
             const innerParts = tm[2].split(',').map(x => x.trim()).filter(Boolean);
-            const ticker = innerParts[0] || '';
-            let industriesRaw = null;
-            for (const part of innerParts.slice(1)) {
+            // 2026-11-15: label=표시명 지원 (예: "두산에너빌리티(label=발전 파트)" → 같은 리뷰 파일, 행에 "(발전 파트)" 표시)
+            //   ticker = '='가 없는 첫 항목. label·industry는 key=value
+            const tickerIdx = innerParts.findIndex(x => !x.includes('='));
+            const ticker = tickerIdx === 0 ? innerParts[0] : '';
+            let industriesRaw = null, label = null;
+            for (const [pi, part] of innerParts.entries()) {
+              if (pi === 0 && ticker) continue;
+              const lm = part.match(/^label\s*=\s*(.+)$/i);
+              if (lm) { label = lm[1].trim(); continue; }
               const im = part.match(/^industry\s*=\s*(.+)$/i);
               if (im) industriesRaw = im[1].trim();
               else if (!industriesRaw) industriesRaw = part;
@@ -184,7 +190,7 @@ function parseWatchlist(md) {
               ? industriesRaw.split('|').map(x => x.trim()).filter(Boolean)
               : null;
             return {
-              name, ticker,
+              name, ticker, label,
               industry: industries ? industries[0] : null,  // primary (backward compat)
               industries  // array, multi 케이스용
             };
@@ -520,7 +526,7 @@ function renderStockRow(stock) {
   // 5/18 변경: 팔로업 컬럼 제거 (3 컬럼 = 종목명·발표일·리포트)
   // td 1: 종목명(티커)
   const nameTd = el('td', { class: 'col-name' }, [
-    el('span', { class: 'stock-name' }, stock.name),
+    el('span', { class: 'stock-name' }, stock.name + (stock.label ? ' (' + stock.label + ')' : '')),
     ticker ? el('span', { class: 'ticker' }, ' (' + ticker + ')') : null
   ]);
   tr.appendChild(nameTd);
@@ -590,7 +596,8 @@ function renderSectorCard(sectorObj, tier) {
   //   watchlist "섹터 리뷰 단위" 표 순서 → 각 서브섹터 안에서 핵심 → 확장 순. 표에 없는 종목은 맨 뒤(원래 순서 유지)
   //   한 종목이 여러 서브섹터에 있으면 표에서 처음 나오는 서브섹터 기준 (예: SpaceX → 하이퍼스케일러)
   const subRank = getSubsectorRank();
-  const ranked = sectorObj.stocks.map((s, i) => ({ s, i, r: subRank[s.name] }));
+  // 2026-11-15: 섹터별 서브섹터 매칭 우선 (두 섹터에 걸친 종목 — 예: 두산에너빌리티 = 원전 카드 원전 기자재 / 전력 카드 발전)
+  const ranked = sectorObj.stocks.map((s, i) => ({ s, i, r: subRank[sectorObj.sector + '|' + s.name] || subRank[s.name] }));
   ranked.sort((a, b) => {
     const ra = a.r ? a.r.order : 1e9, rb = b.r ? b.r.order : 1e9;
     return (ra - rb) || (a.i - b.i);
@@ -726,7 +733,10 @@ function getSubsectorRank() {
   const rank = {};
   (state.subsectors || []).forEach((row, gi) => {
     row.core.concat(row.ext).forEach((name, si) => {
-      if (!(name in rank)) rank[name] = { order: gi * 100 + si, sub: row.sub };
+      const v = { order: gi * 100 + si, sub: row.sub };
+      if (!(name in rank)) rank[name] = v;
+      const sk = row.sector + '|' + name;
+      if (!(sk in rank)) rank[sk] = v;
     });
   });
   state._subRank = rank;
