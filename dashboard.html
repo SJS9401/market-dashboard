@@ -203,6 +203,11 @@
   .evcal-legend { display:flex; gap:6px; flex-wrap:wrap; align-items:center; padding:10px 16px 0; }
   .evcal-wrap { display:grid; grid-template-columns:minmax(0,1fr) 420px; align-items:start; }
   .evcal-scroll { overflow-x:auto; min-width:0; }
+  /* 2026-11-15 BT: 「상세」 끄면 오른쪽 상세 패널 숨김 + 달력 전체 폭 */
+  .evcal-wrap.noag { grid-template-columns:minmax(0,1fr); }
+  .evcal-wrap.noag .evcal-agenda { display:none; }
+  .evcal-wrap.noag .evm-cell.sel { box-shadow:none; border-color:#2a2a2a; }
+  .evcal-wrap.noag .evm-cell.today.sel { border-color:#e2c571; }
   .evcal-agenda { position:sticky; top:8px; margin:14px 14px 16px 0; background:#101010; border:1px solid #2e2e2e; border-radius:10px; max-height:calc(100vh - 24px); overflow-y:auto; }
   @media (max-width:1150px) { .evcal-wrap { grid-template-columns:1fr; } .evcal-agenda { position:static; margin:0 14px 16px; max-height:none; } }
   .evm { padding:14px 14px 10px; }
@@ -635,6 +640,7 @@
     <h2 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">이벤트 캘린더
       <span id="evcal-range" style="color:#8b949e;font-weight:400;font-size:12px;"></span>
       <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button data-s="m" id="evcal-ag" onclick="evCalAg()" title="오른쪽 상세 패널 켜기·끄기 — 끄면 달력이 전체 폭으로 커집니다" style="margin-right:4px">상세</button>
         <button data-s="m" id="evcal-2w" onclick="evCal2w()" title="이번 주 월요일~다음 주 일요일 2주만 크게 보기 (토·일이면 다음 주부터)" style="margin-right:6px">2주</button>
         <button data-s="m" onclick="evCalShift(-1)" title="이전 달">◀</button>
         <button data-s="m" onclick="evCalShift(0)">이번 달</button>
@@ -2874,6 +2880,18 @@ const EVCAL={byDay:{},offset:0,loaded:false,sel:null,two:false,woff:0};
 try{EVCAL.two=localStorage.getItem('evcal2w')==='1';}catch(_){}
 // 이번 주 월요일 — 토·일이면 다음 주 월요일 (2026-11-15 BT 정의)
 function evFocusMon(today){const d=new Date(today);d.setDate(d.getDate()-((today.getDay()+6)%7)+(today.getDay()===6||today.getDay()===0?7:0));return d;}
+EVCAL.ag=true;try{EVCAL.ag=localStorage.getItem('evcalAg')!=='0';}catch(_){}
+function evAgSet(v){EVCAL.ag=v;try{localStorage.setItem('evcalAg',v?'1':'0');}catch(_){}evAgApply();}
+function evCalAg(){evAgSet(!EVCAL.ag);}
+function evAgApply(){
+  const w=document.querySelector('.evcal-wrap');if(w)w.classList.toggle('noag',!EVCAL.ag);
+  evBtnSync();
+}
+// 버튼 켜짐 표시 — 공용 series-toggle 클릭 처리(active 뒤집기)가 끝난 뒤에 맞춘다
+function evBtnSync(){setTimeout(()=>{
+  const b=document.getElementById('evcal-ag');if(b)b.classList.toggle('active',EVCAL.ag);
+  const t=document.getElementById('evcal-2w');if(t)t.classList.toggle('active',EVCAL.two);
+},0);}
 function evCal2w(){EVCAL.two=!EVCAL.two;EVCAL.woff=0;try{localStorage.setItem('evcal2w',EVCAL.two?'1':'0');}catch(_){}drawEvCal();}
 const evEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 // 2026-11-12 (BT 승인) 날짜 = 현지 날짜. ev 뒤에 ' · 현지시각 (KST …)' — lt/kst 없는 옛 JSON 이면 빈 문자열.
@@ -2964,7 +2982,7 @@ function drawEvCal(){
   const host=document.getElementById('evcal-body');
   if(!host||!EVCAL.loaded)return;
   const today=new Date();today.setHours(0,0,0,0);
-  const tw=document.getElementById('evcal-2w');if(tw)tw.classList.toggle('active',EVCAL.two);
+  evAgApply();
   if(EVCAL.two){
     const st=evFocusMon(today);st.setDate(st.getDate()+EVCAL.woff*7);
     const en=new Date(st);en.setDate(st.getDate()+13);
@@ -2994,6 +3012,9 @@ function evBindClick(host){
     host.addEventListener('click',ev=>{
       const c=ev.target.closest('.evm-cell[data-d]');
       if(!c)return;
+      // 2026-11-15 BT: 선택된 날짜를 다시 누르면 상세 끄기, 상세가 꺼져 있을 때 날짜를 누르면 켜기
+      if(c.dataset.d===EVCAL.sel&&EVCAL.ag){evAgSet(false);return;}
+      if(!EVCAL.ag)evAgSet(true);
       EVCAL.sel=c.dataset.d;
       host.querySelectorAll('.evm-cell.sel').forEach(x=>x.classList.remove('sel'));
       c.classList.add('sel');
