@@ -63,7 +63,7 @@
 |------|--------|--------|
 | SNDK | SanDisk | FQ2 $12.4B·GPM 85%, FQ3 가이던스 QoQ+, NAND 계약가 방향, 엣지 2Q 연속 감소, NBM FY28 67%↑ |
 | WDC | Western Digital | FQ2 $5.1B·GPM 60%+, TB당 가격 YoY +35%, HAMR 2사 인증 1Q27, 40TB ePMR 비중 50%, 원가 절감률 |
-| STX | Seagate | Q4 $3.45B+GPM 48.5%, Mozaic 4 40TB Q4 본격 ramp, NVIDIA partnership 디테일, 자사주 본격화·Convertible $400M 상환, Mozaic 5 50TB 2027 qualification |
+| STX | Seagate | FQ2 EB QoQ +5%·230EB, 매출 $4.8B·OPM 50%대 중반, CY2028 가격 확정, FCF 75% 환원 개시, Mozaic 4 인증 |
 
 ### 반도체 — 파운드리
 
