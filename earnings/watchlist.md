@@ -33,6 +33,7 @@
 | 반도체 | 로직·CPU | Nvidia, AMD | Intel, ARM | - |
 | 반도체 | 파운드리 | TSMC | - | - |
 | 반도체 | 커스텀 ASIC | Broadcom, Marvell | - | - |
+| 반도체 | 반도체 | SK하이닉스, 삼성전자, Micron, SanDisk, Western Digital, Seagate, Nvidia, AMD, Intel, ARM, TSMC, Broadcom, Marvell | - | - |
 | 전력 인프라 | 송변전 | 효성중공업, HD현대일렉트릭, Hitachi Energy | - | - |
 | 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton, Vertiv | ABB, LS일렉트릭 | - |
 | 전력 인프라 | 발전 | GE Vernova, Siemens Energy, 두산에너빌리티 | - | - |
