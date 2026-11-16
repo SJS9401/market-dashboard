@@ -38,10 +38,9 @@
 | 전력 인프라 | 배전·DC 전력관리 | Schneider Electric, Eaton, Vertiv | ABB, LS일렉트릭 | - |
 | 전력 인프라 | 발전 | GE Vernova, Siemens Energy, 두산에너빌리티 | - | - |
 | 전력 인프라 | 전력 인프라 | GE Vernova, Siemens Energy, Hitachi Energy, Schneider Electric, ABB, Eaton, Vertiv, 효성중공업, HD현대일렉트릭, LS일렉트릭, 두산에너빌리티 | - | - |
-| 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI | SK온 | - |
-| 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠 | 엘앤에프 | - |
-| 배터리 | 배터리 셀 글로벌 | CATL, Panasonic Energy | - | - |
-| 배터리 | 양극재 글로벌 | Ronbay, Easpring | - | - |
+| 배터리 | 배터리 셀 | LG에너지솔루션, 삼성SDI, CATL, Panasonic Energy | SK온 | - |
+| 배터리 | 양극재 | 에코프로비엠, 포스코퓨처엠, 엘앤에프, Ronbay, Easpring | - | - |
+| 배터리 | 배터리 | LG에너지솔루션, 삼성SDI, CATL, Panasonic Energy, 에코프로비엠, 포스코퓨처엠, 엘앤에프, Ronbay, Easpring | SK온 | - |
 | 조선 | 상선·해양 | 한화오션, HD현대중공업, 삼성중공업, 중국선박공업, 양쯔장조선 | Seatrium | - |
 | 조선 | 함정·특수선 | HII, TKMS, Fincantieri | 한화오션, HD현대중공업 | General Dynamics(Marine Systems 부문) |
 | 조선 | 조선 | 한화오션, HD현대중공업, 삼성중공업, 중국선박공업, 양쯔장조선, Seatrium, HII, Fincantieri, TKMS | - | General Dynamics(Marine Systems 부문) |
