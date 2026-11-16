@@ -61,7 +61,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| SNDK | SanDisk | Q4 매출 $8B+GPM 80%, QLC Stargate Q4 매출 ramp, NBM 추가 계약·FY27 50%+ contracted, NVDA ICMS G3.5 채택, Datacenter $2B+ |
+| SNDK | SanDisk | FQ2 $12.4B·GPM 85%, FQ3 가이던스 QoQ+, NAND 계약가 방향, 엣지 2Q 연속 감소, NBM FY28 67%↑ |
 | WDC | Western Digital | Q4 $3.80B Cloud 90%+, EPMR 40TB H2 cal 2026 ramp, HAMR 4-customer qualification 2027 ramp, UltraSMR 60% FY27, SanDisk 잔여 1.7M monetize |
 | STX | Seagate | Q4 $3.45B+GPM 48.5%, Mozaic 4 40TB Q4 본격 ramp, NVIDIA partnership 디테일, 자사주 본격화·Convertible $400M 상환, Mozaic 5 50TB 2027 qualification |
 
@@ -420,10 +420,12 @@
 
 ---
 
+---
+
 ## 실적 발표 일정 (노션 동기화)
 
 > 원본: 노션 「실적 캘린더」 DB (`collection://a5dfe05a-3bf5-4a79-a45b-73666af21689`). 이 섹션은 `_internal/_tools/notion_calendar_sync.py`가 통째로 다시 쓴다 — **직접 수정 금지, 노션에서 수정 후 동기화.**
-> 최종 동기화: 2026-11-15 20:16 KST · 워치리스트 종목 173건 (노션 실적 행 361건 중)
+> 최종 동기화: 2026-11-16 13:18 KST · 워치리스트 종목 173건 (노션 실적 행 361건 중)
 > 날짜 앞 `~` = 노션 검증상태 "추정". 비고 끝 `[YYYY-Qn]` = 대시보드 캘린더 분기 (한국 nQyy·미국 Qn YYYY는 그대로, 회계분기는 발표일에서 역산). 잠정·확정이 둘 다 있으면 이른 날짜 표시 + 비고에 둘 다.
 > 노션에 없는 워치리스트 종목: Live Nation, Spotify, Tencent Music, Universal Music, 디어유, 큐브엔터
 
@@ -492,6 +494,7 @@
 | 2026-10-29 | HII(HII) | 조선 | Q3 2026 · 확정 · BMO [2026-Q3] |
 | 2026-10-29 | Microsoft(MSFT) | 미국 빅테크 | Q1 FY2027 · 이중검증완료 · AMC [2026-Q3] |
 | 2026-10-29 | SK온 | 배터리 | 3Q26 잠정 · 확정 [2026-Q3] |
+| 2026-10-29 | SanDisk(SNDK) | 반도체 | Q1 FY2027 · 확정 · AMC [2026-Q3] |
 | 2026-10-29 | 두산로보틱스 | 로봇 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-29 | 두산에너빌리티 | 원전 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-29 | 삼성SDI | 배터리 | 3Q26 · 확정 · 장중 [2026-Q3] |
@@ -506,7 +509,6 @@
 | 2026-10-30 | General Dynamics(GD) | 방산 | Q3 2026 · 확정 · BMO [2026-Q3] |
 | 2026-10-30 | Intel(INTC) | 반도체 | Q3 2026 · 확정 · AMC [2026-Q3] |
 | 2026-10-30 | Panasonic Energy(6752.T) | 배터리 | Q2 FY2027 · 확정 [2026-Q3] |
-| 2026-10-30 | SanDisk(SNDK) | 반도체 | Q1 FY2027 · 확정 · AMC [2026-Q3] |
 | 2026-10-30 | 에이피알 | 뷰티 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-30 | 현대건설 | 원전 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-30 | 현대모비스 | 로봇 | 3Q26 잠정 · 확정 [2026-Q3] |
