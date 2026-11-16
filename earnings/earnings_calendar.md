@@ -103,7 +103,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| CCJ | Cameco | 우라늄 가격, 원전 연료 수요 |
+| CCJ | Cameco | 2027 단위원가 C$65 이하, 계약 북 2,800만lb 돌파, 실현가 US$66→73, WH 공개 S-1, 한미 AP1000 선급금 $100억 |
 | CEG | Constellation Energy | 기존 원전 가동/수익성 |
 | OKLO | Oklo | SMR 진척, 규제 |
 | SMR | NuScale Power | TVA PPA 체결·PMA2 약 $1.2B 유출, 유동성 $1.86B·ATM $7.5억, 두산 URPV 제작, RoPower pre-EPC, 소송 기각 12월 |
