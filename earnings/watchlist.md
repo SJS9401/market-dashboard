@@ -80,7 +80,7 @@
 ## 대분류: 테크
 
 - **미국 빅테크** (Microsoft(MSFT, industry=클라우드), Alphabet(GOOGL, industry=광고|클라우드), Amazon(AMZN, industry=이커머스|클라우드), Meta(META, industry=광고), SpaceX(SPCX, industry=클라우드|우주|통신), Apple(AAPL, industry=소비자 전자제품), Tesla(TSLA, industry=자동차|자율주행), Nvidia(NVDA, industry=반도체))
-- **반도체** (SK하이닉스, 삼성전자, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), AMD(AMD), Intel(INTC), ARM(ARM), TSMC(TSM), Broadcom(AVGO), Marvell(MRVL))
+- **반도체** (SK하이닉스, 삼성전자, Micron(MU), SanDisk(SNDK), Western Digital(WDC), Seagate(STX), Nvidia(NVDA), AMD(AMD), Intel(INTC), ARM(ARM), TSMC(TSM), Broadcom(AVGO), Marvell(MRVL))
 
 ## 대분류: 산업재
 
