@@ -193,7 +193,7 @@ FY25   25,533  10,852   42.5%    3,086   12.1%   2,319   ← PJM 용량가격 $2
 | 뿌리 | 2000 Unicom·PECO 합병으로 Exelon 출범 → 2012-03 Constellation Energy Group 합병 → 2014-04 CENG 원전 운영권 인수 → **2022-02-01 Exelon에서 Constellation Energy Corporation으로 스핀오프** → **2026-01-07 Calpine 인수** |
 | 상장 | Nasdaq: CEG |
 | CEO | Joseph Dominguez (사장 겸 CEO, 2022\~, 전 ComEd CEO) [DEF 14A] |
-| CFO | Daniel Eggers (EVP·CFO) [web 공개 사실] |
+| CFO | Shane Smith (EVP·CFO) [3Q26 보도자료, 2026-11-09] |
 | 이사회 | 독립 의장 체제 (CEO와 의장 분리, DEF 14A). 이사 다수 독립 — Robert J. Lawless(전 McCormick CEO)·John M. Richardson(전 해군참모총장) 등. 원자력감독위원회(Nuclear Oversight Committee) 별도 운영 |
 | 임직원 | **15,339명** (2025말, Calpine 제외) + Calpine 약 2,500명 [10-K FY25] |
 | 설비 | **총 55GW** (Calpine 포함) — 원전 약 22GW (14개 발전소 25기), 2025말 Calpine 전 기준 자사 설비 31,676MW [10-K] |
@@ -574,7 +574,7 @@ FY25   25,533  10,852   42.5%    3,086   12.1%   2,319   ← PJM 용량가격 $2
 
 → **Joseph Dominguez** — 사장·CEO (2022 상장부터). 전 ComEd CEO, Exelon 규제·정책 부문 출신 [DEF 14A]
 
-→ **Daniel Eggers** — EVP·CFO [web 공개 사실]
+→ **Shane Smith** — EVP·CFO [3Q26 보도자료, 2026-11-09]
 
 → 이사회: CEO와 의장 분리(독립 의장), 위원회 전원 독립 이사. 원자력감독위원회 — 전 해군참모총장 John M. Richardson, 전 Duke Energy COO Dhiaa Jamil 등 [DEF 14A]
 
@@ -671,6 +671,8 @@ FY25   25,533  10,852   42.5%    3,086   12.1%   2,319   ← PJM 용량가격 $2
 ---
 
 ## Version Log
+
+**v1.0a (2026-11-16)** — CFO 정정: Daniel Eggers → Shane Smith (3Q26 보도자료 기준)
 
 | 버전 | 일자 | 내역 |
 |---|---|---|
