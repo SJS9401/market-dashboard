@@ -1,0 +1,2120 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>음식료 산업 기초 분석 · 2026-11-16</title><style>
+:root {
+  color-scheme: light;
+  --bg:#f7f7f5; --surface-1:#fcfcfb; --border:#e2e1dc; --border-strong:#c9c8c1;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7975; --grid:#e8e7e2;
+  --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+  --pos:#2a78d6; --neg:#e34948; --accent-bg:#eef4fd;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+          "Malgun Gothic", "Noto Sans KR", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#131312; --surface-1:#1a1a19; --border:#33332f; --border-strong:#4a4a45;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#91908a; --grid:#2a2a27;
+  --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+  --pos:#3987e5; --neg:#e66767; --accent-bg:#16212f;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text-primary);
+  font-family:var(--sans); font-size:15px; line-height:1.72; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:1000px; margin:0 auto; padding:40px 24px 96px; }
+header.doc { border-bottom:2px solid var(--text-primary); padding-bottom:20px; margin-bottom:36px; }
+header.doc .eyebrow { font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-muted); font-weight:600; margin:0 0 10px; }
+header.doc h1 { font-size:30px; line-height:1.25; margin:0 0 12px; letter-spacing:-.02em; }
+header.doc .meta { font-size:13px; color:var(--text-secondary); margin:0; }
+h1 { font-size:25px; margin:64px 0 18px; padding-bottom:10px; border-bottom:2px solid var(--border-strong); letter-spacing:-.015em; }
+h2 { font-size:20px; margin:44px 0 14px; padding-bottom:7px; border-bottom:1px solid var(--border-strong); letter-spacing:-.01em; }
+h3 { font-size:16.5px; margin:28px 0 10px; }
+h4 { font-size:15px; margin:22px 0 8px; color:var(--text-secondary); }
+p { margin:0 0 14px; }
+ul, ol { margin:0 0 16px; padding-left:22px; }
+li { margin-bottom:5px; }
+li::marker { color:var(--text-muted); }
+strong { font-weight:650; }
+code { font-family:var(--mono); font-size:.88em; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+pre { background:var(--surface-1); border:1px solid var(--border); border-radius:8px;
+  padding:14px 16px; overflow-x:auto; font-size:12.5px; line-height:1.6; }
+pre code { background:none; border:none; padding:0; }
+hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
+blockquote { margin:18px 0; padding:12px 18px; background:var(--accent-bg);
+  border-left:3px solid var(--series-1); border-radius:0 6px 6px 0; }
+blockquote p:last-child { margin-bottom:0; }
+.tablewrap { overflow-x:auto; margin:0 0 20px; }
+table { border-collapse:collapse; width:100%; font-size:12.5px; line-height:1.55;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:8px; }
+th, td { padding:8px 11px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+th { background:var(--bg); font-weight:650; font-size:11.5px; color:var(--text-secondary); white-space:nowrap; }
+tr:last-child td { border-bottom:none; }
+em { color:var(--text-secondary); }
+.chart-intro { color:var(--text-secondary); font-size:14px; }
+.fig { margin:0 0 28px; padding:18px 18px 12px; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:10px; }
+.fig-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+@media (max-width:800px) { .fig-row { grid-template-columns:1fr; } }
+.fig-cap { display:block; margin-bottom:14px; }
+.fig-title { display:block; font-weight:650; font-size:14.5px; }
+.fig-sub { display:block; font-size:12.5px; color:var(--text-secondary); margin-top:3px; }
+.chart { position:relative; }
+.chart svg { display:block; width:100%; height:auto; overflow:visible; }
+.tbl { margin-top:8px; }
+.tbl summary { cursor:pointer; color:var(--text-muted); font-size:12px; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin:0 0 10px; font-size:12px; color:var(--text-secondary); }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+.tip { position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--text-primary); color:var(--bg); font-size:11.5px; line-height:1.45;
+  padding:6px 9px; border-radius:6px; white-space:nowrap; z-index:5; transform:translate(-50%,-125%); }
+.ax { font-size:11px; fill:var(--text-muted); }
+.axl { font-size:11.5px; fill:var(--text-secondary); }
+.vlab { font-size:11.5px; fill:var(--text-primary); font-weight:600; }
+.gl { stroke:var(--grid); stroke-width:1; }
+footer.doc { margin-top:60px; padding-top:20px; border-top:1px solid var(--border);
+  font-size:12px; color:var(--text-muted); }
+</style></head><body><div class="wrap"><header class="doc"><p class="eyebrow">산업 기초 분석 · 대분류(major)</p><h1>음식료 산업 기초 분석</h1><p class="meta">작성일 2026-11-16 · 하위: 가공식품·음료/주류·소재식품·바이오 소재·담배(비교군) · 가설 검증: <b>"삼양만 성장주" = 현재 ◎ / "나머지는 방어주" = △ (상대 방어 ○ · 절대 방어 × = 저베타 디레이팅주)</b> · 수급: <b>산업 중립 — K-라면 수출 B(일부 A) / 국내 내수 E-억제 / 미국 빅푸드 G</b></p></header><p><strong>작성일: 2026-11-16 | 분석 단위: 대분류(major) | 모드: [산업 기초 분석 모드]</strong>
+<strong>범위: 가공식품(라면·제과·HMR·장류·유가공)·음료/주류·소재식품(제당·제분)·바이오 소재(CJ 아미노산)·담배(KT&amp;G, 한국 증시 업종 분류상 '음식료·담배'로 묶이므로 비교군으로 포함). 이후 K-푸드 테마 분석·삼양식품 등 기업 분석의 Step 0 자동 참조 문서. 중분류(라면 / 제과 / 소재)는 필요 시 별도 .md로 확장.</strong>
+<strong>특별 과제: BT 가설 "음식료는 삼양식품만 성장주이고, 나머지는 방어주 성격" 검증 → [가설 검증] 섹션(Executive Summary 바로 뒤)에 정량 결론.</strong></p>
+<blockquote>
+<p>표기: 사실은 그대로, 전망·추정은 <strong>[전망]</strong>·<strong>[추정]</strong>, 애널리스트 판단은 <strong>[판단]</strong>. 주가 정량은 Yahoo Finance 월간 수정종가로 직접 계산했다(2026-11은 11/14까지의 월중 값). <strong>현지통화 명목 기준</strong>, 인플레이션 조정 없음(차트는 로그 스케일). 베타·하락포착률은 월간 수익률 vs KOSPI(해외는 vs S&amp;P500). 재무는 OpenDART 연결재무제표(2015~2025 사업보고서, 2025·2026 3분기 누적)에서 직접 추출. 데이터 보정 2건: ① 빙그레 Yahoo 가격은 2025-04 이전이 약 2.2배 부풀려진 오류가 있어 2.2로 나눠 이어 붙였다(수익률 계산에는 영향 없음, 2025-03→04 구간만 보정) ② 하이트진로는 2011 합병 이전 시계열이 불연속이라 2010년 이후만 썼다. 오리온은 2017년 인적분할 이전은 구 오리온(현 오리온홀딩스, 001800), 이후는 오리온(271560)이다.</p>
+</blockquote>
+<hr />
+<h2>Executive Summary</h2>
+<ol>
+<li><strong>음식료는 '공장'이 아니라 '배(위장)의 크기'와 '가격 결정권'의 산업이다.</strong> 한 사람이 먹는 양은 거의 늘지 않는다(가격탄력성 낮음 = 방어적). 그래서 국내만 파는 회사의 성장률은 '인구 증가 + 물가'를 넘기 어렵다 — 한국 상위 내수 식품사의 2015→2025 매출 연평균 성장률은 5~7%(DART), 영업이익은 거의 제자리다. <strong>이 산업에서 '성장주'가 되는 길은 단 하나, 새 위장(새 국가·새 소비층)을 찾는 것이다.</strong></li>
+<li><strong>가설 검증 ① "삼양식품만 성장주" → 지금(2023~2026) 기준 '대체로 맞음', 역사적으로는 '틀림'.</strong> 삼양식품은 2015→2025 매출 8.1배·영업이익 74배, 2026년 3분기 누적 영업이익 +43%로 섹터 안에서 독보적이다. 하지만 한국 음식료에는 <strong>3~6년마다 '성장주 자리'가 돌아가며 나왔다</strong> — 오리온(2002~2007 +934%, 2009~2015 +966%, 중국), 오뚜기(2012~2016 +839%, 국내 점유율), 대상(2009~2014 +1,163%), 농심(2002~2005 +358%), 빙그레(2022~2024 +172%). 삼양은 '유일한 성장주'가 아니라 <strong>'현재 그 자리에 앉아 있는 종목'</strong>이다. 지금도 오리온(해외 비중 약 70%, OPM 16%대)·농심(수출공장 가동)·CJ제일제당 식품(해외 비중 50%+)은 '해외 사업부만 보면 성장 중'이지만 국내 사업이 그 성장을 희석한다.</li>
+<li><strong>가설 검증 ② "나머지는 방어주" → 반만 맞음.</strong> 베타가 낮다(2016~2026 월간 베타 0.08~0.34)는 의미의 '시장과 따로 노는 주식'은 맞고, <strong>지금 진행 중인 하락장(KOSPI 2026-06 8,476 → 2026-11 5,100, −40%)에서도 음식료는 대부분 −12%~+18%(롯데웰푸드 +44%)로 '상대 방어'에 성공</strong>했다. 그러나 <strong>'가치를 지켜주는 방어주'는 아니다</strong> — 2016-01~2026-11 동안 KOSPI 연 +9.5%일 때 농심 −1.2%, CJ제일제당 −6.0%, 오뚜기 −12.2%, 대상 −4.4%, 풀무원 −7.1%로 절대수익이 마이너스였고, 고점 대비 최대낙폭은 −47~−75%다. 2008년 금융위기 때는 대상(−64%)·풀무원(−73%)·CJ제일제당(−51%)이 KOSPI(−46%)보다 더 빠졌다. <strong>정확한 이름은 '저베타 디레이팅주'</strong>이고, 진짜 방어주 성격(낮은 낙폭 + 플러스 복리)을 보인 것은 오히려 담배(KT&amp;G: 2016~ 연 +10.1%, MDD −36%)였다.</li>
+<li><strong>글로벌도 '필수소비재 = 방어주' 공식이 깨지는 중이다.</strong> 미국 빅푸드는 볼륨 감소(GLP-1 비만약·PB·가격 피로)로 구조조정 국면(G)에 있다 — Kraft Heinz 분할 추진(2025-09 발표 → 2026-05 보류), Nestlé 1.6만 명 감원, 제너럴밀스 고점 대비 −54%, 허쉬 −30%. 반대로 '새 위장'을 찾은 몬스터(2016~ +262%)·삼양은 성장주 대우를 받았다.</li>
+<li><strong>수급 매트릭스 결론: 산업 전체 중립 / K-라면 수출 B(일부 A — 삼양 자사 CAPA 병목) / 국내 내수 가공식품 'E인데 정부가 가격 레버를 막은 상태'(실질 중립~G 초입) / 미국 빅푸드 G / 소재(제당·제분·아미노산) C.</strong> 상위 트렌드 판정은 '메가 트렌드 아님 — 단, K-푸드 글로벌 점유율 이동은 세큘러 성장'. 주도주 요건은 점유율 이동 구간에서만 성립한다.</li>
+</ol>
+<hr />
+<h2>[가설 검증] "음식료는 삼양식품만 성장주, 나머지는 방어주" 【핵심】</h2>
+<h3>V-1. 먼저 용어를 정의한다</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>용어</th>
+<th>이 문서에서의 정량 정의</th>
+<th>비유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>성장주</strong></td>
+<td>매출·이익이 시장(명목 GDP 4~5%)보다 구조적으로 빠르게(연 15%+) 늘고, 주가가 그 이익 성장으로 KOSPI를 3년 이상 크게 이기는 종목</td>
+<td>키가 크고 있는 아이</td>
+</tr>
+<tr>
+<td><strong>방어주</strong></td>
+<td>① 베타 &lt; 0.6 ② 하락장 포착률(시장이 빠질 때 따라 빠지는 비율) &lt; 0.5 ③ <strong>장기 절대수익이 플러스</strong>(물가 이상) — 셋 다 충족</td>
+<td>비가 와도 젖지 않는 우산 + 원금은 지켜주는 예금</td>
+</tr>
+<tr>
+<td><strong>저베타 디레이팅주</strong></td>
+<td>①은 충족, ③이 불충족 — 시장과 따로 움직이지만 밸류에이션이 계속 깎이며 절대가치가 줄어드는 종목</td>
+<td>비를 덜 맞는 대신 서서히 녹는 얼음</td>
+</tr>
+</tbody>
+</table>
+<h3>V-2. 정량 결과 — 2016-01 ~ 2026-11 (월간, vs KOSPI)</h3>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 2 · 가설 검증 — 베타 vs 10년 연평균 주가수익률 (2016-01~2026-11)</span><span class="fig-sub">x=월간 베타(vs KOSPI, KOSPI=1.0은 축 오른쪽 밖), y=연평균 주가 변화(CAGR). 전 종목이 β 0.35 미만(시장과 따로 놂)이지만, KOSPI를 이긴 것은 삼양식품·KT&amp;G 둘뿐. 나머지는 &#x27;방어주&#x27;가 아니라 &#x27;저베타 디레이팅&#x27;. 오리온(2017-08~)·롯데웰푸드(2017-10~)는 상장 후 기간. 출처: Yahoo Finance, 직접 계산.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>삼양식품</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--pos);vertical-align:middle;margin-right:6px;border-radius:2px"></i>KT&amp;G(담배)</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--text-muted);vertical-align:middle;margin-right:6px;border-radius:2px"></i>기타 음식료</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--text-primary);vertical-align:middle;margin-right:6px;border-radius:2px"></i>KOSPI</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="800" y1="296.8" y2="296.8" stroke="var(--grid)" stroke-width="1"/><text x="52" y="300.8" text-anchor="end" font-size="11" fill="var(--text-muted)">-10%</text><line x1="60" x2="800" y1="250.3" y2="250.3" stroke="var(--grid)" stroke-width="2"/><text x="52" y="254.3" text-anchor="end" font-size="11" fill="var(--text-muted)">+0%</text><line x1="60" x2="800" y1="203.8" y2="203.8" stroke="var(--grid)" stroke-width="1"/><text x="52" y="207.8" text-anchor="end" font-size="11" fill="var(--text-muted)">+10%</text><line x1="60" x2="800" y1="157.4" y2="157.4" stroke="var(--grid)" stroke-width="1"/><text x="52" y="161.4" text-anchor="end" font-size="11" fill="var(--text-muted)">+20%</text><line x1="60" x2="800" y1="110.9" y2="110.9" stroke="var(--grid)" stroke-width="1"/><text x="52" y="114.9" text-anchor="end" font-size="11" fill="var(--text-muted)">+30%</text><line x1="60" x2="800" y1="64.5" y2="64.5" stroke="var(--grid)" stroke-width="1"/><text x="52" y="68.5" text-anchor="end" font-size="11" fill="var(--text-muted)">+40%</text><line x1="60" x2="800" y1="18.0" y2="18.0" stroke="var(--grid)" stroke-width="1"/><text x="52" y="22.0" text-anchor="end" font-size="11" fill="var(--text-muted)">+50%</text><text x="60.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">β 0.0</text><text x="236.2" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">β 0.1</text><text x="412.4" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">β 0.2</text><text x="588.6" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">β 0.3</text><text x="764.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">β 0.4</text><line x1="60" x2="800" y1="206.2" y2="206.2" stroke="var(--text-muted)" stroke-dasharray="4 4"/><text x="66" y="200.2" text-anchor="start" font-size="11" fill="var(--text-muted)">KOSPI 연 +9.5% 기준선</text><rect x="60.0" y="206.2" width="740.0" height="113.8" fill="var(--neg)" opacity="0.06"/><text x="782.4" y="310.7" text-anchor="end" font-size="11.5" fill="var(--neg)">저베타 디레이팅 구역 (β 낮음 + 수익 &lt; KOSPI)</text><circle cx="148.1" cy="40.3" r="5" fill="var(--series-1)"/><text x="156.1" y="44.3" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">삼양식품 +45.2%</text><circle cx="201.0" cy="255.9" r="5" fill="var(--series-3)"/><text x="193.0" y="259.9" font-size="11.5" text-anchor="end" fill="var(--text-secondary)">농심 -1.2%</text><circle cx="253.8" cy="230.3" r="5" fill="var(--series-2)"/><text x="261.8" y="226.3" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">오리온 +4.3%</text><circle cx="482.9" cy="278.2" r="5" fill="var(--text-muted)"/><text x="492.9" y="290.2" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">CJ제일제당 -6.0%</text><circle cx="253.8" cy="307.0" r="5" fill="var(--series-4)"/><text x="261.8" y="311.0" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">오뚜기 -12.2%</text><circle cx="447.6" cy="258.2" r="5" fill="var(--text-muted)"/><text x="447.6" y="248.2" font-size="11.5" text-anchor="middle" fill="var(--text-secondary)">롯데웰푸드 -1.7%</text><circle cx="482.9" cy="240.1" r="5" fill="var(--text-muted)"/><text x="482.9" y="230.1" font-size="11.5" text-anchor="middle" fill="var(--text-secondary)">빙그레 +2.2%</text><circle cx="500.5" cy="270.8" r="5" fill="var(--text-muted)"/><text x="510.5" y="272.8" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">대상 -4.4%</text><circle cx="659.0" cy="283.3" r="5" fill="var(--text-muted)"/><text x="667.0" y="287.3" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">풀무원 -7.1%</text><circle cx="394.8" cy="272.1" r="5" fill="var(--text-muted)"/><text x="394.8" y="290.1" font-size="11.5" text-anchor="middle" fill="var(--text-secondary)">롯데칠성 -4.7%</text><circle cx="289.0" cy="262.4" r="5" fill="var(--text-muted)"/><text x="289.0" y="280.4" font-size="11.5" text-anchor="middle" fill="var(--text-secondary)">하이트진로 -2.6%</text><circle cx="359.5" cy="203.4" r="5" fill="var(--pos)"/><text x="367.5" y="207.4" font-size="11.5" text-anchor="start" fill="var(--text-secondary)">KT&amp;G +10.1%</text><circle cx="791.2" cy="206.2" r="5" fill="var(--text-primary)"/><text x="783.2" y="196.2" font-size="11.5" text-anchor="end" fill="var(--text-secondary)">KOSPI (β=1.0, 축 밖) +9.5%</text></svg></figure>
+
+<table class="tbl">
+<thead>
+<tr>
+<th>종목</th>
+<th>베타</th>
+<th>상관계수</th>
+<th>하락포착률</th>
+<th>상승포착률</th>
+<th>연평균 주가(CAGR)</th>
+<th>최대낙폭</th>
+<th>판정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>삼양식품</strong></td>
+<td>0.05</td>
+<td>0.02</td>
+<td>−1.04</td>
+<td>0.73</td>
+<td><strong>+45.2%</strong></td>
+<td>−51%</td>
+<td><strong>성장주</strong></td>
+</tr>
+<tr>
+<td>농심</td>
+<td>0.08</td>
+<td>0.08</td>
+<td>0.02</td>
+<td>0.08</td>
+<td>−1.2%</td>
+<td>−52%</td>
+<td>저베타 디레이팅 (해외 사업은 성장)</td>
+</tr>
+<tr>
+<td>오리온(2017-08~)</td>
+<td>0.11</td>
+<td>0.11</td>
+<td>0.03</td>
+<td>0.23</td>
+<td>+4.3%</td>
+<td>−45%</td>
+<td>저베타 정체 (해외 이익은 성장)</td>
+</tr>
+<tr>
+<td>CJ제일제당</td>
+<td>0.24</td>
+<td>0.25</td>
+<td>0.56</td>
+<td>0.29</td>
+<td>−6.0%</td>
+<td>−60%</td>
+<td>저베타 디레이팅 (바이오 사이클 혼재)</td>
+</tr>
+<tr>
+<td>오뚜기</td>
+<td>0.11</td>
+<td>0.14</td>
+<td>0.38</td>
+<td>−0.04</td>
+<td><strong>−12.2%</strong></td>
+<td><strong>−75%</strong></td>
+<td>저베타 디레이팅</td>
+</tr>
+<tr>
+<td>롯데웰푸드(2017-10~)</td>
+<td>0.22</td>
+<td>0.19</td>
+<td>0.47</td>
+<td>0.43</td>
+<td>−1.7%</td>
+<td>−47%</td>
+<td>저베타 디레이팅</td>
+</tr>
+<tr>
+<td>빙그레</td>
+<td>0.24</td>
+<td>0.21</td>
+<td>0.33</td>
+<td>0.40</td>
+<td>+2.2%</td>
+<td>−48%</td>
+<td>저베타 정체</td>
+</tr>
+<tr>
+<td>대상</td>
+<td>0.25</td>
+<td>0.24</td>
+<td>0.51</td>
+<td>0.31</td>
+<td>−4.4%</td>
+<td>−51%</td>
+<td>저베타 디레이팅</td>
+</tr>
+<tr>
+<td>풀무원</td>
+<td>0.34</td>
+<td>0.22</td>
+<td>0.75</td>
+<td>0.51</td>
+<td>−7.1%</td>
+<td>−61%</td>
+<td>방어 실패</td>
+</tr>
+<tr>
+<td>롯데칠성</td>
+<td>0.19</td>
+<td>0.17</td>
+<td>0.28</td>
+<td>0.17</td>
+<td>−4.7%</td>
+<td>−58%</td>
+<td>저베타 디레이팅</td>
+</tr>
+<tr>
+<td>하이트진로</td>
+<td>0.13</td>
+<td>0.14</td>
+<td>0.45</td>
+<td>0.30</td>
+<td>−2.6%</td>
+<td>−61%</td>
+<td>저베타 디레이팅</td>
+</tr>
+<tr>
+<td><strong>KT&amp;G(담배)</strong></td>
+<td>0.17</td>
+<td>0.23</td>
+<td><strong>−0.17</strong></td>
+<td>0.20</td>
+<td><strong>+10.1%</strong></td>
+<td><strong>−36%</strong></td>
+<td><strong>진짜 방어주</strong></td>
+</tr>
+<tr>
+<td><em>KOSPI</em></td>
+<td><em>1.00</em></td>
+<td>—</td>
+<td><em>1.00</em></td>
+<td><em>1.00</em></td>
+<td><em>+9.5%</em></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: Yahoo Finance 월간 수정종가로 직접 계산, 2026-11-14 기준. 하락포착률 = KOSPI 하락월 종목 수익률 합 ÷ KOSPI 하락월 수익률 합. 음수 = 시장이 빠진 달에 평균적으로 올랐다는 뜻. 상장 후 기간이 짧은 오리온·롯데웰푸드는 해당 기간 기준.)</p>
+<p><strong>읽는 법</strong>: 음식료 종목은 <strong>전부 베타가 0.35 미만</strong>이다 — "시장과 따로 논다"는 직관은 데이터로 맞다. 그런데 <strong>연평균 수익률이 KOSPI(+9.5%)를 이긴 종목은 삼양식품과 KT&amp;G 둘뿐</strong>이고, 11개 중 8개는 10년 넘게 마이너스다. 즉 나머지 종목은 '하락장에서 덜 빠지는 대신, 상승장에서 거의 오르지 않고, 길게 보면 서서히 깎이는' 구조다.</p>
+<h3>V-3. 실제 하락장에서 '방어'가 작동했는가 — 에피소드 검증</h3>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 3 · 하락장 성적표 — 방어가 작동한 종목은 소수</span><span class="fig-sub">KOSPI 하락 구간별 주가 수익률(%). 금융위기 때 대상·풀무원·CJ제일제당은 KOSPI보다 더 빠졌고(원가 쇼크+환율), 매번 방어한 것은 농심·오뚜기·KT&amp;G. 진행 중인 2026-06~11 하락(KOSPI −40%)에서는 대부분 선방 — 반도체 쏠림의 되돌림이라 음식료가 피난처가 됐다. 오리온은 금융위기=구 오리온, 2018·2022=오리온(271560). 출처: Yahoo Finance, 직접 계산.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>2007-10→08-10 금융위기</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-4);vertical-align:middle;margin-right:6px;border-radius:2px"></i>2018 무역전쟁</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>2021-06→22-09 긴축</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-3);vertical-align:middle;margin-right:6px;border-radius:2px"></i>2026-06→11 반도체 조정</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="880" y1="320.0" y2="320.0" stroke="var(--grid)" stroke-width="1"/><text x="52" y="324.0" text-anchor="end" font-size="11" fill="var(--text-muted)">-80%</text><line x1="60" x2="880" y1="265.1" y2="265.1" stroke="var(--grid)" stroke-width="1"/><text x="52" y="269.1" text-anchor="end" font-size="11" fill="var(--text-muted)">-60%</text><line x1="60" x2="880" y1="210.2" y2="210.2" stroke="var(--grid)" stroke-width="1"/><text x="52" y="214.2" text-anchor="end" font-size="11" fill="var(--text-muted)">-40%</text><line x1="60" x2="880" y1="155.3" y2="155.3" stroke="var(--grid)" stroke-width="1"/><text x="52" y="159.3" text-anchor="end" font-size="11" fill="var(--text-muted)">-20%</text><line x1="60" x2="880" y1="100.4" y2="100.4" stroke="var(--grid)" stroke-width="2"/><text x="52" y="104.4" text-anchor="end" font-size="11" fill="var(--text-muted)">+0%</text><line x1="60" x2="880" y1="45.5" y2="45.5" stroke="var(--grid)" stroke-width="1"/><text x="52" y="49.5" text-anchor="end" font-size="11" fill="var(--text-muted)">+20%</text><rect x="60.0" y="18" width="91.1" height="302" fill="var(--grid)" opacity="0.5"/><rect x="70.9" y="100.4" width="16.9" height="126.3" fill="var(--series-1)" rx="1.5"/><text x="79.4" y="237.7" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-46</text><rect x="90.3" y="100.4" width="16.9" height="54.9" fill="var(--series-4)" rx="1.5"/><text x="98.8" y="166.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-20</text><rect x="109.7" y="100.4" width="16.9" height="96.1" fill="var(--series-2)" rx="1.5"/><text x="118.2" y="207.5" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-35</text><rect x="129.1" y="100.4" width="16.9" height="109.8" fill="var(--series-3)" rx="1.5"/><text x="137.6" y="221.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-40</text><text x="105.6" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">KOSPI</text><rect x="162.0" y="100.4" width="16.9" height="126.3" fill="var(--series-1)" rx="1.5"/><text x="170.5" y="237.7" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-46</text><rect x="181.4" y="100.4" width="16.9" height="120.8" fill="var(--series-4)" rx="1.5"/><text x="189.9" y="232.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-44</text><rect x="200.9" y="48.2" width="16.9" height="52.2" fill="var(--series-2)" rx="1.5"/><text x="209.3" y="44.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+19</text><rect x="220.3" y="59.2" width="16.9" height="41.2" fill="var(--series-3)" rx="1.5"/><text x="228.7" y="55.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+15</text><text x="196.7" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">삼양</text><rect x="253.2" y="81.1" width="16.9" height="19.2" fill="var(--series-1)" rx="1.5"/><text x="261.6" y="77.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+7</text><rect x="272.6" y="100.4" width="16.9" height="54.9" fill="var(--series-4)" rx="1.5"/><text x="281.0" y="166.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-20</text><rect x="292.0" y="100.4" width="16.9" height="11.0" fill="var(--series-2)" rx="1.5"/><text x="300.4" y="122.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-4</text><rect x="311.4" y="81.1" width="16.9" height="19.2" fill="var(--series-3)" rx="1.5"/><text x="319.8" y="77.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+7</text><text x="287.8" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">농심</text><rect x="344.3" y="100.4" width="16.9" height="120.8" fill="var(--series-1)" rx="1.5"/><text x="352.7" y="232.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-44</text><rect x="363.7" y="92.1" width="16.9" height="8.2" fill="var(--series-4)" rx="1.5"/><text x="372.1" y="88.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+3</text><rect x="383.1" y="100.4" width="16.9" height="32.9" fill="var(--series-2)" rx="1.5"/><text x="391.5" y="144.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-12</text><rect x="402.5" y="100.4" width="16.9" height="32.9" fill="var(--series-3)" rx="1.5"/><text x="410.9" y="144.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-12</text><text x="378.9" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">오리온</text><rect x="435.4" y="100.4" width="16.9" height="140.0" fill="var(--series-1)" rx="1.5"/><text x="443.8" y="251.4" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-51</text><rect x="454.8" y="100.4" width="16.9" height="19.2" fill="var(--series-4)" rx="1.5"/><text x="463.2" y="130.6" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-7</text><rect x="474.2" y="100.4" width="16.9" height="24.7" fill="var(--series-2)" rx="1.5"/><text x="482.6" y="136.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-9</text><rect x="493.6" y="100.4" width="16.9" height="5.5" fill="var(--series-3)" rx="1.5"/><text x="502.0" y="116.9" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-2</text><text x="470.0" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">CJ제일</text><rect x="526.5" y="100.4" width="16.9" height="35.7" fill="var(--series-1)" rx="1.5"/><text x="534.9" y="147.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-13</text><rect x="545.9" y="100.4" width="16.9" height="13.7" fill="var(--series-4)" rx="1.5"/><text x="554.3" y="125.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-5</text><rect x="565.3" y="100.4" width="16.9" height="38.4" fill="var(--series-2)" rx="1.5"/><text x="573.7" y="149.8" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-14</text><rect x="584.7" y="100.4" width="16.9" height="8.2" fill="var(--series-3)" rx="1.5"/><text x="593.1" y="119.6" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-3</text><text x="561.1" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">오뚜기</text><rect x="617.6" y="100.4" width="16.9" height="175.7" fill="var(--series-1)" rx="1.5"/><text x="626.0" y="287.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-64</text><rect x="637.0" y="100.4" width="16.9" height="11.0" fill="var(--series-4)" rx="1.5"/><text x="645.4" y="122.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-4</text><rect x="656.4" y="100.4" width="16.9" height="54.9" fill="var(--series-2)" rx="1.5"/><text x="664.8" y="166.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-20</text><rect x="675.8" y="94.9" width="16.9" height="5.5" fill="var(--series-3)" rx="1.5"/><text x="684.2" y="90.9" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+2</text><text x="652.2" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">대상</text><rect x="708.7" y="100.4" width="16.9" height="200.4" fill="var(--series-1)" rx="1.5"/><text x="717.1" y="311.8" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-73</text><rect x="728.1" y="100.4" width="16.9" height="142.8" fill="var(--series-4)" rx="1.5"/><text x="736.6" y="254.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-52</text><rect x="747.5" y="100.4" width="16.9" height="120.8" fill="var(--series-2)" rx="1.5"/><text x="756.0" y="232.2" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-44</text><rect x="766.9" y="100.4" width="16.9" height="32.9" fill="var(--series-3)" rx="1.5"/><text x="775.4" y="144.3" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-12</text><text x="743.3" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">풀무원</text><rect x="799.8" y="50.9" width="16.9" height="49.4" fill="var(--series-1)" rx="1.5"/><text x="808.3" y="46.9" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+18</text><rect x="819.2" y="100.4" width="16.9" height="2.7" fill="var(--series-4)" rx="1.5"/><text x="827.7" y="114.1" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">-1</text><rect x="838.6" y="75.7" width="16.9" height="24.7" fill="var(--series-2)" rx="1.5"/><text x="847.1" y="71.7" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+9</text><rect x="858.0" y="78.4" width="16.9" height="22.0" fill="var(--series-3)" rx="1.5"/><text x="866.5" y="74.4" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">+8</text><text x="834.4" y="338" text-anchor="middle" font-size="11.5" fill="var(--text-secondary)">KT&amp;G</text></svg></figure>
+
+<table class="tbl">
+<thead>
+<tr>
+<th>하락장 (KOSPI 기준 고점→저점)</th>
+<th>KOSPI</th>
+<th>삼양</th>
+<th>농심</th>
+<th>오리온</th>
+<th>CJ제일</th>
+<th>오뚜기</th>
+<th>빙그레</th>
+<th>대상</th>
+<th>풀무원</th>
+<th>롯데칠성</th>
+<th>KT&amp;G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2002-04→2003-03 (IT버블 후)</td>
+<td>−36%</td>
+<td>−55%</td>
+<td>−16%</td>
+<td>−15%</td>
+<td>—</td>
+<td>+3%</td>
+<td>−19%</td>
+<td>−24%</td>
+<td>+48%</td>
+<td>−33%</td>
+<td>+6%</td>
+</tr>
+<tr>
+<td><strong>2007-10→2008-10 (금융위기)</strong></td>
+<td><strong>−46%</strong></td>
+<td>−46%</td>
+<td><strong>+7%</strong></td>
+<td>−44%</td>
+<td><strong>−51%</strong></td>
+<td>−13%</td>
+<td>−1%</td>
+<td><strong>−64%</strong></td>
+<td><strong>−73%</strong></td>
+<td>−46%</td>
+<td>+18%</td>
+</tr>
+<tr>
+<td>2011-04→2011-09 (유럽 위기)</td>
+<td>−19%</td>
+<td>−23%</td>
+<td>−14%</td>
+<td>+24%</td>
+<td>+18%</td>
+<td>−2%</td>
+<td>−27%</td>
+<td>+40%</td>
+<td>−22%</td>
+<td>+3%</td>
+<td>+16%</td>
+</tr>
+<tr>
+<td>2018-01→2018-12 (무역전쟁)</td>
+<td>−20%</td>
+<td>−44%</td>
+<td>−20%</td>
+<td>−35%(구)·+3%(신)</td>
+<td>−7%</td>
+<td>−5%</td>
+<td>+11%</td>
+<td>−4%</td>
+<td>−52%</td>
+<td>−6%</td>
+<td>−1%</td>
+</tr>
+<tr>
+<td>2020-01→2020-03 (코로나)</td>
+<td>−17%</td>
+<td>−8%</td>
+<td><strong>+25%</strong></td>
+<td>+12%</td>
+<td>−9%</td>
+<td>−6%</td>
+<td>−9%</td>
+<td>−19%</td>
+<td>−13%</td>
+<td>−31%</td>
+<td>−21%</td>
+</tr>
+<tr>
+<td><strong>2021-06→2022-09 (긴축)</strong></td>
+<td><strong>−35%</strong></td>
+<td><strong>+19%</strong></td>
+<td>−4%</td>
+<td>−12%</td>
+<td>−9%</td>
+<td>−14%</td>
+<td>−37%</td>
+<td>−20%</td>
+<td>−44%</td>
+<td>+12%</td>
+<td>+9%</td>
+</tr>
+<tr>
+<td>2024-07→2024-12</td>
+<td>−13%</td>
+<td>+24%</td>
+<td>−21%</td>
+<td>+17%</td>
+<td>−34%</td>
+<td>−9%</td>
+<td>−9%</td>
+<td>−21%</td>
+<td>−23%</td>
+<td>−21%</td>
+<td>+15%</td>
+</tr>
+<tr>
+<td><strong>2026-06→2026-11 (반도체 버블 조정, 진행 중)</strong></td>
+<td><strong>−40%</strong></td>
+<td><strong>+15%</strong></td>
+<td>+7%</td>
+<td>−12%</td>
+<td>−2%</td>
+<td>−3%</td>
+<td>+18%</td>
+<td>+2%</td>
+<td>−12%</td>
+<td>+5%</td>
+<td>+8%</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: Yahoo Finance 월간 수정종가, 직접 계산. 2026-11은 11/14까지. 같은 구간 롯데웰푸드 +44%, 하이트진로 +15%)</p>
+<p><strong>[판단] 최근 하락장(2026-06~)만 보면 음식료는 교과서적 방어주처럼 움직였다</strong> — KOSPI −40% 동안 플러스이거나 −12% 이내. 하지만 이것은 '음식료가 좋아서'라기보다 <strong>이번 하락이 반도체 쏠림의 되돌림이라 음식료가 애초에 오르지 않았기 때문</strong>이기도 하다(2024-12→2026-05 KOSPI +253% 동안 음식료는 대부분 횡보). 장기 표본(2002~2026, 7번의 하락장)으로 보면 <strong>방어가 '매번' 작동한 것은 농심·오뚜기(라면·장류 = 진짜 필수재)와 KT&amp;G뿐이다.</strong> 금융위기 때 대상·풀무원·CJ제일제당이 시장보다 더 빠진 이유는 ① 원재료(곡물) 가격이 2007~08년 2~3배 뛰는 '애그플레이션'과 환율 급등(원재료 수입 원가↑)이 동시에 왔고 ② 차입이 많은 중형주였기 때문이다. <strong>음식료의 진짜 적은 '경기 침체'가 아니라 '원가 쇼크 + 가격 통제'다</strong> — 경기가 나빠도 사람은 먹지만, 밀가루·설탕·환율이 뛰는데 가격을 못 올리면 이익이 무너진다.</p>
+<h3>V-4. '성장주 자리'는 돌아가며 나왔다 — 한국 음식료 성장주 계보</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>#</th>
+<th>종목</th>
+<th>성장주 구간 (저점→고점)</th>
+<th>기간</th>
+<th>상승폭</th>
+<th>새 위장(성장 원천)</th>
+<th>끝난 이유</th>
+<th>고점 후 낙폭</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>농심</td>
+<td>2002-10 → 2005-04</td>
+<td>30개월</td>
+<td>+358%</td>
+<td>신라면 해외·국내 점유율 70%</td>
+<td>성장 둔화·2008 원가</td>
+<td>−40%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>오리온(구)</td>
+<td>2002-01 → 2007-07</td>
+<td>66개월</td>
+<td>+934%</td>
+<td>중국 초코파이(1997 진출)</td>
+<td>금융위기</td>
+<td>−48%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>삼양식품 1막</td>
+<td>2003-12 → 2005-09</td>
+<td>21개월</td>
+<td>+1,126%</td>
+<td>턴어라운드(화의 졸업)</td>
+<td>원가·금융위기</td>
+<td>−69%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>오리온(구)</td>
+<td>2009-01 → 2015-04</td>
+<td>75개월</td>
+<td><strong>+966%</strong></td>
+<td>중국 2막(제과 1위권)</td>
+<td>중국 둔화·2017 사드</td>
+<td>−44%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>대상</td>
+<td>2009-02 → 2014-08</td>
+<td>66개월</td>
+<td><strong>+1,163%</strong></td>
+<td>소재(전분당)·종가집</td>
+<td>성장 둔화</td>
+<td>−66%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>오뚜기</td>
+<td>2012-03 → 2016-01</td>
+<td>46개월</td>
+<td>+839%</td>
+<td>국내 라면 점유율↑(진짬뽕·'갓뚜기')</td>
+<td>국내 포화</td>
+<td><strong>−75%(현재까지)</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>풀무원</td>
+<td>2011-11 → 2015-07</td>
+<td>44개월</td>
+<td>+739%</td>
+<td>신선식품·중국·미국 두부</td>
+<td>해외 적자</td>
+<td>−65%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>삼양식품 2막</td>
+<td>2014-12 → 2018-06</td>
+<td>42개월</td>
+<td>+403%</td>
+<td>불닭볶음면(2012) 국내·중국</td>
+<td>2018 중국 따이궁 위축</td>
+<td>−51%</td>
+</tr>
+<tr>
+<td>9</td>
+<td>빙그레</td>
+<td>2022-10 → 2024-06</td>
+<td>20개월</td>
+<td>+172%</td>
+<td>바나나맛우유 수출·흑자전환</td>
+<td>지주사 이슈·내수</td>
+<td>−35%</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>삼양식품 3막</strong></td>
+<td>2021-11 → 2025-08</td>
+<td>45개월</td>
+<td><strong>+1,975%</strong></td>
+<td><strong>불닭 미국·유럽·중국 메인스트림</strong></td>
+<td>[진행 중 — 2025-08 고점 후 최대 −28%, 현재 −18%]</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: Yahoo Finance 월간 수정종가로 직접 계산)</p>
+<p><strong>결론 [판단]</strong>: 한국 음식료 성장주의 공식은 <strong>"새 위장(해외 시장 또는 국내 점유율 급변) + 영업레버리지(고정비가 큰 공장 가동률 상승)"</strong>이고, 지속기간 중앙값은 약 <strong>45개월(≈4년)</strong>, 상승폭은 +170% ~ +1,975%(중앙값 약 +890%)였다. 끝나는 방식은 거의 항상 '새 위장의 포화 또는 정치 리스크(사드)'였다. <strong>그래서 "삼양식품만 성장주"는 '지금 이 순간'의 정답이지만, 산업의 구조적 진실은 "성장주는 늘 1~2개뿐이고, 그 자리가 4년 단위로 교체된다"이다.</strong></p>
+<h3>V-5. 펀더멘털로 다시 확인 — 매출·이익 성장 (DART 연결)</h3>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 4 · 영업이익 2015=100 — 10년간 이익이 &#x27;자란&#x27; 회사는 하나</span><span class="fig-sub">DART 연결 영업이익 지수(2015=100, 로그). 삼양식품 7,383(74배) vs 농심 155·오뚜기 133·대상 154·빙그레 279(해태아이스크림 인수 포함). 내수 식품사의 이익은 10년간 1.3~1.6배 — 물가 상승분 수준. 출처: OpenDART 사업보고서 2015~2025.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>삼양식품</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>빙그레</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-4);vertical-align:middle;margin-right:6px;border-radius:2px"></i>대상</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-3);vertical-align:middle;margin-right:6px;border-radius:2px"></i>농심</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--text-muted);vertical-align:middle;margin-right:6px;border-radius:2px"></i>오뚜기</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="800" y1="286.8" y2="286.8" stroke="var(--grid)" stroke-width="1"/><text x="52" y="290.8" text-anchor="end" font-size="11" fill="var(--text-muted)">100</text><line x1="60" x2="800" y1="220.3" y2="220.3" stroke="var(--grid)" stroke-width="1"/><text x="52" y="224.3" text-anchor="end" font-size="11" fill="var(--text-muted)">300</text><line x1="60" x2="800" y1="147.3" y2="147.3" stroke="var(--grid)" stroke-width="1"/><text x="52" y="151.3" text-anchor="end" font-size="11" fill="var(--text-muted)">1,000</text><line x1="60" x2="800" y1="80.7" y2="80.7" stroke="var(--grid)" stroke-width="1"/><text x="52" y="84.7" text-anchor="end" font-size="11" fill="var(--text-muted)">3,000</text><text x="60.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2015</text><text x="127.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2016</text><text x="195.6" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2017</text><text x="263.4" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2018</text><text x="331.1" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2019</text><text x="398.9" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2020</text><text x="466.7" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2021</text><text x="534.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2022</text><text x="602.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2023</text><text x="670.1" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2024</text><text x="737.9" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2025</text><path d="M88.2,286.8 L156.0,210.3 L223.8,177.7 L291.6,163.0 L359.4,141.8 L427.2,129.8 L495.0,152.7 L562.7,133.1 L630.5,103.4 L698.3,52.0 L766.1,26.5" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/><path d="M88.2,286.8 L156.0,277.1 L223.8,281.3 L291.6,273.8 L359.4,264.6 L427.2,273.0 L495.0,298.3 L562.7,273.6 L630.5,210.2 L698.3,200.7 L766.1,224.7" fill="none" stroke="var(--series-2)" stroke-width="2" stroke-linejoin="round"/><path d="M88.2,286.8 L156.0,286.2 L223.8,294.6 L291.6,281.4 L359.4,276.7 L427.2,258.8 L495.0,266.7 L562.7,272.2 L630.5,279.7 L698.3,258.0 L766.1,260.6" fill="none" stroke="var(--series-4)" stroke-width="2" stroke-linejoin="round"/><path d="M88.2,286.8 L156.0,303.6 L223.8,299.3 L291.6,304.4 L359.4,311.5 L427.2,268.4 L495.0,293.4 L562.7,290.1 L630.5,251.5 L698.3,267.4 L766.1,260.1" fill="none" stroke="var(--series-3)" stroke-width="2" stroke-linejoin="round"/><path d="M88.2,286.8 L156.0,282.9 L223.8,281.4 L291.6,279.0 L359.4,280.4 L427.2,262.8 L495.0,273.4 L562.7,266.8 L630.5,247.6 L698.3,256.0 L766.1,269.6" fill="none" stroke="var(--text-muted)" stroke-width="1.4" stroke-linejoin="round"/><text x="772.1" y="30.5" font-size="11.5" fill="var(--series-1)" font-weight="600">삼양식품</text><text x="772.1" y="228.7" font-size="11.5" fill="var(--series-2)" font-weight="600">빙그레</text><text x="772.1" y="264.1" font-size="11.5" fill="var(--series-3)" font-weight="600">농심</text><text x="772.1" y="277.1" font-size="11.5" fill="var(--series-4)" font-weight="600">대상</text><text x="772.1" y="290.1" font-size="11.5" fill="var(--text-muted)" font-weight="600">오뚜기</text></svg></figure>
+
+<table class="tbl">
+<thead>
+<tr>
+<th>기업</th>
+<th>2015 매출</th>
+<th>2025 매출</th>
+<th>10년 CAGR</th>
+<th>2015 영업이익</th>
+<th>2025 영업이익</th>
+<th>2025 OPM</th>
+<th>2026 3Q 누적 YoY (매출/영업이익)</th>
+<th>해외 매출 비중</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>삼양식품</strong></td>
+<td>2,909억</td>
+<td><strong>23,518억</strong></td>
+<td><strong>+23.2%</strong></td>
+<td>71억</td>
+<td><strong>5,242억</strong></td>
+<td><strong>22.3%</strong></td>
+<td><strong>+32.8% / +42.7%</strong></td>
+<td><strong>약 83% (3Q26)</strong></td>
+</tr>
+<tr>
+<td>농심</td>
+<td>21,816억</td>
+<td>35,143억</td>
+<td>+4.9%</td>
+<td>1,183억</td>
+<td>1,839억</td>
+<td>5.2%</td>
+<td>+7.1% / +17.1%</td>
+<td>약 38~40% [추정]</td>
+</tr>
+<tr>
+<td>오리온 (2018~)</td>
+<td>19,269억(2018)</td>
+<td>33,324억</td>
+<td>+8.1%(7년)</td>
+<td>2,822억(2018)</td>
+<td>5,583억</td>
+<td>16.8%</td>
+<td>(3Q26 별도 집계: 4개 법인 합산 매출 +10.8%)</td>
+<td>약 70%</td>
+</tr>
+<tr>
+<td>CJ제일제당 (대한통운 포함)</td>
+<td>129,245억</td>
+<td>273,426억</td>
+<td>+7.8%</td>
+<td>7,514억</td>
+<td>12,336억</td>
+<td>4.5%</td>
+<td>−0.1% / −21.8%</td>
+<td>식품 해외 50%+</td>
+</tr>
+<tr>
+<td>오뚜기</td>
+<td>18,831억</td>
+<td>36,745억</td>
+<td>+6.9%</td>
+<td>1,334억</td>
+<td>1,773억</td>
+<td>4.8%</td>
+<td>+3.5% / −10.8%</td>
+<td>약 10%</td>
+</tr>
+<tr>
+<td>롯데웰푸드 (2018~)</td>
+<td>16,945억(2018)</td>
+<td>42,160억</td>
+<td>+13.9%(합병 효과)</td>
+<td>644억(2018)</td>
+<td>1,095억</td>
+<td>2.6%</td>
+<td>+5.0% / +58.7%</td>
+<td>[추정] 20%대</td>
+</tr>
+<tr>
+<td>빙그레</td>
+<td>7,996억</td>
+<td>14,896억</td>
+<td>+6.4% (해태아이스 인수 포함)</td>
+<td>317억</td>
+<td>884억</td>
+<td>5.9%</td>
+<td>+1.1% / +49.9%</td>
+<td>10~20% [추정]</td>
+</tr>
+<tr>
+<td>대상</td>
+<td>26,350억</td>
+<td>44,013억</td>
+<td>+5.3%</td>
+<td>1,099억</td>
+<td>1,693억</td>
+<td>3.8%</td>
+<td>+3.1% / −2.9%</td>
+<td>[추정] 30% 내외</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: OpenDART 연결재무제표 직접 추출 — 2015~2025 사업보고서, 2025·2026 3분기보고서 누적. 오리온은 2017 분할로 2018년부터, 롯데웰푸드는 2017 출범·2022 롯데푸드 합병. 삼양식품 해외 비중: 3Q26 해외 매출 6,608억/전체 7,918억(회사 IR, 인사이트 2026-11-07). 오뚜기 해외 비중 10% 안팎: 더팩트 2025-11. 삼양·오리온·CJ제일제당 해외 비중 50% 상회: 업계 리포트 2026-05.)</p>
+<p><strong>[판단]</strong> 펀더멘털로 보면 가설은 더 명확하다. <strong>10년간 매출이 연 15%를 넘게 큰 회사는 삼양식품 하나뿐</strong>이고(롯데웰푸드 +13.9%는 합병 효과), 영업이익률 20%대도 삼양 하나다. 오리온은 'OPM 16%대·해외 70%'로 <strong>'질은 성장주급, 속도는 중간'</strong>인 회색지대다. 농심은 2026년 녹산 수출공장 가동(2026-10-29)으로 수출 CAPA가 7억 개 → 12억 개로 늘어 <strong>'후보'</strong> 자격은 생겼지만 아직 이익으로 증명되지 않았다.</p>
+<h3>V-6. 최종 판정</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>가설</th>
+<th>판정</th>
+<th>한 줄 근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"삼양식품만 성장주"</td>
+<td><strong>현재 기준 ◎ 맞음 / 구조적으로는 △</strong></td>
+<td>10년 매출 CAGR 23%·OPM 22%로 유일. 다만 성장주 자리는 4년 단위로 교체돼 왔고(오리온·오뚜기·대상·빙그레), 오리온·농심 해외 사업이 '다음 후보' 풀이다</td>
+</tr>
+<tr>
+<td>"나머지는 방어주"</td>
+<td><strong>△ 절반만 맞음</strong></td>
+<td><strong>상대 방어(하락장에서 덜 빠짐)는 ○</strong> — 베타 0.1~0.3, 2026-06~11 KOSPI −40% 때 대부분 −12%~+18%. <strong>절대 방어(원금 보존·복리)는 ×</strong> — 10년 절대수익 마이너스·MDD −50~−75%, 2008년엔 대상·풀무원·CJ가 시장보다 더 빠졌다 → 정확한 이름은 <strong>'저베타 디레이팅주'</strong></td>
+</tr>
+<tr>
+<td>(추가) 섹터 안 진짜 방어주</td>
+<td><strong>KT&amp;G(담배)</strong></td>
+<td>하락포착률 음수, 10년 +10.1%/yr, MDD −36%. 중독성 수요 + 가격 인상 자유 + 주주환원</td>
+</tr>
+</tbody>
+</table>
+<p><strong>[판단] 트레이더 관점 정리</strong>: 음식료는 '하락장 피난처'로는 쓸 만하지만(2026-06~11 실증), '방어주 바구니'로 길게 들고 가면 기회비용이 크다(2024-12→2026-10 KOSPI +139% 동안 내수 식품주 대부분 −5~−28%, 10년 CAGR 마이너스). 음식료에서 돈을 버는 방법은 <strong>(1) 지금의 성장주(삼양)를 이익 성장 델타로 트래킹하고 (2) '다음 새 위장'을 찾은 회사(해외 매출 비중이 30%→50%를 넘는 구간)를 미리 찾는 것</strong>이다. 방어 목적이라면 음식료가 아니라 담배·배당주가 데이터상 더 맞다.</p>
+<hr />
+<h2>1-pager — 5단계 핵심 결론</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>단계</th>
+<th>핵심 결론</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 역사</td>
+<td>150년 역사의 패권은 '누가 새 위장을 먼저 찾았나'로 갈렸다: 브랜드·광고(미국, ~1970) → 글로벌화·신흥국(1980~2012, 이때 필수소비재는 성장주였다) → 저성장·비용절감·해체(2013~). 한국은 원조 밀가루·삼백산업 → 라면·제과 내수 과점 → 중국(오리온) → K-콘텐츠 수출(삼양·농심·CJ)</td>
+</tr>
+<tr>
+<td>2. 주가 사이클</td>
+<td>한국 성장주 구간 중앙값 45개월·상승 +170~+1,975%(중앙값 약 +890%), 끝나면 −35~−75%. 비성장 구간은 '저베타 디레이팅'(10년 CAGR −12%~+4%). 글로벌 빅푸드는 2022~23 정점 후 −20~−58%</td>
+</tr>
+<tr>
+<td>3. 비즈니스 구조</td>
+<td>소재(제당·제분) = 저마진 과점, 가공식품 = 브랜드·유통 과점이지만 국내는 가격 규제, 수출 브랜드 = 해외 프리미엄 가격으로 OPM 16~22%. 이익은 '국경을 넘는 순간' 커진다</td>
+</tr>
+<tr>
+<td>4. 공급</td>
+<td>국내 제품 시장은 이미 과점(라면 4사·제당 3사·제분 소수) — 플레이어 수 감소는 끝났다. 남은 공급 변수는 <strong>수출용 CAPA</strong>(삼양 26억 개 → 2027 37억 개, 농심 수출용 12억 개)와 정부의 담합 제재(2026 과징금 1.8조원)</td>
+</tr>
+<tr>
+<td>5. 수요</td>
+<td>국내 = 인구 정체·고령화·가격 통제로 볼륨 정체. 해외 = K-라면 수출 2025 15.2억 달러(11년 연속 최고), 2026 1~9월 +15%. 글로벌 = GLP-1이 미국 식품 볼륨을 약 1~2% 깎는 중</td>
+</tr>
+<tr>
+<td>수급 결론</td>
+<td>산업 전체 <strong>중립</strong> / K-라면 수출 <strong>B(일부 A)</strong> / 국내 내수 <strong>E-억제(실질 중립~G 초입)</strong> / 미국 빅푸드 <strong>G</strong> / 소재 <strong>C</strong></td>
+</tr>
+<tr>
+<td>상위 트렌드</td>
+<td>메가 트렌드 아님. <strong>K-푸드 글로벌 점유율 이동 = 세큘러 성장</strong>(K뷰티와 같은 구조). 역풍 메가 트렌드 = 인구 감소(한국)·GLP-1(미국)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>1단계. 역사 — 시대 chunk × 6 layer</h1>
+<blockquote>
+<p>음식료는 반도체처럼 '기술 패권'이 바뀌는 산업이 아니다. 대신 <strong>'어디서 새 입(수요)이 생기는가' + '원가(곡물·설탕) 쇼크' + '정부의 가격 개입'</strong> 세 축이 시대를 가른다. 따라서 layer 가중치는 (a) 매크로·(c) 수요 변화·(f) 규제가 두껍고, (b) 패권자는 '새 수요를 먼저 잡은 브랜드'로 읽는다.</p>
+</blockquote>
+<h2>Chunk 1 — 1866~1945: 산업식품의 탄생 (통조림·분유·탄산음료·브랜드, 그리고 첫 식품위생법)</h2>
+<h3>(a) 매크로 배경</h3>
+<p>산업혁명으로 사람들이 농촌을 떠나 도시 공장으로 몰리면서 '집에서 직접 만들어 먹던 음식'을 <strong>사서 먹는</strong> 시대가 열렸다. 철도(전국 유통), 통조림·살균 기술(장기 보관), 신문·잡지 광고(브랜드 인지)가 동시에 갖춰졌다. 남북전쟁·1·2차 세계대전은 군대 보급용 가공식품 수요를 폭발시켰다 — 전쟁이 가공식품의 최대 고객이었다.</p>
+<h3>(b) 패권자 — '이름(브랜드)'을 처음 붙인 자</h3>
+<p>Nestlé(1866년 분유로 시작), Heinz(1869, 케첩·피클), Campbell(1869, 수프 통조림), Coca-Cola(1886), Hershey(1894), Kellogg(1906, 시리얼). 일본 <strong>Ajinomoto(1909, 화학조미료 MSG)</strong>는 일제강점기 조선 시장까지 장악했다. 공통점: <strong>'무명의 상품(commodity)'에 이름을 붙여 신뢰를 판 회사</strong>가 이겼다. 시장에서 파는 이름 없는 밀가루 대신 '하인즈 케첩'을 사는 이유는 "이건 썩지 않았을 것"이라는 믿음 때문이었다.</p>
+<h3>(c) 산업 변화</h3>
+<p>통조림·저온살균·냉장 운송·병입 기술의 보급. 가공식품의 핵심 가치가 <strong>'안전·보존'</strong>이던 시대.</p>
+<h3>(d) 사이클 단계</h3>
+<p>산업 형성기 → 1929 대공황에도 먹거리 브랜드는 상대적으로 생존(필수재의 방어성이 처음 확인된 시기).</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>상장 데이터 접근 불가(대부분 1950년대 이전 기록 부재) — <strong>현재 확인 불가</strong>. 정성적으로, 대공황기 코카콜라·허쉬 등은 배당을 유지하며 '경기와 무관한 소비'의 원형이 됐다.</p>
+<h3>(f) 규제 layer</h3>
+<p><strong>1906년 미국 순수식품의약품법(Pure Food and Drug Act)</strong> — 업턴 싱클레어의 소설 『정글』이 폭로한 정육 공장의 비위생이 계기. 이후 <strong>'식품 사고 → 규제 강화 → 대형 브랜드 유리'</strong>라는 공식이 150년 내내 반복된다(규제 대응 비용은 큰 회사만 감당 가능 → 집중도 상승).</p>
+<hr />
+<h2>Chunk 2 — 1946~1979: 대량소비·슈퍼마켓·TV 광고 / 한국은 삼백산업·원조 밀가루·라면의 탄생</h2>
+<h3>(a) 매크로 배경</h3>
+<p>전후 베이비붐과 교외화(미국), 냉장고·자동차 보급 → 대형 슈퍼마켓에서 일주일치를 사는 생활. TV가 들어오면서 <strong>'광고 예산 = 시장점유율'</strong>의 시대. 한국은 6·25 이후 미국 잉여농산물 원조(PL480)로 <strong>밀가루·설탕·면화가 싸게 들어오며 '삼백(三白)산업'</strong>(제분·제당·면방)이 재벌 형성의 출발점이 됐다. 1960~70년대 정부의 <strong>혼분식 장려운동</strong>은 쌀 부족을 밀가루 소비로 메우려는 정책이었다 — 라면은 이 정책의 최대 수혜 상품이었다.</p>
+<h3>(b) 패권자</h3>
+<p>글로벌: General Foods·Kraft·PepsiCo(1965 Frito-Lay 합병), 그리고 <strong>1958년 닛신의 안도 모모후쿠가 세계 최초 인스턴트 라면(치킨라멘), 1971년 컵누들</strong>을 발명. 한국: <strong>제일제당(1953, 설탕 — CJ의 모태)</strong>, 미원(1956, 국산 조미료로 아지노모토 대체 — 대상의 모태), <strong>삼양식품(1961 설립, 1963 한국 최초 라면 '삼양라면' — 일본 명성식품 기술 도입)</strong>, 롯데공업(1965 — 농심의 전신), 동양제과(1956 — 오리온의 전신, 1974 초코파이), 오뚜기(1969 카레).</p>
+<h3>(c) 산업 변화</h3>
+<p>'안전·보존'에서 <strong>'편의'</strong>로 가치가 이동(냉동식품 TV디너 1953, 인스턴트 라면). 한국은 <strong>'배고픔 해결'</strong> 단계 — 라면은 1960년대 쌀 대체 식량이었다.</p>
+<h3>(d) 사이클 단계</h3>
+<p>글로벌 성장기. 1973년 오일쇼크·세계 곡물가 급등이 첫 대형 '원가 쇼크'.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>1970년대 초 미국 '니프티 피프티(Nifty Fifty)' — 코카콜라·펩시 등 우량 소비재가 PER 40~50배에 거래되다 1973~74 약세장에서 대폭 하락했다 <strong>[일반적으로 알려진 역사 — 정밀 수치 확인 불가]</strong>. '좋은 회사도 비싸게 사면 10년을 잃는다'는 교훈의 원형이며, 음식료 디레이팅의 첫 사례다.</p>
+<h3>(f) 규제 layer</h3>
+<p>한국: 정부가 밀가루·설탕·라면 가격을 직접 통제(물가 관리). <strong>'식품 가격 = 정치'라는 한국 특유의 구조가 이때 시작돼 2026년까지 이어진다.</strong></p>
+<hr />
+<h2>Chunk 3 — 1980~1999: 브랜드 M&amp;A·LBO·글로벌화 — 필수소비재가 '성장주'였던 시대 / 한국은 농심 패권·IMF</h2>
+<h3>(a) 매크로 배경</h3>
+<p>미국 금리 하락기(1982~) + 냉전 종식(1991)으로 동구권·중국·인도 시장 개방 → <strong>글로벌 브랜드가 '새 위장 수십억 개'를 얻었다.</strong> 그래서 이 시대 필수소비재는 방어주가 아니라 <strong>성장주</strong>였다. 한국은 1986 아시안게임·1988 올림픽·소득 증가로 '배고픔'에서 '맛'으로 수요가 이동, 1997 IMF 외환위기가 업계를 재편했다.</p>
+<h3>(b) 패권자</h3>
+<p>글로벌: <strong>코카콜라(1981~97 고이주에타 CEO, 해외 매출로 성장)</strong>, 필립모리스(1985 General Foods, 1988 Kraft 인수), RJR Nabisco(1988 사상 최대 LBO — 『문 앞의 야만인들』), Nestlé(1988 Rowntree 인수). 한국: <strong>농심</strong> — 1985년 라면 점유율 1위 탈환, 1986년 신라면 출시, 1991년 신라면이 라면 1위에 오른 뒤 2026년까지 한 번도 1위를 내주지 않음(한국경제 2026-03).</p>
+<h3>(c) 산업 변화</h3>
+<p><strong>1989년 '우지(牛脂) 파동'</strong> — 공업용 우지로 라면을 튀겼다는 의혹(후에 무혐의)으로 삼양식품이 결정타를 맞아 점유율이 급락, 농심 과점이 고착됐다. 이 사건은 <strong>"식품은 신뢰가 무너지면 회복에 20년이 걸린다"</strong>는 산업 교훈이다(삼양이 다시 성장주가 되기까지 2012 불닭 출시 → 2020년대).
+1997 IMF: 해태그룹 부도(해태제과 매각), 삼양식품 화의(1998) → 업계 구조조정. 같은 해 오리온은 중국 초코파이 공장 진출 — 위기 속에서 '새 위장'을 찾은 회사가 다음 시대 성장주가 된다.</p>
+<h3>(d) 사이클 단계</h3>
+<p>글로벌 필수소비재 장기 강세장의 정점(1998~99). 코카콜라는 1998년 정점 후 약 10년간 박스권 — <strong>성장주 → 방어주로의 '강등'</strong>이 시작된 시점 <strong>[KO 1998년 PER 40배대는 널리 알려진 사실, 본 문서 데이터는 2000년부터]</strong>.</p>
+<h3>(e) 대표 기업 주가</h3>
+<p>한국 음식료 상장사 시계열은 2000년부터 확보. 2000~2003 구간은 IT버블 붕괴기 KOSPI −36%(2002-04→2003-03) 대비 농심 −16%·오리온 −15%·오뚜기 +3%로 <strong>방어주 성격이 가장 뚜렷했던 시기</strong>다.</p>
+<h3>(f) 규제 layer</h3>
+<p>1993 우루과이라운드(UR) 타결 → 농산물 수입 개방. 식품위생법 강화. 한국 정부의 라면·밀가루 가격 행정지도 지속.</p>
+<hr />
+<h2>Chunk 4 — 2000~2012: 신흥국 중산층·애그플레이션 / 한국은 오리온 중국 신화·CJ 바이오</h2>
+<h3>(a) 매크로 배경</h3>
+<p>중국 WTO 가입(2001) → 신흥국 중산층 폭증. 동시에 <strong>2007~08 애그플레이션</strong>(바이오에탄올·신흥국 수요로 밀·옥수수·대두 가격 2~3배) + 금융위기 환율 급등 = 한국 식품사에 최악의 원가 쇼크. 2008 중국 멜라민 분유 사건.</p>
+<h3>(b) 패권자 — '신흥국 입'을 잡은 자</h3>
+<p>글로벌: Nestlé·Danone(신흥국 매출 비중 40%+), Kraft(2010 Cadbury 인수 → 2012 Mondelez 분리 = '신흥국 스낵 성장주'와 '북미 정체 식품'을 쪼갬), <strong>Monster Beverage(에너지드링크 — 2001-04→2006-05 주가 약 +12,000%, 음식료 역사상 최고의 성장주)</strong>, Kweichow Moutai(중국 백주). 한국: <strong>오리온</strong>(중국 초코파이 '하오리여우(好麗友)' — 2002~2007 +934%, 2009~2015 +966%), CJ제일제당(라이신 등 바이오로 글로벌 소재 진출), 대상(2009~2014 +1,163%).</p>
+<h3>(c) 산업 변화</h3>
+<p>2008 농심 '이물질(쥐머리) 새우깡' 파동 → HACCP 확대. 2011 '하얀 국물 라면'(꼬꼬면·나가사끼짬뽕) 열풍 — 국내 라면 판도의 마지막 큰 지각변동. <strong>2012 삼양식품 불닭볶음면 출시</strong>(이 제품이 10년 뒤 회사를 바꾼다).</p>
+<h3>(d) 사이클 단계</h3>
+<p>2003~2007 대세 상승(KOSPI +285% 대비 오리온 +727%·오뚜기 +781%·대상 +475% — <strong>이 시기 한국 음식료는 '방어주'가 아니라 시장을 이긴 성장주 바스켓</strong>) → 2008 원가 쇼크 → 2009~2014 재상승.</p>
+<h3>(e) 대표 기업 주가</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>구간</th>
+<th>KOSPI</th>
+<th>삼양</th>
+<th>농심</th>
+<th>오리온(구)</th>
+<th>오뚜기</th>
+<th>대상</th>
+<th>빙그레</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2003-03→2007-10 강세장</td>
+<td>+285%</td>
+<td>+534%</td>
+<td>+180%</td>
+<td>+727%</td>
+<td>+781%</td>
+<td>+475%</td>
+<td>+263%</td>
+</tr>
+<tr>
+<td>2007-10→2008-10 금융위기</td>
+<td>−46%</td>
+<td>−46%</td>
+<td>+7%</td>
+<td>−44%</td>
+<td>−13%</td>
+<td>−64%</td>
+<td>−1%</td>
+</tr>
+<tr>
+<td>2008-10→2011-04 반등</td>
+<td>+97%</td>
+<td>+135%</td>
+<td>+26%</td>
+<td>+219%</td>
+<td>+8%</td>
+<td>+90%</td>
+<td>+87%</td>
+</tr>
+<tr>
+<td>(출처: Yahoo Finance 월간 수정종가, 직접 계산)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>(f) 규제 layer</h3>
+<p>2008 MB정부 '52개 생필품 물가 관리'(이른바 'MB물가') — 라면·밀가루·설탕 가격 감시. 2010 식품안전기본법 강화.</p>
+<hr />
+<h2>Chunk 5 — 2013~2021: 저성장·3G식 비용절감·소브랜드의 반란·코로나 팬트리 / 한국은 HMR·사드</h2>
+<h3>(a) 매크로 배경</h3>
+<p>선진국 인구 정체·밀레니얼의 '대형 브랜드 기피(유기농·소규모 브랜드 선호)' + 아마존 등 온라인 유통이 소형 브랜드의 진입장벽을 낮춤. 저금리로 '채권 대용' 배당주로 필수소비재에 자금 유입(밸류에이션은 높게 유지). 한국: 1인 가구 증가 → <strong>HMR(가정간편식)</strong> 시장 급성장, 2017 사드 보복(중국), 2020 코로나 '집밥·사재기'.</p>
+<h3>(b) 패권자</h3>
+<p>글로벌: 3G Capital·버크셔(2013 Heinz, 2015 Kraft Heinz 합병 — 제로베이스 예산으로 비용 절감 극대화) → <strong>2019 브랜드 가치 154억 달러 상각</strong>으로 실패 공인. 승자는 오히려 '새 카테고리' — 몬스터·셀시어스(에너지음료), 모우타이. 한국: <strong>CJ제일제당</strong>(햇반·비비고 만두, 2019 미국 Schwan's 인수로 북미 냉동식품 진출), 오뚜기('갓뚜기' 이미지 + 진짬뽕으로 2015년 주가 +153%), 풀무원(2011~2015 +739%).</p>
+<h3>(c) 산업 변화</h3>
+<p>'맛'에서 <strong>'편의 + 가치(착한 기업·건강)'</strong>로 수요 이동. 2020 영화 '기생충'의 짜파구리 → K-라면의 첫 글로벌 바이럴. 불닭볶음면은 유튜브 '파이어 누들 챌린지'(2016~)로 해외 10대에게 확산.</p>
+<h3>(d) 사이클 단계</h3>
+<p>한국 음식료의 <strong>장기 디레이팅 시작점(2015~16 고점)</strong>. 오뚜기 2016-01 고점 → 2026-11 −75%, CJ제일제당 2021-05 고점 → −60%, 오리온(구) 2015-04 고점 → 2016-11 −44%(중국 둔화·사드). 2020 코로나 때 농심 +25%(1~3월)로 '방어' 재확인.</p>
+<h3>(e) 대표 기업 주가</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>연도</th>
+<th>KOSPI</th>
+<th>삼양</th>
+<th>농심</th>
+<th>오리온</th>
+<th>CJ제일</th>
+<th>오뚜기</th>
+<th>대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015</td>
+<td>+2%</td>
+<td>+30%</td>
+<td>+76%</td>
+<td>+18%(구)</td>
+<td>+24%</td>
+<td><strong>+153%</strong></td>
+<td>−1%</td>
+</tr>
+<tr>
+<td>2016</td>
+<td>+3%</td>
+<td>+47%</td>
+<td>−23%</td>
+<td>−41%(구)</td>
+<td>−5%</td>
+<td>−45%</td>
+<td>−18%</td>
+</tr>
+<tr>
+<td>2017</td>
+<td>+22%</td>
+<td><strong>+139%</strong></td>
+<td>+8%</td>
+<td>−15%(구)</td>
+<td>+3%</td>
+<td>+23%</td>
+<td>+6%</td>
+</tr>
+<tr>
+<td>2018</td>
+<td>−17%</td>
+<td>−46%</td>
+<td>−27%</td>
+<td>+15%</td>
+<td>−9%</td>
+<td>−9%</td>
+<td>−7%</td>
+</tr>
+<tr>
+<td>2020</td>
+<td>+31%</td>
+<td>+13%</td>
+<td>+26%</td>
+<td>+18%</td>
+<td><strong>+52%</strong></td>
+<td>+6%</td>
+<td>+15%</td>
+</tr>
+<tr>
+<td>(출처: Yahoo Finance, 연말 기준 직접 계산. 2018년 이후 오리온은 271560)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>(f) 규제 layer</h3>
+<p>2017 사드 → 중국 한한령(오리온 중국 매출 급감, 롯데 중국 철수). 2016~ 식품 표시 기준·나트륨 저감 규제. 미국 2018 설탕세 논의 확대.</p>
+<hr />
+<h2>Chunk 6 — 2022~2026: 인플레이션 가격전가 → 볼륨 역풍(GLP-1)·빅푸드 해체 / K-푸드 수출 점유율 이동</h2>
+<h3>6-A. 2022~2024 — 가격 인상의 시대, 그리고 불닭의 폭발</h3>
+<h4>(a) 매크로 배경</h4>
+<p>러시아-우크라이나 전쟁(2022)으로 밀·옥수수·식용유 가격 급등 → 전 세계 식품사가 가격을 연속 인상. 미국 빅푸드는 '볼륨 감소를 가격으로 메우는' 구조로 2022~23 사상 최고 이익 → 2023-03 주가 정점(허쉬·제너럴밀스·몬델리즈·펩시 공통). 이후 소비자 가격 피로 + PB 전환 + <strong>GLP-1 비만치료제 보급</strong>으로 볼륨이 꺾였다.</p>
+<h4>(b) 패권자 — 'SNS 알고리즘이 고른 맛'</h4>
+<p><strong>삼양식품</strong> — 불닭볶음면이 틱톡·유튜브 챌린지로 미국 Z세대 메인스트림(월마트·코스트코·크로거) 진입. 2024년 주가 +255%. 농심(신라면 미국 2공장 2022-04 준공), CJ제일제당(비비고 만두 북미 1위).</p>
+<h4>(c) 산업 변화</h4>
+<p><strong>K-라면 수출 2015년 이후 11년 연속 사상 최대</strong> — 2024년 12.48억 달러, 2025년 15.2억 달러로 단일 품목 첫 15억 달러 돌파(농식품부·관세청). 2024-06 덴마크 '너무 매워서' 불닭 리콜(후에 일부 해제) — 오히려 마케팅 효과로 작용.</p>
+<h4>(d) 사이클 단계</h4>
+<p>삼양: 3막 상승기(2021-11 저점 → 2025-08 고점 +1,975%). 그 외 내수 식품: 2023 정부의 라면값 인하 요구 → 농심 신라면·새우깡 가격 인하(2023-07) → 2024 이익 감소 → 디레이팅 지속. 빙그레는 바나나맛우유 수출·흑자전환으로 2022-10→2024-06 +172% 반짝 성장주.</p>
+<h4>(e) 대표 기업 주가</h4>
+<table class="tbl">
+<thead>
+<tr>
+<th>연도</th>
+<th>KOSPI</th>
+<th>삼양</th>
+<th>농심</th>
+<th>오리온</th>
+<th>CJ제일</th>
+<th>오뚜기</th>
+<th>빙그레</th>
+<th>KT&amp;G</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>−25%</td>
+<td>+36%</td>
+<td>+14%</td>
+<td>+25%</td>
+<td>−0%</td>
+<td>+6%</td>
+<td>−25%</td>
+<td>+22%</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>+19%</td>
+<td>+73%</td>
+<td>+15%</td>
+<td>−8%</td>
+<td>−14%</td>
+<td>−14%</td>
+<td>+42%</td>
+<td>+1%</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>−10%</td>
+<td><strong>+255%</strong></td>
+<td>−7%</td>
+<td>−12%</td>
+<td>−20%</td>
+<td>−1%</td>
+<td>+49%</td>
+<td>+25%</td>
+</tr>
+<tr>
+<td>(출처: Yahoo Finance, 직접 계산)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>(f) 규제 layer</h4>
+<p>2023 정부의 라면값 인하 요구(경제부총리 공개 발언 → 업계 인하). 미국 FDA '건강(healthy)' 표시 기준 개정(2024), 미 보건부(RFK Jr.)의 초가공식품·합성색소 압박(2025~).</p>
+<h3>6-B. 2025~2026 — '반도체 불장' 속 소외, 그러나 수출은 신기록</h3>
+<h4>(a) 매크로 배경</h4>
+<p>KOSPI는 반도체 슈퍼사이클로 2024-12 2,399 → 2026-05 8,476(+253%)까지 치솟은 뒤 2026-11 5,100(정점 대비 −40%)으로 급락 중이다(월말 종가 기준). 한국 10월 수출 1,152억 달러(전년비 +93.7%, 반도체 +259%) — 상승장에서 음식료는 철저히 소외됐고(대부분의 내수 식품주가 2024-12→2026-10 −5~−28%), 2026-06 이후 하락장에서는 반대로 '덜 빠지는 피난처'가 됐다(V-3 참조). 원화 강세(2026)는 수출 식품사 이익엔 역풍.</p>
+<h4>(b) 패권자 — '공급 능력'을 가진 자</h4>
+<p>수요는 넘치는데 공장이 부족한 국면. 삼양식품은 "없어서 못 파는" 상태로 7분기 연속 영업이익률 20%대(2026 3Q 매출 7,918억·영업이익 1,962억, 각각 +25.3%·+49.9%). 농심은 2026-10-29 녹산 수출전용공장(연 5억 개) 가동으로 수출용 CAPA 7억 → 12억 개. 오리온은 러시아·베트남·인도 증설로 2027년 매출 4조 원 전망.</p>
+<h4>(c) 산업 변화</h4>
+<p><strong>K-라면 해외 판매(수출 + 현지생산) 2026년 첫 5조 원 전망</strong>(매일경제 2026-07). 2026 상반기 라면 수출 9.35억 달러(+28%), 1~9월 +15%. 일본 1위 닛신이 실적 발표에서 "한국 제품의 대두로 프리미엄 경쟁이 격화됐다"고 직접 언급 — <strong>세계 라면 종주국이 점유율을 내주는 국면</strong>. 수출 지역도 미국·중국 → 유럽·중동·중남미로 확산.</p>
+<h4>(d) 사이클 단계</h4>
+<p>삼양: 이익은 성장 중인데 주가는 2025-08 고점 후 최대 −28%(2026-06), 현재 −18% — <strong>'이익 성장 + 밸류에이션 압축'</strong> 국면(PER 하락). 2026 YTD 주가 +5% vs 3분기 누적 영업이익 +43%. 내수 식품주: 정부 압박으로 디레이팅 지속.</p>
+<h4>(e) 대표 기업 주가 (2024-12 → 2026-10, 같은 기간 KOSPI +139%)</h4>
+<p>삼양 +50% / 오리온 +20% / 롯데웰푸드 +11% / 농심 +8% / 빙그레 +4% / 대상 −6% / 오뚜기 −16% / 하이트진로 −18% / 풀무원 −24% / CJ제일제당 −28% / <strong>KT&amp;G +100%</strong>. (출처: Yahoo Finance, 직접 계산)</p>
+<h4>(f) 규제 layer — 2026년의 결정적 변수 【중요】</h4>
+<p><strong>이재명 정부의 '먹거리 물가' 국정과제화</strong>: 2026-02 대통령 지시 6일 만에 민생물가 특별관리 TF 출범, 공정위·국세청·검경 동원. 설탕 3사(CJ제일제당·삼양사·대한제당) 담합 제재(2026-02), 밀가루·전분당 제재 → 가격 인하. <strong>2026년 식품 담합 과징금만 1조 8,177억 원</strong>(10년 전체의 83%). 2026-10 공정위가 김치·두부·즉석밥 등 완제품 6개 품목 담합 조사 착수(대상·오뚜기·CJ제일제당), 2026-11 라면 4사(농심·삼양·팔도·오뚜기) 담합 의혹 현장조사. <strong>국내 사업의 가격 레버가 사실상 봉쇄된 상태</strong> — 이것이 '내수 식품주 = 저베타 디레이팅'의 직접 원인이다.</p>
+<hr />
+<h1>2단계. 주가 사이클</h1>
+<h2>2-1. 한국 음식료 26년 통합 view</h2>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 1 · 한국 음식료 26년 — 2015년을 기점으로 갈라진 운명</span><span class="fig-sub">2000-02=100, 원화 명목 수정주가, 로그. 오리온은 2017 분할 전 구 오리온(001800)→이후 오리온(271560)을 근사 연결. 2003~2015년엔 음식료가 KOSPI를 압도한 성장 섹터였고, 2016년 이후 삼양을 뺀 나머지는 꺾였다. 출처: Yahoo Finance, 2026-11-14.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>삼양식품</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>오리온</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-4);vertical-align:middle;margin-right:6px;border-radius:2px"></i>오뚜기</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-3);vertical-align:middle;margin-right:6px;border-radius:2px"></i>농심</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--text-muted);vertical-align:middle;margin-right:6px;border-radius:2px"></i>KOSPI</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="800" y1="275.5" y2="275.5" stroke="var(--grid)" stroke-width="1"/><text x="52" y="279.5" text-anchor="end" font-size="11" fill="var(--text-muted)">100</text><line x1="60" x2="800" y1="227.1" y2="227.1" stroke="var(--grid)" stroke-width="1"/><text x="52" y="231.1" text-anchor="end" font-size="11" fill="var(--text-muted)">300</text><line x1="60" x2="800" y1="174.1" y2="174.1" stroke="var(--grid)" stroke-width="1"/><text x="52" y="178.1" text-anchor="end" font-size="11" fill="var(--text-muted)">1,000</text><line x1="60" x2="800" y1="125.7" y2="125.7" stroke="var(--grid)" stroke-width="1"/><text x="52" y="129.7" text-anchor="end" font-size="11" fill="var(--text-muted)">3,000</text><line x1="60" x2="800" y1="72.7" y2="72.7" stroke="var(--grid)" stroke-width="1"/><text x="52" y="76.7" text-anchor="end" font-size="11" fill="var(--text-muted)">10,000</text><line x1="60" x2="800" y1="24.4" y2="24.4" stroke="var(--grid)" stroke-width="1"/><text x="52" y="28.4" text-anchor="end" font-size="11" fill="var(--text-muted)">30,000</text><text x="60.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2000</text><text x="113.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2002</text><text x="168.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2004</text><text x="223.7" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2006</text><text x="279.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2008</text><text x="334.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2010</text><text x="389.7" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2012</text><text x="445.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2014</text><text x="500.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2016</text><text x="555.6" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2018</text><text x="611.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2020</text><text x="666.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2022</text><text x="721.6" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2024</text><text x="776.9" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2026</text><path d="M60.0,275.5 L62.3,275.3 L64.6,285.8 L66.9,305.0 L69.2,292.6 L71.5,295.0 L73.8,284.9 L76.1,295.9 L78.4,302.2 L80.7,302.8 L83.1,307.4 L85.4,300.6 L87.7,295.9 L90.0,298.4 L92.3,301.9 L94.6,299.3 L96.9,298.5 L99.2,297.1 L101.5,276.5 L103.8,299.3 L106.1,283.8 L108.4,279.2 L110.7,281.1 L113.0,286.8 L115.3,289.7 L117.6,287.6 L119.9,271.7 L122.2,272.4 L124.5,276.3 L126.9,270.3 L129.2,276.9 L131.5,285.4 L133.8,283.9 L136.1,285.2 L138.4,294.8 L140.7,294.8 L143.0,293.6 L145.3,306.7 L147.6,304.9 L149.9,302.6 L152.2,290.6 L154.5,295.3 L156.8,297.7 L159.1,303.3 L161.4,303.9 L163.7,306.6 L166.0,311.1 L168.3,308.6 L170.7,302.2 L173.0,296.2 L175.3,294.9 L177.6,301.5 L179.9,307.5 L182.2,308.3 L184.5,295.9 L186.8,284.5 L189.1,275.5 L191.4,275.5 L193.7,272.1 L196.0,237.0 L198.3,229.0 L200.6,211.9 L202.9,218.8 L205.2,225.1 L207.5,216.2 L209.8,219.9 L212.1,226.6 L214.5,200.7 L216.8,212.4 L219.1,210.5 L221.4,218.0 L223.7,217.4 L226.0,219.2 L228.3,224.8 L230.6,226.1 L232.9,228.1 L235.2,229.5 L237.5,228.3 L239.8,223.1 L242.1,219.5 L244.4,220.1 L246.7,222.0 L249.0,224.5 L251.3,227.6 L253.6,224.6 L256.0,225.9 L258.3,224.1 L260.6,210.9 L262.9,206.5 L265.2,215.3 L267.5,222.9 L269.8,222.5 L272.1,225.4 L274.4,229.4 L276.7,230.8 L279.0,235.7 L281.3,233.1 L283.6,232.6 L285.9,232.9 L288.2,234.6 L290.5,199.0 L292.8,217.8 L295.1,226.8 L297.4,235.8 L299.8,252.5 L302.1,230.7 L304.4,238.4 L306.7,235.7 L309.0,232.2 L311.3,223.3 L313.6,216.2 L315.9,218.0 L318.2,221.5 L320.5,221.8 L322.8,222.2 L325.1,225.1 L327.4,227.0 L329.7,229.2 L332.0,223.9 L334.3,228.1 L336.6,229.6 L338.9,228.7 L341.2,224.4 L343.6,226.8 L345.9,228.3 L348.2,230.3 L350.5,234.2 L352.8,232.0 L355.1,229.2 L357.4,231.9 L359.7,227.0 L362.0,226.7 L364.3,223.9 L366.6,217.1 L368.9,214.8 L371.2,206.8 L373.5,208.3 L375.8,218.5 L378.1,213.8 L380.4,226.5 L382.7,217.1 L385.0,208.5 L387.4,194.0 L389.7,192.9 L392.0,197.0 L394.3,204.2 L396.6,216.6 L398.9,219.1 L401.2,218.5 L403.5,218.8 L405.8,216.4 L408.1,213.9 L410.4,206.9 L412.7,212.0 L415.0,213.6 L417.3,210.9 L419.6,213.5 L421.9,213.4 L424.2,207.8 L426.5,213.5 L428.8,217.9 L431.2,218.5 L433.5,221.3 L435.8,215.7 L438.1,213.5 L440.4,215.7 L442.7,212.9 L445.0,206.9 L447.3,204.7 L449.6,206.5 L451.9,201.6 L454.2,205.2 L456.5,208.2 L458.8,209.1 L461.1,208.8 L463.4,211.7 L465.7,218.0 L468.0,217.1 L470.3,219.2 L472.6,218.6 L475.0,215.7 L477.3,214.0 L479.6,211.2 L481.9,210.4 L484.2,217.0 L486.5,217.5 L488.8,215.4 L491.1,215.8 L493.4,215.9 L495.7,215.5 L498.0,207.7 L500.3,212.8 L502.6,214.4 L504.9,213.7 L507.2,214.3 L509.5,214.4 L511.8,213.0 L514.1,211.4 L516.4,209.1 L518.8,186.0 L521.1,193.1 L523.4,180.8 L525.7,190.6 L528.0,191.8 L530.3,175.6 L532.6,173.4 L534.9,175.9 L537.2,175.3 L539.5,180.7 L541.8,182.4 L544.1,178.9 L546.4,176.2 L548.7,172.8 L551.0,165.8 L553.3,152.1 L555.6,153.3 L557.9,152.1 L560.2,159.4 L562.6,155.3 L564.9,150.3 L567.2,148.1 L569.5,158.0 L571.8,158.6 L574.1,161.7 L576.4,172.7 L578.7,172.7 L581.0,179.1 L583.3,166.9 L585.6,169.0 L587.9,157.1 L590.2,160.7 L592.5,164.7 L594.8,166.0 L597.1,170.3 L599.4,166.0 L601.7,161.2 L604.0,155.8 L606.4,156.7 L608.7,154.6 L611.0,149.3 L613.3,156.9 L615.6,153.1 L617.9,149.5 L620.2,142.5 L622.5,139.8 L624.8,142.3 L627.1,147.2 L629.4,150.2 L631.7,151.6 L634.0,149.3 L636.3,149.2 L638.6,153.7 L640.9,155.7 L643.2,154.7 L645.5,153.0 L647.9,154.1 L650.2,153.8 L652.5,153.4 L654.8,157.6 L657.1,158.5 L659.4,158.4 L661.7,160.0 L664.0,151.5 L666.3,156.4 L668.6,155.3 L670.9,152.2 L673.2,149.9 L675.5,152.6 L677.8,148.1 L680.1,147.5 L682.4,144.0 L684.7,146.2 L687.0,144.2 L689.3,144.0 L691.7,138.1 L694.0,139.8 L696.3,140.8 L698.6,140.8 L700.9,141.9 L703.2,145.2 L705.5,145.2 L707.8,139.8 L710.1,118.9 L712.4,117.2 L714.7,121.5 L717.0,115.2 L719.3,114.0 L721.6,121.1 L723.9,124.4 L726.2,115.2 L728.5,100.2 L730.8,74.6 L733.1,64.3 L735.5,67.8 L737.8,77.4 L740.1,73.3 L742.4,75.2 L744.7,75.3 L747.0,58.2 L749.3,63.2 L751.6,53.0 L753.9,53.0 L756.2,47.7 L758.5,41.7 L760.8,31.7 L763.1,30.2 L765.4,26.5 L767.7,27.6 L770.0,33.1 L772.3,30.1 L774.6,37.1 L776.9,39.0 L779.3,37.4 L781.6,38.2 L783.9,33.3 L786.2,38.0 L788.5,41.2 L790.8,39.4 L793.1,27.4 L795.4,37.6 L797.7,40.4 L800.0,35.1" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,275.5 L62.3,285.0 L64.6,291.9 L66.9,291.7 L69.2,295.8 L71.5,287.0 L73.8,284.9 L76.1,286.7 L78.4,288.7 L80.7,298.0 L83.1,311.5 L85.4,299.8 L87.7,295.3 L90.0,301.6 L92.3,301.9 L94.6,286.8 L96.9,289.3 L99.2,289.8 L101.5,289.6 L103.8,286.8 L106.1,287.4 L108.4,276.1 L110.7,264.4 L113.0,254.0 L115.3,252.9 L117.6,234.7 L119.9,240.3 L122.2,246.4 L124.5,244.5 L126.9,234.2 L129.2,243.9 L131.5,242.6 L133.8,241.9 L136.1,239.8 L138.4,235.8 L140.7,236.8 L143.0,242.3 L145.3,247.3 L147.6,240.2 L149.9,230.8 L152.2,225.2 L154.5,220.4 L156.8,220.0 L159.1,221.4 L161.4,221.1 L163.7,219.0 L166.0,214.4 L168.3,221.5 L170.7,227.1 L173.0,228.7 L175.3,222.5 L177.6,224.2 L179.9,223.3 L182.2,221.7 L184.5,218.0 L186.8,215.2 L189.1,213.5 L191.4,207.6 L193.7,200.7 L196.0,195.2 L198.3,197.2 L200.6,196.1 L202.9,191.1 L205.2,187.8 L207.5,185.6 L209.8,187.2 L212.1,187.8 L214.5,177.4 L216.8,173.4 L219.1,162.2 L221.4,157.5 L223.7,161.0 L226.0,157.9 L228.3,156.5 L230.6,163.1 L232.9,160.0 L235.2,161.1 L237.5,164.3 L239.8,169.8 L242.1,168.6 L244.4,161.7 L246.7,159.5 L249.0,156.5 L251.3,161.0 L253.6,164.1 L256.0,163.4 L258.3,159.5 L260.6,158.1 L262.9,155.9 L265.2,151.2 L267.5,159.6 L269.8,155.7 L272.1,154.3 L274.4,156.1 L276.7,158.3 L279.0,161.0 L281.3,168.5 L283.6,175.0 L285.9,166.1 L288.2,166.3 L290.5,163.2 L292.8,163.8 L295.1,163.5 L297.4,169.2 L299.8,180.2 L302.1,179.0 L304.4,168.8 L306.7,180.3 L309.0,177.4 L311.3,173.9 L313.6,165.6 L315.9,156.7 L318.2,160.5 L320.5,166.1 L322.8,162.3 L325.1,159.5 L327.4,156.6 L329.7,150.7 L332.0,146.6 L334.3,151.8 L336.6,149.6 L338.9,147.7 L341.2,146.3 L343.6,141.5 L345.9,135.9 L348.2,137.4 L350.5,133.4 L352.8,130.8 L355.1,134.9 L357.4,131.4 L359.7,132.3 L362.0,128.7 L364.3,133.1 L366.6,131.3 L368.9,129.1 L371.2,124.3 L373.5,125.0 L375.8,119.9 L378.1,118.4 L380.4,119.6 L382.7,113.2 L385.0,111.7 L387.4,106.3 L389.7,106.0 L392.0,104.3 L394.3,99.3 L396.6,94.0 L398.9,90.9 L401.2,91.6 L403.5,94.0 L405.8,92.9 L408.1,90.5 L410.4,88.2 L412.7,84.1 L415.0,84.3 L417.3,87.7 L419.6,85.5 L421.9,85.0 L424.2,81.8 L426.5,84.8 L428.8,90.6 L431.2,87.6 L433.5,89.1 L435.8,90.6 L438.1,87.0 L440.4,93.0 L442.7,89.9 L445.0,93.6 L447.3,92.6 L449.6,96.4 L451.9,98.1 L454.2,95.4 L456.5,91.0 L458.8,90.2 L461.1,93.6 L463.4,93.5 L465.7,96.1 L468.0,88.6 L470.3,85.4 L472.6,83.9 L475.0,87.7 L477.3,79.6 L479.6,76.1 L481.9,76.2 L484.2,84.0 L486.5,79.7 L488.8,89.1 L491.1,88.7 L493.4,87.8 L495.7,80.2 L498.0,77.9 L500.3,83.4 L502.6,88.5 L504.9,88.6 L507.2,87.9 L509.5,86.0 L511.8,87.3 L514.1,88.3 L516.4,97.8 L518.8,93.0 L521.1,99.5 L523.4,101.7 L525.7,100.8 L528.0,101.2 L530.3,97.0 L532.6,99.8 L534.9,99.5 L537.2,92.2 L539.5,92.2 L544.1,92.2 L546.4,87.5 L548.7,83.6 L551.0,80.2 L553.3,84.0 L555.6,79.0 L557.9,82.5 L560.2,75.1 L562.6,76.3 L564.9,74.5 L567.2,68.4 L569.5,73.2 L571.8,82.9 L574.1,83.6 L576.4,88.1 L578.7,81.1 L581.0,77.7 L583.3,80.1 L585.6,80.9 L587.9,85.7 L590.2,87.1 L592.5,92.3 L594.8,89.1 L597.1,95.1 L599.4,90.3 L601.7,86.4 L604.0,83.1 L606.4,84.4 L608.7,83.1 L611.0,84.4 L613.3,88.0 L615.6,79.3 L617.9,76.0 L620.2,73.2 L622.5,72.6 L624.8,72.6 L627.1,70.5 L629.4,73.6 L631.7,81.9 L634.0,78.0 L636.3,75.7 L638.6,77.2 L640.9,74.1 L643.2,73.3 L645.5,78.3 L647.9,77.3 L650.2,77.7 L652.5,78.1 L654.8,74.8 L657.1,78.1 L659.4,77.9 L661.7,86.5 L664.0,83.4 L666.3,86.1 L668.6,87.4 L670.9,90.1 L673.2,87.1 L675.5,86.0 L677.8,83.1 L680.1,84.6 L682.4,85.6 L684.7,83.6 L687.0,84.2 L689.3,77.8 L691.7,73.7 L694.0,74.9 L696.3,74.7 L698.6,70.8 L700.9,68.2 L703.2,73.3 L705.5,76.5 L707.8,79.0 L710.1,75.9 L712.4,73.6 L714.7,76.6 L717.0,77.4 L719.3,77.5 L721.6,87.9 L723.9,87.3 L726.2,88.2 L728.5,87.3 L730.8,87.9 L733.1,87.6 L735.5,89.9 L737.8,87.7 L740.1,85.2 L742.4,84.1 L744.7,82.9 L747.0,83.0 L749.3,83.4 L751.6,82.2 L753.9,75.7 L756.2,73.8 L758.5,78.6 L760.8,79.3 L763.1,78.3 L765.4,79.7 L767.7,81.4 L770.0,83.3 L772.3,80.6 L774.6,80.5 L776.9,75.9 L779.3,70.3 L781.6,71.0 L783.9,65.9 L786.2,70.4 L788.5,69.6 L790.8,69.1 L793.1,69.7 L795.4,78.3 L797.7,75.1 L800.0,75.1" fill="none" stroke="var(--series-2)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,275.5 L62.3,263.3 L64.6,272.7 L66.9,281.9 L69.2,283.7 L71.5,285.8 L73.8,286.7 L76.1,287.8 L78.4,288.7 L80.7,290.7 L83.1,288.3 L85.4,281.9 L87.7,284.4 L90.0,287.7 L92.3,286.8 L94.6,280.3 L96.9,283.2 L99.2,287.7 L101.5,286.8 L103.8,287.8 L106.1,286.7 L108.4,282.4 L110.7,279.6 L113.0,269.7 L115.3,261.5 L117.6,255.6 L119.9,270.9 L122.2,270.7 L124.5,265.1 L126.9,256.1 L129.2,250.7 L131.5,254.2 L133.8,254.9 L136.1,255.5 L138.4,262.6 L140.7,265.7 L143.0,267.9 L145.3,269.7 L147.6,257.5 L149.9,250.7 L152.2,249.8 L154.5,251.4 L156.8,253.0 L159.1,255.4 L161.4,250.0 L163.7,246.2 L166.0,241.1 L168.3,244.4 L170.7,243.9 L173.0,245.8 L175.3,250.3 L177.6,254.5 L179.9,255.4 L182.2,264.0 L184.5,254.4 L186.8,251.3 L189.1,243.8 L191.4,233.3 L193.7,226.7 L196.0,208.8 L198.3,206.3 L200.6,211.1 L202.9,210.8 L205.2,202.8 L207.5,195.6 L209.8,200.1 L212.1,200.4 L214.5,193.2 L216.8,192.4 L219.1,187.7 L221.4,188.8 L223.7,188.2 L226.0,182.3 L228.3,183.4 L230.6,179.2 L232.9,186.2 L235.2,186.2 L237.5,186.0 L239.8,194.6 L242.1,192.5 L244.4,194.4 L246.7,190.7 L249.0,189.9 L251.3,198.1 L253.6,198.0 L256.0,197.0 L258.3,187.4 L260.6,181.3 L262.9,181.6 L265.2,170.7 L267.5,170.2 L269.8,169.4 L272.1,173.9 L274.4,171.6 L276.7,176.1 L279.0,180.8 L281.3,181.0 L283.6,182.2 L285.9,172.1 L288.2,172.0 L290.5,172.7 L292.8,168.7 L295.1,169.2 L297.4,171.2 L299.8,179.9 L302.1,174.0 L304.4,174.3 L306.7,178.3 L309.0,184.7 L311.3,179.8 L313.6,181.6 L315.9,176.3 L318.2,179.4 L320.5,176.8 L322.8,176.3 L325.1,174.6 L327.4,173.7 L329.7,176.8 L332.0,171.1 L334.3,177.0 L336.6,178.0 L338.9,178.0 L341.2,175.1 L343.6,174.3 L345.9,174.9 L348.2,171.7 L350.5,175.4 L352.8,168.1 L355.1,172.9 L357.4,177.4 L359.7,177.2 L362.0,177.5 L364.3,179.6 L366.6,176.8 L368.9,176.3 L371.2,177.0 L373.5,173.5 L375.8,167.8 L378.1,172.4 L380.4,177.2 L382.7,176.8 L385.0,177.2 L387.4,168.7 L389.7,167.3 L392.0,167.3 L394.3,168.4 L396.6,165.7 L398.9,166.8 L401.2,166.5 L403.5,165.8 L405.8,157.1 L408.1,147.9 L410.4,150.0 L412.7,153.3 L415.0,153.0 L417.3,149.3 L419.6,146.7 L421.9,135.5 L424.2,118.8 L426.5,127.2 L428.8,131.5 L431.2,127.1 L433.5,135.4 L435.8,129.3 L438.1,133.2 L440.4,132.9 L442.7,126.2 L445.0,126.6 L447.3,125.9 L449.6,128.9 L451.9,124.9 L454.2,121.5 L456.5,114.7 L458.8,113.3 L461.1,106.7 L463.4,106.9 L465.7,110.6 L468.0,113.7 L470.3,117.0 L472.6,110.1 L475.0,108.1 L477.3,108.0 L479.6,100.7 L481.9,99.4 L484.2,95.4 L486.5,93.9 L488.8,83.5 L491.1,83.6 L493.4,83.2 L495.7,83.5 L498.0,76.2 L500.3,69.8 L502.6,79.1 L504.9,89.4 L507.2,94.0 L509.5,92.3 L511.8,93.7 L514.1,96.0 L516.4,100.9 L518.8,97.8 L521.1,103.5 L523.4,101.3 L525.7,102.8 L528.0,103.6 L530.3,97.4 L532.6,96.7 L534.9,98.1 L537.2,91.7 L539.5,95.0 L541.8,95.4 L544.1,96.7 L546.4,98.3 L548.7,96.8 L551.0,94.8 L553.3,93.7 L555.6,95.8 L557.9,99.5 L560.2,99.2 L562.6,94.4 L564.9,93.5 L567.2,90.9 L569.5,89.8 L571.8,98.4 L574.1,97.1 L576.4,102.6 L578.7,97.5 L581.0,98.0 L583.3,94.8 L585.6,95.6 L587.9,95.2 L590.2,97.9 L592.5,98.8 L594.8,100.5 L597.1,103.1 L599.4,108.5 L601.7,107.5 L604.0,108.9 L606.4,109.6 L608.7,109.2 L611.0,113.1 L613.3,114.0 L615.6,115.9 L617.9,109.9 L620.2,109.4 L622.5,109.0 L624.8,108.9 L627.1,105.5 L629.4,108.1 L631.7,111.0 L634.0,109.0 L636.3,106.8 L638.6,108.0 L640.9,108.1 L643.2,107.3 L645.5,108.5 L647.9,109.2 L650.2,109.4 L652.5,109.8 L654.8,111.6 L657.1,113.8 L659.4,114.8 L661.7,119.2 L664.0,116.4 L666.3,118.2 L668.6,118.2 L670.9,117.3 L673.2,115.1 L675.5,117.7 L677.8,119.6 L680.1,117.0 L682.4,114.2 L684.7,115.9 L687.0,117.8 L689.3,117.4 L691.7,113.7 L694.0,113.7 L696.3,117.2 L698.6,116.4 L700.9,115.0 L703.2,116.7 L705.5,122.2 L707.8,126.4 L710.1,125.0 L712.4,125.4 L714.7,124.2 L717.0,123.8 L719.3,120.3 L721.6,120.3 L723.9,120.2 L726.2,120.8 L728.5,118.5 L730.8,114.7 L733.1,116.9 L735.5,116.6 L737.8,118.6 L740.1,117.5 L742.4,118.0 L744.7,118.9 L747.0,120.8 L749.3,122.1 L751.6,121.8 L753.9,117.9 L756.2,119.3 L758.5,119.6 L760.8,120.0 L763.1,119.5 L765.4,121.2 L767.7,118.2 L770.0,120.6 L772.3,120.6 L774.6,121.0 L776.9,120.9 L779.3,119.6 L781.6,123.0 L783.9,122.2 L786.2,126.2 L788.5,130.5 L790.8,127.6 L793.1,125.9 L795.4,128.8 L797.7,128.4 L800.0,131.7" fill="none" stroke="var(--series-4)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,275.5 L62.3,268.4 L64.6,269.8 L66.9,282.6 L69.2,267.8 L71.5,271.9 L73.8,268.4 L76.1,266.4 L78.4,265.3 L80.7,260.7 L83.1,263.3 L85.4,264.2 L87.7,259.5 L90.0,264.2 L92.3,267.8 L94.6,258.6 L96.9,256.5 L99.2,260.9 L101.5,255.8 L103.8,250.6 L106.1,250.6 L108.4,248.1 L110.7,241.0 L113.0,238.4 L115.3,236.4 L117.6,229.3 L119.9,230.7 L122.2,231.7 L124.5,238.9 L126.9,236.6 L129.2,237.6 L131.5,241.0 L133.8,242.3 L136.1,237.2 L138.4,240.1 L140.7,240.2 L143.0,240.4 L145.3,238.2 L147.6,230.1 L149.9,226.1 L152.2,218.0 L154.5,211.2 L156.8,214.1 L159.1,214.8 L161.4,201.5 L163.7,190.2 L166.0,186.7 L168.3,191.5 L170.7,194.6 L173.0,190.0 L175.3,189.3 L177.6,189.8 L179.9,182.6 L182.2,188.3 L184.5,186.4 L186.8,185.5 L189.1,187.5 L191.4,189.6 L193.7,184.1 L196.0,185.3 L198.3,178.2 L200.6,177.5 L202.9,175.2 L205.2,175.3 L207.5,176.0 L209.8,176.4 L212.1,180.1 L214.5,180.5 L216.8,183.2 L219.1,180.4 L221.4,178.4 L223.7,175.9 L226.0,177.4 L228.3,179.7 L230.6,181.1 L232.9,177.9 L235.2,183.7 L237.5,187.3 L239.8,185.4 L242.1,180.0 L244.4,182.3 L246.7,179.5 L249.0,177.0 L251.3,181.7 L253.6,181.2 L256.0,183.6 L258.3,182.8 L260.6,181.2 L262.9,180.5 L265.2,182.5 L267.5,184.5 L269.8,187.3 L272.1,192.8 L274.4,197.7 L276.7,191.0 L279.0,193.6 L281.3,193.5 L283.6,196.2 L285.9,195.2 L288.2,196.2 L290.5,186.8 L292.8,186.2 L295.1,187.6 L297.4,187.3 L299.8,190.0 L302.1,186.4 L304.4,182.1 L306.7,190.8 L309.0,185.4 L311.3,187.8 L313.6,187.6 L315.9,188.4 L318.2,185.0 L320.5,181.9 L322.8,183.5 L325.1,180.3 L327.4,182.9 L329.7,183.1 L332.0,180.6 L334.3,184.6 L336.6,186.3 L338.9,184.7 L341.2,187.4 L343.6,184.5 L345.9,184.3 L348.2,185.2 L350.5,187.5 L352.8,186.5 L355.1,188.7 L357.4,189.3 L359.7,188.6 L362.0,188.4 L364.3,187.8 L366.6,180.8 L368.9,179.6 L371.2,179.3 L373.5,180.7 L375.8,179.0 L378.1,181.5 L380.4,186.5 L382.7,185.5 L385.0,182.4 L387.4,182.0 L389.7,181.2 L392.0,180.1 L394.3,183.0 L396.6,183.2 L398.9,186.4 L401.2,187.2 L403.5,184.2 L405.8,178.8 L408.1,176.2 L410.4,177.4 L412.7,178.0 L415.0,174.5 L417.3,173.3 L419.6,171.9 L421.9,168.4 L424.2,165.2 L426.5,171.2 L428.8,175.5 L431.2,176.3 L433.5,180.1 L435.8,177.0 L438.1,176.9 L440.4,178.5 L442.7,177.2 L445.0,173.5 L447.3,169.5 L449.6,169.6 L451.9,168.3 L454.2,167.9 L456.5,171.6 L458.8,175.5 L461.1,177.1 L463.4,173.7 L465.7,174.5 L468.0,174.8 L470.3,176.3 L472.6,180.1 L475.0,176.1 L477.3,177.9 L479.6,177.6 L481.9,171.6 L484.2,170.1 L486.5,167.2 L488.8,159.7 L491.1,159.9 L493.4,159.6 L495.7,154.3 L498.0,151.5 L500.3,148.7 L502.6,155.0 L504.9,155.6 L507.2,158.6 L509.5,157.8 L511.8,158.6 L514.1,163.2 L516.4,168.3 L518.8,166.3 L521.1,170.1 L523.4,164.7 L525.7,163.2 L528.0,165.2 L530.3,165.6 L532.6,167.9 L534.9,165.3 L537.2,161.3 L539.5,162.6 L541.8,165.0 L544.1,163.2 L546.4,161.8 L548.7,161.3 L551.0,159.1 L553.3,160.0 L555.6,163.9 L557.9,165.9 L560.2,166.4 L562.6,163.9 L564.9,163.6 L567.2,163.7 L569.5,168.1 L571.8,175.4 L574.1,176.4 L576.4,181.3 L578.7,175.1 L581.0,173.8 L583.3,169.7 L585.6,171.3 L587.9,165.2 L590.2,169.5 L592.5,176.1 L594.8,173.9 L597.1,177.3 L599.4,176.4 L601.7,174.7 L604.0,176.0 L606.4,177.4 L608.7,175.5 L611.0,177.3 L613.3,171.4 L615.6,167.5 L617.9,166.5 L620.2,163.6 L622.5,157.1 L624.8,156.7 L627.1,157.8 L629.4,163.8 L631.7,167.6 L634.0,167.7 L636.3,165.2 L638.6,167.8 L640.9,169.0 L643.2,167.7 L645.5,167.5 L647.9,165.0 L650.2,163.3 L652.5,161.1 L654.8,165.4 L657.1,167.8 L659.4,167.7 L661.7,169.3 L664.0,162.0 L666.3,161.4 L668.6,162.9 L670.9,164.7 L673.2,164.1 L675.5,168.3 L677.8,169.7 L680.1,167.8 L682.4,164.6 L684.7,164.9 L687.0,164.4 L689.3,160.7 L691.7,156.4 L694.0,158.1 L696.3,155.3 L698.6,153.7 L700.9,151.7 L703.2,147.3 L705.5,151.6 L707.8,151.7 L710.1,145.4 L712.4,144.0 L714.7,146.7 L717.0,150.8 L719.3,150.1 L721.6,153.4 L723.9,156.9 L726.2,154.4 L728.5,151.0 L730.8,144.7 L733.1,142.0 L735.5,142.6 L737.8,152.4 L740.1,152.5 L742.4,153.7 L744.7,157.5 L747.0,153.2 L749.3,156.2 L751.6,157.3 L753.9,149.7 L756.2,149.9 L758.5,147.7 L760.8,151.0 L763.1,151.7 L765.4,149.1 L767.7,146.9 L770.0,146.4 L772.3,145.3 L774.6,146.8 L776.9,149.4 L779.3,147.1 L781.6,153.3 L783.9,152.1 L786.2,151.2 L788.5,157.3 L790.8,151.4 L793.1,145.0 L795.4,149.1 L797.7,149.8 L800.0,154.3" fill="none" stroke="var(--series-3)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,275.5 L62.3,273.8 L64.6,281.3 L66.9,280.9 L69.2,275.9 L71.5,282.5 L73.8,283.6 L76.1,288.7 L78.4,296.4 L80.7,296.9 L83.1,297.3 L85.4,288.4 L87.7,291.3 L90.0,295.7 L92.3,291.4 L94.6,288.8 L96.9,290.0 L99.2,294.2 L101.5,293.9 L103.8,299.5 L106.1,294.5 L108.4,286.6 L110.7,283.3 L113.0,280.0 L115.3,275.9 L117.6,272.0 L119.9,274.7 L122.2,277.2 L124.5,280.3 L126.9,281.8 L129.2,280.6 L131.5,286.4 L133.8,285.5 L136.1,281.3 L138.4,287.7 L140.7,290.3 L143.0,291.5 L145.3,294.7 L147.6,289.7 L149.9,287.3 L152.2,284.8 L154.5,282.0 L156.8,279.3 L159.1,283.0 L161.4,278.0 L163.7,277.2 L166.0,276.4 L168.3,274.4 L170.7,272.6 L173.0,272.8 L175.3,273.7 L177.6,276.8 L179.9,277.8 L182.2,280.7 L184.5,276.8 L186.8,275.1 L189.1,275.1 L191.4,272.9 L193.7,272.0 L196.0,270.2 L198.3,266.7 L200.6,268.7 L202.9,271.3 L205.2,268.5 L207.5,266.8 L209.8,262.5 L212.1,263.7 L214.5,258.4 L216.8,260.7 L219.1,255.7 L221.4,253.0 L223.7,252.4 L226.0,253.3 L228.3,253.7 L230.6,251.8 L232.9,255.0 L235.2,255.8 L237.5,255.7 L239.8,253.9 L242.1,253.3 L244.4,253.5 L246.7,251.4 L249.0,251.3 L251.3,253.6 L253.6,251.8 L256.0,250.7 L258.3,248.1 L260.6,243.8 L262.9,242.7 L265.2,238.2 L267.5,239.5 L269.8,237.9 L272.1,235.3 L274.4,238.8 L276.7,239.0 L279.0,245.8 L281.3,243.5 L283.6,243.7 L285.9,240.7 L288.2,240.1 L290.5,244.5 L292.8,246.6 L295.1,250.1 L297.4,250.9 L299.8,262.5 L302.1,264.0 L304.4,262.0 L306.7,260.6 L309.0,264.5 L311.3,258.9 L313.6,253.3 L315.9,252.5 L318.2,252.7 L320.5,247.7 L322.8,246.7 L325.1,244.5 L327.4,247.0 L329.7,247.7 L332.0,244.3 L334.3,246.4 L336.6,246.6 L338.9,244.0 L341.2,242.8 L343.6,245.4 L345.9,243.9 L348.2,242.3 L350.5,242.7 L352.8,239.6 L355.1,239.3 L357.4,238.8 L359.7,235.6 L362.0,235.2 L364.3,238.0 L366.6,234.4 L368.9,232.6 L371.2,233.6 L373.5,234.5 L375.8,233.8 L378.1,239.4 L380.4,242.1 L382.7,238.7 L385.0,240.2 L387.4,240.7 L389.7,237.7 L392.0,236.0 L394.3,236.4 L396.6,237.1 L398.9,240.3 L401.2,240.0 L403.5,239.3 L405.8,238.8 L408.1,236.8 L410.4,238.6 L412.7,238.2 L415.0,236.7 L417.3,237.5 L419.6,236.1 L421.9,236.6 L424.2,237.5 L426.5,236.6 L428.8,239.8 L431.2,238.6 L433.5,238.3 L435.8,236.7 L438.1,236.0 L440.4,235.7 L442.7,236.4 L445.0,238.0 L447.3,237.1 L449.6,237.0 L451.9,237.5 L454.2,236.8 L456.5,236.6 L458.8,235.0 L461.1,235.2 L463.4,236.2 L465.7,237.5 L468.0,237.1 L470.3,238.6 L472.6,237.8 L475.0,237.0 L477.3,235.8 L479.6,234.0 L481.9,234.2 L484.2,235.1 L486.5,236.0 L488.8,238.0 L491.1,237.5 L493.4,236.0 L495.7,236.8 L498.0,237.5 L500.3,238.6 L502.6,238.5 L504.9,236.8 L507.2,236.8 L509.5,237.0 L511.8,237.3 L514.1,236.3 L516.4,235.9 L518.8,235.7 L521.1,236.5 L523.4,237.0 L525.7,236.1 L528.0,235.2 L530.3,234.7 L532.6,233.3 L534.9,232.4 L537.2,229.6 L539.5,228.8 L541.8,228.6 L544.1,229.3 L546.4,228.7 L548.7,226.4 L551.0,227.3 L553.3,227.4 L555.6,225.7 L557.9,228.1 L560.2,227.8 L562.6,226.6 L564.9,228.2 L567.2,230.0 L569.5,230.6 L571.8,230.1 L574.1,229.7 L576.4,236.0 L578.7,234.6 L581.0,235.8 L583.3,232.4 L585.6,232.6 L587.9,233.7 L590.2,232.4 L592.5,235.8 L594.8,233.9 L597.1,236.1 L599.4,237.4 L601.7,235.3 L604.0,234.9 L606.4,234.8 L608.7,232.5 L611.0,234.1 L613.3,237.0 L615.6,242.4 L617.9,237.8 L620.2,236.0 L622.5,234.3 L624.8,231.5 L627.1,230.0 L629.4,230.0 L631.7,231.1 L634.0,225.3 L636.3,220.7 L638.6,219.2 L640.9,218.6 L643.2,217.9 L645.5,216.7 L647.9,215.9 L650.2,214.7 L652.5,215.9 L654.8,216.0 L657.1,217.8 L659.4,219.3 L661.7,221.2 L664.0,219.1 L666.3,224.1 L668.6,223.5 L670.9,222.5 L673.2,223.5 L675.5,223.7 L677.8,229.9 L680.1,227.7 L682.4,227.3 L684.7,233.4 L687.0,230.6 L689.3,227.3 L691.7,231.7 L694.0,228.2 L696.3,228.4 L698.6,227.3 L700.9,226.8 L703.2,225.5 L705.5,225.7 L707.8,224.6 L710.1,225.9 L712.4,227.5 L714.7,230.9 L717.0,226.2 L719.3,224.2 L721.6,226.9 L723.9,224.4 L726.2,222.7 L728.5,223.6 L730.8,224.5 L733.1,221.9 L735.5,222.3 L737.8,223.9 L740.1,225.2 L742.4,225.9 L744.7,227.6 L747.0,228.7 L749.3,226.5 L751.6,226.3 L753.9,227.2 L756.2,225.9 L758.5,223.5 L760.8,217.8 L763.1,215.4 L765.4,216.2 L767.7,213.0 L770.0,205.0 L772.3,207.0 L774.6,203.9 L776.9,194.4 L779.3,186.5 L781.6,195.9 L783.9,184.1 L786.2,173.1 L788.5,173.1 L790.8,184.1 L793.1,182.7 L795.4,182.5 L797.7,190.3 L800.0,195.5" fill="none" stroke="var(--text-muted)" stroke-width="1.4" stroke-linejoin="round"/><text x="806.0" y="39.1" font-size="11.5" fill="var(--series-1)" font-weight="600">삼양식품</text><text x="806.0" y="79.1" font-size="11.5" fill="var(--series-2)" font-weight="600">오리온</text><text x="806.0" y="135.7" font-size="11.5" fill="var(--series-4)" font-weight="600">오뚜기</text><text x="806.0" y="158.3" font-size="11.5" fill="var(--series-3)" font-weight="600">농심</text><text x="806.0" y="199.5" font-size="11.5" fill="var(--text-muted)" font-weight="600">KOSPI</text></svg></figure>
+
+<p>2000-02=100 기준 2026-11 지수: <strong>삼양식품 약 23,500</strong>(235배), 오리온(구→신 연결, 근사) 약 9,500, 오뚜기 약 2,600, 농심 약 1,600, KOSPI 약 620. 26년으로 보면 대부분의 음식료가 KOSPI를 이겼다 — <strong>2003~2015년에는 음식료가 '성장 섹터'였기 때문</strong>이다. 문제는 2015~16년 이후다. 차트의 기울기가 꺾이는 지점이 '방어주 신화'가 '디레이팅'으로 바뀐 지점이다.</p>
+<h2>2-2. 사이클 구간 표</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>#</th>
+<th>기업</th>
+<th>상승 시작 → 정점</th>
+<th>기간</th>
+<th>상승폭</th>
+<th>정점 → 저점</th>
+<th>기간</th>
+<th>하락폭</th>
+<th>트리거 (상승 / 하락)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>오리온(구)</td>
+<td>2002-01 → 2007-07</td>
+<td>66개월</td>
+<td>+934%</td>
+<td>→ 2009-01</td>
+<td>18개월</td>
+<td>−48%</td>
+<td>중국 1막 / 금융위기</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>오뚜기</td>
+<td>2003-03 → 2007-09</td>
+<td>54개월</td>
+<td>+876%</td>
+<td>→ 2008</td>
+<td>—</td>
+<td>(−13%, 위기 방어)</td>
+<td>내수 점유율 / —</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>오리온(구)</td>
+<td>2009-01 → 2015-04</td>
+<td>75개월</td>
+<td>+966%</td>
+<td>→ 2016-11</td>
+<td>19개월</td>
+<td>−44%</td>
+<td>중국 2막 / 중국 둔화·사드</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>대상</td>
+<td>2009-02 → 2014-08</td>
+<td>66개월</td>
+<td>+1,163%</td>
+<td>→ 2020-03</td>
+<td>67개월</td>
+<td>−66%</td>
+<td>소재·종가집 / 성장 둔화</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>오뚜기</td>
+<td>2012-03 → 2016-01</td>
+<td>46개월</td>
+<td>+839%</td>
+<td>→ 2026-11(진행)</td>
+<td>130개월+</td>
+<td><strong>−75%</strong></td>
+<td>국내 점유율 / 국내 포화·가격 통제</td>
+</tr>
+<tr>
+<td>K6</td>
+<td>CJ제일제당</td>
+<td>2009-02 → 2015-06</td>
+<td>76개월</td>
+<td>+272%</td>
+<td>2021-05 고점 → 2026-10</td>
+<td>65개월</td>
+<td>−60%</td>
+<td>바이오·HMR / 바이오 사이클·내수</td>
+</tr>
+<tr>
+<td>K7</td>
+<td>삼양식품 2막</td>
+<td>2014-12 → 2018-06</td>
+<td>42개월</td>
+<td>+403%</td>
+<td>→ 2018-12</td>
+<td>6개월</td>
+<td>−51%</td>
+<td>불닭 국내·중국 / 따이궁 위축</td>
+</tr>
+<tr>
+<td>K8</td>
+<td>농심</td>
+<td>2022-06 → 2024-06</td>
+<td>24개월</td>
+<td>+88%</td>
+<td>→ 2024-11</td>
+<td>5개월</td>
+<td>−30%</td>
+<td>신라면 해외 / 가격 인하 여파</td>
+</tr>
+<tr>
+<td>K9</td>
+<td>빙그레</td>
+<td>2022-10 → 2024-06</td>
+<td>20개월</td>
+<td>+172%</td>
+<td>→ 2024-10</td>
+<td>4개월</td>
+<td>−35%</td>
+<td>수출·흑자전환 / 지주사 이슈</td>
+</tr>
+<tr>
+<td>K10</td>
+<td><strong>삼양식품 3막</strong></td>
+<td>2021-11 → 2025-08</td>
+<td>45개월</td>
+<td><strong>+1,975%</strong></td>
+<td>→ 2026-06(진행?)</td>
+<td>10개월</td>
+<td>−28% (현재 −18%)</td>
+<td>불닭 글로벌 / 원화 강세·디레이팅</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>Monster</td>
+<td>2001-04 → 2006-05</td>
+<td>61개월</td>
+<td>약 +12,000%</td>
+<td>→ 2008-06</td>
+<td>25개월</td>
+<td>−66% (2007-09 기준)</td>
+<td>에너지음료 카테고리 창출 / 금융위기</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>Kweichow Moutai</td>
+<td>2013-12 → 2021-05</td>
+<td>89개월</td>
+<td>+2,260%</td>
+<td>→ 2022-10</td>
+<td>17개월</td>
+<td>−38% (현재 −23%)</td>
+<td>중국 중산층·선물 수요 / 중국 소비 둔화</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>Kraft Heinz</td>
+<td>2015-07 합병 → 2017-04</td>
+<td>21개월</td>
+<td>—</td>
+<td>→ 2020-02</td>
+<td>34개월</td>
+<td>−70% (현재 −57%)</td>
+<td>3G 비용절감 / 브랜드 상각</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>미국 빅푸드(허쉬·제너럴밀스)</td>
+<td>2015~ → 2023-03</td>
+<td>약 8년</td>
+<td>—</td>
+<td>→ 2025~26</td>
+<td>22~41개월</td>
+<td>−43~−58%</td>
+<td>인플레 가격전가 / 볼륨 감소·GLP-1</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>Nissin</td>
+<td>~ → 2023-12</td>
+<td>—</td>
+<td>—</td>
+<td>→ 2026-05</td>
+<td>29개월</td>
+<td>−43%</td>
+<td>미국 프리미엄 / <strong>K-라면에 점유율 상실</strong></td>
+</tr>
+</tbody>
+</table>
+<p>(출처: Yahoo Finance 월간 수정종가, 직접 계산. Monster는 2001년 상장 초기 소형주 시절 포함)</p>
+<h2>2-3. 사이클 패턴 framework 【정량】</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+<th>해석</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>성장주 구간 길이</td>
+<td>20~76개월, 중앙값 약 <strong>45개월(≈4년)</strong></td>
+<td>새 위장이 포화되거나 정치 리스크가 터질 때까지</td>
+</tr>
+<tr>
+<td>성장주 구간 상승폭</td>
+<td>+88% ~ +1,975%, 중앙값 약 <strong>+890%</strong> (V-4 계보 10건 기준)</td>
+<td>출발점이 '저평가 내수주'라 밸류에이션 리레이팅 폭이 큼</td>
+</tr>
+<tr>
+<td>성장 종료 후 하락폭</td>
+<td>−30% ~ −75%, 중앙값 약 <strong>−51%</strong></td>
+<td>이익은 덜 빠지는데 PER이 반토막 — 하락의 대부분은 디레이팅</td>
+</tr>
+<tr>
+<td>비성장 구간 연수익률</td>
+<td>−12% ~ +4% (2016~2026)</td>
+<td>'저베타 디레이팅' — 시장과 무관하게 서서히 깎임</td>
+</tr>
+<tr>
+<td>베타</td>
+<td>0.05 ~ 0.34 (2016~)</td>
+<td>시장 방향과 거의 무관. <strong>음식료 주가는 '시장'이 아니라 '자기 이익 델타'와 '원가·정책'에 반응</strong></td>
+</tr>
+<tr>
+<td>하락 트리거 유형</td>
+<td>① 새 시장 포화 ② 정치(사드·가격 통제) ③ 원가 쇼크(2008·2022) ④ 성장주 → 내수주 강등</td>
+<td>경기 침체는 오히려 부차적</td>
+</tr>
+</tbody>
+</table>
+<p><strong>[판단] 음식료 주가 사이클의 본질 = '성장주 ↔ 내수 저베타주' 사이의 신분 이동.</strong> 한 회사가 해외에서 새 위장을 찾으면 PER 10배 → 25~30배로 리레이팅되고, 그 시장이 포화되면 다시 10배대로 돌아온다. 반도체처럼 '업황 사이클'이 아니라 <strong>'개별 기업의 신분 사이클'</strong>이다. 그래서 섹터 전체를 사고파는 전략(섹터 로테이션)이 음식료에서는 잘 안 통하고, 종목 선별이 전부다.</p>
+<h2>2-4. 글로벌 비교 — 미국도 '방어주 신화'에 균열</h2>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 6 · 미국 음식료 10년 — &#x27;새 위장&#x27;이 있으면 성장주, 없으면 디레이팅</span><span class="fig-sub">2016-07=100, 달러 수정주가, 로그. 몬스터 +262%(에너지음료 카테고리) vs 크래프트하인즈 −55%·제너럴밀스 −28%. 필수소비재 ETF(XLP) +124%는 S&amp;P500 +248%의 절반. 출처: Yahoo Finance, 2026-11-14.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>Monster</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--text-muted);vertical-align:middle;margin-right:6px;border-radius:2px"></i>S&amp;P500</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-3);vertical-align:middle;margin-right:6px;border-radius:2px"></i>XLP(필수소비재)</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-4);vertical-align:middle;margin-right:6px;border-radius:2px"></i>General Mills</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>Kraft Heinz</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="800" y1="317.4" y2="317.4" stroke="var(--grid)" stroke-width="1"/><text x="52" y="321.4" text-anchor="end" font-size="11" fill="var(--text-muted)">30</text><line x1="60" x2="800" y1="178.9" y2="178.9" stroke="var(--grid)" stroke-width="1"/><text x="52" y="182.9" text-anchor="end" font-size="11" fill="var(--text-muted)">100</text><line x1="60" x2="800" y1="52.5" y2="52.5" stroke="var(--grid)" stroke-width="1"/><text x="52" y="56.5" text-anchor="end" font-size="11" fill="var(--text-muted)">300</text><text x="60.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2016</text><text x="95.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2017</text><text x="167.4" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2018</text><text x="239.0" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2019</text><text x="310.6" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2020</text><text x="382.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2021</text><text x="453.9" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2022</text><text x="525.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2023</text><text x="597.1" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2024</text><text x="668.7" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2025</text><text x="740.3" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2026</text><path d="M60.0,178.9 L66.0,184.3 L71.9,186.2 L77.9,194.6 L89.8,195.6 L95.8,200.2 L101.8,203.4 L107.7,193.0 L113.7,180.5 L119.7,182.6 L125.6,175.7 L131.6,169.1 L137.6,170.3 L143.5,164.9 L149.5,155.8 L161.5,154.7 L167.4,146.0 L173.4,154.6 L179.4,170.8 L185.3,179.2 L191.3,166.1 L197.3,160.8 L203.2,159.1 L209.2,164.2 L215.2,175.4 L221.1,161.5 L233.1,183.6 L239.0,166.3 L245.0,153.7 L251.0,161.6 L256.9,157.3 L262.9,153.7 L268.9,152.6 L274.8,163.4 L280.8,164.6 L286.8,168.5 L292.7,161.2 L304.7,154.2 L310.6,148.8 L316.6,156.3 L322.6,157.4 L328.5,140.0 L334.5,144.2 L340.5,129.9 L346.5,122.3 L352.4,127.4 L358.4,132.8 L364.4,121.1 L376.3,111.1 L382.3,118.3 L388.2,117.1 L394.2,105.5 L400.2,108.9 L406.1,112.5 L412.1,108.8 L418.1,104.9 L424.0,115.7 L430.0,120.8 L436.0,122.4 L447.9,106.7 L453.9,118.5 L459.8,121.6 L465.8,119.8 L471.8,115.3 L477.7,110.8 L483.7,102.5 L489.7,115.7 L495.6,118.1 L501.6,109.5 L507.6,98.8 L519.5,100.3 L525.5,97.5 L531.5,100.1 L537.4,89.0 L543.4,83.8 L549.4,86.1 L555.3,86.0 L561.3,86.2 L567.3,95.5 L573.2,99.6 L579.2,90.8 L591.1,85.8 L597.1,91.1 L603.1,82.8 L609.0,94.4 L615.0,97.7 L621.0,102.2 L626.9,98.8 L632.9,108.9 L638.9,97.2 L644.8,96.1 L650.8,90.8 L662.7,96.3 L668.7,105.1 L674.7,91.8 L680.6,80.9 L686.6,73.7 L692.6,76.1 L698.5,83.5 L704.5,76.6 L710.5,67.9 L716.5,68.7 L722.4,55.4 L734.4,52.9 L740.3,46.9 L746.3,40.6 L752.3,52.3 L758.2,36.9 L764.2,26.9 L770.2,26.5 L776.1,32.1 L782.1,43.4 L788.1,28.6 L794.0,30.8 L800.0,30.8" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,178.9 L66.0,179.0 L71.9,181.3 L77.9,177.4 L89.8,175.3 L95.8,173.3 L101.8,169.1 L107.7,168.1 L113.7,166.8 L119.7,166.2 L125.6,164.0 L131.6,163.9 L137.6,161.7 L143.5,159.2 L149.5,156.0 L161.5,154.9 L167.4,148.6 L173.4,153.2 L179.4,156.0 L185.3,153.6 L191.3,153.0 L197.3,148.9 L203.2,145.5 L209.2,145.0 L215.2,153.3 L221.1,151.2 L233.1,162.3 L239.0,153.6 L245.0,150.2 L251.0,143.8 L256.9,151.6 L262.9,143.9 L268.9,142.4 L274.8,144.5 L280.8,142.5 L286.8,140.2 L292.7,136.4 L304.7,133.1 L310.6,133.3 L316.6,143.4 L322.6,145.1 L328.5,140.0 L334.5,137.9 L340.5,131.7 L346.5,123.9 L352.4,128.5 L358.4,131.7 L364.4,120.0 L376.3,115.8 L382.3,117.1 L388.2,114.1 L394.2,103.5 L400.2,102.8 L406.1,100.3 L412.1,97.7 L418.1,94.4 L424.0,100.0 L430.0,92.3 L436.0,93.3 L447.9,88.4 L453.9,94.6 L459.8,98.3 L465.8,104.8 L471.8,104.8 L477.7,114.9 L483.7,104.9 L489.7,109.9 L495.6,121.1 L501.6,112.3 L507.6,106.3 L519.5,113.3 L525.5,106.4 L531.5,109.4 L537.4,103.8 L543.4,103.5 L549.4,96.3 L555.3,92.7 L561.3,94.8 L567.3,100.6 L573.2,103.1 L579.2,93.3 L591.1,88.3 L597.1,86.5 L603.1,80.7 L609.0,82.1 L615.0,76.7 L621.0,72.7 L626.9,71.4 L632.9,68.8 L638.9,66.5 L644.8,67.7 L650.8,61.3 L662.7,64.2 L668.7,61.1 L674.7,62.8 L680.6,70.5 L686.6,63.6 L692.6,58.0 L698.5,55.6 L704.5,53.4 L710.5,49.4 L716.5,46.8 L722.4,46.7 L734.4,46.7 L740.3,45.2 L746.3,46.2 L752.3,40.8 L758.2,35.0 L764.2,36.2 L770.2,36.4 L776.1,33.4 L782.1,33.9 L788.1,35.0 L794.0,35.3 L800.0,35.3" fill="none" stroke="var(--text-muted)" stroke-width="1.4" stroke-linejoin="round"/><path d="M60.0,178.9 L66.0,180.7 L71.9,181.6 L77.9,186.5 L89.8,183.1 L95.8,181.2 L101.8,175.8 L107.7,175.0 L113.7,172.0 L119.7,174.6 L125.6,173.8 L131.6,175.1 L137.6,175.9 L143.5,177.9 L149.5,171.6 L161.5,169.1 L167.4,167.2 L173.4,176.3 L179.4,182.2 L185.3,184.0 L191.3,178.9 L197.3,174.4 L203.2,174.0 L209.2,172.9 L215.2,170.6 L221.1,168.0 L233.1,178.7 L239.0,173.0 L245.0,170.9 L251.0,163.4 L256.9,167.7 L262.9,161.8 L268.9,159.1 L274.8,156.7 L280.8,154.7 L286.8,155.2 L292.7,153.6 L304.7,150.8 L310.6,150.5 L316.6,160.3 L322.6,159.1 L328.5,157.2 L334.5,157.5 L340.5,149.8 L346.5,144.6 L352.4,146.6 L358.4,149.9 L364.4,141.6 L376.3,139.8 L382.3,145.6 L388.2,147.1 L394.2,135.6 L400.2,133.5 L406.1,134.2 L412.1,131.7 L418.1,130.5 L424.0,135.3 L430.0,131.4 L436.0,132.9 L447.9,121.5 L453.9,123.2 L459.8,124.8 L465.8,120.2 L471.8,125.0 L477.7,127.7 L483.7,124.1 L489.7,126.2 L495.6,136.0 L501.6,126.1 L507.6,119.2 L519.5,122.4 L525.5,123.7 L531.5,126.4 L537.4,117.5 L543.4,124.8 L549.4,121.7 L555.3,119.2 L561.3,123.9 L567.3,129.5 L573.2,131.1 L579.2,126.5 L591.1,123.4 L597.1,122.0 L603.1,119.6 L609.0,117.1 L615.0,114.3 L621.0,114.6 L626.9,112.7 L632.9,106.0 L638.9,104.7 L644.8,108.8 L650.8,104.4 L662.7,110.1 L668.7,109.6 L674.7,103.8 L680.6,104.9 L686.6,103.5 L692.6,105.3 L698.5,107.0 L704.5,105.6 L710.5,108.3 L716.5,111.4 L722.4,106.8 L734.4,108.4 L740.3,100.1 L746.3,91.4 L752.3,98.3 L758.2,100.3 L764.2,99.2 L770.2,96.5 L776.1,96.6 L782.1,102.0 L788.1,90.0 L794.0,86.3 L800.0,86.3" fill="none" stroke="var(--series-3)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,178.9 L66.0,190.7 L71.9,193.3 L77.9,195.3 L89.8,193.7 L95.8,191.5 L101.8,195.5 L107.7,200.1 L113.7,201.7 L119.7,204.4 L125.6,202.8 L131.6,207.9 L137.6,211.2 L143.5,209.7 L149.5,199.9 L161.5,194.5 L167.4,195.1 L173.4,211.9 L179.4,227.3 L185.3,231.2 L191.3,225.9 L197.3,220.1 L203.2,220.2 L209.2,228.2 L215.2,224.6 L221.1,228.6 L233.1,238.1 L239.0,221.5 L245.0,214.8 L251.0,203.5 L256.9,208.2 L262.9,201.2 L268.9,198.9 L274.8,197.4 L280.8,194.6 L286.8,202.8 L292.7,197.4 L304.7,196.9 L310.6,198.7 L316.6,206.0 L322.6,181.9 L328.5,176.0 L334.5,178.6 L340.5,174.7 L346.5,173.5 L352.4,177.7 L358.4,181.6 L364.4,178.3 L376.3,182.2 L382.3,182.6 L388.2,188.9 L394.2,176.3 L400.2,172.6 L406.1,176.1 L412.1,179.1 L418.1,181.2 L424.0,177.3 L430.0,172.6 L436.0,172.6 L447.9,162.6 L453.9,159.6 L459.8,161.7 L465.8,155.4 L471.8,156.8 L477.7,147.9 L483.7,148.1 L489.7,145.1 L495.6,145.3 L501.6,137.3 L507.6,132.2 L519.5,134.2 L525.5,141.2 L531.5,139.5 L537.4,126.3 L543.4,132.3 L549.4,143.0 L555.3,145.1 L561.3,156.5 L567.3,162.9 L573.2,159.6 L579.2,162.4 L591.1,159.8 L597.1,159.1 L603.1,160.4 L609.0,148.7 L615.0,151.5 L621.0,161.1 L626.9,153.2 L632.9,144.7 L638.9,142.2 L644.8,150.7 L650.8,153.7 L662.7,158.1 L668.7,163.7 L674.7,162.8 L680.6,169.2 L686.6,174.4 L692.6,179.7 L698.5,184.8 L704.5,184.0 L710.5,181.4 L716.5,189.0 L722.4,187.2 L734.4,189.3 L740.3,188.3 L746.3,190.9 L752.3,217.5 L758.2,222.5 L764.2,219.1 L770.2,214.1 L776.1,197.7 L782.1,226.2 L788.1,216.7 L794.0,216.6 L800.0,216.6" fill="none" stroke="var(--series-4)" stroke-width="2" stroke-linejoin="round"/><path d="M60.0,178.9 L66.0,178.8 L71.9,179.6 L77.9,188.6 L89.8,180.9 L95.8,178.3 L101.8,175.5 L107.7,176.1 L113.7,173.1 L119.7,181.6 L125.6,179.2 L131.6,187.5 L137.6,192.2 L143.5,192.5 L149.5,185.7 L161.5,190.9 L167.4,190.0 L173.4,208.0 L179.4,226.9 L185.3,223.4 L191.3,213.2 L197.3,218.0 L203.2,220.6 L209.2,227.0 L215.2,227.3 L221.1,234.3 L233.1,254.1 L239.0,241.4 L245.0,284.0 L251.0,282.4 L256.9,302.0 L262.9,288.7 L268.9,285.1 L274.8,309.4 L280.8,299.0 L286.8,282.2 L292.7,287.5 L304.7,281.5 L310.6,292.5 L316.6,311.5 L322.6,286.2 L328.5,284.2 L334.5,278.9 L340.5,270.3 L346.5,266.8 L352.4,284.8 L358.4,282.4 L364.4,272.5 L376.3,266.7 L382.3,270.5 L388.2,261.1 L394.2,245.4 L400.2,238.1 L406.1,245.7 L412.1,252.4 L418.1,258.8 L424.0,256.2 L430.0,259.2 L436.0,265.4 L447.9,257.8 L453.9,258.1 L459.8,247.6 L465.8,236.8 L471.8,249.4 L477.7,248.5 L483.7,252.5 L489.7,249.6 L495.6,262.7 L501.6,246.3 L507.6,242.5 L519.5,238.6 L525.5,239.1 L531.5,243.7 L537.4,241.5 L543.4,244.7 L549.4,252.0 L555.3,249.8 L561.3,258.7 L567.3,256.8 L573.2,264.5 L579.2,250.5 L591.1,244.6 L597.1,244.1 L603.1,250.0 L609.0,238.3 L615.0,248.4 L621.0,257.8 L626.9,247.6 L632.9,245.5 L638.9,246.6 L644.8,252.1 L650.8,255.9 L662.7,260.5 L668.7,263.8 L674.7,260.5 L680.6,265.2 L686.6,273.3 L692.6,277.3 L698.5,270.2 L704.5,266.4 L710.5,274.6 L716.5,280.6 L722.4,275.2 L734.4,281.0 L740.3,283.5 L746.3,279.3 L752.3,286.9 L758.2,280.3 L764.2,280.1 L770.2,269.7 L776.1,270.5 L782.1,282.7 L788.1,274.8 L794.0,271.2 L800.0,271.2" fill="none" stroke="var(--series-2)" stroke-width="2" stroke-linejoin="round"/><text x="806.0" y="34.8" font-size="11.5" fill="var(--series-1)" font-weight="600">Monster</text><text x="806.0" y="47.8" font-size="11.5" fill="var(--text-muted)" font-weight="600">S&amp;P500</text><text x="806.0" y="90.3" font-size="11.5" fill="var(--series-3)" font-weight="600">XLP(필수소비재)</text><text x="806.0" y="220.6" font-size="11.5" fill="var(--series-4)" font-weight="600">General Mills</text><text x="806.0" y="275.2" font-size="11.5" fill="var(--series-2)" font-weight="600">Kraft Heinz</text></svg></figure>
+
+<p>2016-07 → 2026-10: S&amp;P500 +248% vs 필수소비재 ETF(XLP) +124%, 코카콜라 +214%, 허쉬 +122%, 펩시 +86%, 제너럴밀스 −28%, <strong>크래프트하인즈 −55%</strong>, 몬스터 +262%, 셀시어스 +4,621%(2024-02 고점 대비 −60%). 일본: 아지노모토 +351%(반도체 기판용 ABF 필름이라는 '비식품 새 위장'), 닛신 +84%(2023-12 고점 대비 −35%), 도요스이산(마루짱, 미국·멕시코) +190%.
+<strong>공통 교훈</strong>: 같은 '음식료'라도 <strong>새 위장(신시장·신카테고리·비식품 사업)</strong>이 있으면 성장주(몬스터·아지노모토·도요스이산·삼양), 없으면 디레이팅(크래프트하인즈·제너럴밀스·오뚜기). 국적이 아니라 '새 위장의 유무'가 운명을 가른다. (출처: Yahoo Finance, 직접 계산)</p>
+<h2>2-5. chunk ↔ 사이클 매핑</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>chunk</th>
+<th>기간</th>
+<th>한국 음식료의 신분</th>
+<th>주가 국면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1~2</td>
+<td>~1979</td>
+<td>형성기·가격 통제</td>
+<td>(데이터 없음)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1980~1999</td>
+<td>내수 과점 확립·IMF 구조조정</td>
+<td>2000~03 방어주 성격 최강</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2000~2012</td>
+<td><strong>성장주 바스켓</strong>(중국·소득 증가)</td>
+<td>2003~07·2009~14 강세 (KOSPI 압도)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2013~2021</td>
+<td>성장 종료 → 디레이팅 시작</td>
+<td>2015~16 고점, 이후 장기 하락 (예외: 삼양 2막)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2022~2026</td>
+<td><strong>양극화</strong>: 수출 성장주(삼양) vs 내수 저베타주</td>
+<td>삼양 +1,975% vs 내수 −5~−75%</td>
+</tr>
+</tbody>
+</table>
+<p>→ chunk 경계(2000·2013·2022)가 주가 변곡점과 일치한다. 2013 경계는 '중국 성장 둔화 + 국내 인구 정체'가, 2022 경계는 '원가 인플레 + K-콘텐츠 수출'이 동시에 터진 지점이다.</p>
+<hr />
+<h1>3단계. 비즈니스 구조 + 밸류체인</h1>
+<h2>3-0. 구조의 앵커 — '원가의 절반이 곡물, 가격은 정부가 본다'</h2>
+<p>음식료 가공식품의 원가 구조는 대략 매출원가 65~75%(그중 원재료가 절반 이상: 밀·옥수수·대두·설탕·팜유·유지, 상당 부분 수입) + 판관비 20~25%(유통 수수료·광고·물류)다 <strong>[추정 — 국내 상장 식품사 손익계산서 통상 범위]</strong>. 그래서 국내 내수 식품사의 영업이익률은 3~6%(대상 3.8%, 오뚜기 4.8%, 농심 5.2%, 2025 DART)에 머문다. <strong>반면 같은 라면이 국경을 넘으면 OPM이 4배가 된다</strong> — 삼양식품 22.3%, 오리온 16.8%. 해외에서는 '한국 프리미엄 브랜드'로 국내보다 2~3배 비싸게 팔 수 있고, 정부 가격 통제도 없기 때문이다.</p>
+<p>비유하자면, <strong>국내 식품사는 '정부가 요금을 정하는 전기회사'에 가깝고, 수출 식품사는 '해외에서 명품 가격을 받는 브랜드'</strong>에 가깝다. 같은 업종 이름 아래 전혀 다른 두 비즈니스가 있다.</p>
+<h2>3-1. 레이어별 BM 정량</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>레이어</th>
+<th>대표 기업</th>
+<th>BM</th>
+<th>capabilities</th>
+<th>진입장벽</th>
+<th>영업이익률</th>
+<th>자본집약도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>업스트림: 곡물 트레이딩</td>
+<td>ADM·Bunge·Cargill</td>
+<td>곡물 매집·운송·차익</td>
+<td>물류망·리스크 관리</td>
+<td>글로벌 물류 인프라</td>
+<td>2~5%</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>소재식품 (제당·제분·전분당·유지)</td>
+<td>CJ제일제당·삼양사·대한제당·대상·대한제분</td>
+<td>원료 가공 B2B</td>
+<td>규모·원가</td>
+<td>설비 + 과점(제당 3사)</td>
+<td>3~8% (변동 큼)</td>
+<td>높음</td>
+</tr>
+<tr>
+<td>바이오 소재 (아미노산·핵산)</td>
+<td>CJ제일제당·대상·Ajinomoto·中 Meihua</td>
+<td>발효 기술 B2B</td>
+<td>균주·발효 수율</td>
+<td>기술 + 규모</td>
+<td>−5%~20% (중국 증설에 사이클)</td>
+<td>매우 높음</td>
+</tr>
+<tr>
+<td><strong>가공식품 — 내수형</strong></td>
+<td>농심(국내)·오뚜기·대상(식품)·롯데웰푸드·빙그레</td>
+<td>브랜드 B2C, 대형마트·편의점</td>
+<td>브랜드·유통 협상력</td>
+<td>브랜드 + 유통 진열대</td>
+<td><strong>3~6%</strong></td>
+<td>중간</td>
+</tr>
+<tr>
+<td><strong>가공식품 — 수출형</strong></td>
+<td>삼양식품·오리온·농심 해외·CJ 비비고</td>
+<td>해외 프리미엄 브랜드</td>
+<td>바이럴 마케팅·현지 유통</td>
+<td>브랜드(문화 프리미엄) + 공급능력</td>
+<td><strong>15~22%</strong></td>
+<td>중간 (CAPA 증설기엔 높음)</td>
+</tr>
+<tr>
+<td>음료·주류</td>
+<td>롯데칠성·하이트진로·Coca-Cola</td>
+<td>브랜드 + 병입</td>
+<td>브랜드·유통·면허</td>
+<td>주류 면허·유통망</td>
+<td>국내 5~8% / KO 25~30%</td>
+<td>중간</td>
+</tr>
+<tr>
+<td>담배</td>
+<td>KT&amp;G·PMI</td>
+<td>중독성 소비재</td>
+<td>브랜드·규제 대응</td>
+<td>정부 면허·광고 금지(신규 진입 불가)</td>
+<td>25~30%</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>다운스트림: 유통</td>
+<td>이마트·쿠팡·편의점·Costco·Walmart</td>
+<td>매입·판매 마진</td>
+<td>규모·데이터</td>
+<td>물류·점포망</td>
+<td>2~5%</td>
+<td>높음</td>
+</tr>
+</tbody>
+</table>
+<p>(영업이익률은 2025 DART·각 사 IR 기준 범위, 일부 [추정])</p>
+<h2>3-2. 이익은 어디에 있는가</h2>
+<ol>
+<li><strong>국내 밸류체인 안에서 이익은 '유통'과 '소재 과점'에 눌린다.</strong> 대형마트·쿠팡의 협상력이 커지면서 가공식품사는 판촉비 부담을 지고, 원재료는 과점 소재사(제당 3사)에서 사야 한다. 그 위에 정부 가격 통제 → 가공식품사가 '샌드위치'다.</li>
+<li><strong>이익의 원천은 '국경 넘기'다.</strong> 삼양의 해외 매출 비중 83%와 OPM 22%, 오리온의 해외 70%와 OPM 16.8%가 이를 증명한다. 반대로 해외 10%인 오뚜기는 OPM 4.8%이고 2025 영업이익 −20%.</li>
+<li><strong>진짜 '해자'가 있는 곳은 담배와 탄산음료다.</strong> 규제가 신규 진입을 막고(담배), 100년 브랜드가 대체 불가(코카콜라). 이 둘은 글로벌에서도 장기 방어주 성적을 냈다.</li>
+</ol>
+<h2>3-3. 한국 기업의 레이어별 포지션 【핵심】 (테마 직접성 = 'K-푸드 글로벌 확산 수요의 직접 수혜도')</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>기업</th>
+<th>주력 레이어</th>
+<th>해외 비중</th>
+<th>테마 직접성</th>
+<th>코멘트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>삼양식품</strong></td>
+<td>가공식품-수출형 (라면·소스)</td>
+<td>약 83%</td>
+<td><strong>높음</strong></td>
+<td>불닭 단일 브랜드 의존(리스크). 밀양2공장 + 中 자싱공장(2027 CAPA 37억 개)</td>
+</tr>
+<tr>
+<td><strong>오리온</strong></td>
+<td>가공식품-수출형 (제과)</td>
+<td>약 70% (현지 생산)</td>
+<td><strong>높음</strong></td>
+<td>중국·베트남·러시아·인도 현지 법인 구조 — 수출이 아닌 '현지화'. K-콘텐츠 수혜는 간접</td>
+</tr>
+<tr>
+<td><strong>농심</strong></td>
+<td>내수형 + 수출형 혼합</td>
+<td>약 38~40% [추정]</td>
+<td><strong>중간→높음</strong></td>
+<td>녹산 수출공장(2026-10) 가동 → 2030 해외 매출 61% 목표. 국내 비중이 희석 요인</td>
+</tr>
+<tr>
+<td><strong>CJ제일제당</strong></td>
+<td>가공식품 + 소재 + 바이오</td>
+<td>식품 해외 50%+</td>
+<td><strong>중간</strong></td>
+<td>비비고 북미 만두 1위. 바이오(아미노산)·국내 사업이 실적 변동성 키움</td>
+</tr>
+<tr>
+<td>빙그레</td>
+<td>내수형 (유가공·빙과)</td>
+<td>10~20% [추정]</td>
+<td>낮음~중간</td>
+<td>바나나맛우유·메로나 수출은 성장 중이나 규모 작음</td>
+</tr>
+<tr>
+<td>롯데웰푸드</td>
+<td>내수형 (제과·빙과)</td>
+<td>20%대 [추정] (인도·카자흐)</td>
+<td>낮음~중간</td>
+<td>인도 빼빼로 공장. 코코아 원가에 민감</td>
+</tr>
+<tr>
+<td>대상</td>
+<td>소재 + 내수 식품</td>
+<td>[추정] 30% 내외</td>
+<td>낮음~중간</td>
+<td>종가 김치 수출. 전분당 담합 제재 리스크</td>
+</tr>
+<tr>
+<td>오뚜기</td>
+<td>내수형</td>
+<td>약 10%</td>
+<td>낮음</td>
+<td>북미 공장·일본 법인(2026-05)으로 전환 시도 중</td>
+</tr>
+<tr>
+<td>풀무원·롯데칠성·하이트진로</td>
+<td>내수형</td>
+<td>낮음</td>
+<td>낮음</td>
+<td>하이트진로 '진로' 소주 수출은 소규모</td>
+</tr>
+<tr>
+<td>KT&amp;G (비교군)</td>
+<td>담배 + 인삼공사</td>
+<td>해외 담배 고성장</td>
+<td>낮음 (K-푸드 무관)</td>
+<td>섹터 내 '진짜 방어주'</td>
+</tr>
+</tbody>
+</table>
+<h2>3-4. 진입장벽 정량 — 국내와 해외가 정반대</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>구분</th>
+<th>국내 시장</th>
+<th>해외 시장</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>신규 브랜드 진입</td>
+<td><strong>매우 어려움</strong> — 라면 상위 4사가 시장 대부분, 신라면 1991년 이후 1위 불변</td>
+<td><strong>쉬움</strong> — SNS 바이럴 하나로 진입 가능 (불닭·아리(ARIH) 3일 만에 월마트 베스트셀러)</td>
+</tr>
+<tr>
+<td>가격 결정권</td>
+<td><strong>정부가 봉쇄</strong> (2023 인하 요구, 2026 담합 조사)</td>
+<td><strong>자유</strong> — 프리미엄 가격 가능, 관세(미국 15%)만 변수</td>
+</tr>
+<tr>
+<td>핵심 병목</td>
+<td>유통 진열대</td>
+<td><strong>공장(CAPA)</strong> — 수요 &gt; 공급 (삼양 '없어서 못 판다')</td>
+</tr>
+<tr>
+<td>해자 지속성</td>
+<td>높음 (하지만 성장 없음)</td>
+<td>낮음~중간 (트렌드가 바뀌면 이탈 가능)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>[판단]</strong> 국내 = '해자는 깊은데 성이 작아지는' 구조, 해외 = '성은 넓은데 해자가 얕은' 구조. 성장주가 해외에서만 나오는 이유이자, 해외 성장주의 지속성이 4년 정도에 그쳤던 이유다.</p>
+<hr />
+<h1>4단계. 공급 구조 점검 — 현재 정량 snapshot</h1>
+<h2>4-1. 구조조정 이력</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>시기</th>
+<th>이벤트</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1985~1989</td>
+<td>농심 라면 1위 탈환 → 1989 우지 파동</td>
+<td>삼양 몰락, 농심 과점 고착</td>
+</tr>
+<tr>
+<td>1997~1998</td>
+<td>IMF: 해태그룹 부도, 삼양식품 화의</td>
+<td>해태제과 매각, 업계 재편</td>
+</tr>
+<tr>
+<td>2007</td>
+<td>오리온 → 롯데의 빙과·제과 재편, CJ의 식품 M&amp;A 다수</td>
+<td>대형사 집중</td>
+</tr>
+<tr>
+<td>2017</td>
+<td>오리온 인적분할(지주사), 롯데제과 분할</td>
+<td>지주사 체제</td>
+</tr>
+<tr>
+<td>2020</td>
+<td>빙그레 해태아이스크림 인수 → 빙과 2강(롯데·빙그레)</td>
+<td>빙과 CR2 고착</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>롯데제과 + 롯데푸드 합병 → 롯데웰푸드</td>
+<td>제과·빙과 1위</td>
+</tr>
+<tr>
+<td>2026</td>
+<td>설탕·밀가루·전분당 담합 제재(과징금 1.8조원), 완제품·라면 담합 조사</td>
+<td><strong>'과점 = 정부 표적'</strong> 구도</td>
+</tr>
+<tr>
+<td>(글로벌) 2015~2026</td>
+<td>Kraft Heinz 합병(2015) → 상각(2019) → 분할 발표(2025-09) → 보류(2026-05); Kellogg 분할(2023, Kellanova·WK Kellogg), Mars의 Kellanova 인수 발표(2024), Nestlé 1.6만 명 감원·아이스크림 매각 추진(2025-10~2026-02)</td>
+<td><strong>대형화 → 해체</strong>로 역전</td>
+</tr>
+</tbody>
+</table>
+<h2>4-2. 플레이어 수와 집중도</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>시장</th>
+<th>주요 플레이어</th>
+<th>집중도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>국내 라면</td>
+<td>농심·오뚜기·삼양·팔도</td>
+<td>CR4 사실상 100% [추정]; 농심 단독 50%대 [추정 — 업계 통상치]</td>
+<td>신라면 1991년 이후 1위</td>
+</tr>
+<tr>
+<td>국내 제당</td>
+<td>CJ제일제당·삼양사·대한제당</td>
+<td>CR3 ≈ 100%</td>
+<td>2026-02 공정위 담합 제재</td>
+</tr>
+<tr>
+<td>국내 빙과</td>
+<td>롯데웰푸드·빙그레(해태 포함)</td>
+<td>CR2 80%+ [추정]</td>
+<td>2020 해태아이스 인수 후</td>
+</tr>
+<tr>
+<td>국내 제과</td>
+<td>롯데웰푸드·오리온·크라운해태</td>
+<td>CR3 70%+ [추정]</td>
+<td></td>
+</tr>
+<tr>
+<td>글로벌 라면 수요</td>
+<td>중국 433억 개·인도네시아 145억·인도 96억·베트남 82억·일본 59억·미국 52억 개(2025)</td>
+<td>공급: 닛신·도요스이산·캉스푸(팅이)·인도푸드·농심</td>
+<td><strong>삼양 CAPA ≈ 글로벌 수요의 3%, 농심 ≈ 5% (2026 기준)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>(출처: 한국무역신문/KITA 2026, 공정위 2026-02 브리핑. 국내 점유율은 업계 통상치로 [추정])</p>
+<p><strong>→ 국내 공급은 '더 줄어들 플레이어가 없는' 완성된 과점이다.</strong> 반도체 메모리처럼 '치킨게임 후 과점 = 가격결정력'으로 이어져야 하지만, 한국 식품은 <strong>과점이 오히려 정부 가격 통제·담합 조사의 표적</strong>이 된다. 과점의 보상(가격 인상)을 받지 못하는 과점 — 이것이 국내 식품주 디레이팅의 구조적 원인이다.</p>
+<h2>4-3. 공급 능력(CAPA) — '국내는 남고, 수출용은 모자란다'</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>기업</th>
+<th>현재 CAPA</th>
+<th>증설 계획</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>삼양식품</td>
+<td>2026년 최대 26억 개 (원주·익산·밀양1·2)</td>
+<td>中 자싱공장(2027-01 완공 목표, +40%) → 2027 37억 개, 유럽·동남아 2공장 입지 연내 결정</td>
+<td>수요 &gt; 공급, 재고 감소 중</td>
+</tr>
+<tr>
+<td>농심</td>
+<td>국내·중국·미국 합산 62억 개 (녹산 포함)</td>
+<td>녹산 수출공장 2026-10-29 가동(연 5억 개), 2030까지 라인 증설</td>
+<td>수출용 7억 → 12억 개</td>
+</tr>
+<tr>
+<td>오리온</td>
+<td>해외 법인 현지 생산</td>
+<td>러시아 트베리 2공장(2,400억, 2027-09), 베트남 하노이·호치민 신공장(2,860억), 진천통합센터(4,600억)</td>
+<td>매출 5조·영업이익 1조 장기 목표</td>
+</tr>
+<tr>
+<td>CJ제일제당</td>
+<td>북미(Schwan's)·유럽(헝가리)·일본</td>
+<td>일본 신공장(2025-09 가동)</td>
+<td>현지 생산형</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: KITA/한국무역신문 2026, 비즈워치 2026-11-06, 더밸류뉴스 2026-11-11, CEO스코어데일리 2026-10-19, CJ뉴스룸)</p>
+<p><strong>[판단]</strong> 수출 라면의 병목은 '수요'가 아니라 '공장'이다. 그러나 라면 공장은 1~2년이면 지어지는 '복제 가능한 병목'이다 — 반도체 EUV처럼 영구적이지 않다. 2027년 삼양 37억 개·농심 녹산 증설이 들어오면 <strong>병목 해소 → 가격·마진 정상화</strong>로 갈 가능성이 높다 <strong>[전망]</strong>. 삼양의 OPM 22%는 '공급 부족 프리미엄'이 일부 섞인 숫자로 봐야 한다.</p>
+<h2>4-4. 가격결정력 변화</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>시기</th>
+<th>국내</th>
+<th>해외(수출)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>원가 급등 → 연쇄 가격 인상 (허용)</td>
+<td>가격 인상 수용</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>정부 인하 요구 → 신라면 등 가격 인하(2023-07)</td>
+<td>프리미엄 유지</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>인하 전 가격으로 복귀(농심 2025-03) → 2025 3Q 농심 영업이익 +45%</td>
+<td>미국 관세 15% 일부 전가</td>
+</tr>
+<tr>
+<td>2026</td>
+<td><strong>가격 인상 '올스톱'</strong>(2026-01), 담합 제재·조사 확대</td>
+<td>삼양 3Q 관세 환급 200억 반영, 고단가 지역 비중 확대</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>국내 가격결정력은 '정권 사이클'에 종속</strong>된다(물가가 정치 이슈가 되면 봉쇄). 해외 가격결정력은 브랜드 인기에 종속된다.</p>
+<h2>4-5. 진입장벽 변화 (시대별)</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>시대</th>
+<th>국내 진입장벽</th>
+<th>해외(수출) 진입장벽</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1960~80s</td>
+<td>정부 인허가·원조 물자 배분</td>
+<td>사실상 없음(수출 미미)</td>
+</tr>
+<tr>
+<td>1990~2010s</td>
+<td>유통(대형마트) 진열대·광고비</td>
+<td>현지 유통망·교민 시장 한계</td>
+</tr>
+<tr>
+<td>2020s</td>
+<td>진열대 + 정부 규제</td>
+<td><strong>SNS 바이럴로 급락</strong> → 대신 'CAPA + 현지 메인스트림 유통'이 새 장벽</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>5단계. 수요 구조 점검 — 현재 정량 snapshot</h1>
+<h2>5-1. 수요처 구성</h2>
+<p>B2C 압도적(가공식품·음료·주류·담배). B2B는 소재(설탕·밀가루 → 제과·제빵·외식), 바이오(사료용 아미노산 → 축산). 한국 식품사 매출의 대부분은 대형마트·편의점·이커머스 경유 B2C.</p>
+<h2>5-2. 수요 집중도 (B2C형 = 지역 분포)</h2>
+<figure class="fig"><figcaption class="fig-cap"><span class="fig-title">차트 5 · K-라면 수출액 — 11년 연속 사상 최대</span><span class="fig-sub">연간 라면 수출액(억 달러). 2015 → 2025 약 7배. 2026 상반기 9.35억 달러(+28% YoY), 1~9월 누적 +15%로 증가율은 둔화. 출처: 관세청·농식품부(2024 12.48, 2025 15.2는 2026-01 발표치; 2015~2023은 관세청 연간치 언론 인용 기준으로 ±1% 오차 가능), 메트로서울 2026-08-25, 유안타증권 2026-10-21.</span></figcaption><div class="lg" style="display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:4px 0 6px"><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-1);vertical-align:middle;margin-right:6px;border-radius:2px"></i>연간</span><span><i style="display:inline-block;width:12px;height:3px;background:var(--series-2);vertical-align:middle;margin-right:6px;border-radius:2px"></i>2026 상반기</span></div><svg viewBox="0 0 920 360" role="img" style="width:100%;height:auto;font-family:var(--sans)"><line x1="60" x2="880" y1="320.0" y2="320.0" stroke="var(--grid)"/><text x="52" y="324.0" text-anchor="end" font-size="11" fill="var(--text-muted)">0억$</text><line x1="60" x2="880" y1="248.9" y2="248.9" stroke="var(--grid)"/><text x="52" y="252.9" text-anchor="end" font-size="11" fill="var(--text-muted)">4억$</text><line x1="60" x2="880" y1="177.9" y2="177.9" stroke="var(--grid)"/><text x="52" y="181.9" text-anchor="end" font-size="11" fill="var(--text-muted)">8억$</text><line x1="60" x2="880" y1="106.8" y2="106.8" stroke="var(--grid)"/><text x="52" y="110.8" text-anchor="end" font-size="11" fill="var(--text-muted)">12억$</text><line x1="60" x2="880" y1="35.8" y2="35.8" stroke="var(--grid)"/><text x="52" y="39.8" text-anchor="end" font-size="11" fill="var(--text-muted)">16억$</text><rect x="73.0" y="281.1" width="42.4" height="38.9" fill="var(--series-1)" rx="2"/><text x="94.2" y="276.1" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2.2</text><text x="94.2" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2015</text><rect x="141.3" y="268.5" width="42.4" height="51.5" fill="var(--series-1)" rx="2"/><text x="162.5" y="263.5" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2.9</text><text x="162.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2016</text><rect x="209.6" y="252.3" width="42.4" height="67.7" fill="var(--series-1)" rx="2"/><text x="230.8" y="247.3" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3.8</text><text x="230.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2017</text><rect x="278.0" y="247.2" width="42.4" height="72.8" fill="var(--series-1)" rx="2"/><text x="299.2" y="242.2" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4.1</text><text x="299.2" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2018</text><rect x="346.3" y="237.0" width="42.4" height="83.0" fill="var(--series-1)" rx="2"/><text x="367.5" y="232.0" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4.7</text><text x="367.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2019</text><rect x="414.6" y="212.9" width="42.4" height="107.1" fill="var(--series-1)" rx="2"/><text x="435.8" y="207.9" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">6.0</text><text x="435.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2020</text><rect x="483.0" y="200.3" width="42.4" height="119.7" fill="var(--series-1)" rx="2"/><text x="504.2" y="195.3" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">6.7</text><text x="504.2" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2021</text><rect x="551.3" y="184.1" width="42.4" height="135.9" fill="var(--series-1)" rx="2"/><text x="572.5" y="179.1" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">7.7</text><text x="572.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2022</text><rect x="619.6" y="150.9" width="42.4" height="169.1" fill="var(--series-1)" rx="2"/><text x="640.8" y="145.9" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">9.5</text><text x="640.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2023</text><rect x="688.0" y="98.3" width="42.4" height="221.7" fill="var(--series-1)" rx="2"/><text x="709.2" y="93.3" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">12.5</text><text x="709.2" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2024</text><rect x="756.3" y="50.0" width="42.4" height="270.0" fill="var(--series-1)" rx="2"/><text x="777.5" y="45.0" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">15.2</text><text x="777.5" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2025</text><rect x="824.6" y="153.9" width="42.4" height="166.1" fill="var(--series-2)" rx="2"/><text x="845.8" y="148.9" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">9.3</text><text x="845.8" y="338" text-anchor="middle" font-size="11" fill="var(--text-muted)">2026 H1</text></svg></figure>
+
+<table class="tbl">
+<thead>
+<tr>
+<th>라면 수출 (2025)</th>
+<th>금액</th>
+<th>YoY</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>중국</td>
+<td>3억 8,540만 달러</td>
+<td>+47.9%</td>
+</tr>
+<tr>
+<td>미국</td>
+<td>2억 5,470만 달러</td>
+<td>+18.2%</td>
+</tr>
+<tr>
+<td>아세안</td>
+<td>2억 2,320만 달러</td>
+<td>+12.4%</td>
+</tr>
+<tr>
+<td>중앙아시아</td>
+<td>8,240만 달러</td>
+<td>+38.7%</td>
+</tr>
+<tr>
+<td>일본</td>
+<td>7,730만 달러</td>
+<td>+23.6%</td>
+</tr>
+<tr>
+<td>중동</td>
+<td>4,750만 달러</td>
+<td>+22.0%</td>
+</tr>
+<tr>
+<td><strong>합계</strong></td>
+<td><strong>약 15.2억 달러</strong></td>
+<td>11년 연속 최대</td>
+</tr>
+</tbody>
+</table>
+<p>(출처: 농식품부 발표 인용 머니투데이 2026-07-06, Korea Business Review 2026-04)</p>
+<p><strong>[판단] 중국 비중이 약 25%로 단일국 최대</strong> — K뷰티 1막의 교훈(단일국 의존 30% 초과 시 정치 리스크)을 적용하면 아직 경계선 아래지만 근접. 미국은 현지 생산(농심 미국 2공장)분이 수출 통계에서 빠지므로 실제 비중은 더 크다. 정부도 "상위 일부 품목에 수출액 50% 집중, 미·중·일 의존도 절반"이라며 다변화 필요를 언급(농식품부 장관, 2025 말).</p>
+<h2>5-3. 수요 사이클 위치</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>수요층</th>
+<th>장기 트렌드</th>
+<th>현재 위치</th>
+<th>주기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>국내 가공식품</td>
+<td>인구 정체·고령화, 1인 가구로 HMR 증가</td>
+<td>볼륨 정체, aT 식품산업 경기지수 3Q26 99.5(기준 100 하회)</td>
+<td>사이클 약함 (정책·원가 사이클이 대신함)</td>
+</tr>
+<tr>
+<td>K-라면 수출</td>
+<td>11년 연속 성장 (2015 → 2025 약 7배)</td>
+<td><strong>고성장 지속 but 증가율 둔화</strong> (2026 H1 +28% → 1~9월 +15%)</td>
+<td>4년 단위 '성장주 신분' 사이클의 4년 차</td>
+</tr>
+<tr>
+<td>미국 포장식품</td>
+<td>볼륨 감소 (GLP-1·PB·가격 피로)</td>
+<td>구조조정기 — 공장 폐쇄(펩시·스머커·캠벨)</td>
+<td>장기 하향</td>
+</tr>
+<tr>
+<td>신흥국(인도·러시아·중동)</td>
+<td>소득 증가</td>
+<td>성장 초기 (오리온 인도 +38.7%, 러시아 +44.7%, 3Q25)</td>
+<td>장기 상향</td>
+</tr>
+</tbody>
+</table>
+<h2>5-4. 메가 트렌드 수요 비중 (상위 트렌드 적합성 판정)</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>트렌드</th>
+<th>성격</th>
+<th>음식료 수요 영향</th>
+<th>판정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인구 감소·고령화 (한국)</td>
+<td>메가 트렌드(역풍)</td>
+<td>국내 볼륨 장기 감소</td>
+<td><strong>역풍</strong></td>
+</tr>
+<tr>
+<td>GLP-1 비만치료제</td>
+<td>메가 트렌드(역풍)</td>
+<td>미국 가구 약 20%에 사용자, 스낵 지출 −5~−11%(6개월 내), 향후 10년 미국 스낵 매출 최대 120억 달러 감소 추정(EY-Parthenon). 업계 전체 볼륨 영향 약 −1~−2%(OC&amp;C)</td>
+<td><strong>역풍</strong> (단, 단백질·소포장·프리미엄은 수혜)</td>
+</tr>
+<tr>
+<td>K-콘텐츠 글로벌 확산</td>
+<td>세큘러 (10년+)</td>
+<td>K-라면·K-스낵 수출, 케데헌(2025) 콜라보</td>
+<td><strong>순풍 — 점유율 이동</strong></td>
+</tr>
+<tr>
+<td>신흥국 중산층</td>
+<td>세큘러</td>
+<td>인도·중동·중앙아시아</td>
+<td>순풍</td>
+</tr>
+<tr>
+<td>건강·단백질·저당</td>
+<td>세큘러</td>
+<td>카테고리 재편</td>
+<td>중립 (승자·패자 갈림)</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>판정: 음식료는 메가 트렌드 산업이 아니다.</strong> 전체 수요는 인구×물가로 연 3~5% 성장하는 필수소비 산업이고, 두 개의 메가 역풍(인구·GLP-1)을 맞고 있다. <strong>유일한 구조적 순풍은 'K-푸드의 글로벌 점유율 이동'</strong>인데, 이것은 '파이가 커지는' 메가 트렌드가 아니라 <strong>'기존 파이(세계 라면 시장 약 650억 달러, 2025 Fortune Business Insights 추정)에서 일본·현지 브랜드 몫을 빼앗는' 점유율 게임</strong>이다. K뷰티와 똑같은 구조다.</p>
+<h2>5-5. 대체재·보완재</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대체재</td>
+<td>외식·배달(국내), PB(자체 브랜드), 현지 브랜드(닛신·인도미)</td>
+<td>국내 볼륨 잠식, 미국 PB 성장</td>
+</tr>
+<tr>
+<td>대체재(신규)</td>
+<td>GLP-1 (식욕 자체를 줄임)</td>
+<td>칼로리 총량 감소 — '대체'가 아니라 '수요 소멸'</td>
+</tr>
+<tr>
+<td>보완재</td>
+<td>K-콘텐츠(드라마·K팝·케데헌), 한식당 확산, 편의점 해외 진출</td>
+<td>수요 창출 — 마케팅비 없이 인지도 상승</td>
+</tr>
+<tr>
+<td>보완재</td>
+<td>소스(불닭소스·고추장)</td>
+<td>라면 외 카테고리 확장</td>
+</tr>
+</tbody>
+</table>
+<h2>5-6. 가격탄력성</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>제품군</th>
+<th>탄력성</th>
+<th>시사점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>국내 라면·장류·쌀가공</td>
+<td><strong>매우 낮음</strong> (필수재)</td>
+<td>원래는 가격 인상에 유리 → 그러나 정부가 막음</td>
+</tr>
+<tr>
+<td>국내 제과·빙과·음료</td>
+<td>낮음~중간</td>
+<td>PB·할인 경쟁</td>
+</tr>
+<tr>
+<td>해외 K-라면(프리미엄)</td>
+<td>중간</td>
+<td>미국 관세 15%를 가격에 일부 전가해도 수요 유지(2025~26) — 브랜드 충성도 확인</td>
+</tr>
+<tr>
+<td>미국 스낵</td>
+<td>상승 중</td>
+<td>2023 이후 가격 피로 → 볼륨 이탈</td>
+</tr>
+<tr>
+<td>담배</td>
+<td><strong>매우 낮음</strong> (중독성)</td>
+<td>가격 인상 = 이익 증가 — 섹터 내 최강 방어력의 원천</td>
+</tr>
+</tbody>
+</table>
+<h2>5-7. 수요 driver 분해</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>driver</th>
+<th>국내 기여</th>
+<th>해외(K-푸드) 기여</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인구</td>
+<td>− (감소)</td>
+<td>+ (신흥국)</td>
+</tr>
+<tr>
+<td>소득</td>
+<td>± (실질소득 정체)</td>
+<td>+</td>
+</tr>
+<tr>
+<td>가격(물가)</td>
+<td>+ but 정책 상한</td>
+<td>+ (프리미엄)</td>
+</tr>
+<tr>
+<td>문화·콘텐츠</td>
+<td>0</td>
+<td><strong>++ (최대 driver)</strong></td>
+</tr>
+<tr>
+<td>유통 채널</td>
+<td>이커머스 이동 (마진 압박)</td>
+<td>메인스트림 입점 (월마트·코스트코·크로거, 멕시코)</td>
+</tr>
+<tr>
+<td>건강 트렌드</td>
+<td>저당·단백질</td>
+<td>GLP-1 역풍은 미국 스낵 중심, 라면은 상대적 영향 작음 [판단]</td>
+</tr>
+</tbody>
+</table>
+<h2>5-8. 정부 정책 영향</h2>
+<table class="tbl">
+<thead>
+<tr>
+<th>정책</th>
+<th>방향</th>
+<th>영향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>먹거리 물가 TF·담합 제재 (2026)</td>
+<td><strong>강한 억제</strong></td>
+<td>국내 가격 인상 봉쇄, 과징금 1.8조원(2026), 완제품·라면 조사 확대</td>
+</tr>
+<tr>
+<td>세무조사 (2025-09~2026-01)</td>
+<td>억제</td>
+<td>독과점·식품 103곳, 추징 1,785억원(주류·빙과·라면 약 1,500억)</td>
+</tr>
+<tr>
+<td>K-푸드+ 수출 지원</td>
+<td>지원</td>
+<td>2026 수출 목표 150억 달러</td>
+</tr>
+<tr>
+<td>미국 관세 15%</td>
+<td>역풍</td>
+<td>삼양 관세 환급·가격 전가로 흡수 중</td>
+</tr>
+<tr>
+<td>미국 FDA·HHS 초가공식품 규제</td>
+<td>역풍(미국 빅푸드)</td>
+<td>성분·표시 재설계 비용</td>
+</tr>
+</tbody>
+</table>
+<h2>5-9. 글로벌 vs 한국 수요 분리 — 한국 접근 가능 TAM</h2>
+<ul>
+<li>세계 인스턴트 라면 시장 약 647억 달러(2025, Fortune Business Insights 추정) 중 K-라면 해외 판매 약 5조 원(2026E, 약 35억 달러 내외) → <strong>점유율 약 5%대 [추정]</strong>. 삼양 CAPA ≈ 글로벌 수요의 3%, 농심 ≈ 5% (KITA 2026).</li>
+<li>K-푸드+ 수출 136.2억 달러(2025, 농식품부), 그중 농식품 104.1억 달러(10년 연속 증가).</li>
+<li><strong>[판단]</strong> 점유율 5%는 '이미 큰 숫자'가 아니라 '초기'다 — 닛신(일본) 한 회사의 글로벌 점유율보다 작다. 점유율 이동 여지는 남아 있으나, 증가율은 2024~25(+20~30%)에서 2026(+15%)으로 둔화 중이다.</li>
+</ul>
+<hr />
+<h2>4+5 종합: 수급 매트릭스 현재 위치 결론 【필수】</h2>
+<pre><code>[공급] 국내 제품 시장은 완성된 과점(라면 4사·제당 3사) — 더 줄 플레이어 없음. 그러나 과점의 보상(가격 인상)은 정부가 봉쇄.
+       수출용 CAPA는 부족(삼양 26억→2027 37억 개, 농심 수출용 7억→12억 개) — 단, 1~2년이면 복제 가능한 병목.
+       미국 빅푸드는 공장 폐쇄·분할로 공급 축소(구조조정).
+[수요] 국내 = 인구 정체·내수 부진(aT 경기지수 99.5) → 일정~감소.
+       K-라면 수출 = 11년 연속 최대, 2026 1~9월 +15% → 급증(증가율은 둔화).
+       미국 포장식품 = GLP-1·PB로 볼륨 −1~−2% → 감소.
+</code></pre>
+<table class="tbl">
+<thead>
+<tr>
+<th>세그먼트</th>
+<th>수요</th>
+<th>공급</th>
+<th>카테고리</th>
+<th>근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>K-라면 수출 (삼양·농심 해외)</strong></td>
+<td>급증</td>
+<td>제한(CAPA 부족)</td>
+<td><strong>B. 수요 견인 (삼양은 A 성격 일부)</strong></td>
+<td>수요 &gt; 공장. 단 병목이 1~2년짜리라 '구조적 메가 병목(A)'은 아님. 2027 증설 후 D(동반 확대)로 이동 [전망]</td>
+</tr>
+<tr>
+<td>오리온 해외(중·베·러·인)</td>
+<td>증가</td>
+<td>적당(현지 증설)</td>
+<td><strong>B → D</strong></td>
+<td>현지 생산형, 증설과 수요가 같이 감</td>
+</tr>
+<tr>
+<td>국내 내수 가공식품</td>
+<td>일정~감소</td>
+<td>과점(제한)</td>
+<td><strong>E(점진적 가격 상승)이어야 하지만 정책이 가격 레버 봉쇄 → 'E-억제' = 실질 중립~G 초입</strong></td>
+<td>과점인데 가격을 못 올림. 볼륨은 감소</td>
+</tr>
+<tr>
+<td>소재(제당·제분·전분당)</td>
+<td>일정</td>
+<td>과점</td>
+<td><strong>E → 정책 충격으로 일시 가격 인하</strong></td>
+<td>담합 제재 후 가격 인하(2026)</td>
+</tr>
+<tr>
+<td>바이오(사료용 아미노산)</td>
+<td>일정</td>
+<td>중국 증설 사이클</td>
+<td><strong>C. 일시적 사이클 반등</strong></td>
+<td>2026 라이신 판가 반등으로 CJ 핵심소재 영업이익 +36%(3Q26)</td>
+</tr>
+<tr>
+<td>미국 빅푸드</td>
+<td>감소</td>
+<td>감소(공장 폐쇄·분할)</td>
+<td><strong>G. 구조조정 진행</strong></td>
+<td>KHC 분할 추진·보류, Nestlé 감원, 공장 폐쇄</td>
+</tr>
+<tr>
+<td>담배 (비교군)</td>
+<td>완만한 감소</td>
+<td>면허 과점</td>
+<td><strong>E (가격 인상 자유)</strong></td>
+<td>진짜 가격결정력</td>
+</tr>
+</tbody>
+</table>
+<p><strong>→ 현재 산업은 '전체 중립', 그 안에서 K-라면 수출만 B(일부 A) 카테고리에 위치.</strong>
+<strong>→ 근거: 공급 측 = 수출용 CAPA 부족(복제 가능) + 국내 과점의 가격결정력 봉쇄 / 수요 측 = K-콘텐츠발 해외 수요 급증(증가율 둔화 시작) + 국내·미국 볼륨 정체~감소.</strong></p>
+<p><strong>테마 분석 연결 포인트</strong>: 이후 'K-푸드' 테마 분석 시 Step 3 병목 유형은 <strong>'B(수요 견인) — 공급 병목은 일시적'</strong>으로 시작할 것. 주도주 판정 기준은 ① 해외 매출 비중 50%+ ② 수출 지역 다변화(단일국 30% 미만) ③ CAPA 증설이 수요를 따라잡는 시점(2027) 이후에도 OPM 15%+ 유지 여부.</p>
+<h3>'성장주 신분' 종료 체크리스트 (삼양식품 3막 및 다음 후보에 공통 적용)</h3>
+<table class="tbl">
+<thead>
+<tr>
+<th>#</th>
+<th>신호</th>
+<th>현재 상태 (2026-11)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>라면 수출 증가율 2분기 연속 한 자릿수</td>
+<td>미충족 (1~9월 +15%, 10월 면류 호조)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>단일국 비중 30% 초과</td>
+<td>미충족 (중국 약 25%) — 근접</td>
+</tr>
+<tr>
+<td>3</td>
+<td>재고 증가 전환 (판매 &lt; 생산)</td>
+<td>미충족 (3Q25 기준 재고 감소) — CAPA 증설기라 주시</td>
+</tr>
+<tr>
+<td>4</td>
+<td>경쟁사 CAPA 급증으로 프리미엄 가격 하락</td>
+<td>진행 예정 (농심 녹산 2026-10, 삼양 자싱 2027)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>원화 강세 + 관세로 마진 축소</td>
+<td><strong>부분 진행</strong> (2026 원화 강세, 미국 관세 15%)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>주가가 이익보다 먼저 꺾임 (PER 압축)</td>
+<td><strong>진행 중</strong> (2025-08 고점 후 −18%, 이익은 +43%)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>부록 A. 데이터 출처</h2>
+<ul>
+<li>주가: Yahoo Finance 월간 수정종가 (003230.KS, 004370.KS, 001800.KS, 271560.KS, 097950.KS, 007310.KS, 280360.KS, 005180.KS, 001680.KS, 017810.KS, 005300.KS, 000080.KS, 033780.KS, ^KS11, NESN.SW, PEP, KO, MDLZ, HSY, KHC, GIS, MNST, CELH, XLP, 2802.T, 2897.T, 2875.T, 600519.SS, 0322.HK, ^GSPC), 2026-11-14 기준. 베타·포착률·CAGR·MDD·에피소드 수익률은 직접 계산.</li>
+<li>재무: OpenDART 단일회사 전체 재무제표(연결) — 삼양식품·농심·오리온·CJ제일제당·오뚜기·롯데웰푸드·빙그레·대상, 2015~2025 사업보고서, 2025·2026 3분기보고서.</li>
+<li>라면·K-푸드 수출: 농림축산식품부 보도자료(2026-01-12 K-푸드+ 136.2억 달러), 관세청, 머니투데이(2026-07-06 국가별 라면 수출), Korea Business Review(2026-04), 메트로서울(2026-08-25 상반기 라면 수출), 유안타증권 음식료 리포트(2026-10-21, 1~9월 +15%), 매일경제(2026-07-29 K라면 해외 5조), 산업통상부 10월 수출입 동향(2026-11-01).</li>
+<li>기업: 삼양식품 3Q26(인사이트·머니투데이 2026-11-06, 더밸류뉴스 2026-11-11), 오리온(CEO스코어데일리 2026-10-19, 딜사이트 2025-11-13), 농심(비즈워치 2026-11-06, 딜사이트 2026-07-18), CJ제일제당 3Q26(딜사이트·머니투데이 2026-11-10), KITA/한국무역신문(CAPA·글로벌 라면 수요).</li>
+<li>정책: 뉴스토마토(2026-02-11 물가 TF, 2026-10-16 완제품 담합 조사), 공정위 설탕 담합 브리핑(2026-02-12), 경북매일(2026-09-30 과징금 2.2조/올해 1.8조), 키움증권(2026-11-02 라면 담합 현장조사), 아시아경제(2026-01-27 가격 인상 올스톱).</li>
+<li>글로벌: Reuters(2026-02 GLP-1·빅푸드), EY-Parthenon·OC&amp;C(GLP-1 볼륨 영향), Bakery&amp;Snacks(2026-03 공장 폐쇄), Trefis·Morningstar·Pulse(Kraft Heinz 분할 2025-09/보류 2026-05), Food Ingredients First·Reuters(Nestlé 2025 실적·감원·아이스크림 매각), 매일경제(닛신 실적 코멘트).</li>
+<li>역사(1~3 chunk): 일반 산업사(Nestlé·Heinz·Coca-Cola 창업 연도, 1906 Pure Food and Drug Act, 1958 치킨라멘, 1963 삼양라면, 1986 신라면, 1989 우지 파동, 1997 IMF) — 널리 알려진 사실로 개별 출처 생략.</li>
+</ul></div></body></html>
