@@ -129,7 +129,7 @@
 </div>
 <div class="view" id="view-mna">
   <div class="intro">경영권 분쟁은 이해관계자의 코멘트·공시·법원 결정 하나가 주가를 압도한다. 케이스별로 데일리 이벤트(공시·뉴스·법원·규제)를 캔들 위에 겹쳐 보고, 어떤 이벤트가 어떤 방향으로 반응했는지 추적한다.</div>
-  <div class="ohlc-bar" id="mna-cases">케이스: <button class="on" data-k="koreazinc">고려아연 2024~25</button><button disabled title="준비 중">한진칼 2025~26 (준비 중)</button><button disabled title="준비 중">에스엠 2023 (준비 중)</button></div>
+  <div class="ohlc-bar" id="mna-cases">케이스: <button class="on" data-k="koreazinc">고려아연 2024~25</button><button data-k="hanjinkal">한진칼 2026 (진행 중)</button><button disabled title="준비 중">에스엠 2023 (준비 중)</button></div>
   <div id="mna-body"></div>
 </div>
 <script>
@@ -355,6 +355,13 @@ const MNA_LESSON = {
     '<b>⑥ 동반주(영풍·영풍정밀)는 실익이 적었다.</b> 발표일 시초 상한가 잠김(거래대금 131·38억). 대장 하나(고려아연)를 이벤트 캘린더와 함께 보는 것이 효율적.'
   ]
 };
+MNA_LESSON.hanjinkal = [
+  '<b>고려아연 대비 위치 (2026-11-16 기준).</b> 공개매수(①)·대항 공개매수 없이 바로 장내 매수 경쟁으로 시작 → 가격 기준선(공개매수가)이 없음. 주가 경로는 고려아연 ③ 기준일 매집 레그와 거의 같음: 7거래일 +92%(고려아연 +113%), 8일째 장중 신고가 후 급반락(-17% vs -9.4%).',
+  '<b>표 대결 구도는 이미 기울어 있음.</b> 호반 20.69% vs 조 측 20.58%(매입 완료 시 21.07%)지만 델타 14.90%·산업은행 10.58%가 조 측 우호 → 우호 포함 약 46%. 고려아연(38.5% vs 36.5% 박빙)처럼 장내 매집 경쟁이 이어질 근거가 약함. 조 측 추가 매입도 시간외 대량매매(주당 11.4만원)라 장내 가격을 끌어올리지 않음.',
+  '<b>잡주 대장(한진칼우)이 분위기를 주도.</b> 의결권 없는 우선주인데 11/13 거래대금이 본주를 추월 — 고려아연 케이스(영풍정밀 최대 1,496억 vs 고려아연 9,545억)에는 없던 과열 신호. 11/11 장중 우선주 상한가가 풀린 시각에 본주도 같이 무너짐.',
+  '<b>시나리오 트리거.</b> Base = 고려아연 ③형 소멸(고점 11/10 장중 24.5만): 호반 추가 장내매수 공시 부재·거래대금 감소·우선주 투자위험 지정. 상방 = 호반 보유목적 변경·대량 장내매수 재개·주주제안/임시주총 청구·델타/산은 지분 변화. 하방 = 호반 블록딜·불참 선언(고려아연 11/13 유증 철회 -14%형).',
+  '<b>시세 기준 주의.</b> 2025-03 NXT 출범 이후 데이터는 통합 시세(애프터마켓 20:00 종가 포함, 키움 \'통\'과 같은 기준)라 기사 속 정규장 등락률과 다를 수 있음 (예: 11/2 정규장 +8.8% vs 통합 +17.2%).'
+];
 let MNA = {}, MNA_CH = null;
 function pct(a, b) { return (a / b - 1) * 100; }
 function renderMNA(key) {
@@ -441,6 +448,11 @@ function renderMNA(key) {
   fetch('data/mna_' + key + '.json', { cache: 'no-store' }).then(r => r.json()).then(d => { MNA[key] = d; go(d); })
     .catch(e => { body.innerHTML = '<div class="card">데이터를 불러오지 못했습니다: ' + e + '</div>'; });
 }
+document.querySelectorAll('#mna-cases button[data-k]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#mna-cases button').forEach(x => x.classList.toggle('on', x === b));
+  ['mna-chart', 'mna-chart2'].forEach(id => { const el = document.getElementById(id); if (el && el._ch) { el._ch.dead = true; try { el._ch.chart.remove(); } catch (e) {} el._ch = null; } });
+  MNA_CH = null; renderMNA(b.dataset.k);
+});
 document.querySelectorAll('.sub-btn').forEach(b => b.onclick = () => {
   document.querySelectorAll('.sub-btn').forEach(x => x.classList.toggle('active', x === b));
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + b.dataset.v));
