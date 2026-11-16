@@ -325,13 +325,26 @@
       </span>
     </h2>
     <div id="esg-wrap" style="position:relative;overflow:hidden;margin:10px 14px 14px;">
-      <iframe id="esg-frame" src="https://esignal.co.kr/kospi200-futures-day-night/" scrolling="no" loading="eager" referrerpolicy="no-referrer"
+      <iframe id="esg-frame" scrolling="no" loading="eager" referrerpolicy="no-referrer"
         style="position:absolute;left:0;top:0;width:929px;height:1200px;border:0;transform-origin:0 0;background:#fff;"></iframe>
     </div>
+    <!-- 휴대폰 (2026-11-16 BT): 폰 브라우저는 다른 사이트 안에 띄운 esignal 차트가 뜨지 않아(제3자 쿠키 차단 추정) 버튼으로 대체 -->
+    <a id="esg-mobile" href="https://esignal.co.kr/kospi200-futures-day-night/" target="_blank"
+      style="display:none;margin:10px 14px 14px;padding:16px;text-align:center;border:1px solid #30363d;border-radius:8px;background:#1f2937;color:#e6edf3;font-size:15px;font-weight:700;text-decoration:none;">📈 야간선물 차트 열기 (esignal) ↗</a>
   </div>
 </div>
 <script>
 (function () {
+  const URL0 = 'https://esignal.co.kr/kospi200-futures-day-night/';
+  const MOBILE = /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+  if (MOBILE) {   // 폰: iframe 을 아예 불러오지 않고 버튼만
+    const w = document.getElementById('esg-wrap'), m = document.getElementById('esg-mobile');
+    if (w) w.style.display = 'none'; if (m) m.style.display = 'block';
+    document.querySelectorAll('[onclick^="esgNudge"],[onclick^="esgReload"]').forEach(b => b.style.display = 'none');
+    window.esgNudge = window.esgReload = () => {};
+    return;
+  }
+  document.getElementById('esg-frame').src = URL0;
   const X0 = 20, CW = 880, CH = 462, DEF = 452, MAXS = 1.25;
   let off = DEF; try { const v = +localStorage.getItem('esgOff'); if (v) off = v; } catch (e) {}
   function lay() {
