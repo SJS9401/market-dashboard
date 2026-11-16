@@ -106,11 +106,12 @@
 | CCJ | Cameco | 2027 단위원가 C$65 이하, 계약 북 2,800만lb 돌파, 실현가 US$66→73, WH 공개 S-1, 한미 AP1000 선급금 $100억 |
 | LEU | Centrus | 4Q 매출 $142~192M·LEU GPM 30%+ 회복, Piketon 리스 연장 12/31, 12/7 Investor Day CapEx·증자, TENEX 2028 waiver |
 | CEG | Constellation Energy | 기존 원전 가동/수익성 |
-| OKLO | Oklo | SMR 진척, 규제 |
+| OKLO | Oklo | Aurora 2028-29 추가후퇴 여부, 구속력 PPA 첫 체결, 공사비·4Q CapEx(3월 10-K), ATM 단가 $42·잔여 $911M, PJM 오하이오 |
 | SMR | NuScale Power | TVA PPA 체결·PMA2 약 $1.2B 유출, 유동성 $1.86B·ATM $7.5억, 두산 URPV 제작, RoPower pre-EPC, 소송 기각 12월 |
 | VST | Vistra | 원전+가스 발전, 전력 가격 |
 | XE | X-energy | Dow FID, ARDP +$1B 계약수정·3월 연장, 분기 소진 $100M 내외, AEP·ENW 확정계약, TX-1·두산 Dow 기자재 |
 | — | 두산에너빌리티 | 4Q OP 3,080억·에너빌리티 OPM 6%+, AP1000 장납기 첫 계약, SMR 1조·수주 13.3조, 체코 재입찰, GT 2030슬롯 확정전환 |
+| 7011.T | Mitsubishi Heavy | 4Q 원자력 매출 ¥110bn+(9M 48%), FY26 ¥600/550bn 유지, ES 이익률 IGCC 제외 17%+, 롯카쇼 2027-03 준공 연기 여부, 도마리3·미하마 SRZ-1200 |
 | — | 한국전력 | 전력 요금, 원전 가동 |
 | — | 현대건설 | 원전 건설, 한미 원전 협력 |
 
