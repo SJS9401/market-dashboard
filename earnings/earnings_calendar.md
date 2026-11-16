@@ -103,6 +103,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
+| BWXT | BWXT | 4Q EBITDA $184M·매출 $1.09B, 미국 신규원전 첫 발주 1H27, 대형부품 공장 FID, 해군 다년계약, 의료 매각 종결 |
 | CCJ | Cameco | 2027 단위원가 C$65 이하, 계약 북 2,800만lb 돌파, 실현가 US$66→73, WH 공개 S-1, 한미 AP1000 선급금 $100억 |
 | LEU | Centrus | 4Q 매출 $142~192M·LEU GPM 30%+ 회복, Piketon 리스 연장 12/31, 12/7 Investor Day CapEx·증자, TENEX 2028 waiver |
 | CEG | Constellation Energy | 4Q EPS $2.31(YoY 0%), 2027 가이던스 +15%?, Crane 2H27 재가동, PJM 백스톱 5/10, LS Power 매각 $5B |
