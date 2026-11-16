@@ -13,7 +13,7 @@
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
 | SPCX | SpaceX | 4Q 매출 $19.7B+·12월 ARR $100B, 1Q27 $33~37B 가이던스, 4Q CapEx $35~40B 조달, Flight 15 완전회수, 12/9 락업 |
-| AAPL | Apple | 소비자 수요, 서비스 매출 |
+| AAPL | Apple | 12월 영업이익 YoY -1% 가이던스, GPM 45~46% 바닥, Services +8~9% 바닥, Siri AI 유료 티어, Duo·중국 수요 |
 | AMZN | Amazon | AWS 4Q 증분 $3.6B+·40% 진입, 4Q 조정OP YoY 24%↑, 4Q FCF 흑자·27 CapEx 조달, 광고 10%후반, AI ARR 재공시 |
 | GOOGL | Alphabet | 4Q 검색 YoY 10% 사수, 4Q 조정OP YoY 20%↑, FCF 흑자 복귀·27 CapEx 조달, 클라우드 OPM 33%↑, SpaceX 평가손 |
 | META | Meta | 4Q 조정OP YoY 0% 방어·27 비용 가이던스, Muse 유료 구독·글로벌 출시, $95B 증자 희석·ATM, 광고 노출 10%+, 법적비용 |
@@ -40,9 +40,9 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| INTC | Intel | DCAI $5.5B+ 가시화, ASIC 분기 매출·고객 공개, Foundry OM -50% 회복, PC TAM 2H -10~-15% 검증, AMD/ARM 점유율 |
+| INTC | Intel | 1Q27 가이던스 QoQ 반등, DCAI 4Q $8.4B, CCPG QoQ −20%, 27 CapEx·FCF, EMIB 고객 |
 | AMD | AMD | 4Q 매출 $17B·DC +50% QoQ, 1Q27 GPM 54%+, HBM4 배정·원가, 재고·FCF 회복, Helios 신규 고객 |
-| ARM | ARM Holdings | Smartphone royalty 정상화 (+20% 약속), Cloud AI royalty 2x+ 지속, AGI CPU Meta 출하·추가 고객, FY27 license+royalty +20% verify, NVIDIA Vera 256 rack 양산 |
+| ARM | ARM Holdings | FQ3 로열티 한 자릿수 초반 바닥, AGI CPU FQ4 첫 매출·GPM 40%, 스마트폰·메모리가, Vera·DC 로열티 |
 
 ### 반도체 — ASIC (AI 가속기)
 
@@ -69,7 +69,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
-| TSM | TSMC | 파운드리 가동률, AI칩 수요, 첨단 노드 ramp (N3·N2) |
+| TSM | TSMC | 4Q 매출 $53B·HPC QoQ 두 자릿수, 2027 CapEx $80B+, 해외팹 희석 3～4%p, N2 비중 10%+, AI CAGR 상향 |
 
 ### 반도체 — 소부장 (장비)
 
@@ -424,10 +424,12 @@
 
 ---
 
+---
+
 ## 실적 발표 일정 (노션 동기화)
 
 > 원본: 노션 「실적 캘린더」 DB (`collection://a5dfe05a-3bf5-4a79-a45b-73666af21689`). 이 섹션은 `_internal/_tools/notion_calendar_sync.py`가 통째로 다시 쓴다 — **직접 수정 금지, 노션에서 수정 후 동기화.**
-> 최종 동기화: 2026-11-16 13:27 KST · 워치리스트 종목 173건 (노션 실적 행 361건 중)
+> 최종 동기화: 2026-11-16 13:46 KST · 워치리스트 종목 173건 (노션 실적 행 361건 중)
 > 날짜 앞 `~` = 노션 검증상태 "추정". 비고 끝 `[YYYY-Qn]` = 대시보드 캘린더 분기 (한국 nQyy·미국 Qn YYYY는 그대로, 회계분기는 발표일에서 역산). 잠정·확정이 둘 다 있으면 이른 날짜 표시 + 비고에 둘 다.
 > 노션에 없는 워치리스트 종목: Live Nation, Spotify, Tencent Music, Universal Music, 디어유, 큐브엔터
 
@@ -494,6 +496,7 @@
 | 2026-10-28 | Vertiv(VRT) | 전력 인프라 | Q3 2026 · 확정 · BMO [2026-Q3] |
 | 2026-10-29 | Alphabet(GOOGL) | 미국 빅테크 | Q3 2026 · 확정 · AMC [2026-Q3] |
 | 2026-10-29 | HII(HII) | 조선 | Q3 2026 · 확정 · BMO [2026-Q3] |
+| 2026-10-29 | Intel(INTC) | 반도체 | Q3 2026 · 확정 · AMC [2026-Q3] |
 | 2026-10-29 | Microsoft(MSFT) | 미국 빅테크 | Q1 FY2027 · 이중검증완료 · AMC [2026-Q3] |
 | 2026-10-29 | SK온 | 배터리 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-29 | SanDisk(SNDK) | 반도체 | Q1 FY2027 · 확정 · AMC [2026-Q3] |
@@ -509,7 +512,6 @@
 | 2026-10-30 | Amazon(AMZN) | 미국 빅테크 | Q3 2026 · 확정 · AMC [2026-Q3] |
 | 2026-10-30 | Cameco(CCJ) | 원전 | Q3 2026 · 확정 · BMO [2026-Q3] |
 | 2026-10-30 | General Dynamics(GD) | 방산 | Q3 2026 · 확정 · BMO [2026-Q3] |
-| 2026-10-30 | Intel(INTC) | 반도체 | Q3 2026 · 확정 · AMC [2026-Q3] |
 | 2026-10-30 | Panasonic Energy(6752.T) | 배터리 | Q2 FY2027 · 확정 [2026-Q3] |
 | 2026-10-30 | 에이피알 | 뷰티 | 3Q26 잠정 · 확정 [2026-Q3] |
 | 2026-10-30 | 현대건설 | 원전 | 3Q26 잠정 · 확정 [2026-Q3] |
