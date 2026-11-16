@@ -310,6 +310,43 @@
 <div class="tab-bar" data-active="dashboard"></div>
 <script src="nav-loader.js" defer></script>
 <div class="header"><h1>마켓 대시보드</h1><div style="display:flex;align-items:center;gap:12px"><span class="refresh-timer" id="refresh-timer" title="다음 차트 데이터 갱신까지 남은 시간 (Yahoo Finance 야후 데이터, 15분 단위)">차트 --:--:--</span><span class="refresh-timer" id="refresh-timer-data" title="다음 지표 데이터 갱신까지 남은 시간 (GitHub Actions cron). 색상 점: 24h 이내 녹색 / 24-48h 노란색 / 48h+ 빨간색 — 빨간색이면 cron 실패 의심">지표 --:--:-- <span class="dot ok"></span></span><div class="time" id="clock"></div></div></div>
+<!-- 코스피200 주간·야간선물 (2026-11-16 BT): esignal.co.kr 페이지를 iframe 으로 띄우고 차트 2개 영역만 잘라 보여준다.
+     esignal 데이터는 CORS 로 막혀 직접 받을 수 없어 화면 임베드 방식. iframe 폭 929px 기준 차트 영역 = x 20~900, y ≈452~914.
+     위쪽 광고 높이가 바뀌면 잘린 위치가 밀릴 수 있음 → ▲▼ 버튼으로 조정(브라우저에 저장), ↻ 로 다시 불러오기. -->
+<div class="events" style="margin-top:10px;">
+  <div class="events-card" style="flex:1;">
+    <h2 style="display:flex;align-items:baseline;gap:10px;">코스피200 주간·야간선물
+      <span style="color:#8b949e;font-weight:400;font-size:11px;">esignal.co.kr 추정가(derived) · 실시간</span>
+      <span class="series-toggle" style="margin-left:auto;display:flex;gap:4px;">
+        <button onclick="esgNudge(-20)" title="보이는 영역을 위로 이동">▲</button>
+        <button onclick="esgNudge(20)" title="보이는 영역을 아래로 이동">▼</button>
+        <button onclick="esgReload()" title="다시 불러오기">↻ 새로고침</button>
+        <a href="https://esignal.co.kr/kospi200-futures-day-night/" target="_blank" style="font-size:11px;color:#8b949e;align-self:center;margin-left:4px;">원본 ↗</a>
+      </span>
+    </h2>
+    <div id="esg-wrap" style="position:relative;overflow:hidden;margin:10px 14px 14px;">
+      <iframe id="esg-frame" src="https://esignal.co.kr/kospi200-futures-day-night/" scrolling="no" loading="eager" referrerpolicy="no-referrer"
+        sandbox="allow-scripts allow-same-origin"
+        style="position:absolute;left:0;top:0;width:929px;height:1200px;border:0;transform-origin:0 0;background:#fff;"></iframe>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const X0 = 20, CW = 880, CH = 462, DEF = 452, MAXS = 1.25;
+  let off = DEF; try { const v = +localStorage.getItem('esgOff'); if (v) off = v; } catch (e) {}
+  function lay() {
+    const w = document.getElementById('esg-wrap'), f = document.getElementById('esg-frame'); if (!w || !f) return;
+    const s = Math.min(MAXS, w.clientWidth / CW), left = Math.max(0, (w.clientWidth - CW * s) / 2);
+    w.style.height = Math.round(CH * s) + 'px';
+    f.style.transform = `translate(${left - X0 * s}px, ${-off * s}px) scale(${s})`;
+  }
+  window.esgNudge = d => { off = Math.max(0, off + d); try { localStorage.setItem('esgOff', off); } catch (e) {} lay(); };
+  window.esgReload = () => { const f = document.getElementById('esg-frame'), u = 'https://esignal.co.kr/kospi200-futures-day-night/'; f.src = 'about:blank'; setTimeout(() => { f.src = u; }, 60); };
+  window.addEventListener('resize', lay); document.addEventListener('DOMContentLoaded', lay); lay();
+})();
+</script>
+
 <!-- 2026-11-12 BT: 수시로 확인하는 카드라 페이지 최상단(헤더 바로 아래)으로 이동 -->
 <!-- 해외 실시간 추정가 (2026-08-21 BT 요청): Binance 주식 무기한선물 × USD/KRW.
      코스피랩과 동일 소스 (실측 일치 확인). 15초 폴링, 24시간 갱신. -->
