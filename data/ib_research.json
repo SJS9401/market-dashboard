@@ -1,17 +1,17 @@
 {
- "generated_at_kst": "2026-11-16T09:31+09:00",
- "run_date_kst": "2026-11-16",
+ "generated_at_kst": "2026-11-17T09:31+09:00",
+ "run_date_kst": "2026-11-17",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 0,
+   "new_today": 3,
    "initial_load": false,
    "latest": {
-    "title": "Global Sovereign Bond Issuance in 2027—Leveling Out",
-    "date": "2026-11-11",
-    "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-markets-daily-g4-net-bond-supply-leveling-out"
+    "title": "Global Macro Outlook: Steady Baseline, Downside Risks",
+    "date": "2026-11-16",
+    "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-macro-outlook-stead-baseline-downside-risks"
    }
   },
   "UBS": {
@@ -39,12 +39,12 @@
   "소시에테제네랄": {
    "status": "ok",
    "count": 9,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Red screens: Why is (almost) no-one talking about liquidity?",
-    "date": "2026-11-12",
-    "url": "https://insight-public.sgmarkets.com/alternative-view/red-screens-why-is-almost-no-one-talking-about-liquidity"
+    "title": "Semiconductors and European banks diverge as munis and credit attract capital",
+    "date": "2026-11-16",
+    "url": "https://insight-public.sgmarkets.com/etf-market-insights/semiconductors-and-european-banks-diverge"
    }
   },
   "JP모건": {
@@ -71,13 +71,13 @@
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 21,
-   "new_today": 0,
+   "count": 20,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "A Stock Market Bottom in Sight",
-    "date": "2026-11-09",
-    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/market-bottom-final-retest-mike-wilson"
+    "title": "From AI to Air Conditioning: The Power Boom in Asia",
+    "date": "2026-11-12",
+    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/asia-growing-power-demands-mayank-maheshwari"
    }
   },
   "Jefferies": {
@@ -94,16 +94,65 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 0,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
-    "title": "Still on the sidelines with Tech",
+    "title": "The global bond markets: A new era",
     "date": "2026-11-01",
-    "url": "https://www.rbccm.com/en/insights/2026/11/still-on-the-sidelines-with-tech"
+    "url": "https://www.rbccm.com/en/insights/2026/11/the-global-bond-markets-a-new-era"
    }
   }
  },
  "recent_new": [
+  {
+   "bank": "골드만삭스",
+   "title": "Global Macro Outlook: Steady Baseline, Downside Risks",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-macro-outlook-stead-baseline-downside-risks",
+   "date": "2026-11-16",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "골드만삭스",
+   "title": "Global Markets Outlook: Growing Pains",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-markets-outlook-growing-pains",
+   "date": "2026-11-16",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "골드만삭스",
+   "title": "Global Equity Strategy Outlook: Finding Value in Growth",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-equity-strategy-outlook-finding-value-in-growth",
+   "date": "2026-11-16",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "소시에테제네랄",
+   "title": "Semiconductors and European banks diverge as munis and credit attract capital",
+   "url": "https://insight-public.sgmarkets.com/etf-market-insights/semiconductors-and-european-banks-diverge",
+   "date": "2026-11-16",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "2027 Global Outlook: Powered by AI, Tested by Oil",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/2027-global-economic-outlook-ai-growth-inflation-seth-carpenter-serena-tang",
+   "date": null,
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "The global bond markets: A new era",
+   "url": "https://www.rbccm.com/en/insights/2026/11/the-global-bond-markets-a-new-era",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "The George Davis Report: November 2026 Edition",
+   "url": "https://www.rbccm.com/en/insights/2026/11/the-george-davis-report-november-2026-edition",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-17T09:31+09:00"
+  },
   {
    "bank": "JP모건",
    "title": "Consumer spending trends: Saving less, borrowing more",
@@ -313,20 +362,6 @@
    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-power-demand-data-centers-energy-storage-andrew-percoco-david-arcaro",
    "date": null,
    "first_seen_kst": "2026-11-04T09:31+09:00"
-  },
-  {
-   "bank": "골드만삭스",
-   "title": "Music in the Air: 10 Years On",
-   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/music-in-the-air-10-years-on",
-   "date": "2026-11-02",
-   "first_seen_kst": "2026-11-03T09:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "Will AI Start Making Your Hotel Reservations?",
-   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-hotel-bookings-travel-industry-stephen-grambling",
-   "date": null,
-   "first_seen_kst": "2026-11-03T09:31+09:00"
   }
  ]
 }
