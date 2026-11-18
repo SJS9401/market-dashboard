@@ -1,12 +1,12 @@
 {
- "generated_at_kst": "2026-11-17T09:31+09:00",
- "run_date_kst": "2026-11-17",
+ "generated_at_kst": "2026-11-18T09:31+09:00",
+ "run_date_kst": "2026-11-18",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 3,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Global Macro Outlook: Steady Baseline, Downside Risks",
@@ -28,18 +28,18 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Food security: a global risk",
-    "date": "2026-11-10",
-    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/food-security-a-global-risk.html"
+    "title": "Agentic AI and the future of financial services",
+    "date": "2026-11-17",
+    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/agentic-ai-and-the-future-of-financial-services.html"
    }
   },
   "소시에테제네랄": {
    "status": "ok",
    "count": 9,
-   "new_today": 1,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
     "title": "Semiconductors and European banks diverge as munis and credit attract capital",
@@ -61,23 +61,23 @@
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "E92: Latin America: Room to Run, Risks to Watch",
-    "date": null,
-    "url": "https://www.citigroup.com/global/insights/e92-latin-america-room-to-run-risks-to-watch"
+    "title": "Markets Edition: Writing on the Wall(er): Fed Hawks Are Back in Town",
+    "date": "2026-11-17",
+    "url": "https://www.citigroup.com/global/insights/markets-edition-writing-on-the-waller-fed-hawks-are-back-in-town"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 20,
-   "new_today": 1,
+   "count": 21,
+   "new_today": 4,
    "initial_load": false,
    "latest": {
-    "title": "From AI to Air Conditioning: The Power Boom in Asia",
-    "date": "2026-11-12",
-    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/asia-growing-power-demands-mayank-maheshwari"
+    "title": "2027 Global Outlook: Powered by AI, Tested by Oil",
+    "date": "2026-11-16",
+    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/2027-global-economic-outlook-ai-growth-inflation-seth-carpenter-serena-tang"
    }
   },
   "Jefferies": {
@@ -94,7 +94,7 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 2,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "The global bond markets: A new era",
@@ -104,6 +104,62 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "바클레이스",
+   "title": "Agentic AI and the future of financial services",
+   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/agentic-ai-and-the-future-of-financial-services.html",
+   "date": "2026-11-17",
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "소시에테제네랄",
+   "title": "Battle hardened",
+   "url": "https://insight-public.sgmarkets.com/insights/credit-strategy-outlook-battle-hardened",
+   "date": "2026-11-11",
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "소시에테제네랄",
+   "title": "Cybersecurity - The New Frontier of ESG Risk",
+   "url": "https://insight-public.sgmarkets.com/insights/cybersecurity-the-new-frontier-of-esg-risk",
+   "date": "2026-10-22",
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "씨티",
+   "title": "Markets Edition: Writing on the Wall(er): Fed Hawks Are Back in Town",
+   "url": "https://www.citigroup.com/global/insights/markets-edition-writing-on-the-waller-fed-hawks-are-back-in-town",
+   "date": "2026-11-17",
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "How Credit Markets Are Financing AI Infrastructure",
+   "url": "https://www.morganstanley.com/insights/articles/credit-markets-financing-ai-infrastructure",
+   "date": null,
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Frontier Industries to Reshape China's Economy and Markets",
+   "url": "https://www.morganstanley.com/insights/articles/china-frontier-industries-tech-stocks-outlook-2030",
+   "date": null,
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "The Upcoming Korean Renaissance",
+   "url": "https://www.morganstanley.com/insights/articles/south-korea-market-outlook-kospi-growth",
+   "date": null,
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "2027 Global Outlooks: The Case for a Stronger Dollar, Longer AI Cycle",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/global-outlook-2027-seth-carpenter-serena-tang",
+   "date": null,
+   "first_seen_kst": "2026-11-18T09:31+09:00"
+  },
   {
    "bank": "골드만삭스",
    "title": "Global Macro Outlook: Steady Baseline, Downside Risks",
@@ -341,27 +397,6 @@
    "url": "https://www.rbccm.com/en/insights/2026/11/still-on-the-sidelines-with-tech",
    "date": "2026-11-01",
    "first_seen_kst": "2026-11-05T09:31+09:00"
-  },
-  {
-   "bank": "바클레이스",
-   "title": "Chips, chokepoints and the battle for AI supremacy",
-   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/chips-chokepoints-and-the-battle-for-ai-supremacy.html",
-   "date": "2026-11-03",
-   "first_seen_kst": "2026-11-04T09:31+09:00"
-  },
-  {
-   "bank": "씨티",
-   "title": "Markets Edition: Halloween Pullback — Tactical or Something More Sinister?",
-   "url": "https://www.citigroup.com/global/insights/markets-edition-halloween-pullback-tactical-or-something-more-sinister",
-   "date": "2026-11-03",
-   "first_seen_kst": "2026-11-04T09:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "Solving AI’s Power Bottleneck",
-   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/ai-power-demand-data-centers-energy-storage-andrew-percoco-david-arcaro",
-   "date": null,
-   "first_seen_kst": "2026-11-04T09:31+09:00"
   }
  ]
 }
