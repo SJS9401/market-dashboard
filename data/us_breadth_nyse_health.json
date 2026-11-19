@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-19T10:47:18Z",
+ "run_at": "2026-11-19T22:01:06Z",
  "mode": "incremental",
  "status": "OK",
  "trimmed_tail": [],
@@ -8,16 +8,16 @@
  "n_downloaded": 1911,
  "n_failed": 0,
  "failed_sample": [],
- "last_date": "2026-11-18",
+ "last_date": "2026-11-19",
  "stale_n": 0,
  "stale_pct": 0.0,
  "stale_sample": [],
- "n_valid_200_last": 1856,
+ "n_valid_200_last": 1849,
  "last_values": {
-  "date": "2026-11-18",
-  "pct_above_200ma": 43.534,
-  "pct_above_50ma": 42.512,
-  "n_valid_200": 1856,
-  "n_valid_50": 1903
+  "date": "2026-11-19",
+  "pct_above_200ma": 39.102,
+  "pct_above_50ma": 35.574,
+  "n_valid_200": 1849,
+  "n_valid_50": 1889
  }
 }
