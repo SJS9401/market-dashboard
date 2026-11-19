@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-11-18T09:31+09:00",
- "run_date_kst": "2026-11-18",
+ "generated_at_kst": "2026-11-19T09:31+09:00",
+ "run_date_kst": "2026-11-19",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -28,7 +28,7 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Agentic AI and the future of financial services",
@@ -39,7 +39,7 @@
   "소시에테제네랄": {
    "status": "ok",
    "count": 9,
-   "new_today": 2,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Semiconductors and European banks diverge as munis and credit attract capital",
@@ -49,13 +49,13 @@
   },
   "JP모건": {
    "status": "ok",
-   "count": 6,
-   "new_today": 0,
+   "count": 7,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Consumer spending trends: Saving less, borrowing more",
-    "date": "2026-11-13",
-    "url": "https://www.jpmorgan.com/insights/global-research/economy/consumer-spending"
+    "title": "Currency volatility: Dollar strength, euro weakness?",
+    "date": "2026-11-18",
+    "url": "https://www.jpmorgan.com/insights/global-research/currencies/currency-volatility-dollar-strength"
    }
   },
   "씨티": {
@@ -64,14 +64,14 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Markets Edition: Writing on the Wall(er): Fed Hawks Are Back in Town",
-    "date": "2026-11-17",
-    "url": "https://www.citigroup.com/global/insights/markets-edition-writing-on-the-waller-fed-hawks-are-back-in-town"
+    "title": "U.S. Midterms: Implications for the Economy & Markets",
+    "date": "2026-11-18",
+    "url": "https://www.citigroup.com/global/insights/us-midterms-implications-for-the-economy-markets"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 21,
+   "count": 22,
    "new_today": 4,
    "initial_load": false,
    "latest": {
@@ -104,6 +104,48 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "JP모건",
+   "title": "Currency volatility: Dollar strength, euro weakness?",
+   "url": "https://www.jpmorgan.com/insights/global-research/currencies/currency-volatility-dollar-strength",
+   "date": "2026-11-18",
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
+  {
+   "bank": "씨티",
+   "title": "U.S. Midterms: Implications for the Economy & Markets",
+   "url": "https://www.citigroup.com/global/insights/us-midterms-implications-for-the-economy-markets",
+   "date": "2026-11-18",
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Looking Past the Tech Rout to a Stronger Market",
+   "url": "https://www.morganstanley.com/insights/articles/stock-market-tech-selloff",
+   "date": null,
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "2027 Global Investment Outlook: The Year to Embrace Risk",
+   "url": "https://www.morganstanley.com/insights/articles/stock-market-investment-outlook-2027",
+   "date": null,
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "2027 Economic Outlook: Powered by AI, Tested by Oil",
+   "url": "https://www.morganstanley.com/insights/articles/global-economic-outlook-2027",
+   "date": null,
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "2027 Equities Outlook: Why the Correction Isn't the End of the Bull Market",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/2027-stock-market-outlook-sp-500-equities-mike-wilson",
+   "date": null,
+   "first_seen_kst": "2026-11-19T09:31+09:00"
+  },
   {
    "bank": "바클레이스",
    "title": "Agentic AI and the future of financial services",
@@ -362,41 +404,6 @@
    "url": "https://www.jefferies.com/insights/markets/europes-defense-innovators-are-building-for-the-long-term/",
    "date": "2026-10-19",
    "first_seen_kst": "2026-11-12T15:07+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "Investing in Europe Means Looking Beyond the Index",
-   "url": "https://www.morganstanley.com/insights/articles/europe-new-investment-era-guides-economic-outlook-2026",
-   "date": null,
-   "first_seen_kst": "2026-11-05T09:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "What the Democratic Midterm Sweep Could Mean for Markets",
-   "url": "https://www.morganstanley.com/insights/articles/2026-us-midterm-election-results-market-impact",
-   "date": null,
-   "first_seen_kst": "2026-11-05T09:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "Building a Company That’s Ready for Liquidity",
-   "url": "https://www.morganstanley.com/insights/articles/ipo-readiness-private-company-liquidity-carta-charly-kevers",
-   "date": null,
-   "first_seen_kst": "2026-11-05T09:31+09:00"
-  },
-  {
-   "bank": "모건스탠리",
-   "title": "Midterm Election Results: Three Key Takeaways",
-   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/us-midterm-elections-market-policy-outlook-ariana-salvatore",
-   "date": null,
-   "first_seen_kst": "2026-11-05T09:31+09:00"
-  },
-  {
-   "bank": "RBC",
-   "title": "Still on the sidelines with Tech",
-   "url": "https://www.rbccm.com/en/insights/2026/11/still-on-the-sidelines-with-tech",
-   "date": "2026-11-01",
-   "first_seen_kst": "2026-11-05T09:31+09:00"
   }
  ]
 }
