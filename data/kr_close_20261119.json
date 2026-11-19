@@ -1,0 +1,350 @@
+{
+ "generated_at": "2026-11-20T01:31:40.590361+09:00",
+ "base_date": "2026-11-19",
+ "base_date_source": "computed(session-date: 15:40 KST cutoff, weekend-adjusted, 휴장일 미반영)",
+ "units": {
+  "indices.value": "백만원",
+  "top20.value": "원",
+  "investor": "억원(백만원/100 반올림)",
+  "bonds.yield": "%",
+  "bonds.chg_bp": "bp (전일대비 %p x 100)"
+ },
+ "indices": {
+  "코스피": {
+   "close": "5137.89",
+   "chg_pct": "1.39",
+   "open": "5090.04",
+   "high": "5137.89",
+   "low": "4963.61",
+   "volume": "195695",
+   "value_krw_mn": "13417025",
+   "breadth": {
+    "adv": "562",
+    "uplm": "1",
+    "unch": "43",
+    "dec": "307",
+    "lslm": "0"
+   }
+  },
+  "코스닥": {
+   "close": "684.81",
+   "chg_pct": "3.32",
+   "open": "668.31",
+   "high": "684.81",
+   "low": "650.39",
+   "volume": "398792",
+   "value_krw_mn": "4795050",
+   "breadth": {
+    "adv": "1170",
+    "uplm": "12",
+    "unch": "80",
+    "dec": "499",
+    "lslm": "0"
+   }
+  },
+  "코스피200": {
+   "close": "799.57",
+   "chg_pct": "1.51",
+   "open": "791.60",
+   "high": "799.57",
+   "low": "770.59",
+   "volume": "87560"
+  },
+  "코스닥150": {
+   "close": "1134.16",
+   "chg_pct": "4.31",
+   "open": "1099.43",
+   "high": "1134.16",
+   "low": "1062.00",
+   "volume": "71603"
+  }
+ },
+ "value_top20": [
+  {
+   "rank": 1,
+   "name": "SK하이닉스",
+   "code": "000660",
+   "close": "1170000",
+   "chg_pct": "2.27",
+   "value_krw": "3146772749000",
+   "close_rank_api": "1190000",
+   "chg_pct_rank_api": "4.02",
+   "base_price": "1144000"
+  },
+  {
+   "rank": 2,
+   "name": "삼성전자",
+   "code": "005930",
+   "close": "194600",
+   "chg_pct": "-0.05",
+   "value_krw": "2488888306500",
+   "close_rank_api": "197400",
+   "chg_pct_rank_api": "1.39",
+   "base_price": "194700"
+  },
+  {
+   "rank": 3,
+   "name": "삼성전기",
+   "code": "009150",
+   "close": "871000",
+   "chg_pct": "7.53",
+   "value_krw": "835821889000",
+   "close_rank_api": "883000",
+   "chg_pct_rank_api": "9.01",
+   "base_price": "810000"
+  },
+  {
+   "rank": 4,
+   "name": "삼성전자우",
+   "code": "005935",
+   "close": "154950",
+   "chg_pct": "-1.93",
+   "value_krw": "549248915300",
+   "close_rank_api": "158500",
+   "chg_pct_rank_api": "0.32",
+   "base_price": "158000"
+  },
+  {
+   "rank": 5,
+   "name": "SK스퀘어",
+   "code": "402340",
+   "close": "730000",
+   "chg_pct": "2.96",
+   "value_krw": "268650582500",
+   "close_rank_api": "743000",
+   "chg_pct_rank_api": "4.80",
+   "base_price": "709000"
+  },
+  {
+   "rank": 6,
+   "name": "삼성SDI",
+   "code": "006400",
+   "close": "425500",
+   "chg_pct": "-2.07",
+   "value_krw": "266631164250",
+   "close_rank_api": "430000",
+   "chg_pct_rank_api": "-1.04",
+   "base_price": "434500"
+  },
+  {
+   "rank": 7,
+   "name": "하이브",
+   "code": "352820",
+   "close": "187800",
+   "chg_pct": "12.73",
+   "value_krw": "223094729150",
+   "close_rank_api": "187200",
+   "chg_pct_rank_api": "12.36",
+   "base_price": "166600"
+  },
+  {
+   "rank": 8,
+   "name": "주성엔지니어링",
+   "code": "036930",
+   "close": "153500",
+   "chg_pct": "1.99",
+   "value_krw": "178829520650",
+   "close_rank_api": "159300",
+   "chg_pct_rank_api": "5.85",
+   "base_price": "150500"
+  },
+  {
+   "rank": 9,
+   "name": "에이엘로봇",
+   "code": "471800",
+   "close": "13410",
+   "chg_pct": "0.68",
+   "value_krw": "162641648860",
+   "close_rank_api": "13490",
+   "chg_pct_rank_api": "1.28",
+   "base_price": "13320"
+  },
+  {
+   "rank": 10,
+   "name": "원익홀딩스",
+   "code": "030530",
+   "close": "34450",
+   "chg_pct": "-2.55",
+   "value_krw": "158058995800",
+   "close_rank_api": "34950",
+   "chg_pct_rank_api": "-1.13",
+   "base_price": "35350"
+  },
+  {
+   "rank": 11,
+   "name": "대한광통신",
+   "code": "010170",
+   "close": "14240",
+   "chg_pct": "7.88",
+   "value_krw": "133741689725",
+   "close_rank_api": "14450",
+   "chg_pct_rank_api": "9.47",
+   "base_price": "13200"
+  },
+  {
+   "rank": 12,
+   "name": "에스엠",
+   "code": "041510",
+   "close": "94200",
+   "chg_pct": "7.17",
+   "value_krw": "129618587900",
+   "close_rank_api": "93500",
+   "chg_pct_rank_api": "6.37",
+   "base_price": "87900"
+  },
+  {
+   "rank": 13,
+   "name": "아리바이오랩",
+   "code": "261780",
+   "close": "5810",
+   "chg_pct": "9.83",
+   "value_krw": "126274577525",
+   "close_rank_api": "5650",
+   "chg_pct_rank_api": "6.81",
+   "base_price": "5290"
+  },
+  {
+   "rank": 14,
+   "name": "JYP Ent.",
+   "code": "035900",
+   "close": "47650",
+   "chg_pct": "1.93",
+   "value_krw": "122121924750",
+   "close_rank_api": "47100",
+   "chg_pct_rank_api": "0.75",
+   "base_price": "46750"
+  },
+  {
+   "rank": 15,
+   "name": "삼성E&A",
+   "code": "028050",
+   "close": "63500",
+   "chg_pct": "-0.94",
+   "value_krw": "118172218400",
+   "close_rank_api": "63400",
+   "chg_pct_rank_api": "-1.09",
+   "base_price": "64100"
+  },
+  {
+   "rank": 16,
+   "name": "삼성에스디에스",
+   "code": "018260",
+   "close": "215500",
+   "chg_pct": "-6.71",
+   "value_krw": "116274537597",
+   "close_rank_api": "216000",
+   "chg_pct_rank_api": "-6.49",
+   "base_price": "231000"
+  },
+  {
+   "rank": 17,
+   "name": "SK텔레콤",
+   "code": "017670",
+   "close": "79000",
+   "chg_pct": "-4.36",
+   "value_krw": "112722063000",
+   "close_rank_api": "82200",
+   "chg_pct_rank_api": "-0.48",
+   "base_price": "82600"
+  },
+  {
+   "rank": 18,
+   "name": "셀트리온",
+   "code": "068270",
+   "close": "214500",
+   "chg_pct": "3.37",
+   "value_krw": "107301614250",
+   "close_rank_api": "214500",
+   "chg_pct_rank_api": "3.37",
+   "base_price": "207500"
+  },
+  {
+   "rank": 19,
+   "name": "지니언스",
+   "code": "263860",
+   "close": "38250",
+   "chg_pct": "-0.52",
+   "value_krw": "106765588325",
+   "close_rank_api": "38550",
+   "chg_pct_rank_api": "0.26",
+   "base_price": "38450"
+  },
+  {
+   "rank": 20,
+   "name": "현대모비스",
+   "code": "012330",
+   "close": "340500",
+   "chg_pct": "-4.35",
+   "value_krw": "104145794756",
+   "close_rank_api": "343000",
+   "chg_pct_rank_api": "-3.65",
+   "base_price": "356000"
+  }
+ ],
+ "investor": {
+  "코스피": {
+   "개인": -560,
+   "외국인": -4086,
+   "기관계": 120,
+   "금융투자": 536,
+   "투신": 791,
+   "연기금등": -772,
+   "사모펀드": -725,
+   "기타법인": 4526,
+   "_combo": "KSP/0001"
+  },
+  "코스닥": {
+   "개인": -93,
+   "외국인": -2104,
+   "기관계": 2296,
+   "금융투자": 1026,
+   "투신": 662,
+   "연기금등": 276,
+   "사모펀드": 258,
+   "기타법인": -100,
+   "_combo": "KSQ/1001"
+  },
+  "선물(코스피200)": {
+   "개인": 160,
+   "외국인": -2824,
+   "기관계": 2546,
+   "금융투자": 347,
+   "투신": 1613,
+   "연기금등": 584,
+   "사모펀드": 0,
+   "기타법인": 118,
+   "_combo": "K2I/F001"
+  },
+  "코스닥150선물": {
+   "개인": 43,
+   "외국인": -2691,
+   "기관계": 2659,
+   "금융투자": 113,
+   "투신": 2559,
+   "연기금등": -13,
+   "사모펀드": 0,
+   "기타법인": -10,
+   "_combo": "KQI/F002"
+  }
+ },
+ "notes": [
+  "value_top20 종가·등락률 = 정규장 종가(15:30 체결) ÷ 기준가 재계산 20/20건"
+ ],
+ "bonds": {
+  "국고3Y": {
+   "name": "국고채 3년",
+   "yield": "3.720",
+   "chg_pct_pt": "-0.020",
+   "chg_bp": "-2.0",
+   "as_of": "2026/11/19 17:28"
+  },
+  "국고10Y": {
+   "name": "국고채 10년",
+   "yield": "3.940",
+   "chg_pct_pt": "-0.030",
+   "chg_bp": "-3.0",
+   "as_of": "2026/11/19 17:28"
+  }
+ },
+ "bonds_source": "KIS comp-interest HHPST070200C0 DATA_GB=1 (장외 최종호가·금투협 고시)"
+}
