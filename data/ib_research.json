@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-11-20T09:31+09:00",
- "run_date_kst": "2026-11-20",
+ "generated_at_kst": "2026-11-22T12:32+09:00",
+ "run_date_kst": "2026-11-22",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -17,7 +17,7 @@
   "UBS": {
    "status": "ok",
    "count": 10,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Where will global trade go next?",
@@ -28,7 +28,7 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Q1 2027 Barclays Global Outlook: A correction, not a collapse",
@@ -61,11 +61,11 @@
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "E93: China’s Silver Economy: 77 and Learning Ballet",
-    "date": "2026-11-19",
+    "date": null,
     "url": "https://www.citigroup.com/global/insights/e93-chinas-silver-economy-77-and-learning-ballet"
    }
   },
@@ -94,16 +94,30 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 2,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "AI isn’t just shaping biotech narratives, it’s shifting the market",
+    "title": "The split screen war",
     "date": "2026-11-01",
-    "url": "https://www.rbccm.com/en/insights/2026/11/ai-isnt-just-shaping-biotech-narratives-its-shifting-the-market"
+    "url": "https://www.rbccm.com/en/insights/2026/11/the-split-screen-war"
    }
   }
  },
  "recent_new": [
+  {
+   "bank": "모건스탠리",
+   "title": "China's Bet on Physical AI",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/china-physical-ai-payoff-laura-wang-robin-xing",
+   "date": null,
+   "first_seen_kst": "2026-11-22T12:32+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "The split screen war",
+   "url": "https://www.rbccm.com/en/insights/2026/11/the-split-screen-war",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-22T12:32+09:00"
+  },
   {
    "bank": "UBS",
    "title": "European Conference 2026",
