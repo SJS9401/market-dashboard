@@ -234,6 +234,7 @@
 
 | 티커 | 기업명 | 시그널 |
 |------|--------|--------|
+| — | 하이브 | 4Q OP 1,320억·OPM 11% 유지, BTS 2H27 활동 공지, 캣츠아이·코르티스 투어 체급, 주주환원·KeyHolder 1/6, 원화 환율 |
 | UMG | Universal Music | 4Q 조정EBITDA 두자릿수, FY26 IFRS 영업이익, 오가닉 구독 8~10%, Apple Streaming 2.0, Downtown 마진 |
 | SPOT | Spotify | 4Q OP €820M(+17%) 상회, 1Q27 OPM 가이던스, ARPU +9% 유지, 추가 가격인상, 광고 단가 |
 | TME | Tencent Music | 4Q 핵심OP YoY 플러스 복귀, Ximalaya 기여 공개, 멤버십 +9% 유지, SVIP 공시 재개, 버블 QQ |
