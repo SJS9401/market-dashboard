@@ -131,7 +131,7 @@
 | LDO | Leonardo | 4Q EBITA €909m 상회, 3/4 산업계획, DE ROS 12.5%, LRMV €3.7bn, FOCF €1.44bn |
 | HO | Thales | 3월 H2마진 12.9%·방산 13%↑, 4Q 방산수주 €5bn, SAMP/T NG 수출, 중동 방공 |
 | SAAB | Saab | 4Q EBIT SEK 4.0bn·+37%, Dynamics 마진 회복, NATO·캐나다 GlobalEye, 28~ 목표 22% |
-| ESLT | Elbit Systems | 11/17 3Q 영업이익 YoY 25%↑ 유지, Non-GAAP OPM 10%+, 잔고 $32B→33B+, 이스라엘 37% 정상화, PULS 유럽 |
+| ESLT | Elbit Systems | 4Q 영업이익 YoY 20%↑(약 $231M), 2027 high-teens 가이던스 숫자화, 유럽 매출 10%+, 잔고 $34B+, EuroPULS |
 | ASELS | Aselsan | 4Q 매출 $2.4~2.8B, 순차입/EBITDA 0.8x→1x, 수출 비중 20%, 27 가이던스 2월, 잔고 $30.7B |
 | — | 한화에어로스페이스 | 4Q 지상방산 3.58조·OPM 20%↑, 폴란드 K9 EC3 조건, UAE 기본계약, 1Q27 수출OPM 20%, 27년 수주 17조 |
 | — | 한화시스템 | UAE 대공망 본계약 11월, 1Q27 수출비중 30%, 4Q 개발비 370~620억, 방산잔고 8.4조 반등 |
@@ -148,7 +148,7 @@
 | — | 삼성중공업 | 4Q OP 4,210억·OPM 12%대, FDC 50MW 첫 본계약 4Q, 델핀2 FLNG 연내 계약, LNG선 2030슬롯 선가, 헤지환율 1,398원 2Q27 |
 | 600150.SS | 중국선박공업 | 4Q 인도 23척+, 4Q 순이익 50억위안+ 재가속, GPM 17%대, 연 수주 2,000억위안, USTR 입항료 1/9 만료 |
 | BS6.SI | 양쯔장조선 | 2H26 조선GPM 35% 유지, FY26 실적 2월말, 10월 수주 69.8억$(목표155%), 잔고 263억$, 훙위안 2027 가동 |
-| 5E2.SI | Seatrium | 11/19 잔고 S$12B 사수, 대형 FPSO·Albacora 수주, 2H 매출총이익률 9%, TenneT HVDC 추가, FLNG 1건 |
+| 5E2.SI | Seatrium | Golar FLNG 3호 연내 본계약, 2H26 매출 YoY 마이너스 여부(2월 말), 대형 FPSO EPC, 연말 잔고 S$11B, TenneT HVDC |
 | HII | HII | 4Q OI $171M(가이던스 역산), FY27 조선마진 6.5%↑(2월), NNS 마진 6%, 4Q FCF $0.7B, 잔고 $90B+ |
 | FCT.MI | Fincantieri | 4Q EBITDA €220M(YoY 0%) 선, LSM 건조계약, 포르투갈 FREMM EVO, 크루즈 €12.3B 발효, 수중 M&A 종결 |
 | TKMS.DE | TKMS | 12/7 FQ4 EBIT €35~53M, FY27 마진 7%, CPSP 연내 서명, A-200 €5B, P-75I 서명 |
@@ -402,7 +402,7 @@
 ## 실적 발표 일정 (노션 동기화)
 
 > 원본: 노션 「실적 캘린더」 DB (`collection://a5dfe05a-3bf5-4a79-a45b-73666af21689`). 이 섹션은 `_internal/_tools/notion_calendar_sync.py`가 통째로 다시 쓴다 — **직접 수정 금지, 노션에서 수정 후 동기화.**
-> 최종 동기화: 2026-11-22 20:45 KST · 워치리스트 종목 187건 (노션 실적 행 406건 중)
+> 최종 동기화: 2026-11-22 22:37 KST · 워치리스트 종목 185건 (노션 실적 행 406건 중)
 > 날짜 앞 `~` = 노션 검증상태 "추정". 비고 끝 `[YYYY-Qn]` = 대시보드 캘린더 분기 (한국 nQyy·미국 Qn YYYY는 그대로, 회계분기는 발표일에서 역산). 잠정·확정이 둘 다 있으면 이른 날짜 표시 + 비고에 둘 다.
 > 노션에 없는 워치리스트 종목: 없음
 
