@@ -58,6 +58,7 @@
 | 원전 | 원전 시공 | 현대건설 | 대우건설 | - |
 | 원전 | 원전 정비 | 한전KPS | - | - |
 | 원전 | 원전 운영 | 한국전력, Constellation | Vistra | - |
+| 원전 | 원전 | 두산에너빌리티, BWXT, Mitsubishi Heavy(원자력 부문), 한전기술, 현대건설, 한전KPS, Cameco, Centrus, 한국전력, Constellation | 대우건설, Vistra | NuScale, Oklo, X-energy |
 | 로봇 | 휴머노이드 완성체 | 현대차, 레인보우로보틱스, Unitree, UBTech | Tesla | - |
 | 로봇 | 로봇 부품 | Sanhua, Tuopu, 현대모비스 | Leaderdrive, 로보티즈 | 에스비비테크 |
 | 로봇 | 산업·물류 자동화 | 두산로보틱스, 현대오토에버, Symbotic | - | Teradyne(Universal Robots 부문) |
