@@ -77,6 +77,8 @@
   .series-toggle { display: flex; gap: 2px; margin-left: auto; }
   .series-toggle button { background: none; border: 1px solid #3a3a3a; color: #6e7681; padding: 1px 7px; border-radius: 4px; font-size: 10px; cursor: pointer; }
   .series-toggle button:hover { border-color: #58a6ff; }
+  #nnb-syms button, #nnb-ivs button { font-size: 11.5px; padding: 3px 10px; }
+  #nnb-syms button.active, #nnb-ivs button.active { background: rgba(210,153,34,0.18); color: #e3b341; border-color: rgba(210,153,34,0.6); }
   .series-toggle button[data-s="m"].active,
   .series-toggle button[data-s="200"].active { background: rgba(126,166,209,0.18); color: rgb(126,166,209); border-color: rgba(126,166,209,0.55); }
   .series-toggle button[data-s="20"].active { background: rgba(57,197,207,0.18); color: rgb(57,197,207); border-color: rgba(57,197,207,0.55); }
@@ -372,10 +374,19 @@
     <div id="nn-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
       <div style="color:#6e7681;font-size:12px;">로딩 중...</div>
     </div>
-    <!-- 4시간봉 (2026-09-16 BT): 프리장 전 "전일 20시 대비 어디" 를 보기 위한 차트.
-         기준선 = 직전 영업일 20:00 KST (일/월 아침이면 금요일 20:00). Binance 1h klines 를
-         20:00 KST 정렬 4시간봉으로 합성 — 라이브러리 기본 UTC 정렬은 20시가 봉 경계가 아니라서. -->
-    <div id="nn-mini" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 14px 14px;"></div>
+    <div id="nn-mini" style="display:none;"></div>
+    <!-- 통합 차트 (2026-11-23 BT): 미니차트 6개 → 큰 차트 1개. 위 카드나 종목 버튼으로 종목 선택, 15분/4시간/일봉 전환, VWAP(100) + 거래량.
+         Binance klines 원본 봉(4시간봉은 Binance 기준 UTC 정렬), 가격은 달러. 카드 등락 기준가(20:00 KST)는 loadNightCharts 가 계속 계산. -->
+    <div class="nnc-wrap" style="margin:0 14px 14px;">
+      <div class="nnc-head" style="flex-wrap:wrap;gap:10px;">
+        <span class="series-toggle" id="nnb-syms" style="display:flex;gap:4px;flex-wrap:wrap;"></span>
+        <span class="series-toggle" id="nnb-ivs" style="display:flex;gap:4px;margin-left:auto;">
+          <button data-iv="15m">15분</button><button data-iv="4h" class="active">4시간</button><button data-iv="1d">일봉</button>
+        </span>
+      </div>
+      <div id="nnb-legend" style="font-size:11.5px;color:#c9d1d9;padding:6px 12px;background:#1b1b1b;border-bottom:1px solid #2e2e2e;font-variant-numeric:tabular-nums;min-height:16px;"></div>
+      <div id="nnb-chart" style="height:520px;position:relative;"></div>
+    </div>
     <div class="nnc-note" id="nn-chart-note"></div>
   </div>
 </div>
@@ -3672,77 +3683,119 @@ const nnFmtPct = v => (v == null || !isFinite(v)) ? '—' : (v >= 0 ? '+' : '') 
 const nnPctColor = v => (v == null || !isFinite(v)) ? '#8b949e' : (v >= 0 ? '#f04452' : '#3182f6');
 
 async function loadNightCharts() {
-  const mini = document.getElementById('nn-mini');
-  if (!mini) return;
+  // 2026-11-23 BT: 미니차트 6개 철거 → 통합 차트(nnBig*). 여기서는 카드 등락용 기준가(직전 영업일 20:00 KST 봉 시가)만 계산.
   const note = document.getElementById('nn-chart-note');
   nnBaseUtc = nnBaseTimeUtc(Math.floor(Date.now() / 1000));
-
-  if (!mini.children.length) {
-    mini.innerHTML = NN_STOCKS.map(st =>
-      '<div class="nnc-wrap"><div class="nnc-head">'
-      + '<span class="n">' + st.name + '</span>'
-      + '<span class="p" id="nnc-p-' + st.sym + '">—</span>'
-      + '<span class="d" id="nnc-d-' + st.sym + '">—</span></div>'
-      + '<div class="nnc" id="nnc-' + st.sym + '"><div class="nncg" id="nncg-' + st.sym + '"></div></div></div>').join('');
-  }
-
   let ok = 0;
-  for (const st of NN_STOCKS) {
+  await Promise.all(NN_STOCKS.map(async st => {
     try {
       const raw = await nnKlines(st.sym);
       if (!raw.length) throw new Error('empty');
       const bars = nnAggregate(raw, NN_BAR_SEC);
-
-      const el = document.getElementById('nnc-' + st.sym);
-      if (!nnCharts[st.sym] && el) {
-        const ch = nnMakeChart(el);
-        const se = ch.addCandlestickSeries({
-          upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0',
-          wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: false
-        });
-        nnCharts[st.sym] = { chart: ch, series: se, el: el, grid: document.getElementById('nncg-' + st.sym), baseLine: null, bars: null, basePx: null };
-        ch.timeScale().subscribeVisibleLogicalRangeChange(() => nnUpdateGrid(st.sym));
-        new ResizeObserver(e => {
-          const r = e[0].contentRect;
-          if (r.width > 0) { ch.applyOptions({ width: r.width, height: r.height }); requestAnimationFrame(() => nnUpdateGrid(st.sym)); }
-        }).observe(el);
-      }
-      const info = nnCharts[st.sym];
-      if (!info) continue;
-      info.bars = bars;
-      info.series.setData(bars.map(k => ({ time: k.t + NN_KST, open: k.o, high: k.h, low: k.l, close: k.c })));
-
-      // 기준가 = 기준일 20:00 KST 봉의 시가
       const baseBar = bars.find(k => k.t === nnBaseUtc);
-      const basePx = baseBar ? baseBar.o : null;
-      if (info.baseLine) { try { info.series.removePriceLine(info.baseLine); } catch (_) {} info.baseLine = null; }
-      if (basePx) {
-        info.baseLine = info.series.createPriceLine({
-          price: basePx, color: '#232323', lineWidth: 2, lineStyle: 0, axisLabelVisible: false, title: ''
-        });
-      }
-      info.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - NN_VIEW_BARS), to: bars.length });
-      requestAnimationFrame(() => nnUpdateGrid(st.sym));
-
-      info.basePx = basePx;
-      nnPaintHead(st.sym, raw[raw.length - 1].c);
+      nnCharts[st.sym] = { basePx: baseBar ? baseBar.o : null };
       ok++;
-    } catch (e) {
-      console.error('nnChart ' + st.sym, e);
-      const de = document.getElementById('nnc-d-' + st.sym);
-      if (de) { de.textContent = '⚠'; de.style.color = '#8b949e'; }
-    }
-  }
-
+    } catch (e) { console.error('nnBase ' + st.sym, e); }
+  }));
   if (note) {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
-      ? '2시간봉 (20:00 KST 정렬) · 세로선 = 매일 20:00, 진한 선 = 기준일 '
-        + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 · '
-        + '% 는 달러 기준(환율 변동 제외), 원화 표시가는 현재 환율 적용 · '
+      ? '카드 등락: 한국 종목 = 전일 종가 대비(원화), 미국·비상장 = ' + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 KST 대비(달러) · '
+        + '차트: Binance 무기한선물 달러가, VWAP(100) = 최근 100개 봉의 거래량 가중 평균가 · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
-  }  nnPoll();   // 2026-11-12: 기준가(basePx) 확보 직후 카드 등락(Anthropic/OpenAI) 즉시 반영
+  }
+  nnPoll();   // 기준가 확보 직후 카드 등락 즉시 반영
+  nnBigLoad();
+}
+
+// ═══════════════════════════════════
+// 통합 차트 (2026-11-23 BT) — 종목 1개 × 15분/4시간/일봉, 캔들 + VWAP(100) + 거래량
+// ═══════════════════════════════════
+const NNB = { sym: NN_STOCKS[0].sym, iv: '4h', chart: null, candle: null, vwap: null, vol: null, bars: [], vw: [], timer: null, req: 0 };
+const NNB_LIMIT = 600;        // 표시 500 + VWAP 워밍업 100
+const NNB_VWAP_N = 100;
+function nnbVwap(bars) {      // 롤링 VWAP: Σ(전형가×거래량)/Σ(거래량), 전형가 = (고+저+종)/3
+  const out = []; let pv = 0, v = 0;
+  for (let i = 0; i < bars.length; i++) {
+    const b = bars[i], tp = (b.h + b.l + b.c) / 3; pv += tp * b.v; v += b.v;
+    if (i >= NNB_VWAP_N) { const o = bars[i - NNB_VWAP_N], otp = (o.h + o.l + o.c) / 3; pv -= otp * o.v; v -= o.v; }
+    out.push(i >= NNB_VWAP_N - 1 && v > 0 ? pv / v : null);
+  }
+  return out;
+}
+function nnbInit() {
+  const el = document.getElementById('nnb-chart'); if (!el || NNB.chart) return !!NNB.chart;
+  const syms = document.getElementById('nnb-syms');
+  syms.innerHTML = NN_STOCKS.map(st => '<button data-sym="' + st.sym + '"' + (st.sym === NNB.sym ? ' class="active"' : '') + '>' + st.name + '</button>').join('');
+  syms.onclick = e => { const b = e.target.closest('button'); if (b) nnBigSelect(b.dataset.sym); };
+  document.getElementById('nnb-ivs').onclick = e => { const b = e.target.closest('button'); if (!b) return;
+    NNB.iv = b.dataset.iv; document.querySelectorAll('#nnb-ivs button').forEach(x => x.classList.toggle('active', x === b)); nnBigLoad(true); };
+  const ch = LightweightCharts.createChart(el, Object.assign({ width: el.clientWidth || 800, height: el.clientHeight || 520 }, CHART_OPTS(), {
+    timeScale: { borderColor: '#707070', timeVisible: true, secondsVisible: false, rightOffset: 4 },
+    rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.08, bottom: 0.24 } },
+    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+    handleScale: true, handleScroll: true
+  }));
+  NNB.candle = ch.addCandlestickSeries({ upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0', wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: true, lastValueVisible: true });
+  NNB.vwap = ch.addLineSeries({ color: '#f0b429', lineWidth: 2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+  NNB.vol = ch.addHistogramSeries({ priceScaleId: 'vol', priceFormat: { type: 'volume' }, lastValueVisible: false, priceLineVisible: false });
+  ch.priceScale('vol').applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
+  NNB.chart = ch;
+  ch.subscribeCrosshairMove(p => nnbLegend(p && p.time != null ? p.time : null));
+  new ResizeObserver(e => { const r = e[0].contentRect; if (r.width > 0) ch.applyOptions({ width: r.width, height: r.height }); }).observe(el);
+  // 카드 클릭 → 종목 변경 (카드 HTML 은 nnPoll 이 15초마다 다시 그리므로 위임)
+  const grid = document.getElementById('nn-grid');
+  if (grid) grid.addEventListener('click', e => { const c = e.target.closest('[data-nnsym]'); if (c) nnBigSelect(c.dataset.nnsym); });
+  return true;
+}
+function nnBigSelect(sym) {
+  NNB.sym = sym;
+  document.querySelectorAll('#nnb-syms button').forEach(x => x.classList.toggle('active', x.dataset.sym === sym));
+  document.querySelectorAll('#nn-grid [data-nnsym]').forEach(c => c.style.borderColor = c.dataset.nnsym === sym ? '#d29922' : '#2e2e2e');
+  nnBigLoad(true);
+}
+function nnbFmt(v) { if (v == null || !isFinite(v)) return '—'; return v >= 1000 ? v.toLocaleString('en-US', { maximumFractionDigits: 2 }) : v.toFixed(v >= 10 ? 2 : 4); }
+function nnbLegend(time) {
+  const lg = document.getElementById('nnb-legend'); if (!lg || !NNB.bars.length) return;
+  let i = NNB.bars.length - 1;
+  if (time != null) { const k = NNB.bars.findIndex(b => b.t + NN_KST === time); if (k >= 0) i = k; }
+  const b = NNB.bars[i], pv = i > 0 ? NNB.bars[i - 1].c : b.o, chg = (b.c / pv - 1) * 100, rng = (b.h / b.l - 1) * 100;
+  const d = new Date((b.t + NN_KST) * 1000), ds = d.getUTCFullYear() + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCDate()).padStart(2, '0') + (NNB.iv === '1d' ? '' : ' ' + String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'));
+  const col = b.c >= b.o ? '#f04452' : '#3182f6', st = NN_STOCKS.find(x => x.sym === NNB.sym) || {};
+  const k = (l, v, c) => '<span style="color:#8b949e">' + l + '</span> <b style="color:' + (c || col) + '">' + v + '</b>';
+  lg.innerHTML = [ '<b style="color:#f0f6fc">' + (st.name || NNB.sym) + '</b> <span style="color:#6e7681">' + NNB.sym + ' · ' + ({ '15m': '15분봉', '4h': '4시간봉', '1d': '일봉' })[NNB.iv] + '</span>', '<span style="color:#8b949e">' + ds + ' KST</span>',
+    k('시', nnbFmt(b.o)), k('고', nnbFmt(b.h)), k('저', nnbFmt(b.l)), k('종', nnbFmt(b.c)), k('변동', (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%'), k('범위', rng.toFixed(2) + '%'),
+    k('VWAP(100)', nnbFmt(NNB.vw[i]), '#f0b429') ].join(' &nbsp; ');
+}
+async function nnBigLoad(fit) {
+  if (!nnbInit()) return;
+  const req = ++NNB.req, sym = NNB.sym, iv = NNB.iv;
+  const url = 'https://fapi.binance.com/fapi/v1/klines?symbol=' + sym + '&interval=' + iv + '&limit=' + NNB_LIMIT;
+  let raw;
+  try {
+    try { raw = await fetch(url).then(r => { if (!r.ok) throw 0; return r.json(); }); }
+    catch (_) { raw = await fetchJSON(url); }
+  } catch (e) { const lg = document.getElementById('nnb-legend'); if (lg) lg.textContent = 'Binance 차트 데이터 연결 실패 · 잠시 후 자동 재시도'; return; }
+  if (req !== NNB.req || !Array.isArray(raw)) return;   // 그 사이 종목/봉 바뀌면 버림
+  const bars = raw.map(k => ({ t: Math.floor(k[0] / 1000), o: +k[1], h: +k[2], l: +k[3], c: +k[4], v: +k[5] })).filter(b => isFinite(b.o) && isFinite(b.c));
+  const vw = nnbVwap(bars);
+  NNB.bars = bars; NNB.vw = vw;
+  NNB.candle.setData(bars.map(b => ({ time: b.t + NN_KST, open: b.o, high: b.h, low: b.l, close: b.c })));
+  NNB.vwap.setData(bars.map((b, i) => vw[i] == null ? { time: b.t + NN_KST } : { time: b.t + NN_KST, value: vw[i] }));
+  NNB.vol.setData(bars.map(b => ({ time: b.t + NN_KST, value: b.v, color: b.c >= b.o ? 'rgba(214,16,34,0.45)' : 'rgba(23,80,224,0.45)' })));
+  if (fit) NNB.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - ({ '15m': 192, '4h': 180, '1d': 250 })[iv]), to: bars.length + 3 });
+  nnbLegend(null);
+  if (NNB.timer) clearInterval(NNB.timer);
+  NNB.timer = setInterval(() => nnBigLoad(false), iv === '15m' ? 60000 : 300000);
+}
+// nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
+function nnBigTick(map) {
+  if (!NNB.candle || !NNB.bars.length) return;
+  const px = map[NNB.sym]; if (!px) return;
+  const b = NNB.bars[NNB.bars.length - 1]; b.c = px; b.h = Math.max(b.h, px); b.l = Math.min(b.l, px);
+  try { NNB.candle.update({ time: b.t + NN_KST, open: b.o, high: b.h, low: b.l, close: b.c }); } catch (_) {}
+  nnbLegend(null);
 }
 
 async function nnPoll() {
@@ -3758,6 +3811,7 @@ async function nnPoll() {
     }
     const map = {};
     for (const t of all) map[t.symbol] = parseFloat(t.price);
+    nnBigTick(map);
     let html = '';
     for (const st of NN_STOCKS) {
       const usd = map[st.sym];
@@ -3771,7 +3825,7 @@ async function nnPoll() {
              + Math.abs(d).toFixed(2) + ' · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
         }
         const bd = nnBaseUtc ? new Date((nnBaseUtc + NN_KST) * 1000) : null;
-        html += '<div style="background:#101010;border:1px solid #2e2e2e;border-radius:8px;padding:13px 16px;">'
+        html += '<div data-nnsym="' + st.sym + '" style="cursor:pointer;background:#101010;border:1px solid ' + (st.sym === NNB.sym ? '#d29922' : '#2e2e2e') + ';border-radius:8px;padding:13px 16px;" title="클릭하면 아래 차트가 이 종목으로 바뀝니다">'
           + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
           + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name
           + (st.preipo ? ' <span style="font-size:10px;font-weight:600;color:#e2c571;border:1px solid #5a4d22;border-radius:3px;padding:0 4px;">Pre-IPO</span>' : '') + '</span>'
@@ -3791,7 +3845,7 @@ async function nnPoll() {
         chg = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲' : '▼') + ' '
             + Math.abs(Math.round(d)).toLocaleString() + '원 · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
       }
-      html += '<div style="background:#101010;border:1px solid #2e2e2e;border-radius:8px;padding:13px 16px;">'
+      html += '<div data-nnsym="' + st.sym + '" style="cursor:pointer;background:#101010;border:1px solid ' + (st.sym === NNB.sym ? '#d29922' : '#2e2e2e') + ';border-radius:8px;padding:13px 16px;" title="클릭하면 아래 차트가 이 종목으로 바뀝니다">'
         + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
         + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name + '</span>'
         + '<span style="font-size:10px;color:#6e7681;">' + st.sym + '</span></div>'
