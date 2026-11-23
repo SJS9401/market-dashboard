@@ -3853,8 +3853,9 @@ function nnbVLines() {
     if (x < 1 || x > w) continue;
     marks.push({ x, lab: m + '/' + dd });
   }
+  let lastLab = -1e9; marks.forEach(k => { k.show = k.x - lastLab >= 38; if (k.show) lastLab = k.x; });   // 날짜 라벨 겹치면 건너뜀
   vl.innerHTML = marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
-    + '<span style="position:absolute;top:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>').join('');
+    + (!k.show ? '' : '<span style="position:absolute;top:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>')).join('');
 }
 // nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
 function nnBigTick(map) {
