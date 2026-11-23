@@ -882,7 +882,7 @@ async function renderSectorReviews() {
       card.appendChild(el('div', { class: 'theme-meta' }, '섹터 통합 리뷰 미작성 — 세부 섹터 리뷰 ' + children.length + '개'));
     }
     const links = el('div', { class: 'theme-reviews' });
-    if (parent) links.appendChild(srLink(parent.s.sub, parent.s.sub === sector ? '섹터 리뷰 열기' : parent.s.sub + ' 리뷰 열기'));
+    if (parent) links.appendChild(srLink(parent.s.sub, '섹터 리뷰 열기'));
     card.appendChild(links);
     if (children.length) {
       const inner = el('div', { class: 'sr-children theme-grid' });
@@ -891,7 +891,7 @@ async function renderSectorReviews() {
         sc.appendChild(el('div', { class: 'theme-name' }, c.s.sub));
         buildSrBody(sc, c.s, c.status, '세부 섹터');
         const l = el('div', { class: 'theme-reviews' });
-        l.appendChild(srLink(c.s.sub, '세부 섹터 리뷰 열기'));
+        l.appendChild(srLink(c.s.sub, '섹터 리뷰 열기'));
         sc.appendChild(l);
         inner.appendChild(sc);
       }
