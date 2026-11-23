@@ -800,12 +800,7 @@ function buildSrBody(card, s, status, metaPrefix) {
   row('PM', status.pmWhy);
   if (why.children.length) card.appendChild(why);
   if (status.past) card.appendChild(el('div', { class: 'sr-signal' }, '이 분기 판정 (최신 판정 ' + displayQuarter(status.latest || '') + ' — 해당 분기 화면에서 확인)'));
-  if (status.signal && !/^없음/.test(status.signal)) {
-    card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + esc(status.signal) + '</b>' }));
-  }
-  if (status.theme && !/^없음/.test(status.theme)) {
-    card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
-  }
+  // 2026-11-23: 모멘텀 신호·활성 테마(테마 관련)는 섹터 카드에서 제외 — 앞으로 테마 카드 안에 섹터 키워드를 올리는 구조
 }
 
 function srLink(sub, label) {
