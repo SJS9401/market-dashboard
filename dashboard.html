@@ -3508,7 +3508,8 @@ async function loadKrMarketmap() {
 // 가격 15초 폴링, 환율·전일 종가는 yahoo_dashboard.json (전일 기준).
 // ═══════════════════════════════════
 const NN_STOCKS = [
-  { sym: 'KODEX200USDT', name: 'KODEX 200',  ks: '069500.KS' },   // 야간 코스피 지수 프록시 (2026-08-21 BT: 현대차 교체)
+  // 2026-11-23 BT: KODEX 200 → EWY (미국 상장 한국 ETF, 야간 한국 시장 프록시). 미국 종목이라 달러 표시·미국 정규장 종가 대비
+  { sym: 'EWYUSDT',      name: 'EWY',        usd: true, us: 'EWY' },
   { sym: 'SAMSUNGUSDT',  name: '삼성전자',   ks: '005930.KS' },
   { sym: 'SKHYNIXUSDT',  name: 'SK하이닉스', ks: '000660.KS' },
   // 2026-11-12 BT: 비상장 AI 2종 (Binance pre-IPO 무기한선물). 한국 종목이 아니라 달러가가 주 표시,
