@@ -133,6 +133,7 @@ function changeQuarter(newQ) {
   updateQuarterButtons();
   renderProgress();
   renderThemeReviews();
+  renderSectorReviews();
   renderSectors();
 }
 
@@ -782,7 +783,7 @@ function buildSrBody(card, s, status, metaPrefix) {
   if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
   if (status.positioning) {
     // 포지셔닝 줄에서 선호 종목은 빼고 섹터·한국 콜만 배지로
-    const calls = status.positioning.split('|').map(x => x.trim()).filter(x => x && !/^선호/.test(x));
+    const calls = status.positioning.split('|').map(x => x.trim()).filter(x => x && !/^(선호|1등)/.test(x));
     for (const c of calls) badges.appendChild(el('span', { class: 'sr-badge sr-badge-pm' }, c));
   }
   card.appendChild(badges);
@@ -793,6 +794,7 @@ function buildSrBody(card, s, status, metaPrefix) {
   row('내러티브', status.narrWhy);
   row('PM', status.pmWhy);
   if (why.children.length) card.appendChild(why);
+  if (status.past) card.appendChild(el('div', { class: 'sr-signal' }, '이 분기 판정 (최신 판정 ' + displayQuarter(status.latest || '') + ' — 해당 분기 화면에서 확인)'));
   if (status.signal && !/^없음/.test(status.signal)) {
     card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + esc(status.signal) + '</b>' }));
   }
@@ -809,6 +811,27 @@ function srLink(sub, label) {
   }, label);
 }
 
+// 선택 분기의 판정: 상태 블록이 그 분기면 전체, 과거 분기면 누적 시계열 행에서 델타·내러티브만, 없으면 null
+function sectorStatusForQuarter(md, q) {
+  const full = parseSectorReviewStatus(md);
+  if (full.quarter === q) return full;
+  if (!new RegExp('^##\\s+' + q + '\\s+섹터 리뷰', 'm').test(md)) return null;
+  const dq = displayQuarter(q);
+  let idxD = -1, idxN = -1, found = null;
+  for (const line of md.split('\n')) {
+    if (!/^\|/.test(line)) { idxD = idxN = -1; continue; }
+    const cells = line.split('|').slice(1, -1).map(c => c.replace(/\*/g, '').trim());
+    if (cells.includes('섹터 델타')) { idxD = cells.indexOf('섹터 델타'); idxN = cells.indexOf('내러티브'); continue; }
+    if (idxD >= 0 && cells[0] === dq) { found = cells; break; }
+  }
+  const word = (x, list) => { const m = (x || '').match(new RegExp(list)); return m ? m[0] : null; };
+  return {
+    quarter: q, past: true, latest: full.quarter,
+    delta: found ? word(found[idxD], '가속|유지|둔화|꺾임') : null,
+    narrative: found && idxN >= 0 ? word(found[idxN], '형성|강화|유지|약화|훼손') : null
+  };
+}
+
 async function renderSectorReviews() {
   const container = $('sectorReviews');
   const pendingBox = $('sectorReviewsPending');
@@ -820,10 +843,15 @@ async function renderSectorReviews() {
     return;
   }
   const base = 'earnings/sector-review/';
+  // 2026-11-23: 분기별 재판정 — 선택한 분기의 섹터 리뷰만 표시 (최신 판정이 다른 분기면 그 분기 화면엔 안 나옴)
+  const q = state.currentQuarter;
+  state._srMd = state._srMd || {};
   const results = await Promise.all(subs.map(async (s) => {
-    const md = await fetchQuiet(base + encodeURIComponent(s.sub + '_섹터리뷰') + '.md');
-    return { s, status: md ? parseSectorReviewStatus(md) : null };
+    if (!(s.sub in state._srMd)) state._srMd[s.sub] = await fetchQuiet(base + encodeURIComponent(s.sub + '_섹터리뷰') + '.md');
+    const md = state._srMd[s.sub];
+    return { s, status: md ? sectorStatusForQuarter(md, q) : null };
   }));
+  if (q !== state.currentQuarter) return;  // 렌더 중 분기가 바뀌었으면 버림
   // 섹터별 묶기 (표 순서 유지)
   const order = [], bySector = {};
   for (const r of results) {
@@ -874,9 +902,9 @@ async function renderSectorReviews() {
   }
   if (container.children.length === 0) {
     container.appendChild(el('div', { class: 'empty-state' },
-      '아직 작성된 섹터 리뷰가 없습니다. 핵심 종목 리뷰 후 [섹터 리뷰 모드] {서브섹터}로 첫 리뷰 작성.'));
+      displayQuarter(q) + ' 섹터 리뷰가 아직 없습니다. 분기마다 새로 판정합니다 — 이전 분기 판정은 분기 선택에서 확인.'));
   }
-  if (pendingBox) pendingBox.textContent = untouched.length ? ('섹터 리뷰 미작성: ' + untouched.join(' · ')) : '';
+  if (pendingBox) pendingBox.textContent = untouched.length ? (displayQuarter(q) + ' 섹터 리뷰 미작성: ' + untouched.join(' · ')) : '';
 }
 
 function setupSearch() {
@@ -925,7 +953,6 @@ async function init() {
     state.subsectors = parseSubsectors(wlText);
   }
   else $('watchlistSummary').innerHTML = '<div class="error-box">watchlist.md load failed.</div>';
-  renderSectorReviews();  // 비동기 — 다른 렌더를 막지 않음
   const calText = await fetchText(DATA_PATHS.calendar);
   if (calText) {
     const parsed = parseCalendar(calText);
@@ -941,6 +968,7 @@ async function init() {
   renderWatchlistSummary();
   renderProgress();
   renderThemeReviews();
+  renderSectorReviews();  // 비동기 — 분기 확정 후 (분기별 판정)
   renderSectors();
   setupSearch();
   setupQuarterSelector();
