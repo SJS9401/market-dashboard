@@ -62,6 +62,7 @@
 | 로봇 | 휴머노이드 완성체 | 현대차, 레인보우로보틱스, Unitree, UBTech | Tesla | - |
 | 로봇 | 로봇 부품 | Sanhua, Tuopu, 현대모비스 | Leaderdrive, 로보티즈 | 에스비비테크 |
 | 로봇 | 산업·물류 자동화 | 두산로보틱스, 현대오토에버, Symbotic | - | Teradyne(Universal Robots 부문) |
+| 로봇 | 로봇 | 현대차, 레인보우로보틱스, Unitree, UBTech, 현대모비스, Leaderdrive, 로보티즈, 두산로보틱스, 현대오토에버, Symbotic | Tesla, Sanhua, Tuopu | 에스비비테크, Teradyne |
 | 뷰티 | 브랜드사 | 에이피알, 달바글로벌, 아모레퍼시픽 | - | - |
 | 뷰티 | ODM | 코스맥스, 한국콜마, 코스메카코리아 | - | - |
 | 뷰티 | 유통 | 실리콘투 | - | - |
