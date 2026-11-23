@@ -3515,12 +3515,39 @@ const NN_STOCKS = [
   // 등락은 전일 종가가 없으므로 2시간봉 차트와 같은 '직전 영업일 20:00 KST' 대비.
   // 2026-11-23 BT: Anthropic 나스닥 상장(11/19, 티커 ANT) → Binance ANTHROPICUSDT(pre-IPO) 정산 종료, 상장주 무기한선물 ANTUSDT 로 교체.
   //   NVIDIA(NVDAUSDT) 추가. 미국 종목도 등락 기준은 차트와 같은 '직전 영업일 20:00 KST'. Pre-IPO 배지는 preipo:true 만.
-  { sym: 'NVDAUSDT',      name: 'NVIDIA',    usd: true },
-  { sym: 'ANTUSDT',       name: 'Anthropic', usd: true },
+  // 2026-11-23 BT: 카드 등락 = 한국 종목은 한국 정규장 종가, 미국·비상장은 미국 정규장 종가 대비 % 만 (금액 차이는 표시 안 함).
+  //   us = 야후 캐시(yahoo_dashboard.json) 티커. 캐시에 없거나(us 없음: OpenAI) 하면 Binance 가격의 미국 정규장 마감(16:00 ET) 시점 값.
+  { sym: 'NVDAUSDT',      name: 'NVIDIA',    usd: true, us: 'NVDA' },
+  { sym: 'ANTUSDT',       name: 'Anthropic', usd: true, us: 'ANT' },
   { sym: 'OPENAIUSDT',    name: 'OpenAI',    usd: true, preipo: true },
 ];
 const nnFmtUsd = v => (v == null || !isFinite(v)) ? '—' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const NN = { fx: null, close: {}, closeDate: '', timer: null };
+const NN = { fx: null, close: {}, closeDate: '', timer: null, usClose: {}, usDate: '' };
+// 미국 정규장 마감 16:00 ET 의 UTC ms (서머타임 자동: -4h/-5h 중 뉴욕 시각이 16시가 되는 쪽)
+function nnNyCloseMs(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  for (const h of [20, 21]) { const ms = Date.UTC(y, m - 1, d, h);
+    const hh = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', hourCycle: 'h23' }).format(new Date(ms));
+    if (+hh === 16) return ms; }
+  return Date.UTC(y, m - 1, d, 21);
+}
+// 직전 미국 정규장 종가 기준가 — NVDA 캐시 마지막 봉 날짜를 '직전 거래일'로 쓴다(휴장일 자동 반영)
+async function nnLoadUsClose(cd) {
+  const last = s => { const c = cd[s] && cd[s].candles; return c && c.length ? c[c.length - 1] : null; };
+  const ref = last('NVDA'); if (!ref) return;
+  NN.usDate = ref.time;
+  const closeMs = nnNyCloseMs(ref.time);
+  for (const st of NN_STOCKS) {
+    if (!st.usd) continue;
+    const l = st.us ? last(st.us) : null;
+    if (l && l.time === ref.time) { NN.usClose[st.sym] = l.close; continue; }
+    try {   // Binance 무기한선물의 15:59~16:00 ET 1분봉 종가
+      const url = 'https://fapi.binance.com/fapi/v1/klines?symbol=' + st.sym + '&interval=1m&startTime=' + (closeMs - 60000) + '&limit=1';
+      let k; try { k = await fetch(url).then(r => { if (!r.ok) throw 0; return r.json(); }); } catch (_) { k = await fetchJSON(url); }
+      if (Array.isArray(k) && k[0]) NN.usClose[st.sym] = +k[0][4];
+    } catch (e) { console.warn('usClose ' + st.sym, e); }
+  }
+}
 
 async function initNightPrice() {
   const grid = document.getElementById('nn-grid');
@@ -3533,9 +3560,11 @@ async function initNightPrice() {
     NN.fx = fx ? fx.close : null;
     NN.fxSrc = '전일';
     for (const st of NN_STOCKS) {
+      if (!st.ks) continue;
       const l = last(st.ks);
       if (l) { NN.close[st.ks] = l.close; NN.closeDate = l.time; }
     }
+    await nnLoadUsClose(cd);
   } catch (e) {}
   refreshFx();
   nnPoll();
@@ -3566,7 +3595,7 @@ async function refreshFx() {
 async function nnRefresh() {
 
   _yahooCacheJson = null;              // 환율·전일 종가 캐시 무효화 후 전체 재로드
-  NN.fx = null; NN.close = {}; NN.closeDate = '';
+  NN.fx = null; NN.close = {}; NN.closeDate = ''; NN.usClose = {}; NN.usDate = '';
   await initNightPrice();
 }
 
@@ -3700,7 +3729,7 @@ async function loadNightCharts() {
   if (note) {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
-      ? '카드 등락: 한국 종목 = 전일 종가 대비(원화), 미국·비상장 = ' + (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 KST 대비(달러) · '
+      ? '카드 등락: 한국 종목 = 한국 정규장 종가 대비(원화 환산), 미국 종목 = 미국 정규장 종가 대비, OpenAI = 미국 정규장 마감(16:00 ET) 시점 Binance 가격 대비 · '
         + '차트: Binance 무기한선물 달러가, VWAP(100) = 최근 100개 봉의 거래량 가중 평균가 · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
@@ -3820,14 +3849,12 @@ async function nnPoll() {
       const usd = map[st.sym];
       if (nnCharts[st.sym]) nnPaintHead(st.sym, usd);   // 미니 차트 헤더도 같은 시세로
       if (st.usd) {
-        const bp = nnCharts[st.sym] && nnCharts[st.sym].basePx;
-        let ch = '<span style="color:#8b949e">기준가 대기 중</span>';
+        const bp = NN.usClose[st.sym];
+        let ch = '<span style="color:#8b949e">종가 대기 중</span>';
         if (usd && bp) {
-          const d = usd - bp, p = d / bp * 100, up = d >= 0;
-          ch = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲' : '▼') + ' $'
-             + Math.abs(d).toFixed(2) + ' · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
+          const p = (usd / bp - 1) * 100, up = p >= 0;
+          ch = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲ +' : '▼ ') + p.toFixed(2) + '%</span>';
         }
-        const bd = nnBaseUtc ? new Date((nnBaseUtc + NN_KST) * 1000) : null;
         html += '<div data-nnsym="' + st.sym + '" style="cursor:pointer;background:#101010;border:1px solid ' + (st.sym === NNB.sym ? '#d29922' : '#2e2e2e') + ';border-radius:8px;padding:13px 16px;" title="클릭하면 아래 차트가 이 종목으로 바뀝니다">'
           + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
           + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name
@@ -3836,7 +3863,7 @@ async function nnPoll() {
           + '<div style="font-size:24px;font-weight:800;color:#f0f6fc;margin:6px 0 2px;">' + nnFmtUsd(usd) + '</div>'
           + '<div style="font-size:12px;color:#8b949e;">≈ ' + ((usd && NN.fx) ? nnFmtKrw(usd * NN.fx) : '—') + '</div>'
           + '<div style="font-size:12px;margin-top:7px;">'
-          + (bd ? (bd.getUTCMonth() + 1) + '/' + bd.getUTCDate() + ' 20:00 대비 ' : '') + ch + '</div>'
+          + (NN.usDate && bp ? NN.usDate.slice(5).replace('-', '/') + ' 미국 종가 대비 ' : '') + ch + '</div>'
           + '</div>';
         continue;
       }
@@ -3844,9 +3871,8 @@ async function nnPoll() {
       const prev = NN.close[st.ks];
       let chg = '<span style="color:#8b949e">전일 종가 대기 중</span>';
       if (krw && prev) {
-        const d = krw - prev, p = d / prev * 100, up = d >= 0;
-        chg = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲' : '▼') + ' '
-            + Math.abs(Math.round(d)).toLocaleString() + '원 · ' + (up ? '+' : '') + p.toFixed(2) + '%</span>';
+        const p = (krw / prev - 1) * 100, up = p >= 0;
+        chg = '<span style="color:' + (up ? '#f04452' : '#3182f6') + '">' + (up ? '▲ +' : '▼ ') + p.toFixed(2) + '%</span>';
       }
       html += '<div data-nnsym="' + st.sym + '" style="cursor:pointer;background:#101010;border:1px solid ' + (st.sym === NNB.sym ? '#d29922' : '#2e2e2e') + ';border-radius:8px;padding:13px 16px;" title="클릭하면 아래 차트가 이 종목으로 바뀝니다">'
         + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
@@ -3856,7 +3882,7 @@ async function nnPoll() {
         + (krw ? '₩' + Math.round(krw).toLocaleString() : '—') + '</div>'
         + '<div style="font-size:12px;color:#8b949e;">≈ $' + (usd ? usd.toFixed(2) : '—') + '</div>'
         + '<div style="font-size:12px;margin-top:7px;">'
-        + (NN.closeDate && prev ? NN.closeDate.slice(5).replace('-', '/') + ' 종가 대비 ' : '') + chg + '</div>'
+        + (NN.closeDate && prev ? NN.closeDate.slice(5).replace('-', '/') + ' 한국 종가 대비 ' : '') + chg + '</div>'
         + '</div>';
     }
     grid.innerHTML = html;
