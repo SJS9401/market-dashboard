@@ -757,6 +757,9 @@ function parseSectorReviewStatus(md) {
     signal: get('모멘텀 신호'),
     theme: get('활성 테마'),
     positioning: get('포지셔닝'),  // 2026-11-14: ⑦ 글로벌 PM 포지셔닝 결론 압축
+    deltaWhy: get('델타 근거'),  // 2026-11-23: 판정 근거 한 줄씩 (카드 표시용)
+    narrWhy: get('내러티브 근거'),
+    pmWhy: get('PM 근거'),
     members: get('편입 종목')
   };
 }
@@ -770,22 +773,31 @@ async function fetchQuiet(path) {
 //   대표 문서 = 서브섹터명이 섹터명과 같은 행(섹터 통합 리뷰, 예: 방산·전력 인프라·조선).
 //   통합 리뷰가 없고 작성된 서브섹터가 하나뿐이면 그 서브섹터를 대표로 보여준다 (예: 반도체 → 메모리)
 function buildSrBody(card, s, status, metaPrefix) {
+  // 2026-11-23: 편입 종목 나열 제거 → 판정 + 근거 한 줄씩 (델타 / 내러티브 / PM)
   const metaParts = [metaPrefix || s.sector];
   if (status.quarter) metaParts.push('최신 ' + displayQuarter(status.quarter));
-  metaParts.push(status.members ? status.members : ('핵심 ' + s.core.join(', ')));
   card.appendChild(el('div', { class: 'theme-meta' }, metaParts.join(' · ')));
   const badges = el('div', { class: 'sr-badges' });
   if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + status.delta }, '델타 ' + status.delta));
   if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
+  if (status.positioning) {
+    // 포지셔닝 줄에서 선호 종목은 빼고 섹터·한국 콜만 배지로
+    const calls = status.positioning.split('|').map(x => x.trim()).filter(x => x && !/^선호/.test(x));
+    for (const c of calls) badges.appendChild(el('span', { class: 'sr-badge sr-badge-pm' }, c));
+  }
   card.appendChild(badges);
+  const esc = (x) => x.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const why = el('div', { class: 'sr-why' });
+  const row = (label, text) => { if (text) why.appendChild(el('div', { class: 'sr-why-row', html: '<span class="sr-why-k">' + label + '</span>' + esc(text) })); };
+  row('델타', status.deltaWhy);
+  row('내러티브', status.narrWhy);
+  row('PM', status.pmWhy);
+  if (why.children.length) card.appendChild(why);
   if (status.signal && !/^없음/.test(status.signal)) {
-    card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + status.signal.replace(/</g, '&lt;') + '</b>' }));
+    card.appendChild(el('div', { class: 'sr-signal', html: '모멘텀 신호: <b>' + esc(status.signal) + '</b>' }));
   }
   if (status.theme && !/^없음/.test(status.theme)) {
     card.appendChild(el('div', { class: 'sr-signal' }, '활성 테마: ' + status.theme));
-  }
-  if (status.positioning) {
-    card.appendChild(el('div', { class: 'sr-signal sr-pm', html: 'PM: <b>' + status.positioning.replace(/</g, '&lt;') + '</b>' }));
   }
 }
 
