@@ -237,6 +237,8 @@
 | — | 하이브 | 4Q OP 1,320억·OPM 11% 유지, BTS 2H27 활동 공지, 캣츠아이·코르티스 투어 체급, 주주환원·KeyHolder 1/6, 원화 환율 |
 | — | JYP | 4Q OP 274억(YoY −35%) 꺾임 여부, TWICE 재계약 결론, oftheblue 1/11 초동, SKZ 27투어 220만·입대 순서 |
 | — | 에스엠 | 1Q27 OP YoY 플러스 복귀, 4Q OP 448억(−18%) 컨센, 별도 OPM 18% 회복, SMTR25 데뷔·초동, 엔저·외화손실 |
+| — | 와이지엔터 | 4Q OP 252억(+13%) 회복·본업 200억, 신인 보이·걸 1H27 데뷔, 빅뱅 추가 회차, MD 지속성, 대손 환입 |
+| — | 디어유 | 4Q OP 96억 YoY 플러스 유지, 버블하우스 초기 매출·미국법인 손실 축소, 평균구독 200만 회복, G.E.M. 입점·QQ 매출 15억 |
 | UMG | Universal Music | 4Q 조정EBITDA 두자릿수, FY26 IFRS 영업이익, 오가닉 구독 8~10%, Apple Streaming 2.0, Downtown 마진 |
 | SPOT | Spotify | 4Q OP €820M(+17%) 상회, 1Q27 OPM 가이던스, ARPU +9% 유지, 추가 가격인상, 광고 단가 |
 | TME | Tencent Music | 4Q 핵심OP YoY 플러스 복귀, Ximalaya 기여 공개, 멤버십 +9% 유지, SVIP 공시 재개, 버블 QQ |
