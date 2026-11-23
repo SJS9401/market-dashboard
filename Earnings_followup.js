@@ -146,6 +146,9 @@ function parseWatchlist(md) {
   result.halfYear = hm ? hm[1].split(',').map(x => x.trim()).filter(Boolean) : [];
   const am = md.match(/^>[ \t]*\*\*연간 공시 종목\*\*[^\n]*:[ \t]*([^\n]*)$/m);
   result.annual = am ? am[1].split(',').map(x => x.trim()).filter(Boolean) : [];
+  // 2026-11-23: 테마 리뷰 칸에서 숨길 테마 (종료 테마 — 파일은 보존)
+  const xm = md.match(/^>[ \t]*\*\*테마 리뷰 칸 제외\*\*[^\n]*:[ \t]*([^\n]*)$/m);
+  result.hiddenThemes = xm ? xm[1].split(',').map(x => x.trim()).filter(Boolean) : [];
   let current = null;  // 'T1' | group 객체
   const lines = md.split('\n');
   for (const line of lines) {
@@ -650,12 +653,14 @@ function renderThemeReviews() {
   const container = $('themeReviews');
   if (!container) return;
   container.innerHTML = '';
-  const list = state.manifest['theme-review'] || [];
+  const hidden = (state.watchlist && state.watchlist.hiddenThemes) || [];
+  const themeOf = (f) => f.replace(/_테마(분석|리뷰_.+)\.html$/, '');
+  const list = (state.manifest['theme-review'] || []).filter(f => !hidden.includes(themeOf(f)));
   // 2026-11-14: 테마분석(earnings-theme/{테마}_테마분석.html)도 이 칸에서만 연결 — 종목 행 버튼에서 제거
-  const analysisFiles = (state.manifest.theme || []).filter(f => /_테마분석\.html$/.test(f));
+  const analysisFiles = (state.manifest.theme || []).filter(f => /_테마분석\.html$/.test(f) && !hidden.includes(themeOf(f)));
   if (list.length === 0 && analysisFiles.length === 0) {
     container.appendChild(el('div', { class: 'empty-state' },
-      '아직 작성된 테마 분석·리뷰가 없습니다. 새 모멘텀이 나오면 테마 분석 후 [테마 리뷰 모드] {테마}로 리뷰 작성.'));
+      '진행 중인 테마가 없습니다 (2026-11-23 기존 테마 전부 종료). 새 테마 분석이 시작되면 여기에 표시됩니다.'));
     return;
   }
   // 테마별 그룹핑 (테마 분석만 있고 리뷰가 아직 없는 테마도 카드로 표시)
