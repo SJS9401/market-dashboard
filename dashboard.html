@@ -3502,8 +3502,11 @@ const NN_STOCKS = [
   { sym: 'SKHYNIXUSDT',  name: 'SK하이닉스', ks: '000660.KS' },
   // 2026-11-12 BT: 비상장 AI 2종 (Binance pre-IPO 무기한선물). 한국 종목이 아니라 달러가가 주 표시,
   // 등락은 전일 종가가 없으므로 2시간봉 차트와 같은 '직전 영업일 20:00 KST' 대비.
-  { sym: 'ANTHROPICUSDT', name: 'Anthropic', usd: true },
-  { sym: 'OPENAIUSDT',    name: 'OpenAI',    usd: true },
+  // 2026-11-23 BT: Anthropic 나스닥 상장(11/19, 티커 ANT) → Binance ANTHROPICUSDT(pre-IPO) 정산 종료, 상장주 무기한선물 ANTUSDT 로 교체.
+  //   NVIDIA(NVDAUSDT) 추가. 미국 종목도 등락 기준은 차트와 같은 '직전 영업일 20:00 KST'. Pre-IPO 배지는 preipo:true 만.
+  { sym: 'NVDAUSDT',      name: 'NVIDIA',    usd: true },
+  { sym: 'ANTUSDT',       name: 'Anthropic', usd: true },
+  { sym: 'OPENAIUSDT',    name: 'OpenAI',    usd: true, preipo: true },
 ];
 const nnFmtUsd = v => (v == null || !isFinite(v)) ? '—' : '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const NN = { fx: null, close: {}, closeDate: '', timer: null };
@@ -3771,7 +3774,7 @@ async function nnPoll() {
         html += '<div style="background:#101010;border:1px solid #2e2e2e;border-radius:8px;padding:13px 16px;">'
           + '<div style="display:flex;justify-content:space-between;align-items:baseline;">'
           + '<span style="font-size:14px;font-weight:700;color:#f0f6fc;">' + st.name
-          + ' <span style="font-size:10px;font-weight:600;color:#e2c571;border:1px solid #5a4d22;border-radius:3px;padding:0 4px;">Pre-IPO</span></span>'
+          + (st.preipo ? ' <span style="font-size:10px;font-weight:600;color:#e2c571;border:1px solid #5a4d22;border-radius:3px;padding:0 4px;">Pre-IPO</span>' : '') + '</span>'
           + '<span style="font-size:10px;color:#6e7681;">' + st.sym + '</span></div>'
           + '<div style="font-size:24px;font-weight:800;color:#f0f6fc;margin:6px 0 2px;">' + nnFmtUsd(usd) + '</div>'
           + '<div style="font-size:12px;color:#8b949e;">≈ ' + ((usd && NN.fx) ? nnFmtKrw(usd * NN.fx) : '—') + '</div>'
