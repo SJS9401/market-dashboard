@@ -4,9 +4,9 @@ parent_trend: AI의 물리 세계 확장(생성형 AI → 몸을 가진 AI) × �
 parent_industry: 로봇
 cross_ref_industry: [반도체, 자동차, 자율주행]
 sibling_themes: [휴머노이드, 에이전트AI, 자율주행, 희토류·영구자석, AI데이터센터]
-status: active
-sunset_date: null
-sunset_reason: null
+status: sunset
+sunset_date: 2026-11-23
+sunset_reason: "BT 판단 — 시장 전체 테마 종료 상태"
 bottleneck_category: D — 동반 확대(수요 폭증 × 공급 증가). 레이어별: 완제품 D(중국 F 전조) / 두뇌(모델) D / 실세계 데이터 A / 관절 부품 글로벌 D→F, '비중국·미국 현지 생산' 관절 A / 희토류 자석(비중국) A
 active_companies:
   dominant:    # 현재 피지컬 AI 레이어별 패권 보유

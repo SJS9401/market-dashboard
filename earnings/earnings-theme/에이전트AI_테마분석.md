@@ -4,9 +4,9 @@ parent_trend: AI
 parent_industry: 반도체
 cross_ref_industry: 전력 인프라
 sibling_themes: [HBM, 온디바이스AI, 추론최적화, AI데이터센터전력]
-status: active
-sunset_date: null
-sunset_reason: null
+status: sunset
+sunset_date: 2026-11-23
+sunset_reason: "BT 판단 — 시장 전체 테마 종료 상태. 반도체 메모리·로직·CPU 레이어 델타 정점 통과(2026-Q3), 반도체 섹터 합산 둔화 → 4Q26 꺾임 경로"
 bottleneck_category: A+D hybrid — 구조적 메가 병목 (A) + 동반 확대 (D)
 active_companies:
   dominant:    # 현재 테마 패권 보유 (Moat 4.0+, 점유 #1-2 또는 기술 리더)

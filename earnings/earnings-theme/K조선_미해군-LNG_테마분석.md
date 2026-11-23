@@ -3,9 +3,9 @@ theme_keyword: K조선 미해군×LNG
 parent_trend: 미국발 조선 수요 — 미·중 해양 패권(미 해군 재건·MASGA) + 미국 LNG 수출 확대 (2026-11-14 BT 재정의)
 parent_industry: 조선
 sibling_themes: [K방산(함정·잠수함), LNG 밸류체인(화물창·보냉재·엔진), 미국 제조업 리쇼어링]
-status: active
-sunset_date: null
-sunset_reason: null
+status: sunset
+sunset_date: 2026-11-23
+sunset_reason: "BT 판단 — 시장 전체 테마 종료 상태. 조선 섹터 델타 꺾임·내러티브 약화(2026-Q3)"
 bottleneck_category: "A(미 해군 건조·정비 능력) × E→D 전환 중(LNG선)"
 # active_companies: dominant = 두 다리(LNG선 + 미 해군)를 모두 가진 곳 / challenger = 한쪽만 가졌거나 진입 중
 active_companies:
