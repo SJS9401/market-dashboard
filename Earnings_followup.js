@@ -784,7 +784,8 @@ function buildSrBody(card, s, status, metaPrefix) {
   if (status.quarter) metaParts.push('최신 ' + displayQuarter(status.quarter));
   card.appendChild(el('div', { class: 'theme-meta' }, metaParts.join(' · ')));
   const badges = el('div', { class: 'sr-badges' });
-  if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + status.delta }, '델타 ' + status.delta));
+  // 2026-11-23: '꺾임(개선)'처럼 괄호 부기가 붙어도 배지 색은 앞 판정어로
+  if (status.delta) badges.appendChild(el('span', { class: 'sr-badge delta-' + ((status.delta.match(/가속|유지|둔화|꺾임/) || [''])[0]) }, '델타 ' + status.delta));
   if (status.narrative) badges.appendChild(el('span', { class: 'sr-badge' }, '내러티브 ' + status.narrative));
   if (status.positioning) {
     // 포지셔닝 줄에서 선호 종목은 빼고 섹터·한국 콜만 배지로
