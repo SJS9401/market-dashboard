@@ -3731,7 +3731,7 @@ async function loadNightCharts() {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
       ? '카드 등락: 한국 종목 = 한국 정규장 종가 대비(원화 환산), 미국 종목 = 미국 정규장 종가 대비, OpenAI = 미국 정규장 마감(16:00 ET) 시점 Binance 가격 대비 · '
-        + '차트: Binance 무기한선물 달러가, VWAP(100) = 최근 100개 봉의 거래량 가중 평균가 · 카드를 누르면 차트 종목 변경 · '
+        + '차트: Binance 무기한선물 달러가, VWAP(100) = 최근 100개 봉의 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 15분·4시간봉) · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
   }
@@ -3776,7 +3776,12 @@ function nnbInit() {
   ch.priceScale('vol').applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
   NNB.chart = ch;
   ch.subscribeCrosshairMove(p => nnbLegend(p && p.time != null ? p.time : null));
-  new ResizeObserver(e => { const r = e[0].contentRect; if (r.width > 0) ch.applyOptions({ width: r.width, height: r.height }); }).observe(el);
+  // 정규장 종가 세로선 오버레이 (2026-11-23 BT) — 라이브러리에 세로선 API 가 없어 DOM 으로 그린다
+  const vl = document.createElement('div'); vl.id = 'nnb-vl';
+  vl.style.cssText = 'position:absolute;left:0;top:0;right:0;bottom:28px;pointer-events:none;z-index:3;overflow:hidden;';
+  el.appendChild(vl); NNB.vl = vl;
+  ch.timeScale().subscribeVisibleLogicalRangeChange(() => nnbVLines());
+  new ResizeObserver(e => { const r = e[0].contentRect; if (r.width > 0) { ch.applyOptions({ width: r.width, height: r.height }); requestAnimationFrame(nnbVLines); } }).observe(el);
   // 카드 클릭 → 종목 변경 (카드 HTML 은 nnPoll 이 15초마다 다시 그리므로 위임)
   const grid = document.getElementById('nn-grid');
   if (grid) grid.addEventListener('click', e => { const c = e.target.closest('[data-nnsym]'); if (c) nnBigSelect(c.dataset.nnsym); });
@@ -3819,8 +3824,33 @@ async function nnBigLoad(fit) {
   NNB.vol.setData(bars.map(b => ({ time: b.t + NN_KST, value: b.v, color: b.c >= b.o ? 'rgba(214,16,34,0.45)' : 'rgba(23,80,224,0.45)' })));
   if (fit) NNB.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - ({ '15m': 192, '4h': 180, '1d': 250 })[iv]), to: bars.length + 3 });
   nnbLegend(null);
+  requestAnimationFrame(nnbVLines);
   if (NNB.timer) clearInterval(NNB.timer);
   NNB.timer = setInterval(() => nnBigLoad(false), iv === '15m' ? 60000 : 300000);
+}
+// 정규장 종가 세로선: 한국 종목 = KRX 15:30 KST, 미국·비상장 = 16:00 ET (서머타임 자동). 평일만(휴장일은 구분 못 함).
+//   봉 경계와 안 맞는 시각이라 logicalToCoordinate(봉 index + 봉 안 비율)로 위치 보간. 일봉은 선이 너무 촘촘해 생략.
+const NNB_IV_SEC = { '15m': 900, '4h': 14400, '1d': 86400 };
+function nnbVLines() {
+  const vl = NNB.vl; if (!vl) return;
+  if (NNB.iv === '1d' || !NNB.bars.length) { vl.innerHTML = ''; return; }
+  const st = NN_STOCKS.find(x => x.sym === NNB.sym) || {}, kr = !!st.ks, bs = NNB_IV_SEC[NNB.iv];
+  const bars = NNB.bars, t0 = bars[0].t, t1 = bars[bars.length - 1].t + bs, ts = NNB.chart.timeScale();
+  const w = vl.clientWidth - 60;   // 오른쪽 가격축 제외
+  const marks = [];
+  for (let d = Math.floor(t0 / 86400) * 86400; d <= t1; d += 86400) {
+    const dt = new Date(d * 1000), y = dt.getUTCFullYear(), m = dt.getUTCMonth() + 1, dd = dt.getUTCDate();
+    const ds = y + '-' + String(m).padStart(2, '0') + '-' + String(dd).padStart(2, '0');
+    const ct = kr ? Date.UTC(y, m - 1, dd, 6, 30) / 1000 : nnNyCloseMs(ds) / 1000;   // 15:30 KST = 06:30 UTC
+    const dow = kr ? new Date((ct + 9 * 3600) * 1000).getUTCDay() : dt.getUTCDay();
+    if (dow === 0 || dow === 6 || ct < t0 || ct > t1) continue;
+    let lo = 0, hi = bars.length - 1; while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (bars[mid].t <= ct) lo = mid; else hi = mid - 1; }
+    const x = ts.logicalToCoordinate(lo + (ct - bars[lo].t) / bs);
+    if (x == null || x < 0 || x > w) continue;
+    marks.push({ x, lab: m + '/' + dd });
+  }
+  vl.innerHTML = marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
+    + '<span style="position:absolute;top:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>').join('');
 }
 // nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
 function nnBigTick(map) {
