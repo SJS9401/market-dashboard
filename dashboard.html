@@ -3734,7 +3734,10 @@ function nnbInit() {
   const ch = LightweightCharts.createChart(el, Object.assign({ width: el.clientWidth || 800, height: el.clientHeight || 520 }, CHART_OPTS(), {
     timeScale: { borderColor: '#707070', timeVisible: true, secondsVisible: false, rightOffset: 4 },
     rightPriceScale: { borderColor: '#707070', minimumWidth: 60, scaleMargins: { top: 0.08, bottom: 0.24 } },
-    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+    // 2026-11-23 BT: 기본 크로스헤어가 회색 배경에서 안 보여 진한 빨강 실선으로
+    crosshair: { mode: LightweightCharts.CrosshairMode.Normal,
+      vertLine: { color: '#d7263d', width: 1, style: 0, visible: true, labelVisible: true, labelBackgroundColor: '#d7263d' },
+      horzLine: { color: '#d7263d', width: 1, style: 0, visible: true, labelVisible: true, labelBackgroundColor: '#d7263d' } },
     handleScale: true, handleScroll: true
   }));
   NNB.candle = ch.addCandlestickSeries({ upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0', wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: true, lastValueVisible: true });
