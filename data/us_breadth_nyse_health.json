@@ -1,25 +1,23 @@
 {
- "run_at": "2026-11-24T12:57:47Z",
+ "run_at": "2026-11-24T22:01:12Z",
  "mode": "incremental",
  "status": "OK",
  "trimmed_tail": [],
  "universe_source": "nasdaqtrader",
  "n_universe": 1910,
- "n_downloaded": 1909,
- "n_failed": 1,
- "failed_sample": [
-  "QSPC"
- ],
- "last_date": "2026-11-23",
+ "n_downloaded": 1910,
+ "n_failed": 0,
+ "failed_sample": [],
+ "last_date": "2026-11-24",
  "stale_n": 0,
  "stale_pct": 0.0,
  "stale_sample": [],
- "n_valid_200_last": 1859,
+ "n_valid_200_last": 1851,
  "last_values": {
-  "date": "2026-11-23",
-  "pct_above_200ma": 39.968,
-  "pct_above_50ma": 37.014,
-  "n_valid_200": 1859,
-  "n_valid_50": 1902
+  "date": "2026-11-24",
+  "pct_above_200ma": 40.681,
+  "pct_above_50ma": 40.349,
+  "n_valid_200": 1851,
+  "n_valid_50": 1891
  }
 }
