@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-24T05:35:10Z",
+ "run_at": "2026-11-24T06:59:02Z",
  "mode": "incremental",
  "status": "OK",
  "trimmed_tail": [],
@@ -8,18 +8,18 @@
  "n_downloaded": 1908,
  "n_failed": 1,
  "failed_sample": [
-  "ACRE"
+  "AG"
  ],
  "last_date": "2026-11-23",
  "stale_n": 0,
  "stale_pct": 0.0,
  "stale_sample": [],
- "n_valid_200_last": 1857,
+ "n_valid_200_last": 1858,
  "last_values": {
   "date": "2026-11-23",
-  "pct_above_200ma": 39.957,
-  "pct_above_50ma": 37.0,
-  "n_valid_200": 1857,
-  "n_valid_50": 1900
+  "pct_above_200ma": 39.935,
+  "pct_above_50ma": 36.981,
+  "n_valid_200": 1858,
+  "n_valid_50": 1901
  }
 }
