@@ -1,17 +1,17 @@
 {
- "generated_at_kst": "2026-11-23T09:31+09:00",
- "run_date_kst": "2026-11-23",
+ "generated_at_kst": "2026-11-24T09:31+09:00",
+ "run_date_kst": "2026-11-24",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Global Macro Outlook: Steady Baseline, Downside Risks",
-    "date": "2026-11-16",
-    "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/global-macro-outlook-stead-baseline-downside-risks"
+    "title": "US Economics Outlook: The End of the Inflation Shocks",
+    "date": "2026-11-23",
+    "url": "https://www.goldmansachs.com/insights/articles/us-economics-outlook-end-of-the-inflation-shocks"
    }
   },
   "UBS": {
@@ -28,12 +28,12 @@
   "바클레이스": {
    "status": "ok",
    "count": 40,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Q1 2027 Barclays Global Outlook: A correction, not a collapse",
-    "date": "2026-11-19",
-    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/research/global-outlook/q1-2027-a-correction-not-collapse.html"
+    "title": "Episode 89: Can credit markets keep financing the AI boom?",
+    "date": "2026-11-23",
+    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/the-flip-side-podcast/can-credit-markets-keep-financing-the-ai-boom.html"
    }
   },
   "소시에테제네랄": {
@@ -50,29 +50,29 @@
   "JP모건": {
    "status": "ok",
    "count": 7,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Currency volatility: Dollar strength, euro weakness?",
-    "date": "2026-11-18",
-    "url": "https://www.jpmorgan.com/insights/global-research/currencies/currency-volatility-dollar-strength"
+    "title": "Which sectors could weather rising interest rates?",
+    "date": "2026-11-23",
+    "url": "https://www.jpmorgan.com/insights/global-research/economy/interest-rates-effect-on-us-sectors"
    }
   },
   "씨티": {
    "status": "ok",
-   "count": 5,
+   "count": 14,
    "new_today": 0,
    "initial_load": false,
    "latest": {
-    "title": "Global Markets and Economy",
+    "title": "E93: China’s Silver Economy: 77 and Learning Ballet",
     "date": null,
-    "url": "https://www.citigroup.com/global/insights/global-markets-and-economy"
+    "url": "https://www.citigroup.com/global/insights/e93-chinas-silver-economy-77-and-learning-ballet"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 23,
-   "new_today": 0,
+   "count": 20,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
     "title": "2027 Global Outlook: Powered by AI, Tested by Oil",
@@ -104,6 +104,41 @@
   }
  },
  "recent_new": [
+  {
+   "bank": "골드만삭스",
+   "title": "US Economics Outlook: The End of the Inflation Shocks",
+   "url": "https://www.goldmansachs.com/insights/articles/us-economics-outlook-end-of-the-inflation-shocks",
+   "date": "2026-11-23",
+   "first_seen_kst": "2026-11-24T09:31+09:00"
+  },
+  {
+   "bank": "바클레이스",
+   "title": "Episode 89: Can credit markets keep financing the AI boom?",
+   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/the-flip-side-podcast/can-credit-markets-keep-financing-the-ai-boom.html",
+   "date": "2026-11-23",
+   "first_seen_kst": "2026-11-24T09:31+09:00"
+  },
+  {
+   "bank": "JP모건",
+   "title": "Which sectors could weather rising interest rates?",
+   "url": "https://www.jpmorgan.com/insights/global-research/economy/interest-rates-effect-on-us-sectors",
+   "date": "2026-11-23",
+   "first_seen_kst": "2026-11-24T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "AI Growth and Disruption Shape Europe’s Tech Outlook",
+   "url": "https://www.morganstanley.com/insights/articles/european-tmt-conference-2026-ai-outlook",
+   "date": null,
+   "first_seen_kst": "2026-11-24T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "From EVs to Robots: China’s Edge in Physical AI",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/china-ai-adoption-real-world-laura-wang-tim-hsiao-sheng-zhong",
+   "date": null,
+   "first_seen_kst": "2026-11-24T09:31+09:00"
+  },
   {
    "bank": "모건스탠리",
    "title": "China's Bet on Physical AI",
