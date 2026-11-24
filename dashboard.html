@@ -381,7 +381,7 @@
       <div class="nnc-head" style="flex-wrap:wrap;gap:10px;">
         <span class="series-toggle" id="nnb-syms" style="display:flex;gap:4px;flex-wrap:wrap;"></span>
         <span class="series-toggle" id="nnb-ivs" style="display:flex;gap:4px;margin-left:auto;">
-          <button data-iv="15m">15분</button><button data-iv="4h" class="active">4시간</button><button data-iv="1d">일봉</button>
+          <button data-iv="3m">3분</button><button data-iv="5m">5분</button><button data-iv="15m">15분</button><button data-iv="4h" class="active">4시간</button><button data-iv="1d">일봉</button><button data-iv="1w">주봉</button>
         </span>
       </div>
       <div id="nnb-legend" style="font-size:11.5px;color:#c9d1d9;padding:6px 12px;background:#1b1b1b;border-bottom:1px solid #2e2e2e;font-variant-numeric:tabular-nums;min-height:16px;"></div>
@@ -3731,7 +3731,7 @@ async function loadNightCharts() {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
       ? '카드 등락: 한국 종목 = 한국 정규장 종가 대비(원화 환산), 미국 종목 = 미국 정규장 종가 대비, OpenAI = 미국 정규장 마감(16:00 ET) 시점 Binance 가격 대비 · '
-        + '차트: Binance 무기한선물 달러가, 지표(좌상단 클릭으로 켜고 끔): SMA 50·200·400, 볼린저밴드(20, 2σ), VWAP(100) = 최근 100개 봉 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 15분·4시간봉) · 카드를 누르면 차트 종목 변경 · '
+        + '차트: Binance 무기한선물 달러가, 지표(좌상단 클릭으로 켜고 끔): SMA 50·200·400, 볼린저밴드(20, 2σ), VWAP(100) = 최근 100개 봉 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 3분~4시간봉) · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
   }
@@ -3822,10 +3822,10 @@ function nnbLegend(time) {
   let i = NNB.bars.length - 1;
   if (time != null) { const k = NNB.bars.findIndex(b => b.t + NN_KST === time); if (k >= 0) i = k; }
   const b = NNB.bars[i], pv = i > 0 ? NNB.bars[i - 1].c : b.o, chg = (b.c / pv - 1) * 100, rng = (b.h / b.l - 1) * 100;
-  const d = new Date((b.t + NN_KST) * 1000), ds = d.getUTCFullYear() + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCDate()).padStart(2, '0') + (NNB.iv === '1d' ? '' : ' ' + String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'));
+  const d = new Date((b.t + NN_KST) * 1000), ds = d.getUTCFullYear() + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCDate()).padStart(2, '0') + (NNB.iv === '1d' || NNB.iv === '1w' ? '' : ' ' + String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'));
   const col = b.c >= b.o ? '#f04452' : '#3182f6', st = NN_STOCKS.find(x => x.sym === NNB.sym) || {};
   const k = (l, v, c) => '<span style="color:#8b949e">' + l + '</span> <b style="color:' + (c || col) + '">' + v + '</b>';
-  lg.innerHTML = [ '<b style="color:#f0f6fc">' + (st.name || NNB.sym) + '</b> <span style="color:#6e7681">' + NNB.sym + ' · ' + ({ '15m': '15분봉', '4h': '4시간봉', '1d': '일봉' })[NNB.iv] + '</span>', '<span style="color:#8b949e">' + ds + ' KST</span>',
+  lg.innerHTML = [ '<b style="color:#f0f6fc">' + (st.name || NNB.sym) + '</b> <span style="color:#6e7681">' + NNB.sym + ' · ' + ({ '3m': '3분봉', '5m': '5분봉', '15m': '15분봉', '4h': '4시간봉', '1d': '일봉', '1w': '주봉' })[NNB.iv] + '</span>', '<span style="color:#8b949e">' + ds + ' KST</span>',
     k('시', nnbFmt(b.o)), k('고', nnbFmt(b.h)), k('저', nnbFmt(b.l)), k('종', nnbFmt(b.c)), k('변동', (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%'), k('범위', rng.toFixed(2) + '%') ].join(' &nbsp; ');
   // 좌상단 지표 값 (마우스 올린 봉 기준) — 꺼진 지표는 흐리게 + 값 숨김
   if (NNB.ib && NNB.ind) {
@@ -3860,18 +3860,18 @@ async function nnBigLoad(fit) {
   NNB.ser.vwap[0].setData(ld(vw));
   nnbApplyVis();
   NNB.vol.setData(bars.map(b => ({ time: b.t + NN_KST, value: b.v, color: b.c >= b.o ? 'rgba(214,16,34,0.45)' : 'rgba(23,80,224,0.45)' })));
-  if (fit) NNB.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - ({ '15m': 192, '4h': 180, '1d': 250 })[iv]), to: bars.length + 3 });
+  if (fit) NNB.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - ({ '3m': 240, '5m': 240, '15m': 192, '4h': 180, '1d': 250, '1w': 160 })[iv]), to: bars.length + 3 });
   nnbLegend(null);
   requestAnimationFrame(nnbVLines);
   if (NNB.timer) clearInterval(NNB.timer);
-  NNB.timer = setInterval(() => nnBigLoad(false), iv === '15m' ? 60000 : 300000);
+  NNB.timer = setInterval(() => nnBigLoad(false), (iv === '3m' || iv === '5m') ? 30000 : iv === '15m' ? 60000 : 300000);
 }
 // 정규장 종가 세로선: 한국 종목 = KRX 15:30 KST, 미국·비상장 = 16:00 ET (서머타임 자동). 평일만(휴장일은 구분 못 함).
 //   봉 경계와 안 맞는 시각이라 logicalToCoordinate(봉 index + 봉 안 비율)로 위치 보간. 일봉은 선이 너무 촘촘해 생략.
-const NNB_IV_SEC = { '15m': 900, '4h': 14400, '1d': 86400 };
+const NNB_IV_SEC = { '3m': 180, '5m': 300, '15m': 900, '4h': 14400, '1d': 86400, '1w': 604800 };
 function nnbVLines() {
   const vl = NNB.vl; if (!vl) return;
-  if (NNB.iv === '1d' || !NNB.bars.length) { vl.innerHTML = ''; return; }
+  if (NNB.iv === '1d' || NNB.iv === '1w' || !NNB.bars.length) { vl.innerHTML = ''; return; }
   const st = NN_STOCKS.find(x => x.sym === NNB.sym) || {}, kr = !!st.ks, bs = NNB_IV_SEC[NNB.iv];
   const bars = NNB.bars, t0 = bars[0].t, t1 = bars[bars.length - 1].t + bs, ts = NNB.chart.timeScale();
   const w = vl.clientWidth - 60;   // 오른쪽 가격축 제외
