@@ -3810,6 +3810,7 @@ function nnbInit() {
   // 카드 클릭 → 종목 변경 (카드 HTML 은 nnPoll 이 15초마다 다시 그리므로 위임)
   const grid = document.getElementById('nn-grid');
   if (grid) grid.addEventListener('click', e => { const c = e.target.closest('[data-nnsym]'); if (c) nnBigSelect(c.dataset.nnsym); });
+  nnbDrawInit(el, ch);
   return true;
 }
 function nnBigSelect(sym) {
@@ -3909,6 +3910,113 @@ function nnbVLines() {
   }
   vl.innerHTML = shades.map(([L, R]) => '<b style="position:absolute;top:0;bottom:0;left:' + Math.round(L) + 'px;width:' + Math.round(R - L) + 'px;background:rgba(0,0,0,0.11);"></b>').join('') + marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
     + (!k.show ? '' : '<span style="position:absolute;bottom:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>')).join('');
+}
+// ═══════════════════════════════════
+// 그리기 도구 (2026-11-24 BT) — Fib Retracement(2점) · Fib Channel(3점), 레벨 0·1·2·3·4·-1·-2·-3·-4 고정
+//   점은 (실제 시각 t, 가격 p) 로 저장 → 봉 단위를 바꿔도 같은 자리에 그려짐. 종목별로 브라우저(localStorage)에 저장.
+//   라이브러리에 그리기 API 가 없어 SVG 오버레이로 그리고, 화면이 바뀌면(스크롤·확대·가격축 변화) 다시 그린다.
+// ═══════════════════════════════════
+const NNB_FIB_LV = [4, 3, 2, 1, 0, -1, -2, -3, -4];
+const NNBD = { mode: null, pts: [], hover: null, svg: null, box: null, all: {}, sig: '' };
+try { NNBD.all = JSON.parse(localStorage.getItem('nnbDraw') || '{}') || {}; } catch (e) { NNBD.all = {}; }
+function nnbdSave() { try { localStorage.setItem('nnbDraw', JSON.stringify(NNBD.all)); } catch (e) {} }
+function nnbdList() { return NNBD.all[NNB.sym] || (NNBD.all[NNB.sym] = []); }
+// 시각 ↔ 화면 x (봉 사이 보간, 데이터 범위 밖은 봉 간격으로 연장)
+function nnbdTX(t) {
+  const bars = NNB.bars, ts = NNB.chart.timeScale(), bs = NNB_IV_SEC[NNB.iv]; if (!bars.length) return null;
+  let lo = 0, hi = bars.length - 1; while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (bars[mid].t <= t) lo = mid; else hi = mid - 1; }
+  const x0 = ts.logicalToCoordinate(lo), xa = ts.logicalToCoordinate(lo + 1), xb = ts.logicalToCoordinate(lo - 1); if (x0 == null) return null;
+  const step = (xa != null && xa > x0) ? xa - x0 : (xb != null && x0 > xb ? x0 - xb : 0);
+  return x0 + (t - bars[lo].t) / bs * step;
+}
+function nnbdXT(x) {
+  const bars = NNB.bars, ts = NNB.chart.timeScale(), bs = NNB_IV_SEC[NNB.iv]; if (!bars.length) return null;
+  const lg = ts.coordinateToLogical(x); if (lg == null) return null;
+  const i = Math.max(0, Math.min(bars.length - 1, Math.floor(lg)));
+  return bars[i].t + (lg - i) * bs;
+}
+function nnbDrawInit(el, ch) {
+  // 툴바 (봉 단위 버튼 왼쪽)
+  const ivs = document.getElementById('nnb-ivs');
+  const tb = document.createElement('span'); tb.id = 'nnb-tools'; tb.className = 'series-toggle';
+  tb.style.cssText = 'display:flex;gap:4px;align-items:center;margin-left:auto;';
+  tb.innerHTML = '<button data-tool="fib" title="두 점 클릭: 첫 점 = 1, 두 번째 점 = 0">Fib 되돌림</button>'
+    + '<button data-tool="chan" title="세 점 클릭: 1·2번째 = 추세선, 3번째 = 채널 폭">Fib 채널</button>'
+    + '<button data-tool="undo" title="이 종목의 마지막 도형 지우기">↶ 지우기</button>'
+    + '<button data-tool="clear" title="이 종목의 도형 전부 지우기">전체 삭제</button>'
+    + '<span id="nnb-draw-hint" style="font-size:11px;color:#e3b341;margin-left:4px;"></span>';
+  ivs.parentNode.insertBefore(tb, ivs); ivs.style.marginLeft = '8px';
+  tb.onclick = e => { const b = e.target.closest('button'); if (!b) return; const k = b.dataset.tool;
+    if (k === 'undo') { nnbdList().pop(); nnbdSave(); nnbdCancel(); return; }
+    if (k === 'clear') { if (nnbdList().length && confirm('이 종목(' + NNB.sym + ')의 도형을 모두 지울까요?')) { NNBD.all[NNB.sym] = []; nnbdSave(); } nnbdCancel(); return; }
+    if (NNBD.mode === k) { nnbdCancel(); return; }
+    NNBD.mode = k; NNBD.pts = []; nnbdHint(); nnbdRender(true); };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && NNBD.mode) nnbdCancel(); });
+  // SVG 오버레이 (가격축·시간축 제외 영역)
+  const box = document.createElement('div');
+  box.style.cssText = 'position:absolute;left:0;top:0;bottom:28px;right:60px;pointer-events:none;z-index:4;overflow:hidden;';
+  box.innerHTML = '<svg width="100%" height="100%" style="position:absolute;left:0;top:0;overflow:visible;"></svg>';
+  el.appendChild(box); NNBD.box = box; NNBD.svg = box.firstChild;
+  ch.subscribeClick(p => { if (!NNBD.mode || !p || !p.point) return;
+    const t = nnbdXT(p.point.x), pr = NNB.candle.coordinateToPrice(p.point.y); if (t == null || pr == null) return;
+    NNBD.pts.push({ t, p: pr });
+    const need = NNBD.mode === 'fib' ? 2 : 3;
+    if (NNBD.pts.length >= need) { nnbdList().push({ type: NNBD.mode, pts: NNBD.pts.slice(0, need) }); nnbdSave(); nnbdCancel(); }
+    else { nnbdHint(); nnbdRender(true); } });
+  ch.subscribeCrosshairMove(p => { if (!NNBD.mode) return; NNBD.hover = (p && p.point) ? { t: nnbdXT(p.point.x), p: NNB.candle.coordinateToPrice(p.point.y) } : null; nnbdRender(true); });
+  // 화면 변화 감지 → 다시 그리기 (가격축 자동 스케일은 이벤트가 없어 프레임마다 서명 비교)
+  const loop = () => { nnbdRender(false); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
+}
+function nnbdCancel() { NNBD.mode = null; NNBD.pts = []; NNBD.hover = null; nnbdHint(); nnbdRender(true); }
+function nnbdHint() {
+  document.querySelectorAll('#nnb-tools button[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === NNBD.mode));
+  const h = document.getElementById('nnb-draw-hint'); if (!h) return;
+  if (!NNBD.mode) { h.textContent = ''; return; }
+  const n = NNBD.pts.length;
+  h.textContent = NNBD.mode === 'fib' ? (n === 0 ? '① 첫 점(1) 클릭' : '② 두 번째 점(0) 클릭') + ' · Esc 취소'
+    : (n === 0 ? '① 추세선 시작점 클릭' : n === 1 ? '② 추세선 끝점 클릭' : '③ 채널 폭 지점 클릭') + ' · Esc 취소';
+}
+function nnbdRender(force) {
+  const svg = NNBD.svg; if (!svg || !NNB.chart || !NNB.bars.length) return;
+  const pw = NNB.chart.priceScale('right').width(); if (NNBD.box.style.right !== pw + 'px') NNBD.box.style.right = pw + 'px';
+  const W = NNBD.box.clientWidth, H = NNBD.box.clientHeight;
+  const lr = NNB.chart.timeScale().getVisibleLogicalRange(), y0 = NNB.candle.priceToCoordinate(NNB.bars[NNB.bars.length - 1].c);
+  const list = nnbdList();
+  const sig = [NNB.sym, NNB.iv, lr && lr.from, lr && lr.to, y0, W, H, list.length, NNBD.mode, NNBD.pts.length, NNBD.hover && NNBD.hover.t, NNBD.hover && NNBD.hover.p].join('|');
+  if (!force && sig === NNBD.sig) return; NNBD.sig = sig;
+  const Y = p => NNB.candle.priceToCoordinate(p);
+  const fmt = v => nnbFmt(v);
+  let out = '';
+  const line = (x1, y1, x2, y2, st) => '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" ' + (st || 'stroke="#111" stroke-width="1"') + '/>';
+  const text = (x, y, s, anchor) => '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" font-size="10.5" font-weight="600" fill="#111" text-anchor="' + (anchor || 'end') + '" dominant-baseline="middle" style="paint-order:stroke;stroke:#A4A4A4;stroke-width:3px;">' + s + '</text>';
+  const dot = (x, y) => '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="none" stroke="#1f3fd6" stroke-width="1.6"/>';
+  const drawFib = (a, b, preview) => {   // 첫 점 a = 레벨 1, 두 번째 점 b = 레벨 0
+    const xa = nnbdTX(a.t), xb = nnbdTX(b.t); if (xa == null || xb == null) return;
+    const L = Math.min(xa, xb), R = Math.max(xa, xb), d = a.p - b.p;
+    NNB_FIB_LV.forEach(lv => { const pr = b.p + lv * d, y = Y(pr); if (y == null) return;
+      out += line(L, y, R, y, 'stroke="#111" stroke-width="' + (lv === 0 || lv === 1 ? 1.4 : 1) + '"') + text(L - 6, y, lv + ' (' + fmt(pr) + ')'); });
+    const ya = Y(a.p), yb = Y(b.p); if (ya != null && yb != null) out += line(xa, ya, xb, yb, 'stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"') + dot(xa, ya) + dot(xb, yb);
+  };
+  const drawChan = (a, b, c) => {   // a→b 추세선(레벨 0), c 가 레벨 1 (폭) — 좌우 끝까지 연장
+    const xa = nnbdTX(a.t), xb = nnbdTX(b.t); if (xa == null || xb == null || Math.abs(xb - xa) < 1) return;
+    const slope = (b.p - a.p) / (b.t - a.t), off = c ? c.p - (a.p + slope * (c.t - a.t)) : 0;
+    const lvs = c ? NNB_FIB_LV : [0];
+    lvs.forEach(lv => { const pa = a.p + lv * off, pb = b.p + lv * off, ya = Y(pa), yb = Y(pb); if (ya == null || yb == null) return;
+      const k = (yb - ya) / (xb - xa), yL = ya + k * (0 - xa), yR = ya + k * (W - xa);
+      out += line(0, yL, W, yR, 'stroke="#111" stroke-width="' + (lv === 0 || lv === 1 ? 1.4 : 1) + '"');
+      const lx = W - 4, ly = yR; if (ly > 6 && ly < H - 6) out += text(lx, ly - 7, String(lv)); else { /* 오른쪽 끝이 화면 밖이면 왼쪽에 */ if (yL > 6 && yL < H - 6) out += text(4, yL - 7, String(lv), 'start'); } });
+    [a, b, c].forEach(p => { if (!p) return; const x = nnbdTX(p.t), y = Y(p.p); if (x != null && y != null) out += dot(x, y); });
+  };
+  list.forEach(d => d.type === 'fib' ? drawFib(d.pts[0], d.pts[1]) : drawChan(d.pts[0], d.pts[1], d.pts[2]));
+  // 그리는 중 미리보기
+  if (NNBD.mode && NNBD.hover && NNBD.hover.t != null && NNBD.hover.p != null) {
+    const P = NNBD.pts, h = NNBD.hover;
+    if (NNBD.mode === 'fib' && P.length === 1) drawFib(P[0], h);
+    else if (NNBD.mode === 'chan' && P.length === 1) drawChan(P[0], h, null);
+    else if (NNBD.mode === 'chan' && P.length === 2) drawChan(P[0], P[1], h);
+    else if (P.length === 0) { const x = nnbdTX(h.t), y = Y(h.p); if (x != null && y != null) out += dot(x, y); }
+  }
+  svg.innerHTML = out;
 }
 // nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
 function nnBigTick(map) {
