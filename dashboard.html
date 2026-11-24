@@ -3731,7 +3731,7 @@ async function loadNightCharts() {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
       ? '카드 등락: 한국 종목 = 한국 정규장 종가 대비(원화 환산), 미국 종목 = 미국 정규장 종가 대비, OpenAI = 미국 정규장 마감(16:00 ET) 시점 Binance 가격 대비 · '
-        + '차트: Binance 무기한선물 달러가, 지표(좌상단 클릭으로 켜고 끔): SMA 50·200·400, 볼린저밴드(20, 2σ), VWAP(100) = 최근 100개 봉 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 3분~4시간봉) · 카드를 누르면 차트 종목 변경 · '
+        + '차트: Binance 무기한선물 달러가, 지표(좌상단 클릭으로 켜고 끔): SMA 50·200·400, 볼린저밴드(20, 2σ), VWAP(100) = 최근 100개 봉 거래량 가중 평균가 · 진한 음영 = 장외 시간(KST 06:00~08:00·16:00~23:30) · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 3분~4시간봉) · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
   }
@@ -3892,7 +3892,20 @@ function nnbVLines() {
     marks.push({ x, lab: m + '/' + dd });
   }
   let lastLab = -1e9; marks.forEach(k => { k.show = k.x - lastLab >= 38; if (k.show) lastLab = k.x; });   // 날짜 라벨 겹치면 건너뜀
-  vl.innerHTML = marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
+  // 장외 시간 음영 (2026-11-24 BT, 키움 차트 방식): KST 08:00~16:00(한국장), 23:30~06:00(미국장) 이 아닌 시간
+  //   = 매일 06:00~08:00, 16:00~23:30 KST → UTC 21:00~23:00(전날), 07:00~14:30
+  const xAt = t => { let lo = 0, hi = bars.length - 1; while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (bars[mid].t <= t) lo = mid; else hi = mid - 1; }
+    const x0 = ts.logicalToCoordinate(lo), xa = ts.logicalToCoordinate(lo + 1), xb = ts.logicalToCoordinate(lo - 1); if (x0 == null) return null;
+    const step = (xa != null && xa > x0) ? xa - x0 : (xb != null && x0 > xb ? x0 - xb : 0); return x0 + (t - bars[lo].t) / bs * step; };
+  const shades = [];
+  for (let d = Math.floor(t0 / 86400) * 86400 - 86400; d <= t1; d += 86400) {
+    for (const [a, b] of [[d + 7 * 3600, d + 14.5 * 3600], [d + 21 * 3600, d + 23 * 3600]]) {
+      if (b < t0 || a > t1) continue;
+      const xa = xAt(Math.max(a, t0)), xb = xAt(Math.min(b, t1)); if (xa == null || xb == null) continue;
+      const L = Math.max(0, xa), R = Math.min(w, xb); if (R - L >= 1) shades.push([L, R]);
+    }
+  }
+  vl.innerHTML = shades.map(([L, R]) => '<b style="position:absolute;top:0;bottom:0;left:' + Math.round(L) + 'px;width:' + Math.round(R - L) + 'px;background:rgba(0,0,0,0.11);"></b>').join('') + marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
     + (!k.show ? '' : '<span style="position:absolute;bottom:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>')).join('');
 }
 // nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
