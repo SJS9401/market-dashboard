@@ -3731,7 +3731,7 @@ async function loadNightCharts() {
     const bd = new Date((nnBaseUtc + NN_KST) * 1000);
     note.textContent = ok
       ? '카드 등락: 한국 종목 = 한국 정규장 종가 대비(원화 환산), 미국 종목 = 미국 정규장 종가 대비, OpenAI = 미국 정규장 마감(16:00 ET) 시점 Binance 가격 대비 · '
-        + '차트: Binance 무기한선물 달러가, VWAP(100) = 최근 100개 봉의 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 15분·4시간봉) · 카드를 누르면 차트 종목 변경 · '
+        + '차트: Binance 무기한선물 달러가, 지표(좌상단 클릭으로 켜고 끔): SMA 50·200·400, 볼린저밴드(20, 2σ), VWAP(100) = 최근 100개 봉 거래량 가중 평균가 · 점선 = 정규장 종가 시각(한국 15:30 KST / 미국 16:00 ET, 15분·4시간봉) · 카드를 누르면 차트 종목 변경 · '
         + new Date().toLocaleTimeString('ko-KR', { hour12: false }) + ' 갱신'
       : 'Binance klines 연결 실패 · 다음 갱신 때 재시도';
   }
@@ -3743,7 +3743,22 @@ async function loadNightCharts() {
 // 통합 차트 (2026-11-23 BT) — 종목 1개 × 15분/4시간/일봉, 캔들 + VWAP(100) + 거래량
 // ═══════════════════════════════════
 const NNB = { sym: NN_STOCKS[0].sym, iv: '4h', chart: null, candle: null, vwap: null, vol: null, bars: [], vw: [], timer: null, req: 0 };
-const NNB_LIMIT = 600;        // 표시 500 + VWAP 워밍업 100
+const NNB_LIMIT = 1000;       // 2026-11-24: SMA400 워밍업 위해 600 → 1000 (Binance 최대 1500)
+// 지표 (2026-11-24 BT): 차트 좌상단 범례에서 켜고 끔. 켜짐 상태는 브라우저에 저장.
+const NNB_IND = [
+  { k: 'sma50',  lab: 'SMA 50',  color: '#8957e5' },
+  { k: 'sma200', lab: 'SMA 200', color: '#8b5a2b' },
+  { k: 'sma400', lab: 'SMA 400', color: '#e5383b' },
+  { k: 'bb',     lab: 'BB 20 2', color: '#ff4fa3' },
+  { k: 'vwap',   lab: 'VWAP 100', color: '#111111' },
+];
+let NNB_ON = { sma50: true, sma200: true, sma400: true, bb: true, vwap: true };
+try { const v = JSON.parse(localStorage.getItem('nnbInd') || 'null'); if (v) NNB_ON = Object.assign(NNB_ON, v); } catch (e) {}
+function nnbSma(bars, n) { const out = []; let s = 0; for (let i = 0; i < bars.length; i++) { s += bars[i].c; if (i >= n) s -= bars[i - n].c; out.push(i >= n - 1 ? s / n : null); } return out; }
+function nnbBB(bars, n, k) { const mid = nnbSma(bars, n), up = [], lo = [];
+  for (let i = 0; i < bars.length; i++) { if (mid[i] == null) { up.push(null); lo.push(null); continue; }
+    let v = 0; for (let j = i - n + 1; j <= i; j++) v += (bars[j].c - mid[i]) ** 2; const sd = Math.sqrt(v / n); up.push(mid[i] + k * sd); lo.push(mid[i] - k * sd); }
+  return { mid, up, lo }; }
 const NNB_VWAP_N = 100;
 function nnbVwap(bars) {      // 롤링 VWAP: Σ(전형가×거래량)/Σ(거래량), 전형가 = (고+저+종)/3
   const out = []; let pv = 0, v = 0;
@@ -3771,7 +3786,15 @@ function nnbInit() {
     handleScale: true, handleScroll: true
   }));
   NNB.candle = ch.addCandlestickSeries({ upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0', wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: true, lastValueVisible: true });
-  NNB.vwap = ch.addLineSeries({ color: '#f0b429', lineWidth: 2, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+  const L = (color, w, style) => ch.addLineSeries({ color, lineWidth: w, lineStyle: style || 0, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
+  NNB.ser = { sma50: [L('#8957e5', 1.5)], sma200: [L('#8b5a2b', 1.5)], sma400: [L('#e5383b', 1.5)],
+    bb: [L('#ff4fa3', 1), L('#ff4fa3', 1), L('#ff4fa3', 1, 2)], vwap: [L('#111111', 2)] };
+  // 좌상단 지표 범례 (클릭으로 켜고 끔)
+  const ib = document.createElement('div'); ib.id = 'nnb-ind';
+  ib.style.cssText = 'position:absolute;left:8px;top:6px;z-index:5;font-size:11.5px;line-height:1.55;font-variant-numeric:tabular-nums;';
+  el.appendChild(ib); NNB.ib = ib;
+  ib.addEventListener('click', e => { const r = e.target.closest('[data-ind]'); if (!r) return; const k = r.dataset.ind; NNB_ON[k] = !NNB_ON[k];
+    try { localStorage.setItem('nnbInd', JSON.stringify(NNB_ON)); } catch (_) {} nnbApplyVis(); nnbLegend(null); });
   NNB.vol = ch.addHistogramSeries({ priceScaleId: 'vol', priceFormat: { type: 'volume' }, lastValueVisible: false, priceLineVisible: false });
   ch.priceScale('vol').applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
   NNB.chart = ch;
@@ -3803,9 +3826,18 @@ function nnbLegend(time) {
   const col = b.c >= b.o ? '#f04452' : '#3182f6', st = NN_STOCKS.find(x => x.sym === NNB.sym) || {};
   const k = (l, v, c) => '<span style="color:#8b949e">' + l + '</span> <b style="color:' + (c || col) + '">' + v + '</b>';
   lg.innerHTML = [ '<b style="color:#f0f6fc">' + (st.name || NNB.sym) + '</b> <span style="color:#6e7681">' + NNB.sym + ' · ' + ({ '15m': '15분봉', '4h': '4시간봉', '1d': '일봉' })[NNB.iv] + '</span>', '<span style="color:#8b949e">' + ds + ' KST</span>',
-    k('시', nnbFmt(b.o)), k('고', nnbFmt(b.h)), k('저', nnbFmt(b.l)), k('종', nnbFmt(b.c)), k('변동', (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%'), k('범위', rng.toFixed(2) + '%'),
-    k('VWAP(100)', nnbFmt(NNB.vw[i]), '#f0b429') ].join(' &nbsp; ');
+    k('시', nnbFmt(b.o)), k('고', nnbFmt(b.h)), k('저', nnbFmt(b.l)), k('종', nnbFmt(b.c)), k('변동', (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%'), k('범위', rng.toFixed(2) + '%') ].join(' &nbsp; ');
+  // 좌상단 지표 값 (마우스 올린 봉 기준) — 꺼진 지표는 흐리게 + 값 숨김
+  if (NNB.ib && NNB.ind) {
+    const I = NNB.ind, val = { sma50: [I.sma50[i]], sma200: [I.sma200[i]], sma400: [I.sma400[i]], bb: [I.bb.up[i], I.bb.lo[i]], vwap: [NNB.vw[i]] };
+    NNB.ib.innerHTML = NNB_IND.map(d => { const on = NNB_ON[d.k];
+      return '<div data-ind="' + d.k + '" title="클릭해서 ' + (on ? '끄기' : '켜기') + '" style="cursor:pointer;pointer-events:auto;user-select:none;white-space:nowrap;opacity:' + (on ? 1 : 0.45) + ';">'
+        + '<span style="display:inline-block;width:10px;height:3px;background:' + d.color + ';vertical-align:middle;margin-right:5px;border-radius:1px;"></span>'
+        + '<span style="color:#232323;font-weight:600;">' + d.lab + ' close</span> '
+        + (on ? val[d.k].map(v => '<b style="color:' + d.color + ';">' + nnbFmt(v) + '</b>').join(' ') : '<span style="color:#555;">(꺼짐)</span>') + '</div>'; }).join('');
+  }
 }
+function nnbApplyVis() { if (!NNB.ser) return; for (const k in NNB.ser) NNB.ser[k].forEach(se => se.applyOptions({ visible: !!NNB_ON[k] })); }
 async function nnBigLoad(fit) {
   if (!nnbInit()) return;
   const req = ++NNB.req, sym = NNB.sym, iv = NNB.iv;
@@ -3820,7 +3852,13 @@ async function nnBigLoad(fit) {
   const vw = nnbVwap(bars);
   NNB.bars = bars; NNB.vw = vw;
   NNB.candle.setData(bars.map(b => ({ time: b.t + NN_KST, open: b.o, high: b.h, low: b.l, close: b.c })));
-  NNB.vwap.setData(bars.map((b, i) => vw[i] == null ? { time: b.t + NN_KST } : { time: b.t + NN_KST, value: vw[i] }));
+  const bb = nnbBB(bars, 20, 2);
+  NNB.ind = { sma50: nnbSma(bars, 50), sma200: nnbSma(bars, 200), sma400: nnbSma(bars, 400), bb };
+  const ld = a => bars.map((b, i) => a[i] == null ? { time: b.t + NN_KST } : { time: b.t + NN_KST, value: a[i] });
+  NNB.ser.sma50[0].setData(ld(NNB.ind.sma50)); NNB.ser.sma200[0].setData(ld(NNB.ind.sma200)); NNB.ser.sma400[0].setData(ld(NNB.ind.sma400));
+  NNB.ser.bb[0].setData(ld(bb.up)); NNB.ser.bb[1].setData(ld(bb.lo)); NNB.ser.bb[2].setData(ld(bb.mid));
+  NNB.ser.vwap[0].setData(ld(vw));
+  nnbApplyVis();
   NNB.vol.setData(bars.map(b => ({ time: b.t + NN_KST, value: b.v, color: b.c >= b.o ? 'rgba(214,16,34,0.45)' : 'rgba(23,80,224,0.45)' })));
   if (fit) NNB.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, bars.length - ({ '15m': 192, '4h': 180, '1d': 250 })[iv]), to: bars.length + 3 });
   nnbLegend(null);
@@ -3855,7 +3893,7 @@ function nnbVLines() {
   }
   let lastLab = -1e9; marks.forEach(k => { k.show = k.x - lastLab >= 38; if (k.show) lastLab = k.x; });   // 날짜 라벨 겹치면 건너뜀
   vl.innerHTML = marks.map(k => '<i style="position:absolute;top:0;bottom:0;left:' + Math.round(k.x) + 'px;border-left:1px dashed rgba(30,30,30,0.55);"></i>'
-    + (!k.show ? '' : '<span style="position:absolute;top:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>')).join('');
+    + (!k.show ? '' : '<span style="position:absolute;bottom:2px;left:' + (Math.round(k.x) + 3) + 'px;font-size:10px;font-weight:700;color:#232323;background:rgba(164,164,164,0.85);padding:0 2px;border-radius:2px;">' + k.lab + '</span>')).join('');
 }
 // nnPoll 의 실시간 체결가(15초)로 마지막 봉 종가 갱신
 function nnBigTick(map) {
