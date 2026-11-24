@@ -3791,8 +3791,9 @@ function nnbInit() {
     bb: [L('#ff4fa3', 1), L('#ff4fa3', 1), L('#ff4fa3', 1, 2)], vwap: [L('#111111', 2)] };
   // 좌상단 지표 범례 (클릭으로 켜고 끔)
   const ib = document.createElement('div'); ib.id = 'nnb-ind';
-  ib.style.cssText = 'position:absolute;left:8px;top:6px;z-index:5;font-size:11.5px;line-height:1.55;font-variant-numeric:tabular-nums;';
-  el.appendChild(ib); NNB.ib = ib;
+  // 2026-11-24 BT: 차트 위에 세로로 겹쳐 보기 불편 → 차트 바로 위 가로 한 줄 (차트와 같은 회색 바탕이라 검정 VWAP 도 보임)
+  ib.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:3px 18px;padding:5px 12px;background:#A4A4A4;border-bottom:1px solid #828282;font-size:11.5px;font-variant-numeric:tabular-nums;';
+  el.parentNode.insertBefore(ib, el); NNB.ib = ib;
   ib.addEventListener('click', e => { const r = e.target.closest('[data-ind]'); if (!r) return; const k = r.dataset.ind; NNB_ON[k] = !NNB_ON[k];
     try { localStorage.setItem('nnbInd', JSON.stringify(NNB_ON)); } catch (_) {} nnbApplyVis(); nnbLegend(null); });
   NNB.vol = ch.addHistogramSeries({ priceScaleId: 'vol', priceFormat: { type: 'volume' }, lastValueVisible: false, priceLineVisible: false });
