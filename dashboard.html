@@ -3749,7 +3749,7 @@ const NNB_IND = [
   { k: 'sma50',  lab: 'SMA 50',  color: '#8957e5' },
   { k: 'sma200', lab: 'SMA 200', color: '#8b5a2b' },
   { k: 'sma400', lab: 'SMA 400', color: '#e5383b' },
-  { k: 'bb',     lab: 'BB 20 2', color: '#ff9fcd' },
+  { k: 'bb',     lab: 'BB 20 2', color: '#ff9fcd', vcol: '#c2307a' },   // 선은 연한 핑크, 범례 숫자는 회색 바탕에서 읽히게 진하게
   { k: 'vwap',   lab: 'VWAP 100', color: '#111111' },
 ];
 let NNB_ON = { sma50: true, sma200: true, sma400: true, bb: true, vwap: true };
@@ -3836,7 +3836,7 @@ function nnbLegend(time) {
       return '<div data-ind="' + d.k + '" title="클릭해서 ' + (on ? '끄기' : '켜기') + '" style="cursor:pointer;pointer-events:auto;user-select:none;white-space:nowrap;opacity:' + (on ? 1 : 0.45) + ';">'
         + '<span style="display:inline-block;width:10px;height:3px;background:' + d.color + ';vertical-align:middle;margin-right:5px;border-radius:1px;"></span>'
         + '<span style="color:#232323;font-weight:600;">' + d.lab + ' close</span> '
-        + (on ? val[d.k].map(v => '<b style="color:' + d.color + ';">' + nnbFmt(v) + '</b>').join(' ') : '<span style="color:#555;">(꺼짐)</span>') + '</div>'; }).join('');
+        + (on ? val[d.k].map(v => '<b style="color:' + (d.vcol || d.color) + ';">' + nnbFmt(v) + '</b>').join(' ') : '<span style="color:#555;">(꺼짐)</span>') + '</div>'; }).join('');
   }
 }
 function nnbApplyVis() { if (!NNB.ser) return; for (const k in NNB.ser) NNB.ser[k].forEach(se => se.applyOptions({ visible: !!NNB_ON[k] })); }
