@@ -3749,7 +3749,7 @@ const NNB_IND = [
   { k: 'sma50',  lab: 'SMA 50',  color: '#8957e5' },
   { k: 'sma200', lab: 'SMA 200', color: '#8b5a2b' },
   { k: 'sma400', lab: 'SMA 400', color: '#e5383b' },
-  { k: 'bb',     lab: 'BB 20 2', color: '#ff4fa3' },
+  { k: 'bb',     lab: 'BB 20 2', color: '#ff9fcd' },
   { k: 'vwap',   lab: 'VWAP 100', color: '#111111' },
 ];
 let NNB_ON = { sma50: true, sma200: true, sma400: true, bb: true, vwap: true };
@@ -3787,8 +3787,9 @@ function nnbInit() {
   }));
   NNB.candle = ch.addCandlestickSeries({ upColor: '#d61022', downColor: '#1750e0', borderUpColor: '#d61022', borderDownColor: '#1750e0', wickUpColor: '#d61022', wickDownColor: '#1750e0', priceLineVisible: true, lastValueVisible: true });
   const L = (color, w, style) => ch.addLineSeries({ color, lineWidth: w, lineStyle: style || 0, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
-  NNB.ser = { sma50: [L('#8957e5', 1.5)], sma200: [L('#8b5a2b', 1.5)], sma400: [L('#e5383b', 1.5)],
-    bb: [L('#ff4fa3', 1), L('#ff4fa3', 1), L('#ff4fa3', 1, 2)], vwap: [L('#111111', 2)] };
+  // 2026-11-24 BT: 이평선 굵기 +1, 볼린저 중심선 제거, 볼린저 연한 핑크
+  NNB.ser = { sma50: [L('#8957e5', 2.5)], sma200: [L('#8b5a2b', 2.5)], sma400: [L('#e5383b', 2.5)],
+    bb: [L('#ff9fcd', 1), L('#ff9fcd', 1)], vwap: [L('#111111', 3)] };
   // 좌상단 지표 범례 (클릭으로 켜고 끔)
   const ib = document.createElement('div'); ib.id = 'nnb-ind';
   // 2026-11-24 BT: 차트 위에 세로로 겹쳐 보기 불편 → 차트 바로 위 가로 한 줄 (차트와 같은 회색 바탕이라 검정 VWAP 도 보임)
@@ -3857,7 +3858,7 @@ async function nnBigLoad(fit) {
   NNB.ind = { sma50: nnbSma(bars, 50), sma200: nnbSma(bars, 200), sma400: nnbSma(bars, 400), bb };
   const ld = a => bars.map((b, i) => a[i] == null ? { time: b.t + NN_KST } : { time: b.t + NN_KST, value: a[i] });
   NNB.ser.sma50[0].setData(ld(NNB.ind.sma50)); NNB.ser.sma200[0].setData(ld(NNB.ind.sma200)); NNB.ser.sma400[0].setData(ld(NNB.ind.sma400));
-  NNB.ser.bb[0].setData(ld(bb.up)); NNB.ser.bb[1].setData(ld(bb.lo)); NNB.ser.bb[2].setData(ld(bb.mid));
+  NNB.ser.bb[0].setData(ld(bb.up)); NNB.ser.bb[1].setData(ld(bb.lo));
   NNB.ser.vwap[0].setData(ld(vw));
   nnbApplyVis();
   NNB.vol.setData(bars.map(b => ({ time: b.t + NN_KST, value: b.v, color: b.c >= b.o ? 'rgba(214,16,34,0.45)' : 'rgba(23,80,224,0.45)' })));
