@@ -1,6 +1,6 @@
 {
- "generated_at_kst": "2026-11-24T09:31+09:00",
- "run_date_kst": "2026-11-24",
+ "generated_at_kst": "2026-11-25T09:31+09:00",
+ "run_date_kst": "2026-11-25",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
@@ -9,9 +9,9 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "US Economics Outlook: The End of the Inflation Shocks",
-    "date": "2026-11-23",
-    "url": "https://www.goldmansachs.com/insights/articles/us-economics-outlook-end-of-the-inflation-shocks"
+    "title": "Is the AI Investment Cycle Durable?",
+    "date": "2026-11-24",
+    "url": "https://www.goldmansachs.com/insights/top-of-mind/is-the-ai-investment-cycle-durable"
    }
   },
   "UBS": {
@@ -31,9 +31,9 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Episode 89: Can credit markets keep financing the AI boom?",
-    "date": "2026-11-23",
-    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/the-flip-side-podcast/can-credit-markets-keep-financing-the-ai-boom.html"
+    "title": "Unsolicited M&A: Not as hostile as it sounds",
+    "date": "2026-11-24",
+    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/unsolicited-m-and-a-not-as-hostile-as-it-sounds.html"
    }
   },
   "소시에테제네랄": {
@@ -53,25 +53,25 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Which sectors could weather rising interest rates?",
-    "date": "2026-11-23",
-    "url": "https://www.jpmorgan.com/insights/global-research/economy/interest-rates-effect-on-us-sectors"
+    "title": "US tariffs: What’s the impact on global trade and the economy?",
+    "date": "2026-11-24",
+    "url": "https://www.jpmorgan.com/insights/global-research/current-events/us-tariffs"
    }
   },
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "E93: China’s Silver Economy: 77 and Learning Ballet",
-    "date": null,
-    "url": "https://www.citigroup.com/global/insights/e93-chinas-silver-economy-77-and-learning-ballet"
+    "title": "Markets Edition: Focus on Data Center Demand, Not Headwinds",
+    "date": "2026-11-24",
+    "url": "https://www.citigroup.com/global/insights/markets-edition-focus-on-data-center-demand-not-headwinds"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 20,
+   "count": 21,
    "new_today": 2,
    "initial_load": false,
    "latest": {
@@ -94,16 +94,72 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 0,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
-    "title": "The split screen war",
+    "title": "Reimagining the northern giant",
     "date": "2026-11-01",
-    "url": "https://www.rbccm.com/en/insights/2026/11/the-split-screen-war"
+    "url": "https://www.rbccm.com/en/insights/2026/11/reimagining-the-northern-giant"
    }
   }
  },
  "recent_new": [
+  {
+   "bank": "골드만삭스",
+   "title": "Is the AI Investment Cycle Durable?",
+   "url": "https://www.goldmansachs.com/insights/top-of-mind/is-the-ai-investment-cycle-durable",
+   "date": "2026-11-24",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "바클레이스",
+   "title": "Unsolicited M&A: Not as hostile as it sounds",
+   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/unsolicited-m-and-a-not-as-hostile-as-it-sounds.html",
+   "date": "2026-11-24",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "JP모건",
+   "title": "US tariffs: What’s the impact on global trade and the economy?",
+   "url": "https://www.jpmorgan.com/insights/global-research/current-events/us-tariffs",
+   "date": "2026-11-24",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "씨티",
+   "title": "Markets Edition: Focus on Data Center Demand, Not Headwinds",
+   "url": "https://www.citigroup.com/global/insights/markets-edition-focus-on-data-center-demand-not-headwinds",
+   "date": "2026-11-24",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Can Treasuries Still Protect Your Portfolio?",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/treasuries-stock-market-hedge-matthew-hornbach",
+   "date": null,
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Asia’s Next Supercycle Goes Beyond AI",
+   "url": "https://www.morganstanley.com/insights/articles/asia-capex-supercycle-beyond-ai-asia-pacific-summit",
+   "date": null,
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "Reimagining the northern giant",
+   "url": "https://www.rbccm.com/en/insights/2026/11/reimagining-the-northern-giant",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "Our thoughts on the year-ahead outlook for US Equities",
+   "url": "https://www.rbccm.com/en/insights/2026/11/our-thoughts-on-the-year-ahead-outlook-for-us-equities",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-25T09:31+09:00"
+  },
   {
    "bank": "골드만삭스",
    "title": "US Economics Outlook: The End of the Inflation Shocks",
