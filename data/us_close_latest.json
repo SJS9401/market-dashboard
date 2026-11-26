@@ -1,20 +1,20 @@
 {
- "generated_at": "2026-11-26T08:32:24.215519+09:00",
- "base_date": "2026-11-25",
+ "generated_at": "2026-11-27T08:40:23.033229+09:00",
+ "base_date": "2026-11-26",
  "base_date_source": "computed(weekday-only, 휴장일 미반영)",
  "base_date_note": "미국 직전 영업일 데이터 (휴장일엔 그 전 영업일 스냅샷 — 데일리는 base_date + staleness_probe 를 함께 확인)",
  "staleness_probe": [
   {
    "symbol": "NVDA",
-   "change_rate": "-3.67"
+   "change_rate": "-3.91"
   },
   {
    "symbol": "SPY",
-   "change_rate": "-0.27"
+   "change_rate": "-0.29"
   },
   {
    "symbol": "QQQ",
-   "change_rate": "-0.87"
+   "change_rate": "-0.65"
   }
  ],
  "units": {
@@ -32,10 +32,10 @@
   {
    "symbol": "NVDA",
    "name": "NVIDIA CORP",
-   "price": "149.6811",
-   "change_rate": "-3.67",
-   "volume": "250893684",
-   "tamt": 36517453783,
+   "price": "149.3000",
+   "change_rate": "-3.91",
+   "volume": "366571889",
+   "tamt": 53609222325,
    "excd": "NAS",
    "is_etf": false,
    "rank": 1
@@ -43,10 +43,10 @@
   {
    "symbol": "SPY",
    "name": "STATE STREET SPDR S&P 500 ETF",
-   "price": "716.8142",
-   "change_rate": "-0.27",
-   "volume": "41978389",
-   "tamt": 29728426190,
+   "price": "716.7000",
+   "change_rate": "-0.29",
+   "volume": "73112796",
+   "tamt": 51863686187,
    "excd": "AMS",
    "is_etf": true,
    "rank": 2
@@ -54,10 +54,10 @@
   {
    "symbol": "QQQ",
    "name": "INVESCO QQQ TRUST UNIT SER 1",
-   "price": "632.5730",
-   "change_rate": "-0.87",
-   "volume": "47619844",
-   "tamt": 29603505677,
+   "price": "633.9300",
+   "change_rate": "-0.65",
+   "volume": "81996734",
+   "tamt": 51157837263,
    "excd": "NAS",
    "is_etf": true,
    "rank": 3
@@ -65,10 +65,10 @@
   {
    "symbol": "MU",
    "name": "MICRON TECHNOLOGY INC",
-   "price": "601.9200",
-   "change_rate": "-4.43",
-   "volume": "38719493",
-   "tamt": 22357237365,
+   "price": "601.2500",
+   "change_rate": "-4.53",
+   "volume": "52988430",
+   "tamt": 30609813534,
    "excd": "NAS",
    "is_etf": false,
    "rank": 4
@@ -76,32 +76,32 @@
   {
    "symbol": "ANT",
    "name": "ANTHROPIC PBC",
-   "price": "83.2575",
-   "change_rate": "+1.65",
-   "volume": "201512934",
-   "tamt": 16423285635,
+   "price": "82.7900",
+   "change_rate": "+1.08",
+   "volume": "293740430",
+   "tamt": 23916437168,
    "excd": "NAS",
    "is_etf": false,
    "rank": 5
   },
   {
-   "symbol": "AAPL",
-   "name": "APPLE INC",
-   "price": "355.0250",
-   "change_rate": "+0.27",
-   "volume": "41294833",
-   "tamt": 14585199454,
+   "symbol": "AMD",
+   "name": "ADVANCED MICRO DEVICES INC",
+   "price": "406.0300",
+   "change_rate": "-1.75",
+   "volume": "51632011",
+   "tamt": 20083602556,
    "excd": "NAS",
    "is_etf": false,
    "rank": 6
   },
   {
-   "symbol": "AMD",
-   "name": "ADVANCED MICRO DEVICES INC",
-   "price": "405.3800",
-   "change_rate": "-1.91",
-   "volume": "34708367",
-   "tamt": 13496314555,
+   "symbol": "AAPL",
+   "name": "APPLE INC",
+   "price": "355.5800",
+   "change_rate": "+0.43",
+   "volume": "54285255",
+   "tamt": 19156925881,
    "excd": "NAS",
    "is_etf": false,
    "rank": 7
@@ -109,582 +109,582 @@
   {
    "symbol": "SPCX",
    "name": "SPACE EXPLORATION TECHNOLOGIES CORP",
-   "price": "127.5800",
-   "change_rate": "+1.41",
-   "volume": "103903818",
-   "tamt": 12539121595,
+   "price": "127.4400",
+   "change_rate": "+1.30",
+   "volume": "148279916",
+   "tamt": 17888985232,
    "excd": "NAS",
    "is_etf": false,
    "rank": 8
   },
   {
-   "symbol": "AMZN",
-   "name": "AMAZON COM INC",
-   "price": "245.4700",
-   "change_rate": "-2.70",
-   "volume": "45754364",
-   "tamt": 11098836077,
-   "excd": "NAS",
-   "is_etf": false,
+   "symbol": "SOXL",
+   "name": "DIREXION DAILY SEMICONDUCTOR BULL 3X ETF",
+   "price": "32.0200",
+   "change_rate": "-1.78",
+   "volume": "544577398",
+   "tamt": 15282641075,
+   "excd": "AMS",
+   "is_etf": true,
    "rank": 9
   },
   {
-   "symbol": "MSFT",
-   "name": "MICROSOFT CORP",
-   "price": "490.6000",
-   "change_rate": "-1.11",
-   "volume": "21130380",
-   "tamt": 10284295683,
+   "symbol": "AMZN",
+   "name": "AMAZON COM INC",
+   "price": "244.4300",
+   "change_rate": "-3.12",
+   "volume": "62479489",
+   "tamt": 15142823638,
    "excd": "NAS",
    "is_etf": false,
    "rank": 10
   },
   {
-   "symbol": "TSLA",
-   "name": "TESLA INC",
-   "price": "380.0500",
-   "change_rate": "-1.20",
-   "volume": "25338890",
-   "tamt": 9419137236,
+   "symbol": "MSFT",
+   "name": "MICROSOFT CORP",
+   "price": "489.9300",
+   "change_rate": "-1.25",
+   "volume": "26759457",
+   "tamt": 13035934920,
    "excd": "NAS",
    "is_etf": false,
    "rank": 11
   },
   {
-   "symbol": "SOXL",
-   "name": "DIREXION DAILY SEMICONDUCTOR BULL 3X ETF",
-   "price": "31.7200",
-   "change_rate": "-2.70",
-   "volume": "296032687",
-   "tamt": 8269597274,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "TSLA",
+   "name": "TESLA INC",
+   "price": "380.1400",
+   "change_rate": "-1.18",
+   "volume": "34915848",
+   "tamt": 12971563684,
+   "excd": "NAS",
+   "is_etf": false,
    "rank": 12
   },
   {
-   "symbol": "GOOGL",
-   "name": "ALPHABET INC",
-   "price": "273.5466",
-   "change_rate": "-1.97",
-   "volume": "30049061",
-   "tamt": 8093083674,
+   "symbol": "META",
+   "name": "META PLATFORMS INC",
+   "price": "609.8900",
+   "change_rate": "+3.40",
+   "volume": "18668226",
+   "tamt": 11165405300,
    "excd": "NAS",
    "is_etf": false,
    "rank": 13
   },
   {
-   "symbol": "META",
-   "name": "META PLATFORMS INC",
-   "price": "607.3800",
-   "change_rate": "+2.98",
-   "volume": "13314847",
-   "tamt": 7989172590,
+   "symbol": "GOOGL",
+   "name": "ALPHABET INC",
+   "price": "273.1000",
+   "change_rate": "-2.13",
+   "volume": "41283672",
+   "tamt": 11108296186,
    "excd": "NAS",
    "is_etf": false,
    "rank": 14
   },
   {
-   "symbol": "AVGO",
-   "name": "BROADCOM INC",
-   "price": "299.9483",
-   "change_rate": "-0.38",
-   "volume": "26515095",
-   "tamt": 7760468905,
-   "excd": "NAS",
-   "is_etf": false,
+   "symbol": "SOXS",
+   "name": "DIREXION DAILY SEMICONDUCTOR BEAR 3X ETF",
+   "price": "62.1300",
+   "change_rate": "+1.92",
+   "volume": "148292683",
+   "tamt": 10382473178,
+   "excd": "AMS",
+   "is_etf": true,
    "rank": 15
   },
   {
-   "symbol": "SNDK",
-   "name": "SANDISK CORP",
-   "price": "74.0052",
-   "change_rate": "-5.06",
-   "volume": "87762399",
-   "tamt": 6204125013,
+   "symbol": "AVGO",
+   "name": "BROADCOM INC",
+   "price": "300.8600",
+   "change_rate": "-0.07",
+   "volume": "34349549",
+   "tamt": 10041978509,
    "excd": "NAS",
    "is_etf": false,
    "rank": 16
   },
   {
-   "symbol": "TQQQ",
-   "name": "PROSHARES TRUST ULTRAPRO QQQ USD",
-   "price": "44.9780",
-   "change_rate": "-2.62",
-   "volume": "130042684",
-   "tamt": 5505118455,
-   "excd": "NAS",
+   "symbol": "VOO",
+   "name": "VANGUARD INDEX FUNDS S&P 500 ETF USD",
+   "price": "658.8700",
+   "change_rate": "-0.28",
+   "volume": "14595845",
+   "tamt": 9498741990,
+   "excd": "AMS",
    "is_etf": true,
    "rank": 17
   },
   {
-   "symbol": "GOOG",
-   "name": "ALPHABET INC",
-   "price": "271.4500",
-   "change_rate": "-1.85",
-   "volume": "20434687",
-   "tamt": 5464633302,
-   "excd": "NAS",
-   "is_etf": false,
+   "symbol": "IWM",
+   "name": "ISHARES TRUST RUSSELL 2000 ETF",
+   "price": "268.8700",
+   "change_rate": "+0.65",
+   "volume": "33322281",
+   "tamt": 8863127424,
+   "excd": "AMS",
+   "is_etf": true,
    "rank": 18
   },
   {
-   "symbol": "VOO",
-   "name": "VANGUARD INDEX FUNDS S&P 500 ETF USD",
-   "price": "658.9000",
-   "change_rate": "-0.27",
-   "volume": "8162490",
-   "tamt": 5312100944,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "SNDK",
+   "name": "SANDISK CORP",
+   "price": "73.6100",
+   "change_rate": "-5.57",
+   "volume": "124401166",
+   "tamt": 8800564339,
+   "excd": "NAS",
+   "is_etf": false,
    "rank": 19
   },
   {
-   "symbol": "SOXS",
-   "name": "DIREXION DAILY SEMICONDUCTOR BEAR 3X ETF",
-   "price": "62.7300",
-   "change_rate": "+2.90",
-   "volume": "69761533",
-   "tamt": 4873694920,
-   "excd": "AMS",
+   "symbol": "TQQQ",
+   "name": "PROSHARES TRUST ULTRAPRO QQQ USD",
+   "price": "45.2800",
+   "change_rate": "-1.97",
+   "volume": "192851292",
+   "tamt": 8179557219,
+   "excd": "NAS",
    "is_etf": true,
    "rank": 20
   },
   {
-   "symbol": "INTC",
-   "name": "INTEL CORP",
-   "price": "54.0300",
-   "change_rate": "-1.41",
-   "volume": "92783095",
-   "tamt": 4826135553,
-   "excd": "NAS",
+   "symbol": "TSM",
+   "name": "TAIWAN SEMICONDUCTOR MANUFACTURING SPON ADS EACH",
+   "price": "342.3400",
+   "change_rate": "-1.96",
+   "volume": "22861110",
+   "tamt": 7563480369,
+   "excd": "NYS",
    "is_etf": false,
    "rank": 21
   },
   {
    "symbol": "DELL",
    "name": "DELL TECHNOLOGIES INC",
-   "price": "294.5513",
-   "change_rate": "-0.25",
-   "volume": "15646194",
-   "tamt": 4411882439,
+   "price": "297.0600",
+   "change_rate": "+0.60",
+   "volume": "26690477",
+   "tamt": 7527826619,
    "excd": "NYS",
    "is_etf": false,
    "rank": 22
   },
   {
-   "symbol": "IWM",
-   "name": "ISHARES TRUST RUSSELL 2000 ETF",
-   "price": "269.2438",
-   "change_rate": "+0.79",
-   "volume": "16160318",
-   "tamt": 4300414808,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "GOOG",
+   "name": "ALPHABET INC",
+   "price": "270.9800",
+   "change_rate": "-2.02",
+   "volume": "27916853",
+   "tamt": 7455569361,
+   "excd": "NAS",
+   "is_etf": false,
    "rank": 23
   },
   {
-   "symbol": "INSM",
-   "name": "INSMED INC",
-   "price": "170.3000",
-   "change_rate": "+0.09",
-   "volume": "23383475",
-   "tamt": 3982243727,
+   "symbol": "INTC",
+   "name": "INTEL CORP",
+   "price": "54.4700",
+   "change_rate": "-0.60",
+   "volume": "129277853",
+   "tamt": 6715659058,
    "excd": "NAS",
    "is_etf": false,
    "rank": 24
   },
   {
-   "symbol": "TSM",
-   "name": "TAIWAN SEMICONDUCTOR MANUFACTURING SPON ADS EACH",
-   "price": "343.0000",
-   "change_rate": "-1.78",
-   "volume": "11567891",
-   "tamt": 3831206327,
-   "excd": "NYS",
-   "is_etf": false,
+   "symbol": "SOXX",
+   "name": "ISHARES TRUST ISHARES SEMICONDUCTOR ETF",
+   "price": "127.9800",
+   "change_rate": "-0.50",
+   "volume": "48968293",
+   "tamt": 5992129173,
+   "excd": "NAS",
+   "is_etf": true,
    "rank": 25
   },
   {
-   "symbol": "SOXX",
-   "name": "ISHARES TRUST ISHARES SEMICONDUCTOR ETF",
-   "price": "127.5700",
-   "change_rate": "-0.82",
-   "volume": "29534044",
-   "tamt": 3612140139,
-   "excd": "NAS",
+   "symbol": "IVV",
+   "name": "ISHARES CORE S&P 500 ETF",
+   "price": "720.0100",
+   "change_rate": "-0.27",
+   "volume": "8269794",
+   "tamt": 5883174964,
+   "excd": "AMS",
    "is_etf": true,
    "rank": 26
   },
   {
    "symbol": "SMH",
    "name": "VANECK ETF TR SEMICONDUCTOR ETF",
-   "price": "422.6100",
-   "change_rate": "-0.97",
-   "volume": "8652268",
-   "tamt": 3521594525,
+   "price": "422.4600",
+   "change_rate": "-1.01",
+   "volume": "14039500",
+   "tamt": 5709837116,
    "excd": "NAS",
    "is_etf": true,
    "rank": 27
   },
   {
-   "symbol": "SQQQ",
-   "name": "PROSHARES ULTRAPRO SHORT QQQ",
-   "price": "49.9500",
-   "change_rate": "+2.65",
-   "volume": "55297390",
-   "tamt": 2916047887,
-   "excd": "NAS",
+   "symbol": "GLD",
+   "name": "SPDR GOLD TRUST GOLD SHARES NPV",
+   "price": "327.4500",
+   "change_rate": "+0.61",
+   "volume": "17062103",
+   "tamt": 5521326792,
+   "excd": "AMS",
    "is_etf": true,
    "rank": 28
   },
   {
-   "symbol": "GLD",
-   "name": "SPDR GOLD TRUST GOLD SHARES NPV",
-   "price": "327.2800",
-   "change_rate": "+0.56",
-   "volume": "8984080",
-   "tamt": 2885611192,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "INSM",
+   "name": "INSMED INC",
+   "price": "170.3100",
+   "change_rate": "+0.09",
+   "volume": "31391443",
+   "tamt": 5346198937,
+   "excd": "NAS",
+   "is_etf": false,
    "rank": 29
   },
   {
-   "symbol": "LRCX",
-   "name": "LAM RESEARCH CORP",
-   "price": "185.4800",
-   "change_rate": "-5.44",
-   "volume": "15307294",
-   "tamt": 2764470850,
+   "symbol": "SQQQ",
+   "name": "PROSHARES ULTRAPRO SHORT QQQ",
+   "price": "49.6000",
+   "change_rate": "+1.93",
+   "volume": "92596376",
+   "tamt": 4879543227,
    "excd": "NAS",
-   "is_etf": false,
+   "is_etf": true,
    "rank": 30
   },
   {
-   "symbol": "IVV",
-   "name": "ISHARES CORE S&P 500 ETF",
-   "price": "720.0201",
-   "change_rate": "-0.27",
-   "volume": "3801326",
-   "tamt": 2706022733,
+   "symbol": "HYG",
+   "name": "ISHARES TRUST IBOXX USD HIGH YIELD CORPORATE BON",
+   "price": "76.5200",
+   "change_rate": "+0.12",
+   "volume": "53403693",
+   "tamt": 4144436494,
    "excd": "AMS",
    "is_etf": true,
    "rank": 31
   },
   {
-   "symbol": "PLTR",
-   "name": "PALANTIR TECH INC",
-   "price": "163.5600",
-   "change_rate": "+1.48",
-   "volume": "16772554",
-   "tamt": 2678777175,
-   "excd": "NAS",
+   "symbol": "LLY",
+   "name": "ELI LILLY AND COMPANY",
+   "price": "1392.2200",
+   "change_rate": "-1.09",
+   "volume": "2928819",
+   "tamt": 4074334341,
+   "excd": "NYS",
    "is_etf": false,
    "rank": 32
+  },
+  {
+   "symbol": "TLT",
+   "name": "ISHARES TRUST 20+ YR TREAS BD ETF",
+   "price": "82.2400",
+   "change_rate": "+0.92",
+   "volume": "48998270",
+   "tamt": 4039204124,
+   "excd": "NAS",
+   "is_etf": true,
+   "rank": 33
+  },
+  {
+   "symbol": "ORCL",
+   "name": "ORACLE CORP",
+   "price": "103.8800",
+   "change_rate": "-5.13",
+   "volume": "38491544",
+   "tamt": 3953332448,
+   "excd": "NYS",
+   "is_etf": false,
+   "rank": 34
+  },
+  {
+   "symbol": "LRCX",
+   "name": "LAM RESEARCH CORP",
+   "price": "185.0100",
+   "change_rate": "-5.68",
+   "volume": "21505522",
+   "tamt": 3873702456,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 35
+  },
+  {
+   "symbol": "GEV",
+   "name": "GE VERNOVA INC",
+   "price": "715.0000",
+   "change_rate": "-0.78",
+   "volume": "5548769",
+   "tamt": 3851920870,
+   "excd": "NYS",
+   "is_etf": false,
+   "rank": 36
+  },
+  {
+   "symbol": "MRVL",
+   "name": "MARVELL TECHNOLOGY INC",
+   "price": "130.9300",
+   "change_rate": "-0.49",
+   "volume": "28713057",
+   "tamt": 3576550178,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 37
+  },
+  {
+   "symbol": "AMAT",
+   "name": "APPLIED MATERIALS INC",
+   "price": "311.1800",
+   "change_rate": "-3.89",
+   "volume": "11719392",
+   "tamt": 3560289920,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 38
+  },
+  {
+   "symbol": "PLTR",
+   "name": "PALANTIR TECH INC",
+   "price": "163.5900",
+   "change_rate": "+1.50",
+   "volume": "21486000",
+   "tamt": 3427517670,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 39
+  },
+  {
+   "symbol": "XOM",
+   "name": "EXXONMOBIL HOLDINGS CORPORATION",
+   "price": "158.0800",
+   "change_rate": "-0.09",
+   "volume": "21533706",
+   "tamt": 3411108166,
+   "excd": "NYS",
+   "is_etf": false,
+   "rank": 40
+  },
+  {
+   "symbol": "CRWV",
+   "name": "COREWEAVE INC",
+   "price": "42.5700",
+   "change_rate": "-0.08",
+   "volume": "82504033",
+   "tamt": 3310853263,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 41
+  },
+  {
+   "symbol": "NBIS",
+   "name": "NEBIUS GROUP N V",
+   "price": "84.9900",
+   "change_rate": "-2.66",
+   "volume": "40766818",
+   "tamt": 3302488707,
+   "excd": "NAS",
+   "is_etf": false,
+   "rank": 42
+  },
+  {
+   "symbol": "GDX",
+   "name": "VANECK ETF TR VANECK GOLD MINERS ETF",
+   "price": "73.8900",
+   "change_rate": "+3.53",
+   "volume": "45309718",
+   "tamt": 3255553352,
+   "excd": "AMS",
+   "is_etf": false,
+   "rank": 43
+  },
+  {
+   "symbol": "LQD",
+   "name": "ISHARES TRUST IBOXX USD INVESTMENT GRADE CORP BO",
+   "price": "104.2900",
+   "change_rate": "+0.48",
+   "volume": "30620113",
+   "tamt": 3195171540,
+   "excd": "AMS",
+   "is_etf": true,
+   "rank": 44
   },
   {
    "symbol": "SGOV",
    "name": "ISHARES 0-3 MONTH TREASURY BOND ETF",
    "price": "100.6800",
    "change_rate": "+0.02",
-   "volume": "26349127",
-   "tamt": 2652747530,
+   "volume": "31710235",
+   "tamt": 3191319250,
    "excd": "NYS",
    "is_etf": false,
-   "rank": 33
-  },
-  {
-   "symbol": "TLT",
-   "name": "ISHARES TRUST 20+ YR TREAS BD ETF",
-   "price": "82.1900",
-   "change_rate": "+0.86",
-   "volume": "32057120",
-   "tamt": 2642609527,
-   "excd": "NAS",
-   "is_etf": true,
-   "rank": 34
-  },
-  {
-   "symbol": "AMAT",
-   "name": "APPLIED MATERIALS INC",
-   "price": "309.2480",
-   "change_rate": "-4.48",
-   "volume": "8630235",
-   "tamt": 2618521394,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 35
-  },
-  {
-   "symbol": "MRVL",
-   "name": "MARVELL TECHNOLOGY INC",
-   "price": "129.8500",
-   "change_rate": "-1.31",
-   "volume": "20941178",
-   "tamt": 2609683390,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 36
-  },
-  {
-   "symbol": "COST",
-   "name": "COSTCO WHOLESALE CORP",
-   "price": "1088.3411",
-   "change_rate": "-0.31",
-   "volume": "2253731",
-   "tamt": 2454700461,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 37
+   "rank": 45
   },
   {
    "symbol": "WMT",
    "name": "WALMART INC",
-   "price": "131.8500",
-   "change_rate": "-0.35",
-   "volume": "18438975",
-   "tamt": 2433802006,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 38
-  },
-  {
-   "symbol": "ADI",
-   "name": "ANALOG DEVICES INC",
-   "price": "332.7000",
-   "change_rate": "+6.31",
-   "volume": "7247599",
-   "tamt": 2351097238,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 39
-  },
-  {
-   "symbol": "NBIS",
-   "name": "NEBIUS GROUP N V",
-   "price": "86.2000",
-   "change_rate": "-1.27",
-   "volume": "29018583",
-   "tamt": 2350263628,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 40
-  },
-  {
-   "symbol": "GEV",
-   "name": "GE VERNOVA INC",
-   "price": "718.5000",
-   "change_rate": "-0.30",
-   "volume": "3313993",
-   "tamt": 2297304168,
-   "excd": "NYS",
-   "is_etf": false,
-   "rank": 41
-  },
-  {
-   "symbol": "LLY",
-   "name": "ELI LILLY AND COMPANY",
-   "price": "1393.9300",
-   "change_rate": "-0.97",
-   "volume": "1642933",
-   "tamt": 2285494201,
-   "excd": "NYS",
-   "is_etf": false,
-   "rank": 42
-  },
-  {
-   "symbol": "CRWD",
-   "name": "CROWDSTRIKE HOLDINGS INC",
-   "price": "208.0000",
-   "change_rate": "-1.36",
-   "volume": "10955733",
-   "tamt": 2238458580,
-   "excd": "NAS",
-   "is_etf": false,
-   "rank": 43
-  },
-  {
-   "symbol": "ORCL",
-   "name": "ORACLE CORP",
-   "price": "104.6000",
-   "change_rate": "-4.47",
-   "volume": "21327779",
-   "tamt": 2189414119,
-   "excd": "NYS",
-   "is_etf": false,
-   "rank": 44
-  },
-  {
-   "symbol": "HYG",
-   "name": "ISHARES TRUST IBOXX USD HIGH YIELD CORPORATE BON",
-   "price": "76.5608",
-   "change_rate": "+0.17",
-   "volume": "27352887",
-   "tamt": 2089382014,
-   "excd": "AMS",
-   "is_etf": true,
-   "rank": 45
-  },
-  {
-   "symbol": "TXN",
-   "name": "TEXAS INSTRUMENTS INC",
-   "price": "269.3900",
-   "change_rate": "+4.24",
-   "volume": "7960009",
-   "tamt": 2083680796,
+   "price": "131.9400",
+   "change_rate": "-0.28",
+   "volume": "23619941",
+   "tamt": 3118157378,
    "excd": "NAS",
    "is_etf": false,
    "rank": 46
   },
   {
-   "symbol": "CRWV",
-   "name": "COREWEAVE INC",
-   "price": "42.6155",
-   "change_rate": "+0.02",
-   "volume": "52002697",
-   "tamt": 2080284517,
-   "excd": "NAS",
-   "is_etf": false,
+   "symbol": "XLK",
+   "name": "SELECT SECTOR SPDR TRUST STATE STREET TECHNOLOGY",
+   "price": "155.7900",
+   "change_rate": "-0.83",
+   "volume": "19722412",
+   "tamt": 2996166721,
+   "excd": "AMS",
+   "is_etf": true,
    "rank": 47
   },
   {
-   "symbol": "XOM",
-   "name": "EXXONMOBIL HOLDINGS CORPORATION",
-   "price": "158.2000",
-   "change_rate": "-0.02",
-   "volume": "12579751",
-   "tamt": 1993106252,
-   "excd": "NYS",
+   "symbol": "ADI",
+   "name": "ANALOG DEVICES INC",
+   "price": "333.1050",
+   "change_rate": "+6.44",
+   "volume": "9205502",
+   "tamt": 2979898953,
+   "excd": "NAS",
    "is_etf": false,
    "rank": 48
   },
   {
-   "symbol": "NFLX",
-   "name": "NETFLIX INC",
-   "price": "59.1900",
-   "change_rate": "+0.54",
-   "volume": "32349905",
-   "tamt": 1899376095,
+   "symbol": "CRWD",
+   "name": "CROWDSTRIKE HOLDINGS INC",
+   "price": "209.3000",
+   "change_rate": "-0.74",
+   "volume": "14571733",
+   "tamt": 2972811455,
    "excd": "NAS",
    "is_etf": false,
    "rank": 49
   },
   {
-   "symbol": "ASML",
-   "name": "ASML HOLDING NV EUR0.09 NY REGISTRY SHS 2012",
-   "price": "1306.6201",
-   "change_rate": "-2.20",
-   "volume": "1415657",
-   "tamt": 1799484564,
+   "symbol": "COST",
+   "name": "COSTCO WHOLESALE CORP",
+   "price": "1086.8100",
+   "change_rate": "-0.45",
+   "volume": "2702816",
+   "tamt": 2944537760,
    "excd": "NAS",
    "is_etf": false,
    "rank": 50
   },
   {
-   "symbol": "LITE",
-   "name": "LUMENTUM HLDGS INC",
-   "price": "475.2600",
-   "change_rate": "-2.43",
-   "volume": "3898888",
-   "tamt": 1780139216,
-   "excd": "NAS",
+   "symbol": "RSP",
+   "name": "INVESCO EXCHANGE TRADED FD TR S&P 500 EQUAL WEIG",
+   "price": "215.7400",
+   "change_rate": "+0.83",
+   "volume": "13721212",
+   "tamt": 2932623061,
+   "excd": "AMS",
    "is_etf": false,
    "rank": 51
   },
   {
-   "symbol": "SKHY",
-   "name": "SK HYNIX INC SPON ADS EACH REP 0.1 SHS",
-   "price": "111.1999",
-   "change_rate": "-0.70",
-   "volume": "16711475",
-   "tamt": 1777875085,
-   "excd": "NAS",
+   "symbol": "XLV",
+   "name": "SELECT SECTOR SPDR TRUST STATE STREET HEALTH CAR",
+   "price": "183.6800",
+   "change_rate": "-0.56",
+   "volume": "15520877",
+   "tamt": 2850743311,
+   "excd": "AMS",
    "is_etf": false,
    "rank": 52
   },
   {
-   "symbol": "QCOM",
-   "name": "QUALCOMM INC",
-   "price": "168.1700",
-   "change_rate": "+1.95",
-   "volume": "10845386",
-   "tamt": 1776830391,
-   "excd": "NAS",
+   "symbol": "V",
+   "name": "VISA INC",
+   "price": "424.3900",
+   "change_rate": "+1.83",
+   "volume": "6593574",
+   "tamt": 2781776020,
+   "excd": "NYS",
    "is_etf": false,
    "rank": 53
   },
   {
-   "symbol": "SPYM",
-   "name": "STATE STREET SPDR PORTFOLIO S&P 500 ETF",
-   "price": "84.3600",
-   "change_rate": "-0.30",
-   "volume": "20872417",
-   "tamt": 1734284223,
-   "excd": "AMS",
+   "symbol": "TXN",
+   "name": "TEXAS INSTRUMENTS INC",
+   "price": "270.1900",
+   "change_rate": "+4.55",
+   "volume": "10474335",
+   "tamt": 2738584665,
+   "excd": "NAS",
    "is_etf": false,
    "rank": 54
   },
   {
-   "symbol": "PANW",
-   "name": "PALO ALTO NETWORKS INC",
-   "price": "341.2203",
-   "change_rate": "-3.33",
-   "volume": "4956277",
-   "tamt": 1734193432,
-   "excd": "NAS",
+   "symbol": "BE",
+   "name": "BLOOM ENERGY CORPORATION",
+   "price": "152.8900",
+   "change_rate": "-2.25",
+   "volume": "18646395",
+   "tamt": 2717518712,
+   "excd": "NYS",
    "is_etf": false,
    "rank": 55
   },
   {
-   "symbol": "LQD",
-   "name": "ISHARES TRUST IBOXX USD INVESTMENT GRADE CORP BO",
-   "price": "104.2179",
-   "change_rate": "+0.41",
-   "volume": "16327469",
-   "tamt": 1703692428,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "GS",
+   "name": "GOLDMAN SACHS GROUP INC",
+   "price": "801.0300",
+   "change_rate": "-0.62",
+   "volume": "3425908",
+   "tamt": 2715074858,
+   "excd": "NYS",
+   "is_etf": false,
    "rank": 56
   },
   {
-   "symbol": "XLK",
-   "name": "SELECT SECTOR SPDR TRUST STATE STREET TECHNOLOGY",
-   "price": "155.6891",
-   "change_rate": "-0.89",
-   "volume": "10840739",
-   "tamt": 1645642560,
-   "excd": "AMS",
-   "is_etf": true,
+   "symbol": "NFLX",
+   "name": "NETFLIX INC",
+   "price": "59.4100",
+   "change_rate": "+0.92",
+   "volume": "45756502",
+   "tamt": 2681670880,
+   "excd": "NAS",
+   "is_etf": false,
    "rank": 57
   },
   {
-   "symbol": "GS",
-   "name": "GOLDMAN SACHS GROUP INC",
-   "price": "804.0000",
-   "change_rate": "-0.25",
-   "volume": "2004404",
-   "tamt": 1589755640,
-   "excd": "NYS",
+   "symbol": "ASML",
+   "name": "ASML HOLDING NV EUR0.09 NY REGISTRY SHS 2012",
+   "price": "1303.0800",
+   "change_rate": "-2.47",
+   "volume": "2060584",
+   "tamt": 2617152930,
+   "excd": "NAS",
    "is_etf": false,
    "rank": 58
   },
   {
    "symbol": "HD",
    "name": "HOME DEPOT INC",
-   "price": "361.4000",
-   "change_rate": "+2.18",
-   "volume": "4354172",
-   "tamt": 1567631338,
+   "price": "361.2600",
+   "change_rate": "+2.14",
+   "volume": "7229996",
+   "tamt": 2603191779,
    "excd": "NYS",
    "is_etf": false,
    "rank": 59
   },
   {
-   "symbol": "MSTR",
-   "name": "STRATEGY INC",
-   "price": "80.4406",
-   "change_rate": "+3.73",
-   "volume": "20664107",
-   "tamt": 1564025601,
+   "symbol": "SKHY",
+   "name": "SK HYNIX INC SPON ADS EACH REP 0.1 SHS",
+   "price": "111.1400",
+   "change_rate": "-0.75",
+   "volume": "24188751",
+   "tamt": 2584925631,
    "excd": "NAS",
    "is_etf": false,
    "rank": 60
@@ -692,12 +692,12 @@
  ],
  "stocks": {
   "NVDA": {
-   "last": "149.7500",
-   "rate": "-3.62",
+   "last": "149.3000",
+   "rate": "-3.91",
    "diff": null,
-   "tvol": "250893693",
-   "tamt": "36517455127",
-   "high": "150.5500",
+   "tvol": "366571889",
+   "tamt": "53609222325",
+   "high": "150.3700",
    "low": "141.1700",
    "open": "144.0600",
    "h52p": "243.3700",
@@ -705,12 +705,12 @@
    "excd": "NAS"
   },
   "AMD": {
-   "last": "405.3800",
-   "rate": "-1.91",
+   "last": "406.0300",
+   "rate": "-1.75",
    "diff": null,
-   "tvol": "34708367",
-   "tamt": "13496314555",
-   "high": "409.6000",
+   "tvol": "51632011",
+   "tamt": "20083602556",
+   "high": "407.7700",
    "low": "370.4000",
    "open": "382.8900",
    "h52p": "658.5200",
@@ -718,12 +718,12 @@
    "excd": "NAS"
   },
   "AVGO": {
-   "last": "299.9483",
-   "rate": "-0.38",
+   "last": "300.8600",
+   "rate": "-0.07",
    "diff": null,
-   "tvol": "26515095",
-   "tamt": "7760468905",
-   "high": "302.0000",
+   "tvol": "34349549",
+   "tamt": "10041978509",
+   "high": "301.2700",
    "low": "278.0000",
    "open": "286.9800",
    "h52p": "493.3194",
@@ -731,12 +731,12 @@
    "excd": "NAS"
   },
   "MRVL": {
-   "last": "130.0900",
-   "rate": "-1.12",
+   "last": "130.9300",
+   "rate": "-0.49",
    "diff": null,
-   "tvol": "20941225",
-   "tamt": "2609689543",
-   "high": "131.8000",
+   "tvol": "28713057",
+   "tamt": "3576550178",
+   "high": "131.1400",
    "low": "117.7975",
    "open": "122.8400",
    "h52p": "329.7266",
@@ -747,9 +747,9 @@
    "last": "190.3400",
    "rate": "-0.50",
    "diff": null,
-   "tvol": "4265135",
-   "tamt": "770850839",
-   "high": "193.6300",
+   "tvol": "6030688",
+   "tamt": "1089410576",
+   "high": "191.9500",
    "low": "167.1400",
    "open": "176.8700",
    "h52p": "499.4762",
@@ -757,12 +757,12 @@
    "excd": "NAS"
   },
   "CRDO": {
-   "last": "107.3700",
-   "rate": "+0.85",
+   "last": "106.7950",
+   "rate": "+0.31",
    "diff": null,
-   "tvol": "6362913",
-   "tamt": "639795982",
-   "high": "108.0000",
+   "tvol": "8339064",
+   "tamt": "837662487",
+   "high": "106.8000",
    "low": "93.2800",
    "open": "98.3400",
    "h52p": "308.6699",
@@ -770,25 +770,25 @@
    "excd": "NAS"
   },
   "MU": {
-   "last": "601.9100",
-   "rate": "-4.43",
+   "last": "601.2500",
+   "rate": "-4.53",
    "diff": null,
-   "tvol": "38719513",
-   "tamt": "22357249390",
+   "tvol": "52988430",
+   "tamt": "30609813534",
    "high": "604.9450",
    "low": "548.1300",
    "open": "574.9600",
    "h52p": "1254.6097",
-   "l52p": "212.1191",
+   "l52p": "215.7549",
    "excd": "NAS"
   },
   "SNDK": {
-   "last": "74.1300",
-   "rate": "-4.90",
+   "last": "73.6100",
+   "rate": "-5.57",
    "diff": null,
-   "tvol": "87762409",
-   "tamt": "6204125749",
-   "high": "74.4900",
+   "tvol": "124401166",
+   "tamt": "8800564339",
+   "high": "73.7700",
    "low": "67.0200",
    "open": "71.3150",
    "h52p": "294.2987",
@@ -796,38 +796,38 @@
    "excd": "NAS"
   },
   "WDC": {
-   "last": "272.2500",
-   "rate": "-0.62",
+   "last": "272.4500",
+   "rate": "-0.55",
    "diff": null,
-   "tvol": "4775241",
-   "tamt": "1253418711",
-   "high": "274.0000",
+   "tvol": "6515063",
+   "tamt": "1706317678",
+   "high": "272.9600",
    "low": "244.7702",
    "open": "256.9350",
    "h52p": "799.6132",
-   "l52p": "142.2796",
+   "l52p": "147.4250",
    "excd": "NAS"
   },
   "STX": {
-   "last": "474.2250",
-   "rate": "-1.71",
+   "last": "472.3300",
+   "rate": "-2.10",
    "diff": null,
-   "tvol": "2690056",
-   "tamt": "1223969302",
-   "high": "480.0000",
+   "tvol": "3717024",
+   "tamt": "1691218629",
+   "high": "473.6213",
    "low": "432.0401",
    "open": "451.0300",
    "h52p": "1143.2671",
-   "l52p": "241.9076",
+   "l52p": "245.9808",
    "excd": "NAS"
   },
   "SKHY": {
-   "last": "111.0000",
-   "rate": "-0.88",
+   "last": "111.1400",
+   "rate": "-0.75",
    "diff": null,
-   "tvol": "16711480",
-   "tamt": "1777875641",
-   "high": "111.9000",
+   "tvol": "24188751",
+   "tamt": "2584925631",
+   "high": "111.1600",
    "low": "101.9100",
    "open": "104.2100",
    "h52p": "199.8650",
@@ -835,11 +835,11 @@
    "excd": "NAS"
   },
   "INTC": {
-   "last": "54.0110",
-   "rate": "-1.44",
+   "last": "54.4700",
+   "rate": "-0.60",
    "diff": null,
-   "tvol": "92783446",
-   "tamt": "4826154672",
+   "tvol": "129277853",
+   "tamt": "6715659058",
    "high": "55.0000",
    "low": "49.1550",
    "open": "52.0100",
@@ -848,11 +848,11 @@
    "excd": "NAS"
   },
   "ARM": {
-   "last": "162.2700",
-   "rate": "+0.44",
+   "last": "161.5100",
+   "rate": "-0.03",
    "diff": null,
-   "tvol": "5002769",
-   "tamt": "771632106",
+   "tvol": "8187906",
+   "tamt": "1263159415",
    "high": "163.2850",
    "low": "143.5500",
    "open": "149.5450",
@@ -861,12 +861,12 @@
    "excd": "NAS"
   },
   "TSM": {
-   "last": "343.0000",
-   "rate": "-1.78",
+   "last": "342.3400",
+   "rate": "-1.96",
    "diff": null,
-   "tvol": "11567891",
-   "tamt": "3831206327",
-   "high": "344.0000",
+   "tvol": "22861110",
+   "tamt": "7563480369",
+   "high": "343.1650",
    "low": "321.1000",
    "open": "329.1250",
    "h52p": "487.4700",
@@ -874,12 +874,12 @@
    "excd": "NYS"
   },
   "GFS": {
-   "last": "36.3900",
-   "rate": "-0.08",
+   "last": "36.2000",
+   "rate": "-0.60",
    "diff": null,
-   "tvol": "2310804",
-   "tamt": "82424565",
-   "high": "36.8300",
+   "tvol": "3058448",
+   "tamt": "108978192",
+   "high": "36.5550",
    "low": "34.0500",
    "open": "34.6300",
    "h52p": "92.1855",
@@ -887,12 +887,12 @@
    "excd": "NAS"
   },
   "UMC": {
-   "last": "13.3500",
-   "rate": "-0.37",
+   "last": "13.1900",
+   "rate": "-1.57",
    "diff": null,
-   "tvol": "5722755",
-   "tamt": "72325321",
-   "high": "13.3500",
+   "tvol": "16694999",
+   "tamt": "211545329",
+   "high": "13.2500",
    "low": "12.0800",
    "open": "12.2000",
    "h52p": "28.4590",
@@ -900,51 +900,51 @@
    "excd": "NYS"
   },
   "AMAT": {
-   "last": "309.2500",
-   "rate": "-4.48",
+   "last": "311.1800",
+   "rate": "-3.89",
    "diff": null,
-   "tvol": "8630290",
-   "tamt": "2618538509",
-   "high": "315.4500",
+   "tvol": "11719392",
+   "tamt": "3560289920",
+   "high": "311.5500",
    "low": "289.4700",
    "open": "300.7200",
    "h52p": "737.7688",
-   "l52p": "221.7345",
+   "l52p": "231.9576",
    "excd": "NAS"
   },
   "LRCX": {
-   "last": "185.4800",
-   "rate": "-5.44",
+   "last": "185.0100",
+   "rate": "-5.68",
    "diff": null,
-   "tvol": "15307294",
-   "tamt": "2764470850",
-   "high": "186.8200",
+   "tvol": "21505522",
+   "tamt": "3873702456",
+   "high": "185.1800",
    "low": "171.5300",
    "open": "182.8250",
    "h52p": "438.0348",
-   "l52p": "143.7659",
+   "l52p": "144.8310",
    "excd": "NAS"
   },
   "KLAC": {
-   "last": "133.7400",
-   "rate": "+0.07",
+   "last": "134.2000",
+   "rate": "+0.41",
    "diff": null,
-   "tvol": "10232795",
-   "tamt": "1325013718",
-   "high": "135.9000",
+   "tvol": "14192581",
+   "tamt": "1834448335",
+   "high": "134.2650",
    "low": "122.3850",
    "open": "125.1400",
    "h52p": "306.5637",
-   "l52p": "109.7262",
+   "l52p": "110.1659",
    "excd": "NAS"
   },
   "ASML": {
-   "last": "1307.4399",
-   "rate": "-2.14",
+   "last": "1303.0800",
+   "rate": "-2.47",
    "diff": null,
-   "tvol": "1415667",
-   "tamt": "1799497595",
-   "high": "1314.5476",
+   "tvol": "2060584",
+   "tamt": "2617152930",
+   "high": "1307.4700",
    "low": "1235.1000",
    "open": "1270.2800",
    "h52p": "1994.7155",
@@ -952,12 +952,12 @@
    "excd": "NAS"
   },
   "TXN": {
-   "last": "269.3900",
-   "rate": "+4.24",
+   "last": "270.1900",
+   "rate": "+4.55",
    "diff": null,
-   "tvol": "7960009",
-   "tamt": "2083680796",
-   "high": "274.2427",
+   "tvol": "10474335",
+   "tamt": "2738584665",
+   "high": "270.3200",
    "low": "244.8108",
    "open": "249.5900",
    "h52p": "330.7143",
@@ -965,12 +965,12 @@
    "excd": "NAS"
   },
   "ADI": {
-   "last": "323.9800",
-   "rate": "+3.52",
+   "last": "333.1050",
+   "rate": "+6.44",
    "diff": null,
-   "tvol": "7247600",
-   "tamt": "2351097571",
-   "high": "340.0000",
+   "tvol": "9205502",
+   "tamt": "2979898953",
+   "high": "333.2300",
    "low": "300.2500",
    "open": "304.4200",
    "h52p": "444.5558",
@@ -978,12 +978,12 @@
    "excd": "NAS"
   },
   "NXPI": {
-   "last": "241.8000",
-   "rate": "+1.00",
+   "last": "242.9600",
+   "rate": "+1.49",
    "diff": null,
-   "tvol": "4104170",
-   "tamt": "978047588",
-   "high": "244.8100",
+   "tvol": "5435585",
+   "tamt": "1291311834",
+   "high": "243.2900",
    "low": "227.0900",
    "open": "233.1200",
    "h52p": "337.2828",
@@ -991,25 +991,25 @@
    "excd": "NAS"
   },
   "ON": {
-   "last": "62.1000",
-   "rate": "+0.99",
+   "last": "62.4800",
+   "rate": "+1.61",
    "diff": null,
-   "tvol": "8550145",
-   "tamt": "518219116",
+   "tvol": "11669566",
+   "tamt": "705361498",
    "high": "62.5000",
    "low": "57.4850",
    "open": "59.4750",
    "h52p": "134.9200",
-   "l52p": "46.6800",
+   "l52p": "47.0600",
    "excd": "NAS"
   },
   "MPWR": {
-   "last": "1198.9900",
-   "rate": "+0.74",
+   "last": "1194.6300",
+   "rate": "+0.38",
    "diff": null,
-   "tvol": "671675",
-   "tamt": "778452075",
-   "high": "1207.6223",
+   "tvol": "923243",
+   "tamt": "1067324683",
+   "high": "1196.1950",
    "low": "1096.2300",
    "open": "1116.0000",
    "h52p": "1708.9549",
@@ -1017,12 +1017,12 @@
    "excd": "NAS"
   },
   "AMKR": {
-   "last": "32.4900",
-   "rate": "+2.14",
+   "last": "32.0200",
+   "rate": "+0.66",
    "diff": null,
-   "tvol": "3257653",
-   "tamt": "100788969",
-   "high": "32.6000",
+   "tvol": "4722953",
+   "tamt": "146087226",
+   "high": "32.1600",
    "low": "29.2000",
    "open": "29.6600",
    "h52p": "96.5035",
@@ -1030,11 +1030,11 @@
    "excd": "NAS"
   },
   "ENTG": {
-   "last": "127.0000",
-   "rate": "-0.64",
+   "last": "128.3700",
+   "rate": "+0.43",
    "diff": null,
-   "tvol": "3003455",
-   "tamt": "372471362",
+   "tvol": "4250856",
+   "tamt": "526827937",
    "high": "129.2000",
    "low": "116.5750",
    "open": "120.0100",
@@ -1043,24 +1043,24 @@
    "excd": "NAS"
   },
   "LITE": {
-   "last": "477.7500",
-   "rate": "-1.92",
+   "last": "476.5800",
+   "rate": "-2.16",
    "diff": null,
-   "tvol": "3898996",
-   "tamt": "1780190687",
-   "high": "482.1800",
+   "tvol": "5428869",
+   "tamt": "2474259792",
+   "high": "479.9800",
    "low": "430.2425",
    "open": "451.2400",
    "h52p": "1143.0000",
-   "l52p": "266.0050",
+   "l52p": "279.0600",
    "excd": "NAS"
   },
   "COHR": {
-   "last": "197.2400",
-   "rate": "+0.51",
+   "last": "196.1900",
+   "rate": "-0.03",
    "diff": null,
-   "tvol": "5124722",
-   "tamt": "957158557",
+   "tvol": "9381460",
+   "tamt": "1754670537",
    "high": "199.9200",
    "low": "174.9601",
    "open": "182.7550",
@@ -1069,25 +1069,25 @@
    "excd": "NYS"
   },
   "AAOI": {
-   "last": "37.0570",
-   "rate": "-3.50",
+   "last": "37.0200",
+   "rate": "-3.59",
    "diff": null,
-   "tvol": "9089590",
-   "tamt": "320757936",
-   "high": "37.4900",
+   "tvol": "12809130",
+   "tamt": "451514647",
+   "high": "37.3999",
    "low": "32.6000",
    "open": "35.1600",
    "h52p": "233.6700",
-   "l52p": "20.6300",
+   "l52p": "21.4000",
    "excd": "NAS"
   },
   "FN": {
-   "last": "290.0500",
-   "rate": "-0.02",
+   "last": "289.7000",
+   "rate": "-0.14",
    "diff": null,
-   "tvol": "616245",
-   "tamt": "170075791",
-   "high": "293.0000",
+   "tvol": "1079820",
+   "tamt": "298852643",
+   "high": "292.2400",
    "low": "264.2450",
    "open": "272.8100",
    "h52p": "748.8900",
@@ -1095,37 +1095,37 @@
    "excd": "NYS"
   },
   "CIEN": {
-   "last": "245.1000",
-   "rate": "+2.44",
+   "last": "242.7900",
+   "rate": "+1.47",
    "diff": null,
-   "tvol": "1640407",
-   "tamt": "377252550",
-   "high": "247.0900",
+   "tvol": "3006276",
+   "tamt": "696834995",
+   "high": "244.1700",
    "low": "216.8700",
    "open": "222.7500",
    "h52p": "650.5286",
-   "l52p": "185.8952",
+   "l52p": "190.1963",
    "excd": "NYS"
   },
   "NOK": {
-   "last": "7.3054",
-   "rate": "-0.34",
+   "last": "7.3000",
+   "rate": "-0.41",
    "diff": null,
-   "tvol": "41888797",
-   "tamt": "296256344",
+   "tvol": "76020741",
+   "tamt": "538036091",
    "high": "7.3350",
    "low": "6.8100",
    "open": "6.9900",
    "h52p": "17.2967",
-   "l52p": "5.8027",
+   "l52p": "5.9190",
    "excd": "NYS"
   },
   "ERIC": {
    "last": "10.3400",
    "rate": "+1.17",
    "diff": null,
-   "tvol": "5313254",
-   "tamt": "54284087",
+   "tvol": "7682372",
+   "tamt": "78391045",
    "high": "10.3750",
    "low": "10.0200",
    "open": "10.0900",
@@ -1134,12 +1134,12 @@
    "excd": "NAS"
   },
   "ANET": {
-   "last": "164.6800",
-   "rate": "-2.30",
+   "last": "163.9900",
+   "rate": "-2.71",
    "diff": null,
-   "tvol": "4911888",
-   "tamt": "788678524",
-   "high": "165.2800",
+   "tvol": "8272990",
+   "tamt": "1329524497",
+   "high": "165.0000",
    "low": "154.5100",
    "open": "159.8800",
    "h52p": "217.4099",
@@ -1147,12 +1147,12 @@
    "excd": "NYS"
   },
   "CSCO": {
-   "last": "94.0026",
-   "rate": "+0.01",
+   "last": "94.2000",
+   "rate": "+0.22",
    "diff": null,
-   "tvol": "15180048",
-   "tamt": "1418390610",
-   "high": "94.5000",
+   "tvol": "18542335",
+   "tamt": "1731754830",
+   "high": "94.4550",
    "low": "91.0300",
    "open": "91.2000",
    "h52p": "129.3781",
@@ -1160,11 +1160,11 @@
    "excd": "NAS"
   },
   "CRWV": {
-   "last": "42.8129",
-   "rate": "+0.49",
+   "last": "42.5700",
+   "rate": "-0.08",
    "diff": null,
-   "tvol": "52004025",
-   "tamt": "2080341050",
+   "tvol": "82504033",
+   "tamt": "3310853263",
    "high": "43.0200",
    "low": "37.4000",
    "open": "39.0500",
@@ -1173,11 +1173,11 @@
    "excd": "NAS"
   },
   "NBIS": {
-   "last": "86.4500",
-   "rate": "-0.98",
+   "last": "84.9900",
+   "rate": "-2.66",
    "diff": null,
-   "tvol": "29019083",
-   "tamt": "2350306123",
+   "tvol": "40766818",
+   "tamt": "3302488707",
    "high": "87.2613",
    "low": "75.6001",
    "open": "80.4600",
@@ -1186,11 +1186,11 @@
    "excd": "NAS"
   },
   "ORCL": {
-   "last": "104.6000",
-   "rate": "-4.47",
+   "last": "103.8800",
+   "rate": "-5.13",
    "diff": null,
-   "tvol": "21327788",
-   "tamt": "2189415054",
+   "tvol": "38491544",
+   "tamt": "3953332448",
    "high": "105.5700",
    "low": "99.3400",
    "open": "103.2400",
@@ -1199,11 +1199,11 @@
    "excd": "NYS"
   },
   "IBM": {
-   "last": "243.0000",
-   "rate": "+3.13",
+   "last": "243.4700",
+   "rate": "+3.33",
    "diff": null,
-   "tvol": "2516818",
-   "tamt": "607747769",
+   "tvol": "5231889",
+   "tamt": "1263356571",
    "high": "246.2400",
    "low": "232.1700",
    "open": "233.5100",
@@ -1212,12 +1212,12 @@
    "excd": "NYS"
   },
   "SNOW": {
-   "last": "267.8300",
-   "rate": "-1.20",
+   "last": "267.7200",
+   "rate": "-1.24",
    "diff": null,
-   "tvol": "2108398",
-   "tamt": "553662162",
-   "high": "272.9400",
+   "tvol": "3713691",
+   "tamt": "975633570",
+   "high": "268.7000",
    "low": "251.0802",
    "open": "259.3600",
    "h52p": "384.5600",
@@ -1225,11 +1225,11 @@
    "excd": "NYS"
   },
   "MDB": {
-   "last": "314.0000",
-   "rate": "+1.78",
+   "last": "313.5300",
+   "rate": "+1.63",
    "diff": null,
-   "tvol": "707608",
-   "tamt": "217948918",
+   "tvol": "944203",
+   "tamt": "290549965",
    "high": "315.2600",
    "low": "287.7900",
    "open": "293.6000",
@@ -1238,11 +1238,11 @@
    "excd": "NAS"
   },
   "DELL": {
-   "last": "294.8300",
-   "rate": "-0.15",
+   "last": "297.0600",
+   "rate": "+0.60",
    "diff": null,
-   "tvol": "15646295",
-   "tamt": "4411912442",
+   "tvol": "26690477",
+   "tamt": "7527826619",
    "high": "297.8900",
    "low": "265.0000",
    "open": "267.5700",
@@ -1251,12 +1251,12 @@
    "excd": "NYS"
   },
   "SMCI": {
-   "last": "23.3300",
-   "rate": "+3.14",
+   "last": "23.3100",
+   "rate": "+3.05",
    "diff": null,
-   "tvol": "28811566",
-   "tamt": "643293927",
-   "high": "23.5000",
+   "tvol": "43383911",
+   "tamt": "967657792",
+   "high": "23.3500",
    "low": "21.0200",
    "open": "21.3100",
    "h52p": "51.4000",
@@ -1264,12 +1264,12 @@
    "excd": "NAS"
   },
   "HPE": {
-   "last": "40.6211",
-   "rate": "+1.07",
+   "last": "40.8200",
+   "rate": "+1.57",
    "diff": null,
-   "tvol": "14066004",
-   "tamt": "553316542",
-   "high": "40.9000",
+   "tvol": "27644119",
+   "tamt": "1090975417",
+   "high": "40.8400",
    "low": "37.0400",
    "open": "37.4900",
    "h52p": "73.5600",
@@ -1277,11 +1277,11 @@
    "excd": "NYS"
   },
   "MSFT": {
-   "last": "490.8600",
-   "rate": "-1.06",
+   "last": "489.9300",
+   "rate": "-1.25",
    "diff": null,
-   "tvol": "21130442",
-   "tamt": "10284326059",
+   "tvol": "26759457",
+   "tamt": "13035934920",
    "high": "493.4370",
    "low": "477.3900",
    "open": "485.2300",
@@ -1290,11 +1290,11 @@
    "excd": "NAS"
   },
   "AMZN": {
-   "last": "245.3300",
-   "rate": "-2.76",
+   "last": "244.4300",
+   "rate": "-3.12",
    "diff": null,
-   "tvol": "45754461",
-   "tamt": "11098859787",
+   "tvol": "62479489",
+   "tamt": "15142823638",
    "high": "246.5600",
    "low": "235.9600",
    "open": "243.1250",
@@ -1303,12 +1303,12 @@
    "excd": "NAS"
   },
   "GOOGL": {
-   "last": "273.6663",
-   "rate": "-1.93",
+   "last": "273.1000",
+   "rate": "-2.13",
    "diff": null,
-   "tvol": "30050082",
-   "tamt": "8093362509",
-   "high": "273.7600",
+   "tvol": "41283672",
+   "tamt": "11108296186",
+   "high": "273.6200",
    "low": "262.7300",
    "open": "265.1000",
    "h52p": "408.1039",
@@ -1316,12 +1316,12 @@
    "excd": "NAS"
   },
   "GOOG": {
-   "last": "271.5800",
-   "rate": "-1.81",
+   "last": "270.9800",
+   "rate": "-2.02",
    "diff": null,
-   "tvol": "20434833",
-   "tamt": "5464672865",
-   "high": "271.8000",
+   "tvol": "27916853",
+   "tamt": "7455569361",
+   "high": "271.6000",
    "low": "260.6920",
    "open": "263.3200",
    "h52p": "403.9646",
@@ -1329,12 +1329,12 @@
    "excd": "NAS"
   },
   "META": {
-   "last": "607.5000",
-   "rate": "+3.00",
+   "last": "609.8900",
+   "rate": "+3.40",
    "diff": null,
-   "tvol": "13315004",
-   "tamt": "7989268343",
-   "high": "611.6050",
+   "tvol": "18668226",
+   "tamt": "11165405300",
+   "high": "611.0550",
    "low": "567.7500",
    "open": "575.3400",
    "h52p": "779.8192",
@@ -1342,11 +1342,11 @@
    "excd": "NAS"
   },
   "PLTR": {
-   "last": "163.4637",
-   "rate": "+1.42",
+   "last": "163.5900",
+   "rate": "+1.50",
    "diff": null,
-   "tvol": "16773140",
-   "tamt": "2678873039",
+   "tvol": "21486000",
+   "tamt": "3427517670",
    "high": "164.7500",
    "low": "151.5100",
    "open": "154.2200",
@@ -1355,11 +1355,11 @@
    "excd": "NAS"
   },
   "NFLX": {
-   "last": "59.2900",
-   "rate": "+0.71",
+   "last": "59.4100",
+   "rate": "+0.92",
    "diff": null,
-   "tvol": "32349908",
-   "tamt": "1899376273",
+   "tvol": "45756502",
+   "tamt": "2681670880",
    "high": "59.5700",
    "low": "57.0250",
    "open": "57.9700",
@@ -1368,12 +1368,12 @@
    "excd": "NAS"
   },
   "CRM": {
-   "last": "197.0000",
-   "rate": "+1.94",
+   "last": "197.2100",
+   "rate": "+2.04",
    "diff": null,
-   "tvol": "3672028",
-   "tamt": "715474262",
-   "high": "199.7000",
+   "tvol": "6736401",
+   "tamt": "1316579218",
+   "high": "199.6300",
    "low": "188.2045",
    "open": "190.3600",
    "h52p": "267.7989",
@@ -1381,11 +1381,11 @@
    "excd": "NYS"
   },
   "NOW": {
-   "last": "92.0000",
-   "rate": "+0.28",
+   "last": "92.1600",
+   "rate": "+0.46",
    "diff": null,
-   "tvol": "7397318",
-   "tamt": "671613457",
+   "tvol": "15488706",
+   "tamt": "1407077014",
    "high": "92.8100",
    "low": "86.8500",
    "open": "89.1900",
@@ -1394,11 +1394,11 @@
    "excd": "NYS"
   },
   "ADBE": {
-   "last": "232.1100",
-   "rate": "+0.01",
+   "last": "232.8300",
+   "rate": "+0.32",
    "diff": null,
-   "tvol": "2899850",
-   "tamt": "675516066",
+   "tvol": "3753707",
+   "tamt": "874420247",
    "high": "236.8000",
    "low": "227.7100",
    "open": "230.5000",
@@ -1407,11 +1407,11 @@
    "excd": "NAS"
   },
   "CRWD": {
-   "last": "207.7700",
-   "rate": "-1.47",
+   "last": "209.3000",
+   "rate": "-0.74",
    "diff": null,
-   "tvol": "10955759",
-   "tamt": "2238464022",
+   "tvol": "14571733",
+   "tamt": "2972811455",
    "high": "210.3000",
    "low": "194.7000",
    "open": "202.0100",
@@ -1420,24 +1420,24 @@
    "excd": "NAS"
   },
   "PANW": {
-   "last": "341.4163",
-   "rate": "-3.28",
+   "last": "356.1400",
+   "rate": "+0.89",
    "diff": null,
-   "tvol": "4956683",
-   "tamt": "1734338025",
+   "tvol": "6690876",
+   "tamt": "2338848907",
    "high": "358.2750",
-   "low": "333.5500",
+   "low": "337.2300",
    "open": "339.0000",
    "h52p": "432.3250",
    "l52p": "139.5706",
    "excd": "NAS"
   },
   "ZS": {
-   "last": "229.3700",
-   "rate": "-0.97",
+   "last": "230.8600",
+   "rate": "-0.33",
    "diff": null,
-   "tvol": "3258250",
-   "tamt": "732085327",
+   "tvol": "4633580",
+   "tamt": "1039367925",
    "high": "232.1200",
    "low": "214.5400",
    "open": "221.2120",
@@ -1446,12 +1446,12 @@
    "excd": "NAS"
   },
   "MSTR": {
-   "last": "80.6238",
-   "rate": "+3.96",
+   "last": "79.9600",
+   "rate": "+3.11",
    "diff": null,
-   "tvol": "20664809",
-   "tamt": "1564081733",
-   "high": "81.3900",
+   "tvol": "30231560",
+   "tamt": "2284098914",
+   "high": "81.0200",
    "low": "70.3700",
    "open": "74.2900",
    "h52p": "198.3999",
@@ -1459,11 +1459,11 @@
    "excd": "NAS"
   },
   "MARA": {
-   "last": "5.4677",
-   "rate": "+1.07",
+   "last": "5.4200",
+   "rate": "+0.18",
    "diff": null,
-   "tvol": "25300223",
-   "tamt": "134536348",
+   "tvol": "36029420",
+   "tamt": "191368039",
    "high": "5.6000",
    "low": "4.9200",
    "open": "5.1800",
@@ -1472,11 +1472,11 @@
    "excd": "NAS"
   },
   "RIOT": {
-   "last": "16.7100",
-   "rate": "+2.26",
+   "last": "16.6500",
+   "rate": "+1.90",
    "diff": null,
-   "tvol": "15008941",
-   "tamt": "238637579",
+   "tvol": "24391306",
+   "tamt": "387903276",
    "high": "17.0000",
    "low": "14.8850",
    "open": "15.4000",
@@ -1485,12 +1485,12 @@
    "excd": "NAS"
   },
   "CLSK": {
-   "last": "5.2401",
-   "rate": "+2.45",
+   "last": "5.1800",
+   "rate": "+1.27",
    "diff": null,
-   "tvol": "21874918",
-   "tamt": "108418018",
-   "high": "5.3000",
+   "tvol": "33349192",
+   "tamt": "165044907",
+   "high": "5.2600",
    "low": "4.4250",
    "open": "4.7700",
    "h52p": "19.1700",
@@ -1498,12 +1498,12 @@
    "excd": "NAS"
   },
   "COIN": {
-   "last": "105.6900",
-   "rate": "+3.27",
+   "last": "103.7200",
+   "rate": "+1.34",
    "diff": null,
-   "tvol": "6611269",
-   "tamt": "662389238",
-   "high": "106.0000",
+   "tvol": "9968412",
+   "tamt": "995813840",
+   "high": "104.3100",
    "low": "94.8750",
    "open": "98.1200",
    "h52p": "284.7400",
@@ -1511,12 +1511,12 @@
    "excd": "NAS"
   },
   "HOOD": {
-   "last": "66.4273",
-   "rate": "+1.18",
+   "last": "65.7800",
+   "rate": "+0.20",
    "diff": null,
-   "tvol": "14956521",
-   "tamt": "955578279",
-   "high": "66.5500",
+   "tvol": "20255758",
+   "tamt": "1292810425",
+   "high": "66.2400",
    "low": "61.2600",
    "open": "62.4100",
    "h52p": "139.7500",
@@ -1524,11 +1524,11 @@
    "excd": "NAS"
   },
   "IREN": {
-   "last": "13.0000",
-   "rate": "+0.39",
+   "last": "12.8500",
+   "rate": "-0.77",
    "diff": null,
-   "tvol": "55299301",
-   "tamt": "675835367",
+   "tvol": "83318747",
+   "tamt": "1019006317",
    "high": "13.1100",
    "low": "11.3429",
    "open": "11.8650",
@@ -1537,11 +1537,11 @@
    "excd": "NAS"
   },
   "APLD": {
-   "last": "12.3262",
-   "rate": "+0.87",
+   "last": "12.2900",
+   "rate": "+0.57",
    "diff": null,
-   "tvol": "18751119",
-   "tamt": "219113113",
+   "tvol": "29689697",
+   "tamt": "346932495",
    "high": "12.5000",
    "low": "10.7801",
    "open": "11.4200",
@@ -1550,11 +1550,11 @@
    "excd": "NAS"
   },
   "WULF": {
-   "last": "10.0600",
-   "rate": "+0.50",
+   "last": "10.0300",
+   "rate": "+0.20",
    "diff": null,
-   "tvol": "29101721",
-   "tamt": "281951105",
+   "tvol": "47455918",
+   "tamt": "459754084",
    "high": "10.3199",
    "low": "9.0450",
    "open": "9.3500",
@@ -1563,11 +1563,11 @@
    "excd": "NAS"
   },
   "CORZ": {
-   "last": "10.7518",
-   "rate": "-2.17",
+   "last": "10.8200",
+   "rate": "-1.55",
    "diff": null,
-   "tvol": "11668752",
-   "tamt": "124156351",
+   "tvol": "19258704",
+   "tamt": "204949711",
    "high": "11.1450",
    "low": "9.9600",
    "open": "10.2700",
@@ -1576,11 +1576,11 @@
    "excd": "NAS"
   },
   "CIFR": {
-   "last": "5.5313",
-   "rate": "+0.20",
+   "last": "5.5100",
+   "rate": "-0.18",
    "diff": null,
-   "tvol": "32025227",
-   "tamt": "170613706",
+   "tvol": "46127703",
+   "tamt": "245939941",
    "high": "5.6495",
    "low": "4.8900",
    "open": "5.1000",
@@ -1589,11 +1589,11 @@
    "excd": "NAS"
   },
   "TSLA": {
-   "last": "380.3000",
-   "rate": "-1.14",
+   "last": "380.1400",
+   "rate": "-1.18",
    "diff": null,
-   "tvol": "25339337",
-   "tamt": "9419307159",
+   "tvol": "34915848",
+   "tamt": "12971563684",
    "high": "383.7299",
    "low": "357.6400",
    "open": "370.5150",
@@ -1602,11 +1602,11 @@
    "excd": "NAS"
   },
   "AAPL": {
-   "last": "354.8668",
-   "rate": "+0.23",
+   "last": "355.5800",
+   "rate": "+0.43",
    "diff": null,
-   "tvol": "41294866",
-   "tamt": "14585211188",
+   "tvol": "54285255",
+   "tamt": "19156925881",
    "high": "356.7500",
    "low": "345.1300",
    "open": "353.4750",
@@ -1615,11 +1615,11 @@
    "excd": "NAS"
   },
   "SPCX": {
-   "last": "127.6400",
-   "rate": "+1.45",
+   "last": "127.4400",
+   "rate": "+1.30",
    "diff": null,
-   "tvol": "103905037",
-   "tamt": "12539276944",
+   "tvol": "148279916",
+   "tamt": "17888985232",
    "high": "128.4500",
    "low": "112.9300",
    "open": "118.4700",
@@ -1628,11 +1628,11 @@
    "excd": "NAS"
   },
   "CBRS": {
-   "last": "89.6000",
-   "rate": "+0.92",
+   "last": "89.6800",
+   "rate": "+1.01",
    "diff": null,
-   "tvol": "6612614",
-   "tamt": "570040561",
+   "tvol": "9253277",
+   "tamt": "796310848",
    "high": "90.3099",
    "low": "80.8600",
    "open": "83.8950",
@@ -1643,23 +1643,9 @@
  },
  "new_highs": [
   {
-   "symbol": "BAP",
-   "name": "CREDICORP",
-   "change_rate": "+31.91",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "BHR",
    "name": "BRAEMAR HOTELS & RESORTS INC",
-   "change_rate": "+26.44",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BEBE/UN",
-   "name": "TGE VAL CREATIVE SOLN CORP UNIT CONS 1 CL A ORD",
-   "change_rate": "+10.19",
+   "change_rate": "+26.43",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1678,23 +1664,16 @@
    "is_etf": false
   },
   {
-   "symbol": "KNTK",
-   "name": "KINETIK HOLDINGS INC",
-   "change_rate": "+8.44",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "STT",
-   "name": "STATE STREET CORPORATION",
-   "change_rate": "+12.64",
+   "symbol": "MBC",
+   "name": "MASTERBRAND INC",
+   "change_rate": "+7.76",
    "exchange": "NYS",
    "is_etf": false
   },
   {
    "symbol": "HPQ",
    "name": "HP INCORPORATION",
-   "change_rate": "+11.31",
+   "change_rate": "+11.49",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1706,23 +1685,9 @@
    "is_etf": false
   },
   {
-   "symbol": "TROX",
-   "name": "TRONOX HOLDINGS PLC",
-   "change_rate": "+8.99",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "AMRZ",
    "name": "AMRIZE AG",
-   "change_rate": "+5.77",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "MBC",
-   "name": "MASTERBRAND INC",
-   "change_rate": "+5.63",
+   "change_rate": "+5.34",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1734,9 +1699,23 @@
    "is_etf": false
   },
   {
+   "symbol": "AWI",
+   "name": "ARMSTRONG WORLD INDUSTRIES INC",
+   "change_rate": "+4.98",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "TROX",
+   "name": "TRONOX HOLDINGS PLC",
+   "change_rate": "+7.41",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
    "symbol": "CNH",
    "name": "CNH INDUSTRIAL NV",
-   "change_rate": "+8.18",
+   "change_rate": "+8.00",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1755,9 +1734,9 @@
    "is_etf": false
   },
   {
-   "symbol": "MITT",
-   "name": "TPG MTG IT INC",
-   "change_rate": "+5.94",
+   "symbol": "OC",
+   "name": "OWENS CORNING",
+   "change_rate": "+5.20",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1769,13 +1748,6 @@
    "is_etf": false
   },
   {
-   "symbol": "PPG",
-   "name": "PPG INDUSTRIES INC",
-   "change_rate": "+5.69",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "WD",
    "name": "WALKER AND DUNLOP",
    "change_rate": "+4.56",
@@ -1783,23 +1755,9 @@
    "is_etf": false
   },
   {
-   "symbol": "SLG",
-   "name": "SL GREEN RLTY CORP",
-   "change_rate": "+4.70",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "CRH",
    "name": "CRH",
-   "change_rate": "+3.87",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "COMP",
-   "name": "COMPASS INC",
-   "change_rate": "+8.88",
+   "change_rate": "+3.89",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1811,30 +1769,9 @@
    "is_etf": false
   },
   {
-   "symbol": "MFA",
-   "name": "MFA FINANCIAL INC",
-   "change_rate": "+3.95",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BORR",
-   "name": "BORR DRILLING LIMITED",
-   "change_rate": "+4.29",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "PSEC/A",
    "name": "PROSPECT CAPITAL CORPORATION 5.35% SER A FIX RAT",
    "change_rate": "+3.46",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "EPRT",
-   "name": "ESSENTIAL PROPERTIES REALTY TR INC",
-   "change_rate": "+3.59",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1846,34 +1783,6 @@
    "is_etf": false
   },
   {
-   "symbol": "FNV",
-   "name": "FRANCO NEVADA CORP",
-   "change_rate": "+4.85",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TM",
-   "name": "TOYOTA MOTOR CORP ADR-EACH REP 10 ORD NPV LVL",
-   "change_rate": "+4.78",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TEN",
-   "name": "TSAKOS ENERGY NAVIGATION",
-   "change_rate": "+4.31",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BCO",
-   "name": "BRINK S COMPANY",
-   "change_rate": "+4.71",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "CBRE",
    "name": "CBRE GROUP INC",
    "change_rate": "+3.30",
@@ -1881,16 +1790,9 @@
    "is_etf": false
   },
   {
-   "symbol": "CMS/B",
-   "name": "CONSUMERS ENERGY COMPANY USD4.50 CUM PFD USD100",
-   "change_rate": "+5.23",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "INVH",
-   "name": "INVITATION HOMES INC",
-   "change_rate": "+3.30",
+   "symbol": "IBM",
+   "name": "INTERNATIONAL BUS MACH CORP",
+   "change_rate": "+3.33",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1909,51 +1811,23 @@
    "is_etf": false
   },
   {
-   "symbol": "ESS",
-   "name": "ESSEX PROPERTY TRUST INC",
-   "change_rate": "+3.34",
+   "symbol": "BRO",
+   "name": "BROWN & BROWN INC",
+   "change_rate": "+3.18",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "PMT",
-   "name": "PENNYMAC MORTGAGE INVESTMENT TRUST",
-   "change_rate": "+4.30",
+   "symbol": "MFA",
+   "name": "MFA FINANCIAL INC",
+   "change_rate": "+3.45",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "HCC",
-   "name": "WARRIOR MET COAL INC",
-   "change_rate": "+4.04",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "OC",
-   "name": "OWENS CORNING",
-   "change_rate": "+3.85",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "USFD",
-   "name": "US FOODS HOLDING CORP",
-   "change_rate": "+3.12",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "RWT",
-   "name": "REDWOOD TRUST INC",
-   "change_rate": "+4.69",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "IBM",
-   "name": "INTERNATIONAL BUS MACH CORP",
-   "change_rate": "+3.13",
+   "symbol": "INFY",
+   "name": "INFOSYS LTD SPON ADR EACH REP 1 ORD SHS",
+   "change_rate": "+4.24",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1972,6 +1846,13 @@
    "is_etf": false
   },
   {
+   "symbol": "MITT",
+   "name": "TPG MTG IT INC",
+   "change_rate": "+4.46",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
    "symbol": "CIM",
    "name": "CHIMERA INVESTMENT CORPORATION",
    "change_rate": "+3.34",
@@ -1979,9 +1860,16 @@
    "is_etf": false
   },
   {
-   "symbol": "FPI",
-   "name": "FARMLAND PARTNERS INC",
-   "change_rate": "+3.06",
+   "symbol": "HCC",
+   "name": "WARRIOR MET COAL INC",
+   "change_rate": "+3.83",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CNM",
+   "name": "CORE & MAIN INC",
+   "change_rate": "+3.96",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -1993,13 +1881,6 @@
    "is_etf": false
   },
   {
-   "symbol": "GRDN",
-   "name": "GUARDIAN PHARMACY SERVICES INC",
-   "change_rate": "+4.96",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
    "symbol": "G",
    "name": "GENPACT LIMITED",
    "change_rate": "+3.12",
@@ -2007,23 +1888,30 @@
    "is_etf": false
   },
   {
-   "symbol": "BGSI",
-   "name": "BOYD GROUP SERVICES INC",
-   "change_rate": "+3.89",
+   "symbol": "GPGI",
+   "name": "GPGI INC",
+   "change_rate": "+4.81",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "PHM",
-   "name": "PULTE GROUP INC",
-   "change_rate": "+3.66",
+   "symbol": "BLDR",
+   "name": "BUILDERS FIRSTSOURCE INC",
+   "change_rate": "+4.64",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "RITM",
+   "name": "RITHM CAPITAL CORP",
+   "change_rate": "+2.88",
    "exchange": "NYS",
    "is_etf": false
   },
   {
    "symbol": "KHC",
    "name": "KRAFT HEINZ CO",
-   "change_rate": "+3.64",
+   "change_rate": "+3.68",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2035,37 +1923,23 @@
    "is_etf": false
   },
   {
-   "symbol": "INFY",
-   "name": "INFOSYS LTD SPON ADR EACH REP 1 ORD SHS",
-   "change_rate": "+3.77",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "MHK",
-   "name": "MOHAWK INDUSTRIES",
-   "change_rate": "+5.17",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "DXC",
-   "name": "DXC TECHNOLOGY COMPANY",
-   "change_rate": "+4.61",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "KBH",
-   "name": "KB HOME",
-   "change_rate": "+3.01",
+   "symbol": "PHM",
+   "name": "PULTE GROUP INC",
+   "change_rate": "+3.54",
    "exchange": "NYS",
    "is_etf": false
   },
   {
    "symbol": "JLL",
    "name": "JONES LANG LASALLE INC",
-   "change_rate": "+3.93",
+   "change_rate": "+4.00",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "ARR",
+   "name": "ARMOUR RESIDENTIAL REIT INC",
+   "change_rate": "+2.49",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2077,37 +1951,30 @@
    "is_etf": false
   },
   {
-   "symbol": "CNM",
-   "name": "CORE & MAIN INC",
-   "change_rate": "+3.64",
+   "symbol": "CCK",
+   "name": "CROWN HOLDINGS INC",
+   "change_rate": "+3.05",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "BRO",
-   "name": "BROWN & BROWN INC",
-   "change_rate": "+2.62",
+   "symbol": "DXC",
+   "name": "DXC TECHNOLOGY COMPANY",
+   "change_rate": "+4.54",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "AFL",
-   "name": "AFLAC INC",
-   "change_rate": "+3.75",
+   "symbol": "COMP",
+   "name": "COMPASS INC",
+   "change_rate": "+7.72",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "RITM",
-   "name": "RITHM CAPITAL CORP",
-   "change_rate": "+2.65",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "NABL",
-   "name": "N ABLE INC",
-   "change_rate": "+5.19",
+   "symbol": "ABR",
+   "name": "ARBOR REALTY TRUST INC",
+   "change_rate": "+14.55",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2126,30 +1993,44 @@
    "is_etf": false
   },
   {
-   "symbol": "PAR",
-   "name": "PAR TECHNOLOGY CORP",
-   "change_rate": "+6.88",
+   "symbol": "IVR",
+   "name": "INVESCO MORTGAGE CAPITAL INC",
+   "change_rate": "+2.68",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "UL",
-   "name": "UNILEVER PLC SPONSORED ADS EACH 1 ORD (REV SPT)",
-   "change_rate": "+2.56",
+   "symbol": "RWT",
+   "name": "REDWOOD TRUST INC",
+   "change_rate": "+3.97",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "NAN",
-   "name": "NUVEEN NEW YORK QUALITY MUNICIPAL I",
-   "change_rate": "+3.33",
+   "symbol": "EPRT",
+   "name": "ESSENTIAL PROPERTIES REALTY TR INC",
+   "change_rate": "+2.45",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "VICI",
-   "name": "VICI PROPERTIES INC",
-   "change_rate": "+2.34",
+   "symbol": "BORR",
+   "name": "BORR DRILLING LIMITED",
+   "change_rate": "+3.03",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "TGLS",
+   "name": "TECNOGLASS HOLDINGS INC",
+   "change_rate": "+3.26",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BALL",
+   "name": "BALL CORP",
+   "change_rate": "+2.89",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2161,16 +2042,16 @@
    "is_etf": false
   },
   {
-   "symbol": "VNO",
-   "name": "VORNADO REALTY TRUST",
-   "change_rate": "+5.28",
+   "symbol": "UL",
+   "name": "UNILEVER PLC SPONSORED ADS EACH 1 ORD (REV SPT)",
+   "change_rate": "+2.48",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "OMC",
-   "name": "OMNICOM GROUP INC",
-   "change_rate": "+2.54",
+   "symbol": "PNR",
+   "name": "PENTAIR PLC",
+   "change_rate": "+2.26",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2178,20 +2059,6 @@
    "symbol": "LPX",
    "name": "LOUISIANA-PACIFIC CORP",
    "change_rate": "+3.22",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "NATL",
-   "name": "NCR ATLEOS CORPORATION",
-   "change_rate": "+2.67",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BLDR",
-   "name": "BUILDERS FIRSTSOURCE INC",
-   "change_rate": "+4.13",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2217,9 +2084,9 @@
    "is_etf": false
   },
   {
-   "symbol": "AOS",
-   "name": "SMITH A O CORP",
-   "change_rate": "+2.35",
+   "symbol": "LOMA",
+   "name": "LOMA NEGRA CIA IND ARGENTINA SA SPON ADS EACH RE",
+   "change_rate": "+3.89",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2227,6 +2094,13 @@
    "symbol": "HUN",
    "name": "HUNTSMAN CORP",
    "change_rate": "+6.17",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "MHK",
+   "name": "MOHAWK INDUSTRIES",
+   "change_rate": "+4.73",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2240,35 +2114,42 @@
   {
    "symbol": "ORC",
    "name": "ORCHID ISLAND CAPITAL INC",
-   "change_rate": "+2.30",
+   "change_rate": "+2.31",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "MA",
-   "name": "MASTERCARD INCORPORATED",
-   "change_rate": "+2.25",
+   "symbol": "ANRO",
+   "name": "ALTO NEUROSCIENCE INC",
+   "change_rate": "+3.82",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "KNSL",
-   "name": "KINSALE CAPITAL GROUP INC",
-   "change_rate": "+2.62",
+   "symbol": "GAP",
+   "name": "GAP INC",
+   "change_rate": "+2.52",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "NLY",
-   "name": "ANNALY CAPITAL MANAGEMENT INC",
-   "change_rate": "+2.28",
+   "symbol": "PMT",
+   "name": "PENNYMAC MORTGAGE INVESTMENT TRUST",
+   "change_rate": "+3.26",
    "exchange": "NYS",
    "is_etf": false
   },
   {
-   "symbol": "BXP",
-   "name": "BXP INC",
-   "change_rate": "+4.13",
+   "symbol": "SLG",
+   "name": "SL GREEN RLTY CORP",
+   "change_rate": "+3.13",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "KD",
+   "name": "KYNDRYL HLDGS INC",
+   "change_rate": "+5.81",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2280,6 +2161,20 @@
    "is_etf": false
   },
   {
+   "symbol": "INVH",
+   "name": "INVITATION HOMES INC",
+   "change_rate": "+2.13",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "SHW",
+   "name": "SHERWIN-WILLIAMS CO",
+   "change_rate": "+2.40",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
    "symbol": "NX",
    "name": "QUANEX BUILDING PRODUCTS CORPORATIO",
    "change_rate": "+3.63",
@@ -2287,37 +2182,9 @@
    "is_etf": false
   },
   {
-   "symbol": "DIS",
-   "name": "WALT DISNEY COMPANY (THE)",
-   "change_rate": "+2.71",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "ARR",
-   "name": "ARMOUR RESIDENTIAL REIT INC",
-   "change_rate": "+1.97",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TFPM",
-   "name": "TRIPLE FLAG PRECIOUS METALS CORP",
-   "change_rate": "+5.35",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "EFR",
-   "name": "EATON VANCE SR FLTG RATE TRUST",
-   "change_rate": "+1.95",
-   "exchange": "NYS",
-   "is_etf": false
-  },
-  {
-   "symbol": "GD",
-   "name": "GENERAL DYNAMICS CORP",
-   "change_rate": "+2.97",
+   "symbol": "CAG",
+   "name": "CONAGRA BRANDS INC",
+   "change_rate": "+3.91",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2329,9 +2196,9 @@
    "is_etf": false
   },
   {
-   "symbol": "V",
-   "name": "VISA INC",
-   "change_rate": "+2.20",
+   "symbol": "KBH",
+   "name": "KB HOME",
+   "change_rate": "+2.40",
    "exchange": "NYS",
    "is_etf": false
   },
@@ -2343,16 +2210,149 @@
    "is_etf": false
   },
   {
+   "symbol": "SYK",
+   "name": "STRYKER CORP",
+   "change_rate": "+2.72",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "HLF",
+   "name": "HERBALIFE LTD",
+   "change_rate": "+2.76",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "WIT",
+   "name": "WIPRO LTD SPON ADR REP 1 ORD SHS INR2",
+   "change_rate": "+3.33",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "VMO",
+   "name": "INVESCO MUNICIPAL OPPORTUNITY TRUST",
+   "change_rate": "+1.97",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "PAR",
+   "name": "PAR TECHNOLOGY CORP",
+   "change_rate": "+6.38",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NABL",
+   "name": "N ABLE INC",
+   "change_rate": "+4.59",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BFS",
+   "name": "SAUL CENTERS INC",
+   "change_rate": "+2.60",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "SONY",
+   "name": "SONY GROUP CORPORATION SPON ADS EACH REPR 1 ORD",
+   "change_rate": "+2.52",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BCO",
+   "name": "BRINK S COMPANY",
+   "change_rate": "+3.22",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "HD",
+   "name": "HOME DEPOT INC",
+   "change_rate": "+2.14",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "AOS",
+   "name": "SMITH A O CORP",
+   "change_rate": "+2.02",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "WLK",
+   "name": "WESTLAKE CORPORATION",
+   "change_rate": "+3.40",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "DIS",
+   "name": "WALT DISNEY COMPANY (THE)",
+   "change_rate": "+2.52",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "DFH",
+   "name": "DREAM FINDERS HOMES INC",
+   "change_rate": "+9.24",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BTI",
+   "name": "BRITISH AMERICAN TOBACCO SPON ADS EACH REP 1 ORD",
+   "change_rate": "+3.76",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NOMD",
+   "name": "NOMAD FOODS LIMITED",
+   "change_rate": "+2.73",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BCC",
+   "name": "BOISE CASCADE COMPANY",
+   "change_rate": "+2.83",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "AJG",
+   "name": "GALLAGHER(ARTHUR J.)& CO",
+   "change_rate": "+1.94",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
+   "symbol": "MA",
+   "name": "MASTERCARD INCORPORATED",
+   "change_rate": "+1.94",
+   "exchange": "NYS",
+   "is_etf": false
+  },
+  {
    "symbol": "FNUC",
    "name": "FRONTIER NUCLEAR & MINERALS INC",
-   "change_rate": "+12.20",
+   "change_rate": "+15.03",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "BGLC",
    "name": "BIONEXUS GENE LAB CORP",
-   "change_rate": "+111.86",
+   "change_rate": "+113.56",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2364,65 +2364,65 @@
    "is_etf": false
   },
   {
-   "symbol": "POM",
-   "name": "POMDOCTOR LIMITED",
-   "change_rate": "+55.15",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
    "symbol": "ALGS",
    "name": "ALIGOS THERAPEUTICS INC",
-   "change_rate": "+56.38",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TMCR",
-   "name": "METALS ROYALTY CO INC",
-   "change_rate": "+50.99",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SLSN",
-   "name": "SOLESENCE INC",
-   "change_rate": "+38.24",
+   "change_rate": "+51.68",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "BBCI",
    "name": "BRADBURY CAPITAL INC",
-   "change_rate": "+38.56",
+   "change_rate": "+44.44",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "CGTX",
    "name": "COGNITION THERAPEUTICS INC",
-   "change_rate": "+29.40",
+   "change_rate": "+30.95",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "TMCR",
+   "name": "METALS ROYALTY CO INC",
+   "change_rate": "+45.03",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "SLSN",
+   "name": "SOLESENCE INC",
+   "change_rate": "+32.94",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "PRFX",
    "name": "PRF TECHS LTD",
-   "change_rate": "+24.99",
+   "change_rate": "+27.32",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "MCRB",
    "name": "SERES THERAPEUTICS",
-   "change_rate": "+27.71",
+   "change_rate": "+28.38",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "MWYN",
-   "name": "MARWYNN HOLDINGS INC",
-   "change_rate": "+43.80",
+   "symbol": "FVNNU",
+   "name": "FUTURE VISION II ACQUISITION CORP UNITS(1 ORD &",
+   "change_rate": "+26.59",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CURR",
+   "name": "CURRENC GROUP INC",
+   "change_rate": "+30.85",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2434,65 +2434,23 @@
    "is_etf": false
   },
   {
-   "symbol": "FLD",
-   "name": "FOLD HOLDINGS INC",
-   "change_rate": "+18.47",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TBBK",
-   "name": "BANCORP INC DEL",
-   "change_rate": "+18.41",
+   "symbol": "MGX",
+   "name": "METAGENOMI THERAPEUTICS INC",
+   "change_rate": "+17.60",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "CPIX",
    "name": "CUMBERLAND PHARMACEUTICALS INC",
-   "change_rate": "+25.19",
+   "change_rate": "+24.26",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "VERA",
-   "name": "VERA THERAPEUTICS  INC.",
-   "change_rate": "+18.91",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "NANO",
-   "name": "FORGE NANO HOLDINGS INC",
-   "change_rate": "+17.46",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "CURR",
-   "name": "CURRENC GROUP INC",
-   "change_rate": "+28.20",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TVIVU",
-   "name": "TEXAS VENTURES ACQUISITION IV CORP UNIT ECH REP",
-   "change_rate": "+14.37",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "YICCU",
-   "name": "YORKVILLE INTERNATIONAL CAPITAL COR UNIT CONT 1",
-   "change_rate": "+14.01",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FVNNU",
-   "name": "FUTURE VISION II ACQUISITION CORP UNITS(1 ORD &",
-   "change_rate": "+20.90",
+   "symbol": "FCUV",
+   "name": "FOCUS UNIVERSAL INC",
+   "change_rate": "+53.12",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2504,30 +2462,37 @@
    "is_etf": false
   },
   {
-   "symbol": "MGX",
-   "name": "METAGENOMI THERAPEUTICS INC",
-   "change_rate": "+13.70",
+   "symbol": "MWYN",
+   "name": "MARWYNN HOLDINGS INC",
+   "change_rate": "+37.84",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "NCEW",
-   "name": "NEW CENTURY LOGISTICS BVI LTD",
-   "change_rate": "+12.51",
+   "symbol": "KXIN",
+   "name": "Kaixin Holdings",
+   "change_rate": "+25.83",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "NRSN",
-   "name": "NEUROSENSE THERAPEUTICS LTD",
-   "change_rate": "+64.55",
+   "symbol": "FLD",
+   "name": "FOLD HOLDINGS INC",
+   "change_rate": "+14.98",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "CVRX",
-   "name": "CVRX INC",
-   "change_rate": "+13.09",
+   "symbol": "FOFO",
+   "name": "HANG FENG TECHNOLOGY INNOVATION CO",
+   "change_rate": "+24.00",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "VMAR",
+   "name": "VISION MARINE TECH INC",
+   "change_rate": "+19.08",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2539,58 +2504,58 @@
    "is_etf": false
   },
   {
-   "symbol": "KXIN",
-   "name": "Kaixin Holdings",
-   "change_rate": "+24.17",
+   "symbol": "NCEW",
+   "name": "NEW CENTURY LOGISTICS BVI LTD",
+   "change_rate": "+10.62",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "DKI",
-   "name": "DARKIRIS INC.",
-   "change_rate": "+44.20",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "STOK",
-   "name": "STOKE THERAPEUTICS INC",
-   "change_rate": "+9.96",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FCUV",
-   "name": "FOCUS UNIVERSAL INC",
-   "change_rate": "+47.97",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TNYA",
-   "name": "TENAYA THERAPEUTICS INC",
-   "change_rate": "+10.74",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "JLHL",
-   "name": "JULONG HOLDING LIMITED",
-   "change_rate": "+22.68",
+   "symbol": "CVRX",
+   "name": "CVRX INC",
+   "change_rate": "+10.93",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "SVRE",
    "name": "SAVERONE 2014 LTD SPON ADS EACH REP 43200 ORD(RE",
-   "change_rate": "+29.20",
+   "change_rate": "+30.09",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "TCBS",
-   "name": "TEXAS CMNTY BANCSHARES INC",
-   "change_rate": "+9.94",
+   "symbol": "NANO",
+   "name": "FORGE NANO HOLDINGS INC",
+   "change_rate": "+11.83",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "TNYA",
+   "name": "TENAYA THERAPEUTICS INC",
+   "change_rate": "+10.88",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NRSN",
+   "name": "NEUROSENSE THERAPEUTICS LTD",
+   "change_rate": "+60.00",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "RADX",
+   "name": "RADIOPHARM THERANOSTICS LIMITED SPON ADS EACH RE",
+   "change_rate": "+62.00",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CAR",
+   "name": "AVIS BUDGET GROUP INC",
+   "change_rate": "+9.62",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2602,44 +2567,44 @@
    "is_etf": false
   },
   {
-   "symbol": "ARTW",
-   "name": "ART S-WAY MANUFACTURING CO INC",
-   "change_rate": "+11.56",
+   "symbol": "CDNL",
+   "name": "CARDINAL INFRASTRUCTURE GROUP INC",
+   "change_rate": "+16.27",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "CAR",
-   "name": "AVIS BUDGET GROUP INC",
-   "change_rate": "+8.98",
+   "symbol": "OTLY",
+   "name": "OATLY GROUP AB SPON ADS EACH REP 20 ORD SHS (P/S",
+   "change_rate": "+26.12",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "VMAR",
-   "name": "VISION MARINE TECH INC",
-   "change_rate": "+15.70",
+   "symbol": "NFE",
+   "name": "NEW FORTRESS ENERGY INC",
+   "change_rate": "+12.89",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "VRDN",
-   "name": "VIRIDIAN THERAPEUTICS INC",
-   "change_rate": "+8.04",
+   "symbol": "STOK",
+   "name": "STOKE THERAPEUTICS INC",
+   "change_rate": "+7.83",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "DOGZ",
-   "name": "DOGNESS INTERNATIONAL CORPORATION",
-   "change_rate": "+59.04",
+   "symbol": "CRVO",
+   "name": "CERVOMED INC",
+   "change_rate": "+14.41",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "WHLR",
-   "name": "WHEELER REAL ESTATE INVESTMENT TRUST INC",
-   "change_rate": "+43.15",
+   "symbol": "DKI",
+   "name": "DARKIRIS INC.",
+   "change_rate": "+40.89",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2651,37 +2616,9 @@
    "is_etf": false
   },
   {
-   "symbol": "CDNL",
-   "name": "CARDINAL INFRASTRUCTURE GROUP INC",
-   "change_rate": "+14.60",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FOXX",
-   "name": "FOXX DEVELOPMENT HOLDINGS INC",
-   "change_rate": "+24.52",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "IMRX",
-   "name": "IMMUNEERING CORP",
-   "change_rate": "+7.42",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "AVXL",
-   "name": "ANAVEX LIFE SCIENCES CORPORATION",
-   "change_rate": "+14.74",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "EBC",
-   "name": "EASTERN BANKSHARES INC",
-   "change_rate": "+9.21",
+   "symbol": "GOSS",
+   "name": "GOSSAMER BIO INC",
+   "change_rate": "+8.15",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2693,13 +2630,6 @@
    "is_etf": false
   },
   {
-   "symbol": "GOSS",
-   "name": "GOSSAMER BIO INC",
-   "change_rate": "+7.76",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
    "symbol": "CNXC",
    "name": "CONCENTRIX CORPORATION",
    "change_rate": "+7.64",
@@ -2707,9 +2637,23 @@
    "is_etf": false
   },
   {
-   "symbol": "HELP",
-   "name": "HELUS PHARMA INC",
-   "change_rate": "+6.91",
+   "symbol": "IVVD",
+   "name": "INVIVYD INC",
+   "change_rate": "+9.35",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BON",
+   "name": "BON NAT LIFE LTD",
+   "change_rate": "+8.57",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BZ",
+   "name": "KANZHUN LTD SPON EACH ADR REP 2 ORD SHS",
+   "change_rate": "+12.56",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2728,9 +2672,16 @@
    "is_etf": false
   },
   {
-   "symbol": "EVLV",
-   "name": "EVOLV TECHNOLOGIES HLDGS INC",
-   "change_rate": "+6.57",
+   "symbol": "LSE",
+   "name": "LEISHEN ENERGY HLDG CO LTD",
+   "change_rate": "+11.48",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "VRDN",
+   "name": "VIRIDIAN THERAPEUTICS INC",
+   "change_rate": "+6.19",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2742,30 +2693,9 @@
    "is_etf": false
   },
   {
-   "symbol": "FLYW",
-   "name": "FLYWIRE CORP",
-   "change_rate": "+6.41",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FLNC",
-   "name": "FLUENCE ENERGY INC",
-   "change_rate": "+15.37",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "CRVS",
-   "name": "CORVUS PHARMACEUTICALS INC",
-   "change_rate": "+6.86",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SNY",
-   "name": "SANOFI SPON ADR ECH REP 0.5 ORD SHS",
-   "change_rate": "+5.39",
+   "symbol": "HELP",
+   "name": "HELUS PHARMA INC",
+   "change_rate": "+6.00",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2777,23 +2707,30 @@
    "is_etf": false
   },
   {
-   "symbol": "CNSY",
-   "name": "CERENOME INC",
-   "change_rate": "+12.90",
+   "symbol": "CELC",
+   "name": "CELCUITY INC",
+   "change_rate": "+5.47",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "GRAN",
-   "name": "GRANDE GROUP LIMITED",
-   "change_rate": "+16.76",
+   "symbol": "FLNC",
+   "name": "FLUENCE ENERGY INC",
+   "change_rate": "+15.12",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "JEM",
-   "name": "707 CAYMAN HOLDINGS LIMITED",
-   "change_rate": "+10.50",
+   "symbol": "AXON",
+   "name": "AXON ENTERPRISE INC",
+   "change_rate": "+7.43",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "OBX",
+   "name": "OBSIDIAN THERAPEUTICS INC",
+   "change_rate": "+6.13",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2805,58 +2742,44 @@
    "is_etf": false
   },
   {
-   "symbol": "AMLX",
-   "name": "AMYLYX PHARMACEUTICALS INC",
-   "change_rate": "+5.82",
+   "symbol": "EVLV",
+   "name": "EVOLV TECHNOLOGIES HLDGS INC",
+   "change_rate": "+5.60",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "CELC",
-   "name": "CELCUITY INC",
-   "change_rate": "+5.09",
+   "symbol": "VKTX",
+   "name": "VIKING THERAPEUTICS INC",
+   "change_rate": "+6.45",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "SNY",
+   "name": "SANOFI SPON ADR ECH REP 0.5 ORD SHS",
+   "change_rate": "+4.80",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "ARKR",
+   "name": "ARK RESTAURANTS CORP",
+   "change_rate": "+4.60",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "ZYBT",
+   "name": "ZHENGYE BIOTECHNOLOGY HLDG LTD",
+   "change_rate": "+7.24",
    "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "PYXS",
    "name": "PYXIS ONCOLOGY INC",
-   "change_rate": "+11.27",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "RNAZ",
-   "name": "TRANSCODE THERAPEUTICS INC",
-   "change_rate": "+5.23",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "HBNB",
-   "name": "HOTEL101 GLOBAL HLDGS CORP",
-   "change_rate": "+18.86",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "DTSQU",
-   "name": "DT CLOUD STAR ACQUISITION CORP UNIT 1 ORD SH & R",
-   "change_rate": "+4.51",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "COKE",
-   "name": "COCA-COLA CONSOLIDATED INC",
-   "change_rate": "+5.79",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FEAM",
-   "name": "5E ADVANCED MATERIALS INC",
-   "change_rate": "+10.53",
+   "change_rate": "+11.05",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2868,23 +2791,23 @@
    "is_etf": false
   },
   {
+   "symbol": "CRVS",
+   "name": "CORVUS PHARMACEUTICALS INC",
+   "change_rate": "+5.80",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CHTR",
+   "name": "CHARTER COMMUNICATIONS INC",
+   "change_rate": "+8.39",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
    "symbol": "KDK",
    "name": "KODIAK AI INC.",
-   "change_rate": "+12.90",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BZ",
-   "name": "KANZHUN LTD SPON EACH ADR REP 2 ORD SHS",
-   "change_rate": "+10.36",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TRAX",
-   "name": "FIRST TRACKS BIOTHERAPEUTICS INC",
-   "change_rate": "+5.50",
+   "change_rate": "+12.84",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2896,27 +2819,6 @@
    "is_etf": false
   },
   {
-   "symbol": "LSE",
-   "name": "LEISHEN ENERGY HLDG CO LTD",
-   "change_rate": "+9.63",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "PRLD",
-   "name": "PRELUDE THERAPEUTICS INC",
-   "change_rate": "+7.78",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "AXON",
-   "name": "AXON ENTERPRISE INC",
-   "change_rate": "+6.37",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
    "symbol": "IPSC",
    "name": "CENTURY THERAPEUTICS INC",
    "change_rate": "+5.26",
@@ -2924,23 +2826,23 @@
    "is_etf": false
   },
   {
-   "symbol": "VKTX",
-   "name": "VIKING THERAPEUTICS INC",
-   "change_rate": "+5.50",
+   "symbol": "BDMD",
+   "name": "BAIRD MEDICAL INVESTMENT HLDGS LTD",
+   "change_rate": "+10.68",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "OFSSO",
-   "name": "OFS CAPITAL CORPORATION 7.50% NOTES DUE 31/07/20",
-   "change_rate": "+3.82",
+   "symbol": "DTSQU",
+   "name": "DT CLOUD STAR ACQUISITION CORP UNIT 1 ORD SH & R",
+   "change_rate": "+3.85",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "MGRT",
-   "name": "MEGA FORTUNE COMPANY LIMITED",
-   "change_rate": "+10.25",
+   "symbol": "XCH",
+   "name": "XCHG LIMITED SPONSORED EACH ADS REPR 800 CL A",
+   "change_rate": "+10.39",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2952,16 +2854,16 @@
    "is_etf": false
   },
   {
-   "symbol": "CHTR",
-   "name": "CHARTER COMMUNICATIONS INC",
-   "change_rate": "+7.86",
+   "symbol": "HRTX",
+   "name": "HERON THERAPEUTICS INC",
+   "change_rate": "+8.71",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "SIEB",
-   "name": "SIEBERT FINANCIAL CORP",
-   "change_rate": "+8.11",
+   "symbol": "BBIO",
+   "name": "BRIDGEBIO PHARMA INC",
+   "change_rate": "+4.57",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -2973,37 +2875,9 @@
    "is_etf": false
   },
   {
-   "symbol": "XCH",
-   "name": "XCHG LIMITED SPONSORED EACH ADS REPR 800 CL A",
-   "change_rate": "+10.18",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FDMT",
-   "name": "4D MOLECULAR THERAPEUTICS INC",
-   "change_rate": "+4.11",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "KOSS",
-   "name": "KOSS CORP",
-   "change_rate": "+5.76",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "IVVD",
-   "name": "INVIVYD INC",
-   "change_rate": "+6.40",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
-   "symbol": "CTSH",
-   "name": "COGNIZANT TECHNOLOGY SOLUTIONS CORP",
-   "change_rate": "+4.95",
+   "symbol": "XRAY",
+   "name": "DENTSPLY SIRONA INC",
+   "change_rate": "+4.16",
    "exchange": "NAS",
    "is_etf": false
   },
@@ -3015,13 +2889,6 @@
    "is_etf": false
   },
   {
-   "symbol": "OCCI",
-   "name": "OFS CREDIT COMPANY INC",
-   "change_rate": "+5.67",
-   "exchange": "NAS",
-   "is_etf": false
-  },
-  {
    "symbol": "IMUX",
    "name": "IMMUNIC INC",
    "change_rate": "+5.72",
@@ -3029,86 +2896,205 @@
    "is_etf": false
   },
   {
-   "symbol": "NFE",
-   "name": "NEW FORTRESS ENERGY INC",
-   "change_rate": "+7.78",
+   "symbol": "IMRX",
+   "name": "IMMUNEERING CORP",
+   "change_rate": "+3.84",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "CRVO",
-   "name": "CERVOMED INC",
-   "change_rate": "+9.91",
+   "symbol": "COKE",
+   "name": "COCA-COLA CONSOLIDATED INC",
+   "change_rate": "+4.73",
    "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "EGGS",
-   "name": "NESTYIELD TOTAL RETURN GUARD ETF",
-   "change_rate": "+45.81",
-   "exchange": "AMS",
+   "symbol": "Z",
+   "name": "ZILLOW GROUP INC",
+   "change_rate": "+6.18",
+   "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "EP",
-   "name": "EMPIRE PETROLEUM CORPORATION",
-   "change_rate": "+22.75",
-   "exchange": "AMS",
+   "symbol": "COYA",
+   "name": "COYA THERAPEUTICS INC",
+   "change_rate": "+6.36",
+   "exchange": "NAS",
    "is_etf": false
   },
   {
-   "symbol": "APUS",
-   "name": "APIMEDS PHARMACEUTICALS US INC",
-   "change_rate": "+19.05",
-   "exchange": "AMS",
+   "symbol": "TCRX",
+   "name": "TSCAN THERAPEUTICS INC",
+   "change_rate": "+4.40",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "ZG",
+   "name": "ZILLOW GROUP INC",
+   "change_rate": "+6.05",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "DRUG",
+   "name": "BRIGHT MINDS BIOSCIENCES INC",
+   "change_rate": "+7.40",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "OCS",
+   "name": "OCULIS HOLDING AG",
+   "change_rate": "+3.93",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "AMLX",
+   "name": "AMYLYX PHARMACEUTICALS INC",
+   "change_rate": "+4.29",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CSGP",
+   "name": "COSTAR GROUP INC",
+   "change_rate": "+4.23",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "FLYW",
+   "name": "FLYWIRE CORP",
+   "change_rate": "+4.21",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "RNTX",
+   "name": "REIN THERAPEUTICS INC",
+   "change_rate": "+8.50",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "IFRX",
+   "name": "INFLARX N V",
+   "change_rate": "+5.74",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "AVTX",
+   "name": "AVALO THERAPEUTICS INC",
+   "change_rate": "+3.80",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "LMTL",
+   "name": "DIREXION DAILY LMT BULL 2X ETF",
+   "change_rate": "+4.83",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CLNN",
+   "name": "CLENE INC",
+   "change_rate": "+4.36",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "HBNB",
+   "name": "HOTEL101 GLOBAL HLDGS CORP",
+   "change_rate": "+17.05",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "XBIT",
+   "name": "XBIOTECH INC",
+   "change_rate": "+5.95",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NMFC",
+   "name": "NEW MOUNTAIN FINANCE CORPORATION",
+   "change_rate": "+3.02",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BANL",
+   "name": "CBL INTL LTD",
+   "change_rate": "+2.84",
+   "exchange": "NAS",
+   "is_etf": false
+  },
+  {
+   "symbol": "GENB",
+   "name": "GENERATE BIOMEDICINES INC",
+   "change_rate": "+3.67",
+   "exchange": "NAS",
    "is_etf": false
   },
   {
    "symbol": "EGG",
    "name": "ENIGMATIG LTD.",
-   "change_rate": "+11.71",
+   "change_rate": "+18.34",
    "exchange": "AMS",
    "is_etf": false
   },
   {
    "symbol": "AMBO",
    "name": "AMBOW EDUCATION HOLDING LTD SPON ADS EACH REP 20",
-   "change_rate": "+20.80",
+   "change_rate": "+27.20",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "EP",
+   "name": "EMPIRE PETROLEUM CORPORATION",
+   "change_rate": "+23.92",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "APUS",
+   "name": "APIMEDS PHARMACEUTICALS US INC",
+   "change_rate": "+19.48",
    "exchange": "AMS",
    "is_etf": false
   },
   {
    "symbol": "CLDI",
    "name": "CALIDI BIOTHERAPEUTICS INC",
-   "change_rate": "+7.02",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "INUV",
-   "name": "INUVO INC",
-   "change_rate": "+17.22",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "NAIL",
-   "name": "DIREXION DAILY HOMEBUILDERS & SUPPLIES BULL 3X E",
-   "change_rate": "+8.19",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "MDRN",
-   "name": "MODERN MNG TECH CORP",
-   "change_rate": "+13.17",
+   "change_rate": "+7.07",
    "exchange": "AMS",
    "is_etf": false
   },
   {
    "symbol": "IBX",
    "name": "TRADR 2X LONG IBM DAILY ETF",
-   "change_rate": "+5.13",
+   "change_rate": "+6.78",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NAIL",
+   "name": "DIREXION DAILY HOMEBUILDERS & SUPPLIES BULL 3X E",
+   "change_rate": "+8.42",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "MDRN",
+   "name": "MODERN MNG TECH CORP",
+   "change_rate": "+12.81",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3122,28 +3108,28 @@
   {
    "symbol": "RBLU",
    "name": "T-REX 2X LONG RBLX DAILY TARGET ETF",
-   "change_rate": "+7.56",
+   "change_rate": "+7.90",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "RBLY",
-   "name": "YIELDMAX RBLX OPTION INCOME STRATEGY ETF",
-   "change_rate": "+5.93",
+   "symbol": "SNDQ",
+   "name": "TRADR 2X SHORT SNDK DAILY ETF",
+   "change_rate": "+11.13",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "LIAU",
-   "name": "LIFEX 2060 INFLATION-PROTECTED LONGEVITY INCOME",
-   "change_rate": "+5.02",
+   "symbol": "OSTX",
+   "name": "OS THERAPIES INCORPORATED",
+   "change_rate": "+7.69",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "JPIN",
-   "name": "JP MORGAN ETF TRUST DIVERSIFIED RETURN INTERNATI",
-   "change_rate": "+6.46",
+   "symbol": "LRNX",
+   "name": "CORGI LRN 2X DAILY ETF",
+   "change_rate": "+5.52",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3155,20 +3141,6 @@
    "is_etf": false
   },
   {
-   "symbol": "TSPA",
-   "name": "T ROWE PRICE EXCHANGE TRD FDS INC US EQUITY RESE",
-   "change_rate": "+6.78",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SNDQ",
-   "name": "TRADR 2X SHORT SNDK DAILY ETF",
-   "change_rate": "+9.57",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
    "symbol": "KBTY",
    "name": "GUINNESS ATKINSON K-BEAUTY ETF",
    "change_rate": "+7.02",
@@ -3176,16 +3148,9 @@
    "is_etf": false
   },
   {
-   "symbol": "BWET",
-   "name": "AMPLIFY COMMODITY TRUST BREAKWAVE TANKER SHIPPIN",
-   "change_rate": "+2.91",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SPAB",
-   "name": "STATE STREET SPDR PORTFOLIO AGGREGATE BOND INDEX",
-   "change_rate": "+2.89",
+   "symbol": "NVOC",
+   "name": "CORGI NVO 2X DAILY ETF",
+   "change_rate": "+2.99",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3197,23 +3162,9 @@
    "is_etf": false
   },
   {
-   "symbol": "MORT",
-   "name": "VANECK ETF TR VANECK MORTGAGE REIT INCOME ETF",
-   "change_rate": "+2.35",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "BKAG",
-   "name": "BNY MELLON ETF TR CORE BD ETF",
-   "change_rate": "+2.55",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "FURY",
-   "name": "FURY GOLD MINES LTD",
-   "change_rate": "+16.06",
+   "symbol": "RBLY",
+   "name": "YIELDMAX RBLX OPTION INCOME STRATEGY ETF",
+   "change_rate": "+3.65",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3225,16 +3176,37 @@
    "is_etf": false
   },
   {
-   "symbol": "OAKM",
-   "name": "OAKMARK U.S. LARGE CAP ETF",
-   "change_rate": "+3.39",
+   "symbol": "HDLB",
+   "name": "UBS AG LONDON ETRACS MNTY PY 2XLEV US HGH DIV LW",
+   "change_rate": "+2.45",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "REM",
-   "name": "ISHARES TRUST MORTGAGE REAL ESTATE ETF",
-   "change_rate": "+2.03",
+   "symbol": "DVDN",
+   "name": "ETF OPPORTUNITIES TR KINGSBARN DIVIDEND OPPORTUN",
+   "change_rate": "+2.26",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "ITB",
+   "name": "ISHARES TRUST US HOME CONSTRUCTION ETF FD",
+   "change_rate": "+2.91",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "PATX",
+   "name": "TRADR 2X LONG PATH DAILY ETF",
+   "change_rate": "+6.85",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "MORT",
+   "name": "VANECK ETF TR VANECK MORTGAGE REIT INCOME ETF",
+   "change_rate": "+1.94",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3253,9 +3225,23 @@
    "is_etf": false
   },
   {
+   "symbol": "NVOX",
+   "name": "DEFIANCE DAILY TARGET 2X LONG NVO ETF",
+   "change_rate": "+2.93",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "NBH",
    "name": "NEUBERGER MUN FD INC MUNICIPAL FUND INC",
    "change_rate": "+2.06",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "REM",
+   "name": "ISHARES TRUST MORTGAGE REAL ESTATE ETF",
+   "change_rate": "+1.78",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3288,6 +3274,27 @@
    "is_etf": false
   },
   {
+   "symbol": "PZLV",
+   "name": "PZENA U.S. LARGE CAP VALUE ETF",
+   "change_rate": "+1.66",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "XHB",
+   "name": "STATE STREET SPDR S&P HOMEBUILDERS ETF",
+   "change_rate": "+2.36",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CARU",
+   "name": "BANK OF MONTREAL MAX AUTO IND 3X LEVERAGED ETN",
+   "change_rate": "+4.79",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "YYYM",
    "name": "AMPLIFY MUNICIPAL CEF HIGH INCOME ETF",
    "change_rate": "+1.62",
@@ -3295,23 +3302,9 @@
    "is_etf": false
   },
   {
-   "symbol": "PHYL",
-   "name": "PGIM ETF TRUST ACTIVE HIGH YIELD BOND ETF",
-   "change_rate": "+2.12",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "XLCI",
-   "name": "STATE STREET COMMUNICATION SERVICES SELECT SECTO",
-   "change_rate": "+2.56",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "ITB",
-   "name": "ISHARES TRUST US HOME CONSTRUCTION ETF FD",
-   "change_rate": "+2.18",
+   "symbol": "CCOM",
+   "name": "SIMPLIFY CHINESE COMMODITIES STRATEGY NO K-1 ETF",
+   "change_rate": "+1.47",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3323,16 +3316,16 @@
    "is_etf": false
   },
   {
-   "symbol": "IAK",
-   "name": "ISHARES TRUST U.S. INSURANCE ETF",
-   "change_rate": "+1.90",
+   "symbol": "GSKH",
+   "name": "GSK PLC ADRHEDGED",
+   "change_rate": "+1.43",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "GPZ",
-   "name": "VANECK ALTERNATIVE ASSET MANAGER ETF",
-   "change_rate": "+2.27",
+   "symbol": "PLTL",
+   "name": "CORGI PLTR 2X DAILY ETF",
+   "change_rate": "+3.37",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3344,9 +3337,9 @@
    "is_etf": false
   },
   {
-   "symbol": "SDOG",
-   "name": "ALPS ETF TRUST SECTOR DIVIDEND DOGS ETF",
-   "change_rate": "+2.47",
+   "symbol": "CGW",
+   "name": "INVESCO EXCHANGE TRADED FD TR II S&P GLOBAL WATE",
+   "change_rate": "+1.36",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3358,6 +3351,13 @@
    "is_etf": false
   },
   {
+   "symbol": "CVGD",
+   "name": "CRESALTA GLOBAL DIVIDEND ETF",
+   "change_rate": "+1.32",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "STRW",
    "name": "STRAWBERRY FIELDS REIT INC",
    "change_rate": "+2.18",
@@ -3365,23 +3365,23 @@
    "is_etf": false
   },
   {
-   "symbol": "XLB",
-   "name": "SELECT SECTOR SPDR TRUST STATE STREET MTRLS SLCT",
-   "change_rate": "+2.41",
+   "symbol": "RTAI",
+   "name": "COLLABORATIVE INVESTMNT SER TR RAREVIEW TAX ADVA",
+   "change_rate": "+1.25",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "TAGS",
-   "name": "TEUCRIUM COMMODITY TRUST AGRICULTURAL FD",
-   "change_rate": "+2.54",
+   "symbol": "IOSX",
+   "name": "CORGI AAPL 2X DAILY ETF",
+   "change_rate": "+1.25",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "FXH",
-   "name": "FIRST TRUST EXCH TRADED FUND 2 HEALTH CARE ALPHA",
-   "change_rate": "+1.30",
+   "symbol": "LBO",
+   "name": "EA SERIES TRUST WHITEWOLF PUBLICLY LISTED PRIVTE",
+   "change_rate": "+1.22",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3393,16 +3393,23 @@
    "is_etf": false
   },
   {
-   "symbol": "EPM",
-   "name": "EVOLUTION PETROLEUM CORPORATION",
-   "change_rate": "+1.83",
+   "symbol": "EDVA",
+   "name": "ENDOVIA HEALTH SCIENCES INC",
+   "change_rate": "+6.00",
    "exchange": "AMS",
    "is_etf": false
   },
   {
-   "symbol": "NOBL",
-   "name": "PROSHARES TRUST S&P 500 DIVID ARISTOCRATS ETF",
-   "change_rate": "+1.33",
+   "symbol": "QFHD",
+   "name": "PACER S&P 500 QUALITY FCF HIGH DIVIDEND ETF",
+   "change_rate": "+1.23",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "PEX",
+   "name": "PROSHARES TRUST PRIVATE EQUITY-LISTED",
+   "change_rate": "+1.15",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3421,13 +3428,6 @@
    "is_etf": false
   },
   {
-   "symbol": "FIW",
-   "name": "FIRST TRUST EXCHANGE TRADED FUND WATER ETF",
-   "change_rate": "+1.35",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
    "symbol": "VPC",
    "name": "ETFIS SERIES TRUST I VIRTUS PRIVATE CREDIT STRAT",
    "change_rate": "+1.19",
@@ -3438,13 +3438,6 @@
    "symbol": "QDIV",
    "name": "GLOBAL X FDS S&P 500 QUALITY DIVIDEND ETF",
    "change_rate": "+1.26",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "AAPY",
-   "name": "KURV YIELD PREMIUM STRATEGY APPLE (AAPL) ETF",
-   "change_rate": "+1.32",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3463,9 +3456,16 @@
    "is_etf": false
   },
   {
-   "symbol": "XHB",
-   "name": "STATE STREET SPDR S&P HOMEBUILDERS ETF",
-   "change_rate": "+1.79",
+   "symbol": "PBDC",
+   "name": "PUTNAM ETF TR BDC INCOME ETF",
+   "change_rate": "+1.24",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BRKL",
+   "name": "CORGI BRKB 2X DAILY ETF",
+   "change_rate": "+1.07",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3473,6 +3473,13 @@
    "symbol": "TPHD",
    "name": "TIMOTHY PLAN HIGH DIVIDEND STOCK ETF",
    "change_rate": "+1.47",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BWET",
+   "name": "AMPLIFY COMMODITY TRUST BREAKWAVE TANKER SHIPPIN",
+   "change_rate": "+1.07",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3498,9 +3505,23 @@
    "is_etf": false
   },
   {
-   "symbol": "JPIE",
-   "name": "JP MORGAN ETF TRUST INCOME ETF USD",
-   "change_rate": "+1.09",
+   "symbol": "FMIG",
+   "name": "FMI GLOBAL EQUITY ETF",
+   "change_rate": "+1.56",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "DWWN",
+   "name": "PRINCIPAL LONG DURATION ETF",
+   "change_rate": "+1.45",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "TMDV",
+   "name": "PROSHARES TRUST RUSSELL US DIVID GROWERS ETF",
+   "change_rate": "+1.12",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3508,6 +3529,13 @@
    "symbol": "EFAD",
    "name": "PROSHARES TRUST MSCI EAFE DIVIDEND GROWERS",
    "change_rate": "+1.27",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "CLIM",
+   "name": "CLIMATE GLOBAL - CLIMATE RESILIENT REIT INDEX ET",
+   "change_rate": "+1.01",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3542,7 +3570,14 @@
   {
    "symbol": "SMOT",
    "name": "VANECK ETF TR MORNINGSTAR SMID MOAT ETF",
-   "change_rate": "+1.43",
+   "change_rate": "+1.44",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "GEEQ",
+   "name": "GUGGENHEIM ENHANCED EQUITY INCOME ETF",
+   "change_rate": "+1.17",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3550,6 +3585,13 @@
    "symbol": "XMPT",
    "name": "VANECK ETF TR VANECK CEF MUNI INCOME ETF",
    "change_rate": "+1.17",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "LQDU",
+   "name": "MICROSECTORS 3X LONG INVESTMENT GRADE CORPORATE",
+   "change_rate": "+1.25",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3568,6 +3610,13 @@
    "is_etf": false
   },
   {
+   "symbol": "XLB",
+   "name": "SELECT SECTOR SPDR TRUST STATE STREET MTRLS SLCT",
+   "change_rate": "+2.07",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "ONEY",
    "name": "STATE STREET SPDR RUSSELL 1000 YIELD FOCUS ETF",
    "change_rate": "+1.53",
@@ -3575,9 +3624,16 @@
    "is_etf": false
   },
   {
-   "symbol": "HDV",
-   "name": "ISHARES TRUST ISHARES CORE HIGH DIVIDEND",
-   "change_rate": "+1.15",
+   "symbol": "PLX",
+   "name": "PROTALIX BIOTHERAPEUTICS INC",
+   "change_rate": "+1.89",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "XHOA",
+   "name": "CORGI U.S. REAL ESTATE 2X DAILY ETF",
+   "change_rate": "+2.36",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3585,6 +3641,13 @@
    "symbol": "CWS",
    "name": "ADVISORSHARES TRUST ADVISORSHARES FOCUSED EQUITY",
    "change_rate": "+1.42",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "BILD",
+   "name": "NOMURA GLOBAL LISTED INFRASTRUCTURE ETF",
+   "change_rate": "+0.91",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3599,13 +3662,6 @@
    "symbol": "LSAT",
    "name": "TWO RDS SHARED TRUST LEADERSHARES ALPHAFACTOR TA",
    "change_rate": "+1.72",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SCHH",
-   "name": "SCHWAB STRATEGIC TR US REIT ETF",
-   "change_rate": "+1.63",
    "exchange": "AMS",
    "is_etf": false
   },
@@ -3638,8 +3694,22 @@
    "is_etf": false
   },
   {
+   "symbol": "HSMV",
+   "name": "FIRST TR EXCHANGE-TRADED FD III HORIZON MANAGED",
+   "change_rate": "+0.91",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "ALTL",
    "name": "PACER FDS TR LUNT LARGE CAP ALTENATOR ETF",
+   "change_rate": "+0.85",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "DJD",
+   "name": "INVESCO EXCHANGE TRADED FD TR DOW JONES INDL AVE",
    "change_rate": "+0.85",
    "exchange": "AMS",
    "is_etf": false
@@ -3652,93 +3722,23 @@
    "is_etf": false
   },
   {
+   "symbol": "IOPP",
+   "name": "SIMPLIFY EXCHANGE TRADED FUNDS TARA INDIA OPPORT",
+   "change_rate": "+1.05",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
+   "symbol": "NOBL",
+   "name": "PROSHARES TRUST S&P 500 DIVID ARISTOCRATS ETF",
+   "change_rate": "+0.98",
+   "exchange": "AMS",
+   "is_etf": false
+  },
+  {
    "symbol": "XLPX",
    "name": "CORGI U.S. CONSUMER STAPLES 2X DAILY ETF",
    "change_rate": "+1.28",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "HUSV",
-   "name": "FIRST TR EXCHANGE-TRADED FD III HORIZON MANAGED",
-   "change_rate": "+0.89",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "THNR",
-   "name": "AMPLIFY WEIGHT LOSS DRUG & TREATMENT ETF",
-   "change_rate": "+0.89",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "INDS",
-   "name": "PACER FDS TR INDUSTRIAL REAL ESTATE ETF",
-   "change_rate": "+1.32",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "MDPL",
-   "name": "NORTHERN LIGHTS FUND TRUST IV MONARCH DIVIDEND P",
-   "change_rate": "+1.60",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SDY",
-   "name": "STATE STREET SPDR S&P DIVIDEND ETF",
-   "change_rate": "+1.18",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "ENFR",
-   "name": "ALPS ETF TRUST ALERIAN ENERGY INFRASTRUCTURE ETF",
-   "change_rate": "+3.71",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "LPRE",
-   "name": "LONG POND REAL ESTATE SELECT ETF",
-   "change_rate": "+1.21",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "SPYD",
-   "name": "STATE STREET SPDR PORTFOLIO S&P 500 HIGH DIVIDEN",
-   "change_rate": "+1.39",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "KXI",
-   "name": "ISHARES TRUST GLOBAL CONSUMER STAPLES ETF",
-   "change_rate": "+1.11",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "GOLS",
-   "name": "GABELLI OPPORTUNITIES IN LIVE AND SPORTS ETF",
-   "change_rate": "+0.85",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "REET",
-   "name": "ISHARES TRUST GLOBAL REIT ETF",
-   "change_rate": "+1.49",
-   "exchange": "AMS",
-   "is_etf": false
-  },
-  {
-   "symbol": "TSIC",
-   "name": "TRUTH SOCIAL AMERICAN ICONS ETF",
-   "change_rate": "+0.99",
    "exchange": "AMS",
    "is_etf": false
   }
