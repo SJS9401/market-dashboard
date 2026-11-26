@@ -1,12 +1,12 @@
 {
- "generated_at_kst": "2026-11-25T09:31+09:00",
- "run_date_kst": "2026-11-25",
+ "generated_at_kst": "2026-11-26T09:31+09:00",
+ "run_date_kst": "2026-11-26",
  "recent_days": 14,
  "banks": {
   "골드만삭스": {
    "status": "ok",
    "count": 16,
-   "new_today": 1,
+   "new_today": 2,
    "initial_load": false,
    "latest": {
     "title": "Is the AI Investment Cycle Durable?",
@@ -31,26 +31,26 @@
    "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Unsolicited M&A: Not as hostile as it sounds",
-    "date": "2026-11-24",
-    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/unsolicited-m-and-a-not-as-hostile-as-it-sounds.html"
+    "title": "US equity markets: A time for balance",
+    "date": "2026-11-25",
+    "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/us-equity-markets-a-time-for-balance.html"
    }
   },
   "소시에테제네랄": {
    "status": "ok",
    "count": 9,
-   "new_today": 0,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Semiconductors and European banks diverge as munis and credit attract capital",
-    "date": "2026-11-16",
-    "url": "https://insight-public.sgmarkets.com/etf-market-insights/semiconductors-and-european-banks-diverge"
+    "title": "‘The Great Unwind’ gathers pace",
+    "date": "2026-11-25",
+    "url": "https://insight-public.sgmarkets.com/alternative-view/the-great-unwind-gathers-pace"
    }
   },
   "JP모건": {
    "status": "ok",
    "count": 7,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "US tariffs: What’s the impact on global trade and the economy?",
@@ -61,23 +61,23 @@
   "씨티": {
    "status": "ok",
    "count": 14,
-   "new_today": 1,
+   "new_today": 0,
    "initial_load": false,
    "latest": {
     "title": "Markets Edition: Focus on Data Center Demand, Not Headwinds",
-    "date": "2026-11-24",
+    "date": null,
     "url": "https://www.citigroup.com/global/insights/markets-edition-focus-on-data-center-demand-not-headwinds"
    }
   },
   "모건스탠리": {
    "status": "ok",
-   "count": 21,
+   "count": 18,
    "new_today": 2,
    "initial_load": false,
    "latest": {
-    "title": "2027 Global Outlook: Powered by AI, Tested by Oil",
-    "date": "2026-11-16",
-    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/2027-global-economic-outlook-ai-growth-inflation-seth-carpenter-serena-tang"
+    "title": "Can Treasuries Still Protect Your Portfolio?",
+    "date": "2026-11-24",
+    "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/treasuries-stock-market-hedge-matthew-hornbach"
    }
   },
   "Jefferies": {
@@ -94,16 +94,65 @@
   "RBC": {
    "status": "ok",
    "count": 8,
-   "new_today": 2,
+   "new_today": 1,
    "initial_load": false,
    "latest": {
-    "title": "Reimagining the northern giant",
+    "title": "The pendulum swings back: Key takeaways from carbon markets conference",
     "date": "2026-11-01",
-    "url": "https://www.rbccm.com/en/insights/2026/11/reimagining-the-northern-giant"
+    "url": "https://www.rbccm.com/en/insights/2026/11/the-pendulum-swings-back-key-takeaways-from-carbon-markets-conference"
    }
   }
  },
  "recent_new": [
+  {
+   "bank": "골드만삭스",
+   "title": "UK Economics Outlook: Cyclical Headwinds, Strengthening Fundamentals",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/uk-economics-outlook-cyclical-headwinds-strengthening-fundamentals",
+   "date": "2026-11-23",
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "골드만삭스",
+   "title": "US Economics Outlook: The End of the Inflation Shocks",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-research/us-economics-outlook-end-of-the-inflation-shocks",
+   "date": "2026-11-23",
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "바클레이스",
+   "title": "US equity markets: A time for balance",
+   "url": "https://www.ib.barclays/content/barclaysmicrosites/ibpublic/en/our-insights/barclays-brief/us-equity-markets-a-time-for-balance.html",
+   "date": "2026-11-25",
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "소시에테제네랄",
+   "title": "‘The Great Unwind’ gathers pace",
+   "url": "https://insight-public.sgmarkets.com/alternative-view/the-great-unwind-gathers-pace",
+   "date": "2026-11-25",
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Unwrapping the 2026 Holiday Outlook",
+   "url": "https://www.morganstanley.com/insights/articles/us-consumer-holiday-spending-inflation-2026",
+   "date": null,
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "모건스탠리",
+   "title": "Holiday Shopping in 2026: Higher Spending, Fewer Bags",
+   "url": "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/2026-holiday-shopping-consumer-spending-michelle-weaver",
+   "date": null,
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
+  {
+   "bank": "RBC",
+   "title": "The pendulum swings back: Key takeaways from carbon markets conference",
+   "url": "https://www.rbccm.com/en/insights/2026/11/the-pendulum-swings-back-key-takeaways-from-carbon-markets-conference",
+   "date": "2026-11-01",
+   "first_seen_kst": "2026-11-26T09:31+09:00"
+  },
   {
    "bank": "골드만삭스",
    "title": "Is the AI Investment Cycle Durable?",
