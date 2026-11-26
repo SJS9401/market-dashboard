@@ -1,5 +1,5 @@
 {
- "run_at": "2026-11-26T03:35:17Z",
+ "run_at": "2026-11-26T03:48:03Z",
  "mode": "incremental",
  "status": "OK",
  "trimmed_tail": [],
@@ -9,15 +9,17 @@
  "n_failed": 0,
  "failed_sample": [],
  "last_date": "2026-11-25",
- "stale_n": 0,
- "stale_pct": 0.0,
- "stale_sample": [],
- "n_valid_200_last": 1859,
+ "stale_n": 1,
+ "stale_pct": 0.05,
+ "stale_sample": [
+  "SOS"
+ ],
+ "n_valid_200_last": 1858,
  "last_values": {
   "date": "2026-11-25",
-  "pct_above_200ma": 43.464,
-  "pct_above_50ma": 44.322,
-  "n_valid_200": 1859,
-  "n_valid_50": 1902
+  "pct_above_200ma": 43.488,
+  "pct_above_50ma": 44.345,
+  "n_valid_200": 1858,
+  "n_valid_50": 1901
  }
 }
